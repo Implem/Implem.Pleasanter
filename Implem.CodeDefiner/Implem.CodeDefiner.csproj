@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{247DB097-3184-41E0-9FAC-F3453A23BF97}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Implem.CodeDefiner</RootNamespace>
+    <AssemblyName>Implem.CodeDefiner</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Implem.CodeDefiner.Starter</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Interactive, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ix-Main.1.2.5\lib\net45\System.Interactive.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Functions\AspNetMvc\CSharp\Parser.cs" />
+    <Compile Include="Functions\AspNetMvc\CSharp\Parts\BaseItemModel.cs" />
+    <Compile Include="Functions\AspNetMvc\CSharp\Parts\BaseModel.cs" />
+    <Compile Include="Functions\AspNetMvc\CSharp\Parts\Column.cs" />
+    <Compile Include="Functions\AspNetMvc\CSharp\Parts\DefinitionColumn.cs" />
+    <Compile Include="Functions\AspNetMvc\CSharp\Parts\DefinitionFile.cs" />
+    <Compile Include="Functions\AspNetMvc\CSharp\Parts\DefinitionRow.cs" />
+    <Compile Include="Functions\AspNetMvc\CSharp\Parts\Validation.cs" />
+    <Compile Include="Functions\AspNetMvc\CSharp\Parts\Form.cs" />
+    <Compile Include="Functions\AspNetMvc\CSharp\Parts\JoinFrom.cs" />
+    <Compile Include="Functions\AspNetMvc\CSharp\Parts\Join.cs" />
+    <Compile Include="Functions\AspNetMvc\CSharp\Parts\Table.cs" />
+    <Compile Include="Functions\AspNetMvc\CSharp\Parts\Parameter.cs" />
+    <Compile Include="Functions\AspNetMvc\CSharp\Parts\Display.cs" />
+    <Compile Include="Functions\AspNetMvc\CSharp\Parts\VisualStudioProject.cs" />
+    <Compile Include="Functions\SqlServer\Parts\ColumnSize.cs" />
+    <Compile Include="Functions\SqlServer\Parts\Constraints.cs" />
+    <Compile Include="Functions\SqlServer\Parts\Columns.cs" />
+    <Compile Include="Functions\SqlServer\DbConfigurator.cs" />
+    <Compile Include="Functions\SqlServer\TablesConfigurator.cs" />
+    <Compile Include="Functions\SqlServer\Parts\Indexes.cs" />
+    <Compile Include="Functions\SqlServer\IndexInfo.cs" />
+    <Compile Include="Functions\CodeDefiner\BackupCreater.cs" />
+    <Compile Include="Functions\AspNetMvc\CSharp\DataContainer.cs" />
+    <Compile Include="Functions\AspNetMvc\CSharp\DefinitionAccessorCreator.cs" />
+    <Compile Include="Functions\SqlServer\LoginsConfigurator.cs" />
+    <Compile Include="Functions\SqlServer\Parts\Tables.cs" />
+    <Compile Include="Functions\SqlServer\Spid.cs" />
+    <Compile Include="Functions\Web\Styles\CssCreator.cs" />
+    <Compile Include="Functions\SqlServer\Configurator.cs" />
+    <Compile Include="Functions\SqlServer\DataImporter.cs" />
+    <Compile Include="Functions\AspNetMvc\CSharp\MvcCreator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\CodeWriter.cs" />
+    <Compile Include="Utilities\CodeHistories.cs" />
+    <Compile Include="Functions\AspNetMvc\CSharp\Merger.cs" />
+    <Compile Include="Functions\AspNetMvc\CSharp\Creators.cs" />
+    <Compile Include="Starter.cs" />
+    <Compile Include="Utilities\CodePatterns.cs" />
+    <Compile Include="Functions\AspNetMvc\CSharp\Converts.cs" />
+    <Compile Include="Functions\AspNetMvc\CSharp\ReservedWords.cs" />
+    <Compile Include="Utilities\DefinitionFiles.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="Docs\Outline.pptx" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Implem.DefinitionAccessor\Implem.DefinitionAccessor.csproj">
+      <Project>{c082a0d7-13c6-4d8a-9735-3c302e81b280}</Project>
+      <Name>Implem.DefinitionAccessor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Implem.Libraries\Implem.Libraries.csproj">
+      <Project>{cbe3ee93-92e6-4347-842f-de597048da29}</Project>
+      <Name>Implem.Libraries</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\Backups\" />
+    <Folder Include="App_Data\Logs\" />
+    <Folder Include="App_Data\Temp\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

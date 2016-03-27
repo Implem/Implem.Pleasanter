@@ -1,0 +1,491 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7FEFBEEF-C7F4-43A4-9A8F-894EB7E4FF3E}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Implem.Pleasanter</RootNamespace>
+    <AssemblyName>Implem.Pleasanter</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>12.0</OldToolsVersion>
+    <TargetFrameworkProfile />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.5\lib\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SendGrid.SmtpApi">
+      <HintPath>..\packages\SendGrid.SmtpApi.1.3.1\lib\net40\SendGrid.SmtpApi.dll</HintPath>
+    </Reference>
+    <Reference Include="SendGridMail">
+      <HintPath>..\packages\Sendgrid.6.1.0\lib\SendGridMail.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.DirectoryServices">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Interactive, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ix-Main.1.2.5\lib\net45\System.Interactive.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.DynamicData">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Entity">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.ApplicationServices">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Extensions">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Abstractions">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Routing">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Configuration">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Services">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.EnterpriseServices">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="Controllers\AdminsController.cs" />
+    <Compile Include="Controllers\AdminTasksController.cs" />
+    <Compile Include="Controllers\DeptsController.cs" />
+    <Compile Include="Controllers\ErrorsController.cs" />
+    <Compile Include="Controllers\ExportSettingsController.cs" />
+    <Compile Include="Controllers\ImagesController.cs" />
+    <Compile Include="Controllers\ItemsController.cs" />
+    <Compile Include="Controllers\OutgoingMailsController.cs" />
+    <Compile Include="Controllers\PermissionsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Filters\HandleErrorExAttribute.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\IConvertable.cs" />
+    <Compile Include="Libraries\Admins\AdminTasks.cs" />
+    <Compile Include="Libraries\Analysis\Aggregations.cs" />
+    <Compile Include="Libraries\Analysis\BurnDown.cs" />
+    <Compile Include="Libraries\Analysis\Gantt.cs" />
+    <Compile Include="Libraries\Converts\SearchWordExtensions.cs" />
+    <Compile Include="Libraries\Converts\TdExtensions.cs" />
+    <Compile Include="Libraries\Converts\ToControlExtensions.cs" />
+    <Compile Include="Libraries\Converts\ToExportExtensions.cs" />
+    <Compile Include="Libraries\Converts\ToResponseExtensions.cs" />
+    <Compile Include="Libraries\Converts\ToTextExtensions.cs" />
+    <Compile Include="Libraries\DataSources\Ldap.cs" />
+    <Compile Include="Libraries\DataSources\Rds.cs" />
+    <Compile Include="Libraries\DataTypes\BaseItemSubset.cs" />
+    <Compile Include="Libraries\DataTypes\Comments.cs" />
+    <Compile Include="Libraries\DataTypes\ExportColumns.cs" />
+    <Compile Include="Libraries\DataTypes\ImageSettings.cs" />
+    <Compile Include="Libraries\DataTypes\ProgressRate.cs" />
+    <Compile Include="Libraries\DataTypes\Status.cs" />
+    <Compile Include="Libraries\DataTypes\Time.cs" />
+    <Compile Include="Libraries\DataTypes\Title.cs" />
+    <Compile Include="Libraries\DataTypes\User.cs" />
+    <Compile Include="Libraries\DataTypes\WorkValue.cs" />
+    <Compile Include="Libraries\Initializers\ItemsInitializer.cs" />
+    <Compile Include="Libraries\Initializers\SearchWordsInitializer.cs" />
+    <Compile Include="Libraries\Requests\DataViewFilters.cs" />
+    <Compile Include="Libraries\Requests\DataViewSelectors.cs" />
+    <Compile Include="Libraries\Requests\FormData.cs" />
+    <Compile Include="Libraries\Requests\Forms.cs" />
+    <Compile Include="Libraries\Requests\GridSorters.cs" />
+    <Compile Include="Libraries\Requests\QueryStrings.cs" />
+    <Compile Include="Libraries\Requests\Routes.cs" />
+    <Compile Include="Libraries\Requests\Url.cs" />
+    <Compile Include="Libraries\Responses\ControlData.cs" />
+    <Compile Include="Libraries\Responses\Displays.cs" />
+    <Compile Include="Libraries\Responses\Jsons.cs" />
+    <Compile Include="Libraries\Responses\Message.cs" />
+    <Compile Include="Libraries\Responses\Messages.cs" />
+    <Compile Include="Libraries\Responses\Navigations.cs" />
+    <Compile Include="Libraries\Responses\Response.cs" />
+    <Compile Include="Libraries\Responses\ResponseComment.cs" />
+    <Compile Include="Libraries\Responses\ResponseFile.cs" />
+    <Compile Include="Libraries\Responses\ResponseFileNames.cs" />
+    <Compile Include="Libraries\Responses\ResponseImage.cs" />
+    <Compile Include="Libraries\Responses\ResponseSpecials.cs" />
+    <Compile Include="Libraries\Scripts\JavaScripts.cs" />
+    <Compile Include="Libraries\ServerData\Applications.cs" />
+    <Compile Include="Libraries\ServerData\Sessions.cs" />
+    <Compile Include="Libraries\ServerData\SiteInfo.cs" />
+    <Compile Include="Libraries\Settings\Aggregation.cs" />
+    <Compile Include="Libraries\Settings\Choice.cs" />
+    <Compile Include="Libraries\Settings\Column.cs" />
+    <Compile Include="Libraries\Settings\SiteSettings.cs" />
+    <Compile Include="Libraries\Settings\SiteSettingsUtility.cs" />
+    <Compile Include="Libraries\Settings\Summary.cs" />
+    <Compile Include="Libraries\Styles\CssClasses.cs" />
+    <Compile Include="Libraries\Utilities\DataRows.cs" />
+    <Compile Include="Libraries\Utilities\Images.cs" />
+    <Compile Include="Libraries\Utilities\Imports.cs" />
+    <Compile Include="Libraries\Utilities\Mime.cs" />
+    <Compile Include="Libraries\Utilities\OptionCollections.cs" />
+    <Compile Include="Libraries\Utilities\Permissions.cs" />
+    <Compile Include="Libraries\Utilities\Search.cs" />
+    <Compile Include="Libraries\Utilities\Securities.cs" />
+    <Compile Include="Libraries\Utilities\Summaries.cs" />
+    <Compile Include="Libraries\Utilities\Times.cs" />
+    <Compile Include="Libraries\Utilities\Versions.cs" />
+    <Compile Include="Libraries\Validations\ClientValidations.cs" />
+    <Compile Include="Libraries\Views\Html.cs" />
+    <Compile Include="Libraries\Views\HtmlAdmins.cs" />
+    <Compile Include="Libraries\Views\HtmlAggregations.cs" />
+    <Compile Include="Libraries\Views\HtmlAttributes.cs" />
+    <Compile Include="Libraries\Views\HtmlBuilder.cs" />
+    <Compile Include="Libraries\Views\HtmlBurnDowns.cs" />
+    <Compile Include="Libraries\Views\HtmlCommands.cs" />
+    <Compile Include="Libraries\Views\HtmlComments.cs" />
+    <Compile Include="Libraries\Views\HtmlControls.cs" />
+    <Compile Include="Libraries\Views\HtmlCopies.cs" />
+    <Compile Include="Libraries\Views\HtmlDataViewFilters.cs" />
+    <Compile Include="Libraries\Views\HtmlDataViewSelectors.cs" />
+    <Compile Include="Libraries\Views\HtmlErrors.cs" />
+    <Compile Include="Libraries\Views\HtmlFields.cs" />
+    <Compile Include="Libraries\Views\HtmlGantt.cs" />
+    <Compile Include="Libraries\Views\HtmlGrids.cs" />
+    <Compile Include="Libraries\Views\HtmlHeaders.cs" />
+    <Compile Include="Libraries\Views\HtmlHelpers.cs" />
+    <Compile Include="Libraries\Views\HtmlImports.cs" />
+    <Compile Include="Libraries\Views\HtmlLinkCreations.cs" />
+    <Compile Include="Libraries\Views\HtmlLinks.cs" />
+    <Compile Include="Libraries\Views\HtmlMoves.cs" />
+    <Compile Include="Libraries\Views\HtmlNavigations.cs" />
+    <Compile Include="Libraries\Views\HtmlRecordHeader.cs" />
+    <Compile Include="Libraries\Views\HtmlRecordHistories.cs" />
+    <Compile Include="Libraries\Views\HtmlRecordInfo.cs" />
+    <Compile Include="Libraries\Views\HtmlRecordSwitchers.cs" />
+    <Compile Include="Libraries\Views\HtmlScripts.cs" />
+    <Compile Include="Libraries\Views\HtmlSeparates.cs" />
+    <Compile Include="Libraries\Views\HtmlSvg.cs" />
+    <Compile Include="Libraries\Views\HtmlTags.cs" />
+    <Compile Include="Libraries\Views\HtmlTemplates.cs" />
+    <Compile Include="Libraries\Views\HtmlVerUps.cs" />
+    <Compile Include="Models\_BaseModel.cs" />
+    <Compile Include="Models\DeptModel.cs" />
+    <Compile Include="Models\ExportSettingModel.cs" />
+    <Compile Include="Models\ImageModel.cs" />
+    <Compile Include="Models\IssueModel.cs" />
+    <Compile Include="Models\ItemModel.cs" />
+    <Compile Include="Models\LinkModel.cs" />
+    <Compile Include="Models\MailAddressModel.cs" />
+    <Compile Include="Models\OrderModel.cs" />
+    <Compile Include="Models\OutgoingMailModel.cs" />
+    <Compile Include="Models\PermissionModel.cs" />
+    <Compile Include="Models\ResultModel.cs" />
+    <Compile Include="Models\SearchWordModel.cs" />
+    <Compile Include="Models\SiteModel.cs" />
+    <Compile Include="Models\SysLogModel.cs" />
+    <Compile Include="Models\TenantModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Models\WikiModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Content Include="Global.asax" />
+    <Content Include="Images\logo-corp.png" />
+    <Content Include="Scripts\BurnDowns.js" />
+    <Content Include="Scripts\Dialogs.js" />
+    <Content Include="Scripts\DropDowns.js" />
+    <Content Include="Scripts\Focuses.js" />
+    <Content Include="Scripts\Gantts.js" />
+    <Content Include="Scripts\Grids.js" />
+    <Content Include="Scripts\Legends.js" />
+    <Content Include="Scripts\Navigations.js" />
+    <Content Include="Scripts\OutgoingMails.js" />
+    <Content Include="Scripts\MarkDowns.js" />
+    <Content Include="Scripts\EventHandlers.js" />
+    <Content Include="Scripts\Plugins\d3.min.js" />
+    <Content Include="Scripts\Search.js" />
+    <Content Include="Scripts\Separates.js" />
+    <Content Include="Scripts\SiteSettings.js" />
+    <Content Include="Scripts\Statuses.js" />
+    <Content Include="Scripts\Validations\Result.js" />
+    <Content Include="Scripts\Validations\Wiki.js" />
+    <Content Include="Styles\Plugins\images\ui-bg_diagonals-medium_20_d34d17_40x40.png" />
+    <Content Include="Styles\Plugins\images\ui-bg_gloss-wave_45_817865_500x100.png" />
+    <Content Include="Styles\Plugins\images\ui-bg_gloss-wave_60_fece2f_500x100.png" />
+    <Content Include="Styles\Plugins\images\ui-bg_gloss-wave_70_ffdd57_500x100.png" />
+    <Content Include="Styles\Plugins\images\ui-bg_gloss-wave_90_fff9e5_500x100.png" />
+    <Content Include="Styles\Plugins\images\ui-bg_highlight-soft_100_feeebd_1x100.png" />
+    <Content Include="Styles\Plugins\images\ui-bg_inset-soft_30_ffffff_1x100.png" />
+    <Content Include="Styles\Plugins\images\ui-icons_3d3d3d_256x240.png" />
+    <Content Include="Styles\Plugins\images\ui-icons_bd7b00_256x240.png" />
+    <Content Include="Styles\Plugins\images\ui-icons_d19405_256x240.png" />
+    <Content Include="Styles\Plugins\images\ui-icons_eb990f_256x240.png" />
+    <Content Include="Styles\Plugins\images\ui-icons_ed9f26_256x240.png" />
+    <Content Include="Styles\Plugins\images\ui-icons_fadc7a_256x240.png" />
+    <Content Include="Styles\Plugins\images\ui-icons_ffe180_256x240.png" />
+    <Content Include="Scripts\Plugins\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\Plugins\jquery-2.1.4.min.js" />
+    <Content Include="Styles\Plugins\jquery-ui.min.css" />
+    <Content Include="Scripts\Plugins\jquery-ui.min.js" />
+    <Content Include="Scripts\Plugins\jquery.validate.min.js" />
+    <Content Include="Scripts\Position.js" />
+    <Content Include="Scripts\Displays.js" />
+    <Content Include="Scripts\SiteInfo.js" />
+    <Content Include="Scripts\SiteMenu.js" />
+    <Content Include="Scripts\JqueryUi.js" />
+    <Content Include="Scripts\Tabs.js" />
+    <Content Include="Scripts\Times.js" />
+    <Content Include="Scripts\Transports.js" />
+    <Content Include="Scripts\Validations\Dept.js" />
+    <Content Include="Scripts\Validations\Issue.js" />
+    <Content Include="Scripts\Validations\OutgoingMail.js" />
+    <Content Include="Scripts\Validations\Site.js" />
+    <Content Include="Scripts\Validations\Tenant.js" />
+    <Content Include="Scripts\Validations\User.js" />
+    <Content Include="Scripts\_Init.js" />
+    <Content Include="Scripts\_Show.js" />
+    <Content Include="Styles\Plugins\Normalize.css" />
+    <Content Include="Styles\Site.css" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\Definitions\definition_JavaScript.xlsm" />
+    <Content Include="App_Data\Definitions\definition_Sql.xlsm" />
+    <Content Include="App_Data\Definitions\definition_Display.xlsm" />
+    <Content Include="App_Data\Definitions\definition_DataView.xlsm" />
+    <Content Include="App_Data\Imports\import_Depts.xlsx" />
+    <Content Include="App_Data\Imports\import_Issues.xlsx" />
+    <Content Include="App_Data\Imports\import_MailAddresses.xlsx" />
+    <Content Include="App_Data\Imports\import_Permissions.xlsx" />
+    <Content Include="App_Data\Imports\import_Sites.xlsx" />
+    <Content Include="App_Data\Imports\import_Tenants.xlsx" />
+    <Content Include="App_Data\Imports\import_Users.xlsx" />
+    <None Include="Properties\PublishProfiles\Local.pubxml" />
+    <None Include="Properties\PublishProfiles\pleasanter - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\pleasanter - Web Deploy.pubxml" />
+    <Content Include="Views\Depts\Edit.cshtml" />
+    <Content Include="Views\Depts\Index.cshtml" />
+    <Content Include="Views\Depts\New.cshtml" />
+    <Content Include="Views\Items\Search.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Implem.DefinitionAccessor\Implem.DefinitionAccessor.csproj">
+      <Project>{c082a0d7-13c6-4d8a-9735-3c302e81b280}</Project>
+      <Name>Implem.DefinitionAccessor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Implem.Libraries\Implem.Libraries.csproj">
+      <Project>{cbe3ee93-92e6-4347-842f-de597048da29}</Project>
+      <Name>Implem.Libraries</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\Definitions\definition_Code.xlsm" />
+    <Content Include="App_Data\Definitions\definition_Column.xlsm" />
+    <Content Include="App_Data\Definitions\definition_Css.xlsm" />
+    <Content Include="App_Data\Definitions\definition_Db.xlsm" />
+    <Content Include="App_Data\Definitions\definition_Parameter.xlsm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admins\Index.cshtml" />
+    <Content Include="Views\Admins\ResetDefinitions.cshtml" />
+    <Content Include="Views\Errors\Index.cshtml" />
+    <Content Include="Views\Errors\InternalServerError.cshtml" />
+    <Content Include="Views\Errors\NotFound.cshtml" />
+    <Content Include="Views\Items\Edit.cshtml" />
+    <Content Include="Views\Items\Index.cshtml" />
+    <Content Include="Views\Items\New.cshtml" />
+    <Content Include="Views\Permissions\Edit.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Users\Login.cshtml" />
+    <Content Include="Views\Users\New.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\AdminTasks\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>1759</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:1759/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

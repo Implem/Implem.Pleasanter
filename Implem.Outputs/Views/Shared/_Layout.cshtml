@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html lang="@Implem.Pleasanter.Libraries.ServerData.Sessions.Language()">
+    <head>
+        @using Implem.DefinitionAccessor
+        <meta http-equiv="X-UA-Compatible" content="IE=11" />
+        <meta http-equiv="content-language" content="ja" />
+        <meta charset="utf-8" />
+        <meta name="keywords" content="@Parameters.HtmlHeadKeywords">
+        <meta name="description" content="@Parameters.HtmlHeadDescription" />
+        <meta name="author" content="@Parameters.HtmlHeadAuther">
+        <meta name="viewport" content="@Parameters.HtmlHeadViewport" />
+        <link rel="stylesheet" href="~/Styles/Plugins/Normalize.css" />
+        <link rel="stylesheet" href="~/Styles/Plugins/jquery-ui.min.css" />
+        @Styles.Render("~/content/styles")
+        <title>@Parameters.HtmlTitle</title>
+    </head>
+    <body style="visibility:hidden">
+        <div id="MainContainer">
+            @RenderBody()
+        </div>
+        @Scripts.Render("~/bundles/Generals")
+    </body>
+</html>
