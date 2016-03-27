@@ -35,8 +35,7 @@ namespace Implem.Pleasanter.Libraries.Views
                     .Text(text: Displays.NoData()));
         }
 
-        private static HtmlBuilder Total(
-           this HtmlBuilder hb, Aggregations aggregations)
+        private static HtmlBuilder Total(this HtmlBuilder hb, Aggregations aggregations)
         {
             return hb
                 .Span(css: "label", action: () => hb
@@ -133,9 +132,7 @@ namespace Implem.Pleasanter.Libraries.Views
             }
         }
 
-        private static string Selector(
-            SiteSettings siteSettings,
-            string columnName)
+        private static string Selector(SiteSettings siteSettings, string columnName)
         {
             return "#DataViewFilters_" + siteSettings.ReferenceType + "_" + columnName;
         }
