@@ -3,9 +3,9 @@ using System.Data.SqlClient;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
 {
-    public class SqlDelete : SqlStatement
+    public class SqlRestore : SqlStatement
     {
-        public SqlDelete()
+        public SqlRestore()
         {
         }
 
@@ -17,7 +17,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             if (!Using) return;
             Build_ConditionsBefore(commandText);
-            Build_DeleteStatement(sqlContainer, sqlCommand, commandText, commandCount);
+            Build_RestoreStatement(sqlContainer, sqlCommand, commandText, commandCount);
             AddParams_Where(sqlCommand, commandCount);
             AddParams_Param(sqlCommand, commandCount);
             AddTermination(commandText);
@@ -25,7 +25,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             Build_ConditionsAfter(commandText);
         }
 
-        private void Build_DeleteStatement(
+        private void Build_RestoreStatement(
             SqlContainer sqlContainer, 
             SqlCommand sqlCommand, 
             StringBuilder commandText, 

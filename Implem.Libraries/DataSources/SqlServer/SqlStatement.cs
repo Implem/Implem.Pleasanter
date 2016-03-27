@@ -7,8 +7,7 @@ namespace Implem.Libraries.DataSources.SqlServer
     public class SqlStatement
     {
         public string CommandText = string.Empty;
-        public string CommandText_CopyToHistory = string.Empty;
-        public string CommandText_MoveToDeleted = string.Empty;
+        public string SaveHistoryCommandText = string.Empty;
         public Sqls.TableTypes TableType = Sqls.TableTypes.Normal;
         public string TableBracket = string.Empty;
         public string HistoryTableBracket = string.Empty;

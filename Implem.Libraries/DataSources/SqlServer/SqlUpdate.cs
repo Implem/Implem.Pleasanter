@@ -79,9 +79,9 @@ namespace Implem.Libraries.DataSources.SqlServer
                             sqlParam.ColumnBracket + "=@" + sqlParam.VariableName + commandCount);
                     }
                 });
-            if (CommandText_CopyToHistory != string.Empty)
+            if (SaveHistoryCommandText != string.Empty)
             {
-                Build_CopyToHistoryStatement(commandText, CommandText_CopyToHistory, commandCount);
+                Build_CopyToHistoryStatement(commandText, SaveHistoryCommandText, commandCount);
                 columnNameCollection.Add("{0}.[Ver]={0}.[Ver]+1"
                     .Params(tableBracket));
             }
