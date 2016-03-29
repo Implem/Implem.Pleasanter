@@ -13,10 +13,10 @@ namespace Implem.Pleasanter.Libraries.Views
             this HtmlBuilder hb,
             SiteSettings siteSettings,
             Permissions.Types permissionType,
-            IEnumerable<DataRow> ganttDataRows,
+            IEnumerable<DataRow> dataRows,
             string unit)
         {
-            var gantt = new Gantt(siteSettings, ganttDataRows);
+            var gantt = new Gantt(siteSettings, dataRows);
             return hb
                 .Graph(gantt: gantt)
                 .MainCommands(

@@ -1613,7 +1613,7 @@ namespace Implem.Pleasanter.Models
                 case "Gantt": return hb.Gantt(
                     siteSettings: siteSettings,
                     permissionType: permissionType,
-                    ganttDataRows: GanttDataRows(
+                    dataRows: GanttDataRows(
                         siteSettings: siteSettings,
                         formData: formData),
                     unit: siteSettings.AllColumn("WorkValue").Unit);
@@ -2695,7 +2695,7 @@ namespace Implem.Pleasanter.Models
                     Html.Builder().Gantt(
                         siteSettings: siteSettings,
                         permissionType: permissionType,
-                        ganttDataRows: GanttDataRows(siteSettings, formData),
+                        dataRows: GanttDataRows(siteSettings, formData),
                         unit: siteSettings.AllColumn("WorkValue").Unit))
                 .Html(
                     "#Aggregations", Html.Builder().Aggregations(
