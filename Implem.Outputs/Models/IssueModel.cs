@@ -163,6 +163,10 @@ namespace Implem.Pleasanter.Models
             Get();
         }
 
+        public IssueModel()
+        {
+        }
+
         public IssueModel(
             SiteSettings siteSettings, 
             Permissions.Types permissionType,
@@ -662,6 +666,26 @@ namespace Implem.Pleasanter.Models
 
         private void OnDeleted(ref IssuesResponseCollection responseCollection)
         {
+        }
+
+        public string Restore(long issueId)
+        {
+            if (!Permissions.Admins().CanEditTenant())
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
+            IssueId = issueId;
+            Rds.ExecuteNonQuery(
+                connectionString: Def.Db.DbOwner,
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.RestoreItems(
+                        where: Rds.ItemsWhere().ReferenceId(IssueId)),
+                    Rds.RestoreIssues(
+                        where: Rds.IssuesWhere().IssueId(IssueId))
+                });
+            return new ResponseCollection().ToJson();
         }
 
         public string PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)

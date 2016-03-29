@@ -81,6 +81,10 @@ namespace Implem.Pleasanter.Models
 
         public List<long> SwitchTargets;
 
+        public ExportSettingModel()
+        {
+        }
+
         public ExportSettingModel(
             SiteSettings siteSettings, 
             Permissions.Types permissionType,
@@ -431,6 +435,24 @@ namespace Implem.Pleasanter.Models
         private void OnDeleted(ref ExportSettingsResponseCollection responseCollection)
         {
             responseCollection.Edit(ReferenceType, ReferenceId);
+        }
+
+        public string Restore(long exportSettingId)
+        {
+            if (!Permissions.Admins().CanEditTenant())
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
+            ExportSettingId = exportSettingId;
+            Rds.ExecuteNonQuery(
+                connectionString: Def.Db.DbOwner,
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.RestoreExportSettings(
+                        where: Rds.ExportSettingsWhere().ExportSettingId(ExportSettingId))
+                });
+            return new ResponseCollection().ToJson();
         }
 
         public string PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)

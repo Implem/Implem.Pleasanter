@@ -69,6 +69,10 @@ namespace Implem.Pleasanter.Models
         public bool SentTime_Updated { get { return SentTime.Value != SavedSentTime && SentTime.Value != null; } }
         public List<long> SwitchTargets;
 
+        public OutgoingMailModel()
+        {
+        }
+
         public OutgoingMailModel(
             bool setByForm = false,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -383,6 +387,24 @@ namespace Implem.Pleasanter.Models
 
         private void OnDeleted(ref OutgoingMailsResponseCollection responseCollection)
         {
+        }
+
+        public string Restore(long outgoingMailId)
+        {
+            if (!Permissions.Admins().CanEditTenant())
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
+            OutgoingMailId = outgoingMailId;
+            Rds.ExecuteNonQuery(
+                connectionString: Def.Db.DbOwner,
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.RestoreOutgoingMails(
+                        where: Rds.OutgoingMailsWhere().OutgoingMailId(OutgoingMailId))
+                });
+            return new ResponseCollection().ToJson();
         }
 
         public string PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)

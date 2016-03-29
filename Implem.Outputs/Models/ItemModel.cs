@@ -475,6 +475,21 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string Restore(long referenceId)
+        {
+            ReferenceId = referenceId;
+            Get(Sqls.TableTypes.Deleted, where: Rds.ItemsWhere().ReferenceId(ReferenceId));
+            SetSite();
+            switch (ReferenceType)
+            {
+                case "Sites": return new SiteModel().Restore(ReferenceId);
+                case "Issues": return new IssueModel().Restore(ReferenceId);
+                case "Results": return new ResultModel().Restore(ReferenceId);
+                case "Wikis": return new WikiModel().Restore(ReferenceId);
+                default: return Messages.ResponseNotFound().ToJson();
+            }
+        }
+
         public string EditSeparateSettings()
         {
             SetSite();
@@ -756,6 +771,13 @@ namespace Implem.Pleasanter.Models
             return AccessStatus == Databases.AccessStatuses.Selected
                 ? Messages.ResponseUpdateConflicts(Updator.FullName).ToJson()
                 : Messages.ResponseDeleteConflicts().ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public ItemModel()
+        {
         }
 
         /// <summary>

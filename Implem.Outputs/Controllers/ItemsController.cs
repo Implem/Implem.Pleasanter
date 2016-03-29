@@ -204,6 +204,15 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        public string Restore(long id)
+        {
+            var log = new SysLogModel();
+            var json = new ItemModel().Restore(id);
+            log.Finish(json.Length);
+            return json;
+        }
+
+        [HttpPost]
         public string EditSeparateSettings(long id)
         {
             var log = new SysLogModel();

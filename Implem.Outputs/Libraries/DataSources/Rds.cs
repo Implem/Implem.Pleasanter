@@ -2074,7 +2074,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "[Tenants]",
                 HistoryTableBracket = "[Tenants_history]",
                 DeletedTableBracket = "[Tenants_deleted]",
-                CommandText_CopyToHistory = verUp ? CopyToTenantsHistoryStatement : string.Empty,
+                SaveHistoryCommandText = verUp ? SaveTenantsHistoryStatement : string.Empty,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 AddUpdatorParam = addUpdatorParam,
@@ -2102,7 +2102,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "[SysLogs]",
                 HistoryTableBracket = "[SysLogs_history]",
                 DeletedTableBracket = "[SysLogs_deleted]",
-                CommandText_CopyToHistory = verUp ? CopyToSysLogsHistoryStatement : string.Empty,
+                SaveHistoryCommandText = verUp ? SaveSysLogsHistoryStatement : string.Empty,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 AddUpdatorParam = addUpdatorParam,
@@ -2130,7 +2130,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "[Depts]",
                 HistoryTableBracket = "[Depts_history]",
                 DeletedTableBracket = "[Depts_deleted]",
-                CommandText_CopyToHistory = verUp ? CopyToDeptsHistoryStatement : string.Empty,
+                SaveHistoryCommandText = verUp ? SaveDeptsHistoryStatement : string.Empty,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 AddUpdatorParam = addUpdatorParam,
@@ -2158,7 +2158,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "[Users]",
                 HistoryTableBracket = "[Users_history]",
                 DeletedTableBracket = "[Users_deleted]",
-                CommandText_CopyToHistory = verUp ? CopyToUsersHistoryStatement : string.Empty,
+                SaveHistoryCommandText = verUp ? SaveUsersHistoryStatement : string.Empty,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 AddUpdatorParam = addUpdatorParam,
@@ -2186,7 +2186,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "[MailAddresses]",
                 HistoryTableBracket = "[MailAddresses_history]",
                 DeletedTableBracket = "[MailAddresses_deleted]",
-                CommandText_CopyToHistory = verUp ? CopyToMailAddressesHistoryStatement : string.Empty,
+                SaveHistoryCommandText = verUp ? SaveMailAddressesHistoryStatement : string.Empty,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 AddUpdatorParam = addUpdatorParam,
@@ -2214,7 +2214,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "[Permissions]",
                 HistoryTableBracket = "[Permissions_history]",
                 DeletedTableBracket = "[Permissions_deleted]",
-                CommandText_CopyToHistory = verUp ? CopyToPermissionsHistoryStatement : string.Empty,
+                SaveHistoryCommandText = verUp ? SavePermissionsHistoryStatement : string.Empty,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 AddUpdatorParam = addUpdatorParam,
@@ -2242,7 +2242,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "[OutgoingMails]",
                 HistoryTableBracket = "[OutgoingMails_history]",
                 DeletedTableBracket = "[OutgoingMails_deleted]",
-                CommandText_CopyToHistory = verUp ? CopyToOutgoingMailsHistoryStatement : string.Empty,
+                SaveHistoryCommandText = verUp ? SaveOutgoingMailsHistoryStatement : string.Empty,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 AddUpdatorParam = addUpdatorParam,
@@ -2270,7 +2270,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "[SearchWords]",
                 HistoryTableBracket = "[SearchWords_history]",
                 DeletedTableBracket = "[SearchWords_deleted]",
-                CommandText_CopyToHistory = verUp ? CopyToSearchWordsHistoryStatement : string.Empty,
+                SaveHistoryCommandText = verUp ? SaveSearchWordsHistoryStatement : string.Empty,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 AddUpdatorParam = addUpdatorParam,
@@ -2298,7 +2298,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "[Items]",
                 HistoryTableBracket = "[Items_history]",
                 DeletedTableBracket = "[Items_deleted]",
-                CommandText_CopyToHistory = verUp ? CopyToItemsHistoryStatement : string.Empty,
+                SaveHistoryCommandText = verUp ? SaveItemsHistoryStatement : string.Empty,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 AddUpdatorParam = addUpdatorParam,
@@ -2326,7 +2326,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "[Sites]",
                 HistoryTableBracket = "[Sites_history]",
                 DeletedTableBracket = "[Sites_deleted]",
-                CommandText_CopyToHistory = verUp ? CopyToSitesHistoryStatement : string.Empty,
+                SaveHistoryCommandText = verUp ? SaveSitesHistoryStatement : string.Empty,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 AddUpdatorParam = addUpdatorParam,
@@ -2354,7 +2354,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "[Orders]",
                 HistoryTableBracket = "[Orders_history]",
                 DeletedTableBracket = "[Orders_deleted]",
-                CommandText_CopyToHistory = verUp ? CopyToOrdersHistoryStatement : string.Empty,
+                SaveHistoryCommandText = verUp ? SaveOrdersHistoryStatement : string.Empty,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 AddUpdatorParam = addUpdatorParam,
@@ -2382,7 +2382,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "[ExportSettings]",
                 HistoryTableBracket = "[ExportSettings_history]",
                 DeletedTableBracket = "[ExportSettings_deleted]",
-                CommandText_CopyToHistory = verUp ? CopyToExportSettingsHistoryStatement : string.Empty,
+                SaveHistoryCommandText = verUp ? SaveExportSettingsHistoryStatement : string.Empty,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 AddUpdatorParam = addUpdatorParam,
@@ -2410,7 +2410,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "[Links]",
                 HistoryTableBracket = "[Links_history]",
                 DeletedTableBracket = "[Links_deleted]",
-                CommandText_CopyToHistory = verUp ? CopyToLinksHistoryStatement : string.Empty,
+                SaveHistoryCommandText = verUp ? SaveLinksHistoryStatement : string.Empty,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 AddUpdatorParam = addUpdatorParam,
@@ -2438,7 +2438,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "[Images]",
                 HistoryTableBracket = "[Images_history]",
                 DeletedTableBracket = "[Images_deleted]",
-                CommandText_CopyToHistory = verUp ? CopyToImagesHistoryStatement : string.Empty,
+                SaveHistoryCommandText = verUp ? SaveImagesHistoryStatement : string.Empty,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 AddUpdatorParam = addUpdatorParam,
@@ -2466,7 +2466,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "[Issues]",
                 HistoryTableBracket = "[Issues_history]",
                 DeletedTableBracket = "[Issues_deleted]",
-                CommandText_CopyToHistory = verUp ? CopyToIssuesHistoryStatement : string.Empty,
+                SaveHistoryCommandText = verUp ? SaveIssuesHistoryStatement : string.Empty,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 AddUpdatorParam = addUpdatorParam,
@@ -2494,7 +2494,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "[Results]",
                 HistoryTableBracket = "[Results_history]",
                 DeletedTableBracket = "[Results_deleted]",
-                CommandText_CopyToHistory = verUp ? CopyToResultsHistoryStatement : string.Empty,
+                SaveHistoryCommandText = verUp ? SaveResultsHistoryStatement : string.Empty,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 AddUpdatorParam = addUpdatorParam,
@@ -2522,7 +2522,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "[Wikis]",
                 HistoryTableBracket = "[Wikis_history]",
                 DeletedTableBracket = "[Wikis_deleted]",
-                CommandText_CopyToHistory = verUp ? CopyToWikisHistoryStatement : string.Empty,
+                SaveHistoryCommandText = verUp ? SaveWikisHistoryStatement : string.Empty,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 AddUpdatorParam = addUpdatorParam,
@@ -3018,7 +3018,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return new SqlDelete()
             {
-                CommandText_MoveToDeleted = MoveToTenantsDeletedStatement, 
+                CommandText = DeleteTenantsStatement, 
                 TableBracket = "[Tenants]",
                 HistoryTableBracket = "[Tenants_history]",
                 DeletedTableBracket = "[Tenants_deleted]",
@@ -3039,7 +3039,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return new SqlDelete()
             {
-                CommandText_MoveToDeleted = MoveToSysLogsDeletedStatement, 
+                CommandText = DeleteSysLogsStatement, 
                 TableBracket = "[SysLogs]",
                 HistoryTableBracket = "[SysLogs_history]",
                 DeletedTableBracket = "[SysLogs_deleted]",
@@ -3060,7 +3060,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return new SqlDelete()
             {
-                CommandText_MoveToDeleted = MoveToDeptsDeletedStatement, 
+                CommandText = DeleteDeptsStatement, 
                 TableBracket = "[Depts]",
                 HistoryTableBracket = "[Depts_history]",
                 DeletedTableBracket = "[Depts_deleted]",
@@ -3081,7 +3081,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return new SqlDelete()
             {
-                CommandText_MoveToDeleted = MoveToUsersDeletedStatement, 
+                CommandText = DeleteUsersStatement, 
                 TableBracket = "[Users]",
                 HistoryTableBracket = "[Users_history]",
                 DeletedTableBracket = "[Users_deleted]",
@@ -3102,7 +3102,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return new SqlDelete()
             {
-                CommandText_MoveToDeleted = MoveToMailAddressesDeletedStatement, 
+                CommandText = DeleteMailAddressesStatement, 
                 TableBracket = "[MailAddresses]",
                 HistoryTableBracket = "[MailAddresses_history]",
                 DeletedTableBracket = "[MailAddresses_deleted]",
@@ -3123,7 +3123,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return new SqlDelete()
             {
-                CommandText_MoveToDeleted = MoveToPermissionsDeletedStatement, 
+                CommandText = DeletePermissionsStatement, 
                 TableBracket = "[Permissions]",
                 HistoryTableBracket = "[Permissions_history]",
                 DeletedTableBracket = "[Permissions_deleted]",
@@ -3144,7 +3144,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return new SqlDelete()
             {
-                CommandText_MoveToDeleted = MoveToOutgoingMailsDeletedStatement, 
+                CommandText = DeleteOutgoingMailsStatement, 
                 TableBracket = "[OutgoingMails]",
                 HistoryTableBracket = "[OutgoingMails_history]",
                 DeletedTableBracket = "[OutgoingMails_deleted]",
@@ -3165,7 +3165,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return new SqlDelete()
             {
-                CommandText_MoveToDeleted = MoveToSearchWordsDeletedStatement, 
+                CommandText = DeleteSearchWordsStatement, 
                 TableBracket = "[SearchWords]",
                 HistoryTableBracket = "[SearchWords_history]",
                 DeletedTableBracket = "[SearchWords_deleted]",
@@ -3186,7 +3186,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return new SqlDelete()
             {
-                CommandText_MoveToDeleted = MoveToItemsDeletedStatement, 
+                CommandText = DeleteItemsStatement, 
                 TableBracket = "[Items]",
                 HistoryTableBracket = "[Items_history]",
                 DeletedTableBracket = "[Items_deleted]",
@@ -3207,7 +3207,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return new SqlDelete()
             {
-                CommandText_MoveToDeleted = MoveToSitesDeletedStatement, 
+                CommandText = DeleteSitesStatement, 
                 TableBracket = "[Sites]",
                 HistoryTableBracket = "[Sites_history]",
                 DeletedTableBracket = "[Sites_deleted]",
@@ -3228,7 +3228,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return new SqlDelete()
             {
-                CommandText_MoveToDeleted = MoveToOrdersDeletedStatement, 
+                CommandText = DeleteOrdersStatement, 
                 TableBracket = "[Orders]",
                 HistoryTableBracket = "[Orders_history]",
                 DeletedTableBracket = "[Orders_deleted]",
@@ -3249,7 +3249,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return new SqlDelete()
             {
-                CommandText_MoveToDeleted = MoveToExportSettingsDeletedStatement, 
+                CommandText = DeleteExportSettingsStatement, 
                 TableBracket = "[ExportSettings]",
                 HistoryTableBracket = "[ExportSettings_history]",
                 DeletedTableBracket = "[ExportSettings_deleted]",
@@ -3270,7 +3270,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return new SqlDelete()
             {
-                CommandText_MoveToDeleted = MoveToLinksDeletedStatement, 
+                CommandText = DeleteLinksStatement, 
                 TableBracket = "[Links]",
                 HistoryTableBracket = "[Links_history]",
                 DeletedTableBracket = "[Links_deleted]",
@@ -3291,7 +3291,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return new SqlDelete()
             {
-                CommandText_MoveToDeleted = MoveToImagesDeletedStatement, 
+                CommandText = DeleteImagesStatement, 
                 TableBracket = "[Images]",
                 HistoryTableBracket = "[Images_history]",
                 DeletedTableBracket = "[Images_deleted]",
@@ -3312,7 +3312,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return new SqlDelete()
             {
-                CommandText_MoveToDeleted = MoveToIssuesDeletedStatement, 
+                CommandText = DeleteIssuesStatement, 
                 TableBracket = "[Issues]",
                 HistoryTableBracket = "[Issues_history]",
                 DeletedTableBracket = "[Issues_deleted]",
@@ -3333,7 +3333,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return new SqlDelete()
             {
-                CommandText_MoveToDeleted = MoveToResultsDeletedStatement, 
+                CommandText = DeleteResultsStatement, 
                 TableBracket = "[Results]",
                 HistoryTableBracket = "[Results_history]",
                 DeletedTableBracket = "[Results_deleted]",
@@ -3354,7 +3354,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return new SqlDelete()
             {
-                CommandText_MoveToDeleted = MoveToWikisDeletedStatement, 
+                CommandText = DeleteWikisStatement, 
                 TableBracket = "[Wikis]",
                 HistoryTableBracket = "[Wikis_history]",
                 DeletedTableBracket = "[Wikis_deleted]",
@@ -3766,6 +3766,363 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 HistoryTableBracket = "[Wikis_history]",
                 DeletedTableBracket = "[Wikis_deleted]",
                 SelectIdentity = selectIdentity,
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                Conditions = conditions,
+                Using = _using
+            };
+        }
+
+        public static SqlRestore RestoreTenants(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string conditions = "",
+            bool _using = true)
+        {
+            return new SqlRestore()
+            {
+                CommandText = RestoreTenantsStatement, 
+                TableBracket = "[Tenants]",
+                HistoryTableBracket = "[Tenants_history]",
+                DeletedTableBracket = "[Tenants_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                Conditions = conditions,
+                Using = _using
+            };
+        }
+
+        public static SqlRestore RestoreSysLogs(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string conditions = "",
+            bool _using = true)
+        {
+            return new SqlRestore()
+            {
+                CommandText = RestoreSysLogsStatement, 
+                TableBracket = "[SysLogs]",
+                HistoryTableBracket = "[SysLogs_history]",
+                DeletedTableBracket = "[SysLogs_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                Conditions = conditions,
+                Using = _using
+            };
+        }
+
+        public static SqlRestore RestoreDepts(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string conditions = "",
+            bool _using = true)
+        {
+            return new SqlRestore()
+            {
+                CommandText = RestoreDeptsStatement, 
+                TableBracket = "[Depts]",
+                HistoryTableBracket = "[Depts_history]",
+                DeletedTableBracket = "[Depts_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                Conditions = conditions,
+                Using = _using
+            };
+        }
+
+        public static SqlRestore RestoreUsers(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string conditions = "",
+            bool _using = true)
+        {
+            return new SqlRestore()
+            {
+                CommandText = RestoreUsersStatement, 
+                TableBracket = "[Users]",
+                HistoryTableBracket = "[Users_history]",
+                DeletedTableBracket = "[Users_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                Conditions = conditions,
+                Using = _using
+            };
+        }
+
+        public static SqlRestore RestoreMailAddresses(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string conditions = "",
+            bool _using = true)
+        {
+            return new SqlRestore()
+            {
+                CommandText = RestoreMailAddressesStatement, 
+                TableBracket = "[MailAddresses]",
+                HistoryTableBracket = "[MailAddresses_history]",
+                DeletedTableBracket = "[MailAddresses_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                Conditions = conditions,
+                Using = _using
+            };
+        }
+
+        public static SqlRestore RestorePermissions(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string conditions = "",
+            bool _using = true)
+        {
+            return new SqlRestore()
+            {
+                CommandText = RestorePermissionsStatement, 
+                TableBracket = "[Permissions]",
+                HistoryTableBracket = "[Permissions_history]",
+                DeletedTableBracket = "[Permissions_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                Conditions = conditions,
+                Using = _using
+            };
+        }
+
+        public static SqlRestore RestoreOutgoingMails(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string conditions = "",
+            bool _using = true)
+        {
+            return new SqlRestore()
+            {
+                CommandText = RestoreOutgoingMailsStatement, 
+                TableBracket = "[OutgoingMails]",
+                HistoryTableBracket = "[OutgoingMails_history]",
+                DeletedTableBracket = "[OutgoingMails_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                Conditions = conditions,
+                Using = _using
+            };
+        }
+
+        public static SqlRestore RestoreSearchWords(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string conditions = "",
+            bool _using = true)
+        {
+            return new SqlRestore()
+            {
+                CommandText = RestoreSearchWordsStatement, 
+                TableBracket = "[SearchWords]",
+                HistoryTableBracket = "[SearchWords_history]",
+                DeletedTableBracket = "[SearchWords_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                Conditions = conditions,
+                Using = _using
+            };
+        }
+
+        public static SqlRestore RestoreItems(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string conditions = "",
+            bool _using = true)
+        {
+            return new SqlRestore()
+            {
+                CommandText = RestoreItemsStatement, 
+                TableBracket = "[Items]",
+                HistoryTableBracket = "[Items_history]",
+                DeletedTableBracket = "[Items_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                Conditions = conditions,
+                Using = _using
+            };
+        }
+
+        public static SqlRestore RestoreSites(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string conditions = "",
+            bool _using = true)
+        {
+            return new SqlRestore()
+            {
+                CommandText = RestoreSitesStatement, 
+                TableBracket = "[Sites]",
+                HistoryTableBracket = "[Sites_history]",
+                DeletedTableBracket = "[Sites_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                Conditions = conditions,
+                Using = _using
+            };
+        }
+
+        public static SqlRestore RestoreOrders(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string conditions = "",
+            bool _using = true)
+        {
+            return new SqlRestore()
+            {
+                CommandText = RestoreOrdersStatement, 
+                TableBracket = "[Orders]",
+                HistoryTableBracket = "[Orders_history]",
+                DeletedTableBracket = "[Orders_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                Conditions = conditions,
+                Using = _using
+            };
+        }
+
+        public static SqlRestore RestoreExportSettings(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string conditions = "",
+            bool _using = true)
+        {
+            return new SqlRestore()
+            {
+                CommandText = RestoreExportSettingsStatement, 
+                TableBracket = "[ExportSettings]",
+                HistoryTableBracket = "[ExportSettings_history]",
+                DeletedTableBracket = "[ExportSettings_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                Conditions = conditions,
+                Using = _using
+            };
+        }
+
+        public static SqlRestore RestoreLinks(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string conditions = "",
+            bool _using = true)
+        {
+            return new SqlRestore()
+            {
+                CommandText = RestoreLinksStatement, 
+                TableBracket = "[Links]",
+                HistoryTableBracket = "[Links_history]",
+                DeletedTableBracket = "[Links_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                Conditions = conditions,
+                Using = _using
+            };
+        }
+
+        public static SqlRestore RestoreImages(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string conditions = "",
+            bool _using = true)
+        {
+            return new SqlRestore()
+            {
+                CommandText = RestoreImagesStatement, 
+                TableBracket = "[Images]",
+                HistoryTableBracket = "[Images_history]",
+                DeletedTableBracket = "[Images_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                Conditions = conditions,
+                Using = _using
+            };
+        }
+
+        public static SqlRestore RestoreIssues(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string conditions = "",
+            bool _using = true)
+        {
+            return new SqlRestore()
+            {
+                CommandText = RestoreIssuesStatement, 
+                TableBracket = "[Issues]",
+                HistoryTableBracket = "[Issues_history]",
+                DeletedTableBracket = "[Issues_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                Conditions = conditions,
+                Using = _using
+            };
+        }
+
+        public static SqlRestore RestoreResults(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string conditions = "",
+            bool _using = true)
+        {
+            return new SqlRestore()
+            {
+                CommandText = RestoreResultsStatement, 
+                TableBracket = "[Results]",
+                HistoryTableBracket = "[Results_history]",
+                DeletedTableBracket = "[Results_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                Conditions = conditions,
+                Using = _using
+            };
+        }
+
+        public static SqlRestore RestoreWikis(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string conditions = "",
+            bool _using = true)
+        {
+            return new SqlRestore()
+            {
+                CommandText = RestoreWikisStatement, 
+                TableBracket = "[Wikis]",
+                HistoryTableBracket = "[Wikis_history]",
+                DeletedTableBracket = "[Wikis_deleted]",
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
@@ -4572,40 +4929,57 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return statementCollection;
         }
 
-        public const string MoveToTenantsDeletedStatement = "update [Tenants] set [Tenants].[UpdatedTime] = getdate() {0}; insert into [Tenants_deleted]([Tenants_deleted].[TenantId], [Tenants_deleted].[Ver], [Tenants_deleted].[TenantName], [Tenants_deleted].[Title], [Tenants_deleted].[Body], [Tenants_deleted].[Comments], [Tenants_deleted].[Creator], [Tenants_deleted].[Updator], [Tenants_deleted].[CreatedTime], [Tenants_deleted].[UpdatedTime]) (select [Tenants].[TenantId], [Tenants].[Ver], [Tenants].[TenantName], [Tenants].[Title], [Tenants].[Body], [Tenants].[Comments], [Tenants].[Creator], [Tenants].[Updator], [Tenants].[CreatedTime], [Tenants].[UpdatedTime] from [Tenants] {0}); delete from [Tenants] {0}";
-        public const string MoveToSysLogsDeletedStatement = "update [SysLogs] set [SysLogs].[UpdatedTime] = getdate() {0}; insert into [SysLogs_deleted]([SysLogs_deleted].[CreatedTime], [SysLogs_deleted].[SysLogId], [SysLogs_deleted].[Ver], [SysLogs_deleted].[SysLogType], [SysLogs_deleted].[OnAzure], [SysLogs_deleted].[MachineName], [SysLogs_deleted].[ServiceName], [SysLogs_deleted].[TenantName], [SysLogs_deleted].[Application], [SysLogs_deleted].[Class], [SysLogs_deleted].[Method], [SysLogs_deleted].[RequestData], [SysLogs_deleted].[HttpMethod], [SysLogs_deleted].[RequestSize], [SysLogs_deleted].[ResponseSize], [SysLogs_deleted].[Elapsed], [SysLogs_deleted].[ApplicationAge], [SysLogs_deleted].[ApplicationRequestInterval], [SysLogs_deleted].[SessionAge], [SysLogs_deleted].[SessionRequestInterval], [SysLogs_deleted].[WorkingSet64], [SysLogs_deleted].[VirtualMemorySize64], [SysLogs_deleted].[ProcessId], [SysLogs_deleted].[ProcessName], [SysLogs_deleted].[BasePriority], [SysLogs_deleted].[Url], [SysLogs_deleted].[UrlReferer], [SysLogs_deleted].[UserHostName], [SysLogs_deleted].[UserHostAddress], [SysLogs_deleted].[UserLanguage], [SysLogs_deleted].[UserAgent], [SysLogs_deleted].[SessionGuid], [SysLogs_deleted].[ErrMessage], [SysLogs_deleted].[ErrStackTrace], [SysLogs_deleted].[InDebug], [SysLogs_deleted].[AssemblyVersion], [SysLogs_deleted].[Comments], [SysLogs_deleted].[Creator], [SysLogs_deleted].[Updator], [SysLogs_deleted].[UpdatedTime]) (select [SysLogs].[CreatedTime], [SysLogs].[SysLogId], [SysLogs].[Ver], [SysLogs].[SysLogType], [SysLogs].[OnAzure], [SysLogs].[MachineName], [SysLogs].[ServiceName], [SysLogs].[TenantName], [SysLogs].[Application], [SysLogs].[Class], [SysLogs].[Method], [SysLogs].[RequestData], [SysLogs].[HttpMethod], [SysLogs].[RequestSize], [SysLogs].[ResponseSize], [SysLogs].[Elapsed], [SysLogs].[ApplicationAge], [SysLogs].[ApplicationRequestInterval], [SysLogs].[SessionAge], [SysLogs].[SessionRequestInterval], [SysLogs].[WorkingSet64], [SysLogs].[VirtualMemorySize64], [SysLogs].[ProcessId], [SysLogs].[ProcessName], [SysLogs].[BasePriority], [SysLogs].[Url], [SysLogs].[UrlReferer], [SysLogs].[UserHostName], [SysLogs].[UserHostAddress], [SysLogs].[UserLanguage], [SysLogs].[UserAgent], [SysLogs].[SessionGuid], [SysLogs].[ErrMessage], [SysLogs].[ErrStackTrace], [SysLogs].[InDebug], [SysLogs].[AssemblyVersion], [SysLogs].[Comments], [SysLogs].[Creator], [SysLogs].[Updator], [SysLogs].[UpdatedTime] from [SysLogs] {0}); delete from [SysLogs] {0}";
-        public const string MoveToDeptsDeletedStatement = "update [Depts] set [Depts].[UpdatedTime] = getdate() {0}; insert into [Depts_deleted]([Depts_deleted].[TenantId], [Depts_deleted].[DeptId], [Depts_deleted].[Ver], [Depts_deleted].[ParentDeptId], [Depts_deleted].[DeptCode], [Depts_deleted].[DeptName], [Depts_deleted].[Body], [Depts_deleted].[Comments], [Depts_deleted].[Creator], [Depts_deleted].[Updator], [Depts_deleted].[CreatedTime], [Depts_deleted].[UpdatedTime]) (select [Depts].[TenantId], [Depts].[DeptId], [Depts].[Ver], [Depts].[ParentDeptId], [Depts].[DeptCode], [Depts].[DeptName], [Depts].[Body], [Depts].[Comments], [Depts].[Creator], [Depts].[Updator], [Depts].[CreatedTime], [Depts].[UpdatedTime] from [Depts] {0}); delete from [Depts] {0}";
-        public const string MoveToUsersDeletedStatement = "update [Users] set [Users].[UpdatedTime] = getdate() {0}; insert into [Users_deleted]([Users_deleted].[TenantId], [Users_deleted].[UserId], [Users_deleted].[Ver], [Users_deleted].[LoginId], [Users_deleted].[Disabled], [Users_deleted].[UserCode], [Users_deleted].[Password], [Users_deleted].[LastName], [Users_deleted].[FirstName], [Users_deleted].[Birthday], [Users_deleted].[Sex], [Users_deleted].[Language], [Users_deleted].[TimeZone], [Users_deleted].[DeptId], [Users_deleted].[FirstAndLastNameOrder], [Users_deleted].[LastLoginTime], [Users_deleted].[PasswordChangeTime], [Users_deleted].[NumberOfLogins], [Users_deleted].[NumberOfDenial], [Users_deleted].[TenantAdmin], [Users_deleted].[ServiceAdmin], [Users_deleted].[Developer], [Users_deleted].[Comments], [Users_deleted].[Creator], [Users_deleted].[Updator], [Users_deleted].[CreatedTime], [Users_deleted].[UpdatedTime]) (select [Users].[TenantId], [Users].[UserId], [Users].[Ver], [Users].[LoginId], [Users].[Disabled], [Users].[UserCode], [Users].[Password], [Users].[LastName], [Users].[FirstName], [Users].[Birthday], [Users].[Sex], [Users].[Language], [Users].[TimeZone], [Users].[DeptId], [Users].[FirstAndLastNameOrder], [Users].[LastLoginTime], [Users].[PasswordChangeTime], [Users].[NumberOfLogins], [Users].[NumberOfDenial], [Users].[TenantAdmin], [Users].[ServiceAdmin], [Users].[Developer], [Users].[Comments], [Users].[Creator], [Users].[Updator], [Users].[CreatedTime], [Users].[UpdatedTime] from [Users] {0}); delete from [Users] {0}";
-        public const string MoveToMailAddressesDeletedStatement = "update [MailAddresses] set [MailAddresses].[UpdatedTime] = getdate() {0}; insert into [MailAddresses_deleted]([MailAddresses_deleted].[OwnerId], [MailAddresses_deleted].[OwnerType], [MailAddresses_deleted].[MailAddressId], [MailAddresses_deleted].[Ver], [MailAddresses_deleted].[MailAddress], [MailAddresses_deleted].[Comments], [MailAddresses_deleted].[Creator], [MailAddresses_deleted].[Updator], [MailAddresses_deleted].[CreatedTime], [MailAddresses_deleted].[UpdatedTime]) (select [MailAddresses].[OwnerId], [MailAddresses].[OwnerType], [MailAddresses].[MailAddressId], [MailAddresses].[Ver], [MailAddresses].[MailAddress], [MailAddresses].[Comments], [MailAddresses].[Creator], [MailAddresses].[Updator], [MailAddresses].[CreatedTime], [MailAddresses].[UpdatedTime] from [MailAddresses] {0}); delete from [MailAddresses] {0}";
-        public const string MoveToPermissionsDeletedStatement = "update [Permissions] set [Permissions].[UpdatedTime] = getdate() {0}; insert into [Permissions_deleted]([Permissions_deleted].[ReferenceType], [Permissions_deleted].[ReferenceId], [Permissions_deleted].[DeptId], [Permissions_deleted].[UserId], [Permissions_deleted].[Ver], [Permissions_deleted].[PermissionType], [Permissions_deleted].[Comments], [Permissions_deleted].[Creator], [Permissions_deleted].[Updator], [Permissions_deleted].[CreatedTime], [Permissions_deleted].[UpdatedTime]) (select [Permissions].[ReferenceType], [Permissions].[ReferenceId], [Permissions].[DeptId], [Permissions].[UserId], [Permissions].[Ver], [Permissions].[PermissionType], [Permissions].[Comments], [Permissions].[Creator], [Permissions].[Updator], [Permissions].[CreatedTime], [Permissions].[UpdatedTime] from [Permissions] {0}); delete from [Permissions] {0}";
-        public const string MoveToOutgoingMailsDeletedStatement = "update [OutgoingMails] set [OutgoingMails].[UpdatedTime] = getdate() {0}; insert into [OutgoingMails_deleted]([OutgoingMails_deleted].[ReferenceType], [OutgoingMails_deleted].[ReferenceId], [OutgoingMails_deleted].[ReferenceVer], [OutgoingMails_deleted].[OutgoingMailId], [OutgoingMails_deleted].[Ver], [OutgoingMails_deleted].[Host], [OutgoingMails_deleted].[Port], [OutgoingMails_deleted].[From], [OutgoingMails_deleted].[To], [OutgoingMails_deleted].[Cc], [OutgoingMails_deleted].[Bcc], [OutgoingMails_deleted].[Title], [OutgoingMails_deleted].[Body], [OutgoingMails_deleted].[SentTime], [OutgoingMails_deleted].[Comments], [OutgoingMails_deleted].[Creator], [OutgoingMails_deleted].[Updator], [OutgoingMails_deleted].[CreatedTime], [OutgoingMails_deleted].[UpdatedTime]) (select [OutgoingMails].[ReferenceType], [OutgoingMails].[ReferenceId], [OutgoingMails].[ReferenceVer], [OutgoingMails].[OutgoingMailId], [OutgoingMails].[Ver], [OutgoingMails].[Host], [OutgoingMails].[Port], [OutgoingMails].[From], [OutgoingMails].[To], [OutgoingMails].[Cc], [OutgoingMails].[Bcc], [OutgoingMails].[Title], [OutgoingMails].[Body], [OutgoingMails].[SentTime], [OutgoingMails].[Comments], [OutgoingMails].[Creator], [OutgoingMails].[Updator], [OutgoingMails].[CreatedTime], [OutgoingMails].[UpdatedTime] from [OutgoingMails] {0}); delete from [OutgoingMails] {0}";
-        public const string MoveToSearchWordsDeletedStatement = "update [SearchWords] set [SearchWords].[UpdatedTime] = getdate() {0}; insert into [SearchWords_deleted]([SearchWords_deleted].[Word], [SearchWords_deleted].[ReferenceId], [SearchWords_deleted].[Ver], [SearchWords_deleted].[Priority], [SearchWords_deleted].[Comments], [SearchWords_deleted].[Creator], [SearchWords_deleted].[Updator], [SearchWords_deleted].[CreatedTime], [SearchWords_deleted].[UpdatedTime]) (select [SearchWords].[Word], [SearchWords].[ReferenceId], [SearchWords].[Ver], [SearchWords].[Priority], [SearchWords].[Comments], [SearchWords].[Creator], [SearchWords].[Updator], [SearchWords].[CreatedTime], [SearchWords].[UpdatedTime] from [SearchWords] {0}); delete from [SearchWords] {0}";
-        public const string MoveToItemsDeletedStatement = "update [Items] set [Items].[UpdatedTime] = getdate() {0}; insert into [Items_deleted]([Items_deleted].[ReferenceId], [Items_deleted].[Ver], [Items_deleted].[ReferenceType], [Items_deleted].[SiteId], [Items_deleted].[Title], [Items_deleted].[Subset], [Items_deleted].[Comments], [Items_deleted].[Creator], [Items_deleted].[Updator], [Items_deleted].[CreatedTime], [Items_deleted].[UpdatedTime]) (select [Items].[ReferenceId], [Items].[Ver], [Items].[ReferenceType], [Items].[SiteId], [Items].[Title], [Items].[Subset], [Items].[Comments], [Items].[Creator], [Items].[Updator], [Items].[CreatedTime], [Items].[UpdatedTime] from [Items] {0}); delete from [Items] {0}";
-        public const string MoveToSitesDeletedStatement = "update [Sites] set [Sites].[UpdatedTime] = getdate() {0}; insert into [Sites_deleted]([Sites_deleted].[TenantId], [Sites_deleted].[SiteId], [Sites_deleted].[UpdatedTime], [Sites_deleted].[Ver], [Sites_deleted].[Title], [Sites_deleted].[Body], [Sites_deleted].[ReferenceType], [Sites_deleted].[ParentId], [Sites_deleted].[InheritPermission], [Sites_deleted].[SiteSettings], [Sites_deleted].[Comments], [Sites_deleted].[Creator], [Sites_deleted].[Updator], [Sites_deleted].[CreatedTime]) (select [Sites].[TenantId], [Sites].[SiteId], [Sites].[UpdatedTime], [Sites].[Ver], [Sites].[Title], [Sites].[Body], [Sites].[ReferenceType], [Sites].[ParentId], [Sites].[InheritPermission], [Sites].[SiteSettings], [Sites].[Comments], [Sites].[Creator], [Sites].[Updator], [Sites].[CreatedTime] from [Sites] {0}); delete from [Sites] {0}";
-        public const string MoveToOrdersDeletedStatement = "update [Orders] set [Orders].[UpdatedTime] = getdate() {0}; insert into [Orders_deleted]([Orders_deleted].[ReferenceId], [Orders_deleted].[ReferenceType], [Orders_deleted].[OwnerId], [Orders_deleted].[Ver], [Orders_deleted].[Data], [Orders_deleted].[Comments], [Orders_deleted].[Creator], [Orders_deleted].[Updator], [Orders_deleted].[CreatedTime], [Orders_deleted].[UpdatedTime]) (select [Orders].[ReferenceId], [Orders].[ReferenceType], [Orders].[OwnerId], [Orders].[Ver], [Orders].[Data], [Orders].[Comments], [Orders].[Creator], [Orders].[Updator], [Orders].[CreatedTime], [Orders].[UpdatedTime] from [Orders] {0}); delete from [Orders] {0}";
-        public const string MoveToExportSettingsDeletedStatement = "update [ExportSettings] set [ExportSettings].[UpdatedTime] = getdate() {0}; insert into [ExportSettings_deleted]([ExportSettings_deleted].[ReferenceType], [ExportSettings_deleted].[ReferenceId], [ExportSettings_deleted].[Title], [ExportSettings_deleted].[ExportSettingId], [ExportSettings_deleted].[Ver], [ExportSettings_deleted].[AddHeader], [ExportSettings_deleted].[ExportColumns], [ExportSettings_deleted].[Comments], [ExportSettings_deleted].[Creator], [ExportSettings_deleted].[Updator], [ExportSettings_deleted].[CreatedTime], [ExportSettings_deleted].[UpdatedTime]) (select [ExportSettings].[ReferenceType], [ExportSettings].[ReferenceId], [ExportSettings].[Title], [ExportSettings].[ExportSettingId], [ExportSettings].[Ver], [ExportSettings].[AddHeader], [ExportSettings].[ExportColumns], [ExportSettings].[Comments], [ExportSettings].[Creator], [ExportSettings].[Updator], [ExportSettings].[CreatedTime], [ExportSettings].[UpdatedTime] from [ExportSettings] {0}); delete from [ExportSettings] {0}";
-        public const string MoveToLinksDeletedStatement = "update [Links] set [Links].[UpdatedTime] = getdate() {0}; insert into [Links_deleted]([Links_deleted].[DestinationId], [Links_deleted].[SourceId], [Links_deleted].[Ver], [Links_deleted].[Comments], [Links_deleted].[Creator], [Links_deleted].[Updator], [Links_deleted].[CreatedTime], [Links_deleted].[UpdatedTime]) (select [Links].[DestinationId], [Links].[SourceId], [Links].[Ver], [Links].[Comments], [Links].[Creator], [Links].[Updator], [Links].[CreatedTime], [Links].[UpdatedTime] from [Links] {0}); delete from [Links] {0}";
-        public const string MoveToImagesDeletedStatement = "update [Images] set [Images].[UpdatedTime] = getdate() {0}; insert into [Images_deleted]([Images_deleted].[ImageId], [Images_deleted].[Ver], [Images_deleted].[Title], [Images_deleted].[Body], [Images_deleted].[Bin], [Images_deleted].[FileName], [Images_deleted].[Extension], [Images_deleted].[Size], [Images_deleted].[ImageSettings], [Images_deleted].[Comments], [Images_deleted].[Creator], [Images_deleted].[Updator], [Images_deleted].[CreatedTime], [Images_deleted].[UpdatedTime]) (select [Images].[ImageId], [Images].[Ver], [Images].[Title], [Images].[Body], [Images].[Bin], [Images].[FileName], [Images].[Extension], [Images].[Size], [Images].[ImageSettings], [Images].[Comments], [Images].[Creator], [Images].[Updator], [Images].[CreatedTime], [Images].[UpdatedTime] from [Images] {0}); delete from [Images] {0}";
-        public const string MoveToIssuesDeletedStatement = "update [Issues] set [Issues].[UpdatedTime] = getdate() {0}; insert into [Issues_deleted]([Issues_deleted].[SiteId], [Issues_deleted].[UpdatedTime], [Issues_deleted].[IssueId], [Issues_deleted].[Ver], [Issues_deleted].[Title], [Issues_deleted].[Body], [Issues_deleted].[StartTime], [Issues_deleted].[CompletionTime], [Issues_deleted].[WorkValue], [Issues_deleted].[ProgressRate], [Issues_deleted].[Status], [Issues_deleted].[Manager], [Issues_deleted].[Owner], [Issues_deleted].[ClassA], [Issues_deleted].[ClassB], [Issues_deleted].[ClassC], [Issues_deleted].[ClassD], [Issues_deleted].[ClassE], [Issues_deleted].[ClassF], [Issues_deleted].[ClassG], [Issues_deleted].[ClassH], [Issues_deleted].[ClassI], [Issues_deleted].[ClassJ], [Issues_deleted].[ClassK], [Issues_deleted].[ClassL], [Issues_deleted].[ClassM], [Issues_deleted].[ClassN], [Issues_deleted].[ClassO], [Issues_deleted].[ClassP], [Issues_deleted].[NumA], [Issues_deleted].[NumB], [Issues_deleted].[NumC], [Issues_deleted].[NumD], [Issues_deleted].[NumE], [Issues_deleted].[NumF], [Issues_deleted].[NumG], [Issues_deleted].[NumH], [Issues_deleted].[DateA], [Issues_deleted].[DateB], [Issues_deleted].[DateC], [Issues_deleted].[DateD], [Issues_deleted].[DateE], [Issues_deleted].[DateF], [Issues_deleted].[DateG], [Issues_deleted].[DateH], [Issues_deleted].[Comments], [Issues_deleted].[Creator], [Issues_deleted].[Updator], [Issues_deleted].[CreatedTime]) (select [Issues].[SiteId], [Issues].[UpdatedTime], [Issues].[IssueId], [Issues].[Ver], [Issues].[Title], [Issues].[Body], [Issues].[StartTime], [Issues].[CompletionTime], [Issues].[WorkValue], [Issues].[ProgressRate], [Issues].[Status], [Issues].[Manager], [Issues].[Owner], [Issues].[ClassA], [Issues].[ClassB], [Issues].[ClassC], [Issues].[ClassD], [Issues].[ClassE], [Issues].[ClassF], [Issues].[ClassG], [Issues].[ClassH], [Issues].[ClassI], [Issues].[ClassJ], [Issues].[ClassK], [Issues].[ClassL], [Issues].[ClassM], [Issues].[ClassN], [Issues].[ClassO], [Issues].[ClassP], [Issues].[NumA], [Issues].[NumB], [Issues].[NumC], [Issues].[NumD], [Issues].[NumE], [Issues].[NumF], [Issues].[NumG], [Issues].[NumH], [Issues].[DateA], [Issues].[DateB], [Issues].[DateC], [Issues].[DateD], [Issues].[DateE], [Issues].[DateF], [Issues].[DateG], [Issues].[DateH], [Issues].[Comments], [Issues].[Creator], [Issues].[Updator], [Issues].[CreatedTime] from [Issues] {0}); delete from [Issues] {0}";
-        public const string MoveToResultsDeletedStatement = "update [Results] set [Results].[UpdatedTime] = getdate() {0}; insert into [Results_deleted]([Results_deleted].[SiteId], [Results_deleted].[UpdatedTime], [Results_deleted].[ResultId], [Results_deleted].[Ver], [Results_deleted].[Body], [Results_deleted].[Title], [Results_deleted].[Manager], [Results_deleted].[Owner], [Results_deleted].[ClassA], [Results_deleted].[ClassB], [Results_deleted].[ClassC], [Results_deleted].[ClassD], [Results_deleted].[ClassE], [Results_deleted].[ClassF], [Results_deleted].[ClassG], [Results_deleted].[ClassH], [Results_deleted].[NumA], [Results_deleted].[NumB], [Results_deleted].[NumC], [Results_deleted].[NumD], [Results_deleted].[NumE], [Results_deleted].[NumF], [Results_deleted].[NumG], [Results_deleted].[NumH], [Results_deleted].[DateA], [Results_deleted].[DateB], [Results_deleted].[DateC], [Results_deleted].[DateD], [Results_deleted].[DateE], [Results_deleted].[DateF], [Results_deleted].[DateG], [Results_deleted].[DateH], [Results_deleted].[Comments], [Results_deleted].[Creator], [Results_deleted].[Updator], [Results_deleted].[CreatedTime]) (select [Results].[SiteId], [Results].[UpdatedTime], [Results].[ResultId], [Results].[Ver], [Results].[Body], [Results].[Title], [Results].[Manager], [Results].[Owner], [Results].[ClassA], [Results].[ClassB], [Results].[ClassC], [Results].[ClassD], [Results].[ClassE], [Results].[ClassF], [Results].[ClassG], [Results].[ClassH], [Results].[NumA], [Results].[NumB], [Results].[NumC], [Results].[NumD], [Results].[NumE], [Results].[NumF], [Results].[NumG], [Results].[NumH], [Results].[DateA], [Results].[DateB], [Results].[DateC], [Results].[DateD], [Results].[DateE], [Results].[DateF], [Results].[DateG], [Results].[DateH], [Results].[Comments], [Results].[Creator], [Results].[Updator], [Results].[CreatedTime] from [Results] {0}); delete from [Results] {0}";
-        public const string MoveToWikisDeletedStatement = "update [Wikis] set [Wikis].[UpdatedTime] = getdate() {0}; insert into [Wikis_deleted]([Wikis_deleted].[SiteId], [Wikis_deleted].[UpdatedTime], [Wikis_deleted].[WikiId], [Wikis_deleted].[Ver], [Wikis_deleted].[Title], [Wikis_deleted].[Body], [Wikis_deleted].[Comments], [Wikis_deleted].[Creator], [Wikis_deleted].[Updator], [Wikis_deleted].[CreatedTime]) (select [Wikis].[SiteId], [Wikis].[UpdatedTime], [Wikis].[WikiId], [Wikis].[Ver], [Wikis].[Title], [Wikis].[Body], [Wikis].[Comments], [Wikis].[Creator], [Wikis].[Updator], [Wikis].[CreatedTime] from [Wikis] {0}); delete from [Wikis] {0}";
-        public const string CopyToTenantsHistoryStatement = "insert into [Tenants_history]([Tenants_history].[TenantId], [Tenants_history].[Ver], [Tenants_history].[TenantName], [Tenants_history].[Title], [Tenants_history].[Body], [Tenants_history].[Comments], [Tenants_history].[Creator], [Tenants_history].[Updator], [Tenants_history].[CreatedTime], [Tenants_history].[UpdatedTime]) (select [Tenants].[TenantId], [Tenants].[Ver], [Tenants].[TenantName], [Tenants].[Title], [Tenants].[Body], [Tenants].[Comments], [Tenants].[Creator], [Tenants].[Updator], [Tenants].[CreatedTime], [Tenants].[UpdatedTime] from [Tenants] where  and [Tenants].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
-        public const string CopyToSysLogsHistoryStatement = "insert into [SysLogs_history]([SysLogs_history].[CreatedTime], [SysLogs_history].[SysLogId], [SysLogs_history].[Ver], [SysLogs_history].[SysLogType], [SysLogs_history].[OnAzure], [SysLogs_history].[MachineName], [SysLogs_history].[ServiceName], [SysLogs_history].[TenantName], [SysLogs_history].[Application], [SysLogs_history].[Class], [SysLogs_history].[Method], [SysLogs_history].[RequestData], [SysLogs_history].[HttpMethod], [SysLogs_history].[RequestSize], [SysLogs_history].[ResponseSize], [SysLogs_history].[Elapsed], [SysLogs_history].[ApplicationAge], [SysLogs_history].[ApplicationRequestInterval], [SysLogs_history].[SessionAge], [SysLogs_history].[SessionRequestInterval], [SysLogs_history].[WorkingSet64], [SysLogs_history].[VirtualMemorySize64], [SysLogs_history].[ProcessId], [SysLogs_history].[ProcessName], [SysLogs_history].[BasePriority], [SysLogs_history].[Url], [SysLogs_history].[UrlReferer], [SysLogs_history].[UserHostName], [SysLogs_history].[UserHostAddress], [SysLogs_history].[UserLanguage], [SysLogs_history].[UserAgent], [SysLogs_history].[SessionGuid], [SysLogs_history].[ErrMessage], [SysLogs_history].[ErrStackTrace], [SysLogs_history].[InDebug], [SysLogs_history].[AssemblyVersion], [SysLogs_history].[Comments], [SysLogs_history].[Creator], [SysLogs_history].[Updator], [SysLogs_history].[UpdatedTime]) (select [SysLogs].[CreatedTime], [SysLogs].[SysLogId], [SysLogs].[Ver], [SysLogs].[SysLogType], [SysLogs].[OnAzure], [SysLogs].[MachineName], [SysLogs].[ServiceName], [SysLogs].[TenantName], [SysLogs].[Application], [SysLogs].[Class], [SysLogs].[Method], [SysLogs].[RequestData], [SysLogs].[HttpMethod], [SysLogs].[RequestSize], [SysLogs].[ResponseSize], [SysLogs].[Elapsed], [SysLogs].[ApplicationAge], [SysLogs].[ApplicationRequestInterval], [SysLogs].[SessionAge], [SysLogs].[SessionRequestInterval], [SysLogs].[WorkingSet64], [SysLogs].[VirtualMemorySize64], [SysLogs].[ProcessId], [SysLogs].[ProcessName], [SysLogs].[BasePriority], [SysLogs].[Url], [SysLogs].[UrlReferer], [SysLogs].[UserHostName], [SysLogs].[UserHostAddress], [SysLogs].[UserLanguage], [SysLogs].[UserAgent], [SysLogs].[SessionGuid], [SysLogs].[ErrMessage], [SysLogs].[ErrStackTrace], [SysLogs].[InDebug], [SysLogs].[AssemblyVersion], [SysLogs].[Comments], [SysLogs].[Creator], [SysLogs].[Updator], [SysLogs].[UpdatedTime] from [SysLogs] where [SysLogs].[CreatedTime]=@CreatedTime[[CommandCount]] and [SysLogs].[SysLogId]=@SysLogId[[CommandCount]] and [SysLogs].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
-        public const string CopyToDeptsHistoryStatement = "insert into [Depts_history]([Depts_history].[TenantId], [Depts_history].[DeptId], [Depts_history].[Ver], [Depts_history].[ParentDeptId], [Depts_history].[DeptCode], [Depts_history].[DeptName], [Depts_history].[Body], [Depts_history].[Comments], [Depts_history].[Creator], [Depts_history].[Updator], [Depts_history].[CreatedTime], [Depts_history].[UpdatedTime]) (select [Depts].[TenantId], [Depts].[DeptId], [Depts].[Ver], [Depts].[ParentDeptId], [Depts].[DeptCode], [Depts].[DeptName], [Depts].[Body], [Depts].[Comments], [Depts].[Creator], [Depts].[Updator], [Depts].[CreatedTime], [Depts].[UpdatedTime] from [Depts] where [Depts].[TenantId]=@TenantId[[CommandCount]] and [Depts].[DeptId]=@DeptId[[CommandCount]] and [Depts].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
-        public const string CopyToUsersHistoryStatement = "insert into [Users_history]([Users_history].[TenantId], [Users_history].[UserId], [Users_history].[Ver], [Users_history].[LoginId], [Users_history].[Disabled], [Users_history].[UserCode], [Users_history].[Password], [Users_history].[LastName], [Users_history].[FirstName], [Users_history].[Birthday], [Users_history].[Sex], [Users_history].[Language], [Users_history].[TimeZone], [Users_history].[DeptId], [Users_history].[FirstAndLastNameOrder], [Users_history].[LastLoginTime], [Users_history].[PasswordChangeTime], [Users_history].[NumberOfLogins], [Users_history].[NumberOfDenial], [Users_history].[TenantAdmin], [Users_history].[ServiceAdmin], [Users_history].[Developer], [Users_history].[Comments], [Users_history].[Creator], [Users_history].[Updator], [Users_history].[CreatedTime], [Users_history].[UpdatedTime]) (select [Users].[TenantId], [Users].[UserId], [Users].[Ver], [Users].[LoginId], [Users].[Disabled], [Users].[UserCode], [Users].[Password], [Users].[LastName], [Users].[FirstName], [Users].[Birthday], [Users].[Sex], [Users].[Language], [Users].[TimeZone], [Users].[DeptId], [Users].[FirstAndLastNameOrder], [Users].[LastLoginTime], [Users].[PasswordChangeTime], [Users].[NumberOfLogins], [Users].[NumberOfDenial], [Users].[TenantAdmin], [Users].[ServiceAdmin], [Users].[Developer], [Users].[Comments], [Users].[Creator], [Users].[Updator], [Users].[CreatedTime], [Users].[UpdatedTime] from [Users] where [Users].[TenantId]=@TenantId[[CommandCount]] and [Users].[UserId]=@UserId[[CommandCount]] and [Users].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
-        public const string CopyToMailAddressesHistoryStatement = "insert into [MailAddresses_history]([MailAddresses_history].[OwnerId], [MailAddresses_history].[OwnerType], [MailAddresses_history].[MailAddressId], [MailAddresses_history].[Ver], [MailAddresses_history].[MailAddress], [MailAddresses_history].[Comments], [MailAddresses_history].[Creator], [MailAddresses_history].[Updator], [MailAddresses_history].[CreatedTime], [MailAddresses_history].[UpdatedTime]) (select [MailAddresses].[OwnerId], [MailAddresses].[OwnerType], [MailAddresses].[MailAddressId], [MailAddresses].[Ver], [MailAddresses].[MailAddress], [MailAddresses].[Comments], [MailAddresses].[Creator], [MailAddresses].[Updator], [MailAddresses].[CreatedTime], [MailAddresses].[UpdatedTime] from [MailAddresses] where [MailAddresses].[OwnerId]=@OwnerId[[CommandCount]] and [MailAddresses].[OwnerType]=@OwnerType[[CommandCount]] and [MailAddresses].[MailAddressId]=@MailAddressId[[CommandCount]] and [MailAddresses].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
-        public const string CopyToPermissionsHistoryStatement = "insert into [Permissions_history]([Permissions_history].[ReferenceType], [Permissions_history].[ReferenceId], [Permissions_history].[DeptId], [Permissions_history].[UserId], [Permissions_history].[Ver], [Permissions_history].[PermissionType], [Permissions_history].[Comments], [Permissions_history].[Creator], [Permissions_history].[Updator], [Permissions_history].[CreatedTime], [Permissions_history].[UpdatedTime]) (select [Permissions].[ReferenceType], [Permissions].[ReferenceId], [Permissions].[DeptId], [Permissions].[UserId], [Permissions].[Ver], [Permissions].[PermissionType], [Permissions].[Comments], [Permissions].[Creator], [Permissions].[Updator], [Permissions].[CreatedTime], [Permissions].[UpdatedTime] from [Permissions] where [Permissions].[ReferenceType]=@ReferenceType[[CommandCount]] and [Permissions].[ReferenceId]=@ReferenceId[[CommandCount]] and [Permissions].[DeptId]=@DeptId[[CommandCount]] and [Permissions].[UserId]=@UserId[[CommandCount]] and [Permissions].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
-        public const string CopyToOutgoingMailsHistoryStatement = "insert into [OutgoingMails_history]([OutgoingMails_history].[ReferenceType], [OutgoingMails_history].[ReferenceId], [OutgoingMails_history].[ReferenceVer], [OutgoingMails_history].[OutgoingMailId], [OutgoingMails_history].[Ver], [OutgoingMails_history].[Host], [OutgoingMails_history].[Port], [OutgoingMails_history].[From], [OutgoingMails_history].[To], [OutgoingMails_history].[Cc], [OutgoingMails_history].[Bcc], [OutgoingMails_history].[Title], [OutgoingMails_history].[Body], [OutgoingMails_history].[SentTime], [OutgoingMails_history].[Comments], [OutgoingMails_history].[Creator], [OutgoingMails_history].[Updator], [OutgoingMails_history].[CreatedTime], [OutgoingMails_history].[UpdatedTime]) (select [OutgoingMails].[ReferenceType], [OutgoingMails].[ReferenceId], [OutgoingMails].[ReferenceVer], [OutgoingMails].[OutgoingMailId], [OutgoingMails].[Ver], [OutgoingMails].[Host], [OutgoingMails].[Port], [OutgoingMails].[From], [OutgoingMails].[To], [OutgoingMails].[Cc], [OutgoingMails].[Bcc], [OutgoingMails].[Title], [OutgoingMails].[Body], [OutgoingMails].[SentTime], [OutgoingMails].[Comments], [OutgoingMails].[Creator], [OutgoingMails].[Updator], [OutgoingMails].[CreatedTime], [OutgoingMails].[UpdatedTime] from [OutgoingMails] where [OutgoingMails].[ReferenceType]=@ReferenceType[[CommandCount]] and [OutgoingMails].[ReferenceId]=@ReferenceId[[CommandCount]] and [OutgoingMails].[ReferenceVer]=@ReferenceVer[[CommandCount]] and [OutgoingMails].[OutgoingMailId]=@OutgoingMailId[[CommandCount]] and [OutgoingMails].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
-        public const string CopyToSearchWordsHistoryStatement = "insert into [SearchWords_history]([SearchWords_history].[Word], [SearchWords_history].[ReferenceId], [SearchWords_history].[Ver], [SearchWords_history].[Priority], [SearchWords_history].[Comments], [SearchWords_history].[Creator], [SearchWords_history].[Updator], [SearchWords_history].[CreatedTime], [SearchWords_history].[UpdatedTime]) (select [SearchWords].[Word], [SearchWords].[ReferenceId], [SearchWords].[Ver], [SearchWords].[Priority], [SearchWords].[Comments], [SearchWords].[Creator], [SearchWords].[Updator], [SearchWords].[CreatedTime], [SearchWords].[UpdatedTime] from [SearchWords] where [SearchWords].[Word]=@Word[[CommandCount]] and [SearchWords].[ReferenceId]=@ReferenceId[[CommandCount]] and [SearchWords].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
-        public const string CopyToItemsHistoryStatement = "insert into [Items_history]([Items_history].[ReferenceId], [Items_history].[Ver], [Items_history].[ReferenceType], [Items_history].[SiteId], [Items_history].[Title], [Items_history].[Subset], [Items_history].[Comments], [Items_history].[Creator], [Items_history].[Updator], [Items_history].[CreatedTime], [Items_history].[UpdatedTime]) (select [Items].[ReferenceId], [Items].[Ver], [Items].[ReferenceType], [Items].[SiteId], [Items].[Title], [Items].[Subset], [Items].[Comments], [Items].[Creator], [Items].[Updator], [Items].[CreatedTime], [Items].[UpdatedTime] from [Items] where [Items].[ReferenceId]=@ReferenceId[[CommandCount]] and [Items].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
-        public const string CopyToSitesHistoryStatement = "insert into [Sites_history]([Sites_history].[TenantId], [Sites_history].[SiteId], [Sites_history].[Ver], [Sites_history].[Title], [Sites_history].[Body], [Sites_history].[ReferenceType], [Sites_history].[ParentId], [Sites_history].[InheritPermission], [Sites_history].[SiteSettings], [Sites_history].[Comments], [Sites_history].[Creator], [Sites_history].[Updator], [Sites_history].[UpdatedTime], [Sites_history].[CreatedTime]) (select [Sites].[TenantId], [Sites].[SiteId], [Sites].[Ver], [Sites].[Title], [Sites].[Body], [Sites].[ReferenceType], [Sites].[ParentId], [Sites].[InheritPermission], [Sites].[SiteSettings], [Sites].[Comments], [Sites].[Creator], [Sites].[Updator], [Sites].[UpdatedTime], [Sites].[CreatedTime] from [Sites] where [Sites].[TenantId]=@TenantId[[CommandCount]] and [Sites].[SiteId]=@SiteId[[CommandCount]] and [Sites].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
-        public const string CopyToOrdersHistoryStatement = "insert into [Orders_history]([Orders_history].[ReferenceId], [Orders_history].[ReferenceType], [Orders_history].[OwnerId], [Orders_history].[Ver], [Orders_history].[Data], [Orders_history].[Comments], [Orders_history].[Creator], [Orders_history].[Updator], [Orders_history].[CreatedTime], [Orders_history].[UpdatedTime]) (select [Orders].[ReferenceId], [Orders].[ReferenceType], [Orders].[OwnerId], [Orders].[Ver], [Orders].[Data], [Orders].[Comments], [Orders].[Creator], [Orders].[Updator], [Orders].[CreatedTime], [Orders].[UpdatedTime] from [Orders] where  and [Orders].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
-        public const string CopyToExportSettingsHistoryStatement = "insert into [ExportSettings_history]([ExportSettings_history].[ReferenceType], [ExportSettings_history].[ReferenceId], [ExportSettings_history].[Title], [ExportSettings_history].[ExportSettingId], [ExportSettings_history].[Ver], [ExportSettings_history].[AddHeader], [ExportSettings_history].[ExportColumns], [ExportSettings_history].[Comments], [ExportSettings_history].[Creator], [ExportSettings_history].[Updator], [ExportSettings_history].[CreatedTime], [ExportSettings_history].[UpdatedTime]) (select [ExportSettings].[ReferenceType], [ExportSettings].[ReferenceId], [ExportSettings].[Title], [ExportSettings].[ExportSettingId], [ExportSettings].[Ver], [ExportSettings].[AddHeader], [ExportSettings].[ExportColumns], [ExportSettings].[Comments], [ExportSettings].[Creator], [ExportSettings].[Updator], [ExportSettings].[CreatedTime], [ExportSettings].[UpdatedTime] from [ExportSettings] where [ExportSettings].[ReferenceType]=@ReferenceType[[CommandCount]] and [ExportSettings].[ReferenceId]=@ReferenceId[[CommandCount]] and [ExportSettings].[Title]=@Title[[CommandCount]] and [ExportSettings].[ExportSettingId]=@ExportSettingId[[CommandCount]] and [ExportSettings].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
-        public const string CopyToLinksHistoryStatement = "insert into [Links_history]([Links_history].[DestinationId], [Links_history].[SourceId], [Links_history].[Ver], [Links_history].[Comments], [Links_history].[Creator], [Links_history].[Updator], [Links_history].[CreatedTime], [Links_history].[UpdatedTime]) (select [Links].[DestinationId], [Links].[SourceId], [Links].[Ver], [Links].[Comments], [Links].[Creator], [Links].[Updator], [Links].[CreatedTime], [Links].[UpdatedTime] from [Links] where  and [Links].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
-        public const string CopyToImagesHistoryStatement = "insert into [Images_history]([Images_history].[ImageId], [Images_history].[Ver], [Images_history].[Title], [Images_history].[Body], [Images_history].[Bin], [Images_history].[FileName], [Images_history].[Extension], [Images_history].[Size], [Images_history].[ImageSettings], [Images_history].[Comments], [Images_history].[Creator], [Images_history].[Updator], [Images_history].[CreatedTime], [Images_history].[UpdatedTime]) (select [Images].[ImageId], [Images].[Ver], [Images].[Title], [Images].[Body], [Images].[Bin], [Images].[FileName], [Images].[Extension], [Images].[Size], [Images].[ImageSettings], [Images].[Comments], [Images].[Creator], [Images].[Updator], [Images].[CreatedTime], [Images].[UpdatedTime] from [Images] where [Images].[ImageId]=@ImageId[[CommandCount]] and [Images].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
-        public const string CopyToIssuesHistoryStatement = "insert into [Issues_history]([Issues_history].[IssueId], [Issues_history].[SiteId], [Issues_history].[Ver], [Issues_history].[Title], [Issues_history].[Body], [Issues_history].[StartTime], [Issues_history].[CompletionTime], [Issues_history].[WorkValue], [Issues_history].[ProgressRate], [Issues_history].[Status], [Issues_history].[Manager], [Issues_history].[Owner], [Issues_history].[ClassA], [Issues_history].[ClassB], [Issues_history].[ClassC], [Issues_history].[ClassD], [Issues_history].[ClassE], [Issues_history].[ClassF], [Issues_history].[ClassG], [Issues_history].[ClassH], [Issues_history].[ClassI], [Issues_history].[ClassJ], [Issues_history].[ClassK], [Issues_history].[ClassL], [Issues_history].[ClassM], [Issues_history].[ClassN], [Issues_history].[ClassO], [Issues_history].[ClassP], [Issues_history].[NumA], [Issues_history].[NumB], [Issues_history].[NumC], [Issues_history].[NumD], [Issues_history].[NumE], [Issues_history].[NumF], [Issues_history].[NumG], [Issues_history].[NumH], [Issues_history].[DateA], [Issues_history].[DateB], [Issues_history].[DateC], [Issues_history].[DateD], [Issues_history].[DateE], [Issues_history].[DateF], [Issues_history].[DateG], [Issues_history].[DateH], [Issues_history].[Comments], [Issues_history].[Creator], [Issues_history].[Updator], [Issues_history].[UpdatedTime], [Issues_history].[CreatedTime]) (select [Issues].[IssueId], [Issues].[SiteId], [Issues].[Ver], [Issues].[Title], [Issues].[Body], [Issues].[StartTime], [Issues].[CompletionTime], [Issues].[WorkValue], [Issues].[ProgressRate], [Issues].[Status], [Issues].[Manager], [Issues].[Owner], [Issues].[ClassA], [Issues].[ClassB], [Issues].[ClassC], [Issues].[ClassD], [Issues].[ClassE], [Issues].[ClassF], [Issues].[ClassG], [Issues].[ClassH], [Issues].[ClassI], [Issues].[ClassJ], [Issues].[ClassK], [Issues].[ClassL], [Issues].[ClassM], [Issues].[ClassN], [Issues].[ClassO], [Issues].[ClassP], [Issues].[NumA], [Issues].[NumB], [Issues].[NumC], [Issues].[NumD], [Issues].[NumE], [Issues].[NumF], [Issues].[NumG], [Issues].[NumH], [Issues].[DateA], [Issues].[DateB], [Issues].[DateC], [Issues].[DateD], [Issues].[DateE], [Issues].[DateF], [Issues].[DateG], [Issues].[DateH], [Issues].[Comments], [Issues].[Creator], [Issues].[Updator], [Issues].[UpdatedTime], [Issues].[CreatedTime] from [Issues] where [Issues].[IssueId]=@IssueId[[CommandCount]] and [Issues].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
-        public const string CopyToResultsHistoryStatement = "insert into [Results_history]([Results_history].[ResultId], [Results_history].[SiteId], [Results_history].[Ver], [Results_history].[Body], [Results_history].[Title], [Results_history].[Manager], [Results_history].[Owner], [Results_history].[ClassA], [Results_history].[ClassB], [Results_history].[ClassC], [Results_history].[ClassD], [Results_history].[ClassE], [Results_history].[ClassF], [Results_history].[ClassG], [Results_history].[ClassH], [Results_history].[NumA], [Results_history].[NumB], [Results_history].[NumC], [Results_history].[NumD], [Results_history].[NumE], [Results_history].[NumF], [Results_history].[NumG], [Results_history].[NumH], [Results_history].[DateA], [Results_history].[DateB], [Results_history].[DateC], [Results_history].[DateD], [Results_history].[DateE], [Results_history].[DateF], [Results_history].[DateG], [Results_history].[DateH], [Results_history].[Comments], [Results_history].[Creator], [Results_history].[Updator], [Results_history].[UpdatedTime], [Results_history].[CreatedTime]) (select [Results].[ResultId], [Results].[SiteId], [Results].[Ver], [Results].[Body], [Results].[Title], [Results].[Manager], [Results].[Owner], [Results].[ClassA], [Results].[ClassB], [Results].[ClassC], [Results].[ClassD], [Results].[ClassE], [Results].[ClassF], [Results].[ClassG], [Results].[ClassH], [Results].[NumA], [Results].[NumB], [Results].[NumC], [Results].[NumD], [Results].[NumE], [Results].[NumF], [Results].[NumG], [Results].[NumH], [Results].[DateA], [Results].[DateB], [Results].[DateC], [Results].[DateD], [Results].[DateE], [Results].[DateF], [Results].[DateG], [Results].[DateH], [Results].[Comments], [Results].[Creator], [Results].[Updator], [Results].[UpdatedTime], [Results].[CreatedTime] from [Results] where [Results].[ResultId]=@ResultId[[CommandCount]] and [Results].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
-        public const string CopyToWikisHistoryStatement = "insert into [Wikis_history]([Wikis_history].[WikiId], [Wikis_history].[SiteId], [Wikis_history].[Ver], [Wikis_history].[Title], [Wikis_history].[Body], [Wikis_history].[Comments], [Wikis_history].[Creator], [Wikis_history].[Updator], [Wikis_history].[UpdatedTime], [Wikis_history].[CreatedTime]) (select [Wikis].[WikiId], [Wikis].[SiteId], [Wikis].[Ver], [Wikis].[Title], [Wikis].[Body], [Wikis].[Comments], [Wikis].[Creator], [Wikis].[Updator], [Wikis].[UpdatedTime], [Wikis].[CreatedTime] from [Wikis] where [Wikis].[WikiId]=@WikiId[[CommandCount]] and [Wikis].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
+        public const string SaveTenantsHistoryStatement = "insert into [Tenants_history]([Tenants_history].[TenantId], [Tenants_history].[Ver], [Tenants_history].[TenantName], [Tenants_history].[Title], [Tenants_history].[Body], [Tenants_history].[Comments], [Tenants_history].[Creator], [Tenants_history].[Updator], [Tenants_history].[CreatedTime], [Tenants_history].[UpdatedTime]) (select [Tenants].[TenantId], [Tenants].[Ver], [Tenants].[TenantName], [Tenants].[Title], [Tenants].[Body], [Tenants].[Comments], [Tenants].[Creator], [Tenants].[Updator], [Tenants].[CreatedTime], [Tenants].[UpdatedTime] from [Tenants] where  and [Tenants].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
+        public const string SaveSysLogsHistoryStatement = "insert into [SysLogs_history]([SysLogs_history].[CreatedTime], [SysLogs_history].[SysLogId], [SysLogs_history].[Ver], [SysLogs_history].[SysLogType], [SysLogs_history].[OnAzure], [SysLogs_history].[MachineName], [SysLogs_history].[ServiceName], [SysLogs_history].[TenantName], [SysLogs_history].[Application], [SysLogs_history].[Class], [SysLogs_history].[Method], [SysLogs_history].[RequestData], [SysLogs_history].[HttpMethod], [SysLogs_history].[RequestSize], [SysLogs_history].[ResponseSize], [SysLogs_history].[Elapsed], [SysLogs_history].[ApplicationAge], [SysLogs_history].[ApplicationRequestInterval], [SysLogs_history].[SessionAge], [SysLogs_history].[SessionRequestInterval], [SysLogs_history].[WorkingSet64], [SysLogs_history].[VirtualMemorySize64], [SysLogs_history].[ProcessId], [SysLogs_history].[ProcessName], [SysLogs_history].[BasePriority], [SysLogs_history].[Url], [SysLogs_history].[UrlReferer], [SysLogs_history].[UserHostName], [SysLogs_history].[UserHostAddress], [SysLogs_history].[UserLanguage], [SysLogs_history].[UserAgent], [SysLogs_history].[SessionGuid], [SysLogs_history].[ErrMessage], [SysLogs_history].[ErrStackTrace], [SysLogs_history].[InDebug], [SysLogs_history].[AssemblyVersion], [SysLogs_history].[Comments], [SysLogs_history].[Creator], [SysLogs_history].[Updator], [SysLogs_history].[UpdatedTime]) (select [SysLogs].[CreatedTime], [SysLogs].[SysLogId], [SysLogs].[Ver], [SysLogs].[SysLogType], [SysLogs].[OnAzure], [SysLogs].[MachineName], [SysLogs].[ServiceName], [SysLogs].[TenantName], [SysLogs].[Application], [SysLogs].[Class], [SysLogs].[Method], [SysLogs].[RequestData], [SysLogs].[HttpMethod], [SysLogs].[RequestSize], [SysLogs].[ResponseSize], [SysLogs].[Elapsed], [SysLogs].[ApplicationAge], [SysLogs].[ApplicationRequestInterval], [SysLogs].[SessionAge], [SysLogs].[SessionRequestInterval], [SysLogs].[WorkingSet64], [SysLogs].[VirtualMemorySize64], [SysLogs].[ProcessId], [SysLogs].[ProcessName], [SysLogs].[BasePriority], [SysLogs].[Url], [SysLogs].[UrlReferer], [SysLogs].[UserHostName], [SysLogs].[UserHostAddress], [SysLogs].[UserLanguage], [SysLogs].[UserAgent], [SysLogs].[SessionGuid], [SysLogs].[ErrMessage], [SysLogs].[ErrStackTrace], [SysLogs].[InDebug], [SysLogs].[AssemblyVersion], [SysLogs].[Comments], [SysLogs].[Creator], [SysLogs].[Updator], [SysLogs].[UpdatedTime] from [SysLogs] where [SysLogs].[CreatedTime]=@CreatedTime[[CommandCount]] and [SysLogs].[SysLogId]=@SysLogId[[CommandCount]] and [SysLogs].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
+        public const string SaveDeptsHistoryStatement = "insert into [Depts_history]([Depts_history].[TenantId], [Depts_history].[DeptId], [Depts_history].[Ver], [Depts_history].[ParentDeptId], [Depts_history].[DeptCode], [Depts_history].[DeptName], [Depts_history].[Body], [Depts_history].[Comments], [Depts_history].[Creator], [Depts_history].[Updator], [Depts_history].[CreatedTime], [Depts_history].[UpdatedTime]) (select [Depts].[TenantId], [Depts].[DeptId], [Depts].[Ver], [Depts].[ParentDeptId], [Depts].[DeptCode], [Depts].[DeptName], [Depts].[Body], [Depts].[Comments], [Depts].[Creator], [Depts].[Updator], [Depts].[CreatedTime], [Depts].[UpdatedTime] from [Depts] where [Depts].[TenantId]=@TenantId[[CommandCount]] and [Depts].[DeptId]=@DeptId[[CommandCount]] and [Depts].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
+        public const string SaveUsersHistoryStatement = "insert into [Users_history]([Users_history].[TenantId], [Users_history].[UserId], [Users_history].[Ver], [Users_history].[LoginId], [Users_history].[Disabled], [Users_history].[UserCode], [Users_history].[Password], [Users_history].[LastName], [Users_history].[FirstName], [Users_history].[Birthday], [Users_history].[Sex], [Users_history].[Language], [Users_history].[TimeZone], [Users_history].[DeptId], [Users_history].[FirstAndLastNameOrder], [Users_history].[LastLoginTime], [Users_history].[PasswordChangeTime], [Users_history].[NumberOfLogins], [Users_history].[NumberOfDenial], [Users_history].[TenantAdmin], [Users_history].[ServiceAdmin], [Users_history].[Developer], [Users_history].[Comments], [Users_history].[Creator], [Users_history].[Updator], [Users_history].[CreatedTime], [Users_history].[UpdatedTime]) (select [Users].[TenantId], [Users].[UserId], [Users].[Ver], [Users].[LoginId], [Users].[Disabled], [Users].[UserCode], [Users].[Password], [Users].[LastName], [Users].[FirstName], [Users].[Birthday], [Users].[Sex], [Users].[Language], [Users].[TimeZone], [Users].[DeptId], [Users].[FirstAndLastNameOrder], [Users].[LastLoginTime], [Users].[PasswordChangeTime], [Users].[NumberOfLogins], [Users].[NumberOfDenial], [Users].[TenantAdmin], [Users].[ServiceAdmin], [Users].[Developer], [Users].[Comments], [Users].[Creator], [Users].[Updator], [Users].[CreatedTime], [Users].[UpdatedTime] from [Users] where [Users].[TenantId]=@TenantId[[CommandCount]] and [Users].[UserId]=@UserId[[CommandCount]] and [Users].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
+        public const string SaveMailAddressesHistoryStatement = "insert into [MailAddresses_history]([MailAddresses_history].[OwnerId], [MailAddresses_history].[OwnerType], [MailAddresses_history].[MailAddressId], [MailAddresses_history].[Ver], [MailAddresses_history].[MailAddress], [MailAddresses_history].[Comments], [MailAddresses_history].[Creator], [MailAddresses_history].[Updator], [MailAddresses_history].[CreatedTime], [MailAddresses_history].[UpdatedTime]) (select [MailAddresses].[OwnerId], [MailAddresses].[OwnerType], [MailAddresses].[MailAddressId], [MailAddresses].[Ver], [MailAddresses].[MailAddress], [MailAddresses].[Comments], [MailAddresses].[Creator], [MailAddresses].[Updator], [MailAddresses].[CreatedTime], [MailAddresses].[UpdatedTime] from [MailAddresses] where [MailAddresses].[OwnerId]=@OwnerId[[CommandCount]] and [MailAddresses].[OwnerType]=@OwnerType[[CommandCount]] and [MailAddresses].[MailAddressId]=@MailAddressId[[CommandCount]] and [MailAddresses].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
+        public const string SavePermissionsHistoryStatement = "insert into [Permissions_history]([Permissions_history].[ReferenceType], [Permissions_history].[ReferenceId], [Permissions_history].[DeptId], [Permissions_history].[UserId], [Permissions_history].[Ver], [Permissions_history].[PermissionType], [Permissions_history].[Comments], [Permissions_history].[Creator], [Permissions_history].[Updator], [Permissions_history].[CreatedTime], [Permissions_history].[UpdatedTime]) (select [Permissions].[ReferenceType], [Permissions].[ReferenceId], [Permissions].[DeptId], [Permissions].[UserId], [Permissions].[Ver], [Permissions].[PermissionType], [Permissions].[Comments], [Permissions].[Creator], [Permissions].[Updator], [Permissions].[CreatedTime], [Permissions].[UpdatedTime] from [Permissions] where [Permissions].[ReferenceType]=@ReferenceType[[CommandCount]] and [Permissions].[ReferenceId]=@ReferenceId[[CommandCount]] and [Permissions].[DeptId]=@DeptId[[CommandCount]] and [Permissions].[UserId]=@UserId[[CommandCount]] and [Permissions].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
+        public const string SaveOutgoingMailsHistoryStatement = "insert into [OutgoingMails_history]([OutgoingMails_history].[ReferenceType], [OutgoingMails_history].[ReferenceId], [OutgoingMails_history].[ReferenceVer], [OutgoingMails_history].[OutgoingMailId], [OutgoingMails_history].[Ver], [OutgoingMails_history].[Host], [OutgoingMails_history].[Port], [OutgoingMails_history].[From], [OutgoingMails_history].[To], [OutgoingMails_history].[Cc], [OutgoingMails_history].[Bcc], [OutgoingMails_history].[Title], [OutgoingMails_history].[Body], [OutgoingMails_history].[SentTime], [OutgoingMails_history].[Comments], [OutgoingMails_history].[Creator], [OutgoingMails_history].[Updator], [OutgoingMails_history].[CreatedTime], [OutgoingMails_history].[UpdatedTime]) (select [OutgoingMails].[ReferenceType], [OutgoingMails].[ReferenceId], [OutgoingMails].[ReferenceVer], [OutgoingMails].[OutgoingMailId], [OutgoingMails].[Ver], [OutgoingMails].[Host], [OutgoingMails].[Port], [OutgoingMails].[From], [OutgoingMails].[To], [OutgoingMails].[Cc], [OutgoingMails].[Bcc], [OutgoingMails].[Title], [OutgoingMails].[Body], [OutgoingMails].[SentTime], [OutgoingMails].[Comments], [OutgoingMails].[Creator], [OutgoingMails].[Updator], [OutgoingMails].[CreatedTime], [OutgoingMails].[UpdatedTime] from [OutgoingMails] where [OutgoingMails].[ReferenceType]=@ReferenceType[[CommandCount]] and [OutgoingMails].[ReferenceId]=@ReferenceId[[CommandCount]] and [OutgoingMails].[ReferenceVer]=@ReferenceVer[[CommandCount]] and [OutgoingMails].[OutgoingMailId]=@OutgoingMailId[[CommandCount]] and [OutgoingMails].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
+        public const string SaveSearchWordsHistoryStatement = "insert into [SearchWords_history]([SearchWords_history].[Word], [SearchWords_history].[ReferenceId], [SearchWords_history].[Ver], [SearchWords_history].[Priority], [SearchWords_history].[Comments], [SearchWords_history].[Creator], [SearchWords_history].[Updator], [SearchWords_history].[CreatedTime], [SearchWords_history].[UpdatedTime]) (select [SearchWords].[Word], [SearchWords].[ReferenceId], [SearchWords].[Ver], [SearchWords].[Priority], [SearchWords].[Comments], [SearchWords].[Creator], [SearchWords].[Updator], [SearchWords].[CreatedTime], [SearchWords].[UpdatedTime] from [SearchWords] where [SearchWords].[Word]=@Word[[CommandCount]] and [SearchWords].[ReferenceId]=@ReferenceId[[CommandCount]] and [SearchWords].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
+        public const string SaveItemsHistoryStatement = "insert into [Items_history]([Items_history].[ReferenceId], [Items_history].[Ver], [Items_history].[ReferenceType], [Items_history].[SiteId], [Items_history].[Title], [Items_history].[Subset], [Items_history].[Comments], [Items_history].[Creator], [Items_history].[Updator], [Items_history].[CreatedTime], [Items_history].[UpdatedTime]) (select [Items].[ReferenceId], [Items].[Ver], [Items].[ReferenceType], [Items].[SiteId], [Items].[Title], [Items].[Subset], [Items].[Comments], [Items].[Creator], [Items].[Updator], [Items].[CreatedTime], [Items].[UpdatedTime] from [Items] where [Items].[ReferenceId]=@ReferenceId[[CommandCount]] and [Items].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
+        public const string SaveSitesHistoryStatement = "insert into [Sites_history]([Sites_history].[TenantId], [Sites_history].[SiteId], [Sites_history].[Ver], [Sites_history].[Title], [Sites_history].[Body], [Sites_history].[ReferenceType], [Sites_history].[ParentId], [Sites_history].[InheritPermission], [Sites_history].[SiteSettings], [Sites_history].[Comments], [Sites_history].[Creator], [Sites_history].[Updator], [Sites_history].[UpdatedTime], [Sites_history].[CreatedTime]) (select [Sites].[TenantId], [Sites].[SiteId], [Sites].[Ver], [Sites].[Title], [Sites].[Body], [Sites].[ReferenceType], [Sites].[ParentId], [Sites].[InheritPermission], [Sites].[SiteSettings], [Sites].[Comments], [Sites].[Creator], [Sites].[Updator], [Sites].[UpdatedTime], [Sites].[CreatedTime] from [Sites] where [Sites].[TenantId]=@TenantId[[CommandCount]] and [Sites].[SiteId]=@SiteId[[CommandCount]] and [Sites].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
+        public const string SaveOrdersHistoryStatement = "insert into [Orders_history]([Orders_history].[ReferenceId], [Orders_history].[ReferenceType], [Orders_history].[OwnerId], [Orders_history].[Ver], [Orders_history].[Data], [Orders_history].[Comments], [Orders_history].[Creator], [Orders_history].[Updator], [Orders_history].[CreatedTime], [Orders_history].[UpdatedTime]) (select [Orders].[ReferenceId], [Orders].[ReferenceType], [Orders].[OwnerId], [Orders].[Ver], [Orders].[Data], [Orders].[Comments], [Orders].[Creator], [Orders].[Updator], [Orders].[CreatedTime], [Orders].[UpdatedTime] from [Orders] where  and [Orders].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
+        public const string SaveExportSettingsHistoryStatement = "insert into [ExportSettings_history]([ExportSettings_history].[ReferenceType], [ExportSettings_history].[ReferenceId], [ExportSettings_history].[Title], [ExportSettings_history].[ExportSettingId], [ExportSettings_history].[Ver], [ExportSettings_history].[AddHeader], [ExportSettings_history].[ExportColumns], [ExportSettings_history].[Comments], [ExportSettings_history].[Creator], [ExportSettings_history].[Updator], [ExportSettings_history].[CreatedTime], [ExportSettings_history].[UpdatedTime]) (select [ExportSettings].[ReferenceType], [ExportSettings].[ReferenceId], [ExportSettings].[Title], [ExportSettings].[ExportSettingId], [ExportSettings].[Ver], [ExportSettings].[AddHeader], [ExportSettings].[ExportColumns], [ExportSettings].[Comments], [ExportSettings].[Creator], [ExportSettings].[Updator], [ExportSettings].[CreatedTime], [ExportSettings].[UpdatedTime] from [ExportSettings] where [ExportSettings].[ReferenceType]=@ReferenceType[[CommandCount]] and [ExportSettings].[ReferenceId]=@ReferenceId[[CommandCount]] and [ExportSettings].[Title]=@Title[[CommandCount]] and [ExportSettings].[ExportSettingId]=@ExportSettingId[[CommandCount]] and [ExportSettings].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
+        public const string SaveLinksHistoryStatement = "insert into [Links_history]([Links_history].[DestinationId], [Links_history].[SourceId], [Links_history].[Ver], [Links_history].[Comments], [Links_history].[Creator], [Links_history].[Updator], [Links_history].[CreatedTime], [Links_history].[UpdatedTime]) (select [Links].[DestinationId], [Links].[SourceId], [Links].[Ver], [Links].[Comments], [Links].[Creator], [Links].[Updator], [Links].[CreatedTime], [Links].[UpdatedTime] from [Links] where  and [Links].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
+        public const string SaveImagesHistoryStatement = "insert into [Images_history]([Images_history].[ImageId], [Images_history].[Ver], [Images_history].[Title], [Images_history].[Body], [Images_history].[Bin], [Images_history].[FileName], [Images_history].[Extension], [Images_history].[Size], [Images_history].[ImageSettings], [Images_history].[Comments], [Images_history].[Creator], [Images_history].[Updator], [Images_history].[CreatedTime], [Images_history].[UpdatedTime]) (select [Images].[ImageId], [Images].[Ver], [Images].[Title], [Images].[Body], [Images].[Bin], [Images].[FileName], [Images].[Extension], [Images].[Size], [Images].[ImageSettings], [Images].[Comments], [Images].[Creator], [Images].[Updator], [Images].[CreatedTime], [Images].[UpdatedTime] from [Images] where [Images].[ImageId]=@ImageId[[CommandCount]] and [Images].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
+        public const string SaveIssuesHistoryStatement = "insert into [Issues_history]([Issues_history].[IssueId], [Issues_history].[SiteId], [Issues_history].[Ver], [Issues_history].[Title], [Issues_history].[Body], [Issues_history].[StartTime], [Issues_history].[CompletionTime], [Issues_history].[WorkValue], [Issues_history].[ProgressRate], [Issues_history].[Status], [Issues_history].[Manager], [Issues_history].[Owner], [Issues_history].[ClassA], [Issues_history].[ClassB], [Issues_history].[ClassC], [Issues_history].[ClassD], [Issues_history].[ClassE], [Issues_history].[ClassF], [Issues_history].[ClassG], [Issues_history].[ClassH], [Issues_history].[ClassI], [Issues_history].[ClassJ], [Issues_history].[ClassK], [Issues_history].[ClassL], [Issues_history].[ClassM], [Issues_history].[ClassN], [Issues_history].[ClassO], [Issues_history].[ClassP], [Issues_history].[NumA], [Issues_history].[NumB], [Issues_history].[NumC], [Issues_history].[NumD], [Issues_history].[NumE], [Issues_history].[NumF], [Issues_history].[NumG], [Issues_history].[NumH], [Issues_history].[DateA], [Issues_history].[DateB], [Issues_history].[DateC], [Issues_history].[DateD], [Issues_history].[DateE], [Issues_history].[DateF], [Issues_history].[DateG], [Issues_history].[DateH], [Issues_history].[Comments], [Issues_history].[Creator], [Issues_history].[Updator], [Issues_history].[UpdatedTime], [Issues_history].[CreatedTime]) (select [Issues].[IssueId], [Issues].[SiteId], [Issues].[Ver], [Issues].[Title], [Issues].[Body], [Issues].[StartTime], [Issues].[CompletionTime], [Issues].[WorkValue], [Issues].[ProgressRate], [Issues].[Status], [Issues].[Manager], [Issues].[Owner], [Issues].[ClassA], [Issues].[ClassB], [Issues].[ClassC], [Issues].[ClassD], [Issues].[ClassE], [Issues].[ClassF], [Issues].[ClassG], [Issues].[ClassH], [Issues].[ClassI], [Issues].[ClassJ], [Issues].[ClassK], [Issues].[ClassL], [Issues].[ClassM], [Issues].[ClassN], [Issues].[ClassO], [Issues].[ClassP], [Issues].[NumA], [Issues].[NumB], [Issues].[NumC], [Issues].[NumD], [Issues].[NumE], [Issues].[NumF], [Issues].[NumG], [Issues].[NumH], [Issues].[DateA], [Issues].[DateB], [Issues].[DateC], [Issues].[DateD], [Issues].[DateE], [Issues].[DateF], [Issues].[DateG], [Issues].[DateH], [Issues].[Comments], [Issues].[Creator], [Issues].[Updator], [Issues].[UpdatedTime], [Issues].[CreatedTime] from [Issues] where [Issues].[IssueId]=@IssueId[[CommandCount]] and [Issues].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
+        public const string SaveResultsHistoryStatement = "insert into [Results_history]([Results_history].[ResultId], [Results_history].[SiteId], [Results_history].[Ver], [Results_history].[Body], [Results_history].[Title], [Results_history].[Manager], [Results_history].[Owner], [Results_history].[ClassA], [Results_history].[ClassB], [Results_history].[ClassC], [Results_history].[ClassD], [Results_history].[ClassE], [Results_history].[ClassF], [Results_history].[ClassG], [Results_history].[ClassH], [Results_history].[NumA], [Results_history].[NumB], [Results_history].[NumC], [Results_history].[NumD], [Results_history].[NumE], [Results_history].[NumF], [Results_history].[NumG], [Results_history].[NumH], [Results_history].[DateA], [Results_history].[DateB], [Results_history].[DateC], [Results_history].[DateD], [Results_history].[DateE], [Results_history].[DateF], [Results_history].[DateG], [Results_history].[DateH], [Results_history].[Comments], [Results_history].[Creator], [Results_history].[Updator], [Results_history].[UpdatedTime], [Results_history].[CreatedTime]) (select [Results].[ResultId], [Results].[SiteId], [Results].[Ver], [Results].[Body], [Results].[Title], [Results].[Manager], [Results].[Owner], [Results].[ClassA], [Results].[ClassB], [Results].[ClassC], [Results].[ClassD], [Results].[ClassE], [Results].[ClassF], [Results].[ClassG], [Results].[ClassH], [Results].[NumA], [Results].[NumB], [Results].[NumC], [Results].[NumD], [Results].[NumE], [Results].[NumF], [Results].[NumG], [Results].[NumH], [Results].[DateA], [Results].[DateB], [Results].[DateC], [Results].[DateD], [Results].[DateE], [Results].[DateF], [Results].[DateG], [Results].[DateH], [Results].[Comments], [Results].[Creator], [Results].[Updator], [Results].[UpdatedTime], [Results].[CreatedTime] from [Results] where [Results].[ResultId]=@ResultId[[CommandCount]] and [Results].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
+        public const string SaveWikisHistoryStatement = "insert into [Wikis_history]([Wikis_history].[WikiId], [Wikis_history].[SiteId], [Wikis_history].[Ver], [Wikis_history].[Title], [Wikis_history].[Body], [Wikis_history].[Comments], [Wikis_history].[Creator], [Wikis_history].[Updator], [Wikis_history].[UpdatedTime], [Wikis_history].[CreatedTime]) (select [Wikis].[WikiId], [Wikis].[SiteId], [Wikis].[Ver], [Wikis].[Title], [Wikis].[Body], [Wikis].[Comments], [Wikis].[Creator], [Wikis].[Updator], [Wikis].[UpdatedTime], [Wikis].[CreatedTime] from [Wikis] where [Wikis].[WikiId]=@WikiId[[CommandCount]] and [Wikis].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
+        public const string DeleteTenantsStatement = "update [Tenants] set [Tenants].[UpdatedTime] = getdate() {0}; insert into [Tenants_deleted]([Tenants_deleted].[TenantId], [Tenants_deleted].[Ver], [Tenants_deleted].[TenantName], [Tenants_deleted].[Title], [Tenants_deleted].[Body], [Tenants_deleted].[Comments], [Tenants_deleted].[Creator], [Tenants_deleted].[Updator], [Tenants_deleted].[CreatedTime], [Tenants_deleted].[UpdatedTime]) (select [Tenants].[TenantId], [Tenants].[Ver], [Tenants].[TenantName], [Tenants].[Title], [Tenants].[Body], [Tenants].[Comments], [Tenants].[Creator], [Tenants].[Updator], [Tenants].[CreatedTime], [Tenants].[UpdatedTime] from [Tenants] {0}); delete from [Tenants] {0}";
+        public const string DeleteSysLogsStatement = "update [SysLogs] set [SysLogs].[UpdatedTime] = getdate() {0}; insert into [SysLogs_deleted]([SysLogs_deleted].[CreatedTime], [SysLogs_deleted].[SysLogId], [SysLogs_deleted].[Ver], [SysLogs_deleted].[SysLogType], [SysLogs_deleted].[OnAzure], [SysLogs_deleted].[MachineName], [SysLogs_deleted].[ServiceName], [SysLogs_deleted].[TenantName], [SysLogs_deleted].[Application], [SysLogs_deleted].[Class], [SysLogs_deleted].[Method], [SysLogs_deleted].[RequestData], [SysLogs_deleted].[HttpMethod], [SysLogs_deleted].[RequestSize], [SysLogs_deleted].[ResponseSize], [SysLogs_deleted].[Elapsed], [SysLogs_deleted].[ApplicationAge], [SysLogs_deleted].[ApplicationRequestInterval], [SysLogs_deleted].[SessionAge], [SysLogs_deleted].[SessionRequestInterval], [SysLogs_deleted].[WorkingSet64], [SysLogs_deleted].[VirtualMemorySize64], [SysLogs_deleted].[ProcessId], [SysLogs_deleted].[ProcessName], [SysLogs_deleted].[BasePriority], [SysLogs_deleted].[Url], [SysLogs_deleted].[UrlReferer], [SysLogs_deleted].[UserHostName], [SysLogs_deleted].[UserHostAddress], [SysLogs_deleted].[UserLanguage], [SysLogs_deleted].[UserAgent], [SysLogs_deleted].[SessionGuid], [SysLogs_deleted].[ErrMessage], [SysLogs_deleted].[ErrStackTrace], [SysLogs_deleted].[InDebug], [SysLogs_deleted].[AssemblyVersion], [SysLogs_deleted].[Comments], [SysLogs_deleted].[Creator], [SysLogs_deleted].[Updator], [SysLogs_deleted].[UpdatedTime]) (select [SysLogs].[CreatedTime], [SysLogs].[SysLogId], [SysLogs].[Ver], [SysLogs].[SysLogType], [SysLogs].[OnAzure], [SysLogs].[MachineName], [SysLogs].[ServiceName], [SysLogs].[TenantName], [SysLogs].[Application], [SysLogs].[Class], [SysLogs].[Method], [SysLogs].[RequestData], [SysLogs].[HttpMethod], [SysLogs].[RequestSize], [SysLogs].[ResponseSize], [SysLogs].[Elapsed], [SysLogs].[ApplicationAge], [SysLogs].[ApplicationRequestInterval], [SysLogs].[SessionAge], [SysLogs].[SessionRequestInterval], [SysLogs].[WorkingSet64], [SysLogs].[VirtualMemorySize64], [SysLogs].[ProcessId], [SysLogs].[ProcessName], [SysLogs].[BasePriority], [SysLogs].[Url], [SysLogs].[UrlReferer], [SysLogs].[UserHostName], [SysLogs].[UserHostAddress], [SysLogs].[UserLanguage], [SysLogs].[UserAgent], [SysLogs].[SessionGuid], [SysLogs].[ErrMessage], [SysLogs].[ErrStackTrace], [SysLogs].[InDebug], [SysLogs].[AssemblyVersion], [SysLogs].[Comments], [SysLogs].[Creator], [SysLogs].[Updator], [SysLogs].[UpdatedTime] from [SysLogs] {0}); delete from [SysLogs] {0}";
+        public const string DeleteDeptsStatement = "update [Depts] set [Depts].[UpdatedTime] = getdate() {0}; insert into [Depts_deleted]([Depts_deleted].[TenantId], [Depts_deleted].[DeptId], [Depts_deleted].[Ver], [Depts_deleted].[ParentDeptId], [Depts_deleted].[DeptCode], [Depts_deleted].[DeptName], [Depts_deleted].[Body], [Depts_deleted].[Comments], [Depts_deleted].[Creator], [Depts_deleted].[Updator], [Depts_deleted].[CreatedTime], [Depts_deleted].[UpdatedTime]) (select [Depts].[TenantId], [Depts].[DeptId], [Depts].[Ver], [Depts].[ParentDeptId], [Depts].[DeptCode], [Depts].[DeptName], [Depts].[Body], [Depts].[Comments], [Depts].[Creator], [Depts].[Updator], [Depts].[CreatedTime], [Depts].[UpdatedTime] from [Depts] {0}); delete from [Depts] {0}";
+        public const string DeleteUsersStatement = "update [Users] set [Users].[UpdatedTime] = getdate() {0}; insert into [Users_deleted]([Users_deleted].[TenantId], [Users_deleted].[UserId], [Users_deleted].[Ver], [Users_deleted].[LoginId], [Users_deleted].[Disabled], [Users_deleted].[UserCode], [Users_deleted].[Password], [Users_deleted].[LastName], [Users_deleted].[FirstName], [Users_deleted].[Birthday], [Users_deleted].[Sex], [Users_deleted].[Language], [Users_deleted].[TimeZone], [Users_deleted].[DeptId], [Users_deleted].[FirstAndLastNameOrder], [Users_deleted].[LastLoginTime], [Users_deleted].[PasswordChangeTime], [Users_deleted].[NumberOfLogins], [Users_deleted].[NumberOfDenial], [Users_deleted].[TenantAdmin], [Users_deleted].[ServiceAdmin], [Users_deleted].[Developer], [Users_deleted].[Comments], [Users_deleted].[Creator], [Users_deleted].[Updator], [Users_deleted].[CreatedTime], [Users_deleted].[UpdatedTime]) (select [Users].[TenantId], [Users].[UserId], [Users].[Ver], [Users].[LoginId], [Users].[Disabled], [Users].[UserCode], [Users].[Password], [Users].[LastName], [Users].[FirstName], [Users].[Birthday], [Users].[Sex], [Users].[Language], [Users].[TimeZone], [Users].[DeptId], [Users].[FirstAndLastNameOrder], [Users].[LastLoginTime], [Users].[PasswordChangeTime], [Users].[NumberOfLogins], [Users].[NumberOfDenial], [Users].[TenantAdmin], [Users].[ServiceAdmin], [Users].[Developer], [Users].[Comments], [Users].[Creator], [Users].[Updator], [Users].[CreatedTime], [Users].[UpdatedTime] from [Users] {0}); delete from [Users] {0}";
+        public const string DeleteMailAddressesStatement = "update [MailAddresses] set [MailAddresses].[UpdatedTime] = getdate() {0}; insert into [MailAddresses_deleted]([MailAddresses_deleted].[OwnerId], [MailAddresses_deleted].[OwnerType], [MailAddresses_deleted].[MailAddressId], [MailAddresses_deleted].[Ver], [MailAddresses_deleted].[MailAddress], [MailAddresses_deleted].[Comments], [MailAddresses_deleted].[Creator], [MailAddresses_deleted].[Updator], [MailAddresses_deleted].[CreatedTime], [MailAddresses_deleted].[UpdatedTime]) (select [MailAddresses].[OwnerId], [MailAddresses].[OwnerType], [MailAddresses].[MailAddressId], [MailAddresses].[Ver], [MailAddresses].[MailAddress], [MailAddresses].[Comments], [MailAddresses].[Creator], [MailAddresses].[Updator], [MailAddresses].[CreatedTime], [MailAddresses].[UpdatedTime] from [MailAddresses] {0}); delete from [MailAddresses] {0}";
+        public const string DeletePermissionsStatement = "update [Permissions] set [Permissions].[UpdatedTime] = getdate() {0}; insert into [Permissions_deleted]([Permissions_deleted].[ReferenceType], [Permissions_deleted].[ReferenceId], [Permissions_deleted].[DeptId], [Permissions_deleted].[UserId], [Permissions_deleted].[Ver], [Permissions_deleted].[PermissionType], [Permissions_deleted].[Comments], [Permissions_deleted].[Creator], [Permissions_deleted].[Updator], [Permissions_deleted].[CreatedTime], [Permissions_deleted].[UpdatedTime]) (select [Permissions].[ReferenceType], [Permissions].[ReferenceId], [Permissions].[DeptId], [Permissions].[UserId], [Permissions].[Ver], [Permissions].[PermissionType], [Permissions].[Comments], [Permissions].[Creator], [Permissions].[Updator], [Permissions].[CreatedTime], [Permissions].[UpdatedTime] from [Permissions] {0}); delete from [Permissions] {0}";
+        public const string DeleteOutgoingMailsStatement = "update [OutgoingMails] set [OutgoingMails].[UpdatedTime] = getdate() {0}; insert into [OutgoingMails_deleted]([OutgoingMails_deleted].[ReferenceType], [OutgoingMails_deleted].[ReferenceId], [OutgoingMails_deleted].[ReferenceVer], [OutgoingMails_deleted].[OutgoingMailId], [OutgoingMails_deleted].[Ver], [OutgoingMails_deleted].[Host], [OutgoingMails_deleted].[Port], [OutgoingMails_deleted].[From], [OutgoingMails_deleted].[To], [OutgoingMails_deleted].[Cc], [OutgoingMails_deleted].[Bcc], [OutgoingMails_deleted].[Title], [OutgoingMails_deleted].[Body], [OutgoingMails_deleted].[SentTime], [OutgoingMails_deleted].[Comments], [OutgoingMails_deleted].[Creator], [OutgoingMails_deleted].[Updator], [OutgoingMails_deleted].[CreatedTime], [OutgoingMails_deleted].[UpdatedTime]) (select [OutgoingMails].[ReferenceType], [OutgoingMails].[ReferenceId], [OutgoingMails].[ReferenceVer], [OutgoingMails].[OutgoingMailId], [OutgoingMails].[Ver], [OutgoingMails].[Host], [OutgoingMails].[Port], [OutgoingMails].[From], [OutgoingMails].[To], [OutgoingMails].[Cc], [OutgoingMails].[Bcc], [OutgoingMails].[Title], [OutgoingMails].[Body], [OutgoingMails].[SentTime], [OutgoingMails].[Comments], [OutgoingMails].[Creator], [OutgoingMails].[Updator], [OutgoingMails].[CreatedTime], [OutgoingMails].[UpdatedTime] from [OutgoingMails] {0}); delete from [OutgoingMails] {0}";
+        public const string DeleteSearchWordsStatement = "update [SearchWords] set [SearchWords].[UpdatedTime] = getdate() {0}; insert into [SearchWords_deleted]([SearchWords_deleted].[Word], [SearchWords_deleted].[ReferenceId], [SearchWords_deleted].[Ver], [SearchWords_deleted].[Priority], [SearchWords_deleted].[Comments], [SearchWords_deleted].[Creator], [SearchWords_deleted].[Updator], [SearchWords_deleted].[CreatedTime], [SearchWords_deleted].[UpdatedTime]) (select [SearchWords].[Word], [SearchWords].[ReferenceId], [SearchWords].[Ver], [SearchWords].[Priority], [SearchWords].[Comments], [SearchWords].[Creator], [SearchWords].[Updator], [SearchWords].[CreatedTime], [SearchWords].[UpdatedTime] from [SearchWords] {0}); delete from [SearchWords] {0}";
+        public const string DeleteItemsStatement = "update [Items] set [Items].[UpdatedTime] = getdate() {0}; insert into [Items_deleted]([Items_deleted].[ReferenceId], [Items_deleted].[Ver], [Items_deleted].[ReferenceType], [Items_deleted].[SiteId], [Items_deleted].[Title], [Items_deleted].[Subset], [Items_deleted].[Comments], [Items_deleted].[Creator], [Items_deleted].[Updator], [Items_deleted].[CreatedTime], [Items_deleted].[UpdatedTime]) (select [Items].[ReferenceId], [Items].[Ver], [Items].[ReferenceType], [Items].[SiteId], [Items].[Title], [Items].[Subset], [Items].[Comments], [Items].[Creator], [Items].[Updator], [Items].[CreatedTime], [Items].[UpdatedTime] from [Items] {0}); delete from [Items] {0}";
+        public const string DeleteSitesStatement = "update [Sites] set [Sites].[UpdatedTime] = getdate() {0}; insert into [Sites_deleted]([Sites_deleted].[TenantId], [Sites_deleted].[SiteId], [Sites_deleted].[UpdatedTime], [Sites_deleted].[Ver], [Sites_deleted].[Title], [Sites_deleted].[Body], [Sites_deleted].[ReferenceType], [Sites_deleted].[ParentId], [Sites_deleted].[InheritPermission], [Sites_deleted].[SiteSettings], [Sites_deleted].[Comments], [Sites_deleted].[Creator], [Sites_deleted].[Updator], [Sites_deleted].[CreatedTime]) (select [Sites].[TenantId], [Sites].[SiteId], [Sites].[UpdatedTime], [Sites].[Ver], [Sites].[Title], [Sites].[Body], [Sites].[ReferenceType], [Sites].[ParentId], [Sites].[InheritPermission], [Sites].[SiteSettings], [Sites].[Comments], [Sites].[Creator], [Sites].[Updator], [Sites].[CreatedTime] from [Sites] {0}); delete from [Sites] {0}";
+        public const string DeleteOrdersStatement = "update [Orders] set [Orders].[UpdatedTime] = getdate() {0}; insert into [Orders_deleted]([Orders_deleted].[ReferenceId], [Orders_deleted].[ReferenceType], [Orders_deleted].[OwnerId], [Orders_deleted].[Ver], [Orders_deleted].[Data], [Orders_deleted].[Comments], [Orders_deleted].[Creator], [Orders_deleted].[Updator], [Orders_deleted].[CreatedTime], [Orders_deleted].[UpdatedTime]) (select [Orders].[ReferenceId], [Orders].[ReferenceType], [Orders].[OwnerId], [Orders].[Ver], [Orders].[Data], [Orders].[Comments], [Orders].[Creator], [Orders].[Updator], [Orders].[CreatedTime], [Orders].[UpdatedTime] from [Orders] {0}); delete from [Orders] {0}";
+        public const string DeleteExportSettingsStatement = "update [ExportSettings] set [ExportSettings].[UpdatedTime] = getdate() {0}; insert into [ExportSettings_deleted]([ExportSettings_deleted].[ReferenceType], [ExportSettings_deleted].[ReferenceId], [ExportSettings_deleted].[Title], [ExportSettings_deleted].[ExportSettingId], [ExportSettings_deleted].[Ver], [ExportSettings_deleted].[AddHeader], [ExportSettings_deleted].[ExportColumns], [ExportSettings_deleted].[Comments], [ExportSettings_deleted].[Creator], [ExportSettings_deleted].[Updator], [ExportSettings_deleted].[CreatedTime], [ExportSettings_deleted].[UpdatedTime]) (select [ExportSettings].[ReferenceType], [ExportSettings].[ReferenceId], [ExportSettings].[Title], [ExportSettings].[ExportSettingId], [ExportSettings].[Ver], [ExportSettings].[AddHeader], [ExportSettings].[ExportColumns], [ExportSettings].[Comments], [ExportSettings].[Creator], [ExportSettings].[Updator], [ExportSettings].[CreatedTime], [ExportSettings].[UpdatedTime] from [ExportSettings] {0}); delete from [ExportSettings] {0}";
+        public const string DeleteLinksStatement = "update [Links] set [Links].[UpdatedTime] = getdate() {0}; insert into [Links_deleted]([Links_deleted].[DestinationId], [Links_deleted].[SourceId], [Links_deleted].[Ver], [Links_deleted].[Comments], [Links_deleted].[Creator], [Links_deleted].[Updator], [Links_deleted].[CreatedTime], [Links_deleted].[UpdatedTime]) (select [Links].[DestinationId], [Links].[SourceId], [Links].[Ver], [Links].[Comments], [Links].[Creator], [Links].[Updator], [Links].[CreatedTime], [Links].[UpdatedTime] from [Links] {0}); delete from [Links] {0}";
+        public const string DeleteImagesStatement = "update [Images] set [Images].[UpdatedTime] = getdate() {0}; insert into [Images_deleted]([Images_deleted].[ImageId], [Images_deleted].[Ver], [Images_deleted].[Title], [Images_deleted].[Body], [Images_deleted].[Bin], [Images_deleted].[FileName], [Images_deleted].[Extension], [Images_deleted].[Size], [Images_deleted].[ImageSettings], [Images_deleted].[Comments], [Images_deleted].[Creator], [Images_deleted].[Updator], [Images_deleted].[CreatedTime], [Images_deleted].[UpdatedTime]) (select [Images].[ImageId], [Images].[Ver], [Images].[Title], [Images].[Body], [Images].[Bin], [Images].[FileName], [Images].[Extension], [Images].[Size], [Images].[ImageSettings], [Images].[Comments], [Images].[Creator], [Images].[Updator], [Images].[CreatedTime], [Images].[UpdatedTime] from [Images] {0}); delete from [Images] {0}";
+        public const string DeleteIssuesStatement = "update [Issues] set [Issues].[UpdatedTime] = getdate() {0}; insert into [Issues_deleted]([Issues_deleted].[SiteId], [Issues_deleted].[UpdatedTime], [Issues_deleted].[IssueId], [Issues_deleted].[Ver], [Issues_deleted].[Title], [Issues_deleted].[Body], [Issues_deleted].[StartTime], [Issues_deleted].[CompletionTime], [Issues_deleted].[WorkValue], [Issues_deleted].[ProgressRate], [Issues_deleted].[Status], [Issues_deleted].[Manager], [Issues_deleted].[Owner], [Issues_deleted].[ClassA], [Issues_deleted].[ClassB], [Issues_deleted].[ClassC], [Issues_deleted].[ClassD], [Issues_deleted].[ClassE], [Issues_deleted].[ClassF], [Issues_deleted].[ClassG], [Issues_deleted].[ClassH], [Issues_deleted].[ClassI], [Issues_deleted].[ClassJ], [Issues_deleted].[ClassK], [Issues_deleted].[ClassL], [Issues_deleted].[ClassM], [Issues_deleted].[ClassN], [Issues_deleted].[ClassO], [Issues_deleted].[ClassP], [Issues_deleted].[NumA], [Issues_deleted].[NumB], [Issues_deleted].[NumC], [Issues_deleted].[NumD], [Issues_deleted].[NumE], [Issues_deleted].[NumF], [Issues_deleted].[NumG], [Issues_deleted].[NumH], [Issues_deleted].[DateA], [Issues_deleted].[DateB], [Issues_deleted].[DateC], [Issues_deleted].[DateD], [Issues_deleted].[DateE], [Issues_deleted].[DateF], [Issues_deleted].[DateG], [Issues_deleted].[DateH], [Issues_deleted].[Comments], [Issues_deleted].[Creator], [Issues_deleted].[Updator], [Issues_deleted].[CreatedTime]) (select [Issues].[SiteId], [Issues].[UpdatedTime], [Issues].[IssueId], [Issues].[Ver], [Issues].[Title], [Issues].[Body], [Issues].[StartTime], [Issues].[CompletionTime], [Issues].[WorkValue], [Issues].[ProgressRate], [Issues].[Status], [Issues].[Manager], [Issues].[Owner], [Issues].[ClassA], [Issues].[ClassB], [Issues].[ClassC], [Issues].[ClassD], [Issues].[ClassE], [Issues].[ClassF], [Issues].[ClassG], [Issues].[ClassH], [Issues].[ClassI], [Issues].[ClassJ], [Issues].[ClassK], [Issues].[ClassL], [Issues].[ClassM], [Issues].[ClassN], [Issues].[ClassO], [Issues].[ClassP], [Issues].[NumA], [Issues].[NumB], [Issues].[NumC], [Issues].[NumD], [Issues].[NumE], [Issues].[NumF], [Issues].[NumG], [Issues].[NumH], [Issues].[DateA], [Issues].[DateB], [Issues].[DateC], [Issues].[DateD], [Issues].[DateE], [Issues].[DateF], [Issues].[DateG], [Issues].[DateH], [Issues].[Comments], [Issues].[Creator], [Issues].[Updator], [Issues].[CreatedTime] from [Issues] {0}); delete from [Issues] {0}";
+        public const string DeleteResultsStatement = "update [Results] set [Results].[UpdatedTime] = getdate() {0}; insert into [Results_deleted]([Results_deleted].[SiteId], [Results_deleted].[UpdatedTime], [Results_deleted].[ResultId], [Results_deleted].[Ver], [Results_deleted].[Body], [Results_deleted].[Title], [Results_deleted].[Manager], [Results_deleted].[Owner], [Results_deleted].[ClassA], [Results_deleted].[ClassB], [Results_deleted].[ClassC], [Results_deleted].[ClassD], [Results_deleted].[ClassE], [Results_deleted].[ClassF], [Results_deleted].[ClassG], [Results_deleted].[ClassH], [Results_deleted].[NumA], [Results_deleted].[NumB], [Results_deleted].[NumC], [Results_deleted].[NumD], [Results_deleted].[NumE], [Results_deleted].[NumF], [Results_deleted].[NumG], [Results_deleted].[NumH], [Results_deleted].[DateA], [Results_deleted].[DateB], [Results_deleted].[DateC], [Results_deleted].[DateD], [Results_deleted].[DateE], [Results_deleted].[DateF], [Results_deleted].[DateG], [Results_deleted].[DateH], [Results_deleted].[Comments], [Results_deleted].[Creator], [Results_deleted].[Updator], [Results_deleted].[CreatedTime]) (select [Results].[SiteId], [Results].[UpdatedTime], [Results].[ResultId], [Results].[Ver], [Results].[Body], [Results].[Title], [Results].[Manager], [Results].[Owner], [Results].[ClassA], [Results].[ClassB], [Results].[ClassC], [Results].[ClassD], [Results].[ClassE], [Results].[ClassF], [Results].[ClassG], [Results].[ClassH], [Results].[NumA], [Results].[NumB], [Results].[NumC], [Results].[NumD], [Results].[NumE], [Results].[NumF], [Results].[NumG], [Results].[NumH], [Results].[DateA], [Results].[DateB], [Results].[DateC], [Results].[DateD], [Results].[DateE], [Results].[DateF], [Results].[DateG], [Results].[DateH], [Results].[Comments], [Results].[Creator], [Results].[Updator], [Results].[CreatedTime] from [Results] {0}); delete from [Results] {0}";
+        public const string DeleteWikisStatement = "update [Wikis] set [Wikis].[UpdatedTime] = getdate() {0}; insert into [Wikis_deleted]([Wikis_deleted].[SiteId], [Wikis_deleted].[UpdatedTime], [Wikis_deleted].[WikiId], [Wikis_deleted].[Ver], [Wikis_deleted].[Title], [Wikis_deleted].[Body], [Wikis_deleted].[Comments], [Wikis_deleted].[Creator], [Wikis_deleted].[Updator], [Wikis_deleted].[CreatedTime]) (select [Wikis].[SiteId], [Wikis].[UpdatedTime], [Wikis].[WikiId], [Wikis].[Ver], [Wikis].[Title], [Wikis].[Body], [Wikis].[Comments], [Wikis].[Creator], [Wikis].[Updator], [Wikis].[CreatedTime] from [Wikis] {0}); delete from [Wikis] {0}";
+        public const string RestoreTenantsStatement = "update [Tenants_deleted] set [Tenants_deleted].[UpdatedTime] = getdate() {0};set identity_insert [Tenants] on;  insert into [Tenants]([Tenants].[TenantId], [Tenants].[Ver], [Tenants].[TenantName], [Tenants].[Title], [Tenants].[Body], [Tenants].[Comments], [Tenants].[Creator], [Tenants].[Updator], [Tenants].[CreatedTime], [Tenants].[UpdatedTime]) (select [Tenants_deleted].[TenantId], [Tenants_deleted].[Ver], [Tenants_deleted].[TenantName], [Tenants_deleted].[Title], [Tenants_deleted].[Body], [Tenants_deleted].[Comments], [Tenants_deleted].[Creator], [Tenants_deleted].[Updator], [Tenants_deleted].[CreatedTime], [Tenants_deleted].[UpdatedTime] from [Tenants_deleted] {0});set identity_insert [Tenants] off;  delete from [Tenants_deleted] {0}";
+        public const string RestoreSysLogsStatement = "update [SysLogs_deleted] set [SysLogs_deleted].[UpdatedTime] = getdate() {0};set identity_insert [SysLogs] on;  insert into [SysLogs]([SysLogs].[CreatedTime], [SysLogs].[SysLogId], [SysLogs].[Ver], [SysLogs].[SysLogType], [SysLogs].[OnAzure], [SysLogs].[MachineName], [SysLogs].[ServiceName], [SysLogs].[TenantName], [SysLogs].[Application], [SysLogs].[Class], [SysLogs].[Method], [SysLogs].[RequestData], [SysLogs].[HttpMethod], [SysLogs].[RequestSize], [SysLogs].[ResponseSize], [SysLogs].[Elapsed], [SysLogs].[ApplicationAge], [SysLogs].[ApplicationRequestInterval], [SysLogs].[SessionAge], [SysLogs].[SessionRequestInterval], [SysLogs].[WorkingSet64], [SysLogs].[VirtualMemorySize64], [SysLogs].[ProcessId], [SysLogs].[ProcessName], [SysLogs].[BasePriority], [SysLogs].[Url], [SysLogs].[UrlReferer], [SysLogs].[UserHostName], [SysLogs].[UserHostAddress], [SysLogs].[UserLanguage], [SysLogs].[UserAgent], [SysLogs].[SessionGuid], [SysLogs].[ErrMessage], [SysLogs].[ErrStackTrace], [SysLogs].[InDebug], [SysLogs].[AssemblyVersion], [SysLogs].[Comments], [SysLogs].[Creator], [SysLogs].[Updator], [SysLogs].[UpdatedTime]) (select [SysLogs_deleted].[CreatedTime], [SysLogs_deleted].[SysLogId], [SysLogs_deleted].[Ver], [SysLogs_deleted].[SysLogType], [SysLogs_deleted].[OnAzure], [SysLogs_deleted].[MachineName], [SysLogs_deleted].[ServiceName], [SysLogs_deleted].[TenantName], [SysLogs_deleted].[Application], [SysLogs_deleted].[Class], [SysLogs_deleted].[Method], [SysLogs_deleted].[RequestData], [SysLogs_deleted].[HttpMethod], [SysLogs_deleted].[RequestSize], [SysLogs_deleted].[ResponseSize], [SysLogs_deleted].[Elapsed], [SysLogs_deleted].[ApplicationAge], [SysLogs_deleted].[ApplicationRequestInterval], [SysLogs_deleted].[SessionAge], [SysLogs_deleted].[SessionRequestInterval], [SysLogs_deleted].[WorkingSet64], [SysLogs_deleted].[VirtualMemorySize64], [SysLogs_deleted].[ProcessId], [SysLogs_deleted].[ProcessName], [SysLogs_deleted].[BasePriority], [SysLogs_deleted].[Url], [SysLogs_deleted].[UrlReferer], [SysLogs_deleted].[UserHostName], [SysLogs_deleted].[UserHostAddress], [SysLogs_deleted].[UserLanguage], [SysLogs_deleted].[UserAgent], [SysLogs_deleted].[SessionGuid], [SysLogs_deleted].[ErrMessage], [SysLogs_deleted].[ErrStackTrace], [SysLogs_deleted].[InDebug], [SysLogs_deleted].[AssemblyVersion], [SysLogs_deleted].[Comments], [SysLogs_deleted].[Creator], [SysLogs_deleted].[Updator], [SysLogs_deleted].[UpdatedTime] from [SysLogs_deleted] {0});set identity_insert [SysLogs] off;  delete from [SysLogs_deleted] {0}";
+        public const string RestoreDeptsStatement = "update [Depts_deleted] set [Depts_deleted].[UpdatedTime] = getdate() {0};set identity_insert [Depts] on;  insert into [Depts]([Depts].[TenantId], [Depts].[DeptId], [Depts].[Ver], [Depts].[ParentDeptId], [Depts].[DeptCode], [Depts].[DeptName], [Depts].[Body], [Depts].[Comments], [Depts].[Creator], [Depts].[Updator], [Depts].[CreatedTime], [Depts].[UpdatedTime]) (select [Depts_deleted].[TenantId], [Depts_deleted].[DeptId], [Depts_deleted].[Ver], [Depts_deleted].[ParentDeptId], [Depts_deleted].[DeptCode], [Depts_deleted].[DeptName], [Depts_deleted].[Body], [Depts_deleted].[Comments], [Depts_deleted].[Creator], [Depts_deleted].[Updator], [Depts_deleted].[CreatedTime], [Depts_deleted].[UpdatedTime] from [Depts_deleted] {0});set identity_insert [Depts] off;  delete from [Depts_deleted] {0}";
+        public const string RestoreUsersStatement = "update [Users_deleted] set [Users_deleted].[UpdatedTime] = getdate() {0};set identity_insert [Users] on;  insert into [Users]([Users].[TenantId], [Users].[UserId], [Users].[Ver], [Users].[LoginId], [Users].[Disabled], [Users].[UserCode], [Users].[Password], [Users].[LastName], [Users].[FirstName], [Users].[Birthday], [Users].[Sex], [Users].[Language], [Users].[TimeZone], [Users].[DeptId], [Users].[FirstAndLastNameOrder], [Users].[LastLoginTime], [Users].[PasswordChangeTime], [Users].[NumberOfLogins], [Users].[NumberOfDenial], [Users].[TenantAdmin], [Users].[ServiceAdmin], [Users].[Developer], [Users].[Comments], [Users].[Creator], [Users].[Updator], [Users].[CreatedTime], [Users].[UpdatedTime]) (select [Users_deleted].[TenantId], [Users_deleted].[UserId], [Users_deleted].[Ver], [Users_deleted].[LoginId], [Users_deleted].[Disabled], [Users_deleted].[UserCode], [Users_deleted].[Password], [Users_deleted].[LastName], [Users_deleted].[FirstName], [Users_deleted].[Birthday], [Users_deleted].[Sex], [Users_deleted].[Language], [Users_deleted].[TimeZone], [Users_deleted].[DeptId], [Users_deleted].[FirstAndLastNameOrder], [Users_deleted].[LastLoginTime], [Users_deleted].[PasswordChangeTime], [Users_deleted].[NumberOfLogins], [Users_deleted].[NumberOfDenial], [Users_deleted].[TenantAdmin], [Users_deleted].[ServiceAdmin], [Users_deleted].[Developer], [Users_deleted].[Comments], [Users_deleted].[Creator], [Users_deleted].[Updator], [Users_deleted].[CreatedTime], [Users_deleted].[UpdatedTime] from [Users_deleted] {0});set identity_insert [Users] off;  delete from [Users_deleted] {0}";
+        public const string RestoreMailAddressesStatement = "update [MailAddresses_deleted] set [MailAddresses_deleted].[UpdatedTime] = getdate() {0};set identity_insert [MailAddresses] on;  insert into [MailAddresses]([MailAddresses].[OwnerId], [MailAddresses].[OwnerType], [MailAddresses].[MailAddressId], [MailAddresses].[Ver], [MailAddresses].[MailAddress], [MailAddresses].[Comments], [MailAddresses].[Creator], [MailAddresses].[Updator], [MailAddresses].[CreatedTime], [MailAddresses].[UpdatedTime]) (select [MailAddresses_deleted].[OwnerId], [MailAddresses_deleted].[OwnerType], [MailAddresses_deleted].[MailAddressId], [MailAddresses_deleted].[Ver], [MailAddresses_deleted].[MailAddress], [MailAddresses_deleted].[Comments], [MailAddresses_deleted].[Creator], [MailAddresses_deleted].[Updator], [MailAddresses_deleted].[CreatedTime], [MailAddresses_deleted].[UpdatedTime] from [MailAddresses_deleted] {0});set identity_insert [MailAddresses] off;  delete from [MailAddresses_deleted] {0}";
+        public const string RestorePermissionsStatement = "update [Permissions_deleted] set [Permissions_deleted].[UpdatedTime] = getdate() {0}; insert into [Permissions]([Permissions].[ReferenceType], [Permissions].[ReferenceId], [Permissions].[DeptId], [Permissions].[UserId], [Permissions].[Ver], [Permissions].[PermissionType], [Permissions].[Comments], [Permissions].[Creator], [Permissions].[Updator], [Permissions].[CreatedTime], [Permissions].[UpdatedTime]) (select [Permissions_deleted].[ReferenceType], [Permissions_deleted].[ReferenceId], [Permissions_deleted].[DeptId], [Permissions_deleted].[UserId], [Permissions_deleted].[Ver], [Permissions_deleted].[PermissionType], [Permissions_deleted].[Comments], [Permissions_deleted].[Creator], [Permissions_deleted].[Updator], [Permissions_deleted].[CreatedTime], [Permissions_deleted].[UpdatedTime] from [Permissions_deleted] {0}); delete from [Permissions_deleted] {0}";
+        public const string RestoreOutgoingMailsStatement = "update [OutgoingMails_deleted] set [OutgoingMails_deleted].[UpdatedTime] = getdate() {0};set identity_insert [OutgoingMails] on;  insert into [OutgoingMails]([OutgoingMails].[ReferenceType], [OutgoingMails].[ReferenceId], [OutgoingMails].[ReferenceVer], [OutgoingMails].[OutgoingMailId], [OutgoingMails].[Ver], [OutgoingMails].[Host], [OutgoingMails].[Port], [OutgoingMails].[From], [OutgoingMails].[To], [OutgoingMails].[Cc], [OutgoingMails].[Bcc], [OutgoingMails].[Title], [OutgoingMails].[Body], [OutgoingMails].[SentTime], [OutgoingMails].[Comments], [OutgoingMails].[Creator], [OutgoingMails].[Updator], [OutgoingMails].[CreatedTime], [OutgoingMails].[UpdatedTime]) (select [OutgoingMails_deleted].[ReferenceType], [OutgoingMails_deleted].[ReferenceId], [OutgoingMails_deleted].[ReferenceVer], [OutgoingMails_deleted].[OutgoingMailId], [OutgoingMails_deleted].[Ver], [OutgoingMails_deleted].[Host], [OutgoingMails_deleted].[Port], [OutgoingMails_deleted].[From], [OutgoingMails_deleted].[To], [OutgoingMails_deleted].[Cc], [OutgoingMails_deleted].[Bcc], [OutgoingMails_deleted].[Title], [OutgoingMails_deleted].[Body], [OutgoingMails_deleted].[SentTime], [OutgoingMails_deleted].[Comments], [OutgoingMails_deleted].[Creator], [OutgoingMails_deleted].[Updator], [OutgoingMails_deleted].[CreatedTime], [OutgoingMails_deleted].[UpdatedTime] from [OutgoingMails_deleted] {0});set identity_insert [OutgoingMails] off;  delete from [OutgoingMails_deleted] {0}";
+        public const string RestoreSearchWordsStatement = "update [SearchWords_deleted] set [SearchWords_deleted].[UpdatedTime] = getdate() {0}; insert into [SearchWords]([SearchWords].[Word], [SearchWords].[ReferenceId], [SearchWords].[Ver], [SearchWords].[Priority], [SearchWords].[Comments], [SearchWords].[Creator], [SearchWords].[Updator], [SearchWords].[CreatedTime], [SearchWords].[UpdatedTime]) (select [SearchWords_deleted].[Word], [SearchWords_deleted].[ReferenceId], [SearchWords_deleted].[Ver], [SearchWords_deleted].[Priority], [SearchWords_deleted].[Comments], [SearchWords_deleted].[Creator], [SearchWords_deleted].[Updator], [SearchWords_deleted].[CreatedTime], [SearchWords_deleted].[UpdatedTime] from [SearchWords_deleted] {0}); delete from [SearchWords_deleted] {0}";
+        public const string RestoreItemsStatement = "update [Items_deleted] set [Items_deleted].[UpdatedTime] = getdate() {0};set identity_insert [Items] on;  insert into [Items]([Items].[ReferenceId], [Items].[Ver], [Items].[ReferenceType], [Items].[SiteId], [Items].[Title], [Items].[Subset], [Items].[Comments], [Items].[Creator], [Items].[Updator], [Items].[CreatedTime], [Items].[UpdatedTime]) (select [Items_deleted].[ReferenceId], [Items_deleted].[Ver], [Items_deleted].[ReferenceType], [Items_deleted].[SiteId], [Items_deleted].[Title], [Items_deleted].[Subset], [Items_deleted].[Comments], [Items_deleted].[Creator], [Items_deleted].[Updator], [Items_deleted].[CreatedTime], [Items_deleted].[UpdatedTime] from [Items_deleted] {0});set identity_insert [Items] off;  delete from [Items_deleted] {0}";
+        public const string RestoreSitesStatement = "update [Sites_deleted] set [Sites_deleted].[UpdatedTime] = getdate() {0}; insert into [Sites]([Sites].[TenantId], [Sites].[SiteId], [Sites].[UpdatedTime], [Sites].[Ver], [Sites].[Title], [Sites].[Body], [Sites].[ReferenceType], [Sites].[ParentId], [Sites].[InheritPermission], [Sites].[SiteSettings], [Sites].[Comments], [Sites].[Creator], [Sites].[Updator], [Sites].[CreatedTime]) (select [Sites_deleted].[TenantId], [Sites_deleted].[SiteId], [Sites_deleted].[UpdatedTime], [Sites_deleted].[Ver], [Sites_deleted].[Title], [Sites_deleted].[Body], [Sites_deleted].[ReferenceType], [Sites_deleted].[ParentId], [Sites_deleted].[InheritPermission], [Sites_deleted].[SiteSettings], [Sites_deleted].[Comments], [Sites_deleted].[Creator], [Sites_deleted].[Updator], [Sites_deleted].[CreatedTime] from [Sites_deleted] {0}); delete from [Sites_deleted] {0}";
+        public const string RestoreOrdersStatement = "update [Orders_deleted] set [Orders_deleted].[UpdatedTime] = getdate() {0}; insert into [Orders]([Orders].[ReferenceId], [Orders].[ReferenceType], [Orders].[OwnerId], [Orders].[Ver], [Orders].[Data], [Orders].[Comments], [Orders].[Creator], [Orders].[Updator], [Orders].[CreatedTime], [Orders].[UpdatedTime]) (select [Orders_deleted].[ReferenceId], [Orders_deleted].[ReferenceType], [Orders_deleted].[OwnerId], [Orders_deleted].[Ver], [Orders_deleted].[Data], [Orders_deleted].[Comments], [Orders_deleted].[Creator], [Orders_deleted].[Updator], [Orders_deleted].[CreatedTime], [Orders_deleted].[UpdatedTime] from [Orders_deleted] {0}); delete from [Orders_deleted] {0}";
+        public const string RestoreExportSettingsStatement = "update [ExportSettings_deleted] set [ExportSettings_deleted].[UpdatedTime] = getdate() {0};set identity_insert [ExportSettings] on;  insert into [ExportSettings]([ExportSettings].[ReferenceType], [ExportSettings].[ReferenceId], [ExportSettings].[Title], [ExportSettings].[ExportSettingId], [ExportSettings].[Ver], [ExportSettings].[AddHeader], [ExportSettings].[ExportColumns], [ExportSettings].[Comments], [ExportSettings].[Creator], [ExportSettings].[Updator], [ExportSettings].[CreatedTime], [ExportSettings].[UpdatedTime]) (select [ExportSettings_deleted].[ReferenceType], [ExportSettings_deleted].[ReferenceId], [ExportSettings_deleted].[Title], [ExportSettings_deleted].[ExportSettingId], [ExportSettings_deleted].[Ver], [ExportSettings_deleted].[AddHeader], [ExportSettings_deleted].[ExportColumns], [ExportSettings_deleted].[Comments], [ExportSettings_deleted].[Creator], [ExportSettings_deleted].[Updator], [ExportSettings_deleted].[CreatedTime], [ExportSettings_deleted].[UpdatedTime] from [ExportSettings_deleted] {0});set identity_insert [ExportSettings] off;  delete from [ExportSettings_deleted] {0}";
+        public const string RestoreLinksStatement = "update [Links_deleted] set [Links_deleted].[UpdatedTime] = getdate() {0}; insert into [Links]([Links].[DestinationId], [Links].[SourceId], [Links].[Ver], [Links].[Comments], [Links].[Creator], [Links].[Updator], [Links].[CreatedTime], [Links].[UpdatedTime]) (select [Links_deleted].[DestinationId], [Links_deleted].[SourceId], [Links_deleted].[Ver], [Links_deleted].[Comments], [Links_deleted].[Creator], [Links_deleted].[Updator], [Links_deleted].[CreatedTime], [Links_deleted].[UpdatedTime] from [Links_deleted] {0}); delete from [Links_deleted] {0}";
+        public const string RestoreImagesStatement = "update [Images_deleted] set [Images_deleted].[UpdatedTime] = getdate() {0};set identity_insert [Images] on;  insert into [Images]([Images].[ImageId], [Images].[Ver], [Images].[Title], [Images].[Body], [Images].[Bin], [Images].[FileName], [Images].[Extension], [Images].[Size], [Images].[ImageSettings], [Images].[Comments], [Images].[Creator], [Images].[Updator], [Images].[CreatedTime], [Images].[UpdatedTime]) (select [Images_deleted].[ImageId], [Images_deleted].[Ver], [Images_deleted].[Title], [Images_deleted].[Body], [Images_deleted].[Bin], [Images_deleted].[FileName], [Images_deleted].[Extension], [Images_deleted].[Size], [Images_deleted].[ImageSettings], [Images_deleted].[Comments], [Images_deleted].[Creator], [Images_deleted].[Updator], [Images_deleted].[CreatedTime], [Images_deleted].[UpdatedTime] from [Images_deleted] {0});set identity_insert [Images] off;  delete from [Images_deleted] {0}";
+        public const string RestoreIssuesStatement = "update [Issues_deleted] set [Issues_deleted].[UpdatedTime] = getdate() {0}; insert into [Issues]([Issues].[SiteId], [Issues].[UpdatedTime], [Issues].[IssueId], [Issues].[Ver], [Issues].[Title], [Issues].[Body], [Issues].[StartTime], [Issues].[CompletionTime], [Issues].[WorkValue], [Issues].[ProgressRate], [Issues].[Status], [Issues].[Manager], [Issues].[Owner], [Issues].[ClassA], [Issues].[ClassB], [Issues].[ClassC], [Issues].[ClassD], [Issues].[ClassE], [Issues].[ClassF], [Issues].[ClassG], [Issues].[ClassH], [Issues].[ClassI], [Issues].[ClassJ], [Issues].[ClassK], [Issues].[ClassL], [Issues].[ClassM], [Issues].[ClassN], [Issues].[ClassO], [Issues].[ClassP], [Issues].[NumA], [Issues].[NumB], [Issues].[NumC], [Issues].[NumD], [Issues].[NumE], [Issues].[NumF], [Issues].[NumG], [Issues].[NumH], [Issues].[DateA], [Issues].[DateB], [Issues].[DateC], [Issues].[DateD], [Issues].[DateE], [Issues].[DateF], [Issues].[DateG], [Issues].[DateH], [Issues].[Comments], [Issues].[Creator], [Issues].[Updator], [Issues].[CreatedTime]) (select [Issues_deleted].[SiteId], [Issues_deleted].[UpdatedTime], [Issues_deleted].[IssueId], [Issues_deleted].[Ver], [Issues_deleted].[Title], [Issues_deleted].[Body], [Issues_deleted].[StartTime], [Issues_deleted].[CompletionTime], [Issues_deleted].[WorkValue], [Issues_deleted].[ProgressRate], [Issues_deleted].[Status], [Issues_deleted].[Manager], [Issues_deleted].[Owner], [Issues_deleted].[ClassA], [Issues_deleted].[ClassB], [Issues_deleted].[ClassC], [Issues_deleted].[ClassD], [Issues_deleted].[ClassE], [Issues_deleted].[ClassF], [Issues_deleted].[ClassG], [Issues_deleted].[ClassH], [Issues_deleted].[ClassI], [Issues_deleted].[ClassJ], [Issues_deleted].[ClassK], [Issues_deleted].[ClassL], [Issues_deleted].[ClassM], [Issues_deleted].[ClassN], [Issues_deleted].[ClassO], [Issues_deleted].[ClassP], [Issues_deleted].[NumA], [Issues_deleted].[NumB], [Issues_deleted].[NumC], [Issues_deleted].[NumD], [Issues_deleted].[NumE], [Issues_deleted].[NumF], [Issues_deleted].[NumG], [Issues_deleted].[NumH], [Issues_deleted].[DateA], [Issues_deleted].[DateB], [Issues_deleted].[DateC], [Issues_deleted].[DateD], [Issues_deleted].[DateE], [Issues_deleted].[DateF], [Issues_deleted].[DateG], [Issues_deleted].[DateH], [Issues_deleted].[Comments], [Issues_deleted].[Creator], [Issues_deleted].[Updator], [Issues_deleted].[CreatedTime] from [Issues_deleted] {0}); delete from [Issues_deleted] {0}";
+        public const string RestoreResultsStatement = "update [Results_deleted] set [Results_deleted].[UpdatedTime] = getdate() {0}; insert into [Results]([Results].[SiteId], [Results].[UpdatedTime], [Results].[ResultId], [Results].[Ver], [Results].[Body], [Results].[Title], [Results].[Manager], [Results].[Owner], [Results].[ClassA], [Results].[ClassB], [Results].[ClassC], [Results].[ClassD], [Results].[ClassE], [Results].[ClassF], [Results].[ClassG], [Results].[ClassH], [Results].[NumA], [Results].[NumB], [Results].[NumC], [Results].[NumD], [Results].[NumE], [Results].[NumF], [Results].[NumG], [Results].[NumH], [Results].[DateA], [Results].[DateB], [Results].[DateC], [Results].[DateD], [Results].[DateE], [Results].[DateF], [Results].[DateG], [Results].[DateH], [Results].[Comments], [Results].[Creator], [Results].[Updator], [Results].[CreatedTime]) (select [Results_deleted].[SiteId], [Results_deleted].[UpdatedTime], [Results_deleted].[ResultId], [Results_deleted].[Ver], [Results_deleted].[Body], [Results_deleted].[Title], [Results_deleted].[Manager], [Results_deleted].[Owner], [Results_deleted].[ClassA], [Results_deleted].[ClassB], [Results_deleted].[ClassC], [Results_deleted].[ClassD], [Results_deleted].[ClassE], [Results_deleted].[ClassF], [Results_deleted].[ClassG], [Results_deleted].[ClassH], [Results_deleted].[NumA], [Results_deleted].[NumB], [Results_deleted].[NumC], [Results_deleted].[NumD], [Results_deleted].[NumE], [Results_deleted].[NumF], [Results_deleted].[NumG], [Results_deleted].[NumH], [Results_deleted].[DateA], [Results_deleted].[DateB], [Results_deleted].[DateC], [Results_deleted].[DateD], [Results_deleted].[DateE], [Results_deleted].[DateF], [Results_deleted].[DateG], [Results_deleted].[DateH], [Results_deleted].[Comments], [Results_deleted].[Creator], [Results_deleted].[Updator], [Results_deleted].[CreatedTime] from [Results_deleted] {0}); delete from [Results_deleted] {0}";
+        public const string RestoreWikisStatement = "update [Wikis_deleted] set [Wikis_deleted].[UpdatedTime] = getdate() {0}; insert into [Wikis]([Wikis].[SiteId], [Wikis].[UpdatedTime], [Wikis].[WikiId], [Wikis].[Ver], [Wikis].[Title], [Wikis].[Body], [Wikis].[Comments], [Wikis].[Creator], [Wikis].[Updator], [Wikis].[CreatedTime]) (select [Wikis_deleted].[SiteId], [Wikis_deleted].[UpdatedTime], [Wikis_deleted].[WikiId], [Wikis_deleted].[Ver], [Wikis_deleted].[Title], [Wikis_deleted].[Body], [Wikis_deleted].[Comments], [Wikis_deleted].[Creator], [Wikis_deleted].[Updator], [Wikis_deleted].[CreatedTime] from [Wikis_deleted] {0}); delete from [Wikis_deleted] {0}";
 
         public static TenantsColumnCollection TenantsColumn()
         {

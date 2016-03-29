@@ -112,6 +112,10 @@ namespace Implem.Pleasanter.Models
         public bool Developer_Updated { get { return Developer != SavedDeveloper; } }
         public List<int> SwitchTargets;
 
+        public UserModel()
+        {
+        }
+
         public UserModel(
             SiteSettings siteSettings, 
             Permissions.Types permissionType,
@@ -482,6 +486,24 @@ namespace Implem.Pleasanter.Models
 
         private void OnDeleted(ref UsersResponseCollection responseCollection)
         {
+        }
+
+        public string Restore(int userId)
+        {
+            if (!Permissions.Admins().CanEditTenant())
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
+            UserId = userId;
+            Rds.ExecuteNonQuery(
+                connectionString: Def.Db.DbOwner,
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.RestoreUsers(
+                        where: Rds.UsersWhere().UserId(UserId))
+                });
+            return new ResponseCollection().ToJson();
         }
 
         public string PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)

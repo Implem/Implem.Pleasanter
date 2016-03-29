@@ -44,6 +44,10 @@ namespace Implem.Pleasanter.Models
             Get();
         }
 
+        public WikiModel()
+        {
+        }
+
         public WikiModel(
             SiteSettings siteSettings, 
             Permissions.Types permissionType,
@@ -438,6 +442,26 @@ namespace Implem.Pleasanter.Models
 
         private void OnDeleted(ref WikisResponseCollection responseCollection)
         {
+        }
+
+        public string Restore(long wikiId)
+        {
+            if (!Permissions.Admins().CanEditTenant())
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
+            WikiId = wikiId;
+            Rds.ExecuteNonQuery(
+                connectionString: Def.Db.DbOwner,
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.RestoreItems(
+                        where: Rds.ItemsWhere().ReferenceId(WikiId)),
+                    Rds.RestoreWikis(
+                        where: Rds.WikisWhere().WikiId(WikiId))
+                });
+            return new ResponseCollection().ToJson();
         }
 
         public string PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)

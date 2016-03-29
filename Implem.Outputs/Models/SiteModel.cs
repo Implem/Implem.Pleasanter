@@ -89,6 +89,10 @@ namespace Implem.Pleasanter.Models
 
         public List<long> SwitchTargets;
 
+        public SiteModel()
+        {
+        }
+
         public SiteModel(
             bool setByForm = false,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -378,6 +382,26 @@ namespace Implem.Pleasanter.Models
 
         private void OnDeleted(ref SitesResponseCollection responseCollection)
         {
+        }
+
+        public string Restore(long siteId)
+        {
+            if (!Permissions.Admins().CanEditTenant())
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
+            SiteId = siteId;
+            Rds.ExecuteNonQuery(
+                connectionString: Def.Db.DbOwner,
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.RestoreItems(
+                        where: Rds.ItemsWhere().ReferenceId(SiteId)),
+                    Rds.RestoreSites(
+                        where: Rds.SitesWhere().SiteId(SiteId))
+                });
+            return new ResponseCollection().ToJson();
         }
 
         public string PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)

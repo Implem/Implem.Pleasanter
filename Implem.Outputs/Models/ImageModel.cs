@@ -63,6 +63,10 @@ namespace Implem.Pleasanter.Models
 
         public List<long> SwitchTargets;
 
+        public ImageModel()
+        {
+        }
+
         public ImageModel(
             SiteSettings siteSettings, 
             Permissions.Types permissionType,
@@ -379,6 +383,24 @@ namespace Implem.Pleasanter.Models
 
         private void OnDeleted(ref ImagesResponseCollection responseCollection)
         {
+        }
+
+        public string Restore(long imageId)
+        {
+            if (!Permissions.Admins().CanEditTenant())
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
+            ImageId = imageId;
+            Rds.ExecuteNonQuery(
+                connectionString: Def.Db.DbOwner,
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.RestoreImages(
+                        where: Rds.ImagesWhere().ImageId(ImageId))
+                });
+            return new ResponseCollection().ToJson();
         }
 
         public string PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)

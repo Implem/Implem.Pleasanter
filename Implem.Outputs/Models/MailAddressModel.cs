@@ -39,6 +39,10 @@ namespace Implem.Pleasanter.Models
         public bool MailAddress_Updated { get { return MailAddress != SavedMailAddress && MailAddress != null; } }
         public List<long> SwitchTargets;
 
+        public MailAddressModel()
+        {
+        }
+
         public MailAddressModel(
             SiteSettings siteSettings, 
             Permissions.Types permissionType,
@@ -344,6 +348,24 @@ namespace Implem.Pleasanter.Models
 
         private void OnDeleted(ref MailAddressesResponseCollection responseCollection)
         {
+        }
+
+        public string Restore(long mailAddressId)
+        {
+            if (!Permissions.Admins().CanEditTenant())
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
+            MailAddressId = mailAddressId;
+            Rds.ExecuteNonQuery(
+                connectionString: Def.Db.DbOwner,
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.RestoreMailAddresses(
+                        where: Rds.MailAddressesWhere().MailAddressId(MailAddressId))
+                });
+            return new ResponseCollection().ToJson();
         }
 
         public string PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)

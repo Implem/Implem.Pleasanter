@@ -38,6 +38,10 @@ namespace Implem.Pleasanter.Models
         public bool Body_Updated { get { return Body != SavedBody && Body != null; } }
         public List<int> SwitchTargets;
 
+        public TenantModel()
+        {
+        }
+
         public TenantModel(
             SiteSettings siteSettings, 
             Permissions.Types permissionType,
@@ -341,6 +345,24 @@ namespace Implem.Pleasanter.Models
 
         private void OnDeleted(ref TenantsResponseCollection responseCollection)
         {
+        }
+
+        public string Restore(int tenantId)
+        {
+            if (!Permissions.Admins().CanEditTenant())
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
+            TenantId = tenantId;
+            Rds.ExecuteNonQuery(
+                connectionString: Def.Db.DbOwner,
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.RestoreTenants(
+                        where: Rds.TenantsWhere().TenantId(TenantId))
+                });
+            return new ResponseCollection().ToJson();
         }
 
         public string PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)

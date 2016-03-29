@@ -122,6 +122,10 @@ namespace Implem.Pleasanter.Models
             Get();
         }
 
+        public ResultModel()
+        {
+        }
+
         public ResultModel(
             SiteSettings siteSettings, 
             Permissions.Types permissionType,
@@ -578,6 +582,26 @@ namespace Implem.Pleasanter.Models
 
         private void OnDeleted(ref ResultsResponseCollection responseCollection)
         {
+        }
+
+        public string Restore(long resultId)
+        {
+            if (!Permissions.Admins().CanEditTenant())
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
+            ResultId = resultId;
+            Rds.ExecuteNonQuery(
+                connectionString: Def.Db.DbOwner,
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.RestoreItems(
+                        where: Rds.ItemsWhere().ReferenceId(ResultId)),
+                    Rds.RestoreResults(
+                        where: Rds.ResultsWhere().ResultId(ResultId))
+                });
+            return new ResponseCollection().ToJson();
         }
 
         public string PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
