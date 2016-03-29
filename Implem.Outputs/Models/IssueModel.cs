@@ -1605,7 +1605,7 @@ namespace Implem.Pleasanter.Models
                 case "BurnDown": return hb.BurnDown(
                     siteSettings: siteSettings,
                     permissionType: permissionType,
-                    burnDownDataRows: BurnDownDataRows(
+                    dataRows: BurnDownDataRows(
                         siteSettings: siteSettings,
                         formData: formData),
                     ownerLabelText: siteSettings.AllColumn("Owner").LabelText,
@@ -2748,7 +2748,7 @@ namespace Implem.Pleasanter.Models
                     Html.Builder().BurnDown(
                         siteSettings: siteSettings,
                         permissionType: permissionType,
-                        burnDownDataRows: BurnDownDataRows(siteSettings, formData),
+                        dataRows: BurnDownDataRows(siteSettings, formData),
                         ownerLabelText: siteSettings.AllColumn("Owner").LabelText,
                         column: siteSettings.AllColumn("WorkValue")))
                 .Html(

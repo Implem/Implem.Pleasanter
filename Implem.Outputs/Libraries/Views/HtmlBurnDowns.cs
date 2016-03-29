@@ -16,11 +16,11 @@ namespace Implem.Pleasanter.Libraries.Views
             this HtmlBuilder hb,
             SiteSettings siteSettings,
             Permissions.Types permissionType,
-            IEnumerable<DataRow> burnDownDataRows,
+            IEnumerable<DataRow> dataRows,
             string ownerLabelText,
             Column column)
         {
-            var burnDown = new BurnDown(siteSettings, burnDownDataRows);
+            var burnDown = new BurnDown(siteSettings, dataRows);
             return hb
                 .LineGraph(burnDown: burnDown)
                 .Details(
