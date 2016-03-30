@@ -1025,7 +1025,7 @@ namespace Implem.Pleasanter.Models
                                 data.Key.Split_2nd(),
                                 data.Value));
                     responseCollection.Html("#EditorColumns",
-                        Html.Builder().SelectableListItem(
+                        Html.Builder().SelectableItems(
                             listItemCollection: SiteSettings.EditorColumnHash(),
                             selectedValueTextCollection: selectedColumns));
                 }

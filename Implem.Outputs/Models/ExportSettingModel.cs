@@ -1572,7 +1572,7 @@ namespace Implem.Pleasanter.Models
             SetSessions(exportSettingModel);
             exportSettingModel.Session_ExportColumns(Jsons.ToJson(exportSettingModel.ExportColumns));
             return Html.Builder()
-                .SelectableListItem(listItemCollection: exportSettingModel.ExportColumnHash())
+                .SelectableItems(listItemCollection: exportSettingModel.ExportColumnHash())
                 .Html("#ExportSettings_Columns")
                 .Val("#ExportSettings_Title", exportSettingModel.Title.Value)
                 .Val("#ExportSettings_AddHeader", exportSettingModel.AddHeader)

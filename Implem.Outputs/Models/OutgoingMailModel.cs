@@ -687,7 +687,7 @@ namespace Implem.Pleasanter.Models
             var siteSettings = siteModel.SitesSiteSettings();
             return new OutgoingMailsResponseCollection(this)
                 .Html("#OutgoingMails_MailAddresses",
-                    Html.Builder().SelectableListItem(
+                    Html.Builder().SelectableItems(
                         listItemCollection: OutgoingMailsUtility.Destinations(
                             referenceId: siteModel.InheritPermission,
                             addressBook: OutgoingMailsUtility.AddressBook(siteSettings),

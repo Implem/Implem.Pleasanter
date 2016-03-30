@@ -672,7 +672,7 @@ namespace Implem.Pleasanter.Models
             switch (sourceOrDestination)
             {
                 case Types.Destination:
-                    return Html.Builder().SelectableListItem(
+                    return Html.Builder().SelectableItems(
                         listItemCollection: siteModel.Session_PermissionDestinationCollection()
                             .OrderBy(o => o.PermissionId)
                             .ToDictionary(
@@ -681,7 +681,7 @@ namespace Implem.Pleasanter.Models
                         selectedValueTextCollection:
                             selectedValueTextCollection ?? new List<string>()).ToString();
                 case Types.Source:
-                    return Html.Builder().SelectableListItem(
+                    return Html.Builder().SelectableItems(
                         listItemCollection: siteModel.Session_PermissionSourceCollection()
                             .OrderBy(o => o.PermissionId)
                             .ToDictionary(o => o.PermissionId, o => o.PermissionTitle),

@@ -124,7 +124,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Columns.Clear();
             Columns.AddRange(newColumns);
             responseCollection.Html("#ExportSettings_Columns",
-                Html.Builder().SelectableListItem(
+                Html.Builder().SelectableItems(
                     listItemCollection: ExportColumnHash(siteSettings),
                     selectedValueTextCollection: selectedValues));
         }

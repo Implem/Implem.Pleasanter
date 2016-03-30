@@ -416,16 +416,19 @@ namespace Implem.Pleasanter.Libraries.Views
             Dictionary<string, string> listItemCollection = null,
             IEnumerable<string> selectedValueCollection = null)
         {
-            return hb.Ol(
-                attributes: Html.Attributes()
-                    .Id_Css(controlId, CssClasses.Get("control-selectable", controlCss)),
+            return hb.Div(
+                css: CssClasses.Get("control", controlCss),
                 action: () => hb
-                    .SelectableListItem(
-                        listItemCollection: listItemCollection,
-                        selectedValueTextCollection: selectedValueCollection));
+                    .Ol(
+                        attributes: Html.Attributes()
+                            .Id_Css(controlId, "control-selectable"),
+                        action: () => hb
+                            .SelectableItems(
+                                listItemCollection: listItemCollection,
+                                selectedValueTextCollection: selectedValueCollection)));
         }
 
-        public static HtmlBuilder SelectableListItem(
+        public static HtmlBuilder SelectableItems(
             this HtmlBuilder hb,
             Dictionary<string, string> listItemCollection = null,
             IEnumerable<string> selectedValueTextCollection = null)
