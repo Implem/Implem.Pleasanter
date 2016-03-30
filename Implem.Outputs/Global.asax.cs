@@ -88,17 +88,17 @@ namespace Implem.Pleasanter
                 }
                 else
                 {
-                    SetSession_Anonymouse();
+                    SetAnonymouseSession();
                 }
             }
             else
             {
-                SetSession_Anonymouse();
+                SetAnonymouseSession();
             }
             new SysLogModel().Finish();
         }
 
-        private void SetSession_Anonymouse()
+        private void SetAnonymouseSession()
         {
             var userModel = new UserModel(
                 SiteSettingsUtility.UsersSiteSettings(),
