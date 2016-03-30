@@ -7,14 +7,14 @@ namespace Implem.Pleasanter.Libraries.Requests
     {
         public static string Controller()
         {
-            return RouteTable.Routes.Count != 0
+            return RouteTable.Routes.Count != 0 && HttpContext.Current != null
                 ? Url.RouteData("controller").ToString().ToLower()
                 : StackTraces.Class();
         }
 
         public static string Action()
         {
-            return RouteTable.Routes.Count != 0
+            return RouteTable.Routes.Count != 0 && HttpContext.Current != null
                 ? Url.RouteData("action").ToString().ToLower()
                 : StackTraces.Method();
         }
