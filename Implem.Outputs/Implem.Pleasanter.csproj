@@ -246,7 +246,6 @@
     <Compile Include="Libraries\Responses\ResponseFileNames.cs" />
     <Compile Include="Libraries\Responses\ResponseImage.cs" />
     <Compile Include="Libraries\Responses\ResponseSpecials.cs" />
-    <Compile Include="Libraries\Scripts\JavaScripts.cs" />
     <Compile Include="Libraries\ServerData\Applications.cs" />
     <Compile Include="Libraries\ServerData\Sessions.cs" />
     <Compile Include="Libraries\ServerData\SiteInfo.cs" />
@@ -268,6 +267,7 @@
     <Compile Include="Libraries\Utilities\Summaries.cs" />
     <Compile Include="Libraries\Utilities\Times.cs" />
     <Compile Include="Libraries\Utilities\Versions.cs" />
+    <Compile Include="Libraries\Utilities\WordBreaker.cs" />
     <Compile Include="Libraries\Validations\ClientValidations.cs" />
     <Compile Include="Libraries\Views\Html.cs" />
     <Compile Include="Libraries\Views\HtmlAdmins.cs" />
