@@ -565,8 +565,8 @@ namespace Implem.DefinitionAccessor
                     case "ResponseCollection_ValueColumns": Code.ResponseCollection_ValueColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ResponseCollection_ValueColumns, definitionRow, CodeXls); break;
                     case "Displays": Code.Displays = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Displays, definitionRow, CodeXls); break;
                     case "Displays_Parts": Code.Displays_Parts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Displays_Parts, definitionRow, CodeXls); break;
-                    case "Validator": Code.Validator = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Validator, definitionRow, CodeXls); break;
-                    case "Validator_Cases": Code.Validator_Cases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Validator_Cases, definitionRow, CodeXls); break;
+                    case "HtmlScripts": Code.HtmlScripts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlScripts, definitionRow, CodeXls); break;
+                    case "HtmlScripts_ValidatorCases": Code.HtmlScripts_ValidatorCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlScripts_ValidatorCases, definitionRow, CodeXls); break;
                     case "ClientValidations": Code.ClientValidations = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientValidations, definitionRow, CodeXls); break;
                     case "ClientValidations_Form": Code.ClientValidations_Form = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientValidations_Form, definitionRow, CodeXls); break;
                     case "ClientValidations_Rules": Code.ClientValidations_Rules = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientValidations_Rules, definitionRow, CodeXls); break;
@@ -3725,8 +3725,8 @@ namespace Implem.DefinitionAccessor
         public string ResponseCollection_ValueColumns;
         public string Displays;
         public string Displays_Parts;
-        public string Validator;
-        public string Validator_Cases;
+        public string HtmlScripts;
+        public string HtmlScripts_ValidatorCases;
         public string ClientValidations;
         public string ClientValidations_Form;
         public string ClientValidations_Rules;
@@ -4069,8 +4069,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition ResponseCollection_ValueColumns = new CodeDefinition();
         public CodeDefinition Displays = new CodeDefinition();
         public CodeDefinition Displays_Parts = new CodeDefinition();
-        public CodeDefinition Validator = new CodeDefinition();
-        public CodeDefinition Validator_Cases = new CodeDefinition();
+        public CodeDefinition HtmlScripts = new CodeDefinition();
+        public CodeDefinition HtmlScripts_ValidatorCases = new CodeDefinition();
         public CodeDefinition ClientValidations = new CodeDefinition();
         public CodeDefinition ClientValidations_Form = new CodeDefinition();
         public CodeDefinition ClientValidations_Rules = new CodeDefinition();
