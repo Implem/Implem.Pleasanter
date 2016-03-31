@@ -7,7 +7,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     public static class ResponseComment
     {
         public static ResponseCollection PrependComment(
-            this ResponseCollection responseCollection, Comments comments, Versions.VerTypes verType)
+            this ResponseCollection responseCollection,
+            Comments comments,
+            Versions.VerTypes verType)
         {
             return Forms.Data("Comments").Trim() != string.Empty
                 ? responseCollection
@@ -19,7 +21,8 @@ namespace Implem.Pleasanter.Libraries.Responses
                 : responseCollection;
         }
 
-        public static ResponseCollection RemoveComment(this ResponseCollection responseCollection, string commentId)
+        public static ResponseCollection RemoveComment(
+            this ResponseCollection responseCollection, string commentId)
         {
             return responseCollection
                 .Remove("#Comment" + commentId)

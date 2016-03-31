@@ -156,8 +156,6 @@ namespace Implem.Pleasanter.Models
             WikiId = newId != 0 ? newId : WikiId;
             SynchronizeSummary();
             Get();
-            SiteInfo.ItemUpdatedCollection.Add(
-                WikiId + "," + DateTime.Now.ToString("yyyy/M/d H:m:s.fff"));
             Rds.ExecuteNonQuery(statements:
                 Rds.UpdateItems(
                     param: Rds.ItemsParam()
@@ -227,7 +225,8 @@ namespace Implem.Pleasanter.Models
                         param: Rds.ItemsParam()
                             .SiteId(SiteId)
                             .Title(WikisUtility.TitleDisplayValue(SiteSettings, this))
-                            .Subset(Jsons.ToJson(new WikiSubset(this, SiteSettings)))),
+                            .Subset(Jsons.ToJson(new WikiSubset(this, SiteSettings)))
+                            .UpdateTarget(true)),
                     Rds.PhysicalDeleteLinks(
                         where: Rds.LinksWhere().SourceId(WikiId)),
                     InsertLinks(SiteSettings),
@@ -236,8 +235,6 @@ namespace Implem.Pleasanter.Models
             if (count == 0) return ResponseConflicts();
             SynchronizeSummary();
             Get();
-            SiteInfo.ItemUpdatedCollection.Add(
-                WikiId + "," + DateTime.Now.ToString("yyyy/M/d H:m:s.fff"));
             var responseCollection = new WikisResponseCollection(this);
             OnUpdated(ref responseCollection);
             return ResponseByUpdate(responseCollection)
@@ -273,20 +270,7 @@ namespace Implem.Pleasanter.Models
             if (error != null) return error;
             var commentId = Forms.Data("ControlId").Split(',')._2nd();
             Comments.RemoveAll(o => o.CommentId.ToString() == commentId);
-            if (Rds.ExecuteScalar_int(
-                transactional: true,
-                statements: Rds.UpdateWikis(
-                    verUp: VerUp,
-                    where: Rds.WikisWhereDefault(this)
-                        .UpdatedTime(Forms.DateTime("Wikis_Timestamp")),
-                    param: Rds.WikisParamDefault(this),
-                    countRecord: true)) == 0)
-            {
-                return ResponseConflicts();
-            }
-            Get();
-            SiteInfo.ItemUpdatedCollection.Add(
-                WikiId + "," + DateTime.Now.ToString("yyyy/M/d H:m:s.fff"));
+            Update();
             return ResponseByUpdate(new WikisResponseCollection(this))
                 .RemoveComment(commentId)
                 .ToJson();

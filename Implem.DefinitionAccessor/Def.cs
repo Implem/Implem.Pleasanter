@@ -393,7 +393,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_PermissionTypeWithParameterNameLower": Code.Model_PermissionTypeWithParameterNameLower = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PermissionTypeWithParameterNameLower, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsUtility": Code.Model_SiteSettingsUtility = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsUtility, definitionRow, CodeXls); break;
                     case "Model_PermissionTypesAdmins": Code.Model_PermissionTypesAdmins = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PermissionTypesAdmins, definitionRow, CodeXls); break;
-                    case "Model_ItemUpdatedCollection": Code.Model_ItemUpdatedCollection = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ItemUpdatedCollection, definitionRow, CodeXls); break;
                     case "Model_Subset": Code.Model_Subset = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Subset, definitionRow, CodeXls); break;
                     case "Model_Subset_Properties": Code.Model_Subset_Properties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Subset_Properties, definitionRow, CodeXls); break;
                     case "Model_Subset_SetProperties": Code.Model_Subset_SetProperties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Subset_SetProperties, definitionRow, CodeXls); break;
@@ -888,6 +887,7 @@ namespace Implem.DefinitionAccessor
                     case "Items_SiteId": Column.Items_SiteId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_SiteId, definitionRow, ColumnXls); break;
                     case "Items_Title": Column.Items_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_Title, definitionRow, ColumnXls); break;
                     case "Items_Subset": Column.Items_Subset = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_Subset, definitionRow, ColumnXls); break;
+                    case "Items_UpdateTarget": Column.Items_UpdateTarget = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_UpdateTarget, definitionRow, ColumnXls); break;
                     case "Items_Site": Column.Items_Site = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_Site, definitionRow, ColumnXls); break;
                     case "Sites_TenantId": Column.Sites_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_TenantId, definitionRow, ColumnXls); break;
                     case "Sites_SiteId": Column.Sites_SiteId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_SiteId, definitionRow, ColumnXls); break;
@@ -3553,7 +3553,6 @@ namespace Implem.DefinitionAccessor
         public string Model_PermissionTypeWithParameterNameLower;
         public string Model_SiteSettingsUtility;
         public string Model_PermissionTypesAdmins;
-        public string Model_ItemUpdatedCollection;
         public string Model_Subset;
         public string Model_Subset_Properties;
         public string Model_Subset_SetProperties;
@@ -3897,7 +3896,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_PermissionTypeWithParameterNameLower = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsUtility = new CodeDefinition();
         public CodeDefinition Model_PermissionTypesAdmins = new CodeDefinition();
-        public CodeDefinition Model_ItemUpdatedCollection = new CodeDefinition();
         public CodeDefinition Model_Subset = new CodeDefinition();
         public CodeDefinition Model_Subset_Properties = new CodeDefinition();
         public CodeDefinition Model_Subset_SetProperties = new CodeDefinition();
@@ -4609,6 +4607,7 @@ namespace Implem.DefinitionAccessor
         public string Items_SiteId;
         public string Items_Title;
         public string Items_Subset;
+        public string Items_UpdateTarget;
         public string Items_Site;
         public string Sites_TenantId;
         public string Sites_SiteId;
@@ -5009,6 +5008,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Items_SiteId = new ColumnDefinition();
         public ColumnDefinition Items_Title = new ColumnDefinition();
         public ColumnDefinition Items_Subset = new ColumnDefinition();
+        public ColumnDefinition Items_UpdateTarget = new ColumnDefinition();
         public ColumnDefinition Items_Site = new ColumnDefinition();
         public ColumnDefinition Sites_TenantId = new ColumnDefinition();
         public ColumnDefinition Sites_SiteId = new ColumnDefinition();

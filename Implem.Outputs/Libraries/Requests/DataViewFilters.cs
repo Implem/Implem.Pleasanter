@@ -267,6 +267,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     case "DataViewFilters_Items_SiteId": where.Items_SiteId(formData[key], "t0"); break;
                     case "DataViewFilters_Items_Title": where.Items_Title(formData[key], "t0"); break;
                     case "DataViewFilters_Items_Subset": where.Items_Subset(formData[key], "t0"); break;
+                    case "DataViewFilters_Items_UpdateTarget": where.Items_UpdateTarget(formData[key], "t0"); break;
                     case "DataViewFilters_Items_Comments": where.Items_Comments(formData[key], "t0"); break;
                     case "DataViewFilters_Items_Creator": where.Items_Creator(formData[key], "t0"); break;
                     case "DataViewFilters_Items_Updator": where.Items_Updator(formData[key], "t0"); break;

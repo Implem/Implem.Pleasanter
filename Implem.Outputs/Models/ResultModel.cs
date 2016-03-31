@@ -236,8 +236,6 @@ namespace Implem.Pleasanter.Models
             ResultId = newId != 0 ? newId : ResultId;
             SynchronizeSummary();
             Get();
-            SiteInfo.ItemUpdatedCollection.Add(
-                ResultId + "," + DateTime.Now.ToString("yyyy/M/d H:m:s.fff"));
             Rds.ExecuteNonQuery(statements:
                 Rds.UpdateItems(
                     param: Rds.ItemsParam()
@@ -333,7 +331,8 @@ namespace Implem.Pleasanter.Models
                         param: Rds.ItemsParam()
                             .SiteId(SiteId)
                             .Title(ResultsUtility.TitleDisplayValue(SiteSettings, this))
-                            .Subset(Jsons.ToJson(new ResultSubset(this, SiteSettings)))),
+                            .Subset(Jsons.ToJson(new ResultSubset(this, SiteSettings)))
+                            .UpdateTarget(true)),
                     Rds.PhysicalDeleteLinks(
                         where: Rds.LinksWhere().SourceId(ResultId)),
                     InsertLinks(SiteSettings),
@@ -342,8 +341,6 @@ namespace Implem.Pleasanter.Models
             if (count == 0) return ResponseConflicts();
             SynchronizeSummary();
             Get();
-            SiteInfo.ItemUpdatedCollection.Add(
-                ResultId + "," + DateTime.Now.ToString("yyyy/M/d H:m:s.fff"));
             var responseCollection = new ResultsResponseCollection(this);
             OnUpdated(ref responseCollection);
             return ResponseByUpdate(responseCollection)
@@ -387,20 +384,7 @@ namespace Implem.Pleasanter.Models
             if (error != null) return error;
             var commentId = Forms.Data("ControlId").Split(',')._2nd();
             Comments.RemoveAll(o => o.CommentId.ToString() == commentId);
-            if (Rds.ExecuteScalar_int(
-                transactional: true,
-                statements: Rds.UpdateResults(
-                    verUp: VerUp,
-                    where: Rds.ResultsWhereDefault(this)
-                        .UpdatedTime(Forms.DateTime("Results_Timestamp")),
-                    param: Rds.ResultsParamDefault(this),
-                    countRecord: true)) == 0)
-            {
-                return ResponseConflicts();
-            }
-            Get();
-            SiteInfo.ItemUpdatedCollection.Add(
-                ResultId + "," + DateTime.Now.ToString("yyyy/M/d H:m:s.fff"));
+            Update();
             return ResponseByUpdate(new ResultsResponseCollection(this))
                 .RemoveComment(commentId)
                 .ToJson();

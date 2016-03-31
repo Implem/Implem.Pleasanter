@@ -253,18 +253,7 @@ namespace Implem.Pleasanter.Models
             if (error != null) return error;
             var commentId = Forms.Data("ControlId").Split(',')._2nd();
             Comments.RemoveAll(o => o.CommentId.ToString() == commentId);
-            if (Rds.ExecuteScalar_int(
-                transactional: true,
-                statements: Rds.UpdateOutgoingMails(
-                    verUp: VerUp,
-                    where: Rds.OutgoingMailsWhereDefault(this)
-                        .UpdatedTime(Forms.DateTime("OutgoingMails_Timestamp")),
-                    param: Rds.OutgoingMailsParamDefault(this),
-                    countRecord: true)) == 0)
-            {
-                return ResponseConflicts();
-            }
-            Get();
+            Update();
             return ResponseByUpdate(new OutgoingMailsResponseCollection(this))
                 .RemoveComment(commentId)
                 .ToJson();

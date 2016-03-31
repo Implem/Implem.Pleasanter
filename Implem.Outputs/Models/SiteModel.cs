@@ -195,7 +195,8 @@ namespace Implem.Pleasanter.Models
                         param: Rds.ItemsParam()
                             .SiteId(SiteId)
                             .Title(SitesUtility.TitleDisplayValue(SiteSettings, this))
-                            .Subset(Jsons.ToJson(new SiteSubset(this, SiteSettings)))),
+                            .Subset(Jsons.ToJson(new SiteSubset(this, SiteSettings)))
+                            .UpdateTarget(true)),
                     Rds.PhysicalDeleteLinks(
                         where: Rds.LinksWhere().SourceId(SiteId)),
                     LinksUtility.Insert(SiteSettings.LinkColumnSiteIdHash
@@ -206,8 +207,6 @@ namespace Implem.Pleasanter.Models
                 });
             if (count == 0) return ResponseConflicts();
             Get();
-            SiteInfo.ItemUpdatedCollection.Add(
-                SiteId + "," + DateTime.Now.ToString("yyyy/M/d H:m:s.fff"));
             var responseCollection = new SitesResponseCollection(this);
             OnUpdated(ref responseCollection);
             return ResponseByUpdate(responseCollection)
@@ -236,20 +235,7 @@ namespace Implem.Pleasanter.Models
             if (error != null) return error;
             var commentId = Forms.Data("ControlId").Split(',')._2nd();
             Comments.RemoveAll(o => o.CommentId.ToString() == commentId);
-            if (Rds.ExecuteScalar_int(
-                transactional: true,
-                statements: Rds.UpdateSites(
-                    verUp: VerUp,
-                    where: Rds.SitesWhereDefault(this)
-                        .UpdatedTime(Forms.DateTime("Sites_Timestamp")),
-                    param: Rds.SitesParamDefault(this),
-                    countRecord: true)) == 0)
-            {
-                return ResponseConflicts();
-            }
-            Get();
-            SiteInfo.ItemUpdatedCollection.Add(
-                SiteId + "," + DateTime.Now.ToString("yyyy/M/d H:m:s.fff"));
+            Update();
             return ResponseByUpdate(new SitesResponseCollection(this))
                 .RemoveComment(commentId)
                 .ToJson();

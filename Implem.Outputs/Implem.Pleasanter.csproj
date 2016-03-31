@@ -225,7 +225,6 @@
     <Compile Include="Libraries\DataTypes\User.cs" />
     <Compile Include="Libraries\DataTypes\WorkValue.cs" />
     <Compile Include="Libraries\Initializers\ItemsInitializer.cs" />
-    <Compile Include="Libraries\Initializers\SearchWordsInitializer.cs" />
     <Compile Include="Libraries\Requests\DataViewFilters.cs" />
     <Compile Include="Libraries\Requests\DataViewSelectors.cs" />
     <Compile Include="Libraries\Requests\FormData.cs" />

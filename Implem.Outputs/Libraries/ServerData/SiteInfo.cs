@@ -21,7 +21,6 @@ namespace Implem.Pleasanter.Libraries.ServerData
             new Dictionary<long, List<int>>();
         public static Dictionary<int, DeptModel> Depts;
         public static Dictionary<int, User> Users;
-        public static List<string> ItemUpdatedCollection = new List<string>();
 
         /// <summary>
         /// Fixed:

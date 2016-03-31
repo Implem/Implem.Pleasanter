@@ -21,7 +21,6 @@ namespace Implem.Pleasanter
             Initialize();
             var log = new SysLogModel();
             ItemsInitializer.Initialize();
-            SearchWordsInitializer.Initialize();
             SetConfigrations();
             log.Finish();
         }

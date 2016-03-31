@@ -256,18 +256,7 @@ namespace Implem.Pleasanter.Models
             if (error != null) return error;
             var commentId = Forms.Data("ControlId").Split(',')._2nd();
             Comments.RemoveAll(o => o.CommentId.ToString() == commentId);
-            if (Rds.ExecuteScalar_int(
-                transactional: true,
-                statements: Rds.UpdateImages(
-                    verUp: VerUp,
-                    where: Rds.ImagesWhereDefault(this)
-                        .UpdatedTime(Forms.DateTime("Images_Timestamp")),
-                    param: Rds.ImagesParamDefault(this),
-                    countRecord: true)) == 0)
-            {
-                return ResponseConflicts();
-            }
-            Get();
+            Update();
             return ResponseByUpdate(new ImagesResponseCollection(this))
                 .RemoveComment(commentId)
                 .ToJson();
