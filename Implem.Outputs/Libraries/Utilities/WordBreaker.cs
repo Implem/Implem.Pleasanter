@@ -47,6 +47,7 @@ namespace Implem.Pleasanter.Libraries.Utilities
                     }
                     else if (currentType == CharTypes.Space)
                     {
+                        Alphabets.Clear();
                         Add(beforeType, word);
                         word = string.Empty;
                     }
@@ -74,8 +75,8 @@ namespace Implem.Pleasanter.Libraries.Utilities
                 }
                 else if (currentType == CharTypes.Space)
                 {
-                    word = string.Empty;
                     Alphabets.Clear();
+                    word = string.Empty;
                 }
                 else if (currentType == CharTypes.Symbol)
                 {
