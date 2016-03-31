@@ -119,7 +119,7 @@ namespace Implem.Pleasanter.Libraries.Utilities
             {
                 Alphabets.Select((o, i) => new { Alphabet = o, Index = i }).ForEach(data =>
                 {
-                    for (var i = data.Index + 1; i <= Alphabets.Count(); i++)
+                    for (var i = data.Index + 1; i <= Alphabets.Count() && i <= 3; i++)
                     {
                         Results.Add(Alphabets
                             .Skip(data.Index)
