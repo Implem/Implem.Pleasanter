@@ -40,7 +40,8 @@ namespace Implem.Pleasanter
             bundles.Add(new ScriptBundle("~/bundles/IssueValidator").Include("~/Scripts/Validations/Issue.js"));
             bundles.Add(new ScriptBundle("~/bundles/ResultValidator").Include("~/Scripts/Validations/Result.js"));
             bundles.Add(new ScriptBundle("~/bundles/WikiValidator").Include("~/Scripts/Validations/Wiki.js"));
-            bundles.Add(new StyleBundle("~/content/styles").Include("~/Styles/Site.css"));
+            bundles.Add(new StyleBundle("~/content/styles")
+                .Include("~/Styles/Site.css"));
         }
     }
 }
