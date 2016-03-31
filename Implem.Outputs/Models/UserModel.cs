@@ -326,18 +326,6 @@ namespace Implem.Pleasanter.Models
             if (Self()) SetSession();
         }
 
-        public string DeleteComment()
-        {
-            var error = ValidateBeforeUpdate();
-            if (error != null) return error;
-            var commentId = Forms.Data("ControlId").Split(',')._2nd();
-            Comments.RemoveAll(o => o.CommentId.ToString() == commentId);
-            Update();
-            return ResponseByUpdate(new UsersResponseCollection(this))
-                .RemoveComment(commentId)
-                .ToJson();
-        }
-
         private string ValidateBeforeUpdate()
         {
             if (!PermissionType.CanEditTenant() && !Self())
@@ -407,6 +395,7 @@ namespace Implem.Pleasanter.Models
                 .Html("#RecordInfo", Html.Builder().RecordInfo(baseModel: this, tableName: "Users"))
                 .Html("#RecordHistories", Html.Builder().RecordHistories(ver: Ver, verType: VerType))
                 .Message(Messages.Updated(Title.ToString()))
+                .RemoveComment(DeleteCommentId, _using: DeleteCommentId != 0)
                 .ClearFormData();
         }
 
@@ -694,6 +683,11 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
+            if (Routes.Action() == "deletecomment")
+            {
+                DeleteCommentId = Forms.Data("ControlId").Split(',')._2nd().ToInt();
+                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
+            }
             Forms.FileKeys().ForEach(controlId =>
             {
                 switch (controlId)

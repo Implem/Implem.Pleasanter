@@ -264,18 +264,6 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        public string DeleteComment()
-        {
-            var error = ValidateBeforeUpdate();
-            if (error != null) return error;
-            var commentId = Forms.Data("ControlId").Split(',')._2nd();
-            Comments.RemoveAll(o => o.CommentId.ToString() == commentId);
-            Update();
-            return ResponseByUpdate(new WikisResponseCollection(this))
-                .RemoveComment(commentId)
-                .ToJson();
-        }
-
         private string ValidateBeforeUpdate()
         {
             if (!PermissionType.CanUpdate())
@@ -316,6 +304,7 @@ namespace Implem.Pleasanter.Models
                 .Html("#RecordHistories", Html.Builder().RecordHistories(ver: Ver, verType: VerType))
                 .Html("#Links", Html.Builder().Links(WikiId))
                 .Message(Messages.Updated(Title.ToString()))
+                .RemoveComment(DeleteCommentId, _using: DeleteCommentId != 0)
                 .ClearFormData();
         }
 
@@ -662,6 +651,11 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
+            if (Routes.Action() == "deletecomment")
+            {
+                DeleteCommentId = Forms.Data("ControlId").Split(',')._2nd().ToInt();
+                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
+            }
             Forms.FileKeys().ForEach(controlId =>
             {
                 switch (controlId)

@@ -22,11 +22,13 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
 
         public static ResponseCollection RemoveComment(
-            this ResponseCollection responseCollection, string commentId)
+            this ResponseCollection responseCollection, int commentId, bool _using)
         {
-            return responseCollection
-                .Remove("#Comment" + commentId)
-                .Focus("#Comments");
+            return _using
+                ? responseCollection
+                    .Remove("#Comment" + commentId)
+                    .Focus("#Comments")
+                : responseCollection;
         }
     }
 }

@@ -119,7 +119,7 @@ namespace Implem.Pleasanter.Controllers
                 Permissions.Admins(),
                 id,
                 setByForm: true)
-                    .DeleteComment();
+                    .Update();
             log.Finish(responseCollection.Length);
             return responseCollection;
         }

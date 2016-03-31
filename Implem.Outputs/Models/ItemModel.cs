@@ -302,25 +302,25 @@ namespace Implem.Pleasanter.Models
             switch (ReferenceType)
             {
                 case "Sites": return new SiteModel(ReferenceId, setByForm: true)
-                    .DeleteComment();
+                    .Update();
                 case "Issues": return new IssueModel(
                     Site.IssuesSiteSettings(),
                     Site.PermissionType,
                     ReferenceId,
                     setByForm: true)
-                        .DeleteComment();
+                        .Update();
                 case "Results": return new ResultModel(
                     Site.ResultsSiteSettings(),
                     Site.PermissionType,
                     ReferenceId,
                     setByForm: true)
-                        .DeleteComment();
+                        .Update();
                 case "Wikis": return new WikiModel(
                     Site.WikisSiteSettings(),
                     Site.PermissionType,
                     ReferenceId,
                     setByForm: true)
-                        .DeleteComment();
+                        .Update();
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }

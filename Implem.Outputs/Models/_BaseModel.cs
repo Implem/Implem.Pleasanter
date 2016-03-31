@@ -31,6 +31,7 @@ namespace Implem.Pleasanter.Models
         public Time UpdatedTime = null;
         public bool VerUp = false;
         public string Timestamp = string.Empty;
+        public int DeleteCommentId;
         public int SavedVer = 1;
         public string SavedComments = string.Empty;
         public int SavedCreator = 0;
