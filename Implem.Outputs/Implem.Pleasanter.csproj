@@ -339,6 +339,7 @@
     <Content Include="Scripts\MarkDowns.js" />
     <Content Include="Scripts\EventHandlers.js" />
     <Content Include="Scripts\Plugins\d3.min.js" />
+    <Content Include="Scripts\Plugins\jquery-ui\i18n\datepicker-ja.js" />
     <Content Include="Scripts\Search.js" />
     <Content Include="Scripts\Separates.js" />
     <Content Include="Scripts\SiteSettings.js" />
