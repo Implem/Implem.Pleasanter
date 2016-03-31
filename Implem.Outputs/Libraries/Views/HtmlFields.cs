@@ -78,17 +78,31 @@ namespace Implem.Pleasanter.Libraries.Views
             switch (columnPermissionType)
             {
                 case Permissions.ColumnPermissionTypes.Read:
-                    return hb.FieldText(
-                        controlId: controlId,
-                        fieldCss: fieldCss,
-                        labelCss: labelCss,
-                        controlContainerCss: controlContainerCss,
-                        controlCss: controlCss,
-                        labelText: column.LabelText,
-                        text: column.HasChoices() && optionCollection.ContainsKey(value)
-                            ? optionCollection[value].Text
-                            : value,
-                        unit: column.Unit);
+                    switch (controlType)
+                    {
+                        case ControlTypes.CheckBox:
+                            return hb.FieldCheckBox(
+                                controlId: controlId,
+                                fieldCss: fieldCss,
+                                labelCss: labelCss,
+                                controlContainerCss: controlContainerCss,
+                                controlCss: controlCss,
+                                labelText: column.LabelText,
+                                _checked: value.ToBool(),
+                                disabled: true);
+                        default:
+                            return hb.FieldText(
+                                controlId: controlId,
+                                fieldCss: fieldCss,
+                                labelCss: labelCss,
+                                controlContainerCss: controlContainerCss,
+                                controlCss: controlCss,
+                                labelText: column.LabelText,
+                                text: column.HasChoices() && optionCollection.ContainsKey(value)
+                                    ? optionCollection[value].Text
+                                    : value,
+                                unit: column.Unit);
+                    }
                 case Permissions.ColumnPermissionTypes.Update:
                     switch (controlType)
                     {
