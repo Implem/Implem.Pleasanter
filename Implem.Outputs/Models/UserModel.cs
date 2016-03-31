@@ -1662,31 +1662,41 @@ namespace Implem.Pleasanter.Models
                 .Dialog_ResetPassword(userId: userModel.UserId, siteSettings: siteSettings);
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static List<int> GetSwitchTargets(SiteSettings siteSettings)
         {
-            var switchTargets = Forms.Data("SwitchTargets").Split(',')
-                .Select(o => o.ToInt())
-                .Where(o => o != 0)
-                .ToList();
-            if (switchTargets.Count() == 0)
+            if (Permissions.Admins().CanEditTenant())
             {
-                var formData = DataViewFilters.SessionFormData();
-                switchTargets = Rds.ExecuteTable(
-                    transactional: false,
-                    statements: Rds.SelectUsers(
-                        column: Rds.UsersColumn().UserId(),
-                        where: DataViewFilters.Get(
-                            siteSettings: siteSettings,
-                            tableName: "Users",
-                            formData: formData,
-                            where: Rds.UsersWhere().TenantId(Sessions.TenantId())),
-                        orderBy: GridSorters.Get(
-                            formData, Rds.UsersOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
-                                .AsEnumerable()
-                                .Select(o => o["UserId"].ToInt())
-                                .ToList();    
+                var switchTargets = Forms.Data("SwitchTargets").Split(',')
+                    .Select(o => o.ToInt())
+                    .Where(o => o != 0)
+                    .ToList();
+                if (switchTargets.Count() == 0)
+                {
+                    var formData = DataViewFilters.SessionFormData();
+                    switchTargets = Rds.ExecuteTable(
+                        transactional: false,
+                        statements: Rds.SelectUsers(
+                            column: Rds.UsersColumn().UserId(),
+                            where: DataViewFilters.Get(
+                                siteSettings: siteSettings,
+                                tableName: "Users",
+                                formData: formData,
+                                where: Rds.UsersWhere().TenantId(Sessions.TenantId())),
+                            orderBy: GridSorters.Get(
+                                formData, Rds.UsersOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
+                                    .AsEnumerable()
+                                    .Select(o => o["UserId"].ToInt())
+                                    .ToList();
+                }
+                return switchTargets;
             }
-            return switchTargets;
+            else
+            {
+                return new List<int>();
+            }
         }
 
         /// <summary>
