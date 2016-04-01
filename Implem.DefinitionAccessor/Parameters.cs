@@ -736,5 +736,16 @@ namespace Implem.DefinitionAccessor
                     : Def.ParameterTable.SeparateMin.Int.ToInt();
             }
         }
+
+        public static DateTime MinTime
+        {
+            get
+            {
+                var environment = Get("MinTime");
+                return !environment.IsNullOrEmpty()
+                    ? environment.ToDateTime()
+                    : Def.ParameterTable.MinTime.DateTime.ToDateTime();
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.ServerData;
 using System;
 namespace Implem.Pleasanter.Libraries.Utilities
@@ -33,6 +34,10 @@ namespace Implem.Pleasanter.Libraries.Utilities
 
         public static int DateDiff(Types interval, DateTime date1, DateTime date2)
         {
+            if (date2 <= Parameters.MinTime)
+            {
+                return 0;
+            }
             switch (interval)
             {
                 case Types.Seconds:

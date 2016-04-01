@@ -2629,6 +2629,7 @@ namespace Implem.DefinitionAccessor
                     case "AdminTasksDoSpan": Parameter.AdminTasksDoSpan = definitionRow[1].ToString(); SetParameterTable(ParameterTable.AdminTasksDoSpan, definitionRow, ParameterXls); break;
                     case "SeparateMax": Parameter.SeparateMax = definitionRow[1].ToString(); SetParameterTable(ParameterTable.SeparateMax, definitionRow, ParameterXls); break;
                     case "SeparateMin": Parameter.SeparateMin = definitionRow[1].ToString(); SetParameterTable(ParameterTable.SeparateMin, definitionRow, ParameterXls); break;
+                    case "MinTime": Parameter.MinTime = definitionRow[1].ToString(); SetParameterTable(ParameterTable.MinTime, definitionRow, ParameterXls); break;
                     default: break;
                 }
             });
@@ -7610,6 +7611,7 @@ namespace Implem.DefinitionAccessor
         public string AdminTasksDoSpan;
         public string SeparateMax;
         public string SeparateMin;
+        public string MinTime;
     }
 
     public class ParameterTable
@@ -7679,6 +7681,7 @@ namespace Implem.DefinitionAccessor
         public ParameterDefinition AdminTasksDoSpan = new ParameterDefinition();
         public ParameterDefinition SeparateMax = new ParameterDefinition();
         public ParameterDefinition SeparateMin = new ParameterDefinition();
+        public ParameterDefinition MinTime = new ParameterDefinition();
     }
 
     public class SqlDefinition
