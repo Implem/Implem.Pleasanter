@@ -277,9 +277,12 @@ namespace Implem.Libraries.Utilities
         public static DateTime ToDateTime(this object obj)
         {
             DateTime data;
-            return obj != null && DateTime.TryParse(obj.ToString(), out data)
+            var str = obj.ToString();
+            return obj != null && DateTime.TryParse(str, out data)
                 ? data
-                : DateTime.FromOADate(0);
+                : obj.ToLong() > 0
+                    ? DateTime.FromOADate(double.Parse(str))
+                    : DateTime.FromOADate(0);
         }
 
         public static bool ToBool(this object obj) 
