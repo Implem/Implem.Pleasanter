@@ -2365,10 +2365,10 @@ namespace Implem.Pleasanter.Models
                     paramHash.Add(data.Index, param);
                 });
                 var errorTitle = Imports.Validate(
-                    paramHash, "Title", siteSettings.AllColumn("Title").LabelText);
+                    paramHash, siteSettings.AllColumn("Title"));
                 if (errorTitle != null) return errorTitle;
                 var errorCompletionTime = Imports.Validate(
-                    paramHash, "CompletionTime", siteSettings.AllColumn("CompletionTime").LabelText);
+                    paramHash, siteSettings.AllColumn("CompletionTime"));
                 if (errorCompletionTime != null) return errorCompletionTime;
                 paramHash.Values.ForEach(param =>
                     new IssueModel(siteSettings, siteModel.PermissionType)

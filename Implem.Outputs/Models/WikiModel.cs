@@ -1581,7 +1581,7 @@ namespace Implem.Pleasanter.Models
                     paramHash.Add(data.Index, param);
                 });
                 var errorTitle = Imports.Validate(
-                    paramHash, "Title", siteSettings.AllColumn("Title").LabelText);
+                    paramHash, siteSettings.AllColumn("Title"));
                 if (errorTitle != null) return errorTitle;
                 paramHash.Values.ForEach(param =>
                     new WikiModel(siteSettings, siteModel.PermissionType)
