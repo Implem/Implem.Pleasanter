@@ -17,15 +17,15 @@ namespace Implem.Pleasanter.Libraries.Utilities
             var itemModel = new ItemModel(id);
             var siteModel = new SiteModel().Get(where: Rds.SitesWhere().SiteId(itemModel.SiteId));
             if (Exclude(itemModel, siteModel)) return;
-            SearchWordCollection(siteModel.SiteSettings, id, itemModel.ReferenceType)
+            SearchIndexHash(siteModel.SiteSettings, id, itemModel.ReferenceType)
                 .Buffer(2000)
-                .Select((o, i) => new { SearchWordCollection = o, First = (i == 0) })
+                .Select((o, i) => new { SearchIndexCollection = o, First = (i == 0) })
                 .ForEach(data =>
                 {
                     try
                     {
                         Rds.ExecuteNonQuery(statements:
-                            Statements(data.SearchWordCollection, id, data.First));
+                            Statements(data.SearchIndexCollection, id, data.First));
                     }
                     catch (Exception e) { new SysLogModel(e); }
                 });
@@ -46,24 +46,24 @@ namespace Implem.Pleasanter.Libraries.Utilities
         }
 
         private static SqlStatement[] Statements(
-            IList<KeyValuePair<string, int>> searchWordCollection, long id, bool first)
+            IList<KeyValuePair<string, int>> SearchIndexCollection, long id, bool first)
         {
             var statements = new List<SqlStatement>();
             if (first)
             {
-                statements.Add(Rds.PhysicalDeleteSearchWords(
-                    where: Rds.SearchWordsWhere().ReferenceId(id)));
+                statements.Add(Rds.PhysicalDeleteSearchIndexes(
+                    where: Rds.SearchIndexesWhere().ReferenceId(id)));
             }
-            searchWordCollection.ForEach(word =>
-                statements.Add(Rds.InsertSearchWords(
-                    param: Rds.SearchWordsParam()
+            SearchIndexCollection.ForEach(word =>
+                statements.Add(Rds.InsertSearchIndexes(
+                    param: Rds.SearchIndexesParam()
                         .Word(word.Key)
                         .ReferenceId(raw: id.ToString())
                         .Priority(raw: word.Value.ToString()))));
             return statements.ToArray();
         }
 
-        private static Dictionary<string, int> SearchWordCollection(
+        private static Dictionary<string, int> SearchIndexCollection(
             SiteSettings siteSettings, long id, string referenceType)
         {
             switch (referenceType)
@@ -71,19 +71,19 @@ namespace Implem.Pleasanter.Libraries.Utilities
                 case "Sites": return new SiteSubset(
                     new SiteModel().Get(where: Rds.SitesWhere().SiteId(id)),
                     siteSettings)
-                        .SearchWordCollection();
+                        .SearchIndexCollection();
                 case "Issues": return new IssueSubset(
                     new IssueModel(siteSettings, Permissions.Admins(), id),
                     siteSettings)
-                        .SearchWordCollection();
+                        .SearchIndexCollection();
                 case "Results": return new ResultSubset(
                     new ResultModel(siteSettings, Permissions.Admins(), id),
                     siteSettings)
-                        .SearchWordCollection();
+                        .SearchIndexCollection();
                 case "Wikis": return new WikiSubset(
                     new WikiModel(siteSettings, Permissions.Admins(), id),
                     siteSettings)
-                        .SearchWordCollection();
+                        .SearchIndexCollection();
                 default: return null;
             }
         }
@@ -155,6 +155,31 @@ namespace Implem.Pleasanter.Libraries.Utilities
                     break;
             }
             return hb;
+        }
+
+        private static Dictionary<string, int> SearchIndexHash(
+            SiteSettings siteSettings, long id, string referenceType)
+        {
+            switch (referenceType)
+            {
+                case "Sites": return new SiteSubset(
+                    new SiteModel().Get(where: Rds.SitesWhere().SiteId(id)),
+                    siteSettings)
+                        .SearchIndexCollection();
+                case "Issues": return new IssueSubset(
+                    new IssueModel(siteSettings, Permissions.Admins(), id),
+                    siteSettings)
+                        .SearchIndexCollection();
+                case "Results": return new ResultSubset(
+                    new ResultModel(siteSettings, Permissions.Admins(), id),
+                    siteSettings)
+                        .SearchIndexCollection();
+                case "Wikis": return new WikiSubset(
+                    new WikiModel(siteSettings, Permissions.Admins(), id),
+                    siteSettings)
+                        .SearchIndexCollection();
+                default: return null;
+            }
         }
     }
 }

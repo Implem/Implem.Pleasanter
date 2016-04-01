@@ -1127,15 +1127,15 @@ namespace Implem.Pleasanter.Models
             Updator_LabelText = siteSettings.EditorColumn("Updator")?.LabelText;
         }
 
-        public Dictionary<string, int> SearchWordCollection()
+        public Dictionary<string, int> SearchIndexCollection()
         {
-            var searchWordHash = new Dictionary<string, int>();
-            Title.SearchWords(ref searchWordHash, 4);
-            Body.SearchWords(ref searchWordHash, 200);
-            Comments.SearchWords(ref searchWordHash, 200);
-            Creator.SearchWords(ref searchWordHash, 100);
-            Updator.SearchWords(ref searchWordHash, 100);
-            return searchWordHash;
+            var searchIndexHash = new Dictionary<string, int>();
+            Title.SearchIndexes(ref searchIndexHash, 4);
+            Body.SearchIndexes(ref searchIndexHash, 200);
+            Comments.SearchIndexes(ref searchIndexHash, 200);
+            Creator.SearchIndexes(ref searchIndexHash, 100);
+            Updator.SearchIndexes(ref searchIndexHash, 100);
+            return searchIndexHash;
         }
     }
 

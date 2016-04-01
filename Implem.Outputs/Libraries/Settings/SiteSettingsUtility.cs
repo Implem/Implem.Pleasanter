@@ -63,12 +63,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             return outgoingMailsSiteSettings;
         }
 
-        public static SiteSettings SearchWordsSiteSettings()
+        public static SiteSettings SearchIndexesSiteSettings()
         {
-            var searchWordsSiteSettings = new SiteSettings();
-            searchWordsSiteSettings.ReferenceType = "SearchWords";
-            searchWordsSiteSettings.Init();
-            return searchWordsSiteSettings;
+            var searchIndexesSiteSettings = new SiteSettings();
+            searchIndexesSiteSettings.ReferenceType = "SearchIndexes";
+            searchIndexesSiteSettings.Init();
+            return searchIndexesSiteSettings;
         }
 
         public static SiteSettings ItemsSiteSettings()

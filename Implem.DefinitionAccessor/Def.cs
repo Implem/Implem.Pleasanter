@@ -396,7 +396,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Subset": Code.Model_Subset = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Subset, definitionRow, CodeXls); break;
                     case "Model_Subset_Properties": Code.Model_Subset_Properties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Subset_Properties, definitionRow, CodeXls); break;
                     case "Model_Subset_SetProperties": Code.Model_Subset_SetProperties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Subset_SetProperties, definitionRow, CodeXls); break;
-                    case "Model_Subset_SearchWords": Code.Model_Subset_SearchWords = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Subset_SearchWords, definitionRow, CodeXls); break;
+                    case "Model_Subset_SearchIndexes": Code.Model_Subset_SearchIndexes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Subset_SearchIndexes, definitionRow, CodeXls); break;
                     case "Model_Collection": Code.Model_Collection = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Collection, definitionRow, CodeXls); break;
                     case "Model_Utility": Code.Model_Utility = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility, definitionRow, CodeXls); break;
                     case "Model_Utility_Index": Code.Model_Utility_Index = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_Index, definitionRow, CodeXls); break;
@@ -607,7 +607,7 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("Calc")) { newCodeDefinition.Calc = definitionRow["Calc"].ToBool(); newCodeDefinition.SavedCalc = newCodeDefinition.Calc; }
                 if (definitionRow.ContainsKey("NotCalc")) { newCodeDefinition.NotCalc = definitionRow["NotCalc"].ToBool(); newCodeDefinition.SavedNotCalc = newCodeDefinition.NotCalc; }
                 if (definitionRow.ContainsKey("LinkGrid")) { newCodeDefinition.LinkGrid = definitionRow["LinkGrid"].ToBool(); newCodeDefinition.SavedLinkGrid = newCodeDefinition.LinkGrid; }
-                if (definitionRow.ContainsKey("SearchWord")) { newCodeDefinition.SearchWord = definitionRow["SearchWord"].ToBool(); newCodeDefinition.SavedSearchWord = newCodeDefinition.SearchWord; }
+                if (definitionRow.ContainsKey("SearchIndex")) { newCodeDefinition.SearchIndex = definitionRow["SearchIndex"].ToBool(); newCodeDefinition.SavedSearchIndex = newCodeDefinition.SearchIndex; }
                 if (definitionRow.ContainsKey("NotByForm")) { newCodeDefinition.NotByForm = definitionRow["NotByForm"].ToBool(); newCodeDefinition.SavedNotByForm = newCodeDefinition.NotByForm; }
                 if (definitionRow.ContainsKey("Form")) { newCodeDefinition.Form = definitionRow["Form"].ToBool(); newCodeDefinition.SavedForm = newCodeDefinition.Form; }
                 if (definitionRow.ContainsKey("Select")) { newCodeDefinition.Select = definitionRow["Select"].ToBool(); newCodeDefinition.SavedSelect = newCodeDefinition.Select; }
@@ -682,7 +682,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("Calc")) { definition.Calc = definitionRow["Calc"].ToBool(); definition.SavedCalc = definition.Calc; }
             if (definitionRow.ContainsKey("NotCalc")) { definition.NotCalc = definitionRow["NotCalc"].ToBool(); definition.SavedNotCalc = definition.NotCalc; }
             if (definitionRow.ContainsKey("LinkGrid")) { definition.LinkGrid = definitionRow["LinkGrid"].ToBool(); definition.SavedLinkGrid = definition.LinkGrid; }
-            if (definitionRow.ContainsKey("SearchWord")) { definition.SearchWord = definitionRow["SearchWord"].ToBool(); definition.SavedSearchWord = definition.SearchWord; }
+            if (definitionRow.ContainsKey("SearchIndex")) { definition.SearchIndex = definitionRow["SearchIndex"].ToBool(); definition.SavedSearchIndex = definition.SearchIndex; }
             if (definitionRow.ContainsKey("NotByForm")) { definition.NotByForm = definitionRow["NotByForm"].ToBool(); definition.SavedNotByForm = definition.NotByForm; }
             if (definitionRow.ContainsKey("Form")) { definition.Form = definitionRow["Form"].ToBool(); definition.SavedForm = definition.Form; }
             if (definitionRow.ContainsKey("Select")) { definition.Select = definitionRow["Select"].ToBool(); definition.SavedSelect = definition.Select; }
@@ -875,13 +875,13 @@ namespace Implem.DefinitionAccessor
                     case "OutgoingMails_SentTime": Column.OutgoingMails_SentTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.OutgoingMails_SentTime, definitionRow, ColumnXls); break;
                     case "OutgoingMails_DestinationSearchRange": Column.OutgoingMails_DestinationSearchRange = definitionRow[1].ToString(); SetColumnTable(ColumnTable.OutgoingMails_DestinationSearchRange, definitionRow, ColumnXls); break;
                     case "OutgoingMails_DestinationSearchText": Column.OutgoingMails_DestinationSearchText = definitionRow[1].ToString(); SetColumnTable(ColumnTable.OutgoingMails_DestinationSearchText, definitionRow, ColumnXls); break;
-                    case "SearchWords_Word": Column.SearchWords_Word = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchWords_Word, definitionRow, ColumnXls); break;
-                    case "SearchWords_ReferenceId": Column.SearchWords_ReferenceId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchWords_ReferenceId, definitionRow, ColumnXls); break;
-                    case "SearchWords_Priority": Column.SearchWords_Priority = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchWords_Priority, definitionRow, ColumnXls); break;
-                    case "SearchWords_ReferenceType": Column.SearchWords_ReferenceType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchWords_ReferenceType, definitionRow, ColumnXls); break;
-                    case "SearchWords_Title": Column.SearchWords_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchWords_Title, definitionRow, ColumnXls); break;
-                    case "SearchWords_Subset": Column.SearchWords_Subset = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchWords_Subset, definitionRow, ColumnXls); break;
-                    case "SearchWords_PermissionType": Column.SearchWords_PermissionType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchWords_PermissionType, definitionRow, ColumnXls); break;
+                    case "SearchIndexes_Word": Column.SearchIndexes_Word = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchIndexes_Word, definitionRow, ColumnXls); break;
+                    case "SearchIndexes_ReferenceId": Column.SearchIndexes_ReferenceId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchIndexes_ReferenceId, definitionRow, ColumnXls); break;
+                    case "SearchIndexes_Priority": Column.SearchIndexes_Priority = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchIndexes_Priority, definitionRow, ColumnXls); break;
+                    case "SearchIndexes_ReferenceType": Column.SearchIndexes_ReferenceType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchIndexes_ReferenceType, definitionRow, ColumnXls); break;
+                    case "SearchIndexes_Title": Column.SearchIndexes_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchIndexes_Title, definitionRow, ColumnXls); break;
+                    case "SearchIndexes_Subset": Column.SearchIndexes_Subset = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchIndexes_Subset, definitionRow, ColumnXls); break;
+                    case "SearchIndexes_PermissionType": Column.SearchIndexes_PermissionType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchIndexes_PermissionType, definitionRow, ColumnXls); break;
                     case "Items_ReferenceId": Column.Items_ReferenceId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_ReferenceId, definitionRow, ColumnXls); break;
                     case "Items_ReferenceType": Column.Items_ReferenceType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_ReferenceType, definitionRow, ColumnXls); break;
                     case "Items_SiteId": Column.Items_SiteId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_SiteId, definitionRow, ColumnXls); break;
@@ -1050,14 +1050,14 @@ namespace Implem.DefinitionAccessor
                     case "OutgoingMails_UpdatedTime": Column.OutgoingMails_UpdatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.OutgoingMails_UpdatedTime, definitionRow, ColumnXls); break;
                     case "OutgoingMails_VerUp": Column.OutgoingMails_VerUp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.OutgoingMails_VerUp, definitionRow, ColumnXls); break;
                     case "OutgoingMails_Timestamp": Column.OutgoingMails_Timestamp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.OutgoingMails_Timestamp, definitionRow, ColumnXls); break;
-                    case "SearchWords_Ver": Column.SearchWords_Ver = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchWords_Ver, definitionRow, ColumnXls); break;
-                    case "SearchWords_Comments": Column.SearchWords_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchWords_Comments, definitionRow, ColumnXls); break;
-                    case "SearchWords_Creator": Column.SearchWords_Creator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchWords_Creator, definitionRow, ColumnXls); break;
-                    case "SearchWords_Updator": Column.SearchWords_Updator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchWords_Updator, definitionRow, ColumnXls); break;
-                    case "SearchWords_CreatedTime": Column.SearchWords_CreatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchWords_CreatedTime, definitionRow, ColumnXls); break;
-                    case "SearchWords_UpdatedTime": Column.SearchWords_UpdatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchWords_UpdatedTime, definitionRow, ColumnXls); break;
-                    case "SearchWords_VerUp": Column.SearchWords_VerUp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchWords_VerUp, definitionRow, ColumnXls); break;
-                    case "SearchWords_Timestamp": Column.SearchWords_Timestamp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchWords_Timestamp, definitionRow, ColumnXls); break;
+                    case "SearchIndexes_Ver": Column.SearchIndexes_Ver = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchIndexes_Ver, definitionRow, ColumnXls); break;
+                    case "SearchIndexes_Comments": Column.SearchIndexes_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchIndexes_Comments, definitionRow, ColumnXls); break;
+                    case "SearchIndexes_Creator": Column.SearchIndexes_Creator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchIndexes_Creator, definitionRow, ColumnXls); break;
+                    case "SearchIndexes_Updator": Column.SearchIndexes_Updator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchIndexes_Updator, definitionRow, ColumnXls); break;
+                    case "SearchIndexes_CreatedTime": Column.SearchIndexes_CreatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchIndexes_CreatedTime, definitionRow, ColumnXls); break;
+                    case "SearchIndexes_UpdatedTime": Column.SearchIndexes_UpdatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchIndexes_UpdatedTime, definitionRow, ColumnXls); break;
+                    case "SearchIndexes_VerUp": Column.SearchIndexes_VerUp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchIndexes_VerUp, definitionRow, ColumnXls); break;
+                    case "SearchIndexes_Timestamp": Column.SearchIndexes_Timestamp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SearchIndexes_Timestamp, definitionRow, ColumnXls); break;
                     case "Items_Ver": Column.Items_Ver = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_Ver, definitionRow, ColumnXls); break;
                     case "Items_Comments": Column.Items_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_Comments, definitionRow, ColumnXls); break;
                     case "Items_Creator": Column.Items_Creator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_Creator, definitionRow, ColumnXls); break;
@@ -1200,7 +1200,7 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("NotEditSelf")) { newColumnDefinition.NotEditSelf = definitionRow["NotEditSelf"].ToBool(); newColumnDefinition.SavedNotEditSelf = newColumnDefinition.NotEditSelf; }
                 if (definitionRow.ContainsKey("HistoryGrid")) { newColumnDefinition.HistoryGrid = definitionRow["HistoryGrid"].ToInt(); newColumnDefinition.SavedHistoryGrid = newColumnDefinition.HistoryGrid; }
                 if (definitionRow.ContainsKey("LinkGrid")) { newColumnDefinition.LinkGrid = definitionRow["LinkGrid"].ToInt(); newColumnDefinition.SavedLinkGrid = newColumnDefinition.LinkGrid; }
-                if (definitionRow.ContainsKey("SearchWordPriority")) { newColumnDefinition.SearchWordPriority = definitionRow["SearchWordPriority"].ToInt(); newColumnDefinition.SavedSearchWordPriority = newColumnDefinition.SearchWordPriority; }
+                if (definitionRow.ContainsKey("SearchIndexPriority")) { newColumnDefinition.SearchIndexPriority = definitionRow["SearchIndexPriority"].ToInt(); newColumnDefinition.SavedSearchIndexPriority = newColumnDefinition.SearchIndexPriority; }
                 if (definitionRow.ContainsKey("NotForm")) { newColumnDefinition.NotForm = definitionRow["NotForm"].ToBool(); newColumnDefinition.SavedNotForm = newColumnDefinition.NotForm; }
                 if (definitionRow.ContainsKey("NotSelect")) { newColumnDefinition.NotSelect = definitionRow["NotSelect"].ToBool(); newColumnDefinition.SavedNotSelect = newColumnDefinition.NotSelect; }
                 if (definitionRow.ContainsKey("NotUpdate")) { newColumnDefinition.NotUpdate = definitionRow["NotUpdate"].ToBool(); newColumnDefinition.SavedNotUpdate = newColumnDefinition.NotUpdate; }
@@ -1296,7 +1296,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("NotEditSelf")) { definition.NotEditSelf = definitionRow["NotEditSelf"].ToBool(); definition.SavedNotEditSelf = definition.NotEditSelf; }
             if (definitionRow.ContainsKey("HistoryGrid")) { definition.HistoryGrid = definitionRow["HistoryGrid"].ToInt(); definition.SavedHistoryGrid = definition.HistoryGrid; }
             if (definitionRow.ContainsKey("LinkGrid")) { definition.LinkGrid = definitionRow["LinkGrid"].ToInt(); definition.SavedLinkGrid = definition.LinkGrid; }
-            if (definitionRow.ContainsKey("SearchWordPriority")) { definition.SearchWordPriority = definitionRow["SearchWordPriority"].ToInt(); definition.SavedSearchWordPriority = definition.SearchWordPriority; }
+            if (definitionRow.ContainsKey("SearchIndexPriority")) { definition.SearchIndexPriority = definitionRow["SearchIndexPriority"].ToInt(); definition.SavedSearchIndexPriority = definition.SearchIndexPriority; }
             if (definitionRow.ContainsKey("NotForm")) { definition.NotForm = definitionRow["NotForm"].ToBool(); definition.SavedNotForm = definition.NotForm; }
             if (definitionRow.ContainsKey("NotSelect")) { definition.NotSelect = definitionRow["NotSelect"].ToBool(); definition.SavedNotSelect = definition.NotSelect; }
             if (definitionRow.ContainsKey("NotUpdate")) { definition.NotUpdate = definitionRow["NotUpdate"].ToBool(); definition.SavedNotUpdate = definition.NotUpdate; }
@@ -2764,7 +2764,7 @@ namespace Implem.DefinitionAccessor
                         case "Calc": codeDefinition.Calc = optionValue.ToBool(); break;
                         case "NotCalc": codeDefinition.NotCalc = optionValue.ToBool(); break;
                         case "LinkGrid": codeDefinition.LinkGrid = optionValue.ToBool(); break;
-                        case "SearchWord": codeDefinition.SearchWord = optionValue.ToBool(); break;
+                        case "SearchIndex": codeDefinition.SearchIndex = optionValue.ToBool(); break;
                         case "NotByForm": codeDefinition.NotByForm = optionValue.ToBool(); break;
                         case "Form": codeDefinition.Form = optionValue.ToBool(); break;
                         case "Select": codeDefinition.Select = optionValue.ToBool(); break;
@@ -2870,7 +2870,7 @@ namespace Implem.DefinitionAccessor
                         case "NotEditSelf": columnDefinition.NotEditSelf = optionValue.ToBool(); break;
                         case "HistoryGrid": columnDefinition.HistoryGrid = optionValue.ToInt(); break;
                         case "LinkGrid": columnDefinition.LinkGrid = optionValue.ToInt(); break;
-                        case "SearchWordPriority": columnDefinition.SearchWordPriority = optionValue.ToInt(); break;
+                        case "SearchIndexPriority": columnDefinition.SearchIndexPriority = optionValue.ToInt(); break;
                         case "NotForm": columnDefinition.NotForm = optionValue.ToBool(); break;
                         case "NotSelect": columnDefinition.NotSelect = optionValue.ToBool(); break;
                         case "NotUpdate": columnDefinition.NotUpdate = optionValue.ToBool(); break;
@@ -3121,7 +3121,7 @@ namespace Implem.DefinitionAccessor
         public bool Calc; public bool SavedCalc;
         public bool NotCalc; public bool SavedNotCalc;
         public bool LinkGrid; public bool SavedLinkGrid;
-        public bool SearchWord; public bool SavedSearchWord;
+        public bool SearchIndex; public bool SavedSearchIndex;
         public bool NotByForm; public bool SavedNotByForm;
         public bool Form; public bool SavedForm;
         public bool Select; public bool SavedSelect;
@@ -3197,7 +3197,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("Calc")) Calc = propertyCollection["Calc"].ToBool(); else Calc = false;
             if (propertyCollection.ContainsKey("NotCalc")) NotCalc = propertyCollection["NotCalc"].ToBool(); else NotCalc = false;
             if (propertyCollection.ContainsKey("LinkGrid")) LinkGrid = propertyCollection["LinkGrid"].ToBool(); else LinkGrid = false;
-            if (propertyCollection.ContainsKey("SearchWord")) SearchWord = propertyCollection["SearchWord"].ToBool(); else SearchWord = false;
+            if (propertyCollection.ContainsKey("SearchIndex")) SearchIndex = propertyCollection["SearchIndex"].ToBool(); else SearchIndex = false;
             if (propertyCollection.ContainsKey("NotByForm")) NotByForm = propertyCollection["NotByForm"].ToBool(); else NotByForm = false;
             if (propertyCollection.ContainsKey("Form")) Form = propertyCollection["Form"].ToBool(); else Form = false;
             if (propertyCollection.ContainsKey("Select")) Select = propertyCollection["Select"].ToBool(); else Select = false;
@@ -3273,7 +3273,7 @@ namespace Implem.DefinitionAccessor
                     case "Calc": return Calc;
                     case "NotCalc": return NotCalc;
                     case "LinkGrid": return LinkGrid;
-                    case "SearchWord": return SearchWord;
+                    case "SearchIndex": return SearchIndex;
                     case "NotByForm": return NotByForm;
                     case "Form": return Form;
                     case "Select": return Select;
@@ -3349,7 +3349,7 @@ namespace Implem.DefinitionAccessor
             Calc = SavedCalc;
             NotCalc = SavedNotCalc;
             LinkGrid = SavedLinkGrid;
-            SearchWord = SavedSearchWord;
+            SearchIndex = SavedSearchIndex;
             NotByForm = SavedNotByForm;
             Form = SavedForm;
             Select = SavedSelect;
@@ -3557,7 +3557,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Subset;
         public string Model_Subset_Properties;
         public string Model_Subset_SetProperties;
-        public string Model_Subset_SearchWords;
+        public string Model_Subset_SearchIndexes;
         public string Model_Collection;
         public string Model_Utility;
         public string Model_Utility_Index;
@@ -3900,7 +3900,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Subset = new CodeDefinition();
         public CodeDefinition Model_Subset_Properties = new CodeDefinition();
         public CodeDefinition Model_Subset_SetProperties = new CodeDefinition();
-        public CodeDefinition Model_Subset_SearchWords = new CodeDefinition();
+        public CodeDefinition Model_Subset_SearchIndexes = new CodeDefinition();
         public CodeDefinition Model_Collection = new CodeDefinition();
         public CodeDefinition Model_Utility = new CodeDefinition();
         public CodeDefinition Model_Utility_Index = new CodeDefinition();
@@ -4132,7 +4132,7 @@ namespace Implem.DefinitionAccessor
         public bool NotEditSelf; public bool SavedNotEditSelf;
         public int HistoryGrid; public int SavedHistoryGrid;
         public int LinkGrid; public int SavedLinkGrid;
-        public int SearchWordPriority; public int SavedSearchWordPriority;
+        public int SearchIndexPriority; public int SavedSearchIndexPriority;
         public bool NotForm; public bool SavedNotForm;
         public bool NotSelect; public bool SavedNotSelect;
         public bool NotUpdate; public bool SavedNotUpdate;
@@ -4229,7 +4229,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("NotEditSelf")) NotEditSelf = propertyCollection["NotEditSelf"].ToBool(); else NotEditSelf = false;
             if (propertyCollection.ContainsKey("HistoryGrid")) HistoryGrid = propertyCollection["HistoryGrid"].ToInt(); else HistoryGrid = 0;
             if (propertyCollection.ContainsKey("LinkGrid")) LinkGrid = propertyCollection["LinkGrid"].ToInt(); else LinkGrid = 0;
-            if (propertyCollection.ContainsKey("SearchWordPriority")) SearchWordPriority = propertyCollection["SearchWordPriority"].ToInt(); else SearchWordPriority = 0;
+            if (propertyCollection.ContainsKey("SearchIndexPriority")) SearchIndexPriority = propertyCollection["SearchIndexPriority"].ToInt(); else SearchIndexPriority = 0;
             if (propertyCollection.ContainsKey("NotForm")) NotForm = propertyCollection["NotForm"].ToBool(); else NotForm = false;
             if (propertyCollection.ContainsKey("NotSelect")) NotSelect = propertyCollection["NotSelect"].ToBool(); else NotSelect = false;
             if (propertyCollection.ContainsKey("NotUpdate")) NotUpdate = propertyCollection["NotUpdate"].ToBool(); else NotUpdate = false;
@@ -4326,7 +4326,7 @@ namespace Implem.DefinitionAccessor
                     case "NotEditSelf": return NotEditSelf;
                     case "HistoryGrid": return HistoryGrid;
                     case "LinkGrid": return LinkGrid;
-                    case "SearchWordPriority": return SearchWordPriority;
+                    case "SearchIndexPriority": return SearchIndexPriority;
                     case "NotForm": return NotForm;
                     case "NotSelect": return NotSelect;
                     case "NotUpdate": return NotUpdate;
@@ -4423,7 +4423,7 @@ namespace Implem.DefinitionAccessor
             NotEditSelf = SavedNotEditSelf;
             HistoryGrid = SavedHistoryGrid;
             LinkGrid = SavedLinkGrid;
-            SearchWordPriority = SavedSearchWordPriority;
+            SearchIndexPriority = SavedSearchIndexPriority;
             NotForm = SavedNotForm;
             NotSelect = SavedNotSelect;
             NotUpdate = SavedNotUpdate;
@@ -4596,13 +4596,13 @@ namespace Implem.DefinitionAccessor
         public string OutgoingMails_SentTime;
         public string OutgoingMails_DestinationSearchRange;
         public string OutgoingMails_DestinationSearchText;
-        public string SearchWords_Word;
-        public string SearchWords_ReferenceId;
-        public string SearchWords_Priority;
-        public string SearchWords_ReferenceType;
-        public string SearchWords_Title;
-        public string SearchWords_Subset;
-        public string SearchWords_PermissionType;
+        public string SearchIndexes_Word;
+        public string SearchIndexes_ReferenceId;
+        public string SearchIndexes_Priority;
+        public string SearchIndexes_ReferenceType;
+        public string SearchIndexes_Title;
+        public string SearchIndexes_Subset;
+        public string SearchIndexes_PermissionType;
         public string Items_ReferenceId;
         public string Items_ReferenceType;
         public string Items_SiteId;
@@ -4771,14 +4771,14 @@ namespace Implem.DefinitionAccessor
         public string OutgoingMails_UpdatedTime;
         public string OutgoingMails_VerUp;
         public string OutgoingMails_Timestamp;
-        public string SearchWords_Ver;
-        public string SearchWords_Comments;
-        public string SearchWords_Creator;
-        public string SearchWords_Updator;
-        public string SearchWords_CreatedTime;
-        public string SearchWords_UpdatedTime;
-        public string SearchWords_VerUp;
-        public string SearchWords_Timestamp;
+        public string SearchIndexes_Ver;
+        public string SearchIndexes_Comments;
+        public string SearchIndexes_Creator;
+        public string SearchIndexes_Updator;
+        public string SearchIndexes_CreatedTime;
+        public string SearchIndexes_UpdatedTime;
+        public string SearchIndexes_VerUp;
+        public string SearchIndexes_Timestamp;
         public string Items_Ver;
         public string Items_Comments;
         public string Items_Creator;
@@ -4997,13 +4997,13 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition OutgoingMails_SentTime = new ColumnDefinition();
         public ColumnDefinition OutgoingMails_DestinationSearchRange = new ColumnDefinition();
         public ColumnDefinition OutgoingMails_DestinationSearchText = new ColumnDefinition();
-        public ColumnDefinition SearchWords_Word = new ColumnDefinition();
-        public ColumnDefinition SearchWords_ReferenceId = new ColumnDefinition();
-        public ColumnDefinition SearchWords_Priority = new ColumnDefinition();
-        public ColumnDefinition SearchWords_ReferenceType = new ColumnDefinition();
-        public ColumnDefinition SearchWords_Title = new ColumnDefinition();
-        public ColumnDefinition SearchWords_Subset = new ColumnDefinition();
-        public ColumnDefinition SearchWords_PermissionType = new ColumnDefinition();
+        public ColumnDefinition SearchIndexes_Word = new ColumnDefinition();
+        public ColumnDefinition SearchIndexes_ReferenceId = new ColumnDefinition();
+        public ColumnDefinition SearchIndexes_Priority = new ColumnDefinition();
+        public ColumnDefinition SearchIndexes_ReferenceType = new ColumnDefinition();
+        public ColumnDefinition SearchIndexes_Title = new ColumnDefinition();
+        public ColumnDefinition SearchIndexes_Subset = new ColumnDefinition();
+        public ColumnDefinition SearchIndexes_PermissionType = new ColumnDefinition();
         public ColumnDefinition Items_ReferenceId = new ColumnDefinition();
         public ColumnDefinition Items_ReferenceType = new ColumnDefinition();
         public ColumnDefinition Items_SiteId = new ColumnDefinition();
@@ -5172,14 +5172,14 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition OutgoingMails_UpdatedTime = new ColumnDefinition();
         public ColumnDefinition OutgoingMails_VerUp = new ColumnDefinition();
         public ColumnDefinition OutgoingMails_Timestamp = new ColumnDefinition();
-        public ColumnDefinition SearchWords_Ver = new ColumnDefinition();
-        public ColumnDefinition SearchWords_Comments = new ColumnDefinition();
-        public ColumnDefinition SearchWords_Creator = new ColumnDefinition();
-        public ColumnDefinition SearchWords_Updator = new ColumnDefinition();
-        public ColumnDefinition SearchWords_CreatedTime = new ColumnDefinition();
-        public ColumnDefinition SearchWords_UpdatedTime = new ColumnDefinition();
-        public ColumnDefinition SearchWords_VerUp = new ColumnDefinition();
-        public ColumnDefinition SearchWords_Timestamp = new ColumnDefinition();
+        public ColumnDefinition SearchIndexes_Ver = new ColumnDefinition();
+        public ColumnDefinition SearchIndexes_Comments = new ColumnDefinition();
+        public ColumnDefinition SearchIndexes_Creator = new ColumnDefinition();
+        public ColumnDefinition SearchIndexes_Updator = new ColumnDefinition();
+        public ColumnDefinition SearchIndexes_CreatedTime = new ColumnDefinition();
+        public ColumnDefinition SearchIndexes_UpdatedTime = new ColumnDefinition();
+        public ColumnDefinition SearchIndexes_VerUp = new ColumnDefinition();
+        public ColumnDefinition SearchIndexes_Timestamp = new ColumnDefinition();
         public ColumnDefinition Items_Ver = new ColumnDefinition();
         public ColumnDefinition Items_Comments = new ColumnDefinition();
         public ColumnDefinition Items_Creator = new ColumnDefinition();

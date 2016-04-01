@@ -88,7 +88,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             if (codeDefinition.NotCalc && columnDefinition.Calc != string.Empty) return true;
             if (codeDefinition.NotWhereSpecial && columnDefinition.WhereSpecial) return true;
             if (codeDefinition.LinkGrid && columnDefinition.LinkGrid == 0) return true;
-            if (codeDefinition.SearchWord && columnDefinition.SearchWordPriority == 0) return true;
+            if (codeDefinition.SearchIndex && columnDefinition.SearchIndexPriority == 0) return true;
             if (codeDefinition.NotByForm && columnDefinition.ByForm != string.Empty) return true;
             if (codeDefinition.Form && columnDefinition.NotForm) return true;
             if (codeDefinition.Select && columnDefinition.NotSelect) return true;

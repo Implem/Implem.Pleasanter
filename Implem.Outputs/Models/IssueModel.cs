@@ -1313,34 +1313,34 @@ namespace Implem.Pleasanter.Models
             Updator_LabelText = siteSettings.EditorColumn("Updator")?.LabelText;
         }
 
-        public Dictionary<string, int> SearchWordCollection()
+        public Dictionary<string, int> SearchIndexCollection()
         {
-            var searchWordHash = new Dictionary<string, int>();
-            IssueId.SearchWords(ref searchWordHash, 1);
-            Title.SearchWords(ref searchWordHash, 4);
-            Body.SearchWords(ref searchWordHash, 200);
-            Manager.SearchWords(ref searchWordHash, 100);
-            Owner.SearchWords(ref searchWordHash, 100);
-            ClassA.SearchWords(ref searchWordHash, 200);
-            ClassB.SearchWords(ref searchWordHash, 200);
-            ClassC.SearchWords(ref searchWordHash, 200);
-            ClassD.SearchWords(ref searchWordHash, 200);
-            ClassE.SearchWords(ref searchWordHash, 200);
-            ClassF.SearchWords(ref searchWordHash, 200);
-            ClassG.SearchWords(ref searchWordHash, 200);
-            ClassH.SearchWords(ref searchWordHash, 200);
-            ClassI.SearchWords(ref searchWordHash, 200);
-            ClassJ.SearchWords(ref searchWordHash, 200);
-            ClassK.SearchWords(ref searchWordHash, 200);
-            ClassL.SearchWords(ref searchWordHash, 200);
-            ClassM.SearchWords(ref searchWordHash, 200);
-            ClassN.SearchWords(ref searchWordHash, 200);
-            ClassO.SearchWords(ref searchWordHash, 200);
-            ClassP.SearchWords(ref searchWordHash, 200);
-            Comments.SearchWords(ref searchWordHash, 200);
-            Creator.SearchWords(ref searchWordHash, 100);
-            Updator.SearchWords(ref searchWordHash, 100);
-            return searchWordHash;
+            var searchIndexHash = new Dictionary<string, int>();
+            IssueId.SearchIndexes(ref searchIndexHash, 1);
+            Title.SearchIndexes(ref searchIndexHash, 4);
+            Body.SearchIndexes(ref searchIndexHash, 200);
+            Manager.SearchIndexes(ref searchIndexHash, 100);
+            Owner.SearchIndexes(ref searchIndexHash, 100);
+            ClassA.SearchIndexes(ref searchIndexHash, 200);
+            ClassB.SearchIndexes(ref searchIndexHash, 200);
+            ClassC.SearchIndexes(ref searchIndexHash, 200);
+            ClassD.SearchIndexes(ref searchIndexHash, 200);
+            ClassE.SearchIndexes(ref searchIndexHash, 200);
+            ClassF.SearchIndexes(ref searchIndexHash, 200);
+            ClassG.SearchIndexes(ref searchIndexHash, 200);
+            ClassH.SearchIndexes(ref searchIndexHash, 200);
+            ClassI.SearchIndexes(ref searchIndexHash, 200);
+            ClassJ.SearchIndexes(ref searchIndexHash, 200);
+            ClassK.SearchIndexes(ref searchIndexHash, 200);
+            ClassL.SearchIndexes(ref searchIndexHash, 200);
+            ClassM.SearchIndexes(ref searchIndexHash, 200);
+            ClassN.SearchIndexes(ref searchIndexHash, 200);
+            ClassO.SearchIndexes(ref searchIndexHash, 200);
+            ClassP.SearchIndexes(ref searchIndexHash, 200);
+            Comments.SearchIndexes(ref searchIndexHash, 200);
+            Creator.SearchIndexes(ref searchIndexHash, 100);
+            Updator.SearchIndexes(ref searchIndexHash, 100);
+            return searchIndexHash;
         }
     }
 

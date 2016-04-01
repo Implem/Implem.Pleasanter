@@ -22,7 +22,7 @@ using System.Text;
 using System.Web;
 namespace Implem.Pleasanter.Models
 {
-    public class SearchWordModel : BaseModel
+    public class SearchIndexModel : BaseModel
     {
         public string Word = string.Empty;
         public long ReferenceId = 0;
@@ -41,7 +41,7 @@ namespace Implem.Pleasanter.Models
         public bool ReferenceId_Updated { get { return ReferenceId != SavedReferenceId; } }
         public bool Priority_Updated { get { return Priority != SavedPriority; } }
 
-        public SearchWordModel(
+        public SearchIndexModel(
             SiteSettings siteSettings, 
             Permissions.Types permissionType,
             DataRow dataRow)
@@ -64,7 +64,7 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        public SearchWordModel Get(
+        public SearchIndexModel Get(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
@@ -74,11 +74,11 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(Rds.ExecuteTable(statements: Rds.SelectSearchWords(
+            Set(Rds.ExecuteTable(statements: Rds.SelectSearchIndexes(
                 tableType: tableType,
-                column: column ?? Rds.SearchWordsColumnDefault(),
-                join: join ??  Rds.SearchWordsJoinDefault(),
-                where: where ?? Rds.SearchWordsWhereDefault(this),
+                column: column ?? Rds.SearchIndexesColumnDefault(),
+                join: join ??  Rds.SearchIndexesJoinDefault(),
+                where: where ?? Rds.SearchIndexesWhereDefault(this),
                 orderBy: orderBy ?? null,
                 param: param ?? null,
                 distinct: distinct,
@@ -134,12 +134,12 @@ namespace Implem.Pleasanter.Models
         }
     }
 
-    public class SearchWordCollection : List<SearchWordModel>
+    public class SearchIndexCollection : List<SearchIndexModel>
     {
         public Databases.AccessStatuses AccessStatus = Databases.AccessStatuses.Initialized;
         public Aggregations Aggregations = new Aggregations();
 
-        public SearchWordCollection(
+        public SearchIndexCollection(
             SiteSettings siteSettings, 
             Permissions.Types permissionType,
             SqlColumnCollection column = null,
@@ -170,7 +170,7 @@ namespace Implem.Pleasanter.Models
                 aggregationCollection: aggregationCollection));
         }
 
-        public SearchWordCollection(
+        public SearchIndexCollection(
             SiteSettings siteSettings, 
             Permissions.Types permissionType,
             DataTable dataTable)
@@ -178,7 +178,7 @@ namespace Implem.Pleasanter.Models
             Set(siteSettings, permissionType, dataTable);
         }
 
-        private SearchWordCollection Set(
+        private SearchIndexCollection Set(
             SiteSettings siteSettings, 
             Permissions.Types permissionType,
             DataTable dataTable)
@@ -187,7 +187,7 @@ namespace Implem.Pleasanter.Models
             {
                 foreach (DataRow dataRow in dataTable.Rows)
                 {
-                    Add(new SearchWordModel(siteSettings, permissionType, dataRow));
+                    Add(new SearchIndexModel(siteSettings, permissionType, dataRow));
                 }
                 AccessStatus = Databases.AccessStatuses.Selected;
             }
@@ -198,7 +198,7 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public SearchWordCollection(
+        public SearchIndexCollection(
             SiteSettings siteSettings, 
             Permissions.Types permissionType,
             string commandText,
@@ -224,10 +224,10 @@ namespace Implem.Pleasanter.Models
         {
             var statements = new List<SqlStatement>
             {
-                Rds.SelectSearchWords(
+                Rds.SelectSearchIndexes(
                     dataTableName: "Main",
-                    column: column ?? Rds.SearchWordsColumnDefault(),
-                    join: join ??  Rds.SearchWordsJoinDefault(),
+                    column: column ?? Rds.SearchIndexesColumnDefault(),
+                    join: join ??  Rds.SearchIndexesJoinDefault(),
                     where: where ?? null,
                     orderBy: orderBy ?? null,
                     param: param ?? null,
@@ -240,7 +240,7 @@ namespace Implem.Pleasanter.Models
             };
             if (aggregationCollection != null)
             {
-                statements.AddRange(Rds.SearchWordsAggregations(aggregationCollection, where));
+                statements.AddRange(Rds.SearchIndexesAggregations(aggregationCollection, where));
             }
             var dataSet = Rds.ExecuteDataSet(
                 transactional: false,
@@ -253,25 +253,25 @@ namespace Implem.Pleasanter.Models
         {
             return Rds.ExecuteTable(
                 transactional: false,
-                statements: Rds.SearchWordsStatement(
+                statements: Rds.SearchIndexesStatement(
                     commandText: commandText,
                     param: param ?? null));
         }
     }
 
-    public static class SearchWordsUtility
+    public static class SearchIndexesUtility
     {
         public static HtmlBuilder TdValue(
-            this HtmlBuilder hb, Column column, SearchWordModel searchWordModel)
+            this HtmlBuilder hb, Column column, SearchIndexModel searchIndexModel)
         {
             switch (column.ColumnName)
             {
-                case "Ver": return hb.Td(column: column, value: searchWordModel.Ver);
-                case "Comments": return hb.Td(column: column, value: searchWordModel.Comments);
-                case "Creator": return hb.Td(column: column, value: searchWordModel.Creator);
-                case "Updator": return hb.Td(column: column, value: searchWordModel.Updator);
-                case "CreatedTime": return hb.Td(column: column, value: searchWordModel.CreatedTime);
-                case "UpdatedTime": return hb.Td(column: column, value: searchWordModel.UpdatedTime);
+                case "Ver": return hb.Td(column: column, value: searchIndexModel.Ver);
+                case "Comments": return hb.Td(column: column, value: searchIndexModel.Comments);
+                case "Creator": return hb.Td(column: column, value: searchIndexModel.Creator);
+                case "Updator": return hb.Td(column: column, value: searchIndexModel.Updator);
+                case "CreatedTime": return hb.Td(column: column, value: searchIndexModel.CreatedTime);
+                case "UpdatedTime": return hb.Td(column: column, value: searchIndexModel.UpdatedTime);
                 default: return hb;
             }
         }
@@ -282,7 +282,7 @@ namespace Implem.Pleasanter.Models
         public static string Search()
         {
             var dataSet = DataRows(
-                searchWords: QueryStrings.Data("text").SearchWords(),
+                searchIndexes: QueryStrings.Data("text").SearchIndexes(),
                 offset: QueryStrings.Int("offset"));
             return MainContainer(
                 text: QueryStrings.Data("text"),
@@ -298,7 +298,7 @@ namespace Implem.Pleasanter.Models
         {
             var offset = QueryStrings.Int("offset");
             var text = QueryStrings.Data("text");
-            var dataSet = DataRows(text.SearchWords(), offset);
+            var dataSet = DataRows(text.SearchIndexes(), offset);
             var results = dataSet?.Tables["Main"].AsEnumerable();
             var responseCollection = new ResponseCollection();
             if (offset == 0)
@@ -339,10 +339,10 @@ namespace Implem.Pleasanter.Models
             string text, int offset, EnumerableRowCollection<DataRow> results, int count)
         {
             var hb = Html.Builder();
-            var searchWords = text.SearchWords();
+            var searchIndexes = text.SearchIndexes();
             return hb.Template(
                 siteId: 0,
-                modelName: "SearchWord",
+                modelName: "SearchIndex",
                 title: string.Empty,
                 permissionType: Permissions.Types.Read,
                 verType: Versions.VerTypes.Unknown,
@@ -403,34 +403,34 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static DataSet DataRows(IEnumerable<string> searchWords, int offset)
+        private static DataSet DataRows(IEnumerable<string> searchIndexes, int offset)
         {
-            if (searchWords.Count() == 0) return null;
+            if (searchIndexes.Count() == 0) return null;
             var concordance = Math.Ceiling(
-                searchWords.Count() * Parameters.SearchConcordanceRate);
+                searchIndexes.Count() * Parameters.SearchConcordanceRate);
             return Rds.ExecuteDataSet(statements:
-                Rds.SelectSearchWords(
+                Rds.SelectSearchIndexes(
                     dataTableName: "Main",
-                    column: Rds.SearchWordsColumn()
+                    column: Rds.SearchIndexesColumn()
                         .ReferenceId()
                         .ReferenceType()
                         .Title()
                         .Subset()
                         .PriorityTotal()
-                        .SearchWordsCount(),
-                    join: Rds.SearchWordsJoinDefault(),
-                    where: Rds.SearchWordsWhere()
-                        .Word(searchWords, multiParamOperator: " or ")
+                        .SearchIndexesCount(),
+                    join: Rds.SearchIndexesJoinDefault(),
+                    where: Rds.SearchIndexesWhere()
+                        .Word(searchIndexes, multiParamOperator: " or ")
                         .PermissionType(0, _operator: "<>"),
-                    groupBy: Rds.SearchWordsGroupBy()
+                    groupBy: Rds.SearchIndexesGroupBy()
                         .ReferenceId()
                         .ReferenceType()
                         .Title()
                         .Subset(),
-                    having: Rds.SearchWordsHaving()
-                        .SearchWordsCount(concordance, _operator: ">="),
-                    orderBy: Rds.SearchWordsOrderBy()
-                        .SearchWordsCount(SqlOrderBy.Types.desc)
+                    having: Rds.SearchIndexesHaving()
+                        .SearchIndexesCount(concordance, _operator: ">="),
+                    orderBy: Rds.SearchIndexesOrderBy()
+                        .SearchIndexesCount(SqlOrderBy.Types.desc)
                         .PriorityTotal()
                         .UpdatedTimeMax(SqlOrderBy.Types.desc),
                     offset: offset,

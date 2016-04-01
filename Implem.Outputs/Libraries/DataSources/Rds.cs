@@ -196,7 +196,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement SearchWordsStatement(
+        public static SqlStatement SearchIndexesStatement(
             string commandText,
             SqlParamCollection param = null)
         {
@@ -600,7 +600,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlSelect SelectSearchWords(
+        public static SqlSelect SelectSearchIndexes(
             string dataTableName = "",
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlColumnCollection column = null,
@@ -622,9 +622,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 DataTableName = dataTableName,
                 TableType = tableType,
-                TableBracket = "[SearchWords]",
-                HistoryTableBracket = "[SearchWords_history]",
-                DeletedTableBracket = "[SearchWords_deleted]",
+                TableBracket = "[SearchIndexes]",
+                HistoryTableBracket = "[SearchIndexes_history]",
+                DeletedTableBracket = "[SearchIndexes_deleted]",
                 SqlColumnCollection = column,
                 SqlJoinCollection = join,
                 SqlWhereCollection = where,
@@ -1146,7 +1146,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlExists ExistsSearchWords(
+        public static SqlExists ExistsSearchIndexes(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
@@ -1155,9 +1155,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlExists
             {
                 TableType = tableType,
-                TableBracket = "[SearchWords]",
-                HistoryTableBracket = "[SearchWords_history]",
-                DeletedTableBracket = "[SearchWords_deleted]",
+                TableBracket = "[SearchIndexes]",
+                HistoryTableBracket = "[SearchIndexes_history]",
+                DeletedTableBracket = "[SearchIndexes_deleted]",
                 SqlJoinCollection = join,
                 SqlWhereCollection = where,
                 Using = _using
@@ -1627,7 +1627,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : new SqlStatement("set identity_insert [OutgoingMails_History] off;");
         }
 
-        public static SqlInsert InsertSearchWords(
+        public static SqlInsert InsertSearchIndexes(
             bool selectIdentity = false,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
@@ -1638,9 +1638,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlInsert
             {
                 TableType = tableType,
-                TableBracket = "[SearchWords]",
-                HistoryTableBracket = "[SearchWords_history]",
-                DeletedTableBracket = "[SearchWords_deleted]",
+                TableBracket = "[SearchIndexes]",
+                HistoryTableBracket = "[SearchIndexes_history]",
+                DeletedTableBracket = "[SearchIndexes_deleted]",
                 SelectIdentity = selectIdentity,
                 SqlParamCollection = param,
                 Select = select,
@@ -1649,25 +1649,25 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertSearchWords(bool on)
+        public static SqlStatement IdentityInsertSearchIndexes(bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert [SearchWords] on;")
-                : new SqlStatement("set identity_insert [SearchWords] off;");
+                ? new SqlStatement("set identity_insert [SearchIndexes] on;")
+                : new SqlStatement("set identity_insert [SearchIndexes] off;");
         }
 
-        public static SqlStatement IdentityInsertSearchWords_Deleted(bool on)
+        public static SqlStatement IdentityInsertSearchIndexes_Deleted(bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert [SearchWords_Deleted] on;")
-                : new SqlStatement("set identity_insert [SearchWords_Deleted] off;");
+                ? new SqlStatement("set identity_insert [SearchIndexes_Deleted] on;")
+                : new SqlStatement("set identity_insert [SearchIndexes_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertSearchWords_History(bool on)
+        public static SqlStatement IdentityInsertSearchIndexes_History(bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert [SearchWords_History] on;")
-                : new SqlStatement("set identity_insert [SearchWords_History] off;");
+                ? new SqlStatement("set identity_insert [SearchIndexes_History] on;")
+                : new SqlStatement("set identity_insert [SearchIndexes_History] off;");
         }
 
         public static SqlInsert InsertItems(
@@ -2253,7 +2253,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlUpdate UpdateSearchWords(
+        public static SqlUpdate UpdateSearchIndexes(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             bool verUp = false,
             SqlWhereCollection where = null,
@@ -2267,10 +2267,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlUpdate
             {
                 TableType = tableType,
-                TableBracket = "[SearchWords]",
-                HistoryTableBracket = "[SearchWords_history]",
-                DeletedTableBracket = "[SearchWords_deleted]",
-                SaveHistoryCommandText = verUp ? SaveSearchWordsHistoryStatement : string.Empty,
+                TableBracket = "[SearchIndexes]",
+                HistoryTableBracket = "[SearchIndexes_history]",
+                DeletedTableBracket = "[SearchIndexes_deleted]",
+                SaveHistoryCommandText = verUp ? SaveSearchIndexesHistoryStatement : string.Empty,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 AddUpdatorParam = addUpdatorParam,
@@ -2729,7 +2729,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlUpdateOrInsert UpdateOrInsertSearchWords(
+        public static SqlUpdateOrInsert UpdateOrInsertSearchIndexes(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             bool selectIdentity = false,
             SqlWhereCollection where = null,
@@ -2743,9 +2743,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlUpdateOrInsert
             {
                 TableType = tableType,
-                TableBracket = "[SearchWords]",
-                HistoryTableBracket = "[SearchWords_history]",
-                DeletedTableBracket = "[SearchWords_deleted]",
+                TableBracket = "[SearchIndexes]",
+                HistoryTableBracket = "[SearchIndexes_history]",
+                DeletedTableBracket = "[SearchIndexes_deleted]",
                 SelectIdentity = selectIdentity,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
@@ -3156,7 +3156,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlDelete DeleteSearchWords(
+        public static SqlDelete DeleteSearchIndexes(
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
@@ -3165,10 +3165,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return new SqlDelete()
             {
-                CommandText = DeleteSearchWordsStatement, 
-                TableBracket = "[SearchWords]",
-                HistoryTableBracket = "[SearchWords_history]",
-                DeletedTableBracket = "[SearchWords_deleted]",
+                CommandText = DeleteSearchIndexesStatement, 
+                TableBracket = "[SearchIndexes]",
+                HistoryTableBracket = "[SearchIndexes_history]",
+                DeletedTableBracket = "[SearchIndexes_deleted]",
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
@@ -3534,7 +3534,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlPhysicalDelete PhysicalDeleteSearchWords(
+        public static SqlPhysicalDelete PhysicalDeleteSearchIndexes(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             bool selectIdentity = false,
             SqlWhereCollection where = null,
@@ -3546,9 +3546,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlPhysicalDelete()
             {
                 TableType = tableType,
-                TableBracket = "[SearchWords]",
-                HistoryTableBracket = "[SearchWords_history]",
-                DeletedTableBracket = "[SearchWords_deleted]",
+                TableBracket = "[SearchIndexes]",
+                HistoryTableBracket = "[SearchIndexes_history]",
+                DeletedTableBracket = "[SearchIndexes_deleted]",
                 SelectIdentity = selectIdentity,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
@@ -3921,7 +3921,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlRestore RestoreSearchWords(
+        public static SqlRestore RestoreSearchIndexes(
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
@@ -3930,10 +3930,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return new SqlRestore()
             {
-                CommandText = RestoreSearchWordsStatement, 
-                TableBracket = "[SearchWords]",
-                HistoryTableBracket = "[SearchWords_history]",
-                DeletedTableBracket = "[SearchWords_deleted]",
+                CommandText = RestoreSearchIndexesStatement, 
+                TableBracket = "[SearchIndexes]",
+                HistoryTableBracket = "[SearchIndexes_history]",
+                DeletedTableBracket = "[SearchIndexes_deleted]",
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
@@ -4432,7 +4432,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return statementCollection;
         }
 
-        public static IEnumerable<SqlStatement> SearchWordsAggregations(
+        public static IEnumerable<SqlStatement> SearchIndexesAggregations(
             IEnumerable<Aggregation> aggregationCollection,
             SqlWhereCollection where)
         {
@@ -4441,8 +4441,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Select((o, i) => new { Aggregation = o, Index = i })
                 .ForEach(data =>
                 {
-                    var groupBy = SearchWordsGroupBy();
-                    var column = SearchWordsColumn();
+                    var groupBy = SearchIndexesGroupBy();
+                    var column = SearchIndexesColumn();
                     switch (data.Aggregation.GroupBy)
                     {
                         default: break;
@@ -4450,7 +4450,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     switch (data.Aggregation.Type)
                     {
                         case Aggregation.Types.Count:
-                            column.SearchWordsCount(); break;
+                            column.SearchIndexesCount(); break;
                         case Aggregation.Types.Total:
                             switch (data.Aggregation.Target)
                             {
@@ -4467,7 +4467,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             break;
                         default: break;
                     }
-                    var statement = SelectSearchWords(
+                    var statement = SelectSearchIndexes(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
                         where: where,
@@ -4936,7 +4936,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public const string SaveMailAddressesHistoryStatement = "insert into [MailAddresses_history]([MailAddresses_history].[OwnerId], [MailAddresses_history].[OwnerType], [MailAddresses_history].[MailAddressId], [MailAddresses_history].[Ver], [MailAddresses_history].[MailAddress], [MailAddresses_history].[Comments], [MailAddresses_history].[Creator], [MailAddresses_history].[Updator], [MailAddresses_history].[CreatedTime], [MailAddresses_history].[UpdatedTime]) (select [MailAddresses].[OwnerId], [MailAddresses].[OwnerType], [MailAddresses].[MailAddressId], [MailAddresses].[Ver], [MailAddresses].[MailAddress], [MailAddresses].[Comments], [MailAddresses].[Creator], [MailAddresses].[Updator], [MailAddresses].[CreatedTime], [MailAddresses].[UpdatedTime] from [MailAddresses] where [MailAddresses].[OwnerId]=@OwnerId[[CommandCount]] and [MailAddresses].[OwnerType]=@OwnerType[[CommandCount]] and [MailAddresses].[MailAddressId]=@MailAddressId[[CommandCount]] and [MailAddresses].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
         public const string SavePermissionsHistoryStatement = "insert into [Permissions_history]([Permissions_history].[ReferenceType], [Permissions_history].[ReferenceId], [Permissions_history].[DeptId], [Permissions_history].[UserId], [Permissions_history].[Ver], [Permissions_history].[PermissionType], [Permissions_history].[Comments], [Permissions_history].[Creator], [Permissions_history].[Updator], [Permissions_history].[CreatedTime], [Permissions_history].[UpdatedTime]) (select [Permissions].[ReferenceType], [Permissions].[ReferenceId], [Permissions].[DeptId], [Permissions].[UserId], [Permissions].[Ver], [Permissions].[PermissionType], [Permissions].[Comments], [Permissions].[Creator], [Permissions].[Updator], [Permissions].[CreatedTime], [Permissions].[UpdatedTime] from [Permissions] where [Permissions].[ReferenceType]=@ReferenceType[[CommandCount]] and [Permissions].[ReferenceId]=@ReferenceId[[CommandCount]] and [Permissions].[DeptId]=@DeptId[[CommandCount]] and [Permissions].[UserId]=@UserId[[CommandCount]] and [Permissions].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
         public const string SaveOutgoingMailsHistoryStatement = "insert into [OutgoingMails_history]([OutgoingMails_history].[ReferenceType], [OutgoingMails_history].[ReferenceId], [OutgoingMails_history].[ReferenceVer], [OutgoingMails_history].[OutgoingMailId], [OutgoingMails_history].[Ver], [OutgoingMails_history].[Host], [OutgoingMails_history].[Port], [OutgoingMails_history].[From], [OutgoingMails_history].[To], [OutgoingMails_history].[Cc], [OutgoingMails_history].[Bcc], [OutgoingMails_history].[Title], [OutgoingMails_history].[Body], [OutgoingMails_history].[SentTime], [OutgoingMails_history].[Comments], [OutgoingMails_history].[Creator], [OutgoingMails_history].[Updator], [OutgoingMails_history].[CreatedTime], [OutgoingMails_history].[UpdatedTime]) (select [OutgoingMails].[ReferenceType], [OutgoingMails].[ReferenceId], [OutgoingMails].[ReferenceVer], [OutgoingMails].[OutgoingMailId], [OutgoingMails].[Ver], [OutgoingMails].[Host], [OutgoingMails].[Port], [OutgoingMails].[From], [OutgoingMails].[To], [OutgoingMails].[Cc], [OutgoingMails].[Bcc], [OutgoingMails].[Title], [OutgoingMails].[Body], [OutgoingMails].[SentTime], [OutgoingMails].[Comments], [OutgoingMails].[Creator], [OutgoingMails].[Updator], [OutgoingMails].[CreatedTime], [OutgoingMails].[UpdatedTime] from [OutgoingMails] where [OutgoingMails].[ReferenceType]=@ReferenceType[[CommandCount]] and [OutgoingMails].[ReferenceId]=@ReferenceId[[CommandCount]] and [OutgoingMails].[ReferenceVer]=@ReferenceVer[[CommandCount]] and [OutgoingMails].[OutgoingMailId]=@OutgoingMailId[[CommandCount]] and [OutgoingMails].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
-        public const string SaveSearchWordsHistoryStatement = "insert into [SearchWords_history]([SearchWords_history].[Word], [SearchWords_history].[ReferenceId], [SearchWords_history].[Ver], [SearchWords_history].[Priority], [SearchWords_history].[Comments], [SearchWords_history].[Creator], [SearchWords_history].[Updator], [SearchWords_history].[CreatedTime], [SearchWords_history].[UpdatedTime]) (select [SearchWords].[Word], [SearchWords].[ReferenceId], [SearchWords].[Ver], [SearchWords].[Priority], [SearchWords].[Comments], [SearchWords].[Creator], [SearchWords].[Updator], [SearchWords].[CreatedTime], [SearchWords].[UpdatedTime] from [SearchWords] where [SearchWords].[Word]=@Word[[CommandCount]] and [SearchWords].[ReferenceId]=@ReferenceId[[CommandCount]] and [SearchWords].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
+        public const string SaveSearchIndexesHistoryStatement = "insert into [SearchIndexes_history]([SearchIndexes_history].[Word], [SearchIndexes_history].[ReferenceId], [SearchIndexes_history].[Ver], [SearchIndexes_history].[Priority], [SearchIndexes_history].[Comments], [SearchIndexes_history].[Creator], [SearchIndexes_history].[Updator], [SearchIndexes_history].[CreatedTime], [SearchIndexes_history].[UpdatedTime]) (select [SearchIndexes].[Word], [SearchIndexes].[ReferenceId], [SearchIndexes].[Ver], [SearchIndexes].[Priority], [SearchIndexes].[Comments], [SearchIndexes].[Creator], [SearchIndexes].[Updator], [SearchIndexes].[CreatedTime], [SearchIndexes].[UpdatedTime] from [SearchIndexes] where [SearchIndexes].[Word]=@Word[[CommandCount]] and [SearchIndexes].[ReferenceId]=@ReferenceId[[CommandCount]] and [SearchIndexes].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
         public const string SaveItemsHistoryStatement = "insert into [Items_history]([Items_history].[ReferenceId], [Items_history].[Ver], [Items_history].[ReferenceType], [Items_history].[SiteId], [Items_history].[Title], [Items_history].[Subset], [Items_history].[UpdateTarget], [Items_history].[Comments], [Items_history].[Creator], [Items_history].[Updator], [Items_history].[CreatedTime], [Items_history].[UpdatedTime]) (select [Items].[ReferenceId], [Items].[Ver], [Items].[ReferenceType], [Items].[SiteId], [Items].[Title], [Items].[Subset], [Items].[UpdateTarget], [Items].[Comments], [Items].[Creator], [Items].[Updator], [Items].[CreatedTime], [Items].[UpdatedTime] from [Items] where [Items].[ReferenceId]=@ReferenceId[[CommandCount]] and [Items].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
         public const string SaveSitesHistoryStatement = "insert into [Sites_history]([Sites_history].[TenantId], [Sites_history].[SiteId], [Sites_history].[Ver], [Sites_history].[Title], [Sites_history].[Body], [Sites_history].[ReferenceType], [Sites_history].[ParentId], [Sites_history].[InheritPermission], [Sites_history].[SiteSettings], [Sites_history].[Comments], [Sites_history].[Creator], [Sites_history].[Updator], [Sites_history].[UpdatedTime], [Sites_history].[CreatedTime]) (select [Sites].[TenantId], [Sites].[SiteId], [Sites].[Ver], [Sites].[Title], [Sites].[Body], [Sites].[ReferenceType], [Sites].[ParentId], [Sites].[InheritPermission], [Sites].[SiteSettings], [Sites].[Comments], [Sites].[Creator], [Sites].[Updator], [Sites].[UpdatedTime], [Sites].[CreatedTime] from [Sites] where [Sites].[TenantId]=@TenantId[[CommandCount]] and [Sites].[SiteId]=@SiteId[[CommandCount]] and [Sites].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
         public const string SaveOrdersHistoryStatement = "insert into [Orders_history]([Orders_history].[ReferenceId], [Orders_history].[ReferenceType], [Orders_history].[OwnerId], [Orders_history].[Ver], [Orders_history].[Data], [Orders_history].[Comments], [Orders_history].[Creator], [Orders_history].[Updator], [Orders_history].[CreatedTime], [Orders_history].[UpdatedTime]) (select [Orders].[ReferenceId], [Orders].[ReferenceType], [Orders].[OwnerId], [Orders].[Ver], [Orders].[Data], [Orders].[Comments], [Orders].[Creator], [Orders].[Updator], [Orders].[CreatedTime], [Orders].[UpdatedTime] from [Orders] where  and [Orders].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
@@ -4953,7 +4953,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public const string DeleteMailAddressesStatement = "update [MailAddresses] set [MailAddresses].[UpdatedTime] = getdate() {0}; insert into [MailAddresses_deleted]([MailAddresses_deleted].[OwnerId], [MailAddresses_deleted].[OwnerType], [MailAddresses_deleted].[MailAddressId], [MailAddresses_deleted].[Ver], [MailAddresses_deleted].[MailAddress], [MailAddresses_deleted].[Comments], [MailAddresses_deleted].[Creator], [MailAddresses_deleted].[Updator], [MailAddresses_deleted].[CreatedTime], [MailAddresses_deleted].[UpdatedTime]) (select [MailAddresses].[OwnerId], [MailAddresses].[OwnerType], [MailAddresses].[MailAddressId], [MailAddresses].[Ver], [MailAddresses].[MailAddress], [MailAddresses].[Comments], [MailAddresses].[Creator], [MailAddresses].[Updator], [MailAddresses].[CreatedTime], [MailAddresses].[UpdatedTime] from [MailAddresses] {0}); delete from [MailAddresses] {0}";
         public const string DeletePermissionsStatement = "update [Permissions] set [Permissions].[UpdatedTime] = getdate() {0}; insert into [Permissions_deleted]([Permissions_deleted].[ReferenceType], [Permissions_deleted].[ReferenceId], [Permissions_deleted].[DeptId], [Permissions_deleted].[UserId], [Permissions_deleted].[Ver], [Permissions_deleted].[PermissionType], [Permissions_deleted].[Comments], [Permissions_deleted].[Creator], [Permissions_deleted].[Updator], [Permissions_deleted].[CreatedTime], [Permissions_deleted].[UpdatedTime]) (select [Permissions].[ReferenceType], [Permissions].[ReferenceId], [Permissions].[DeptId], [Permissions].[UserId], [Permissions].[Ver], [Permissions].[PermissionType], [Permissions].[Comments], [Permissions].[Creator], [Permissions].[Updator], [Permissions].[CreatedTime], [Permissions].[UpdatedTime] from [Permissions] {0}); delete from [Permissions] {0}";
         public const string DeleteOutgoingMailsStatement = "update [OutgoingMails] set [OutgoingMails].[UpdatedTime] = getdate() {0}; insert into [OutgoingMails_deleted]([OutgoingMails_deleted].[ReferenceType], [OutgoingMails_deleted].[ReferenceId], [OutgoingMails_deleted].[ReferenceVer], [OutgoingMails_deleted].[OutgoingMailId], [OutgoingMails_deleted].[Ver], [OutgoingMails_deleted].[Host], [OutgoingMails_deleted].[Port], [OutgoingMails_deleted].[From], [OutgoingMails_deleted].[To], [OutgoingMails_deleted].[Cc], [OutgoingMails_deleted].[Bcc], [OutgoingMails_deleted].[Title], [OutgoingMails_deleted].[Body], [OutgoingMails_deleted].[SentTime], [OutgoingMails_deleted].[Comments], [OutgoingMails_deleted].[Creator], [OutgoingMails_deleted].[Updator], [OutgoingMails_deleted].[CreatedTime], [OutgoingMails_deleted].[UpdatedTime]) (select [OutgoingMails].[ReferenceType], [OutgoingMails].[ReferenceId], [OutgoingMails].[ReferenceVer], [OutgoingMails].[OutgoingMailId], [OutgoingMails].[Ver], [OutgoingMails].[Host], [OutgoingMails].[Port], [OutgoingMails].[From], [OutgoingMails].[To], [OutgoingMails].[Cc], [OutgoingMails].[Bcc], [OutgoingMails].[Title], [OutgoingMails].[Body], [OutgoingMails].[SentTime], [OutgoingMails].[Comments], [OutgoingMails].[Creator], [OutgoingMails].[Updator], [OutgoingMails].[CreatedTime], [OutgoingMails].[UpdatedTime] from [OutgoingMails] {0}); delete from [OutgoingMails] {0}";
-        public const string DeleteSearchWordsStatement = "update [SearchWords] set [SearchWords].[UpdatedTime] = getdate() {0}; insert into [SearchWords_deleted]([SearchWords_deleted].[Word], [SearchWords_deleted].[ReferenceId], [SearchWords_deleted].[Ver], [SearchWords_deleted].[Priority], [SearchWords_deleted].[Comments], [SearchWords_deleted].[Creator], [SearchWords_deleted].[Updator], [SearchWords_deleted].[CreatedTime], [SearchWords_deleted].[UpdatedTime]) (select [SearchWords].[Word], [SearchWords].[ReferenceId], [SearchWords].[Ver], [SearchWords].[Priority], [SearchWords].[Comments], [SearchWords].[Creator], [SearchWords].[Updator], [SearchWords].[CreatedTime], [SearchWords].[UpdatedTime] from [SearchWords] {0}); delete from [SearchWords] {0}";
+        public const string DeleteSearchIndexesStatement = "update [SearchIndexes] set [SearchIndexes].[UpdatedTime] = getdate() {0}; insert into [SearchIndexes_deleted]([SearchIndexes_deleted].[Word], [SearchIndexes_deleted].[ReferenceId], [SearchIndexes_deleted].[Ver], [SearchIndexes_deleted].[Priority], [SearchIndexes_deleted].[Comments], [SearchIndexes_deleted].[Creator], [SearchIndexes_deleted].[Updator], [SearchIndexes_deleted].[CreatedTime], [SearchIndexes_deleted].[UpdatedTime]) (select [SearchIndexes].[Word], [SearchIndexes].[ReferenceId], [SearchIndexes].[Ver], [SearchIndexes].[Priority], [SearchIndexes].[Comments], [SearchIndexes].[Creator], [SearchIndexes].[Updator], [SearchIndexes].[CreatedTime], [SearchIndexes].[UpdatedTime] from [SearchIndexes] {0}); delete from [SearchIndexes] {0}";
         public const string DeleteItemsStatement = "update [Items] set [Items].[UpdatedTime] = getdate() {0}; insert into [Items_deleted]([Items_deleted].[ReferenceId], [Items_deleted].[Ver], [Items_deleted].[ReferenceType], [Items_deleted].[SiteId], [Items_deleted].[Title], [Items_deleted].[Subset], [Items_deleted].[UpdateTarget], [Items_deleted].[Comments], [Items_deleted].[Creator], [Items_deleted].[Updator], [Items_deleted].[CreatedTime], [Items_deleted].[UpdatedTime]) (select [Items].[ReferenceId], [Items].[Ver], [Items].[ReferenceType], [Items].[SiteId], [Items].[Title], [Items].[Subset], [Items].[UpdateTarget], [Items].[Comments], [Items].[Creator], [Items].[Updator], [Items].[CreatedTime], [Items].[UpdatedTime] from [Items] {0}); delete from [Items] {0}";
         public const string DeleteSitesStatement = "update [Sites] set [Sites].[UpdatedTime] = getdate() {0}; insert into [Sites_deleted]([Sites_deleted].[TenantId], [Sites_deleted].[SiteId], [Sites_deleted].[UpdatedTime], [Sites_deleted].[Ver], [Sites_deleted].[Title], [Sites_deleted].[Body], [Sites_deleted].[ReferenceType], [Sites_deleted].[ParentId], [Sites_deleted].[InheritPermission], [Sites_deleted].[SiteSettings], [Sites_deleted].[Comments], [Sites_deleted].[Creator], [Sites_deleted].[Updator], [Sites_deleted].[CreatedTime]) (select [Sites].[TenantId], [Sites].[SiteId], [Sites].[UpdatedTime], [Sites].[Ver], [Sites].[Title], [Sites].[Body], [Sites].[ReferenceType], [Sites].[ParentId], [Sites].[InheritPermission], [Sites].[SiteSettings], [Sites].[Comments], [Sites].[Creator], [Sites].[Updator], [Sites].[CreatedTime] from [Sites] {0}); delete from [Sites] {0}";
         public const string DeleteOrdersStatement = "update [Orders] set [Orders].[UpdatedTime] = getdate() {0}; insert into [Orders_deleted]([Orders_deleted].[ReferenceId], [Orders_deleted].[ReferenceType], [Orders_deleted].[OwnerId], [Orders_deleted].[Ver], [Orders_deleted].[Data], [Orders_deleted].[Comments], [Orders_deleted].[Creator], [Orders_deleted].[Updator], [Orders_deleted].[CreatedTime], [Orders_deleted].[UpdatedTime]) (select [Orders].[ReferenceId], [Orders].[ReferenceType], [Orders].[OwnerId], [Orders].[Ver], [Orders].[Data], [Orders].[Comments], [Orders].[Creator], [Orders].[Updator], [Orders].[CreatedTime], [Orders].[UpdatedTime] from [Orders] {0}); delete from [Orders] {0}";
@@ -4970,7 +4970,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public const string RestoreMailAddressesStatement = "update [MailAddresses_deleted] set [MailAddresses_deleted].[UpdatedTime] = getdate() {0};set identity_insert [MailAddresses] on;  insert into [MailAddresses]([MailAddresses].[OwnerId], [MailAddresses].[OwnerType], [MailAddresses].[MailAddressId], [MailAddresses].[Ver], [MailAddresses].[MailAddress], [MailAddresses].[Comments], [MailAddresses].[Creator], [MailAddresses].[Updator], [MailAddresses].[CreatedTime], [MailAddresses].[UpdatedTime]) (select [MailAddresses_deleted].[OwnerId], [MailAddresses_deleted].[OwnerType], [MailAddresses_deleted].[MailAddressId], [MailAddresses_deleted].[Ver], [MailAddresses_deleted].[MailAddress], [MailAddresses_deleted].[Comments], [MailAddresses_deleted].[Creator], [MailAddresses_deleted].[Updator], [MailAddresses_deleted].[CreatedTime], [MailAddresses_deleted].[UpdatedTime] from [MailAddresses_deleted] {0});set identity_insert [MailAddresses] off;  delete from [MailAddresses_deleted] {0}";
         public const string RestorePermissionsStatement = "update [Permissions_deleted] set [Permissions_deleted].[UpdatedTime] = getdate() {0}; insert into [Permissions]([Permissions].[ReferenceType], [Permissions].[ReferenceId], [Permissions].[DeptId], [Permissions].[UserId], [Permissions].[Ver], [Permissions].[PermissionType], [Permissions].[Comments], [Permissions].[Creator], [Permissions].[Updator], [Permissions].[CreatedTime], [Permissions].[UpdatedTime]) (select [Permissions_deleted].[ReferenceType], [Permissions_deleted].[ReferenceId], [Permissions_deleted].[DeptId], [Permissions_deleted].[UserId], [Permissions_deleted].[Ver], [Permissions_deleted].[PermissionType], [Permissions_deleted].[Comments], [Permissions_deleted].[Creator], [Permissions_deleted].[Updator], [Permissions_deleted].[CreatedTime], [Permissions_deleted].[UpdatedTime] from [Permissions_deleted] {0}); delete from [Permissions_deleted] {0}";
         public const string RestoreOutgoingMailsStatement = "update [OutgoingMails_deleted] set [OutgoingMails_deleted].[UpdatedTime] = getdate() {0};set identity_insert [OutgoingMails] on;  insert into [OutgoingMails]([OutgoingMails].[ReferenceType], [OutgoingMails].[ReferenceId], [OutgoingMails].[ReferenceVer], [OutgoingMails].[OutgoingMailId], [OutgoingMails].[Ver], [OutgoingMails].[Host], [OutgoingMails].[Port], [OutgoingMails].[From], [OutgoingMails].[To], [OutgoingMails].[Cc], [OutgoingMails].[Bcc], [OutgoingMails].[Title], [OutgoingMails].[Body], [OutgoingMails].[SentTime], [OutgoingMails].[Comments], [OutgoingMails].[Creator], [OutgoingMails].[Updator], [OutgoingMails].[CreatedTime], [OutgoingMails].[UpdatedTime]) (select [OutgoingMails_deleted].[ReferenceType], [OutgoingMails_deleted].[ReferenceId], [OutgoingMails_deleted].[ReferenceVer], [OutgoingMails_deleted].[OutgoingMailId], [OutgoingMails_deleted].[Ver], [OutgoingMails_deleted].[Host], [OutgoingMails_deleted].[Port], [OutgoingMails_deleted].[From], [OutgoingMails_deleted].[To], [OutgoingMails_deleted].[Cc], [OutgoingMails_deleted].[Bcc], [OutgoingMails_deleted].[Title], [OutgoingMails_deleted].[Body], [OutgoingMails_deleted].[SentTime], [OutgoingMails_deleted].[Comments], [OutgoingMails_deleted].[Creator], [OutgoingMails_deleted].[Updator], [OutgoingMails_deleted].[CreatedTime], [OutgoingMails_deleted].[UpdatedTime] from [OutgoingMails_deleted] {0});set identity_insert [OutgoingMails] off;  delete from [OutgoingMails_deleted] {0}";
-        public const string RestoreSearchWordsStatement = "update [SearchWords_deleted] set [SearchWords_deleted].[UpdatedTime] = getdate() {0}; insert into [SearchWords]([SearchWords].[Word], [SearchWords].[ReferenceId], [SearchWords].[Ver], [SearchWords].[Priority], [SearchWords].[Comments], [SearchWords].[Creator], [SearchWords].[Updator], [SearchWords].[CreatedTime], [SearchWords].[UpdatedTime]) (select [SearchWords_deleted].[Word], [SearchWords_deleted].[ReferenceId], [SearchWords_deleted].[Ver], [SearchWords_deleted].[Priority], [SearchWords_deleted].[Comments], [SearchWords_deleted].[Creator], [SearchWords_deleted].[Updator], [SearchWords_deleted].[CreatedTime], [SearchWords_deleted].[UpdatedTime] from [SearchWords_deleted] {0}); delete from [SearchWords_deleted] {0}";
+        public const string RestoreSearchIndexesStatement = "update [SearchIndexes_deleted] set [SearchIndexes_deleted].[UpdatedTime] = getdate() {0}; insert into [SearchIndexes]([SearchIndexes].[Word], [SearchIndexes].[ReferenceId], [SearchIndexes].[Ver], [SearchIndexes].[Priority], [SearchIndexes].[Comments], [SearchIndexes].[Creator], [SearchIndexes].[Updator], [SearchIndexes].[CreatedTime], [SearchIndexes].[UpdatedTime]) (select [SearchIndexes_deleted].[Word], [SearchIndexes_deleted].[ReferenceId], [SearchIndexes_deleted].[Ver], [SearchIndexes_deleted].[Priority], [SearchIndexes_deleted].[Comments], [SearchIndexes_deleted].[Creator], [SearchIndexes_deleted].[Updator], [SearchIndexes_deleted].[CreatedTime], [SearchIndexes_deleted].[UpdatedTime] from [SearchIndexes_deleted] {0}); delete from [SearchIndexes_deleted] {0}";
         public const string RestoreItemsStatement = "update [Items_deleted] set [Items_deleted].[UpdatedTime] = getdate() {0};set identity_insert [Items] on;  insert into [Items]([Items].[ReferenceId], [Items].[Ver], [Items].[ReferenceType], [Items].[SiteId], [Items].[Title], [Items].[Subset], [Items].[UpdateTarget], [Items].[Comments], [Items].[Creator], [Items].[Updator], [Items].[CreatedTime], [Items].[UpdatedTime]) (select [Items_deleted].[ReferenceId], [Items_deleted].[Ver], [Items_deleted].[ReferenceType], [Items_deleted].[SiteId], [Items_deleted].[Title], [Items_deleted].[Subset], [Items_deleted].[UpdateTarget], [Items_deleted].[Comments], [Items_deleted].[Creator], [Items_deleted].[Updator], [Items_deleted].[CreatedTime], [Items_deleted].[UpdatedTime] from [Items_deleted] {0});set identity_insert [Items] off;  delete from [Items_deleted] {0}";
         public const string RestoreSitesStatement = "update [Sites_deleted] set [Sites_deleted].[UpdatedTime] = getdate() {0}; insert into [Sites]([Sites].[TenantId], [Sites].[SiteId], [Sites].[UpdatedTime], [Sites].[Ver], [Sites].[Title], [Sites].[Body], [Sites].[ReferenceType], [Sites].[ParentId], [Sites].[InheritPermission], [Sites].[SiteSettings], [Sites].[Comments], [Sites].[Creator], [Sites].[Updator], [Sites].[CreatedTime]) (select [Sites_deleted].[TenantId], [Sites_deleted].[SiteId], [Sites_deleted].[UpdatedTime], [Sites_deleted].[Ver], [Sites_deleted].[Title], [Sites_deleted].[Body], [Sites_deleted].[ReferenceType], [Sites_deleted].[ParentId], [Sites_deleted].[InheritPermission], [Sites_deleted].[SiteSettings], [Sites_deleted].[Comments], [Sites_deleted].[Creator], [Sites_deleted].[Updator], [Sites_deleted].[CreatedTime] from [Sites_deleted] {0}); delete from [Sites_deleted] {0}";
         public const string RestoreOrdersStatement = "update [Orders_deleted] set [Orders_deleted].[UpdatedTime] = getdate() {0}; insert into [Orders]([Orders].[ReferenceId], [Orders].[ReferenceType], [Orders].[OwnerId], [Orders].[Ver], [Orders].[Data], [Orders].[Comments], [Orders].[Creator], [Orders].[Updator], [Orders].[CreatedTime], [Orders].[UpdatedTime]) (select [Orders_deleted].[ReferenceId], [Orders_deleted].[ReferenceType], [Orders_deleted].[OwnerId], [Orders_deleted].[Ver], [Orders_deleted].[Data], [Orders_deleted].[Comments], [Orders_deleted].[Creator], [Orders_deleted].[Updator], [Orders_deleted].[CreatedTime], [Orders_deleted].[UpdatedTime] from [Orders_deleted] {0}); delete from [Orders_deleted] {0}";
@@ -7772,48 +7772,48 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static OutgoingMailsParamCollection UpdatedTime(this OutgoingMailsParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[UpdatedTime]", "UpdatedTime", value, sub, raw, _using); }
         public static SqlParamCollection OutgoingMails_UpdatedTime(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[UpdatedTime]", "UpdatedTime", value, sub, raw, _using); }
 
-        public static SearchWordsColumnCollection SearchWordsColumn()
+        public static SearchIndexesColumnCollection SearchIndexesColumn()
         {
-            return new SearchWordsColumnCollection();
+            return new SearchIndexesColumnCollection();
         }
 
-        public class SearchWordsColumnCollection : SqlColumnCollection
+        public class SearchIndexesColumnCollection : SqlColumnCollection
         {
-            public SearchWordsColumnCollection Add(params string[] columnBrackets)
+            public SearchIndexesColumnCollection Add(params string[] columnBrackets)
             {
                 base.Add(false, columnBrackets);
                 return this;
             }
 
-            public new SearchWordsColumnCollection Add(bool duplicates = false, params string[] columnBrackets)
+            public new SearchIndexesColumnCollection Add(bool duplicates = false, params string[] columnBrackets)
             {
                 base.Add(duplicates, columnBrackets);
                 return this;
             }
         }
 
-        public static SearchWordsJoinCollection SearchWordsJoin()
+        public static SearchIndexesJoinCollection SearchIndexesJoin()
         {
-            return new SearchWordsJoinCollection();
+            return new SearchIndexesJoinCollection();
         }
 
-        public class SearchWordsJoinCollection : SqlJoinCollection
+        public class SearchIndexesJoinCollection : SqlJoinCollection
         {
-            public new SearchWordsJoinCollection Add(params string[] columnBrackets)
+            public new SearchIndexesJoinCollection Add(params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
                 return this;
             }
         }
 
-        public static SearchWordsWhereCollection SearchWordsWhere()
+        public static SearchIndexesWhereCollection SearchIndexesWhere()
         {
-            return new SearchWordsWhereCollection();
+            return new SearchIndexesWhereCollection();
         }
 
-        public class SearchWordsWhereCollection : SqlWhereCollection
+        public class SearchIndexesWhereCollection : SqlWhereCollection
         {
-            public new SearchWordsWhereCollection Add(
+            public new SearchIndexesWhereCollection Add(
                 string[] columnBrackets = null,
                 string name = "",
                 object value = null,
@@ -7840,14 +7840,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        public static SearchWordsGroupByCollection SearchWordsGroupBy()
+        public static SearchIndexesGroupByCollection SearchIndexesGroupBy()
         {
-            return new SearchWordsGroupByCollection();
+            return new SearchIndexesGroupByCollection();
         }
 
-        public class SearchWordsGroupByCollection : SqlGroupByCollection
+        public class SearchIndexesGroupByCollection : SqlGroupByCollection
         {
-            public new SearchWordsGroupByCollection Add(
+            public new SearchIndexesGroupByCollection Add(
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
@@ -7856,14 +7856,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        public static SearchWordsHavingCollection SearchWordsHaving()
+        public static SearchIndexesHavingCollection SearchIndexesHaving()
         {
-            return new SearchWordsHavingCollection();
+            return new SearchIndexesHavingCollection();
         }
 
-        public class SearchWordsHavingCollection : SqlHavingCollection
+        public class SearchIndexesHavingCollection : SqlHavingCollection
         {
-            public SearchWordsHavingCollection Add(
+            public SearchIndexesHavingCollection Add(
                 string columnBracket, string name, object value, string _operator)
             {
                 base.Add(new SqlHaving(
@@ -7875,14 +7875,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        public static SearchWordsOrderByCollection SearchWordsOrderBy()
+        public static SearchIndexesOrderByCollection SearchIndexesOrderBy()
         {
-            return new SearchWordsOrderByCollection();
+            return new SearchIndexesOrderByCollection();
         }
 
-        public class SearchWordsOrderByCollection : SqlOrderByCollection
+        public class SearchIndexesOrderByCollection : SqlOrderByCollection
         {
-            public new SearchWordsOrderByCollection Add(
+            public new SearchIndexesOrderByCollection Add(
                 SqlOrderBy.Types type = SqlOrderBy.Types.asc,
                 params string[] columnBrackets)
             {
@@ -7892,14 +7892,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        public static SearchWordsParamCollection SearchWordsParam()
+        public static SearchIndexesParamCollection SearchIndexesParam()
         {
-            return new SearchWordsParamCollection();
+            return new SearchIndexesParamCollection();
         }
 
-        public class SearchWordsParamCollection : SqlParamCollection
+        public class SearchIndexesParamCollection : SqlParamCollection
         {
-            public new SearchWordsParamCollection Add(
+            public new SearchIndexesParamCollection Add(
                 string columnBracket = "",
                 string name = "",
                 object value = null,
@@ -7912,211 +7912,211 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        public const string SqlWhereExists_SearchWords = "exists(select * from [SearchWords] where #SqlWhere#)";
-        public const string SqlWhereNotExists_SearchWords = "not exists(select * from [SearchWords] where #SqlWhere#)";
-        public static SearchWordsColumnCollection Word(this SearchWordsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Word]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection SearchWords_Word(this SqlColumnCollection self, string tableName = "SearchWords", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Word]" + _as.ExistsTo(" as [{0}]")); }
-        public static SearchWordsColumnCollection ReferenceId(this SearchWordsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[ReferenceId]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection SearchWords_ReferenceId(this SqlColumnCollection self, string tableName = "SearchWords", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[ReferenceId]" + _as.ExistsTo(" as [{0}]")); }
-        public static SearchWordsColumnCollection Ver(this SearchWordsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Ver]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection SearchWords_Ver(this SqlColumnCollection self, string tableName = "SearchWords", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Ver]" + _as.ExistsTo(" as [{0}]")); }
-        public static SearchWordsColumnCollection Priority(this SearchWordsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Priority]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection SearchWords_Priority(this SqlColumnCollection self, string tableName = "SearchWords", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Priority]" + _as.ExistsTo(" as [{0}]")); }
-        public static SearchWordsColumnCollection ReferenceType(this SearchWordsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t1].[ReferenceType]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection SearchWords_ReferenceType(this SqlColumnCollection self, string tableName = "SearchWords", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[ReferenceType]" + _as.ExistsTo(" as [{0}]")); }
-        public static SearchWordsColumnCollection Title(this SearchWordsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t1].[Title]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection SearchWords_Title(this SqlColumnCollection self, string tableName = "SearchWords", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Title]" + _as.ExistsTo(" as [{0}]")); }
-        public static SearchWordsColumnCollection Subset(this SearchWordsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t1].[Subset]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection SearchWords_Subset(this SqlColumnCollection self, string tableName = "SearchWords", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Subset]" + _as.ExistsTo(" as [{0}]")); }
-        public static SearchWordsColumnCollection Comments(this SearchWordsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Comments]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection SearchWords_Comments(this SqlColumnCollection self, string tableName = "SearchWords", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Comments]" + _as.ExistsTo(" as [{0}]")); }
-        public static SearchWordsColumnCollection Creator(this SearchWordsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Creator]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection SearchWords_Creator(this SqlColumnCollection self, string tableName = "SearchWords", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Creator]" + _as.ExistsTo(" as [{0}]")); }
-        public static SearchWordsColumnCollection Updator(this SearchWordsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Updator]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection SearchWords_Updator(this SqlColumnCollection self, string tableName = "SearchWords", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Updator]" + _as.ExistsTo(" as [{0}]")); }
-        public static SearchWordsColumnCollection CreatedTime(this SearchWordsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[CreatedTime]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection SearchWords_CreatedTime(this SqlColumnCollection self, string tableName = "SearchWords", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[CreatedTime]" + _as.ExistsTo(" as [{0}]")); }
-        public static SearchWordsColumnCollection UpdatedTime(this SearchWordsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[UpdatedTime]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection SearchWords_UpdatedTime(this SqlColumnCollection self, string tableName = "SearchWords", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[UpdatedTime]" + _as.ExistsTo(" as [{0}]")); }
-        public static SearchWordsColumnCollection PermissionType(this SearchWordsColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "(select max([PermissionType]) from [Permissions] where [Permissions].[ReferenceType] = 'Sites' and [Permissions].[ReferenceId] = [t2].[InheritPermission] and ([Permissions].[UserId] = @_U or [Permissions].[DeptId] = @_D)) as [PermissionType]"); }
-        public static SqlColumnCollection SearchWords_PermissionType(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "(select max([PermissionType]) from [Permissions] where [Permissions].[ReferenceType] = 'Sites' and [Permissions].[ReferenceId] = [t2].[InheritPermission] and ([Permissions].[UserId] = @_U or [Permissions].[DeptId] = @_D)) as [PermissionType]"); }
-        public static SearchWordsColumnCollection SearchWordsCount(this SearchWordsColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "count(*) as SearchWordsCount"); }
-        public static SearchWordsColumnCollection PriorityTotal(this SearchWordsColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "sum([t0].[Priority]) as [PriorityTotal]"); }
-        public static SqlColumnCollection SearchWords_PriorityTotal(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "sum([t0].[Priority]) as [PriorityTotal]"); }
-        public static SearchWordsColumnCollection PriorityAverage(this SearchWordsColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "avg([t0].[Priority]) as [PriorityAverage]"); }
-        public static SqlColumnCollection SearchWords_PriorityAverage(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "avg([t0].[Priority]) as [PriorityAverage]"); }
-        public static SearchWordsColumnCollection PriorityMax(this SearchWordsColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "max([t0].[Priority]) as [PriorityMax]"); }
-        public static SqlColumnCollection SearchWords_PriorityMax(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "max([t0].[Priority]) as [PriorityMax]"); }
-        public static SearchWordsColumnCollection PriorityMin(this SearchWordsColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "min([t0].[Priority]) as [PriorityMin]"); }
-        public static SqlColumnCollection SearchWords_PriorityMin(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "min([t0].[Priority]) as [PriorityMin]"); }
-        public static SearchWordsColumnCollection CreatedTimeMax(this SearchWordsColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "max([t0].[CreatedTime]) as [CreatedTimeMax]"); }
-        public static SqlColumnCollection SearchWords_CreatedTimeMax(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "max([t0].[CreatedTime]) as [CreatedTimeMax]"); }
-        public static SearchWordsColumnCollection CreatedTimeMin(this SearchWordsColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "min([t0].[CreatedTime]) as [CreatedTimeMin]"); }
-        public static SqlColumnCollection SearchWords_CreatedTimeMin(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "min([t0].[CreatedTime]) as [CreatedTimeMin]"); }
-        public static SearchWordsColumnCollection UpdatedTimeMax(this SearchWordsColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "max([t0].[UpdatedTime]) as [UpdatedTimeMax]"); }
-        public static SqlColumnCollection SearchWords_UpdatedTimeMax(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "max([t0].[UpdatedTime]) as [UpdatedTimeMax]"); }
-        public static SearchWordsColumnCollection UpdatedTimeMin(this SearchWordsColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "min([t0].[UpdatedTime]) as [UpdatedTimeMin]"); }
-        public static SqlColumnCollection SearchWords_UpdatedTimeMin(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "min([t0].[UpdatedTime]) as [UpdatedTimeMin]"); }
-        public static SearchWordsWhereCollection Word(this SearchWordsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Word]" }, "Word", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection SearchWords_Word(this SqlWhereCollection self, object value = null, string tableName = "SearchWords", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Word]" }, "Word", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SearchWordsWhereCollection ReferenceId(this SearchWordsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection SearchWords_ReferenceId(this SqlWhereCollection self, object value = null, string tableName = "SearchWords", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[ReferenceId]" }, "ReferenceId", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SearchWordsWhereCollection Ver(this SearchWordsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection SearchWords_Ver(this SqlWhereCollection self, object value = null, string tableName = "SearchWords", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Ver]" }, "Ver", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SearchWordsWhereCollection Priority(this SearchWordsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Priority]" }, "Priority", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection SearchWords_Priority(this SqlWhereCollection self, object value = null, string tableName = "SearchWords", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Priority]" }, "Priority", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SearchWordsWhereCollection ReferenceType(this SearchWordsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t1].[ReferenceType]" }, "ReferenceType", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection SearchWords_ReferenceType(this SqlWhereCollection self, object value = null, string tableName = "SearchWords", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[ReferenceType]" }, "ReferenceType", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SearchWordsWhereCollection Title(this SearchWordsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t1].[Title]" }, "Title", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection SearchWords_Title(this SqlWhereCollection self, object value = null, string tableName = "SearchWords", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Title]" }, "Title", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SearchWordsWhereCollection Subset(this SearchWordsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t1].[Subset]" }, "Subset", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection SearchWords_Subset(this SqlWhereCollection self, object value = null, string tableName = "SearchWords", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Subset]" }, "Subset", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SearchWordsWhereCollection Comments(this SearchWordsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Comments]" }, "Comments", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection SearchWords_Comments(this SqlWhereCollection self, object value = null, string tableName = "SearchWords", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Comments]" }, "Comments", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SearchWordsWhereCollection Creator(this SearchWordsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection SearchWords_Creator(this SqlWhereCollection self, object value = null, string tableName = "SearchWords", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Creator]" }, "Creator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SearchWordsWhereCollection Updator(this SearchWordsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection SearchWords_Updator(this SqlWhereCollection self, object value = null, string tableName = "SearchWords", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Updator]" }, "Updator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SearchWordsWhereCollection CreatedTime(this SearchWordsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[CreatedTime]" }, "CreatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection SearchWords_CreatedTime(this SqlWhereCollection self, object value = null, string tableName = "SearchWords", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[CreatedTime]" }, "CreatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SearchWordsWhereCollection UpdatedTime(this SearchWordsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection SearchWords_UpdatedTime(this SqlWhereCollection self, object value = null, string tableName = "SearchWords", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SearchWordsWhereCollection PermissionType(this SearchWordsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "(select max([PermissionType]) from [Permissions] where [Permissions].[ReferenceType] = 'Sites' and [Permissions].[ReferenceId] = [t2].[InheritPermission] and ([Permissions].[UserId] = @_U or [Permissions].[DeptId] = @_D))" }, "PermissionType", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection SearchWords_PermissionType(this SqlWhereCollection self, object value = null, string tableName = "SearchWords", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "(select max([PermissionType]) from [Permissions] where [Permissions].[ReferenceType] = 'Sites' and [Permissions].[ReferenceId] = [t2].[InheritPermission] and ([Permissions].[UserId] = @_U or [Permissions].[DeptId] = @_D))" }, "PermissionType", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SearchWordsWhereCollection ReferenceId_In(this SearchWordsWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection SearchWords_ReferenceId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SearchWordsWhereCollection Ver_In(this SearchWordsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection SearchWords_Ver_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SearchWordsWhereCollection Priority_In(this SearchWordsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Priority]" }, "Priority", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection SearchWords_Priority_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Priority]" }, "Priority", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SearchWordsWhereCollection PermissionType_In(this SearchWordsWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t2].[PermissionType]" }, "PermissionType", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection SearchWords_PermissionType_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t2].[PermissionType]" }, "PermissionType", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SearchWordsWhereCollection Creator_In(this SearchWordsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection SearchWords_Creator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SearchWordsWhereCollection Updator_In(this SearchWordsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection SearchWords_Updator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SearchWordsWhereCollection ReferenceId_Between(this SearchWordsWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
-        public static SqlWhereCollection SearchWords_ReferenceId_Between(this SqlWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
-        public static SearchWordsWhereCollection Ver_Between(this SearchWordsWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
-        public static SqlWhereCollection SearchWords_Ver_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
-        public static SearchWordsWhereCollection Priority_Between(this SearchWordsWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Priority]" }, "Priority", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
-        public static SqlWhereCollection SearchWords_Priority_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Priority]" }, "Priority", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
-        public static SearchWordsWhereCollection PermissionType_Between(this SearchWordsWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t2].[PermissionType]" }, "PermissionType", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
-        public static SqlWhereCollection SearchWords_PermissionType_Between(this SqlWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t2].[PermissionType]" }, "PermissionType", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
-        public static SearchWordsWhereCollection Creator_Between(this SearchWordsWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
-        public static SqlWhereCollection SearchWords_Creator_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
-        public static SearchWordsWhereCollection Updator_Between(this SearchWordsWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
-        public static SqlWhereCollection SearchWords_Updator_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
-        public static SearchWordsWhereCollection CreatedTime_Between(this SearchWordsWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[CreatedTime]" }, "CreatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
-        public static SqlWhereCollection SearchWords_CreatedTime_Between(this SqlWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[CreatedTime]" }, "CreatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
-        public static SearchWordsWhereCollection UpdatedTime_Between(this SearchWordsWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
-        public static SqlWhereCollection SearchWords_UpdatedTime_Between(this SqlWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
-        public static SearchWordsWhereCollection Sub(this SearchWordsWhereCollection self, SqlStatement sub, object value = null, string _operator = "=", bool _using = true) { return self.Add(null, null, value, _operator, sub: sub, _using: _using); }
-        public static SearchWordsWhereCollection Or(this SearchWordsWhereCollection self, SqlWhereCollection or, bool _using = true) { return self.Add(null, null, or: or, _using: _using); }
-        public static SearchWordsGroupByCollection Word(this SearchWordsGroupByCollection self) { return self.Add("[t0].[Word]"); }
-        public static SqlGroupByCollection SearchWords_Word(this SqlGroupByCollection self) { return self.Add("[t0].[Word]"); }
-        public static SearchWordsGroupByCollection ReferenceId(this SearchWordsGroupByCollection self) { return self.Add("[t0].[ReferenceId]"); }
-        public static SqlGroupByCollection SearchWords_ReferenceId(this SqlGroupByCollection self) { return self.Add("[t0].[ReferenceId]"); }
-        public static SearchWordsGroupByCollection Ver(this SearchWordsGroupByCollection self) { return self.Add("[t0].[Ver]"); }
-        public static SqlGroupByCollection SearchWords_Ver(this SqlGroupByCollection self) { return self.Add("[t0].[Ver]"); }
-        public static SearchWordsGroupByCollection Priority(this SearchWordsGroupByCollection self) { return self.Add("[t0].[Priority]"); }
-        public static SqlGroupByCollection SearchWords_Priority(this SqlGroupByCollection self) { return self.Add("[t0].[Priority]"); }
-        public static SearchWordsGroupByCollection ReferenceType(this SearchWordsGroupByCollection self) { return self.Add("[t1].[ReferenceType]"); }
-        public static SqlGroupByCollection SearchWords_ReferenceType(this SqlGroupByCollection self) { return self.Add("[t1].[ReferenceType]"); }
-        public static SearchWordsGroupByCollection Title(this SearchWordsGroupByCollection self) { return self.Add("[t1].[Title]"); }
-        public static SqlGroupByCollection SearchWords_Title(this SqlGroupByCollection self) { return self.Add("[t1].[Title]"); }
-        public static SearchWordsGroupByCollection Subset(this SearchWordsGroupByCollection self) { return self.Add("[t1].[Subset]"); }
-        public static SqlGroupByCollection SearchWords_Subset(this SqlGroupByCollection self) { return self.Add("[t1].[Subset]"); }
-        public static SearchWordsGroupByCollection PermissionType(this SearchWordsGroupByCollection self) { return self.Add("(select max([PermissionType]) from [Permissions] where [Permissions].[ReferenceType] = 'Sites' and [Permissions].[ReferenceId] = [t2].[InheritPermission] and ([Permissions].[UserId] = @_U or [Permissions].[DeptId] = @_D))"); }
-        public static SqlGroupByCollection SearchWords_PermissionType(this SqlGroupByCollection self) { return self.Add("(select max([PermissionType]) from [Permissions] where [Permissions].[ReferenceType] = 'Sites' and [Permissions].[ReferenceId] = [t2].[InheritPermission] and ([Permissions].[UserId] = @_U or [Permissions].[DeptId] = @_D))"); }
-        public static SearchWordsGroupByCollection Comments(this SearchWordsGroupByCollection self) { return self.Add("[t0].[Comments]"); }
-        public static SqlGroupByCollection SearchWords_Comments(this SqlGroupByCollection self) { return self.Add("[t0].[Comments]"); }
-        public static SearchWordsGroupByCollection Creator(this SearchWordsGroupByCollection self) { return self.Add("[t0].[Creator]"); }
-        public static SqlGroupByCollection SearchWords_Creator(this SqlGroupByCollection self) { return self.Add("[t0].[Creator]"); }
-        public static SearchWordsGroupByCollection Updator(this SearchWordsGroupByCollection self) { return self.Add("[t0].[Updator]"); }
-        public static SqlGroupByCollection SearchWords_Updator(this SqlGroupByCollection self) { return self.Add("[t0].[Updator]"); }
-        public static SearchWordsGroupByCollection CreatedTime(this SearchWordsGroupByCollection self) { return self.Add("[t0].[CreatedTime]"); }
-        public static SqlGroupByCollection SearchWords_CreatedTime(this SqlGroupByCollection self) { return self.Add("[t0].[CreatedTime]"); }
-        public static SearchWordsGroupByCollection UpdatedTime(this SearchWordsGroupByCollection self) { return self.Add("[t0].[UpdatedTime]"); }
-        public static SqlGroupByCollection SearchWords_UpdatedTime(this SqlGroupByCollection self) { return self.Add("[t0].[UpdatedTime]"); }
-        public static SearchWordsHavingCollection SearchWordsCount(this SearchWordsHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "count(*)", name: "SearchWordsCount", value: value, _operator: _operator); }
-        public static SearchWordsHavingCollection PriorityTotal(this SearchWordsHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "sum([t0].[Priority])", name: "PriorityTotal", value: value, _operator: _operator); }
-        public static SqlHavingCollection SearchWords_PriorityTotal(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "sum([t0].[Priority])", name: "PriorityTotal", value: value, _operator: _operator); }
-        public static SearchWordsHavingCollection PriorityAverage(this SearchWordsHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "avg([t0].[Priority])", name: "PriorityAverage", value: value, _operator: _operator); }
-        public static SqlHavingCollection SearchWords_PriorityAverage(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "avg([t0].[Priority])", name: "PriorityAverage", value: value, _operator: _operator); }
-        public static SearchWordsHavingCollection PriorityMax(this SearchWordsHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "max([t0].[Priority])", name: "PriorityMax", value: value, _operator: _operator); }
-        public static SqlHavingCollection SearchWords_PriorityMax(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "max([t0].[Priority])", name: "PriorityMax", value: value, _operator: _operator); }
-        public static SearchWordsHavingCollection PriorityMin(this SearchWordsHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "min([t0].[Priority])", name: "PriorityMin", value: value, _operator: _operator); }
-        public static SqlHavingCollection SearchWords_PriorityMin(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "min([t0].[Priority])", name: "PriorityMin", value: value, _operator: _operator); }
-        public static SearchWordsHavingCollection CreatedTimeMax(this SearchWordsHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "max([t0].[CreatedTime])", name: "CreatedTimeMax", value: value, _operator: _operator); }
-        public static SqlHavingCollection SearchWords_CreatedTimeMax(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "max([t0].[CreatedTime])", name: "CreatedTimeMax", value: value, _operator: _operator); }
-        public static SearchWordsHavingCollection CreatedTimeMin(this SearchWordsHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "min([t0].[CreatedTime])", name: "CreatedTimeMin", value: value, _operator: _operator); }
-        public static SqlHavingCollection SearchWords_CreatedTimeMin(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "min([t0].[CreatedTime])", name: "CreatedTimeMin", value: value, _operator: _operator); }
-        public static SearchWordsHavingCollection UpdatedTimeMax(this SearchWordsHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "max([t0].[UpdatedTime])", name: "UpdatedTimeMax", value: value, _operator: _operator); }
-        public static SqlHavingCollection SearchWords_UpdatedTimeMax(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "max([t0].[UpdatedTime])", name: "UpdatedTimeMax", value: value, _operator: _operator); }
-        public static SearchWordsHavingCollection UpdatedTimeMin(this SearchWordsHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "min([t0].[UpdatedTime])", name: "UpdatedTimeMin", value: value, _operator: _operator); }
-        public static SqlHavingCollection SearchWords_UpdatedTimeMin(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "min([t0].[UpdatedTime])", name: "UpdatedTimeMin", value: value, _operator: _operator); }
-        public static SearchWordsOrderByCollection Word(this SearchWordsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Word]"); }
-        public static SearchWordsOrderByCollection ReferenceId(this SearchWordsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[ReferenceId]"); }
-        public static SearchWordsOrderByCollection Ver(this SearchWordsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Ver]"); }
-        public static SearchWordsOrderByCollection Priority(this SearchWordsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Priority]"); }
-        public static SearchWordsOrderByCollection ReferenceType(this SearchWordsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t1].[ReferenceType]"); }
-        public static SearchWordsOrderByCollection Title(this SearchWordsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t1].[Title]"); }
-        public static SearchWordsOrderByCollection Subset(this SearchWordsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t1].[Subset]"); }
-        public static SearchWordsOrderByCollection PermissionType(this SearchWordsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "(select max([PermissionType]) from [Permissions] where [Permissions].[ReferenceType] = 'Sites' and [Permissions].[ReferenceId] = [t2].[InheritPermission] and ([Permissions].[UserId] = @_U or [Permissions].[DeptId] = @_D))"); }
-        public static SearchWordsOrderByCollection Comments(this SearchWordsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Comments]"); }
-        public static SearchWordsOrderByCollection Creator(this SearchWordsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Creator]"); }
-        public static SearchWordsOrderByCollection Updator(this SearchWordsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Updator]"); }
-        public static SearchWordsOrderByCollection CreatedTime(this SearchWordsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[CreatedTime]"); }
-        public static SearchWordsOrderByCollection UpdatedTime(this SearchWordsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[UpdatedTime]"); }
-        public static SqlOrderByCollection SearchWords_Word(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Word]"); }
-        public static SqlOrderByCollection SearchWords_ReferenceId(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[ReferenceId]"); }
-        public static SqlOrderByCollection SearchWords_Ver(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Ver]"); }
-        public static SqlOrderByCollection SearchWords_Priority(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Priority]"); }
-        public static SqlOrderByCollection SearchWords_ReferenceType(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[t1].[ReferenceType]"); }
-        public static SqlOrderByCollection SearchWords_Title(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[t1].[Title]"); }
-        public static SqlOrderByCollection SearchWords_Subset(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[t1].[Subset]"); }
-        public static SqlOrderByCollection SearchWords_PermissionType(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "(select max([PermissionType]) from [Permissions] where [Permissions].[ReferenceType] = 'Sites' and [Permissions].[ReferenceId] = [t2].[InheritPermission] and ([Permissions].[UserId] = @_U or [Permissions].[DeptId] = @_D))"); }
-        public static SqlOrderByCollection SearchWords_Comments(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Comments]"); }
-        public static SqlOrderByCollection SearchWords_Creator(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Creator]"); }
-        public static SqlOrderByCollection SearchWords_Updator(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Updator]"); }
-        public static SqlOrderByCollection SearchWords_CreatedTime(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[CreatedTime]"); }
-        public static SqlOrderByCollection SearchWords_UpdatedTime(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[UpdatedTime]"); }
-        public static SearchWordsOrderByCollection SearchWordsCount(this SearchWordsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "count(*)"); }
-        public static SearchWordsOrderByCollection PriorityTotal(this SearchWordsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "sum([t0].[Priority])"); }
-        public static SqlOrderByCollection SearchWords_PriorityTotal(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "sum([t0].[Priority])"); }
-        public static SearchWordsOrderByCollection PriorityAverage(this SearchWordsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "avg([t0].[Priority])"); }
-        public static SqlOrderByCollection SearchWords_PriorityAverage(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "avg([t0].[Priority])"); }
-        public static SearchWordsOrderByCollection PriorityMax(this SearchWordsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[Priority])"); }
-        public static SqlOrderByCollection SearchWords_PriorityMax(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[Priority])"); }
-        public static SearchWordsOrderByCollection PriorityMin(this SearchWordsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[Priority])"); }
-        public static SqlOrderByCollection SearchWords_PriorityMin(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[Priority])"); }
-        public static SearchWordsOrderByCollection CreatedTimeMax(this SearchWordsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[CreatedTime])"); }
-        public static SqlOrderByCollection SearchWords_CreatedTimeMax(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[CreatedTime])"); }
-        public static SearchWordsOrderByCollection CreatedTimeMin(this SearchWordsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[CreatedTime])"); }
-        public static SqlOrderByCollection SearchWords_CreatedTimeMin(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[CreatedTime])"); }
-        public static SearchWordsOrderByCollection UpdatedTimeMax(this SearchWordsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[UpdatedTime])"); }
-        public static SqlOrderByCollection SearchWords_UpdatedTimeMax(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[UpdatedTime])"); }
-        public static SearchWordsOrderByCollection UpdatedTimeMin(this SearchWordsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[UpdatedTime])"); }
-        public static SqlOrderByCollection SearchWords_UpdatedTimeMin(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[UpdatedTime])"); }
-        public static SearchWordsParamCollection Word(this SearchWordsParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Word]", "Word", value, sub, raw, _using); }
-        public static SqlParamCollection SearchWords_Word(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Word]", "Word", value, sub, raw, _using); }
-        public static SearchWordsParamCollection ReferenceId(this SearchWordsParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[ReferenceId]", "ReferenceId", value, sub, raw, _using); }
-        public static SqlParamCollection SearchWords_ReferenceId(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[ReferenceId]", "ReferenceId", value, sub, raw, _using); }
-        public static SearchWordsParamCollection Ver(this SearchWordsParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Ver]", "Ver", value, sub, raw, _using); }
-        public static SqlParamCollection SearchWords_Ver(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Ver]", "Ver", value, sub, raw, _using); }
-        public static SearchWordsParamCollection Priority(this SearchWordsParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Priority]", "Priority", value, sub, raw, _using); }
-        public static SqlParamCollection SearchWords_Priority(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Priority]", "Priority", value, sub, raw, _using); }
-        public static SearchWordsParamCollection Comments(this SearchWordsParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Comments]", "Comments", value, sub, raw, _using); }
-        public static SqlParamCollection SearchWords_Comments(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Comments]", "Comments", value, sub, raw, _using); }
-        public static SearchWordsParamCollection Creator(this SearchWordsParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Creator]", "Creator", value, sub, raw, _using); }
-        public static SqlParamCollection SearchWords_Creator(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Creator]", "Creator", value, sub, raw, _using); }
-        public static SearchWordsParamCollection Updator(this SearchWordsParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Updator]", "Updator", value, sub, raw, _using); }
-        public static SqlParamCollection SearchWords_Updator(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Updator]", "Updator", value, sub, raw, _using); }
-        public static SearchWordsParamCollection CreatedTime(this SearchWordsParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[CreatedTime]", "CreatedTime", value, sub, raw, _using); }
-        public static SqlParamCollection SearchWords_CreatedTime(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[CreatedTime]", "CreatedTime", value, sub, raw, _using); }
-        public static SearchWordsParamCollection UpdatedTime(this SearchWordsParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[UpdatedTime]", "UpdatedTime", value, sub, raw, _using); }
-        public static SqlParamCollection SearchWords_UpdatedTime(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[UpdatedTime]", "UpdatedTime", value, sub, raw, _using); }
+        public const string SqlWhereExists_SearchIndexes = "exists(select * from [SearchIndexes] where #SqlWhere#)";
+        public const string SqlWhereNotExists_SearchIndexes = "not exists(select * from [SearchIndexes] where #SqlWhere#)";
+        public static SearchIndexesColumnCollection Word(this SearchIndexesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Word]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection SearchIndexes_Word(this SqlColumnCollection self, string tableName = "SearchIndexes", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Word]" + _as.ExistsTo(" as [{0}]")); }
+        public static SearchIndexesColumnCollection ReferenceId(this SearchIndexesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[ReferenceId]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection SearchIndexes_ReferenceId(this SqlColumnCollection self, string tableName = "SearchIndexes", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[ReferenceId]" + _as.ExistsTo(" as [{0}]")); }
+        public static SearchIndexesColumnCollection Ver(this SearchIndexesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Ver]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection SearchIndexes_Ver(this SqlColumnCollection self, string tableName = "SearchIndexes", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Ver]" + _as.ExistsTo(" as [{0}]")); }
+        public static SearchIndexesColumnCollection Priority(this SearchIndexesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Priority]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection SearchIndexes_Priority(this SqlColumnCollection self, string tableName = "SearchIndexes", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Priority]" + _as.ExistsTo(" as [{0}]")); }
+        public static SearchIndexesColumnCollection ReferenceType(this SearchIndexesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t1].[ReferenceType]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection SearchIndexes_ReferenceType(this SqlColumnCollection self, string tableName = "SearchIndexes", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[ReferenceType]" + _as.ExistsTo(" as [{0}]")); }
+        public static SearchIndexesColumnCollection Title(this SearchIndexesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t1].[Title]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection SearchIndexes_Title(this SqlColumnCollection self, string tableName = "SearchIndexes", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Title]" + _as.ExistsTo(" as [{0}]")); }
+        public static SearchIndexesColumnCollection Subset(this SearchIndexesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t1].[Subset]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection SearchIndexes_Subset(this SqlColumnCollection self, string tableName = "SearchIndexes", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Subset]" + _as.ExistsTo(" as [{0}]")); }
+        public static SearchIndexesColumnCollection Comments(this SearchIndexesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Comments]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection SearchIndexes_Comments(this SqlColumnCollection self, string tableName = "SearchIndexes", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Comments]" + _as.ExistsTo(" as [{0}]")); }
+        public static SearchIndexesColumnCollection Creator(this SearchIndexesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Creator]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection SearchIndexes_Creator(this SqlColumnCollection self, string tableName = "SearchIndexes", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Creator]" + _as.ExistsTo(" as [{0}]")); }
+        public static SearchIndexesColumnCollection Updator(this SearchIndexesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Updator]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection SearchIndexes_Updator(this SqlColumnCollection self, string tableName = "SearchIndexes", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Updator]" + _as.ExistsTo(" as [{0}]")); }
+        public static SearchIndexesColumnCollection CreatedTime(this SearchIndexesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[CreatedTime]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection SearchIndexes_CreatedTime(this SqlColumnCollection self, string tableName = "SearchIndexes", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[CreatedTime]" + _as.ExistsTo(" as [{0}]")); }
+        public static SearchIndexesColumnCollection UpdatedTime(this SearchIndexesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[UpdatedTime]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection SearchIndexes_UpdatedTime(this SqlColumnCollection self, string tableName = "SearchIndexes", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[UpdatedTime]" + _as.ExistsTo(" as [{0}]")); }
+        public static SearchIndexesColumnCollection PermissionType(this SearchIndexesColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "(select max([PermissionType]) from [Permissions] where [Permissions].[ReferenceType] = 'Sites' and [Permissions].[ReferenceId] = [t2].[InheritPermission] and ([Permissions].[UserId] = @_U or [Permissions].[DeptId] = @_D)) as [PermissionType]"); }
+        public static SqlColumnCollection SearchIndexes_PermissionType(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "(select max([PermissionType]) from [Permissions] where [Permissions].[ReferenceType] = 'Sites' and [Permissions].[ReferenceId] = [t2].[InheritPermission] and ([Permissions].[UserId] = @_U or [Permissions].[DeptId] = @_D)) as [PermissionType]"); }
+        public static SearchIndexesColumnCollection SearchIndexesCount(this SearchIndexesColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "count(*) as SearchIndexesCount"); }
+        public static SearchIndexesColumnCollection PriorityTotal(this SearchIndexesColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "sum([t0].[Priority]) as [PriorityTotal]"); }
+        public static SqlColumnCollection SearchIndexes_PriorityTotal(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "sum([t0].[Priority]) as [PriorityTotal]"); }
+        public static SearchIndexesColumnCollection PriorityAverage(this SearchIndexesColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "avg([t0].[Priority]) as [PriorityAverage]"); }
+        public static SqlColumnCollection SearchIndexes_PriorityAverage(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "avg([t0].[Priority]) as [PriorityAverage]"); }
+        public static SearchIndexesColumnCollection PriorityMax(this SearchIndexesColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "max([t0].[Priority]) as [PriorityMax]"); }
+        public static SqlColumnCollection SearchIndexes_PriorityMax(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "max([t0].[Priority]) as [PriorityMax]"); }
+        public static SearchIndexesColumnCollection PriorityMin(this SearchIndexesColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "min([t0].[Priority]) as [PriorityMin]"); }
+        public static SqlColumnCollection SearchIndexes_PriorityMin(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "min([t0].[Priority]) as [PriorityMin]"); }
+        public static SearchIndexesColumnCollection CreatedTimeMax(this SearchIndexesColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "max([t0].[CreatedTime]) as [CreatedTimeMax]"); }
+        public static SqlColumnCollection SearchIndexes_CreatedTimeMax(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "max([t0].[CreatedTime]) as [CreatedTimeMax]"); }
+        public static SearchIndexesColumnCollection CreatedTimeMin(this SearchIndexesColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "min([t0].[CreatedTime]) as [CreatedTimeMin]"); }
+        public static SqlColumnCollection SearchIndexes_CreatedTimeMin(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "min([t0].[CreatedTime]) as [CreatedTimeMin]"); }
+        public static SearchIndexesColumnCollection UpdatedTimeMax(this SearchIndexesColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "max([t0].[UpdatedTime]) as [UpdatedTimeMax]"); }
+        public static SqlColumnCollection SearchIndexes_UpdatedTimeMax(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "max([t0].[UpdatedTime]) as [UpdatedTimeMax]"); }
+        public static SearchIndexesColumnCollection UpdatedTimeMin(this SearchIndexesColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "min([t0].[UpdatedTime]) as [UpdatedTimeMin]"); }
+        public static SqlColumnCollection SearchIndexes_UpdatedTimeMin(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "min([t0].[UpdatedTime]) as [UpdatedTimeMin]"); }
+        public static SearchIndexesWhereCollection Word(this SearchIndexesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Word]" }, "Word", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection SearchIndexes_Word(this SqlWhereCollection self, object value = null, string tableName = "SearchIndexes", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Word]" }, "Word", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SearchIndexesWhereCollection ReferenceId(this SearchIndexesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection SearchIndexes_ReferenceId(this SqlWhereCollection self, object value = null, string tableName = "SearchIndexes", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[ReferenceId]" }, "ReferenceId", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SearchIndexesWhereCollection Ver(this SearchIndexesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection SearchIndexes_Ver(this SqlWhereCollection self, object value = null, string tableName = "SearchIndexes", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Ver]" }, "Ver", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SearchIndexesWhereCollection Priority(this SearchIndexesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Priority]" }, "Priority", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection SearchIndexes_Priority(this SqlWhereCollection self, object value = null, string tableName = "SearchIndexes", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Priority]" }, "Priority", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SearchIndexesWhereCollection ReferenceType(this SearchIndexesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t1].[ReferenceType]" }, "ReferenceType", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection SearchIndexes_ReferenceType(this SqlWhereCollection self, object value = null, string tableName = "SearchIndexes", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[ReferenceType]" }, "ReferenceType", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SearchIndexesWhereCollection Title(this SearchIndexesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t1].[Title]" }, "Title", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection SearchIndexes_Title(this SqlWhereCollection self, object value = null, string tableName = "SearchIndexes", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Title]" }, "Title", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SearchIndexesWhereCollection Subset(this SearchIndexesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t1].[Subset]" }, "Subset", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection SearchIndexes_Subset(this SqlWhereCollection self, object value = null, string tableName = "SearchIndexes", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Subset]" }, "Subset", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SearchIndexesWhereCollection Comments(this SearchIndexesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Comments]" }, "Comments", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection SearchIndexes_Comments(this SqlWhereCollection self, object value = null, string tableName = "SearchIndexes", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Comments]" }, "Comments", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SearchIndexesWhereCollection Creator(this SearchIndexesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection SearchIndexes_Creator(this SqlWhereCollection self, object value = null, string tableName = "SearchIndexes", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Creator]" }, "Creator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SearchIndexesWhereCollection Updator(this SearchIndexesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection SearchIndexes_Updator(this SqlWhereCollection self, object value = null, string tableName = "SearchIndexes", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Updator]" }, "Updator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SearchIndexesWhereCollection CreatedTime(this SearchIndexesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[CreatedTime]" }, "CreatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection SearchIndexes_CreatedTime(this SqlWhereCollection self, object value = null, string tableName = "SearchIndexes", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[CreatedTime]" }, "CreatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SearchIndexesWhereCollection UpdatedTime(this SearchIndexesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection SearchIndexes_UpdatedTime(this SqlWhereCollection self, object value = null, string tableName = "SearchIndexes", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SearchIndexesWhereCollection PermissionType(this SearchIndexesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "(select max([PermissionType]) from [Permissions] where [Permissions].[ReferenceType] = 'Sites' and [Permissions].[ReferenceId] = [t2].[InheritPermission] and ([Permissions].[UserId] = @_U or [Permissions].[DeptId] = @_D))" }, "PermissionType", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection SearchIndexes_PermissionType(this SqlWhereCollection self, object value = null, string tableName = "SearchIndexes", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "(select max([PermissionType]) from [Permissions] where [Permissions].[ReferenceType] = 'Sites' and [Permissions].[ReferenceId] = [t2].[InheritPermission] and ([Permissions].[UserId] = @_U or [Permissions].[DeptId] = @_D))" }, "PermissionType", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SearchIndexesWhereCollection ReferenceId_In(this SearchIndexesWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static SqlWhereCollection SearchIndexes_ReferenceId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static SearchIndexesWhereCollection Ver_In(this SearchIndexesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static SqlWhereCollection SearchIndexes_Ver_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static SearchIndexesWhereCollection Priority_In(this SearchIndexesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Priority]" }, "Priority", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static SqlWhereCollection SearchIndexes_Priority_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Priority]" }, "Priority", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static SearchIndexesWhereCollection PermissionType_In(this SearchIndexesWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t2].[PermissionType]" }, "PermissionType", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static SqlWhereCollection SearchIndexes_PermissionType_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t2].[PermissionType]" }, "PermissionType", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static SearchIndexesWhereCollection Creator_In(this SearchIndexesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static SqlWhereCollection SearchIndexes_Creator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static SearchIndexesWhereCollection Updator_In(this SearchIndexesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static SqlWhereCollection SearchIndexes_Updator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static SearchIndexesWhereCollection ReferenceId_Between(this SearchIndexesWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection SearchIndexes_ReferenceId_Between(this SqlWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SearchIndexesWhereCollection Ver_Between(this SearchIndexesWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection SearchIndexes_Ver_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SearchIndexesWhereCollection Priority_Between(this SearchIndexesWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Priority]" }, "Priority", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection SearchIndexes_Priority_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Priority]" }, "Priority", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SearchIndexesWhereCollection PermissionType_Between(this SearchIndexesWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t2].[PermissionType]" }, "PermissionType", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection SearchIndexes_PermissionType_Between(this SqlWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t2].[PermissionType]" }, "PermissionType", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SearchIndexesWhereCollection Creator_Between(this SearchIndexesWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection SearchIndexes_Creator_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SearchIndexesWhereCollection Updator_Between(this SearchIndexesWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection SearchIndexes_Updator_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SearchIndexesWhereCollection CreatedTime_Between(this SearchIndexesWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[CreatedTime]" }, "CreatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection SearchIndexes_CreatedTime_Between(this SqlWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[CreatedTime]" }, "CreatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
+        public static SearchIndexesWhereCollection UpdatedTime_Between(this SearchIndexesWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection SearchIndexes_UpdatedTime_Between(this SqlWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
+        public static SearchIndexesWhereCollection Sub(this SearchIndexesWhereCollection self, SqlStatement sub, object value = null, string _operator = "=", bool _using = true) { return self.Add(null, null, value, _operator, sub: sub, _using: _using); }
+        public static SearchIndexesWhereCollection Or(this SearchIndexesWhereCollection self, SqlWhereCollection or, bool _using = true) { return self.Add(null, null, or: or, _using: _using); }
+        public static SearchIndexesGroupByCollection Word(this SearchIndexesGroupByCollection self) { return self.Add("[t0].[Word]"); }
+        public static SqlGroupByCollection SearchIndexes_Word(this SqlGroupByCollection self) { return self.Add("[t0].[Word]"); }
+        public static SearchIndexesGroupByCollection ReferenceId(this SearchIndexesGroupByCollection self) { return self.Add("[t0].[ReferenceId]"); }
+        public static SqlGroupByCollection SearchIndexes_ReferenceId(this SqlGroupByCollection self) { return self.Add("[t0].[ReferenceId]"); }
+        public static SearchIndexesGroupByCollection Ver(this SearchIndexesGroupByCollection self) { return self.Add("[t0].[Ver]"); }
+        public static SqlGroupByCollection SearchIndexes_Ver(this SqlGroupByCollection self) { return self.Add("[t0].[Ver]"); }
+        public static SearchIndexesGroupByCollection Priority(this SearchIndexesGroupByCollection self) { return self.Add("[t0].[Priority]"); }
+        public static SqlGroupByCollection SearchIndexes_Priority(this SqlGroupByCollection self) { return self.Add("[t0].[Priority]"); }
+        public static SearchIndexesGroupByCollection ReferenceType(this SearchIndexesGroupByCollection self) { return self.Add("[t1].[ReferenceType]"); }
+        public static SqlGroupByCollection SearchIndexes_ReferenceType(this SqlGroupByCollection self) { return self.Add("[t1].[ReferenceType]"); }
+        public static SearchIndexesGroupByCollection Title(this SearchIndexesGroupByCollection self) { return self.Add("[t1].[Title]"); }
+        public static SqlGroupByCollection SearchIndexes_Title(this SqlGroupByCollection self) { return self.Add("[t1].[Title]"); }
+        public static SearchIndexesGroupByCollection Subset(this SearchIndexesGroupByCollection self) { return self.Add("[t1].[Subset]"); }
+        public static SqlGroupByCollection SearchIndexes_Subset(this SqlGroupByCollection self) { return self.Add("[t1].[Subset]"); }
+        public static SearchIndexesGroupByCollection PermissionType(this SearchIndexesGroupByCollection self) { return self.Add("(select max([PermissionType]) from [Permissions] where [Permissions].[ReferenceType] = 'Sites' and [Permissions].[ReferenceId] = [t2].[InheritPermission] and ([Permissions].[UserId] = @_U or [Permissions].[DeptId] = @_D))"); }
+        public static SqlGroupByCollection SearchIndexes_PermissionType(this SqlGroupByCollection self) { return self.Add("(select max([PermissionType]) from [Permissions] where [Permissions].[ReferenceType] = 'Sites' and [Permissions].[ReferenceId] = [t2].[InheritPermission] and ([Permissions].[UserId] = @_U or [Permissions].[DeptId] = @_D))"); }
+        public static SearchIndexesGroupByCollection Comments(this SearchIndexesGroupByCollection self) { return self.Add("[t0].[Comments]"); }
+        public static SqlGroupByCollection SearchIndexes_Comments(this SqlGroupByCollection self) { return self.Add("[t0].[Comments]"); }
+        public static SearchIndexesGroupByCollection Creator(this SearchIndexesGroupByCollection self) { return self.Add("[t0].[Creator]"); }
+        public static SqlGroupByCollection SearchIndexes_Creator(this SqlGroupByCollection self) { return self.Add("[t0].[Creator]"); }
+        public static SearchIndexesGroupByCollection Updator(this SearchIndexesGroupByCollection self) { return self.Add("[t0].[Updator]"); }
+        public static SqlGroupByCollection SearchIndexes_Updator(this SqlGroupByCollection self) { return self.Add("[t0].[Updator]"); }
+        public static SearchIndexesGroupByCollection CreatedTime(this SearchIndexesGroupByCollection self) { return self.Add("[t0].[CreatedTime]"); }
+        public static SqlGroupByCollection SearchIndexes_CreatedTime(this SqlGroupByCollection self) { return self.Add("[t0].[CreatedTime]"); }
+        public static SearchIndexesGroupByCollection UpdatedTime(this SearchIndexesGroupByCollection self) { return self.Add("[t0].[UpdatedTime]"); }
+        public static SqlGroupByCollection SearchIndexes_UpdatedTime(this SqlGroupByCollection self) { return self.Add("[t0].[UpdatedTime]"); }
+        public static SearchIndexesHavingCollection SearchIndexesCount(this SearchIndexesHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "count(*)", name: "SearchIndexesCount", value: value, _operator: _operator); }
+        public static SearchIndexesHavingCollection PriorityTotal(this SearchIndexesHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "sum([t0].[Priority])", name: "PriorityTotal", value: value, _operator: _operator); }
+        public static SqlHavingCollection SearchIndexes_PriorityTotal(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "sum([t0].[Priority])", name: "PriorityTotal", value: value, _operator: _operator); }
+        public static SearchIndexesHavingCollection PriorityAverage(this SearchIndexesHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "avg([t0].[Priority])", name: "PriorityAverage", value: value, _operator: _operator); }
+        public static SqlHavingCollection SearchIndexes_PriorityAverage(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "avg([t0].[Priority])", name: "PriorityAverage", value: value, _operator: _operator); }
+        public static SearchIndexesHavingCollection PriorityMax(this SearchIndexesHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "max([t0].[Priority])", name: "PriorityMax", value: value, _operator: _operator); }
+        public static SqlHavingCollection SearchIndexes_PriorityMax(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "max([t0].[Priority])", name: "PriorityMax", value: value, _operator: _operator); }
+        public static SearchIndexesHavingCollection PriorityMin(this SearchIndexesHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "min([t0].[Priority])", name: "PriorityMin", value: value, _operator: _operator); }
+        public static SqlHavingCollection SearchIndexes_PriorityMin(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "min([t0].[Priority])", name: "PriorityMin", value: value, _operator: _operator); }
+        public static SearchIndexesHavingCollection CreatedTimeMax(this SearchIndexesHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "max([t0].[CreatedTime])", name: "CreatedTimeMax", value: value, _operator: _operator); }
+        public static SqlHavingCollection SearchIndexes_CreatedTimeMax(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "max([t0].[CreatedTime])", name: "CreatedTimeMax", value: value, _operator: _operator); }
+        public static SearchIndexesHavingCollection CreatedTimeMin(this SearchIndexesHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "min([t0].[CreatedTime])", name: "CreatedTimeMin", value: value, _operator: _operator); }
+        public static SqlHavingCollection SearchIndexes_CreatedTimeMin(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "min([t0].[CreatedTime])", name: "CreatedTimeMin", value: value, _operator: _operator); }
+        public static SearchIndexesHavingCollection UpdatedTimeMax(this SearchIndexesHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "max([t0].[UpdatedTime])", name: "UpdatedTimeMax", value: value, _operator: _operator); }
+        public static SqlHavingCollection SearchIndexes_UpdatedTimeMax(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "max([t0].[UpdatedTime])", name: "UpdatedTimeMax", value: value, _operator: _operator); }
+        public static SearchIndexesHavingCollection UpdatedTimeMin(this SearchIndexesHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "min([t0].[UpdatedTime])", name: "UpdatedTimeMin", value: value, _operator: _operator); }
+        public static SqlHavingCollection SearchIndexes_UpdatedTimeMin(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "min([t0].[UpdatedTime])", name: "UpdatedTimeMin", value: value, _operator: _operator); }
+        public static SearchIndexesOrderByCollection Word(this SearchIndexesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Word]"); }
+        public static SearchIndexesOrderByCollection ReferenceId(this SearchIndexesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[ReferenceId]"); }
+        public static SearchIndexesOrderByCollection Ver(this SearchIndexesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Ver]"); }
+        public static SearchIndexesOrderByCollection Priority(this SearchIndexesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Priority]"); }
+        public static SearchIndexesOrderByCollection ReferenceType(this SearchIndexesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t1].[ReferenceType]"); }
+        public static SearchIndexesOrderByCollection Title(this SearchIndexesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t1].[Title]"); }
+        public static SearchIndexesOrderByCollection Subset(this SearchIndexesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t1].[Subset]"); }
+        public static SearchIndexesOrderByCollection PermissionType(this SearchIndexesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "(select max([PermissionType]) from [Permissions] where [Permissions].[ReferenceType] = 'Sites' and [Permissions].[ReferenceId] = [t2].[InheritPermission] and ([Permissions].[UserId] = @_U or [Permissions].[DeptId] = @_D))"); }
+        public static SearchIndexesOrderByCollection Comments(this SearchIndexesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Comments]"); }
+        public static SearchIndexesOrderByCollection Creator(this SearchIndexesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Creator]"); }
+        public static SearchIndexesOrderByCollection Updator(this SearchIndexesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Updator]"); }
+        public static SearchIndexesOrderByCollection CreatedTime(this SearchIndexesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[CreatedTime]"); }
+        public static SearchIndexesOrderByCollection UpdatedTime(this SearchIndexesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[UpdatedTime]"); }
+        public static SqlOrderByCollection SearchIndexes_Word(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Word]"); }
+        public static SqlOrderByCollection SearchIndexes_ReferenceId(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[ReferenceId]"); }
+        public static SqlOrderByCollection SearchIndexes_Ver(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Ver]"); }
+        public static SqlOrderByCollection SearchIndexes_Priority(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Priority]"); }
+        public static SqlOrderByCollection SearchIndexes_ReferenceType(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[t1].[ReferenceType]"); }
+        public static SqlOrderByCollection SearchIndexes_Title(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[t1].[Title]"); }
+        public static SqlOrderByCollection SearchIndexes_Subset(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[t1].[Subset]"); }
+        public static SqlOrderByCollection SearchIndexes_PermissionType(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "(select max([PermissionType]) from [Permissions] where [Permissions].[ReferenceType] = 'Sites' and [Permissions].[ReferenceId] = [t2].[InheritPermission] and ([Permissions].[UserId] = @_U or [Permissions].[DeptId] = @_D))"); }
+        public static SqlOrderByCollection SearchIndexes_Comments(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Comments]"); }
+        public static SqlOrderByCollection SearchIndexes_Creator(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Creator]"); }
+        public static SqlOrderByCollection SearchIndexes_Updator(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Updator]"); }
+        public static SqlOrderByCollection SearchIndexes_CreatedTime(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[CreatedTime]"); }
+        public static SqlOrderByCollection SearchIndexes_UpdatedTime(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[UpdatedTime]"); }
+        public static SearchIndexesOrderByCollection SearchIndexesCount(this SearchIndexesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "count(*)"); }
+        public static SearchIndexesOrderByCollection PriorityTotal(this SearchIndexesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "sum([t0].[Priority])"); }
+        public static SqlOrderByCollection SearchIndexes_PriorityTotal(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "sum([t0].[Priority])"); }
+        public static SearchIndexesOrderByCollection PriorityAverage(this SearchIndexesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "avg([t0].[Priority])"); }
+        public static SqlOrderByCollection SearchIndexes_PriorityAverage(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "avg([t0].[Priority])"); }
+        public static SearchIndexesOrderByCollection PriorityMax(this SearchIndexesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[Priority])"); }
+        public static SqlOrderByCollection SearchIndexes_PriorityMax(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[Priority])"); }
+        public static SearchIndexesOrderByCollection PriorityMin(this SearchIndexesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[Priority])"); }
+        public static SqlOrderByCollection SearchIndexes_PriorityMin(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[Priority])"); }
+        public static SearchIndexesOrderByCollection CreatedTimeMax(this SearchIndexesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[CreatedTime])"); }
+        public static SqlOrderByCollection SearchIndexes_CreatedTimeMax(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[CreatedTime])"); }
+        public static SearchIndexesOrderByCollection CreatedTimeMin(this SearchIndexesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[CreatedTime])"); }
+        public static SqlOrderByCollection SearchIndexes_CreatedTimeMin(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[CreatedTime])"); }
+        public static SearchIndexesOrderByCollection UpdatedTimeMax(this SearchIndexesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[UpdatedTime])"); }
+        public static SqlOrderByCollection SearchIndexes_UpdatedTimeMax(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[UpdatedTime])"); }
+        public static SearchIndexesOrderByCollection UpdatedTimeMin(this SearchIndexesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[UpdatedTime])"); }
+        public static SqlOrderByCollection SearchIndexes_UpdatedTimeMin(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[UpdatedTime])"); }
+        public static SearchIndexesParamCollection Word(this SearchIndexesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Word]", "Word", value, sub, raw, _using); }
+        public static SqlParamCollection SearchIndexes_Word(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Word]", "Word", value, sub, raw, _using); }
+        public static SearchIndexesParamCollection ReferenceId(this SearchIndexesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[ReferenceId]", "ReferenceId", value, sub, raw, _using); }
+        public static SqlParamCollection SearchIndexes_ReferenceId(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[ReferenceId]", "ReferenceId", value, sub, raw, _using); }
+        public static SearchIndexesParamCollection Ver(this SearchIndexesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Ver]", "Ver", value, sub, raw, _using); }
+        public static SqlParamCollection SearchIndexes_Ver(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Ver]", "Ver", value, sub, raw, _using); }
+        public static SearchIndexesParamCollection Priority(this SearchIndexesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Priority]", "Priority", value, sub, raw, _using); }
+        public static SqlParamCollection SearchIndexes_Priority(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Priority]", "Priority", value, sub, raw, _using); }
+        public static SearchIndexesParamCollection Comments(this SearchIndexesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Comments]", "Comments", value, sub, raw, _using); }
+        public static SqlParamCollection SearchIndexes_Comments(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Comments]", "Comments", value, sub, raw, _using); }
+        public static SearchIndexesParamCollection Creator(this SearchIndexesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Creator]", "Creator", value, sub, raw, _using); }
+        public static SqlParamCollection SearchIndexes_Creator(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Creator]", "Creator", value, sub, raw, _using); }
+        public static SearchIndexesParamCollection Updator(this SearchIndexesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Updator]", "Updator", value, sub, raw, _using); }
+        public static SqlParamCollection SearchIndexes_Updator(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Updator]", "Updator", value, sub, raw, _using); }
+        public static SearchIndexesParamCollection CreatedTime(this SearchIndexesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[CreatedTime]", "CreatedTime", value, sub, raw, _using); }
+        public static SqlParamCollection SearchIndexes_CreatedTime(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[CreatedTime]", "CreatedTime", value, sub, raw, _using); }
+        public static SearchIndexesParamCollection UpdatedTime(this SearchIndexesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[UpdatedTime]", "UpdatedTime", value, sub, raw, _using); }
+        public static SqlParamCollection SearchIndexes_UpdatedTime(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[UpdatedTime]", "UpdatedTime", value, sub, raw, _using); }
 
         public static ItemsColumnCollection ItemsColumn()
         {
@@ -12605,9 +12605,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Comments(outgoingMailModel.Comments.ToJson(), _using: outgoingMailModel.Comments_Updated || paramAll);
         }
 
-        public static SearchWordsColumnCollection SearchWordsColumnDefault()
+        public static SearchIndexesColumnCollection SearchIndexesColumnDefault()
         {
-            return Rds.SearchWordsColumn()
+            return Rds.SearchIndexesColumn()
                 .Word()
                 .ReferenceId()
                 .Ver()
@@ -12623,27 +12623,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .UpdatedTime();
         }
 
-        public static SearchWordsJoinCollection SearchWordsJoinDefault()
+        public static SearchIndexesJoinCollection SearchIndexesJoinDefault()
         {
-            return Rds.SearchWordsJoin().Add("inner join [Items] as [t1] on [t0].[ReferenceId]=[t1].[ReferenceId]").Add("inner join [Sites] as [t2] on [t1].[SiteId]=[t2].[SiteId]");
+            return Rds.SearchIndexesJoin().Add("inner join [Items] as [t1] on [t0].[ReferenceId]=[t1].[ReferenceId]").Add("inner join [Sites] as [t2] on [t1].[SiteId]=[t2].[SiteId]");
         }
 
-        public static SearchWordsWhereCollection SearchWordsWhereDefault(SearchWordModel searchWordModel)
+        public static SearchIndexesWhereCollection SearchIndexesWhereDefault(SearchIndexModel searchIndexModel)
         {
-            return Rds.SearchWordsWhere()
-                .Word(searchWordModel.Word.MaxLength(256))
-                .ReferenceId(searchWordModel.ReferenceId);
+            return Rds.SearchIndexesWhere()
+                .Word(searchIndexModel.Word.MaxLength(256))
+                .ReferenceId(searchIndexModel.ReferenceId);
         }
 
-        public static SearchWordsParamCollection SearchWordsParamDefault(
-            SearchWordModel searchWordModel, bool setDefault = false, bool paramAll = false)
+        public static SearchIndexesParamCollection SearchIndexesParamDefault(
+            SearchIndexModel searchIndexModel, bool setDefault = false, bool paramAll = false)
         {
-            return Rds.SearchWordsParam()
-                .Word(searchWordModel.Word.MaxLength(256), _using: searchWordModel.Word_Updated || setDefault || paramAll)
-                .ReferenceId(searchWordModel.ReferenceId, _using: searchWordModel.ReferenceId_Updated || setDefault || paramAll)
-                .Ver(searchWordModel.Ver, _using: searchWordModel.Ver_Updated || setDefault || paramAll)
-                .Priority(searchWordModel.Priority, _using: searchWordModel.Priority_Updated || setDefault || paramAll)
-                .Comments(searchWordModel.Comments.ToJson(), _using: searchWordModel.Comments_Updated || paramAll);
+            return Rds.SearchIndexesParam()
+                .Word(searchIndexModel.Word.MaxLength(256), _using: searchIndexModel.Word_Updated || setDefault || paramAll)
+                .ReferenceId(searchIndexModel.ReferenceId, _using: searchIndexModel.ReferenceId_Updated || setDefault || paramAll)
+                .Ver(searchIndexModel.Ver, _using: searchIndexModel.Ver_Updated || setDefault || paramAll)
+                .Priority(searchIndexModel.Priority, _using: searchIndexModel.Priority_Updated || setDefault || paramAll)
+                .Comments(searchIndexModel.Comments.ToJson(), _using: searchIndexModel.Comments_Updated || paramAll);
         }
 
         public static ItemsColumnCollection ItemsColumnDefault()

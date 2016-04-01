@@ -206,7 +206,7 @@
     <Compile Include="Libraries\Analysis\Aggregations.cs" />
     <Compile Include="Libraries\Analysis\BurnDown.cs" />
     <Compile Include="Libraries\Analysis\Gantt.cs" />
-    <Compile Include="Libraries\Converts\SearchWordExtensions.cs" />
+    <Compile Include="Libraries\Converts\SearchIndexExtensions.cs" />
     <Compile Include="Libraries\Converts\TdExtensions.cs" />
     <Compile Include="Libraries\Converts\ToControlExtensions.cs" />
     <Compile Include="Libraries\Converts\ToExportExtensions.cs" />
@@ -313,7 +313,7 @@
     <Compile Include="Models\OutgoingMailModel.cs" />
     <Compile Include="Models\PermissionModel.cs" />
     <Compile Include="Models\ResultModel.cs" />
-    <Compile Include="Models\SearchWordModel.cs" />
+    <Compile Include="Models\SearchIndexModel.cs" />
     <Compile Include="Models\SiteModel.cs" />
     <Compile Include="Models\SysLogModel.cs" />
     <Compile Include="Models\TenantModel.cs" />
