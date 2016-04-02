@@ -758,5 +758,16 @@ namespace Implem.DefinitionAccessor
                     : Def.ParameterTable.MinTime.DateTime.ToDateTime();
             }
         }
+
+        public static DateTime MaxTime
+        {
+            get
+            {
+                var environment = Get("MaxTime");
+                return !environment.IsNullOrEmpty()
+                    ? environment.ToDateTime()
+                    : Def.ParameterTable.MaxTime.DateTime.ToDateTime();
+            }
+        }
     }
 }

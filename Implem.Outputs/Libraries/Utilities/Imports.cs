@@ -40,7 +40,7 @@ namespace Implem.Pleasanter.Libraries.Utilities
             {
                 switch (column.TypeName)
                 {
-                    case "datetime": return sqlParam.Value.ToDateTime() < Parameters.MinTime;
+                    case "datetime": return !Times.InRange(sqlParam.Value.ToDateTime());
                     default: return sqlParam.Value == null;
                 }
             }

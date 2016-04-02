@@ -2,6 +2,8 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.ServerData;
 using System;
+using System.Linq;
+
 namespace Implem.Pleasanter.Libraries.Utilities
 {
     public static class Times
@@ -32,29 +34,34 @@ namespace Implem.Pleasanter.Libraries.Utilities
                 : value;
         }
 
-        public static int DateDiff(Types interval, DateTime date1, DateTime date2)
+        public static int DateDiff(Types interval, DateTime from, DateTime to)
         {
-            if (date2 <= Parameters.MinTime)
+            if (!InRange(from, to))
             {
                 return 0;
             }
             switch (interval)
             {
                 case Types.Seconds:
-                    return Math.Ceiling((date2 - date1).TotalSeconds).ToInt();
+                    return Math.Ceiling((to - from).TotalSeconds).ToInt();
                 case Types.Minutes:
-                    return Math.Ceiling((date2 - date1).TotalMinutes).ToInt();
+                    return Math.Ceiling((to - from).TotalMinutes).ToInt();
                 case Types.Hours:
-                    return Math.Ceiling((date2 - date1).TotalHours).ToInt();
+                    return Math.Ceiling((to - from).TotalHours).ToInt();
                 case Types.Days:
-                    return Math.Ceiling((date2 - date1).TotalDays).ToInt();
+                    return Math.Ceiling((to - from).TotalDays).ToInt();
                 case Types.Months:
-                    return date2.Month - date1.Month + (date2.Year * 12 - date1.Year * 12);
+                    return to.Month - from.Month + (to.Year * 12 - from.Year * 12);
                 case Types.Years:
-                    return date2.Year - date1.Year;
+                    return to.Year - from.Year;
                 default:
                     return 0;
             }
+        }
+
+        public static bool InRange(params DateTime[] times)
+        {
+            return !times.ToList().Any(o => o < Parameters.MinTime || o > Parameters.MaxTime);
         }
     }
 }
