@@ -473,6 +473,17 @@ namespace Implem.DefinitionAccessor
             }
         }
 
+        public static string BinaryStorageProvider
+        {
+            get
+            {
+                var environment = Get("BinaryStorageProvider");
+                return !environment.IsNullOrEmpty()
+                    ? environment.ToString()
+                    : Def.ParameterTable.BinaryStorageProvider.String.ToString();
+            }
+        }
+
         public static string SmtpProvider
         {
             get

@@ -97,9 +97,9 @@ namespace Implem.Pleasanter.Libraries.Views
             {
                 hb.Img(
                     src: Navigations.Get(
-                        "items",
+                        "Items",
                         siteId.ToString(),
-                        "images",
+                        "Binaries",
                         "NavSiteIcon",
                         Images.UrlPrefix(
                             siteId,

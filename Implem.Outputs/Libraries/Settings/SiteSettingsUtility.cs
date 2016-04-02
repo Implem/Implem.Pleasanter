@@ -103,12 +103,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             return linksSiteSettings;
         }
 
-        public static SiteSettings ImagesSiteSettings()
+        public static SiteSettings BinariesSiteSettings()
         {
-            var imagesSiteSettings = new SiteSettings();
-            imagesSiteSettings.ReferenceType = "Images";
-            imagesSiteSettings.Init();
-            return imagesSiteSettings;
+            var binariesSiteSettings = new SiteSettings();
+            binariesSiteSettings.ReferenceType = "Binaries";
+            binariesSiteSettings.Init();
+            return binariesSiteSettings;
         }
 
         public static SiteSettings SitesSiteSettings(this SiteModel siteModel)

@@ -870,22 +870,24 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Links_Subset(params string[] data) { return Get("Links_Subset", data); }
         public static HtmlBuilder Displays_Links_SiteTitle(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Links_SiteTitle", data)); }
         public static string Links_SiteTitle(params string[] data) { return Get("Links_SiteTitle", data); }
-        public static HtmlBuilder Displays_Images_ImageId(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Images_ImageId", data)); }
-        public static string Images_ImageId(params string[] data) { return Get("Images_ImageId", data); }
-        public static HtmlBuilder Displays_Images_Title(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Images_Title", data)); }
-        public static string Images_Title(params string[] data) { return Get("Images_Title", data); }
-        public static HtmlBuilder Displays_Images_Body(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Images_Body", data)); }
-        public static string Images_Body(params string[] data) { return Get("Images_Body", data); }
-        public static HtmlBuilder Displays_Images_Bin(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Images_Bin", data)); }
-        public static string Images_Bin(params string[] data) { return Get("Images_Bin", data); }
-        public static HtmlBuilder Displays_Images_FileName(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Images_FileName", data)); }
-        public static string Images_FileName(params string[] data) { return Get("Images_FileName", data); }
-        public static HtmlBuilder Displays_Images_Extension(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Images_Extension", data)); }
-        public static string Images_Extension(params string[] data) { return Get("Images_Extension", data); }
-        public static HtmlBuilder Displays_Images_Size(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Images_Size", data)); }
-        public static string Images_Size(params string[] data) { return Get("Images_Size", data); }
-        public static HtmlBuilder Displays_Images_ImageSettings(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Images_ImageSettings", data)); }
-        public static string Images_ImageSettings(params string[] data) { return Get("Images_ImageSettings", data); }
+        public static HtmlBuilder Displays_Binaries_ReferenceId(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_ReferenceId", data)); }
+        public static string Binaries_ReferenceId(params string[] data) { return Get("Binaries_ReferenceId", data); }
+        public static HtmlBuilder Displays_Binaries_BinaryId(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_BinaryId", data)); }
+        public static string Binaries_BinaryId(params string[] data) { return Get("Binaries_BinaryId", data); }
+        public static HtmlBuilder Displays_Binaries_Title(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_Title", data)); }
+        public static string Binaries_Title(params string[] data) { return Get("Binaries_Title", data); }
+        public static HtmlBuilder Displays_Binaries_Body(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_Body", data)); }
+        public static string Binaries_Body(params string[] data) { return Get("Binaries_Body", data); }
+        public static HtmlBuilder Displays_Binaries_Bin(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_Bin", data)); }
+        public static string Binaries_Bin(params string[] data) { return Get("Binaries_Bin", data); }
+        public static HtmlBuilder Displays_Binaries_FileName(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_FileName", data)); }
+        public static string Binaries_FileName(params string[] data) { return Get("Binaries_FileName", data); }
+        public static HtmlBuilder Displays_Binaries_Extension(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_Extension", data)); }
+        public static string Binaries_Extension(params string[] data) { return Get("Binaries_Extension", data); }
+        public static HtmlBuilder Displays_Binaries_Size(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_Size", data)); }
+        public static string Binaries_Size(params string[] data) { return Get("Binaries_Size", data); }
+        public static HtmlBuilder Displays_Binaries_BinarySettings(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_BinarySettings", data)); }
+        public static string Binaries_BinarySettings(params string[] data) { return Get("Binaries_BinarySettings", data); }
         public static HtmlBuilder Displays_Issues_IssueId(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Issues_IssueId", data)); }
         public static string Issues_IssueId(params string[] data) { return Get("Issues_IssueId", data); }
         public static HtmlBuilder Displays_Issues_StartTime(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Issues_StartTime", data)); }
@@ -1238,22 +1240,22 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Links_VerUp(params string[] data) { return Get("Links_VerUp", data); }
         public static HtmlBuilder Displays_Links_Timestamp(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Links_Timestamp", data)); }
         public static string Links_Timestamp(params string[] data) { return Get("Links_Timestamp", data); }
-        public static HtmlBuilder Displays_Images_Ver(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Images_Ver", data)); }
-        public static string Images_Ver(params string[] data) { return Get("Images_Ver", data); }
-        public static HtmlBuilder Displays_Images_Comments(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Images_Comments", data)); }
-        public static string Images_Comments(params string[] data) { return Get("Images_Comments", data); }
-        public static HtmlBuilder Displays_Images_Creator(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Images_Creator", data)); }
-        public static string Images_Creator(params string[] data) { return Get("Images_Creator", data); }
-        public static HtmlBuilder Displays_Images_Updator(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Images_Updator", data)); }
-        public static string Images_Updator(params string[] data) { return Get("Images_Updator", data); }
-        public static HtmlBuilder Displays_Images_CreatedTime(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Images_CreatedTime", data)); }
-        public static string Images_CreatedTime(params string[] data) { return Get("Images_CreatedTime", data); }
-        public static HtmlBuilder Displays_Images_UpdatedTime(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Images_UpdatedTime", data)); }
-        public static string Images_UpdatedTime(params string[] data) { return Get("Images_UpdatedTime", data); }
-        public static HtmlBuilder Displays_Images_VerUp(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Images_VerUp", data)); }
-        public static string Images_VerUp(params string[] data) { return Get("Images_VerUp", data); }
-        public static HtmlBuilder Displays_Images_Timestamp(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Images_Timestamp", data)); }
-        public static string Images_Timestamp(params string[] data) { return Get("Images_Timestamp", data); }
+        public static HtmlBuilder Displays_Binaries_Ver(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_Ver", data)); }
+        public static string Binaries_Ver(params string[] data) { return Get("Binaries_Ver", data); }
+        public static HtmlBuilder Displays_Binaries_Comments(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_Comments", data)); }
+        public static string Binaries_Comments(params string[] data) { return Get("Binaries_Comments", data); }
+        public static HtmlBuilder Displays_Binaries_Creator(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_Creator", data)); }
+        public static string Binaries_Creator(params string[] data) { return Get("Binaries_Creator", data); }
+        public static HtmlBuilder Displays_Binaries_Updator(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_Updator", data)); }
+        public static string Binaries_Updator(params string[] data) { return Get("Binaries_Updator", data); }
+        public static HtmlBuilder Displays_Binaries_CreatedTime(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_CreatedTime", data)); }
+        public static string Binaries_CreatedTime(params string[] data) { return Get("Binaries_CreatedTime", data); }
+        public static HtmlBuilder Displays_Binaries_UpdatedTime(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_UpdatedTime", data)); }
+        public static string Binaries_UpdatedTime(params string[] data) { return Get("Binaries_UpdatedTime", data); }
+        public static HtmlBuilder Displays_Binaries_VerUp(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_VerUp", data)); }
+        public static string Binaries_VerUp(params string[] data) { return Get("Binaries_VerUp", data); }
+        public static HtmlBuilder Displays_Binaries_Timestamp(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_Timestamp", data)); }
+        public static string Binaries_Timestamp(params string[] data) { return Get("Binaries_Timestamp", data); }
         public static HtmlBuilder Displays_Issues_SiteId(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Issues_SiteId", data)); }
         public static string Issues_SiteId(params string[] data) { return Get("Issues_SiteId", data); }
         public static HtmlBuilder Displays_Issues_UpdatedTime(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Issues_UpdatedTime", data)); }
@@ -1348,8 +1350,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Orders(params string[] data) { return Get("Orders", data); }
         public static HtmlBuilder Displays_ExportSettings(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ExportSettings", data)); }
         public static string ExportSettings(params string[] data) { return Get("ExportSettings", data); }
-        public static HtmlBuilder Displays_Images(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Images", data)); }
-        public static string Images(params string[] data) { return Get("Images", data); }
+        public static HtmlBuilder Displays_Binaries(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries", data)); }
+        public static string Binaries(params string[] data) { return Get("Binaries", data); }
         public static HtmlBuilder Displays_Issues(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Issues", data)); }
         public static string Issues(params string[] data) { return Get("Issues", data); }
         public static HtmlBuilder Displays_Results(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results", data)); }

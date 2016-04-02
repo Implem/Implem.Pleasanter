@@ -22,52 +22,55 @@ using System.Text;
 using System.Web;
 namespace Implem.Pleasanter.Models
 {
-    public class ImageModel : BaseModel
+    public class BinaryModel : BaseModel
     {
-        public long ImageId = 0;
+        public long ReferenceId = 0;
+        public long BinaryId = 0;
         public Title Title = new Title();
         public string Body = string.Empty;
         public byte[] Bin = null;
         public string FileName = string.Empty;
         public string Extension = string.Empty;
         public int Size = 0;
-        public ImageSettings ImageSettings = new ImageSettings();
-        public long SavedImageId = 0;
+        public BinarySettings BinarySettings = new BinarySettings();
+        public long SavedReferenceId = 0;
+        public long SavedBinaryId = 0;
         public string SavedTitle = string.Empty;
         public string SavedBody = string.Empty;
         public byte[] SavedBin = null;
         public string SavedFileName = string.Empty;
         public string SavedExtension = string.Empty;
         public int SavedSize = 0;
-        public string SavedImageSettings = string.Empty;
-        public bool ImageId_Updated { get { return ImageId != SavedImageId; } }
+        public string SavedBinarySettings = string.Empty;
+        public bool ReferenceId_Updated { get { return ReferenceId != SavedReferenceId; } }
+        public bool BinaryId_Updated { get { return BinaryId != SavedBinaryId; } }
         public bool Title_Updated { get { return Title.Value != SavedTitle && Title.Value != null; } }
         public bool Body_Updated { get { return Body != SavedBody && Body != null; } }
         public bool Bin_Updated { get { return Bin != SavedBin && Bin != null; } }
         public bool FileName_Updated { get { return FileName != SavedFileName && FileName != null; } }
         public bool Extension_Updated { get { return Extension != SavedExtension && Extension != null; } }
         public bool Size_Updated { get { return Size != SavedSize; } }
-        public bool ImageSettings_Updated { get { return ImageSettings.ToJson() != SavedImageSettings && ImageSettings.ToJson() != null; } }
+        public bool BinarySettings_Updated { get { return BinarySettings.ToJson() != SavedBinarySettings && BinarySettings.ToJson() != null; } }
 
-        public ImageSettings Session_ImageSettings()
+        public BinarySettings Session_BinarySettings()
         {
-            return this.PageSession("ImageSettings") != null
-                ? this.PageSession("ImageSettings")?.ToString().Deserialize<ImageSettings>() ?? new ImageSettings()
-                : ImageSettings;
+            return this.PageSession("BinarySettings") != null
+                ? this.PageSession("BinarySettings")?.ToString().Deserialize<BinarySettings>() ?? new BinarySettings()
+                : BinarySettings;
         }
 
-        public void  Session_ImageSettings(object value)
+        public void  Session_BinarySettings(object value)
         {
-            this.PageSession("ImageSettings", value);
+            this.PageSession("BinarySettings", value);
         }
 
         public List<long> SwitchTargets;
 
-        public ImageModel()
+        public BinaryModel()
         {
         }
 
-        public ImageModel(
+        public BinaryModel(
             SiteSettings siteSettings, 
             Permissions.Types permissionType,
             bool setByForm = false,
@@ -81,10 +84,10 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
-        public ImageModel(
+        public BinaryModel(
             SiteSettings siteSettings, 
             Permissions.Types permissionType,
-            long imageId,
+            long binaryId,
             bool clearSessions = false,
             bool setByForm = false,
             List<long> switchTargets = null,
@@ -92,7 +95,7 @@ namespace Implem.Pleasanter.Models
         {
             OnConstructing();
             SiteSettings = siteSettings;
-            ImageId = imageId;
+            BinaryId = binaryId;
             PermissionType = permissionType;
             Get();
             if (clearSessions) ClearSessions();
@@ -102,7 +105,7 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
-        public ImageModel(
+        public BinaryModel(
             SiteSettings siteSettings, 
             Permissions.Types permissionType,
             DataRow dataRow)
@@ -123,10 +126,10 @@ namespace Implem.Pleasanter.Models
 
         public void ClearSessions()
         {
-            Session_ImageSettings(null);
+            Session_BinarySettings(null);
         }
 
-        public ImageModel Get(
+        public BinaryModel Get(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
@@ -136,11 +139,11 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            Set(Rds.ExecuteTable(statements: Rds.SelectImages(
+            Set(Rds.ExecuteTable(statements: Rds.SelectBinaries(
                 tableType: tableType,
-                column: column ?? Rds.ImagesColumnDefault(),
-                join: join ??  Rds.ImagesJoinDefault(),
-                where: where ?? Rds.ImagesWhereDefault(this),
+                column: column ?? Rds.BinariesColumnDefault(),
+                join: join ??  Rds.BinariesJoinDefault(),
+                where: where ?? Rds.BinariesWhereDefault(this),
                 orderBy: orderBy ?? null,
                 param: param ?? null,
                 distinct: distinct,
@@ -160,13 +163,13 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: new SqlStatement[]
                 {
-                    Rds.InsertImages(
+                    Rds.InsertBinaries(
                         tableType: tableType,
                         selectIdentity: true,
-                        param: param ?? Rds.ImagesParamDefault(
+                        param: param ?? Rds.BinariesParamDefault(
                             this, setDefault: true, paramAll: paramAll))
                 });
-            ImageId = newId != 0 ? newId : ImageId;
+            BinaryId = newId != 0 ? newId : BinaryId;
             Get();
             OnCreated();
             return RecordResponse(this, Messages.Created(Title.ToString()));
@@ -194,22 +197,23 @@ namespace Implem.Pleasanter.Models
             {
                 switch (controlId)
                 {
-                    case "Images_ImageId": if (!SiteSettings.AllColumn("ImageId").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_Ver": if (!SiteSettings.AllColumn("Ver").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_Title": if (!SiteSettings.AllColumn("Title").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_Body": if (!SiteSettings.AllColumn("Body").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_Bin": if (!SiteSettings.AllColumn("Bin").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_FileName": if (!SiteSettings.AllColumn("FileName").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_Extension": if (!SiteSettings.AllColumn("Extension").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_Size": if (!SiteSettings.AllColumn("Size").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_ImageSettings": if (!SiteSettings.AllColumn("ImageSettings").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_Comments": if (!SiteSettings.AllColumn("Comments").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_Creator": if (!SiteSettings.AllColumn("Creator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_Updator": if (!SiteSettings.AllColumn("Updator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_CreatedTime": if (!SiteSettings.AllColumn("CreatedTime").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_UpdatedTime": if (!SiteSettings.AllColumn("UpdatedTime").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_VerUp": if (!SiteSettings.AllColumn("VerUp").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_Timestamp": if (!SiteSettings.AllColumn("Timestamp").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_ReferenceId": if (!SiteSettings.AllColumn("ReferenceId").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_BinaryId": if (!SiteSettings.AllColumn("BinaryId").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_Ver": if (!SiteSettings.AllColumn("Ver").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_Title": if (!SiteSettings.AllColumn("Title").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_Body": if (!SiteSettings.AllColumn("Body").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_Bin": if (!SiteSettings.AllColumn("Bin").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_FileName": if (!SiteSettings.AllColumn("FileName").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_Extension": if (!SiteSettings.AllColumn("Extension").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_Size": if (!SiteSettings.AllColumn("Size").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_BinarySettings": if (!SiteSettings.AllColumn("BinarySettings").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_Comments": if (!SiteSettings.AllColumn("Comments").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_Creator": if (!SiteSettings.AllColumn("Creator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_Updator": if (!SiteSettings.AllColumn("Updator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_CreatedTime": if (!SiteSettings.AllColumn("CreatedTime").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_UpdatedTime": if (!SiteSettings.AllColumn("UpdatedTime").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_VerUp": if (!SiteSettings.AllColumn("VerUp").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_Timestamp": if (!SiteSettings.AllColumn("Timestamp").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                 }
             }
             return null;
@@ -226,16 +230,16 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: new SqlStatement[]
                 {
-                    Rds.UpdateImages(
+                    Rds.UpdateBinaries(
                         verUp: VerUp,
-                        where: Rds.ImagesWhereDefault(this)
+                        where: Rds.BinariesWhereDefault(this)
                             .UpdatedTime(timestamp, _using: timestamp.NotZero()),
-                        param: param ?? Rds.ImagesParamDefault(this, paramAll: paramAll),
+                        param: param ?? Rds.BinariesParamDefault(this, paramAll: paramAll),
                         countRecord: true)
                 });
             if (count == 0) return ResponseConflicts();
             Get();
-            var responseCollection = new ImagesResponseCollection(this);
+            var responseCollection = new BinariesResponseCollection(this);
             OnUpdated(ref responseCollection);
             return ResponseByUpdate(responseCollection)
                 .PrependComment(Comments, VerType)
@@ -246,7 +250,7 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        private void OnUpdated(ref ImagesResponseCollection responseCollection)
+        private void OnUpdated(ref BinariesResponseCollection responseCollection)
         {
         }
 
@@ -260,28 +264,29 @@ namespace Implem.Pleasanter.Models
             {
                 switch (controlId)
                 {
-                    case "Images_ImageId": if (!SiteSettings.AllColumn("ImageId").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_Ver": if (!SiteSettings.AllColumn("Ver").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_Title": if (!SiteSettings.AllColumn("Title").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_Body": if (!SiteSettings.AllColumn("Body").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_Bin": if (!SiteSettings.AllColumn("Bin").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_FileName": if (!SiteSettings.AllColumn("FileName").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_Extension": if (!SiteSettings.AllColumn("Extension").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_Size": if (!SiteSettings.AllColumn("Size").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_ImageSettings": if (!SiteSettings.AllColumn("ImageSettings").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_Comments": if (!SiteSettings.AllColumn("Comments").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_Creator": if (!SiteSettings.AllColumn("Creator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_Updator": if (!SiteSettings.AllColumn("Updator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_CreatedTime": if (!SiteSettings.AllColumn("CreatedTime").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_UpdatedTime": if (!SiteSettings.AllColumn("UpdatedTime").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_VerUp": if (!SiteSettings.AllColumn("VerUp").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Images_Timestamp": if (!SiteSettings.AllColumn("Timestamp").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_ReferenceId": if (!SiteSettings.AllColumn("ReferenceId").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_BinaryId": if (!SiteSettings.AllColumn("BinaryId").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_Ver": if (!SiteSettings.AllColumn("Ver").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_Title": if (!SiteSettings.AllColumn("Title").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_Body": if (!SiteSettings.AllColumn("Body").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_Bin": if (!SiteSettings.AllColumn("Bin").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_FileName": if (!SiteSettings.AllColumn("FileName").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_Extension": if (!SiteSettings.AllColumn("Extension").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_Size": if (!SiteSettings.AllColumn("Size").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_BinarySettings": if (!SiteSettings.AllColumn("BinarySettings").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_Comments": if (!SiteSettings.AllColumn("Comments").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_Creator": if (!SiteSettings.AllColumn("Creator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_Updator": if (!SiteSettings.AllColumn("Updator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_CreatedTime": if (!SiteSettings.AllColumn("CreatedTime").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_UpdatedTime": if (!SiteSettings.AllColumn("UpdatedTime").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_VerUp": if (!SiteSettings.AllColumn("VerUp").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_Timestamp": if (!SiteSettings.AllColumn("Timestamp").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                 }
             }
             return null;
         }
 
-        private ResponseCollection ResponseByUpdate(ImagesResponseCollection responseCollection)
+        private ResponseCollection ResponseByUpdate(BinariesResponseCollection responseCollection)
         {
             return responseCollection
                 .Ver()
@@ -289,7 +294,7 @@ namespace Implem.Pleasanter.Models
                 .Val("#VerUp", false)
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", Title.DisplayValue + " - " + Displays.Edit())
-                .Html("#RecordInfo", Html.Builder().RecordInfo(baseModel: this, tableName: "Images"))
+                .Html("#RecordInfo", Html.Builder().RecordInfo(baseModel: this, tableName: "Binaries"))
                 .Html("#RecordHistories", Html.Builder().RecordHistories(ver: Ver, verType: VerType))
                 .Message(Messages.Updated(Title.ToString()))
                 .RemoveComment(DeleteCommentId, _using: DeleteCommentId != 0)
@@ -310,14 +315,14 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: new SqlStatement[]
                 {
-                    Rds.UpdateOrInsertImages(
+                    Rds.UpdateOrInsertBinaries(
                         selectIdentity: true,
-                        where: where ?? Rds.ImagesWhereDefault(this),
-                        param: param ?? Rds.ImagesParamDefault(this, setDefault: true))
+                        where: where ?? Rds.BinariesWhereDefault(this),
+                        param: param ?? Rds.BinariesParamDefault(this, setDefault: true))
                 });
-            ImageId = newId != 0 ? newId : ImageId;
+            BinaryId = newId != 0 ? newId : BinaryId;
             Get();
-            var responseCollection = new ImagesResponseCollection(this);
+            var responseCollection = new BinariesResponseCollection(this);
             OnUpdatedOrCreated(ref responseCollection);
             return responseCollection.ToJson();
         }
@@ -328,7 +333,7 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        private void OnUpdatedOrCreated(ref ImagesResponseCollection responseCollection)
+        private void OnUpdatedOrCreated(ref BinariesResponseCollection responseCollection)
         {
         }
 
@@ -343,14 +348,14 @@ namespace Implem.Pleasanter.Models
                 transactional: true,
                 statements: new SqlStatement[]
                 {
-                    Rds.DeleteImages(
-                        where: Rds.ImagesWhere().ImageId(ImageId))
+                    Rds.DeleteBinaries(
+                        where: Rds.BinariesWhere().BinaryId(BinaryId))
                 });
-            var responseCollection = new ImagesResponseCollection(this);
+            var responseCollection = new BinariesResponseCollection(this);
             OnDeleted(ref responseCollection);
             if (redirect)
             {
-                responseCollection.Href(Navigations.Index("Images"));
+                responseCollection.Href(Navigations.Index("Binaries"));
             }
             return responseCollection.ToJson();
         }
@@ -359,24 +364,24 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        private void OnDeleted(ref ImagesResponseCollection responseCollection)
+        private void OnDeleted(ref BinariesResponseCollection responseCollection)
         {
         }
 
-        public string Restore(long imageId)
+        public string Restore(long binaryId)
         {
             if (!Permissions.Admins().CanEditTenant())
             {
                 return Messages.ResponseHasNotPermission().ToJson();
             }
-            ImageId = imageId;
+            BinaryId = binaryId;
             Rds.ExecuteNonQuery(
                 connectionString: Def.Db.DbOwner,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
-                    Rds.RestoreImages(
-                        where: Rds.ImagesWhere().ImageId(ImageId))
+                    Rds.RestoreBinaries(
+                        where: Rds.BinariesWhere().BinaryId(BinaryId))
                 });
             return new ResponseCollection().ToJson();
         }
@@ -390,10 +395,10 @@ namespace Implem.Pleasanter.Models
             OnPhysicalDeleting();
             Rds.ExecuteNonQuery(
                 transactional: true,
-                statements: Rds.PhysicalDeleteImages(
+                statements: Rds.PhysicalDeleteBinaries(
                     tableType: tableType,
-                    param: Rds.ImagesParam().ImageId(ImageId)));
-            var responseCollection = new ImagesResponseCollection(this);
+                    param: Rds.BinariesParam().BinaryId(BinaryId)));
+            var responseCollection = new BinariesResponseCollection(this);
             OnPhysicalDeleted(ref responseCollection);
             return responseCollection.ToJson();
         }
@@ -402,7 +407,7 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        private void OnPhysicalDeleted(ref ImagesResponseCollection responseCollection)
+        private void OnPhysicalDeleted(ref BinariesResponseCollection responseCollection)
         {
         }
 
@@ -417,126 +422,126 @@ namespace Implem.Pleasanter.Models
                         columnCollection: SiteSettings.HistoryGridColumnCollection(),
                         sort: false,
                         checkRow: false);
-                    new ImageCollection(
+                    new BinaryCollection(
                         siteSettings: SiteSettings,
                         permissionType: PermissionType,
-                        where: Rds.ImagesWhere().ImageId(ImageId),
-                        orderBy: Rds.ImagesOrderBy().UpdatedTime(SqlOrderBy.Types.desc),
-                        tableType: Sqls.TableTypes.NormalAndHistory).ForEach(imageModel => hb
+                        where: Rds.BinariesWhere().BinaryId(BinaryId),
+                        orderBy: Rds.BinariesOrderBy().UpdatedTime(SqlOrderBy.Types.desc),
+                        tableType: Sqls.TableTypes.NormalAndHistory).ForEach(binaryModel => hb
                             .Tr(
                                 attributes: Html.Attributes()
                                     .Class("grid-row not-link")
                                     .OnClick(Def.JavaScript.HistoryAndCloseDialog
-                                        .Params(imageModel.Ver))
+                                        .Params(binaryModel.Ver))
                                     .DataAction("History")
                                     .DataMethod("post")
-                                    .Add("data-latest", 1, _using: imageModel.Ver == Ver),
+                                    .Add("data-latest", 1, _using: binaryModel.Ver == Ver),
                                 action: () =>
                                     SiteSettings.HistoryGridColumnCollection().ForEach(column =>
-                                        hb.TdValue(column, imageModel))));
+                                        hb.TdValue(column, binaryModel))));
                 });
-            return new ImagesResponseCollection(this).Html("#HistoriesForm", hb).ToJson();
+            return new BinariesResponseCollection(this).Html("#HistoriesForm", hb).ToJson();
         }
 
         public string History()
         {
             Get(
-                where: Rds.ImagesWhere()
-                    .ImageId(ImageId)
+                where: Rds.BinariesWhere()
+                    .BinaryId(BinaryId)
                     .Ver(Forms.Int("Ver")),
                 tableType: Sqls.TableTypes.NormalAndHistory);
             VerType =  Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
-                : Versions.VerType(ImageId);
-            SwitchTargets = ImagesUtility.GetSwitchTargets(SiteSettings);
+                : Versions.VerType(BinaryId);
+            SwitchTargets = BinariesUtility.GetSwitchTargets(SiteSettings);
             return Editor();
         }
 
         public string PreviousHistory()
         {
             Get(
-                where: Rds.ImagesWhere()
-                    .ImageId(ImageId)
+                where: Rds.BinariesWhere()
+                    .BinaryId(BinaryId)
                     .Ver(Forms.Int("Ver"), _operator: "<"),
-                orderBy: Rds.ImagesOrderBy()
+                orderBy: Rds.BinariesOrderBy()
                     .Ver(SqlOrderBy.Types.desc),
                 tableType: Sqls.TableTypes.History,
                 top: 1);
-            SwitchTargets = ImagesUtility.GetSwitchTargets(SiteSettings);
+            SwitchTargets = BinariesUtility.GetSwitchTargets(SiteSettings);
             switch (AccessStatus)
             {
                 case Databases.AccessStatuses.Selected:
-                    VerType = Versions.VerType(ImageId, Versions.DirectioTypes.Previous);
+                    VerType = Versions.VerType(BinaryId, Versions.DirectioTypes.Previous);
                     return Editor();
                 default:
-                    return new ImagesResponseCollection(this).ToJson();
+                    return new BinariesResponseCollection(this).ToJson();
             }
         }
 
         public string NextHistory()
         {
             Get(
-                where: Rds.ImagesWhere()
-                    .ImageId(ImageId)
+                where: Rds.BinariesWhere()
+                    .BinaryId(BinaryId)
                     .Ver(Forms.Int("Ver"), _operator: ">"),
-                orderBy: Rds.ImagesOrderBy()
+                orderBy: Rds.BinariesOrderBy()
                     .Ver(SqlOrderBy.Types.asc),
                 tableType: Sqls.TableTypes.History,
                 top: 1);
-            SwitchTargets = ImagesUtility.GetSwitchTargets(SiteSettings);
+            SwitchTargets = BinariesUtility.GetSwitchTargets(SiteSettings);
             switch (AccessStatus)
             {
                 case Databases.AccessStatuses.Selected:
-                    VerType = Versions.VerType(ImageId, Versions.DirectioTypes.Next);
+                    VerType = Versions.VerType(BinaryId, Versions.DirectioTypes.Next);
                     return Editor();
                 default:
-                    return new ImagesResponseCollection(this).ToJson();
+                    return new BinariesResponseCollection(this).ToJson();
             }
         }
 
         public string Previous()
         {
-            var switchTargets = ImagesUtility.GetSwitchTargets(SiteSettings);
-            var imageModel = new ImageModel(
+            var switchTargets = BinariesUtility.GetSwitchTargets(SiteSettings);
+            var binaryModel = new BinaryModel(
                 siteSettings: SiteSettings,
                 permissionType: PermissionType,
-                imageId: switchTargets.Previous(ImageId),
+                binaryId: switchTargets.Previous(BinaryId),
                 switchTargets: switchTargets);
-            return RecordResponse(imageModel);
+            return RecordResponse(binaryModel);
         }
 
         public string Next()
         {
-            var switchTargets = ImagesUtility.GetSwitchTargets(SiteSettings);
-            var imageModel = new ImageModel(
+            var switchTargets = BinariesUtility.GetSwitchTargets(SiteSettings);
+            var binaryModel = new BinaryModel(
                 siteSettings: SiteSettings,
                 permissionType: PermissionType,
-                imageId: switchTargets.Next(ImageId),
+                binaryId: switchTargets.Next(BinaryId),
                 switchTargets: switchTargets);
-            return RecordResponse(imageModel);
+            return RecordResponse(binaryModel);
         }
 
         public string Reload()
         {
-            SwitchTargets = ImagesUtility.GetSwitchTargets(SiteSettings);
+            SwitchTargets = BinariesUtility.GetSwitchTargets(SiteSettings);
             return RecordResponse(this, pushState: false);
         }
 
         private string RecordResponse(
-            ImageModel imageModel, Message message = null, bool pushState = true)
+            BinaryModel binaryModel, Message message = null, bool pushState = true)
         {
-            imageModel.MethodType = BaseModel.MethodTypes.Edit;
-            return new ImagesResponseCollection(this)
+            binaryModel.MethodType = BaseModel.MethodTypes.Edit;
+            return new BinariesResponseCollection(this)
                 .Func("clearDialogs")
                 .Html(
                     "#MainContainer",
-                    imageModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? ImagesUtility.Editor(imageModel)
-                        : ImagesUtility.Editor(this))
+                    binaryModel.AccessStatus == Databases.AccessStatuses.Selected
+                        ? BinariesUtility.Editor(binaryModel)
+                        : BinariesUtility.Editor(this))
                 .Message(message)
                 .PushState(
-                    Navigations.Get("Images", ImageId.ToString(), "Reload"),
-                    Navigations.Edit("Images", imageModel.ImageId),
+                    Navigations.Get("Binaries", BinaryId.ToString(), "Reload"),
+                    Navigations.Edit("Binaries", binaryModel.BinaryId),
                     _using: pushState)
                 .ClearFormData()
                 .ToJson();
@@ -548,11 +553,12 @@ namespace Implem.Pleasanter.Models
             {
                 switch (controlId)
                 {
-                    case "Images_Title": Title = new Title(ImageId, Forms.Data(controlId)); break;
-                    case "Images_Body": Body = Forms.Data(controlId).ToString(); break;
-                    case "Images_FileName": FileName = Forms.Data(controlId).ToString(); break;
-                    case "Images_Extension": Extension = Forms.Data(controlId).ToString(); break;
-                    case "Images_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
+                    case "Binaries_ReferenceId": ReferenceId = Forms.Data(controlId).ToLong(); break;
+                    case "Binaries_Title": Title = new Title(BinaryId, Forms.Data(controlId)); break;
+                    case "Binaries_Body": Body = Forms.Data(controlId).ToString(); break;
+                    case "Binaries_FileName": FileName = Forms.Data(controlId).ToString(); break;
+                    case "Binaries_Extension": Extension = Forms.Data(controlId).ToString(); break;
+                    case "Binaries_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
                     case "Comments": Comments = Comments.Prepend(Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
                     default: break;
@@ -567,7 +573,7 @@ namespace Implem.Pleasanter.Models
             {
                 switch (controlId)
                 {
-                    case "Images_Bin": Bin = Forms.File(controlId); break;
+                    case "Binaries_Bin": Bin = Forms.File(controlId); break;
                     default: break;
                 }
             });
@@ -575,7 +581,7 @@ namespace Implem.Pleasanter.Models
 
         private void SetBySession()
         {
-            if (!Forms.HasData("Images_ImageSettings")) ImageSettings = Session_ImageSettings();
+            if (!Forms.HasData("Binaries_BinarySettings")) BinarySettings = Session_BinarySettings();
         }
 
         private void Set(DataTable dataTable)
@@ -596,15 +602,16 @@ namespace Implem.Pleasanter.Models
                 var name = dataColumn.ColumnName;
                 switch(name)
                 {
-                    case "ImageId": if (dataRow[name] != DBNull.Value) { ImageId = dataRow[name].ToLong(); SavedImageId = ImageId; } break;
+                    case "ReferenceId": if (dataRow[name] != DBNull.Value) { ReferenceId = dataRow[name].ToLong(); SavedReferenceId = ReferenceId; } break;
+                    case "BinaryId": if (dataRow[name] != DBNull.Value) { BinaryId = dataRow[name].ToLong(); SavedBinaryId = BinaryId; } break;
                     case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
-                    case "Title": Title = new Title(dataRow, "ImageId"); SavedTitle = Title.Value; break;
+                    case "Title": Title = new Title(dataRow, "BinaryId"); SavedTitle = Title.Value; break;
                     case "Body": Body = dataRow[name].ToString(); SavedBody = Body; break;
                     case "Bin": Bin = dataRow.Bytes("Bin"); SavedBin = Bin; break;
                     case "FileName": FileName = dataRow[name].ToString(); SavedFileName = FileName; break;
                     case "Extension": Extension = dataRow[name].ToString(); SavedExtension = Extension; break;
                     case "Size": Size = dataRow[name].ToInt(); SavedSize = Size; break;
-                    case "ImageSettings": ImageSettings = dataRow.String("ImageSettings").Deserialize<ImageSettings>() ?? new ImageSettings(); SavedImageSettings = ImageSettings.ToJson(); break;
+                    case "BinarySettings": BinarySettings = dataRow.String("BinarySettings").Deserialize<BinarySettings>() ?? new BinarySettings(); SavedBinarySettings = BinarySettings.ToJson(); break;
                     case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
                     case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
@@ -616,8 +623,8 @@ namespace Implem.Pleasanter.Models
 
         private string Editor()
         {
-            return new ImagesResponseCollection(this)
-                .Html("#MainContainer", ImagesUtility.Editor(this))
+            return new BinariesResponseCollection(this)
+                .Html("#MainContainer", BinariesUtility.Editor(this))
                 .ToJson();
         }
 
@@ -632,7 +639,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public ImageModel(
+        public BinaryModel(
             long imageId,
             bool clearSessions = false,
             bool setByForm = false,
@@ -640,7 +647,7 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
-            ImageId = imageId;
+            BinaryId = imageId;
             Get();
             if (clearSessions) ClearSessions();
             if (setByForm) SetByForm();
@@ -658,12 +665,12 @@ namespace Implem.Pleasanter.Models
         }
     }
 
-    public class ImageCollection : List<ImageModel>
+    public class BinaryCollection : List<BinaryModel>
     {
         public Databases.AccessStatuses AccessStatus = Databases.AccessStatuses.Initialized;
         public Aggregations Aggregations = new Aggregations();
 
-        public ImageCollection(
+        public BinaryCollection(
             SiteSettings siteSettings, 
             Permissions.Types permissionType,
             SqlColumnCollection column = null,
@@ -694,7 +701,7 @@ namespace Implem.Pleasanter.Models
                 aggregationCollection: aggregationCollection));
         }
 
-        public ImageCollection(
+        public BinaryCollection(
             SiteSettings siteSettings, 
             Permissions.Types permissionType,
             DataTable dataTable)
@@ -702,7 +709,7 @@ namespace Implem.Pleasanter.Models
             Set(siteSettings, permissionType, dataTable);
         }
 
-        private ImageCollection Set(
+        private BinaryCollection Set(
             SiteSettings siteSettings, 
             Permissions.Types permissionType,
             DataTable dataTable)
@@ -711,7 +718,7 @@ namespace Implem.Pleasanter.Models
             {
                 foreach (DataRow dataRow in dataTable.Rows)
                 {
-                    Add(new ImageModel(siteSettings, permissionType, dataRow));
+                    Add(new BinaryModel(siteSettings, permissionType, dataRow));
                 }
                 AccessStatus = Databases.AccessStatuses.Selected;
             }
@@ -722,7 +729,7 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public ImageCollection(
+        public BinaryCollection(
             SiteSettings siteSettings, 
             Permissions.Types permissionType,
             string commandText,
@@ -748,10 +755,10 @@ namespace Implem.Pleasanter.Models
         {
             var statements = new List<SqlStatement>
             {
-                Rds.SelectImages(
+                Rds.SelectBinaries(
                     dataTableName: "Main",
-                    column: column ?? Rds.ImagesColumnDefault(),
-                    join: join ??  Rds.ImagesJoinDefault(),
+                    column: column ?? Rds.BinariesColumnDefault(),
+                    join: join ??  Rds.BinariesJoinDefault(),
                     where: where ?? null,
                     orderBy: orderBy ?? null,
                     param: param ?? null,
@@ -764,7 +771,7 @@ namespace Implem.Pleasanter.Models
             };
             if (aggregationCollection != null)
             {
-                statements.AddRange(Rds.ImagesAggregations(aggregationCollection, where));
+                statements.AddRange(Rds.BinariesAggregations(aggregationCollection, where));
             }
             var dataSet = Rds.ExecuteDataSet(
                 transactional: false,
@@ -777,23 +784,23 @@ namespace Implem.Pleasanter.Models
         {
             return Rds.ExecuteTable(
                 transactional: false,
-                statements: Rds.ImagesStatement(
+                statements: Rds.BinariesStatement(
                     commandText: commandText,
                     param: param ?? null));
         }
     }
 
-    public static class ImagesUtility
+    public static class BinariesUtility
     {
         public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
         {
             var hb = Html.Builder();
             var formData = DataViewFilters.SessionFormData();
-            var imageCollection = ImageCollection(siteSettings, permissionType, formData);
+            var binaryCollection = BinaryCollection(siteSettings, permissionType, formData);
             var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
             return hb.Template(
                 siteId: siteSettings.SiteId,
-                modelName: "Image",
+                modelName: "Binary",
                 title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
@@ -801,7 +808,7 @@ namespace Implem.Pleasanter.Models
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: permissionType.CanRead(),
                 script: IndexScript(
-                    imageCollection: imageCollection,
+                    binaryCollection: binaryCollection,
                     siteSettings: siteSettings,
                     permissionType: permissionType,
                     formData: formData,
@@ -809,27 +816,27 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .Form(
                         attributes: Html.Attributes()
-                            .Id_Css("ImagesForm", "main-form")
+                            .Id_Css("BinariesForm", "main-form")
                             .Action(Navigations.ItemAction(siteSettings.SiteId)),
                         action: () => hb
                             .DataViewSelector(
-                                referenceType: "Images",
+                                referenceType: "Binaries",
                                 dataViewName: dataViewName)
                             .DataViewFilters(
                                 siteSettings: siteSettings,
                                 siteId: siteSettings.SiteId)
                             .Aggregations(
                                 siteSettings: siteSettings,
-                                aggregations: imageCollection.Aggregations)
+                                aggregations: binaryCollection.Aggregations)
                             .Div(id: "DataViewContainer", action: () => hb
                                 .DataView(
-                                    imageCollection: imageCollection,
+                                    binaryCollection: binaryCollection,
                                     siteSettings: siteSettings,
                                     permissionType: permissionType,
                                     formData: formData,
                                     dataViewName: dataViewName))
                             .Div(css: "margin-bottom")
-                            .Hidden(controlId: "TableName", value: "Images")
+                            .Hidden(controlId: "TableName", value: "Binaries")
                             .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
                     .Dialog_Move("items", siteSettings.SiteId, bulk: true)
                     .Div(attributes: Html.Attributes()
@@ -837,22 +844,22 @@ namespace Implem.Pleasanter.Models
                         .Title(Displays.ExportSettings()))).ToString();
         }
 
-        private static ImageCollection ImageCollection(
+        private static BinaryCollection BinaryCollection(
             SiteSettings siteSettings,
             Permissions.Types permissionType,
             FormData formData, int offset = 0)
         {
-            return new ImageCollection(
+            return new BinaryCollection(
                 siteSettings: siteSettings,
                 permissionType: permissionType,
                 column: GridSqlColumnCollection(siteSettings),
                 where: DataViewFilters.Get(
                     siteSettings: siteSettings,
-                    tableName: "Images",
+                    tableName: "Binaries",
                     formData: formData,
-                    where: Rds.ImagesWhere()),
+                    where: Rds.BinariesWhere()),
                 orderBy: GridSorters.Get(
-                    formData, Rds.ImagesOrderBy().UpdatedTime(SqlOrderBy.Types.desc)),
+                    formData, Rds.BinariesOrderBy().UpdatedTime(SqlOrderBy.Types.desc)),
                 offset: offset,
                 pageSize: siteSettings.GridPageSize.ToInt(),
                 countRecord: true,
@@ -860,7 +867,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public static string IndexScript(
-            ImageCollection imageCollection,
+            BinaryCollection binaryCollection,
             SiteSettings siteSettings,
             Permissions.Types permissionType,
             FormData formData,
@@ -871,7 +878,7 @@ namespace Implem.Pleasanter.Models
 
         public static HtmlBuilder DataView(
             this HtmlBuilder hb,
-            ImageCollection imageCollection,
+            BinaryCollection binaryCollection,
             SiteSettings siteSettings,
             Permissions.Types permissionType,
             FormData formData,
@@ -880,7 +887,7 @@ namespace Implem.Pleasanter.Models
             switch (dataViewName)
             {
                 default: return hb.Grid(
-                    imageCollection: imageCollection,
+                    binaryCollection: binaryCollection,
                     siteSettings: siteSettings,
                     permissionType: permissionType,
                     formData: formData);
@@ -900,7 +907,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             SiteSettings siteSettings,
             Permissions.Types permissionType,
-            ImageCollection imageCollection,
+            BinaryCollection binaryCollection,
             FormData formData)
         {
             return hb
@@ -912,7 +919,7 @@ namespace Implem.Pleasanter.Models
                     action: () => hb
                         .GridRows(
                             siteSettings: siteSettings,
-                            imageCollection: imageCollection,
+                            binaryCollection: binaryCollection,
                             formData: formData))
                 .Hidden(
                     controlId: "GridOffset",
@@ -931,18 +938,18 @@ namespace Implem.Pleasanter.Models
         private static string Grid(SiteSettings siteSettings, Permissions.Types permissionType)
         {
             var formData = DataViewFilters.SessionFormData();
-            var imageCollection = ImageCollection(siteSettings, permissionType, formData);
+            var binaryCollection = BinaryCollection(siteSettings, permissionType, formData);
             return new ResponseCollection()
-                .Html("#DataViewContainer", imageCollection.Count > 0
+                .Html("#DataViewContainer", binaryCollection.Count > 0
                     ? Html.Builder().Grid(
                         siteSettings: siteSettings,
-                        imageCollection: imageCollection,
+                        binaryCollection: binaryCollection,
                         permissionType: permissionType,
                         formData: formData)
                     : Html.Builder())
                 .Html("#Aggregations", Html.Builder().Aggregations(
                     siteSettings: siteSettings,
-                    aggregations: imageCollection.Aggregations,
+                    aggregations: binaryCollection.Aggregations,
                     container: false))
                 .WindowScrollTop().ToJson();
         }
@@ -956,7 +963,7 @@ namespace Implem.Pleasanter.Models
             Message message = null)
         {
             var formData = DataViewFilters.SessionFormData();
-            var imageCollection = ImageCollection(siteSettings, permissionType, formData, offset);
+            var binaryCollection = BinaryCollection(siteSettings, permissionType, formData, offset);
             return (responseCollection ?? new ResponseCollection())
                 .Remove(".grid tr", _using: offset == 0)
                 .ClearFormData("GridCheckAll", _using: clearCheck)
@@ -965,15 +972,15 @@ namespace Implem.Pleasanter.Models
                 .Message(message)
                 .Append("#Grid", Html.Builder().GridRows(
                     siteSettings: siteSettings,
-                    imageCollection: imageCollection,
+                    binaryCollection: binaryCollection,
                     formData: formData,
                     addHeader: offset == 0,
                     clearCheck: clearCheck))
                 .Html("#Aggregations", Html.Builder().Aggregations(
                     siteSettings: siteSettings,
-                    aggregations: imageCollection.Aggregations,
+                    aggregations: binaryCollection.Aggregations,
                     container: false))
-                .Val("#GridOffset", siteSettings.NextPageOffset(offset, imageCollection.Count()))
+                .Val("#GridOffset", siteSettings.NextPageOffset(offset, binaryCollection.Count()))
                 .Markup()
                 .ToJson();
         }
@@ -981,7 +988,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder GridRows(
             this HtmlBuilder hb,
             SiteSettings siteSettings,
-            ImageCollection imageCollection,
+            BinaryCollection binaryCollection,
             FormData formData,
             bool addHeader = true,
             bool clearCheck = false)
@@ -994,38 +1001,39 @@ namespace Implem.Pleasanter.Models
                     formData: formData,
                     checkAll: checkAll);
             }
-            imageCollection.ForEach(imageModel => hb
+            binaryCollection.ForEach(binaryModel => hb
                 .Tr(
                     attributes: Html.Attributes()
                         .Class("grid-row")
-                        .DataId(imageModel.ImageId.ToString()),
+                        .DataId(binaryModel.BinaryId.ToString()),
                     action: () =>
                     {
                         hb.Td(action: () => hb
                             .CheckBox(
                                 controlCss: "grid-check",
                                 _checked: checkAll,
-                                dataId: imageModel.ImageId.ToString()));
+                                dataId: binaryModel.BinaryId.ToString()));
                         siteSettings.GridColumnCollection()
                             .ForEach(column => hb
                                 .TdValue(
                                     column: column,
-                                    imageModel: imageModel));
+                                    binaryModel: binaryModel));
                     }));
             return hb;
         }
 
         private static SqlColumnCollection GridSqlColumnCollection(SiteSettings siteSettings)
         {
-            var select = Rds.ImagesColumn()
-                .ImageId()
+            var select = Rds.BinariesColumn()
+                .BinaryId()
                 .Creator()
                 .Updator();
             siteSettings.GridColumnCollection(withTitle: true).ForEach(columnGrid =>
             {
                 switch (columnGrid.ColumnName)
                 {
-                    case "ImageId": select.ImageId(); break;
+                    case "ReferenceId": select.ReferenceId(); break;
+                    case "BinaryId": select.BinaryId(); break;
                     case "Ver": select.Ver(); break;
                     case "Title": select.Title(); break;
                     case "Body": select.Body(); break;
@@ -1033,7 +1041,7 @@ namespace Implem.Pleasanter.Models
                     case "FileName": select.FileName(); break;
                     case "Extension": select.Extension(); break;
                     case "Size": select.Size(); break;
-                    case "ImageSettings": select.ImageSettings(); break;
+                    case "BinarySettings": select.BinarySettings(); break;
                     case "Comments": select.Comments(); break;
                     case "Creator": select.Creator(); break;
                     case "Updator": select.Updator(); break;
@@ -1045,132 +1053,132 @@ namespace Implem.Pleasanter.Models
         }
 
         public static HtmlBuilder TdValue(
-            this HtmlBuilder hb, Column column, ImageModel imageModel)
+            this HtmlBuilder hb, Column column, BinaryModel binaryModel)
         {
             switch (column.ColumnName)
             {
-                case "Ver": return hb.Td(column: column, value: imageModel.Ver);
-                case "Comments": return hb.Td(column: column, value: imageModel.Comments);
-                case "Creator": return hb.Td(column: column, value: imageModel.Creator);
-                case "Updator": return hb.Td(column: column, value: imageModel.Updator);
-                case "CreatedTime": return hb.Td(column: column, value: imageModel.CreatedTime);
-                case "UpdatedTime": return hb.Td(column: column, value: imageModel.UpdatedTime);
+                case "Ver": return hb.Td(column: column, value: binaryModel.Ver);
+                case "Comments": return hb.Td(column: column, value: binaryModel.Comments);
+                case "Creator": return hb.Td(column: column, value: binaryModel.Creator);
+                case "Updator": return hb.Td(column: column, value: binaryModel.Updator);
+                case "CreatedTime": return hb.Td(column: column, value: binaryModel.CreatedTime);
+                case "UpdatedTime": return hb.Td(column: column, value: binaryModel.UpdatedTime);
                 default: return hb;
             }
         }
 
         public static string EditorNew()
         {
-            return Editor(new ImageModel(
-                    SiteSettingsUtility.ImagesSiteSettings(),
+            return Editor(new BinaryModel(
+                    SiteSettingsUtility.BinariesSiteSettings(),
                     Permissions.Admins(),
                 methodType: BaseModel.MethodTypes.New));
         }
 
-        public static string Editor(long imageId, bool clearSessions)
+        public static string Editor(long binaryId, bool clearSessions)
         {
-            var imageModel = new ImageModel(
-                    SiteSettingsUtility.ImagesSiteSettings(),
+            var binaryModel = new BinaryModel(
+                    SiteSettingsUtility.BinariesSiteSettings(),
                     Permissions.Admins(),
-                imageId: imageId,
+                binaryId: binaryId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
-            imageModel.SwitchTargets = ImagesUtility.GetSwitchTargets(
-                SiteSettingsUtility.ImagesSiteSettings());
-            return Editor(imageModel);
+            binaryModel.SwitchTargets = BinariesUtility.GetSwitchTargets(
+                SiteSettingsUtility.BinariesSiteSettings());
+            return Editor(binaryModel);
         }
 
-        public static string Editor(ImageModel imageModel)
+        public static string Editor(BinaryModel binaryModel)
         {
             var hb = Html.Builder();
             var permissionType = Permissions.Admins();
-            var siteSettings = SiteSettingsUtility.ImagesSiteSettings();
+            var siteSettings = SiteSettingsUtility.BinariesSiteSettings();
             return hb.Template(
                 siteId: 0,
-                modelName: "Image",
-                title: imageModel.MethodType != BaseModel.MethodTypes.New
-                    ? imageModel.Title.DisplayValue + " - " + Displays.Edit()
-                    : Displays.Images() + " - " + Displays.New(),
+                modelName: "Binary",
+                title: binaryModel.MethodType != BaseModel.MethodTypes.New
+                    ? binaryModel.Title.DisplayValue + " - " + Displays.Edit()
+                    : Displays.Binaries() + " - " + Displays.New(),
                 permissionType: permissionType,
-                verType: imageModel.VerType,
+                verType: binaryModel.VerType,
                 backUrl: Navigations.ItemIndex(0),
-                methodType: imageModel.MethodType,
+                methodType: binaryModel.MethodType,
                 allowAccess:
                     permissionType.CanEditTenant() &&
-                    imageModel.AccessStatus != Databases.AccessStatuses.NotFound,
+                    binaryModel.AccessStatus != Databases.AccessStatuses.NotFound,
                 action: () =>
                 {
                     permissionType = Permissions.Types.Manager;
                     hb
                         .Editor(
-                            imageModel: imageModel,
+                            binaryModel: binaryModel,
                             permissionType: permissionType,
                             siteSettings: siteSettings)
-                        .Hidden(controlId: "TableName", value: "Images")
-                        .Hidden(controlId: "Id", value: imageModel.ImageId.ToString());
+                        .Hidden(controlId: "TableName", value: "Binaries")
+                        .Hidden(controlId: "Id", value: binaryModel.BinaryId.ToString());
                 }).ToString();
         }
 
         private static HtmlBuilder Editor(
             this HtmlBuilder hb,
-            ImageModel imageModel,
+            BinaryModel binaryModel,
             Permissions.Types permissionType,
             SiteSettings siteSettings)
         {
             return hb.Div(css: "edit-form", action: () => hb
                 .Form(
                     attributes: Html.Attributes()
-                        .Id_Css("ImageForm", "main-form")
-                        .Action(imageModel.ImageId != 0
-                            ? Navigations.Action("Images", imageModel.ImageId)
-                            : Navigations.Action("Images")),
+                        .Id_Css("BinaryForm", "main-form")
+                        .Action(binaryModel.BinaryId != 0
+                            ? Navigations.Action("Binaries", binaryModel.BinaryId)
+                            : Navigations.Action("Binaries")),
                     action: () => hb
                         .RecordHeader(
-                            id: imageModel.ImageId,
-                            baseModel: imageModel,
-                            tableName: "Images",
-                            switchTargets: imageModel.SwitchTargets?
+                            id: binaryModel.BinaryId,
+                            baseModel: binaryModel,
+                            tableName: "Binaries",
+                            switchTargets: binaryModel.SwitchTargets?
                                 .Select(o => o.ToLong()).ToList())
                         .Div(css: "edit-form-comments", action: () => hb
                             .Comments(
-                                comments: imageModel.Comments,
-                                verType: imageModel.VerType))
+                                comments: binaryModel.Comments,
+                                verType: binaryModel.VerType))
                         .Div(css: "edit-form-tabs", action: () => hb
-                            .FieldTabs(imageModel: imageModel)
+                            .FieldTabs(binaryModel: binaryModel)
                             .Fields(
                                 siteSettings: siteSettings,
                                 permissionType: permissionType,
-                                imageModel: imageModel)
+                                binaryModel: binaryModel)
                             .MainCommands(
                                 siteId: 0,
                                 permissionType: permissionType,
-                                verType: imageModel.VerType,
-                                backUrl: Navigations.Index("Images"),
-                                referenceType: "Images",
-                                referenceId: imageModel.ImageId,
+                                verType: binaryModel.VerType,
+                                backUrl: Navigations.Index("Binaries"),
+                                referenceType: "Binaries",
+                                referenceId: binaryModel.BinaryId,
                                 updateButton: true,
                                 mailButton: true,
                                 deleteButton: true,
                                 extensions: () => hb
                                     .MainCommandExtensions(
-                                        imageModel: imageModel,
+                                        binaryModel: binaryModel,
                                         siteSettings: siteSettings)))
                         .Hidden(
-                            controlId: "Images_Timestamp",
+                            controlId: "Binaries_Timestamp",
                             css: "must-transport",
-                            value: imageModel.Timestamp)
+                            value: binaryModel.Timestamp)
                         .Hidden(
                             controlId: "SwitchTargets",
                             css: "must-transport",
-                            value: imageModel.SwitchTargets?.Join()))
-                .OutgoingMailsForm("Images", imageModel.ImageId, imageModel.Ver)
-                .Dialog_Copy("Images", imageModel.ImageId)
-                .Dialog_Histories(Navigations.Action("Images", imageModel.ImageId))
+                            value: binaryModel.SwitchTargets?.Join()))
+                .OutgoingMailsForm("Binaries", binaryModel.BinaryId, binaryModel.Ver)
+                .Dialog_Copy("Binaries", binaryModel.BinaryId)
+                .Dialog_Histories(Navigations.Action("Binaries", binaryModel.BinaryId))
                 .Dialog_OutgoingMail()
-                .EditorExtensions(imageModel: imageModel, siteSettings: siteSettings));
+                .EditorExtensions(binaryModel: binaryModel, siteSettings: siteSettings));
         }
 
-        private static HtmlBuilder FieldTabs(this HtmlBuilder hb, ImageModel imageModel)
+        private static HtmlBuilder FieldTabs(this HtmlBuilder hb, BinaryModel binaryModel)
         {
             return hb.Ul(css: "field-tab", action: () => hb
                 .Li(action: () => hb
@@ -1183,7 +1191,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             SiteSettings siteSettings,
             Permissions.Types permissionType,
-            ImageModel imageModel)
+            BinaryModel binaryModel)
         {
             return hb.FieldSet(id: "FieldSetGeneral", action: () =>
             {
@@ -1194,21 +1202,22 @@ namespace Implem.Pleasanter.Models
                     {
                         switch (column.ColumnName)
                         {
-                            case "ImageId": hb.Field(siteSettings, column, imageModel.ImageId.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "Ver": hb.Field(siteSettings, column, imageModel.Ver.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "Title": hb.Field(siteSettings, column, imageModel.Title.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "Body": hb.Field(siteSettings, column, imageModel.Body.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "FileName": hb.Field(siteSettings, column, imageModel.FileName.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "Extension": hb.Field(siteSettings, column, imageModel.Extension.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "ReferenceId": hb.Field(siteSettings, column, binaryModel.ReferenceId.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "BinaryId": hb.Field(siteSettings, column, binaryModel.BinaryId.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "Ver": hb.Field(siteSettings, column, binaryModel.Ver.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "Title": hb.Field(siteSettings, column, binaryModel.Title.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "Body": hb.Field(siteSettings, column, binaryModel.Body.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "FileName": hb.Field(siteSettings, column, binaryModel.FileName.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "Extension": hb.Field(siteSettings, column, binaryModel.Extension.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                         }
                     });
-                hb.VerUpCheckBox(imageModel);
+                hb.VerUpCheckBox(binaryModel);
             });
         }
 
         private static HtmlBuilder MainCommandExtensions(
             this HtmlBuilder hb,
-            ImageModel imageModel,
+            BinaryModel binaryModel,
             SiteSettings siteSettings)
         {
             return hb;
@@ -1216,7 +1225,7 @@ namespace Implem.Pleasanter.Models
 
         private static HtmlBuilder EditorExtensions(
             this HtmlBuilder hb,
-            ImageModel imageModel,
+            BinaryModel binaryModel,
             SiteSettings siteSettings)
         {
             return hb;
@@ -1233,17 +1242,17 @@ namespace Implem.Pleasanter.Models
                 var formData = DataViewFilters.SessionFormData();
                 switchTargets = Rds.ExecuteTable(
                     transactional: false,
-                    statements: Rds.SelectImages(
-                        column: Rds.ImagesColumn().ImageId(),
+                    statements: Rds.SelectBinaries(
+                        column: Rds.BinariesColumn().BinaryId(),
                         where: DataViewFilters.Get(
                             siteSettings: siteSettings,
-                            tableName: "Images",
+                            tableName: "Binaries",
                             formData: formData,
-                            where: Rds.ImagesWhere()),
+                            where: Rds.BinariesWhere()),
                         orderBy: GridSorters.Get(
-                            formData, Rds.ImagesOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
+                            formData, Rds.BinariesOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
                                 .AsEnumerable()
-                                .Select(o => o["ImageId"].ToLong())
+                                .Select(o => o["BinaryId"].ToLong())
                                 .ToList();    
             }
             return switchTargets;

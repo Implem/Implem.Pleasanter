@@ -244,22 +244,22 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
     }
 
-    public class ImagesResponseCollection : ResponseCollection
+    public class BinariesResponseCollection : ResponseCollection
     {
-        public ImageModel ImageModel;
+        public BinaryModel BinaryModel;
 
-        public ImagesResponseCollection(ImageModel imageModel)
+        public BinariesResponseCollection(BinaryModel binaryModel)
         {
-            ImageModel = imageModel;
+            BinaryModel = binaryModel;
         }
 
-        public ImagesResponseCollection Val(string selector, string value)
+        public BinariesResponseCollection Val(string selector, string value)
         {
             base.Val(selector, value);
             return this;
         }
 
-        public ImagesResponseCollection ValAndFormData(string selector, string value)
+        public BinariesResponseCollection ValAndFormData(string selector, string value)
         {
             base.ValAndFormData(selector, value);
             return this;
@@ -782,42 +782,46 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static LinksResponseCollection Timestamp(this LinksResponseCollection responseCollection, string value) { return responseCollection.Val("#Links_Timestamp", value); }
         public static LinksResponseCollection Timestamp_FormData(this LinksResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Links_Timestamp", responseCollection.LinkModel.Timestamp.ToResponse()); }
         public static LinksResponseCollection Timestamp_FormData(this LinksResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Links_Timestamp", value); }
-        public static ImagesResponseCollection ImageId(this ImagesResponseCollection responseCollection) { return responseCollection.Val("#Images_ImageId", responseCollection.ImageModel.ImageId.ToResponse()); }
-        public static ImagesResponseCollection ImageId(this ImagesResponseCollection responseCollection, string value) { return responseCollection.Val("#Images_ImageId", value); }
-        public static ImagesResponseCollection ImageId_FormData(this ImagesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Images_ImageId", responseCollection.ImageModel.ImageId.ToResponse()); }
-        public static ImagesResponseCollection ImageId_FormData(this ImagesResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Images_ImageId", value); }
-        public static ImagesResponseCollection Ver(this ImagesResponseCollection responseCollection) { return responseCollection.Val("#Images_Ver", responseCollection.ImageModel.Ver.ToResponse()); }
-        public static ImagesResponseCollection Ver(this ImagesResponseCollection responseCollection, string value) { return responseCollection.Val("#Images_Ver", value); }
-        public static ImagesResponseCollection Ver_FormData(this ImagesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Images_Ver", responseCollection.ImageModel.Ver.ToResponse()); }
-        public static ImagesResponseCollection Ver_FormData(this ImagesResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Images_Ver", value); }
-        public static ImagesResponseCollection Title(this ImagesResponseCollection responseCollection) { return responseCollection.Val("#Images_Title", responseCollection.ImageModel.Title.ToResponse()); }
-        public static ImagesResponseCollection Title(this ImagesResponseCollection responseCollection, string value) { return responseCollection.Val("#Images_Title", value); }
-        public static ImagesResponseCollection Title_FormData(this ImagesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Images_Title", responseCollection.ImageModel.Title.ToResponse()); }
-        public static ImagesResponseCollection Title_FormData(this ImagesResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Images_Title", value); }
-        public static ImagesResponseCollection Body(this ImagesResponseCollection responseCollection) { return responseCollection.Val("#Images_Body", responseCollection.ImageModel.Body.ToResponse()); }
-        public static ImagesResponseCollection Body(this ImagesResponseCollection responseCollection, string value) { return responseCollection.Val("#Images_Body", value); }
-        public static ImagesResponseCollection Body_FormData(this ImagesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Images_Body", responseCollection.ImageModel.Body.ToResponse()); }
-        public static ImagesResponseCollection Body_FormData(this ImagesResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Images_Body", value); }
-        public static ImagesResponseCollection FileName(this ImagesResponseCollection responseCollection) { return responseCollection.Val("#Images_FileName", responseCollection.ImageModel.FileName.ToResponse()); }
-        public static ImagesResponseCollection FileName(this ImagesResponseCollection responseCollection, string value) { return responseCollection.Val("#Images_FileName", value); }
-        public static ImagesResponseCollection FileName_FormData(this ImagesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Images_FileName", responseCollection.ImageModel.FileName.ToResponse()); }
-        public static ImagesResponseCollection FileName_FormData(this ImagesResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Images_FileName", value); }
-        public static ImagesResponseCollection Extension(this ImagesResponseCollection responseCollection) { return responseCollection.Val("#Images_Extension", responseCollection.ImageModel.Extension.ToResponse()); }
-        public static ImagesResponseCollection Extension(this ImagesResponseCollection responseCollection, string value) { return responseCollection.Val("#Images_Extension", value); }
-        public static ImagesResponseCollection Extension_FormData(this ImagesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Images_Extension", responseCollection.ImageModel.Extension.ToResponse()); }
-        public static ImagesResponseCollection Extension_FormData(this ImagesResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Images_Extension", value); }
-        public static ImagesResponseCollection CreatedTime(this ImagesResponseCollection responseCollection) { return responseCollection.Val("#Images_CreatedTime", responseCollection.ImageModel.CreatedTime.ToResponse()); }
-        public static ImagesResponseCollection CreatedTime(this ImagesResponseCollection responseCollection, string value) { return responseCollection.Val("#Images_CreatedTime", value); }
-        public static ImagesResponseCollection CreatedTime_FormData(this ImagesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Images_CreatedTime", responseCollection.ImageModel.CreatedTime.ToResponse()); }
-        public static ImagesResponseCollection CreatedTime_FormData(this ImagesResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Images_CreatedTime", value); }
-        public static ImagesResponseCollection UpdatedTime(this ImagesResponseCollection responseCollection) { return responseCollection.Val("#Images_UpdatedTime", responseCollection.ImageModel.UpdatedTime.ToResponse()); }
-        public static ImagesResponseCollection UpdatedTime(this ImagesResponseCollection responseCollection, string value) { return responseCollection.Val("#Images_UpdatedTime", value); }
-        public static ImagesResponseCollection UpdatedTime_FormData(this ImagesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Images_UpdatedTime", responseCollection.ImageModel.UpdatedTime.ToResponse()); }
-        public static ImagesResponseCollection UpdatedTime_FormData(this ImagesResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Images_UpdatedTime", value); }
-        public static ImagesResponseCollection Timestamp(this ImagesResponseCollection responseCollection) { return responseCollection.Val("#Images_Timestamp", responseCollection.ImageModel.Timestamp.ToResponse()); }
-        public static ImagesResponseCollection Timestamp(this ImagesResponseCollection responseCollection, string value) { return responseCollection.Val("#Images_Timestamp", value); }
-        public static ImagesResponseCollection Timestamp_FormData(this ImagesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Images_Timestamp", responseCollection.ImageModel.Timestamp.ToResponse()); }
-        public static ImagesResponseCollection Timestamp_FormData(this ImagesResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Images_Timestamp", value); }
+        public static BinariesResponseCollection ReferenceId(this BinariesResponseCollection responseCollection) { return responseCollection.Val("#Binaries_ReferenceId", responseCollection.BinaryModel.ReferenceId.ToResponse()); }
+        public static BinariesResponseCollection ReferenceId(this BinariesResponseCollection responseCollection, string value) { return responseCollection.Val("#Binaries_ReferenceId", value); }
+        public static BinariesResponseCollection ReferenceId_FormData(this BinariesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Binaries_ReferenceId", responseCollection.BinaryModel.ReferenceId.ToResponse()); }
+        public static BinariesResponseCollection ReferenceId_FormData(this BinariesResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Binaries_ReferenceId", value); }
+        public static BinariesResponseCollection BinaryId(this BinariesResponseCollection responseCollection) { return responseCollection.Val("#Binaries_BinaryId", responseCollection.BinaryModel.BinaryId.ToResponse()); }
+        public static BinariesResponseCollection BinaryId(this BinariesResponseCollection responseCollection, string value) { return responseCollection.Val("#Binaries_BinaryId", value); }
+        public static BinariesResponseCollection BinaryId_FormData(this BinariesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Binaries_BinaryId", responseCollection.BinaryModel.BinaryId.ToResponse()); }
+        public static BinariesResponseCollection BinaryId_FormData(this BinariesResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Binaries_BinaryId", value); }
+        public static BinariesResponseCollection Ver(this BinariesResponseCollection responseCollection) { return responseCollection.Val("#Binaries_Ver", responseCollection.BinaryModel.Ver.ToResponse()); }
+        public static BinariesResponseCollection Ver(this BinariesResponseCollection responseCollection, string value) { return responseCollection.Val("#Binaries_Ver", value); }
+        public static BinariesResponseCollection Ver_FormData(this BinariesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Binaries_Ver", responseCollection.BinaryModel.Ver.ToResponse()); }
+        public static BinariesResponseCollection Ver_FormData(this BinariesResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Binaries_Ver", value); }
+        public static BinariesResponseCollection Title(this BinariesResponseCollection responseCollection) { return responseCollection.Val("#Binaries_Title", responseCollection.BinaryModel.Title.ToResponse()); }
+        public static BinariesResponseCollection Title(this BinariesResponseCollection responseCollection, string value) { return responseCollection.Val("#Binaries_Title", value); }
+        public static BinariesResponseCollection Title_FormData(this BinariesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Binaries_Title", responseCollection.BinaryModel.Title.ToResponse()); }
+        public static BinariesResponseCollection Title_FormData(this BinariesResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Binaries_Title", value); }
+        public static BinariesResponseCollection Body(this BinariesResponseCollection responseCollection) { return responseCollection.Val("#Binaries_Body", responseCollection.BinaryModel.Body.ToResponse()); }
+        public static BinariesResponseCollection Body(this BinariesResponseCollection responseCollection, string value) { return responseCollection.Val("#Binaries_Body", value); }
+        public static BinariesResponseCollection Body_FormData(this BinariesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Binaries_Body", responseCollection.BinaryModel.Body.ToResponse()); }
+        public static BinariesResponseCollection Body_FormData(this BinariesResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Binaries_Body", value); }
+        public static BinariesResponseCollection FileName(this BinariesResponseCollection responseCollection) { return responseCollection.Val("#Binaries_FileName", responseCollection.BinaryModel.FileName.ToResponse()); }
+        public static BinariesResponseCollection FileName(this BinariesResponseCollection responseCollection, string value) { return responseCollection.Val("#Binaries_FileName", value); }
+        public static BinariesResponseCollection FileName_FormData(this BinariesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Binaries_FileName", responseCollection.BinaryModel.FileName.ToResponse()); }
+        public static BinariesResponseCollection FileName_FormData(this BinariesResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Binaries_FileName", value); }
+        public static BinariesResponseCollection Extension(this BinariesResponseCollection responseCollection) { return responseCollection.Val("#Binaries_Extension", responseCollection.BinaryModel.Extension.ToResponse()); }
+        public static BinariesResponseCollection Extension(this BinariesResponseCollection responseCollection, string value) { return responseCollection.Val("#Binaries_Extension", value); }
+        public static BinariesResponseCollection Extension_FormData(this BinariesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Binaries_Extension", responseCollection.BinaryModel.Extension.ToResponse()); }
+        public static BinariesResponseCollection Extension_FormData(this BinariesResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Binaries_Extension", value); }
+        public static BinariesResponseCollection CreatedTime(this BinariesResponseCollection responseCollection) { return responseCollection.Val("#Binaries_CreatedTime", responseCollection.BinaryModel.CreatedTime.ToResponse()); }
+        public static BinariesResponseCollection CreatedTime(this BinariesResponseCollection responseCollection, string value) { return responseCollection.Val("#Binaries_CreatedTime", value); }
+        public static BinariesResponseCollection CreatedTime_FormData(this BinariesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Binaries_CreatedTime", responseCollection.BinaryModel.CreatedTime.ToResponse()); }
+        public static BinariesResponseCollection CreatedTime_FormData(this BinariesResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Binaries_CreatedTime", value); }
+        public static BinariesResponseCollection UpdatedTime(this BinariesResponseCollection responseCollection) { return responseCollection.Val("#Binaries_UpdatedTime", responseCollection.BinaryModel.UpdatedTime.ToResponse()); }
+        public static BinariesResponseCollection UpdatedTime(this BinariesResponseCollection responseCollection, string value) { return responseCollection.Val("#Binaries_UpdatedTime", value); }
+        public static BinariesResponseCollection UpdatedTime_FormData(this BinariesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Binaries_UpdatedTime", responseCollection.BinaryModel.UpdatedTime.ToResponse()); }
+        public static BinariesResponseCollection UpdatedTime_FormData(this BinariesResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Binaries_UpdatedTime", value); }
+        public static BinariesResponseCollection Timestamp(this BinariesResponseCollection responseCollection) { return responseCollection.Val("#Binaries_Timestamp", responseCollection.BinaryModel.Timestamp.ToResponse()); }
+        public static BinariesResponseCollection Timestamp(this BinariesResponseCollection responseCollection, string value) { return responseCollection.Val("#Binaries_Timestamp", value); }
+        public static BinariesResponseCollection Timestamp_FormData(this BinariesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Binaries_Timestamp", responseCollection.BinaryModel.Timestamp.ToResponse()); }
+        public static BinariesResponseCollection Timestamp_FormData(this BinariesResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Binaries_Timestamp", value); }
         public static IssuesResponseCollection UpdatedTime(this IssuesResponseCollection responseCollection) { return responseCollection.Val("#Issues_UpdatedTime", responseCollection.IssueModel.UpdatedTime.ToResponse()); }
         public static IssuesResponseCollection UpdatedTime(this IssuesResponseCollection responseCollection, string value) { return responseCollection.Val("#Issues_UpdatedTime", value); }
         public static IssuesResponseCollection UpdatedTime_FormData(this IssuesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Issues_UpdatedTime", responseCollection.IssueModel.UpdatedTime.ToResponse()); }

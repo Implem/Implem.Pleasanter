@@ -189,10 +189,10 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="Controllers\AdminsController.cs" />
     <Compile Include="Controllers\AdminTasksController.cs" />
+    <Compile Include="Controllers\BinariesController.cs" />
     <Compile Include="Controllers\DeptsController.cs" />
     <Compile Include="Controllers\ErrorsController.cs" />
     <Compile Include="Controllers\ExportSettingsController.cs" />
-    <Compile Include="Controllers\ImagesController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\OutgoingMailsController.cs" />
     <Compile Include="Controllers\PermissionsController.cs" />
@@ -249,6 +249,7 @@
     <Compile Include="Libraries\ServerData\Sessions.cs" />
     <Compile Include="Libraries\ServerData\SiteInfo.cs" />
     <Compile Include="Libraries\Settings\Aggregation.cs" />
+    <Compile Include="Libraries\Settings\BinarySettings.cs" />
     <Compile Include="Libraries\Settings\Choice.cs" />
     <Compile Include="Libraries\Settings\Column.cs" />
     <Compile Include="Libraries\Settings\SiteSettings.cs" />
@@ -302,9 +303,9 @@
     <Compile Include="Libraries\Views\HtmlTemplates.cs" />
     <Compile Include="Libraries\Views\HtmlVerUps.cs" />
     <Compile Include="Models\_BaseModel.cs" />
+    <Compile Include="Models\BinaryModel.cs" />
     <Compile Include="Models\DeptModel.cs" />
     <Compile Include="Models\ExportSettingModel.cs" />
-    <Compile Include="Models\ImageModel.cs" />
     <Compile Include="Models\IssueModel.cs" />
     <Compile Include="Models\ItemModel.cs" />
     <Compile Include="Models\LinkModel.cs" />

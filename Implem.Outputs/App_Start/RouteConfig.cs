@@ -32,7 +32,7 @@ namespace Implem.Pleasanter
                 {
                     Reference = "[A-Za-z][A-Za-z0-9_]*",
                     Id = "[0-9]+",
-                    Controller = "ExportSettings|Images|OutgoingMails|Permissions",
+                    Controller = "ExportSettings|Binaries|OutgoingMails|Permissions",
                     Action = "[A-Za-z][A-Za-z0-9_]*"
                 }
             );

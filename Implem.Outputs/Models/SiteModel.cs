@@ -1586,9 +1586,9 @@ namespace Implem.Pleasanter.Models
                                     hb
                                         .Img(
                                             src: Navigations.Get(
-                                                "items",
+                                                "Items",
                                                 siteId.ToString(),
-                                                "images",
+                                                "Binaries",
                                                 "NavSiteIcon",
                                                 urlPrefix),
                                             css: "nav-site-icon")
@@ -1609,9 +1609,9 @@ namespace Implem.Pleasanter.Models
                                 {
                                     hb.Img(
                                         src: Navigations.Get(
-                                            "items",
+                                            "Items",
                                             siteId.ToString(),
-                                            "images",
+                                            "Binaries",
                                             "NavSiteThumbnail",
                                             urlPrefix),
                                         css: "nav-site-thumbnail");
@@ -1853,7 +1853,7 @@ namespace Implem.Pleasanter.Models
                                 controlCss: "button-save",
                                 text: Displays.Setting(),
                                 onClick: Def.JavaScript.SetNavSiteImage,
-                                action: "images/update",
+                                action: "binaries/update",
                                 method: "post")));
         }
 

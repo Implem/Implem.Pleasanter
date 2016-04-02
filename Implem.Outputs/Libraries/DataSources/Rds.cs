@@ -262,7 +262,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement ImagesStatement(
+        public static SqlStatement BinariesStatement(
             string commandText,
             SqlParamCollection param = null)
         {
@@ -852,7 +852,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlSelect SelectImages(
+        public static SqlSelect SelectBinaries(
             string dataTableName = "",
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlColumnCollection column = null,
@@ -874,9 +874,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 DataTableName = dataTableName,
                 TableType = tableType,
-                TableBracket = "[Images]",
-                HistoryTableBracket = "[Images_history]",
-                DeletedTableBracket = "[Images_deleted]",
+                TableBracket = "[Binaries]",
+                HistoryTableBracket = "[Binaries_history]",
+                DeletedTableBracket = "[Binaries_deleted]",
                 SqlColumnCollection = column,
                 SqlJoinCollection = join,
                 SqlWhereCollection = where,
@@ -1254,7 +1254,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlExists ExistsImages(
+        public static SqlExists ExistsBinaries(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
@@ -1263,9 +1263,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlExists
             {
                 TableType = tableType,
-                TableBracket = "[Images]",
-                HistoryTableBracket = "[Images_history]",
-                DeletedTableBracket = "[Images_deleted]",
+                TableBracket = "[Binaries]",
+                HistoryTableBracket = "[Binaries_history]",
+                DeletedTableBracket = "[Binaries_deleted]",
                 SqlJoinCollection = join,
                 SqlWhereCollection = where,
                 Using = _using
@@ -1885,7 +1885,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 : new SqlStatement("set identity_insert [Links_History] off;");
         }
 
-        public static SqlInsert InsertImages(
+        public static SqlInsert InsertBinaries(
             bool selectIdentity = false,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
@@ -1896,9 +1896,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlInsert
             {
                 TableType = tableType,
-                TableBracket = "[Images]",
-                HistoryTableBracket = "[Images_history]",
-                DeletedTableBracket = "[Images_deleted]",
+                TableBracket = "[Binaries]",
+                HistoryTableBracket = "[Binaries_history]",
+                DeletedTableBracket = "[Binaries_deleted]",
                 SelectIdentity = selectIdentity,
                 SqlParamCollection = param,
                 Select = select,
@@ -1907,25 +1907,25 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlStatement IdentityInsertImages(bool on)
+        public static SqlStatement IdentityInsertBinaries(bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert [Images] on;")
-                : new SqlStatement("set identity_insert [Images] off;");
+                ? new SqlStatement("set identity_insert [Binaries] on;")
+                : new SqlStatement("set identity_insert [Binaries] off;");
         }
 
-        public static SqlStatement IdentityInsertImages_Deleted(bool on)
+        public static SqlStatement IdentityInsertBinaries_Deleted(bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert [Images_Deleted] on;")
-                : new SqlStatement("set identity_insert [Images_Deleted] off;");
+                ? new SqlStatement("set identity_insert [Binaries_Deleted] on;")
+                : new SqlStatement("set identity_insert [Binaries_Deleted] off;");
         }
 
-        public static SqlStatement IdentityInsertImages_History(bool on)
+        public static SqlStatement IdentityInsertBinaries_History(bool on)
         {
             return on
-                ? new SqlStatement("set identity_insert [Images_History] on;")
-                : new SqlStatement("set identity_insert [Images_History] off;");
+                ? new SqlStatement("set identity_insert [Binaries_History] on;")
+                : new SqlStatement("set identity_insert [Binaries_History] off;");
         }
 
         public static SqlInsert InsertIssues(
@@ -2421,7 +2421,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlUpdate UpdateImages(
+        public static SqlUpdate UpdateBinaries(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             bool verUp = false,
             SqlWhereCollection where = null,
@@ -2435,10 +2435,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlUpdate
             {
                 TableType = tableType,
-                TableBracket = "[Images]",
-                HistoryTableBracket = "[Images_history]",
-                DeletedTableBracket = "[Images_deleted]",
-                SaveHistoryCommandText = verUp ? SaveImagesHistoryStatement : string.Empty,
+                TableBracket = "[Binaries]",
+                HistoryTableBracket = "[Binaries_history]",
+                DeletedTableBracket = "[Binaries_deleted]",
+                SaveHistoryCommandText = verUp ? SaveBinariesHistoryStatement : string.Empty,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 AddUpdatorParam = addUpdatorParam,
@@ -2897,7 +2897,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlUpdateOrInsert UpdateOrInsertImages(
+        public static SqlUpdateOrInsert UpdateOrInsertBinaries(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             bool selectIdentity = false,
             SqlWhereCollection where = null,
@@ -2911,9 +2911,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlUpdateOrInsert
             {
                 TableType = tableType,
-                TableBracket = "[Images]",
-                HistoryTableBracket = "[Images_history]",
-                DeletedTableBracket = "[Images_deleted]",
+                TableBracket = "[Binaries]",
+                HistoryTableBracket = "[Binaries_history]",
+                DeletedTableBracket = "[Binaries_deleted]",
                 SelectIdentity = selectIdentity,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
@@ -3282,7 +3282,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlDelete DeleteImages(
+        public static SqlDelete DeleteBinaries(
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
@@ -3291,10 +3291,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return new SqlDelete()
             {
-                CommandText = DeleteImagesStatement, 
-                TableBracket = "[Images]",
-                HistoryTableBracket = "[Images_history]",
-                DeletedTableBracket = "[Images_deleted]",
+                CommandText = DeleteBinariesStatement, 
+                TableBracket = "[Binaries]",
+                HistoryTableBracket = "[Binaries_history]",
+                DeletedTableBracket = "[Binaries_deleted]",
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
@@ -3678,7 +3678,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlPhysicalDelete PhysicalDeleteImages(
+        public static SqlPhysicalDelete PhysicalDeleteBinaries(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             bool selectIdentity = false,
             SqlWhereCollection where = null,
@@ -3690,9 +3690,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlPhysicalDelete()
             {
                 TableType = tableType,
-                TableBracket = "[Images]",
-                HistoryTableBracket = "[Images_history]",
-                DeletedTableBracket = "[Images_deleted]",
+                TableBracket = "[Binaries]",
+                HistoryTableBracket = "[Binaries_history]",
+                DeletedTableBracket = "[Binaries_deleted]",
                 SelectIdentity = selectIdentity,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
@@ -4047,7 +4047,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
-        public static SqlRestore RestoreImages(
+        public static SqlRestore RestoreBinaries(
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
@@ -4056,10 +4056,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return new SqlRestore()
             {
-                CommandText = RestoreImagesStatement, 
-                TableBracket = "[Images]",
-                HistoryTableBracket = "[Images_history]",
-                DeletedTableBracket = "[Images_deleted]",
+                CommandText = RestoreBinariesStatement, 
+                TableBracket = "[Binaries]",
+                HistoryTableBracket = "[Binaries_history]",
+                DeletedTableBracket = "[Binaries_deleted]",
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
@@ -4692,7 +4692,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return statementCollection;
         }
 
-        public static IEnumerable<SqlStatement> ImagesAggregations(
+        public static IEnumerable<SqlStatement> BinariesAggregations(
             IEnumerable<Aggregation> aggregationCollection,
             SqlWhereCollection where)
         {
@@ -4701,8 +4701,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Select((o, i) => new { Aggregation = o, Index = i })
                 .ForEach(data =>
                 {
-                    var groupBy = ImagesGroupBy();
-                    var column = ImagesColumn();
+                    var groupBy = BinariesGroupBy();
+                    var column = BinariesColumn();
                     switch (data.Aggregation.GroupBy)
                     {
                         default: break;
@@ -4710,7 +4710,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     switch (data.Aggregation.Type)
                     {
                         case Aggregation.Types.Count:
-                            column.ImagesCount(); break;
+                            column.BinariesCount(); break;
                         case Aggregation.Types.Total:
                             switch (data.Aggregation.Target)
                             {
@@ -4725,7 +4725,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             break;
                         default: break;
                     }
-                    var statement = SelectImages(
+                    var statement = SelectBinaries(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
                         where: where,
@@ -4942,7 +4942,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public const string SaveOrdersHistoryStatement = "insert into [Orders_history]([Orders_history].[ReferenceId], [Orders_history].[ReferenceType], [Orders_history].[OwnerId], [Orders_history].[Ver], [Orders_history].[Data], [Orders_history].[Comments], [Orders_history].[Creator], [Orders_history].[Updator], [Orders_history].[CreatedTime], [Orders_history].[UpdatedTime]) (select [Orders].[ReferenceId], [Orders].[ReferenceType], [Orders].[OwnerId], [Orders].[Ver], [Orders].[Data], [Orders].[Comments], [Orders].[Creator], [Orders].[Updator], [Orders].[CreatedTime], [Orders].[UpdatedTime] from [Orders] where  and [Orders].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
         public const string SaveExportSettingsHistoryStatement = "insert into [ExportSettings_history]([ExportSettings_history].[ReferenceType], [ExportSettings_history].[ReferenceId], [ExportSettings_history].[Title], [ExportSettings_history].[ExportSettingId], [ExportSettings_history].[Ver], [ExportSettings_history].[AddHeader], [ExportSettings_history].[ExportColumns], [ExportSettings_history].[Comments], [ExportSettings_history].[Creator], [ExportSettings_history].[Updator], [ExportSettings_history].[CreatedTime], [ExportSettings_history].[UpdatedTime]) (select [ExportSettings].[ReferenceType], [ExportSettings].[ReferenceId], [ExportSettings].[Title], [ExportSettings].[ExportSettingId], [ExportSettings].[Ver], [ExportSettings].[AddHeader], [ExportSettings].[ExportColumns], [ExportSettings].[Comments], [ExportSettings].[Creator], [ExportSettings].[Updator], [ExportSettings].[CreatedTime], [ExportSettings].[UpdatedTime] from [ExportSettings] where [ExportSettings].[ReferenceType]=@ReferenceType[[CommandCount]] and [ExportSettings].[ReferenceId]=@ReferenceId[[CommandCount]] and [ExportSettings].[Title]=@Title[[CommandCount]] and [ExportSettings].[ExportSettingId]=@ExportSettingId[[CommandCount]] and [ExportSettings].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
         public const string SaveLinksHistoryStatement = "insert into [Links_history]([Links_history].[DestinationId], [Links_history].[SourceId], [Links_history].[Ver], [Links_history].[Comments], [Links_history].[Creator], [Links_history].[Updator], [Links_history].[CreatedTime], [Links_history].[UpdatedTime]) (select [Links].[DestinationId], [Links].[SourceId], [Links].[Ver], [Links].[Comments], [Links].[Creator], [Links].[Updator], [Links].[CreatedTime], [Links].[UpdatedTime] from [Links] where  and [Links].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
-        public const string SaveImagesHistoryStatement = "insert into [Images_history]([Images_history].[ImageId], [Images_history].[Ver], [Images_history].[Title], [Images_history].[Body], [Images_history].[Bin], [Images_history].[FileName], [Images_history].[Extension], [Images_history].[Size], [Images_history].[ImageSettings], [Images_history].[Comments], [Images_history].[Creator], [Images_history].[Updator], [Images_history].[CreatedTime], [Images_history].[UpdatedTime]) (select [Images].[ImageId], [Images].[Ver], [Images].[Title], [Images].[Body], [Images].[Bin], [Images].[FileName], [Images].[Extension], [Images].[Size], [Images].[ImageSettings], [Images].[Comments], [Images].[Creator], [Images].[Updator], [Images].[CreatedTime], [Images].[UpdatedTime] from [Images] where [Images].[ImageId]=@ImageId[[CommandCount]] and [Images].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
+        public const string SaveBinariesHistoryStatement = "insert into [Binaries_history]([Binaries_history].[ReferenceId], [Binaries_history].[BinaryId], [Binaries_history].[Ver], [Binaries_history].[Title], [Binaries_history].[Body], [Binaries_history].[Bin], [Binaries_history].[FileName], [Binaries_history].[Extension], [Binaries_history].[Size], [Binaries_history].[BinarySettings], [Binaries_history].[Comments], [Binaries_history].[Creator], [Binaries_history].[Updator], [Binaries_history].[CreatedTime], [Binaries_history].[UpdatedTime]) (select [Binaries].[ReferenceId], [Binaries].[BinaryId], [Binaries].[Ver], [Binaries].[Title], [Binaries].[Body], [Binaries].[Bin], [Binaries].[FileName], [Binaries].[Extension], [Binaries].[Size], [Binaries].[BinarySettings], [Binaries].[Comments], [Binaries].[Creator], [Binaries].[Updator], [Binaries].[CreatedTime], [Binaries].[UpdatedTime] from [Binaries] where [Binaries].[ReferenceId]=@ReferenceId[[CommandCount]] and [Binaries].[BinaryId]=@BinaryId[[CommandCount]] and [Binaries].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
         public const string SaveIssuesHistoryStatement = "insert into [Issues_history]([Issues_history].[IssueId], [Issues_history].[SiteId], [Issues_history].[Ver], [Issues_history].[Title], [Issues_history].[Body], [Issues_history].[StartTime], [Issues_history].[CompletionTime], [Issues_history].[WorkValue], [Issues_history].[ProgressRate], [Issues_history].[Status], [Issues_history].[Manager], [Issues_history].[Owner], [Issues_history].[ClassA], [Issues_history].[ClassB], [Issues_history].[ClassC], [Issues_history].[ClassD], [Issues_history].[ClassE], [Issues_history].[ClassF], [Issues_history].[ClassG], [Issues_history].[ClassH], [Issues_history].[ClassI], [Issues_history].[ClassJ], [Issues_history].[ClassK], [Issues_history].[ClassL], [Issues_history].[ClassM], [Issues_history].[ClassN], [Issues_history].[ClassO], [Issues_history].[ClassP], [Issues_history].[NumA], [Issues_history].[NumB], [Issues_history].[NumC], [Issues_history].[NumD], [Issues_history].[NumE], [Issues_history].[NumF], [Issues_history].[NumG], [Issues_history].[NumH], [Issues_history].[DateA], [Issues_history].[DateB], [Issues_history].[DateC], [Issues_history].[DateD], [Issues_history].[DateE], [Issues_history].[DateF], [Issues_history].[DateG], [Issues_history].[DateH], [Issues_history].[Comments], [Issues_history].[Creator], [Issues_history].[Updator], [Issues_history].[UpdatedTime], [Issues_history].[CreatedTime]) (select [Issues].[IssueId], [Issues].[SiteId], [Issues].[Ver], [Issues].[Title], [Issues].[Body], [Issues].[StartTime], [Issues].[CompletionTime], [Issues].[WorkValue], [Issues].[ProgressRate], [Issues].[Status], [Issues].[Manager], [Issues].[Owner], [Issues].[ClassA], [Issues].[ClassB], [Issues].[ClassC], [Issues].[ClassD], [Issues].[ClassE], [Issues].[ClassF], [Issues].[ClassG], [Issues].[ClassH], [Issues].[ClassI], [Issues].[ClassJ], [Issues].[ClassK], [Issues].[ClassL], [Issues].[ClassM], [Issues].[ClassN], [Issues].[ClassO], [Issues].[ClassP], [Issues].[NumA], [Issues].[NumB], [Issues].[NumC], [Issues].[NumD], [Issues].[NumE], [Issues].[NumF], [Issues].[NumG], [Issues].[NumH], [Issues].[DateA], [Issues].[DateB], [Issues].[DateC], [Issues].[DateD], [Issues].[DateE], [Issues].[DateF], [Issues].[DateG], [Issues].[DateH], [Issues].[Comments], [Issues].[Creator], [Issues].[Updator], [Issues].[UpdatedTime], [Issues].[CreatedTime] from [Issues] where [Issues].[IssueId]=@IssueId[[CommandCount]] and [Issues].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
         public const string SaveResultsHistoryStatement = "insert into [Results_history]([Results_history].[ResultId], [Results_history].[SiteId], [Results_history].[Ver], [Results_history].[Body], [Results_history].[Title], [Results_history].[Manager], [Results_history].[Owner], [Results_history].[ClassA], [Results_history].[ClassB], [Results_history].[ClassC], [Results_history].[ClassD], [Results_history].[ClassE], [Results_history].[ClassF], [Results_history].[ClassG], [Results_history].[ClassH], [Results_history].[NumA], [Results_history].[NumB], [Results_history].[NumC], [Results_history].[NumD], [Results_history].[NumE], [Results_history].[NumF], [Results_history].[NumG], [Results_history].[NumH], [Results_history].[DateA], [Results_history].[DateB], [Results_history].[DateC], [Results_history].[DateD], [Results_history].[DateE], [Results_history].[DateF], [Results_history].[DateG], [Results_history].[DateH], [Results_history].[Comments], [Results_history].[Creator], [Results_history].[Updator], [Results_history].[UpdatedTime], [Results_history].[CreatedTime]) (select [Results].[ResultId], [Results].[SiteId], [Results].[Ver], [Results].[Body], [Results].[Title], [Results].[Manager], [Results].[Owner], [Results].[ClassA], [Results].[ClassB], [Results].[ClassC], [Results].[ClassD], [Results].[ClassE], [Results].[ClassF], [Results].[ClassG], [Results].[ClassH], [Results].[NumA], [Results].[NumB], [Results].[NumC], [Results].[NumD], [Results].[NumE], [Results].[NumF], [Results].[NumG], [Results].[NumH], [Results].[DateA], [Results].[DateB], [Results].[DateC], [Results].[DateD], [Results].[DateE], [Results].[DateF], [Results].[DateG], [Results].[DateH], [Results].[Comments], [Results].[Creator], [Results].[Updator], [Results].[UpdatedTime], [Results].[CreatedTime] from [Results] where [Results].[ResultId]=@ResultId[[CommandCount]] and [Results].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
         public const string SaveWikisHistoryStatement = "insert into [Wikis_history]([Wikis_history].[WikiId], [Wikis_history].[SiteId], [Wikis_history].[Ver], [Wikis_history].[Title], [Wikis_history].[Body], [Wikis_history].[Comments], [Wikis_history].[Creator], [Wikis_history].[Updator], [Wikis_history].[UpdatedTime], [Wikis_history].[CreatedTime]) (select [Wikis].[WikiId], [Wikis].[SiteId], [Wikis].[Ver], [Wikis].[Title], [Wikis].[Body], [Wikis].[Comments], [Wikis].[Creator], [Wikis].[Updator], [Wikis].[UpdatedTime], [Wikis].[CreatedTime] from [Wikis] where [Wikis].[WikiId]=@WikiId[[CommandCount]] and [Wikis].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
@@ -4959,7 +4959,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public const string DeleteOrdersStatement = "update [Orders] set [Orders].[UpdatedTime] = getdate() {0}; insert into [Orders_deleted]([Orders_deleted].[ReferenceId], [Orders_deleted].[ReferenceType], [Orders_deleted].[OwnerId], [Orders_deleted].[Ver], [Orders_deleted].[Data], [Orders_deleted].[Comments], [Orders_deleted].[Creator], [Orders_deleted].[Updator], [Orders_deleted].[CreatedTime], [Orders_deleted].[UpdatedTime]) (select [Orders].[ReferenceId], [Orders].[ReferenceType], [Orders].[OwnerId], [Orders].[Ver], [Orders].[Data], [Orders].[Comments], [Orders].[Creator], [Orders].[Updator], [Orders].[CreatedTime], [Orders].[UpdatedTime] from [Orders] {0}); delete from [Orders] {0}";
         public const string DeleteExportSettingsStatement = "update [ExportSettings] set [ExportSettings].[UpdatedTime] = getdate() {0}; insert into [ExportSettings_deleted]([ExportSettings_deleted].[ReferenceType], [ExportSettings_deleted].[ReferenceId], [ExportSettings_deleted].[Title], [ExportSettings_deleted].[ExportSettingId], [ExportSettings_deleted].[Ver], [ExportSettings_deleted].[AddHeader], [ExportSettings_deleted].[ExportColumns], [ExportSettings_deleted].[Comments], [ExportSettings_deleted].[Creator], [ExportSettings_deleted].[Updator], [ExportSettings_deleted].[CreatedTime], [ExportSettings_deleted].[UpdatedTime]) (select [ExportSettings].[ReferenceType], [ExportSettings].[ReferenceId], [ExportSettings].[Title], [ExportSettings].[ExportSettingId], [ExportSettings].[Ver], [ExportSettings].[AddHeader], [ExportSettings].[ExportColumns], [ExportSettings].[Comments], [ExportSettings].[Creator], [ExportSettings].[Updator], [ExportSettings].[CreatedTime], [ExportSettings].[UpdatedTime] from [ExportSettings] {0}); delete from [ExportSettings] {0}";
         public const string DeleteLinksStatement = "update [Links] set [Links].[UpdatedTime] = getdate() {0}; insert into [Links_deleted]([Links_deleted].[DestinationId], [Links_deleted].[SourceId], [Links_deleted].[Ver], [Links_deleted].[Comments], [Links_deleted].[Creator], [Links_deleted].[Updator], [Links_deleted].[CreatedTime], [Links_deleted].[UpdatedTime]) (select [Links].[DestinationId], [Links].[SourceId], [Links].[Ver], [Links].[Comments], [Links].[Creator], [Links].[Updator], [Links].[CreatedTime], [Links].[UpdatedTime] from [Links] {0}); delete from [Links] {0}";
-        public const string DeleteImagesStatement = "update [Images] set [Images].[UpdatedTime] = getdate() {0}; insert into [Images_deleted]([Images_deleted].[ImageId], [Images_deleted].[Ver], [Images_deleted].[Title], [Images_deleted].[Body], [Images_deleted].[Bin], [Images_deleted].[FileName], [Images_deleted].[Extension], [Images_deleted].[Size], [Images_deleted].[ImageSettings], [Images_deleted].[Comments], [Images_deleted].[Creator], [Images_deleted].[Updator], [Images_deleted].[CreatedTime], [Images_deleted].[UpdatedTime]) (select [Images].[ImageId], [Images].[Ver], [Images].[Title], [Images].[Body], [Images].[Bin], [Images].[FileName], [Images].[Extension], [Images].[Size], [Images].[ImageSettings], [Images].[Comments], [Images].[Creator], [Images].[Updator], [Images].[CreatedTime], [Images].[UpdatedTime] from [Images] {0}); delete from [Images] {0}";
+        public const string DeleteBinariesStatement = "update [Binaries] set [Binaries].[UpdatedTime] = getdate() {0}; insert into [Binaries_deleted]([Binaries_deleted].[ReferenceId], [Binaries_deleted].[BinaryId], [Binaries_deleted].[Ver], [Binaries_deleted].[Title], [Binaries_deleted].[Body], [Binaries_deleted].[Bin], [Binaries_deleted].[FileName], [Binaries_deleted].[Extension], [Binaries_deleted].[Size], [Binaries_deleted].[BinarySettings], [Binaries_deleted].[Comments], [Binaries_deleted].[Creator], [Binaries_deleted].[Updator], [Binaries_deleted].[CreatedTime], [Binaries_deleted].[UpdatedTime]) (select [Binaries].[ReferenceId], [Binaries].[BinaryId], [Binaries].[Ver], [Binaries].[Title], [Binaries].[Body], [Binaries].[Bin], [Binaries].[FileName], [Binaries].[Extension], [Binaries].[Size], [Binaries].[BinarySettings], [Binaries].[Comments], [Binaries].[Creator], [Binaries].[Updator], [Binaries].[CreatedTime], [Binaries].[UpdatedTime] from [Binaries] {0}); delete from [Binaries] {0}";
         public const string DeleteIssuesStatement = "update [Issues] set [Issues].[UpdatedTime] = getdate() {0}; insert into [Issues_deleted]([Issues_deleted].[SiteId], [Issues_deleted].[UpdatedTime], [Issues_deleted].[IssueId], [Issues_deleted].[Ver], [Issues_deleted].[Title], [Issues_deleted].[Body], [Issues_deleted].[StartTime], [Issues_deleted].[CompletionTime], [Issues_deleted].[WorkValue], [Issues_deleted].[ProgressRate], [Issues_deleted].[Status], [Issues_deleted].[Manager], [Issues_deleted].[Owner], [Issues_deleted].[ClassA], [Issues_deleted].[ClassB], [Issues_deleted].[ClassC], [Issues_deleted].[ClassD], [Issues_deleted].[ClassE], [Issues_deleted].[ClassF], [Issues_deleted].[ClassG], [Issues_deleted].[ClassH], [Issues_deleted].[ClassI], [Issues_deleted].[ClassJ], [Issues_deleted].[ClassK], [Issues_deleted].[ClassL], [Issues_deleted].[ClassM], [Issues_deleted].[ClassN], [Issues_deleted].[ClassO], [Issues_deleted].[ClassP], [Issues_deleted].[NumA], [Issues_deleted].[NumB], [Issues_deleted].[NumC], [Issues_deleted].[NumD], [Issues_deleted].[NumE], [Issues_deleted].[NumF], [Issues_deleted].[NumG], [Issues_deleted].[NumH], [Issues_deleted].[DateA], [Issues_deleted].[DateB], [Issues_deleted].[DateC], [Issues_deleted].[DateD], [Issues_deleted].[DateE], [Issues_deleted].[DateF], [Issues_deleted].[DateG], [Issues_deleted].[DateH], [Issues_deleted].[Comments], [Issues_deleted].[Creator], [Issues_deleted].[Updator], [Issues_deleted].[CreatedTime]) (select [Issues].[SiteId], [Issues].[UpdatedTime], [Issues].[IssueId], [Issues].[Ver], [Issues].[Title], [Issues].[Body], [Issues].[StartTime], [Issues].[CompletionTime], [Issues].[WorkValue], [Issues].[ProgressRate], [Issues].[Status], [Issues].[Manager], [Issues].[Owner], [Issues].[ClassA], [Issues].[ClassB], [Issues].[ClassC], [Issues].[ClassD], [Issues].[ClassE], [Issues].[ClassF], [Issues].[ClassG], [Issues].[ClassH], [Issues].[ClassI], [Issues].[ClassJ], [Issues].[ClassK], [Issues].[ClassL], [Issues].[ClassM], [Issues].[ClassN], [Issues].[ClassO], [Issues].[ClassP], [Issues].[NumA], [Issues].[NumB], [Issues].[NumC], [Issues].[NumD], [Issues].[NumE], [Issues].[NumF], [Issues].[NumG], [Issues].[NumH], [Issues].[DateA], [Issues].[DateB], [Issues].[DateC], [Issues].[DateD], [Issues].[DateE], [Issues].[DateF], [Issues].[DateG], [Issues].[DateH], [Issues].[Comments], [Issues].[Creator], [Issues].[Updator], [Issues].[CreatedTime] from [Issues] {0}); delete from [Issues] {0}";
         public const string DeleteResultsStatement = "update [Results] set [Results].[UpdatedTime] = getdate() {0}; insert into [Results_deleted]([Results_deleted].[SiteId], [Results_deleted].[UpdatedTime], [Results_deleted].[ResultId], [Results_deleted].[Ver], [Results_deleted].[Body], [Results_deleted].[Title], [Results_deleted].[Manager], [Results_deleted].[Owner], [Results_deleted].[ClassA], [Results_deleted].[ClassB], [Results_deleted].[ClassC], [Results_deleted].[ClassD], [Results_deleted].[ClassE], [Results_deleted].[ClassF], [Results_deleted].[ClassG], [Results_deleted].[ClassH], [Results_deleted].[NumA], [Results_deleted].[NumB], [Results_deleted].[NumC], [Results_deleted].[NumD], [Results_deleted].[NumE], [Results_deleted].[NumF], [Results_deleted].[NumG], [Results_deleted].[NumH], [Results_deleted].[DateA], [Results_deleted].[DateB], [Results_deleted].[DateC], [Results_deleted].[DateD], [Results_deleted].[DateE], [Results_deleted].[DateF], [Results_deleted].[DateG], [Results_deleted].[DateH], [Results_deleted].[Comments], [Results_deleted].[Creator], [Results_deleted].[Updator], [Results_deleted].[CreatedTime]) (select [Results].[SiteId], [Results].[UpdatedTime], [Results].[ResultId], [Results].[Ver], [Results].[Body], [Results].[Title], [Results].[Manager], [Results].[Owner], [Results].[ClassA], [Results].[ClassB], [Results].[ClassC], [Results].[ClassD], [Results].[ClassE], [Results].[ClassF], [Results].[ClassG], [Results].[ClassH], [Results].[NumA], [Results].[NumB], [Results].[NumC], [Results].[NumD], [Results].[NumE], [Results].[NumF], [Results].[NumG], [Results].[NumH], [Results].[DateA], [Results].[DateB], [Results].[DateC], [Results].[DateD], [Results].[DateE], [Results].[DateF], [Results].[DateG], [Results].[DateH], [Results].[Comments], [Results].[Creator], [Results].[Updator], [Results].[CreatedTime] from [Results] {0}); delete from [Results] {0}";
         public const string DeleteWikisStatement = "update [Wikis] set [Wikis].[UpdatedTime] = getdate() {0}; insert into [Wikis_deleted]([Wikis_deleted].[SiteId], [Wikis_deleted].[UpdatedTime], [Wikis_deleted].[WikiId], [Wikis_deleted].[Ver], [Wikis_deleted].[Title], [Wikis_deleted].[Body], [Wikis_deleted].[Comments], [Wikis_deleted].[Creator], [Wikis_deleted].[Updator], [Wikis_deleted].[CreatedTime]) (select [Wikis].[SiteId], [Wikis].[UpdatedTime], [Wikis].[WikiId], [Wikis].[Ver], [Wikis].[Title], [Wikis].[Body], [Wikis].[Comments], [Wikis].[Creator], [Wikis].[Updator], [Wikis].[CreatedTime] from [Wikis] {0}); delete from [Wikis] {0}";
@@ -4976,7 +4976,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public const string RestoreOrdersStatement = "update [Orders_deleted] set [Orders_deleted].[UpdatedTime] = getdate() {0}; insert into [Orders]([Orders].[ReferenceId], [Orders].[ReferenceType], [Orders].[OwnerId], [Orders].[Ver], [Orders].[Data], [Orders].[Comments], [Orders].[Creator], [Orders].[Updator], [Orders].[CreatedTime], [Orders].[UpdatedTime]) (select [Orders_deleted].[ReferenceId], [Orders_deleted].[ReferenceType], [Orders_deleted].[OwnerId], [Orders_deleted].[Ver], [Orders_deleted].[Data], [Orders_deleted].[Comments], [Orders_deleted].[Creator], [Orders_deleted].[Updator], [Orders_deleted].[CreatedTime], [Orders_deleted].[UpdatedTime] from [Orders_deleted] {0}); delete from [Orders_deleted] {0}";
         public const string RestoreExportSettingsStatement = "update [ExportSettings_deleted] set [ExportSettings_deleted].[UpdatedTime] = getdate() {0};set identity_insert [ExportSettings] on;  insert into [ExportSettings]([ExportSettings].[ReferenceType], [ExportSettings].[ReferenceId], [ExportSettings].[Title], [ExportSettings].[ExportSettingId], [ExportSettings].[Ver], [ExportSettings].[AddHeader], [ExportSettings].[ExportColumns], [ExportSettings].[Comments], [ExportSettings].[Creator], [ExportSettings].[Updator], [ExportSettings].[CreatedTime], [ExportSettings].[UpdatedTime]) (select [ExportSettings_deleted].[ReferenceType], [ExportSettings_deleted].[ReferenceId], [ExportSettings_deleted].[Title], [ExportSettings_deleted].[ExportSettingId], [ExportSettings_deleted].[Ver], [ExportSettings_deleted].[AddHeader], [ExportSettings_deleted].[ExportColumns], [ExportSettings_deleted].[Comments], [ExportSettings_deleted].[Creator], [ExportSettings_deleted].[Updator], [ExportSettings_deleted].[CreatedTime], [ExportSettings_deleted].[UpdatedTime] from [ExportSettings_deleted] {0});set identity_insert [ExportSettings] off;  delete from [ExportSettings_deleted] {0}";
         public const string RestoreLinksStatement = "update [Links_deleted] set [Links_deleted].[UpdatedTime] = getdate() {0}; insert into [Links]([Links].[DestinationId], [Links].[SourceId], [Links].[Ver], [Links].[Comments], [Links].[Creator], [Links].[Updator], [Links].[CreatedTime], [Links].[UpdatedTime]) (select [Links_deleted].[DestinationId], [Links_deleted].[SourceId], [Links_deleted].[Ver], [Links_deleted].[Comments], [Links_deleted].[Creator], [Links_deleted].[Updator], [Links_deleted].[CreatedTime], [Links_deleted].[UpdatedTime] from [Links_deleted] {0}); delete from [Links_deleted] {0}";
-        public const string RestoreImagesStatement = "update [Images_deleted] set [Images_deleted].[UpdatedTime] = getdate() {0};set identity_insert [Images] on;  insert into [Images]([Images].[ImageId], [Images].[Ver], [Images].[Title], [Images].[Body], [Images].[Bin], [Images].[FileName], [Images].[Extension], [Images].[Size], [Images].[ImageSettings], [Images].[Comments], [Images].[Creator], [Images].[Updator], [Images].[CreatedTime], [Images].[UpdatedTime]) (select [Images_deleted].[ImageId], [Images_deleted].[Ver], [Images_deleted].[Title], [Images_deleted].[Body], [Images_deleted].[Bin], [Images_deleted].[FileName], [Images_deleted].[Extension], [Images_deleted].[Size], [Images_deleted].[ImageSettings], [Images_deleted].[Comments], [Images_deleted].[Creator], [Images_deleted].[Updator], [Images_deleted].[CreatedTime], [Images_deleted].[UpdatedTime] from [Images_deleted] {0});set identity_insert [Images] off;  delete from [Images_deleted] {0}";
+        public const string RestoreBinariesStatement = "update [Binaries_deleted] set [Binaries_deleted].[UpdatedTime] = getdate() {0};set identity_insert [Binaries] on;  insert into [Binaries]([Binaries].[ReferenceId], [Binaries].[BinaryId], [Binaries].[Ver], [Binaries].[Title], [Binaries].[Body], [Binaries].[Bin], [Binaries].[FileName], [Binaries].[Extension], [Binaries].[Size], [Binaries].[BinarySettings], [Binaries].[Comments], [Binaries].[Creator], [Binaries].[Updator], [Binaries].[CreatedTime], [Binaries].[UpdatedTime]) (select [Binaries_deleted].[ReferenceId], [Binaries_deleted].[BinaryId], [Binaries_deleted].[Ver], [Binaries_deleted].[Title], [Binaries_deleted].[Body], [Binaries_deleted].[Bin], [Binaries_deleted].[FileName], [Binaries_deleted].[Extension], [Binaries_deleted].[Size], [Binaries_deleted].[BinarySettings], [Binaries_deleted].[Comments], [Binaries_deleted].[Creator], [Binaries_deleted].[Updator], [Binaries_deleted].[CreatedTime], [Binaries_deleted].[UpdatedTime] from [Binaries_deleted] {0});set identity_insert [Binaries] off;  delete from [Binaries_deleted] {0}";
         public const string RestoreIssuesStatement = "update [Issues_deleted] set [Issues_deleted].[UpdatedTime] = getdate() {0}; insert into [Issues]([Issues].[SiteId], [Issues].[UpdatedTime], [Issues].[IssueId], [Issues].[Ver], [Issues].[Title], [Issues].[Body], [Issues].[StartTime], [Issues].[CompletionTime], [Issues].[WorkValue], [Issues].[ProgressRate], [Issues].[Status], [Issues].[Manager], [Issues].[Owner], [Issues].[ClassA], [Issues].[ClassB], [Issues].[ClassC], [Issues].[ClassD], [Issues].[ClassE], [Issues].[ClassF], [Issues].[ClassG], [Issues].[ClassH], [Issues].[ClassI], [Issues].[ClassJ], [Issues].[ClassK], [Issues].[ClassL], [Issues].[ClassM], [Issues].[ClassN], [Issues].[ClassO], [Issues].[ClassP], [Issues].[NumA], [Issues].[NumB], [Issues].[NumC], [Issues].[NumD], [Issues].[NumE], [Issues].[NumF], [Issues].[NumG], [Issues].[NumH], [Issues].[DateA], [Issues].[DateB], [Issues].[DateC], [Issues].[DateD], [Issues].[DateE], [Issues].[DateF], [Issues].[DateG], [Issues].[DateH], [Issues].[Comments], [Issues].[Creator], [Issues].[Updator], [Issues].[CreatedTime]) (select [Issues_deleted].[SiteId], [Issues_deleted].[UpdatedTime], [Issues_deleted].[IssueId], [Issues_deleted].[Ver], [Issues_deleted].[Title], [Issues_deleted].[Body], [Issues_deleted].[StartTime], [Issues_deleted].[CompletionTime], [Issues_deleted].[WorkValue], [Issues_deleted].[ProgressRate], [Issues_deleted].[Status], [Issues_deleted].[Manager], [Issues_deleted].[Owner], [Issues_deleted].[ClassA], [Issues_deleted].[ClassB], [Issues_deleted].[ClassC], [Issues_deleted].[ClassD], [Issues_deleted].[ClassE], [Issues_deleted].[ClassF], [Issues_deleted].[ClassG], [Issues_deleted].[ClassH], [Issues_deleted].[ClassI], [Issues_deleted].[ClassJ], [Issues_deleted].[ClassK], [Issues_deleted].[ClassL], [Issues_deleted].[ClassM], [Issues_deleted].[ClassN], [Issues_deleted].[ClassO], [Issues_deleted].[ClassP], [Issues_deleted].[NumA], [Issues_deleted].[NumB], [Issues_deleted].[NumC], [Issues_deleted].[NumD], [Issues_deleted].[NumE], [Issues_deleted].[NumF], [Issues_deleted].[NumG], [Issues_deleted].[NumH], [Issues_deleted].[DateA], [Issues_deleted].[DateB], [Issues_deleted].[DateC], [Issues_deleted].[DateD], [Issues_deleted].[DateE], [Issues_deleted].[DateF], [Issues_deleted].[DateG], [Issues_deleted].[DateH], [Issues_deleted].[Comments], [Issues_deleted].[Creator], [Issues_deleted].[Updator], [Issues_deleted].[CreatedTime] from [Issues_deleted] {0}); delete from [Issues_deleted] {0}";
         public const string RestoreResultsStatement = "update [Results_deleted] set [Results_deleted].[UpdatedTime] = getdate() {0}; insert into [Results]([Results].[SiteId], [Results].[UpdatedTime], [Results].[ResultId], [Results].[Ver], [Results].[Body], [Results].[Title], [Results].[Manager], [Results].[Owner], [Results].[ClassA], [Results].[ClassB], [Results].[ClassC], [Results].[ClassD], [Results].[ClassE], [Results].[ClassF], [Results].[ClassG], [Results].[ClassH], [Results].[NumA], [Results].[NumB], [Results].[NumC], [Results].[NumD], [Results].[NumE], [Results].[NumF], [Results].[NumG], [Results].[NumH], [Results].[DateA], [Results].[DateB], [Results].[DateC], [Results].[DateD], [Results].[DateE], [Results].[DateF], [Results].[DateG], [Results].[DateH], [Results].[Comments], [Results].[Creator], [Results].[Updator], [Results].[CreatedTime]) (select [Results_deleted].[SiteId], [Results_deleted].[UpdatedTime], [Results_deleted].[ResultId], [Results_deleted].[Ver], [Results_deleted].[Body], [Results_deleted].[Title], [Results_deleted].[Manager], [Results_deleted].[Owner], [Results_deleted].[ClassA], [Results_deleted].[ClassB], [Results_deleted].[ClassC], [Results_deleted].[ClassD], [Results_deleted].[ClassE], [Results_deleted].[ClassF], [Results_deleted].[ClassG], [Results_deleted].[ClassH], [Results_deleted].[NumA], [Results_deleted].[NumB], [Results_deleted].[NumC], [Results_deleted].[NumD], [Results_deleted].[NumE], [Results_deleted].[NumF], [Results_deleted].[NumG], [Results_deleted].[NumH], [Results_deleted].[DateA], [Results_deleted].[DateB], [Results_deleted].[DateC], [Results_deleted].[DateD], [Results_deleted].[DateE], [Results_deleted].[DateF], [Results_deleted].[DateG], [Results_deleted].[DateH], [Results_deleted].[Comments], [Results_deleted].[Creator], [Results_deleted].[Updator], [Results_deleted].[CreatedTime] from [Results_deleted] {0}); delete from [Results_deleted] {0}";
         public const string RestoreWikisStatement = "update [Wikis_deleted] set [Wikis_deleted].[UpdatedTime] = getdate() {0}; insert into [Wikis]([Wikis].[SiteId], [Wikis].[UpdatedTime], [Wikis].[WikiId], [Wikis].[Ver], [Wikis].[Title], [Wikis].[Body], [Wikis].[Comments], [Wikis].[Creator], [Wikis].[Updator], [Wikis].[CreatedTime]) (select [Wikis_deleted].[SiteId], [Wikis_deleted].[UpdatedTime], [Wikis_deleted].[WikiId], [Wikis_deleted].[Ver], [Wikis_deleted].[Title], [Wikis_deleted].[Body], [Wikis_deleted].[Comments], [Wikis_deleted].[Creator], [Wikis_deleted].[Updator], [Wikis_deleted].[CreatedTime] from [Wikis_deleted] {0}); delete from [Wikis_deleted] {0}";
@@ -9733,48 +9733,48 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static LinksParamCollection UpdatedTime(this LinksParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[UpdatedTime]", "UpdatedTime", value, sub, raw, _using); }
         public static SqlParamCollection Links_UpdatedTime(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[UpdatedTime]", "UpdatedTime", value, sub, raw, _using); }
 
-        public static ImagesColumnCollection ImagesColumn()
+        public static BinariesColumnCollection BinariesColumn()
         {
-            return new ImagesColumnCollection();
+            return new BinariesColumnCollection();
         }
 
-        public class ImagesColumnCollection : SqlColumnCollection
+        public class BinariesColumnCollection : SqlColumnCollection
         {
-            public ImagesColumnCollection Add(params string[] columnBrackets)
+            public BinariesColumnCollection Add(params string[] columnBrackets)
             {
                 base.Add(false, columnBrackets);
                 return this;
             }
 
-            public new ImagesColumnCollection Add(bool duplicates = false, params string[] columnBrackets)
+            public new BinariesColumnCollection Add(bool duplicates = false, params string[] columnBrackets)
             {
                 base.Add(duplicates, columnBrackets);
                 return this;
             }
         }
 
-        public static ImagesJoinCollection ImagesJoin()
+        public static BinariesJoinCollection BinariesJoin()
         {
-            return new ImagesJoinCollection();
+            return new BinariesJoinCollection();
         }
 
-        public class ImagesJoinCollection : SqlJoinCollection
+        public class BinariesJoinCollection : SqlJoinCollection
         {
-            public new ImagesJoinCollection Add(params string[] columnBrackets)
+            public new BinariesJoinCollection Add(params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
                 return this;
             }
         }
 
-        public static ImagesWhereCollection ImagesWhere()
+        public static BinariesWhereCollection BinariesWhere()
         {
-            return new ImagesWhereCollection();
+            return new BinariesWhereCollection();
         }
 
-        public class ImagesWhereCollection : SqlWhereCollection
+        public class BinariesWhereCollection : SqlWhereCollection
         {
-            public new ImagesWhereCollection Add(
+            public new BinariesWhereCollection Add(
                 string[] columnBrackets = null,
                 string name = "",
                 object value = null,
@@ -9801,14 +9801,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        public static ImagesGroupByCollection ImagesGroupBy()
+        public static BinariesGroupByCollection BinariesGroupBy()
         {
-            return new ImagesGroupByCollection();
+            return new BinariesGroupByCollection();
         }
 
-        public class ImagesGroupByCollection : SqlGroupByCollection
+        public class BinariesGroupByCollection : SqlGroupByCollection
         {
-            public new ImagesGroupByCollection Add(
+            public new BinariesGroupByCollection Add(
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
@@ -9817,14 +9817,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        public static ImagesHavingCollection ImagesHaving()
+        public static BinariesHavingCollection BinariesHaving()
         {
-            return new ImagesHavingCollection();
+            return new BinariesHavingCollection();
         }
 
-        public class ImagesHavingCollection : SqlHavingCollection
+        public class BinariesHavingCollection : SqlHavingCollection
         {
-            public ImagesHavingCollection Add(
+            public BinariesHavingCollection Add(
                 string columnBracket, string name, object value, string _operator)
             {
                 base.Add(new SqlHaving(
@@ -9836,14 +9836,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        public static ImagesOrderByCollection ImagesOrderBy()
+        public static BinariesOrderByCollection BinariesOrderBy()
         {
-            return new ImagesOrderByCollection();
+            return new BinariesOrderByCollection();
         }
 
-        public class ImagesOrderByCollection : SqlOrderByCollection
+        public class BinariesOrderByCollection : SqlOrderByCollection
         {
-            public new ImagesOrderByCollection Add(
+            public new BinariesOrderByCollection Add(
                 SqlOrderBy.Types type = SqlOrderBy.Types.asc,
                 params string[] columnBrackets)
             {
@@ -9853,14 +9853,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        public static ImagesParamCollection ImagesParam()
+        public static BinariesParamCollection BinariesParam()
         {
-            return new ImagesParamCollection();
+            return new BinariesParamCollection();
         }
 
-        public class ImagesParamCollection : SqlParamCollection
+        public class BinariesParamCollection : SqlParamCollection
         {
-            public new ImagesParamCollection Add(
+            public new BinariesParamCollection Add(
                 string columnBracket = "",
                 string name = "",
                 object value = null,
@@ -9873,202 +9873,216 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        public static string Images_Body_WhereLike(string tableName = "t0") { return "([" + tableName + "].[Body] like '%' + @SearchText#ParamCount#_#CommandCount# + '%')"; }
-        public const string SqlWhereExists_Images = "exists(select * from [Images] where #SqlWhere#)";
-        public const string SqlWhereNotExists_Images = "not exists(select * from [Images] where #SqlWhere#)";
-        public static ImagesColumnCollection ImageId(this ImagesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[ImageId]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection Images_ImageId(this SqlColumnCollection self, string tableName = "Images", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[ImageId]" + _as.ExistsTo(" as [{0}]")); }
-        public static ImagesColumnCollection Ver(this ImagesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Ver]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection Images_Ver(this SqlColumnCollection self, string tableName = "Images", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Ver]" + _as.ExistsTo(" as [{0}]")); }
-        public static ImagesColumnCollection Title(this ImagesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Title]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection Images_Title(this SqlColumnCollection self, string tableName = "Images", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Title]" + _as.ExistsTo(" as [{0}]")); }
-        public static ImagesColumnCollection Body(this ImagesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Body]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection Images_Body(this SqlColumnCollection self, string tableName = "Images", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Body]" + _as.ExistsTo(" as [{0}]")); }
-        public static ImagesColumnCollection Bin(this ImagesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Bin]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection Images_Bin(this SqlColumnCollection self, string tableName = "Images", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Bin]" + _as.ExistsTo(" as [{0}]")); }
-        public static ImagesColumnCollection FileName(this ImagesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[FileName]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection Images_FileName(this SqlColumnCollection self, string tableName = "Images", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[FileName]" + _as.ExistsTo(" as [{0}]")); }
-        public static ImagesColumnCollection Extension(this ImagesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Extension]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection Images_Extension(this SqlColumnCollection self, string tableName = "Images", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Extension]" + _as.ExistsTo(" as [{0}]")); }
-        public static ImagesColumnCollection Size(this ImagesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Size]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection Images_Size(this SqlColumnCollection self, string tableName = "Images", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Size]" + _as.ExistsTo(" as [{0}]")); }
-        public static ImagesColumnCollection ImageSettings(this ImagesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[ImageSettings]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection Images_ImageSettings(this SqlColumnCollection self, string tableName = "Images", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[ImageSettings]" + _as.ExistsTo(" as [{0}]")); }
-        public static ImagesColumnCollection Comments(this ImagesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Comments]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection Images_Comments(this SqlColumnCollection self, string tableName = "Images", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Comments]" + _as.ExistsTo(" as [{0}]")); }
-        public static ImagesColumnCollection Creator(this ImagesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Creator]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection Images_Creator(this SqlColumnCollection self, string tableName = "Images", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Creator]" + _as.ExistsTo(" as [{0}]")); }
-        public static ImagesColumnCollection Updator(this ImagesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Updator]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection Images_Updator(this SqlColumnCollection self, string tableName = "Images", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Updator]" + _as.ExistsTo(" as [{0}]")); }
-        public static ImagesColumnCollection CreatedTime(this ImagesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[CreatedTime]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection Images_CreatedTime(this SqlColumnCollection self, string tableName = "Images", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[CreatedTime]" + _as.ExistsTo(" as [{0}]")); }
-        public static ImagesColumnCollection UpdatedTime(this ImagesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[UpdatedTime]" + _as.ExistsTo(" as [{0}]")); }
-        public static SqlColumnCollection Images_UpdatedTime(this SqlColumnCollection self, string tableName = "Images", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[UpdatedTime]" + _as.ExistsTo(" as [{0}]")); }
-        public static ImagesColumnCollection ImagesCount(this ImagesColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "count(*) as ImagesCount"); }
-        public static ImagesColumnCollection CreatedTimeMax(this ImagesColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "max([t0].[CreatedTime]) as [CreatedTimeMax]"); }
-        public static SqlColumnCollection Images_CreatedTimeMax(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "max([t0].[CreatedTime]) as [CreatedTimeMax]"); }
-        public static ImagesColumnCollection CreatedTimeMin(this ImagesColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "min([t0].[CreatedTime]) as [CreatedTimeMin]"); }
-        public static SqlColumnCollection Images_CreatedTimeMin(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "min([t0].[CreatedTime]) as [CreatedTimeMin]"); }
-        public static ImagesColumnCollection UpdatedTimeMax(this ImagesColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "max([t0].[UpdatedTime]) as [UpdatedTimeMax]"); }
-        public static SqlColumnCollection Images_UpdatedTimeMax(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "max([t0].[UpdatedTime]) as [UpdatedTimeMax]"); }
-        public static ImagesColumnCollection UpdatedTimeMin(this ImagesColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "min([t0].[UpdatedTime]) as [UpdatedTimeMin]"); }
-        public static SqlColumnCollection Images_UpdatedTimeMin(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "min([t0].[UpdatedTime]) as [UpdatedTimeMin]"); }
-        public static ImagesWhereCollection ImageId(this ImagesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[ImageId]" }, "ImageId", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection Images_ImageId(this SqlWhereCollection self, object value = null, string tableName = "Images", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[ImageId]" }, "ImageId", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static ImagesWhereCollection Ver(this ImagesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection Images_Ver(this SqlWhereCollection self, object value = null, string tableName = "Images", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Ver]" }, "Ver", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static ImagesWhereCollection Title(this ImagesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Title]" }, "Title", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection Images_Title(this SqlWhereCollection self, object value = null, string tableName = "Images", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Title]" }, "Title", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static ImagesWhereCollection Body(this ImagesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Body]" }, "Body", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection Images_Body(this SqlWhereCollection self, object value = null, string tableName = "Images", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Body]" }, "Body", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static ImagesWhereCollection Bin(this ImagesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Bin]" }, "Bin", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection Images_Bin(this SqlWhereCollection self, object value = null, string tableName = "Images", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Bin]" }, "Bin", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static ImagesWhereCollection FileName(this ImagesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[FileName]" }, "FileName", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection Images_FileName(this SqlWhereCollection self, object value = null, string tableName = "Images", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[FileName]" }, "FileName", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static ImagesWhereCollection Extension(this ImagesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Extension]" }, "Extension", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection Images_Extension(this SqlWhereCollection self, object value = null, string tableName = "Images", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Extension]" }, "Extension", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static ImagesWhereCollection Size(this ImagesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Size]" }, "Size", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection Images_Size(this SqlWhereCollection self, object value = null, string tableName = "Images", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Size]" }, "Size", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static ImagesWhereCollection ImageSettings(this ImagesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[ImageSettings]" }, "ImageSettings", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection Images_ImageSettings(this SqlWhereCollection self, object value = null, string tableName = "Images", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[ImageSettings]" }, "ImageSettings", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static ImagesWhereCollection Comments(this ImagesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Comments]" }, "Comments", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection Images_Comments(this SqlWhereCollection self, object value = null, string tableName = "Images", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Comments]" }, "Comments", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static ImagesWhereCollection Creator(this ImagesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection Images_Creator(this SqlWhereCollection self, object value = null, string tableName = "Images", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Creator]" }, "Creator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static ImagesWhereCollection Updator(this ImagesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection Images_Updator(this SqlWhereCollection self, object value = null, string tableName = "Images", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Updator]" }, "Updator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static ImagesWhereCollection CreatedTime(this ImagesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[CreatedTime]" }, "CreatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection Images_CreatedTime(this SqlWhereCollection self, object value = null, string tableName = "Images", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[CreatedTime]" }, "CreatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static ImagesWhereCollection UpdatedTime(this ImagesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SqlWhereCollection Images_UpdatedTime(this SqlWhereCollection self, object value = null, string tableName = "Images", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static ImagesWhereCollection ImageId_In(this ImagesWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ImageId]" }, "ImageId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Images_ImageId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ImageId]" }, "ImageId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ImagesWhereCollection Ver_In(this ImagesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Images_Ver_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ImagesWhereCollection Size_In(this ImagesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Size]" }, "Size", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Images_Size_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Size]" }, "Size", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ImagesWhereCollection Creator_In(this ImagesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Images_Creator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ImagesWhereCollection Updator_In(this ImagesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Images_Updator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ImagesWhereCollection ImageId_Between(this ImagesWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[ImageId]" }, "ImageId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
-        public static SqlWhereCollection Images_ImageId_Between(this SqlWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[ImageId]" }, "ImageId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
-        public static ImagesWhereCollection Ver_Between(this ImagesWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
-        public static SqlWhereCollection Images_Ver_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
-        public static ImagesWhereCollection Size_Between(this ImagesWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Size]" }, "Size", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
-        public static SqlWhereCollection Images_Size_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Size]" }, "Size", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
-        public static ImagesWhereCollection Creator_Between(this ImagesWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
-        public static SqlWhereCollection Images_Creator_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
-        public static ImagesWhereCollection Updator_Between(this ImagesWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
-        public static SqlWhereCollection Images_Updator_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
-        public static ImagesWhereCollection CreatedTime_Between(this ImagesWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[CreatedTime]" }, "CreatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
-        public static SqlWhereCollection Images_CreatedTime_Between(this SqlWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[CreatedTime]" }, "CreatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
-        public static ImagesWhereCollection UpdatedTime_Between(this ImagesWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
-        public static SqlWhereCollection Images_UpdatedTime_Between(this SqlWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
-        public static ImagesWhereCollection Sub(this ImagesWhereCollection self, SqlStatement sub, object value = null, string _operator = "=", bool _using = true) { return self.Add(null, null, value, _operator, sub: sub, _using: _using); }
-        public static ImagesWhereCollection Or(this ImagesWhereCollection self, SqlWhereCollection or, bool _using = true) { return self.Add(null, null, or: or, _using: _using); }
-        public static ImagesGroupByCollection ImageId(this ImagesGroupByCollection self) { return self.Add("[t0].[ImageId]"); }
-        public static SqlGroupByCollection Images_ImageId(this SqlGroupByCollection self) { return self.Add("[t0].[ImageId]"); }
-        public static ImagesGroupByCollection Ver(this ImagesGroupByCollection self) { return self.Add("[t0].[Ver]"); }
-        public static SqlGroupByCollection Images_Ver(this SqlGroupByCollection self) { return self.Add("[t0].[Ver]"); }
-        public static ImagesGroupByCollection Title(this ImagesGroupByCollection self) { return self.Add("[t0].[Title]"); }
-        public static SqlGroupByCollection Images_Title(this SqlGroupByCollection self) { return self.Add("[t0].[Title]"); }
-        public static ImagesGroupByCollection Body(this ImagesGroupByCollection self) { return self.Add("[t0].[Body]"); }
-        public static SqlGroupByCollection Images_Body(this SqlGroupByCollection self) { return self.Add("[t0].[Body]"); }
-        public static ImagesGroupByCollection Bin(this ImagesGroupByCollection self) { return self.Add("[t0].[Bin]"); }
-        public static SqlGroupByCollection Images_Bin(this SqlGroupByCollection self) { return self.Add("[t0].[Bin]"); }
-        public static ImagesGroupByCollection FileName(this ImagesGroupByCollection self) { return self.Add("[t0].[FileName]"); }
-        public static SqlGroupByCollection Images_FileName(this SqlGroupByCollection self) { return self.Add("[t0].[FileName]"); }
-        public static ImagesGroupByCollection Extension(this ImagesGroupByCollection self) { return self.Add("[t0].[Extension]"); }
-        public static SqlGroupByCollection Images_Extension(this SqlGroupByCollection self) { return self.Add("[t0].[Extension]"); }
-        public static ImagesGroupByCollection Size(this ImagesGroupByCollection self) { return self.Add("[t0].[Size]"); }
-        public static SqlGroupByCollection Images_Size(this SqlGroupByCollection self) { return self.Add("[t0].[Size]"); }
-        public static ImagesGroupByCollection ImageSettings(this ImagesGroupByCollection self) { return self.Add("[t0].[ImageSettings]"); }
-        public static SqlGroupByCollection Images_ImageSettings(this SqlGroupByCollection self) { return self.Add("[t0].[ImageSettings]"); }
-        public static ImagesGroupByCollection Comments(this ImagesGroupByCollection self) { return self.Add("[t0].[Comments]"); }
-        public static SqlGroupByCollection Images_Comments(this SqlGroupByCollection self) { return self.Add("[t0].[Comments]"); }
-        public static ImagesGroupByCollection Creator(this ImagesGroupByCollection self) { return self.Add("[t0].[Creator]"); }
-        public static SqlGroupByCollection Images_Creator(this SqlGroupByCollection self) { return self.Add("[t0].[Creator]"); }
-        public static ImagesGroupByCollection Updator(this ImagesGroupByCollection self) { return self.Add("[t0].[Updator]"); }
-        public static SqlGroupByCollection Images_Updator(this SqlGroupByCollection self) { return self.Add("[t0].[Updator]"); }
-        public static ImagesGroupByCollection CreatedTime(this ImagesGroupByCollection self) { return self.Add("[t0].[CreatedTime]"); }
-        public static SqlGroupByCollection Images_CreatedTime(this SqlGroupByCollection self) { return self.Add("[t0].[CreatedTime]"); }
-        public static ImagesGroupByCollection UpdatedTime(this ImagesGroupByCollection self) { return self.Add("[t0].[UpdatedTime]"); }
-        public static SqlGroupByCollection Images_UpdatedTime(this SqlGroupByCollection self) { return self.Add("[t0].[UpdatedTime]"); }
-        public static ImagesHavingCollection ImagesCount(this ImagesHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "count(*)", name: "ImagesCount", value: value, _operator: _operator); }
-        public static ImagesHavingCollection CreatedTimeMax(this ImagesHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "max([t0].[CreatedTime])", name: "CreatedTimeMax", value: value, _operator: _operator); }
-        public static SqlHavingCollection Images_CreatedTimeMax(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "max([t0].[CreatedTime])", name: "CreatedTimeMax", value: value, _operator: _operator); }
-        public static ImagesHavingCollection CreatedTimeMin(this ImagesHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "min([t0].[CreatedTime])", name: "CreatedTimeMin", value: value, _operator: _operator); }
-        public static SqlHavingCollection Images_CreatedTimeMin(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "min([t0].[CreatedTime])", name: "CreatedTimeMin", value: value, _operator: _operator); }
-        public static ImagesHavingCollection UpdatedTimeMax(this ImagesHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "max([t0].[UpdatedTime])", name: "UpdatedTimeMax", value: value, _operator: _operator); }
-        public static SqlHavingCollection Images_UpdatedTimeMax(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "max([t0].[UpdatedTime])", name: "UpdatedTimeMax", value: value, _operator: _operator); }
-        public static ImagesHavingCollection UpdatedTimeMin(this ImagesHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "min([t0].[UpdatedTime])", name: "UpdatedTimeMin", value: value, _operator: _operator); }
-        public static SqlHavingCollection Images_UpdatedTimeMin(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "min([t0].[UpdatedTime])", name: "UpdatedTimeMin", value: value, _operator: _operator); }
-        public static ImagesOrderByCollection ImageId(this ImagesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[ImageId]"); }
-        public static ImagesOrderByCollection Ver(this ImagesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Ver]"); }
-        public static ImagesOrderByCollection Title(this ImagesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Title]"); }
-        public static ImagesOrderByCollection Body(this ImagesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Body]"); }
-        public static ImagesOrderByCollection Bin(this ImagesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Bin]"); }
-        public static ImagesOrderByCollection FileName(this ImagesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[FileName]"); }
-        public static ImagesOrderByCollection Extension(this ImagesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Extension]"); }
-        public static ImagesOrderByCollection Size(this ImagesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Size]"); }
-        public static ImagesOrderByCollection ImageSettings(this ImagesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[ImageSettings]"); }
-        public static ImagesOrderByCollection Comments(this ImagesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Comments]"); }
-        public static ImagesOrderByCollection Creator(this ImagesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Creator]"); }
-        public static ImagesOrderByCollection Updator(this ImagesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Updator]"); }
-        public static ImagesOrderByCollection CreatedTime(this ImagesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[CreatedTime]"); }
-        public static ImagesOrderByCollection UpdatedTime(this ImagesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[UpdatedTime]"); }
-        public static SqlOrderByCollection Images_ImageId(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[ImageId]"); }
-        public static SqlOrderByCollection Images_Ver(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Ver]"); }
-        public static SqlOrderByCollection Images_Title(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Title]"); }
-        public static SqlOrderByCollection Images_Body(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Body]"); }
-        public static SqlOrderByCollection Images_Bin(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Bin]"); }
-        public static SqlOrderByCollection Images_FileName(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[FileName]"); }
-        public static SqlOrderByCollection Images_Extension(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Extension]"); }
-        public static SqlOrderByCollection Images_Size(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Size]"); }
-        public static SqlOrderByCollection Images_ImageSettings(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[ImageSettings]"); }
-        public static SqlOrderByCollection Images_Comments(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Comments]"); }
-        public static SqlOrderByCollection Images_Creator(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Creator]"); }
-        public static SqlOrderByCollection Images_Updator(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Updator]"); }
-        public static SqlOrderByCollection Images_CreatedTime(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[CreatedTime]"); }
-        public static SqlOrderByCollection Images_UpdatedTime(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[UpdatedTime]"); }
-        public static ImagesOrderByCollection ImagesCount(this ImagesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "count(*)"); }
-        public static ImagesOrderByCollection CreatedTimeMax(this ImagesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[CreatedTime])"); }
-        public static SqlOrderByCollection Images_CreatedTimeMax(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[CreatedTime])"); }
-        public static ImagesOrderByCollection CreatedTimeMin(this ImagesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[CreatedTime])"); }
-        public static SqlOrderByCollection Images_CreatedTimeMin(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[CreatedTime])"); }
-        public static ImagesOrderByCollection UpdatedTimeMax(this ImagesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[UpdatedTime])"); }
-        public static SqlOrderByCollection Images_UpdatedTimeMax(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[UpdatedTime])"); }
-        public static ImagesOrderByCollection UpdatedTimeMin(this ImagesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[UpdatedTime])"); }
-        public static SqlOrderByCollection Images_UpdatedTimeMin(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[UpdatedTime])"); }
-        public static ImagesParamCollection ImageId(this ImagesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[ImageId]", "ImageId", value, sub, raw, _using); }
-        public static SqlParamCollection Images_ImageId(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[ImageId]", "ImageId", value, sub, raw, _using); }
-        public static ImagesParamCollection Ver(this ImagesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Ver]", "Ver", value, sub, raw, _using); }
-        public static SqlParamCollection Images_Ver(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Ver]", "Ver", value, sub, raw, _using); }
-        public static ImagesParamCollection Title(this ImagesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Title]", "Title", value, sub, raw, _using); }
-        public static SqlParamCollection Images_Title(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Title]", "Title", value, sub, raw, _using); }
-        public static ImagesParamCollection Body(this ImagesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Body]", "Body", value, sub, raw, _using); }
-        public static SqlParamCollection Images_Body(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Body]", "Body", value, sub, raw, _using); }
-        public static ImagesParamCollection Bin(this ImagesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Bin]", "Bin", value, sub, raw, _using); }
-        public static SqlParamCollection Images_Bin(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Bin]", "Bin", value, sub, raw, _using); }
-        public static ImagesParamCollection FileName(this ImagesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[FileName]", "FileName", value, sub, raw, _using); }
-        public static SqlParamCollection Images_FileName(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[FileName]", "FileName", value, sub, raw, _using); }
-        public static ImagesParamCollection Extension(this ImagesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Extension]", "Extension", value, sub, raw, _using); }
-        public static SqlParamCollection Images_Extension(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Extension]", "Extension", value, sub, raw, _using); }
-        public static ImagesParamCollection Size(this ImagesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Size]", "Size", value, sub, raw, _using); }
-        public static SqlParamCollection Images_Size(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Size]", "Size", value, sub, raw, _using); }
-        public static ImagesParamCollection ImageSettings(this ImagesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[ImageSettings]", "ImageSettings", value, sub, raw, _using); }
-        public static SqlParamCollection Images_ImageSettings(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[ImageSettings]", "ImageSettings", value, sub, raw, _using); }
-        public static ImagesParamCollection Comments(this ImagesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Comments]", "Comments", value, sub, raw, _using); }
-        public static SqlParamCollection Images_Comments(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Comments]", "Comments", value, sub, raw, _using); }
-        public static ImagesParamCollection Creator(this ImagesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Creator]", "Creator", value, sub, raw, _using); }
-        public static SqlParamCollection Images_Creator(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Creator]", "Creator", value, sub, raw, _using); }
-        public static ImagesParamCollection Updator(this ImagesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Updator]", "Updator", value, sub, raw, _using); }
-        public static SqlParamCollection Images_Updator(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Updator]", "Updator", value, sub, raw, _using); }
-        public static ImagesParamCollection CreatedTime(this ImagesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[CreatedTime]", "CreatedTime", value, sub, raw, _using); }
-        public static SqlParamCollection Images_CreatedTime(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[CreatedTime]", "CreatedTime", value, sub, raw, _using); }
-        public static ImagesParamCollection UpdatedTime(this ImagesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[UpdatedTime]", "UpdatedTime", value, sub, raw, _using); }
-        public static SqlParamCollection Images_UpdatedTime(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[UpdatedTime]", "UpdatedTime", value, sub, raw, _using); }
+        public static string Binaries_Body_WhereLike(string tableName = "t0") { return "([" + tableName + "].[Body] like '%' + @SearchText#ParamCount#_#CommandCount# + '%')"; }
+        public const string SqlWhereExists_Binaries = "exists(select * from [Binaries] where #SqlWhere#)";
+        public const string SqlWhereNotExists_Binaries = "not exists(select * from [Binaries] where #SqlWhere#)";
+        public static BinariesColumnCollection ReferenceId(this BinariesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[ReferenceId]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Binaries_ReferenceId(this SqlColumnCollection self, string tableName = "Binaries", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[ReferenceId]" + _as.ExistsTo(" as [{0}]")); }
+        public static BinariesColumnCollection BinaryId(this BinariesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[BinaryId]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Binaries_BinaryId(this SqlColumnCollection self, string tableName = "Binaries", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[BinaryId]" + _as.ExistsTo(" as [{0}]")); }
+        public static BinariesColumnCollection Ver(this BinariesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Ver]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Binaries_Ver(this SqlColumnCollection self, string tableName = "Binaries", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Ver]" + _as.ExistsTo(" as [{0}]")); }
+        public static BinariesColumnCollection Title(this BinariesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Title]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Binaries_Title(this SqlColumnCollection self, string tableName = "Binaries", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Title]" + _as.ExistsTo(" as [{0}]")); }
+        public static BinariesColumnCollection Body(this BinariesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Body]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Binaries_Body(this SqlColumnCollection self, string tableName = "Binaries", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Body]" + _as.ExistsTo(" as [{0}]")); }
+        public static BinariesColumnCollection Bin(this BinariesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Bin]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Binaries_Bin(this SqlColumnCollection self, string tableName = "Binaries", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Bin]" + _as.ExistsTo(" as [{0}]")); }
+        public static BinariesColumnCollection FileName(this BinariesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[FileName]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Binaries_FileName(this SqlColumnCollection self, string tableName = "Binaries", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[FileName]" + _as.ExistsTo(" as [{0}]")); }
+        public static BinariesColumnCollection Extension(this BinariesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Extension]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Binaries_Extension(this SqlColumnCollection self, string tableName = "Binaries", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Extension]" + _as.ExistsTo(" as [{0}]")); }
+        public static BinariesColumnCollection Size(this BinariesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Size]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Binaries_Size(this SqlColumnCollection self, string tableName = "Binaries", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Size]" + _as.ExistsTo(" as [{0}]")); }
+        public static BinariesColumnCollection BinarySettings(this BinariesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[BinarySettings]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Binaries_BinarySettings(this SqlColumnCollection self, string tableName = "Binaries", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[BinarySettings]" + _as.ExistsTo(" as [{0}]")); }
+        public static BinariesColumnCollection Comments(this BinariesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Comments]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Binaries_Comments(this SqlColumnCollection self, string tableName = "Binaries", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Comments]" + _as.ExistsTo(" as [{0}]")); }
+        public static BinariesColumnCollection Creator(this BinariesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Creator]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Binaries_Creator(this SqlColumnCollection self, string tableName = "Binaries", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Creator]" + _as.ExistsTo(" as [{0}]")); }
+        public static BinariesColumnCollection Updator(this BinariesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Updator]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Binaries_Updator(this SqlColumnCollection self, string tableName = "Binaries", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Updator]" + _as.ExistsTo(" as [{0}]")); }
+        public static BinariesColumnCollection CreatedTime(this BinariesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[CreatedTime]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Binaries_CreatedTime(this SqlColumnCollection self, string tableName = "Binaries", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[CreatedTime]" + _as.ExistsTo(" as [{0}]")); }
+        public static BinariesColumnCollection UpdatedTime(this BinariesColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[UpdatedTime]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Binaries_UpdatedTime(this SqlColumnCollection self, string tableName = "Binaries", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[UpdatedTime]" + _as.ExistsTo(" as [{0}]")); }
+        public static BinariesColumnCollection BinariesCount(this BinariesColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "count(*) as BinariesCount"); }
+        public static BinariesColumnCollection CreatedTimeMax(this BinariesColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "max([t0].[CreatedTime]) as [CreatedTimeMax]"); }
+        public static SqlColumnCollection Binaries_CreatedTimeMax(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "max([t0].[CreatedTime]) as [CreatedTimeMax]"); }
+        public static BinariesColumnCollection CreatedTimeMin(this BinariesColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "min([t0].[CreatedTime]) as [CreatedTimeMin]"); }
+        public static SqlColumnCollection Binaries_CreatedTimeMin(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "min([t0].[CreatedTime]) as [CreatedTimeMin]"); }
+        public static BinariesColumnCollection UpdatedTimeMax(this BinariesColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "max([t0].[UpdatedTime]) as [UpdatedTimeMax]"); }
+        public static SqlColumnCollection Binaries_UpdatedTimeMax(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "max([t0].[UpdatedTime]) as [UpdatedTimeMax]"); }
+        public static BinariesColumnCollection UpdatedTimeMin(this BinariesColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "min([t0].[UpdatedTime]) as [UpdatedTimeMin]"); }
+        public static SqlColumnCollection Binaries_UpdatedTimeMin(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "min([t0].[UpdatedTime]) as [UpdatedTimeMin]"); }
+        public static BinariesWhereCollection ReferenceId(this BinariesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Binaries_ReferenceId(this SqlWhereCollection self, object value = null, string tableName = "Binaries", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[ReferenceId]" }, "ReferenceId", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static BinariesWhereCollection BinaryId(this BinariesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[BinaryId]" }, "BinaryId", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Binaries_BinaryId(this SqlWhereCollection self, object value = null, string tableName = "Binaries", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[BinaryId]" }, "BinaryId", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static BinariesWhereCollection Ver(this BinariesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Binaries_Ver(this SqlWhereCollection self, object value = null, string tableName = "Binaries", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Ver]" }, "Ver", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static BinariesWhereCollection Title(this BinariesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Title]" }, "Title", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Binaries_Title(this SqlWhereCollection self, object value = null, string tableName = "Binaries", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Title]" }, "Title", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static BinariesWhereCollection Body(this BinariesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Body]" }, "Body", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Binaries_Body(this SqlWhereCollection self, object value = null, string tableName = "Binaries", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Body]" }, "Body", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static BinariesWhereCollection Bin(this BinariesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Bin]" }, "Bin", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Binaries_Bin(this SqlWhereCollection self, object value = null, string tableName = "Binaries", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Bin]" }, "Bin", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static BinariesWhereCollection FileName(this BinariesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[FileName]" }, "FileName", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Binaries_FileName(this SqlWhereCollection self, object value = null, string tableName = "Binaries", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[FileName]" }, "FileName", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static BinariesWhereCollection Extension(this BinariesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Extension]" }, "Extension", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Binaries_Extension(this SqlWhereCollection self, object value = null, string tableName = "Binaries", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Extension]" }, "Extension", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static BinariesWhereCollection Size(this BinariesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Size]" }, "Size", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Binaries_Size(this SqlWhereCollection self, object value = null, string tableName = "Binaries", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Size]" }, "Size", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static BinariesWhereCollection BinarySettings(this BinariesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[BinarySettings]" }, "BinarySettings", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Binaries_BinarySettings(this SqlWhereCollection self, object value = null, string tableName = "Binaries", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[BinarySettings]" }, "BinarySettings", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static BinariesWhereCollection Comments(this BinariesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Comments]" }, "Comments", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Binaries_Comments(this SqlWhereCollection self, object value = null, string tableName = "Binaries", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Comments]" }, "Comments", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static BinariesWhereCollection Creator(this BinariesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Binaries_Creator(this SqlWhereCollection self, object value = null, string tableName = "Binaries", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Creator]" }, "Creator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static BinariesWhereCollection Updator(this BinariesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Binaries_Updator(this SqlWhereCollection self, object value = null, string tableName = "Binaries", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Updator]" }, "Updator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static BinariesWhereCollection CreatedTime(this BinariesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[CreatedTime]" }, "CreatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Binaries_CreatedTime(this SqlWhereCollection self, object value = null, string tableName = "Binaries", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[CreatedTime]" }, "CreatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static BinariesWhereCollection UpdatedTime(this BinariesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Binaries_UpdatedTime(this SqlWhereCollection self, object value = null, string tableName = "Binaries", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static BinariesWhereCollection ReferenceId_In(this BinariesWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static SqlWhereCollection Binaries_ReferenceId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static BinariesWhereCollection BinaryId_In(this BinariesWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[BinaryId]" }, "BinaryId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static SqlWhereCollection Binaries_BinaryId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[BinaryId]" }, "BinaryId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static BinariesWhereCollection Ver_In(this BinariesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static SqlWhereCollection Binaries_Ver_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static BinariesWhereCollection Size_In(this BinariesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Size]" }, "Size", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static SqlWhereCollection Binaries_Size_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Size]" }, "Size", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static BinariesWhereCollection Creator_In(this BinariesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static SqlWhereCollection Binaries_Creator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static BinariesWhereCollection Updator_In(this BinariesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static SqlWhereCollection Binaries_Updator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static BinariesWhereCollection ReferenceId_Between(this BinariesWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection Binaries_ReferenceId_Between(this SqlWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static BinariesWhereCollection BinaryId_Between(this BinariesWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[BinaryId]" }, "BinaryId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection Binaries_BinaryId_Between(this SqlWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[BinaryId]" }, "BinaryId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static BinariesWhereCollection Ver_Between(this BinariesWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection Binaries_Ver_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static BinariesWhereCollection Size_Between(this BinariesWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Size]" }, "Size", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection Binaries_Size_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Size]" }, "Size", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static BinariesWhereCollection Creator_Between(this BinariesWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection Binaries_Creator_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static BinariesWhereCollection Updator_Between(this BinariesWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection Binaries_Updator_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static BinariesWhereCollection CreatedTime_Between(this BinariesWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[CreatedTime]" }, "CreatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection Binaries_CreatedTime_Between(this SqlWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[CreatedTime]" }, "CreatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
+        public static BinariesWhereCollection UpdatedTime_Between(this BinariesWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection Binaries_UpdatedTime_Between(this SqlWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
+        public static BinariesWhereCollection Sub(this BinariesWhereCollection self, SqlStatement sub, object value = null, string _operator = "=", bool _using = true) { return self.Add(null, null, value, _operator, sub: sub, _using: _using); }
+        public static BinariesWhereCollection Or(this BinariesWhereCollection self, SqlWhereCollection or, bool _using = true) { return self.Add(null, null, or: or, _using: _using); }
+        public static BinariesGroupByCollection ReferenceId(this BinariesGroupByCollection self) { return self.Add("[t0].[ReferenceId]"); }
+        public static SqlGroupByCollection Binaries_ReferenceId(this SqlGroupByCollection self) { return self.Add("[t0].[ReferenceId]"); }
+        public static BinariesGroupByCollection BinaryId(this BinariesGroupByCollection self) { return self.Add("[t0].[BinaryId]"); }
+        public static SqlGroupByCollection Binaries_BinaryId(this SqlGroupByCollection self) { return self.Add("[t0].[BinaryId]"); }
+        public static BinariesGroupByCollection Ver(this BinariesGroupByCollection self) { return self.Add("[t0].[Ver]"); }
+        public static SqlGroupByCollection Binaries_Ver(this SqlGroupByCollection self) { return self.Add("[t0].[Ver]"); }
+        public static BinariesGroupByCollection Title(this BinariesGroupByCollection self) { return self.Add("[t0].[Title]"); }
+        public static SqlGroupByCollection Binaries_Title(this SqlGroupByCollection self) { return self.Add("[t0].[Title]"); }
+        public static BinariesGroupByCollection Body(this BinariesGroupByCollection self) { return self.Add("[t0].[Body]"); }
+        public static SqlGroupByCollection Binaries_Body(this SqlGroupByCollection self) { return self.Add("[t0].[Body]"); }
+        public static BinariesGroupByCollection Bin(this BinariesGroupByCollection self) { return self.Add("[t0].[Bin]"); }
+        public static SqlGroupByCollection Binaries_Bin(this SqlGroupByCollection self) { return self.Add("[t0].[Bin]"); }
+        public static BinariesGroupByCollection FileName(this BinariesGroupByCollection self) { return self.Add("[t0].[FileName]"); }
+        public static SqlGroupByCollection Binaries_FileName(this SqlGroupByCollection self) { return self.Add("[t0].[FileName]"); }
+        public static BinariesGroupByCollection Extension(this BinariesGroupByCollection self) { return self.Add("[t0].[Extension]"); }
+        public static SqlGroupByCollection Binaries_Extension(this SqlGroupByCollection self) { return self.Add("[t0].[Extension]"); }
+        public static BinariesGroupByCollection Size(this BinariesGroupByCollection self) { return self.Add("[t0].[Size]"); }
+        public static SqlGroupByCollection Binaries_Size(this SqlGroupByCollection self) { return self.Add("[t0].[Size]"); }
+        public static BinariesGroupByCollection BinarySettings(this BinariesGroupByCollection self) { return self.Add("[t0].[BinarySettings]"); }
+        public static SqlGroupByCollection Binaries_BinarySettings(this SqlGroupByCollection self) { return self.Add("[t0].[BinarySettings]"); }
+        public static BinariesGroupByCollection Comments(this BinariesGroupByCollection self) { return self.Add("[t0].[Comments]"); }
+        public static SqlGroupByCollection Binaries_Comments(this SqlGroupByCollection self) { return self.Add("[t0].[Comments]"); }
+        public static BinariesGroupByCollection Creator(this BinariesGroupByCollection self) { return self.Add("[t0].[Creator]"); }
+        public static SqlGroupByCollection Binaries_Creator(this SqlGroupByCollection self) { return self.Add("[t0].[Creator]"); }
+        public static BinariesGroupByCollection Updator(this BinariesGroupByCollection self) { return self.Add("[t0].[Updator]"); }
+        public static SqlGroupByCollection Binaries_Updator(this SqlGroupByCollection self) { return self.Add("[t0].[Updator]"); }
+        public static BinariesGroupByCollection CreatedTime(this BinariesGroupByCollection self) { return self.Add("[t0].[CreatedTime]"); }
+        public static SqlGroupByCollection Binaries_CreatedTime(this SqlGroupByCollection self) { return self.Add("[t0].[CreatedTime]"); }
+        public static BinariesGroupByCollection UpdatedTime(this BinariesGroupByCollection self) { return self.Add("[t0].[UpdatedTime]"); }
+        public static SqlGroupByCollection Binaries_UpdatedTime(this SqlGroupByCollection self) { return self.Add("[t0].[UpdatedTime]"); }
+        public static BinariesHavingCollection BinariesCount(this BinariesHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "count(*)", name: "BinariesCount", value: value, _operator: _operator); }
+        public static BinariesHavingCollection CreatedTimeMax(this BinariesHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "max([t0].[CreatedTime])", name: "CreatedTimeMax", value: value, _operator: _operator); }
+        public static SqlHavingCollection Binaries_CreatedTimeMax(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "max([t0].[CreatedTime])", name: "CreatedTimeMax", value: value, _operator: _operator); }
+        public static BinariesHavingCollection CreatedTimeMin(this BinariesHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "min([t0].[CreatedTime])", name: "CreatedTimeMin", value: value, _operator: _operator); }
+        public static SqlHavingCollection Binaries_CreatedTimeMin(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "min([t0].[CreatedTime])", name: "CreatedTimeMin", value: value, _operator: _operator); }
+        public static BinariesHavingCollection UpdatedTimeMax(this BinariesHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "max([t0].[UpdatedTime])", name: "UpdatedTimeMax", value: value, _operator: _operator); }
+        public static SqlHavingCollection Binaries_UpdatedTimeMax(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "max([t0].[UpdatedTime])", name: "UpdatedTimeMax", value: value, _operator: _operator); }
+        public static BinariesHavingCollection UpdatedTimeMin(this BinariesHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "min([t0].[UpdatedTime])", name: "UpdatedTimeMin", value: value, _operator: _operator); }
+        public static SqlHavingCollection Binaries_UpdatedTimeMin(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "min([t0].[UpdatedTime])", name: "UpdatedTimeMin", value: value, _operator: _operator); }
+        public static BinariesOrderByCollection ReferenceId(this BinariesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[ReferenceId]"); }
+        public static BinariesOrderByCollection BinaryId(this BinariesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[BinaryId]"); }
+        public static BinariesOrderByCollection Ver(this BinariesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Ver]"); }
+        public static BinariesOrderByCollection Title(this BinariesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Title]"); }
+        public static BinariesOrderByCollection Body(this BinariesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Body]"); }
+        public static BinariesOrderByCollection Bin(this BinariesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Bin]"); }
+        public static BinariesOrderByCollection FileName(this BinariesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[FileName]"); }
+        public static BinariesOrderByCollection Extension(this BinariesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Extension]"); }
+        public static BinariesOrderByCollection Size(this BinariesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Size]"); }
+        public static BinariesOrderByCollection BinarySettings(this BinariesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[BinarySettings]"); }
+        public static BinariesOrderByCollection Comments(this BinariesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Comments]"); }
+        public static BinariesOrderByCollection Creator(this BinariesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Creator]"); }
+        public static BinariesOrderByCollection Updator(this BinariesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Updator]"); }
+        public static BinariesOrderByCollection CreatedTime(this BinariesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[CreatedTime]"); }
+        public static BinariesOrderByCollection UpdatedTime(this BinariesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[UpdatedTime]"); }
+        public static SqlOrderByCollection Binaries_ReferenceId(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[ReferenceId]"); }
+        public static SqlOrderByCollection Binaries_BinaryId(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[BinaryId]"); }
+        public static SqlOrderByCollection Binaries_Ver(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Ver]"); }
+        public static SqlOrderByCollection Binaries_Title(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Title]"); }
+        public static SqlOrderByCollection Binaries_Body(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Body]"); }
+        public static SqlOrderByCollection Binaries_Bin(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Bin]"); }
+        public static SqlOrderByCollection Binaries_FileName(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[FileName]"); }
+        public static SqlOrderByCollection Binaries_Extension(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Extension]"); }
+        public static SqlOrderByCollection Binaries_Size(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Size]"); }
+        public static SqlOrderByCollection Binaries_BinarySettings(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[BinarySettings]"); }
+        public static SqlOrderByCollection Binaries_Comments(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Comments]"); }
+        public static SqlOrderByCollection Binaries_Creator(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Creator]"); }
+        public static SqlOrderByCollection Binaries_Updator(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Updator]"); }
+        public static SqlOrderByCollection Binaries_CreatedTime(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[CreatedTime]"); }
+        public static SqlOrderByCollection Binaries_UpdatedTime(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[UpdatedTime]"); }
+        public static BinariesOrderByCollection BinariesCount(this BinariesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "count(*)"); }
+        public static BinariesOrderByCollection CreatedTimeMax(this BinariesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[CreatedTime])"); }
+        public static SqlOrderByCollection Binaries_CreatedTimeMax(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[CreatedTime])"); }
+        public static BinariesOrderByCollection CreatedTimeMin(this BinariesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[CreatedTime])"); }
+        public static SqlOrderByCollection Binaries_CreatedTimeMin(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[CreatedTime])"); }
+        public static BinariesOrderByCollection UpdatedTimeMax(this BinariesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[UpdatedTime])"); }
+        public static SqlOrderByCollection Binaries_UpdatedTimeMax(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[UpdatedTime])"); }
+        public static BinariesOrderByCollection UpdatedTimeMin(this BinariesOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[UpdatedTime])"); }
+        public static SqlOrderByCollection Binaries_UpdatedTimeMin(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[UpdatedTime])"); }
+        public static BinariesParamCollection ReferenceId(this BinariesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[ReferenceId]", "ReferenceId", value, sub, raw, _using); }
+        public static SqlParamCollection Binaries_ReferenceId(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[ReferenceId]", "ReferenceId", value, sub, raw, _using); }
+        public static BinariesParamCollection BinaryId(this BinariesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[BinaryId]", "BinaryId", value, sub, raw, _using); }
+        public static SqlParamCollection Binaries_BinaryId(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[BinaryId]", "BinaryId", value, sub, raw, _using); }
+        public static BinariesParamCollection Ver(this BinariesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Ver]", "Ver", value, sub, raw, _using); }
+        public static SqlParamCollection Binaries_Ver(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Ver]", "Ver", value, sub, raw, _using); }
+        public static BinariesParamCollection Title(this BinariesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Title]", "Title", value, sub, raw, _using); }
+        public static SqlParamCollection Binaries_Title(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Title]", "Title", value, sub, raw, _using); }
+        public static BinariesParamCollection Body(this BinariesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Body]", "Body", value, sub, raw, _using); }
+        public static SqlParamCollection Binaries_Body(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Body]", "Body", value, sub, raw, _using); }
+        public static BinariesParamCollection Bin(this BinariesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Bin]", "Bin", value, sub, raw, _using); }
+        public static SqlParamCollection Binaries_Bin(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Bin]", "Bin", value, sub, raw, _using); }
+        public static BinariesParamCollection FileName(this BinariesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[FileName]", "FileName", value, sub, raw, _using); }
+        public static SqlParamCollection Binaries_FileName(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[FileName]", "FileName", value, sub, raw, _using); }
+        public static BinariesParamCollection Extension(this BinariesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Extension]", "Extension", value, sub, raw, _using); }
+        public static SqlParamCollection Binaries_Extension(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Extension]", "Extension", value, sub, raw, _using); }
+        public static BinariesParamCollection Size(this BinariesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Size]", "Size", value, sub, raw, _using); }
+        public static SqlParamCollection Binaries_Size(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Size]", "Size", value, sub, raw, _using); }
+        public static BinariesParamCollection BinarySettings(this BinariesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[BinarySettings]", "BinarySettings", value, sub, raw, _using); }
+        public static SqlParamCollection Binaries_BinarySettings(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[BinarySettings]", "BinarySettings", value, sub, raw, _using); }
+        public static BinariesParamCollection Comments(this BinariesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Comments]", "Comments", value, sub, raw, _using); }
+        public static SqlParamCollection Binaries_Comments(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Comments]", "Comments", value, sub, raw, _using); }
+        public static BinariesParamCollection Creator(this BinariesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Creator]", "Creator", value, sub, raw, _using); }
+        public static SqlParamCollection Binaries_Creator(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Creator]", "Creator", value, sub, raw, _using); }
+        public static BinariesParamCollection Updator(this BinariesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Updator]", "Updator", value, sub, raw, _using); }
+        public static SqlParamCollection Binaries_Updator(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Updator]", "Updator", value, sub, raw, _using); }
+        public static BinariesParamCollection CreatedTime(this BinariesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[CreatedTime]", "CreatedTime", value, sub, raw, _using); }
+        public static SqlParamCollection Binaries_CreatedTime(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[CreatedTime]", "CreatedTime", value, sub, raw, _using); }
+        public static BinariesParamCollection UpdatedTime(this BinariesParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[UpdatedTime]", "UpdatedTime", value, sub, raw, _using); }
+        public static SqlParamCollection Binaries_UpdatedTime(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[UpdatedTime]", "UpdatedTime", value, sub, raw, _using); }
 
         public static IssuesColumnCollection IssuesColumn()
         {
@@ -12859,10 +12873,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Comments(linkModel.Comments.ToJson(), _using: linkModel.Comments_Updated || paramAll);
         }
 
-        public static ImagesColumnCollection ImagesColumnDefault()
+        public static BinariesColumnCollection BinariesColumnDefault()
         {
-            return Rds.ImagesColumn()
-                .ImageId()
+            return Rds.BinariesColumn()
+                .ReferenceId()
+                .BinaryId()
                 .Ver()
                 .Title()
                 .Body()
@@ -12870,7 +12885,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .FileName()
                 .Extension()
                 .Size()
-                .ImageSettings()
+                .BinarySettings()
                 .Comments()
                 .Creator()
                 .Updator()
@@ -12878,30 +12893,32 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .UpdatedTime();
         }
 
-        public static ImagesJoinCollection ImagesJoinDefault()
+        public static BinariesJoinCollection BinariesJoinDefault()
         {
-            return Rds.ImagesJoin();
+            return Rds.BinariesJoin();
         }
 
-        public static ImagesWhereCollection ImagesWhereDefault(ImageModel imageModel)
+        public static BinariesWhereCollection BinariesWhereDefault(BinaryModel binaryModel)
         {
-            return Rds.ImagesWhere()
-                .ImageId(imageModel.ImageId);
+            return Rds.BinariesWhere()
+                .ReferenceId(binaryModel.ReferenceId)
+                .BinaryId(binaryModel.BinaryId);
         }
 
-        public static ImagesParamCollection ImagesParamDefault(
-            ImageModel imageModel, bool setDefault = false, bool paramAll = false)
+        public static BinariesParamCollection BinariesParamDefault(
+            BinaryModel binaryModel, bool setDefault = false, bool paramAll = false)
         {
-            return Rds.ImagesParam()
-                .Ver(imageModel.Ver, _using: imageModel.Ver_Updated || setDefault || paramAll)
-                .Title(imageModel.Title.Value.MaxLength(1024), _using: imageModel.Title_Updated || setDefault || paramAll)
-                .Body(imageModel.Body, _using: imageModel.Body_Updated || paramAll)
-                .Bin(imageModel.Bin, _using: imageModel.Bin_Updated || setDefault || paramAll)
-                .FileName(imageModel.FileName.MaxLength(1024), _using: imageModel.FileName_Updated || setDefault || paramAll)
-                .Extension(imageModel.Extension.MaxLength(32), _using: imageModel.Extension_Updated || setDefault || paramAll)
-                .Size(imageModel.Size, _using: imageModel.Size_Updated || setDefault || paramAll)
-                .ImageSettings(imageModel.ImageSettings.ToJson(), _using: imageModel.ImageSettings_Updated || setDefault || paramAll)
-                .Comments(imageModel.Comments.ToJson(), _using: imageModel.Comments_Updated || paramAll);
+            return Rds.BinariesParam()
+                .ReferenceId(binaryModel.ReferenceId, _using: binaryModel.ReferenceId_Updated || setDefault || paramAll)
+                .Ver(binaryModel.Ver, _using: binaryModel.Ver_Updated || setDefault || paramAll)
+                .Title(binaryModel.Title.Value.MaxLength(1024), _using: binaryModel.Title_Updated || setDefault || paramAll)
+                .Body(binaryModel.Body, _using: binaryModel.Body_Updated || paramAll)
+                .Bin(binaryModel.Bin, _using: binaryModel.Bin_Updated || setDefault || paramAll)
+                .FileName(binaryModel.FileName.MaxLength(1024), _using: binaryModel.FileName_Updated || setDefault || paramAll)
+                .Extension(binaryModel.Extension.MaxLength(32), _using: binaryModel.Extension_Updated || setDefault || paramAll)
+                .Size(binaryModel.Size, _using: binaryModel.Size_Updated || setDefault || paramAll)
+                .BinarySettings(binaryModel.BinarySettings.ToJson(), _using: binaryModel.BinarySettings_Updated || setDefault || paramAll)
+                .Comments(binaryModel.Comments.ToJson(), _using: binaryModel.Comments_Updated || paramAll);
         }
 
         public static IssuesColumnCollection IssuesColumnDefault()
