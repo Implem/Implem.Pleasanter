@@ -1,5 +1,4 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.DataSources.SqlServer;
+﻿using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
