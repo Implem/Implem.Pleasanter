@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Libraries.Utilities
             foreach (var data in paramHash.Where(o => o.Value.Any(p => HasError(p, column))))
             {
                 return Messages.ResponseInvalidCsvData(
-                    data.Key.ToString(), column.LabelText).ToJson();
+                    (data.Key + 2).ToString(), column.LabelText).ToJson();
             }
             return null;
         }
