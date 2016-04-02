@@ -3,7 +3,6 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.ServerData;
 using System;
 using System.Linq;
-
 namespace Implem.Pleasanter.Libraries.Utilities
 {
     public static class Times
