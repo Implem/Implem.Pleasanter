@@ -855,7 +855,7 @@ namespace Implem.Pleasanter.Libraries.Views
                 actionLabel: () => hb
                     .Div(css: "field-label", action: labelAction),
                 actionControl: () => hb
-                    .Selectable(
+                    .Basket(
                         controlId: controlId,
                         controlCss: controlCss,
                         listItemCollection: listItemCollection ?? new Dictionary<string, string>(),

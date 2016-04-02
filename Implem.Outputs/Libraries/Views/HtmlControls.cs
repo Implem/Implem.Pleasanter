@@ -428,6 +428,22 @@ namespace Implem.Pleasanter.Libraries.Views
                                 selectedValueTextCollection: selectedValueCollection)));
         }
 
+        public static HtmlBuilder Basket(
+                    this HtmlBuilder hb,
+                    string controlId,
+                    string controlCss = "",
+                    Dictionary<string, string> listItemCollection = null,
+                    IEnumerable<string> selectedValueCollection = null)
+        {
+            return hb.Ol(
+                attributes: Html.Attributes()
+                    .Id_Css(controlId, CssClasses.Get("control-selectable", controlCss)),
+                action: () => hb
+                    .SelectableItems(
+                        listItemCollection: listItemCollection,
+                        selectedValueTextCollection: selectedValueCollection));
+        }
+
         public static HtmlBuilder SelectableItems(
             this HtmlBuilder hb,
             Dictionary<string, string> listItemCollection = null,
