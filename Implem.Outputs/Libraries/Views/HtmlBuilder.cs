@@ -108,12 +108,6 @@ namespace Implem.Pleasanter.Libraries.Views
             return this;
         }
 
-        public HtmlBuilder AppendCloseAll()
-        {
-            AppendCloseTagCollection(-1);
-            return this;
-        }
-
         public override string ToString()
         {
             AppendCloseTagCollection();
