@@ -326,7 +326,7 @@ pre{
 }
 
 .nav-site span.title{
-
+    margin-left:5px;
 }
 
 .nav-site.to-upper{
@@ -348,17 +348,17 @@ pre{
     left:9px;
 }
 
-.site-image-thumbnail{
+.nav-site .site-image-thumbnail{
     position:absolute;
     top:8px;
     left:8px;
     border-radius:8px;
 }
 
-.site-image-icon{
-    display:block;
-    float:left;
-    margin:12px 10px 0px 0px;
+.nav-site .site-image-icon{
+    position:absolute;
+    top:4px;
+    left:8px;
     border-radius:8px;
 }
 
@@ -475,10 +475,10 @@ pre{
     clear:both;
 }
 
-#application > .nav-site-icon{
+#application > .site-image-icon{
     display:block;
     float:left;
-    margin:10px 5px 0px 0px;
+    margin:10px 10px 0px 0px;
 }
 
 .application-title{
