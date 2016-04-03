@@ -437,7 +437,7 @@ namespace Implem.Pleasanter.Libraries.Views
         {
             return hb.Ol(
                 attributes: Html.Attributes()
-                    .Id_Css(controlId, CssClasses.Get("control-selectable", controlCss)),
+                    .Id_Css(controlId, CssClasses.Get("control-basket", controlCss)),
                 action: () => hb
                     .SelectableItems(
                         listItemCollection: listItemCollection,
