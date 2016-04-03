@@ -348,17 +348,17 @@ pre{
     left:9px;
 }
 
-.nav-site .nav-site-thumbnail{
+.site-image-thumbnail{
     position:absolute;
     top:8px;
     left:8px;
     border-radius:8px;
 }
 
-.nav-site .nav-site-icon{
-    position:absolute;
-    top:4px;
-    left:4px;
+.site-image-icon{
+    display:block;
+    float:left;
+    margin:12px 10px 0px 0px;
     border-radius:8px;
 }
 

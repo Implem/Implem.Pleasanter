@@ -1261,17 +1261,17 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static byte[] NavSiteThumbnail(long referenceId)
+        public static byte[] SiteImageThumbnail(long referenceId)
         {
-            return Images.Get(referenceId, Images.Types.NavSite, Images.SizeTypes.Thumbnail);
+            return Images.Get(referenceId, Images.Types.SiteImage, Images.SizeTypes.Thumbnail);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static byte[] NavSiteIcon(long referenceId)
+        public static byte[] SiteImageIcon(long referenceId)
         {
-            return Images.Get(referenceId, Images.Types.NavSite, Images.SizeTypes.Icon);
+            return Images.Get(referenceId, Images.Types.SiteImage, Images.SizeTypes.Icon);
         }
 
         /// <summary>
@@ -1283,7 +1283,7 @@ namespace Implem.Pleasanter.Models
             {
                 switch (key)
                 {
-                    case "NavSiteImage": return UpdateNavSiteIcon(referenceId, Forms.File(key));
+                    case "SiteImage": return UpdateSiteImage(referenceId, Forms.File(key));
                 }
             }
             return new ResponseCollection().ToJson();
@@ -1292,9 +1292,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string UpdateNavSiteIcon(long referenceId, byte[] data)
+        public static string UpdateSiteImage(long referenceId, byte[] data)
         {
-            Images.Write(data, referenceId, Images.Types.NavSite);
+            Images.Write(data, referenceId, Images.Types.SiteImage);
             return Messages.ResponseFileUpdateCompleted().ToJson();
         }
     }

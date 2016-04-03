@@ -90,22 +90,19 @@ namespace Implem.Pleasanter.Libraries.Views
         private static HtmlBuilder Title(
             this HtmlBuilder hb, string text, long siteId)
         {
-            if (Images.Exists(
-                siteId,
-                Images.Types.NavSite,
-                Images.SizeTypes.Icon))
+            if (Images.Exists(siteId, Images.Types.SiteImage, Images.SizeTypes.Icon))
             {
                 hb.Img(
                     src: Navigations.Get(
                         "Items",
                         siteId.ToString(),
                         "Binaries",
-                        "NavSiteIcon",
+                        "SiteImageIcon",
                         Images.UrlPrefix(
                             siteId,
-                            Images.Types.NavSite,
+                            Images.Types.SiteImage,
                             Images.SizeTypes.Icon)),
-                    css: "nav-site-icon");
+                    css: "site-image-icon");
             }
             return text != string.Empty
                 ? hb.Header(css: "application-title", action: () => hb

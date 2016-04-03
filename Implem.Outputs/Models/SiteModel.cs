@@ -1396,8 +1396,8 @@ namespace Implem.Pleasanter.Models
                 {
                     hb.Li(() => hb
                         .A(
-                            href: "#NavSiteSettingsEditor",
-                            text: Displays.NavSiteSettingsEditor()));
+                            href: "#SiteImageSettingsEditor",
+                            text: Displays.SiteImageSettingsEditor()));
                     if (siteModel.ReferenceType != "Sites")
                     {
                         hb
@@ -1556,7 +1556,7 @@ namespace Implem.Pleasanter.Models
         {
             var hasImage = Images.Exists(
                 siteId,
-                Images.Types.NavSite,
+                Images.Types.SiteImage,
                 Images.SizeTypes.Thumbnail);
             return hb.Li(
                 attributes: Html.Attributes()
@@ -1577,7 +1577,7 @@ namespace Implem.Pleasanter.Models
                         {
                             var urlPrefix = Images.UrlPrefix(
                                 siteId,
-                                Images.Types.NavSite,
+                                Images.Types.SiteImage,
                                 Images.SizeTypes.Thumbnail);
                             if (toUpper)
                             {
@@ -1589,9 +1589,9 @@ namespace Implem.Pleasanter.Models
                                                 "Items",
                                                 siteId.ToString(),
                                                 "Binaries",
-                                                "NavSiteIcon",
+                                                "SiteImageIcon",
                                                 urlPrefix),
-                                            css: "nav-site-icon")
+                                            css: "site-image-icon")
                                         .Span(css: "title", action: () => hb
                                             .Text(title));
                                 }
@@ -1612,9 +1612,9 @@ namespace Implem.Pleasanter.Models
                                             "Items",
                                             siteId.ToString(),
                                             "Binaries",
-                                            "NavSiteThumbnail",
+                                            "SiteImageThumbnail",
                                             urlPrefix),
-                                        css: "nav-site-thumbnail");
+                                        css: "site-image-thumbnail");
                                 }
                                 hb.Span(css: "title", action: () => hb
                                     .Text(title));
@@ -1816,7 +1816,7 @@ namespace Implem.Pleasanter.Models
             });
             if (siteModel.MethodType != BaseModel.MethodTypes.New)
             {
-                hb.NavSiteSettingsEditor(siteModel.SiteSettings);
+                hb.SiteImageSettingsEditor(siteModel.SiteSettings);
                 if (siteModel.ReferenceType != "Sites")
                 {
                     hb
@@ -1832,11 +1832,11 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder NavSiteSettingsEditor(
+        private static HtmlBuilder SiteImageSettingsEditor(
             this HtmlBuilder hb, SiteSettings siteSettings)
         {
             return hb.FieldSet(
-                id: "NavSiteSettingsEditor",
+                id: "SiteImageSettingsEditor",
                 action: () => hb
                     .FieldSet(
                         css: " enclosed",
@@ -1844,15 +1844,15 @@ namespace Implem.Pleasanter.Models
                         action: () => hb
                             .FieldTextBox(
                                 textStyle: HtmlControls.TextStyles.File,
-                                controlId: "SiteSettings,NavSiteImage",
+                                controlId: "SiteSettings,SiteImage",
                                 fieldCss: "field-auto-thin",
                                 controlCss: " w400",
                                 labelText: Displays.File())
                             .Button(
-                                controlId: "SetNavSiteImage",
+                                controlId: "SetSiteImage",
                                 controlCss: "button-save",
                                 text: Displays.Setting(),
-                                onClick: Def.JavaScript.SetNavSiteImage,
+                                onClick: Def.JavaScript.SetSiteImage,
                                 action: "binaries/update",
                                 method: "post")));
         }

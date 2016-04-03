@@ -1406,8 +1406,8 @@ namespace Implem.DefinitionAccessor
                     case "_dot_nav_site_dot_to_upper_space_a": Css._dot_nav_site_dot_to_upper_space_a = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_dot_to_upper_space_a, definitionRow, CssXls); break;
                     case "_dot_nav_site_dot_to_upper_dot_has_image_space_a": Css._dot_nav_site_dot_to_upper_dot_has_image_space_a = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_dot_to_upper_dot_has_image_space_a, definitionRow, CssXls); break;
                     case "_dot_nav_site_dot_to_upper_space__dot_ui_icon": Css._dot_nav_site_dot_to_upper_space__dot_ui_icon = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_dot_to_upper_space__dot_ui_icon, definitionRow, CssXls); break;
-                    case "_dot_nav_site_space__dot_nav_site_thumbnail": Css._dot_nav_site_space__dot_nav_site_thumbnail = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_space__dot_nav_site_thumbnail, definitionRow, CssXls); break;
-                    case "_dot_nav_site_space__dot_nav_site_icon": Css._dot_nav_site_space__dot_nav_site_icon = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_space__dot_nav_site_icon, definitionRow, CssXls); break;
+                    case "_dot_site_image_thumbnail": Css._dot_site_image_thumbnail = definitionRow[1].ToString(); SetCssTable(CssTable._dot_site_image_thumbnail, definitionRow, CssXls); break;
+                    case "_dot_site_image_icon": Css._dot_site_image_icon = definitionRow[1].ToString(); SetCssTable(CssTable._dot_site_image_icon, definitionRow, CssXls); break;
                     case "_dot_login": Css._dot_login = definitionRow[1].ToString(); SetCssTable(CssTable._dot_login, definitionRow, CssXls); break;
                     case "_dot_login_commands": Css._dot_login_commands = definitionRow[1].ToString(); SetCssTable(CssTable._dot_login_commands, definitionRow, CssXls); break;
                     case "_dot_search_results": Css._dot_search_results = definitionRow[1].ToString(); SetCssTable(CssTable._dot_search_results, definitionRow, CssXls); break;
@@ -2236,8 +2236,8 @@ namespace Implem.DefinitionAccessor
                     case "ControlType_ja": Display.ControlType_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ControlType_ja, definitionRow, DisplayXls); break;
                     case "Spinner": Display.Spinner = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Spinner, definitionRow, DisplayXls); break;
                     case "Spinner_ja": Display.Spinner_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Spinner_ja, definitionRow, DisplayXls); break;
-                    case "NavSiteSettingsEditor": Display.NavSiteSettingsEditor = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.NavSiteSettingsEditor, definitionRow, DisplayXls); break;
-                    case "NavSiteSettingsEditor_ja": Display.NavSiteSettingsEditor_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.NavSiteSettingsEditor_ja, definitionRow, DisplayXls); break;
+                    case "SiteImageSettingsEditor": Display.SiteImageSettingsEditor = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SiteImageSettingsEditor, definitionRow, DisplayXls); break;
+                    case "SiteImageSettingsEditor_ja": Display.SiteImageSettingsEditor_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SiteImageSettingsEditor_ja, definitionRow, DisplayXls); break;
                     case "GridSettingsEditor": Display.GridSettingsEditor = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.GridSettingsEditor, definitionRow, DisplayXls); break;
                     case "GridSettingsEditor_ja": Display.GridSettingsEditor_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.GridSettingsEditor_ja, definitionRow, DisplayXls); break;
                     case "EditorSettingsEditor": Display.EditorSettingsEditor = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.EditorSettingsEditor, definitionRow, DisplayXls); break;
@@ -2505,7 +2505,7 @@ namespace Implem.DefinitionAccessor
                     case "Delete": JavaScript.Delete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.Delete, definitionRow, JavaScriptXls); break;
                     case "WindowScrollTopAndSubmit": JavaScript.WindowScrollTopAndSubmit = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.WindowScrollTopAndSubmit, definitionRow, JavaScriptXls); break;
                     case "Submit": JavaScript.Submit = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.Submit, definitionRow, JavaScriptXls); break;
-                    case "SetNavSiteImage": JavaScript.SetNavSiteImage = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.SetNavSiteImage, definitionRow, JavaScriptXls); break;
+                    case "SetSiteImage": JavaScript.SetSiteImage = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.SetSiteImage, definitionRow, JavaScriptXls); break;
                     case "NewByLink": JavaScript.NewByLink = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.NewByLink, definitionRow, JavaScriptXls); break;
                     case "OpenDialog_ColumnProperties": JavaScript.OpenDialog_ColumnProperties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.OpenDialog_ColumnProperties, definitionRow, JavaScriptXls); break;
                     case "EditOutgoingMail": JavaScript.EditOutgoingMail = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.EditOutgoingMail, definitionRow, JavaScriptXls); break;
@@ -5567,8 +5567,8 @@ namespace Implem.DefinitionAccessor
         public string _dot_nav_site_dot_to_upper_space_a;
         public string _dot_nav_site_dot_to_upper_dot_has_image_space_a;
         public string _dot_nav_site_dot_to_upper_space__dot_ui_icon;
-        public string _dot_nav_site_space__dot_nav_site_thumbnail;
-        public string _dot_nav_site_space__dot_nav_site_icon;
+        public string _dot_site_image_thumbnail;
+        public string _dot_site_image_icon;
         public string _dot_login;
         public string _dot_login_commands;
         public string _dot_search_results;
@@ -5895,8 +5895,8 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_nav_site_dot_to_upper_space_a = new CssDefinition();
         public CssDefinition _dot_nav_site_dot_to_upper_dot_has_image_space_a = new CssDefinition();
         public CssDefinition _dot_nav_site_dot_to_upper_space__dot_ui_icon = new CssDefinition();
-        public CssDefinition _dot_nav_site_space__dot_nav_site_thumbnail = new CssDefinition();
-        public CssDefinition _dot_nav_site_space__dot_nav_site_icon = new CssDefinition();
+        public CssDefinition _dot_site_image_thumbnail = new CssDefinition();
+        public CssDefinition _dot_site_image_icon = new CssDefinition();
         public CssDefinition _dot_login = new CssDefinition();
         public CssDefinition _dot_login_commands = new CssDefinition();
         public CssDefinition _dot_search_results = new CssDefinition();
@@ -6657,8 +6657,8 @@ namespace Implem.DefinitionAccessor
         public string ControlType_ja;
         public string Spinner;
         public string Spinner_ja;
-        public string NavSiteSettingsEditor;
-        public string NavSiteSettingsEditor_ja;
+        public string SiteImageSettingsEditor;
+        public string SiteImageSettingsEditor_ja;
         public string GridSettingsEditor;
         public string GridSettingsEditor_ja;
         public string EditorSettingsEditor;
@@ -7187,8 +7187,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition ControlType_ja = new DisplayDefinition();
         public DisplayDefinition Spinner = new DisplayDefinition();
         public DisplayDefinition Spinner_ja = new DisplayDefinition();
-        public DisplayDefinition NavSiteSettingsEditor = new DisplayDefinition();
-        public DisplayDefinition NavSiteSettingsEditor_ja = new DisplayDefinition();
+        public DisplayDefinition SiteImageSettingsEditor = new DisplayDefinition();
+        public DisplayDefinition SiteImageSettingsEditor_ja = new DisplayDefinition();
         public DisplayDefinition GridSettingsEditor = new DisplayDefinition();
         public DisplayDefinition GridSettingsEditor_ja = new DisplayDefinition();
         public DisplayDefinition EditorSettingsEditor = new DisplayDefinition();
@@ -7449,7 +7449,7 @@ namespace Implem.DefinitionAccessor
         public string Delete;
         public string WindowScrollTopAndSubmit;
         public string Submit;
-        public string SetNavSiteImage;
+        public string SetSiteImage;
         public string NewByLink;
         public string OpenDialog_ColumnProperties;
         public string EditOutgoingMail;
@@ -7482,7 +7482,7 @@ namespace Implem.DefinitionAccessor
         public JavaScriptDefinition Delete = new JavaScriptDefinition();
         public JavaScriptDefinition WindowScrollTopAndSubmit = new JavaScriptDefinition();
         public JavaScriptDefinition Submit = new JavaScriptDefinition();
-        public JavaScriptDefinition SetNavSiteImage = new JavaScriptDefinition();
+        public JavaScriptDefinition SetSiteImage = new JavaScriptDefinition();
         public JavaScriptDefinition NewByLink = new JavaScriptDefinition();
         public JavaScriptDefinition OpenDialog_ColumnProperties = new JavaScriptDefinition();
         public JavaScriptDefinition EditOutgoingMail = new JavaScriptDefinition();

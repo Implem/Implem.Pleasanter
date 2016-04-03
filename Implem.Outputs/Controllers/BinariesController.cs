@@ -17,20 +17,20 @@ namespace Implem.Pleasanter.Controllers
 
         [HttpGet]
         [OutputCache(Duration = 86400)]
-        public ActionResult NavSiteThumbnail(string reference, long id)
+        public ActionResult SiteImageThumbnail(string reference, long id)
         {
             var log = new SysLogModel();
-            var image = BinariesUtility.NavSiteThumbnail(id);
+            var image = BinariesUtility.SiteImageThumbnail(id);
             log.Finish(image.Length);
             return new FileContentResult(image, "image/png");
         }
 
         [HttpGet]
         [OutputCache(Duration = 86400)]
-        public ActionResult NavSiteIcon(string reference, long id)
+        public ActionResult SiteImageIcon(string reference, long id)
         {
             var log = new SysLogModel();
-            var image = BinariesUtility.NavSiteIcon(id);
+            var image = BinariesUtility.SiteImageIcon(id);
             log.Finish(image.Length);
             return new FileContentResult(image, "image/png");
         }

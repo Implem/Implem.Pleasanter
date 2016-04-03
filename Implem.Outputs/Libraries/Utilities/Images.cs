@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.Libraries.Utilities
     {
         public enum Types : int
         {
-            NavSite = 1
+            SiteImage = 1
         }
 
         public enum SizeTypes : int

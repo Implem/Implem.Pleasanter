@@ -346,8 +346,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ControlType(params string[] data) { return Get("ControlType", data); }
         public static HtmlBuilder Displays_Spinner(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Spinner", data)); }
         public static string Spinner(params string[] data) { return Get("Spinner", data); }
-        public static HtmlBuilder Displays_NavSiteSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NavSiteSettingsEditor", data)); }
-        public static string NavSiteSettingsEditor(params string[] data) { return Get("NavSiteSettingsEditor", data); }
+        public static HtmlBuilder Displays_SiteImageSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SiteImageSettingsEditor", data)); }
+        public static string SiteImageSettingsEditor(params string[] data) { return Get("SiteImageSettingsEditor", data); }
         public static HtmlBuilder Displays_GridSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("GridSettingsEditor", data)); }
         public static string GridSettingsEditor(params string[] data) { return Get("GridSettingsEditor", data); }
         public static HtmlBuilder Displays_EditorSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EditorSettingsEditor", data)); }
