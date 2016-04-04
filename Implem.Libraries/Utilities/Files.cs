@@ -185,6 +185,7 @@ namespace Implem.Libraries.Utilities
         {
             var sourceFile = new FileInfo(sourcePath);
             var path = Path.Combine(tempPath, Strings.NewGuid() + sourceFile.Extension);
+            if (!new DirectoryInfo(tempPath).Exists) Directory.CreateDirectory(tempPath);
             sourceFile.CopyTo(path);
             return path;
         }
@@ -197,9 +198,10 @@ namespace Implem.Libraries.Utilities
             return new FileInfo(tempPath);
         }
 
-        public static void DeleteHistoryFile(string directoryPath, int timeElapsed)
+        public static void DeleteHistoryFile(string historyPath, int timeElapsed)
         {
-            Directory.EnumerateFiles(directoryPath).ForEach(filePath =>
+            if (!new DirectoryInfo(historyPath).Exists) Directory.CreateDirectory(historyPath);
+            Directory.EnumerateFiles(historyPath).ForEach(filePath =>
             {
                 var fileInfo = new FileInfo(filePath);
                 if ((DateTime.Now - fileInfo.LastWriteTime).TotalMinutes > timeElapsed)
