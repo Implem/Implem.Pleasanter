@@ -228,7 +228,14 @@ namespace Implem.Pleasanter.Models
                         where: Rds.OutgoingMailsWhereDefault(this)
                             .UpdatedTime(timestamp, _using: timestamp.NotZero()),
                         param: param ?? Rds.OutgoingMailsParamDefault(this, paramAll: paramAll),
-                        countRecord: true)
+                        countRecord: true),
+                    Rds.Conditions("@@rowcount = 1"),
+                    Rds.UpdateItems(
+                        where: Rds.ItemsWhere()
+                            .ReferenceType(ReferenceType)
+                            .ReferenceId(ReferenceId),
+                        param: Rds.ItemsParam().UpdateTarget(1)),
+                    Rds.End()
                 });
             if (count == 0) return ResponseConflicts();
             Get();

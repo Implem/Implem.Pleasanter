@@ -296,6 +296,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_ValidateBeforeUpdate": Code.Model_ValidateBeforeUpdate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidateBeforeUpdate, definitionRow, CodeXls); break;
                     case "Model_ValidateBeforeUpdateCases": Code.Model_ValidateBeforeUpdateCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidateBeforeUpdateCases, definitionRow, CodeXls); break;
                     case "Model_UpdateItems": Code.Model_UpdateItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateItems, definitionRow, CodeXls); break;
+                    case "Model_UpdateItems_OutgoingMails": Code.Model_UpdateItems_OutgoingMails = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateItems_OutgoingMails, definitionRow, CodeXls); break;
                     case "Model_SynchronizeSummaryExecute": Code.Model_SynchronizeSummaryExecute = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SynchronizeSummaryExecute, definitionRow, CodeXls); break;
                     case "Model_SynchronizeSummary": Code.Model_SynchronizeSummary = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SynchronizeSummary, definitionRow, CodeXls); break;
                     case "Model_SynchronizeSummaryColumnCases": Code.Model_SynchronizeSummaryColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SynchronizeSummaryColumnCases, definitionRow, CodeXls); break;
@@ -3463,6 +3464,7 @@ namespace Implem.DefinitionAccessor
         public string Model_ValidateBeforeUpdate;
         public string Model_ValidateBeforeUpdateCases;
         public string Model_UpdateItems;
+        public string Model_UpdateItems_OutgoingMails;
         public string Model_SynchronizeSummaryExecute;
         public string Model_SynchronizeSummary;
         public string Model_SynchronizeSummaryColumnCases;
@@ -3806,6 +3808,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ValidateBeforeUpdate = new CodeDefinition();
         public CodeDefinition Model_ValidateBeforeUpdateCases = new CodeDefinition();
         public CodeDefinition Model_UpdateItems = new CodeDefinition();
+        public CodeDefinition Model_UpdateItems_OutgoingMails = new CodeDefinition();
         public CodeDefinition Model_SynchronizeSummaryExecute = new CodeDefinition();
         public CodeDefinition Model_SynchronizeSummary = new CodeDefinition();
         public CodeDefinition Model_SynchronizeSummaryColumnCases = new CodeDefinition();

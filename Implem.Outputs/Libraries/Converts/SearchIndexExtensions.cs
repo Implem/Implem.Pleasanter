@@ -1,7 +1,9 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.ServerData;
 using Implem.Pleasanter.Libraries.Utilities;
+using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Converts
@@ -45,6 +47,26 @@ namespace Implem.Pleasanter.Libraries.Converts
                 searchIndexHash,
                 self.Select(o => SiteInfo.UserFullName(o.Creator) + " " + o.Body).Join(" "),
                 searchPriority);
+        }
+
+        public static void OutgoingMailsSearchIndexes(
+            Dictionary<string, int> searchIndexHash,
+            string referenceType,
+            long referenceId)
+        {
+            new OutgoingMailCollection(where: Rds.OutgoingMailsWhere()
+                .ReferenceType(referenceType)
+                .ReferenceId(referenceId)).Select(o => " ".JoinParam(
+                    o.From.ToString(),
+                    o.To,
+                    o.Cc,
+                    o.Bcc,
+                    o.Title.Value,
+                    o.Body)).Join(" ")
+                        .SearchIndexes(createIndex: true)
+                        .Distinct()
+                        .ForEach(searchIndex =>
+                           Update(searchIndexHash, searchIndex, 300));
         }
 
         private static void SearchIndexes(

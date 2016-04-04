@@ -811,6 +811,7 @@ namespace Implem.Pleasanter.Models
             Comments.SearchIndexes(ref searchIndexHash, 200);
             Creator.SearchIndexes(ref searchIndexHash, 100);
             Updator.SearchIndexes(ref searchIndexHash, 100);
+            SearchIndexExtensions.OutgoingMailsSearchIndexes(searchIndexHash, "Wikis", WikiId);
             return searchIndexHash;
         }
     }
