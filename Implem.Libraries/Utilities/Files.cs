@@ -183,9 +183,8 @@ namespace Implem.Libraries.Utilities
 
         public static string CopyToTemp(string sourcePath, string tempPath)
         {
-            var path = string.Empty;
             var sourceFile = new FileInfo(sourcePath);
-            path = Path.Combine(tempPath, Strings.NewGuid() + sourceFile.Extension);
+            var path = Path.Combine(tempPath, Strings.NewGuid() + sourceFile.Extension);
             sourceFile.CopyTo(path);
             return path;
         }
