@@ -1076,22 +1076,22 @@ namespace Implem.Pleasanter.Models
         public Dictionary<string, int> SearchIndexCollection()
         {
             var searchIndexHash = new Dictionary<string, int>();
-            ResultId.SearchIndexes(ref searchIndexHash, 1);
-            Body.SearchIndexes(ref searchIndexHash, 200);
-            Title.SearchIndexes(ref searchIndexHash, 4);
-            Manager.SearchIndexes(ref searchIndexHash, 100);
-            Owner.SearchIndexes(ref searchIndexHash, 100);
-            ClassA.SearchIndexes(ref searchIndexHash, 200);
-            ClassB.SearchIndexes(ref searchIndexHash, 200);
-            ClassC.SearchIndexes(ref searchIndexHash, 200);
-            ClassD.SearchIndexes(ref searchIndexHash, 200);
-            ClassE.SearchIndexes(ref searchIndexHash, 200);
-            ClassF.SearchIndexes(ref searchIndexHash, 200);
-            ClassG.SearchIndexes(ref searchIndexHash, 200);
-            ClassH.SearchIndexes(ref searchIndexHash, 200);
-            Comments.SearchIndexes(ref searchIndexHash, 200);
-            Creator.SearchIndexes(ref searchIndexHash, 100);
-            Updator.SearchIndexes(ref searchIndexHash, 100);
+            ResultId.SearchIndexes(searchIndexHash, 1);
+            Body.SearchIndexes(searchIndexHash, 200);
+            Title.SearchIndexes(searchIndexHash, 4);
+            Manager.SearchIndexes(searchIndexHash, 100);
+            Owner.SearchIndexes(searchIndexHash, 100);
+            ClassA.SearchIndexes(searchIndexHash, 200);
+            ClassB.SearchIndexes(searchIndexHash, 200);
+            ClassC.SearchIndexes(searchIndexHash, 200);
+            ClassD.SearchIndexes(searchIndexHash, 200);
+            ClassE.SearchIndexes(searchIndexHash, 200);
+            ClassF.SearchIndexes(searchIndexHash, 200);
+            ClassG.SearchIndexes(searchIndexHash, 200);
+            ClassH.SearchIndexes(searchIndexHash, 200);
+            Comments.SearchIndexes(searchIndexHash, 200);
+            Creator.SearchIndexes(searchIndexHash, 100);
+            Updator.SearchIndexes(searchIndexHash, 100);
             SearchIndexExtensions.OutgoingMailsSearchIndexes(searchIndexHash, "Results", ResultId);
             return searchIndexHash;
         }

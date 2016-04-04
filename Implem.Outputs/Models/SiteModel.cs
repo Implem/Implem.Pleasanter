@@ -1130,11 +1130,11 @@ namespace Implem.Pleasanter.Models
         public Dictionary<string, int> SearchIndexCollection()
         {
             var searchIndexHash = new Dictionary<string, int>();
-            Title.SearchIndexes(ref searchIndexHash, 4);
-            Body.SearchIndexes(ref searchIndexHash, 200);
-            Comments.SearchIndexes(ref searchIndexHash, 200);
-            Creator.SearchIndexes(ref searchIndexHash, 100);
-            Updator.SearchIndexes(ref searchIndexHash, 100);
+            Title.SearchIndexes(searchIndexHash, 4);
+            Body.SearchIndexes(searchIndexHash, 200);
+            Comments.SearchIndexes(searchIndexHash, 200);
+            Creator.SearchIndexes(searchIndexHash, 100);
+            Updator.SearchIndexes(searchIndexHash, 100);
             SearchIndexExtensions.OutgoingMailsSearchIndexes(searchIndexHash, "Sites", SiteId);
             return searchIndexHash;
         }

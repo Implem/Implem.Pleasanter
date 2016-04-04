@@ -11,37 +11,37 @@ namespace Implem.Pleasanter.Libraries.Converts
     public static class SearchIndexExtensions
     {
         public static void SearchIndexes(
-            this int self, ref Dictionary<string, int> searchIndexHash, int searchPriority)
+            this int self, Dictionary<string, int> searchIndexHash, int searchPriority)
         {
             Update(searchIndexHash, self.ToString(), searchPriority);
         }
 
         public static void SearchIndexes(
-            this long self, ref Dictionary<string, int> searchIndexHash, int searchPriority)
+            this long self, Dictionary<string, int> searchIndexHash, int searchPriority)
         {
             Update(searchIndexHash, self.ToString(), searchPriority);
         }
 
         public static void SearchIndexes(
-            this string self, ref Dictionary<string, int> searchIndexHash, int searchPriority)
+            this string self, Dictionary<string, int> searchIndexHash, int searchPriority)
         {
             SearchIndexes(searchIndexHash, self, searchPriority);
         }
 
         public static void SearchIndexes(
-            this Title self, ref Dictionary<string, int> searchIndexHash, int searchPriority)
+            this Title self, Dictionary<string, int> searchIndexHash, int searchPriority)
         {
             SearchIndexes(searchIndexHash, self.Value, searchPriority);
         }
 
         public static void SearchIndexes(
-            this User self, ref Dictionary<string, int> searchIndexHash, int searchPriority)
+            this User self, Dictionary<string, int> searchIndexHash, int searchPriority)
         {
             SearchIndexes(searchIndexHash, self.FullName, searchPriority);
         }
 
         public static void SearchIndexes(
-            this Comments self, ref Dictionary<string, int> searchIndexHash, int searchPriority)
+            this Comments self, Dictionary<string, int> searchIndexHash, int searchPriority)
         {
             SearchIndexes(
                 searchIndexHash,
