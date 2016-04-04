@@ -1452,6 +1452,7 @@ namespace Implem.Pleasanter.Models
                                     Menu(0).ForEach(siteModelChild => hb
                                         .SiteMenu(
                                             siteSettings: siteSettings,
+                                            permissionType: permissionType,
                                             siteId: siteModelChild.SiteId,
                                             referenceType: siteModelChild.ReferenceType,
                                             title: siteModelChild.Title.Value))))
@@ -1497,6 +1498,7 @@ namespace Implem.Pleasanter.Models
                                     Menu(siteSettings.SiteId).ForEach(siteModelChild => hb
                                         .SiteMenu(
                                             siteSettings: siteSettings,
+                                            permissionType: siteModel.PermissionType,
                                             siteId: siteModelChild.SiteId,
                                             referenceType: siteModelChild.ReferenceType,
                                             title: siteModelChild.Title.Value))))
@@ -1536,6 +1538,7 @@ namespace Implem.Pleasanter.Models
             return siteModel.SiteId != 0
                 ? hb.SiteMenu(
                     siteSettings: siteModel.SiteSettings,
+                    permissionType: siteModel.PermissionType,
                     siteId: siteModel.ParentId,
                     referenceType: "Sites",
                     title: Displays.ToUpper(),
@@ -1549,15 +1552,14 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder SiteMenu(
             this HtmlBuilder hb,
             SiteSettings siteSettings,
+            Permissions.Types permissionType,
             long siteId,
             string referenceType,
             string title,
             bool toUpper = false)
         {
-            var hasImage = Images.Exists(
-                siteId,
-                Images.Types.SiteImage,
-                Images.SizeTypes.Thumbnail);
+            var binaryModel = new BinaryModel(permissionType, siteId);
+            var hasImage = binaryModel.ExistsSiteImage(ImageData.SizeTypes.Thumbnail);
             return hb.Li(
                 attributes: Html.Attributes()
                     .Class(CssClasses.Get("nav-site " + referenceType.ToLower() +
@@ -1575,10 +1577,6 @@ namespace Implem.Pleasanter.Models
                             .Href(SiteHref(siteSettings, siteId, referenceType)),
                         action: () =>
                         {
-                            var urlPrefix = Images.UrlPrefix(
-                                siteId,
-                                Images.Types.SiteImage,
-                                Images.SizeTypes.Thumbnail);
                             if (toUpper)
                             {
                                 if (hasImage)
@@ -1590,7 +1588,8 @@ namespace Implem.Pleasanter.Models
                                                 siteId.ToString(),
                                                 "Binaries",
                                                 "SiteImageIcon",
-                                                urlPrefix),
+                                                binaryModel.SiteImagePrefix(
+                                                    ImageData.SizeTypes.Thumbnail)),
                                             css: "site-image-icon")
                                         .Span(css: "title", action: () => hb
                                             .Text(title));
@@ -1613,7 +1612,8 @@ namespace Implem.Pleasanter.Models
                                             siteId.ToString(),
                                             "Binaries",
                                             "SiteImageThumbnail",
-                                            urlPrefix),
+                                            binaryModel.SiteImagePrefix(
+                                                ImageData.SizeTypes.Thumbnail)),
                                         css: "site-image-thumbnail");
                                 }
                                 hb.Span(css: "title", action: () => hb
@@ -1853,7 +1853,7 @@ namespace Implem.Pleasanter.Models
                                 controlCss: "button-save",
                                 text: Displays.Setting(),
                                 onClick: Def.JavaScript.SetSiteImage,
-                                action: "binaries/update",
+                                action: "binaries/updatesiteimage",
                                 method: "post")));
         }
 

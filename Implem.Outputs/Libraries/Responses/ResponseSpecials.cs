@@ -794,6 +794,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static BinariesResponseCollection Ver(this BinariesResponseCollection responseCollection, string value) { return responseCollection.Val("#Binaries_Ver", value); }
         public static BinariesResponseCollection Ver_FormData(this BinariesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Binaries_Ver", responseCollection.BinaryModel.Ver.ToResponse()); }
         public static BinariesResponseCollection Ver_FormData(this BinariesResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Binaries_Ver", value); }
+        public static BinariesResponseCollection BinaryType(this BinariesResponseCollection responseCollection) { return responseCollection.Val("#Binaries_BinaryType", responseCollection.BinaryModel.BinaryType.ToResponse()); }
+        public static BinariesResponseCollection BinaryType(this BinariesResponseCollection responseCollection, string value) { return responseCollection.Val("#Binaries_BinaryType", value); }
+        public static BinariesResponseCollection BinaryType_FormData(this BinariesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Binaries_BinaryType", responseCollection.BinaryModel.BinaryType.ToResponse()); }
+        public static BinariesResponseCollection BinaryType_FormData(this BinariesResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Binaries_BinaryType", value); }
         public static BinariesResponseCollection Title(this BinariesResponseCollection responseCollection) { return responseCollection.Val("#Binaries_Title", responseCollection.BinaryModel.Title.ToResponse()); }
         public static BinariesResponseCollection Title(this BinariesResponseCollection responseCollection, string value) { return responseCollection.Val("#Binaries_Title", value); }
         public static BinariesResponseCollection Title_FormData(this BinariesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Binaries_Title", responseCollection.BinaryModel.Title.ToResponse()); }
@@ -810,6 +814,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static BinariesResponseCollection Extension(this BinariesResponseCollection responseCollection, string value) { return responseCollection.Val("#Binaries_Extension", value); }
         public static BinariesResponseCollection Extension_FormData(this BinariesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Binaries_Extension", responseCollection.BinaryModel.Extension.ToResponse()); }
         public static BinariesResponseCollection Extension_FormData(this BinariesResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Binaries_Extension", value); }
+        public static BinariesResponseCollection Size(this BinariesResponseCollection responseCollection) { return responseCollection.Val("#Binaries_Size", responseCollection.BinaryModel.Size.ToResponse()); }
+        public static BinariesResponseCollection Size(this BinariesResponseCollection responseCollection, string value) { return responseCollection.Val("#Binaries_Size", value); }
+        public static BinariesResponseCollection Size_FormData(this BinariesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Binaries_Size", responseCollection.BinaryModel.Size.ToResponse()); }
+        public static BinariesResponseCollection Size_FormData(this BinariesResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Binaries_Size", value); }
         public static BinariesResponseCollection CreatedTime(this BinariesResponseCollection responseCollection) { return responseCollection.Val("#Binaries_CreatedTime", responseCollection.BinaryModel.CreatedTime.ToResponse()); }
         public static BinariesResponseCollection CreatedTime(this BinariesResponseCollection responseCollection, string value) { return responseCollection.Val("#Binaries_CreatedTime", value); }
         public static BinariesResponseCollection CreatedTime_FormData(this BinariesResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Binaries_CreatedTime", responseCollection.BinaryModel.CreatedTime.ToResponse()); }

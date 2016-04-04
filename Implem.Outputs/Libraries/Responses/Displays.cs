@@ -874,12 +874,18 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Binaries_ReferenceId(params string[] data) { return Get("Binaries_ReferenceId", data); }
         public static HtmlBuilder Displays_Binaries_BinaryId(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_BinaryId", data)); }
         public static string Binaries_BinaryId(params string[] data) { return Get("Binaries_BinaryId", data); }
+        public static HtmlBuilder Displays_Binaries_BinaryType(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_BinaryType", data)); }
+        public static string Binaries_BinaryType(params string[] data) { return Get("Binaries_BinaryType", data); }
         public static HtmlBuilder Displays_Binaries_Title(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_Title", data)); }
         public static string Binaries_Title(params string[] data) { return Get("Binaries_Title", data); }
         public static HtmlBuilder Displays_Binaries_Body(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_Body", data)); }
         public static string Binaries_Body(params string[] data) { return Get("Binaries_Body", data); }
         public static HtmlBuilder Displays_Binaries_Bin(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_Bin", data)); }
         public static string Binaries_Bin(params string[] data) { return Get("Binaries_Bin", data); }
+        public static HtmlBuilder Displays_Binaries_Thumbnail(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_Thumbnail", data)); }
+        public static string Binaries_Thumbnail(params string[] data) { return Get("Binaries_Thumbnail", data); }
+        public static HtmlBuilder Displays_Binaries_Icon(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_Icon", data)); }
+        public static string Binaries_Icon(params string[] data) { return Get("Binaries_Icon", data); }
         public static HtmlBuilder Displays_Binaries_FileName(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_FileName", data)); }
         public static string Binaries_FileName(params string[] data) { return Get("Binaries_FileName", data); }
         public static HtmlBuilder Displays_Binaries_Extension(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Binaries_Extension", data)); }

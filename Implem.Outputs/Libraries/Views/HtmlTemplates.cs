@@ -44,7 +44,7 @@ namespace Implem.Pleasanter.Libraries.Views
                                 useNavigationButtons: useNavigationButtons));
                         if (useTitle)
                         {
-                            hb.Title(text: title, siteId: siteId);
+                            hb.Title(permissionType: permissionType, siteId: siteId, text: title);
                         }
                         action();
                         if (verType != Versions.VerTypes.Latest &&
@@ -88,9 +88,13 @@ namespace Implem.Pleasanter.Libraries.Views
         }
 
         private static HtmlBuilder Title(
-            this HtmlBuilder hb, string text, long siteId)
+            this HtmlBuilder hb,
+            Permissions.Types permissionType,
+            long siteId,
+            string text)
         {
-            if (Images.Exists(siteId, Images.Types.SiteImage, Images.SizeTypes.Icon))
+            var binaryModel = new BinaryModel(permissionType, siteId);
+            if (binaryModel.ExistsSiteImage(ImageData.SizeTypes.Icon))
             {
                 hb.Img(
                     src: Navigations.Get(
@@ -98,10 +102,7 @@ namespace Implem.Pleasanter.Libraries.Views
                         siteId.ToString(),
                         "Binaries",
                         "SiteImageIcon",
-                        Images.UrlPrefix(
-                            siteId,
-                            Images.Types.SiteImage,
-                            Images.SizeTypes.Icon)),
+                        binaryModel.SiteImagePrefix(ImageData.SizeTypes.Icon)),
                     css: "site-image-icon");
             }
             return text != string.Empty

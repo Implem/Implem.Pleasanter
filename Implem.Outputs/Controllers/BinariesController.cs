@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Models;
+﻿using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Models;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
@@ -20,9 +21,17 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult SiteImageThumbnail(string reference, long id)
         {
             var log = new SysLogModel();
-            var image = BinariesUtility.SiteImageThumbnail(id);
-            log.Finish(image.Length);
-            return new FileContentResult(image, "image/png");
+            if (reference.ToLower() == "items")
+            {
+                var bytes = new BinaryModel(new SiteModel(id)).SiteImageThumbnail();
+                log.Finish(bytes.Length);
+                return new FileContentResult(bytes, "image/png");
+            }
+            else
+            {
+                log.Finish(0);
+                return null;
+            }
         }
 
         [HttpGet]
@@ -30,16 +39,26 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult SiteImageIcon(string reference, long id)
         {
             var log = new SysLogModel();
-            var image = BinariesUtility.SiteImageIcon(id);
-            log.Finish(image.Length);
-            return new FileContentResult(image, "image/png");
+            if (reference.ToLower() == "items")
+            {
+                var bytes = new BinaryModel(new SiteModel(id)).SiteImageIcon();
+                log.Finish(bytes.Length);
+                return new FileContentResult(bytes, "image/png");
+            }
+            else
+            {
+                log.Finish(0);
+                return null;
+            }
         }
 
         [HttpPost]
-        public string Update(string reference, long id)
+        public string UpdateSiteImage(string reference, long id)
         {
             var log = new SysLogModel();
-            var json = BinariesUtility.Update(id);
+            var json = reference.ToLower() == "items"
+                ? new BinaryModel(new SiteModel(id)).UpdateSiteImage()
+                : new ResponseCollection().ToJson();
             log.Finish(0);
             return json;
         }

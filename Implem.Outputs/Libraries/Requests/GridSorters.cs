@@ -270,9 +270,12 @@ namespace Implem.Pleasanter.Libraries.Requests
                     case "GridSorters_Binaries_ReferenceId": orderBy.Binaries_ReferenceId(type); break;
                     case "GridSorters_Binaries_BinaryId": orderBy.Binaries_BinaryId(type); break;
                     case "GridSorters_Binaries_Ver": orderBy.Binaries_Ver(type); break;
+                    case "GridSorters_Binaries_BinaryType": orderBy.Binaries_BinaryType(type); break;
                     case "GridSorters_Binaries_Title": orderBy.Binaries_Title(type); break;
                     case "GridSorters_Binaries_Body": orderBy.Binaries_Body(type); break;
                     case "GridSorters_Binaries_Bin": orderBy.Binaries_Bin(type); break;
+                    case "GridSorters_Binaries_Thumbnail": orderBy.Binaries_Thumbnail(type); break;
+                    case "GridSorters_Binaries_Icon": orderBy.Binaries_Icon(type); break;
                     case "GridSorters_Binaries_FileName": orderBy.Binaries_FileName(type); break;
                     case "GridSorters_Binaries_Extension": orderBy.Binaries_Extension(type); break;
                     case "GridSorters_Binaries_Size": orderBy.Binaries_Size(type); break;

@@ -327,9 +327,12 @@ namespace Implem.Pleasanter.Libraries.Requests
                     case "DataViewFilters_Binaries_ReferenceId": where.Binaries_ReferenceId(formData[key], "t0"); break;
                     case "DataViewFilters_Binaries_BinaryId": where.Binaries_BinaryId(formData[key], "t0"); break;
                     case "DataViewFilters_Binaries_Ver": where.Binaries_Ver(formData[key], "t0"); break;
+                    case "DataViewFilters_Binaries_BinaryType": where.Binaries_BinaryType(formData[key], "t0"); break;
                     case "DataViewFilters_Binaries_Title": where.Binaries_Title(formData[key], "t0"); break;
                     case "DataViewFilters_Binaries_Body": where.Binaries_Body(formData[key], "t0"); break;
                     case "DataViewFilters_Binaries_Bin": where.Binaries_Bin(formData[key], "t0"); break;
+                    case "DataViewFilters_Binaries_Thumbnail": where.Binaries_Thumbnail(formData[key], "t0"); break;
+                    case "DataViewFilters_Binaries_Icon": where.Binaries_Icon(formData[key], "t0"); break;
                     case "DataViewFilters_Binaries_FileName": where.Binaries_FileName(formData[key], "t0"); break;
                     case "DataViewFilters_Binaries_Extension": where.Binaries_Extension(formData[key], "t0"); break;
                     case "DataViewFilters_Binaries_Size": where.Binaries_Size(formData[key], "t0"); break;

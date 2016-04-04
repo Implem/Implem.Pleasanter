@@ -919,9 +919,12 @@ namespace Implem.DefinitionAccessor
                     case "Links_SiteTitle": Column.Links_SiteTitle = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Links_SiteTitle, definitionRow, ColumnXls); break;
                     case "Binaries_ReferenceId": Column.Binaries_ReferenceId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_ReferenceId, definitionRow, ColumnXls); break;
                     case "Binaries_BinaryId": Column.Binaries_BinaryId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_BinaryId, definitionRow, ColumnXls); break;
+                    case "Binaries_BinaryType": Column.Binaries_BinaryType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_BinaryType, definitionRow, ColumnXls); break;
                     case "Binaries_Title": Column.Binaries_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Title, definitionRow, ColumnXls); break;
                     case "Binaries_Body": Column.Binaries_Body = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Body, definitionRow, ColumnXls); break;
                     case "Binaries_Bin": Column.Binaries_Bin = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Bin, definitionRow, ColumnXls); break;
+                    case "Binaries_Thumbnail": Column.Binaries_Thumbnail = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Thumbnail, definitionRow, ColumnXls); break;
+                    case "Binaries_Icon": Column.Binaries_Icon = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Icon, definitionRow, ColumnXls); break;
                     case "Binaries_FileName": Column.Binaries_FileName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_FileName, definitionRow, ColumnXls); break;
                     case "Binaries_Extension": Column.Binaries_Extension = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Extension, definitionRow, ColumnXls); break;
                     case "Binaries_Size": Column.Binaries_Size = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Size, definitionRow, ColumnXls); break;
@@ -1406,8 +1409,8 @@ namespace Implem.DefinitionAccessor
                     case "_dot_nav_site_dot_to_upper_space_a": Css._dot_nav_site_dot_to_upper_space_a = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_dot_to_upper_space_a, definitionRow, CssXls); break;
                     case "_dot_nav_site_dot_to_upper_dot_has_image_space_a": Css._dot_nav_site_dot_to_upper_dot_has_image_space_a = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_dot_to_upper_dot_has_image_space_a, definitionRow, CssXls); break;
                     case "_dot_nav_site_dot_to_upper_space__dot_ui_icon": Css._dot_nav_site_dot_to_upper_space__dot_ui_icon = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_dot_to_upper_space__dot_ui_icon, definitionRow, CssXls); break;
-                    case "_dot_site_image_thumbnail": Css._dot_site_image_thumbnail = definitionRow[1].ToString(); SetCssTable(CssTable._dot_site_image_thumbnail, definitionRow, CssXls); break;
-                    case "_dot_site_image_icon": Css._dot_site_image_icon = definitionRow[1].ToString(); SetCssTable(CssTable._dot_site_image_icon, definitionRow, CssXls); break;
+                    case "_dot_nav_site_space__dot_site_image_thumbnail": Css._dot_nav_site_space__dot_site_image_thumbnail = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_space__dot_site_image_thumbnail, definitionRow, CssXls); break;
+                    case "_dot_nav_site_space__dot_site_image_icon": Css._dot_nav_site_space__dot_site_image_icon = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_space__dot_site_image_icon, definitionRow, CssXls); break;
                     case "_dot_login": Css._dot_login = definitionRow[1].ToString(); SetCssTable(CssTable._dot_login, definitionRow, CssXls); break;
                     case "_dot_login_commands": Css._dot_login_commands = definitionRow[1].ToString(); SetCssTable(CssTable._dot_login_commands, definitionRow, CssXls); break;
                     case "_dot_search_results": Css._dot_search_results = definitionRow[1].ToString(); SetCssTable(CssTable._dot_search_results, definitionRow, CssXls); break;
@@ -1426,7 +1429,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_error_page_action_space_em": Css._dot_error_page_action_space_em = definitionRow[1].ToString(); SetCssTable(CssTable._dot_error_page_action_space_em, definitionRow, CssXls); break;
                     case "_dot_error_page_stacktrace": Css._dot_error_page_stacktrace = definitionRow[1].ToString(); SetCssTable(CssTable._dot_error_page_stacktrace, definitionRow, CssXls); break;
                     case "_sharp_application": Css._sharp_application = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_application, definitionRow, CssXls); break;
-                    case "_sharp_application_space___space__dot_nav_site_icon": Css._sharp_application_space___space__dot_nav_site_icon = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_application_space___space__dot_nav_site_icon, definitionRow, CssXls); break;
+                    case "_sharp_application_space___space__dot_site_image_icon": Css._sharp_application_space___space__dot_site_image_icon = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_application_space___space__dot_site_image_icon, definitionRow, CssXls); break;
                     case "_dot_application_title": Css._dot_application_title = definitionRow[1].ToString(); SetCssTable(CssTable._dot_application_title, definitionRow, CssXls); break;
                     case "_dot_application_title_space___space__asterisk_": Css._dot_application_title_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_application_title_space___space__asterisk_, definitionRow, CssXls); break;
                     case "_dot_record_header": Css._dot_record_header = definitionRow[1].ToString(); SetCssTable(CssTable._dot_record_header, definitionRow, CssXls); break;
@@ -4643,9 +4646,12 @@ namespace Implem.DefinitionAccessor
         public string Links_SiteTitle;
         public string Binaries_ReferenceId;
         public string Binaries_BinaryId;
+        public string Binaries_BinaryType;
         public string Binaries_Title;
         public string Binaries_Body;
         public string Binaries_Bin;
+        public string Binaries_Thumbnail;
+        public string Binaries_Icon;
         public string Binaries_FileName;
         public string Binaries_Extension;
         public string Binaries_Size;
@@ -5045,9 +5051,12 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Links_SiteTitle = new ColumnDefinition();
         public ColumnDefinition Binaries_ReferenceId = new ColumnDefinition();
         public ColumnDefinition Binaries_BinaryId = new ColumnDefinition();
+        public ColumnDefinition Binaries_BinaryType = new ColumnDefinition();
         public ColumnDefinition Binaries_Title = new ColumnDefinition();
         public ColumnDefinition Binaries_Body = new ColumnDefinition();
         public ColumnDefinition Binaries_Bin = new ColumnDefinition();
+        public ColumnDefinition Binaries_Thumbnail = new ColumnDefinition();
+        public ColumnDefinition Binaries_Icon = new ColumnDefinition();
         public ColumnDefinition Binaries_FileName = new ColumnDefinition();
         public ColumnDefinition Binaries_Extension = new ColumnDefinition();
         public ColumnDefinition Binaries_Size = new ColumnDefinition();
@@ -5567,8 +5576,8 @@ namespace Implem.DefinitionAccessor
         public string _dot_nav_site_dot_to_upper_space_a;
         public string _dot_nav_site_dot_to_upper_dot_has_image_space_a;
         public string _dot_nav_site_dot_to_upper_space__dot_ui_icon;
-        public string _dot_site_image_thumbnail;
-        public string _dot_site_image_icon;
+        public string _dot_nav_site_space__dot_site_image_thumbnail;
+        public string _dot_nav_site_space__dot_site_image_icon;
         public string _dot_login;
         public string _dot_login_commands;
         public string _dot_search_results;
@@ -5587,7 +5596,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_error_page_action_space_em;
         public string _dot_error_page_stacktrace;
         public string _sharp_application;
-        public string _sharp_application_space___space__dot_nav_site_icon;
+        public string _sharp_application_space___space__dot_site_image_icon;
         public string _dot_application_title;
         public string _dot_application_title_space___space__asterisk_;
         public string _dot_record_header;
@@ -5895,8 +5904,8 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_nav_site_dot_to_upper_space_a = new CssDefinition();
         public CssDefinition _dot_nav_site_dot_to_upper_dot_has_image_space_a = new CssDefinition();
         public CssDefinition _dot_nav_site_dot_to_upper_space__dot_ui_icon = new CssDefinition();
-        public CssDefinition _dot_site_image_thumbnail = new CssDefinition();
-        public CssDefinition _dot_site_image_icon = new CssDefinition();
+        public CssDefinition _dot_nav_site_space__dot_site_image_thumbnail = new CssDefinition();
+        public CssDefinition _dot_nav_site_space__dot_site_image_icon = new CssDefinition();
         public CssDefinition _dot_login = new CssDefinition();
         public CssDefinition _dot_login_commands = new CssDefinition();
         public CssDefinition _dot_search_results = new CssDefinition();
@@ -5915,7 +5924,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_error_page_action_space_em = new CssDefinition();
         public CssDefinition _dot_error_page_stacktrace = new CssDefinition();
         public CssDefinition _sharp_application = new CssDefinition();
-        public CssDefinition _sharp_application_space___space__dot_nav_site_icon = new CssDefinition();
+        public CssDefinition _sharp_application_space___space__dot_site_image_icon = new CssDefinition();
         public CssDefinition _dot_application_title = new CssDefinition();
         public CssDefinition _dot_application_title_space___space__asterisk_ = new CssDefinition();
         public CssDefinition _dot_record_header = new CssDefinition();

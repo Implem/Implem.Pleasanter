@@ -26,27 +26,36 @@ namespace Implem.Pleasanter.Models
     {
         public long ReferenceId = 0;
         public long BinaryId = 0;
+        public string BinaryType = string.Empty;
         public Title Title = new Title();
         public string Body = string.Empty;
         public byte[] Bin = null;
+        public byte[] Thumbnail = null;
+        public byte[] Icon = null;
         public string FileName = string.Empty;
         public string Extension = string.Empty;
         public int Size = 0;
         public BinarySettings BinarySettings = new BinarySettings();
         public long SavedReferenceId = 0;
         public long SavedBinaryId = 0;
+        public string SavedBinaryType = string.Empty;
         public string SavedTitle = string.Empty;
         public string SavedBody = string.Empty;
         public byte[] SavedBin = null;
+        public byte[] SavedThumbnail = null;
+        public byte[] SavedIcon = null;
         public string SavedFileName = string.Empty;
         public string SavedExtension = string.Empty;
         public int SavedSize = 0;
         public string SavedBinarySettings = string.Empty;
         public bool ReferenceId_Updated { get { return ReferenceId != SavedReferenceId; } }
         public bool BinaryId_Updated { get { return BinaryId != SavedBinaryId; } }
+        public bool BinaryType_Updated { get { return BinaryType != SavedBinaryType && BinaryType != null; } }
         public bool Title_Updated { get { return Title.Value != SavedTitle && Title.Value != null; } }
         public bool Body_Updated { get { return Body != SavedBody && Body != null; } }
         public bool Bin_Updated { get { return Bin != SavedBin && Bin != null; } }
+        public bool Thumbnail_Updated { get { return Thumbnail != SavedThumbnail && Thumbnail != null; } }
+        public bool Icon_Updated { get { return Icon != SavedIcon && Icon != null; } }
         public bool FileName_Updated { get { return FileName != SavedFileName && FileName != null; } }
         public bool Extension_Updated { get { return Extension != SavedExtension && Extension != null; } }
         public bool Size_Updated { get { return Size != SavedSize; } }
@@ -200,9 +209,12 @@ namespace Implem.Pleasanter.Models
                     case "Binaries_ReferenceId": if (!SiteSettings.AllColumn("ReferenceId").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Binaries_BinaryId": if (!SiteSettings.AllColumn("BinaryId").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Binaries_Ver": if (!SiteSettings.AllColumn("Ver").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_BinaryType": if (!SiteSettings.AllColumn("BinaryType").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Binaries_Title": if (!SiteSettings.AllColumn("Title").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Binaries_Body": if (!SiteSettings.AllColumn("Body").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Binaries_Bin": if (!SiteSettings.AllColumn("Bin").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_Thumbnail": if (!SiteSettings.AllColumn("Thumbnail").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_Icon": if (!SiteSettings.AllColumn("Icon").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Binaries_FileName": if (!SiteSettings.AllColumn("FileName").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Binaries_Extension": if (!SiteSettings.AllColumn("Extension").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Binaries_Size": if (!SiteSettings.AllColumn("Size").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
@@ -267,9 +279,12 @@ namespace Implem.Pleasanter.Models
                     case "Binaries_ReferenceId": if (!SiteSettings.AllColumn("ReferenceId").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Binaries_BinaryId": if (!SiteSettings.AllColumn("BinaryId").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Binaries_Ver": if (!SiteSettings.AllColumn("Ver").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_BinaryType": if (!SiteSettings.AllColumn("BinaryType").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Binaries_Title": if (!SiteSettings.AllColumn("Title").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Binaries_Body": if (!SiteSettings.AllColumn("Body").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Binaries_Bin": if (!SiteSettings.AllColumn("Bin").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_Thumbnail": if (!SiteSettings.AllColumn("Thumbnail").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Binaries_Icon": if (!SiteSettings.AllColumn("Icon").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Binaries_FileName": if (!SiteSettings.AllColumn("FileName").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Binaries_Extension": if (!SiteSettings.AllColumn("Extension").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Binaries_Size": if (!SiteSettings.AllColumn("Size").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
@@ -554,6 +569,7 @@ namespace Implem.Pleasanter.Models
                 switch (controlId)
                 {
                     case "Binaries_ReferenceId": ReferenceId = Forms.Data(controlId).ToLong(); break;
+                    case "Binaries_BinaryType": BinaryType = Forms.Data(controlId).ToString(); break;
                     case "Binaries_Title": Title = new Title(BinaryId, Forms.Data(controlId)); break;
                     case "Binaries_Body": Body = Forms.Data(controlId).ToString(); break;
                     case "Binaries_FileName": FileName = Forms.Data(controlId).ToString(); break;
@@ -574,6 +590,8 @@ namespace Implem.Pleasanter.Models
                 switch (controlId)
                 {
                     case "Binaries_Bin": Bin = Forms.File(controlId); break;
+                    case "Binaries_Thumbnail": Thumbnail = Forms.File(controlId); break;
+                    case "Binaries_Icon": Icon = Forms.File(controlId); break;
                     default: break;
                 }
             });
@@ -605,9 +623,12 @@ namespace Implem.Pleasanter.Models
                     case "ReferenceId": if (dataRow[name] != DBNull.Value) { ReferenceId = dataRow[name].ToLong(); SavedReferenceId = ReferenceId; } break;
                     case "BinaryId": if (dataRow[name] != DBNull.Value) { BinaryId = dataRow[name].ToLong(); SavedBinaryId = BinaryId; } break;
                     case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
+                    case "BinaryType": BinaryType = dataRow[name].ToString(); SavedBinaryType = BinaryType; break;
                     case "Title": Title = new Title(dataRow, "BinaryId"); SavedTitle = Title.Value; break;
                     case "Body": Body = dataRow[name].ToString(); SavedBody = Body; break;
                     case "Bin": Bin = dataRow.Bytes("Bin"); SavedBin = Bin; break;
+                    case "Thumbnail": Thumbnail = dataRow.Bytes("Bin"); SavedThumbnail = Thumbnail; break;
+                    case "Icon": Icon = dataRow.Bytes("Bin"); SavedIcon = Icon; break;
                     case "FileName": FileName = dataRow[name].ToString(); SavedFileName = FileName; break;
                     case "Extension": Extension = dataRow[name].ToString(); SavedExtension = Extension; break;
                     case "Size": Size = dataRow[name].ToInt(); SavedSize = Size; break;
@@ -634,6 +655,136 @@ namespace Implem.Pleasanter.Models
             return AccessStatus == Databases.AccessStatuses.Selected
                 ? Messages.ResponseUpdateConflicts(Updator.FullName).ToJson()
                 : Messages.ResponseDeleteConflicts().ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public bool ExistsSiteImage(ImageData.SizeTypes sizeType)
+        {
+            if (!PermissionType.CanRead())
+            {
+                return false;
+            }
+            switch (Parameters.BinaryStorageProvider)
+            {
+                case "Local":
+                    return new ImageData(ReferenceId, ImageData.Types.SiteImage).Exists(sizeType);
+                default:
+                    return Rds.ExecuteScalar_int(statements:
+                        Rds.SelectBinaries(
+                            column: Rds.BinariesColumn().BinariesCount(),
+                            where: Rds.BinariesWhere().ReferenceId(ReferenceId))) == 1;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string SiteImagePrefix(ImageData.SizeTypes sizeType)
+        {
+            if (!PermissionType.CanRead())
+            {
+                return string.Empty;
+            }
+            switch (Parameters.BinaryStorageProvider)
+            {
+                case "Local":
+                    return new ImageData(ReferenceId, ImageData.Types.SiteImage).UrlPrefix(sizeType);
+                default:
+                    return Rds.ExecuteScalar_datetime(statements:
+                        Rds.SelectBinaries(
+                            column: Rds.BinariesColumn().UpdatedTime(),
+                            where: Rds.BinariesWhere().ReferenceId(ReferenceId)))
+                                .ToString("?yyyyMMddHHmmss");
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public byte[] SiteImageThumbnail()
+        {
+            return SiteImage(ImageData.SizeTypes.Thumbnail, Rds.BinariesColumn().Thumbnail());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public byte[] SiteImageIcon()
+        {
+            return SiteImage(ImageData.SizeTypes.Icon, Rds.BinariesColumn().Icon());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private byte[] SiteImage(ImageData.SizeTypes sizeType, SqlColumnCollection column)
+        {
+            if (!PermissionType.CanRead())
+            {
+                return null;
+            }
+            switch (Parameters.BinaryStorageProvider)
+            {
+                case "Local":
+                    return new ImageData(ReferenceId, ImageData.Types.SiteImage).Read(sizeType);
+                default:
+                    return Rds.ExecuteScalar_bytes(statements:
+                        Rds.SelectBinaries(
+                            column: column,
+                            where: Rds.BinariesWhere().ReferenceId(ReferenceId)));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string UpdateSiteImage()
+        {
+            if (!PermissionType.CanEditSite())
+            {
+                return Messages.ResponseHasNotPermission().ToJson();
+            }
+            BinaryType = "SiteImage";
+            var imageData = new ImageData(
+                Forms.File(ImageData.Types.SiteImage.ToString()),
+                ReferenceId,
+                ImageData.Types.SiteImage);
+            switch (Parameters.BinaryStorageProvider)
+            {
+                case "Local": imageData.WriteToLocal(); break;
+                default:
+                    Bin = imageData.ReSizeBytes(ImageData.SizeTypes.Regular);
+                    Thumbnail = imageData.ReSizeBytes(ImageData.SizeTypes.Thumbnail);
+                    Icon = imageData.ReSizeBytes(ImageData.SizeTypes.Icon);
+                    Rds.ExecuteNonQuery(transactional: true, statements:
+                        Rds.UpdateOrInsertBinaries(
+                            selectIdentity: true,
+                            where: Rds.BinariesWhere().ReferenceId(ReferenceId),
+                            param: Rds.BinariesParamDefault(this, setDefault: true)));
+                    break;
+            }
+            return Messages.ResponseFileUpdateCompleted().ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public BinaryModel(SiteModel siteModel)
+        {
+            SiteSettings = siteModel.SiteSettings;
+            PermissionType = siteModel.PermissionType;
+            ReferenceId = siteModel.SiteId;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public BinaryModel(Permissions.Types permissionType, long referenceId)
+        {
+            PermissionType = permissionType;
+            ReferenceId = referenceId;
         }
 
         /// <summary>
@@ -1035,9 +1186,12 @@ namespace Implem.Pleasanter.Models
                     case "ReferenceId": select.ReferenceId(); break;
                     case "BinaryId": select.BinaryId(); break;
                     case "Ver": select.Ver(); break;
+                    case "BinaryType": select.BinaryType(); break;
                     case "Title": select.Title(); break;
                     case "Body": select.Body(); break;
                     case "Bin": select.Bin(); break;
+                    case "Thumbnail": select.Thumbnail(); break;
+                    case "Icon": select.Icon(); break;
                     case "FileName": select.FileName(); break;
                     case "Extension": select.Extension(); break;
                     case "Size": select.Size(); break;
@@ -1205,10 +1359,12 @@ namespace Implem.Pleasanter.Models
                             case "ReferenceId": hb.Field(siteSettings, column, binaryModel.ReferenceId.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "BinaryId": hb.Field(siteSettings, column, binaryModel.BinaryId.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "Ver": hb.Field(siteSettings, column, binaryModel.Ver.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "BinaryType": hb.Field(siteSettings, column, binaryModel.BinaryType.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "Title": hb.Field(siteSettings, column, binaryModel.Title.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "Body": hb.Field(siteSettings, column, binaryModel.Body.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "FileName": hb.Field(siteSettings, column, binaryModel.FileName.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "Extension": hb.Field(siteSettings, column, binaryModel.Extension.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "Size": hb.Field(siteSettings, column, binaryModel.Size.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                         }
                     });
                 hb.VerUpCheckBox(binaryModel);
@@ -1256,46 +1412,6 @@ namespace Implem.Pleasanter.Models
                                 .ToList();    
             }
             return switchTargets;
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static byte[] SiteImageThumbnail(long referenceId)
-        {
-            return Images.Get(referenceId, Images.Types.SiteImage, Images.SizeTypes.Thumbnail);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static byte[] SiteImageIcon(long referenceId)
-        {
-            return Images.Get(referenceId, Images.Types.SiteImage, Images.SizeTypes.Icon);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string Update(long referenceId)
-        {
-            foreach (var key in Forms.FileKeys())
-            {
-                switch (key)
-                {
-                    case "SiteImage": return UpdateSiteImage(referenceId, Forms.File(key));
-                }
-            }
-            return new ResponseCollection().ToJson();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string UpdateSiteImage(long referenceId, byte[] data)
-        {
-            Images.Write(data, referenceId, Images.Types.SiteImage);
-            return Messages.ResponseFileUpdateCompleted().ToJson();
         }
     }
 }

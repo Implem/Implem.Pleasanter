@@ -257,7 +257,7 @@
     <Compile Include="Libraries\Settings\Summary.cs" />
     <Compile Include="Libraries\Styles\CssClasses.cs" />
     <Compile Include="Libraries\Utilities\DataRows.cs" />
-    <Compile Include="Libraries\Utilities\Images.cs" />
+    <Compile Include="Libraries\Utilities\ImageData.cs" />
     <Compile Include="Libraries\Utilities\Imports.cs" />
     <Compile Include="Libraries\Utilities\Mime.cs" />
     <Compile Include="Libraries\Utilities\OptionCollections.cs" />
