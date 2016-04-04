@@ -27,10 +27,10 @@ namespace Implem.Libraries.Utilities
 
         public static byte[] Bytes(string path)
         {
-            FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+            var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
             if (File.Exists(path))
             {
-                byte[] data = new byte[fs.Length];
+                var data = new byte[fs.Length];
                 fs.Read(data, 0, data.Length);
                 fs.Close();
                 return data;
