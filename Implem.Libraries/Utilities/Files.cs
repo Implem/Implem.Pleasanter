@@ -79,40 +79,6 @@ namespace Implem.Libraries.Utilities
         }
 
         public static void Write(
-            this byte[] self,
-            string filePath,
-            int reTryCount = 100)
-        {
-            var successful = false;
-            var errorCount = 0;
-            if (!new FileInfo(filePath).Directory.Exists)
-            {
-                Directory.CreateDirectory(new FileInfo(filePath).Directory.FullName);
-            }
-            while (!successful)
-            {
-                try
-                {
-                    using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
-                    {
-                        fs.Write(self, 0, self.Length);
-                        fs.Close();
-                    }
-                    successful = true;
-                }
-                catch
-                {
-                    errorCount++;
-                    System.Threading.Thread.Sleep(1);
-                    if (errorCount > reTryCount)
-                    {
-                        break;
-                    }
-                }
-            }
-        }
-
-        public static void Write(
             this Image self,
             string filePath,
             ImageFormat format,
