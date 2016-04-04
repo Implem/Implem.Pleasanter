@@ -234,6 +234,20 @@ namespace Implem.Libraries.DataSources.SqlServer
             return ExecuteScalar();
         }
 
+        public bool ExecuteScalar_bool()
+        {
+            return ExecuteScalar().ToBool();
+        }
+
+        public bool ExecuteScalar_bool(
+            string commandText,
+            SqlParamCollection parameterCollection = null)
+        {
+            SqlContainer.SqlStatementCollection.Add(
+                new SqlStatement(commandText, parameterCollection));
+            return ExecuteScalar_bool();
+        }
+
         public string ExecuteScalar_string()
         {
             return ExecuteScalar().ToString();
@@ -274,6 +288,48 @@ namespace Implem.Libraries.DataSources.SqlServer
             SqlContainer.SqlStatementCollection.Add(
                 new SqlStatement(commandText, parameterCollection));
             return ExecuteScalar_long();
+        }
+
+        public decimal ExecuteScalar_decimal()
+        {
+            return ExecuteScalar().ToDecimal();
+        }
+
+        public decimal ExecuteScalar_decimal(
+            string commandText,
+            SqlParamCollection parameterCollection = null)
+        {
+            SqlContainer.SqlStatementCollection.Add(
+                new SqlStatement(commandText, parameterCollection));
+            return ExecuteScalar_decimal();
+        }
+
+        public DateTime ExecuteScalar_datetime()
+        {
+            return ExecuteScalar().ToDateTime();
+        }
+
+        public DateTime ExecuteScalar_datetime(
+            string commandText,
+            SqlParamCollection parameterCollection = null)
+        {
+            SqlContainer.SqlStatementCollection.Add(
+                new SqlStatement(commandText, parameterCollection));
+            return ExecuteScalar_datetime();
+        }
+
+        public byte[] ExecuteScalar_bytes()
+        {
+            return (byte[])ExecuteScalar();
+        }
+
+        public byte[] ExecuteScalar_bytes(
+            string commandText,
+            SqlParamCollection parameterCollection = null)
+        {
+            SqlContainer.SqlStatementCollection.Add(
+                new SqlStatement(commandText, parameterCollection));
+            return ExecuteScalar_bytes();
         }
 
         public DataTable ExecuteTable(
