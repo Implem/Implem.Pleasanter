@@ -48,7 +48,6 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         [OnDeserialized]
         private void OnDeserialized(StreamingContext streamingContext)
         {
-            Console.Write("");
         }
 
         public string ToControl(Column column)
