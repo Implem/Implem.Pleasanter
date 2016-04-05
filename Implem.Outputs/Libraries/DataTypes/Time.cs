@@ -138,6 +138,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         private HtmlBuilder LimitText(HtmlBuilder hb)
         {
+            if (!Times.InRange(Value))
+            {
+                return hb;
+            }
             var now = DateTime.Now.ToLocal();
             var css = LimitCss(now, Value);
             var years = Times.DateDiff(Times.Types.Years, now, Value);
