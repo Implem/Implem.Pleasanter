@@ -270,7 +270,7 @@ function processResponse(response, data, $eventSender) {
                 clearFormData(target, data, value);
                 break;
             case 'CloseDialog':
-                $('.dialog:visible').trigger('close-dialog');
+                $('.ui-dialog-content').dialog('close');
                 break;
             case 'Trigger':
                 $(target).trigger(value);
