@@ -555,7 +555,6 @@ namespace Implem.Pleasanter.Models
                         : BinariesUtility.Editor(this))
                 .Message(message)
                 .PushState(
-                    Navigations.Get("Binaries", BinaryId.ToString(), "Reload"),
                     Navigations.Edit("Binaries", binaryModel.BinaryId),
                     _using: pushState)
                 .ClearFormData()

@@ -1,14 +1,12 @@
 ﻿$(function () {
     if ($('.edit-form .main-form').length === 1) {
-        history.pushState(
-            $('.edit-form .main-form').attr('action').replace('_action_', 'reload'),
-            null,
-            location.href);
+        var value = $('.edit-form .main-form').attr('action').replace('_action_', 'edit');
+        history.pushState('/reload', '', value);
     }
     $(window).on('popstate', function (e) {
         var state = e.originalEvent.state;
         if (state) {
-            request(state, 'post');
+            request(location.pathname.replace(/\/edit$/i, state), 'post');
         } else {
             history.back();
         }

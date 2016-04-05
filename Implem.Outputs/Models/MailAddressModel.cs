@@ -500,7 +500,6 @@ namespace Implem.Pleasanter.Models
                         : MailAddressesUtility.Editor(this))
                 .Message(message)
                 .PushState(
-                    Navigations.Get("MailAddresses", MailAddressId.ToString(), "Reload"),
                     Navigations.Edit("MailAddresses", mailAddressModel.MailAddressId),
                     _using: pushState)
                 .ClearFormData()

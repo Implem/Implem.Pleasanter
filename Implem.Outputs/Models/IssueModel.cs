@@ -935,8 +935,7 @@ namespace Implem.Pleasanter.Models
                         : IssuesUtility.Editor(siteModel, this))
                 .Message(message)
                 .PushState(
-                    Navigations.Get("Items", IssueId.ToString(), "Reload"),
-                    Navigations.Edit("Items", issueModel.IssueId),
+                    Navigations.ItemEdit(issueModel.IssueId),
                     _using: pushState)
                 .ClearFormData()
                 .ToJson();

@@ -630,8 +630,7 @@ namespace Implem.Pleasanter.Models
                         : WikisUtility.Editor(siteModel, this))
                 .Message(message)
                 .PushState(
-                    Navigations.Get("Items", WikiId.ToString(), "Reload"),
-                    Navigations.Edit("Items", wikiModel.WikiId),
+                    Navigations.ItemEdit(wikiModel.WikiId),
                     _using: pushState)
                 .ClearFormData()
                 .ToJson();

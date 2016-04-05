@@ -497,7 +497,6 @@ namespace Implem.Pleasanter.Models
                         : TenantsUtility.Editor(this))
                 .Message(message)
                 .PushState(
-                    Navigations.Get("Tenants", TenantId.ToString(), "Reload"),
                     Navigations.Edit("Tenants", tenantModel.TenantId),
                     _using: pushState)
                 .ClearFormData()
