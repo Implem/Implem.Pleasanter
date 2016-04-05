@@ -32,6 +32,13 @@ namespace Implem.Pleasanter
                 .Include("~/Scripts/Transports.js")
                 .Include("~/Scripts/JqueryUi.js")
                 .Include("~/Scripts/_Show.js"));
+            Validators(bundles);
+            bundles.Add(new StyleBundle("~/content/styles")
+                .Include("~/Styles/Site.css"));
+        }
+
+        private static void Validators(BundleCollection bundles)
+        {
             bundles.Add(new ScriptBundle("~/bundles/TenantValidator").Include("~/Scripts/Validations/Tenant.js"));
             bundles.Add(new ScriptBundle("~/bundles/DeptValidator").Include("~/Scripts/Validations/Dept.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserValidator").Include("~/Scripts/Validations/User.js"));
@@ -40,8 +47,6 @@ namespace Implem.Pleasanter
             bundles.Add(new ScriptBundle("~/bundles/IssueValidator").Include("~/Scripts/Validations/Issue.js"));
             bundles.Add(new ScriptBundle("~/bundles/ResultValidator").Include("~/Scripts/Validations/Result.js"));
             bundles.Add(new ScriptBundle("~/bundles/WikiValidator").Include("~/Scripts/Validations/Wiki.js"));
-            bundles.Add(new StyleBundle("~/content/styles")
-                .Include("~/Styles/Site.css"));
         }
     }
 }
