@@ -1576,6 +1576,7 @@ namespace Implem.Pleasanter.Models
                             {
                                 case "Title": param.Title(recordingData, _using: recordingData != null); break;
                                 case "Body": param.Body(recordingData, _using: recordingData != null); break;
+                                case "Comments": param.Comments(recordingData, _using: recordingData != null); break;
                             }
                         }
                     });

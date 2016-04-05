@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.ServerData;
 using Implem.Pleasanter.Libraries.Utilities;
@@ -252,6 +253,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .Where(o => o.Value.FullName == value)
                     .Select(o => o.Value.Id)
                     .FirstOrDefault(o => SiteInfo.UserIdCollection(siteId).Any(p => p == o));
+            }
+            else if (TypeCs == "Comments")
+            {
+                return new Comments().Prepend(value).ToJson();
             }
             else if (HasChoices())
             {

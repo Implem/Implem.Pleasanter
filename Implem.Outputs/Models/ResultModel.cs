@@ -2008,6 +2008,7 @@ namespace Implem.Pleasanter.Models
                                 case "DateF": param.DateF(recordingData, _using: recordingData != null); break;
                                 case "DateG": param.DateG(recordingData, _using: recordingData != null); break;
                                 case "DateH": param.DateH(recordingData, _using: recordingData != null); break;
+                                case "Comments": param.Comments(recordingData, _using: recordingData != null); break;
                             }
                         }
                     });
