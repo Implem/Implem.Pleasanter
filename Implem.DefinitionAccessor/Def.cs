@@ -973,6 +973,7 @@ namespace Implem.DefinitionAccessor
                     case "Issues_DateH": Column.Issues_DateH = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Issues_DateH, definitionRow, ColumnXls); break;
                     case "Results_ResultId": Column.Results_ResultId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_ResultId, definitionRow, ColumnXls); break;
                     case "Results_Title": Column.Results_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_Title, definitionRow, ColumnXls); break;
+                    case "Results_Status": Column.Results_Status = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_Status, definitionRow, ColumnXls); break;
                     case "Results_Manager": Column.Results_Manager = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_Manager, definitionRow, ColumnXls); break;
                     case "Results_Owner": Column.Results_Owner = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_Owner, definitionRow, ColumnXls); break;
                     case "Results_ClassA": Column.Results_ClassA = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Results_ClassA, definitionRow, ColumnXls); break;
@@ -4710,6 +4711,7 @@ namespace Implem.DefinitionAccessor
         public string Issues_DateH;
         public string Results_ResultId;
         public string Results_Title;
+        public string Results_Status;
         public string Results_Manager;
         public string Results_Owner;
         public string Results_ClassA;
@@ -5123,6 +5125,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Issues_DateH = new ColumnDefinition();
         public ColumnDefinition Results_ResultId = new ColumnDefinition();
         public ColumnDefinition Results_Title = new ColumnDefinition();
+        public ColumnDefinition Results_Status = new ColumnDefinition();
         public ColumnDefinition Results_Manager = new ColumnDefinition();
         public ColumnDefinition Results_Owner = new ColumnDefinition();
         public ColumnDefinition Results_ClassA = new ColumnDefinition();

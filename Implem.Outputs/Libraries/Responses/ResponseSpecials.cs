@@ -1054,6 +1054,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResultsResponseCollection ClassB(this ResultsResponseCollection responseCollection, string value) { return responseCollection.Val("#Results_ClassB", value); }
         public static ResultsResponseCollection ClassB_FormData(this ResultsResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Results_ClassB", responseCollection.ResultModel.ClassB.ToResponse()); }
         public static ResultsResponseCollection ClassB_FormData(this ResultsResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Results_ClassB", value); }
+        public static ResultsResponseCollection Status(this ResultsResponseCollection responseCollection) { return responseCollection.Val("#Results_Status", responseCollection.ResultModel.Status.ToResponse()); }
+        public static ResultsResponseCollection Status(this ResultsResponseCollection responseCollection, string value) { return responseCollection.Val("#Results_Status", value); }
+        public static ResultsResponseCollection Status_FormData(this ResultsResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Results_Status", responseCollection.ResultModel.Status.ToResponse()); }
+        public static ResultsResponseCollection Status_FormData(this ResultsResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Results_Status", value); }
         public static ResultsResponseCollection ClassC(this ResultsResponseCollection responseCollection) { return responseCollection.Val("#Results_ClassC", responseCollection.ResultModel.ClassC.ToResponse()); }
         public static ResultsResponseCollection ClassC(this ResultsResponseCollection responseCollection, string value) { return responseCollection.Val("#Results_ClassC", value); }
         public static ResultsResponseCollection ClassC_FormData(this ResultsResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Results_ClassC", responseCollection.ResultModel.ClassC.ToResponse()); }

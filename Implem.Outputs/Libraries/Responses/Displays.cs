@@ -980,6 +980,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Results_ResultId(params string[] data) { return Get("Results_ResultId", data); }
         public static HtmlBuilder Displays_Results_Title(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_Title", data)); }
         public static string Results_Title(params string[] data) { return Get("Results_Title", data); }
+        public static HtmlBuilder Displays_Results_Status(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_Status", data)); }
+        public static string Results_Status(params string[] data) { return Get("Results_Status", data); }
         public static HtmlBuilder Displays_Results_Manager(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_Manager", data)); }
         public static string Results_Manager(params string[] data) { return Get("Results_Manager", data); }
         public static HtmlBuilder Displays_Results_Owner(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_Owner", data)); }

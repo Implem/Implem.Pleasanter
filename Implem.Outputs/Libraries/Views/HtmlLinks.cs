@@ -183,6 +183,8 @@ namespace Implem.Pleasanter.Libraries.Views
                     .Text(text: siteSettings.EditorColumn("Title").LabelText));
                 hb.Th(action: () => hb
                     .Text(text: siteSettings.EditorColumn("Owner").LabelText));
+                hb.Th(action: () => hb
+                    .Text(text: siteSettings.EditorColumn("Status").LabelText));
             });
         }
 
@@ -289,6 +291,9 @@ namespace Implem.Pleasanter.Libraries.Views
                             hb.Td(
                                 column: siteSettings.EditorColumn("Owner"),
                                 value: resultSubset.Owner);
+                            hb.Td(
+                                column: siteSettings.EditorColumn("Status"),
+                                value: resultSubset.Status);
                         });
                 }
             });

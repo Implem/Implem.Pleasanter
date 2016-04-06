@@ -404,6 +404,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     case "DataViewFilters_Results_Owner": where.Results_Owner(formData[key], "t0"); break;
                     case "DataViewFilters_Results_ClassA": where.Results_ClassA(formData[key], "t0"); break;
                     case "DataViewFilters_Results_ClassB": where.Results_ClassB(formData[key], "t0"); break;
+                    case "DataViewFilters_Results_Status": where.Results_Status(formData[key], "t0"); break;
                     case "DataViewFilters_Results_ClassC": where.Results_ClassC(formData[key], "t0"); break;
                     case "DataViewFilters_Results_ClassD": where.Results_ClassD(formData[key], "t0"); break;
                     case "DataViewFilters_Results_ClassE": where.Results_ClassE(formData[key], "t0"); break;

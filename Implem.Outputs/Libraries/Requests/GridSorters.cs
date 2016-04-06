@@ -347,6 +347,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     case "GridSorters_Results_Owner": orderBy.Results_Owner(type); break;
                     case "GridSorters_Results_ClassA": orderBy.Results_ClassA(type); break;
                     case "GridSorters_Results_ClassB": orderBy.Results_ClassB(type); break;
+                    case "GridSorters_Results_Status": orderBy.Results_Status(type); break;
                     case "GridSorters_Results_ClassC": orderBy.Results_ClassC(type); break;
                     case "GridSorters_Results_ClassD": orderBy.Results_ClassD(type); break;
                     case "GridSorters_Results_ClassE": orderBy.Results_ClassE(type); break;
