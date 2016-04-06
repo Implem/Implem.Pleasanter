@@ -38,7 +38,7 @@ namespace Implem.Pleasanter.Libraries.Views
         private static HtmlBuilder Incomplete(
             this HtmlBuilder hb, SiteSettings siteSettings, FormData formData)
         {
-            return Def.ExistsTable(siteSettings.ReferenceType, o => o.TypeCs == "CompletionTime")
+            return Def.ExistsTable(siteSettings.ReferenceType, o => o.TypeCs == "Status")
                 ? hb.FieldCheckBox(
                     controlId: "DataViewFilters_Incomplete",
                     fieldCss: "field-auto-thin",
