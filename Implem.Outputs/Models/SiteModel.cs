@@ -2232,55 +2232,58 @@ namespace Implem.Pleasanter.Models
                     switch (column.TypeName.CsTypeSummary())
                     {
                         case Types.CsNumeric:
-                            hb
-                                .FieldTextBox(
-                                    controlId: "ColumnProperty,Unit",
-                                    fieldCss: "field-auto-thin",
-                                    controlCss: " w50",
-                                    labelText: Displays.SettingUnit(),
-                                    text: column.Unit)
-                                .FieldSpinner(
-                                    controlId: "ColumnProperty,DecimalPlaces",
-                                    fieldCss: "field-auto-thin",
-                                    labelText: Displays.DecimalPlaces(),
-                                    value: column.DecimalPlaces.ToDecimal(),
-                                    min: 0,
-                                    max: 3,
-                                    step: 1);
-                            if (!column.NotUpdate)
+                            if (column.ControlType != "ChoicesText")
                             {
-                                var hidden = column.ControlType != "Spinner"
-                                    ? " hidden"
-                                    : string.Empty;
                                 hb
-                                    .FieldDropDown(
-                                        controlId: "ColumnProperty,ControlType",
+                                    .FieldTextBox(
+                                        controlId: "ColumnProperty,Unit",
                                         fieldCss: "field-auto-thin",
-                                        labelText: Displays.ControlType(),
-                                        optionCollection: new Dictionary<string, string>
-                                        {
+                                        controlCss: " w50",
+                                        labelText: Displays.SettingUnit(),
+                                        text: column.Unit)
+                                    .FieldSpinner(
+                                        controlId: "ColumnProperty,DecimalPlaces",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.DecimalPlaces(),
+                                        value: column.DecimalPlaces.ToDecimal(),
+                                        min: 0,
+                                        max: 3,
+                                        step: 1);
+                                if (!column.NotUpdate)
+                                {
+                                    var hidden = column.ControlType != "Spinner"
+                                        ? " hidden"
+                                        : string.Empty;
+                                    hb
+                                        .FieldDropDown(
+                                            controlId: "ColumnProperty,ControlType",
+                                            fieldCss: "field-auto-thin",
+                                            labelText: Displays.ControlType(),
+                                            optionCollection: new Dictionary<string, string>
+                                            {
                                             { "Normal", Displays.Normal() },
                                             { "Spinner", Displays.Spinner() }
-                                        },
-                                        selectedValue: column.ControlType)
-                                    .FieldTextBox(
-                                        fieldId: "Field_ColumnProperty,Min",
-                                        controlId: "ColumnProperty,Min",
-                                        fieldCss: "field-auto-thin both" + hidden,
-                                        labelText: Displays.Min(),
-                                        text: column.Format(column.Min.ToDecimal()))
-                                    .FieldTextBox(
-                                        fieldId: "Field_ColumnProperty,Max",
-                                        controlId: "ColumnProperty,Max",
-                                        fieldCss: "field-auto-thin" + hidden,
-                                        labelText: Displays.Max(),
-                                        text: column.Format(column.Max.ToDecimal()))
-                                    .FieldTextBox(
-                                        fieldId: "Field_ColumnProperty,Step",
-                                        controlId: "ColumnProperty,Step",
-                                        fieldCss: "field-auto-thin" + hidden,
-                                        labelText: Displays.Step(),
-                                        text: column.Format(column.Step.ToDecimal()));
+                                            },
+                                            selectedValue: column.ControlType)
+                                        .FieldTextBox(
+                                            fieldId: "Field_ColumnProperty,Min",
+                                            controlId: "ColumnProperty,Min",
+                                            fieldCss: "field-auto-thin both" + hidden,
+                                            labelText: Displays.Min(),
+                                            text: column.Format(column.Min.ToDecimal()))
+                                        .FieldTextBox(
+                                            fieldId: "Field_ColumnProperty,Max",
+                                            controlId: "ColumnProperty,Max",
+                                            fieldCss: "field-auto-thin" + hidden,
+                                            labelText: Displays.Max(),
+                                            text: column.Format(column.Max.ToDecimal()))
+                                        .FieldTextBox(
+                                            fieldId: "Field_ColumnProperty,Step",
+                                            controlId: "ColumnProperty,Step",
+                                            fieldCss: "field-auto-thin" + hidden,
+                                            labelText: Displays.Step(),
+                                            text: column.Format(column.Step.ToDecimal()));
+                                }
                             }
                             break;
                     }
