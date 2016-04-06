@@ -1789,6 +1789,7 @@ namespace Implem.Pleasanter.Models
                     .FieldTextBox(
                         controlId: "Sites_Title",
                         fieldCss: "field-wide",
+                        controlCss: " focus",
                         labelText: Displays.Sites_Title(),
                         text: siteModel.Title.Value.ToString())
                     .FieldMarkDown(
