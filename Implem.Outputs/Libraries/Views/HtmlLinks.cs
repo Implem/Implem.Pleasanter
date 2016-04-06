@@ -54,9 +54,7 @@ namespace Implem.Pleasanter.Libraries.Views
 
         private static LinkCollection Sources(long linkId)
         {
-            return new LinkCollection(where: Rds.LinksWhere()
-                .DestinationId(linkId)
-                .ReferenceType("Issues"));
+            return new LinkCollection(where: Rds.LinksWhere().DestinationId(linkId));
         }
 
         public static HtmlBuilder LinkDestinations(
