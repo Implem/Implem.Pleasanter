@@ -37,6 +37,14 @@ namespace Implem.Pleasanter.Models
         public string ClassF = string.Empty;
         public string ClassG = string.Empty;
         public string ClassH = string.Empty;
+        public string ClassI = string.Empty;
+        public string ClassJ = string.Empty;
+        public string ClassK = string.Empty;
+        public string ClassL = string.Empty;
+        public string ClassM = string.Empty;
+        public string ClassN = string.Empty;
+        public string ClassO = string.Empty;
+        public string ClassP = string.Empty;
         public decimal NumA = 0;
         public decimal NumB = 0;
         public decimal NumC = 0;
@@ -65,6 +73,14 @@ namespace Implem.Pleasanter.Models
         public string SavedClassF = string.Empty;
         public string SavedClassG = string.Empty;
         public string SavedClassH = string.Empty;
+        public string SavedClassI = string.Empty;
+        public string SavedClassJ = string.Empty;
+        public string SavedClassK = string.Empty;
+        public string SavedClassL = string.Empty;
+        public string SavedClassM = string.Empty;
+        public string SavedClassN = string.Empty;
+        public string SavedClassO = string.Empty;
+        public string SavedClassP = string.Empty;
         public decimal SavedNumA = 0;
         public decimal SavedNumB = 0;
         public decimal SavedNumC = 0;
@@ -91,6 +107,14 @@ namespace Implem.Pleasanter.Models
         public bool ClassF_Updated { get { return ClassF != SavedClassF && ClassF != null; } }
         public bool ClassG_Updated { get { return ClassG != SavedClassG && ClassG != null; } }
         public bool ClassH_Updated { get { return ClassH != SavedClassH && ClassH != null; } }
+        public bool ClassI_Updated { get { return ClassI != SavedClassI && ClassI != null; } }
+        public bool ClassJ_Updated { get { return ClassJ != SavedClassJ && ClassJ != null; } }
+        public bool ClassK_Updated { get { return ClassK != SavedClassK && ClassK != null; } }
+        public bool ClassL_Updated { get { return ClassL != SavedClassL && ClassL != null; } }
+        public bool ClassM_Updated { get { return ClassM != SavedClassM && ClassM != null; } }
+        public bool ClassN_Updated { get { return ClassN != SavedClassN && ClassN != null; } }
+        public bool ClassO_Updated { get { return ClassO != SavedClassO && ClassO != null; } }
+        public bool ClassP_Updated { get { return ClassP != SavedClassP && ClassP != null; } }
         public bool NumA_Updated { get { return NumA != SavedNumA; } }
         public bool NumB_Updated { get { return NumB != SavedNumB; } }
         public bool NumC_Updated { get { return NumC != SavedNumC; } }
@@ -281,6 +305,14 @@ namespace Implem.Pleasanter.Models
                     case "Results_ClassF": if (!SiteSettings.AllColumn("ClassF").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_ClassG": if (!SiteSettings.AllColumn("ClassG").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_ClassH": if (!SiteSettings.AllColumn("ClassH").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Results_ClassI": if (!SiteSettings.AllColumn("ClassI").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Results_ClassJ": if (!SiteSettings.AllColumn("ClassJ").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Results_ClassK": if (!SiteSettings.AllColumn("ClassK").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Results_ClassL": if (!SiteSettings.AllColumn("ClassL").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Results_ClassM": if (!SiteSettings.AllColumn("ClassM").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Results_ClassN": if (!SiteSettings.AllColumn("ClassN").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Results_ClassO": if (!SiteSettings.AllColumn("ClassO").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Results_ClassP": if (!SiteSettings.AllColumn("ClassP").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_NumA": if (!SiteSettings.AllColumn("NumA").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_NumB": if (!SiteSettings.AllColumn("NumB").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_NumC": if (!SiteSettings.AllColumn("NumC").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
@@ -364,6 +396,14 @@ namespace Implem.Pleasanter.Models
                     case "ClassF": if (ClassF.ToLong() != 0 && !link.ContainsKey(ClassF.ToLong())) link.Add(ClassF.ToLong(), ResultId); break;
                     case "ClassG": if (ClassG.ToLong() != 0 && !link.ContainsKey(ClassG.ToLong())) link.Add(ClassG.ToLong(), ResultId); break;
                     case "ClassH": if (ClassH.ToLong() != 0 && !link.ContainsKey(ClassH.ToLong())) link.Add(ClassH.ToLong(), ResultId); break;
+                    case "ClassI": if (ClassI.ToLong() != 0 && !link.ContainsKey(ClassI.ToLong())) link.Add(ClassI.ToLong(), ResultId); break;
+                    case "ClassJ": if (ClassJ.ToLong() != 0 && !link.ContainsKey(ClassJ.ToLong())) link.Add(ClassJ.ToLong(), ResultId); break;
+                    case "ClassK": if (ClassK.ToLong() != 0 && !link.ContainsKey(ClassK.ToLong())) link.Add(ClassK.ToLong(), ResultId); break;
+                    case "ClassL": if (ClassL.ToLong() != 0 && !link.ContainsKey(ClassL.ToLong())) link.Add(ClassL.ToLong(), ResultId); break;
+                    case "ClassM": if (ClassM.ToLong() != 0 && !link.ContainsKey(ClassM.ToLong())) link.Add(ClassM.ToLong(), ResultId); break;
+                    case "ClassN": if (ClassN.ToLong() != 0 && !link.ContainsKey(ClassN.ToLong())) link.Add(ClassN.ToLong(), ResultId); break;
+                    case "ClassO": if (ClassO.ToLong() != 0 && !link.ContainsKey(ClassO.ToLong())) link.Add(ClassO.ToLong(), ResultId); break;
+                    case "ClassP": if (ClassP.ToLong() != 0 && !link.ContainsKey(ClassP.ToLong())) link.Add(ClassP.ToLong(), ResultId); break;
                     default: break;
                 }
             });
@@ -405,6 +445,14 @@ namespace Implem.Pleasanter.Models
                     case "Results_ClassF": if (!SiteSettings.AllColumn("ClassF").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_ClassG": if (!SiteSettings.AllColumn("ClassG").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_ClassH": if (!SiteSettings.AllColumn("ClassH").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Results_ClassI": if (!SiteSettings.AllColumn("ClassI").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Results_ClassJ": if (!SiteSettings.AllColumn("ClassJ").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Results_ClassK": if (!SiteSettings.AllColumn("ClassK").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Results_ClassL": if (!SiteSettings.AllColumn("ClassL").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Results_ClassM": if (!SiteSettings.AllColumn("ClassM").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Results_ClassN": if (!SiteSettings.AllColumn("ClassN").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Results_ClassO": if (!SiteSettings.AllColumn("ClassO").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Results_ClassP": if (!SiteSettings.AllColumn("ClassP").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_NumA": if (!SiteSettings.AllColumn("NumA").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_NumB": if (!SiteSettings.AllColumn("NumB").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_NumC": if (!SiteSettings.AllColumn("NumC").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
@@ -644,6 +692,14 @@ namespace Implem.Pleasanter.Models
                 case "ClassF": return saved ? SavedClassF.ToLong() : ClassF.ToLong();
                 case "ClassG": return saved ? SavedClassG.ToLong() : ClassG.ToLong();
                 case "ClassH": return saved ? SavedClassH.ToLong() : ClassH.ToLong();
+                case "ClassI": return saved ? SavedClassI.ToLong() : ClassI.ToLong();
+                case "ClassJ": return saved ? SavedClassJ.ToLong() : ClassJ.ToLong();
+                case "ClassK": return saved ? SavedClassK.ToLong() : ClassK.ToLong();
+                case "ClassL": return saved ? SavedClassL.ToLong() : ClassL.ToLong();
+                case "ClassM": return saved ? SavedClassM.ToLong() : ClassM.ToLong();
+                case "ClassN": return saved ? SavedClassN.ToLong() : ClassN.ToLong();
+                case "ClassO": return saved ? SavedClassO.ToLong() : ClassO.ToLong();
+                case "ClassP": return saved ? SavedClassP.ToLong() : ClassP.ToLong();
                 default: return 0;
             }
         }
@@ -802,6 +858,14 @@ namespace Implem.Pleasanter.Models
                     case "Results_ClassF": ClassF = Forms.Data(controlId).ToString(); break;
                     case "Results_ClassG": ClassG = Forms.Data(controlId).ToString(); break;
                     case "Results_ClassH": ClassH = Forms.Data(controlId).ToString(); break;
+                    case "Results_ClassI": ClassI = Forms.Data(controlId).ToString(); break;
+                    case "Results_ClassJ": ClassJ = Forms.Data(controlId).ToString(); break;
+                    case "Results_ClassK": ClassK = Forms.Data(controlId).ToString(); break;
+                    case "Results_ClassL": ClassL = Forms.Data(controlId).ToString(); break;
+                    case "Results_ClassM": ClassM = Forms.Data(controlId).ToString(); break;
+                    case "Results_ClassN": ClassN = Forms.Data(controlId).ToString(); break;
+                    case "Results_ClassO": ClassO = Forms.Data(controlId).ToString(); break;
+                    case "Results_ClassP": ClassP = Forms.Data(controlId).ToString(); break;
                     case "Results_NumA": NumA = Forms.Data(controlId).ToDecimal(); break;
                     case "Results_NumB": NumB = Forms.Data(controlId).ToDecimal(); break;
                     case "Results_NumC": NumC = Forms.Data(controlId).ToDecimal(); break;
@@ -876,6 +940,14 @@ namespace Implem.Pleasanter.Models
                     case "ClassF": ClassF = dataRow[name].ToString(); SavedClassF = ClassF; break;
                     case "ClassG": ClassG = dataRow[name].ToString(); SavedClassG = ClassG; break;
                     case "ClassH": ClassH = dataRow[name].ToString(); SavedClassH = ClassH; break;
+                    case "ClassI": ClassI = dataRow[name].ToString(); SavedClassI = ClassI; break;
+                    case "ClassJ": ClassJ = dataRow[name].ToString(); SavedClassJ = ClassJ; break;
+                    case "ClassK": ClassK = dataRow[name].ToString(); SavedClassK = ClassK; break;
+                    case "ClassL": ClassL = dataRow[name].ToString(); SavedClassL = ClassL; break;
+                    case "ClassM": ClassM = dataRow[name].ToString(); SavedClassM = ClassM; break;
+                    case "ClassN": ClassN = dataRow[name].ToString(); SavedClassN = ClassN; break;
+                    case "ClassO": ClassO = dataRow[name].ToString(); SavedClassO = ClassO; break;
+                    case "ClassP": ClassP = dataRow[name].ToString(); SavedClassP = ClassP; break;
                     case "NumA": NumA = dataRow[name].ToDecimal(); SavedNumA = NumA; break;
                     case "NumB": NumB = dataRow[name].ToDecimal(); SavedNumB = NumB; break;
                     case "NumC": NumC = dataRow[name].ToDecimal(); SavedNumC = NumC; break;
@@ -955,6 +1027,22 @@ namespace Implem.Pleasanter.Models
         public string ClassG_LabelText;
         public string ClassH;
         public string ClassH_LabelText;
+        public string ClassI;
+        public string ClassI_LabelText;
+        public string ClassJ;
+        public string ClassJ_LabelText;
+        public string ClassK;
+        public string ClassK_LabelText;
+        public string ClassL;
+        public string ClassL_LabelText;
+        public string ClassM;
+        public string ClassM_LabelText;
+        public string ClassN;
+        public string ClassN_LabelText;
+        public string ClassO;
+        public string ClassO_LabelText;
+        public string ClassP;
+        public string ClassP_LabelText;
         public decimal NumA;
         public string NumA_LabelText;
         public decimal NumB;
@@ -1032,6 +1120,22 @@ namespace Implem.Pleasanter.Models
             ClassG_LabelText = siteSettings.EditorColumn("ClassG")?.LabelText;
             ClassH = resultModel.ClassH;
             ClassH_LabelText = siteSettings.EditorColumn("ClassH")?.LabelText;
+            ClassI = resultModel.ClassI;
+            ClassI_LabelText = siteSettings.EditorColumn("ClassI")?.LabelText;
+            ClassJ = resultModel.ClassJ;
+            ClassJ_LabelText = siteSettings.EditorColumn("ClassJ")?.LabelText;
+            ClassK = resultModel.ClassK;
+            ClassK_LabelText = siteSettings.EditorColumn("ClassK")?.LabelText;
+            ClassL = resultModel.ClassL;
+            ClassL_LabelText = siteSettings.EditorColumn("ClassL")?.LabelText;
+            ClassM = resultModel.ClassM;
+            ClassM_LabelText = siteSettings.EditorColumn("ClassM")?.LabelText;
+            ClassN = resultModel.ClassN;
+            ClassN_LabelText = siteSettings.EditorColumn("ClassN")?.LabelText;
+            ClassO = resultModel.ClassO;
+            ClassO_LabelText = siteSettings.EditorColumn("ClassO")?.LabelText;
+            ClassP = resultModel.ClassP;
+            ClassP_LabelText = siteSettings.EditorColumn("ClassP")?.LabelText;
             NumA = resultModel.NumA;
             NumA_LabelText = siteSettings.EditorColumn("NumA")?.LabelText;
             NumB = resultModel.NumB;
@@ -1088,6 +1192,14 @@ namespace Implem.Pleasanter.Models
             ClassF.SearchIndexes(searchIndexHash, 200);
             ClassG.SearchIndexes(searchIndexHash, 200);
             ClassH.SearchIndexes(searchIndexHash, 200);
+            ClassI.SearchIndexes(searchIndexHash, 200);
+            ClassJ.SearchIndexes(searchIndexHash, 200);
+            ClassK.SearchIndexes(searchIndexHash, 200);
+            ClassL.SearchIndexes(searchIndexHash, 200);
+            ClassM.SearchIndexes(searchIndexHash, 200);
+            ClassN.SearchIndexes(searchIndexHash, 200);
+            ClassO.SearchIndexes(searchIndexHash, 200);
+            ClassP.SearchIndexes(searchIndexHash, 200);
             Comments.SearchIndexes(searchIndexHash, 200);
             Creator.SearchIndexes(searchIndexHash, 100);
             Updator.SearchIndexes(searchIndexHash, 100);
@@ -1481,6 +1593,14 @@ namespace Implem.Pleasanter.Models
                     case "ClassF": select.ClassF(); break;
                     case "ClassG": select.ClassG(); break;
                     case "ClassH": select.ClassH(); break;
+                    case "ClassI": select.ClassI(); break;
+                    case "ClassJ": select.ClassJ(); break;
+                    case "ClassK": select.ClassK(); break;
+                    case "ClassL": select.ClassL(); break;
+                    case "ClassM": select.ClassM(); break;
+                    case "ClassN": select.ClassN(); break;
+                    case "ClassO": select.ClassO(); break;
+                    case "ClassP": select.ClassP(); break;
                     case "NumA": select.NumA(); break;
                     case "NumB": select.NumB(); break;
                     case "NumC": select.NumC(); break;
@@ -1528,6 +1648,14 @@ namespace Implem.Pleasanter.Models
                 case "ClassF": return hb.Td(column: column, value: resultModel.ClassF);
                 case "ClassG": return hb.Td(column: column, value: resultModel.ClassG);
                 case "ClassH": return hb.Td(column: column, value: resultModel.ClassH);
+                case "ClassI": return hb.Td(column: column, value: resultModel.ClassI);
+                case "ClassJ": return hb.Td(column: column, value: resultModel.ClassJ);
+                case "ClassK": return hb.Td(column: column, value: resultModel.ClassK);
+                case "ClassL": return hb.Td(column: column, value: resultModel.ClassL);
+                case "ClassM": return hb.Td(column: column, value: resultModel.ClassM);
+                case "ClassN": return hb.Td(column: column, value: resultModel.ClassN);
+                case "ClassO": return hb.Td(column: column, value: resultModel.ClassO);
+                case "ClassP": return hb.Td(column: column, value: resultModel.ClassP);
                 case "NumA": return hb.Td(column: column, value: resultModel.NumA);
                 case "NumB": return hb.Td(column: column, value: resultModel.NumB);
                 case "NumC": return hb.Td(column: column, value: resultModel.NumC);
@@ -1715,6 +1843,14 @@ namespace Implem.Pleasanter.Models
                             case "ClassF": hb.Field(siteSettings, column, resultModel.ClassF.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "ClassG": hb.Field(siteSettings, column, resultModel.ClassG.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "ClassH": hb.Field(siteSettings, column, resultModel.ClassH.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "ClassI": hb.Field(siteSettings, column, resultModel.ClassI.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "ClassJ": hb.Field(siteSettings, column, resultModel.ClassJ.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "ClassK": hb.Field(siteSettings, column, resultModel.ClassK.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "ClassL": hb.Field(siteSettings, column, resultModel.ClassL.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "ClassM": hb.Field(siteSettings, column, resultModel.ClassM.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "ClassN": hb.Field(siteSettings, column, resultModel.ClassN.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "ClassO": hb.Field(siteSettings, column, resultModel.ClassO.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "ClassP": hb.Field(siteSettings, column, resultModel.ClassP.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "NumA": hb.Field(siteSettings, column, resultModel.NumA.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "NumB": hb.Field(siteSettings, column, resultModel.NumB.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "NumC": hb.Field(siteSettings, column, resultModel.NumC.ToControl(column), column.ColumnPermissionType(permissionType)); break;
@@ -1991,6 +2127,14 @@ namespace Implem.Pleasanter.Models
                                 case "ClassF": param.ClassF(recordingData, _using: recordingData != null); break;
                                 case "ClassG": param.ClassG(recordingData, _using: recordingData != null); break;
                                 case "ClassH": param.ClassH(recordingData, _using: recordingData != null); break;
+                                case "ClassI": param.ClassI(recordingData, _using: recordingData != null); break;
+                                case "ClassJ": param.ClassJ(recordingData, _using: recordingData != null); break;
+                                case "ClassK": param.ClassK(recordingData, _using: recordingData != null); break;
+                                case "ClassL": param.ClassL(recordingData, _using: recordingData != null); break;
+                                case "ClassM": param.ClassM(recordingData, _using: recordingData != null); break;
+                                case "ClassN": param.ClassN(recordingData, _using: recordingData != null); break;
+                                case "ClassO": param.ClassO(recordingData, _using: recordingData != null); break;
+                                case "ClassP": param.ClassP(recordingData, _using: recordingData != null); break;
                                 case "NumA": param.NumA(recordingData, _using: recordingData != null); break;
                                 case "NumB": param.NumB(recordingData, _using: recordingData != null); break;
                                 case "NumC": param.NumC(recordingData, _using: recordingData != null); break;
@@ -2110,6 +2254,14 @@ namespace Implem.Pleasanter.Models
                 case "ClassF": value = resultModel.ClassF.ToExport(column); break;
                 case "ClassG": value = resultModel.ClassG.ToExport(column); break;
                 case "ClassH": value = resultModel.ClassH.ToExport(column); break;
+                case "ClassI": value = resultModel.ClassI.ToExport(column); break;
+                case "ClassJ": value = resultModel.ClassJ.ToExport(column); break;
+                case "ClassK": value = resultModel.ClassK.ToExport(column); break;
+                case "ClassL": value = resultModel.ClassL.ToExport(column); break;
+                case "ClassM": value = resultModel.ClassM.ToExport(column); break;
+                case "ClassN": value = resultModel.ClassN.ToExport(column); break;
+                case "ClassO": value = resultModel.ClassO.ToExport(column); break;
+                case "ClassP": value = resultModel.ClassP.ToExport(column); break;
                 case "NumA": value = resultModel.NumA.ToExport(column); break;
                 case "NumB": value = resultModel.NumB.ToExport(column); break;
                 case "NumC": value = resultModel.NumC.ToExport(column); break;
@@ -2179,6 +2331,30 @@ namespace Implem.Pleasanter.Models
                 case "ClassH": return column.HasChoices()
                     ? column.Choice(resultModel.ClassH).Text()
                     : resultModel.ClassH;
+                case "ClassI": return column.HasChoices()
+                    ? column.Choice(resultModel.ClassI).Text()
+                    : resultModel.ClassI;
+                case "ClassJ": return column.HasChoices()
+                    ? column.Choice(resultModel.ClassJ).Text()
+                    : resultModel.ClassJ;
+                case "ClassK": return column.HasChoices()
+                    ? column.Choice(resultModel.ClassK).Text()
+                    : resultModel.ClassK;
+                case "ClassL": return column.HasChoices()
+                    ? column.Choice(resultModel.ClassL).Text()
+                    : resultModel.ClassL;
+                case "ClassM": return column.HasChoices()
+                    ? column.Choice(resultModel.ClassM).Text()
+                    : resultModel.ClassM;
+                case "ClassN": return column.HasChoices()
+                    ? column.Choice(resultModel.ClassN).Text()
+                    : resultModel.ClassN;
+                case "ClassO": return column.HasChoices()
+                    ? column.Choice(resultModel.ClassO).Text()
+                    : resultModel.ClassO;
+                case "ClassP": return column.HasChoices()
+                    ? column.Choice(resultModel.ClassP).Text()
+                    : resultModel.ClassP;
                 default: return string.Empty;
             }
         }
@@ -2227,6 +2403,30 @@ namespace Implem.Pleasanter.Models
                 case "ClassH": return column.HasChoices()
                     ? column.Choice(dataRow["ClassH"].ToString()).Text()
                     : dataRow["ClassH"].ToString();
+                case "ClassI": return column.HasChoices()
+                    ? column.Choice(dataRow["ClassI"].ToString()).Text()
+                    : dataRow["ClassI"].ToString();
+                case "ClassJ": return column.HasChoices()
+                    ? column.Choice(dataRow["ClassJ"].ToString()).Text()
+                    : dataRow["ClassJ"].ToString();
+                case "ClassK": return column.HasChoices()
+                    ? column.Choice(dataRow["ClassK"].ToString()).Text()
+                    : dataRow["ClassK"].ToString();
+                case "ClassL": return column.HasChoices()
+                    ? column.Choice(dataRow["ClassL"].ToString()).Text()
+                    : dataRow["ClassL"].ToString();
+                case "ClassM": return column.HasChoices()
+                    ? column.Choice(dataRow["ClassM"].ToString()).Text()
+                    : dataRow["ClassM"].ToString();
+                case "ClassN": return column.HasChoices()
+                    ? column.Choice(dataRow["ClassN"].ToString()).Text()
+                    : dataRow["ClassN"].ToString();
+                case "ClassO": return column.HasChoices()
+                    ? column.Choice(dataRow["ClassO"].ToString()).Text()
+                    : dataRow["ClassO"].ToString();
+                case "ClassP": return column.HasChoices()
+                    ? column.Choice(dataRow["ClassP"].ToString()).Text()
+                    : dataRow["ClassP"].ToString();
                 default: return string.Empty;
             }
         }

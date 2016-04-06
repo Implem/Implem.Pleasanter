@@ -1000,6 +1000,22 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Results_ClassG(params string[] data) { return Get("Results_ClassG", data); }
         public static HtmlBuilder Displays_Results_ClassH(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_ClassH", data)); }
         public static string Results_ClassH(params string[] data) { return Get("Results_ClassH", data); }
+        public static HtmlBuilder Displays_Results_ClassI(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_ClassI", data)); }
+        public static string Results_ClassI(params string[] data) { return Get("Results_ClassI", data); }
+        public static HtmlBuilder Displays_Results_ClassJ(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_ClassJ", data)); }
+        public static string Results_ClassJ(params string[] data) { return Get("Results_ClassJ", data); }
+        public static HtmlBuilder Displays_Results_ClassK(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_ClassK", data)); }
+        public static string Results_ClassK(params string[] data) { return Get("Results_ClassK", data); }
+        public static HtmlBuilder Displays_Results_ClassL(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_ClassL", data)); }
+        public static string Results_ClassL(params string[] data) { return Get("Results_ClassL", data); }
+        public static HtmlBuilder Displays_Results_ClassM(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_ClassM", data)); }
+        public static string Results_ClassM(params string[] data) { return Get("Results_ClassM", data); }
+        public static HtmlBuilder Displays_Results_ClassN(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_ClassN", data)); }
+        public static string Results_ClassN(params string[] data) { return Get("Results_ClassN", data); }
+        public static HtmlBuilder Displays_Results_ClassO(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_ClassO", data)); }
+        public static string Results_ClassO(params string[] data) { return Get("Results_ClassO", data); }
+        public static HtmlBuilder Displays_Results_ClassP(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_ClassP", data)); }
+        public static string Results_ClassP(params string[] data) { return Get("Results_ClassP", data); }
         public static HtmlBuilder Displays_Results_NumA(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_NumA", data)); }
         public static string Results_NumA(params string[] data) { return Get("Results_NumA", data); }
         public static HtmlBuilder Displays_Results_NumB(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_NumB", data)); }

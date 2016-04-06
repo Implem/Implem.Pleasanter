@@ -410,6 +410,14 @@ namespace Implem.Pleasanter.Libraries.Requests
                     case "DataViewFilters_Results_ClassF": where.Results_ClassF(formData[key], "t0"); break;
                     case "DataViewFilters_Results_ClassG": where.Results_ClassG(formData[key], "t0"); break;
                     case "DataViewFilters_Results_ClassH": where.Results_ClassH(formData[key], "t0"); break;
+                    case "DataViewFilters_Results_ClassI": where.Results_ClassI(formData[key], "t0"); break;
+                    case "DataViewFilters_Results_ClassJ": where.Results_ClassJ(formData[key], "t0"); break;
+                    case "DataViewFilters_Results_ClassK": where.Results_ClassK(formData[key], "t0"); break;
+                    case "DataViewFilters_Results_ClassL": where.Results_ClassL(formData[key], "t0"); break;
+                    case "DataViewFilters_Results_ClassM": where.Results_ClassM(formData[key], "t0"); break;
+                    case "DataViewFilters_Results_ClassN": where.Results_ClassN(formData[key], "t0"); break;
+                    case "DataViewFilters_Results_ClassO": where.Results_ClassO(formData[key], "t0"); break;
+                    case "DataViewFilters_Results_ClassP": where.Results_ClassP(formData[key], "t0"); break;
                     case "DataViewFilters_Results_NumA": where.Results_NumA(formData[key], "t0"); break;
                     case "DataViewFilters_Results_NumB": where.Results_NumB(formData[key], "t0"); break;
                     case "DataViewFilters_Results_NumC": where.Results_NumC(formData[key], "t0"); break;

@@ -528,6 +528,14 @@ namespace Implem.Pleasanter.Libraries.Utilities
                 case "ClassF": return Rds.ResultsWhere().ClassF(raw: destinationPk);
                 case "ClassG": return Rds.ResultsWhere().ClassG(raw: destinationPk);
                 case "ClassH": return Rds.ResultsWhere().ClassH(raw: destinationPk);
+                case "ClassI": return Rds.ResultsWhere().ClassI(raw: destinationPk);
+                case "ClassJ": return Rds.ResultsWhere().ClassJ(raw: destinationPk);
+                case "ClassK": return Rds.ResultsWhere().ClassK(raw: destinationPk);
+                case "ClassL": return Rds.ResultsWhere().ClassL(raw: destinationPk);
+                case "ClassM": return Rds.ResultsWhere().ClassM(raw: destinationPk);
+                case "ClassN": return Rds.ResultsWhere().ClassN(raw: destinationPk);
+                case "ClassO": return Rds.ResultsWhere().ClassO(raw: destinationPk);
+                case "ClassP": return Rds.ResultsWhere().ClassP(raw: destinationPk);
                 default: return null;
             }
         }
