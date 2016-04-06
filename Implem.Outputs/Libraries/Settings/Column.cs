@@ -85,7 +85,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public bool Computable;
         [NonSerialized]
-        public string Validations;
+        public string Validators;
         [NonSerialized]
         public bool? FloatClear;
 
@@ -154,7 +154,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             GridStyle = source.GridStyle;
             Aggregatable = source.Aggregatable;
             Computable = source.Computable;
-            Validations = source.Validations;
+            Validators = source.Validators;
             FloatClear = source.FloatClear;
         }
 

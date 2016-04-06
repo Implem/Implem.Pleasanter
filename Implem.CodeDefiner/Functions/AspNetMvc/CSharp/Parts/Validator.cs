@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
 {
-    internal class Validation
+    internal class Validator
     {
         internal static void SetCodeCollection(
             CodeDefinition codeDefinition,
@@ -17,7 +17,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == dataContainer.TableName)
                 .Where(o => o.FormName == dataContainer.FormName)
-                .Where(o => o.Validations != string.Empty)
+                .Where(o => o.Validators != string.Empty)
                 .ForEach(columnDefinition =>
             {
                 Creators.SetCodeCollection(
@@ -39,13 +39,13 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                         code = code.Replace(
                             "#ColumnName#", columnDefinition.ColumnName.PublicVariableName());
                         break;
-                    case "Validations":
+                    case "Validators":
                         code = code.Replace(
-                            "#Validations#", columnDefinition.Validations);
+                            "#Validators#", columnDefinition.Validators);
                         break;
-                    case "ValidationMessages":
+                    case "ValidatorMessages":
                         code = code.Replace(
-                            "#ValidationMessages#", ValidationMessage(columnDefinition));
+                            "#ValidatorMessages#", ValidatorMessages(columnDefinition));
                         break;
                     default:
                         break;
@@ -53,9 +53,9 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             }
         }
 
-        private static string ValidationMessage(ColumnDefinition columnDefinition)
+        private static string ValidatorMessages(ColumnDefinition columnDefinition)
         {
-            return columnDefinition.Validations
+            return columnDefinition.Validators
                 .Split(',')
                 .Select(o => o.Split(':')._1st() + ": $('#" + columnDefinition.Id + "').attr('data-validate-" + o.Split(':')._1st() + "')")
                 .Join(",");

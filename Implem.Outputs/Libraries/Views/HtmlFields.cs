@@ -5,7 +5,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Styles;
 using Implem.Pleasanter.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Validations;
+using Implem.Pleasanter.Libraries.Validators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.Views
                     controlType: ControlType(column),
                     value: value.ToDefault(siteSettings, column),
                     optionCollection: column.EditChoices(siteSettings.InheritPermission),
-                    attributes: ClientValidations.MessageCollection(column.Validations));
+                    attributes: ClientValidators.MessageCollection(column.Validators));
             }
             else
             {

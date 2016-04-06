@@ -243,7 +243,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.GridStyle = columnDefinition.GridStyle;
                 column.Aggregatable = columnDefinition.Aggregatable;
                 column.Computable = columnDefinition.Computable;
-                column.Validations = columnDefinition.Validations;
+                column.Validators = columnDefinition.Validators;
             }
         }
 

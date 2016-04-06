@@ -50,9 +50,9 @@ namespace Implem.Pleasanter.Models
         public bool Developer = false;
         public string OldPassword = string.Empty;
         public string ChangedPassword = string.Empty;
-        public string ChangedPasswordValidation = string.Empty;
+        public string ChangedPasswordValidator = string.Empty;
         public string AfterResetPassword = string.Empty;
-        public string AfterResetPasswordValidation = string.Empty;
+        public string AfterResetPasswordValidator = string.Empty;
         public string SessionGuid = string.Empty;
         public string FullName1 { get { return FirstName + " " + LastName; } }
         public string FullName2 { get { return LastName + " " + FirstName; } }
@@ -85,9 +85,9 @@ namespace Implem.Pleasanter.Models
         public bool SavedDeveloper = false;
         public string SavedOldPassword = string.Empty;
         public string SavedChangedPassword = string.Empty;
-        public string SavedChangedPasswordValidation = string.Empty;
+        public string SavedChangedPasswordValidator = string.Empty;
         public string SavedAfterResetPassword = string.Empty;
-        public string SavedAfterResetPasswordValidation = string.Empty;
+        public string SavedAfterResetPasswordValidator = string.Empty;
         public string SavedSessionGuid = string.Empty;
         public bool TenantId_Updated { get { return TenantId != SavedTenantId; } }
         public bool UserId_Updated { get { return UserId != SavedUserId; } }
@@ -270,9 +270,9 @@ namespace Implem.Pleasanter.Models
                     case "Users_Developer": if (!SiteSettings.AllColumn("Developer").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_OldPassword": if (!SiteSettings.AllColumn("OldPassword").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_ChangedPassword": if (!SiteSettings.AllColumn("ChangedPassword").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_ChangedPasswordValidation": if (!SiteSettings.AllColumn("ChangedPasswordValidation").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Users_ChangedPasswordValidator": if (!SiteSettings.AllColumn("ChangedPasswordValidator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_AfterResetPassword": if (!SiteSettings.AllColumn("AfterResetPassword").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_AfterResetPasswordValidation": if (!SiteSettings.AllColumn("AfterResetPasswordValidation").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Users_AfterResetPasswordValidator": if (!SiteSettings.AllColumn("AfterResetPasswordValidator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_SessionGuid": if (!SiteSettings.AllColumn("SessionGuid").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_Comments": if (!SiteSettings.AllColumn("Comments").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_Creator": if (!SiteSettings.AllColumn("Creator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
@@ -368,9 +368,9 @@ namespace Implem.Pleasanter.Models
                     case "Users_Developer": if (!SiteSettings.AllColumn("Developer").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_OldPassword": if (!SiteSettings.AllColumn("OldPassword").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_ChangedPassword": if (!SiteSettings.AllColumn("ChangedPassword").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_ChangedPasswordValidation": if (!SiteSettings.AllColumn("ChangedPasswordValidation").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Users_ChangedPasswordValidator": if (!SiteSettings.AllColumn("ChangedPasswordValidator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_AfterResetPassword": if (!SiteSettings.AllColumn("AfterResetPassword").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_AfterResetPasswordValidation": if (!SiteSettings.AllColumn("AfterResetPasswordValidation").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Users_AfterResetPasswordValidator": if (!SiteSettings.AllColumn("AfterResetPasswordValidator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_SessionGuid": if (!SiteSettings.AllColumn("SessionGuid").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_Comments": if (!SiteSettings.AllColumn("Comments").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_Creator": if (!SiteSettings.AllColumn("Creator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
@@ -672,9 +672,9 @@ namespace Implem.Pleasanter.Models
                     case "Users_TenantAdmin": TenantAdmin = Forms.Data(controlId).ToBool(); break;
                     case "Users_OldPassword": OldPassword = Forms.Data(controlId).ToString().Sha512Cng(); break;
                     case "Users_ChangedPassword": ChangedPassword = Forms.Data(controlId).ToString().Sha512Cng(); break;
-                    case "Users_ChangedPasswordValidation": ChangedPasswordValidation = Forms.Data(controlId).ToString().Sha512Cng(); break;
+                    case "Users_ChangedPasswordValidator": ChangedPasswordValidator = Forms.Data(controlId).ToString().Sha512Cng(); break;
                     case "Users_AfterResetPassword": AfterResetPassword = Forms.Data(controlId).ToString().Sha512Cng(); break;
-                    case "Users_AfterResetPasswordValidation": AfterResetPasswordValidation = Forms.Data(controlId).ToString().Sha512Cng(); break;
+                    case "Users_AfterResetPasswordValidator": AfterResetPasswordValidator = Forms.Data(controlId).ToString().Sha512Cng(); break;
                     case "Users_SessionGuid": SessionGuid = Forms.Data(controlId).ToString(); break;
                     case "Users_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
                     case "Comments": Comments = Comments.Prepend(Forms.Data("Comments")); break;
@@ -933,7 +933,7 @@ namespace Implem.Pleasanter.Models
                         .UpdatedTime(UpdatedTime.ToString())
                         .OldPassword(string.Empty)
                         .ChangedPassword(string.Empty)
-                        .ChangedPasswordValidation(string.Empty)
+                        .ChangedPasswordValidator(string.Empty)
                         .ClearFormData()
                         .CloseDialog()
                         .Message(Messages.ChangingPasswordComplete());
@@ -968,7 +968,7 @@ namespace Implem.Pleasanter.Models
                     .PasswordChangeTime(PasswordChangeTime.ToString())
                     .UpdatedTime(UpdatedTime.ToString())
                     .AfterResetPassword(string.Empty)
-                    .AfterResetPasswordValidation(string.Empty)
+                    .AfterResetPasswordValidator(string.Empty)
                     .ClearFormData()
                     .CloseDialog()
                     .Message(Messages.PasswordResetCompleted());
@@ -1602,9 +1602,9 @@ namespace Implem.Pleasanter.Models
                             case "TenantAdmin": hb.Field(siteSettings, column, userModel.TenantAdmin.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "OldPassword": hb.Field(siteSettings, column, userModel.OldPassword.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "ChangedPassword": hb.Field(siteSettings, column, userModel.ChangedPassword.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "ChangedPasswordValidation": hb.Field(siteSettings, column, userModel.ChangedPasswordValidation.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "ChangedPasswordValidator": hb.Field(siteSettings, column, userModel.ChangedPasswordValidator.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "AfterResetPassword": hb.Field(siteSettings, column, userModel.AfterResetPassword.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "AfterResetPasswordValidation": hb.Field(siteSettings, column, userModel.AfterResetPasswordValidation.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "AfterResetPasswordValidator": hb.Field(siteSettings, column, userModel.AfterResetPasswordValidator.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                         }
                     });
                 hb.VerUpCheckBox(userModel);
@@ -1716,7 +1716,7 @@ namespace Implem.Pleasanter.Models
                                 column: siteSettings.AllColumn("ChangedPassword"))
                             .Field(
                                 siteSettings: siteSettings,
-                                column: siteSettings.AllColumn("ChangedPasswordValidation"))
+                                column: siteSettings.AllColumn("ChangedPasswordValidator"))
                             .P(css: "message-dialog")
                             .Div(css: "command-center", action: () => hb
                                 .Button(
@@ -1752,7 +1752,7 @@ namespace Implem.Pleasanter.Models
                                 column: siteSettings.AllColumn("AfterResetPassword"))
                             .Field(
                                 siteSettings: siteSettings,
-                                column: siteSettings.AllColumn("AfterResetPasswordValidation"))
+                                column: siteSettings.AllColumn("AfterResetPasswordValidator"))
                             .P(css: "hidden", action: () => hb
                                 .TextBox(
                                     textStyle: HtmlControls.TextStyles.Password,

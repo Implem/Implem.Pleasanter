@@ -39,14 +39,14 @@ namespace Implem.Pleasanter
 
         private static void Validators(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/bundles/TenantValidator").Include("~/Scripts/Validations/Tenant.js"));
-            bundles.Add(new ScriptBundle("~/bundles/DeptValidator").Include("~/Scripts/Validations/Dept.js"));
-            bundles.Add(new ScriptBundle("~/bundles/UserValidator").Include("~/Scripts/Validations/User.js"));
-            bundles.Add(new ScriptBundle("~/bundles/OutgoingMailValidator").Include("~/Scripts/Validations/OutgoingMail.js"));
-            bundles.Add(new ScriptBundle("~/bundles/SiteValidator").Include("~/Scripts/Validations/Site.js"));
-            bundles.Add(new ScriptBundle("~/bundles/IssueValidator").Include("~/Scripts/Validations/Issue.js"));
-            bundles.Add(new ScriptBundle("~/bundles/ResultValidator").Include("~/Scripts/Validations/Result.js"));
-            bundles.Add(new ScriptBundle("~/bundles/WikiValidator").Include("~/Scripts/Validations/Wiki.js"));
+            bundles.Add(new ScriptBundle("~/bundles/TenantValidator").Include("~/Scripts/Validators/Tenant.js"));
+            bundles.Add(new ScriptBundle("~/bundles/DeptValidator").Include("~/Scripts/Validators/Dept.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserValidator").Include("~/Scripts/Validators/User.js"));
+            bundles.Add(new ScriptBundle("~/bundles/OutgoingMailValidator").Include("~/Scripts/Validators/OutgoingMail.js"));
+            bundles.Add(new ScriptBundle("~/bundles/SiteValidator").Include("~/Scripts/Validators/Site.js"));
+            bundles.Add(new ScriptBundle("~/bundles/IssueValidator").Include("~/Scripts/Validators/Issue.js"));
+            bundles.Add(new ScriptBundle("~/bundles/ResultValidator").Include("~/Scripts/Validators/Result.js"));
+            bundles.Add(new ScriptBundle("~/bundles/WikiValidator").Include("~/Scripts/Validators/Wiki.js"));
         }
     }
 }

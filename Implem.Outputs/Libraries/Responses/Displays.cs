@@ -720,12 +720,12 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Users_OldPassword(params string[] data) { return Get("Users_OldPassword", data); }
         public static HtmlBuilder Displays_Users_ChangedPassword(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Users_ChangedPassword", data)); }
         public static string Users_ChangedPassword(params string[] data) { return Get("Users_ChangedPassword", data); }
-        public static HtmlBuilder Displays_Users_ChangedPasswordValidation(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Users_ChangedPasswordValidation", data)); }
-        public static string Users_ChangedPasswordValidation(params string[] data) { return Get("Users_ChangedPasswordValidation", data); }
+        public static HtmlBuilder Displays_Users_ChangedPasswordValidator(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Users_ChangedPasswordValidator", data)); }
+        public static string Users_ChangedPasswordValidator(params string[] data) { return Get("Users_ChangedPasswordValidator", data); }
         public static HtmlBuilder Displays_Users_AfterResetPassword(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Users_AfterResetPassword", data)); }
         public static string Users_AfterResetPassword(params string[] data) { return Get("Users_AfterResetPassword", data); }
-        public static HtmlBuilder Displays_Users_AfterResetPasswordValidation(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Users_AfterResetPasswordValidation", data)); }
-        public static string Users_AfterResetPasswordValidation(params string[] data) { return Get("Users_AfterResetPasswordValidation", data); }
+        public static HtmlBuilder Displays_Users_AfterResetPasswordValidator(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Users_AfterResetPasswordValidator", data)); }
+        public static string Users_AfterResetPasswordValidator(params string[] data) { return Get("Users_AfterResetPasswordValidator", data); }
         public static HtmlBuilder Displays_Users_SessionGuid(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Users_SessionGuid", data)); }
         public static string Users_SessionGuid(params string[] data) { return Get("Users_SessionGuid", data); }
         public static HtmlBuilder Displays_MailAddresses_OwnerId(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MailAddresses_OwnerId", data)); }
