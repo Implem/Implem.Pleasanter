@@ -195,9 +195,7 @@ namespace Implem.Pleasanter.Libraries.ServerData
 
         public static string UserFullName(int userId)
         {
-            return SiteInfo.UserExists(userId)
-                ? SiteInfo.User(userId).FullName
-                : "? " + userId;
+            return SiteInfo.User(userId).FullName;
         }
 
         public static string IndexReferenceType(string referenceType, long referenceId)
