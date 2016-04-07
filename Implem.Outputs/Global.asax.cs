@@ -81,12 +81,14 @@ namespace Implem.Pleasanter
                     SiteSettingsUtility.UsersSiteSettings(),
                     Permissions.Admins(),
                     HttpContext.Current.User.Identity.Name.ToInt());
-                if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
+                if (userModel.AccessStatus == Databases.AccessStatuses.Selected &&
+                    !userModel.Disabled)
                 {
                     userModel.SetSession();
                 }
                 else
                 {
+                    Securities.Logout();
                     SetAnonymouseSession();
                 }
             }
