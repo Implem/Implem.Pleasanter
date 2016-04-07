@@ -149,7 +149,7 @@ namespace Implem.Pleasanter.Libraries.ServerData
 
         public static void SetUser(User user)
         {
-            if (Users.ContainsKey(user.Id))
+            if (UserExists(user.Id))
             {
                 Users[user.Id] = user;
             }
@@ -182,7 +182,7 @@ namespace Implem.Pleasanter.Libraries.ServerData
 
         public static User User(int userId)
         {
-            if (!GetUsers().ContainsKey(userId))
+            if (!UserExists(userId))
             {
                 var user = new User(userId);
                 Users.Add(userId, user);
