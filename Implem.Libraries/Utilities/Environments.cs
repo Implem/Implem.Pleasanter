@@ -12,7 +12,7 @@ namespace Implem.Libraries.Utilities
         public static string Application;
         public static string AssemblyVersion;
         public static Sqls.DbEnvironmentTypes DbEnvironmentType;
-        public static TimeZoneInfo DbTimeZoneInfo;
+        public static TimeZoneInfo RdsTimeZoneInfo;
         public static TimeZoneInfo TimeZoneInfoDefault;
     }
 }

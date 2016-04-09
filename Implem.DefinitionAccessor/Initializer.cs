@@ -117,7 +117,7 @@ namespace Implem.DefinitionAccessor
                     break;
                 default: break;
             }
-            Environments.DbTimeZoneInfo = TimeZoneInfo.GetSystemTimeZones()
+            Environments.RdsTimeZoneInfo = TimeZoneInfo.GetSystemTimeZones()
                 .FirstOrDefault(o => o.Id == Def.Parameters.RdsTimeZoneInfo);
         }
 

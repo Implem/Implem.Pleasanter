@@ -157,7 +157,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer
                 TimeZoneInfo.ConvertTime(
                     DateTime.FromOADate(double.Parse(value)),
                     Environments.TimeZoneInfoDefault,
-                    Environments.DbTimeZoneInfo).ToString()));
+                    Environments.RdsTimeZoneInfo).ToString()));
         }
 
         private static void AddParam_General(
