@@ -1580,7 +1580,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_grid_row_space_p": Css._dot_grid_row_space_p = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row_space_p, definitionRow, CssXls); break;
                     case "_dot_grid_row_space_p_dot_body": Css._dot_grid_row_space_p_dot_body = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row_space_p_dot_body, definitionRow, CssXls); break;
                     case "_dot_grid_title_body": Css._dot_grid_title_body = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_title_body, definitionRow, CssXls); break;
-                    case "_dot_grid_title_body_space___space__dot_body": Css._dot_grid_title_body_space___space__dot_body = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_title_body_space___space__dot_body, definitionRow, CssXls); break;
+                    case "_dot_grid_title_body_space___space__dot_title_space__plus__space__dot_body": Css._dot_grid_title_body_space___space__dot_title_space__plus__space__dot_body = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_title_body_space___space__dot_title_space__plus__space__dot_body, definitionRow, CssXls); break;
                     case "_dot_links": Css._dot_links = definitionRow[1].ToString(); SetCssTable(CssTable._dot_links, definitionRow, CssXls); break;
                     case "_dot_link_creations_space_button": Css._dot_link_creations_space_button = definitionRow[1].ToString(); SetCssTable(CssTable._dot_link_creations_space_button, definitionRow, CssXls); break;
                     case "_dot_gantt_graph": Css._dot_gantt_graph = definitionRow[1].ToString(); SetCssTable(CssTable._dot_gantt_graph, definitionRow, CssXls); break;
@@ -5799,7 +5799,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_grid_row_space_p;
         public string _dot_grid_row_space_p_dot_body;
         public string _dot_grid_title_body;
-        public string _dot_grid_title_body_space___space__dot_body;
+        public string _dot_grid_title_body_space___space__dot_title_space__plus__space__dot_body;
         public string _dot_links;
         public string _dot_link_creations_space_button;
         public string _dot_gantt_graph;
@@ -6127,7 +6127,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_grid_row_space_p = new CssDefinition();
         public CssDefinition _dot_grid_row_space_p_dot_body = new CssDefinition();
         public CssDefinition _dot_grid_title_body = new CssDefinition();
-        public CssDefinition _dot_grid_title_body_space___space__dot_body = new CssDefinition();
+        public CssDefinition _dot_grid_title_body_space___space__dot_title_space__plus__space__dot_body = new CssDefinition();
         public CssDefinition _dot_links = new CssDefinition();
         public CssDefinition _dot_link_creations_space_button = new CssDefinition();
         public CssDefinition _dot_gantt_graph = new CssDefinition();

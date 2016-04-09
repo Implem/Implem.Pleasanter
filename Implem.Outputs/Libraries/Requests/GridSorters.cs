@@ -348,9 +348,9 @@ namespace Implem.Pleasanter.Libraries.Requests
                     case "GridSorters_Results_UpdatedTime": orderBy.Results_UpdatedTime(type); break;
                     case "GridSorters_Results_ResultId": orderBy.Results_ResultId(type); break;
                     case "GridSorters_Results_Ver": orderBy.Results_Ver(type); break;
+                    case "GridSorters_Results_Title": orderBy.Results_Title(type); break;
                     case "GridSorters_Results_Body": orderBy.Results_Body(type); break;
                     case "GridSorters_Results_TitleBody": orderBy.Results_TitleBody(type); break;
-                    case "GridSorters_Results_Title": orderBy.Results_Title(type); break;
                     case "GridSorters_Results_Manager": orderBy.Results_Manager(type); break;
                     case "GridSorters_Results_Owner": orderBy.Results_Owner(type); break;
                     case "GridSorters_Results_ClassA": orderBy.Results_ClassA(type); break;

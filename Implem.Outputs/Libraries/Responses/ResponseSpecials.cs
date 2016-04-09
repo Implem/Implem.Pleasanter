@@ -1062,14 +1062,14 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResultsResponseCollection Ver(this ResultsResponseCollection responseCollection, string value) { return responseCollection.Val("#Results_Ver", value); }
         public static ResultsResponseCollection Ver_FormData(this ResultsResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Results_Ver", responseCollection.ResultModel.Ver.ToResponse()); }
         public static ResultsResponseCollection Ver_FormData(this ResultsResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Results_Ver", value); }
-        public static ResultsResponseCollection Body(this ResultsResponseCollection responseCollection) { return responseCollection.Val("#Results_Body", responseCollection.ResultModel.Body.ToResponse()); }
-        public static ResultsResponseCollection Body(this ResultsResponseCollection responseCollection, string value) { return responseCollection.Val("#Results_Body", value); }
-        public static ResultsResponseCollection Body_FormData(this ResultsResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Results_Body", responseCollection.ResultModel.Body.ToResponse()); }
-        public static ResultsResponseCollection Body_FormData(this ResultsResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Results_Body", value); }
         public static ResultsResponseCollection Title(this ResultsResponseCollection responseCollection) { return responseCollection.Val("#Results_Title", responseCollection.ResultModel.Title.ToResponse()); }
         public static ResultsResponseCollection Title(this ResultsResponseCollection responseCollection, string value) { return responseCollection.Val("#Results_Title", value); }
         public static ResultsResponseCollection Title_FormData(this ResultsResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Results_Title", responseCollection.ResultModel.Title.ToResponse()); }
         public static ResultsResponseCollection Title_FormData(this ResultsResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Results_Title", value); }
+        public static ResultsResponseCollection Body(this ResultsResponseCollection responseCollection) { return responseCollection.Val("#Results_Body", responseCollection.ResultModel.Body.ToResponse()); }
+        public static ResultsResponseCollection Body(this ResultsResponseCollection responseCollection, string value) { return responseCollection.Val("#Results_Body", value); }
+        public static ResultsResponseCollection Body_FormData(this ResultsResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Results_Body", responseCollection.ResultModel.Body.ToResponse()); }
+        public static ResultsResponseCollection Body_FormData(this ResultsResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Results_Body", value); }
         public static ResultsResponseCollection Manager(this ResultsResponseCollection responseCollection) { return responseCollection.Val("#Results_Manager", responseCollection.ResultModel.Manager.ToResponse()); }
         public static ResultsResponseCollection Manager(this ResultsResponseCollection responseCollection, string value) { return responseCollection.Val("#Results_Manager", value); }
         public static ResultsResponseCollection Manager_FormData(this ResultsResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Results_Manager", responseCollection.ResultModel.Manager.ToResponse()); }
