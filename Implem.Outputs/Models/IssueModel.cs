@@ -67,6 +67,14 @@ namespace Implem.Pleasanter.Models
         public DateTime DateF = 0.ToDateTime();
         public DateTime DateG = 0.ToDateTime();
         public DateTime DateH = 0.ToDateTime();
+        public string DescriptionA = string.Empty;
+        public string DescriptionB = string.Empty;
+        public string DescriptionC = string.Empty;
+        public string DescriptionD = string.Empty;
+        public string DescriptionE = string.Empty;
+        public string DescriptionF = string.Empty;
+        public string DescriptionG = string.Empty;
+        public string DescriptionH = string.Empty;
         public TitleBody TitleBody { get { return new TitleBody(IssueId, Title.Value, Title.DisplayValue, Body); } }
         public long SavedIssueId = 0;
         public DateTime SavedStartTime = 0.ToDateTime();
@@ -109,6 +117,14 @@ namespace Implem.Pleasanter.Models
         public DateTime SavedDateF = 0.ToDateTime();
         public DateTime SavedDateG = 0.ToDateTime();
         public DateTime SavedDateH = 0.ToDateTime();
+        public string SavedDescriptionA = string.Empty;
+        public string SavedDescriptionB = string.Empty;
+        public string SavedDescriptionC = string.Empty;
+        public string SavedDescriptionD = string.Empty;
+        public string SavedDescriptionE = string.Empty;
+        public string SavedDescriptionF = string.Empty;
+        public string SavedDescriptionG = string.Empty;
+        public string SavedDescriptionH = string.Empty;
         public bool StartTime_Updated { get { return StartTime != SavedStartTime && StartTime != null; } }
         public bool CompletionTime_Updated { get { return CompletionTime.Value != SavedCompletionTime && CompletionTime.Value != null; } }
         public bool WorkValue_Updated { get { return WorkValue.Value != SavedWorkValue; } }
@@ -148,6 +164,14 @@ namespace Implem.Pleasanter.Models
         public bool DateF_Updated { get { return DateF != SavedDateF && DateF != null; } }
         public bool DateG_Updated { get { return DateG != SavedDateG && DateG != null; } }
         public bool DateH_Updated { get { return DateH != SavedDateH && DateH != null; } }
+        public bool DescriptionA_Updated { get { return DescriptionA != SavedDescriptionA && DescriptionA != null; } }
+        public bool DescriptionB_Updated { get { return DescriptionB != SavedDescriptionB && DescriptionB != null; } }
+        public bool DescriptionC_Updated { get { return DescriptionC != SavedDescriptionC && DescriptionC != null; } }
+        public bool DescriptionD_Updated { get { return DescriptionD != SavedDescriptionD && DescriptionD != null; } }
+        public bool DescriptionE_Updated { get { return DescriptionE != SavedDescriptionE && DescriptionE != null; } }
+        public bool DescriptionF_Updated { get { return DescriptionF != SavedDescriptionF && DescriptionF != null; } }
+        public bool DescriptionG_Updated { get { return DescriptionG != SavedDescriptionG && DescriptionG != null; } }
+        public bool DescriptionH_Updated { get { return DescriptionH != SavedDescriptionH && DescriptionH != null; } }
         public List<long> SwitchTargets;
 
         public IssueModel(SiteSettings siteSettings)
@@ -352,6 +376,14 @@ namespace Implem.Pleasanter.Models
                     case "Issues_DateF": if (!SiteSettings.AllColumn("DateF").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Issues_DateG": if (!SiteSettings.AllColumn("DateG").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Issues_DateH": if (!SiteSettings.AllColumn("DateH").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_DescriptionA": if (!SiteSettings.AllColumn("DescriptionA").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_DescriptionB": if (!SiteSettings.AllColumn("DescriptionB").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_DescriptionC": if (!SiteSettings.AllColumn("DescriptionC").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_DescriptionD": if (!SiteSettings.AllColumn("DescriptionD").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_DescriptionE": if (!SiteSettings.AllColumn("DescriptionE").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_DescriptionF": if (!SiteSettings.AllColumn("DescriptionF").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_DescriptionG": if (!SiteSettings.AllColumn("DescriptionG").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_DescriptionH": if (!SiteSettings.AllColumn("DescriptionH").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Issues_Comments": if (!SiteSettings.AllColumn("Comments").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Issues_Creator": if (!SiteSettings.AllColumn("Creator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Issues_Updator": if (!SiteSettings.AllColumn("Updator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
@@ -505,6 +537,14 @@ namespace Implem.Pleasanter.Models
                     case "Issues_DateF": if (!SiteSettings.AllColumn("DateF").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Issues_DateG": if (!SiteSettings.AllColumn("DateG").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Issues_DateH": if (!SiteSettings.AllColumn("DateH").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_DescriptionA": if (!SiteSettings.AllColumn("DescriptionA").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_DescriptionB": if (!SiteSettings.AllColumn("DescriptionB").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_DescriptionC": if (!SiteSettings.AllColumn("DescriptionC").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_DescriptionD": if (!SiteSettings.AllColumn("DescriptionD").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_DescriptionE": if (!SiteSettings.AllColumn("DescriptionE").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_DescriptionF": if (!SiteSettings.AllColumn("DescriptionF").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_DescriptionG": if (!SiteSettings.AllColumn("DescriptionG").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_DescriptionH": if (!SiteSettings.AllColumn("DescriptionH").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Issues_Comments": if (!SiteSettings.AllColumn("Comments").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Issues_Creator": if (!SiteSettings.AllColumn("Creator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Issues_Updator": if (!SiteSettings.AllColumn("Updator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
@@ -988,6 +1028,14 @@ namespace Implem.Pleasanter.Models
                     case "Issues_DateF": DateF = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
                     case "Issues_DateG": DateG = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
                     case "Issues_DateH": DateH = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
+                    case "Issues_DescriptionA": DescriptionA = Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionB": DescriptionB = Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionC": DescriptionC = Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionD": DescriptionD = Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionE": DescriptionE = Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionF": DescriptionF = Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionG": DescriptionG = Forms.Data(controlId).ToString(); break;
+                    case "Issues_DescriptionH": DescriptionH = Forms.Data(controlId).ToString(); break;
                     case "Issues_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
                     case "Comments": Comments = Comments.Prepend(Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
@@ -1076,6 +1124,14 @@ namespace Implem.Pleasanter.Models
                     case "DateF": DateF = dataRow[name].ToDateTime(); SavedDateF = DateF; break;
                     case "DateG": DateG = dataRow[name].ToDateTime(); SavedDateG = DateG; break;
                     case "DateH": DateH = dataRow[name].ToDateTime(); SavedDateH = DateH; break;
+                    case "DescriptionA": DescriptionA = dataRow[name].ToString(); SavedDescriptionA = DescriptionA; break;
+                    case "DescriptionB": DescriptionB = dataRow[name].ToString(); SavedDescriptionB = DescriptionB; break;
+                    case "DescriptionC": DescriptionC = dataRow[name].ToString(); SavedDescriptionC = DescriptionC; break;
+                    case "DescriptionD": DescriptionD = dataRow[name].ToString(); SavedDescriptionD = DescriptionD; break;
+                    case "DescriptionE": DescriptionE = dataRow[name].ToString(); SavedDescriptionE = DescriptionE; break;
+                    case "DescriptionF": DescriptionF = dataRow[name].ToString(); SavedDescriptionF = DescriptionF; break;
+                    case "DescriptionG": DescriptionG = dataRow[name].ToString(); SavedDescriptionG = DescriptionG; break;
+                    case "DescriptionH": DescriptionH = dataRow[name].ToString(); SavedDescriptionH = DescriptionH; break;
                     case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
                     case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
@@ -1199,6 +1255,22 @@ namespace Implem.Pleasanter.Models
         public string DateG_LabelText;
         public DateTime DateH;
         public string DateH_LabelText;
+        public string DescriptionA;
+        public string DescriptionA_LabelText;
+        public string DescriptionB;
+        public string DescriptionB_LabelText;
+        public string DescriptionC;
+        public string DescriptionC_LabelText;
+        public string DescriptionD;
+        public string DescriptionD_LabelText;
+        public string DescriptionE;
+        public string DescriptionE_LabelText;
+        public string DescriptionF;
+        public string DescriptionF_LabelText;
+        public string DescriptionG;
+        public string DescriptionG_LabelText;
+        public string DescriptionH;
+        public string DescriptionH_LabelText;
         public Comments Comments;
         public string Comments_LabelText;
         public User Creator;
@@ -1304,6 +1376,22 @@ namespace Implem.Pleasanter.Models
             DateG_LabelText = siteSettings.EditorColumn("DateG")?.LabelText;
             DateH = issueModel.DateH;
             DateH_LabelText = siteSettings.EditorColumn("DateH")?.LabelText;
+            DescriptionA = issueModel.DescriptionA;
+            DescriptionA_LabelText = siteSettings.EditorColumn("DescriptionA")?.LabelText;
+            DescriptionB = issueModel.DescriptionB;
+            DescriptionB_LabelText = siteSettings.EditorColumn("DescriptionB")?.LabelText;
+            DescriptionC = issueModel.DescriptionC;
+            DescriptionC_LabelText = siteSettings.EditorColumn("DescriptionC")?.LabelText;
+            DescriptionD = issueModel.DescriptionD;
+            DescriptionD_LabelText = siteSettings.EditorColumn("DescriptionD")?.LabelText;
+            DescriptionE = issueModel.DescriptionE;
+            DescriptionE_LabelText = siteSettings.EditorColumn("DescriptionE")?.LabelText;
+            DescriptionF = issueModel.DescriptionF;
+            DescriptionF_LabelText = siteSettings.EditorColumn("DescriptionF")?.LabelText;
+            DescriptionG = issueModel.DescriptionG;
+            DescriptionG_LabelText = siteSettings.EditorColumn("DescriptionG")?.LabelText;
+            DescriptionH = issueModel.DescriptionH;
+            DescriptionH_LabelText = siteSettings.EditorColumn("DescriptionH")?.LabelText;
             Comments = issueModel.Comments;
             Comments_LabelText = siteSettings.EditorColumn("Comments")?.LabelText;
             Creator = issueModel.Creator;
@@ -1793,6 +1881,14 @@ namespace Implem.Pleasanter.Models
                     case "DateF": select.DateF(); break;
                     case "DateG": select.DateG(); break;
                     case "DateH": select.DateH(); break;
+                    case "DescriptionA": select.DescriptionA(); break;
+                    case "DescriptionB": select.DescriptionB(); break;
+                    case "DescriptionC": select.DescriptionC(); break;
+                    case "DescriptionD": select.DescriptionD(); break;
+                    case "DescriptionE": select.DescriptionE(); break;
+                    case "DescriptionF": select.DescriptionF(); break;
+                    case "DescriptionG": select.DescriptionG(); break;
+                    case "DescriptionH": select.DescriptionH(); break;
                     case "Comments": select.Comments(); break;
                     case "Creator": select.Creator(); break;
                     case "Updator": select.Updator(); break;
@@ -1854,6 +1950,14 @@ namespace Implem.Pleasanter.Models
                 case "DateF": return hb.Td(column: column, value: issueModel.DateF);
                 case "DateG": return hb.Td(column: column, value: issueModel.DateG);
                 case "DateH": return hb.Td(column: column, value: issueModel.DateH);
+                case "DescriptionA": return hb.Td(column: column, value: issueModel.DescriptionA);
+                case "DescriptionB": return hb.Td(column: column, value: issueModel.DescriptionB);
+                case "DescriptionC": return hb.Td(column: column, value: issueModel.DescriptionC);
+                case "DescriptionD": return hb.Td(column: column, value: issueModel.DescriptionD);
+                case "DescriptionE": return hb.Td(column: column, value: issueModel.DescriptionE);
+                case "DescriptionF": return hb.Td(column: column, value: issueModel.DescriptionF);
+                case "DescriptionG": return hb.Td(column: column, value: issueModel.DescriptionG);
+                case "DescriptionH": return hb.Td(column: column, value: issueModel.DescriptionH);
                 case "Comments": return hb.Td(column: column, value: issueModel.Comments);
                 case "Creator": return hb.Td(column: column, value: issueModel.Creator);
                 case "Updator": return hb.Td(column: column, value: issueModel.Updator);
@@ -2055,6 +2159,14 @@ namespace Implem.Pleasanter.Models
                             case "DateF": hb.Field(siteSettings, column, issueModel.DateF.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "DateG": hb.Field(siteSettings, column, issueModel.DateG.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "DateH": hb.Field(siteSettings, column, issueModel.DateH.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "DescriptionA": hb.Field(siteSettings, column, issueModel.DescriptionA.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "DescriptionB": hb.Field(siteSettings, column, issueModel.DescriptionB.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "DescriptionC": hb.Field(siteSettings, column, issueModel.DescriptionC.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "DescriptionD": hb.Field(siteSettings, column, issueModel.DescriptionD.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "DescriptionE": hb.Field(siteSettings, column, issueModel.DescriptionE.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "DescriptionF": hb.Field(siteSettings, column, issueModel.DescriptionF.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "DescriptionG": hb.Field(siteSettings, column, issueModel.DescriptionG.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "DescriptionH": hb.Field(siteSettings, column, issueModel.DescriptionH.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                         }
                     });
                 hb.VerUpCheckBox(issueModel);
@@ -2359,6 +2471,14 @@ namespace Implem.Pleasanter.Models
                                 case "DateF": param.DateF(recordingData, _using: recordingData != null); break;
                                 case "DateG": param.DateG(recordingData, _using: recordingData != null); break;
                                 case "DateH": param.DateH(recordingData, _using: recordingData != null); break;
+                                case "DescriptionA": param.DescriptionA(recordingData, _using: recordingData != null); break;
+                                case "DescriptionB": param.DescriptionB(recordingData, _using: recordingData != null); break;
+                                case "DescriptionC": param.DescriptionC(recordingData, _using: recordingData != null); break;
+                                case "DescriptionD": param.DescriptionD(recordingData, _using: recordingData != null); break;
+                                case "DescriptionE": param.DescriptionE(recordingData, _using: recordingData != null); break;
+                                case "DescriptionF": param.DescriptionF(recordingData, _using: recordingData != null); break;
+                                case "DescriptionG": param.DescriptionG(recordingData, _using: recordingData != null); break;
+                                case "DescriptionH": param.DescriptionH(recordingData, _using: recordingData != null); break;
                                 case "Comments": param.Comments(recordingData, _using: recordingData != null); break;
                             }
                         }
@@ -2507,6 +2627,14 @@ namespace Implem.Pleasanter.Models
                 case "DateF": value = issueModel.DateF.ToExport(column); break;
                 case "DateG": value = issueModel.DateG.ToExport(column); break;
                 case "DateH": value = issueModel.DateH.ToExport(column); break;
+                case "DescriptionA": value = issueModel.DescriptionA.ToExport(column); break;
+                case "DescriptionB": value = issueModel.DescriptionB.ToExport(column); break;
+                case "DescriptionC": value = issueModel.DescriptionC.ToExport(column); break;
+                case "DescriptionD": value = issueModel.DescriptionD.ToExport(column); break;
+                case "DescriptionE": value = issueModel.DescriptionE.ToExport(column); break;
+                case "DescriptionF": value = issueModel.DescriptionF.ToExport(column); break;
+                case "DescriptionG": value = issueModel.DescriptionG.ToExport(column); break;
+                case "DescriptionH": value = issueModel.DescriptionH.ToExport(column); break;
                 case "Comments": value = issueModel.Comments.ToExport(column); break;
                 case "Creator": value = issueModel.Creator.ToExport(column); break;
                 case "Updator": value = issueModel.Updator.ToExport(column); break;
