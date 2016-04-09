@@ -27,11 +27,11 @@ namespace Implem.Pleasanter.Models
         public long Id { get { return ResultId; } }
         public override long UrlId { get { return ResultId; } }
         public long ResultId = 0;
+        public Status Status = new Status();
         public User Manager = new User();
         public User Owner = new User();
         public string ClassA = string.Empty;
         public string ClassB = string.Empty;
-        public Status Status = new Status();
         public string ClassC = string.Empty;
         public string ClassD = string.Empty;
         public string ClassE = string.Empty;
@@ -72,11 +72,11 @@ namespace Implem.Pleasanter.Models
         public string DescriptionH = string.Empty;
         public TitleBody TitleBody { get { return new TitleBody(ResultId, Title.Value, Title.DisplayValue, Body); } }
         public long SavedResultId = 0;
+        public int SavedStatus = 100;
         public int SavedManager = 0;
         public int SavedOwner = 0;
         public string SavedClassA = string.Empty;
         public string SavedClassB = string.Empty;
-        public int SavedStatus = 100;
         public string SavedClassC = string.Empty;
         public string SavedClassD = string.Empty;
         public string SavedClassE = string.Empty;
@@ -115,11 +115,11 @@ namespace Implem.Pleasanter.Models
         public string SavedDescriptionF = string.Empty;
         public string SavedDescriptionG = string.Empty;
         public string SavedDescriptionH = string.Empty;
+        public bool Status_Updated { get { return Status.Value != SavedStatus; } }
         public bool Manager_Updated { get { return Manager.Id != SavedManager; } }
         public bool Owner_Updated { get { return Owner.Id != SavedOwner; } }
         public bool ClassA_Updated { get { return ClassA != SavedClassA && ClassA != null; } }
         public bool ClassB_Updated { get { return ClassB != SavedClassB && ClassB != null; } }
-        public bool Status_Updated { get { return Status.Value != SavedStatus; } }
         public bool ClassC_Updated { get { return ClassC != SavedClassC && ClassC != null; } }
         public bool ClassD_Updated { get { return ClassD != SavedClassD && ClassD != null; } }
         public bool ClassE_Updated { get { return ClassE != SavedClassE && ClassE != null; } }
@@ -322,11 +322,11 @@ namespace Implem.Pleasanter.Models
                     case "Results_Title": if (!SiteSettings.AllColumn("Title").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_Body": if (!SiteSettings.AllColumn("Body").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_TitleBody": if (!SiteSettings.AllColumn("TitleBody").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Results_Status": if (!SiteSettings.AllColumn("Status").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_Manager": if (!SiteSettings.AllColumn("Manager").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_Owner": if (!SiteSettings.AllColumn("Owner").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_ClassA": if (!SiteSettings.AllColumn("ClassA").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_ClassB": if (!SiteSettings.AllColumn("ClassB").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Results_Status": if (!SiteSettings.AllColumn("Status").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_ClassC": if (!SiteSettings.AllColumn("ClassC").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_ClassD": if (!SiteSettings.AllColumn("ClassD").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_ClassE": if (!SiteSettings.AllColumn("ClassE").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
@@ -471,11 +471,11 @@ namespace Implem.Pleasanter.Models
                     case "Results_Title": if (!SiteSettings.AllColumn("Title").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_Body": if (!SiteSettings.AllColumn("Body").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_TitleBody": if (!SiteSettings.AllColumn("TitleBody").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Results_Status": if (!SiteSettings.AllColumn("Status").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_Manager": if (!SiteSettings.AllColumn("Manager").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_Owner": if (!SiteSettings.AllColumn("Owner").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_ClassA": if (!SiteSettings.AllColumn("ClassA").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_ClassB": if (!SiteSettings.AllColumn("ClassB").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Results_Status": if (!SiteSettings.AllColumn("Status").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_ClassC": if (!SiteSettings.AllColumn("ClassC").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_ClassD": if (!SiteSettings.AllColumn("ClassD").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Results_ClassE": if (!SiteSettings.AllColumn("ClassE").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
@@ -893,11 +893,11 @@ namespace Implem.Pleasanter.Models
                 {
                     case "Results_Title": Title = new Title(ResultId, Forms.Data(controlId)); break;
                     case "Results_Body": Body = Forms.Data(controlId).ToString(); break;
+                    case "Results_Status": Status = new Status(Forms.Data(controlId).ToInt()); break;
                     case "Results_Manager": Manager = SiteInfo.User(Forms.Int(controlId)); break;
                     case "Results_Owner": Owner = SiteInfo.User(Forms.Int(controlId)); break;
                     case "Results_ClassA": ClassA = Forms.Data(controlId).ToString(); break;
                     case "Results_ClassB": ClassB = Forms.Data(controlId).ToString(); break;
-                    case "Results_Status": Status = new Status(Forms.Data(controlId).ToInt()); break;
                     case "Results_ClassC": ClassC = Forms.Data(controlId).ToString(); break;
                     case "Results_ClassD": ClassD = Forms.Data(controlId).ToString(); break;
                     case "Results_ClassE": ClassE = Forms.Data(controlId).ToString(); break;
@@ -984,11 +984,11 @@ namespace Implem.Pleasanter.Models
                     case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
                     case "Title": Title = new Title(dataRow, "ResultId"); SavedTitle = Title.Value; break;
                     case "Body": Body = dataRow[name].ToString(); SavedBody = Body; break;
+                    case "Status": Status = new Status(dataRow, "Status"); SavedStatus = Status.Value; break;
                     case "Manager": Manager = SiteInfo.User(dataRow.Int(name)); SavedManager = Manager.Id; break;
                     case "Owner": Owner = SiteInfo.User(dataRow.Int(name)); SavedOwner = Owner.Id; break;
                     case "ClassA": ClassA = dataRow[name].ToString(); SavedClassA = ClassA; break;
                     case "ClassB": ClassB = dataRow[name].ToString(); SavedClassB = ClassB; break;
-                    case "Status": Status = new Status(dataRow, "Status"); SavedStatus = Status.Value; break;
                     case "ClassC": ClassC = dataRow[name].ToString(); SavedClassC = ClassC; break;
                     case "ClassD": ClassD = dataRow[name].ToString(); SavedClassD = ClassD; break;
                     case "ClassE": ClassE = dataRow[name].ToString(); SavedClassE = ClassE; break;
@@ -1070,6 +1070,8 @@ namespace Implem.Pleasanter.Models
         public string Body_LabelText;
         public TitleBody TitleBody;
         public string TitleBody_LabelText;
+        public Status Status;
+        public string Status_LabelText;
         public User Manager;
         public string Manager_LabelText;
         public User Owner;
@@ -1078,8 +1080,6 @@ namespace Implem.Pleasanter.Models
         public string ClassA_LabelText;
         public string ClassB;
         public string ClassB_LabelText;
-        public Status Status;
-        public string Status_LabelText;
         public string ClassC;
         public string ClassC_LabelText;
         public string ClassD;
@@ -1181,6 +1181,8 @@ namespace Implem.Pleasanter.Models
             Body_LabelText = siteSettings.EditorColumn("Body")?.LabelText;
             TitleBody = resultModel.TitleBody;
             TitleBody_LabelText = siteSettings.EditorColumn("TitleBody")?.LabelText;
+            Status = resultModel.Status;
+            Status_LabelText = siteSettings.EditorColumn("Status")?.LabelText;
             Manager = resultModel.Manager;
             Manager_LabelText = siteSettings.EditorColumn("Manager")?.LabelText;
             Owner = resultModel.Owner;
@@ -1189,8 +1191,6 @@ namespace Implem.Pleasanter.Models
             ClassA_LabelText = siteSettings.EditorColumn("ClassA")?.LabelText;
             ClassB = resultModel.ClassB;
             ClassB_LabelText = siteSettings.EditorColumn("ClassB")?.LabelText;
-            Status = resultModel.Status;
-            Status_LabelText = siteSettings.EditorColumn("Status")?.LabelText;
             ClassC = resultModel.ClassC;
             ClassC_LabelText = siteSettings.EditorColumn("ClassC")?.LabelText;
             ClassD = resultModel.ClassD;
@@ -1682,11 +1682,11 @@ namespace Implem.Pleasanter.Models
                     case "Title": select.Title(); break;
                     case "Body": select.Body(); break;
                     case "TitleBody": select.TitleBody(); break;
+                    case "Status": select.Status(); break;
                     case "Manager": select.Manager(); break;
                     case "Owner": select.Owner(); break;
                     case "ClassA": select.ClassA(); break;
                     case "ClassB": select.ClassB(); break;
-                    case "Status": select.Status(); break;
                     case "ClassC": select.ClassC(); break;
                     case "ClassD": select.ClassD(); break;
                     case "ClassE": select.ClassE(); break;
@@ -1746,11 +1746,11 @@ namespace Implem.Pleasanter.Models
                 case "Title": return hb.Td(column: column, value: resultModel.Title);
                 case "Body": return hb.Td(column: column, value: resultModel.Body);
                 case "TitleBody": return hb.Td(column: column, value: resultModel.TitleBody);
+                case "Status": return hb.Td(column: column, value: resultModel.Status);
                 case "Manager": return hb.Td(column: column, value: resultModel.Manager);
                 case "Owner": return hb.Td(column: column, value: resultModel.Owner);
                 case "ClassA": return hb.Td(column: column, value: resultModel.ClassA);
                 case "ClassB": return hb.Td(column: column, value: resultModel.ClassB);
-                case "Status": return hb.Td(column: column, value: resultModel.Status);
                 case "ClassC": return hb.Td(column: column, value: resultModel.ClassC);
                 case "ClassD": return hb.Td(column: column, value: resultModel.ClassD);
                 case "ClassE": return hb.Td(column: column, value: resultModel.ClassE);
@@ -1950,11 +1950,11 @@ namespace Implem.Pleasanter.Models
                             case "Ver": hb.Field(siteSettings, column, resultModel.Ver.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "Title": hb.Field(siteSettings, column, resultModel.Title.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "Body": hb.Field(siteSettings, column, resultModel.Body.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "Status": hb.Field(siteSettings, column, resultModel.Status.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "Manager": hb.Field(siteSettings, column, resultModel.Manager.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "Owner": hb.Field(siteSettings, column, resultModel.Owner.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "ClassA": hb.Field(siteSettings, column, resultModel.ClassA.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "ClassB": hb.Field(siteSettings, column, resultModel.ClassB.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "Status": hb.Field(siteSettings, column, resultModel.Status.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "ClassC": hb.Field(siteSettings, column, resultModel.ClassC.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "ClassD": hb.Field(siteSettings, column, resultModel.ClassD.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "ClassE": hb.Field(siteSettings, column, resultModel.ClassE.ToControl(column), column.ColumnPermissionType(permissionType)); break;
@@ -2243,11 +2243,11 @@ namespace Implem.Pleasanter.Models
                             {
                                 case "Title": param.Title(recordingData, _using: recordingData != null); break;
                                 case "Body": param.Body(recordingData, _using: recordingData != null); break;
+                                case "Status": param.Status(recordingData, _using: recordingData != null); break;
                                 case "Manager": param.Manager(recordingData, _using: recordingData != null); break;
                                 case "Owner": param.Owner(recordingData, _using: recordingData != null); break;
                                 case "ClassA": param.ClassA(recordingData, _using: recordingData != null); break;
                                 case "ClassB": param.ClassB(recordingData, _using: recordingData != null); break;
-                                case "Status": param.Status(recordingData, _using: recordingData != null); break;
                                 case "ClassC": param.ClassC(recordingData, _using: recordingData != null); break;
                                 case "ClassD": param.ClassD(recordingData, _using: recordingData != null); break;
                                 case "ClassE": param.ClassE(recordingData, _using: recordingData != null); break;
@@ -2379,11 +2379,11 @@ namespace Implem.Pleasanter.Models
                 case "Title": value = resultModel.Title.ToExport(column); break;
                 case "Body": value = resultModel.Body.ToExport(column); break;
                 case "TitleBody": value = resultModel.TitleBody.ToExport(column); break;
+                case "Status": value = resultModel.Status.ToExport(column); break;
                 case "Manager": value = resultModel.Manager.ToExport(column); break;
                 case "Owner": value = resultModel.Owner.ToExport(column); break;
                 case "ClassA": value = resultModel.ClassA.ToExport(column); break;
                 case "ClassB": value = resultModel.ClassB.ToExport(column); break;
-                case "Status": value = resultModel.Status.ToExport(column); break;
                 case "ClassC": value = resultModel.ClassC.ToExport(column); break;
                 case "ClassD": value = resultModel.ClassD.ToExport(column); break;
                 case "ClassE": value = resultModel.ClassE.ToExport(column); break;
