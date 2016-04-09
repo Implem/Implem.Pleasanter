@@ -36,6 +36,7 @@ namespace Implem.DefinitionAccessor
                 if (Files.Exists(path))
                 {
                     Def.Parameters = Files.Read(path).Deserialize<Parameters>();
+                    SetRdsParameters();
                     return;
                 }
             }
@@ -67,7 +68,6 @@ namespace Implem.DefinitionAccessor
             Def.SetJavaScriptDefinition();
             Def.SetDisplayDefinition();
             Def.SetSqlDefinition();
-            SetDbDefinitionAdditional();
             SetDisplayDefinitionAdditional();
         }
 
@@ -84,7 +84,7 @@ namespace Implem.DefinitionAccessor
             return xlsIo;
         }
 
-        private static void SetDbDefinitionAdditional()
+        private static void SetRdsParameters()
         {
             Def.Parameters.RdsSaConnectionString = Strings.CoalesceEmpty(
                 Environment.GetEnvironmentVariable(
