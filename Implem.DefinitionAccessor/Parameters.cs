@@ -4,6 +4,7 @@ namespace Implem.DefinitionAccessor
 {
     public class Parameters
     {
+        public string ServiceName;
         public string RdsType;
         public string RdsTimeZoneInfo;
         public string RdsSaConnectionString;

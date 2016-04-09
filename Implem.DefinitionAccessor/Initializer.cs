@@ -14,8 +14,9 @@ namespace Implem.DefinitionAccessor
         {
             Environments.CodeDefiner = codeDefiner;
             Environments.CurrentDirectoryPath = GetCurrentDirectoryPath(modulePath);
-            Environments.ServiceName = new DirectoryInfo(Directories.ServicePath()).Name;
             SetParameters(new DirectoryInfo(new FileInfo(modulePath).DirectoryName));
+            Environments.ServiceName = Def.Parameters.ServiceName;
+            SetRdsParameters();
             Environments.MachineName = Environment.MachineName;
             Environments.Application = 
                 Assembly.GetExecutingAssembly().ManifestModule.Name.FileNameOnly();
@@ -36,7 +37,6 @@ namespace Implem.DefinitionAccessor
                 if (Files.Exists(path))
                 {
                     Def.Parameters = Files.Read(path).Deserialize<Parameters>();
-                    SetRdsParameters();
                     return;
                 }
             }
