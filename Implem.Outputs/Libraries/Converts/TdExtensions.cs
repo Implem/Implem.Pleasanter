@@ -30,8 +30,13 @@ namespace Implem.Pleasanter.Libraries.Converts
             return column.HasChoices()
                 ? hb.Td(action: () => hb
                     .Text(text: column.Choice(value).TextMini()))
-                : hb.Td(action: () => hb
-                    .Text(text: value));
+                : column.MarkDown
+                    ? hb.Td(action: () => hb
+                        .Div(css: "grid-title-body", action: () => hb
+                            .P(css: "body markup", action: () => hb
+                                .Text(text: value))))
+                    : hb.Td(action: () => hb
+                        .Text(text: value));
         }
 
         public static HtmlBuilder Td(

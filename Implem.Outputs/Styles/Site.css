@@ -1228,7 +1228,7 @@ pre{
     overflow:hidden;
 }
 
-.grid-title-body > .body{
+.grid-title-body > .title + .body{
     margin:8px 0px 0px 10px;
 }
 

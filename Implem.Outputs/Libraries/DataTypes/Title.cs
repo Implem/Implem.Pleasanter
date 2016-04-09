@@ -105,7 +105,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             return hb.Td(action: () => hb
                 .Div(css: "grid-title-body", action: () => hb
-                    .P(action: () => TdTitle(hb, column))
+                    .P(css: "title", action: () => TdTitle(hb, column))
                     .P(css: "body markup", action: () => hb
                          .Text(text: Body))));
         }
