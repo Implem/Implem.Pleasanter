@@ -9,15 +9,6 @@ namespace Implem.Pleasanter.Controllers
     public class BinariesController : Controller
     {
         [HttpGet]
-        public ActionResult Show(long id)
-        {
-            var log = new SysLogModel();
-            var image = new BinaryModel(id).Show();
-            log.Finish(image.Length);
-            return new FileContentResult(image, "image/jpeg");
-        }
-
-        [HttpGet]
         [OutputCache(Duration = 86400)]
         public ActionResult SiteImageThumbnail(string reference, long id)
         {
