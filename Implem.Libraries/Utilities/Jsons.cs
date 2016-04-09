@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Web.Mvc;
-namespace Implem.Pleasanter.Libraries.Responses
+namespace Implem.Libraries.Utilities
 {
     public static class Jsons
     {
