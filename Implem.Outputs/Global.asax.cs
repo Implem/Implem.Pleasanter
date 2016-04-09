@@ -106,7 +106,7 @@ namespace Implem.Pleasanter
                 Permissions.Admins(),
                 HttpContext.Current.User?.Identity.Name.ToInt() ?? 0);
             Session["Language"] = userModel.Language;
-            Session["DbUser"] = userModel.DbUser();
+            Session["RdsUser"] = userModel.RdsUser();
             Session["Developer"] = userModel.Developer;
         }
     }

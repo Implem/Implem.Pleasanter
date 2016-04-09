@@ -3,7 +3,7 @@ using System;
 namespace Implem.Libraries.Classes
 {
     [Serializable]
-    public class DbUser
+    public class RdsUser
     {
         public int DeptId;
         public int UserId;
@@ -14,11 +14,11 @@ namespace Implem.Libraries.Classes
             Anonymous = 2
         }
 
-        public DbUser()
+        public RdsUser()
         {
         }
 
-        public DbUser(UserTypes userType)
+        public RdsUser(UserTypes userType)
         {
             Constructor(userType.ToInt());
         }

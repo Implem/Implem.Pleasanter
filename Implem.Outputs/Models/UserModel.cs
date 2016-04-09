@@ -782,9 +782,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public DbUser DbUser()
+        public RdsUser RdsUser()
         {
-            return new DbUser()
+            return new RdsUser()
             {
                 UserId = UserId,
                 DeptId = DeptId
@@ -794,7 +794,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public UserModel(DbUser.UserTypes userType)
+        public UserModel(RdsUser.UserTypes userType)
         {
             OnConstructing();
             UserId = userType.ToInt();
@@ -908,7 +908,7 @@ namespace Implem.Pleasanter.Models
             HttpContext.Session["Language"] = Language;
             HttpContext.Session["Developer"] = Developer;
             HttpContext.Session["TimeZoneInfo"] = TimeZoneInfo;
-            HttpContext.Session["DbUser"] = DbUser();
+            HttpContext.Session["RdsUser"] = RdsUser();
         }
 
         /// <summary>

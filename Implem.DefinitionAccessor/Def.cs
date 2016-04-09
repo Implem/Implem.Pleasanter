@@ -143,28 +143,28 @@ namespace Implem.DefinitionAccessor
         }
 
         public static SqlIo SqlIoBySysem(
-            DbUser dbUser = null,
+            RdsUser rdsUser = null,
             bool transactional = false,
             bool writeSqlToDebugLog = true,
             params SqlStatement[] statements)
         {
             return new SqlIo(CommandContainer(
                 Def.Parameters.RdsSaConnectionString,
-                dbUser,
+                rdsUser,
                 transactional,
                 writeSqlToDebugLog,
                 statements));
         }
 
         public static SqlIo SqlIoByAdmin(
-            DbUser dbUser = null,
+            RdsUser rdsUser = null,
             bool transactional = false,
             bool writeSqlToDebugLog = true,
             params SqlStatement[] statements)
         {
             return new SqlIo(CommandContainer(
                 Def.Parameters.RdsOwnerConnectionString,
-                dbUser,
+                rdsUser,
                 transactional,
                 writeSqlToDebugLog,
                 statements));
@@ -172,7 +172,7 @@ namespace Implem.DefinitionAccessor
 
         public static SqlIo SqlIoByUser(
             string connectionString = "",
-            DbUser dbUser = null,
+            RdsUser rdsUser = null,
             bool transactional = false,
             bool writeSqlToDebugLog = true,
             params SqlStatement[] statements)
@@ -181,7 +181,7 @@ namespace Implem.DefinitionAccessor
                 connectionString != ""
                     ? connectionString
                     : Def.Parameters.RdsUserConnectionString,
-                dbUser,
+                rdsUser,
                 transactional,
                 writeSqlToDebugLog,
                 statements));
@@ -189,16 +189,16 @@ namespace Implem.DefinitionAccessor
 
         private static SqlContainer CommandContainer(
             string connectionString,
-            DbUser dbUser = null,
+            RdsUser rdsUser = null,
             bool transactional = false,
             bool writeSqlToDebugLog = true,
             params SqlStatement[] statements)
         {
             return new SqlContainer
             {
-                DbUser = dbUser ?? new DbUser(DbUser.UserTypes.System),
-                DbName = Environments.ServiceName,
-                DbEnvironmentType = Environments.DbEnvironmentType,
+                RdsUser = rdsUser ?? new RdsUser(RdsUser.UserTypes.System),
+                RdsName = Environments.ServiceName,
+                RdsType = Environments.RdsType,
                 ConnectionString = connectionString,
                 SqlStatementCollection = SqlStatementCollection(statements),
                 CommandTimeOut = Parameters.SqlCommandTimeOut,
@@ -2387,8 +2387,8 @@ namespace Implem.DefinitionAccessor
                     case "Updated_ja": Display.Updated_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Updated_ja, definitionRow, DisplayXls); break;
                     case "CodeDefinerCompleted": Display.CodeDefinerCompleted = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CodeDefinerCompleted, definitionRow, DisplayXls); break;
                     case "CodeDefinerCompleted_ja": Display.CodeDefinerCompleted_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CodeDefinerCompleted_ja, definitionRow, DisplayXls); break;
-                    case "CodeDefinerDbCompleted": Display.CodeDefinerDbCompleted = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CodeDefinerDbCompleted, definitionRow, DisplayXls); break;
-                    case "CodeDefinerDbCompleted_ja": Display.CodeDefinerDbCompleted_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CodeDefinerDbCompleted_ja, definitionRow, DisplayXls); break;
+                    case "CodeDefinerRdsCompleted": Display.CodeDefinerRdsCompleted = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CodeDefinerRdsCompleted, definitionRow, DisplayXls); break;
+                    case "CodeDefinerRdsCompleted_ja": Display.CodeDefinerRdsCompleted_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CodeDefinerRdsCompleted_ja, definitionRow, DisplayXls); break;
                     case "CodeDefinerDefCompleted": Display.CodeDefinerDefCompleted = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CodeDefinerDefCompleted, definitionRow, DisplayXls); break;
                     case "CodeDefinerDefCompleted_ja": Display.CodeDefinerDefCompleted_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CodeDefinerDefCompleted_ja, definitionRow, DisplayXls); break;
                     case "CodeDefinerMvcCompleted": Display.CodeDefinerMvcCompleted = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CodeDefinerMvcCompleted, definitionRow, DisplayXls); break;
@@ -6652,8 +6652,8 @@ namespace Implem.DefinitionAccessor
         public string Updated_ja;
         public string CodeDefinerCompleted;
         public string CodeDefinerCompleted_ja;
-        public string CodeDefinerDbCompleted;
-        public string CodeDefinerDbCompleted_ja;
+        public string CodeDefinerRdsCompleted;
+        public string CodeDefinerRdsCompleted_ja;
         public string CodeDefinerDefCompleted;
         public string CodeDefinerDefCompleted_ja;
         public string CodeDefinerMvcCompleted;
@@ -7182,8 +7182,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition Updated_ja = new DisplayDefinition();
         public DisplayDefinition CodeDefinerCompleted = new DisplayDefinition();
         public DisplayDefinition CodeDefinerCompleted_ja = new DisplayDefinition();
-        public DisplayDefinition CodeDefinerDbCompleted = new DisplayDefinition();
-        public DisplayDefinition CodeDefinerDbCompleted_ja = new DisplayDefinition();
+        public DisplayDefinition CodeDefinerRdsCompleted = new DisplayDefinition();
+        public DisplayDefinition CodeDefinerRdsCompleted_ja = new DisplayDefinition();
         public DisplayDefinition CodeDefinerDefCompleted = new DisplayDefinition();
         public DisplayDefinition CodeDefinerDefCompleted_ja = new DisplayDefinition();
         public DisplayDefinition CodeDefinerMvcCompleted = new DisplayDefinition();

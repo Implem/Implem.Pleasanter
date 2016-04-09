@@ -1,7 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.ServerData;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
@@ -21,7 +20,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Def.SqlIoByUser(
                 connectionString: connectionString,
-                dbUser: Sessions.DbUser(),
+                rdsUser: Sessions.RdsUser(),
                 transactional: transactional,
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements).ExecuteNonQuery();
@@ -35,7 +34,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return Def.SqlIoByUser(
                 connectionString: connectionString,
-                dbUser: Sessions.DbUser(),
+                rdsUser: Sessions.RdsUser(),
                 transactional: transactional,
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements).ExecuteScalar_bool();
@@ -49,7 +48,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return Def.SqlIoByUser(
                 connectionString: connectionString,
-                dbUser: Sessions.DbUser(),
+                rdsUser: Sessions.RdsUser(),
                 transactional: transactional,
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements).ExecuteScalar_string();
@@ -63,7 +62,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return Def.SqlIoByUser(
                 connectionString: connectionString,
-                dbUser: Sessions.DbUser(),
+                rdsUser: Sessions.RdsUser(),
                 transactional: transactional,
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements).ExecuteScalar_int();
@@ -77,7 +76,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return Def.SqlIoByUser(
                 connectionString: connectionString,
-                dbUser: Sessions.DbUser(),
+                rdsUser: Sessions.RdsUser(),
                 transactional: transactional,
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements).ExecuteScalar_long();
@@ -91,7 +90,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return Def.SqlIoByUser(
                 connectionString: connectionString,
-                dbUser: Sessions.DbUser(),
+                rdsUser: Sessions.RdsUser(),
                 transactional: transactional,
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements).ExecuteScalar_decimal();
@@ -105,7 +104,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return Def.SqlIoByUser(
                 connectionString: connectionString,
-                dbUser: Sessions.DbUser(),
+                rdsUser: Sessions.RdsUser(),
                 transactional: transactional,
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements).ExecuteScalar_datetime();
@@ -119,7 +118,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return Def.SqlIoByUser(
                 connectionString: connectionString,
-                dbUser: Sessions.DbUser(),
+                rdsUser: Sessions.RdsUser(),
                 transactional: transactional,
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements).ExecuteScalar_bytes();
@@ -133,7 +132,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return Def.SqlIoByUser(
                 connectionString: connectionString,
-                dbUser: Sessions.DbUser(),
+                rdsUser: Sessions.RdsUser(),
                 transactional: transactional,
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements).ExecuteTable();
@@ -147,7 +146,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             return Def.SqlIoByUser(
                 connectionString: connectionString,
-                dbUser: Sessions.DbUser(),
+                rdsUser: Sessions.RdsUser(),
                 transactional: transactional,
                 writeSqlToDebugLog: writeSqlToDebugLog,
                 statements: statements).ExecuteDataSet();

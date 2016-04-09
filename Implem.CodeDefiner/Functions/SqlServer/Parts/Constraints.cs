@@ -37,7 +37,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
             this SqlStatement sqlStatement,
             string sourceTableName,
             IEnumerable<ColumnDefinition> columnDefinitionCollection,
-            EnumerableRowCollection<DataRow> dbColumnCollection,
+            EnumerableRowCollection<DataRow> rdsColumnCollection,
             string tableNameTemp = "")
         {
             sqlStatement.CommandText = sqlStatement.CommandText.Replace(

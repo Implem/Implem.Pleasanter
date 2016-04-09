@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.Libraries.Analysis
                 workValueColumn.Format(workValue),
                 workValueColumn.Unit,
                 progressRate,
-                owner != DbUser.UserTypes.Anonymous.ToInt()
+                owner != RdsUser.UserTypes.Anonymous.ToInt()
                     ? SiteInfo.UserFullName(owner)
                     : Displays.NotSet(),
                 statusColumn.Choice(status.ToString()).Text());

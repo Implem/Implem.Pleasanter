@@ -111,7 +111,7 @@ namespace Implem.Pleasanter.Libraries.Views
         {
             if (groupByColumn.UserColumn)
             {
-                return selectedValue.ToInt() != DbUser.UserTypes.Anonymous.ToInt()
+                return selectedValue.ToInt() != RdsUser.UserTypes.Anonymous.ToInt()
                     ? SiteInfo.UserFullName(selectedValue.ToInt())
                     : Displays.NotSet();
             }

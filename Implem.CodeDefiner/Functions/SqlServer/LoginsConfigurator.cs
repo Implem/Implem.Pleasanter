@@ -25,7 +25,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer
 
         private static string CommandText(string uid)
         {
-            return uid.EndsWith("_DbOwner")
+            return uid.EndsWith("_Owner")
                 ? Def.Sql.RecreateLoginAdmin
                 : Def.Sql.RecreateLoginUser;
         }

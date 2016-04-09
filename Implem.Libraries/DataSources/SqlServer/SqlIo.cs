@@ -36,14 +36,14 @@ namespace Implem.Libraries.DataSources.SqlServer
             SetSqlCommand();
             if (SqlContainer.WriteSqlToDebugLog)
             {
-                SqlDebugs.WriteSqlLog(SqlContainer.DbName, SqlCommand, Sqls.LogsPath);
+                SqlDebugs.WriteSqlLog(SqlContainer.RdsName, SqlCommand, Sqls.LogsPath);
             }
         }
 
         private void SetCommandUserParams()
         {
-            SqlCommand.Parameters.AddWithValue("_U", SqlContainer.DbUser.UserId);
-            SqlCommand.Parameters.AddWithValue("_D", SqlContainer.DbUser.DeptId);
+            SqlCommand.Parameters.AddWithValue("_U", SqlContainer.RdsUser.UserId);
+            SqlCommand.Parameters.AddWithValue("_D", SqlContainer.RdsUser.DeptId);
         }
 
         private void SetCommandText()
@@ -93,12 +93,12 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             SetCommand();
             SqlCommand.Connection.Open();
-            switch (SqlContainer.DbEnvironmentType)
+            switch (SqlContainer.RdsType)
             {
-                case Sqls.DbEnvironmentTypes.Local:
+                case Sqls.RdsTypes.Local:
                     SqlCommand.ExecuteNonQuery();
                     break;
-                case Sqls.DbEnvironmentTypes.Azure:
+                case Sqls.RdsTypes.Azure:
                     SqlCommand.ExecuteNonQueryWithRetry();
                     break;
                 default:
@@ -113,12 +113,12 @@ namespace Implem.Libraries.DataSources.SqlServer
             object command = null;
             SetCommand();
             SqlCommand.Connection.Open();
-            switch (SqlContainer.DbEnvironmentType)
+            switch (SqlContainer.RdsType)
             {
-                case Sqls.DbEnvironmentTypes.Local:
+                case Sqls.RdsTypes.Local:
                     command = SqlCommand.ExecuteScalar();
                     break;
-                case Sqls.DbEnvironmentTypes.Azure:
+                case Sqls.RdsTypes.Azure:
                     command = SqlCommand.ExecuteScalarWithRetry();
                     break;
                 default:
@@ -133,12 +133,12 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             var dataTable = new DataTable();
             SetCommand();
-            switch (SqlContainer.DbEnvironmentType)
+            switch (SqlContainer.RdsType)
             {
-                case Sqls.DbEnvironmentTypes.Local:
+                case Sqls.RdsTypes.Local:
                     new SqlDataAdapter(SqlCommand).Fill(dataTable);
                     break;
-                case Sqls.DbEnvironmentTypes.Azure:
+                case Sqls.RdsTypes.Azure:
                     var retryPolicy = Azures.RetryPolicy();
                     retryPolicy.ExecuteAction(() =>
                     {
@@ -162,12 +162,12 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             var dataSet = new DataSet();
             SetCommand();
-            switch (SqlContainer.DbEnvironmentType)
+            switch (SqlContainer.RdsType)
             {
-                case Sqls.DbEnvironmentTypes.Local:
+                case Sqls.RdsTypes.Local:
                     SqlContainer.SqlDataAdapter(SqlCommand).Fill(dataSet);
                     break;
-                case Sqls.DbEnvironmentTypes.Azure:
+                case Sqls.RdsTypes.Azure:
                     var retryPolicy = Azures.RetryPolicy();
                     retryPolicy.ExecuteAction(() =>
                     {

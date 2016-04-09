@@ -508,8 +508,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Updated(params string[] data) { return Get("Updated", data); }
         public static HtmlBuilder Displays_CodeDefinerCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CodeDefinerCompleted", data)); }
         public static string CodeDefinerCompleted(params string[] data) { return Get("CodeDefinerCompleted", data); }
-        public static HtmlBuilder Displays_CodeDefinerDbCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CodeDefinerDbCompleted", data)); }
-        public static string CodeDefinerDbCompleted(params string[] data) { return Get("CodeDefinerDbCompleted", data); }
+        public static HtmlBuilder Displays_CodeDefinerRdsCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CodeDefinerRdsCompleted", data)); }
+        public static string CodeDefinerRdsCompleted(params string[] data) { return Get("CodeDefinerRdsCompleted", data); }
         public static HtmlBuilder Displays_CodeDefinerDefCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CodeDefinerDefCompleted", data)); }
         public static string CodeDefinerDefCompleted(params string[] data) { return Get("CodeDefinerDefCompleted", data); }
         public static HtmlBuilder Displays_CodeDefinerMvcCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CodeDefinerMvcCompleted", data)); }

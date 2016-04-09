@@ -6,9 +6,9 @@ namespace Implem.Libraries.DataSources.SqlServer
 {
     public class SqlContainer
     {
-        public DbUser DbUser;
-        public string DbName;
-        public Sqls.DbEnvironmentTypes DbEnvironmentType;
+        public RdsUser RdsUser;
+        public string RdsName;
+        public Sqls.RdsTypes RdsType;
         public string ConnectionString;
         public List<SqlStatement> SqlStatementCollection = new List<SqlStatement>();
         public int ConnectionTimeOut;

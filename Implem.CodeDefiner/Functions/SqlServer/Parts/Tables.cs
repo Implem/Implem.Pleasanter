@@ -14,7 +14,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
             bool old,
             IEnumerable<ColumnDefinition> columnDefinitionCollection,
             IEnumerable<IndexInfo> tableIndexCollection,
-            EnumerableRowCollection<DataRow> dbColumnCollection,
+            EnumerableRowCollection<DataRow> rdsColumnCollection,
             string tableNameTemp = "")
         {
             Consoles.Write(sourceTableName, Consoles.Types.Info);
@@ -28,7 +28,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
             sqlStatement.CreateColumn(sourceTableName, columnDefinitionCollection);
             sqlStatement.CreatePk(sourceTableName, columnDefinitionCollection, tableIndexCollection);
             sqlStatement.CreateIx(generalTableName, sourceTableName, old, columnDefinitionCollection);
-            sqlStatement.CreateDefault(tableNameTemp, columnDefinitionCollection, dbColumnCollection);
+            sqlStatement.CreateDefault(tableNameTemp, columnDefinitionCollection, rdsColumnCollection);
             sqlStatement.DropConstraint(sourceTableName, tableIndexCollection);
             sqlStatement.CommandText = sqlStatement.CommandText.Replace("#TableName#", tableNameTemp);
             Def.SqlIoByAdmin(transactional: true).ExecuteNonQuery(sqlStatement);
@@ -133,17 +133,17 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
             string sourceTableName,
             bool old,
             IEnumerable<ColumnDefinition> columnDefinitionCollection,
-            EnumerableRowCollection<DataRow> dbColumnCollection)
+            EnumerableRowCollection<DataRow> rdsColumnCollection)
         {
             if (HasChanges(
-                columnDefinitionCollection, dbColumnCollection))
+                columnDefinitionCollection, rdsColumnCollection))
             {
                 return true;
             }
             else
             {
                 return
-                    Columns.HasChanges(sourceTableName, columnDefinitionCollection, dbColumnCollection) ||
+                    Columns.HasChanges(sourceTableName, columnDefinitionCollection, rdsColumnCollection) ||
                     Constraints.HasChanges(sourceTableName, columnDefinitionCollection) ||
                     Indexes.HasChanges(generalTableName, sourceTableName, old, columnDefinitionCollection);
             }
@@ -151,9 +151,9 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
 
         private static bool HasChanges(
             IEnumerable<ColumnDefinition> columnDefinitionCollection,
-            EnumerableRowCollection<DataRow> dbColumnCollection)
+            EnumerableRowCollection<DataRow> rdsColumnCollection)
         {
-            return dbColumnCollection.Count() != columnDefinitionCollection.Count();
+            return rdsColumnCollection.Count() != columnDefinitionCollection.Count();
         }
     }
 }

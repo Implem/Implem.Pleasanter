@@ -12,10 +12,10 @@ namespace Implem.DefinitionAccessor
     {
         public static void Initialize(string modulePath, bool codeDefiner = false)
         {
-            SetParameters(new DirectoryInfo(new FileInfo(modulePath).DirectoryName));
             Environments.CodeDefiner = codeDefiner;
             Environments.CurrentDirectoryPath = GetCurrentDirectoryPath(modulePath);
             Environments.ServiceName = new DirectoryInfo(Directories.ServicePath()).Name;
+            SetParameters(new DirectoryInfo(new FileInfo(modulePath).DirectoryName));
             Environments.MachineName = Environment.MachineName;
             Environments.Application = 
                 Assembly.GetExecutingAssembly().ManifestModule.Name.FileNameOnly();
@@ -86,31 +86,22 @@ namespace Implem.DefinitionAccessor
 
         private static void SetRdsParameters()
         {
-            Def.Parameters.RdsSaConnectionString = Strings.CoalesceEmpty(
-                Environment.GetEnvironmentVariable(
-                    "Implem_" + Environments.ServiceName + "_DbSa"),
-                Environment.GetEnvironmentVariable("Implem_DbSa"),
+            Def.Parameters.RdsSaConnectionString = 
                 Def.Parameters.RdsSaConnectionString.Replace(
-                    "#ServiceName#", Environments.ServiceName));
-            Def.Parameters.RdsOwnerConnectionString = Strings.CoalesceEmpty(
-                Environment.GetEnvironmentVariable(
-                    "Implem_" + Environments.ServiceName + "_DbOwner"),
-                Environment.GetEnvironmentVariable("Implem_DbOwner"),
+                    "#ServiceName#", Environments.ServiceName);
+            Def.Parameters.RdsOwnerConnectionString = 
                 Def.Parameters.RdsOwnerConnectionString.Replace(
-                    "#ServiceName#", Environments.ServiceName));
-            Def.Parameters.RdsUserConnectionString = Strings.CoalesceEmpty(
-                Environment.GetEnvironmentVariable(
-                    "Implem_" + Environments.ServiceName + "_DbUser"),
-                Environment.GetEnvironmentVariable("Implem_DbUser"),
+                    "#ServiceName#", Environments.ServiceName);
+            Def.Parameters.RdsUserConnectionString = 
                 Def.Parameters.RdsUserConnectionString.Replace(
-                    "#ServiceName#", Environments.ServiceName));
+                    "#ServiceName#", Environments.ServiceName);
             switch (Def.Parameters.RdsType)
             {
                 case "Local": 
-                    Environments.DbEnvironmentType = Sqls.DbEnvironmentTypes.Local;
+                    Environments.RdsType = Sqls.RdsTypes.Local;
                     break;
                 case "Azure":
-                    Environments.DbEnvironmentType = Sqls.DbEnvironmentTypes.Azure;
+                    Environments.RdsType = Sqls.RdsTypes.Azure;
                     Azures.SetRetryManager(
                         Def.Parameters.SqlAzureRetryCount,
                         Def.Parameters.SqlAzureRetryInterval);

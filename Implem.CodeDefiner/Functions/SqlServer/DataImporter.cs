@@ -25,7 +25,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer
             Consoles.Write(Path.GetFileName(filePath), Consoles.Types.Info);
             var tableName = new FileInfo(filePath).Name
                 .Replace("import_", string.Empty).FileNameOnly();
-            if (Environments.DbEnvironmentType == Sqls.DbEnvironmentTypes.Local)
+            if (Environments.RdsType == Sqls.RdsTypes.Local)
             {
                 DataImporter.BulkInsert(filePath, tableName);
             }
@@ -284,7 +284,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer
                     }
                     else
                     {
-                        BuildImportDataOfDbSystemColumn(importDataBuilder, columnName);
+                        BuildImportDataOfRdsSystemColumn(importDataBuilder, columnName);
                     }
                     BuildImportDataOfSeparator(
                         csvColumnNumberCollection, importDataBuilder, columnName);
@@ -309,7 +309,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer
                 .CutBracket("\""));
         }
 
-        private static void BuildImportDataOfDbSystemColumn(
+        private static void BuildImportDataOfRdsSystemColumn(
             StringBuilder importDataBuilder, string columnName)
         {
             switch (columnName)

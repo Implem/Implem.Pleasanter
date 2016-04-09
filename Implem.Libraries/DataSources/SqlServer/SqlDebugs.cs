@@ -10,10 +10,10 @@ namespace Implem.Libraries.DataSources.SqlServer
     public static class SqlDebugs
     {
         [Conditional("DEBUG")]
-        public static void WriteSqlLog(string dbName, SqlCommand sqlCommand, string logsPath)
+        public static void WriteSqlLog(string rdsName, SqlCommand sqlCommand, string logsPath)
         {
             var commandTextForDebugging = new StringBuilder();
-            commandTextForDebugging.Append("use [", dbName, "];\r\n");
+            commandTextForDebugging.Append("use [", rdsName, "];\r\n");
             commandTextForDebugging.Append(DeclareParametersText(sqlCommand));
             commandTextForDebugging.Append(FormattedCommandText(sqlCommand));
             commandTextForDebugging.ToString()

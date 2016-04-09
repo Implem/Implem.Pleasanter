@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.Libraries.ServerData
 
         public static bool LoggedIn()
         {
-            return UserId() != Implem.Libraries.Classes.DbUser.UserTypes.Anonymous.ToInt();
+            return UserId() != Implem.Libraries.Classes.RdsUser.UserTypes.Anonymous.ToInt();
         }
 
         public static int UserId()
@@ -52,7 +52,7 @@ namespace Implem.Pleasanter.Libraries.ServerData
                 HttpContext.Current.User != null &&
                 HttpContext.Current.User.Identity.Name != string.Empty)
                     ? HttpContext.Current.User.Identity.Name.ToInt()
-                    : Implem.Libraries.Classes.DbUser.UserTypes.Anonymous.ToInt();
+                    : Implem.Libraries.Classes.RdsUser.UserTypes.Anonymous.ToInt();
         }
 
         public static int DeptId()
@@ -69,9 +69,9 @@ namespace Implem.Pleasanter.Libraries.ServerData
             return SiteInfo.User(UserId());
         }
 
-        public static DbUser DbUser()
+        public static RdsUser RdsUser()
         {
-            return HttpContext.Current.Session?["DbUser"] as DbUser;
+            return HttpContext.Current.Session?["RdsUser"] as RdsUser;
         }
 
         public static string Language()

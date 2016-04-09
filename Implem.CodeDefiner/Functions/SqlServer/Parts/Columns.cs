@@ -17,38 +17,38 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
         internal static bool HasChanges(
             string sourceTableName, 
             IEnumerable<ColumnDefinition> columnDefinitionCollection,
-            EnumerableRowCollection<DataRow> dbColumnCollection)
+            EnumerableRowCollection<DataRow> rdsColumnCollection)
         {
             return columnDefinitionCollection
                 .Select((o, i) => new { ColumnDefinition = o, Count = i })
                 .Any(data => HasChanges(
                     sourceTableName,
-                    dbColumnCollection.ToList()[data.Count],
+                    rdsColumnCollection.ToList()[data.Count],
                     data.ColumnDefinition));
         }
 
         private static bool HasChanges(
-            string sourceTableName, DataRow dbColumn, ColumnDefinition columnDefinition)
+            string sourceTableName, DataRow rdsColumn, ColumnDefinition columnDefinition)
         {
-            if (!dbColumn["ColumnName"].Equals(columnDefinition.ColumnName))
+            if (!rdsColumn["ColumnName"].Equals(columnDefinition.ColumnName))
             {
                 return true;
             }
-            if (!dbColumn["TypeName"].Equals(columnDefinition.TypeName))
+            if (!rdsColumn["TypeName"].Equals(columnDefinition.TypeName))
             {
                 return true;
             }
-            if (ColumnSize.HasChanges(dbColumn, columnDefinition))
+            if (ColumnSize.HasChanges(rdsColumn, columnDefinition))
             {
                 return true;
             }
-            if (dbColumn["is_nullable"].ToBool() != columnDefinition.Nullable)
+            if (rdsColumn["is_nullable"].ToBool() != columnDefinition.Nullable)
             {
                 return true;
             }
             if (!sourceTableName.EndsWith("_history") &&
                 !sourceTableName.EndsWith("_deleted") &&
-                dbColumn["is_identity"].ToBool() != columnDefinition.Identity)
+                rdsColumn["is_identity"].ToBool() != columnDefinition.Identity)
             {
                 return true;
             }

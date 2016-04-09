@@ -19,10 +19,10 @@ namespace Implem.CodeDefiner
             var target = args.Length >= 2 ? args[1] : null;
             switch (action)
             {
-                case "_db":
+                case "_rds":
                     ConfigureDatabase();
                     break;
-                case "db":
+                case "rds":
                     ConfigureDatabase();
                     CreateDefinitionAccessorCode();
                     CreateMvcCode(target);
@@ -76,7 +76,7 @@ namespace Implem.CodeDefiner
         {
             Performances.Record(MethodBase.GetCurrentMethod().Name);
             Functions.SqlServer.Configurator.Configure();
-            Consoles.Write(Def.Display.CodeDefinerDbCompleted, Consoles.Types.Success);
+            Consoles.Write(Def.Display.CodeDefinerRdsCompleted, Consoles.Types.Success);
             Performances.Record(MethodBase.GetCurrentMethod().Name);
         }
 

@@ -332,7 +332,7 @@ namespace Implem.Pleasanter.Models
         private void SetProperties()
         {
             SysLogType = SysLogModel.SysLogTypes.Info;
-            OnAzure = Environments.DbEnvironmentType == Sqls.DbEnvironmentTypes.Azure;
+            OnAzure = Environments.RdsType == Sqls.RdsTypes.Azure;
             MachineName = Environments.MachineName;
             ServiceName = Environments.ServiceName;
             Application = Environments.Application;
