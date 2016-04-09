@@ -9,7 +9,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer
         {
             if (Environments.DbEnvironmentType == Sqls.DbEnvironmentTypes.Local)
             {
-                DbConfigurator.Configure();
+                RdsConfigurator.Configure();
                 LoginsConfigurator.Configure();
             }
             TablesConfigurator.Configure();

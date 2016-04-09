@@ -88,7 +88,7 @@
     <Compile Include="Functions\SqlServer\Parts\ColumnSize.cs" />
     <Compile Include="Functions\SqlServer\Parts\Constraints.cs" />
     <Compile Include="Functions\SqlServer\Parts\Columns.cs" />
-    <Compile Include="Functions\SqlServer\DbConfigurator.cs" />
+    <Compile Include="Functions\SqlServer\RdsConfigurator.cs" />
     <Compile Include="Functions\SqlServer\TablesConfigurator.cs" />
     <Compile Include="Functions\SqlServer\Parts\Indexes.cs" />
     <Compile Include="Functions\SqlServer\IndexInfo.cs" />

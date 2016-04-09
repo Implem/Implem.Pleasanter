@@ -2,7 +2,7 @@
 using Implem.Libraries.Utilities;
 namespace Implem.CodeDefiner.Functions.SqlServer
 {
-    internal static class DbConfigurator
+    internal static class RdsConfigurator
     {
         internal static void Configure()
         {
