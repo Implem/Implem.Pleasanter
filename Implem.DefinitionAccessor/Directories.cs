@@ -9,7 +9,6 @@ namespace Implem.DefinitionAccessor
         private const string CodeDefinerDirectoryName = "Implem.CodeDefiner";
         private const string DefinitionAccessorDirectoryName = "Implem.DefinitionAccessor";
         private const string LibrariesDirectoryName = "Implem.Libraries";
-        private const string OutputsDirectoryName = "Implem.Outputs";
 
         public static string ServicePath()
         {
@@ -33,9 +32,9 @@ namespace Implem.DefinitionAccessor
 
         public static string Outputs(params string[] pathes)
         {
-            if ( Environments.CodeDefiner)
+            if (Environments.CodeDefiner)
             {
-                return CurrentPath(OutputsDirectoryName, pathes.ToList());
+                return CurrentPath("Implem." + Environments.ServiceName, pathes.ToList());
             }
             else
             {
