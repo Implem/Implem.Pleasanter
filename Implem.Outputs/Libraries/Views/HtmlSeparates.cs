@@ -15,8 +15,8 @@ namespace Implem.Pleasanter.Libraries.Views
         public static HtmlBuilder SeparateSettings(
             this HtmlBuilder hb, string title, decimal workValue, string unit)
         {
-            var max = Parameters.SeparateMax;
-            var min = Parameters.SeparateMin;
+            var max = Def.Parameters.SeparateMax;
+            var min = Def.Parameters.SeparateMin;
             return hb.Div(id: "SeparateSettings", action: () => hb
                 .FieldSpinner(
                     controlId: "SeparateNumber",

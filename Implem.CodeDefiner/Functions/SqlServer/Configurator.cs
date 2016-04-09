@@ -13,7 +13,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer
                 LoginsConfigurator.Configure();
             }
             TablesConfigurator.Configure();
-            if (Parameters.DataImport == 1)
+            if (Def.Parameters.DataImport == 1)
             {
                 DataImporter.Import();
             }

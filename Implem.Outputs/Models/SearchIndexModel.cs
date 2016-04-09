@@ -325,8 +325,8 @@ namespace Implem.Pleasanter.Models
                         "#SearchOffset",
                         (results != null &&
                         results.Count() > 0 &&
-                        results.Count() == Parameters.SearchPageSize
-                            ? offset + Parameters.SearchPageSize
+                        results.Count() == Def.Parameters.SearchPageSize
+                            ? offset + Def.Parameters.SearchPageSize
                             : -1).ToString());
             }
             return responseCollection.ToJson();
@@ -360,7 +360,7 @@ namespace Implem.Pleasanter.Models
                         .Results(text: text, offset: offset, results: results))
                     .Hidden(
                         controlId: "SearchOffset",
-                        value: Parameters.SearchPageSize.ToString()));
+                        value: Def.Parameters.SearchPageSize.ToString()));
         }
 
         /// <summary>
@@ -407,7 +407,7 @@ namespace Implem.Pleasanter.Models
         {
             if (searchIndexes.Count() == 0) return null;
             var concordance = Math.Ceiling(
-                searchIndexes.Count() * Parameters.SearchConcordanceRate);
+                searchIndexes.Count() * Def.Parameters.SearchConcordanceRate);
             return Rds.ExecuteDataSet(statements:
                 Rds.SelectSearchIndexes(
                     dataTableName: "Main",
@@ -434,7 +434,7 @@ namespace Implem.Pleasanter.Models
                         .PriorityTotal()
                         .UpdatedTimeMax(SqlOrderBy.Types.desc),
                     offset: offset,
-                    pageSize: Parameters.SearchPageSize,
+                    pageSize: Def.Parameters.SearchPageSize,
                     countRecord: offset == 0));
         }
     }

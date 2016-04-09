@@ -8,6 +8,8 @@ namespace Implem.DefinitionAccessor
 {
     public static class Def
     {
+        public static Parameters Parameters;
+
         public static bool ExistsModel(
             string modelName,
             Func<ColumnDefinition, bool> peredicate = null)
@@ -252,8 +254,6 @@ namespace Implem.DefinitionAccessor
                     case "Def_DefinitionClass_DefinitionAccessor": Code.Def_DefinitionClass_DefinitionAccessor = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Def_DefinitionClass_DefinitionAccessor, definitionRow, CodeXls); break;
                     case "Def_DefinitionClass_DefinitionColumn2nd": Code.Def_DefinitionClass_DefinitionColumn2nd = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Def_DefinitionClass_DefinitionColumn2nd, definitionRow, CodeXls); break;
                     case "Def_DefinitionClass_DefinitionTable": Code.Def_DefinitionClass_DefinitionTable = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Def_DefinitionClass_DefinitionTable, definitionRow, CodeXls); break;
-                    case "Parameters": Code.Parameters = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Parameters, definitionRow, CodeXls); break;
-                    case "Parameters_Items": Code.Parameters_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Parameters_Items, definitionRow, CodeXls); break;
                     case "BundleConfig": Code.BundleConfig = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.BundleConfig, definitionRow, CodeXls); break;
                     case "BundleConfig_Validators": Code.BundleConfig_Validators = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.BundleConfig_Validators, definitionRow, CodeXls); break;
                     case "Controller": Code.Controller = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Controller, definitionRow, CodeXls); break;
@@ -2581,119 +2581,6 @@ namespace Implem.DefinitionAccessor
             JavaScriptTable = new JavaScriptTable();
         }
 
-        public static XlsIo ParameterXls;
-        public static List<ParameterDefinition> ParameterDefinitionCollection;
-        public static ParameterColumn2nd Parameter;
-        public static ParameterTable ParameterTable;
-
-        public static void SetParameterDefinition()
-        {
-            ConstructParameterDefinitions();
-            if (ParameterXls.AccessStatus != Files.AccessStatuses.Read) { return; }
-            ParameterXls.XlsSheet.ForEach(definitionRow =>
-            {
-                switch (definitionRow[0].ToString())
-                {
-                    case "HtmlTitle": Parameter.HtmlTitle = definitionRow[1].ToString(); SetParameterTable(ParameterTable.HtmlTitle, definitionRow, ParameterXls); break;
-                    case "HtmlHeadKeywords": Parameter.HtmlHeadKeywords = definitionRow[1].ToString(); SetParameterTable(ParameterTable.HtmlHeadKeywords, definitionRow, ParameterXls); break;
-                    case "HtmlHeadDescription": Parameter.HtmlHeadDescription = definitionRow[1].ToString(); SetParameterTable(ParameterTable.HtmlHeadDescription, definitionRow, ParameterXls); break;
-                    case "HtmlHeadAuther": Parameter.HtmlHeadAuther = definitionRow[1].ToString(); SetParameterTable(ParameterTable.HtmlHeadAuther, definitionRow, ParameterXls); break;
-                    case "HtmlHeadViewport": Parameter.HtmlHeadViewport = definitionRow[1].ToString(); SetParameterTable(ParameterTable.HtmlHeadViewport, definitionRow, ParameterXls); break;
-                    case "HtmlLogoText": Parameter.HtmlLogoText = definitionRow[1].ToString(); SetParameterTable(ParameterTable.HtmlLogoText, definitionRow, ParameterXls); break;
-                    case "HtmlCopyright": Parameter.HtmlCopyright = definitionRow[1].ToString(); SetParameterTable(ParameterTable.HtmlCopyright, definitionRow, ParameterXls); break;
-                    case "HtmlCopyrightUrl": Parameter.HtmlCopyrightUrl = definitionRow[1].ToString(); SetParameterTable(ParameterTable.HtmlCopyrightUrl, definitionRow, ParameterXls); break;
-                    case "TimeZoneDefault": Parameter.TimeZoneDefault = definitionRow[1].ToString(); SetParameterTable(ParameterTable.TimeZoneDefault, definitionRow, ParameterXls); break;
-                    case "DataImport": Parameter.DataImport = definitionRow[1].ToString(); SetParameterTable(ParameterTable.DataImport, definitionRow, ParameterXls); break;
-                    case "RequireHttps": Parameter.RequireHttps = definitionRow[1].ToString(); SetParameterTable(ParameterTable.RequireHttps, definitionRow, ParameterXls); break;
-                    case "AuthenticationProvider": Parameter.AuthenticationProvider = definitionRow[1].ToString(); SetParameterTable(ParameterTable.AuthenticationProvider, definitionRow, ParameterXls); break;
-                    case "LdapSearchRoot": Parameter.LdapSearchRoot = definitionRow[1].ToString(); SetParameterTable(ParameterTable.LdapSearchRoot, definitionRow, ParameterXls); break;
-                    case "LdapSearchProperty": Parameter.LdapSearchProperty = definitionRow[1].ToString(); SetParameterTable(ParameterTable.LdapSearchProperty, definitionRow, ParameterXls); break;
-                    case "LdapTenantId": Parameter.LdapTenantId = definitionRow[1].ToString(); SetParameterTable(ParameterTable.LdapTenantId, definitionRow, ParameterXls); break;
-                    case "LdapDeptCode": Parameter.LdapDeptCode = definitionRow[1].ToString(); SetParameterTable(ParameterTable.LdapDeptCode, definitionRow, ParameterXls); break;
-                    case "LdapDeptName": Parameter.LdapDeptName = definitionRow[1].ToString(); SetParameterTable(ParameterTable.LdapDeptName, definitionRow, ParameterXls); break;
-                    case "LdapUserCode": Parameter.LdapUserCode = definitionRow[1].ToString(); SetParameterTable(ParameterTable.LdapUserCode, definitionRow, ParameterXls); break;
-                    case "LdapFirstName": Parameter.LdapFirstName = definitionRow[1].ToString(); SetParameterTable(ParameterTable.LdapFirstName, definitionRow, ParameterXls); break;
-                    case "LdapLastName": Parameter.LdapLastName = definitionRow[1].ToString(); SetParameterTable(ParameterTable.LdapLastName, definitionRow, ParameterXls); break;
-                    case "LdapMailAddress": Parameter.LdapMailAddress = definitionRow[1].ToString(); SetParameterTable(ParameterTable.LdapMailAddress, definitionRow, ParameterXls); break;
-                    case "LimitWarning1": Parameter.LimitWarning1 = definitionRow[1].ToString(); SetParameterTable(ParameterTable.LimitWarning1, definitionRow, ParameterXls); break;
-                    case "LimitWarning2": Parameter.LimitWarning2 = definitionRow[1].ToString(); SetParameterTable(ParameterTable.LimitWarning2, definitionRow, ParameterXls); break;
-                    case "LimitWarning3": Parameter.LimitWarning3 = definitionRow[1].ToString(); SetParameterTable(ParameterTable.LimitWarning3, definitionRow, ParameterXls); break;
-                    case "SqlCommandTimeOut": Parameter.SqlCommandTimeOut = definitionRow[1].ToString(); SetParameterTable(ParameterTable.SqlCommandTimeOut, definitionRow, ParameterXls); break;
-                    case "SqlAzureRetryCount": Parameter.SqlAzureRetryCount = definitionRow[1].ToString(); SetParameterTable(ParameterTable.SqlAzureRetryCount, definitionRow, ParameterXls); break;
-                    case "SqlAzureRetryInterval": Parameter.SqlAzureRetryInterval = definitionRow[1].ToString(); SetParameterTable(ParameterTable.SqlAzureRetryInterval, definitionRow, ParameterXls); break;
-                    case "DeleteTempOldThan": Parameter.DeleteTempOldThan = definitionRow[1].ToString(); SetParameterTable(ParameterTable.DeleteTempOldThan, definitionRow, ParameterXls); break;
-                    case "DeleteHistoriesOldThan": Parameter.DeleteHistoriesOldThan = definitionRow[1].ToString(); SetParameterTable(ParameterTable.DeleteHistoriesOldThan, definitionRow, ParameterXls); break;
-                    case "NearDeadlineBeforeDays": Parameter.NearDeadlineBeforeDays = definitionRow[1].ToString(); SetParameterTable(ParameterTable.NearDeadlineBeforeDays, definitionRow, ParameterXls); break;
-                    case "NearDeadlineBeforeDaysMin": Parameter.NearDeadlineBeforeDaysMin = definitionRow[1].ToString(); SetParameterTable(ParameterTable.NearDeadlineBeforeDaysMin, definitionRow, ParameterXls); break;
-                    case "NearDeadlineBeforeDaysMax": Parameter.NearDeadlineBeforeDaysMax = definitionRow[1].ToString(); SetParameterTable(ParameterTable.NearDeadlineBeforeDaysMax, definitionRow, ParameterXls); break;
-                    case "NearDeadlineAfterDays": Parameter.NearDeadlineAfterDays = definitionRow[1].ToString(); SetParameterTable(ParameterTable.NearDeadlineAfterDays, definitionRow, ParameterXls); break;
-                    case "NearDeadlineAfterDaysMin": Parameter.NearDeadlineAfterDaysMin = definitionRow[1].ToString(); SetParameterTable(ParameterTable.NearDeadlineAfterDaysMin, definitionRow, ParameterXls); break;
-                    case "NearDeadlineAfterDaysMax": Parameter.NearDeadlineAfterDaysMax = definitionRow[1].ToString(); SetParameterTable(ParameterTable.NearDeadlineAfterDaysMax, definitionRow, ParameterXls); break;
-                    case "GridPageSize": Parameter.GridPageSize = definitionRow[1].ToString(); SetParameterTable(ParameterTable.GridPageSize, definitionRow, ParameterXls); break;
-                    case "GridPageSizeMin": Parameter.GridPageSizeMin = definitionRow[1].ToString(); SetParameterTable(ParameterTable.GridPageSizeMin, definitionRow, ParameterXls); break;
-                    case "GridPageSizeMax": Parameter.GridPageSizeMax = definitionRow[1].ToString(); SetParameterTable(ParameterTable.GridPageSizeMax, definitionRow, ParameterXls); break;
-                    case "SolutionBackupPath": Parameter.SolutionBackupPath = definitionRow[1].ToString(); SetParameterTable(ParameterTable.SolutionBackupPath, definitionRow, ParameterXls); break;
-                    case "SolutionBackupExcludeDirectories": Parameter.SolutionBackupExcludeDirectories = definitionRow[1].ToString(); SetParameterTable(ParameterTable.SolutionBackupExcludeDirectories, definitionRow, ParameterXls); break;
-                    case "InternalMailDomain": Parameter.InternalMailDomain = definitionRow[1].ToString(); SetParameterTable(ParameterTable.InternalMailDomain, definitionRow, ParameterXls); break;
-                    case "BinaryStorageProvider": Parameter.BinaryStorageProvider = definitionRow[1].ToString(); SetParameterTable(ParameterTable.BinaryStorageProvider, definitionRow, ParameterXls); break;
-                    case "SmtpProvider": Parameter.SmtpProvider = definitionRow[1].ToString(); SetParameterTable(ParameterTable.SmtpProvider, definitionRow, ParameterXls); break;
-                    case "SmtpHost": Parameter.SmtpHost = definitionRow[1].ToString(); SetParameterTable(ParameterTable.SmtpHost, definitionRow, ParameterXls); break;
-                    case "SmtpPort": Parameter.SmtpPort = definitionRow[1].ToString(); SetParameterTable(ParameterTable.SmtpPort, definitionRow, ParameterXls); break;
-                    case "SendGridSmtpUser": Parameter.SendGridSmtpUser = definitionRow[1].ToString(); SetParameterTable(ParameterTable.SendGridSmtpUser, definitionRow, ParameterXls); break;
-                    case "SendGridSmtpPassword": Parameter.SendGridSmtpPassword = definitionRow[1].ToString(); SetParameterTable(ParameterTable.SendGridSmtpPassword, definitionRow, ParameterXls); break;
-                    case "SizeToUseTextArea": Parameter.SizeToUseTextArea = definitionRow[1].ToString(); SetParameterTable(ParameterTable.SizeToUseTextArea, definitionRow, ParameterXls); break;
-                    case "ProjectModelRequire": Parameter.ProjectModelRequire = definitionRow[1].ToString(); SetParameterTable(ParameterTable.ProjectModelRequire, definitionRow, ParameterXls); break;
-                    case "CompletionCode": Parameter.CompletionCode = definitionRow[1].ToString(); SetParameterTable(ParameterTable.CompletionCode, definitionRow, ParameterXls); break;
-                    case "WorkValueHeight": Parameter.WorkValueHeight = definitionRow[1].ToString(); SetParameterTable(ParameterTable.WorkValueHeight, definitionRow, ParameterXls); break;
-                    case "WorkValueTextTop": Parameter.WorkValueTextTop = definitionRow[1].ToString(); SetParameterTable(ParameterTable.WorkValueTextTop, definitionRow, ParameterXls); break;
-                    case "ProgressRateWidth": Parameter.ProgressRateWidth = definitionRow[1].ToString(); SetParameterTable(ParameterTable.ProgressRateWidth, definitionRow, ParameterXls); break;
-                    case "ProgressRateHeight": Parameter.ProgressRateHeight = definitionRow[1].ToString(); SetParameterTable(ParameterTable.ProgressRateHeight, definitionRow, ParameterXls); break;
-                    case "ProgressRateItemHeight": Parameter.ProgressRateItemHeight = definitionRow[1].ToString(); SetParameterTable(ParameterTable.ProgressRateItemHeight, definitionRow, ParameterXls); break;
-                    case "ProgressRateTextTop": Parameter.ProgressRateTextTop = definitionRow[1].ToString(); SetParameterTable(ParameterTable.ProgressRateTextTop, definitionRow, ParameterXls); break;
-                    case "GanttItemMaxHeight": Parameter.GanttItemMaxHeight = definitionRow[1].ToString(); SetParameterTable(ParameterTable.GanttItemMaxHeight, definitionRow, ParameterXls); break;
-                    case "GanttItemMinHeight": Parameter.GanttItemMinHeight = definitionRow[1].ToString(); SetParameterTable(ParameterTable.GanttItemMinHeight, definitionRow, ParameterXls); break;
-                    case "ImageSizeRegular": Parameter.ImageSizeRegular = definitionRow[1].ToString(); SetParameterTable(ParameterTable.ImageSizeRegular, definitionRow, ParameterXls); break;
-                    case "ImageSizeThumbnail": Parameter.ImageSizeThumbnail = definitionRow[1].ToString(); SetParameterTable(ParameterTable.ImageSizeThumbnail, definitionRow, ParameterXls); break;
-                    case "ImageSizeIcon": Parameter.ImageSizeIcon = definitionRow[1].ToString(); SetParameterTable(ParameterTable.ImageSizeIcon, definitionRow, ParameterXls); break;
-                    case "SearchConcordanceRate": Parameter.SearchConcordanceRate = definitionRow[1].ToString(); SetParameterTable(ParameterTable.SearchConcordanceRate, definitionRow, ParameterXls); break;
-                    case "SearchPageSize": Parameter.SearchPageSize = definitionRow[1].ToString(); SetParameterTable(ParameterTable.SearchPageSize, definitionRow, ParameterXls); break;
-                    case "AdminTasksDoSpan": Parameter.AdminTasksDoSpan = definitionRow[1].ToString(); SetParameterTable(ParameterTable.AdminTasksDoSpan, definitionRow, ParameterXls); break;
-                    case "SeparateMax": Parameter.SeparateMax = definitionRow[1].ToString(); SetParameterTable(ParameterTable.SeparateMax, definitionRow, ParameterXls); break;
-                    case "SeparateMin": Parameter.SeparateMin = definitionRow[1].ToString(); SetParameterTable(ParameterTable.SeparateMin, definitionRow, ParameterXls); break;
-                    case "MinTime": Parameter.MinTime = definitionRow[1].ToString(); SetParameterTable(ParameterTable.MinTime, definitionRow, ParameterXls); break;
-                    case "MaxTime": Parameter.MaxTime = definitionRow[1].ToString(); SetParameterTable(ParameterTable.MaxTime, definitionRow, ParameterXls); break;
-                    default: break;
-                }
-            });
-            ParameterXls.XlsSheet.AsEnumerable().Skip(1).Where(o => o[0].ToString() != string.Empty).ForEach(definitionRow =>
-            {
-                var newParameterDefinition = new ParameterDefinition();
-                if (definitionRow.ContainsKey("Id")) { newParameterDefinition.Id = definitionRow["Id"].ToString(); newParameterDefinition.SavedId = newParameterDefinition.Id; }
-                if (definitionRow.ContainsKey("String")) { newParameterDefinition.String = definitionRow["String"].ToString(); newParameterDefinition.SavedString = newParameterDefinition.String; }
-                if (definitionRow.ContainsKey("Int")) { newParameterDefinition.Int = definitionRow["Int"].ToInt(); newParameterDefinition.SavedInt = newParameterDefinition.Int; }
-                if (definitionRow.ContainsKey("Decimal")) { newParameterDefinition.Decimal = definitionRow["Decimal"].ToDecimal(); newParameterDefinition.SavedDecimal = newParameterDefinition.Decimal; }
-                if (definitionRow.ContainsKey("DateTime")) { newParameterDefinition.DateTime = definitionRow["DateTime"].ToDateTime(); newParameterDefinition.SavedDateTime = newParameterDefinition.DateTime; }
-                ParameterDefinitionCollection.Add(newParameterDefinition);
-            });
-        }
-
-        private static void SetParameterTable(ParameterDefinition definition, XlsRow definitionRow, XlsIo parameterxls)
-        {
-            if (definitionRow.ContainsKey("Id")) { definition.Id = definitionRow["Id"].ToString(); definition.SavedId = definition.Id; }
-            if (definitionRow.ContainsKey("String")) { definition.String = definitionRow["String"].ToString(); definition.SavedString = definition.String; }
-            if (definitionRow.ContainsKey("Int")) { definition.Int = definitionRow["Int"].ToInt(); definition.SavedInt = definition.Int; }
-            if (definitionRow.ContainsKey("Decimal")) { definition.Decimal = definitionRow["Decimal"].ToDecimal(); definition.SavedDecimal = definition.Decimal; }
-            if (definitionRow.ContainsKey("DateTime")) { definition.DateTime = definitionRow["DateTime"].ToDateTime(); definition.SavedDateTime = definition.DateTime; }
-        }
-
-        private static void ConstructParameterDefinitions()
-        {
-            ParameterXls = Initializer.DefinitionFile("definition_Parameter.xlsm");
-            ParameterDefinitionCollection = new List<ParameterDefinition>();
-            Parameter = new ParameterColumn2nd();
-            ParameterTable = new ParameterTable();
-        }
-
         public static XlsIo SqlXls;
         public static List<SqlDefinition> SqlDefinitionCollection;
         public static SqlColumn2nd Sql;
@@ -3088,25 +2975,6 @@ namespace Implem.DefinitionAccessor
                 });
         }
 
-        public static void SetParameterDefinitionOption(
-            string placeholder, ParameterDefinition parameterDefinition)
-        {
-            placeholder.RegexFirst("(?<=\\().+(?=\\))").Split(',')
-                .Where(o => !o.IsNullOrEmpty()).ForEach(option =>
-                {
-                    var optionName = option.Split_1st('=').Trim();
-                    var optionValue = option.Split_2nd('=').Trim();
-                    switch (optionName)
-                    {
-                        case "Id": parameterDefinition.Id = optionValue.ToString(); break;
-                        case "String": parameterDefinition.String = optionValue.ToString(); break;
-                        case "Int": parameterDefinition.Int = optionValue.ToInt(); break;
-                        case "Decimal": parameterDefinition.Decimal = optionValue.ToDecimal(); break;
-                        case "DateTime": parameterDefinition.DateTime = optionValue.ToDateTime(); break;
-                    }
-                });
-        }
-
         public static void SetSqlDefinitionOption(
             string placeholder, SqlDefinition sqlDefinition)
         {
@@ -3445,8 +3313,6 @@ namespace Implem.DefinitionAccessor
         public string Def_DefinitionClass_DefinitionAccessor;
         public string Def_DefinitionClass_DefinitionColumn2nd;
         public string Def_DefinitionClass_DefinitionTable;
-        public string Parameters;
-        public string Parameters_Items;
         public string BundleConfig;
         public string BundleConfig_Validators;
         public string Controller;
@@ -3789,8 +3655,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Def_DefinitionClass_DefinitionAccessor = new CodeDefinition();
         public CodeDefinition Def_DefinitionClass_DefinitionColumn2nd = new CodeDefinition();
         public CodeDefinition Def_DefinitionClass_DefinitionTable = new CodeDefinition();
-        public CodeDefinition Parameters = new CodeDefinition();
-        public CodeDefinition Parameters_Items = new CodeDefinition();
         public CodeDefinition BundleConfig = new CodeDefinition();
         public CodeDefinition BundleConfig_Validators = new CodeDefinition();
         public CodeDefinition Controller = new CodeDefinition();
@@ -7588,196 +7452,6 @@ namespace Implem.DefinitionAccessor
         public JavaScriptDefinition Import = new JavaScriptDefinition();
         public JavaScriptDefinition DrawGantt = new JavaScriptDefinition();
         public JavaScriptDefinition DrawBurnDown = new JavaScriptDefinition();
-    }
-
-    public class ParameterDefinition
-    {
-        public string Id; public string SavedId;
-        public string String; public string SavedString;
-        public int Int; public int SavedInt;
-        public decimal Decimal; public decimal SavedDecimal;
-        public DateTime DateTime; public DateTime SavedDateTime;
-
-        public ParameterDefinition()
-        {
-        }
-
-        public ParameterDefinition(Dictionary<string, string> propertyCollection)
-        {
-            if (propertyCollection.ContainsKey("Id")) Id = propertyCollection["Id"].ToString(); else Id = string.Empty;
-            if (propertyCollection.ContainsKey("String")) String = propertyCollection["String"].ToString(); else String = string.Empty;
-            if (propertyCollection.ContainsKey("Int")) Int = propertyCollection["Int"].ToInt(); else Int = 0;
-            if (propertyCollection.ContainsKey("Decimal")) Decimal = propertyCollection["Decimal"].ToDecimal(); else Decimal = 0;
-            if (propertyCollection.ContainsKey("DateTime")) DateTime = propertyCollection["DateTime"].ToDateTime(); else DateTime = 0.ToDateTime();
-        }
-
-        public object this[string key]
-        {
-            get{
-                switch(key)
-                {
-                    case "Id": return Id;
-                    case "String": return String;
-                    case "Int": return Int;
-                    case "Decimal": return Decimal;
-                    case "DateTime": return DateTime;
-                    default: return null;
-                }
-            }
-        }
-
-        public void RestoreBySavedMemory()
-        {
-            Id = SavedId;
-            String = SavedString;
-            Int = SavedInt;
-            Decimal = SavedDecimal;
-            DateTime = SavedDateTime;
-        }
-    }
-
-    public class ParameterColumn2nd
-    {
-        public string HtmlTitle;
-        public string HtmlHeadKeywords;
-        public string HtmlHeadDescription;
-        public string HtmlHeadAuther;
-        public string HtmlHeadViewport;
-        public string HtmlLogoText;
-        public string HtmlCopyright;
-        public string HtmlCopyrightUrl;
-        public string TimeZoneDefault;
-        public string DataImport;
-        public string RequireHttps;
-        public string AuthenticationProvider;
-        public string LdapSearchRoot;
-        public string LdapSearchProperty;
-        public string LdapTenantId;
-        public string LdapDeptCode;
-        public string LdapDeptName;
-        public string LdapUserCode;
-        public string LdapFirstName;
-        public string LdapLastName;
-        public string LdapMailAddress;
-        public string LimitWarning1;
-        public string LimitWarning2;
-        public string LimitWarning3;
-        public string SqlCommandTimeOut;
-        public string SqlAzureRetryCount;
-        public string SqlAzureRetryInterval;
-        public string DeleteTempOldThan;
-        public string DeleteHistoriesOldThan;
-        public string NearDeadlineBeforeDays;
-        public string NearDeadlineBeforeDaysMin;
-        public string NearDeadlineBeforeDaysMax;
-        public string NearDeadlineAfterDays;
-        public string NearDeadlineAfterDaysMin;
-        public string NearDeadlineAfterDaysMax;
-        public string GridPageSize;
-        public string GridPageSizeMin;
-        public string GridPageSizeMax;
-        public string SolutionBackupPath;
-        public string SolutionBackupExcludeDirectories;
-        public string InternalMailDomain;
-        public string BinaryStorageProvider;
-        public string SmtpProvider;
-        public string SmtpHost;
-        public string SmtpPort;
-        public string SendGridSmtpUser;
-        public string SendGridSmtpPassword;
-        public string SizeToUseTextArea;
-        public string ProjectModelRequire;
-        public string CompletionCode;
-        public string WorkValueHeight;
-        public string WorkValueTextTop;
-        public string ProgressRateWidth;
-        public string ProgressRateHeight;
-        public string ProgressRateItemHeight;
-        public string ProgressRateTextTop;
-        public string GanttItemMaxHeight;
-        public string GanttItemMinHeight;
-        public string ImageSizeRegular;
-        public string ImageSizeThumbnail;
-        public string ImageSizeIcon;
-        public string SearchConcordanceRate;
-        public string SearchPageSize;
-        public string AdminTasksDoSpan;
-        public string SeparateMax;
-        public string SeparateMin;
-        public string MinTime;
-        public string MaxTime;
-    }
-
-    public class ParameterTable
-    {
-        public ParameterDefinition HtmlTitle = new ParameterDefinition();
-        public ParameterDefinition HtmlHeadKeywords = new ParameterDefinition();
-        public ParameterDefinition HtmlHeadDescription = new ParameterDefinition();
-        public ParameterDefinition HtmlHeadAuther = new ParameterDefinition();
-        public ParameterDefinition HtmlHeadViewport = new ParameterDefinition();
-        public ParameterDefinition HtmlLogoText = new ParameterDefinition();
-        public ParameterDefinition HtmlCopyright = new ParameterDefinition();
-        public ParameterDefinition HtmlCopyrightUrl = new ParameterDefinition();
-        public ParameterDefinition TimeZoneDefault = new ParameterDefinition();
-        public ParameterDefinition DataImport = new ParameterDefinition();
-        public ParameterDefinition RequireHttps = new ParameterDefinition();
-        public ParameterDefinition AuthenticationProvider = new ParameterDefinition();
-        public ParameterDefinition LdapSearchRoot = new ParameterDefinition();
-        public ParameterDefinition LdapSearchProperty = new ParameterDefinition();
-        public ParameterDefinition LdapTenantId = new ParameterDefinition();
-        public ParameterDefinition LdapDeptCode = new ParameterDefinition();
-        public ParameterDefinition LdapDeptName = new ParameterDefinition();
-        public ParameterDefinition LdapUserCode = new ParameterDefinition();
-        public ParameterDefinition LdapFirstName = new ParameterDefinition();
-        public ParameterDefinition LdapLastName = new ParameterDefinition();
-        public ParameterDefinition LdapMailAddress = new ParameterDefinition();
-        public ParameterDefinition LimitWarning1 = new ParameterDefinition();
-        public ParameterDefinition LimitWarning2 = new ParameterDefinition();
-        public ParameterDefinition LimitWarning3 = new ParameterDefinition();
-        public ParameterDefinition SqlCommandTimeOut = new ParameterDefinition();
-        public ParameterDefinition SqlAzureRetryCount = new ParameterDefinition();
-        public ParameterDefinition SqlAzureRetryInterval = new ParameterDefinition();
-        public ParameterDefinition DeleteTempOldThan = new ParameterDefinition();
-        public ParameterDefinition DeleteHistoriesOldThan = new ParameterDefinition();
-        public ParameterDefinition NearDeadlineBeforeDays = new ParameterDefinition();
-        public ParameterDefinition NearDeadlineBeforeDaysMin = new ParameterDefinition();
-        public ParameterDefinition NearDeadlineBeforeDaysMax = new ParameterDefinition();
-        public ParameterDefinition NearDeadlineAfterDays = new ParameterDefinition();
-        public ParameterDefinition NearDeadlineAfterDaysMin = new ParameterDefinition();
-        public ParameterDefinition NearDeadlineAfterDaysMax = new ParameterDefinition();
-        public ParameterDefinition GridPageSize = new ParameterDefinition();
-        public ParameterDefinition GridPageSizeMin = new ParameterDefinition();
-        public ParameterDefinition GridPageSizeMax = new ParameterDefinition();
-        public ParameterDefinition SolutionBackupPath = new ParameterDefinition();
-        public ParameterDefinition SolutionBackupExcludeDirectories = new ParameterDefinition();
-        public ParameterDefinition InternalMailDomain = new ParameterDefinition();
-        public ParameterDefinition BinaryStorageProvider = new ParameterDefinition();
-        public ParameterDefinition SmtpProvider = new ParameterDefinition();
-        public ParameterDefinition SmtpHost = new ParameterDefinition();
-        public ParameterDefinition SmtpPort = new ParameterDefinition();
-        public ParameterDefinition SendGridSmtpUser = new ParameterDefinition();
-        public ParameterDefinition SendGridSmtpPassword = new ParameterDefinition();
-        public ParameterDefinition SizeToUseTextArea = new ParameterDefinition();
-        public ParameterDefinition ProjectModelRequire = new ParameterDefinition();
-        public ParameterDefinition CompletionCode = new ParameterDefinition();
-        public ParameterDefinition WorkValueHeight = new ParameterDefinition();
-        public ParameterDefinition WorkValueTextTop = new ParameterDefinition();
-        public ParameterDefinition ProgressRateWidth = new ParameterDefinition();
-        public ParameterDefinition ProgressRateHeight = new ParameterDefinition();
-        public ParameterDefinition ProgressRateItemHeight = new ParameterDefinition();
-        public ParameterDefinition ProgressRateTextTop = new ParameterDefinition();
-        public ParameterDefinition GanttItemMaxHeight = new ParameterDefinition();
-        public ParameterDefinition GanttItemMinHeight = new ParameterDefinition();
-        public ParameterDefinition ImageSizeRegular = new ParameterDefinition();
-        public ParameterDefinition ImageSizeThumbnail = new ParameterDefinition();
-        public ParameterDefinition ImageSizeIcon = new ParameterDefinition();
-        public ParameterDefinition SearchConcordanceRate = new ParameterDefinition();
-        public ParameterDefinition SearchPageSize = new ParameterDefinition();
-        public ParameterDefinition AdminTasksDoSpan = new ParameterDefinition();
-        public ParameterDefinition SeparateMax = new ParameterDefinition();
-        public ParameterDefinition SeparateMin = new ParameterDefinition();
-        public ParameterDefinition MinTime = new ParameterDefinition();
-        public ParameterDefinition MaxTime = new ParameterDefinition();
     }
 
     public class SqlDefinition

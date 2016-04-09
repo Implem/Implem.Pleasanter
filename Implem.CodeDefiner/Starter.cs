@@ -59,8 +59,8 @@ namespace Implem.CodeDefiner
         private static void Init()
         {
             Performances.Record(MethodBase.GetCurrentMethod().Name);
-            Files.DeleteHistoryFile(Directories.Temp(), Parameters.DeleteTempOldThan);
-            Files.DeleteHistoryFile(Directories.Histories(), Parameters.DeleteHistoriesOldThan);
+            Files.DeleteHistoryFile(Directories.Temp(), Def.Parameters.DeleteTempOldThan);
+            Files.DeleteHistoryFile(Directories.Histories(), Def.Parameters.DeleteHistoriesOldThan);
             Performances.Record(MethodBase.GetCurrentMethod().Name);
         }
 

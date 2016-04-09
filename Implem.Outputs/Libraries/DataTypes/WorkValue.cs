@@ -52,19 +52,19 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     .SvgText(
                         text: column.Format(Value) + column.Unit,
                         x: 0,
-                        y: Parameters.WorkValueTextTop)
+                        y: Def.Parameters.WorkValueTextTop)
                     .Rect(
                         x: 0,
-                        y: Parameters.WorkValueHeight / 2,
+                        y: Def.Parameters.WorkValueHeight / 2,
                         width: width,
-                        height: Parameters.WorkValueHeight / 2)
+                        height: Def.Parameters.WorkValueHeight / 2)
                     .Rect(
                         x: 0,
-                        y: Parameters.WorkValueHeight / 2,
+                        y: Def.Parameters.WorkValueHeight / 2,
                         width: ProgressRate != 0
                             ? (int)(width * (ProgressRate / 100))
                             : 0,
-                        height: Parameters.WorkValueHeight / 2)));
+                        height: Def.Parameters.WorkValueHeight / 2)));
         }
 
         public string ToExport(Column column)

@@ -76,9 +76,9 @@ namespace Implem.Pleasanter.Libraries.Views
                 .Footer(css: "footer", action: () => hb
                     .P(action: () => hb
                         .A(
-                            attributes: Html.Attributes().Href(Parameters.HtmlCopyrightUrl),
+                            attributes: Html.Attributes().Href(Def.Parameters.HtmlCopyrightUrl),
                             action: () => hb
-                                .Raw(Parameters.HtmlCopyright.Params(DateTime.Now.Year)))))
+                                .Raw(Def.Parameters.HtmlCopyright.Params(DateTime.Now.Year)))))
                 .Hidden(controlId: "ApplicationPath", value: Navigations.Get())
                 .Scripts(
                     methodType: methodType,

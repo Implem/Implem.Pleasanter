@@ -832,7 +832,7 @@ namespace Implem.Pleasanter.Models
         private bool Authenticate()
         {
             var ret = false;
-            switch (Parameters.AuthenticationProvider)
+            switch (Def.Parameters.AuthenticationProvider)
             {
                 case "LDAP":
                     ret = Ldap.Authenticate();
@@ -1186,7 +1186,7 @@ namespace Implem.Pleasanter.Models
                                 .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl())
                                 .Hidden(
                                     controlId: "GridOffset",
-                                    value: Def.Parameter.GridPageSize))
+                                    value: Def.Parameters.GridPageSize.ToString()))
                         .Div(attributes: Html.Attributes()
                             .Id_Css("Dialog_ImportSettings", "dialog")
                             .Title(Displays.Import()))

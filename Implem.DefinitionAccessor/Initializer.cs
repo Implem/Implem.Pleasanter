@@ -10,10 +10,11 @@ namespace Implem.DefinitionAccessor
 {
     public class Initializer
     {
-        public static void Initialize(string currentDirectoryPath, bool codeDefiner = false)
+        public static void Initialize(string modulePath, bool codeDefiner = false)
         {
+            SetParameters(new DirectoryInfo(new FileInfo(modulePath).DirectoryName));
             Environments.CodeDefiner = codeDefiner;
-            Environments.CurrentDirectoryPath = GetCurrentDirectoryPath(currentDirectoryPath);
+            Environments.CurrentDirectoryPath = GetCurrentDirectoryPath(modulePath);
             Environments.ServiceName = new DirectoryInfo(Directories.ServicePath()).Name;
             Environments.MachineName = Environment.MachineName;
             Environments.Application = 
@@ -22,8 +23,23 @@ namespace Implem.DefinitionAccessor
                 Assembly.GetExecutingAssembly().GetName().Version.ToString();
             SetDefinitions();
             Environments.TimeZoneInfoDefault = TimeZoneInfo.GetSystemTimeZones()
-                .FirstOrDefault(o => o.Id == Parameters.TimeZoneDefault);
+                .FirstOrDefault(o => o.Id == Def.Parameters.TimeZoneDefault);
             SetSqls();
+        }
+
+        private static void SetParameters(DirectoryInfo currentDirectory)
+        {
+            foreach (var sub in currentDirectory.GetDirectories())
+            {
+                var path = Path.Combine(
+                    sub.FullName, "App_Data", "Definitions", "Parameters.json");
+                if (Files.Exists(path))
+                {
+                    Def.Parameters = Files.Read(path).Deserialize<Parameters>();
+                    return;
+                }
+            }
+            SetParameters(currentDirectory.Parent);
         }
 
         private static string GetCurrentDirectoryPath(string currentDirectoryPath)
@@ -50,7 +66,6 @@ namespace Implem.DefinitionAccessor
             Def.SetDataViewDefinition();
             Def.SetDbDefinition();
             Def.SetJavaScriptDefinition();
-            Def.SetParameterDefinition();
             Def.SetDisplayDefinition();
             Def.SetSqlDefinition();
             SetDbDefinitionAdditional();
@@ -92,8 +107,8 @@ namespace Implem.DefinitionAccessor
                 case "Azure":
                     Environments.DbEnvironmentType = Sqls.DbEnvironmentTypes.Azure;
                     Azures.SetRetryManager(
-                        Parameters.SqlAzureRetryCount,
-                        Parameters.SqlAzureRetryInterval);
+                        Def.Parameters.SqlAzureRetryCount,
+                        Def.Parameters.SqlAzureRetryInterval);
                     break;
                 default: break;
             }

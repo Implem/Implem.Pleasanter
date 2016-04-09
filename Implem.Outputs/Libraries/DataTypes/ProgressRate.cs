@@ -77,22 +77,22 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     .SvgText(
                         text: column.Format(Value) + column.Unit,
                         x: 0,
-                        y: Parameters.ProgressRateTextTop)
+                        y: Def.Parameters.ProgressRateTextTop)
                     .Rect(
                         x: 0,
-                        y: Parameters.ProgressRateItemHeight * 2,
-                        width: Parameters.ProgressRateWidth,
-                        height: Parameters.ProgressRateItemHeight)
+                        y: Def.Parameters.ProgressRateItemHeight * 2,
+                        width: Def.Parameters.ProgressRateWidth,
+                        height: Def.Parameters.ProgressRateItemHeight)
                     .Rect(
                         x: 0,
-                        y: Parameters.ProgressRateItemHeight * 2,
-                        width: Convert.ToInt32(plannedValue * Parameters.ProgressRateWidth),
-                        height: Parameters.ProgressRateItemHeight)
+                        y: Def.Parameters.ProgressRateItemHeight * 2,
+                        width: Convert.ToInt32(plannedValue * Def.Parameters.ProgressRateWidth),
+                        height: Def.Parameters.ProgressRateItemHeight)
                     .Rect(
                         x: 0,
-                        y: Parameters.ProgressRateItemHeight * 3,
-                        width: Convert.ToInt32(earnedValue * Parameters.ProgressRateWidth),
-                        height: Parameters.ProgressRateItemHeight)));
+                        y: Def.Parameters.ProgressRateItemHeight * 3,
+                        width: Convert.ToInt32(earnedValue * Def.Parameters.ProgressRateWidth),
+                        height: Def.Parameters.ProgressRateItemHeight)));
         }
 
         private DateTime Start()

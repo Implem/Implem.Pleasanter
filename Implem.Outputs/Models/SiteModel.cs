@@ -1872,8 +1872,8 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-auto-thin",
                         labelText: Displays.SettingNearDeadlineBeforeDays(),
                         value: siteSettings.NearDeadlineBeforeDays.ToDecimal(),
-                        min: Parameters.NearDeadlineBeforeDaysMin,
-                        max: Parameters.NearDeadlineBeforeDaysMax,
+                        min: Def.Parameters.NearDeadlineBeforeDaysMin,
+                        max: Def.Parameters.NearDeadlineBeforeDaysMax,
                         step: 1,
                         width: 25)
                     .FieldSpinner(
@@ -1881,8 +1881,8 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-auto-thin",
                         labelText: Displays.SettingNearDeadlineAfterDays(),
                         value: siteSettings.NearDeadlineAfterDays.ToDecimal(),
-                        min: Parameters.NearDeadlineAfterDaysMin,
-                        max: Parameters.NearDeadlineAfterDaysMax,
+                        min: Def.Parameters.NearDeadlineAfterDaysMin,
+                        max: Def.Parameters.NearDeadlineAfterDaysMax,
                         step: 1,
                         width: 25)
                     .FieldSpinner(
@@ -1890,8 +1890,8 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-auto-thin",
                         labelText: Displays.SettingGridPageSize(),
                         value: siteSettings.GridPageSize.ToDecimal(),
-                        min: Parameters.GridPageSizeMin,
-                        max: Parameters.GridPageSizeMax,
+                        min: Def.Parameters.GridPageSizeMin,
+                        max: Def.Parameters.GridPageSizeMax,
                         step: 1,
                         width: 25)
                     .GridColumns(siteSettings)

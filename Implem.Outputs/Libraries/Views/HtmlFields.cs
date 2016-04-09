@@ -281,7 +281,7 @@ namespace Implem.Pleasanter.Libraries.Views
                         : column.MarkDown
                             ? ControlTypes.MarkDown
                             : column.Max.ToInt() == -1 ||
-                              column.Max.ToInt() >= Parameters.SizeToUseTextArea
+                              column.Max.ToInt() >= Def.Parameters.SizeToUseTextArea
                                 ? ControlTypes.TextBoxMultiLine
                                 : ControlTypes.TextBox;
                 case Types.CsNumeric:

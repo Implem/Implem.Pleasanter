@@ -665,7 +665,7 @@ namespace Implem.Pleasanter.Models
             {
                 return false;
             }
-            switch (Parameters.BinaryStorageProvider)
+            switch (Def.Parameters.BinaryStorageProvider)
             {
                 case "Local":
                     return new ImageData(ReferenceId, ImageData.Types.SiteImage).Exists(sizeType);
@@ -686,7 +686,7 @@ namespace Implem.Pleasanter.Models
             {
                 return string.Empty;
             }
-            switch (Parameters.BinaryStorageProvider)
+            switch (Def.Parameters.BinaryStorageProvider)
             {
                 case "Local":
                     return new ImageData(ReferenceId, ImageData.Types.SiteImage).UrlPrefix(sizeType);
@@ -724,7 +724,7 @@ namespace Implem.Pleasanter.Models
             {
                 return null;
             }
-            switch (Parameters.BinaryStorageProvider)
+            switch (Def.Parameters.BinaryStorageProvider)
             {
                 case "Local":
                     return new ImageData(ReferenceId, ImageData.Types.SiteImage).Read(sizeType);
@@ -750,7 +750,7 @@ namespace Implem.Pleasanter.Models
                 Forms.File(ImageData.Types.SiteImage.ToString()),
                 ReferenceId,
                 ImageData.Types.SiteImage);
-            switch (Parameters.BinaryStorageProvider)
+            switch (Def.Parameters.BinaryStorageProvider)
             {
                 case "Local": imageData.WriteToLocal(); break;
                 default:

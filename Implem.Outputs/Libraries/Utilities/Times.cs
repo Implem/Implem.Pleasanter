@@ -60,7 +60,8 @@ namespace Implem.Pleasanter.Libraries.Utilities
 
         public static bool InRange(params DateTime[] times)
         {
-            return !times.ToList().Any(o => o < Parameters.MinTime || o > Parameters.MaxTime);
+            return !times.ToList().Any(o =>
+                o < Def.Parameters.MinTime || o > Def.Parameters.MaxTime);
         }
     }
 }

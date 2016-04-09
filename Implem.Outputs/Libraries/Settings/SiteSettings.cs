@@ -82,9 +82,9 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void Init()
         {
-            NearDeadlineBeforeDays = NearDeadlineBeforeDays ?? Parameters.NearDeadlineBeforeDays;
-            NearDeadlineAfterDays = NearDeadlineAfterDays ?? Parameters.NearDeadlineAfterDays;
-            GridPageSize = GridPageSize ?? Parameters.GridPageSize;
+            NearDeadlineBeforeDays = NearDeadlineBeforeDays ?? Def.Parameters.NearDeadlineBeforeDays;
+            NearDeadlineAfterDays = NearDeadlineAfterDays ?? Def.Parameters.NearDeadlineAfterDays;
+            GridPageSize = GridPageSize ?? Def.Parameters.GridPageSize;
             UpdateGrid();
             UpdateEditor();
             UpdateTableSet();

@@ -83,7 +83,6 @@
     <Compile Include="Functions\AspNetMvc\CSharp\Parts\JoinFrom.cs" />
     <Compile Include="Functions\AspNetMvc\CSharp\Parts\Join.cs" />
     <Compile Include="Functions\AspNetMvc\CSharp\Parts\Table.cs" />
-    <Compile Include="Functions\AspNetMvc\CSharp\Parts\Parameter.cs" />
     <Compile Include="Functions\AspNetMvc\CSharp\Parts\Display.cs" />
     <Compile Include="Functions\AspNetMvc\CSharp\Parts\VisualStudioProject.cs" />
     <Compile Include="Functions\SqlServer\Parts\ColumnSize.cs" />

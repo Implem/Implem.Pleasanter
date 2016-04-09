@@ -17,7 +17,7 @@ namespace Implem.Pleasanter.Libraries.Views
                                 src: Navigations.Images("logo-corp.png"),
                                 css: "logo-corp")
                             .Span(css: "logo-product", action: () => hb
-                                .Text(text: Parameters.HtmlLogoText))))
+                                .Text(text: Def.Parameters.HtmlLogoText))))
                 .LoginUser());
         }
 

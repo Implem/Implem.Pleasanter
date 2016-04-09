@@ -47,7 +47,7 @@ namespace Implem.DefinitionAccessor
 
         public static string Definitions(string fileName = "")
         {
-            var path = Parameters.Get("DefinitionsPath");
+            var path = Def.Parameters.DefinitionsPath;
             return path.IsNullOrEmpty()
                 ? Outputs("App_Data", "Definitions") + fileName.IsNotEmpty("\\" + fileName)
                 : path;
@@ -55,7 +55,7 @@ namespace Implem.DefinitionAccessor
 
         public static string Imports()
         {
-            var path = Parameters.Get("ImportsPath");
+            var path = Def.Parameters.ImportsPath;
             return path.IsNullOrEmpty()
                 ? Outputs("App_Data", "Imports")
                 : path;
@@ -63,7 +63,7 @@ namespace Implem.DefinitionAccessor
 
         public static string Temp()
         {
-            var path = Parameters.Get("TempPath");
+            var path = Def.Parameters.TempPath;
             return path.IsNullOrEmpty()
                 ? Path.Combine(Environments.CurrentDirectoryPath, "App_Data", "Temp")
                 : path;
@@ -71,7 +71,7 @@ namespace Implem.DefinitionAccessor
 
         public static string Logs()
         {
-            var path = Parameters.Get("LogsPath");
+            var path = Def.Parameters.LogsPath;
             return path.IsNullOrEmpty()
                 ? Path.Combine(Environments.CurrentDirectoryPath, "App_Data", "Logs")
                 : path;
@@ -79,7 +79,7 @@ namespace Implem.DefinitionAccessor
 
         public static string Histories()
         {
-            var path = Parameters.Get("HistoriesPath");
+            var path = Def.Parameters.HistoriesPath;
             return path.IsNullOrEmpty()
                 ? Path.Combine(Environments.CurrentDirectoryPath, "App_Data", "Histories")
                 : path;
@@ -87,7 +87,7 @@ namespace Implem.DefinitionAccessor
 
         public static string Data()
         {
-            var path = Parameters.Get("DataPath");
+            var path = Def.Parameters.DataPath;
             return path.IsNullOrEmpty()
                 ? Path.Combine(Environments.CurrentDirectoryPath, "App_Data", "Data")
                 : path;

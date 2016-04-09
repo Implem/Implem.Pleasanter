@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.Analysis
             CompletionTime = completionTime.ToLocal().ToShortDateString();
             DisplayCompletionTime = completionTime.ToLocal().AddDays(-1).ToShortDateString();
             ProgressRate = progressRate;
-            Completed = status == Parameters.CompletionCode;
+            Completed = status == Def.Parameters.CompletionCode;
         }
     }
 
