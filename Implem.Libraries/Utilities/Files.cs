@@ -109,7 +109,7 @@ namespace Implem.Libraries.Utilities
             }
         }
 
-        public static bool FileExists(this string self) 
+        public static bool Exists(this string self) 
         { 
             return File.Exists(self); 
         }

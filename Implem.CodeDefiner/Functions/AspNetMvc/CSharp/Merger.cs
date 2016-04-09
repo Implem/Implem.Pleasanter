@@ -10,7 +10,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
         {
             var newCode = code;
             var path = Path.Combine(Directories.ServicePath(), fileName);
-            if (path.FileExists())
+            if (path.Exists())
             {
                 var existingCode = Files.Read(path);
                 if (path.FileExtension() == ".cs")
