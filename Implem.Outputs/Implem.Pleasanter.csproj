@@ -427,7 +427,6 @@
     <Content Include="App_Data\Definitions\definition_Code.xlsm" />
     <Content Include="App_Data\Definitions\definition_Column.xlsm" />
     <Content Include="App_Data\Definitions\definition_Css.xlsm" />
-    <Content Include="App_Data\Definitions\definition_Db.xlsm" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Admins\Index.cshtml" />

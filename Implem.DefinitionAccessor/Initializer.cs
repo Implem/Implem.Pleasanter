@@ -64,7 +64,6 @@ namespace Implem.DefinitionAccessor
             Def.SetColumnDefinition();
             Def.SetCssDefinition();
             Def.SetDataViewDefinition();
-            Def.SetDbDefinition();
             Def.SetJavaScriptDefinition();
             Def.SetDisplayDefinition();
             Def.SetSqlDefinition();
@@ -87,19 +86,25 @@ namespace Implem.DefinitionAccessor
 
         private static void SetDbDefinitionAdditional()
         {
-            Def.Db.DbSa = Strings.CoalesceEmpty(
-                Environment.GetEnvironmentVariable("Implem_" + Environments.ServiceName + "_DbSa"),
+            Def.Parameters.RdsSaConnectionString = Strings.CoalesceEmpty(
+                Environment.GetEnvironmentVariable(
+                    "Implem_" + Environments.ServiceName + "_DbSa"),
                 Environment.GetEnvironmentVariable("Implem_DbSa"),
-                Def.Db.DbSa.Replace("#ServiceName#", Environments.ServiceName));
-            Def.Db.DbOwner = Strings.CoalesceEmpty(
-                Environment.GetEnvironmentVariable("Implem_" + Environments.ServiceName + "_DbOwner"),
+                Def.Parameters.RdsSaConnectionString.Replace(
+                    "#ServiceName#", Environments.ServiceName));
+            Def.Parameters.RdsOwnerConnectionString = Strings.CoalesceEmpty(
+                Environment.GetEnvironmentVariable(
+                    "Implem_" + Environments.ServiceName + "_DbOwner"),
                 Environment.GetEnvironmentVariable("Implem_DbOwner"),
-                Def.Db.DbOwner.Replace("#ServiceName#", Environments.ServiceName));
-            Def.Db.DbUser = Strings.CoalesceEmpty(
-                Environment.GetEnvironmentVariable("Implem_" + Environments.ServiceName + "_DbUser"),
+                Def.Parameters.RdsOwnerConnectionString.Replace(
+                    "#ServiceName#", Environments.ServiceName));
+            Def.Parameters.RdsUserConnectionString = Strings.CoalesceEmpty(
+                Environment.GetEnvironmentVariable(
+                    "Implem_" + Environments.ServiceName + "_DbUser"),
                 Environment.GetEnvironmentVariable("Implem_DbUser"),
-                Def.Db.DbUser.Replace("#ServiceName#", Environments.ServiceName));
-            switch (Def.Db.DbEnvironmentType)
+                Def.Parameters.RdsUserConnectionString.Replace(
+                    "#ServiceName#", Environments.ServiceName));
+            switch (Def.Parameters.RdsType)
             {
                 case "Local": 
                     Environments.DbEnvironmentType = Sqls.DbEnvironmentTypes.Local;
@@ -113,7 +118,7 @@ namespace Implem.DefinitionAccessor
                 default: break;
             }
             Environments.DbTimeZoneInfo = TimeZoneInfo.GetSystemTimeZones()
-                .FirstOrDefault(o => o.Id == Def.Db.DbTimeZoneInfo);
+                .FirstOrDefault(o => o.Id == Def.Parameters.RdsTimeZoneInfo);
         }
 
         private static void SetColumnDefinitionAdditional(XlsIo definitionFile)

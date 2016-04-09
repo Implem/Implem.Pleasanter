@@ -1,8 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 namespace Implem.DefinitionAccessor
 {
     public class Parameters
     {
+        public string RdsType;
+        public string RdsTimeZoneInfo;
+        public string RdsSaConnectionString;
+        public string RdsOwnerConnectionString;
+        public string RdsUserConnectionString;
         public string DefinitionsPath;
         public string ImportsPath;
         public string TempPath;

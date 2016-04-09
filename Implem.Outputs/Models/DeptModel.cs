@@ -352,7 +352,7 @@ namespace Implem.Pleasanter.Models
             }
             DeptId = deptId;
             Rds.ExecuteNonQuery(
-                connectionString: Def.Db.DbOwner,
+                connectionString: Def.Parameters.RdsOwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {

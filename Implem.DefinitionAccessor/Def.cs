@@ -149,7 +149,11 @@ namespace Implem.DefinitionAccessor
             params SqlStatement[] statements)
         {
             return new SqlIo(CommandContainer(
-                Db.DbSa, dbUser, transactional, writeSqlToDebugLog, statements));
+                Def.Parameters.RdsSaConnectionString,
+                dbUser,
+                transactional,
+                writeSqlToDebugLog,
+                statements));
         }
 
         public static SqlIo SqlIoByAdmin(
@@ -159,7 +163,11 @@ namespace Implem.DefinitionAccessor
             params SqlStatement[] statements)
         {
             return new SqlIo(CommandContainer(
-                Db.DbOwner, dbUser, transactional, writeSqlToDebugLog, statements));
+                Def.Parameters.RdsOwnerConnectionString,
+                dbUser,
+                transactional,
+                writeSqlToDebugLog,
+                statements));
         }
 
         public static SqlIo SqlIoByUser(
@@ -172,7 +180,7 @@ namespace Implem.DefinitionAccessor
             return new SqlIo(CommandContainer(
                 connectionString != ""
                     ? connectionString
-                    : Db.DbUser,
+                    : Def.Parameters.RdsUserConnectionString,
                 dbUser,
                 transactional,
                 writeSqlToDebugLog,
@@ -1888,54 +1896,6 @@ namespace Implem.DefinitionAccessor
             DataViewTable = new DataViewTable();
         }
 
-        public static XlsIo DbXls;
-        public static List<DbDefinition> DbDefinitionCollection;
-        public static DbColumn2nd Db;
-        public static DbTable DbTable;
-
-        public static void SetDbDefinition()
-        {
-            ConstructDbDefinitions();
-            if (DbXls.AccessStatus != Files.AccessStatuses.Read) { return; }
-            DbXls.XlsSheet.ForEach(definitionRow =>
-            {
-                switch (definitionRow[0].ToString())
-                {
-                    case "DbEnvironmentType": Db.DbEnvironmentType = definitionRow[1].ToString(); SetDbTable(DbTable.DbEnvironmentType, definitionRow, DbXls); break;
-                    case "DbTimeZoneInfo": Db.DbTimeZoneInfo = definitionRow[1].ToString(); SetDbTable(DbTable.DbTimeZoneInfo, definitionRow, DbXls); break;
-                    case "DbSa": Db.DbSa = definitionRow[1].ToString(); SetDbTable(DbTable.DbSa, definitionRow, DbXls); break;
-                    case "DbOwner": Db.DbOwner = definitionRow[1].ToString(); SetDbTable(DbTable.DbOwner, definitionRow, DbXls); break;
-                    case "DbUser": Db.DbUser = definitionRow[1].ToString(); SetDbTable(DbTable.DbUser, definitionRow, DbXls); break;
-                    default: break;
-                }
-            });
-            DbXls.XlsSheet.AsEnumerable().Skip(1).Where(o => o[0].ToString() != string.Empty).ForEach(definitionRow =>
-            {
-                var newDbDefinition = new DbDefinition();
-                if (definitionRow.ContainsKey("Id")) { newDbDefinition.Id = definitionRow["Id"].ToString(); newDbDefinition.SavedId = newDbDefinition.Id; }
-                if (definitionRow.ContainsKey("Content")) { newDbDefinition.Content = definitionRow["Content"].ToString(); newDbDefinition.SavedContent = newDbDefinition.Content; }
-                if (definitionRow.ContainsKey("Type")) { newDbDefinition.Type = definitionRow["Type"].ToString(); newDbDefinition.SavedType = newDbDefinition.Type; }
-                if (definitionRow.ContainsKey("Sa")) { newDbDefinition.Sa = definitionRow["Sa"].ToBool(); newDbDefinition.SavedSa = newDbDefinition.Sa; }
-                DbDefinitionCollection.Add(newDbDefinition);
-            });
-        }
-
-        private static void SetDbTable(DbDefinition definition, XlsRow definitionRow, XlsIo dbxls)
-        {
-            if (definitionRow.ContainsKey("Id")) { definition.Id = definitionRow["Id"].ToString(); definition.SavedId = definition.Id; }
-            if (definitionRow.ContainsKey("Content")) { definition.Content = definitionRow["Content"].ToString(); definition.SavedContent = definition.Content; }
-            if (definitionRow.ContainsKey("Type")) { definition.Type = definitionRow["Type"].ToString(); definition.SavedType = definition.Type; }
-            if (definitionRow.ContainsKey("Sa")) { definition.Sa = definitionRow["Sa"].ToBool(); definition.SavedSa = definition.Sa; }
-        }
-
-        private static void ConstructDbDefinitions()
-        {
-            DbXls = Initializer.DefinitionFile("definition_Db.xlsm");
-            DbDefinitionCollection = new List<DbDefinition>();
-            Db = new DbColumn2nd();
-            DbTable = new DbTable();
-        }
-
         public static XlsIo DisplayXls;
         public static List<DisplayDefinition> DisplayDefinitionCollection;
         public static DisplayColumn2nd Display;
@@ -2915,24 +2875,6 @@ namespace Implem.DefinitionAccessor
                         case "Id": dataViewDefinition.Id = optionValue.ToString(); break;
                         case "ReferenceType": dataViewDefinition.ReferenceType = optionValue.ToString(); break;
                         case "Name": dataViewDefinition.Name = optionValue.ToString(); break;
-                    }
-                });
-        }
-
-        public static void SetDbDefinitionOption(
-            string placeholder, DbDefinition dbDefinition)
-        {
-            placeholder.RegexFirst("(?<=\\().+(?=\\))").Split(',')
-                .Where(o => !o.IsNullOrEmpty()).ForEach(option =>
-                {
-                    var optionName = option.Split_1st('=').Trim();
-                    var optionValue = option.Split_2nd('=').Trim();
-                    switch (optionName)
-                    {
-                        case "Id": dbDefinition.Id = optionValue.ToString(); break;
-                        case "Content": dbDefinition.Content = optionValue.ToString(); break;
-                        case "Type": dbDefinition.Type = optionValue.ToString(); break;
-                        case "Sa": dbDefinition.Sa = optionValue.ToBool(); break;
                     }
                 });
         }
@@ -6174,66 +6116,6 @@ namespace Implem.DefinitionAccessor
     {
         public DataViewDefinition Issues_Gantt = new DataViewDefinition();
         public DataViewDefinition Issues_BurnDown = new DataViewDefinition();
-    }
-
-    public class DbDefinition
-    {
-        public string Id; public string SavedId;
-        public string Content; public string SavedContent;
-        public string Type; public string SavedType;
-        public bool Sa; public bool SavedSa;
-
-        public DbDefinition()
-        {
-        }
-
-        public DbDefinition(Dictionary<string, string> propertyCollection)
-        {
-            if (propertyCollection.ContainsKey("Id")) Id = propertyCollection["Id"].ToString(); else Id = string.Empty;
-            if (propertyCollection.ContainsKey("Content")) Content = propertyCollection["Content"].ToString(); else Content = string.Empty;
-            if (propertyCollection.ContainsKey("Type")) Type = propertyCollection["Type"].ToString(); else Type = string.Empty;
-            if (propertyCollection.ContainsKey("Sa")) Sa = propertyCollection["Sa"].ToBool(); else Sa = false;
-        }
-
-        public object this[string key]
-        {
-            get{
-                switch(key)
-                {
-                    case "Id": return Id;
-                    case "Content": return Content;
-                    case "Type": return Type;
-                    case "Sa": return Sa;
-                    default: return null;
-                }
-            }
-        }
-
-        public void RestoreBySavedMemory()
-        {
-            Id = SavedId;
-            Content = SavedContent;
-            Type = SavedType;
-            Sa = SavedSa;
-        }
-    }
-
-    public class DbColumn2nd
-    {
-        public string DbEnvironmentType;
-        public string DbTimeZoneInfo;
-        public string DbSa;
-        public string DbOwner;
-        public string DbUser;
-    }
-
-    public class DbTable
-    {
-        public DbDefinition DbEnvironmentType = new DbDefinition();
-        public DbDefinition DbTimeZoneInfo = new DbDefinition();
-        public DbDefinition DbSa = new DbDefinition();
-        public DbDefinition DbOwner = new DbDefinition();
-        public DbDefinition DbUser = new DbDefinition();
     }
 
     public class DisplayDefinition

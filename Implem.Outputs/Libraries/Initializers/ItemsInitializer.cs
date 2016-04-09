@@ -21,7 +21,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                     if (siteModel.SiteSettings != null)
                     {
                         Rds.ExecuteNonQuery(
-                            connectionString: Def.Db.DbOwner,
+                            connectionString: Def.Parameters.RdsOwnerConnectionString,
                             statements: new SqlStatement[]
                             {
                                 Rds.IdentityInsertItems(on: true),
@@ -97,7 +97,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                             issueModel.AccessStatus == Databases.AccessStatuses.Selected)
                         {
                             Rds.ExecuteNonQuery(
-                                connectionString: Def.Db.DbOwner,
+                                connectionString: Def.Parameters.RdsOwnerConnectionString,
                                 statements: new SqlStatement[]
                                 {
                                     Rds.IdentityInsertItems(on: true),
@@ -206,7 +206,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                             resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                         {
                             Rds.ExecuteNonQuery(
-                                connectionString: Def.Db.DbOwner,
+                                connectionString: Def.Parameters.RdsOwnerConnectionString,
                                 statements: new SqlStatement[]
                                 {
                                     Rds.IdentityInsertItems(on: true),
@@ -315,7 +315,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                             wikiModel.AccessStatus == Databases.AccessStatuses.Selected)
                         {
                             Rds.ExecuteNonQuery(
-                                connectionString: Def.Db.DbOwner,
+                                connectionString: Def.Parameters.RdsOwnerConnectionString,
                                 statements: new SqlStatement[]
                                 {
                                     Rds.IdentityInsertItems(on: true),
