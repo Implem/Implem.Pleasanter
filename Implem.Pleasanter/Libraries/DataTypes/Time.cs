@@ -77,7 +77,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             return 
                 DisplayValue.ToShortDateString() !=
-                DateTime.Now.ToLocal().ToShortDateString();
+                DateTime.Now.ToLocal(Displays.YmdFormat());
         }
 
         public virtual HtmlBuilder Td(HtmlBuilder hb, Column column)

@@ -48,10 +48,10 @@ namespace Implem.Pleasanter.Libraries.Analysis
                     : Displays.NotSet(),
                 statusColumn.Choice(status.ToString()).Text());
             StartTime = startTime.NotZero()
-                ? startTime.ToLocal().ToShortDateString()
-                : createdTime.ToLocal().ToShortDateString();
-            CompletionTime = completionTime.ToLocal().ToShortDateString();
-            DisplayCompletionTime = completionTime.ToLocal().AddDays(-1).ToShortDateString();
+                ? startTime.ToLocal(Displays.YmdFormat())
+                : createdTime.ToLocal(Displays.YmdFormat());
+            CompletionTime = completionTime.ToLocal(Displays.YmdFormat());
+            DisplayCompletionTime = completionTime.AddDays(-1).ToLocal(Displays.YmdFormat());
             ProgressRate = progressRate;
             Completed = status == Def.Parameters.CompletionCode;
         }

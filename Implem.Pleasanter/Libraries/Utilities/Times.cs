@@ -25,6 +25,12 @@ namespace Implem.Pleasanter.Libraries.Utilities
                 : value;
         }
 
+
+        public static string ToLocal(this DateTime value, string format)
+        {
+            return value.ToLocal().ToString(format, Sessions.CultureInfo());
+        }
+
         public static DateTime ToUniversal(this DateTime value)
         {
             var timeZoneInfo = Sessions.TimeZoneInfo();
