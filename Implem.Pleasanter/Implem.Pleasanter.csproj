@@ -411,9 +411,6 @@
     <Content Include="App_Data\Imports\import_Tenants.xlsx" />
     <Content Include="App_Data\Imports\import_Users.xlsx" />
     <Content Include="App_Data\Definitions\Parameters.json" />
-    <None Include="Properties\PublishProfiles\Local.pubxml" />
-    <None Include="Properties\PublishProfiles\pleasanter - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\pleasanter - Web Deploy.pubxml" />
     <Content Include="Views\Depts\Edit.cshtml" />
     <Content Include="Views\Depts\Index.cshtml" />
     <Content Include="Views\Depts\New.cshtml" />
@@ -455,6 +452,7 @@
     <Content Include="Views\Users\New.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Views\AdminTasks\" />
   </ItemGroup>
   <PropertyGroup>
