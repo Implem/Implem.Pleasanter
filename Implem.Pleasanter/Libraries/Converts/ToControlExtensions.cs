@@ -3,6 +3,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Responses;
 using System;
 using System.Collections.Generic;
+using Implem.Pleasanter.Libraries.ServerData;
 namespace Implem.Pleasanter.Libraries.Converts
 {
     public static class ToControlExtensions
@@ -32,8 +33,12 @@ namespace Implem.Pleasanter.Libraries.Converts
         private static string Formatted(this DateTime self, Column column)
         {
             return column.ControlDateTime != string.Empty
-                ? self.ToString(Displays.Get(column.ControlDateTime + "Format"))
-                : self.ToString();
+                ? self.ToString(
+                    Displays.Get(column.ControlDateTime + "Format"),
+                    Sessions.CultureInfo())
+                : self.ToString(
+                    Displays.YmdahmsFormat(),
+                    Sessions.CultureInfo());
         }
 
         public static string ToControl(this string self, Column column)
