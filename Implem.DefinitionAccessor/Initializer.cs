@@ -13,8 +13,9 @@ namespace Implem.DefinitionAccessor
         public static void Initialize(string modulePath, bool codeDefiner = false)
         {
             Environments.CodeDefiner = codeDefiner;
-            Environments.CurrentDirectoryPath = GetCurrentDirectoryPath(modulePath);
-            SetParameters(new DirectoryInfo(new FileInfo(modulePath).DirectoryName));
+            Environments.CurrentDirectoryPath = GetCurrentDirectoryPath(
+                new FileInfo(modulePath).Directory);
+            SetParameters();
             Environments.ServiceName = Def.Parameters.ServiceName;
             SetRdsParameters();
             Environments.MachineName = Environment.MachineName;
@@ -28,7 +29,17 @@ namespace Implem.DefinitionAccessor
             SetSqls();
         }
 
-        private static void SetParameters(DirectoryInfo currentDirectory)
+        private static void SetParameters()
+        {
+            var path = Path.Combine(
+                Environments.CurrentDirectoryPath, "App_Data", "Definitions", "Parameters.json");
+            if (Files.Exists(path))
+            {
+                Def.Parameters = Files.Read(path).Deserialize<Parameters>();
+            }
+        }
+
+        private static string GetCurrentDirectoryPath(DirectoryInfo currentDirectory)
         {
             foreach (var sub in currentDirectory.GetDirectories())
             {
@@ -36,27 +47,10 @@ namespace Implem.DefinitionAccessor
                     sub.FullName, "App_Data", "Definitions", "Parameters.json");
                 if (Files.Exists(path))
                 {
-                    Def.Parameters = Files.Read(path).Deserialize<Parameters>();
-                    return;
+                    return new FileInfo(path).Directory.Parent.Parent.FullName;
                 }
             }
-            SetParameters(currentDirectory.Parent);
-        }
-
-        private static string GetCurrentDirectoryPath(string currentDirectoryPath)
-        {
-            var path = string.Empty;
-            var dir = new DirectoryInfo(currentDirectoryPath);
-            while (dir != null)
-            {
-                if (Directory.Exists(Path.Combine(dir.FullName, "App_Data")))
-                {
-                    path = dir.FullName;
-                    break;
-                }
-                dir = dir.Parent;
-            }
-            return path;
+            return GetCurrentDirectoryPath(currentDirectory.Parent);
         }
 
         public static void SetDefinitions()

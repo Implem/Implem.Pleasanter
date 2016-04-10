@@ -34,7 +34,7 @@ namespace Implem.DefinitionAccessor
         {
             if (Environments.CodeDefiner)
             {
-                return CurrentPath("Implem." + Environments.ServiceName, pathes.ToList());
+                return Path.Combine(Environments.CurrentDirectoryPath, pathes.Join("\\"));
             }
             else
             {
