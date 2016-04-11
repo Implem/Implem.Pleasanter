@@ -24,7 +24,7 @@
     "RequireHttps": 0,
     "AuthenticationProvider": null,
     "LdapSearchRoot": null,
-    "LdapSearchProperty": null,
+    "LdapSearchProperty": "mail",
     "LdapTenantId": 1,
     "LdapDeptCode": null,
     "LdapDeptName": null,
