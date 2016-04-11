@@ -198,7 +198,7 @@ namespace Implem.DefinitionAccessor
             {
                 RdsUser = rdsUser ?? new RdsUser(RdsUser.UserTypes.System),
                 RdsName = Environments.ServiceName,
-                RdsType = Environments.RdsType,
+                RdsProvider = Environments.RdsProvider,
                 ConnectionString = connectionString,
                 SqlStatementCollection = SqlStatementCollection(statements),
                 CommandTimeOut = Parameters.SqlCommandTimeOut,

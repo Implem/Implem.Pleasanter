@@ -92,10 +92,10 @@ namespace Implem.DefinitionAccessor
             switch (Def.Parameters.RdsType)
             {
                 case "Local": 
-                    Environments.RdsType = Sqls.RdsTypes.Local;
+                    Environments.RdsProvider = Sqls.RdsProviders.Local;
                     break;
                 case "Azure":
-                    Environments.RdsType = Sqls.RdsTypes.Azure;
+                    Environments.RdsProvider = Sqls.RdsProviders.Azure;
                     Azures.SetRetryManager(
                         Def.Parameters.SqlAzureRetryCount,
                         Def.Parameters.SqlAzureRetryInterval);

@@ -7,7 +7,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer
     {
         internal static void Configure()
         {
-            if (Environments.RdsType == Sqls.RdsTypes.Local)
+            if (Environments.RdsProvider == Sqls.RdsProviders.Local)
             {
                 RdsConfigurator.Configure();
                 LoginsConfigurator.Configure();

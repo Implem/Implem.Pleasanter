@@ -93,12 +93,12 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             SetCommand();
             SqlCommand.Connection.Open();
-            switch (SqlContainer.RdsType)
+            switch (SqlContainer.RdsProvider)
             {
-                case Sqls.RdsTypes.Local:
+                case Sqls.RdsProviders.Local:
                     SqlCommand.ExecuteNonQuery();
                     break;
-                case Sqls.RdsTypes.Azure:
+                case Sqls.RdsProviders.Azure:
                     SqlCommand.ExecuteNonQueryWithRetry();
                     break;
                 default:
@@ -113,12 +113,12 @@ namespace Implem.Libraries.DataSources.SqlServer
             object command = null;
             SetCommand();
             SqlCommand.Connection.Open();
-            switch (SqlContainer.RdsType)
+            switch (SqlContainer.RdsProvider)
             {
-                case Sqls.RdsTypes.Local:
+                case Sqls.RdsProviders.Local:
                     command = SqlCommand.ExecuteScalar();
                     break;
-                case Sqls.RdsTypes.Azure:
+                case Sqls.RdsProviders.Azure:
                     command = SqlCommand.ExecuteScalarWithRetry();
                     break;
                 default:
@@ -133,12 +133,12 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             var dataTable = new DataTable();
             SetCommand();
-            switch (SqlContainer.RdsType)
+            switch (SqlContainer.RdsProvider)
             {
-                case Sqls.RdsTypes.Local:
+                case Sqls.RdsProviders.Local:
                     new SqlDataAdapter(SqlCommand).Fill(dataTable);
                     break;
-                case Sqls.RdsTypes.Azure:
+                case Sqls.RdsProviders.Azure:
                     var retryPolicy = Azures.RetryPolicy();
                     retryPolicy.ExecuteAction(() =>
                     {
@@ -162,12 +162,12 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             var dataSet = new DataSet();
             SetCommand();
-            switch (SqlContainer.RdsType)
+            switch (SqlContainer.RdsProvider)
             {
-                case Sqls.RdsTypes.Local:
+                case Sqls.RdsProviders.Local:
                     SqlContainer.SqlDataAdapter(SqlCommand).Fill(dataSet);
                     break;
-                case Sqls.RdsTypes.Azure:
+                case Sqls.RdsProviders.Azure:
                     var retryPolicy = Azures.RetryPolicy();
                     retryPolicy.ExecuteAction(() =>
                     {

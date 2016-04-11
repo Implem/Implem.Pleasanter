@@ -1,6 +1,6 @@
 ﻿{
     "ServiceName": "Implem.Pleasanter",
-    "RdsType": "Local",
+    "RdsProvider": "Local",
     "RdsTimeZoneInfo": "Tokyo Standard Time",
     "RdsSaConnectionString": "Server=tcp:(local),1433;Database=master;UID=sa;PWD=SetSaPWD;Connection Timeout=30;",
     "RdsOwnerConnectionString": "Server=tcp:(local),1433;Database=#ServiceName#;UID=#ServiceName#_Owner;PWD=SetAdminsPWD;Connection Timeout=30;",

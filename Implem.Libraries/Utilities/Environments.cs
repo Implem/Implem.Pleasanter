@@ -11,7 +11,7 @@ namespace Implem.Libraries.Utilities
         public static string MachineName;
         public static string Application;
         public static string AssemblyVersion;
-        public static Sqls.RdsTypes RdsType;
+        public static Sqls.RdsProviders RdsProvider;
         public static TimeZoneInfo RdsTimeZoneInfo;
         public static TimeZoneInfo TimeZoneInfoDefault;
     }

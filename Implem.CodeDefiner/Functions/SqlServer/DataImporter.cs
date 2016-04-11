@@ -25,7 +25,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer
             Consoles.Write(Path.GetFileName(filePath), Consoles.Types.Info);
             var tableName = new FileInfo(filePath).Name
                 .Replace("import_", string.Empty).FileNameOnly();
-            if (Environments.RdsType == Sqls.RdsTypes.Local)
+            if (Environments.RdsProvider == Sqls.RdsProviders.Local)
             {
                 DataImporter.BulkInsert(filePath, tableName);
             }

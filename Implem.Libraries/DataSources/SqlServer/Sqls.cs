@@ -9,7 +9,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         public static string BeginTransaction;
         public static string CommitTransaction;
 
-        public enum RdsTypes
+        public enum RdsProviders
         {
             Local,
             Azure
