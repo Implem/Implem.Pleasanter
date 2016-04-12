@@ -1619,8 +1619,8 @@ namespace Implem.Pleasanter.Models
             UserModel userModel,
             SiteSettings siteSettings)
         {
-            var sessionUserModel = Sessions.User();
-            if (userModel.VerType == Versions.VerTypes.Latest)
+            if (userModel.VerType == Versions.VerTypes.Latest &&
+                userModel.MethodType != BaseModel.MethodTypes.New)
             {
                 if (userModel.Self())
                 {
@@ -1630,7 +1630,7 @@ namespace Implem.Pleasanter.Models
                         onClick: Def.JavaScript.OpenDialog,
                         selector: "#Dialog_ChangePassword");
                 }
-                if (sessionUserModel.TenantAdmin)
+                if (Sessions.User().TenantAdmin)
                 {
                     hb.Button(
                         text: Displays.ResetPassword(),
