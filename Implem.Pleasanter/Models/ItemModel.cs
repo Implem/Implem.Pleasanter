@@ -136,7 +136,7 @@ namespace Implem.Pleasanter.Models
                 .ToJson();
         }
 
-        public string Edit()
+        public string Editor()
         {
             SetSite();
             switch (ReferenceType)

@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var log = new SysLogModel();
             var itemModel = new ItemModel(id);
-            var html = itemModel.Edit();
+            var html = itemModel.Editor();
             ViewBag.HtmlBody = html;
             log.Finish(html.Length);
             return View();

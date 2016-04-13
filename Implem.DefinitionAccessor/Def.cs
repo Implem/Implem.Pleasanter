@@ -362,7 +362,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_SiteMenu": Code.Model_SiteMenu = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteMenu, definitionRow, CodeXls); break;
                     case "Model_Index": Code.Model_Index = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Index, definitionRow, CodeXls); break;
                     case "Model_NewCases": Code.Model_NewCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_NewCases, definitionRow, CodeXls); break;
-                    case "Model_EditCases": Code.Model_EditCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_EditCases, definitionRow, CodeXls); break;
+                    case "Model_EditorCases": Code.Model_EditorCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_EditorCases, definitionRow, CodeXls); break;
                     case "Model_ImportCases": Code.Model_ImportCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ImportCases, definitionRow, CodeXls); break;
                     case "Model_ExportCases": Code.Model_ExportCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportCases, definitionRow, CodeXls); break;
                     case "Model_DataViewCases": Code.Model_DataViewCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DataViewCases, definitionRow, CodeXls); break;
@@ -3355,7 +3355,7 @@ namespace Implem.DefinitionAccessor
         public string Model_SiteMenu;
         public string Model_Index;
         public string Model_NewCases;
-        public string Model_EditCases;
+        public string Model_EditorCases;
         public string Model_ImportCases;
         public string Model_ExportCases;
         public string Model_DataViewCases;
@@ -3697,7 +3697,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SiteMenu = new CodeDefinition();
         public CodeDefinition Model_Index = new CodeDefinition();
         public CodeDefinition Model_NewCases = new CodeDefinition();
-        public CodeDefinition Model_EditCases = new CodeDefinition();
+        public CodeDefinition Model_EditorCases = new CodeDefinition();
         public CodeDefinition Model_ImportCases = new CodeDefinition();
         public CodeDefinition Model_ExportCases = new CodeDefinition();
         public CodeDefinition Model_DataViewCases = new CodeDefinition();
