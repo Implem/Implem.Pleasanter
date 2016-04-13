@@ -194,7 +194,8 @@ namespace Implem.Pleasanter.Libraries.Views
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: column.LabelText,
-                                _checked: value.ToBool());
+                                _checked: value.ToBool(),
+                                disabled: column.EditorReadOnly.ToBool());
                         case ControlTypes.Slider:
                             return hb.FieldSlider(
                                 controlId: controlId,
@@ -265,7 +266,13 @@ namespace Implem.Pleasanter.Libraries.Views
         {
             if (column.EditorReadOnly.ToBool())
             {
-                return ControlTypes.Text;
+                switch (column.TypeName.CsTypeSummary())
+                {
+                    case Types.CsBool:
+                        return ControlTypes.CheckBox;
+                    default:
+                        return ControlTypes.Text;
+                }
             }
             switch (column.ControlType)
             {
