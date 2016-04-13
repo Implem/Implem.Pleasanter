@@ -1093,6 +1093,9 @@ namespace Implem.Pleasanter.Models
                                         mailAddressModel: mailAddressModel,
                                         siteSettings: siteSettings)))
                         .Hidden(
+                            controlId: "MethodType",
+                            value: mailAddressModel.MethodType.ToString().ToLower())
+                        .Hidden(
                             controlId: "MailAddresses_Timestamp",
                             css: "must-transport",
                             value: mailAddressModel.Timestamp)

@@ -2076,6 +2076,9 @@ namespace Implem.Pleasanter.Models
                                         siteSettings: siteSettings)))
                         .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl())
                         .Hidden(
+                            controlId: "MethodType",
+                            value: issueModel.MethodType.ToString().ToLower())
+                        .Hidden(
                             controlId: "Issues_Timestamp",
                             css: "must-transport",
                             value: issueModel.Timestamp)

@@ -1081,6 +1081,9 @@ namespace Implem.Pleasanter.Models
                                         tenantModel: tenantModel,
                                         siteSettings: siteSettings)))
                         .Hidden(
+                            controlId: "MethodType",
+                            value: tenantModel.MethodType.ToString().ToLower())
+                        .Hidden(
                             controlId: "Tenants_Timestamp",
                             css: "must-transport",
                             value: tenantModel.Timestamp)

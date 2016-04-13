@@ -1140,6 +1140,9 @@ namespace Implem.Pleasanter.Models
                                         deptModel: deptModel,
                                         siteSettings: siteSettings)))
                         .Hidden(
+                            controlId: "MethodType",
+                            value: deptModel.MethodType.ToString().ToLower())
+                        .Hidden(
                             controlId: "Depts_Timestamp",
                             css: "must-transport",
                             value: deptModel.Timestamp)

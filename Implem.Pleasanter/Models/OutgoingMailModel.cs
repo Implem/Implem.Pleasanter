@@ -1337,6 +1337,9 @@ namespace Implem.Pleasanter.Models
                                         outgoingMailModel: outgoingMailModel,
                                         siteSettings: siteSettings)))
                         .Hidden(
+                            controlId: "MethodType",
+                            value: outgoingMailModel.MethodType.ToString().ToLower())
+                        .Hidden(
                             controlId: "OutgoingMails_Timestamp",
                             css: "must-transport",
                             value: outgoingMailModel.Timestamp)

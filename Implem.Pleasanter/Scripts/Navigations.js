@@ -1,6 +1,8 @@
 ﻿$(function () {
     if ($('.edit-form .main-form').length === 1) {
-        var value = $('.edit-form .main-form').attr('action').replace('_action_', 'edit');
+        var value = $('.edit-form .main-form')
+            .attr('action')
+            .replace('_action_', $('#MethodType').val());
         history.pushState('/reload', '', value);
     }
     $(window).on('popstate', function (e) {

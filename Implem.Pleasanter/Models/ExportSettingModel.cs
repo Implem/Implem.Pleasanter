@@ -1257,6 +1257,9 @@ namespace Implem.Pleasanter.Models
                                         exportSettingModel: exportSettingModel,
                                         siteSettings: siteSettings)))
                         .Hidden(
+                            controlId: "MethodType",
+                            value: exportSettingModel.MethodType.ToString().ToLower())
+                        .Hidden(
                             controlId: "ExportSettings_Timestamp",
                             css: "must-transport",
                             value: exportSettingModel.Timestamp)

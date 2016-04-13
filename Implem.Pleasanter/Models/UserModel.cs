@@ -1541,6 +1541,9 @@ namespace Implem.Pleasanter.Models
                                         userModel: userModel,
                                         siteSettings: siteSettings)))
                         .Hidden(
+                            controlId: "MethodType",
+                            value: userModel.MethodType.ToString().ToLower())
+                        .Hidden(
                             controlId: "Users_Timestamp",
                             css: "must-transport",
                             value: userModel.Timestamp)

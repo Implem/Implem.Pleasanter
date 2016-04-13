@@ -1317,6 +1317,9 @@ namespace Implem.Pleasanter.Models
                                         binaryModel: binaryModel,
                                         siteSettings: siteSettings)))
                         .Hidden(
+                            controlId: "MethodType",
+                            value: binaryModel.MethodType.ToString().ToLower())
+                        .Hidden(
                             controlId: "Binaries_Timestamp",
                             css: "must-transport",
                             value: binaryModel.Timestamp)
