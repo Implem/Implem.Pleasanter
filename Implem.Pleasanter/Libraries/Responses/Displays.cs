@@ -992,6 +992,22 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Issues_DescriptionG(params string[] data) { return Get("Issues_DescriptionG", data); }
         public static HtmlBuilder Displays_Issues_DescriptionH(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Issues_DescriptionH", data)); }
         public static string Issues_DescriptionH(params string[] data) { return Get("Issues_DescriptionH", data); }
+        public static HtmlBuilder Displays_Issues_CheckA(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Issues_CheckA", data)); }
+        public static string Issues_CheckA(params string[] data) { return Get("Issues_CheckA", data); }
+        public static HtmlBuilder Displays_Issues_CheckB(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Issues_CheckB", data)); }
+        public static string Issues_CheckB(params string[] data) { return Get("Issues_CheckB", data); }
+        public static HtmlBuilder Displays_Issues_CheckC(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Issues_CheckC", data)); }
+        public static string Issues_CheckC(params string[] data) { return Get("Issues_CheckC", data); }
+        public static HtmlBuilder Displays_Issues_CheckD(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Issues_CheckD", data)); }
+        public static string Issues_CheckD(params string[] data) { return Get("Issues_CheckD", data); }
+        public static HtmlBuilder Displays_Issues_CheckE(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Issues_CheckE", data)); }
+        public static string Issues_CheckE(params string[] data) { return Get("Issues_CheckE", data); }
+        public static HtmlBuilder Displays_Issues_CheckF(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Issues_CheckF", data)); }
+        public static string Issues_CheckF(params string[] data) { return Get("Issues_CheckF", data); }
+        public static HtmlBuilder Displays_Issues_CheckG(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Issues_CheckG", data)); }
+        public static string Issues_CheckG(params string[] data) { return Get("Issues_CheckG", data); }
+        public static HtmlBuilder Displays_Issues_CheckH(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Issues_CheckH", data)); }
+        public static string Issues_CheckH(params string[] data) { return Get("Issues_CheckH", data); }
         public static HtmlBuilder Displays_Results_ResultId(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_ResultId", data)); }
         public static string Results_ResultId(params string[] data) { return Get("Results_ResultId", data); }
         public static HtmlBuilder Displays_Results_Title(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_Title", data)); }
@@ -1082,6 +1098,22 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Results_DescriptionG(params string[] data) { return Get("Results_DescriptionG", data); }
         public static HtmlBuilder Displays_Results_DescriptionH(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_DescriptionH", data)); }
         public static string Results_DescriptionH(params string[] data) { return Get("Results_DescriptionH", data); }
+        public static HtmlBuilder Displays_Results_CheckA(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_CheckA", data)); }
+        public static string Results_CheckA(params string[] data) { return Get("Results_CheckA", data); }
+        public static HtmlBuilder Displays_Results_CheckB(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_CheckB", data)); }
+        public static string Results_CheckB(params string[] data) { return Get("Results_CheckB", data); }
+        public static HtmlBuilder Displays_Results_CheckC(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_CheckC", data)); }
+        public static string Results_CheckC(params string[] data) { return Get("Results_CheckC", data); }
+        public static HtmlBuilder Displays_Results_CheckD(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_CheckD", data)); }
+        public static string Results_CheckD(params string[] data) { return Get("Results_CheckD", data); }
+        public static HtmlBuilder Displays_Results_CheckE(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_CheckE", data)); }
+        public static string Results_CheckE(params string[] data) { return Get("Results_CheckE", data); }
+        public static HtmlBuilder Displays_Results_CheckF(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_CheckF", data)); }
+        public static string Results_CheckF(params string[] data) { return Get("Results_CheckF", data); }
+        public static HtmlBuilder Displays_Results_CheckG(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_CheckG", data)); }
+        public static string Results_CheckG(params string[] data) { return Get("Results_CheckG", data); }
+        public static HtmlBuilder Displays_Results_CheckH(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Results_CheckH", data)); }
+        public static string Results_CheckH(params string[] data) { return Get("Results_CheckH", data); }
         public static HtmlBuilder Displays_Wikis_WikiId(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Wikis_WikiId", data)); }
         public static string Wikis_WikiId(params string[] data) { return Get("Wikis_WikiId", data); }
         public static HtmlBuilder Displays_Tenants_Ver(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Tenants_Ver", data)); }

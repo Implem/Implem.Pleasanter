@@ -75,6 +75,14 @@ namespace Implem.Pleasanter.Models
         public string DescriptionF = string.Empty;
         public string DescriptionG = string.Empty;
         public string DescriptionH = string.Empty;
+        public bool CheckA = false;
+        public bool CheckB = false;
+        public bool CheckC = false;
+        public bool CheckD = false;
+        public bool CheckE = false;
+        public bool CheckF = false;
+        public bool CheckG = false;
+        public bool CheckH = false;
         public TitleBody TitleBody { get { return new TitleBody(IssueId, Title.Value, Title.DisplayValue, Body); } }
         public long SavedIssueId = 0;
         public DateTime SavedStartTime = 0.ToDateTime();
@@ -125,6 +133,14 @@ namespace Implem.Pleasanter.Models
         public string SavedDescriptionF = string.Empty;
         public string SavedDescriptionG = string.Empty;
         public string SavedDescriptionH = string.Empty;
+        public bool SavedCheckA = false;
+        public bool SavedCheckB = false;
+        public bool SavedCheckC = false;
+        public bool SavedCheckD = false;
+        public bool SavedCheckE = false;
+        public bool SavedCheckF = false;
+        public bool SavedCheckG = false;
+        public bool SavedCheckH = false;
         public bool StartTime_Updated { get { return StartTime != SavedStartTime && StartTime != null; } }
         public bool CompletionTime_Updated { get { return CompletionTime.Value != SavedCompletionTime && CompletionTime.Value != null; } }
         public bool WorkValue_Updated { get { return WorkValue.Value != SavedWorkValue; } }
@@ -172,6 +188,14 @@ namespace Implem.Pleasanter.Models
         public bool DescriptionF_Updated { get { return DescriptionF != SavedDescriptionF && DescriptionF != null; } }
         public bool DescriptionG_Updated { get { return DescriptionG != SavedDescriptionG && DescriptionG != null; } }
         public bool DescriptionH_Updated { get { return DescriptionH != SavedDescriptionH && DescriptionH != null; } }
+        public bool CheckA_Updated { get { return CheckA != SavedCheckA; } }
+        public bool CheckB_Updated { get { return CheckB != SavedCheckB; } }
+        public bool CheckC_Updated { get { return CheckC != SavedCheckC; } }
+        public bool CheckD_Updated { get { return CheckD != SavedCheckD; } }
+        public bool CheckE_Updated { get { return CheckE != SavedCheckE; } }
+        public bool CheckF_Updated { get { return CheckF != SavedCheckF; } }
+        public bool CheckG_Updated { get { return CheckG != SavedCheckG; } }
+        public bool CheckH_Updated { get { return CheckH != SavedCheckH; } }
         public List<long> SwitchTargets;
 
         public IssueModel(SiteSettings siteSettings)
@@ -384,6 +408,14 @@ namespace Implem.Pleasanter.Models
                     case "Issues_DescriptionF": if (!SiteSettings.AllColumn("DescriptionF").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Issues_DescriptionG": if (!SiteSettings.AllColumn("DescriptionG").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Issues_DescriptionH": if (!SiteSettings.AllColumn("DescriptionH").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_CheckA": if (!SiteSettings.AllColumn("CheckA").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_CheckB": if (!SiteSettings.AllColumn("CheckB").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_CheckC": if (!SiteSettings.AllColumn("CheckC").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_CheckD": if (!SiteSettings.AllColumn("CheckD").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_CheckE": if (!SiteSettings.AllColumn("CheckE").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_CheckF": if (!SiteSettings.AllColumn("CheckF").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_CheckG": if (!SiteSettings.AllColumn("CheckG").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_CheckH": if (!SiteSettings.AllColumn("CheckH").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Issues_Comments": if (!SiteSettings.AllColumn("Comments").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Issues_Creator": if (!SiteSettings.AllColumn("Creator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Issues_Updator": if (!SiteSettings.AllColumn("Updator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
@@ -545,6 +577,14 @@ namespace Implem.Pleasanter.Models
                     case "Issues_DescriptionF": if (!SiteSettings.AllColumn("DescriptionF").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Issues_DescriptionG": if (!SiteSettings.AllColumn("DescriptionG").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Issues_DescriptionH": if (!SiteSettings.AllColumn("DescriptionH").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_CheckA": if (!SiteSettings.AllColumn("CheckA").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_CheckB": if (!SiteSettings.AllColumn("CheckB").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_CheckC": if (!SiteSettings.AllColumn("CheckC").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_CheckD": if (!SiteSettings.AllColumn("CheckD").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_CheckE": if (!SiteSettings.AllColumn("CheckE").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_CheckF": if (!SiteSettings.AllColumn("CheckF").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_CheckG": if (!SiteSettings.AllColumn("CheckG").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Issues_CheckH": if (!SiteSettings.AllColumn("CheckH").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Issues_Comments": if (!SiteSettings.AllColumn("Comments").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Issues_Creator": if (!SiteSettings.AllColumn("Creator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Issues_Updator": if (!SiteSettings.AllColumn("Updator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
@@ -1036,6 +1076,14 @@ namespace Implem.Pleasanter.Models
                     case "Issues_DescriptionF": DescriptionF = Forms.Data(controlId).ToString(); break;
                     case "Issues_DescriptionG": DescriptionG = Forms.Data(controlId).ToString(); break;
                     case "Issues_DescriptionH": DescriptionH = Forms.Data(controlId).ToString(); break;
+                    case "Issues_CheckA": CheckA = Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckB": CheckB = Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckC": CheckC = Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckD": CheckD = Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckE": CheckE = Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckF": CheckF = Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckG": CheckG = Forms.Data(controlId).ToBool(); break;
+                    case "Issues_CheckH": CheckH = Forms.Data(controlId).ToBool(); break;
                     case "Issues_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
                     case "Comments": Comments = Comments.Prepend(Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
@@ -1132,6 +1180,14 @@ namespace Implem.Pleasanter.Models
                     case "DescriptionF": DescriptionF = dataRow[name].ToString(); SavedDescriptionF = DescriptionF; break;
                     case "DescriptionG": DescriptionG = dataRow[name].ToString(); SavedDescriptionG = DescriptionG; break;
                     case "DescriptionH": DescriptionH = dataRow[name].ToString(); SavedDescriptionH = DescriptionH; break;
+                    case "CheckA": CheckA = dataRow[name].ToBool(); SavedCheckA = CheckA; break;
+                    case "CheckB": CheckB = dataRow[name].ToBool(); SavedCheckB = CheckB; break;
+                    case "CheckC": CheckC = dataRow[name].ToBool(); SavedCheckC = CheckC; break;
+                    case "CheckD": CheckD = dataRow[name].ToBool(); SavedCheckD = CheckD; break;
+                    case "CheckE": CheckE = dataRow[name].ToBool(); SavedCheckE = CheckE; break;
+                    case "CheckF": CheckF = dataRow[name].ToBool(); SavedCheckF = CheckF; break;
+                    case "CheckG": CheckG = dataRow[name].ToBool(); SavedCheckG = CheckG; break;
+                    case "CheckH": CheckH = dataRow[name].ToBool(); SavedCheckH = CheckH; break;
                     case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
                     case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
@@ -1271,6 +1327,22 @@ namespace Implem.Pleasanter.Models
         public string DescriptionG_LabelText;
         public string DescriptionH;
         public string DescriptionH_LabelText;
+        public bool CheckA;
+        public string CheckA_LabelText;
+        public bool CheckB;
+        public string CheckB_LabelText;
+        public bool CheckC;
+        public string CheckC_LabelText;
+        public bool CheckD;
+        public string CheckD_LabelText;
+        public bool CheckE;
+        public string CheckE_LabelText;
+        public bool CheckF;
+        public string CheckF_LabelText;
+        public bool CheckG;
+        public string CheckG_LabelText;
+        public bool CheckH;
+        public string CheckH_LabelText;
         public Comments Comments;
         public string Comments_LabelText;
         public User Creator;
@@ -1392,6 +1464,22 @@ namespace Implem.Pleasanter.Models
             DescriptionG_LabelText = siteSettings.EditorColumn("DescriptionG")?.LabelText;
             DescriptionH = issueModel.DescriptionH;
             DescriptionH_LabelText = siteSettings.EditorColumn("DescriptionH")?.LabelText;
+            CheckA = issueModel.CheckA;
+            CheckA_LabelText = siteSettings.EditorColumn("CheckA")?.LabelText;
+            CheckB = issueModel.CheckB;
+            CheckB_LabelText = siteSettings.EditorColumn("CheckB")?.LabelText;
+            CheckC = issueModel.CheckC;
+            CheckC_LabelText = siteSettings.EditorColumn("CheckC")?.LabelText;
+            CheckD = issueModel.CheckD;
+            CheckD_LabelText = siteSettings.EditorColumn("CheckD")?.LabelText;
+            CheckE = issueModel.CheckE;
+            CheckE_LabelText = siteSettings.EditorColumn("CheckE")?.LabelText;
+            CheckF = issueModel.CheckF;
+            CheckF_LabelText = siteSettings.EditorColumn("CheckF")?.LabelText;
+            CheckG = issueModel.CheckG;
+            CheckG_LabelText = siteSettings.EditorColumn("CheckG")?.LabelText;
+            CheckH = issueModel.CheckH;
+            CheckH_LabelText = siteSettings.EditorColumn("CheckH")?.LabelText;
             Comments = issueModel.Comments;
             Comments_LabelText = siteSettings.EditorColumn("Comments")?.LabelText;
             Creator = issueModel.Creator;
@@ -1889,6 +1977,14 @@ namespace Implem.Pleasanter.Models
                     case "DescriptionF": select.DescriptionF(); break;
                     case "DescriptionG": select.DescriptionG(); break;
                     case "DescriptionH": select.DescriptionH(); break;
+                    case "CheckA": select.CheckA(); break;
+                    case "CheckB": select.CheckB(); break;
+                    case "CheckC": select.CheckC(); break;
+                    case "CheckD": select.CheckD(); break;
+                    case "CheckE": select.CheckE(); break;
+                    case "CheckF": select.CheckF(); break;
+                    case "CheckG": select.CheckG(); break;
+                    case "CheckH": select.CheckH(); break;
                     case "Comments": select.Comments(); break;
                     case "Creator": select.Creator(); break;
                     case "Updator": select.Updator(); break;
@@ -1958,6 +2054,14 @@ namespace Implem.Pleasanter.Models
                 case "DescriptionF": return hb.Td(column: column, value: issueModel.DescriptionF);
                 case "DescriptionG": return hb.Td(column: column, value: issueModel.DescriptionG);
                 case "DescriptionH": return hb.Td(column: column, value: issueModel.DescriptionH);
+                case "CheckA": return hb.Td(column: column, value: issueModel.CheckA);
+                case "CheckB": return hb.Td(column: column, value: issueModel.CheckB);
+                case "CheckC": return hb.Td(column: column, value: issueModel.CheckC);
+                case "CheckD": return hb.Td(column: column, value: issueModel.CheckD);
+                case "CheckE": return hb.Td(column: column, value: issueModel.CheckE);
+                case "CheckF": return hb.Td(column: column, value: issueModel.CheckF);
+                case "CheckG": return hb.Td(column: column, value: issueModel.CheckG);
+                case "CheckH": return hb.Td(column: column, value: issueModel.CheckH);
                 case "Comments": return hb.Td(column: column, value: issueModel.Comments);
                 case "Creator": return hb.Td(column: column, value: issueModel.Creator);
                 case "Updator": return hb.Td(column: column, value: issueModel.Updator);
@@ -2170,6 +2274,14 @@ namespace Implem.Pleasanter.Models
                             case "DescriptionF": hb.Field(siteSettings, column, issueModel.DescriptionF.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "DescriptionG": hb.Field(siteSettings, column, issueModel.DescriptionG.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "DescriptionH": hb.Field(siteSettings, column, issueModel.DescriptionH.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "CheckA": hb.Field(siteSettings, column, issueModel.CheckA.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "CheckB": hb.Field(siteSettings, column, issueModel.CheckB.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "CheckC": hb.Field(siteSettings, column, issueModel.CheckC.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "CheckD": hb.Field(siteSettings, column, issueModel.CheckD.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "CheckE": hb.Field(siteSettings, column, issueModel.CheckE.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "CheckF": hb.Field(siteSettings, column, issueModel.CheckF.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "CheckG": hb.Field(siteSettings, column, issueModel.CheckG.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "CheckH": hb.Field(siteSettings, column, issueModel.CheckH.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                         }
                     });
                 hb.VerUpCheckBox(issueModel);
@@ -2482,6 +2594,14 @@ namespace Implem.Pleasanter.Models
                                 case "DescriptionF": param.DescriptionF(recordingData, _using: recordingData != null); break;
                                 case "DescriptionG": param.DescriptionG(recordingData, _using: recordingData != null); break;
                                 case "DescriptionH": param.DescriptionH(recordingData, _using: recordingData != null); break;
+                                case "CheckA": param.CheckA(recordingData, _using: recordingData != null); break;
+                                case "CheckB": param.CheckB(recordingData, _using: recordingData != null); break;
+                                case "CheckC": param.CheckC(recordingData, _using: recordingData != null); break;
+                                case "CheckD": param.CheckD(recordingData, _using: recordingData != null); break;
+                                case "CheckE": param.CheckE(recordingData, _using: recordingData != null); break;
+                                case "CheckF": param.CheckF(recordingData, _using: recordingData != null); break;
+                                case "CheckG": param.CheckG(recordingData, _using: recordingData != null); break;
+                                case "CheckH": param.CheckH(recordingData, _using: recordingData != null); break;
                                 case "Comments": param.Comments(recordingData, _using: recordingData != null); break;
                             }
                         }
@@ -2638,6 +2758,14 @@ namespace Implem.Pleasanter.Models
                 case "DescriptionF": value = issueModel.DescriptionF.ToExport(column); break;
                 case "DescriptionG": value = issueModel.DescriptionG.ToExport(column); break;
                 case "DescriptionH": value = issueModel.DescriptionH.ToExport(column); break;
+                case "CheckA": value = issueModel.CheckA.ToExport(column); break;
+                case "CheckB": value = issueModel.CheckB.ToExport(column); break;
+                case "CheckC": value = issueModel.CheckC.ToExport(column); break;
+                case "CheckD": value = issueModel.CheckD.ToExport(column); break;
+                case "CheckE": value = issueModel.CheckE.ToExport(column); break;
+                case "CheckF": value = issueModel.CheckF.ToExport(column); break;
+                case "CheckG": value = issueModel.CheckG.ToExport(column); break;
+                case "CheckH": value = issueModel.CheckH.ToExport(column); break;
                 case "Comments": value = issueModel.Comments.ToExport(column); break;
                 case "Creator": value = issueModel.Creator.ToExport(column); break;
                 case "Updator": value = issueModel.Updator.ToExport(column); break;

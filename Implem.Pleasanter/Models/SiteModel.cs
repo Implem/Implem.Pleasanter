@@ -2135,23 +2135,29 @@ namespace Implem.Pleasanter.Models
                 legendText: column.LabelTextDefault,
                 action: () =>
                 {
-                    hb
-                        .FieldTextBox(
-                            controlId: "ColumnProperty,LabelText",
-                            fieldCss: "field-auto-thin",
-                            labelText: Displays.SettingLabel(),
-                            text: column.LabelText)
-                        .FieldDropDown(
-                            controlId: "ColumnProperty,FieldCss",
-                            fieldCss: "field-auto-thin",
-                            labelText: Displays.Style(),
-                            optionCollection: new Dictionary<string, string>
-                            {
-                                { "field-normal", Displays.Normal() },
-                                { "field-wide", Displays.Wide() },
-                                { "field-auto", Displays.Auto() }
-                            },
-                            selectedValue: column.FieldCss);
+                    hb.FieldTextBox(
+                        controlId: "ColumnProperty,LabelText",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.SettingLabel(),
+                        text: column.LabelText);
+                    switch (column.TypeName.CsTypeSummary())
+                    {
+                        case Types.CsBool:
+                            break;
+                        default:
+                            hb.FieldDropDown(
+                                controlId: "ColumnProperty,FieldCss",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.Style(),
+                                optionCollection: new Dictionary<string, string>
+                                {
+                                    { "field-normal", Displays.Normal() },
+                                    { "field-wide", Displays.Wide() },
+                                    { "field-auto", Displays.Auto() }
+                                },
+                                selectedValue: column.FieldCss);
+                            break;
+                    }
                     if (column.Nullable)
                     {
                         hb.FieldCheckBox(
