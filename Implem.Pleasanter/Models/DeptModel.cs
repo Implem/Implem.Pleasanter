@@ -1046,16 +1046,16 @@ namespace Implem.Pleasanter.Models
         public static string EditorNew()
         {
             return Editor(new DeptModel(
-                    SiteSettingsUtility.DeptsSiteSettings(),
-                    Permissions.Admins(),
+                SiteSettingsUtility.DeptsSiteSettings(),
+                Permissions.Admins(),
                 methodType: BaseModel.MethodTypes.New));
         }
 
         public static string Editor(int deptId, bool clearSessions)
         {
             var deptModel = new DeptModel(
-                    SiteSettingsUtility.DeptsSiteSettings(),
-                    Permissions.Admins(),
+                SiteSettingsUtility.DeptsSiteSettings(),
+                Permissions.Admins(),
                 deptId: deptId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);

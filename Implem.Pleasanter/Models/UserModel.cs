@@ -1447,16 +1447,16 @@ namespace Implem.Pleasanter.Models
         public static string EditorNew()
         {
             return Editor(new UserModel(
-                    SiteSettingsUtility.UsersSiteSettings(),
-                    Permissions.Admins(),
+                SiteSettingsUtility.UsersSiteSettings(),
+                Permissions.Admins(),
                 methodType: BaseModel.MethodTypes.New));
         }
 
         public static string Editor(int userId, bool clearSessions)
         {
             var userModel = new UserModel(
-                    SiteSettingsUtility.UsersSiteSettings(),
-                    Permissions.Admins(),
+                SiteSettingsUtility.UsersSiteSettings(),
+                Permissions.Admins(),
                 userId: userId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);

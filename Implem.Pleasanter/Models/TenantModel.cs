@@ -987,16 +987,16 @@ namespace Implem.Pleasanter.Models
         public static string EditorNew()
         {
             return Editor(new TenantModel(
-                    SiteSettingsUtility.TenantsSiteSettings(),
-                    Permissions.Admins(),
+                SiteSettingsUtility.TenantsSiteSettings(),
+                Permissions.Admins(),
                 methodType: BaseModel.MethodTypes.New));
         }
 
         public static string Editor(int tenantId, bool clearSessions)
         {
             var tenantModel = new TenantModel(
-                    SiteSettingsUtility.TenantsSiteSettings(),
-                    Permissions.Admins(),
+                SiteSettingsUtility.TenantsSiteSettings(),
+                Permissions.Admins(),
                 tenantId: tenantId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);

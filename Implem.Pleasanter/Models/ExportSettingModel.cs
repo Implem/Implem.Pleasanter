@@ -1163,16 +1163,16 @@ namespace Implem.Pleasanter.Models
         public static string EditorNew()
         {
             return Editor(new ExportSettingModel(
-                    SiteSettingsUtility.ExportSettingsSiteSettings(),
-                    Permissions.Admins(),
+                SiteSettingsUtility.ExportSettingsSiteSettings(),
+                Permissions.Admins(),
                 methodType: BaseModel.MethodTypes.New));
         }
 
         public static string Editor(long exportSettingId, bool clearSessions)
         {
             var exportSettingModel = new ExportSettingModel(
-                    SiteSettingsUtility.ExportSettingsSiteSettings(),
-                    Permissions.Admins(),
+                SiteSettingsUtility.ExportSettingsSiteSettings(),
+                Permissions.Admins(),
                 exportSettingId: exportSettingId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);

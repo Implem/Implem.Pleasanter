@@ -999,16 +999,16 @@ namespace Implem.Pleasanter.Models
         public static string EditorNew()
         {
             return Editor(new MailAddressModel(
-                    SiteSettingsUtility.MailAddressesSiteSettings(),
-                    Permissions.Admins(),
+                SiteSettingsUtility.MailAddressesSiteSettings(),
+                Permissions.Admins(),
                 methodType: BaseModel.MethodTypes.New));
         }
 
         public static string Editor(long mailAddressId, bool clearSessions)
         {
             var mailAddressModel = new MailAddressModel(
-                    SiteSettingsUtility.MailAddressesSiteSettings(),
-                    Permissions.Admins(),
+                SiteSettingsUtility.MailAddressesSiteSettings(),
+                Permissions.Admins(),
                 mailAddressId: mailAddressId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);

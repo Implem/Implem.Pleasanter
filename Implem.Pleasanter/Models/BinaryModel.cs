@@ -1223,16 +1223,16 @@ namespace Implem.Pleasanter.Models
         public static string EditorNew()
         {
             return Editor(new BinaryModel(
-                    SiteSettingsUtility.BinariesSiteSettings(),
-                    Permissions.Admins(),
+                SiteSettingsUtility.BinariesSiteSettings(),
+                Permissions.Admins(),
                 methodType: BaseModel.MethodTypes.New));
         }
 
         public static string Editor(long binaryId, bool clearSessions)
         {
             var binaryModel = new BinaryModel(
-                    SiteSettingsUtility.BinariesSiteSettings(),
-                    Permissions.Admins(),
+                SiteSettingsUtility.BinariesSiteSettings(),
+                Permissions.Admins(),
                 binaryId: binaryId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
