@@ -1760,6 +1760,9 @@ namespace Implem.Pleasanter.Models
                                 mailButton: true,
                                 deleteButton: true))
                         .Hidden(
+                            controlId: "MethodType",
+                            value: siteModel.MethodType.ToString().ToLower())
+                        .Hidden(
                             controlId: "Sites_Timestamp",
                             css: "control-hidden must-transport",
                             value: siteModel.Timestamp))
