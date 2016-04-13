@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
@@ -118,6 +119,20 @@ namespace Implem.Pleasanter.Libraries.Views
         private static HtmlBuilder Choices(
             this HtmlBuilder hb, SiteSettings siteSettings, FormData formData)
         {
+            siteSettings.ColumnCollection
+                .Where(o => o.TypeName == "bit")
+                .Where(o => o.EditorVisible.ToBool())
+                .ForEach(column =>
+                {
+                    hb.FieldCheckBox(
+                        controlId: "DataViewFilters_" + column.Id,
+                        fieldCss: "field-auto-thin",
+                        controlCss: " auto-postback",
+                        labelText: Displays.Get(column.LabelText),
+                        _checked: formData.Get("DataViewFilters_" + column.Id).ToBool(),
+                        action: "DataView",
+                        method: "post");
+                });
             siteSettings.ColumnCollection
                 .Where(o => o.HasChoices())
                 .ForEach(column =>
