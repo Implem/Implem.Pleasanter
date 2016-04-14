@@ -77,7 +77,7 @@ namespace Implem.Pleasanter.Libraries.Converts
                     : hb.Td(action: () => hb
                         .Text(text: column.ChoicesText.SplitReturn()._2nd()))
                 : hb.Td(action: () => hb
-                    .Text(text: value.ToString()));
+                    .Span(css: "ui-icon ui-icon-circle-check", _using: value.ToBool()));
         }
 
         public static HtmlBuilder Td(
