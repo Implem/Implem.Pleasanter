@@ -29,8 +29,10 @@ namespace Implem.Pleasanter.Libraries.Views
             string onChange = "",
             string action = "",
             string method = "",
-            Dictionary<string, string> attributes = null)
+            Dictionary<string, string> attributes = null,
+            bool _using = true)
         {
+            if (!_using) return hb;
             switch (textStyle)
             {
                 case TextStyles.Normal:
@@ -83,26 +85,29 @@ namespace Implem.Pleasanter.Libraries.Views
             string controlCss = "",
             string text = "",
             string placeholder = "",
-            Dictionary<string, string> attributes = null)
+            Dictionary<string, string> attributes = null,
+            bool _using = true)
         {
-            return hb
-                .Div(attributes: Html.Attributes()
-                    .Id_Css(controlId + ".viewer", "control-markup")
-                    .OnDblClick(Def.JavaScript.EditMarkDown))
-                .Div(attributes: Html.Attributes()
-                    .Id_Css(
-                        controlId + ".edit",
-                        "ui-icon ui-icon-pencil button-edit-markdown")
-                    .OnClick(Def.JavaScript.EditMarkDown))
-                .TextArea(
-                    attributes: Html.Attributes()
+            return _using
+                ? hb
+                    .Div(attributes: Html.Attributes()
+                        .Id_Css(controlId + ".viewer", "control-markup")
+                        .OnDblClick(Def.JavaScript.EditMarkDown))
+                    .Div(attributes: Html.Attributes()
                         .Id_Css(
-                            controlId,
-                            CssClasses.Get("control-markdown upload-image", controlCss))
-                        .Placeholder(placeholder)
-                        .Add(attributes),
-                    action: () => hb
-                        .Text(text: text));
+                            controlId + ".edit",
+                            "ui-icon ui-icon-pencil button-edit-markdown")
+                        .OnClick(Def.JavaScript.EditMarkDown))
+                    .TextArea(
+                        attributes: Html.Attributes()
+                            .Id_Css(
+                                controlId,
+                                CssClasses.Get("control-markdown upload-image", controlCss))
+                            .Placeholder(placeholder)
+                            .Add(attributes),
+                        action: () => hb
+                            .Text(text: text))
+                : hb;
         }
 
         public static HtmlBuilder MarkUp(
@@ -110,15 +115,18 @@ namespace Implem.Pleasanter.Libraries.Views
             string controlId = "",
             string controlCss = "",
             string text = "",
-            Dictionary<string, string> attributes = null)
+            Dictionary<string, string> attributes = null,
+            bool _using = true)
         {
-            return hb.Div(
-                attributes: Html.Attributes()
-                    .Id_Css(
-                        controlId,
-                        CssClasses.Get("control-markup markup", controlCss)),
-                action: () => hb
-                    .Text(text: text));
+            return _using
+                ? hb.Div(
+                    attributes: Html.Attributes()
+                        .Id_Css(
+                            controlId,
+                            CssClasses.Get("control-markup markup", controlCss)),
+                    action: () => hb
+                        .Text(text: text))
+                : hb;
         }
 
         public static HtmlBuilder DropDown(
@@ -131,20 +139,23 @@ namespace Implem.Pleasanter.Libraries.Views
             string onChange = "",
             string action = "",
             string method = "",
-            Column column = null)
+            Column column = null,
+            bool _using = true)
         {
-            return hb.Select(
-                attributes: Html.Attributes()
-                    .Id_Css(controlId, CssClasses.Get("control-dropdown", controlCss))
-                    .OnChange(onChange)
-                    .DataAction(action)
-                    .DataMethod(method),
-                action: () => hb
-                    .OptionCollection(
-                        optionCollection: optionCollection, 
-                        selectedValue: selectedValue,
-                        addSelectedValue: addSelectedValue,
-                        column: column));
+            return _using
+                ? hb.Select(
+                    attributes: Html.Attributes()
+                        .Id_Css(controlId, CssClasses.Get("control-dropdown", controlCss))
+                        .OnChange(onChange)
+                        .DataAction(action)
+                        .DataMethod(method),
+                    action: () => hb
+                        .OptionCollection(
+                            optionCollection: optionCollection,
+                            selectedValue: selectedValue,
+                            addSelectedValue: addSelectedValue,
+                            column: column))
+                : hb;
         }
 
         public static HtmlBuilder OptionCollection(
@@ -152,23 +163,27 @@ namespace Implem.Pleasanter.Libraries.Views
             Dictionary<string, string> optionCollection = null,
             string selectedValue = "",
             bool addSelectedValue = true,
-            Column column = null)
+            Column column = null,
+            bool _using = true)
         {
-            OptionCollection(
-                optionCollection: optionCollection?
-                    .ToDictionary(o => o.Key, o => new ControlData(o.Value)),
-                selectedValue: selectedValue,
-                addSelectedValue: addSelectedValue,
-                column: column)?
-                    .ForEach(htmlData => hb.Option(
-                        attributes: Html.Attributes()
-                            .Value(htmlData.Key)
-                            .DataClass(htmlData.Value.Css)
-                            .DataStyle(htmlData.Value.Style)
-                            .Selected(selectedValue == htmlData.Key),
-                        action: () => hb
-                            .Text(text: Strings.CoalesceEmpty(
-                                htmlData.Value.Text, htmlData.Key))));
+            if (_using)
+            {
+                OptionCollection(
+                    optionCollection: optionCollection?
+                        .ToDictionary(o => o.Key, o => new ControlData(o.Value)),
+                    selectedValue: selectedValue,
+                    addSelectedValue: addSelectedValue,
+                    column: column)?
+                        .ForEach(htmlData => hb.Option(
+                            attributes: Html.Attributes()
+                                .Value(htmlData.Key)
+                                .DataClass(htmlData.Value.Css)
+                                .DataStyle(htmlData.Value.Style)
+                                .Selected(selectedValue == htmlData.Key),
+                            action: () => hb
+                                .Text(text: Strings.CoalesceEmpty(
+                                    htmlData.Value.Text, htmlData.Key))));
+            }
             return hb;
         }
 
@@ -177,22 +192,26 @@ namespace Implem.Pleasanter.Libraries.Views
             Dictionary<string, ControlData> optionCollection = null,
             string selectedValue = "",
             bool addSelectedValue = true,
-            Column column = null)
+            Column column = null,
+            bool _using = true)
         {
-            OptionCollection(
-                optionCollection: optionCollection,
-                selectedValue: selectedValue,
-                addSelectedValue: addSelectedValue,
-                column: column)?
-                    .ForEach(htmlData => hb.Option(
-                        attributes: Html.Attributes()
-                            .Value(htmlData.Key)
-                            .DataClass(htmlData.Value.Css)
-                            .DataStyle(htmlData.Value.Style)
-                            .Selected(selectedValue == htmlData.Key),
-                        action: () => hb
-                            .Text(text: Strings.CoalesceEmpty(
-                                htmlData.Value.Text, htmlData.Key))));
+            if (_using)
+            {
+                OptionCollection(
+                    optionCollection: optionCollection,
+                    selectedValue: selectedValue,
+                    addSelectedValue: addSelectedValue,
+                    column: column)?
+                        .ForEach(htmlData => hb.Option(
+                            attributes: Html.Attributes()
+                                .Value(htmlData.Key)
+                                .DataClass(htmlData.Value.Css)
+                                .DataStyle(htmlData.Value.Style)
+                                .Selected(selectedValue == htmlData.Key),
+                            action: () => hb
+                                .Text(text: Strings.CoalesceEmpty(
+                                    htmlData.Value.Text, htmlData.Key))));
+            }
             return hb;
         }
 
@@ -226,21 +245,25 @@ namespace Implem.Pleasanter.Libraries.Views
             string name = "",
             string controlCss = "",
             Dictionary<string, ControlData> optionCollection = null,
-            string selectedValue = "")
+            string selectedValue = "",
+            bool _using = true)
         {
-            optionCollection
-                .Select((o, i) => new { Option = o, Index = i })
-                .ForEach(data => hb
-                    .Input(Html.Attributes()
-                        .Id(name, data.Index)
-                        .Class(CssClasses.Get("control-radio", controlCss))
-                        .Type("radio")
-                        .Value(data.Option.Key)
-                        .Checked(data.Option.Key == selectedValue))
-                    .Label(
-                        attributes: Html.Attributes().For(name + data.Index),
-                        action: () => hb
-                            .Text(data.Option.Value.Text)));
+            if (_using)
+            {
+                optionCollection
+                    .Select((o, i) => new { Option = o, Index = i })
+                    .ForEach(data => hb
+                        .Input(Html.Attributes()
+                            .Id(name, data.Index)
+                            .Class(CssClasses.Get("control-radio", controlCss))
+                            .Type("radio")
+                            .Value(data.Option.Key)
+                            .Checked(data.Option.Key == selectedValue))
+                        .Label(
+                            attributes: Html.Attributes().For(name + data.Index),
+                            action: () => hb
+                                .Text(data.Option.Value.Text)));
+            }
             return hb;
         }
 
@@ -255,19 +278,22 @@ namespace Implem.Pleasanter.Libraries.Views
             int width = -1,
             string onChange = "",
             string action = "",
-            string method = "")
+            string method = "",
+            bool _using = true)
         {
-            return hb.Input(Html.Attributes()
-                .Id_Css( controlId, CssClasses.Get("control-spinner", controlCss))
-                .Type("number")
-                .Value(value.ToString())
-                .Min(min)
-                .Max(max)
-                .Step(step)
-                .DataWidth(width)
-                .OnChange(onChange)
-                .DataAction(action)
-                .DataMethod(method));
+            return _using
+                ? hb.Input(Html.Attributes()
+                    .Id_Css(controlId, CssClasses.Get("control-spinner", controlCss))
+                    .Type("number")
+                    .Value(value.ToString())
+                    .Min(min)
+                    .Max(max)
+                    .Step(step)
+                    .DataWidth(width)
+                    .OnChange(onChange)
+                    .DataAction(action)
+                    .DataMethod(method))
+                : hb;
         }
 
         public static HtmlBuilder CheckBox(
@@ -279,22 +305,26 @@ namespace Implem.Pleasanter.Libraries.Views
             bool disabled = false,
             string dataId = "",
             string action = "",
-            string method = "")
+            string method = "",
+            bool _using = true)
         {
-            hb.Input(attributes: Html.Attributes()
-                .Id_Css(controlId, CssClasses.Get("control-checkbox", controlCss))
-                .Type("checkbox")
-                .Disabled(disabled)
-                .DataId(dataId)
-                .DataAction(action)
-                .DataMethod(method)
-                .Checked(_checked));
-            if (labelText != string.Empty)
+            if (_using)
             {
-                hb.Label(
-                    attributes: Html.Attributes().For(controlId),
-                    action: () => hb
-                        .Text(text: labelText));
+                hb.Input(attributes: Html.Attributes()
+                    .Id_Css(controlId, CssClasses.Get("control-checkbox", controlCss))
+                    .Type("checkbox")
+                    .Disabled(disabled)
+                    .DataId(dataId)
+                    .DataAction(action)
+                    .DataMethod(method)
+                    .Checked(_checked));
+                if (labelText != string.Empty)
+                {
+                    hb.Label(
+                        attributes: Html.Attributes().For(controlId),
+                        action: () => hb
+                            .Text(text: labelText));
+                }
             }
             return hb;
         }
@@ -309,27 +339,30 @@ namespace Implem.Pleasanter.Libraries.Views
             decimal step = -1,
             string unit = "",
             string action = "",
-            string method = "")
+            string method = "",
+            bool _using = true)
         {
-            return hb
-                .Div(attributes: Html.Attributes()
-                    .Id_Css(controlId + ",ui", "control-slider-ui")
-                    .Min(min)
-                    .Max(max)
-                    .Step(step))
-                .P(
-                    attributes: Html.Attributes()
-                        .Class(CssClasses.Get("control-slider", controlCss)),
-                    action: () => hb
-                        .Span(
-                            attributes: Html.Attributes()
-                                .Id(controlId).DataAction(action)
-                                .DataAction(action)
-                                .DataMethod(method),
-                            action: () => hb
-                                .Text(value))
-                        .Span(action: () => hb
-                            .Text(unit)));
+            return _using
+                ? hb
+                    .Div(attributes: Html.Attributes()
+                        .Id_Css(controlId + ",ui", "control-slider-ui")
+                        .Min(min)
+                        .Max(max)
+                        .Step(step))
+                    .P(
+                        attributes: Html.Attributes()
+                            .Class(CssClasses.Get("control-slider", controlCss)),
+                        action: () => hb
+                            .Span(
+                                attributes: Html.Attributes()
+                                    .Id(controlId).DataAction(action)
+                                    .DataAction(action)
+                                    .DataMethod(method),
+                                action: () => hb
+                                    .Text(value))
+                            .Span(action: () => hb
+                                .Text(unit)))
+                : hb;
         }
 
         public static HtmlBuilder Button(
@@ -345,21 +378,24 @@ namespace Implem.Pleasanter.Libraries.Views
             string action = "",
             string method = "",
             string confirm = "",
-            string type = "button")
+            string type = "button",
+            bool _using = true)
         {
-            return hb.Button(
-                attributes: Html.Attributes()
-                    .Id_Css(controlId, "button " + controlCss)
-                    .Type(type)
-                    .AccessKey(accessKey)
-                    .OnClick(onClick + href.IsNotEmpty("location.href='" + href + "';"))
-                    .DataId(dataId)
-                    .DataSelector(selector)
-                    .DataAction(action)
-                    .DataMethod(method)
-                    .DataConfirm(confirm),
-                action: () => hb
-                    .Text(text: text));
+            return _using
+                ? hb.Button(
+                    attributes: Html.Attributes()
+                        .Id_Css(controlId, "button " + controlCss)
+                        .Type(type)
+                        .AccessKey(accessKey)
+                        .OnClick(onClick + href.IsNotEmpty("location.href='" + href + "';"))
+                        .DataId(dataId)
+                        .DataSelector(selector)
+                        .DataAction(action)
+                        .DataMethod(method)
+                        .DataConfirm(confirm),
+                    action: () => hb
+                        .Text(text: text))
+                : hb;
         }
 
         public static HtmlBuilder Anchor(
@@ -367,25 +403,30 @@ namespace Implem.Pleasanter.Libraries.Views
             string controlId = "",
             string controlCss = "",
             string text = "",
-            string href = "")
+            string href = "",
+            bool _using = true)
         {
-            return hb.A(
-                id: controlId,
-                css: CssClasses.Get("control-anchor", controlCss),
-                href: href,
-                text: text);
+            return _using
+                ? hb.A(
+                    id: controlId,
+                    css: CssClasses.Get("control-anchor", controlCss),
+                    href: href,
+                    text: text)
+                : hb;
         }
 
         public static HtmlBuilder Icon(
             this HtmlBuilder hb,
             string iconCss = "",
             string cssText = "",
-            string text = "")
+            string text = "",
+            bool _using = true)
         {
-            hb.Span(css: "ui-icon " + iconCss);
-            return text != string.Empty
-                ? hb.Span(css: cssText, action: () => hb
-                    .Text(text:text))
+            return _using
+                ? hb
+                    .Span(css: "ui-icon " + iconCss)
+                    .Span(css: cssText, _using: text != string.Empty, action: () => hb
+                        .Text(text:text))
                 : hb;
         }
 
@@ -393,20 +434,26 @@ namespace Implem.Pleasanter.Libraries.Views
             this HtmlBuilder hb,
             string controlId = "",
             string css = "",
-            string value = "")
+            string value = "",
+            bool _using = true)
         {
-            return hb.Input(attributes: Html.Attributes()
-                .Id(controlId)
-                .Class(css)
-                .Type("hidden")
-                .Value(value));
+            return _using
+                ? hb.Input(attributes: Html.Attributes()
+                    .Id(controlId)
+                    .Class(css)
+                    .Type("hidden")
+                    .Value(value))
+                : hb;
         }
 
         public static HtmlBuilder Hidden(
             this HtmlBuilder hb,
-            HtmlAttributes attributes = null)
+            HtmlAttributes attributes = null,
+            bool _using = true)
         {
-            return hb.Input(attributes: attributes.Type("hidden"));
+            return _using
+                ? hb.Input(attributes: attributes.Type("hidden"))
+                : hb;
         }
 
         public static HtmlBuilder Selectable(
@@ -414,52 +461,62 @@ namespace Implem.Pleasanter.Libraries.Views
             string controlId,
             string controlCss = "",
             Dictionary<string, string> listItemCollection = null,
-            IEnumerable<string> selectedValueCollection = null)
+            IEnumerable<string> selectedValueCollection = null,
+            bool _using = true)
         {
-            return hb.Div(
-                css: CssClasses.Get("control", controlCss),
-                action: () => hb
-                    .Ol(
-                        attributes: Html.Attributes()
-                            .Id_Css(controlId, "control-selectable"),
-                        action: () => hb
-                            .SelectableItems(
-                                listItemCollection: listItemCollection,
-                                selectedValueTextCollection: selectedValueCollection)));
+            return _using
+                ? hb.Div(
+                    css: CssClasses.Get("control", controlCss),
+                    action: () => hb
+                        .Ol(
+                            attributes: Html.Attributes()
+                                .Id_Css(controlId, "control-selectable"),
+                            action: () => hb
+                                .SelectableItems(
+                                    listItemCollection: listItemCollection,
+                                    selectedValueTextCollection: selectedValueCollection)))
+                : hb;
         }
 
         public static HtmlBuilder Basket(
-                    this HtmlBuilder hb,
-                    string controlId,
-                    string controlCss = "",
-                    Dictionary<string, string> listItemCollection = null,
-                    IEnumerable<string> selectedValueCollection = null)
+            this HtmlBuilder hb,
+            string controlId,
+            string controlCss = "",
+            Dictionary<string, string> listItemCollection = null,
+            IEnumerable<string> selectedValueCollection = null,
+            bool _using = true)
         {
-            return hb.Ol(
-                attributes: Html.Attributes()
-                    .Id_Css(controlId, CssClasses.Get("control-basket", controlCss)),
-                action: () => hb
-                    .SelectableItems(
-                        listItemCollection: listItemCollection,
-                        selectedValueTextCollection: selectedValueCollection));
+            return _using
+                ? hb.Ol(
+                    attributes: Html.Attributes()
+                        .Id_Css(controlId, CssClasses.Get("control-basket", controlCss)),
+                    action: () => hb
+                        .SelectableItems(
+                            listItemCollection: listItemCollection,
+                            selectedValueTextCollection: selectedValueCollection))
+                : hb;
         }
 
         public static HtmlBuilder SelectableItems(
             this HtmlBuilder hb,
             Dictionary<string, string> listItemCollection = null,
-            IEnumerable<string> selectedValueTextCollection = null)
+            IEnumerable<string> selectedValueTextCollection = null,
+            bool _using = true)
         {
-            selectedValueTextCollection = selectedValueTextCollection ?? new List<string>();
-            listItemCollection.ForEach(listItem => hb
-                .Li(
-                    attributes: Html.Attributes()
-                        .Class(
-                            selectedValueTextCollection.Contains(listItem.Key)
-                                ? "ui-widget-content ui-selected"
-                                : "ui-widget-content")
-                        .Value( listItem.Key),
-                    action: () => hb
-                        .Text(text: listItem.Value)));
+            if (_using)
+            {
+                selectedValueTextCollection = selectedValueTextCollection ?? new List<string>();
+                listItemCollection.ForEach(listItem => hb
+                    .Li(
+                        attributes: Html.Attributes()
+                            .Class(
+                                selectedValueTextCollection.Contains(listItem.Key)
+                                    ? "ui-widget-content ui-selected"
+                                    : "ui-widget-content")
+                            .Value( listItem.Key),
+                        action: () => hb
+                            .Text(text: listItem.Value)));
+            }
             return hb;
         }
     }
