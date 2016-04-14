@@ -36,7 +36,9 @@ namespace Implem.Pleasanter.Libraries.Converts
 
         public static string ToExport(this bool value, Column column)
         {
-            return value.ToString();
+            return value
+                ? "1"
+                : string.Empty;
         }
 
         public static string ToExport(this Enum value, Column column)
