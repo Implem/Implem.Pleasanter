@@ -1394,14 +1394,14 @@ namespace Implem.Pleasanter.Models
                         text: Displays.Basic()));
                 if (siteModel.MethodType != BaseModel.MethodTypes.New)
                 {
-                    hb.Li(() => hb
+                    hb.Li(action: () => hb
                         .A(
                             href: "#SiteImageSettingsEditor",
                             text: Displays.SiteImageSettingsEditor()));
                     if (siteModel.ReferenceType != "Sites")
                     {
                         hb
-                            .Li(() => hb
+                            .Li(action: () => hb
                                 .A(
                                     href: "#GridSettingsEditor",
                                     text: Displays.GridSettingsEditor()))
@@ -1409,11 +1409,11 @@ namespace Implem.Pleasanter.Models
                                 .A(
                                     href: "#EditorSettingsEditor",
                                     text: Displays.EditorSettingsEditor()))
-                            .Li(() => hb
+                            .Li(action: () => hb
                                 .A(
                                     href: "#SummarySettingsEditor",
                                     text: Displays.SummarySettingsEditor()))
-                            .Li(() => hb
+                            .Li(action: () => hb
                                 .A(
                                     href: "#MailerSettingsEditor",
                                     text: Displays.MailerSettingsEditor()));
