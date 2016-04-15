@@ -10,11 +10,11 @@ namespace Implem.DefinitionAccessor
 {
     public class Initializer
     {
-        public static void Initialize(string modulePath, bool codeDefiner = false)
+        public static void Initialize(string path, bool codeDefiner = false)
         {
             Environments.CodeDefiner = codeDefiner;
             Environments.CurrentDirectoryPath = GetCurrentDirectoryPath(
-                new FileInfo(modulePath).Directory);
+                new FileInfo(path).Directory);
             SetParameters();
             Environments.ServiceName = Def.Parameters.ServiceName;
             SetRdsParameters();
