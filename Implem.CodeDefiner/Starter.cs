@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Classes;
 using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,12 @@ namespace Implem.CodeDefiner
         {
             Initializer.Initialize(Assembly.GetEntryAssembly().Location, codeDefiner: true);
             Performances.Record(MethodBase.GetCurrentMethod().Name);
-            Init();
-            ValidateArgs(args);
+            var argList = args.Select(o => o.Trim());
+            ValidateArgs(argList);
+            var argHash = new TextData(argList.Skip(1).Join(string.Empty), '/', 1);
             var action = args[0];
-            var target = args.Length >= 2 ? args[1] : null;
+            var target = argHash.ContainsKey("t") ? argHash["t"] : string.Empty;
+            Init();
             switch (action)
             {
                 case "_rds":
@@ -64,11 +67,18 @@ namespace Implem.CodeDefiner
             Performances.Record(MethodBase.GetCurrentMethod().Name);
         }
 
-        private static void ValidateArgs(string[] args)
+        private static void ValidateArgs(IEnumerable<string> argList)
         {
-            if (args.Count() == 0)
+            if (argList.Count() == 0)
             {
-                WriteErrorToConsole(args);
+                WriteErrorToConsole(argList);
+            }
+            var argNames = argList.Skip(1)
+                .Where(o => o.Length >= 2)
+                .Select(o => o.Substring(0, 2));
+            if (argNames.Count() != argNames.Distinct().Count())
+            {
+                WriteErrorToConsole(argList);
             }
         }
 
