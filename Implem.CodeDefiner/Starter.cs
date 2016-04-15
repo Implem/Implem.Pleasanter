@@ -16,8 +16,13 @@ namespace Implem.CodeDefiner
             ValidateArgs(argList);
             var argHash = new TextData(argList.Skip(1).Join(string.Empty), '/', 1);
             var action = args[0];
-            var target = argHash.ContainsKey("t") ? argHash["t"] : string.Empty;
-            Initializer.Initialize(Assembly.GetEntryAssembly().Location, codeDefiner: true);
+            var path = argHash.ContainsKey("p")
+                ? argHash["p"]
+                : Assembly.GetEntryAssembly().Location;
+            var target = argHash.ContainsKey("t")
+                ? argHash["t"]
+                : string.Empty;
+            Initializer.Initialize(path, codeDefiner: true);
             Performances.Record(MethodBase.GetCurrentMethod().Name);
             DeleteTemporaryFiles();
             switch (action)
