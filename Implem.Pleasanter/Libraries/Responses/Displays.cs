@@ -446,8 +446,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ExceptionTitle(params string[] data) { return Get("ExceptionTitle", data); }
         public static HtmlBuilder Displays_ExceptionBody(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ExceptionBody", data)); }
         public static string ExceptionBody(params string[] data) { return Get("ExceptionBody", data); }
-        public static HtmlBuilder Displays_IncorrectArgument(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("IncorrectArgument", data)); }
-        public static string IncorrectArgument(params string[] data) { return Get("IncorrectArgument", data); }
         public static HtmlBuilder Displays_InvalidRequest(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("InvalidRequest", data)); }
         public static string InvalidRequest(params string[] data) { return Get("InvalidRequest", data); }
         public static HtmlBuilder Displays_Authentication(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Authentication", data)); }

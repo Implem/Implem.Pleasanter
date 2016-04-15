@@ -27,11 +27,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.ExceptionBody(data), "alert-error");
         }
 
-        public static Message IncorrectArgument(params string[] data)
-        {
-            return Get(Displays.IncorrectArgument(data), "alert-error");
-        }
-
         public static Message InvalidRequest(params string[] data)
         {
             return Get(Displays.InvalidRequest(data), "alert-error");
@@ -290,11 +285,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseExceptionBody(params string[] data)
         {
             return ResponseMessage(Messages.ExceptionBody(data));
-        }
-
-        public static ResponseCollection ResponseIncorrectArgument(params string[] data)
-        {
-            return ResponseMessage(Messages.IncorrectArgument(data));
         }
 
         public static ResponseCollection ResponseInvalidRequest(params string[] data)
