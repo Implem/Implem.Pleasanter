@@ -12,13 +12,13 @@ namespace Implem.CodeDefiner
     {
         static void Main(string[] args)
         {
-            Initializer.Initialize(Assembly.GetEntryAssembly().Location, codeDefiner: true);
-            Performances.Record(MethodBase.GetCurrentMethod().Name);
             var argList = args.Select(o => o.Trim());
             ValidateArgs(argList);
             var argHash = new TextData(argList.Skip(1).Join(string.Empty), '/', 1);
             var action = args[0];
             var target = argHash.ContainsKey("t") ? argHash["t"] : string.Empty;
+            Initializer.Initialize(Assembly.GetEntryAssembly().Location, codeDefiner: true);
+            Performances.Record(MethodBase.GetCurrentMethod().Name);
             DeleteTemporaryFiles();
             switch (action)
             {
@@ -132,7 +132,7 @@ namespace Implem.CodeDefiner
         private static void WriteErrorToConsole(IEnumerable<string> args)
         {
             Consoles.Write(
-                Def.Display.IncorrectArgument.Params(args.Join(" ")),
+                "Incorrect argument. {0}".Params(args.Join(" ")),
                 Consoles.Types.Error,
                 abort: true);
         }
