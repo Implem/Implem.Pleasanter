@@ -198,10 +198,10 @@ namespace Implem.Libraries.Utilities
             return new FileInfo(tempPath);
         }
 
-        public static void DeleteHistoryFile(string historyPath, int timeElapsed)
+        public static void DeleteTemporaryFiles(string path, int timeElapsed)
         {
-            if (!new DirectoryInfo(historyPath).Exists) Directory.CreateDirectory(historyPath);
-            Directory.EnumerateFiles(historyPath).ForEach(filePath =>
+            if (!new DirectoryInfo(path).Exists) Directory.CreateDirectory(path);
+            Directory.EnumerateFiles(path).ForEach(filePath =>
             {
                 var fileInfo = new FileInfo(filePath);
                 if ((DateTime.Now - fileInfo.LastWriteTime).TotalMinutes > timeElapsed)

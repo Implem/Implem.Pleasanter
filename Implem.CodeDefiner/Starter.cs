@@ -19,7 +19,7 @@ namespace Implem.CodeDefiner
             var argHash = new TextData(argList.Skip(1).Join(string.Empty), '/', 1);
             var action = args[0];
             var target = argHash.ContainsKey("t") ? argHash["t"] : string.Empty;
-            Init();
+            DeleteTemporaryFiles();
             switch (action)
             {
                 case "_rds":
@@ -59,12 +59,10 @@ namespace Implem.CodeDefiner
             WaitConsole(args);
         }
 
-        private static void Init()
+        private static void DeleteTemporaryFiles()
         {
-            Performances.Record(MethodBase.GetCurrentMethod().Name);
-            Files.DeleteHistoryFile(Directories.Temp(), Def.Parameters.DeleteTempOldThan);
-            Files.DeleteHistoryFile(Directories.Histories(), Def.Parameters.DeleteHistoriesOldThan);
-            Performances.Record(MethodBase.GetCurrentMethod().Name);
+            Files.DeleteTemporaryFiles(Directories.Temp(), Def.Parameters.DeleteTempOldThan);
+            Files.DeleteTemporaryFiles(Directories.Histories(), Def.Parameters.DeleteHistoriesOldThan);
         }
 
         private static void ValidateArgs(IEnumerable<string> argList)
