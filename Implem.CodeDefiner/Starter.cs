@@ -51,9 +51,6 @@ namespace Implem.CodeDefiner
                 case "backup":
                     CreateSolutionBackup();
                     break;
-                case "test":
-                    //TestPerformance(1000, () => Test1(), () => Test2());
-                    break;
                 default:
                     WriteErrorToConsole(args);
                     break;
