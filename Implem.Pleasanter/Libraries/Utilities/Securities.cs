@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Settings;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Web.Security;
 namespace Implem.Pleasanter.Libraries.Utilities
@@ -37,6 +38,11 @@ namespace Implem.Pleasanter.Libraries.Utilities
                 id,
                 setByForm: true)
                     .ResetPassword();
+        }
+
+        public static string DefaultAdminPassword()
+        {
+            return Environments.MachineName.Sha512Cng();
         }
     }
 }

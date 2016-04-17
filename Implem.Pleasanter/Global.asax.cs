@@ -20,6 +20,7 @@ namespace Implem.Pleasanter
             Application["LastAccessTime"] = Application["StartTime"];
             Initialize();
             var log = new SysLogModel();
+            UsersInitializer.Initialize();
             ItemsInitializer.Initialize();
             SetConfigrations();
             log.Finish();
