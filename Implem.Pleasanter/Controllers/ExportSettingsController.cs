@@ -12,55 +12,55 @@ namespace Implem.Pleasanter.Controllers
         public string Edit(string reference, long id)
         {
             var log = new SysLogModel();
-            var responseCollection = ExportSettingsUtility.Edit(
+            var json = ExportSettingsUtility.Edit(
                 SiteInfo.IndexReferenceType(reference, id), id);
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            log.Finish(json.Length);
+            return json;
         }
 
         [HttpPut]
         public string Change(string reference, long id)
         {
             var log = new SysLogModel();
-            var responseCollection = ExportSettingsUtility.Change();
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            var json = ExportSettingsUtility.Change();
+            log.Finish(json.Length);
+            return json;
         }
 
         [AcceptVerbs(HttpVerbs.Put | HttpVerbs.Post)]
         public string Set(string reference, long id)
         {
             var log = new SysLogModel();
-            var responseCollection = new ExportSettingModel(
+            var json = new ExportSettingModel(
                 Permissions.GetBySiteId(id),
                 SiteInfo.IndexReferenceType(reference, id), id)
                     .Set();
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            log.Finish(json.Length);
+            return json;
         }
 
         [HttpPut]
         public string UpdateOrCreate(string reference, long id)
         {
             var log = new SysLogModel();
-            var responseCollection = new ExportSettingModel(
+            var json = new ExportSettingModel(
                 Permissions.GetBySiteId(id),
                 SiteInfo.IndexReferenceType(reference, id), id, withTitle: true)
                     .UpdateOrCreate();
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            log.Finish(json.Length);
+            return json;
         }
 
         [HttpDelete]
         public string Delete(string reference, long id)
         {
             var log = new SysLogModel();
-            var responseCollection = new ExportSettingModel(
+            var json = new ExportSettingModel(
                 Permissions.GetBySiteId(id),
                 SiteInfo.IndexReferenceType(reference, id), id, withTitle: true)
                     .Delete(redirect: false);
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            log.Finish(json.Length);
+            return json;
         }
     }
 }

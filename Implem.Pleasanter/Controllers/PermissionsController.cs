@@ -20,27 +20,27 @@ namespace Implem.Pleasanter.Controllers
         public string ChangeInherit(string table, long id)
         {
             var log = new SysLogModel();
-            var responseCollection = PermissionsUtility.ChangeInherit(id);
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            var json = PermissionsUtility.ChangeInherit(id);
+            log.Finish(json.Length);
+            return json;
         }
 
         [AcceptVerbs(HttpVerbs.Put | HttpVerbs.Post | HttpVerbs.Delete)]
         public string Set(string table, long id)
         {
             var log = new SysLogModel();
-            var responseCollection = PermissionsUtility.Set(id);
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            var json = PermissionsUtility.Set(id);
+            log.Finish(json.Length);
+            return json;
         }
 
         [HttpPut]
         public string Update(string table, long id)
         {
             var log = new SysLogModel();
-            var responseCollection = PermissionsUtility.Update(id);
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            var json = PermissionsUtility.Update(id);
+            log.Finish(json.Length);
+            return json;
         }
     }
 }

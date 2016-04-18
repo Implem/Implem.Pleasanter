@@ -11,36 +11,36 @@ namespace Implem.Pleasanter.Controllers
         public string Edit(string reference, long id)
         {
             var log = new SysLogModel();
-            var responseCollection = OutgoingMailsUtility.Editor(reference, id);
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            var json = OutgoingMailsUtility.Editor(reference, id);
+            log.Finish(json.Length);
+            return json;
         }
 
         [HttpPut]
         public string Reply(string reference, long id)
         {
             var log = new SysLogModel();
-            var responseCollection = OutgoingMailsUtility.Editor(reference, id);
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            var json = OutgoingMailsUtility.Editor(reference, id);
+            log.Finish(json.Length);
+            return json;
         }
 
         [HttpPut]
         public string GetDestinations(string reference, long id)
         {
             var log = new SysLogModel();
-            var responseCollection = new OutgoingMailModel(reference, id).GetDestinations();
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            var json = new OutgoingMailModel(reference, id).GetDestinations();
+            log.Finish(json.Length);
+            return json;
         }
 
         [HttpPost]
         public string Send(string reference, long id)
         {
             var log = new SysLogModel();
-            var responseCollection = new OutgoingMailModel(reference, id).Send();
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            var json = new OutgoingMailModel(reference, id).Send();
+            log.Finish(json.Length);
+            return json;
         }
     }
 }

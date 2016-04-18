@@ -66,153 +66,153 @@ namespace Implem.Pleasanter.Controllers
         public string GridRows()
         {
             var log = new SysLogModel();
-            var responseCollection = UsersUtility.GridRows();
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            var json = UsersUtility.GridRows();
+            log.Finish(json.Length);
+            return json;
         }
 
         [HttpPost]
         public string Create()
         {
             var log = new SysLogModel();
-            var responseCollection = new UserModel(
+            var json = new UserModel(
                 SiteSettingsUtility.UsersSiteSettings(),
                 Permissions.Admins(),
                 setByForm: true).Create();
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            log.Finish(json.Length);
+            return json;
         }
 
         [HttpPut]
         public string Update(int id)
         {
             var log = new SysLogModel();
-            var responseCollection = new UserModel(
+            var json = new UserModel(
                 SiteSettingsUtility.UsersSiteSettings(),
                 Permissions.Admins(),
                 id,
                 setByForm: true)
                     .Update();
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            log.Finish(json.Length);
+            return json;
         }
 
         [HttpDelete]
         public string Delete(int id)
         {
             var log = new SysLogModel();
-            var responseCollection = new UserModel(
+            var json = new UserModel(
                 SiteSettingsUtility.UsersSiteSettings(),
                 Permissions.Admins(),
                 id)
                     .Delete();
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            log.Finish(json.Length);
+            return json;
         }
 
         [HttpDelete]
         public string DeleteComment(int id)
         {
             var log = new SysLogModel();
-            var responseCollection = new UserModel(
+            var json = new UserModel(
                 SiteSettingsUtility.UsersSiteSettings(),
                 Permissions.Admins(),
                 id,
                 setByForm: true)
                     .Update();
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            log.Finish(json.Length);
+            return json;
         }
 
         [HttpGet]
         public string Histories(int id)
         {
             var log = new SysLogModel();
-            var responseCollection = new UserModel(
+            var json = new UserModel(
                 SiteSettingsUtility.UsersSiteSettings(),
                 Permissions.Admins(),
                 id)
                     .Histories();
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            log.Finish(json.Length);
+            return json;
         }
 
         [HttpPost]
         public string History(int id)
         {
             var log = new SysLogModel();
-            var responseCollection = new UserModel(
+            var json = new UserModel(
                 SiteSettingsUtility.UsersSiteSettings(),
                 Permissions.Admins(),
                 id)
                     .History();
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            log.Finish(json.Length);
+            return json;
         }
 
         [HttpPost]
         public string PreviousHistory(int id)
         {
             var log = new SysLogModel();
-            var responseCollection = new UserModel(
+            var json = new UserModel(
                 SiteSettingsUtility.UsersSiteSettings(),
                 Permissions.Admins(),
                 id)
                     .PreviousHistory();
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            log.Finish(json.Length);
+            return json;
         }
 
         [HttpPost]
         public string NextHistory(int id)
         {
             var log = new SysLogModel();
-            var responseCollection = new UserModel(
+            var json = new UserModel(
                 SiteSettingsUtility.UsersSiteSettings(),
                 Permissions.Admins(),
                 id)
                     .NextHistory();
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            log.Finish(json.Length);
+            return json;
         }
 
         [HttpPost]
         public string Previous(int id)
         {
             var log = new SysLogModel();
-            var responseCollection = new UserModel(
+            var json = new UserModel(
                 SiteSettingsUtility.UsersSiteSettings(),
                 Permissions.Admins(),
                 id)
                     .Previous();
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            log.Finish(json.Length);
+            return json;
         }
 
         [HttpPost]
         public string Next(int id)
         {
             var log = new SysLogModel();
-            var responseCollection = new UserModel(
+            var json = new UserModel(
                 SiteSettingsUtility.UsersSiteSettings(),
                 Permissions.Admins(),
                 id)
                     .Next();
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            log.Finish(json.Length);
+            return json;
         }
 
         [HttpPost]
         public string Reload(int id)
         {
             var log = new SysLogModel();
-            var responseCollection = new UserModel(
+            var json = new UserModel(
                 SiteSettingsUtility.UsersSiteSettings(),
                 Permissions.Admins(),
                 id)
                     .Reload();
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            log.Finish(json.Length);
+            return json;
         }
 
         /// <summary>
@@ -245,9 +245,9 @@ namespace Implem.Pleasanter.Controllers
         public string Authenticate(string returnUrl)
         {
             var log = new SysLogModel();
-            var responseCollection = Securities.Authenticate(returnUrl);
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            var json = Securities.Authenticate(returnUrl);
+            log.Finish(json.Length);
+            return json;
         }
 
         /// <summary>
@@ -271,9 +271,9 @@ namespace Implem.Pleasanter.Controllers
         public string ChangePassword(int id)
         {
             var log = new SysLogModel();
-            var responseCollection = Securities.ChangePassword(id);
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            var json = Securities.ChangePassword(id);
+            log.Finish(json.Length);
+            return json;
         }
 
         /// <summary>
@@ -296,9 +296,9 @@ namespace Implem.Pleasanter.Controllers
         public string ResetPassword(int id)
         {
             var log = new SysLogModel();
-            var responseCollection = Securities.ResetPassword(id);
-            log.Finish(responseCollection.Length);
-            return responseCollection;
+            var json = Securities.ResetPassword(id);
+            log.Finish(json.Length);
+            return json;
         }
     }
 }
