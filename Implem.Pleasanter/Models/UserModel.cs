@@ -931,6 +931,9 @@ namespace Implem.Pleasanter.Models
             return Messages.ResponseAuthentication().Focus("#Password").ToJson();
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private string OpenDialog_ChangePasswordAtLogin()
         {
             return new ResponseCollection()
