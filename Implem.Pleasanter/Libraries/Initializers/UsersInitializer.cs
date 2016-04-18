@@ -40,7 +40,6 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .Password(password)
                         .LastName(string.Empty)
                         .FirstName(name)
-                        .Language("en")
                         .DeptId(0)
                         .FirstAndLastNameOrder(1)
                         .PasswordExpirationTime(
