@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 namespace Implem.DefinitionAccessor
 {
     public class Parameters
@@ -28,6 +27,7 @@ namespace Implem.DefinitionAccessor
         public int DataImport;
         public int RequireHttps;
         public string AuthenticationProvider;
+        public int PasswordExpirationPeriod;
         public string LdapSearchRoot;
         public string LdapSearchProperty;
         public int LdapTenantId;

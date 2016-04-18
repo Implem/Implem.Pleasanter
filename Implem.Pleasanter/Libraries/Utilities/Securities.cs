@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Settings;
+﻿using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Web.Security;
 namespace Implem.Pleasanter.Libraries.Utilities
@@ -27,6 +28,11 @@ namespace Implem.Pleasanter.Libraries.Utilities
                 id,
                 setByForm: true)
                     .ChangePassword();
+        }
+
+        public static string ChangePasswordAtLogin()
+        {
+            return new UserModel(Forms.Data("Users_LoginId")).ChangePasswordAtLogin();
         }
 
         public static string ResetPassword(int id)

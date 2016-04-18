@@ -192,6 +192,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     case "DataViewFilters_Users_Dept": where.Users_Dept(formData[key], "t0"); break;
                     case "DataViewFilters_Users_FirstAndLastNameOrder": where.Users_FirstAndLastNameOrder(formData[key], "t0"); break;
                     case "DataViewFilters_Users_LastLoginTime": where.Users_LastLoginTime(formData[key], "t0"); break;
+                    case "DataViewFilters_Users_PasswordExpirationTime": where.Users_PasswordExpirationTime(formData[key], "t0"); break;
                     case "DataViewFilters_Users_PasswordChangeTime": where.Users_PasswordChangeTime(formData[key], "t0"); break;
                     case "DataViewFilters_Users_NumberOfLogins": where.Users_NumberOfLogins(formData[key], "t0"); break;
                     case "DataViewFilters_Users_NumberOfDenial": where.Users_NumberOfDenial(formData[key], "t0"); break;

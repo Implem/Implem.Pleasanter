@@ -1,6 +1,8 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Utilities;
+using System;
 namespace Implem.Pleasanter.Libraries.Initializers
 {
     public static class UsersInitializer
@@ -17,12 +19,17 @@ namespace Implem.Pleasanter.Libraries.Initializers
                 Create(
                     "Administrator",
                     "System Admin",
-                    password: Securities.DefaultAdminPassword().Sha512Cng());
+                    password: Securities.DefaultAdminPassword().Sha512Cng(),
+                    passwordExpirationTime: new Time(DateTime.Now));
             }
         }
 
         private static void Create(
-            string loginId, string name, bool disabled = false, string password = "")
+            string loginId,
+            string name,
+            bool disabled = false,
+            string password = "",
+            Time passwordExpirationTime = null)
         {
             Rds.ExecuteNonQuery(statements:
                 Rds.InsertUsers(
@@ -35,7 +42,10 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .FirstName(name)
                         .Language("en")
                         .DeptId(0)
-                        .FirstAndLastNameOrder(1)));
+                        .FirstAndLastNameOrder(1)
+                        .PasswordExpirationTime(
+                            passwordExpirationTime?.ToString(),
+                            _using: passwordExpirationTime != null)));
         }
     }
 }

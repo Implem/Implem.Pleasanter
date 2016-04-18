@@ -42,6 +42,7 @@ namespace Implem.Pleasanter.Models
         public int DeptId = 0;
         public Names.FirstAndLastNameOrders FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)2;
         public Time LastLoginTime = null;
+        public Time PasswordExpirationTime = null;
         public Time PasswordChangeTime = null;
         public int NumberOfLogins = 0;
         public int NumberOfDenial = 0;
@@ -77,6 +78,7 @@ namespace Implem.Pleasanter.Models
         public int SavedDeptId = 0;
         public int SavedFirstAndLastNameOrder = 2;
         public DateTime SavedLastLoginTime = 0.ToDateTime();
+        public DateTime SavedPasswordExpirationTime = 0.ToDateTime();
         public DateTime SavedPasswordChangeTime = 0.ToDateTime();
         public int SavedNumberOfLogins = 0;
         public int SavedNumberOfDenial = 0;
@@ -104,6 +106,7 @@ namespace Implem.Pleasanter.Models
         public bool DeptId_Updated { get { return DeptId != SavedDeptId; } }
         public bool FirstAndLastNameOrder_Updated { get { return FirstAndLastNameOrder.ToInt() != SavedFirstAndLastNameOrder; } }
         public bool LastLoginTime_Updated { get { return LastLoginTime.Value != SavedLastLoginTime && LastLoginTime.Value != null; } }
+        public bool PasswordExpirationTime_Updated { get { return PasswordExpirationTime.Value != SavedPasswordExpirationTime && PasswordExpirationTime.Value != null; } }
         public bool PasswordChangeTime_Updated { get { return PasswordChangeTime.Value != SavedPasswordChangeTime && PasswordChangeTime.Value != null; } }
         public bool NumberOfLogins_Updated { get { return NumberOfLogins != SavedNumberOfLogins; } }
         public bool NumberOfDenial_Updated { get { return NumberOfDenial != SavedNumberOfDenial; } }
@@ -220,8 +223,23 @@ namespace Implem.Pleasanter.Models
             return RecordResponse(this, Messages.Created(Title.ToString()));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void OnCreating()
         {
+            PasswordExpirationPeriod();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void PasswordExpirationPeriod()
+        {
+            PasswordExpirationTime = Def.Parameters.PasswordExpirationPeriod != 0
+                ? new Time(DateTime.Today.AddDays(
+                    Def.Parameters.PasswordExpirationPeriod))
+                : new Time();
         }
 
         private void OnCreated()
@@ -262,6 +280,7 @@ namespace Implem.Pleasanter.Models
                     case "Users_FirstAndLastNameOrder": if (!SiteSettings.AllColumn("FirstAndLastNameOrder").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_Title": if (!SiteSettings.AllColumn("Title").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_LastLoginTime": if (!SiteSettings.AllColumn("LastLoginTime").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Users_PasswordExpirationTime": if (!SiteSettings.AllColumn("PasswordExpirationTime").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_PasswordChangeTime": if (!SiteSettings.AllColumn("PasswordChangeTime").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_NumberOfLogins": if (!SiteSettings.AllColumn("NumberOfLogins").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_NumberOfDenial": if (!SiteSettings.AllColumn("NumberOfDenial").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
@@ -360,6 +379,7 @@ namespace Implem.Pleasanter.Models
                     case "Users_FirstAndLastNameOrder": if (!SiteSettings.AllColumn("FirstAndLastNameOrder").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_Title": if (!SiteSettings.AllColumn("Title").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_LastLoginTime": if (!SiteSettings.AllColumn("LastLoginTime").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Users_PasswordExpirationTime": if (!SiteSettings.AllColumn("PasswordExpirationTime").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_PasswordChangeTime": if (!SiteSettings.AllColumn("PasswordChangeTime").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_NumberOfLogins": if (!SiteSettings.AllColumn("NumberOfLogins").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_NumberOfDenial": if (!SiteSettings.AllColumn("NumberOfDenial").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
@@ -666,6 +686,7 @@ namespace Implem.Pleasanter.Models
                     case "Users_DeptId": DeptId = Forms.Data(controlId).ToInt(); break;
                     case "Users_FirstAndLastNameOrder": FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)Forms.Data(controlId).ToInt(); break;
                     case "Users_LastLoginTime": LastLoginTime = new Time(Forms.Data(controlId).ToDateTime(), byForm: true); break;
+                    case "Users_PasswordExpirationTime": PasswordExpirationTime = new Time(Forms.Data(controlId).ToDateTime(), byForm: true); break;
                     case "Users_PasswordChangeTime": PasswordChangeTime = new Time(Forms.Data(controlId).ToDateTime(), byForm: true); break;
                     case "Users_NumberOfLogins": NumberOfLogins = Forms.Data(controlId).ToInt(); break;
                     case "Users_NumberOfDenial": NumberOfDenial = Forms.Data(controlId).ToInt(); break;
@@ -734,6 +755,7 @@ namespace Implem.Pleasanter.Models
                     case "DeptId": DeptId = dataRow[name].ToInt(); SavedDeptId = DeptId; break;
                     case "FirstAndLastNameOrder": FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)dataRow[name].ToInt(); SavedFirstAndLastNameOrder = FirstAndLastNameOrder.ToInt(); break;
                     case "LastLoginTime": LastLoginTime = new Time(dataRow, "LastLoginTime"); SavedLastLoginTime = LastLoginTime.Value; break;
+                    case "PasswordExpirationTime": PasswordExpirationTime = new Time(dataRow, "PasswordExpirationTime"); SavedPasswordExpirationTime = PasswordExpirationTime.Value; break;
                     case "PasswordChangeTime": PasswordChangeTime = new Time(dataRow, "PasswordChangeTime"); SavedPasswordChangeTime = PasswordChangeTime.Value; break;
                     case "NumberOfLogins": NumberOfLogins = dataRow[name].ToInt(); SavedNumberOfLogins = NumberOfLogins; break;
                     case "NumberOfDenial": NumberOfDenial = dataRow[name].ToInt(); SavedNumberOfDenial = NumberOfDenial; break;
@@ -802,6 +824,12 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
+        public UserModel(string loginId)
+        {
+            SetByForm();
+            Get(where: Rds.UsersWhere().LoginId(loginId));
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -823,7 +851,21 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string Authenticate(string returnUrl)
         {
-            return Authenticate() ? Allow(returnUrl) : Deny();
+            if (Authenticate())
+            {
+                if (PasswordExpired())
+                {
+                    return OpenDialog_ChangePasswordAtLogin();
+                }
+                else
+                {
+                    return Allow(returnUrl);
+                }
+            }
+            else
+            {
+                return Deny();
+            }
         }
 
         /// <summary>
@@ -888,6 +930,23 @@ namespace Implem.Pleasanter.Models
             return Messages.ResponseAuthentication().Focus("#Password").ToJson();
         }
 
+        private string OpenDialog_ChangePasswordAtLogin()
+        {
+            return new ResponseCollection()
+                .Func("openDialog_ChangePassword")
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private bool PasswordExpired()
+        {
+            return
+                PasswordExpirationTime.Value.NotZero() &&
+                PasswordExpirationTime.Value <= DateTime.Now;
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -917,18 +976,20 @@ namespace Implem.Pleasanter.Models
         public string ChangePassword()
         {
             var responseCollection = new UsersResponseCollection(this);
-            var siteSettings = SiteSettingsUtility.UsersSiteSettings();
             if (UserId == Sessions.UserId())
             {
                 Password = OldPassword;
                 if (GetByCredentials())
                 {
+                    PasswordExpirationPeriod();
                     Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
                         where: Rds.UsersWhereDefault(this),
                         param: Rds.UsersParam()
-                            .PasswordChangeTime(raw: "getdate()")
-                            .Password(ChangedPassword)));
+                            .Password(ChangedPassword)
+                            .PasswordExpirationTime(PasswordExpirationTime)
+                            .PasswordChangeTime(raw: "getdate()")));
                     responseCollection
+                        .PasswordExpirationTime(PasswordExpirationTime.ToString())
                         .PasswordChangeTime(PasswordChangeTime.ToString())
                         .UpdatedTime(UpdatedTime.ToString())
                         .OldPassword(string.Empty)
@@ -953,18 +1014,44 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public string ChangePasswordAtLogin()
+        {
+            Password = OldPassword;
+            if (GetByCredentials())
+            {
+                PasswordExpirationPeriod();
+                Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
+                    where: Rds.UsersWhereDefault(this),
+                    param: Rds.UsersParam()
+                        .Password(ChangedPassword)
+                        .PasswordExpirationTime(PasswordExpirationTime.Value)
+                        .PasswordChangeTime(raw: "getdate()")));
+                return Allow(Forms.Data("ReturnUrl"));
+            }
+            else
+            {
+                return Messages.ResponseIncorrectCurrentPassword().ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public string ResetPassword()
         {
             var responseCollection = new UsersResponseCollection(this);
             var siteSettings = SiteSettingsUtility.UsersSiteSettings();
             if (Permissions.Admins().CanEditTenant())
             {
+                PasswordExpirationPeriod();
                 Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
                     where: Rds.UsersWhereDefault(this),
                     param: Rds.UsersParam()
-                        .PasswordChangeTime(raw: "getdate()")
-                        .Password(AfterResetPassword)));
+                        .Password(AfterResetPassword)
+                        .PasswordExpirationTime(PasswordExpirationTime)
+                        .PasswordChangeTime(raw: "getdate()")));
                 responseCollection
+                    .PasswordExpirationTime(PasswordExpirationTime.ToString())
                     .PasswordChangeTime(PasswordChangeTime.ToString())
                     .UpdatedTime(UpdatedTime.ToString())
                     .AfterResetPassword(string.Empty)
@@ -1401,6 +1488,7 @@ namespace Implem.Pleasanter.Models
                     case "Dept": select.Dept(); break;
                     case "FirstAndLastNameOrder": select.FirstAndLastNameOrder(); break;
                     case "LastLoginTime": select.LastLoginTime(); break;
+                    case "PasswordExpirationTime": select.PasswordExpirationTime(); break;
                     case "PasswordChangeTime": select.PasswordChangeTime(); break;
                     case "NumberOfLogins": select.NumberOfLogins(); break;
                     case "NumberOfDenial": select.NumberOfDenial(); break;
@@ -1432,6 +1520,7 @@ namespace Implem.Pleasanter.Models
                 case "TimeZoneInfo": return hb.Td(column: column, value: userModel.TimeZoneInfo);
                 case "Dept": return hb.Td(column: column, value: userModel.Dept);
                 case "LastLoginTime": return hb.Td(column: column, value: userModel.LastLoginTime);
+                case "PasswordExpirationTime": return hb.Td(column: column, value: userModel.PasswordExpirationTime);
                 case "PasswordChangeTime": return hb.Td(column: column, value: userModel.PasswordChangeTime);
                 case "NumberOfLogins": return hb.Td(column: column, value: userModel.NumberOfLogins);
                 case "NumberOfDenial": return hb.Td(column: column, value: userModel.NumberOfDenial);
@@ -1599,6 +1688,7 @@ namespace Implem.Pleasanter.Models
                             case "DeptId": hb.Field(siteSettings, column, userModel.DeptId.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "FirstAndLastNameOrder": hb.Field(siteSettings, column, userModel.FirstAndLastNameOrder.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "LastLoginTime": hb.Field(siteSettings, column, userModel.LastLoginTime?.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "PasswordExpirationTime": hb.Field(siteSettings, column, userModel.PasswordExpirationTime?.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "PasswordChangeTime": hb.Field(siteSettings, column, userModel.PasswordChangeTime?.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "NumberOfLogins": hb.Field(siteSettings, column, userModel.NumberOfLogins.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                             case "NumberOfDenial": hb.Field(siteSettings, column, userModel.NumberOfDenial.ToControl(column), column.ColumnPermissionType(permissionType)); break;
@@ -1698,7 +1788,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder Dialog_ChangePassword(
+        public static HtmlBuilder Dialog_ChangePassword(
             this HtmlBuilder hb, long userId, SiteSettings siteSettings)
         {
             return hb.Div(
@@ -1812,7 +1902,7 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .Form(
                         attributes: Html.Attributes()
-                            .Id("UserForm")
+                            .Id_Css("UserForm", "main-form")
                             .Action(Navigations.Get("users", "_action_?ReturnUrl="
                                 + HttpUtility.UrlEncode(returnUrl))),
                         action: () => hb
@@ -1836,7 +1926,46 @@ namespace Implem.Pleasanter.Models
                                         action: "Authenticate",
                                         method: "post",
                                         type: "submit")))
-                            .P(id: "Message", css: "message-form-bottom"))).ToString();
+                            .P(id: "Message", css: "message-form-bottom"))
+                    .Dialog_ChangePasswordAtLogin(siteSettings: siteSettings)
+                    .Hidden(controlId: "ReturnUrl", value: QueryStrings.Data("ReturnUrl")))
+                        .ToString();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder Dialog_ChangePasswordAtLogin(
+            this HtmlBuilder hb, SiteSettings siteSettings)
+        {
+            return hb.Div(
+                attributes: Html.Attributes()
+                    .Id_Css("Dialog_ChangePassword", "dialog")
+                    .Title(Displays.ChangePassword()),
+                action: () => hb
+                    .Form(
+                        attributes: Html.Attributes()
+                            .Id("ChangePasswordForm")
+                            .Action(Navigations.Action("Users")),
+                        action: () => hb
+                            .Field(
+                                siteSettings: siteSettings,
+                                column: siteSettings.AllColumn("ChangedPassword"))
+                            .Field(
+                                siteSettings: siteSettings,
+                                column: siteSettings.AllColumn("ChangedPasswordValidator"))
+                            .P(css: "message-dialog")
+                            .Div(css: "command-center", action: () => hb
+                                .Button(
+                                    text: Displays.Change(),
+                                    controlCss: "button-save validate",
+                                    onClick: Def.JavaScript.Submit,
+                                    action: "ChangePasswordAtLogin",
+                                    method: "post")
+                                .Button(
+                                    text: Displays.Cancel(),
+                                    controlCss: "button-cancel",
+                                    onClick: Def.JavaScript.CancelDialog))));
         }
     }
 }

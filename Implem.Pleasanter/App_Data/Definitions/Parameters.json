@@ -23,6 +23,7 @@
     "DataImport": 1,
     "RequireHttps": 0,
     "AuthenticationProvider": null,
+    "PasswordExpirationPeriod": 0,
     "LdapSearchRoot": null,
     "LdapSearchProperty": "mail",
     "LdapTenantId": 1,

@@ -136,6 +136,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     case "GridSorters_Users_Dept": orderBy.Users_Dept(type); break;
                     case "GridSorters_Users_FirstAndLastNameOrder": orderBy.Users_FirstAndLastNameOrder(type); break;
                     case "GridSorters_Users_LastLoginTime": orderBy.Users_LastLoginTime(type); break;
+                    case "GridSorters_Users_PasswordExpirationTime": orderBy.Users_PasswordExpirationTime(type); break;
                     case "GridSorters_Users_PasswordChangeTime": orderBy.Users_PasswordChangeTime(type); break;
                     case "GridSorters_Users_NumberOfLogins": orderBy.Users_NumberOfLogins(type); break;
                     case "GridSorters_Users_NumberOfDenial": orderBy.Users_NumberOfDenial(type); break;

@@ -702,6 +702,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Users_Title(params string[] data) { return Get("Users_Title", data); }
         public static HtmlBuilder Displays_Users_LastLoginTime(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Users_LastLoginTime", data)); }
         public static string Users_LastLoginTime(params string[] data) { return Get("Users_LastLoginTime", data); }
+        public static HtmlBuilder Displays_Users_PasswordExpirationTime(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Users_PasswordExpirationTime", data)); }
+        public static string Users_PasswordExpirationTime(params string[] data) { return Get("Users_PasswordExpirationTime", data); }
         public static HtmlBuilder Displays_Users_PasswordChangeTime(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Users_PasswordChangeTime", data)); }
         public static string Users_PasswordChangeTime(params string[] data) { return Get("Users_PasswordChangeTime", data); }
         public static HtmlBuilder Displays_Users_NumberOfLogins(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Users_NumberOfLogins", data)); }

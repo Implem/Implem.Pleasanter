@@ -279,6 +279,19 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
+        [AllowAnonymous]
+        [HttpPost]
+        public string ChangePasswordAtLogin()
+        {
+            var log = new SysLogModel();
+            var json = Securities.ChangePasswordAtLogin();
+            log.Finish(json.Length);
+            return json;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         [HttpPost]
         public string ResetPassword(int id)
         {
