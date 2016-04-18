@@ -902,7 +902,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private string Allow(string returnUrl)
+        private string Allow(string returnUrl, bool atLogin = false)
         {
             Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
                 where: Rds.UsersWhereDefault(this),
@@ -911,6 +911,7 @@ namespace Implem.Pleasanter.Models
                     .LastLoginTime(DateTime.Now)));
             SetFormsAuthentication(returnUrl);
             return new UsersResponseCollection(this)
+                .CloseDialog("#Dialog_ChangePassword", _using: atLogin)
                 .Message(Messages.LoginIn())
                 .Href(returnUrl == string.Empty
                     ? Navigations.Top()
@@ -1026,7 +1027,7 @@ namespace Implem.Pleasanter.Models
                         .Password(ChangedPassword)
                         .PasswordExpirationTime(PasswordExpirationTime.Value)
                         .PasswordChangeTime(raw: "getdate()")));
-                return Allow(Forms.Data("ReturnUrl"));
+                return Allow(Forms.Data("ReturnUrl"), atLogin: true);
             }
             else
             {
