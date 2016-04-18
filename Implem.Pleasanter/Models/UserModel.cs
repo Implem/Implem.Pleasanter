@@ -982,7 +982,10 @@ namespace Implem.Pleasanter.Models
             var responseCollection = new UsersResponseCollection(this);
             if (UserId == Sessions.UserId())
             {
-                Password = OldPassword;
+                if (OldPassword == ChangedPassword)
+                {
+                    return Messages.ResponsePasswordNotChanged().ToJson();
+                }
                 if (GetByCredentials())
                 {
                     PasswordExpirationPeriod();
@@ -990,7 +993,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.UsersWhereDefault(this),
                         param: Rds.UsersParam()
                             .Password(ChangedPassword)
-                            .PasswordExpirationTime(PasswordExpirationTime)
+                            .PasswordExpirationTime(PasswordExpirationTime.Value)
                             .PasswordChangeTime(raw: "getdate()")));
                     responseCollection
                         .PasswordExpirationTime(PasswordExpirationTime.ToString())
@@ -1020,7 +1023,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string ChangePasswordAtLogin()
         {
-            Password = OldPassword;
+            if (OldPassword == ChangedPassword)
+            {
+                return Messages.ResponsePasswordNotChanged().ToJson();
+            }
             if (GetByCredentials())
             {
                 PasswordExpirationPeriod();

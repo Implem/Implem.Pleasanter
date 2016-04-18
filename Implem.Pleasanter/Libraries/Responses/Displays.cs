@@ -450,6 +450,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string InvalidRequest(params string[] data) { return Get("InvalidRequest", data); }
         public static HtmlBuilder Displays_Authentication(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Authentication", data)); }
         public static string Authentication(params string[] data) { return Get("Authentication", data); }
+        public static HtmlBuilder Displays_PasswordNotChanged(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("PasswordNotChanged", data)); }
+        public static string PasswordNotChanged(params string[] data) { return Get("PasswordNotChanged", data); }
         public static HtmlBuilder Displays_UpdateConflicts(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("UpdateConflicts", data)); }
         public static string UpdateConflicts(params string[] data) { return Get("UpdateConflicts", data); }
         public static HtmlBuilder Displays_DeleteConflicts(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DeleteConflicts", data)); }

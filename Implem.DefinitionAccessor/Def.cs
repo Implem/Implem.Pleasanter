@@ -2347,6 +2347,8 @@ namespace Implem.DefinitionAccessor
                     case "InvalidRequest_ja": Display.InvalidRequest_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.InvalidRequest_ja, definitionRow, DisplayXls); break;
                     case "Authentication": Display.Authentication = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Authentication, definitionRow, DisplayXls); break;
                     case "Authentication_ja": Display.Authentication_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Authentication_ja, definitionRow, DisplayXls); break;
+                    case "PasswordNotChanged": Display.PasswordNotChanged = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.PasswordNotChanged, definitionRow, DisplayXls); break;
+                    case "PasswordNotChanged_ja": Display.PasswordNotChanged_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.PasswordNotChanged_ja, definitionRow, DisplayXls); break;
                     case "UpdateConflicts": Display.UpdateConflicts = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.UpdateConflicts, definitionRow, DisplayXls); break;
                     case "UpdateConflicts_ja": Display.UpdateConflicts_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.UpdateConflicts_ja, definitionRow, DisplayXls); break;
                     case "DeleteConflicts": Display.DeleteConflicts = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DeleteConflicts, definitionRow, DisplayXls); break;
@@ -6646,6 +6648,8 @@ namespace Implem.DefinitionAccessor
         public string InvalidRequest_ja;
         public string Authentication;
         public string Authentication_ja;
+        public string PasswordNotChanged;
+        public string PasswordNotChanged_ja;
         public string UpdateConflicts;
         public string UpdateConflicts_ja;
         public string DeleteConflicts;
@@ -7174,6 +7178,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition InvalidRequest_ja = new DisplayDefinition();
         public DisplayDefinition Authentication = new DisplayDefinition();
         public DisplayDefinition Authentication_ja = new DisplayDefinition();
+        public DisplayDefinition PasswordNotChanged = new DisplayDefinition();
+        public DisplayDefinition PasswordNotChanged_ja = new DisplayDefinition();
         public DisplayDefinition UpdateConflicts = new DisplayDefinition();
         public DisplayDefinition UpdateConflicts_ja = new DisplayDefinition();
         public DisplayDefinition DeleteConflicts = new DisplayDefinition();

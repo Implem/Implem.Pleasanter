@@ -37,6 +37,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.Authentication(data), "alert-error");
         }
 
+        public static Message PasswordNotChanged(params string[] data)
+        {
+            return Get(Displays.PasswordNotChanged(data), "alert-error");
+        }
+
         public static Message UpdateConflicts(params string[] data)
         {
             return Get(Displays.UpdateConflicts(data), "alert-error");
@@ -295,6 +300,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseAuthentication(params string[] data)
         {
             return ResponseMessage(Messages.Authentication(data));
+        }
+
+        public static ResponseCollection ResponsePasswordNotChanged(params string[] data)
+        {
+            return ResponseMessage(Messages.PasswordNotChanged(data));
         }
 
         public static ResponseCollection ResponseUpdateConflicts(params string[] data)
