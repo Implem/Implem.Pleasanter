@@ -13,14 +13,14 @@ namespace Implem.Pleasanter.Libraries.Initializers
                 Rds.SelectUsers(column: Rds.UsersColumn().UsersCount())) == 0)
             {
                 Create(
-                    "Anonymouse",
-                    "Anonymouse",
-                    disabled: true);
-                Create(
                     "Administrator",
                     "System Admin",
                     password: Securities.DefaultAdminPassword().Sha512Cng(),
                     passwordExpirationTime: new Time(DateTime.Now));
+                Create(
+                    "Anonymouse",
+                    "Anonymouse",
+                    disabled: true);
             }
         }
 
