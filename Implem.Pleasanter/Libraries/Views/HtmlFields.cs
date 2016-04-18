@@ -38,9 +38,10 @@ namespace Implem.Pleasanter.Libraries.Views
             string fieldCss = "",
             string labelCss = "",
             string controlContainerCss = "",
-            string controlCss = "")
+            string controlCss = "",
+            bool _using = true)
         {
-            if (columnPermissionType != Permissions.ColumnPermissionTypes.Deny)
+            if (columnPermissionType != Permissions.ColumnPermissionTypes.Deny && _using)
             {
                 return hb.SwitchField(
                     column: column,
@@ -314,36 +315,42 @@ namespace Implem.Pleasanter.Libraries.Views
             string labelText = "",
             Action controlAction = null,
             Action actionOptions = null,
-            string tagControlContainer = "div")
+            string tagControlContainer = "div",
+            bool _using = true)
         {
-            return hb.Field(
-                fieldId: fieldId,
-                fieldCss: fieldCss,
-                actionLabel: () => hb
-                    .Label(
-                        controlId: controlId,
-                        labelCss: labelCss,
-                        labelText: labelText),
-                actionControl: () => hb
-                    .Control(
-                        controlAction: controlAction,
-                        controlContainerCss: controlContainerCss,
-                        tagControlContainer: tagControlContainer),
-                actionOptions: actionOptions);
+            return _using
+                ? hb.Field(
+                    fieldId: fieldId,
+                    fieldCss: fieldCss,
+                    actionLabel: () => hb
+                        .Label(
+                            controlId: controlId,
+                            labelCss: labelCss,
+                            labelText: labelText),
+                    actionControl: () => hb
+                        .Control(
+                            controlAction: controlAction,
+                            controlContainerCss: controlContainerCss,
+                            tagControlContainer: tagControlContainer),
+                    actionOptions: actionOptions)
+                : hb;
         }
 
         public static HtmlBuilder FieldContainer(
             this HtmlBuilder hb,
             string fieldId = "",
             string fieldCss = "",
-            Action actionOptions = null)
+            Action actionOptions = null,
+            bool _using = true)
         {
-            return hb.Div(
-                id: fieldId,
-                css: CssClasses.Get("field-normal", fieldCss), action: () =>
-                {
-                    if (actionOptions != null) actionOptions();
-                });
+            return _using
+                ? hb.Div(
+                    id: fieldId,
+                    css: CssClasses.Get("field-normal", fieldCss), action: () =>
+                    {
+                        if (actionOptions != null) actionOptions();
+                    })
+                : hb;
         }
 
         public static HtmlBuilder Field(
@@ -352,16 +359,19 @@ namespace Implem.Pleasanter.Libraries.Views
             string fieldCss = "",
             Action actionLabel = null,
             Action actionControl = null,
-            Action actionOptions = null)
+            Action actionOptions = null,
+            bool _using = true)
         {
-            return hb.Div(
-                id: fieldId,
-                css: CssClasses.Get("field-normal", fieldCss), action: () =>
-                {
-                    actionLabel();
-                    actionControl();
-                    if (actionOptions != null) actionOptions();
-                });
+            return _using
+                ? hb.Div(
+                    id: fieldId,
+                    css: CssClasses.Get("field-normal", fieldCss), action: () =>
+                    {
+                        actionLabel();
+                        actionControl();
+                        if (actionOptions != null) actionOptions();
+                    })
+                : hb;
         }
 
         private static HtmlBuilder Label(
@@ -408,23 +418,26 @@ namespace Implem.Pleasanter.Libraries.Views
             string labelText = "",
             string text = "",
             string dataValue = "",
-            string unit = "")
+            string unit = "",
+            bool _using = true)
         {
-            return hb.Field(
-                fieldId: fieldId,
-                controlId: controlId,
-                fieldCss: fieldCss,
-                labelCss: labelCss,
-                labelText: labelText,
-                controlAction: () => hb
-                    .Span(
-                        attributes: Html.Attributes()
-                            .Id_Css(controlId, CssClasses.Get("control-text", controlCss))
-                            .DataValue(dataValue)
-                            .DataUnit(unit),
-                        action: () => hb
-                            .Text(text: text + unit)),
-                controlContainerCss: controlContainerCss);
+            return _using
+                ? hb.Field(
+                    fieldId: fieldId,
+                    controlId: controlId,
+                    fieldCss: fieldCss,
+                    labelCss: labelCss,
+                    labelText: labelText,
+                    controlAction: () => hb
+                        .Span(
+                            attributes: Html.Attributes()
+                                .Id_Css(controlId, CssClasses.Get("control-text", controlCss))
+                                .DataValue(dataValue)
+                                .DataUnit(unit),
+                            action: () => hb
+                                .Text(text: text + unit)),
+                    controlContainerCss: controlContainerCss)
+                : hb;
         }
 
         public static HtmlBuilder FieldTextBox(
@@ -441,26 +454,29 @@ namespace Implem.Pleasanter.Libraries.Views
             string onChange = "",
             string action = "",
             string method = "", 
-            Dictionary<string, string> attributes = null)
+            Dictionary<string, string> attributes = null,
+            bool _using = true)
         {
-            return hb.Field(
-                fieldId: fieldId,
-                controlId: controlId,
-                fieldCss: fieldCss,
-                labelCss: labelCss,
-                controlContainerCss: controlContainerCss,
-                labelText: labelText,
-                controlAction: () => hb
-                    .TextBox(
-                        textStyle: textStyle,
-                        controlId: controlId,
-                        controlCss: controlCss,
-                        text: text,
-                        placeholder: labelText,
-                        onChange: onChange,
-                        action: action,
-                        method: method,
-                        attributes: attributes));
+            return _using
+                ? hb.Field(
+                    fieldId: fieldId,
+                    controlId: controlId,
+                    fieldCss: fieldCss,
+                    labelCss: labelCss,
+                    controlContainerCss: controlContainerCss,
+                    labelText: labelText,
+                    controlAction: () => hb
+                        .TextBox(
+                            textStyle: textStyle,
+                            controlId: controlId,
+                            controlCss: controlCss,
+                            text: text,
+                            placeholder: labelText,
+                            onChange: onChange,
+                            action: action,
+                            method: method,
+                            attributes: attributes))
+                : hb;
         }
 
         public static HtmlBuilder FieldMarkDown(
@@ -474,22 +490,25 @@ namespace Implem.Pleasanter.Libraries.Views
             string labelText = "",
             string text = "",
             string placeholder = "",
-            Dictionary<string, string> attributes = null)
+            Dictionary<string, string> attributes = null,
+            bool _using = true)
         {
-            return hb.Field(
-                fieldId: fieldId,
-                controlId: controlId,
-                fieldCss: fieldCss,
-                labelCss: labelCss,
-                controlContainerCss: controlContainerCss,
-                labelText: labelText,
-                controlAction: () => hb
-                    .MarkDown(
-                        controlId: controlId,
-                        controlCss: controlCss,
-                        text: text,
-                        placeholder: placeholder,
-                        attributes: attributes));
+            return _using
+                ? hb.Field(
+                    fieldId: fieldId,
+                    controlId: controlId,
+                    fieldCss: fieldCss,
+                    labelCss: labelCss,
+                    controlContainerCss: controlContainerCss,
+                    labelText: labelText,
+                    controlAction: () => hb
+                        .MarkDown(
+                            controlId: controlId,
+                            controlCss: controlCss,
+                            text: text,
+                            placeholder: placeholder,
+                            attributes: attributes))
+                : hb;
         }
 
         public static HtmlBuilder FieldMarkUp(
@@ -502,21 +521,24 @@ namespace Implem.Pleasanter.Libraries.Views
             string controlCss = "",
             string labelText = "",
             string text = "",
-            Dictionary<string, string> attributes = null)
+            Dictionary<string, string> attributes = null,
+            bool _using = true)
         {
-            return hb.Field(
-                fieldId: fieldId,
-                controlId: controlId,
-                fieldCss: fieldCss,
-                labelCss: labelCss,
-                controlContainerCss: controlContainerCss,
-                labelText: labelText,
-                controlAction: () => hb
-                    .MarkUp(
-                        controlId: controlId,
-                        controlCss: controlCss,
-                        text: text,
-                        attributes: attributes));
+            return _using
+                ? hb.Field(
+                    fieldId: fieldId,
+                    controlId: controlId,
+                    fieldCss: fieldCss,
+                    labelCss: labelCss,
+                    controlContainerCss: controlContainerCss,
+                    labelText: labelText,
+                    controlAction: () => hb
+                        .MarkUp(
+                            controlId: controlId,
+                            controlCss: controlCss,
+                            text: text,
+                            attributes: attributes))
+                : hb;
         }
 
         public static HtmlBuilder FieldDropDown(
@@ -534,27 +556,30 @@ namespace Implem.Pleasanter.Libraries.Views
             string onChange = "",
             string action = "",
             string method = "",
-            Column column = null)
+            Column column = null,
+            bool _using = true)
         {
-            return hb.Field(
-                fieldId: fieldId,
-                controlId: controlId,
-                fieldCss: fieldCss,
-                labelCss: labelCss,
-                controlContainerCss: controlContainerCss,
-                labelText: labelText,
-                controlAction: () => hb
-                    .DropDown(
-                        controlId: controlId,
-                        controlCss: controlCss,
-                        optionCollection: optionCollection?.ToDictionary(
-                            o => o.Key, o => new ControlData(o.Value)),
-                        selectedValue: selectedValue,
-                        addSelectedValue: addSelectedValue,
-                        onChange: onChange,
-                        action: action,
-                        method: method,
-                        column: column));
+            return _using
+                ? hb.Field(
+                    fieldId: fieldId,
+                    controlId: controlId,
+                    fieldCss: fieldCss,
+                    labelCss: labelCss,
+                    controlContainerCss: controlContainerCss,
+                    labelText: labelText,
+                    controlAction: () => hb
+                        .DropDown(
+                            controlId: controlId,
+                            controlCss: controlCss,
+                            optionCollection: optionCollection?.ToDictionary(
+                                o => o.Key, o => new ControlData(o.Value)),
+                            selectedValue: selectedValue,
+                            addSelectedValue: addSelectedValue,
+                            onChange: onChange,
+                            action: action,
+                            method: method,
+                            column: column))
+                : hb;
         }
 
         public static HtmlBuilder FieldDropDown(
@@ -572,26 +597,29 @@ namespace Implem.Pleasanter.Libraries.Views
             string onChange = "",
             string action = "",
             string method = "",
-            Column column = null)
+            Column column = null,
+            bool _using = true)
         {
-            return hb.Field(
-                fieldId: fieldId,
-                controlId: controlId,
-                fieldCss: fieldCss,
-                labelCss: labelCss,
-                controlContainerCss: controlContainerCss,
-                labelText: labelText,
-                controlAction: () => hb
-                    .DropDown(
-                        controlId: controlId,
-                        controlCss: controlCss,
-                        optionCollection: optionCollection,
-                        selectedValue: selectedValue,
-                        addSelectedValue: addSelectedValue,
-                        onChange: onChange,
-                        action: action,
-                        method: method,
-                        column: column));
+            return _using
+                ? hb.Field(
+                    fieldId: fieldId,
+                    controlId: controlId,
+                    fieldCss: fieldCss,
+                    labelCss: labelCss,
+                    controlContainerCss: controlContainerCss,
+                    labelText: labelText,
+                    controlAction: () => hb
+                        .DropDown(
+                            controlId: controlId,
+                            controlCss: controlCss,
+                            optionCollection: optionCollection,
+                            selectedValue: selectedValue,
+                            addSelectedValue: addSelectedValue,
+                            onChange: onChange,
+                            action: action,
+                            method: method,
+                            column: column))
+                : hb;
         }
 
         public static HtmlBuilder FieldCheckBox(
@@ -662,20 +690,23 @@ namespace Implem.Pleasanter.Libraries.Views
             Dictionary<string, ControlData> optionCollection = null,
             string selectedValueText = "",
             string action = "",
-            string method = "")
+            string method = "",
+            bool _using = true)
         {
-            return hb.Field(
-                fieldId: fieldId,
-                fieldCss: fieldCss,
-                labelCss: labelCss,
-                controlContainerCss: controlContainerCss,
-                labelText: labelText,
-                controlAction: () => hb
-                    .RadioButtons(
-                        name: name,
-                        controlCss: controlCss,
-                        optionCollection: optionCollection,
-                        selectedValue: selectedValueText));
+            return _using
+                ? hb.Field(
+                    fieldId: fieldId,
+                    fieldCss: fieldCss,
+                    labelCss: labelCss,
+                    controlContainerCss: controlContainerCss,
+                    labelText: labelText,
+                    controlAction: () => hb
+                        .RadioButtons(
+                            name: name,
+                            controlCss: controlCss,
+                            optionCollection: optionCollection,
+                            selectedValue: selectedValueText))
+                : hb;
         }
 
         public static HtmlBuilder FieldSpinner(
@@ -695,34 +726,37 @@ namespace Implem.Pleasanter.Libraries.Views
             string unit = "",
             string onChange = "",
             string action = "",
-            string method = "")
+            string method = "",
+            bool _using = true)
         {
-            return hb.Field(
-                fieldId: fieldId,
-                controlId: controlId,
-                fieldCss: fieldCss,
-                labelCss: labelCss,
-                controlContainerCss: controlContainerCss,
-                labelText: labelText,
-                controlAction: () =>
-                { 
-                    hb.Spinner(
-                        controlId: controlId,
-                        controlCss: controlCss,
-                        value: value,
-                        min: min,
-                        max: max,
-                        step: step,
-                        width: width,
-                        onChange: onChange,
-                        action: action,
-                        method: method);
-                    if (unit != string.Empty)
+            return _using
+                ? hb.Field(
+                    fieldId: fieldId,
+                    controlId: controlId,
+                    fieldCss: fieldCss,
+                    labelCss: labelCss,
+                    controlContainerCss: controlContainerCss,
+                    labelText: labelText,
+                    controlAction: () =>
                     {
-                        hb.Span(css: "unit", action: () => hb
-                            .Text(unit));
-                    }
-                });
+                        hb.Spinner(
+                            controlId: controlId,
+                            controlCss: controlCss,
+                            value: value,
+                            min: min,
+                            max: max,
+                            step: step,
+                            width: width,
+                            onChange: onChange,
+                            action: action,
+                            method: method);
+                        if (unit != string.Empty)
+                        {
+                            hb.Span(css: "unit", action: () => hb
+                                .Text(unit));
+                        }
+                    })
+                : hb;
         }
 
         public static HtmlBuilder FieldSlider(
@@ -740,26 +774,29 @@ namespace Implem.Pleasanter.Libraries.Views
             decimal step = -1,
             string unit = "",
             string action = "",
-            string method = "")
+            string method = "",
+            bool _using = true)
         {
-            return hb.Field(
-                fieldId: fieldId,
-                controlId: controlId,
-                fieldCss: fieldCss,
-                labelCss: labelCss,
-                controlContainerCss: controlContainerCss,
-                labelText: labelText,
-                controlAction: () => hb
-                    .Slider(
-                        controlId: controlId,
-                        controlCss: controlCss,
-                        value: value,
-                        min: min,
-                        max: max,
-                        step: step,
-                        unit: unit,
-                        action: action,
-                        method: method));
+            return _using
+                ? hb.Field(
+                    fieldId: fieldId,
+                    controlId: controlId,
+                    fieldCss: fieldCss,
+                    labelCss: labelCss,
+                    controlContainerCss: controlContainerCss,
+                    labelText: labelText,
+                    controlAction: () => hb
+                        .Slider(
+                            controlId: controlId,
+                            controlCss: controlCss,
+                            value: value,
+                            min: min,
+                            max: max,
+                            step: step,
+                            unit: unit,
+                            action: action,
+                            method: method))
+                : hb;
         }
 
         public static HtmlBuilder FieldAnchor(
@@ -771,24 +808,26 @@ namespace Implem.Pleasanter.Libraries.Views
             string controlCss = "",
             string iconCss = "",
             string text = "",
-            string href = "")
+            string href = "",
+            bool _using = true)
         {
-            hb.Field(
-                fieldId: fieldId,
-                controlId: controlId,
-                fieldCss: fieldCss,
-                controlContainerCss: controlContainerCss,
-                labelText: string.Empty,
-                controlAction: () =>
-                {
-                    if (iconCss != string.Empty) hb.Icon(iconCss: iconCss);
-                    hb.Anchor(
-                        controlId: controlId,
-                        controlCss: controlCss,
-                        text: text,
-                        href: href);
-                });
-            return hb;
+            return _using
+                ? hb.Field(
+                    fieldId: fieldId,
+                    controlId: controlId,
+                    fieldCss: fieldCss,
+                    controlContainerCss: controlContainerCss,
+                    labelText: string.Empty,
+                    controlAction: () =>
+                    {
+                        if (iconCss != string.Empty) hb.Icon(iconCss: iconCss);
+                        hb.Anchor(
+                            controlId: controlId,
+                            controlCss: controlCss,
+                            text: text,
+                            href: href);
+                    })
+                : hb;
         }
 
         public static HtmlBuilder FieldSelectable(
@@ -803,8 +842,10 @@ namespace Implem.Pleasanter.Libraries.Views
             Dictionary<string, string> listItemCollection = null,
             IEnumerable<string> selectedValueCollection = null,
             bool commandOptionPositionIsTop = false,
+            bool _using = true,
             Action commandOptionAction = null)
         {
+            if (!_using) return hb;
             if (!commandOptionPositionIsTop)
             {
                 return hb.Field(
@@ -818,8 +859,10 @@ namespace Implem.Pleasanter.Libraries.Views
                         .Selectable(
                             controlId: controlId,
                             controlCss: controlCss,
-                            listItemCollection: listItemCollection ?? new Dictionary<string, string>(),
-                            selectedValueCollection: selectedValueCollection ?? new List<string>()),
+                            listItemCollection: 
+                                listItemCollection ?? new Dictionary<string, string>(),
+                            selectedValueCollection: 
+                                selectedValueCollection ?? new List<string>()),
                     actionOptions: commandOptionAction);
             }
             else
@@ -837,8 +880,10 @@ namespace Implem.Pleasanter.Libraries.Views
                         hb.Selectable(
                             controlId: controlId,
                             controlCss: controlCss,
-                            listItemCollection: listItemCollection ?? new Dictionary<string, string>(),
-                            selectedValueCollection: selectedValueCollection ?? new List<string>());
+                            listItemCollection: 
+                                listItemCollection ?? new Dictionary<string, string>(),
+                            selectedValueCollection: 
+                                selectedValueCollection ?? new List<string>());
                     });
             }
         }
@@ -854,20 +899,25 @@ namespace Implem.Pleasanter.Libraries.Views
             Action labelAction = null,
             Dictionary<string, string> listItemCollection = null,
             IEnumerable<string> selectedValueCollection = null,
+            bool _using = true,
             Action actionOptions = null)
         {
-            return hb.Field(
-                fieldId: fieldId,
-                fieldCss: fieldCss,
-                actionLabel: () => hb
-                    .Div(css: "field-label", action: labelAction),
-                actionControl: () => hb
-                    .Basket(
-                        controlId: controlId,
-                        controlCss: controlCss,
-                        listItemCollection: listItemCollection ?? new Dictionary<string, string>(),
-                        selectedValueCollection: selectedValueCollection ?? new List<string>()),
-                actionOptions: actionOptions);
+            return _using
+                ? hb.Field(
+                    fieldId: fieldId,
+                    fieldCss: fieldCss,
+                    actionLabel: () => hb
+                        .Div(css: "field-label", action: labelAction),
+                    actionControl: () => hb
+                        .Basket(
+                            controlId: controlId,
+                            controlCss: controlCss,
+                            listItemCollection: 
+                                listItemCollection ?? new Dictionary<string, string>(),
+                            selectedValueCollection: 
+                                selectedValueCollection ?? new List<string>()),
+                    actionOptions: actionOptions)
+                : hb;
         }
     }
 }
