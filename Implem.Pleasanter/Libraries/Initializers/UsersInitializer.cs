@@ -13,11 +13,13 @@ namespace Implem.Pleasanter.Libraries.Initializers
                 Rds.SelectUsers(column: Rds.UsersColumn().UsersCount())) == 0)
             {
                 Create(
+                    1,
                     "Administrator",
                     "System Admin",
                     password: Securities.DefaultAdminPassword().Sha512Cng(),
                     passwordExpirationTime: new Time(DateTime.Now));
                 Create(
+                    0,
                     "Anonymouse",
                     "Anonymouse",
                     disabled: true);
@@ -25,6 +27,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
         }
 
         private static void Create(
+            int tenantId,
             string loginId,
             string name,
             bool disabled = false,
@@ -34,7 +37,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
             Rds.ExecuteNonQuery(statements:
                 Rds.InsertUsers(
                     param: Rds.UsersParam()
-                        .TenantId(1)
+                        .TenantId(tenantId)
                         .LoginId(loginId)
                         .Disabled(disabled)
                         .Password(password)
