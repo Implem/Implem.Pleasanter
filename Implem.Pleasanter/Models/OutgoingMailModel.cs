@@ -1853,12 +1853,14 @@ namespace Implem.Pleasanter.Models
                             .Users_TenantId(Sessions.TenantId(), "t0"));
                 case "All":
                 default:
-                    return DestinationCollection(
-                        Sqls.SqlJoinCollection(joinMailAddresses),
-                        Rds.UsersWhere()
-                            .MailAddresses_OwnerType("Users")
-                            .SearchText(searchText)
-                            .Users_TenantId(Sessions.TenantId(), "t0"));
+                    return !searchText.IsNullOrEmpty()
+                        ? DestinationCollection(
+                            Sqls.SqlJoinCollection(joinMailAddresses),
+                            Rds.UsersWhere()
+                                .MailAddresses_OwnerType("Users")
+                                .SearchText(searchText)
+                                .Users_TenantId(Sessions.TenantId(), "t0"))
+                        : new Dictionary<string, string>();
             }
         }
 
