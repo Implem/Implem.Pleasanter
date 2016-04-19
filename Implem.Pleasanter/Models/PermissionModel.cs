@@ -219,21 +219,25 @@ namespace Implem.Pleasanter.Models
             int offset = 0,
             int pageSize = 0,
             bool countRecord = false,
-            IEnumerable<Aggregation> aggregationCollection = null)
+            IEnumerable<Aggregation> aggregationCollection = null,
+            bool get = true)
         {
-            Set(Get(
-                column: column,
-                join: join,
-                where: where,
-                orderBy: orderBy,
-                param: param,
-                tableType: tableType,
-                distinct: distinct,
-                top: top,
-                offset: offset,
-                pageSize: pageSize,
-                countRecord: countRecord,
-                aggregationCollection: aggregationCollection));
+            if (get)
+            {
+                Set(Get(
+                    column: column,
+                    join: join,
+                    where: where,
+                    orderBy: orderBy,
+                    param: param,
+                    tableType: tableType,
+                    distinct: distinct,
+                    top: top,
+                    offset: offset,
+                    pageSize: pageSize,
+                    countRecord: countRecord,
+                    aggregationCollection: aggregationCollection));
+            }
         }
 
         public PermissionCollection(
@@ -600,65 +604,67 @@ namespace Implem.Pleasanter.Models
         private static PermissionCollection SourceCollection(
             string referenceType, long referenceId, string searchText)
         {
-            return new PermissionCollection(Rds.ExecuteTable(
-                transactional: false,
-                statements: new SqlStatement[]
-                {
-                    Rds.SelectDepts(
-                        column: Rds.DeptsColumn()
-                            .Add("@ReferenceId_Param1 as [ReferenceId]")
-                            .Add("@ReferenceType_Param1 as [ReferenceType]")
-                            .DeptId()
-                            .DeptName()
-                            .Add("null as [UserId]")
-                            .Add("null as [FullName1]")
-                            .Add("null as [FullName2]")
-                            .Add("1 as [FirstAndLastNameOrder]")
-                            .Add("@PermissionType_Param1 as [PermissionType]"),
-                        where: Rds.DeptsWhere()
-                            .TenantId(Sessions.TenantId())
-                            .SqlWhereExists(Rds.SqlWhereNotExists_Permissions,
-                                "[Permissions].[ReferenceId] = @ReferenceId_Param1",
-                                "[Permissions].[ReferenceType] = @ReferenceType_Param1",
-                                "[Permissions].[DeptId] = [t0].[DeptId]")
-                            .SqlWhereLike(
-                                searchText,
-                                Rds.Depts_DeptId_WhereLike(),
-                                Rds.Depts_DeptCode_WhereLike(),
-                                Rds.Depts_DeptName_WhereLike()),
-                        param: Rds.PermissionsParam()
-                            .ReferenceType(referenceType)
-                            .ReferenceId(referenceId)
-                            .PermissionType(Permissions.Types.ReadWrite),
-                        unionType: Sqls.UnionTypes.Union),
-                    Rds.SelectUsers(
-                        column: Rds.UsersColumn()
-                            .Add("@ReferenceId_Param2 as [ReferenceId]")
-                            .Add("@ReferenceType_Param2 as [ReferenceType]")
-                            .Add("null as [DeptId]")
-                            .Add("null as [DeptName]")
-                            .UserId()
-                            .Add("[t0].[FirstName] + ' ' + [t0].[LastName] as [FullName1]")
-                            .Add("[t0].[LastName] + ' ' + [t0].[FirstName] as [FullName2]")
-                            .FirstAndLastNameOrder()
-                            .Add("@PermissionType_Param2 as [PermissionType]"),
-                        where: Rds.UsersWhere()
-                            .TenantId(Sessions.TenantId())
-                            .SqlWhereExists(Rds.SqlWhereNotExists_Permissions,
-                                "[Permissions].[ReferenceId] = @ReferenceId_Param2",
-                                "[Permissions].[ReferenceType] = @ReferenceType_Param2",
-                                "[Permissions].[UserId] = [t0].[UserId]")
-                            .SqlWhereLike(
-                                searchText,
-                                Rds.Users_LoginId_WhereLike(),
-                                Rds.Users_UserId_WhereLike(),
-                                Rds.Users_FirstName_WhereLike(),
-                                Rds.Users_LastName_WhereLike()),
-                        param: Rds.PermissionsParam()
-                            .ReferenceType(referenceType)
-                            .ReferenceId(referenceId)
-                            .PermissionType(Permissions.Types.ReadWrite))
-                }));
+            return !searchText.IsNullOrEmpty()
+                ? new PermissionCollection(Rds.ExecuteTable(
+                    transactional: false,
+                    statements: new SqlStatement[]
+                    {
+                        Rds.SelectDepts(
+                            column: Rds.DeptsColumn()
+                                .Add("@ReferenceId_Param1 as [ReferenceId]")
+                                .Add("@ReferenceType_Param1 as [ReferenceType]")
+                                .DeptId()
+                                .DeptName()
+                                .Add("null as [UserId]")
+                                .Add("null as [FullName1]")
+                                .Add("null as [FullName2]")
+                                .Add("1 as [FirstAndLastNameOrder]")
+                                .Add("@PermissionType_Param1 as [PermissionType]"),
+                            where: Rds.DeptsWhere()
+                                .TenantId(Sessions.TenantId())
+                                .SqlWhereExists(Rds.SqlWhereNotExists_Permissions,
+                                    "[Permissions].[ReferenceId] = @ReferenceId_Param1",
+                                    "[Permissions].[ReferenceType] = @ReferenceType_Param1",
+                                    "[Permissions].[DeptId] = [t0].[DeptId]")
+                                .SqlWhereLike(
+                                    searchText,
+                                    Rds.Depts_DeptId_WhereLike(),
+                                    Rds.Depts_DeptCode_WhereLike(),
+                                    Rds.Depts_DeptName_WhereLike()),
+                            param: Rds.PermissionsParam()
+                                .ReferenceType(referenceType)
+                                .ReferenceId(referenceId)
+                                .PermissionType(Permissions.Types.ReadWrite),
+                            unionType: Sqls.UnionTypes.Union),
+                        Rds.SelectUsers(
+                            column: Rds.UsersColumn()
+                                .Add("@ReferenceId_Param2 as [ReferenceId]")
+                                .Add("@ReferenceType_Param2 as [ReferenceType]")
+                                .Add("null as [DeptId]")
+                                .Add("null as [DeptName]")
+                                .UserId()
+                                .Add("[t0].[FirstName] + ' ' + [t0].[LastName] as [FullName1]")
+                                .Add("[t0].[LastName] + ' ' + [t0].[FirstName] as [FullName2]")
+                                .FirstAndLastNameOrder()
+                                .Add("@PermissionType_Param2 as [PermissionType]"),
+                            where: Rds.UsersWhere()
+                                .TenantId(Sessions.TenantId())
+                                .SqlWhereExists(Rds.SqlWhereNotExists_Permissions,
+                                    "[Permissions].[ReferenceId] = @ReferenceId_Param2",
+                                    "[Permissions].[ReferenceType] = @ReferenceType_Param2",
+                                    "[Permissions].[UserId] = [t0].[UserId]")
+                                .SqlWhereLike(
+                                    searchText,
+                                    Rds.Users_LoginId_WhereLike(),
+                                    Rds.Users_UserId_WhereLike(),
+                                    Rds.Users_FirstName_WhereLike(),
+                                    Rds.Users_LastName_WhereLike()),
+                            param: Rds.PermissionsParam()
+                                .ReferenceType(referenceType)
+                                .ReferenceId(referenceId)
+                                .PermissionType(Permissions.Types.ReadWrite))
+                    }))
+                : new PermissionCollection(get: false);
         }
 
         /// <summary>

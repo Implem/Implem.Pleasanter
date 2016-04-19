@@ -1539,21 +1539,25 @@ namespace Implem.Pleasanter.Models
             int offset = 0,
             int pageSize = 0,
             bool countRecord = false,
-            IEnumerable<Aggregation> aggregationCollection = null)
+            IEnumerable<Aggregation> aggregationCollection = null,
+            bool get = true)
         {
-            Set(siteSettings, permissionType, Get(
-                column: column,
-                join: join,
-                where: where,
-                orderBy: orderBy,
-                param: param,
-                tableType: tableType,
-                distinct: distinct,
-                top: top,
-                offset: offset,
-                pageSize: pageSize,
-                countRecord: countRecord,
-                aggregationCollection: aggregationCollection));
+            if (get)
+            {
+                Set(siteSettings, permissionType, Get(
+                    column: column,
+                    join: join,
+                    where: where,
+                    orderBy: orderBy,
+                    param: param,
+                    tableType: tableType,
+                    distinct: distinct,
+                    top: top,
+                    offset: offset,
+                    pageSize: pageSize,
+                    countRecord: countRecord,
+                    aggregationCollection: aggregationCollection));
+            }
         }
 
         public IssueCollection(
