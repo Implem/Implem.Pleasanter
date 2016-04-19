@@ -231,17 +231,6 @@ namespace Implem.Pleasanter.Models
             PasswordExpirationPeriod();
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void PasswordExpirationPeriod()
-        {
-            PasswordExpirationTime = Def.Parameters.PasswordExpirationPeriod != 0
-                ? new Time(DateTime.Today.AddDays(
-                    Def.Parameters.PasswordExpirationPeriod))
-                : new Time();
-        }
-
         private void OnCreated()
         {
         }
@@ -789,6 +778,17 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void PasswordExpirationPeriod()
+        {
+            PasswordExpirationTime = Def.Parameters.PasswordExpirationPeriod != 0
+                ? new Time(DateTime.Today.AddDays(
+                    Def.Parameters.PasswordExpirationPeriod))
+                : new Time();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public User User()
         {
             return new User()
@@ -824,6 +824,9 @@ namespace Implem.Pleasanter.Models
             OnConstructed();
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public UserModel(string loginId)
         {
             SetByForm();
@@ -957,7 +960,7 @@ namespace Implem.Pleasanter.Models
         public void SetFormsAuthentication(string returnUrl)
         {
             System.Web.Security.FormsAuthentication.SetAuthCookie(
-                UserId.ToString(), 
+                UserId.ToString(),
                 HttpContext.Current.Request.Form["Users_RememberMe"].ToBool());
             SetSession();
         }
