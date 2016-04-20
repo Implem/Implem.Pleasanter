@@ -818,7 +818,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private string ExternalMailAddress(string mailAddresses)
         {
-            var domains = Def.Parameters.InternalMailDomain
+            var domains = Def.Parameters.InternalMailDomains
                 .Split(',')
                 .Select(o => o.Trim())
                 .Where(o => o != string.Empty);

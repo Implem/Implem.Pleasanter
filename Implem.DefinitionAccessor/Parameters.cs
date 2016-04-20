@@ -57,7 +57,7 @@ namespace Implem.DefinitionAccessor
         public int GridPageSizeMax;
         public string SolutionBackupPath;
         public string SolutionBackupExcludeDirectories;
-        public string InternalMailDomain;
+        public string InternalMailDomains;
         public string BinaryStorageProvider;
         public string SmtpProvider;
         public string SmtpHost;

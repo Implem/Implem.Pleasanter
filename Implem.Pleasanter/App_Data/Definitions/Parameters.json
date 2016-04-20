@@ -53,7 +53,7 @@
     "GridPageSizeMax": 200,
     "SolutionBackupPath": null,
     "SolutionBackupExcludeDirectories": "\\Backups,\\Histories,\\Data\\NavSite,\\Logs,\\Temp,\\packages,\\bin,\\obj,\\PublishProfiles,\\BuildProcessTemplates",
-    "InternalMailDomain": "",
+    "InternalMailDomains": "",
     "BinaryStorageProvider": "RDS",
     "SmtpProvider": "SendGrid",
     "SmtpHost": null,
