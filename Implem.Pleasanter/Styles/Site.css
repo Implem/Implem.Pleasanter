@@ -942,7 +942,10 @@ pre{
     width:100%;
     display:block;
     float:left;
+    background-color:whitesmoke;
+    border:solid 1px silver;
     overflow:auto;
+    border-radius:5px;
 }
 
 .control-selectable{
@@ -950,10 +953,7 @@ pre{
     display:block;
     float:left;
     padding:5px 10px 5px 5px;
-    background-color:whitesmoke;
-    border:solid 1px silver;
     list-style-type:none;
-    border-radius:5px;
 }
 
 .control-selectable li{
