@@ -457,6 +457,9 @@
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Views\AdminTasks\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\Definitions\definition_Demo.xlsm" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -1914,6 +1914,99 @@ namespace Implem.DefinitionAccessor
             DataViewTable = new DataViewTable();
         }
 
+        public static XlsIo DemoXls;
+        public static List<DemoDefinition> DemoDefinitionCollection;
+        public static DemoColumn2nd Demo;
+        public static DemoTable DemoTable;
+
+        public static void SetDemoDefinition()
+        {
+            ConstructDemoDefinitions();
+            if (DemoXls.AccessStatus != Files.AccessStatuses.Read) { return; }
+            DemoXls.XlsSheet.ForEach(definitionRow =>
+            {
+                switch (definitionRow[0].ToString())
+                {
+                    case "d1": Demo.d1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d1, definitionRow, DemoXls); break;
+                    case "d2": Demo.d2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d2, definitionRow, DemoXls); break;
+                    case "d3": Demo.d3 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d3, definitionRow, DemoXls); break;
+                    case "d4": Demo.d4 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d4, definitionRow, DemoXls); break;
+                    case "d5": Demo.d5 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d5, definitionRow, DemoXls); break;
+                    case "d6": Demo.d6 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d6, definitionRow, DemoXls); break;
+                    case "d7": Demo.d7 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d7, definitionRow, DemoXls); break;
+                    case "d8": Demo.d8 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d8, definitionRow, DemoXls); break;
+                    case "d9": Demo.d9 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d9, definitionRow, DemoXls); break;
+                    case "d10": Demo.d10 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d10, definitionRow, DemoXls); break;
+                    case "d11": Demo.d11 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d11, definitionRow, DemoXls); break;
+                    case "d12": Demo.d12 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d12, definitionRow, DemoXls); break;
+                    case "d13": Demo.d13 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d13, definitionRow, DemoXls); break;
+                    case "d14": Demo.d14 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d14, definitionRow, DemoXls); break;
+                    case "d15": Demo.d15 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d15, definitionRow, DemoXls); break;
+                    case "d16": Demo.d16 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d16, definitionRow, DemoXls); break;
+                    case "d17": Demo.d17 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d17, definitionRow, DemoXls); break;
+                    case "d18": Demo.d18 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d18, definitionRow, DemoXls); break;
+                    case "d19": Demo.d19 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d19, definitionRow, DemoXls); break;
+                    case "d20": Demo.d20 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d20, definitionRow, DemoXls); break;
+                    case "d21": Demo.d21 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d21, definitionRow, DemoXls); break;
+                    case "d22": Demo.d22 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d22, definitionRow, DemoXls); break;
+                    case "d23": Demo.d23 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d23, definitionRow, DemoXls); break;
+                    case "d24": Demo.d24 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d24, definitionRow, DemoXls); break;
+                    default: break;
+                }
+            });
+            DemoXls.XlsSheet.AsEnumerable().Skip(1).Where(o => o[0].ToString() != string.Empty).ForEach(definitionRow =>
+            {
+                var newDemoDefinition = new DemoDefinition();
+                if (definitionRow.ContainsKey("Id")) { newDemoDefinition.Id = definitionRow["Id"].ToString(); newDemoDefinition.SavedId = newDemoDefinition.Id; }
+                if (definitionRow.ContainsKey("Body")) { newDemoDefinition.Body = definitionRow["Body"].ToString(); newDemoDefinition.SavedBody = newDemoDefinition.Body; }
+                if (definitionRow.ContainsKey("Type")) { newDemoDefinition.Type = definitionRow["Type"].ToString(); newDemoDefinition.SavedType = newDemoDefinition.Type; }
+                if (definitionRow.ContainsKey("ParentId")) { newDemoDefinition.ParentId = definitionRow["ParentId"].ToString(); newDemoDefinition.SavedParentId = newDemoDefinition.ParentId; }
+                if (definitionRow.ContainsKey("Title")) { newDemoDefinition.Title = definitionRow["Title"].ToString(); newDemoDefinition.SavedTitle = newDemoDefinition.Title; }
+                if (definitionRow.ContainsKey("WorkValue")) { newDemoDefinition.WorkValue = definitionRow["WorkValue"].ToInt(); newDemoDefinition.SavedWorkValue = newDemoDefinition.WorkValue; }
+                if (definitionRow.ContainsKey("ProgressRate")) { newDemoDefinition.ProgressRate = definitionRow["ProgressRate"].ToDecimal(); newDemoDefinition.SavedProgressRate = newDemoDefinition.ProgressRate; }
+                if (definitionRow.ContainsKey("Status")) { newDemoDefinition.Status = definitionRow["Status"].ToInt(); newDemoDefinition.SavedStatus = newDemoDefinition.Status; }
+                if (definitionRow.ContainsKey("Manager")) { newDemoDefinition.Manager = definitionRow["Manager"].ToString(); newDemoDefinition.SavedManager = newDemoDefinition.Manager; }
+                if (definitionRow.ContainsKey("Owner")) { newDemoDefinition.Owner = definitionRow["Owner"].ToString(); newDemoDefinition.SavedOwner = newDemoDefinition.Owner; }
+                if (definitionRow.ContainsKey("ClassA")) { newDemoDefinition.ClassA = definitionRow["ClassA"].ToString(); newDemoDefinition.SavedClassA = newDemoDefinition.ClassA; }
+                if (definitionRow.ContainsKey("ClassB")) { newDemoDefinition.ClassB = definitionRow["ClassB"].ToString(); newDemoDefinition.SavedClassB = newDemoDefinition.ClassB; }
+                if (definitionRow.ContainsKey("ClassC")) { newDemoDefinition.ClassC = definitionRow["ClassC"].ToString(); newDemoDefinition.SavedClassC = newDemoDefinition.ClassC; }
+                if (definitionRow.ContainsKey("Creator")) { newDemoDefinition.Creator = definitionRow["Creator"].ToString(); newDemoDefinition.SavedCreator = newDemoDefinition.Creator; }
+                if (definitionRow.ContainsKey("Updator")) { newDemoDefinition.Updator = definitionRow["Updator"].ToString(); newDemoDefinition.SavedUpdator = newDemoDefinition.Updator; }
+                if (definitionRow.ContainsKey("CreatedTime")) { newDemoDefinition.CreatedTime = definitionRow["CreatedTime"].ToDateTime(); newDemoDefinition.SavedCreatedTime = newDemoDefinition.CreatedTime; }
+                if (definitionRow.ContainsKey("UpdatedTime")) { newDemoDefinition.UpdatedTime = definitionRow["UpdatedTime"].ToDateTime(); newDemoDefinition.SavedUpdatedTime = newDemoDefinition.UpdatedTime; }
+                DemoDefinitionCollection.Add(newDemoDefinition);
+            });
+        }
+
+        private static void SetDemoTable(DemoDefinition definition, XlsRow definitionRow, XlsIo demoxls)
+        {
+            if (definitionRow.ContainsKey("Id")) { definition.Id = definitionRow["Id"].ToString(); definition.SavedId = definition.Id; }
+            if (definitionRow.ContainsKey("Body")) { definition.Body = definitionRow["Body"].ToString(); definition.SavedBody = definition.Body; }
+            if (definitionRow.ContainsKey("Type")) { definition.Type = definitionRow["Type"].ToString(); definition.SavedType = definition.Type; }
+            if (definitionRow.ContainsKey("ParentId")) { definition.ParentId = definitionRow["ParentId"].ToString(); definition.SavedParentId = definition.ParentId; }
+            if (definitionRow.ContainsKey("Title")) { definition.Title = definitionRow["Title"].ToString(); definition.SavedTitle = definition.Title; }
+            if (definitionRow.ContainsKey("WorkValue")) { definition.WorkValue = definitionRow["WorkValue"].ToInt(); definition.SavedWorkValue = definition.WorkValue; }
+            if (definitionRow.ContainsKey("ProgressRate")) { definition.ProgressRate = definitionRow["ProgressRate"].ToDecimal(); definition.SavedProgressRate = definition.ProgressRate; }
+            if (definitionRow.ContainsKey("Status")) { definition.Status = definitionRow["Status"].ToInt(); definition.SavedStatus = definition.Status; }
+            if (definitionRow.ContainsKey("Manager")) { definition.Manager = definitionRow["Manager"].ToString(); definition.SavedManager = definition.Manager; }
+            if (definitionRow.ContainsKey("Owner")) { definition.Owner = definitionRow["Owner"].ToString(); definition.SavedOwner = definition.Owner; }
+            if (definitionRow.ContainsKey("ClassA")) { definition.ClassA = definitionRow["ClassA"].ToString(); definition.SavedClassA = definition.ClassA; }
+            if (definitionRow.ContainsKey("ClassB")) { definition.ClassB = definitionRow["ClassB"].ToString(); definition.SavedClassB = definition.ClassB; }
+            if (definitionRow.ContainsKey("ClassC")) { definition.ClassC = definitionRow["ClassC"].ToString(); definition.SavedClassC = definition.ClassC; }
+            if (definitionRow.ContainsKey("Creator")) { definition.Creator = definitionRow["Creator"].ToString(); definition.SavedCreator = definition.Creator; }
+            if (definitionRow.ContainsKey("Updator")) { definition.Updator = definitionRow["Updator"].ToString(); definition.SavedUpdator = definition.Updator; }
+            if (definitionRow.ContainsKey("CreatedTime")) { definition.CreatedTime = definitionRow["CreatedTime"].ToDateTime(); definition.SavedCreatedTime = definition.CreatedTime; }
+            if (definitionRow.ContainsKey("UpdatedTime")) { definition.UpdatedTime = definitionRow["UpdatedTime"].ToDateTime(); definition.SavedUpdatedTime = definition.UpdatedTime; }
+        }
+
+        private static void ConstructDemoDefinitions()
+        {
+            DemoXls = Initializer.DefinitionFile("definition_Demo.xlsm");
+            DemoDefinitionCollection = new List<DemoDefinition>();
+            Demo = new DemoColumn2nd();
+            DemoTable = new DemoTable();
+        }
+
         public static XlsIo DisplayXls;
         public static List<DisplayDefinition> DisplayDefinitionCollection;
         public static DisplayColumn2nd Display;
@@ -2893,6 +2986,37 @@ namespace Implem.DefinitionAccessor
                         case "Id": dataViewDefinition.Id = optionValue.ToString(); break;
                         case "ReferenceType": dataViewDefinition.ReferenceType = optionValue.ToString(); break;
                         case "Name": dataViewDefinition.Name = optionValue.ToString(); break;
+                    }
+                });
+        }
+
+        public static void SetDemoDefinitionOption(
+            string placeholder, DemoDefinition demoDefinition)
+        {
+            placeholder.RegexFirst("(?<=\\().+(?=\\))").Split(',')
+                .Where(o => !o.IsNullOrEmpty()).ForEach(option =>
+                {
+                    var optionName = option.Split_1st('=').Trim();
+                    var optionValue = option.Split_2nd('=').Trim();
+                    switch (optionName)
+                    {
+                        case "Id": demoDefinition.Id = optionValue.ToString(); break;
+                        case "Body": demoDefinition.Body = optionValue.ToString(); break;
+                        case "Type": demoDefinition.Type = optionValue.ToString(); break;
+                        case "ParentId": demoDefinition.ParentId = optionValue.ToString(); break;
+                        case "Title": demoDefinition.Title = optionValue.ToString(); break;
+                        case "WorkValue": demoDefinition.WorkValue = optionValue.ToInt(); break;
+                        case "ProgressRate": demoDefinition.ProgressRate = optionValue.ToDecimal(); break;
+                        case "Status": demoDefinition.Status = optionValue.ToInt(); break;
+                        case "Manager": demoDefinition.Manager = optionValue.ToString(); break;
+                        case "Owner": demoDefinition.Owner = optionValue.ToString(); break;
+                        case "ClassA": demoDefinition.ClassA = optionValue.ToString(); break;
+                        case "ClassB": demoDefinition.ClassB = optionValue.ToString(); break;
+                        case "ClassC": demoDefinition.ClassC = optionValue.ToString(); break;
+                        case "Creator": demoDefinition.Creator = optionValue.ToString(); break;
+                        case "Updator": demoDefinition.Updator = optionValue.ToString(); break;
+                        case "CreatedTime": demoDefinition.CreatedTime = optionValue.ToDateTime(); break;
+                        case "UpdatedTime": demoDefinition.UpdatedTime = optionValue.ToDateTime(); break;
                     }
                 });
         }
@@ -6170,6 +6294,156 @@ namespace Implem.DefinitionAccessor
     {
         public DataViewDefinition Issues_Gantt = new DataViewDefinition();
         public DataViewDefinition Issues_BurnDown = new DataViewDefinition();
+    }
+
+    public class DemoDefinition
+    {
+        public string Id; public string SavedId;
+        public string Body; public string SavedBody;
+        public string Type; public string SavedType;
+        public string ParentId; public string SavedParentId;
+        public string Title; public string SavedTitle;
+        public int WorkValue; public int SavedWorkValue;
+        public decimal ProgressRate; public decimal SavedProgressRate;
+        public int Status; public int SavedStatus;
+        public string Manager; public string SavedManager;
+        public string Owner; public string SavedOwner;
+        public string ClassA; public string SavedClassA;
+        public string ClassB; public string SavedClassB;
+        public string ClassC; public string SavedClassC;
+        public string Creator; public string SavedCreator;
+        public string Updator; public string SavedUpdator;
+        public DateTime CreatedTime; public DateTime SavedCreatedTime;
+        public DateTime UpdatedTime; public DateTime SavedUpdatedTime;
+
+        public DemoDefinition()
+        {
+        }
+
+        public DemoDefinition(Dictionary<string, string> propertyCollection)
+        {
+            if (propertyCollection.ContainsKey("Id")) Id = propertyCollection["Id"].ToString(); else Id = string.Empty;
+            if (propertyCollection.ContainsKey("Body")) Body = propertyCollection["Body"].ToString(); else Body = string.Empty;
+            if (propertyCollection.ContainsKey("Type")) Type = propertyCollection["Type"].ToString(); else Type = string.Empty;
+            if (propertyCollection.ContainsKey("ParentId")) ParentId = propertyCollection["ParentId"].ToString(); else ParentId = string.Empty;
+            if (propertyCollection.ContainsKey("Title")) Title = propertyCollection["Title"].ToString(); else Title = string.Empty;
+            if (propertyCollection.ContainsKey("WorkValue")) WorkValue = propertyCollection["WorkValue"].ToInt(); else WorkValue = 0;
+            if (propertyCollection.ContainsKey("ProgressRate")) ProgressRate = propertyCollection["ProgressRate"].ToDecimal(); else ProgressRate = 0;
+            if (propertyCollection.ContainsKey("Status")) Status = propertyCollection["Status"].ToInt(); else Status = 0;
+            if (propertyCollection.ContainsKey("Manager")) Manager = propertyCollection["Manager"].ToString(); else Manager = string.Empty;
+            if (propertyCollection.ContainsKey("Owner")) Owner = propertyCollection["Owner"].ToString(); else Owner = string.Empty;
+            if (propertyCollection.ContainsKey("ClassA")) ClassA = propertyCollection["ClassA"].ToString(); else ClassA = string.Empty;
+            if (propertyCollection.ContainsKey("ClassB")) ClassB = propertyCollection["ClassB"].ToString(); else ClassB = string.Empty;
+            if (propertyCollection.ContainsKey("ClassC")) ClassC = propertyCollection["ClassC"].ToString(); else ClassC = string.Empty;
+            if (propertyCollection.ContainsKey("Creator")) Creator = propertyCollection["Creator"].ToString(); else Creator = string.Empty;
+            if (propertyCollection.ContainsKey("Updator")) Updator = propertyCollection["Updator"].ToString(); else Updator = string.Empty;
+            if (propertyCollection.ContainsKey("CreatedTime")) CreatedTime = propertyCollection["CreatedTime"].ToDateTime(); else CreatedTime = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("UpdatedTime")) UpdatedTime = propertyCollection["UpdatedTime"].ToDateTime(); else UpdatedTime = 0.ToDateTime();
+        }
+
+        public object this[string key]
+        {
+            get{
+                switch(key)
+                {
+                    case "Id": return Id;
+                    case "Body": return Body;
+                    case "Type": return Type;
+                    case "ParentId": return ParentId;
+                    case "Title": return Title;
+                    case "WorkValue": return WorkValue;
+                    case "ProgressRate": return ProgressRate;
+                    case "Status": return Status;
+                    case "Manager": return Manager;
+                    case "Owner": return Owner;
+                    case "ClassA": return ClassA;
+                    case "ClassB": return ClassB;
+                    case "ClassC": return ClassC;
+                    case "Creator": return Creator;
+                    case "Updator": return Updator;
+                    case "CreatedTime": return CreatedTime;
+                    case "UpdatedTime": return UpdatedTime;
+                    default: return null;
+                }
+            }
+        }
+
+        public void RestoreBySavedMemory()
+        {
+            Id = SavedId;
+            Body = SavedBody;
+            Type = SavedType;
+            ParentId = SavedParentId;
+            Title = SavedTitle;
+            WorkValue = SavedWorkValue;
+            ProgressRate = SavedProgressRate;
+            Status = SavedStatus;
+            Manager = SavedManager;
+            Owner = SavedOwner;
+            ClassA = SavedClassA;
+            ClassB = SavedClassB;
+            ClassC = SavedClassC;
+            Creator = SavedCreator;
+            Updator = SavedUpdator;
+            CreatedTime = SavedCreatedTime;
+            UpdatedTime = SavedUpdatedTime;
+        }
+    }
+
+    public class DemoColumn2nd
+    {
+        public string d1;
+        public string d2;
+        public string d3;
+        public string d4;
+        public string d5;
+        public string d6;
+        public string d7;
+        public string d8;
+        public string d9;
+        public string d10;
+        public string d11;
+        public string d12;
+        public string d13;
+        public string d14;
+        public string d15;
+        public string d16;
+        public string d17;
+        public string d18;
+        public string d19;
+        public string d20;
+        public string d21;
+        public string d22;
+        public string d23;
+        public string d24;
+    }
+
+    public class DemoTable
+    {
+        public DemoDefinition d1 = new DemoDefinition();
+        public DemoDefinition d2 = new DemoDefinition();
+        public DemoDefinition d3 = new DemoDefinition();
+        public DemoDefinition d4 = new DemoDefinition();
+        public DemoDefinition d5 = new DemoDefinition();
+        public DemoDefinition d6 = new DemoDefinition();
+        public DemoDefinition d7 = new DemoDefinition();
+        public DemoDefinition d8 = new DemoDefinition();
+        public DemoDefinition d9 = new DemoDefinition();
+        public DemoDefinition d10 = new DemoDefinition();
+        public DemoDefinition d11 = new DemoDefinition();
+        public DemoDefinition d12 = new DemoDefinition();
+        public DemoDefinition d13 = new DemoDefinition();
+        public DemoDefinition d14 = new DemoDefinition();
+        public DemoDefinition d15 = new DemoDefinition();
+        public DemoDefinition d16 = new DemoDefinition();
+        public DemoDefinition d17 = new DemoDefinition();
+        public DemoDefinition d18 = new DemoDefinition();
+        public DemoDefinition d19 = new DemoDefinition();
+        public DemoDefinition d20 = new DemoDefinition();
+        public DemoDefinition d21 = new DemoDefinition();
+        public DemoDefinition d22 = new DemoDefinition();
+        public DemoDefinition d23 = new DemoDefinition();
+        public DemoDefinition d24 = new DemoDefinition();
     }
 
     public class DisplayDefinition
