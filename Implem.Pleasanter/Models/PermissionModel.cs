@@ -506,6 +506,7 @@ namespace Implem.Pleasanter.Models
             return hb.FieldSelectable(
                 controlId: "PermissionDestination",
                 fieldCss: "field-vertical both",
+                controlContainerCss: "container-selectable",
                 labelText: Displays.PermissionDestination(),
                 listItemCollection: permissionCollection.OrderBy(o => o.PermissionId)
                     .ToDictionary(
@@ -561,6 +562,7 @@ namespace Implem.Pleasanter.Models
             return hb.FieldSelectable(
                 controlId: "PermissionSource",
                 fieldCss: "field-vertical",
+                controlContainerCss: "container-selectable",
                 controlCss: " h550",
                 labelText: Displays.PermissionSource(),
                 listItemCollection: permissionCollection
