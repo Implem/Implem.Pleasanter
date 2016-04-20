@@ -15,6 +15,7 @@ namespace Implem.DefinitionAccessor
         public string LogsPath;
         public string HistoriesPath;
         public string DataPath;
+        public bool Demo;
         public string HtmlTitle;
         public string HtmlHeadKeywords;
         public string HtmlHeadDescription;

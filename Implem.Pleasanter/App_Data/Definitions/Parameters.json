@@ -11,6 +11,7 @@
     "LogsPath": null,
     "HistoriesPath": null,
     "DataPath": null,
+    "Demo": false,
     "HtmlTitle": "Implem.Pleasanter",
     "HtmlHeadKeywords": "CMS,Project Management,IT Service Management,Knowledge Management",
     "HtmlHeadDescription": "Web tool that helps the efficiency of business",
