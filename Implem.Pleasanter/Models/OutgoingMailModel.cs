@@ -818,10 +818,14 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private string ExternalMailAddress(string mailAddresses)
         {
+            var domains = Def.Parameters.InternalMailDomain
+                .Split(',')
+                .Select(o => o.Trim())
+                .Where(o => o != string.Empty);
+            if (domains.Count() == 0) return string.Empty;
             foreach (var mailAddress in MailAddresses(mailAddresses))
             {
-                if (!OutgoingMailsUtility.MailAddress(mailAddress)
-                        .EndsWith(Def.Parameters.InternalMailDomain))
+                if (!domains.Any(o => OutgoingMailsUtility.MailAddress(mailAddress).EndsWith(o)))
                 {
                     return mailAddress;
                 }
