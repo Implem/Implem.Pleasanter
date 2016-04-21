@@ -19,7 +19,7 @@ namespace Implem.Pleasanter.Libraries.Validators
             {
                 case "required": return Displays.ValidateRequired();
                 case "date": return Displays.ValidateDate();
-                case "mail": return Displays.ValidateMail();
+                case "email": return Displays.ValidateMail();
                 case "equalTo": return Displays.ValidateEqualTo();
                 default: return string.Empty;
             }
