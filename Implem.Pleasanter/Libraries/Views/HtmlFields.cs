@@ -277,6 +277,7 @@ namespace Implem.Pleasanter.Libraries.Views
             }
             switch (column.ControlType)
             {
+                case "TextBox": return ControlTypes.TextBox;
                 case "Id": return ControlTypes.Text;
                 case "Slider": return ControlTypes.Slider;
                 case "Spinner": return ControlTypes.Spinner;
