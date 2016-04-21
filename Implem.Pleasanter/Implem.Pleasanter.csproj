@@ -309,6 +309,7 @@
     <Compile Include="Libraries\Views\HtmlVerUps.cs" />
     <Compile Include="Models\_BaseModel.cs" />
     <Compile Include="Models\BinaryModel.cs" />
+    <Compile Include="Models\DemoModel.cs" />
     <Compile Include="Models\DeptModel.cs" />
     <Compile Include="Models\ExportSettingModel.cs" />
     <Compile Include="Models\IssueModel.cs" />
@@ -350,7 +351,16 @@
     <Content Include="Scripts\Separates.js" />
     <Content Include="Scripts\SiteSettings.js" />
     <Content Include="Scripts\Statuses.js" />
+    <Content Include="Scripts\Validators\Binary.js" />
+    <Content Include="Scripts\Validators\ExportSetting.js" />
+    <Content Include="Scripts\Validators\Item.js" />
+    <Content Include="Scripts\Validators\Link.js" />
+    <Content Include="Scripts\Validators\MailAddress.js" />
+    <Content Include="Scripts\Validators\Order.js" />
+    <Content Include="Scripts\Validators\Permission.js" />
     <Content Include="Scripts\Validators\Result.js" />
+    <Content Include="Scripts\Validators\SearchIndex.js" />
+    <Content Include="Scripts\Validators\SysLog.js" />
     <Content Include="Scripts\Validators\Wiki.js" />
     <Content Include="Styles\Plugins\images\ui-bg_diagonals-medium_20_d34d17_40x40.png" />
     <Content Include="Styles\Plugins\images\ui-bg_gloss-wave_45_817865_500x100.png" />
