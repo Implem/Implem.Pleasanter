@@ -122,6 +122,18 @@ namespace Implem.Pleasanter.Libraries.Requests
                     case "DataViewFilters_Tenants_Updator": where.Tenants_Updator(formData[key], "t0"); break;
                     case "DataViewFilters_Tenants_CreatedTime": where.Tenants_CreatedTime(formData[key], "t0"); break;
                     case "DataViewFilters_Tenants_UpdatedTime": where.Tenants_UpdatedTime(formData[key], "t0"); break;
+                    case "DataViewFilters_Demos_DemoId": where.Demos_DemoId(formData[key], "t0"); break;
+                    case "DataViewFilters_Demos_Ver": where.Demos_Ver(formData[key], "t0"); break;
+                    case "DataViewFilters_Demos_TenantId": where.Demos_TenantId(formData[key], "t0"); break;
+                    case "DataViewFilters_Demos_Title": where.Demos_Title(formData[key], "t0"); break;
+                    case "DataViewFilters_Demos_Passphrase": where.Demos_Passphrase(formData[key], "t0"); break;
+                    case "DataViewFilters_Demos_MailAddress": where.Demos_MailAddress(formData[key], "t0"); break;
+                    case "DataViewFilters_Demos_Comments": where.Demos_Comments(formData[key], "t0"); break;
+                    case "DataViewFilters_Demos_Creator": where.Demos_Creator(formData[key], "t0"); break;
+                    case "DataViewFilters_Demos_Updator": where.Demos_Updator(formData[key], "t0"); break;
+                    case "DataViewFilters_Demos_CreatedTime": where.Demos_CreatedTime(formData[key], "t0"); break;
+                    case "DataViewFilters_Demos_UpdatedTime": where.Demos_UpdatedTime(formData[key], "t0"); break;
+                    case "DataViewFilters_Demos_Initialized": if (formData[key].ToBool()) where.Demos_Initialized(formData[key], "t0"); break;
                     case "DataViewFilters_SysLogs_CreatedTime": where.SysLogs_CreatedTime(formData[key], "t0"); break;
                     case "DataViewFilters_SysLogs_SysLogId": where.SysLogs_SysLogId(formData[key], "t0"); break;
                     case "DataViewFilters_SysLogs_Ver": where.SysLogs_Ver(formData[key], "t0"); break;

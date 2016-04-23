@@ -37,4 +37,12 @@
             Users_AfterResetPasswordValidator: { required: $('#Users_AfterResetPasswordValidator').attr('data-validate-required'),equalTo: $('#Users_AfterResetPasswordValidator').attr('data-validate-equalTo') }
         }
     });
+    $('#DemoForm').validate({
+        rules: {
+            Users_DemoMailAddress: { required:true,email:true }
+        },
+        messages: {
+            Users_DemoMailAddress: { required: $('#Users_DemoMailAddress').attr('data-validate-required'),email: $('#Users_DemoMailAddress').attr('data-validate-email') }
+        }
+    });
 });

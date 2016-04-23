@@ -24,6 +24,28 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
     }
 
+    public class DemosResponseCollection : ResponseCollection
+    {
+        public DemoModel DemoModel;
+
+        public DemosResponseCollection(DemoModel demoModel)
+        {
+            DemoModel = demoModel;
+        }
+
+        public DemosResponseCollection Val(string selector, string value)
+        {
+            base.Val(selector, value);
+            return this;
+        }
+
+        public DemosResponseCollection ValAndFormData(string selector, string value)
+        {
+            base.ValAndFormData(selector, value);
+            return this;
+        }
+    }
+
     public class DeptsResponseCollection : ResponseCollection
     {
         public DeptModel DeptModel;
@@ -358,6 +380,22 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static TenantsResponseCollection Timestamp(this TenantsResponseCollection responseCollection, string value) { return responseCollection.Val("#Tenants_Timestamp", value); }
         public static TenantsResponseCollection Timestamp_FormData(this TenantsResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Tenants_Timestamp", responseCollection.TenantModel.Timestamp.ToResponse()); }
         public static TenantsResponseCollection Timestamp_FormData(this TenantsResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Tenants_Timestamp", value); }
+        public static DemosResponseCollection Ver(this DemosResponseCollection responseCollection) { return responseCollection.Val("#Demos_Ver", responseCollection.DemoModel.Ver.ToResponse()); }
+        public static DemosResponseCollection Ver(this DemosResponseCollection responseCollection, string value) { return responseCollection.Val("#Demos_Ver", value); }
+        public static DemosResponseCollection Ver_FormData(this DemosResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Demos_Ver", responseCollection.DemoModel.Ver.ToResponse()); }
+        public static DemosResponseCollection Ver_FormData(this DemosResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Demos_Ver", value); }
+        public static DemosResponseCollection CreatedTime(this DemosResponseCollection responseCollection) { return responseCollection.Val("#Demos_CreatedTime", responseCollection.DemoModel.CreatedTime.ToResponse()); }
+        public static DemosResponseCollection CreatedTime(this DemosResponseCollection responseCollection, string value) { return responseCollection.Val("#Demos_CreatedTime", value); }
+        public static DemosResponseCollection CreatedTime_FormData(this DemosResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Demos_CreatedTime", responseCollection.DemoModel.CreatedTime.ToResponse()); }
+        public static DemosResponseCollection CreatedTime_FormData(this DemosResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Demos_CreatedTime", value); }
+        public static DemosResponseCollection UpdatedTime(this DemosResponseCollection responseCollection) { return responseCollection.Val("#Demos_UpdatedTime", responseCollection.DemoModel.UpdatedTime.ToResponse()); }
+        public static DemosResponseCollection UpdatedTime(this DemosResponseCollection responseCollection, string value) { return responseCollection.Val("#Demos_UpdatedTime", value); }
+        public static DemosResponseCollection UpdatedTime_FormData(this DemosResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Demos_UpdatedTime", responseCollection.DemoModel.UpdatedTime.ToResponse()); }
+        public static DemosResponseCollection UpdatedTime_FormData(this DemosResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Demos_UpdatedTime", value); }
+        public static DemosResponseCollection Timestamp(this DemosResponseCollection responseCollection) { return responseCollection.Val("#Demos_Timestamp", responseCollection.DemoModel.Timestamp.ToResponse()); }
+        public static DemosResponseCollection Timestamp(this DemosResponseCollection responseCollection, string value) { return responseCollection.Val("#Demos_Timestamp", value); }
+        public static DemosResponseCollection Timestamp_FormData(this DemosResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Demos_Timestamp", responseCollection.DemoModel.Timestamp.ToResponse()); }
+        public static DemosResponseCollection Timestamp_FormData(this DemosResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Demos_Timestamp", value); }
         public static DeptsResponseCollection TenantId(this DeptsResponseCollection responseCollection) { return responseCollection.Val("#Depts_TenantId", responseCollection.DeptModel.TenantId.ToResponse()); }
         public static DeptsResponseCollection TenantId(this DeptsResponseCollection responseCollection, string value) { return responseCollection.Val("#Depts_TenantId", value); }
         public static DeptsResponseCollection TenantId_FormData(this DeptsResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Depts_TenantId", responseCollection.DeptModel.TenantId.ToResponse()); }
@@ -506,6 +544,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static UsersResponseCollection AfterResetPasswordValidator(this UsersResponseCollection responseCollection, string value) { return responseCollection.Val("#Users_AfterResetPasswordValidator", value); }
         public static UsersResponseCollection AfterResetPasswordValidator_FormData(this UsersResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Users_AfterResetPasswordValidator", responseCollection.UserModel.AfterResetPasswordValidator.ToResponse()); }
         public static UsersResponseCollection AfterResetPasswordValidator_FormData(this UsersResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Users_AfterResetPasswordValidator", value); }
+        public static UsersResponseCollection DemoMailAddress(this UsersResponseCollection responseCollection) { return responseCollection.Val("#Users_DemoMailAddress", responseCollection.UserModel.DemoMailAddress.ToResponse()); }
+        public static UsersResponseCollection DemoMailAddress(this UsersResponseCollection responseCollection, string value) { return responseCollection.Val("#Users_DemoMailAddress", value); }
+        public static UsersResponseCollection DemoMailAddress_FormData(this UsersResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Users_DemoMailAddress", responseCollection.UserModel.DemoMailAddress.ToResponse()); }
+        public static UsersResponseCollection DemoMailAddress_FormData(this UsersResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Users_DemoMailAddress", value); }
         public static UsersResponseCollection CreatedTime(this UsersResponseCollection responseCollection) { return responseCollection.Val("#Users_CreatedTime", responseCollection.UserModel.CreatedTime.ToResponse()); }
         public static UsersResponseCollection CreatedTime(this UsersResponseCollection responseCollection, string value) { return responseCollection.Val("#Users_CreatedTime", value); }
         public static UsersResponseCollection CreatedTime_FormData(this UsersResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Users_CreatedTime", responseCollection.UserModel.CreatedTime.ToResponse()); }

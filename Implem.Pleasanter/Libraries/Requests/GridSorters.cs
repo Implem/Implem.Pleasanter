@@ -65,6 +65,18 @@ namespace Implem.Pleasanter.Libraries.Requests
                     case "GridSorters_Tenants_Updator": orderBy.Tenants_Updator(type); break;
                     case "GridSorters_Tenants_CreatedTime": orderBy.Tenants_CreatedTime(type); break;
                     case "GridSorters_Tenants_UpdatedTime": orderBy.Tenants_UpdatedTime(type); break;
+                    case "GridSorters_Demos_DemoId": orderBy.Demos_DemoId(type); break;
+                    case "GridSorters_Demos_Ver": orderBy.Demos_Ver(type); break;
+                    case "GridSorters_Demos_TenantId": orderBy.Demos_TenantId(type); break;
+                    case "GridSorters_Demos_Title": orderBy.Demos_Title(type); break;
+                    case "GridSorters_Demos_Passphrase": orderBy.Demos_Passphrase(type); break;
+                    case "GridSorters_Demos_MailAddress": orderBy.Demos_MailAddress(type); break;
+                    case "GridSorters_Demos_Initialized": orderBy.Demos_Initialized(type); break;
+                    case "GridSorters_Demos_Comments": orderBy.Demos_Comments(type); break;
+                    case "GridSorters_Demos_Creator": orderBy.Demos_Creator(type); break;
+                    case "GridSorters_Demos_Updator": orderBy.Demos_Updator(type); break;
+                    case "GridSorters_Demos_CreatedTime": orderBy.Demos_CreatedTime(type); break;
+                    case "GridSorters_Demos_UpdatedTime": orderBy.Demos_UpdatedTime(type); break;
                     case "GridSorters_SysLogs_CreatedTime": orderBy.SysLogs_CreatedTime(type); break;
                     case "GridSorters_SysLogs_SysLogId": orderBy.SysLogs_SysLogId(type); break;
                     case "GridSorters_SysLogs_Ver": orderBy.SysLogs_Ver(type); break;

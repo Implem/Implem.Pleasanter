@@ -364,7 +364,7 @@ pre{
 
 .login{
     width:500px;
-    margin:150px auto 50px auto;
+    margin:150px auto 20px auto;
     padding:50px;
     background-color:whitesmoke;
     border-radius:10px;
@@ -373,6 +373,15 @@ pre{
 .login-commands{
     text-align:right;
     clear:both;
+}
+
+.demo{
+    width:500px;
+    margin:0px auto;
+}
+
+.demo > fieldset > div{
+    padding:20px 10px 10px 10px;
 }
 
 .search-results{

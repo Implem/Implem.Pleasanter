@@ -16,6 +16,7 @@ namespace Implem.DefinitionAccessor
         public string HistoriesPath;
         public string DataPath;
         public bool Demo;
+        public int DemoDays;
         public string HtmlTitle;
         public string HtmlHeadKeywords;
         public string HtmlHeadDescription;
@@ -64,6 +65,7 @@ namespace Implem.DefinitionAccessor
         public int SmtpPort;
         public string SendGridSmtpUser;
         public string SendGridSmtpPassword;
+        public string SupportFrom;
         public int SizeToUseTextArea;
         public string ProjectModelRequire;
         public int CompletionCode;

@@ -232,6 +232,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.SynchronizationCompleted(data), "alert-success");
         }
 
+        public static Message SentAcceptanceMail (params string[] data)
+        {
+            return Get(Displays.SentAcceptanceMail (data), "alert-success");
+        }
+
         public static Message ConfirmDelete(params string[] data)
         {
             return Get(Displays.ConfirmDelete(data), "alert-confirm");
@@ -495,6 +500,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseSynchronizationCompleted(params string[] data)
         {
             return ResponseMessage(Messages.SynchronizationCompleted(data));
+        }
+
+        public static ResponseCollection ResponseSentAcceptanceMail (params string[] data)
+        {
+            return ResponseMessage(Messages.SentAcceptanceMail (data));
         }
 
         public static ResponseCollection ResponseConfirmDelete(params string[] data)

@@ -201,6 +201,7 @@
     <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\OutgoingMailsController.cs" />
     <Compile Include="Controllers\PermissionsController.cs" />
+    <Compile Include="Controllers\DemosController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Filters\HandleErrorExAttribute.cs" />
     <Compile Include="Global.asax.cs">

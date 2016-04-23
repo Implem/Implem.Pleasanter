@@ -46,6 +46,7 @@ namespace Implem.Pleasanter.Libraries.Views
             switch (modelName)
             {
                 case "Tenant": return ResolveBundleUrl("~/bundles/TenantValidator");
+                case "Demo": return ResolveBundleUrl("~/bundles/DemoValidator");
                 case "Dept": return ResolveBundleUrl("~/bundles/DeptValidator");
                 case "User": return ResolveBundleUrl("~/bundles/UserValidator");
                 case "OutgoingMail": return ResolveBundleUrl("~/bundles/OutgoingMailValidator");

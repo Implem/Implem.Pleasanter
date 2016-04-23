@@ -48,6 +48,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Change(params string[] data) { return Get("Change", data); }
         public static HtmlBuilder Displays_Add(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Add", data)); }
         public static string Add(params string[] data) { return Get("Add", data); }
+        public static HtmlBuilder Displays_Register(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Register", data)); }
+        public static string Register(params string[] data) { return Get("Register", data); }
         public static HtmlBuilder Displays_Reset(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Reset", data)); }
         public static string Reset(params string[] data) { return Get("Reset", data); }
         public static HtmlBuilder Displays_Copy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Copy", data)); }
@@ -58,6 +60,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string BulkMove(params string[] data) { return Get("BulkMove", data); }
         public static HtmlBuilder Displays_Mail(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Mail", data)); }
         public static string Mail(params string[] data) { return Get("Mail", data); }
+        public static HtmlBuilder Displays_MailAddress(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MailAddress", data)); }
+        public static string MailAddress(params string[] data) { return Get("MailAddress", data); }
         public static HtmlBuilder Displays_SendMail(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SendMail", data)); }
         public static string SendMail(params string[] data) { return Get("SendMail", data); }
         public static HtmlBuilder Displays_Delete(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Delete", data)); }
@@ -414,6 +418,12 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string NoData(params string[] data) { return Get("NoData", data); }
         public static HtmlBuilder Displays_NoLinks(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NoLinks", data)); }
         public static string NoLinks(params string[] data) { return Get("NoLinks", data); }
+        public static HtmlBuilder Displays_ViewDemoEnvironment(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ViewDemoEnvironment", data)); }
+        public static string ViewDemoEnvironment(params string[] data) { return Get("ViewDemoEnvironment", data); }
+        public static HtmlBuilder Displays_DemoMailTitle(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DemoMailTitle", data)); }
+        public static string DemoMailTitle(params string[] data) { return Get("DemoMailTitle", data); }
+        public static HtmlBuilder Displays_DemoMailBody(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DemoMailBody", data)); }
+        public static string DemoMailBody(params string[] data) { return Get("DemoMailBody", data); }
         public static HtmlBuilder Displays_Ymd(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Ymd", data)); }
         public static string Ymd(params string[] data) { return Get("Ymd", data); }
         public static HtmlBuilder Displays_Ymda(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Ymda", data)); }
@@ -528,6 +538,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string FileUpdateCompleted(params string[] data) { return Get("FileUpdateCompleted", data); }
         public static HtmlBuilder Displays_SynchronizationCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SynchronizationCompleted", data)); }
         public static string SynchronizationCompleted(params string[] data) { return Get("SynchronizationCompleted", data); }
+        public static HtmlBuilder Displays_SentAcceptanceMail (this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SentAcceptanceMail ", data)); }
+        public static string SentAcceptanceMail (params string[] data) { return Get("SentAcceptanceMail ", data); }
         public static HtmlBuilder Displays_ConfirmDelete(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ConfirmDelete", data)); }
         public static string ConfirmDelete(params string[] data) { return Get("ConfirmDelete", data); }
         public static HtmlBuilder Displays_ConfirmSeparate(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ConfirmSeparate", data)); }
@@ -564,6 +576,18 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Tenants_Title(params string[] data) { return Get("Tenants_Title", data); }
         public static HtmlBuilder Displays_Tenants_Body(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Tenants_Body", data)); }
         public static string Tenants_Body(params string[] data) { return Get("Tenants_Body", data); }
+        public static HtmlBuilder Displays_Demos_DemoId(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Demos_DemoId", data)); }
+        public static string Demos_DemoId(params string[] data) { return Get("Demos_DemoId", data); }
+        public static HtmlBuilder Displays_Demos_TenantId(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Demos_TenantId", data)); }
+        public static string Demos_TenantId(params string[] data) { return Get("Demos_TenantId", data); }
+        public static HtmlBuilder Displays_Demos_Title(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Demos_Title", data)); }
+        public static string Demos_Title(params string[] data) { return Get("Demos_Title", data); }
+        public static HtmlBuilder Displays_Demos_Passphrase(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Demos_Passphrase", data)); }
+        public static string Demos_Passphrase(params string[] data) { return Get("Demos_Passphrase", data); }
+        public static HtmlBuilder Displays_Demos_MailAddress(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Demos_MailAddress", data)); }
+        public static string Demos_MailAddress(params string[] data) { return Get("Demos_MailAddress", data); }
+        public static HtmlBuilder Displays_Demos_Initialized(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Demos_Initialized", data)); }
+        public static string Demos_Initialized(params string[] data) { return Get("Demos_Initialized", data); }
         public static HtmlBuilder Displays_SysLogs_CreatedTime(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SysLogs_CreatedTime", data)); }
         public static string SysLogs_CreatedTime(params string[] data) { return Get("SysLogs_CreatedTime", data); }
         public static HtmlBuilder Displays_SysLogs_SysLogId(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SysLogs_SysLogId", data)); }
@@ -728,6 +752,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Users_AfterResetPassword(params string[] data) { return Get("Users_AfterResetPassword", data); }
         public static HtmlBuilder Displays_Users_AfterResetPasswordValidator(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Users_AfterResetPasswordValidator", data)); }
         public static string Users_AfterResetPasswordValidator(params string[] data) { return Get("Users_AfterResetPasswordValidator", data); }
+        public static HtmlBuilder Displays_Users_DemoMailAddress(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Users_DemoMailAddress", data)); }
+        public static string Users_DemoMailAddress(params string[] data) { return Get("Users_DemoMailAddress", data); }
         public static HtmlBuilder Displays_Users_SessionGuid(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Users_SessionGuid", data)); }
         public static string Users_SessionGuid(params string[] data) { return Get("Users_SessionGuid", data); }
         public static HtmlBuilder Displays_MailAddresses_OwnerId(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MailAddresses_OwnerId", data)); }
@@ -1134,6 +1160,22 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Tenants_VerUp(params string[] data) { return Get("Tenants_VerUp", data); }
         public static HtmlBuilder Displays_Tenants_Timestamp(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Tenants_Timestamp", data)); }
         public static string Tenants_Timestamp(params string[] data) { return Get("Tenants_Timestamp", data); }
+        public static HtmlBuilder Displays_Demos_Ver(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Demos_Ver", data)); }
+        public static string Demos_Ver(params string[] data) { return Get("Demos_Ver", data); }
+        public static HtmlBuilder Displays_Demos_Comments(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Demos_Comments", data)); }
+        public static string Demos_Comments(params string[] data) { return Get("Demos_Comments", data); }
+        public static HtmlBuilder Displays_Demos_Creator(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Demos_Creator", data)); }
+        public static string Demos_Creator(params string[] data) { return Get("Demos_Creator", data); }
+        public static HtmlBuilder Displays_Demos_Updator(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Demos_Updator", data)); }
+        public static string Demos_Updator(params string[] data) { return Get("Demos_Updator", data); }
+        public static HtmlBuilder Displays_Demos_CreatedTime(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Demos_CreatedTime", data)); }
+        public static string Demos_CreatedTime(params string[] data) { return Get("Demos_CreatedTime", data); }
+        public static HtmlBuilder Displays_Demos_UpdatedTime(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Demos_UpdatedTime", data)); }
+        public static string Demos_UpdatedTime(params string[] data) { return Get("Demos_UpdatedTime", data); }
+        public static HtmlBuilder Displays_Demos_VerUp(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Demos_VerUp", data)); }
+        public static string Demos_VerUp(params string[] data) { return Get("Demos_VerUp", data); }
+        public static HtmlBuilder Displays_Demos_Timestamp(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Demos_Timestamp", data)); }
+        public static string Demos_Timestamp(params string[] data) { return Get("Demos_Timestamp", data); }
         public static HtmlBuilder Displays_SysLogs_Ver(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SysLogs_Ver", data)); }
         public static string SysLogs_Ver(params string[] data) { return Get("SysLogs_Ver", data); }
         public static HtmlBuilder Displays_SysLogs_Comments(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SysLogs_Comments", data)); }
@@ -1418,6 +1460,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Wikis_Timestamp(params string[] data) { return Get("Wikis_Timestamp", data); }
         public static HtmlBuilder Displays_Tenants(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Tenants", data)); }
         public static string Tenants(params string[] data) { return Get("Tenants", data); }
+        public static HtmlBuilder Displays_Demos(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Demos", data)); }
+        public static string Demos(params string[] data) { return Get("Demos", data); }
         public static HtmlBuilder Displays_SysLogs(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SysLogs", data)); }
         public static string SysLogs(params string[] data) { return Get("SysLogs", data); }
         public static HtmlBuilder Displays_Depts(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Depts", data)); }

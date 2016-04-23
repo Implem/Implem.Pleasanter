@@ -41,6 +41,7 @@ namespace Implem.Pleasanter
         private static void Validators(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/TenantValidator").Include("~/Scripts/Validators/Tenant.js"));
+            bundles.Add(new ScriptBundle("~/bundles/DemoValidator").Include("~/Scripts/Validators/Demo.js"));
             bundles.Add(new ScriptBundle("~/bundles/DeptValidator").Include("~/Scripts/Validators/Dept.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserValidator").Include("~/Scripts/Validators/User.js"));
             bundles.Add(new ScriptBundle("~/bundles/OutgoingMailValidator").Include("~/Scripts/Validators/OutgoingMail.js"));

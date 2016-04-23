@@ -23,6 +23,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             return tenantsSiteSettings;
         }
 
+        public static SiteSettings DemosSiteSettings()
+        {
+            var demosSiteSettings = new SiteSettings();
+            demosSiteSettings.ReferenceType = "Demos";
+            demosSiteSettings.Init();
+            return demosSiteSettings;
+        }
+
         public static SiteSettings SysLogsSiteSettings()
         {
             var sysLogsSiteSettings = new SiteSettings();

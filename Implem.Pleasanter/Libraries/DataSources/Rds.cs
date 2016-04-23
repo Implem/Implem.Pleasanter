@@ -185,6 +185,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlStatement DemosStatement(
+            string commandText,
+            SqlParamCollection param = null)
+        {
+            return new SqlStatement
+            {
+                CommandText = commandText,
+                SqlParamCollection = param
+            };
+        }
+
         public static SqlStatement SysLogsStatement(
             string commandText,
             SqlParamCollection param = null)
@@ -386,6 +397,48 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "[Tenants]",
                 HistoryTableBracket = "[Tenants_history]",
                 DeletedTableBracket = "[Tenants_deleted]",
+                SqlColumnCollection = column,
+                SqlJoinCollection = join,
+                SqlWhereCollection = where,
+                SqlGroupByCollection = groupBy,
+                SqlHavingCollection = having,
+                SqlOrderByCollection = orderBy,
+                SqlParamCollection = param,
+                Distinct = distinct,
+                Top = top,
+                Offset = offset,
+                PageSize = pageSize,
+                CountRecord = countRecord,
+                UnionType = unionType,
+                Using = _using
+            };
+        }
+
+        public static SqlSelect SelectDemos(
+            string dataTableName = "",
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlColumnCollection column = null,
+            SqlJoinCollection join = null,
+            SqlWhereCollection where = null,
+            SqlGroupByCollection groupBy = null,
+            SqlHavingCollection having = null,
+            SqlOrderByCollection orderBy = null,
+            SqlParamCollection param = null,
+            bool distinct = false,
+            int top = 0,
+            int offset = 0,
+            int pageSize = 0,
+            bool countRecord = false,
+            Sqls.UnionTypes unionType = Sqls.UnionTypes.None,
+            bool _using = true)
+        {
+            return new SqlSelect
+            {
+                DataTableName = dataTableName,
+                TableType = tableType,
+                TableBracket = "[Demos]",
+                HistoryTableBracket = "[Demos_history]",
+                DeletedTableBracket = "[Demos_deleted]",
                 SqlColumnCollection = column,
                 SqlJoinCollection = join,
                 SqlWhereCollection = where,
@@ -1093,6 +1146,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlExists ExistsDemos(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlJoinCollection join = null,
+            SqlWhereCollection where = null,
+            bool _using = true)
+        {
+            return new SqlExists
+            {
+                TableType = tableType,
+                TableBracket = "[Demos]",
+                HistoryTableBracket = "[Demos_history]",
+                DeletedTableBracket = "[Demos_deleted]",
+                SqlJoinCollection = join,
+                SqlWhereCollection = where,
+                Using = _using
+            };
+        }
+
         public static SqlExists ExistsSysLogs(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlJoinCollection join = null,
@@ -1422,6 +1493,49 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return on
                 ? new SqlStatement("set identity_insert [Tenants_History] on;")
                 : new SqlStatement("set identity_insert [Tenants_History] off;");
+        }
+
+        public static SqlInsert InsertDemos(
+            bool selectIdentity = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlParamCollection param = null,
+            SqlStatement select = null,
+            string conditions = "",
+            bool _using = true)
+        {
+            return new SqlInsert
+            {
+                TableType = tableType,
+                TableBracket = "[Demos]",
+                HistoryTableBracket = "[Demos_history]",
+                DeletedTableBracket = "[Demos_deleted]",
+                SelectIdentity = selectIdentity,
+                SqlParamCollection = param,
+                Select = select,
+                Conditions = conditions,
+                Using = _using
+            };
+        }
+
+        public static SqlStatement IdentityInsertDemos(bool on)
+        {
+            return on
+                ? new SqlStatement("set identity_insert [Demos] on;")
+                : new SqlStatement("set identity_insert [Demos] off;");
+        }
+
+        public static SqlStatement IdentityInsertDemos_Deleted(bool on)
+        {
+            return on
+                ? new SqlStatement("set identity_insert [Demos_Deleted] on;")
+                : new SqlStatement("set identity_insert [Demos_Deleted] off;");
+        }
+
+        public static SqlStatement IdentityInsertDemos_History(bool on)
+        {
+            return on
+                ? new SqlStatement("set identity_insert [Demos_History] on;")
+                : new SqlStatement("set identity_insert [Demos_History] off;");
         }
 
         public static SqlInsert InsertSysLogs(
@@ -2140,6 +2254,34 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlUpdate UpdateDemos(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool verUp = false,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool addUpdatorParam = true,
+            bool addUpdatedTimeParam = true,
+            bool countRecord = false,
+            string conditions = "",
+            bool _using = true)
+        {
+            return new SqlUpdate
+            {
+                TableType = tableType,
+                TableBracket = "[Demos]",
+                HistoryTableBracket = "[Demos_history]",
+                DeletedTableBracket = "[Demos_deleted]",
+                SaveHistoryCommandText = verUp ? SaveDemosHistoryStatement : string.Empty,
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                AddUpdatorParam = addUpdatorParam,
+                AddUpdatedTimeParam = addUpdatedTimeParam,
+                CountRecord = countRecord,
+                Conditions = conditions,
+                Using = _using
+            };
+        }
+
         public static SqlUpdate UpdateSysLogs(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             bool verUp = false,
@@ -2605,6 +2747,34 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "[Tenants]",
                 HistoryTableBracket = "[Tenants_history]",
                 DeletedTableBracket = "[Tenants_deleted]",
+                SelectIdentity = selectIdentity,
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                AddUpdatorParam = addUpdatorParam,
+                AddUpdatedTimeParam = addUpdatedTimeParam,
+                CountRecord = countRecord,
+                Conditions = conditions,
+                Using = _using
+            };
+        }
+
+        public static SqlUpdateOrInsert UpdateOrInsertDemos(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool selectIdentity = false,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool addUpdatorParam = true,
+            bool addUpdatedTimeParam = true,
+            bool countRecord = false,
+            string conditions = "",
+            bool _using = true)
+        {
+            return new SqlUpdateOrInsert
+            {
+                TableType = tableType,
+                TableBracket = "[Demos]",
+                HistoryTableBracket = "[Demos_history]",
+                DeletedTableBracket = "[Demos_deleted]",
                 SelectIdentity = selectIdentity,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
@@ -3085,6 +3255,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlDelete DeleteDemos(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string conditions = "",
+            bool _using = true)
+        {
+            return new SqlDelete()
+            {
+                CommandText = DeleteDemosStatement, 
+                TableBracket = "[Demos]",
+                HistoryTableBracket = "[Demos_history]",
+                DeletedTableBracket = "[Demos_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                Conditions = conditions,
+                Using = _using
+            };
+        }
+
         public static SqlDelete DeleteSysLogs(
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -3436,6 +3627,30 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "[Tenants]",
                 HistoryTableBracket = "[Tenants_history]",
                 DeletedTableBracket = "[Tenants_deleted]",
+                SelectIdentity = selectIdentity,
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                Conditions = conditions,
+                Using = _using
+            };
+        }
+
+        public static SqlPhysicalDelete PhysicalDeleteDemos(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool selectIdentity = false,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string conditions = "",
+            bool _using = true)
+        {
+            return new SqlPhysicalDelete()
+            {
+                TableType = tableType,
+                TableBracket = "[Demos]",
+                HistoryTableBracket = "[Demos_history]",
+                DeletedTableBracket = "[Demos_deleted]",
                 SelectIdentity = selectIdentity,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
@@ -3850,6 +4065,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlRestore RestoreDemos(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string conditions = "",
+            bool _using = true)
+        {
+            return new SqlRestore()
+            {
+                CommandText = RestoreDemosStatement, 
+                TableBracket = "[Demos]",
+                HistoryTableBracket = "[Demos_history]",
+                DeletedTableBracket = "[Demos_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                Conditions = conditions,
+                Using = _using
+            };
+        }
+
         public static SqlRestore RestoreSysLogs(
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -4220,6 +4456,49 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         default: break;
                     }
                     var statement = SelectTenants(
+                        dataTableName: "Aggregation" + data.Index,
+                        column: column,
+                        where: where,
+                        groupBy: groupBy);
+                    statementCollection.Add(statement);
+                });
+            return statementCollection;
+        }
+
+        public static IEnumerable<SqlStatement> DemosAggregations(
+            IEnumerable<Aggregation> aggregationCollection,
+            SqlWhereCollection where)
+        {
+            var statementCollection = new List<SqlStatement>();
+            aggregationCollection
+                .Select((o, i) => new { Aggregation = o, Index = i })
+                .ForEach(data =>
+                {
+                    var groupBy = DemosGroupBy();
+                    var column = DemosColumn();
+                    switch (data.Aggregation.GroupBy)
+                    {
+                        default: break;
+                    }
+                    switch (data.Aggregation.Type)
+                    {
+                        case Aggregation.Types.Count:
+                            column.DemosCount(); break;
+                        case Aggregation.Types.Total:
+                            switch (data.Aggregation.Target)
+                            {
+                                default: break;
+                            }
+                            break;
+                        case Aggregation.Types.Average:
+                            switch (data.Aggregation.Target)
+                            {
+                                default: break;
+                            }
+                            break;
+                        default: break;
+                    }
+                    var statement = SelectDemos(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
                         where: where,
@@ -4994,6 +5273,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         }
 
         public const string SaveTenantsHistoryStatement = "insert into [Tenants_history]([Tenants_history].[TenantId], [Tenants_history].[Ver], [Tenants_history].[TenantName], [Tenants_history].[Title], [Tenants_history].[Body], [Tenants_history].[Comments], [Tenants_history].[Creator], [Tenants_history].[Updator], [Tenants_history].[CreatedTime], [Tenants_history].[UpdatedTime]) (select [Tenants].[TenantId], [Tenants].[Ver], [Tenants].[TenantName], [Tenants].[Title], [Tenants].[Body], [Tenants].[Comments], [Tenants].[Creator], [Tenants].[Updator], [Tenants].[CreatedTime], [Tenants].[UpdatedTime] from [Tenants] where  and [Tenants].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
+        public const string SaveDemosHistoryStatement = "insert into [Demos_history]([Demos_history].[DemoId], [Demos_history].[Ver], [Demos_history].[TenantId], [Demos_history].[Title], [Demos_history].[Passphrase], [Demos_history].[MailAddress], [Demos_history].[Initialized], [Demos_history].[Comments], [Demos_history].[Creator], [Demos_history].[Updator], [Demos_history].[CreatedTime], [Demos_history].[UpdatedTime]) (select [Demos].[DemoId], [Demos].[Ver], [Demos].[TenantId], [Demos].[Title], [Demos].[Passphrase], [Demos].[MailAddress], [Demos].[Initialized], [Demos].[Comments], [Demos].[Creator], [Demos].[Updator], [Demos].[CreatedTime], [Demos].[UpdatedTime] from [Demos] where  and [Demos].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
         public const string SaveSysLogsHistoryStatement = "insert into [SysLogs_history]([SysLogs_history].[CreatedTime], [SysLogs_history].[SysLogId], [SysLogs_history].[Ver], [SysLogs_history].[SysLogType], [SysLogs_history].[OnAzure], [SysLogs_history].[MachineName], [SysLogs_history].[ServiceName], [SysLogs_history].[TenantName], [SysLogs_history].[Application], [SysLogs_history].[Class], [SysLogs_history].[Method], [SysLogs_history].[RequestData], [SysLogs_history].[HttpMethod], [SysLogs_history].[RequestSize], [SysLogs_history].[ResponseSize], [SysLogs_history].[Elapsed], [SysLogs_history].[ApplicationAge], [SysLogs_history].[ApplicationRequestInterval], [SysLogs_history].[SessionAge], [SysLogs_history].[SessionRequestInterval], [SysLogs_history].[WorkingSet64], [SysLogs_history].[VirtualMemorySize64], [SysLogs_history].[ProcessId], [SysLogs_history].[ProcessName], [SysLogs_history].[BasePriority], [SysLogs_history].[Url], [SysLogs_history].[UrlReferer], [SysLogs_history].[UserHostName], [SysLogs_history].[UserHostAddress], [SysLogs_history].[UserLanguage], [SysLogs_history].[UserAgent], [SysLogs_history].[SessionGuid], [SysLogs_history].[ErrMessage], [SysLogs_history].[ErrStackTrace], [SysLogs_history].[InDebug], [SysLogs_history].[AssemblyVersion], [SysLogs_history].[Comments], [SysLogs_history].[Creator], [SysLogs_history].[Updator], [SysLogs_history].[UpdatedTime]) (select [SysLogs].[CreatedTime], [SysLogs].[SysLogId], [SysLogs].[Ver], [SysLogs].[SysLogType], [SysLogs].[OnAzure], [SysLogs].[MachineName], [SysLogs].[ServiceName], [SysLogs].[TenantName], [SysLogs].[Application], [SysLogs].[Class], [SysLogs].[Method], [SysLogs].[RequestData], [SysLogs].[HttpMethod], [SysLogs].[RequestSize], [SysLogs].[ResponseSize], [SysLogs].[Elapsed], [SysLogs].[ApplicationAge], [SysLogs].[ApplicationRequestInterval], [SysLogs].[SessionAge], [SysLogs].[SessionRequestInterval], [SysLogs].[WorkingSet64], [SysLogs].[VirtualMemorySize64], [SysLogs].[ProcessId], [SysLogs].[ProcessName], [SysLogs].[BasePriority], [SysLogs].[Url], [SysLogs].[UrlReferer], [SysLogs].[UserHostName], [SysLogs].[UserHostAddress], [SysLogs].[UserLanguage], [SysLogs].[UserAgent], [SysLogs].[SessionGuid], [SysLogs].[ErrMessage], [SysLogs].[ErrStackTrace], [SysLogs].[InDebug], [SysLogs].[AssemblyVersion], [SysLogs].[Comments], [SysLogs].[Creator], [SysLogs].[Updator], [SysLogs].[UpdatedTime] from [SysLogs] where [SysLogs].[CreatedTime]=@CreatedTime[[CommandCount]] and [SysLogs].[SysLogId]=@SysLogId[[CommandCount]] and [SysLogs].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
         public const string SaveDeptsHistoryStatement = "insert into [Depts_history]([Depts_history].[TenantId], [Depts_history].[DeptId], [Depts_history].[Ver], [Depts_history].[ParentDeptId], [Depts_history].[DeptCode], [Depts_history].[DeptName], [Depts_history].[Body], [Depts_history].[Comments], [Depts_history].[Creator], [Depts_history].[Updator], [Depts_history].[CreatedTime], [Depts_history].[UpdatedTime]) (select [Depts].[TenantId], [Depts].[DeptId], [Depts].[Ver], [Depts].[ParentDeptId], [Depts].[DeptCode], [Depts].[DeptName], [Depts].[Body], [Depts].[Comments], [Depts].[Creator], [Depts].[Updator], [Depts].[CreatedTime], [Depts].[UpdatedTime] from [Depts] where [Depts].[TenantId]=@TenantId[[CommandCount]] and [Depts].[DeptId]=@DeptId[[CommandCount]] and [Depts].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
         public const string SaveUsersHistoryStatement = "insert into [Users_history]([Users_history].[TenantId], [Users_history].[UserId], [Users_history].[Ver], [Users_history].[LoginId], [Users_history].[Disabled], [Users_history].[UserCode], [Users_history].[Password], [Users_history].[LastName], [Users_history].[FirstName], [Users_history].[Birthday], [Users_history].[Sex], [Users_history].[Language], [Users_history].[TimeZone], [Users_history].[DeptId], [Users_history].[FirstAndLastNameOrder], [Users_history].[LastLoginTime], [Users_history].[PasswordExpirationTime], [Users_history].[PasswordChangeTime], [Users_history].[NumberOfLogins], [Users_history].[NumberOfDenial], [Users_history].[TenantAdmin], [Users_history].[ServiceAdmin], [Users_history].[Developer], [Users_history].[Comments], [Users_history].[Creator], [Users_history].[Updator], [Users_history].[CreatedTime], [Users_history].[UpdatedTime]) (select [Users].[TenantId], [Users].[UserId], [Users].[Ver], [Users].[LoginId], [Users].[Disabled], [Users].[UserCode], [Users].[Password], [Users].[LastName], [Users].[FirstName], [Users].[Birthday], [Users].[Sex], [Users].[Language], [Users].[TimeZone], [Users].[DeptId], [Users].[FirstAndLastNameOrder], [Users].[LastLoginTime], [Users].[PasswordExpirationTime], [Users].[PasswordChangeTime], [Users].[NumberOfLogins], [Users].[NumberOfDenial], [Users].[TenantAdmin], [Users].[ServiceAdmin], [Users].[Developer], [Users].[Comments], [Users].[Creator], [Users].[Updator], [Users].[CreatedTime], [Users].[UpdatedTime] from [Users] where [Users].[TenantId]=@TenantId[[CommandCount]] and [Users].[UserId]=@UserId[[CommandCount]] and [Users].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
@@ -5011,6 +5291,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public const string SaveResultsHistoryStatement = "insert into [Results_history]([Results_history].[ResultId], [Results_history].[SiteId], [Results_history].[Ver], [Results_history].[Title], [Results_history].[Body], [Results_history].[Status], [Results_history].[Manager], [Results_history].[Owner], [Results_history].[ClassA], [Results_history].[ClassB], [Results_history].[ClassC], [Results_history].[ClassD], [Results_history].[ClassE], [Results_history].[ClassF], [Results_history].[ClassG], [Results_history].[ClassH], [Results_history].[ClassI], [Results_history].[ClassJ], [Results_history].[ClassK], [Results_history].[ClassL], [Results_history].[ClassM], [Results_history].[ClassN], [Results_history].[ClassO], [Results_history].[ClassP], [Results_history].[NumA], [Results_history].[NumB], [Results_history].[NumC], [Results_history].[NumD], [Results_history].[NumE], [Results_history].[NumF], [Results_history].[NumG], [Results_history].[NumH], [Results_history].[DateA], [Results_history].[DateB], [Results_history].[DateC], [Results_history].[DateD], [Results_history].[DateE], [Results_history].[DateF], [Results_history].[DateG], [Results_history].[DateH], [Results_history].[DescriptionA], [Results_history].[DescriptionB], [Results_history].[DescriptionC], [Results_history].[DescriptionD], [Results_history].[DescriptionE], [Results_history].[DescriptionF], [Results_history].[DescriptionG], [Results_history].[DescriptionH], [Results_history].[CheckA], [Results_history].[CheckB], [Results_history].[CheckC], [Results_history].[CheckD], [Results_history].[CheckE], [Results_history].[CheckF], [Results_history].[CheckG], [Results_history].[CheckH], [Results_history].[Comments], [Results_history].[Creator], [Results_history].[Updator], [Results_history].[UpdatedTime], [Results_history].[CreatedTime]) (select [Results].[ResultId], [Results].[SiteId], [Results].[Ver], [Results].[Title], [Results].[Body], [Results].[Status], [Results].[Manager], [Results].[Owner], [Results].[ClassA], [Results].[ClassB], [Results].[ClassC], [Results].[ClassD], [Results].[ClassE], [Results].[ClassF], [Results].[ClassG], [Results].[ClassH], [Results].[ClassI], [Results].[ClassJ], [Results].[ClassK], [Results].[ClassL], [Results].[ClassM], [Results].[ClassN], [Results].[ClassO], [Results].[ClassP], [Results].[NumA], [Results].[NumB], [Results].[NumC], [Results].[NumD], [Results].[NumE], [Results].[NumF], [Results].[NumG], [Results].[NumH], [Results].[DateA], [Results].[DateB], [Results].[DateC], [Results].[DateD], [Results].[DateE], [Results].[DateF], [Results].[DateG], [Results].[DateH], [Results].[DescriptionA], [Results].[DescriptionB], [Results].[DescriptionC], [Results].[DescriptionD], [Results].[DescriptionE], [Results].[DescriptionF], [Results].[DescriptionG], [Results].[DescriptionH], [Results].[CheckA], [Results].[CheckB], [Results].[CheckC], [Results].[CheckD], [Results].[CheckE], [Results].[CheckF], [Results].[CheckG], [Results].[CheckH], [Results].[Comments], [Results].[Creator], [Results].[Updator], [Results].[UpdatedTime], [Results].[CreatedTime] from [Results] where [Results].[ResultId]=@ResultId[[CommandCount]] and [Results].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
         public const string SaveWikisHistoryStatement = "insert into [Wikis_history]([Wikis_history].[WikiId], [Wikis_history].[SiteId], [Wikis_history].[Ver], [Wikis_history].[Title], [Wikis_history].[Body], [Wikis_history].[Comments], [Wikis_history].[Creator], [Wikis_history].[Updator], [Wikis_history].[UpdatedTime], [Wikis_history].[CreatedTime]) (select [Wikis].[WikiId], [Wikis].[SiteId], [Wikis].[Ver], [Wikis].[Title], [Wikis].[Body], [Wikis].[Comments], [Wikis].[Creator], [Wikis].[Updator], [Wikis].[UpdatedTime], [Wikis].[CreatedTime] from [Wikis] where [Wikis].[WikiId]=@WikiId[[CommandCount]] and [Wikis].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
         public const string DeleteTenantsStatement = "update [Tenants] set [Tenants].[UpdatedTime] = getdate() {0}; insert into [Tenants_deleted]([Tenants_deleted].[TenantId], [Tenants_deleted].[Ver], [Tenants_deleted].[TenantName], [Tenants_deleted].[Title], [Tenants_deleted].[Body], [Tenants_deleted].[Comments], [Tenants_deleted].[Creator], [Tenants_deleted].[Updator], [Tenants_deleted].[CreatedTime], [Tenants_deleted].[UpdatedTime]) (select [Tenants].[TenantId], [Tenants].[Ver], [Tenants].[TenantName], [Tenants].[Title], [Tenants].[Body], [Tenants].[Comments], [Tenants].[Creator], [Tenants].[Updator], [Tenants].[CreatedTime], [Tenants].[UpdatedTime] from [Tenants] {0}); delete from [Tenants] {0}";
+        public const string DeleteDemosStatement = "update [Demos] set [Demos].[UpdatedTime] = getdate() {0}; insert into [Demos_deleted]([Demos_deleted].[DemoId], [Demos_deleted].[Ver], [Demos_deleted].[TenantId], [Demos_deleted].[Title], [Demos_deleted].[Passphrase], [Demos_deleted].[MailAddress], [Demos_deleted].[Initialized], [Demos_deleted].[Comments], [Demos_deleted].[Creator], [Demos_deleted].[Updator], [Demos_deleted].[CreatedTime], [Demos_deleted].[UpdatedTime]) (select [Demos].[DemoId], [Demos].[Ver], [Demos].[TenantId], [Demos].[Title], [Demos].[Passphrase], [Demos].[MailAddress], [Demos].[Initialized], [Demos].[Comments], [Demos].[Creator], [Demos].[Updator], [Demos].[CreatedTime], [Demos].[UpdatedTime] from [Demos] {0}); delete from [Demos] {0}";
         public const string DeleteSysLogsStatement = "update [SysLogs] set [SysLogs].[UpdatedTime] = getdate() {0}; insert into [SysLogs_deleted]([SysLogs_deleted].[CreatedTime], [SysLogs_deleted].[SysLogId], [SysLogs_deleted].[Ver], [SysLogs_deleted].[SysLogType], [SysLogs_deleted].[OnAzure], [SysLogs_deleted].[MachineName], [SysLogs_deleted].[ServiceName], [SysLogs_deleted].[TenantName], [SysLogs_deleted].[Application], [SysLogs_deleted].[Class], [SysLogs_deleted].[Method], [SysLogs_deleted].[RequestData], [SysLogs_deleted].[HttpMethod], [SysLogs_deleted].[RequestSize], [SysLogs_deleted].[ResponseSize], [SysLogs_deleted].[Elapsed], [SysLogs_deleted].[ApplicationAge], [SysLogs_deleted].[ApplicationRequestInterval], [SysLogs_deleted].[SessionAge], [SysLogs_deleted].[SessionRequestInterval], [SysLogs_deleted].[WorkingSet64], [SysLogs_deleted].[VirtualMemorySize64], [SysLogs_deleted].[ProcessId], [SysLogs_deleted].[ProcessName], [SysLogs_deleted].[BasePriority], [SysLogs_deleted].[Url], [SysLogs_deleted].[UrlReferer], [SysLogs_deleted].[UserHostName], [SysLogs_deleted].[UserHostAddress], [SysLogs_deleted].[UserLanguage], [SysLogs_deleted].[UserAgent], [SysLogs_deleted].[SessionGuid], [SysLogs_deleted].[ErrMessage], [SysLogs_deleted].[ErrStackTrace], [SysLogs_deleted].[InDebug], [SysLogs_deleted].[AssemblyVersion], [SysLogs_deleted].[Comments], [SysLogs_deleted].[Creator], [SysLogs_deleted].[Updator], [SysLogs_deleted].[UpdatedTime]) (select [SysLogs].[CreatedTime], [SysLogs].[SysLogId], [SysLogs].[Ver], [SysLogs].[SysLogType], [SysLogs].[OnAzure], [SysLogs].[MachineName], [SysLogs].[ServiceName], [SysLogs].[TenantName], [SysLogs].[Application], [SysLogs].[Class], [SysLogs].[Method], [SysLogs].[RequestData], [SysLogs].[HttpMethod], [SysLogs].[RequestSize], [SysLogs].[ResponseSize], [SysLogs].[Elapsed], [SysLogs].[ApplicationAge], [SysLogs].[ApplicationRequestInterval], [SysLogs].[SessionAge], [SysLogs].[SessionRequestInterval], [SysLogs].[WorkingSet64], [SysLogs].[VirtualMemorySize64], [SysLogs].[ProcessId], [SysLogs].[ProcessName], [SysLogs].[BasePriority], [SysLogs].[Url], [SysLogs].[UrlReferer], [SysLogs].[UserHostName], [SysLogs].[UserHostAddress], [SysLogs].[UserLanguage], [SysLogs].[UserAgent], [SysLogs].[SessionGuid], [SysLogs].[ErrMessage], [SysLogs].[ErrStackTrace], [SysLogs].[InDebug], [SysLogs].[AssemblyVersion], [SysLogs].[Comments], [SysLogs].[Creator], [SysLogs].[Updator], [SysLogs].[UpdatedTime] from [SysLogs] {0}); delete from [SysLogs] {0}";
         public const string DeleteDeptsStatement = "update [Depts] set [Depts].[UpdatedTime] = getdate() {0}; insert into [Depts_deleted]([Depts_deleted].[TenantId], [Depts_deleted].[DeptId], [Depts_deleted].[Ver], [Depts_deleted].[ParentDeptId], [Depts_deleted].[DeptCode], [Depts_deleted].[DeptName], [Depts_deleted].[Body], [Depts_deleted].[Comments], [Depts_deleted].[Creator], [Depts_deleted].[Updator], [Depts_deleted].[CreatedTime], [Depts_deleted].[UpdatedTime]) (select [Depts].[TenantId], [Depts].[DeptId], [Depts].[Ver], [Depts].[ParentDeptId], [Depts].[DeptCode], [Depts].[DeptName], [Depts].[Body], [Depts].[Comments], [Depts].[Creator], [Depts].[Updator], [Depts].[CreatedTime], [Depts].[UpdatedTime] from [Depts] {0}); delete from [Depts] {0}";
         public const string DeleteUsersStatement = "update [Users] set [Users].[UpdatedTime] = getdate() {0}; insert into [Users_deleted]([Users_deleted].[TenantId], [Users_deleted].[UserId], [Users_deleted].[Ver], [Users_deleted].[LoginId], [Users_deleted].[Disabled], [Users_deleted].[UserCode], [Users_deleted].[Password], [Users_deleted].[LastName], [Users_deleted].[FirstName], [Users_deleted].[Birthday], [Users_deleted].[Sex], [Users_deleted].[Language], [Users_deleted].[TimeZone], [Users_deleted].[DeptId], [Users_deleted].[FirstAndLastNameOrder], [Users_deleted].[LastLoginTime], [Users_deleted].[PasswordExpirationTime], [Users_deleted].[PasswordChangeTime], [Users_deleted].[NumberOfLogins], [Users_deleted].[NumberOfDenial], [Users_deleted].[TenantAdmin], [Users_deleted].[ServiceAdmin], [Users_deleted].[Developer], [Users_deleted].[Comments], [Users_deleted].[Creator], [Users_deleted].[Updator], [Users_deleted].[CreatedTime], [Users_deleted].[UpdatedTime]) (select [Users].[TenantId], [Users].[UserId], [Users].[Ver], [Users].[LoginId], [Users].[Disabled], [Users].[UserCode], [Users].[Password], [Users].[LastName], [Users].[FirstName], [Users].[Birthday], [Users].[Sex], [Users].[Language], [Users].[TimeZone], [Users].[DeptId], [Users].[FirstAndLastNameOrder], [Users].[LastLoginTime], [Users].[PasswordExpirationTime], [Users].[PasswordChangeTime], [Users].[NumberOfLogins], [Users].[NumberOfDenial], [Users].[TenantAdmin], [Users].[ServiceAdmin], [Users].[Developer], [Users].[Comments], [Users].[Creator], [Users].[Updator], [Users].[CreatedTime], [Users].[UpdatedTime] from [Users] {0}); delete from [Users] {0}";
@@ -5028,6 +5309,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public const string DeleteResultsStatement = "update [Results] set [Results].[UpdatedTime] = getdate() {0}; insert into [Results_deleted]([Results_deleted].[SiteId], [Results_deleted].[UpdatedTime], [Results_deleted].[ResultId], [Results_deleted].[Ver], [Results_deleted].[Title], [Results_deleted].[Body], [Results_deleted].[Status], [Results_deleted].[Manager], [Results_deleted].[Owner], [Results_deleted].[ClassA], [Results_deleted].[ClassB], [Results_deleted].[ClassC], [Results_deleted].[ClassD], [Results_deleted].[ClassE], [Results_deleted].[ClassF], [Results_deleted].[ClassG], [Results_deleted].[ClassH], [Results_deleted].[ClassI], [Results_deleted].[ClassJ], [Results_deleted].[ClassK], [Results_deleted].[ClassL], [Results_deleted].[ClassM], [Results_deleted].[ClassN], [Results_deleted].[ClassO], [Results_deleted].[ClassP], [Results_deleted].[NumA], [Results_deleted].[NumB], [Results_deleted].[NumC], [Results_deleted].[NumD], [Results_deleted].[NumE], [Results_deleted].[NumF], [Results_deleted].[NumG], [Results_deleted].[NumH], [Results_deleted].[DateA], [Results_deleted].[DateB], [Results_deleted].[DateC], [Results_deleted].[DateD], [Results_deleted].[DateE], [Results_deleted].[DateF], [Results_deleted].[DateG], [Results_deleted].[DateH], [Results_deleted].[DescriptionA], [Results_deleted].[DescriptionB], [Results_deleted].[DescriptionC], [Results_deleted].[DescriptionD], [Results_deleted].[DescriptionE], [Results_deleted].[DescriptionF], [Results_deleted].[DescriptionG], [Results_deleted].[DescriptionH], [Results_deleted].[CheckA], [Results_deleted].[CheckB], [Results_deleted].[CheckC], [Results_deleted].[CheckD], [Results_deleted].[CheckE], [Results_deleted].[CheckF], [Results_deleted].[CheckG], [Results_deleted].[CheckH], [Results_deleted].[Comments], [Results_deleted].[Creator], [Results_deleted].[Updator], [Results_deleted].[CreatedTime]) (select [Results].[SiteId], [Results].[UpdatedTime], [Results].[ResultId], [Results].[Ver], [Results].[Title], [Results].[Body], [Results].[Status], [Results].[Manager], [Results].[Owner], [Results].[ClassA], [Results].[ClassB], [Results].[ClassC], [Results].[ClassD], [Results].[ClassE], [Results].[ClassF], [Results].[ClassG], [Results].[ClassH], [Results].[ClassI], [Results].[ClassJ], [Results].[ClassK], [Results].[ClassL], [Results].[ClassM], [Results].[ClassN], [Results].[ClassO], [Results].[ClassP], [Results].[NumA], [Results].[NumB], [Results].[NumC], [Results].[NumD], [Results].[NumE], [Results].[NumF], [Results].[NumG], [Results].[NumH], [Results].[DateA], [Results].[DateB], [Results].[DateC], [Results].[DateD], [Results].[DateE], [Results].[DateF], [Results].[DateG], [Results].[DateH], [Results].[DescriptionA], [Results].[DescriptionB], [Results].[DescriptionC], [Results].[DescriptionD], [Results].[DescriptionE], [Results].[DescriptionF], [Results].[DescriptionG], [Results].[DescriptionH], [Results].[CheckA], [Results].[CheckB], [Results].[CheckC], [Results].[CheckD], [Results].[CheckE], [Results].[CheckF], [Results].[CheckG], [Results].[CheckH], [Results].[Comments], [Results].[Creator], [Results].[Updator], [Results].[CreatedTime] from [Results] {0}); delete from [Results] {0}";
         public const string DeleteWikisStatement = "update [Wikis] set [Wikis].[UpdatedTime] = getdate() {0}; insert into [Wikis_deleted]([Wikis_deleted].[SiteId], [Wikis_deleted].[UpdatedTime], [Wikis_deleted].[WikiId], [Wikis_deleted].[Ver], [Wikis_deleted].[Title], [Wikis_deleted].[Body], [Wikis_deleted].[Comments], [Wikis_deleted].[Creator], [Wikis_deleted].[Updator], [Wikis_deleted].[CreatedTime]) (select [Wikis].[SiteId], [Wikis].[UpdatedTime], [Wikis].[WikiId], [Wikis].[Ver], [Wikis].[Title], [Wikis].[Body], [Wikis].[Comments], [Wikis].[Creator], [Wikis].[Updator], [Wikis].[CreatedTime] from [Wikis] {0}); delete from [Wikis] {0}";
         public const string RestoreTenantsStatement = "update [Tenants_deleted] set [Tenants_deleted].[UpdatedTime] = getdate() {0};set identity_insert [Tenants] on;  insert into [Tenants]([Tenants].[TenantId], [Tenants].[Ver], [Tenants].[TenantName], [Tenants].[Title], [Tenants].[Body], [Tenants].[Comments], [Tenants].[Creator], [Tenants].[Updator], [Tenants].[CreatedTime], [Tenants].[UpdatedTime]) (select [Tenants_deleted].[TenantId], [Tenants_deleted].[Ver], [Tenants_deleted].[TenantName], [Tenants_deleted].[Title], [Tenants_deleted].[Body], [Tenants_deleted].[Comments], [Tenants_deleted].[Creator], [Tenants_deleted].[Updator], [Tenants_deleted].[CreatedTime], [Tenants_deleted].[UpdatedTime] from [Tenants_deleted] {0});set identity_insert [Tenants] off;  delete from [Tenants_deleted] {0}";
+        public const string RestoreDemosStatement = "update [Demos_deleted] set [Demos_deleted].[UpdatedTime] = getdate() {0};set identity_insert [Demos] on;  insert into [Demos]([Demos].[DemoId], [Demos].[Ver], [Demos].[TenantId], [Demos].[Title], [Demos].[Passphrase], [Demos].[MailAddress], [Demos].[Initialized], [Demos].[Comments], [Demos].[Creator], [Demos].[Updator], [Demos].[CreatedTime], [Demos].[UpdatedTime]) (select [Demos_deleted].[DemoId], [Demos_deleted].[Ver], [Demos_deleted].[TenantId], [Demos_deleted].[Title], [Demos_deleted].[Passphrase], [Demos_deleted].[MailAddress], [Demos_deleted].[Initialized], [Demos_deleted].[Comments], [Demos_deleted].[Creator], [Demos_deleted].[Updator], [Demos_deleted].[CreatedTime], [Demos_deleted].[UpdatedTime] from [Demos_deleted] {0});set identity_insert [Demos] off;  delete from [Demos_deleted] {0}";
         public const string RestoreSysLogsStatement = "update [SysLogs_deleted] set [SysLogs_deleted].[UpdatedTime] = getdate() {0};set identity_insert [SysLogs] on;  insert into [SysLogs]([SysLogs].[CreatedTime], [SysLogs].[SysLogId], [SysLogs].[Ver], [SysLogs].[SysLogType], [SysLogs].[OnAzure], [SysLogs].[MachineName], [SysLogs].[ServiceName], [SysLogs].[TenantName], [SysLogs].[Application], [SysLogs].[Class], [SysLogs].[Method], [SysLogs].[RequestData], [SysLogs].[HttpMethod], [SysLogs].[RequestSize], [SysLogs].[ResponseSize], [SysLogs].[Elapsed], [SysLogs].[ApplicationAge], [SysLogs].[ApplicationRequestInterval], [SysLogs].[SessionAge], [SysLogs].[SessionRequestInterval], [SysLogs].[WorkingSet64], [SysLogs].[VirtualMemorySize64], [SysLogs].[ProcessId], [SysLogs].[ProcessName], [SysLogs].[BasePriority], [SysLogs].[Url], [SysLogs].[UrlReferer], [SysLogs].[UserHostName], [SysLogs].[UserHostAddress], [SysLogs].[UserLanguage], [SysLogs].[UserAgent], [SysLogs].[SessionGuid], [SysLogs].[ErrMessage], [SysLogs].[ErrStackTrace], [SysLogs].[InDebug], [SysLogs].[AssemblyVersion], [SysLogs].[Comments], [SysLogs].[Creator], [SysLogs].[Updator], [SysLogs].[UpdatedTime]) (select [SysLogs_deleted].[CreatedTime], [SysLogs_deleted].[SysLogId], [SysLogs_deleted].[Ver], [SysLogs_deleted].[SysLogType], [SysLogs_deleted].[OnAzure], [SysLogs_deleted].[MachineName], [SysLogs_deleted].[ServiceName], [SysLogs_deleted].[TenantName], [SysLogs_deleted].[Application], [SysLogs_deleted].[Class], [SysLogs_deleted].[Method], [SysLogs_deleted].[RequestData], [SysLogs_deleted].[HttpMethod], [SysLogs_deleted].[RequestSize], [SysLogs_deleted].[ResponseSize], [SysLogs_deleted].[Elapsed], [SysLogs_deleted].[ApplicationAge], [SysLogs_deleted].[ApplicationRequestInterval], [SysLogs_deleted].[SessionAge], [SysLogs_deleted].[SessionRequestInterval], [SysLogs_deleted].[WorkingSet64], [SysLogs_deleted].[VirtualMemorySize64], [SysLogs_deleted].[ProcessId], [SysLogs_deleted].[ProcessName], [SysLogs_deleted].[BasePriority], [SysLogs_deleted].[Url], [SysLogs_deleted].[UrlReferer], [SysLogs_deleted].[UserHostName], [SysLogs_deleted].[UserHostAddress], [SysLogs_deleted].[UserLanguage], [SysLogs_deleted].[UserAgent], [SysLogs_deleted].[SessionGuid], [SysLogs_deleted].[ErrMessage], [SysLogs_deleted].[ErrStackTrace], [SysLogs_deleted].[InDebug], [SysLogs_deleted].[AssemblyVersion], [SysLogs_deleted].[Comments], [SysLogs_deleted].[Creator], [SysLogs_deleted].[Updator], [SysLogs_deleted].[UpdatedTime] from [SysLogs_deleted] {0});set identity_insert [SysLogs] off;  delete from [SysLogs_deleted] {0}";
         public const string RestoreDeptsStatement = "update [Depts_deleted] set [Depts_deleted].[UpdatedTime] = getdate() {0};set identity_insert [Depts] on;  insert into [Depts]([Depts].[TenantId], [Depts].[DeptId], [Depts].[Ver], [Depts].[ParentDeptId], [Depts].[DeptCode], [Depts].[DeptName], [Depts].[Body], [Depts].[Comments], [Depts].[Creator], [Depts].[Updator], [Depts].[CreatedTime], [Depts].[UpdatedTime]) (select [Depts_deleted].[TenantId], [Depts_deleted].[DeptId], [Depts_deleted].[Ver], [Depts_deleted].[ParentDeptId], [Depts_deleted].[DeptCode], [Depts_deleted].[DeptName], [Depts_deleted].[Body], [Depts_deleted].[Comments], [Depts_deleted].[Creator], [Depts_deleted].[Updator], [Depts_deleted].[CreatedTime], [Depts_deleted].[UpdatedTime] from [Depts_deleted] {0});set identity_insert [Depts] off;  delete from [Depts_deleted] {0}";
         public const string RestoreUsersStatement = "update [Users_deleted] set [Users_deleted].[UpdatedTime] = getdate() {0};set identity_insert [Users] on;  insert into [Users]([Users].[TenantId], [Users].[UserId], [Users].[Ver], [Users].[LoginId], [Users].[Disabled], [Users].[UserCode], [Users].[Password], [Users].[LastName], [Users].[FirstName], [Users].[Birthday], [Users].[Sex], [Users].[Language], [Users].[TimeZone], [Users].[DeptId], [Users].[FirstAndLastNameOrder], [Users].[LastLoginTime], [Users].[PasswordExpirationTime], [Users].[PasswordChangeTime], [Users].[NumberOfLogins], [Users].[NumberOfDenial], [Users].[TenantAdmin], [Users].[ServiceAdmin], [Users].[Developer], [Users].[Comments], [Users].[Creator], [Users].[Updator], [Users].[CreatedTime], [Users].[UpdatedTime]) (select [Users_deleted].[TenantId], [Users_deleted].[UserId], [Users_deleted].[Ver], [Users_deleted].[LoginId], [Users_deleted].[Disabled], [Users_deleted].[UserCode], [Users_deleted].[Password], [Users_deleted].[LastName], [Users_deleted].[FirstName], [Users_deleted].[Birthday], [Users_deleted].[Sex], [Users_deleted].[Language], [Users_deleted].[TimeZone], [Users_deleted].[DeptId], [Users_deleted].[FirstAndLastNameOrder], [Users_deleted].[LastLoginTime], [Users_deleted].[PasswordExpirationTime], [Users_deleted].[PasswordChangeTime], [Users_deleted].[NumberOfLogins], [Users_deleted].[NumberOfDenial], [Users_deleted].[TenantAdmin], [Users_deleted].[ServiceAdmin], [Users_deleted].[Developer], [Users_deleted].[Comments], [Users_deleted].[Creator], [Users_deleted].[Updator], [Users_deleted].[CreatedTime], [Users_deleted].[UpdatedTime] from [Users_deleted] {0});set identity_insert [Users] off;  delete from [Users_deleted] {0}";
@@ -5339,6 +5621,323 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SqlParamCollection Tenants_CreatedTime(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[CreatedTime]", "CreatedTime", value, sub, raw, _using); }
         public static TenantsParamCollection UpdatedTime(this TenantsParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[UpdatedTime]", "UpdatedTime", value, sub, raw, _using); }
         public static SqlParamCollection Tenants_UpdatedTime(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[UpdatedTime]", "UpdatedTime", value, sub, raw, _using); }
+
+        public static DemosColumnCollection DemosColumn()
+        {
+            return new DemosColumnCollection();
+        }
+
+        public class DemosColumnCollection : SqlColumnCollection
+        {
+            public DemosColumnCollection Add(params string[] columnBrackets)
+            {
+                base.Add(false, columnBrackets);
+                return this;
+            }
+
+            public new DemosColumnCollection Add(bool duplicates = false, params string[] columnBrackets)
+            {
+                base.Add(duplicates, columnBrackets);
+                return this;
+            }
+        }
+
+        public static DemosJoinCollection DemosJoin()
+        {
+            return new DemosJoinCollection();
+        }
+
+        public class DemosJoinCollection : SqlJoinCollection
+        {
+            public new DemosJoinCollection Add(params string[] columnBrackets)
+            {
+                columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
+                return this;
+            }
+        }
+
+        public static DemosWhereCollection DemosWhere()
+        {
+            return new DemosWhereCollection();
+        }
+
+        public class DemosWhereCollection : SqlWhereCollection
+        {
+            public new DemosWhereCollection Add(
+                string[] columnBrackets = null,
+                string name = "",
+                object value = null,
+                string _operator = "=",
+                string multiColumnOperator = " or ",
+                string multiParamOperator = " and ",
+                SqlStatement sub = null,
+                string raw = "",
+                SqlWhereCollection or = null,
+                bool _using = true)
+            {
+                base.Add(new SqlWhere(
+                    columnBrackets: columnBrackets,
+                    name: name,
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    sub: sub,
+                    raw: raw,
+                    or: or,
+                    _using: _using));
+                return this;
+            }
+        }
+
+        public static DemosGroupByCollection DemosGroupBy()
+        {
+            return new DemosGroupByCollection();
+        }
+
+        public class DemosGroupByCollection : SqlGroupByCollection
+        {
+            public new DemosGroupByCollection Add(
+                params string[] columnBrackets)
+            {
+                columnBrackets.ForEach(columnBracket =>
+                    base.Add(new SqlGroupBy(columnBracket)));
+                return this;
+            }
+        }
+
+        public static DemosHavingCollection DemosHaving()
+        {
+            return new DemosHavingCollection();
+        }
+
+        public class DemosHavingCollection : SqlHavingCollection
+        {
+            public DemosHavingCollection Add(
+                string columnBracket, string name, object value, string _operator)
+            {
+                base.Add(new SqlHaving(
+                    columnBracket: columnBracket,
+                    name: name,
+                    value: value,
+                    _operator: _operator));
+                return this;
+            }
+        }
+
+        public static DemosOrderByCollection DemosOrderBy()
+        {
+            return new DemosOrderByCollection();
+        }
+
+        public class DemosOrderByCollection : SqlOrderByCollection
+        {
+            public new DemosOrderByCollection Add(
+                SqlOrderBy.Types type = SqlOrderBy.Types.asc,
+                params string[] columnBrackets)
+            {
+                columnBrackets.ForEach(columnBracket =>
+                    base.Add(new SqlOrderBy(columnBracket, type)));
+                return this;
+            }
+        }
+
+        public static DemosParamCollection DemosParam()
+        {
+            return new DemosParamCollection();
+        }
+
+        public class DemosParamCollection : SqlParamCollection
+        {
+            public new DemosParamCollection Add(
+                string columnBracket = "",
+                string name = "",
+                object value = null,
+                SqlStatement sub = null,
+                string raw = null,
+                bool _using = true)
+            {
+                base.Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
+                return this;
+            }
+        }
+
+        public static string Demos_Title_WhereLike(string tableName = "t0") { return "([" + tableName + "].[Title] like '%' + @SearchText#ParamCount#_#CommandCount# + '%')"; }
+        public const string SqlWhereExists_Demos = "exists(select * from [Demos] where #SqlWhere#)";
+        public const string SqlWhereNotExists_Demos = "not exists(select * from [Demos] where #SqlWhere#)";
+        public static DemosColumnCollection DemoId(this DemosColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[DemoId]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Demos_DemoId(this SqlColumnCollection self, string tableName = "Demos", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[DemoId]" + _as.ExistsTo(" as [{0}]")); }
+        public static DemosColumnCollection Ver(this DemosColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Ver]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Demos_Ver(this SqlColumnCollection self, string tableName = "Demos", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Ver]" + _as.ExistsTo(" as [{0}]")); }
+        public static DemosColumnCollection TenantId(this DemosColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[TenantId]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Demos_TenantId(this SqlColumnCollection self, string tableName = "Demos", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[TenantId]" + _as.ExistsTo(" as [{0}]")); }
+        public static DemosColumnCollection Title(this DemosColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Title]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Demos_Title(this SqlColumnCollection self, string tableName = "Demos", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Title]" + _as.ExistsTo(" as [{0}]")); }
+        public static DemosColumnCollection Passphrase(this DemosColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Passphrase]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Demos_Passphrase(this SqlColumnCollection self, string tableName = "Demos", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Passphrase]" + _as.ExistsTo(" as [{0}]")); }
+        public static DemosColumnCollection MailAddress(this DemosColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[MailAddress]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Demos_MailAddress(this SqlColumnCollection self, string tableName = "Demos", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[MailAddress]" + _as.ExistsTo(" as [{0}]")); }
+        public static DemosColumnCollection Initialized(this DemosColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Initialized]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Demos_Initialized(this SqlColumnCollection self, string tableName = "Demos", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Initialized]" + _as.ExistsTo(" as [{0}]")); }
+        public static DemosColumnCollection Comments(this DemosColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Comments]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Demos_Comments(this SqlColumnCollection self, string tableName = "Demos", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Comments]" + _as.ExistsTo(" as [{0}]")); }
+        public static DemosColumnCollection Creator(this DemosColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Creator]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Demos_Creator(this SqlColumnCollection self, string tableName = "Demos", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Creator]" + _as.ExistsTo(" as [{0}]")); }
+        public static DemosColumnCollection Updator(this DemosColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Updator]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Demos_Updator(this SqlColumnCollection self, string tableName = "Demos", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Updator]" + _as.ExistsTo(" as [{0}]")); }
+        public static DemosColumnCollection CreatedTime(this DemosColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[CreatedTime]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Demos_CreatedTime(this SqlColumnCollection self, string tableName = "Demos", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[CreatedTime]" + _as.ExistsTo(" as [{0}]")); }
+        public static DemosColumnCollection UpdatedTime(this DemosColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[UpdatedTime]" + _as.ExistsTo(" as [{0}]")); }
+        public static SqlColumnCollection Demos_UpdatedTime(this SqlColumnCollection self, string tableName = "Demos", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[UpdatedTime]" + _as.ExistsTo(" as [{0}]")); }
+        public static DemosColumnCollection DemosCount(this DemosColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "count(*) as DemosCount"); }
+        public static DemosColumnCollection CreatedTimeMax(this DemosColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "max([t0].[CreatedTime]) as [CreatedTimeMax]"); }
+        public static SqlColumnCollection Demos_CreatedTimeMax(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "max([t0].[CreatedTime]) as [CreatedTimeMax]"); }
+        public static DemosColumnCollection CreatedTimeMin(this DemosColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "min([t0].[CreatedTime]) as [CreatedTimeMin]"); }
+        public static SqlColumnCollection Demos_CreatedTimeMin(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "min([t0].[CreatedTime]) as [CreatedTimeMin]"); }
+        public static DemosColumnCollection UpdatedTimeMax(this DemosColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "max([t0].[UpdatedTime]) as [UpdatedTimeMax]"); }
+        public static SqlColumnCollection Demos_UpdatedTimeMax(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "max([t0].[UpdatedTime]) as [UpdatedTimeMax]"); }
+        public static DemosColumnCollection UpdatedTimeMin(this DemosColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "min([t0].[UpdatedTime]) as [UpdatedTimeMin]"); }
+        public static SqlColumnCollection Demos_UpdatedTimeMin(this SqlColumnCollection self, bool duplicates = false) { return self.Add(duplicates, "min([t0].[UpdatedTime]) as [UpdatedTimeMin]"); }
+        public static DemosWhereCollection DemoId(this DemosWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[DemoId]" }, "DemoId", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Demos_DemoId(this SqlWhereCollection self, object value = null, string tableName = "Demos", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[DemoId]" }, "DemoId", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static DemosWhereCollection Ver(this DemosWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Demos_Ver(this SqlWhereCollection self, object value = null, string tableName = "Demos", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Ver]" }, "Ver", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static DemosWhereCollection TenantId(this DemosWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Demos_TenantId(this SqlWhereCollection self, object value = null, string tableName = "Demos", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[TenantId]" }, "TenantId", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static DemosWhereCollection Title(this DemosWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Title]" }, "Title", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Demos_Title(this SqlWhereCollection self, object value = null, string tableName = "Demos", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Title]" }, "Title", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static DemosWhereCollection Passphrase(this DemosWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Passphrase]" }, "Passphrase", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Demos_Passphrase(this SqlWhereCollection self, object value = null, string tableName = "Demos", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Passphrase]" }, "Passphrase", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static DemosWhereCollection MailAddress(this DemosWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[MailAddress]" }, "MailAddress", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Demos_MailAddress(this SqlWhereCollection self, object value = null, string tableName = "Demos", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[MailAddress]" }, "MailAddress", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static DemosWhereCollection Initialized(this DemosWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Initialized]" }, "Initialized", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Demos_Initialized(this SqlWhereCollection self, object value = null, string tableName = "Demos", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Initialized]" }, "Initialized", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static DemosWhereCollection Comments(this DemosWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Comments]" }, "Comments", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Demos_Comments(this SqlWhereCollection self, object value = null, string tableName = "Demos", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Comments]" }, "Comments", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static DemosWhereCollection Creator(this DemosWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Demos_Creator(this SqlWhereCollection self, object value = null, string tableName = "Demos", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Creator]" }, "Creator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static DemosWhereCollection Updator(this DemosWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Demos_Updator(this SqlWhereCollection self, object value = null, string tableName = "Demos", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Updator]" }, "Updator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static DemosWhereCollection CreatedTime(this DemosWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[CreatedTime]" }, "CreatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Demos_CreatedTime(this SqlWhereCollection self, object value = null, string tableName = "Demos", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[CreatedTime]" }, "CreatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static DemosWhereCollection UpdatedTime(this DemosWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Demos_UpdatedTime(this SqlWhereCollection self, object value = null, string tableName = "Demos", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static DemosWhereCollection DemoId_In(this DemosWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[DemoId]" }, "DemoId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static SqlWhereCollection Demos_DemoId_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[DemoId]" }, "DemoId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static DemosWhereCollection Ver_In(this DemosWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static SqlWhereCollection Demos_Ver_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static DemosWhereCollection TenantId_In(this DemosWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static SqlWhereCollection Demos_TenantId_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static DemosWhereCollection Creator_In(this DemosWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static SqlWhereCollection Demos_Creator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static DemosWhereCollection Updator_In(this DemosWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static SqlWhereCollection Demos_Updator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+        public static DemosWhereCollection DemoId_Between(this DemosWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[DemoId]" }, "DemoId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection Demos_DemoId_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[DemoId]" }, "DemoId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static DemosWhereCollection Ver_Between(this DemosWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection Demos_Ver_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static DemosWhereCollection TenantId_Between(this DemosWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection Demos_TenantId_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static DemosWhereCollection Creator_Between(this DemosWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection Demos_Creator_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static DemosWhereCollection Updator_Between(this DemosWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection Demos_Updator_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static DemosWhereCollection CreatedTime_Between(this DemosWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[CreatedTime]" }, "CreatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection Demos_CreatedTime_Between(this SqlWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[CreatedTime]" }, "CreatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
+        public static DemosWhereCollection UpdatedTime_Between(this DemosWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection Demos_UpdatedTime_Between(this SqlWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
+        public static DemosWhereCollection Sub(this DemosWhereCollection self, SqlStatement sub, object value = null, string _operator = "=", bool _using = true) { return self.Add(null, null, value, _operator, sub: sub, _using: _using); }
+        public static DemosWhereCollection Or(this DemosWhereCollection self, SqlWhereCollection or, bool _using = true) { return self.Add(null, null, or: or, _using: _using); }
+        public static DemosGroupByCollection DemoId(this DemosGroupByCollection self) { return self.Add("[t0].[DemoId]"); }
+        public static SqlGroupByCollection Demos_DemoId(this SqlGroupByCollection self) { return self.Add("[t0].[DemoId]"); }
+        public static DemosGroupByCollection Ver(this DemosGroupByCollection self) { return self.Add("[t0].[Ver]"); }
+        public static SqlGroupByCollection Demos_Ver(this SqlGroupByCollection self) { return self.Add("[t0].[Ver]"); }
+        public static DemosGroupByCollection TenantId(this DemosGroupByCollection self) { return self.Add("[t0].[TenantId]"); }
+        public static SqlGroupByCollection Demos_TenantId(this SqlGroupByCollection self) { return self.Add("[t0].[TenantId]"); }
+        public static DemosGroupByCollection Title(this DemosGroupByCollection self) { return self.Add("[t0].[Title]"); }
+        public static SqlGroupByCollection Demos_Title(this SqlGroupByCollection self) { return self.Add("[t0].[Title]"); }
+        public static DemosGroupByCollection Passphrase(this DemosGroupByCollection self) { return self.Add("[t0].[Passphrase]"); }
+        public static SqlGroupByCollection Demos_Passphrase(this SqlGroupByCollection self) { return self.Add("[t0].[Passphrase]"); }
+        public static DemosGroupByCollection MailAddress(this DemosGroupByCollection self) { return self.Add("[t0].[MailAddress]"); }
+        public static SqlGroupByCollection Demos_MailAddress(this SqlGroupByCollection self) { return self.Add("[t0].[MailAddress]"); }
+        public static DemosGroupByCollection Initialized(this DemosGroupByCollection self) { return self.Add("[t0].[Initialized]"); }
+        public static SqlGroupByCollection Demos_Initialized(this SqlGroupByCollection self) { return self.Add("[t0].[Initialized]"); }
+        public static DemosGroupByCollection Comments(this DemosGroupByCollection self) { return self.Add("[t0].[Comments]"); }
+        public static SqlGroupByCollection Demos_Comments(this SqlGroupByCollection self) { return self.Add("[t0].[Comments]"); }
+        public static DemosGroupByCollection Creator(this DemosGroupByCollection self) { return self.Add("[t0].[Creator]"); }
+        public static SqlGroupByCollection Demos_Creator(this SqlGroupByCollection self) { return self.Add("[t0].[Creator]"); }
+        public static DemosGroupByCollection Updator(this DemosGroupByCollection self) { return self.Add("[t0].[Updator]"); }
+        public static SqlGroupByCollection Demos_Updator(this SqlGroupByCollection self) { return self.Add("[t0].[Updator]"); }
+        public static DemosGroupByCollection CreatedTime(this DemosGroupByCollection self) { return self.Add("[t0].[CreatedTime]"); }
+        public static SqlGroupByCollection Demos_CreatedTime(this SqlGroupByCollection self) { return self.Add("[t0].[CreatedTime]"); }
+        public static DemosGroupByCollection UpdatedTime(this DemosGroupByCollection self) { return self.Add("[t0].[UpdatedTime]"); }
+        public static SqlGroupByCollection Demos_UpdatedTime(this SqlGroupByCollection self) { return self.Add("[t0].[UpdatedTime]"); }
+        public static DemosHavingCollection DemosCount(this DemosHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "count(*)", name: "DemosCount", value: value, _operator: _operator); }
+        public static DemosHavingCollection CreatedTimeMax(this DemosHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "max([t0].[CreatedTime])", name: "CreatedTimeMax", value: value, _operator: _operator); }
+        public static SqlHavingCollection Demos_CreatedTimeMax(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "max([t0].[CreatedTime])", name: "CreatedTimeMax", value: value, _operator: _operator); }
+        public static DemosHavingCollection CreatedTimeMin(this DemosHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "min([t0].[CreatedTime])", name: "CreatedTimeMin", value: value, _operator: _operator); }
+        public static SqlHavingCollection Demos_CreatedTimeMin(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "min([t0].[CreatedTime])", name: "CreatedTimeMin", value: value, _operator: _operator); }
+        public static DemosHavingCollection UpdatedTimeMax(this DemosHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "max([t0].[UpdatedTime])", name: "UpdatedTimeMax", value: value, _operator: _operator); }
+        public static SqlHavingCollection Demos_UpdatedTimeMax(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "max([t0].[UpdatedTime])", name: "UpdatedTimeMax", value: value, _operator: _operator); }
+        public static DemosHavingCollection UpdatedTimeMin(this DemosHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "min([t0].[UpdatedTime])", name: "UpdatedTimeMin", value: value, _operator: _operator); }
+        public static SqlHavingCollection Demos_UpdatedTimeMin(this SqlHavingCollection self, object value, string _operator) { return self.Add(columnBracket: "min([t0].[UpdatedTime])", name: "UpdatedTimeMin", value: value, _operator: _operator); }
+        public static DemosOrderByCollection DemoId(this DemosOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[DemoId]"); }
+        public static DemosOrderByCollection Ver(this DemosOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Ver]"); }
+        public static DemosOrderByCollection TenantId(this DemosOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[TenantId]"); }
+        public static DemosOrderByCollection Title(this DemosOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Title]"); }
+        public static DemosOrderByCollection Passphrase(this DemosOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Passphrase]"); }
+        public static DemosOrderByCollection MailAddress(this DemosOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[MailAddress]"); }
+        public static DemosOrderByCollection Initialized(this DemosOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Initialized]"); }
+        public static DemosOrderByCollection Comments(this DemosOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Comments]"); }
+        public static DemosOrderByCollection Creator(this DemosOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Creator]"); }
+        public static DemosOrderByCollection Updator(this DemosOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Updator]"); }
+        public static DemosOrderByCollection CreatedTime(this DemosOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[CreatedTime]"); }
+        public static DemosOrderByCollection UpdatedTime(this DemosOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[UpdatedTime]"); }
+        public static SqlOrderByCollection Demos_DemoId(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[DemoId]"); }
+        public static SqlOrderByCollection Demos_Ver(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Ver]"); }
+        public static SqlOrderByCollection Demos_TenantId(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[TenantId]"); }
+        public static SqlOrderByCollection Demos_Title(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Title]"); }
+        public static SqlOrderByCollection Demos_Passphrase(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Passphrase]"); }
+        public static SqlOrderByCollection Demos_MailAddress(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[MailAddress]"); }
+        public static SqlOrderByCollection Demos_Initialized(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Initialized]"); }
+        public static SqlOrderByCollection Demos_Comments(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Comments]"); }
+        public static SqlOrderByCollection Demos_Creator(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Creator]"); }
+        public static SqlOrderByCollection Demos_Updator(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Updator]"); }
+        public static SqlOrderByCollection Demos_CreatedTime(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[CreatedTime]"); }
+        public static SqlOrderByCollection Demos_UpdatedTime(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[UpdatedTime]"); }
+        public static DemosOrderByCollection DemosCount(this DemosOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "count(*)"); }
+        public static DemosOrderByCollection CreatedTimeMax(this DemosOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[CreatedTime])"); }
+        public static SqlOrderByCollection Demos_CreatedTimeMax(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[CreatedTime])"); }
+        public static DemosOrderByCollection CreatedTimeMin(this DemosOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[CreatedTime])"); }
+        public static SqlOrderByCollection Demos_CreatedTimeMin(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[CreatedTime])"); }
+        public static DemosOrderByCollection UpdatedTimeMax(this DemosOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[UpdatedTime])"); }
+        public static SqlOrderByCollection Demos_UpdatedTimeMax(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[UpdatedTime])"); }
+        public static DemosOrderByCollection UpdatedTimeMin(this DemosOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[UpdatedTime])"); }
+        public static SqlOrderByCollection Demos_UpdatedTimeMin(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[UpdatedTime])"); }
+        public static DemosParamCollection DemoId(this DemosParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[DemoId]", "DemoId", value, sub, raw, _using); }
+        public static SqlParamCollection Demos_DemoId(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[DemoId]", "DemoId", value, sub, raw, _using); }
+        public static DemosParamCollection Ver(this DemosParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Ver]", "Ver", value, sub, raw, _using); }
+        public static SqlParamCollection Demos_Ver(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Ver]", "Ver", value, sub, raw, _using); }
+        public static DemosParamCollection TenantId(this DemosParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[TenantId]", "TenantId", value, sub, raw, _using); }
+        public static SqlParamCollection Demos_TenantId(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[TenantId]", "TenantId", value, sub, raw, _using); }
+        public static DemosParamCollection Title(this DemosParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Title]", "Title", value, sub, raw, _using); }
+        public static SqlParamCollection Demos_Title(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Title]", "Title", value, sub, raw, _using); }
+        public static DemosParamCollection Passphrase(this DemosParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Passphrase]", "Passphrase", value, sub, raw, _using); }
+        public static SqlParamCollection Demos_Passphrase(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Passphrase]", "Passphrase", value, sub, raw, _using); }
+        public static DemosParamCollection MailAddress(this DemosParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[MailAddress]", "MailAddress", value, sub, raw, _using); }
+        public static SqlParamCollection Demos_MailAddress(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[MailAddress]", "MailAddress", value, sub, raw, _using); }
+        public static DemosParamCollection Initialized(this DemosParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Initialized]", "Initialized", value, sub, raw, _using); }
+        public static SqlParamCollection Demos_Initialized(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Initialized]", "Initialized", value, sub, raw, _using); }
+        public static DemosParamCollection Comments(this DemosParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Comments]", "Comments", value, sub, raw, _using); }
+        public static SqlParamCollection Demos_Comments(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Comments]", "Comments", value, sub, raw, _using); }
+        public static DemosParamCollection Creator(this DemosParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Creator]", "Creator", value, sub, raw, _using); }
+        public static SqlParamCollection Demos_Creator(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Creator]", "Creator", value, sub, raw, _using); }
+        public static DemosParamCollection Updator(this DemosParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Updator]", "Updator", value, sub, raw, _using); }
+        public static SqlParamCollection Demos_Updator(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Updator]", "Updator", value, sub, raw, _using); }
+        public static DemosParamCollection CreatedTime(this DemosParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[CreatedTime]", "CreatedTime", value, sub, raw, _using); }
+        public static SqlParamCollection Demos_CreatedTime(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[CreatedTime]", "CreatedTime", value, sub, raw, _using); }
+        public static DemosParamCollection UpdatedTime(this DemosParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[UpdatedTime]", "UpdatedTime", value, sub, raw, _using); }
+        public static SqlParamCollection Demos_UpdatedTime(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[UpdatedTime]", "UpdatedTime", value, sub, raw, _using); }
 
         public static SysLogsColumnCollection SysLogsColumn()
         {
@@ -12798,6 +13397,47 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Title(tenantModel.Title.Value.MaxLength(1024), _using: tenantModel.Title_Updated || paramAll)
                 .Body(tenantModel.Body, _using: tenantModel.Body_Updated || paramAll)
                 .Comments(tenantModel.Comments.ToJson(), _using: tenantModel.Comments_Updated || paramAll);
+        }
+
+        public static DemosColumnCollection DemosColumnDefault()
+        {
+            return Rds.DemosColumn()
+                .DemoId()
+                .Ver()
+                .TenantId()
+                .Title()
+                .Passphrase()
+                .MailAddress()
+                .Initialized()
+                .Comments()
+                .Creator()
+                .Updator()
+                .CreatedTime()
+                .UpdatedTime();
+        }
+
+        public static DemosJoinCollection DemosJoinDefault()
+        {
+            return Rds.DemosJoin();
+        }
+
+        public static DemosWhereCollection DemosWhereDefault(DemoModel demoModel)
+        {
+            return Rds.DemosWhere()
+                .DemoId(demoModel.DemoId);
+        }
+
+        public static DemosParamCollection DemosParamDefault(
+            DemoModel demoModel, bool setDefault = false, bool paramAll = false)
+        {
+            return Rds.DemosParam()
+                .Ver(demoModel.Ver, _using: demoModel.Ver_Updated || setDefault || paramAll)
+                .TenantId(demoModel.TenantId, _using: demoModel.TenantId_Updated || setDefault || paramAll)
+                .Title(demoModel.Title.Value.MaxLength(1024), _using: demoModel.Title_Updated || paramAll)
+                .Passphrase(demoModel.Passphrase.MaxLength(34), _using: demoModel.Passphrase_Updated || setDefault || paramAll)
+                .MailAddress(demoModel.MailAddress.MaxLength(2048), _using: demoModel.MailAddress_Updated || setDefault || paramAll)
+                .Initialized(demoModel.Initialized, _using: demoModel.Initialized_Updated || setDefault || paramAll)
+                .Comments(demoModel.Comments.ToJson(), _using: demoModel.Comments_Updated || paramAll);
         }
 
         public static SysLogsColumnCollection SysLogsColumnDefault()
