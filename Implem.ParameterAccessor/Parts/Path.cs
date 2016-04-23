@@ -8,6 +8,5 @@
         public string Temp;
         public string Logs;
         public string Histories;
-        public string Current;
     }
 }
