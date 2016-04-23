@@ -855,7 +855,9 @@ namespace Implem.Pleasanter.Models
                             formData: formData))
                 .Hidden(
                     controlId: "GridOffset",
-                    value: siteSettings.GridPageSize.ToString());
+                    value: siteSettings.GridPageSize == tenantCollection.Count()
+                        ? siteSettings.GridPageSize.ToString()
+                        : "-1");
         }
 
         private static string Grid(SiteSettings siteSettings, Permissions.Types permissionType)
