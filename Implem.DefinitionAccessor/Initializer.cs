@@ -16,7 +16,7 @@ namespace Implem.DefinitionAccessor
             Environments.CurrentDirectoryPath = GetCurrentDirectoryPath(
                 new FileInfo(path).Directory);
             SetParameters();
-            Environments.ServiceName = Def.ServiceParameters.Name;
+            Environments.ServiceName = Parameters.Service.Name;
             SetRdsParameters();
             Environments.MachineName = Environment.MachineName;
             Environments.Application = 
@@ -25,26 +25,26 @@ namespace Implem.DefinitionAccessor
                 Assembly.GetExecutingAssembly().GetName().Version.ToString();
             SetDefinitions();
             Environments.TimeZoneInfoDefault = TimeZoneInfo.GetSystemTimeZones()
-                .FirstOrDefault(o => o.Id == Def.ServiceParameters.TimeZoneDefault);
+                .FirstOrDefault(o => o.Id == Parameters.Service.TimeZoneDefault);
             SetSqls();
         }
 
         private static void SetParameters()
         {
-            Def.AuthenticationParameters = Files.Read(ParametersPath("Authentication"))
-                .Deserialize<Parameters.Authentication>();
-            Def.BinaryStorageParameters = Files.Read(ParametersPath("BinaryStorage"))
-                .Deserialize<Parameters.BinaryStorage>();
-            Def.Parameters = Files.Read(ParametersPath("General"))
-                .Deserialize<Parameters.General>();
-            Def.MailParameters = Files.Read(ParametersPath("Mail"))
-                .Deserialize<Parameters.Mail>();
-            Def.PathParameters = Files.Read(ParametersPath("Path"))
-                .Deserialize<Parameters.Path>();
-            Def.RdsParameters = Files.Read(ParametersPath("Rds"))
-                .Deserialize<Parameters.Rds>();
-            Def.ServiceParameters = Files.Read(ParametersPath("Service"))
-                .Deserialize<Parameters.Service>();
+            Parameters.Authentication = Files.Read(ParametersPath("Authentication"))
+                .Deserialize<ParameterAccessor.Parts.Authentication>();
+            Parameters.BinaryStorage = Files.Read(ParametersPath("BinaryStorage"))
+                .Deserialize<ParameterAccessor.Parts.BinaryStorage>();
+            Parameters.General = Files.Read(ParametersPath("General"))
+                .Deserialize<ParameterAccessor.Parts.General>();
+            Parameters.Mail = Files.Read(ParametersPath("Mail"))
+                .Deserialize<ParameterAccessor.Parts.Mail>();
+            Parameters.Path = Files.Read(ParametersPath("Path"))
+                .Deserialize<ParameterAccessor.Parts.Path>();
+            Parameters.Rds = Files.Read(ParametersPath("Rds"))
+                .Deserialize<ParameterAccessor.Parts.Rds>();
+            Parameters.Service = Files.Read(ParametersPath("Service"))
+                .Deserialize<ParameterAccessor.Parts.Service>();
         }
 
         private static string ParametersPath(string name)
@@ -97,29 +97,29 @@ namespace Implem.DefinitionAccessor
 
         private static void SetRdsParameters()
         {
-            Def.RdsParameters.SaConnectionString = 
-                Def.RdsParameters.SaConnectionString.Replace(
+            Parameters.Rds.SaConnectionString = 
+                Parameters.Rds.SaConnectionString.Replace(
                     "#ServiceName#", Environments.ServiceName);
-            Def.RdsParameters.OwnerConnectionString = 
-                Def.RdsParameters.OwnerConnectionString.Replace(
+            Parameters.Rds.OwnerConnectionString = 
+                Parameters.Rds.OwnerConnectionString.Replace(
                     "#ServiceName#", Environments.ServiceName);
-            Def.RdsParameters.UserConnectionString = 
-                Def.RdsParameters.UserConnectionString.Replace(
+            Parameters.Rds.UserConnectionString = 
+                Parameters.Rds.UserConnectionString.Replace(
                     "#ServiceName#", Environments.ServiceName);
             switch (Environments.RdsProvider)
             {
                 case "Azure":
                     Environments.RdsProvider = "Azure";
                     Azures.SetRetryManager(
-                        Def.RdsParameters.SqlAzureRetryCount,
-                        Def.RdsParameters.SqlAzureRetryInterval);
+                        Parameters.Rds.SqlAzureRetryCount,
+                        Parameters.Rds.SqlAzureRetryInterval);
                     break;
                 default:
                     Environments.RdsProvider = "Local";
                     break;
             }
             Environments.RdsTimeZoneInfo = TimeZoneInfo.GetSystemTimeZones()
-                .FirstOrDefault(o => o.Id == Def.RdsParameters.TimeZoneInfo);
+                .FirstOrDefault(o => o.Id == Parameters.Rds.TimeZoneInfo);
         }
 
         private static void SetColumnDefinitionAdditional(XlsIo definitionFile)

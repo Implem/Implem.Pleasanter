@@ -487,7 +487,7 @@ namespace Implem.Pleasanter.Models
             }
             UserId = userId;
             Rds.ExecuteNonQuery(
-                connectionString: Def.RdsParameters.OwnerConnectionString,
+                connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
@@ -785,9 +785,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void PasswordExpirationPeriod()
         {
-            PasswordExpirationTime = Def.AuthenticationParameters.PasswordExpirationPeriod != 0
+            PasswordExpirationTime = Parameters.Authentication.PasswordExpirationPeriod != 0
                 ? new Time(DateTime.Today.AddDays(
-                    Def.AuthenticationParameters.PasswordExpirationPeriod))
+                    Parameters.Authentication.PasswordExpirationPeriod))
                 : new Time();
         }
 
@@ -882,7 +882,7 @@ namespace Implem.Pleasanter.Models
         private bool Authenticate()
         {
             var ret = false;
-            switch (Def.AuthenticationParameters.Provider)
+            switch (Parameters.Authentication.Provider)
             {
                 case "LDAP":
                     ret = Ldap.Authenticate();
@@ -1295,7 +1295,7 @@ namespace Implem.Pleasanter.Models
                                 .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl())
                                 .Hidden(
                                     controlId: "GridOffset",
-                                    value: Def.Parameters.GridPageSize.ToString()))
+                                    value: Parameters.General.GridPageSize.ToString()))
                         .Div(attributes: Html.Attributes()
                             .Id_Css("Dialog_ImportSettings", "dialog")
                             .Title(Displays.Import()))
@@ -1958,7 +1958,7 @@ namespace Implem.Pleasanter.Models
                                 .FieldSet(
                                     legendText: Displays.ViewDemoEnvironment(),
                                     css: " enclosed-thin",
-                                    _using: Def.ServiceParameters.Demo,
+                                    _using: Parameters.Service.Demo,
                                     action: () => hb
                                         .Div(action: () => hb
                                             .Field(

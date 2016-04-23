@@ -333,7 +333,7 @@ namespace Implem.Pleasanter.Models
             }
             TenantId = tenantId;
             Rds.ExecuteNonQuery(
-                connectionString: Def.RdsParameters.OwnerConnectionString,
+                connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {

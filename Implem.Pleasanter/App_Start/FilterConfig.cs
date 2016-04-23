@@ -10,7 +10,7 @@ namespace Implem.Pleasanter
             filters.Add(new HandleErrorAttribute());
             filters.Add(new HandleErrorExAttribute());
             filters.Add(new System.Web.Mvc.AuthorizeAttribute());
-            if (Def.ServiceParameters.RequireHttps)
+            if (Parameters.Service.RequireHttps)
             {
                 filters.Add(new RequireHttpsAttribute());
             }

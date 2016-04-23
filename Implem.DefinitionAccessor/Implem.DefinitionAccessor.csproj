@@ -69,19 +69,16 @@
     <Compile Include="Def.cs" />
     <Compile Include="Directories.cs" />
     <Compile Include="Initializer.cs" />
-    <Compile Include="Parameters\Authentication.cs" />
-    <Compile Include="Parameters\BinaryStorage.cs" />
-    <Compile Include="Parameters\Mail.cs" />
-    <Compile Include="Parameters\Path.cs" />
-    <Compile Include="Parameters\Service.cs" />
-    <Compile Include="Parameters\Rds.cs" />
-    <Compile Include="Parameters\General.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Implem.Libraries\Implem.Libraries.csproj">
       <Project>{cbe3ee93-92e6-4347-842f-de597048da29}</Project>
       <Name>Implem.Libraries</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Implem.ParameterAccessor\Implem.ParameterAccessor.csproj">
+      <Project>{43ca1830-2e4d-4137-898e-9c3c1b104baf}</Project>
+      <Name>Implem.ParameterAccessor</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

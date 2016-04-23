@@ -367,7 +367,7 @@ namespace Implem.Pleasanter.Models
             }
             SiteId = siteId;
             Rds.ExecuteNonQuery(
-                connectionString: Def.RdsParameters.OwnerConnectionString,
+                connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
@@ -1879,8 +1879,8 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-auto-thin",
                         labelText: Displays.SettingNearDeadlineBeforeDays(),
                         value: siteSettings.NearDeadlineBeforeDays.ToDecimal(),
-                        min: Def.Parameters.NearDeadlineBeforeDaysMin,
-                        max: Def.Parameters.NearDeadlineBeforeDaysMax,
+                        min: Parameters.General.NearDeadlineBeforeDaysMin,
+                        max: Parameters.General.NearDeadlineBeforeDaysMax,
                         step: 1,
                         width: 25)
                     .FieldSpinner(
@@ -1888,8 +1888,8 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-auto-thin",
                         labelText: Displays.SettingNearDeadlineAfterDays(),
                         value: siteSettings.NearDeadlineAfterDays.ToDecimal(),
-                        min: Def.Parameters.NearDeadlineAfterDaysMin,
-                        max: Def.Parameters.NearDeadlineAfterDaysMax,
+                        min: Parameters.General.NearDeadlineAfterDaysMin,
+                        max: Parameters.General.NearDeadlineAfterDaysMax,
                         step: 1,
                         width: 25)
                     .FieldSpinner(
@@ -1897,8 +1897,8 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-auto-thin",
                         labelText: Displays.SettingGridPageSize(),
                         value: siteSettings.GridPageSize.ToDecimal(),
-                        min: Def.Parameters.GridPageSizeMin,
-                        max: Def.Parameters.GridPageSizeMax,
+                        min: Parameters.General.GridPageSizeMin,
+                        max: Parameters.General.GridPageSizeMax,
                         step: 1,
                         width: 25)
                     .GridColumns(siteSettings)

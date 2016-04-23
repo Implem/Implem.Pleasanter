@@ -441,6 +441,10 @@
       <Project>{cbe3ee93-92e6-4347-842f-de597048da29}</Project>
       <Name>Implem.Libraries</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Implem.ParameterAccessor\Implem.ParameterAccessor.csproj">
+      <Project>{43ca1830-2e4d-4137-898e-9c3c1b104baf}</Project>
+      <Name>Implem.ParameterAccessor</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Definitions\definition_Code.xlsm" />
@@ -465,7 +469,6 @@
     <Content Include="Views\Users\New.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Views\AdminTasks\" />
   </ItemGroup>
   <ItemGroup>
@@ -488,6 +491,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Parameters\BinaryStorage.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\pleasanter配布.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -20,7 +20,7 @@ namespace Implem.CodeDefiner.Functions.CodeDefiner
             Files.CopyDirectory(
                 sourcePath: Directories.ServicePath(),
                 destinationPath: tempPath,
-                excludePathCollection: Def.Parameters.SolutionBackupExcludeDirectories.Split(','));
+                excludePathCollection: Parameters.General.SolutionBackupExcludeDirectories.Split(','));
             return tempPath;
         }
 
@@ -30,7 +30,7 @@ namespace Implem.CodeDefiner.Functions.CodeDefiner
             var zipFileName = ZipFileName();
             Archives.Zip(
                 zipFilePath: tempPath,
-                sourceFilePath: Path.Combine(Def.Parameters.SolutionBackupPath, zipFileName),
+                sourceFilePath: Path.Combine(Parameters.General.SolutionBackupPath, zipFileName),
                 distinationFileName: zipFileName,
                 tempPath: Directories.Temp());
         }
@@ -42,7 +42,7 @@ namespace Implem.CodeDefiner.Functions.CodeDefiner
 
         private static string TempPath()
         {
-            return Path.Combine(Def.Parameters.SolutionBackupPath, Strings.NewGuid());
+            return Path.Combine(Parameters.General.SolutionBackupPath, Strings.NewGuid());
         }
 
         private static string ZipFileName()

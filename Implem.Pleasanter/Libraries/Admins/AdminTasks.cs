@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Libraries.Admins
         public static string Do()
         {
             var now = DateTime.Now;
-            while ((DateTime.Now - now).Seconds <= Def.Parameters.AdminTasksDoSpan)
+            while ((DateTime.Now - now).Seconds <= Parameters.General.AdminTasksDoSpan)
             {
                 GetUpdateTarget().ForEach(referenceId =>
                 {

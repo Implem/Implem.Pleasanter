@@ -346,7 +346,7 @@ namespace Implem.Pleasanter.Models
             }
             DemoId = demoId;
             Rds.ExecuteNonQuery(
-                connectionString: Def.RdsParameters.OwnerConnectionString,
+                connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
@@ -608,7 +608,7 @@ namespace Implem.Pleasanter.Models
             Get(where: Rds.DemosWhere()
                 .Passphrase(passphrase)
                 .CreatedTime(
-                    DateTime.Today.AddDays(Def.ServiceParameters.DemoDays * -1),
+                    DateTime.Today.AddDays(Parameters.Service.DemoDays * -1),
                     _operator: ">="));
         }
     }
@@ -1233,7 +1233,7 @@ namespace Implem.Pleasanter.Models
                 PermissionType = Permissions.Types.Manager,
                 Title = new Title(Displays.DemoMailTitle()),
                 Body = Displays.DemoMailBody(Navigations.BaseUrl(), mailAddress),
-                From = new System.Net.Mail.MailAddress(Def.MailParameters.SupportFrom),
+                From = new System.Net.Mail.MailAddress(Parameters.Mail.SupportFrom),
                 To = mailAddress
             };
             outgoingMailModel.Send();

@@ -382,7 +382,7 @@ namespace Implem.Pleasanter.Models
             }
             OutgoingMailId = outgoingMailId;
             Rds.ExecuteNonQuery(
-                connectionString: Def.RdsParameters.OwnerConnectionString,
+                connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
@@ -694,7 +694,7 @@ namespace Implem.Pleasanter.Models
             if (error != null) return error;
             var permissionType = new ItemModel(ReferenceId).GetSite().PermissionType;
             Create();
-            switch (Def.MailParameters.SmtpProvider)
+            switch (Parameters.Mail.SmtpProvider)
             {
                 case "SendGrid": SendBySendGrid(); break;
                 default: SendBySmtp(); break;
@@ -753,8 +753,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SendBySmtp()
         {
-            Host = Def.MailParameters.SmtpHost;
-            Port = Def.MailParameters.SmtpPort;
+            Host = Parameters.Mail.SmtpHost;
+            Port = Parameters.Mail.SmtpPort;
             var mailMessage = new System.Net.Mail.MailMessage();
             mailMessage.From = From;
             MailAddresses(To).ForEach(to => mailMessage.To.Add(to));
@@ -784,8 +784,8 @@ namespace Implem.Pleasanter.Models
             sendGridMessage.Subject = Title.Value;
             sendGridMessage.Text = Body;
             new SendGrid.Web(new System.Net.NetworkCredential(
-                Def.MailParameters.SendGridSmtpUser,
-                Def.MailParameters.SendGridSmtpPassword)).DeliverAsync(sendGridMessage);
+                Parameters.Mail.SendGridSmtpUser,
+                Parameters.Mail.SendGridSmtpPassword)).DeliverAsync(sendGridMessage);
         }
 
         /// <summary>
@@ -818,7 +818,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private string ExternalMailAddress(string mailAddresses)
         {
-            var domains = Def.MailParameters.InternalDomains
+            var domains = Parameters.Mail.InternalDomains
                 .Split(',')
                 .Select(o => o.Trim())
                 .Where(o => o != string.Empty);

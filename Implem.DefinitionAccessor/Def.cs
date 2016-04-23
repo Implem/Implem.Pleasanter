@@ -8,14 +8,6 @@ namespace Implem.DefinitionAccessor
 {
     public static class Def
     {
-        public static Parameters.Authentication AuthenticationParameters;
-        public static Parameters.BinaryStorage BinaryStorageParameters;
-        public static Parameters.General Parameters;
-        public static Parameters.Mail MailParameters;
-        public static Parameters.Path PathParameters;
-        public static Parameters.Rds RdsParameters;
-        public static Parameters.Service ServiceParameters;
-
         public static bool ExistsModel(
             string modelName,
             Func<ColumnDefinition, bool> peredicate = null)
@@ -155,7 +147,7 @@ namespace Implem.DefinitionAccessor
             params SqlStatement[] statements)
         {
             return new SqlIo(CommandContainer(
-                Def.RdsParameters.SaConnectionString,
+                Parameters.Rds.SaConnectionString,
                 rdsUser,
                 transactional,
                 writeSqlToDebugLog,
@@ -169,7 +161,7 @@ namespace Implem.DefinitionAccessor
             params SqlStatement[] statements)
         {
             return new SqlIo(CommandContainer(
-                Def.RdsParameters.OwnerConnectionString,
+                Parameters.Rds.OwnerConnectionString,
                 rdsUser,
                 transactional,
                 writeSqlToDebugLog,
@@ -186,7 +178,7 @@ namespace Implem.DefinitionAccessor
             return new SqlIo(CommandContainer(
                 connectionString != ""
                     ? connectionString
-                    : Def.RdsParameters.UserConnectionString,
+                    : Parameters.Rds.UserConnectionString,
                 rdsUser,
                 transactional,
                 writeSqlToDebugLog,
@@ -207,7 +199,7 @@ namespace Implem.DefinitionAccessor
                 RdsProvider = Environments.RdsProvider,
                 ConnectionString = connectionString,
                 SqlStatementCollection = SqlStatementCollection(statements),
-                CommandTimeOut = RdsParameters.SqlCommandTimeOut,
+                CommandTimeOut = Parameters.Rds.SqlCommandTimeOut,
                 Transactional = transactional,
                 WriteSqlToDebugLog = writeSqlToDebugLog
             };

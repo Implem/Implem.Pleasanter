@@ -63,8 +63,10 @@ namespace Implem.CodeDefiner
 
         private static void DeleteTemporaryFiles()
         {
-            Files.DeleteTemporaryFiles(Directories.Temp(), Def.Parameters.DeleteTempOldThan);
-            Files.DeleteTemporaryFiles(Directories.Histories(), Def.Parameters.DeleteHistoriesOldThan);
+            Files.DeleteTemporaryFiles(
+                Directories.Temp(), Parameters.General.DeleteTempOldThan);
+            Files.DeleteTemporaryFiles(
+                Directories.Histories(), Parameters.General.DeleteHistoriesOldThan);
         }
 
         private static void ValidateArgs(IEnumerable<string> argList)

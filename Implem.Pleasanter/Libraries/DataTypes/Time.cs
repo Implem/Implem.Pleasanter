@@ -129,7 +129,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             {
                 hb.P(css: "time", action: () => hb
                     .Text(DisplayValue.ToText(column)));
-                if (Status?.Value != Def.Parameters.CompletionCode)
+                if (Status?.Value != Parameters.General.CompletionCode)
                 {
                     LimitText(hb);
                 }
@@ -205,15 +205,15 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         private static string LimitCss(DateTime now, DateTime limit)
         {
             var diff = (limit - now).TotalSeconds;
-            if (diff < Def.Parameters.LimitWarning3)
+            if (diff < Parameters.General.LimitWarning3)
             {
                 return "limit-warning3";
             }
-            else if (diff < Def.Parameters.LimitWarning2)
+            else if (diff < Parameters.General.LimitWarning2)
             {
                 return "limit-warning2";
             }
-            else if (diff < Def.Parameters.LimitWarning1)
+            else if (diff < Parameters.General.LimitWarning1)
             {
                 return "limit-warning1";
             }

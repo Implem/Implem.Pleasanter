@@ -46,7 +46,7 @@ namespace Implem.DefinitionAccessor
 
         public static string Definitions(string fileName = "")
         {
-            var path = Def.PathParameters.Definitions;
+            var path = Parameters.Path.Definitions;
             return path.IsNullOrEmpty()
                 ? Outputs("App_Data", "Definitions") + fileName.IsNotEmpty("\\" + fileName)
                 : path;
@@ -54,7 +54,7 @@ namespace Implem.DefinitionAccessor
 
         public static string Imports()
         {
-            var path = Def.PathParameters.Imports;
+            var path = Parameters.Path.Imports;
             return path.IsNullOrEmpty()
                 ? Outputs("App_Data", "Imports")
                 : path;
@@ -62,7 +62,7 @@ namespace Implem.DefinitionAccessor
 
         public static string Temp()
         {
-            var path = Def.PathParameters.Temp;
+            var path = Parameters.Path.Temp;
             return path.IsNullOrEmpty()
                 ? Path.Combine(Environments.CurrentDirectoryPath, "App_Data", "Temp")
                 : path;
@@ -70,7 +70,7 @@ namespace Implem.DefinitionAccessor
 
         public static string Logs()
         {
-            var path = Def.PathParameters.Logs;
+            var path = Parameters.Path.Logs;
             return path.IsNullOrEmpty()
                 ? Path.Combine(Environments.CurrentDirectoryPath, "App_Data", "Logs")
                 : path;
@@ -78,7 +78,7 @@ namespace Implem.DefinitionAccessor
 
         public static string Histories()
         {
-            var path = Def.PathParameters.Histories;
+            var path = Parameters.Path.Histories;
             return path.IsNullOrEmpty()
                 ? Path.Combine(Environments.CurrentDirectoryPath, "App_Data", "Histories")
                 : path;
@@ -86,7 +86,7 @@ namespace Implem.DefinitionAccessor
 
         public static string Data()
         {
-            var path = Def.PathParameters.Data;
+            var path = Parameters.Path.Data;
             return path.IsNullOrEmpty()
                 ? Path.Combine(Environments.CurrentDirectoryPath, "App_Data", "Data")
                 : path;

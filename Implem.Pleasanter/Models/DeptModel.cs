@@ -352,7 +352,7 @@ namespace Implem.Pleasanter.Models
             }
             DeptId = deptId;
             Rds.ExecuteNonQuery(
-                connectionString: Def.RdsParameters.OwnerConnectionString,
+                connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
@@ -810,7 +810,7 @@ namespace Implem.Pleasanter.Models
                                 .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl())
                                 .Hidden(
                                     controlId: "GridOffset",
-                                    value: Def.Parameters.GridPageSize.ToString()))
+                                    value: Parameters.General.GridPageSize.ToString()))
                         .Div(attributes: Html.Attributes()
                             .Id_Css("Dialog_ImportSettings", "dialog")
                             .Title(Displays.Import()))

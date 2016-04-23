@@ -729,7 +729,7 @@ namespace Implem.Pleasanter.Models
             }
             IssueId = issueId;
             Rds.ExecuteNonQuery(
-                connectionString: Def.RdsParameters.OwnerConnectionString,
+                connectionString: Parameters.Rds.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {

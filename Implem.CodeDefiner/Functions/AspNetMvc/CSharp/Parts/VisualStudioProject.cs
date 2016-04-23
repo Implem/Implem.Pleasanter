@@ -48,7 +48,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             return Def.ColumnDefinitionCollection
                 .Where(o => !o.Base)
                 .Select(o => o.ModelName)
-                .Union(Def.Parameters.ProjectModelRequire.Split(','))
+                .Union(Parameters.General.ProjectModelRequire.Split(','))
                 .Select(o => o.Trim())
                 .Where(o => o != string.Empty)
                 .Distinct()

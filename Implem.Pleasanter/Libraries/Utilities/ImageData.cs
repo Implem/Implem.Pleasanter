@@ -117,10 +117,10 @@ namespace Implem.Pleasanter.Libraries.Utilities
         {
             switch (sizeType)
             {
-                case SizeTypes.Regular: return Def.Parameters.ImageSizeRegular;
-                case SizeTypes.Thumbnail:return Def.Parameters.ImageSizeThumbnail;
-                case SizeTypes.Icon:return Def.Parameters.ImageSizeIcon;
-                default: return Def.Parameters.ImageSizeRegular;
+                case SizeTypes.Regular: return Parameters.General.ImageSizeRegular;
+                case SizeTypes.Thumbnail:return Parameters.General.ImageSizeThumbnail;
+                case SizeTypes.Icon:return Parameters.General.ImageSizeIcon;
+                default: return Parameters.General.ImageSizeRegular;
             }
         }
     }

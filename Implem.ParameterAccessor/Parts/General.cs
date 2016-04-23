@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Implem.DefinitionAccessor.Parameters
+namespace Implem.ParameterAccessor.Parts
 {
     public class General
     {

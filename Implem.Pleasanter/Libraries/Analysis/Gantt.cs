@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.Analysis
             CompletionTime = completionTime.ToLocal(Displays.YmdFormat());
             DisplayCompletionTime = completionTime.AddDays(-1).ToLocal(Displays.YmdFormat());
             ProgressRate = progressRate;
-            Completed = status == Def.Parameters.CompletionCode;
+            Completed = status == Parameters.General.CompletionCode;
         }
     }
 
