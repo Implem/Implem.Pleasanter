@@ -336,7 +336,7 @@ namespace Implem.Pleasanter.Models
             }
             MailAddressId = mailAddressId;
             Rds.ExecuteNonQuery(
-                connectionString: Def.Parameters.RdsOwnerConnectionString,
+                connectionString: Def.RdsParameters.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {

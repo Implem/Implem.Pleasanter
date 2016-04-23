@@ -195,13 +195,13 @@
     <Compile Include="Controllers\AdminsController.cs" />
     <Compile Include="Controllers\AdminTasksController.cs" />
     <Compile Include="Controllers\BinariesController.cs" />
+    <Compile Include="Controllers\DemosController.cs" />
     <Compile Include="Controllers\DeptsController.cs" />
     <Compile Include="Controllers\ErrorsController.cs" />
     <Compile Include="Controllers\ExportSettingsController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\OutgoingMailsController.cs" />
     <Compile Include="Controllers\PermissionsController.cs" />
-    <Compile Include="Controllers\DemosController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Filters\HandleErrorExAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -423,7 +423,7 @@
     <Content Include="App_Data\Imports\import_Sites.xlsx" />
     <Content Include="App_Data\Imports\import_Tenants.xlsx" />
     <Content Include="App_Data\Imports\import_Users.xlsx" />
-    <Content Include="App_Data\Definitions\Parameters.json" />
+    <Content Include="App_Data\Parameters\General.json" />
     <Content Include="Views\Depts\Edit.cshtml" />
     <Content Include="Views\Depts\Index.cshtml" />
     <Content Include="Views\Depts\New.cshtml" />
@@ -470,6 +470,27 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Definitions\definition_Demo.xlsm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\Parameters\Rds.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\Parameters\Service.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\Parameters\Path.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\Parameters\Demo.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\Parameters\Authentication.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\Parameters\Mail.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\Parameters\BinaryStorage.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

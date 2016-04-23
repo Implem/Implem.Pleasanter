@@ -698,7 +698,7 @@ namespace Implem.Pleasanter.Models
             }
             ResultId = resultId;
             Rds.ExecuteNonQuery(
-                connectionString: Def.Parameters.RdsOwnerConnectionString,
+                connectionString: Def.RdsParameters.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {

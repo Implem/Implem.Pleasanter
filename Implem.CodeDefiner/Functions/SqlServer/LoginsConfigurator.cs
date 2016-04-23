@@ -7,8 +7,8 @@ namespace Implem.CodeDefiner.Functions.SqlServer
     {
         internal static void Configure()
         {
-            Execute(Def.Parameters.RdsOwnerConnectionString);
-            Execute(Def.Parameters.RdsUserConnectionString);
+            Execute(Def.RdsParameters.OwnerConnectionString);
+            Execute(Def.RdsParameters.UserConnectionString);
         }
 
         private static void Execute(string connectionString)

@@ -367,7 +367,7 @@ namespace Implem.Pleasanter.Models
             }
             SiteId = siteId;
             Rds.ExecuteNonQuery(
-                connectionString: Def.Parameters.RdsOwnerConnectionString,
+                connectionString: Def.RdsParameters.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {

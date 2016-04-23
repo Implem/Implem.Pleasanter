@@ -487,7 +487,7 @@ namespace Implem.Pleasanter.Models
             }
             UserId = userId;
             Rds.ExecuteNonQuery(
-                connectionString: Def.Parameters.RdsOwnerConnectionString,
+                connectionString: Def.RdsParameters.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
@@ -785,9 +785,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void PasswordExpirationPeriod()
         {
-            PasswordExpirationTime = Def.Parameters.PasswordExpirationPeriod != 0
+            PasswordExpirationTime = Def.AuthenticationParameters.PasswordExpirationPeriod != 0
                 ? new Time(DateTime.Today.AddDays(
-                    Def.Parameters.PasswordExpirationPeriod))
+                    Def.AuthenticationParameters.PasswordExpirationPeriod))
                 : new Time();
         }
 
@@ -882,7 +882,7 @@ namespace Implem.Pleasanter.Models
         private bool Authenticate()
         {
             var ret = false;
-            switch (Def.Parameters.AuthenticationProvider)
+            switch (Def.AuthenticationParameters.Provider)
             {
                 case "LDAP":
                     ret = Ldap.Authenticate();
@@ -1958,7 +1958,7 @@ namespace Implem.Pleasanter.Models
                                 .FieldSet(
                                     legendText: Displays.ViewDemoEnvironment(),
                                     css: " enclosed-thin",
-                                    _using: Def.Parameters.Demo,
+                                    _using: Def.ServiceParameters.Demo,
                                     action: () => hb
                                         .Div(action: () => hb
                                             .Field(

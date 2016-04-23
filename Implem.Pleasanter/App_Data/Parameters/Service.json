@@ -1,0 +1,8 @@
+﻿{
+    "Name": "Implem.Pleasanter",
+    "TimeZoneDefault": "Tokyo Standard Time",
+    "RequireHttps": false,
+    "ImportData": false,
+    "Demo": false,
+    "DemoDays": 30
+}

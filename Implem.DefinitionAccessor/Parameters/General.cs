@@ -1,22 +1,8 @@
 ﻿using System;
-namespace Implem.DefinitionAccessor
+namespace Implem.DefinitionAccessor.Parameters
 {
-    public class Parameters
+    public class General
     {
-        public string ServiceName;
-        public string RdsType;
-        public string RdsTimeZoneInfo;
-        public string RdsSaConnectionString;
-        public string RdsOwnerConnectionString;
-        public string RdsUserConnectionString;
-        public string DefinitionsPath;
-        public string ImportsPath;
-        public string TempPath;
-        public string LogsPath;
-        public string HistoriesPath;
-        public string DataPath;
-        public bool Demo;
-        public int DemoDays;
         public string HtmlTitle;
         public string HtmlHeadKeywords;
         public string HtmlHeadDescription;
@@ -25,26 +11,9 @@ namespace Implem.DefinitionAccessor
         public string HtmlLogoText;
         public string HtmlCopyright;
         public string HtmlCopyrightUrl;
-        public string TimeZoneDefault;
-        public int DataImport;
-        public int RequireHttps;
-        public string AuthenticationProvider;
-        public int PasswordExpirationPeriod;
-        public string LdapSearchRoot;
-        public string LdapSearchProperty;
-        public int LdapTenantId;
-        public string LdapDeptCode;
-        public string LdapDeptName;
-        public string LdapUserCode;
-        public string LdapFirstName;
-        public string LdapLastName;
-        public string LdapMailAddress;
         public int LimitWarning1;
         public int LimitWarning2;
         public int LimitWarning3;
-        public int SqlCommandTimeOut;
-        public int SqlAzureRetryCount;
-        public int SqlAzureRetryInterval;
         public int DeleteTempOldThan;
         public int DeleteHistoriesOldThan;
         public int NearDeadlineBeforeDays;
@@ -58,14 +27,6 @@ namespace Implem.DefinitionAccessor
         public int GridPageSizeMax;
         public string SolutionBackupPath;
         public string SolutionBackupExcludeDirectories;
-        public string InternalMailDomains;
-        public string BinaryStorageProvider;
-        public string SmtpProvider;
-        public string SmtpHost;
-        public int SmtpPort;
-        public string SendGridSmtpUser;
-        public string SendGridSmtpPassword;
-        public string SupportFrom;
         public int SizeToUseTextArea;
         public string ProjectModelRequire;
         public int CompletionCode;

@@ -425,7 +425,7 @@ namespace Implem.Pleasanter.Models
             }
             WikiId = wikiId;
             Rds.ExecuteNonQuery(
-                connectionString: Def.Parameters.RdsOwnerConnectionString,
+                connectionString: Def.RdsParameters.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {

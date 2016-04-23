@@ -95,13 +95,11 @@ namespace Implem.Libraries.DataSources.SqlServer
             SqlCommand.Connection.Open();
             switch (SqlContainer.RdsProvider)
             {
-                case Sqls.RdsProviders.Local:
-                    SqlCommand.ExecuteNonQuery();
-                    break;
-                case Sqls.RdsProviders.Azure:
+                case "Azure":
                     SqlCommand.ExecuteNonQueryWithRetry();
                     break;
                 default:
+                    SqlCommand.ExecuteNonQuery();
                     break;
             }
             SqlCommand.Connection.Close();
@@ -115,13 +113,11 @@ namespace Implem.Libraries.DataSources.SqlServer
             SqlCommand.Connection.Open();
             switch (SqlContainer.RdsProvider)
             {
-                case Sqls.RdsProviders.Local:
-                    command = SqlCommand.ExecuteScalar();
-                    break;
-                case Sqls.RdsProviders.Azure:
+                case "Azure":
                     command = SqlCommand.ExecuteScalarWithRetry();
                     break;
                 default:
+                    command = SqlCommand.ExecuteScalar();
                     break;
             }
             SqlCommand.Connection.Close();
@@ -135,10 +131,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             SetCommand();
             switch (SqlContainer.RdsProvider)
             {
-                case Sqls.RdsProviders.Local:
-                    new SqlDataAdapter(SqlCommand).Fill(dataTable);
-                    break;
-                case Sqls.RdsProviders.Azure:
+                case "Azure":
                     var retryPolicy = Azures.RetryPolicy();
                     retryPolicy.ExecuteAction(() =>
                     {
@@ -152,6 +145,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                     });
                     break;
                 default:
+                    new SqlDataAdapter(SqlCommand).Fill(dataTable);
                     break;
             }
             Clear();
@@ -164,10 +158,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             SetCommand();
             switch (SqlContainer.RdsProvider)
             {
-                case Sqls.RdsProviders.Local:
-                    SqlContainer.SqlDataAdapter(SqlCommand).Fill(dataSet);
-                    break;
-                case Sqls.RdsProviders.Azure:
+                case "Azure":
                     var retryPolicy = Azures.RetryPolicy();
                     retryPolicy.ExecuteAction(() =>
                     {
@@ -181,6 +172,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                     });
                     break;
                 default:
+                    SqlContainer.SqlDataAdapter(SqlCommand).Fill(dataSet);
                     break;
             }
             Clear();

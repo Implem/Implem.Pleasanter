@@ -391,7 +391,7 @@ namespace Implem.Pleasanter.Models
             }
             BinaryId = binaryId;
             Rds.ExecuteNonQuery(
-                connectionString: Def.Parameters.RdsOwnerConnectionString,
+                connectionString: Def.RdsParameters.OwnerConnectionString,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
@@ -665,7 +665,7 @@ namespace Implem.Pleasanter.Models
             {
                 return false;
             }
-            switch (Def.Parameters.BinaryStorageProvider)
+            switch (Def.BinaryStorageParameters.Provider)
             {
                 case "Local":
                     return new ImageData(ReferenceId, ImageData.Types.SiteImage).Exists(sizeType);
@@ -686,7 +686,7 @@ namespace Implem.Pleasanter.Models
             {
                 return string.Empty;
             }
-            switch (Def.Parameters.BinaryStorageProvider)
+            switch (Def.BinaryStorageParameters.Provider)
             {
                 case "Local":
                     return new ImageData(ReferenceId, ImageData.Types.SiteImage).UrlPrefix(sizeType);
@@ -724,7 +724,7 @@ namespace Implem.Pleasanter.Models
             {
                 return null;
             }
-            switch (Def.Parameters.BinaryStorageProvider)
+            switch (Def.BinaryStorageParameters.Provider)
             {
                 case "Local":
                     return new ImageData(ReferenceId, ImageData.Types.SiteImage).Read(sizeType);
@@ -750,7 +750,7 @@ namespace Implem.Pleasanter.Models
                 Forms.File(ImageData.Types.SiteImage.ToString()),
                 ReferenceId,
                 ImageData.Types.SiteImage);
-            switch (Def.Parameters.BinaryStorageProvider)
+            switch (Def.BinaryStorageParameters.Provider)
             {
                 case "Local": imageData.WriteToLocal(); break;
                 default:

@@ -15,10 +15,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
             var password = Forms.Data("Users_Password");
             try
             {
-                var searchRoot = new DirectoryEntry(Def.Parameters.LdapSearchRoot, loginId, password);
+                var searchRoot = new DirectoryEntry(
+                    Def.AuthenticationParameters.LdapSearchRoot, loginId, password);
                 var directorySearcher = new DirectorySearcher(searchRoot);
                 directorySearcher.Filter = "({0}={1})"
-                    .Params(Def.Parameters.LdapSearchProperty, loginId);
+                    .Params(Def.AuthenticationParameters.LdapSearchProperty, loginId);
                 var searchResult = directorySearcher.FindOne();
                 if (searchResult == null) return false;
                 var entry = new DirectoryEntry(searchResult.Path, loginId, password);
@@ -34,24 +35,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         private static void UpdateOrInsert(string loginId, DirectoryEntry entry)
         {
-            var deptCode = entry.Property(Def.Parameters.LdapDeptCode);
-            var deptName = entry.Property(Def.Parameters.LdapDeptName);
-            var userCode = entry.Property(Def.Parameters.LdapUserCode);
-            var firstName = entry.Property(Def.Parameters.LdapFirstName);
-            var lastName = entry.Property(Def.Parameters.LdapLastName);
-            var mailAddress = entry.Property(Def.Parameters.LdapMailAddress);
+            var deptCode = entry.Property(Def.AuthenticationParameters.LdapDeptCode);
+            var deptName = entry.Property(Def.AuthenticationParameters.LdapDeptName);
+            var userCode = entry.Property(Def.AuthenticationParameters.LdapUserCode);
+            var firstName = entry.Property(Def.AuthenticationParameters.LdapFirstName);
+            var lastName = entry.Property(Def.AuthenticationParameters.LdapLastName);
+            var mailAddress = entry.Property(Def.AuthenticationParameters.LdapMailAddress);
             Rds.ExecuteNonQuery(statements: new SqlStatement[]
             {
                     Rds.UpdateOrInsertDepts(
                         param: Rds.DeptsParam()
-                            .TenantId(Def.Parameters.LdapTenantId)
+                            .TenantId(Def.AuthenticationParameters.LdapTenantId)
                             .ParentDeptId(0)
                             .DeptCode(deptCode)
                             .DeptName(deptName),
                         where: Rds.DeptsWhere().DeptCode(deptCode)),
                     Rds.UpdateOrInsertUsers(
                         param: Rds.UsersParam()
-                            .TenantId(Def.Parameters.LdapTenantId)
+                            .TenantId(Def.AuthenticationParameters.LdapTenantId)
                             .LoginId(loginId)
                             .UserCode(userCode)
                             .FirstName(firstName)

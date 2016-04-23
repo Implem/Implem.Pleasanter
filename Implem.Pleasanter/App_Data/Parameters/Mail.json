@@ -1,0 +1,9 @@
+﻿{
+    "SmtpProvider": "SendGrid",
+    "SmtpHost": null,
+    "SmtpPort": 25,
+    "SendGridSmtpUser": null,
+    "SendGridSmtpPassword": null,
+    "SupportFrom": "support@pleasanter.org",
+    "InternalDomains": ""
+}

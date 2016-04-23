@@ -16,7 +16,7 @@ namespace Implem.DefinitionAccessor
             Environments.CurrentDirectoryPath = GetCurrentDirectoryPath(
                 new FileInfo(path).Directory);
             SetParameters();
-            Environments.ServiceName = Def.Parameters.ServiceName;
+            Environments.ServiceName = Def.ServiceParameters.Name;
             SetRdsParameters();
             Environments.MachineName = Environment.MachineName;
             Environments.Application = 
@@ -25,18 +25,35 @@ namespace Implem.DefinitionAccessor
                 Assembly.GetExecutingAssembly().GetName().Version.ToString();
             SetDefinitions();
             Environments.TimeZoneInfoDefault = TimeZoneInfo.GetSystemTimeZones()
-                .FirstOrDefault(o => o.Id == Def.Parameters.TimeZoneDefault);
+                .FirstOrDefault(o => o.Id == Def.ServiceParameters.TimeZoneDefault);
             SetSqls();
         }
 
         private static void SetParameters()
         {
-            var path = Path.Combine(
-                Environments.CurrentDirectoryPath, "App_Data", "Definitions", "Parameters.json");
-            if (Files.Exists(path))
-            {
-                Def.Parameters = Files.Read(path).Deserialize<Parameters>();
-            }
+            Def.AuthenticationParameters = Files.Read(ParametersPath("Authentication"))
+                .Deserialize<Parameters.Authentication>();
+            Def.BinaryStorageParameters = Files.Read(ParametersPath("BinaryStorage"))
+                .Deserialize<Parameters.BinaryStorage>();
+            Def.Parameters = Files.Read(ParametersPath("General"))
+                .Deserialize<Parameters.General>();
+            Def.MailParameters = Files.Read(ParametersPath("Mail"))
+                .Deserialize<Parameters.Mail>();
+            Def.PathParameters = Files.Read(ParametersPath("Path"))
+                .Deserialize<Parameters.Path>();
+            Def.RdsParameters = Files.Read(ParametersPath("Rds"))
+                .Deserialize<Parameters.Rds>();
+            Def.ServiceParameters = Files.Read(ParametersPath("Service"))
+                .Deserialize<Parameters.Service>();
+        }
+
+        private static string ParametersPath(string name)
+        {
+            return Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                name + ".json");
         }
 
         private static string GetCurrentDirectoryPath(DirectoryInfo currentDirectory)
@@ -44,7 +61,7 @@ namespace Implem.DefinitionAccessor
             foreach (var sub in currentDirectory.GetDirectories())
             {
                 var path = Path.Combine(
-                    sub.FullName, "App_Data", "Definitions", "Parameters.json");
+                    sub.FullName, "App_Data", "Parameters", "Service.json");
                 if (Files.Exists(path))
                 {
                     return new FileInfo(path).Directory.Parent.Parent.FullName;
@@ -80,30 +97,29 @@ namespace Implem.DefinitionAccessor
 
         private static void SetRdsParameters()
         {
-            Def.Parameters.RdsSaConnectionString = 
-                Def.Parameters.RdsSaConnectionString.Replace(
+            Def.RdsParameters.SaConnectionString = 
+                Def.RdsParameters.SaConnectionString.Replace(
                     "#ServiceName#", Environments.ServiceName);
-            Def.Parameters.RdsOwnerConnectionString = 
-                Def.Parameters.RdsOwnerConnectionString.Replace(
+            Def.RdsParameters.OwnerConnectionString = 
+                Def.RdsParameters.OwnerConnectionString.Replace(
                     "#ServiceName#", Environments.ServiceName);
-            Def.Parameters.RdsUserConnectionString = 
-                Def.Parameters.RdsUserConnectionString.Replace(
+            Def.RdsParameters.UserConnectionString = 
+                Def.RdsParameters.UserConnectionString.Replace(
                     "#ServiceName#", Environments.ServiceName);
-            switch (Def.Parameters.RdsType)
+            switch (Environments.RdsProvider)
             {
-                case "Local": 
-                    Environments.RdsProvider = Sqls.RdsProviders.Local;
-                    break;
                 case "Azure":
-                    Environments.RdsProvider = Sqls.RdsProviders.Azure;
+                    Environments.RdsProvider = "Azure";
                     Azures.SetRetryManager(
-                        Def.Parameters.SqlAzureRetryCount,
-                        Def.Parameters.SqlAzureRetryInterval);
+                        Def.RdsParameters.SqlAzureRetryCount,
+                        Def.RdsParameters.SqlAzureRetryInterval);
                     break;
-                default: break;
+                default:
+                    Environments.RdsProvider = "Local";
+                    break;
             }
             Environments.RdsTimeZoneInfo = TimeZoneInfo.GetSystemTimeZones()
-                .FirstOrDefault(o => o.Id == Def.Parameters.RdsTimeZoneInfo);
+                .FirstOrDefault(o => o.Id == Def.RdsParameters.TimeZoneInfo);
         }
 
         private static void SetColumnDefinitionAdditional(XlsIo definitionFile)

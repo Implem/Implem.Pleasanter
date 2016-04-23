@@ -1,0 +1,13 @@
+﻿{
+    "Provider": null,
+    "PasswordExpirationPeriod": 0,
+    "LdapSearchRoot": null,
+    "LdapSearchProperty": "mail",
+    "LdapTenantId": 1,
+    "LdapDeptCode": null,
+    "LdapDeptName": null,
+    "LdapUserCode": null,
+    "LdapFirstName": "givenName",
+    "LdapLastName": "sn",
+    "LdapMailAddress": "mail"
+}

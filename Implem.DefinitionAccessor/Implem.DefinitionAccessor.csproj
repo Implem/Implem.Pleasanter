@@ -69,7 +69,13 @@
     <Compile Include="Def.cs" />
     <Compile Include="Directories.cs" />
     <Compile Include="Initializer.cs" />
-    <Compile Include="Parameters.cs" />
+    <Compile Include="Parameters\Authentication.cs" />
+    <Compile Include="Parameters\BinaryStorage.cs" />
+    <Compile Include="Parameters\Mail.cs" />
+    <Compile Include="Parameters\Path.cs" />
+    <Compile Include="Parameters\Service.cs" />
+    <Compile Include="Parameters\Rds.cs" />
+    <Compile Include="Parameters\General.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

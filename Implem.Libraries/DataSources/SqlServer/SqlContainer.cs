@@ -8,7 +8,7 @@ namespace Implem.Libraries.DataSources.SqlServer
     {
         public RdsUser RdsUser;
         public string RdsName;
-        public Sqls.RdsProviders RdsProvider;
+        public string RdsProvider;
         public string ConnectionString;
         public List<SqlStatement> SqlStatementCollection = new List<SqlStatement>();
         public int ConnectionTimeOut;

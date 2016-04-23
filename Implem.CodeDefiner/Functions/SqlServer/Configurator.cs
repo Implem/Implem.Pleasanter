@@ -7,13 +7,13 @@ namespace Implem.CodeDefiner.Functions.SqlServer
     {
         internal static void Configure()
         {
-            if (Environments.RdsProvider == Sqls.RdsProviders.Local)
+            if (Environments.RdsProvider == "Local")
             {
                 RdsConfigurator.Configure();
                 LoginsConfigurator.Configure();
             }
             TablesConfigurator.Configure();
-            if (Def.Parameters.DataImport == 1)
+            if (Def.ServiceParameters.ImportData)
             {
                 DataImporter.Import();
             }
