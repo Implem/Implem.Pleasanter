@@ -481,9 +481,6 @@
     <Content Include="App_Data\Parameters\Path.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Parameters\Demo.json" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="App_Data\Parameters\Authentication.json" />
   </ItemGroup>
   <ItemGroup>
