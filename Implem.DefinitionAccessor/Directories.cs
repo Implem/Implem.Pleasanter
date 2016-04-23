@@ -84,11 +84,11 @@ namespace Implem.DefinitionAccessor
                 : path;
         }
 
-        public static string Data()
+        public static string BinaryStorage()
         {
-            var path = Parameters.Path.Data;
+            var path = Parameters.BinaryStorage.Path;
             return path.IsNullOrEmpty()
-                ? Path.Combine(Environments.CurrentDirectoryPath, "App_Data", "Data")
+                ? Path.Combine(Environments.CurrentDirectoryPath, "App_Data", "BinaryStorage")
                 : path;
         }
 

@@ -68,7 +68,7 @@ namespace Implem.Pleasanter.Libraries.Utilities
         private string Path(long referenceId, Types type, SizeTypes sizeType)
         {
             return System.IO.Path.Combine(
-                Directories.Data(),
+                Directories.BinaryStorage(),
                 type.ToString(),
                 "{0}_{1}.png".Params(referenceId, sizeType));
         }

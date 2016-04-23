@@ -3,5 +3,6 @@
     public class BinaryStorage
     {
         public string Provider;
+        public string Path;
     }
 }
