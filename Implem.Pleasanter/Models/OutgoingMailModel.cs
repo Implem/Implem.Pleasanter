@@ -1763,14 +1763,16 @@ namespace Implem.Pleasanter.Models
                         method: "put"))
                 .Div(css: "container-right", action: () => hb
                     .Div(action: () => hb
-                        .Selectable(
+                        .FieldSelectable(
                             controlId: "OutgoingMails_MailAddresses",
+                            fieldCss: "field-vertical both",
+                            controlContainerCss: "container-selectable",
+                            controlCss: " h500",
                             listItemCollection: Destinations(
                                 referenceId: referenceId,
                                 addressBook: addressBook,
                                 searchRange: searchRangeDefault),
-                            selectedValueCollection: new List<string>(),
-                            controlCss: " h500")
+                            selectedValueCollection: new List<string>())
                         .Div(css: "command-left", action: () => hb
                             .Button(
                                 controlId: "OutgoingMails_AddTo",
