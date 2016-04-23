@@ -1569,6 +1569,15 @@ namespace Implem.Pleasanter.Models
                                     permissionType: permissionType,
                                     formData: formData,
                                     dataViewName: dataViewName))
+                            .MainCommands(
+                                siteId: siteSettings.SiteId,
+                                permissionType: permissionType,
+                                verType: Versions.VerTypes.Latest,
+                                backUrl: Navigations.ItemIndex(siteSettings.ParentId),
+                                bulkMoveButton: true,
+                                bulkDeleteButton: true,
+                                importButton: true,
+                                exportButton: true)
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "Results")
                             .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
@@ -1658,16 +1667,7 @@ namespace Implem.Pleasanter.Models
                             formData: formData))
                 .Hidden(
                     controlId: "GridOffset",
-                    value: siteSettings.GridPageSize.ToString())
-                .MainCommands(
-                    siteId: siteSettings.SiteId,
-                    permissionType: permissionType,
-                    verType: Versions.VerTypes.Latest,
-                    backUrl: Navigations.ItemIndex(siteSettings.ParentId),
-                    bulkMoveButton: true,
-                    bulkDeleteButton: true,
-                    importButton: true,
-                    exportButton: true);
+                    value: siteSettings.GridPageSize.ToString());
         }
 
         private static string Grid(SiteSettings siteSettings, Permissions.Types permissionType)
