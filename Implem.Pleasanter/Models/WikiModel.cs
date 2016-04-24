@@ -1240,7 +1240,7 @@ namespace Implem.Pleasanter.Models
                 .Form(
                     attributes: Html.Attributes()
                         .Id_Css("WikiForm", "main-form")
-                        .Action(Navigations.ItemAction(wikiModel.WikiId != 0 
+                        .Action(Navigations.ItemAction(wikiModel.WikiId != 0
                             ? wikiModel.WikiId
                             : siteModel.SiteId)),
                     action: () => hb
@@ -1279,6 +1279,7 @@ namespace Implem.Pleasanter.Models
                                 mailButton: true,
                                 deleteButton: true))
                         .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl())
+                        .Hidden(controlId: "MethodType", value: "edit")
                         .Hidden(
                             controlId: "Wikis_Timestamp",
                             css: "must-transport",
