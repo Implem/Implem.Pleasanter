@@ -99,6 +99,22 @@ namespace Implem.Pleasanter.Libraries.Utilities
                     destinationPk, sourceReferenceType, link, type, source));
                 case "NumH": return Rds.IssuesParam().NumH(sub: Select(
                     destinationPk, sourceReferenceType, link, type, source));
+                case "NumI": return Rds.IssuesParam().NumI(sub: Select(
+                    destinationPk, sourceReferenceType, link, type, source));
+                case "NumJ": return Rds.IssuesParam().NumJ(sub: Select(
+                    destinationPk, sourceReferenceType, link, type, source));
+                case "NumK": return Rds.IssuesParam().NumK(sub: Select(
+                    destinationPk, sourceReferenceType, link, type, source));
+                case "NumL": return Rds.IssuesParam().NumL(sub: Select(
+                    destinationPk, sourceReferenceType, link, type, source));
+                case "NumM": return Rds.IssuesParam().NumM(sub: Select(
+                    destinationPk, sourceReferenceType, link, type, source));
+                case "NumN": return Rds.IssuesParam().NumN(sub: Select(
+                    destinationPk, sourceReferenceType, link, type, source));
+                case "NumO": return Rds.IssuesParam().NumO(sub: Select(
+                    destinationPk, sourceReferenceType, link, type, source));
+                case "NumP": return Rds.IssuesParam().NumP(sub: Select(
+                    destinationPk, sourceReferenceType, link, type, source));
                 default: return null;
             }
         }
@@ -153,6 +169,22 @@ namespace Implem.Pleasanter.Libraries.Utilities
                 case "NumG": return Rds.ResultsParam().NumG(sub: Select(
                     destinationPk, sourceReferenceType, link, type, source));
                 case "NumH": return Rds.ResultsParam().NumH(sub: Select(
+                    destinationPk, sourceReferenceType, link, type, source));
+                case "NumI": return Rds.ResultsParam().NumI(sub: Select(
+                    destinationPk, sourceReferenceType, link, type, source));
+                case "NumJ": return Rds.ResultsParam().NumJ(sub: Select(
+                    destinationPk, sourceReferenceType, link, type, source));
+                case "NumK": return Rds.ResultsParam().NumK(sub: Select(
+                    destinationPk, sourceReferenceType, link, type, source));
+                case "NumL": return Rds.ResultsParam().NumL(sub: Select(
+                    destinationPk, sourceReferenceType, link, type, source));
+                case "NumM": return Rds.ResultsParam().NumM(sub: Select(
+                    destinationPk, sourceReferenceType, link, type, source));
+                case "NumN": return Rds.ResultsParam().NumN(sub: Select(
+                    destinationPk, sourceReferenceType, link, type, source));
+                case "NumO": return Rds.ResultsParam().NumO(sub: Select(
+                    destinationPk, sourceReferenceType, link, type, source));
+                case "NumP": return Rds.ResultsParam().NumP(sub: Select(
                     destinationPk, sourceReferenceType, link, type, source));
                 default: return null;
             }
@@ -275,6 +307,14 @@ namespace Implem.Pleasanter.Libraries.Utilities
                 case "NumF": return Rds.IssuesColumn().NumFTotal();
                 case "NumG": return Rds.IssuesColumn().NumGTotal();
                 case "NumH": return Rds.IssuesColumn().NumHTotal();
+                case "NumI": return Rds.IssuesColumn().NumITotal();
+                case "NumJ": return Rds.IssuesColumn().NumJTotal();
+                case "NumK": return Rds.IssuesColumn().NumKTotal();
+                case "NumL": return Rds.IssuesColumn().NumLTotal();
+                case "NumM": return Rds.IssuesColumn().NumMTotal();
+                case "NumN": return Rds.IssuesColumn().NumNTotal();
+                case "NumO": return Rds.IssuesColumn().NumOTotal();
+                case "NumP": return Rds.IssuesColumn().NumPTotal();
                 default: return null;
             }
         }
@@ -291,6 +331,14 @@ namespace Implem.Pleasanter.Libraries.Utilities
                 case "NumF": return Rds.ResultsColumn().NumFTotal();
                 case "NumG": return Rds.ResultsColumn().NumGTotal();
                 case "NumH": return Rds.ResultsColumn().NumHTotal();
+                case "NumI": return Rds.ResultsColumn().NumITotal();
+                case "NumJ": return Rds.ResultsColumn().NumJTotal();
+                case "NumK": return Rds.ResultsColumn().NumKTotal();
+                case "NumL": return Rds.ResultsColumn().NumLTotal();
+                case "NumM": return Rds.ResultsColumn().NumMTotal();
+                case "NumN": return Rds.ResultsColumn().NumNTotal();
+                case "NumO": return Rds.ResultsColumn().NumOTotal();
+                case "NumP": return Rds.ResultsColumn().NumPTotal();
                 default: return null;
             }
         }
@@ -338,6 +386,14 @@ namespace Implem.Pleasanter.Libraries.Utilities
                 case "NumF": return Rds.IssuesColumn().NumFAverage();
                 case "NumG": return Rds.IssuesColumn().NumGAverage();
                 case "NumH": return Rds.IssuesColumn().NumHAverage();
+                case "NumI": return Rds.IssuesColumn().NumIAverage();
+                case "NumJ": return Rds.IssuesColumn().NumJAverage();
+                case "NumK": return Rds.IssuesColumn().NumKAverage();
+                case "NumL": return Rds.IssuesColumn().NumLAverage();
+                case "NumM": return Rds.IssuesColumn().NumMAverage();
+                case "NumN": return Rds.IssuesColumn().NumNAverage();
+                case "NumO": return Rds.IssuesColumn().NumOAverage();
+                case "NumP": return Rds.IssuesColumn().NumPAverage();
                 default: return null;
             }
         }
@@ -354,6 +410,14 @@ namespace Implem.Pleasanter.Libraries.Utilities
                 case "NumF": return Rds.ResultsColumn().NumFAverage();
                 case "NumG": return Rds.ResultsColumn().NumGAverage();
                 case "NumH": return Rds.ResultsColumn().NumHAverage();
+                case "NumI": return Rds.ResultsColumn().NumIAverage();
+                case "NumJ": return Rds.ResultsColumn().NumJAverage();
+                case "NumK": return Rds.ResultsColumn().NumKAverage();
+                case "NumL": return Rds.ResultsColumn().NumLAverage();
+                case "NumM": return Rds.ResultsColumn().NumMAverage();
+                case "NumN": return Rds.ResultsColumn().NumNAverage();
+                case "NumO": return Rds.ResultsColumn().NumOAverage();
+                case "NumP": return Rds.ResultsColumn().NumPAverage();
                 default: return null;
             }
         }
@@ -401,6 +465,14 @@ namespace Implem.Pleasanter.Libraries.Utilities
                 case "NumF": return Rds.IssuesColumn().NumFMax();
                 case "NumG": return Rds.IssuesColumn().NumGMax();
                 case "NumH": return Rds.IssuesColumn().NumHMax();
+                case "NumI": return Rds.IssuesColumn().NumIMax();
+                case "NumJ": return Rds.IssuesColumn().NumJMax();
+                case "NumK": return Rds.IssuesColumn().NumKMax();
+                case "NumL": return Rds.IssuesColumn().NumLMax();
+                case "NumM": return Rds.IssuesColumn().NumMMax();
+                case "NumN": return Rds.IssuesColumn().NumNMax();
+                case "NumO": return Rds.IssuesColumn().NumOMax();
+                case "NumP": return Rds.IssuesColumn().NumPMax();
                 default: return null;
             }
         }
@@ -417,6 +489,14 @@ namespace Implem.Pleasanter.Libraries.Utilities
                 case "NumF": return Rds.ResultsColumn().NumFMax();
                 case "NumG": return Rds.ResultsColumn().NumGMax();
                 case "NumH": return Rds.ResultsColumn().NumHMax();
+                case "NumI": return Rds.ResultsColumn().NumIMax();
+                case "NumJ": return Rds.ResultsColumn().NumJMax();
+                case "NumK": return Rds.ResultsColumn().NumKMax();
+                case "NumL": return Rds.ResultsColumn().NumLMax();
+                case "NumM": return Rds.ResultsColumn().NumMMax();
+                case "NumN": return Rds.ResultsColumn().NumNMax();
+                case "NumO": return Rds.ResultsColumn().NumOMax();
+                case "NumP": return Rds.ResultsColumn().NumPMax();
                 default: return null;
             }
         }
@@ -464,6 +544,14 @@ namespace Implem.Pleasanter.Libraries.Utilities
                 case "NumF": return Rds.IssuesColumn().NumFMin();
                 case "NumG": return Rds.IssuesColumn().NumGMin();
                 case "NumH": return Rds.IssuesColumn().NumHMin();
+                case "NumI": return Rds.IssuesColumn().NumIMin();
+                case "NumJ": return Rds.IssuesColumn().NumJMin();
+                case "NumK": return Rds.IssuesColumn().NumKMin();
+                case "NumL": return Rds.IssuesColumn().NumLMin();
+                case "NumM": return Rds.IssuesColumn().NumMMin();
+                case "NumN": return Rds.IssuesColumn().NumNMin();
+                case "NumO": return Rds.IssuesColumn().NumOMin();
+                case "NumP": return Rds.IssuesColumn().NumPMin();
                 default: return null;
             }
         }
@@ -480,6 +568,14 @@ namespace Implem.Pleasanter.Libraries.Utilities
                 case "NumF": return Rds.ResultsColumn().NumFMin();
                 case "NumG": return Rds.ResultsColumn().NumGMin();
                 case "NumH": return Rds.ResultsColumn().NumHMin();
+                case "NumI": return Rds.ResultsColumn().NumIMin();
+                case "NumJ": return Rds.ResultsColumn().NumJMin();
+                case "NumK": return Rds.ResultsColumn().NumKMin();
+                case "NumL": return Rds.ResultsColumn().NumLMin();
+                case "NumM": return Rds.ResultsColumn().NumMMin();
+                case "NumN": return Rds.ResultsColumn().NumNMin();
+                case "NumO": return Rds.ResultsColumn().NumOMin();
+                case "NumP": return Rds.ResultsColumn().NumPMin();
                 default: return null;
             }
         }
