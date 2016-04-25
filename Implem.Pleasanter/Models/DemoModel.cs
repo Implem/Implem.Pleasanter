@@ -165,7 +165,7 @@ namespace Implem.Pleasanter.Models
 
         private string ValidateBeforeCreate()
         {
-            if (!PermissionType.CanCreate())
+            if (!PermissionType.CanEditSys())
             {
                 return Messages.ResponseHasNotPermission().ToJson();
             }
@@ -229,7 +229,7 @@ namespace Implem.Pleasanter.Models
 
         private string ValidateBeforeUpdate()
         {
-            if (!PermissionType.CanUpdate())
+            if (!PermissionType.CanEditSys())
             {
                 return Messages.ResponseHasNotPermission().ToJson();
             }
@@ -275,7 +275,7 @@ namespace Implem.Pleasanter.Models
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
-            if (!PermissionType.CanUpdate())
+            if (!PermissionType.CanEditSys())
             {
                 return Messages.ResponseHasNotPermission().ToJson();
             }
@@ -309,7 +309,7 @@ namespace Implem.Pleasanter.Models
 
         public string Delete(bool redirect = true)
         {
-            if (!PermissionType.CanDelete())
+            if (!PermissionType.CanEditSys())
             {
                 return Messages.ResponseHasNotPermission().ToJson();
             }
@@ -358,7 +358,7 @@ namespace Implem.Pleasanter.Models
 
         public string PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
-            if (!PermissionType.CanDelete())
+            if (!PermissionType.CanEditSys())
             {
                 return Messages.ResponseHasNotPermission().ToJson();
             }
