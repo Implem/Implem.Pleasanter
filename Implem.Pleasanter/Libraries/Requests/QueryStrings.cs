@@ -4,6 +4,11 @@ namespace Implem.Pleasanter.Libraries.Requests
 {
     public class QueryStrings
     {
+        public static bool Bool(string key)
+        {
+            return Data(key).ToBool();
+        }
+
         public static int Int(string key)
         {
             return Data(key).ToInt();

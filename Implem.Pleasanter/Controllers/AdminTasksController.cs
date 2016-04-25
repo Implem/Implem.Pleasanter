@@ -1,4 +1,5 @@
 ﻿using Implem.Pleasanter.Libraries.Admins;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
@@ -10,10 +11,17 @@ namespace Implem.Pleasanter.Controllers
         [HttpGet]
         public string Do()
         {
-            var log = new SysLogModel();
-            var html = AdminTasks.Do();
-            log.Finish(html.Length);
-            return html;
+            if (QueryStrings.Bool("NoLog"))
+            {
+                return AdminTasks.Do();
+            }
+            else
+            {
+                var log = new SysLogModel();
+                var html = AdminTasks.Do();
+                log.Finish(html.Length);
+                return html;
+            }
         }
     }
 }
