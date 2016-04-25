@@ -1234,7 +1234,7 @@ namespace Implem.Pleasanter.Models
                 SiteSettings = SiteSettingsUtility.OutgoingMailsSiteSettings(),
                 PermissionType = Permissions.Types.Manager,
                 Title = new Title(Displays.DemoMailTitle()),
-                Body = Displays.DemoMailBody(Navigations.BaseUrl(), mailAddress),
+                Body = Displays.DemoMailBody(Url.Server(), passphrase),
                 From = new System.Net.Mail.MailAddress(Parameters.Mail.SupportFrom),
                 To = mailAddress
             };
