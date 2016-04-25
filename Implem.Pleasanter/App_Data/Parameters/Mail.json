@@ -4,6 +4,6 @@
     "SmtpPort": 25,
     "SendGridSmtpUser": null,
     "SendGridSmtpPassword": null,
-    "SupportFrom": "support@pleasanter.org",
+    "SupportFrom": "\"Pleasanter.org\" <support@pleasanter.org>",
     "InternalDomains": ""
 }
