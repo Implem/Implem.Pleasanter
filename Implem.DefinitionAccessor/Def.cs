@@ -299,6 +299,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_InsertIdentity": Code.Model_InsertIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertIdentity, definitionRow, CodeXls); break;
                     case "Model_InsertIdentitySet": Code.Model_InsertIdentitySet = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertIdentitySet, definitionRow, CodeXls); break;
                     case "Model_Update": Code.Model_Update = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Update, definitionRow, CodeXls); break;
+                    case "Model_TitleDisplay": Code.Model_TitleDisplay = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_TitleDisplay, definitionRow, CodeXls); break;
                     case "Model_ValidateBeforeUpdate": Code.Model_ValidateBeforeUpdate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidateBeforeUpdate, definitionRow, CodeXls); break;
                     case "Model_ValidateBeforeUpdateCases": Code.Model_ValidateBeforeUpdateCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidateBeforeUpdateCases, definitionRow, CodeXls); break;
                     case "Model_UpdateItems": Code.Model_UpdateItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateItems, definitionRow, CodeXls); break;
@@ -3527,6 +3528,7 @@ namespace Implem.DefinitionAccessor
         public string Model_InsertIdentity;
         public string Model_InsertIdentitySet;
         public string Model_Update;
+        public string Model_TitleDisplay;
         public string Model_ValidateBeforeUpdate;
         public string Model_ValidateBeforeUpdateCases;
         public string Model_UpdateItems;
@@ -3870,6 +3872,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_InsertIdentity = new CodeDefinition();
         public CodeDefinition Model_InsertIdentitySet = new CodeDefinition();
         public CodeDefinition Model_Update = new CodeDefinition();
+        public CodeDefinition Model_TitleDisplay = new CodeDefinition();
         public CodeDefinition Model_ValidateBeforeUpdate = new CodeDefinition();
         public CodeDefinition Model_ValidateBeforeUpdateCases = new CodeDefinition();
         public CodeDefinition Model_UpdateItems = new CodeDefinition();

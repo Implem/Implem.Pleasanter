@@ -269,7 +269,7 @@ namespace Implem.Pleasanter.Models
                 .Timestamp()
                 .Val("#VerUp", false)
                 .Disabled("#VerUp", false)
-                .Html("#HeaderTitle", Title.DisplayValue + " - " + Displays.Edit())
+                .Html("#HeaderTitle", Title.Value + " - " + Displays.Edit())
                 .Html("#RecordInfo", Html.Builder().RecordInfo(baseModel: this, tableName: "Depts"))
                 .Html("#RecordHistories", Html.Builder().RecordHistories(ver: Ver, verType: VerType))
                 .Message(Messages.Updated(Title.ToString()))
