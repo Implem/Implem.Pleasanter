@@ -1020,7 +1020,7 @@ namespace Implem.Pleasanter.Models
                 siteId: 0,
                 modelName: "Tenant",
                 title: tenantModel.MethodType != BaseModel.MethodTypes.New
-                    ? tenantModel.Title.DisplayValue + " - " + Displays.Edit()
+                    ? tenantModel.Title.Value + " - " + Displays.Edit()
                     : Displays.Tenants() + " - " + Displays.New(),
                 permissionType: permissionType,
                 verType: tenantModel.VerType,

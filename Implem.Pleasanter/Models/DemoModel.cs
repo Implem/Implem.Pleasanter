@@ -1048,7 +1048,7 @@ namespace Implem.Pleasanter.Models
                 siteId: 0,
                 modelName: "Demo",
                 title: demoModel.MethodType != BaseModel.MethodTypes.New
-                    ? demoModel.Title.DisplayValue + " - " + Displays.Edit()
+                    ? demoModel.Title.Value + " - " + Displays.Edit()
                     : Displays.Demos() + " - " + Displays.New(),
                 permissionType: permissionType,
                 verType: demoModel.VerType,

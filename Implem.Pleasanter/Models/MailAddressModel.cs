@@ -1032,7 +1032,7 @@ namespace Implem.Pleasanter.Models
                 siteId: 0,
                 modelName: "MailAddress",
                 title: mailAddressModel.MethodType != BaseModel.MethodTypes.New
-                    ? mailAddressModel.Title.DisplayValue + " - " + Displays.Edit()
+                    ? mailAddressModel.Title.Value + " - " + Displays.Edit()
                     : Displays.MailAddresses() + " - " + Displays.New(),
                 permissionType: permissionType,
                 verType: mailAddressModel.VerType,

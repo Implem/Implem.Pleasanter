@@ -1075,7 +1075,7 @@ namespace Implem.Pleasanter.Models
                 siteId: 0,
                 modelName: "Dept",
                 title: deptModel.MethodType != BaseModel.MethodTypes.New
-                    ? deptModel.Title.DisplayValue + " - " + Displays.Edit()
+                    ? deptModel.Title.Value + " - " + Displays.Edit()
                     : Displays.Depts() + " - " + Displays.New(),
                 permissionType: permissionType,
                 verType: deptModel.VerType,

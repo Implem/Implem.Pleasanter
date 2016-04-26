@@ -1280,7 +1280,7 @@ namespace Implem.Pleasanter.Models
                 siteId: 0,
                 modelName: "OutgoingMail",
                 title: outgoingMailModel.MethodType != BaseModel.MethodTypes.New
-                    ? outgoingMailModel.Title.DisplayValue + " - " + Displays.Edit()
+                    ? outgoingMailModel.Title.Value + " - " + Displays.Edit()
                     : Displays.OutgoingMails() + " - " + Displays.New(),
                 permissionType: permissionType,
                 verType: outgoingMailModel.VerType,

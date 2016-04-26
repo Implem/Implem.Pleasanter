@@ -1256,7 +1256,7 @@ namespace Implem.Pleasanter.Models
                 siteId: 0,
                 modelName: "Binary",
                 title: binaryModel.MethodType != BaseModel.MethodTypes.New
-                    ? binaryModel.Title.DisplayValue + " - " + Displays.Edit()
+                    ? binaryModel.Title.Value + " - " + Displays.Edit()
                     : Displays.Binaries() + " - " + Displays.New(),
                 permissionType: permissionType,
                 verType: binaryModel.VerType,

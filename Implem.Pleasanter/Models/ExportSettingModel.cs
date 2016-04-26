@@ -1196,7 +1196,7 @@ namespace Implem.Pleasanter.Models
                 siteId: 0,
                 modelName: "ExportSetting",
                 title: exportSettingModel.MethodType != BaseModel.MethodTypes.New
-                    ? exportSettingModel.Title.DisplayValue + " - " + Displays.Edit()
+                    ? exportSettingModel.Title.Value + " - " + Displays.Edit()
                     : Displays.ExportSettings() + " - " + Displays.New(),
                 permissionType: permissionType,
                 verType: exportSettingModel.VerType,

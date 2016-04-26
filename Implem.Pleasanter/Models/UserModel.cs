@@ -1583,7 +1583,7 @@ namespace Implem.Pleasanter.Models
                 siteId: 0,
                 modelName: "User",
                 title: userModel.MethodType != BaseModel.MethodTypes.New
-                    ? userModel.Title.DisplayValue + " - " + Displays.Edit()
+                    ? userModel.Title.Value + " - " + Displays.Edit()
                     : Displays.Users() + " - " + Displays.New(),
                 permissionType: permissionType,
                 verType: userModel.VerType,
