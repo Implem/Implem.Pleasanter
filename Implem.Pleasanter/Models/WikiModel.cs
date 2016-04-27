@@ -230,6 +230,9 @@ namespace Implem.Pleasanter.Models
                     Rds.PhysicalDeleteLinks(
                         where: Rds.LinksWhere().SourceId(WikiId)),
                     InsertLinks(SiteSettings),
+                    Rds.UpdateSites(
+                        where: Rds.ItemsWhere().SiteId(SiteId),
+                        param: Rds.ItemsParam().Title(Title.Value)),
                     Rds.End()
                 });
             if (count == 0) return ResponseConflicts();
