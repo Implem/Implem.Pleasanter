@@ -76,6 +76,7 @@ namespace Implem.DefinitionAccessor
             Def.SetColumnDefinition();
             Def.SetCssDefinition();
             Def.SetDataViewDefinition();
+            Def.SetDemoDefinition();
             Def.SetJavaScriptDefinition();
             Def.SetDisplayDefinition();
             Def.SetSqlDefinition();
