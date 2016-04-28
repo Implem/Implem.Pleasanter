@@ -40,12 +40,15 @@ namespace Implem.Libraries.DataSources.SqlServer
                 case Sqls.TableTypes.History: tableBracket = HistoryTableBracket; break;
                 case Sqls.TableTypes.Deleted: tableBracket = DeletedTableBracket; break;
             }
-            var columnNameCollection = new List<string>
+            var columnNameCollection = new List<string>();
+            var valueCollection = new List<string>();
+            if (AddUpdatorParam)
             {
-                "[Creator]",
-                "[Updator]"
-            };
-            var valueCollection = new List<string> { "@_U", "@_U" };
+                columnNameCollection.Add("[Creator]");
+                columnNameCollection.Add("[Updator]");
+                valueCollection.Add("@_U");
+                valueCollection.Add("@_D");
+            }
             SqlParamCollection
                 .Where(o => o.Using)
                 .ForEach(sqlParam =>
