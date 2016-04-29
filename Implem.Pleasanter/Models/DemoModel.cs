@@ -30,12 +30,14 @@ namespace Implem.Pleasanter.Models
         public string Passphrase = string.Empty;
         public string MailAddress = string.Empty;
         public bool Initialized = false;
+        public int TimeLag = 0;
         public int SavedDemoId = 0;
         public int SavedTenantId = 0;
         public string SavedTitle = string.Empty;
         public string SavedPassphrase = string.Empty;
         public string SavedMailAddress = string.Empty;
         public bool SavedInitialized = false;
+        public int SavedTimeLag = 0;
         public bool DemoId_Updated { get { return DemoId != SavedDemoId; } }
         public bool TenantId_Updated { get { return TenantId != SavedTenantId; } }
         public bool Title_Updated { get { return Title.Value != SavedTitle && Title.Value != null; } }
@@ -180,6 +182,7 @@ namespace Implem.Pleasanter.Models
                     case "Demos_Passphrase": if (!SiteSettings.AllColumn("Passphrase").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Demos_MailAddress": if (!SiteSettings.AllColumn("MailAddress").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Demos_Initialized": if (!SiteSettings.AllColumn("Initialized").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Demos_TimeLag": if (!SiteSettings.AllColumn("TimeLag").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Demos_Comments": if (!SiteSettings.AllColumn("Comments").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Demos_Creator": if (!SiteSettings.AllColumn("Creator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Demos_Updator": if (!SiteSettings.AllColumn("Updator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
@@ -244,6 +247,7 @@ namespace Implem.Pleasanter.Models
                     case "Demos_Passphrase": if (!SiteSettings.AllColumn("Passphrase").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Demos_MailAddress": if (!SiteSettings.AllColumn("MailAddress").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Demos_Initialized": if (!SiteSettings.AllColumn("Initialized").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Demos_TimeLag": if (!SiteSettings.AllColumn("TimeLag").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Demos_Comments": if (!SiteSettings.AllColumn("Comments").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Demos_Creator": if (!SiteSettings.AllColumn("Creator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Demos_Updator": if (!SiteSettings.AllColumn("Updator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
@@ -527,6 +531,7 @@ namespace Implem.Pleasanter.Models
                     case "Demos_Passphrase": Passphrase = Forms.Data(controlId).ToString(); break;
                     case "Demos_MailAddress": MailAddress = Forms.Data(controlId).ToString(); break;
                     case "Demos_Initialized": Initialized = Forms.Data(controlId).ToBool(); break;
+                    case "Demos_TimeLag": TimeLag = Forms.Data(controlId).ToInt(); break;
                     case "Demos_Timestamp": Timestamp = Forms.Data(controlId).ToString(); break;
                     case "Comments": Comments = Comments.Prepend(Forms.Data("Comments")); break;
                     case "VerUp": VerUp = Forms.Data(controlId).ToBool(); break;
@@ -603,13 +608,12 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public DemoModel(string passphrase)
+        public void InitializeTimeLag()
         {
-            Get(where: Rds.DemosWhere()
-                .Passphrase(passphrase)
-                .CreatedTime(
-                    DateTime.Today.AddDays(Parameters.Service.DemoDays * -1),
-                    _operator: ">="));
+            var criteria = DateTime.Today.AddDays(Parameters.Service.DemoInitialDays);
+            TimeLag = (
+                criteria.AddDays(DayOfWeek.Monday - criteria.DayOfWeek) -
+                Def.DemoDefinitionCollection.Select(o => o.CreatedTime).Min()).Days;
         }
     }
 
@@ -1242,6 +1246,316 @@ namespace Implem.Pleasanter.Models
             return Messages.ResponseSentAcceptanceMail()
                 .Remove("#DemoForm")
                 .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static bool Login()
+        {
+            var demoModel = new DemoModel().Get(where:
+                Rds.DemosWhere().Passphrase(QueryStrings.Data("passphrase")));
+            if (demoModel.AccessStatus == Databases.AccessStatuses.Selected)
+            {
+                Initializ(demoModel);
+                return Sessions.LoggedIn();
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void Initializ(DemoModel demoModel)
+        {
+            var idHash = new Dictionary<string, long>();
+            var loginId = LoginId(demoModel, "User1");
+            var password = Strings.NewGuid().Sha512Cng();
+            if (demoModel.Initialized)
+            {
+                Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
+                    param: Rds.UsersParam().Password(password),
+                    where: Rds.UsersWhere().LoginId(loginId)));
+            }
+            else
+            {
+                demoModel.InitializeTimeLag();
+                InitializeDepts(demoModel, idHash);
+                InitializeUsers(demoModel, idHash, password);
+                InitializeSites(demoModel, idHash);
+                InitializeIssues(demoModel, idHash);
+                InitializePermissions(idHash);
+                Rds.ExecuteNonQuery(statements: Rds.UpdateDemos(
+                    param: Rds.DemosParam().Initialized(true),
+                    where: Rds.DemosWhere().Passphrase(demoModel.Passphrase)));
+            }
+            var userModel = new UserModel()
+            {
+                LoginId = loginId,
+                Password = password
+            }.Authenticate(string.Empty);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void InitializeDepts(DemoModel demoModel, Dictionary<string, long> idHash)
+        {
+            Def.DemoDefinitionCollection
+                .Where(o => o.Type == "Depts")
+                .ForEach(demoDefinition =>
+                    idHash.Add(demoDefinition.Id, Rds.ExecuteScalar_long(statements:
+                        Rds.InsertDepts(
+                            selectIdentity: true,
+                            param: Rds.DeptsParam()
+                                .TenantId(demoModel.TenantId)
+                                .ParentDeptId(idHash.ContainsKey(demoDefinition.ParentId)
+                                    ? idHash[demoDefinition.ParentId].ToInt()
+                                    : 0)
+                                .DeptCode(demoDefinition.ClassA)
+                                .DeptName(demoDefinition.Title)
+                                .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
+                                .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel))))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void InitializeUsers(
+            DemoModel demoModel, Dictionary<string, long> idHash, string password)
+        {
+            Def.DemoDefinitionCollection
+                .Where(o => o.Type == "Users")
+                .ForEach(demoDefinition =>
+                    idHash.Add(demoDefinition.Id, Rds.ExecuteScalar_long(statements:
+                        Rds.InsertUsers(
+                            selectIdentity: true,
+                            param: Rds.UsersParam()
+                                .TenantId(demoModel.TenantId)
+                                .LoginId(LoginId(demoModel, demoDefinition.Id))
+                                .Password(password)
+                                .LastName(demoDefinition.Title.Split_1st(' '))
+                                .FirstName(demoDefinition.Title.Split_2nd(' '))
+                                .DeptId(idHash[demoDefinition.ParentId].ToInt())
+                                .FirstAndLastNameOrder(demoDefinition.ClassA == "1"
+                                    ? Names.FirstAndLastNameOrders.FirstNameIsFirst
+                                    : Names.FirstAndLastNameOrders.LastNameIsFirst)
+                                .Birthday(demoDefinition.ClassC.ToDateTime())
+                                .Sex(demoDefinition.ClassB)
+                                .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
+                                .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel))))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void InitializeSites(DemoModel demoModel, Dictionary<string, long> idHash)
+        {
+            var topId = Def.DemoDefinitionCollection.First(o =>
+                o.Type == "Sites" && o.ParentId == string.Empty).Id;
+            Def.DemoDefinitionCollection
+                .Where(o => o.Type == "Sites")
+                .ForEach(demoDefinition =>
+                    idHash.Add(demoDefinition.Id, Rds.ExecuteScalar_long(statements:
+                        new SqlStatement[]
+                        {
+                            Rds.InsertItems(
+                                selectIdentity: true,
+                                param: Rds.ItemsParam().ReferenceType("Sites")),
+                            Rds.InsertSites(
+                                selectIdentity: true,
+                                addUpdatorParam: false,
+                                param: Rds.SitesParam()
+                                    .TenantId(demoModel.TenantId)
+                                    .SiteId(raw: Def.Sql.Identity)
+                                    .Title(demoDefinition.Title)
+                                    .ReferenceType(demoDefinition.ClassA)
+                                    .ParentId(idHash.ContainsKey(demoDefinition.ParentId)
+                                        ? idHash[demoDefinition.ParentId]
+                                        : 0)
+                                    .InheritPermission(idHash, topId, demoDefinition.ParentId)
+                                    .Creator(idHash[demoDefinition.Creator])
+                                    .Updator(idHash[demoDefinition.Updator])
+                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
+                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)))
+                        })));
+            new SiteCollection(where: Rds.SitesWhere().TenantId(demoModel.TenantId))
+                .ForEach(siteModel => Rds.ExecuteNonQuery(statements:
+                    Rds.UpdateItems(
+                        param: Rds.ItemsParam()
+                            .SiteId(siteModel.SiteId)
+                            .Title(siteModel.Title.DisplayValue)
+                            .Subset(Jsons.ToJson(new SiteSubset(
+                                siteModel, siteModel.SiteSettings))),
+                        where: Rds.ItemsWhere().ReferenceId(siteModel.SiteId))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static Rds.SitesParamCollection InheritPermission(
+             this Rds.SitesParamCollection self, 
+             Dictionary<string, long> idHash,
+             string topId,
+             string parentId)
+        {
+            if (parentId == string.Empty)
+            {
+                return self.InheritPermission(raw: Def.Sql.Identity);
+            }
+            else
+            {
+                return self.InheritPermission(idHash[topId]);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void InitializeIssues(DemoModel demoModel, Dictionary<string, long> idHash)
+        {
+            Def.DemoDefinitionCollection
+                .Where(o => o.Type == "Issues")
+                .ForEach(demoDefinition =>
+                {
+                    var issueId = Rds.ExecuteScalar_long(statements: new SqlStatement[]
+                    {
+                        Rds.InsertItems(
+                            selectIdentity: true,
+                            param: Rds.ItemsParam().ReferenceType("Issues")),
+                        Rds.InsertIssues(
+                            selectIdentity: true,
+                            addUpdatorParam: false,
+                            param: Rds.IssuesParam()
+                                .SiteId(idHash[demoDefinition.ParentId])
+                                .IssueId(raw: Def.Sql.Identity)
+                                .Title(demoDefinition.Title)
+                                .Body(demoDefinition.Body)
+                                .StartTime(demoDefinition.StartTime.DemoTime(demoModel))
+                                .CompletionTime(demoDefinition.CompletionTime
+                                    .AddDays(1).DemoTime(demoModel))
+                                .WorkValue(demoDefinition.WorkValue)
+                                .ProgressRate(demoDefinition.ProgressRate)
+                                .Status(demoDefinition.Status)
+                                .Manager(idHash[demoDefinition.Manager])
+                                .Owner(idHash[demoDefinition.Owner])
+                                .ClassA(demoDefinition.ClassA)
+                                .ClassB(demoDefinition.ClassB)
+                                .ClassC(demoDefinition.ClassC)
+                                .Creator(idHash[demoDefinition.Creator])
+                                .Updator(idHash[demoDefinition.Updator])
+                                .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
+                                .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)))
+                    });
+                    idHash.Add(demoDefinition.Id, issueId);
+                    var siteModel = new SiteModel(idHash[demoDefinition.ParentId]);
+                    var issueModel = new IssueModel(
+                        siteModel.SiteSettings, Permissions.Types.Manager, issueId);
+                    Rds.ExecuteNonQuery(statements:
+                        Rds.UpdateItems(
+                            param: Rds.ItemsParam()
+                                .SiteId(issueModel.SiteId)
+                                .Title(issueModel.Title.DisplayValue)
+                                .Subset(Jsons.ToJson(new IssueSubset(
+                                    issueModel, issueModel.SiteSettings))),
+                            where: Rds.ItemsWhere().ReferenceId(issueModel.IssueId)));
+                });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void InitializeResults(DemoModel demoModel, Dictionary<string, long> idHash)
+        {
+            Def.DemoDefinitionCollection
+                .Where(o => o.Type == "Results")
+                .ForEach(demoDefinition =>
+                {
+                    var resultId = Rds.ExecuteScalar_long(statements: new SqlStatement[]
+                    {
+                        Rds.InsertItems(
+                            selectIdentity: true,
+                            param: Rds.ItemsParam().ReferenceType("Results")),
+                        Rds.InsertResults(
+                            selectIdentity: true,
+                            addUpdatorParam: false,
+                            param: Rds.ResultsParam()
+                                .SiteId(idHash[demoDefinition.ParentId])
+                                .ResultId(raw: Def.Sql.Identity)
+                                .Title(demoDefinition.Title)
+                                .Body(demoDefinition.Body)
+                                .Status(demoDefinition.Status)
+                                .Manager(idHash[demoDefinition.Manager])
+                                .Owner(idHash[demoDefinition.Owner])
+                                .ClassA(demoDefinition.ClassA)
+                                .ClassB(demoDefinition.ClassB)
+                                .ClassC(demoDefinition.ClassC)
+                                .Creator(idHash[demoDefinition.Creator])
+                                .Updator(idHash[demoDefinition.Updator])
+                                .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
+                                .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)))
+                    });
+                    idHash.Add(demoDefinition.Id, resultId);
+                    var siteModel = new SiteModel(idHash[demoDefinition.ParentId]);
+                    var resultModel = new ResultModel(
+                        siteModel.SiteSettings, Permissions.Types.Manager, resultId);
+                    Rds.ExecuteNonQuery(statements:
+                        Rds.UpdateItems(
+                            param: Rds.ItemsParam()
+                                .SiteId(resultModel.SiteId)
+                                .Title(resultModel.Title.DisplayValue)
+                                .Subset(Jsons.ToJson(new ResultSubset(
+                                    resultModel, resultModel.SiteSettings))),
+                            where: Rds.ItemsWhere().ReferenceId(resultModel.ResultId)));
+                });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void InitializePermissions(Dictionary<string, long> idHash)
+        {
+            idHash.Where(o => o.Key.StartsWith("Site")).Select(o => o.Value).ForEach(siteId =>
+            {
+                Rds.ExecuteNonQuery(statements:
+                    Rds.InsertPermissions(
+                        param: Rds.PermissionsParam()
+                            .ReferenceType("Sites")
+                            .ReferenceId(siteId)
+                            .DeptId(0)
+                            .UserId(idHash["User1"])
+                            .PermissionType(Permissions.Types.Manager)));
+                idHash.Where(o => o.Key.StartsWith("Dept")).Select(o => o.Value).ForEach(deptId =>
+                {
+                    Rds.ExecuteNonQuery(statements:
+                        Rds.InsertPermissions(
+                            param: Rds.PermissionsParam()
+                                .ReferenceType("Sites")
+                                .ReferenceId(siteId)
+                                .DeptId(deptId)
+                                .UserId(0)
+                                .PermissionType(Permissions.Types.ReadWrite)));
+                });
+            });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string LoginId(DemoModel demoModel, string userId)
+        {
+            return "Tenant" + demoModel.TenantId + "_" + userId;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static DateTime DemoTime(this DateTime self, DemoModel demoModel)
+        {
+            return self.AddDays(demoModel.TimeLag).ToUniversal();
         }
     }
 }

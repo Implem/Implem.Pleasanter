@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Models;
+﻿using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Models;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
@@ -14,6 +15,16 @@ namespace Implem.Pleasanter.Controllers
             var json = DemosUtility.Register();
             log.Finish(json.Length);
             return json;
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult Login()
+        {
+            var log = new SysLogModel();
+            DemosUtility.Login();
+            log.Finish();
+            return Redirect(Navigations.Get());
         }
     }
 }

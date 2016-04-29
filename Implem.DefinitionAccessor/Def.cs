@@ -303,6 +303,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_ValidateBeforeUpdate": Code.Model_ValidateBeforeUpdate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidateBeforeUpdate, definitionRow, CodeXls); break;
                     case "Model_ValidateBeforeUpdateCases": Code.Model_ValidateBeforeUpdateCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidateBeforeUpdateCases, definitionRow, CodeXls); break;
                     case "Model_UpdateItems": Code.Model_UpdateItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateItems, definitionRow, CodeXls); break;
+                    case "Model_UpdateItems_Wikis": Code.Model_UpdateItems_Wikis = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateItems_Wikis, definitionRow, CodeXls); break;
                     case "Model_UpdateItems_OutgoingMails": Code.Model_UpdateItems_OutgoingMails = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateItems_OutgoingMails, definitionRow, CodeXls); break;
                     case "Model_SynchronizeSummaryExecute": Code.Model_SynchronizeSummaryExecute = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SynchronizeSummaryExecute, definitionRow, CodeXls); break;
                     case "Model_SynchronizeSummary": Code.Model_SynchronizeSummary = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SynchronizeSummary, definitionRow, CodeXls); break;
@@ -779,6 +780,7 @@ namespace Implem.DefinitionAccessor
                     case "Demos_Passphrase": Column.Demos_Passphrase = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_Passphrase, definitionRow, ColumnXls); break;
                     case "Demos_MailAddress": Column.Demos_MailAddress = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_MailAddress, definitionRow, ColumnXls); break;
                     case "Demos_Initialized": Column.Demos_Initialized = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_Initialized, definitionRow, ColumnXls); break;
+                    case "Demos_TimeLag": Column.Demos_TimeLag = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_TimeLag, definitionRow, ColumnXls); break;
                     case "SysLogs_CreatedTime": Column.SysLogs_CreatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_CreatedTime, definitionRow, ColumnXls); break;
                     case "SysLogs_SysLogId": Column.SysLogs_SysLogId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_SysLogId, definitionRow, ColumnXls); break;
                     case "SysLogs_StartTime": Column.SysLogs_StartTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_StartTime, definitionRow, ColumnXls); break;
@@ -2007,30 +2009,58 @@ namespace Implem.DefinitionAccessor
             {
                 switch (definitionRow[0].ToString())
                 {
-                    case "d1": Demo.d1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d1, definitionRow, DemoXls); break;
-                    case "d2": Demo.d2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d2, definitionRow, DemoXls); break;
-                    case "d3": Demo.d3 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d3, definitionRow, DemoXls); break;
-                    case "d4": Demo.d4 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d4, definitionRow, DemoXls); break;
-                    case "d5": Demo.d5 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d5, definitionRow, DemoXls); break;
-                    case "d6": Demo.d6 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d6, definitionRow, DemoXls); break;
-                    case "d7": Demo.d7 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d7, definitionRow, DemoXls); break;
-                    case "d8": Demo.d8 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d8, definitionRow, DemoXls); break;
-                    case "d9": Demo.d9 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d9, definitionRow, DemoXls); break;
-                    case "d10": Demo.d10 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d10, definitionRow, DemoXls); break;
-                    case "d11": Demo.d11 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d11, definitionRow, DemoXls); break;
-                    case "d12": Demo.d12 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d12, definitionRow, DemoXls); break;
-                    case "d13": Demo.d13 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d13, definitionRow, DemoXls); break;
-                    case "d14": Demo.d14 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d14, definitionRow, DemoXls); break;
-                    case "d15": Demo.d15 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d15, definitionRow, DemoXls); break;
-                    case "d16": Demo.d16 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d16, definitionRow, DemoXls); break;
-                    case "d17": Demo.d17 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d17, definitionRow, DemoXls); break;
-                    case "d18": Demo.d18 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d18, definitionRow, DemoXls); break;
-                    case "d19": Demo.d19 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d19, definitionRow, DemoXls); break;
-                    case "d20": Demo.d20 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d20, definitionRow, DemoXls); break;
-                    case "d21": Demo.d21 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d21, definitionRow, DemoXls); break;
-                    case "d22": Demo.d22 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d22, definitionRow, DemoXls); break;
-                    case "d23": Demo.d23 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d23, definitionRow, DemoXls); break;
-                    case "d24": Demo.d24 = definitionRow[1].ToString(); SetDemoTable(DemoTable.d24, definitionRow, DemoXls); break;
+                    case "Dept1": Demo.Dept1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Dept1, definitionRow, DemoXls); break;
+                    case "Dept2": Demo.Dept2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Dept2, definitionRow, DemoXls); break;
+                    case "Dept3": Demo.Dept3 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Dept3, definitionRow, DemoXls); break;
+                    case "Dept4": Demo.Dept4 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Dept4, definitionRow, DemoXls); break;
+                    case "Dept5": Demo.Dept5 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Dept5, definitionRow, DemoXls); break;
+                    case "Dept6": Demo.Dept6 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Dept6, definitionRow, DemoXls); break;
+                    case "Dept7": Demo.Dept7 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Dept7, definitionRow, DemoXls); break;
+                    case "Dept8": Demo.Dept8 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Dept8, definitionRow, DemoXls); break;
+                    case "User1": Demo.User1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.User1, definitionRow, DemoXls); break;
+                    case "User2": Demo.User2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.User2, definitionRow, DemoXls); break;
+                    case "User3": Demo.User3 = definitionRow[1].ToString(); SetDemoTable(DemoTable.User3, definitionRow, DemoXls); break;
+                    case "User4": Demo.User4 = definitionRow[1].ToString(); SetDemoTable(DemoTable.User4, definitionRow, DemoXls); break;
+                    case "User5": Demo.User5 = definitionRow[1].ToString(); SetDemoTable(DemoTable.User5, definitionRow, DemoXls); break;
+                    case "User6": Demo.User6 = definitionRow[1].ToString(); SetDemoTable(DemoTable.User6, definitionRow, DemoXls); break;
+                    case "User7": Demo.User7 = definitionRow[1].ToString(); SetDemoTable(DemoTable.User7, definitionRow, DemoXls); break;
+                    case "User8": Demo.User8 = definitionRow[1].ToString(); SetDemoTable(DemoTable.User8, definitionRow, DemoXls); break;
+                    case "User9": Demo.User9 = definitionRow[1].ToString(); SetDemoTable(DemoTable.User9, definitionRow, DemoXls); break;
+                    case "User10": Demo.User10 = definitionRow[1].ToString(); SetDemoTable(DemoTable.User10, definitionRow, DemoXls); break;
+                    case "User11": Demo.User11 = definitionRow[1].ToString(); SetDemoTable(DemoTable.User11, definitionRow, DemoXls); break;
+                    case "User12": Demo.User12 = definitionRow[1].ToString(); SetDemoTable(DemoTable.User12, definitionRow, DemoXls); break;
+                    case "User13": Demo.User13 = definitionRow[1].ToString(); SetDemoTable(DemoTable.User13, definitionRow, DemoXls); break;
+                    case "User14": Demo.User14 = definitionRow[1].ToString(); SetDemoTable(DemoTable.User14, definitionRow, DemoXls); break;
+                    case "User15": Demo.User15 = definitionRow[1].ToString(); SetDemoTable(DemoTable.User15, definitionRow, DemoXls); break;
+                    case "User16": Demo.User16 = definitionRow[1].ToString(); SetDemoTable(DemoTable.User16, definitionRow, DemoXls); break;
+                    case "User17": Demo.User17 = definitionRow[1].ToString(); SetDemoTable(DemoTable.User17, definitionRow, DemoXls); break;
+                    case "User18": Demo.User18 = definitionRow[1].ToString(); SetDemoTable(DemoTable.User18, definitionRow, DemoXls); break;
+                    case "User19": Demo.User19 = definitionRow[1].ToString(); SetDemoTable(DemoTable.User19, definitionRow, DemoXls); break;
+                    case "User20": Demo.User20 = definitionRow[1].ToString(); SetDemoTable(DemoTable.User20, definitionRow, DemoXls); break;
+                    case "Site1": Demo.Site1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site1, definitionRow, DemoXls); break;
+                    case "Site2": Demo.Site2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site2, definitionRow, DemoXls); break;
+                    case "Site3": Demo.Site3 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site3, definitionRow, DemoXls); break;
+                    case "Site4": Demo.Site4 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site4, definitionRow, DemoXls); break;
+                    case "Issue1": Demo.Issue1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue1, definitionRow, DemoXls); break;
+                    case "Issue2": Demo.Issue2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue2, definitionRow, DemoXls); break;
+                    case "Issue3": Demo.Issue3 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue3, definitionRow, DemoXls); break;
+                    case "Issue4": Demo.Issue4 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue4, definitionRow, DemoXls); break;
+                    case "Issue5": Demo.Issue5 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue5, definitionRow, DemoXls); break;
+                    case "Issue6": Demo.Issue6 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue6, definitionRow, DemoXls); break;
+                    case "Issue7": Demo.Issue7 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue7, definitionRow, DemoXls); break;
+                    case "Issue8": Demo.Issue8 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue8, definitionRow, DemoXls); break;
+                    case "Issue9": Demo.Issue9 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue9, definitionRow, DemoXls); break;
+                    case "Issue10": Demo.Issue10 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue10, definitionRow, DemoXls); break;
+                    case "Issue11": Demo.Issue11 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue11, definitionRow, DemoXls); break;
+                    case "Issue12": Demo.Issue12 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue12, definitionRow, DemoXls); break;
+                    case "Issue13": Demo.Issue13 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue13, definitionRow, DemoXls); break;
+                    case "Issue14": Demo.Issue14 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue14, definitionRow, DemoXls); break;
+                    case "Issue15": Demo.Issue15 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue15, definitionRow, DemoXls); break;
+                    case "Issue16": Demo.Issue16 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue16, definitionRow, DemoXls); break;
+                    case "Issue17": Demo.Issue17 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue17, definitionRow, DemoXls); break;
+                    case "Issue18": Demo.Issue18 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue18, definitionRow, DemoXls); break;
+                    case "Issue19": Demo.Issue19 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue19, definitionRow, DemoXls); break;
+                    case "Issue20": Demo.Issue20 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue20, definitionRow, DemoXls); break;
                     default: break;
                 }
             });
@@ -2042,7 +2072,9 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("Type")) { newDemoDefinition.Type = definitionRow["Type"].ToString(); newDemoDefinition.SavedType = newDemoDefinition.Type; }
                 if (definitionRow.ContainsKey("ParentId")) { newDemoDefinition.ParentId = definitionRow["ParentId"].ToString(); newDemoDefinition.SavedParentId = newDemoDefinition.ParentId; }
                 if (definitionRow.ContainsKey("Title")) { newDemoDefinition.Title = definitionRow["Title"].ToString(); newDemoDefinition.SavedTitle = newDemoDefinition.Title; }
-                if (definitionRow.ContainsKey("WorkValue")) { newDemoDefinition.WorkValue = definitionRow["WorkValue"].ToInt(); newDemoDefinition.SavedWorkValue = newDemoDefinition.WorkValue; }
+                if (definitionRow.ContainsKey("StartTime")) { newDemoDefinition.StartTime = definitionRow["StartTime"].ToDateTime(); newDemoDefinition.SavedStartTime = newDemoDefinition.StartTime; }
+                if (definitionRow.ContainsKey("CompletionTime")) { newDemoDefinition.CompletionTime = definitionRow["CompletionTime"].ToDateTime(); newDemoDefinition.SavedCompletionTime = newDemoDefinition.CompletionTime; }
+                if (definitionRow.ContainsKey("WorkValue")) { newDemoDefinition.WorkValue = definitionRow["WorkValue"].ToDecimal(); newDemoDefinition.SavedWorkValue = newDemoDefinition.WorkValue; }
                 if (definitionRow.ContainsKey("ProgressRate")) { newDemoDefinition.ProgressRate = definitionRow["ProgressRate"].ToDecimal(); newDemoDefinition.SavedProgressRate = newDemoDefinition.ProgressRate; }
                 if (definitionRow.ContainsKey("Status")) { newDemoDefinition.Status = definitionRow["Status"].ToInt(); newDemoDefinition.SavedStatus = newDemoDefinition.Status; }
                 if (definitionRow.ContainsKey("Manager")) { newDemoDefinition.Manager = definitionRow["Manager"].ToString(); newDemoDefinition.SavedManager = newDemoDefinition.Manager; }
@@ -2065,7 +2097,9 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("Type")) { definition.Type = definitionRow["Type"].ToString(); definition.SavedType = definition.Type; }
             if (definitionRow.ContainsKey("ParentId")) { definition.ParentId = definitionRow["ParentId"].ToString(); definition.SavedParentId = definition.ParentId; }
             if (definitionRow.ContainsKey("Title")) { definition.Title = definitionRow["Title"].ToString(); definition.SavedTitle = definition.Title; }
-            if (definitionRow.ContainsKey("WorkValue")) { definition.WorkValue = definitionRow["WorkValue"].ToInt(); definition.SavedWorkValue = definition.WorkValue; }
+            if (definitionRow.ContainsKey("StartTime")) { definition.StartTime = definitionRow["StartTime"].ToDateTime(); definition.SavedStartTime = definition.StartTime; }
+            if (definitionRow.ContainsKey("CompletionTime")) { definition.CompletionTime = definitionRow["CompletionTime"].ToDateTime(); definition.SavedCompletionTime = definition.CompletionTime; }
+            if (definitionRow.ContainsKey("WorkValue")) { definition.WorkValue = definitionRow["WorkValue"].ToDecimal(); definition.SavedWorkValue = definition.WorkValue; }
             if (definitionRow.ContainsKey("ProgressRate")) { definition.ProgressRate = definitionRow["ProgressRate"].ToDecimal(); definition.SavedProgressRate = definition.ProgressRate; }
             if (definitionRow.ContainsKey("Status")) { definition.Status = definitionRow["Status"].ToInt(); definition.SavedStatus = definition.Status; }
             if (definitionRow.ContainsKey("Manager")) { definition.Manager = definitionRow["Manager"].ToString(); definition.SavedManager = definition.Manager; }
@@ -3097,7 +3131,9 @@ namespace Implem.DefinitionAccessor
                         case "Type": demoDefinition.Type = optionValue.ToString(); break;
                         case "ParentId": demoDefinition.ParentId = optionValue.ToString(); break;
                         case "Title": demoDefinition.Title = optionValue.ToString(); break;
-                        case "WorkValue": demoDefinition.WorkValue = optionValue.ToInt(); break;
+                        case "StartTime": demoDefinition.StartTime = optionValue.ToDateTime(); break;
+                        case "CompletionTime": demoDefinition.CompletionTime = optionValue.ToDateTime(); break;
+                        case "WorkValue": demoDefinition.WorkValue = optionValue.ToDecimal(); break;
                         case "ProgressRate": demoDefinition.ProgressRate = optionValue.ToDecimal(); break;
                         case "Status": demoDefinition.Status = optionValue.ToInt(); break;
                         case "Manager": demoDefinition.Manager = optionValue.ToString(); break;
@@ -3532,6 +3568,7 @@ namespace Implem.DefinitionAccessor
         public string Model_ValidateBeforeUpdate;
         public string Model_ValidateBeforeUpdateCases;
         public string Model_UpdateItems;
+        public string Model_UpdateItems_Wikis;
         public string Model_UpdateItems_OutgoingMails;
         public string Model_SynchronizeSummaryExecute;
         public string Model_SynchronizeSummary;
@@ -3876,6 +3913,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ValidateBeforeUpdate = new CodeDefinition();
         public CodeDefinition Model_ValidateBeforeUpdateCases = new CodeDefinition();
         public CodeDefinition Model_UpdateItems = new CodeDefinition();
+        public CodeDefinition Model_UpdateItems_Wikis = new CodeDefinition();
         public CodeDefinition Model_UpdateItems_OutgoingMails = new CodeDefinition();
         public CodeDefinition Model_SynchronizeSummaryExecute = new CodeDefinition();
         public CodeDefinition Model_SynchronizeSummary = new CodeDefinition();
@@ -4569,6 +4607,7 @@ namespace Implem.DefinitionAccessor
         public string Demos_Passphrase;
         public string Demos_MailAddress;
         public string Demos_Initialized;
+        public string Demos_TimeLag;
         public string SysLogs_CreatedTime;
         public string SysLogs_SysLogId;
         public string SysLogs_StartTime;
@@ -5095,6 +5134,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Demos_Passphrase = new ColumnDefinition();
         public ColumnDefinition Demos_MailAddress = new ColumnDefinition();
         public ColumnDefinition Demos_Initialized = new ColumnDefinition();
+        public ColumnDefinition Demos_TimeLag = new ColumnDefinition();
         public ColumnDefinition SysLogs_CreatedTime = new ColumnDefinition();
         public ColumnDefinition SysLogs_SysLogId = new ColumnDefinition();
         public ColumnDefinition SysLogs_StartTime = new ColumnDefinition();
@@ -6559,7 +6599,9 @@ namespace Implem.DefinitionAccessor
         public string Type; public string SavedType;
         public string ParentId; public string SavedParentId;
         public string Title; public string SavedTitle;
-        public int WorkValue; public int SavedWorkValue;
+        public DateTime StartTime; public DateTime SavedStartTime;
+        public DateTime CompletionTime; public DateTime SavedCompletionTime;
+        public decimal WorkValue; public decimal SavedWorkValue;
         public decimal ProgressRate; public decimal SavedProgressRate;
         public int Status; public int SavedStatus;
         public string Manager; public string SavedManager;
@@ -6583,7 +6625,9 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("Type")) Type = propertyCollection["Type"].ToString(); else Type = string.Empty;
             if (propertyCollection.ContainsKey("ParentId")) ParentId = propertyCollection["ParentId"].ToString(); else ParentId = string.Empty;
             if (propertyCollection.ContainsKey("Title")) Title = propertyCollection["Title"].ToString(); else Title = string.Empty;
-            if (propertyCollection.ContainsKey("WorkValue")) WorkValue = propertyCollection["WorkValue"].ToInt(); else WorkValue = 0;
+            if (propertyCollection.ContainsKey("StartTime")) StartTime = propertyCollection["StartTime"].ToDateTime(); else StartTime = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("CompletionTime")) CompletionTime = propertyCollection["CompletionTime"].ToDateTime(); else CompletionTime = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("WorkValue")) WorkValue = propertyCollection["WorkValue"].ToDecimal(); else WorkValue = 0;
             if (propertyCollection.ContainsKey("ProgressRate")) ProgressRate = propertyCollection["ProgressRate"].ToDecimal(); else ProgressRate = 0;
             if (propertyCollection.ContainsKey("Status")) Status = propertyCollection["Status"].ToInt(); else Status = 0;
             if (propertyCollection.ContainsKey("Manager")) Manager = propertyCollection["Manager"].ToString(); else Manager = string.Empty;
@@ -6607,6 +6651,8 @@ namespace Implem.DefinitionAccessor
                     case "Type": return Type;
                     case "ParentId": return ParentId;
                     case "Title": return Title;
+                    case "StartTime": return StartTime;
+                    case "CompletionTime": return CompletionTime;
                     case "WorkValue": return WorkValue;
                     case "ProgressRate": return ProgressRate;
                     case "Status": return Status;
@@ -6631,6 +6677,8 @@ namespace Implem.DefinitionAccessor
             Type = SavedType;
             ParentId = SavedParentId;
             Title = SavedTitle;
+            StartTime = SavedStartTime;
+            CompletionTime = SavedCompletionTime;
             WorkValue = SavedWorkValue;
             ProgressRate = SavedProgressRate;
             Status = SavedStatus;
@@ -6648,58 +6696,114 @@ namespace Implem.DefinitionAccessor
 
     public class DemoColumn2nd
     {
-        public string d1;
-        public string d2;
-        public string d3;
-        public string d4;
-        public string d5;
-        public string d6;
-        public string d7;
-        public string d8;
-        public string d9;
-        public string d10;
-        public string d11;
-        public string d12;
-        public string d13;
-        public string d14;
-        public string d15;
-        public string d16;
-        public string d17;
-        public string d18;
-        public string d19;
-        public string d20;
-        public string d21;
-        public string d22;
-        public string d23;
-        public string d24;
+        public string Dept1;
+        public string Dept2;
+        public string Dept3;
+        public string Dept4;
+        public string Dept5;
+        public string Dept6;
+        public string Dept7;
+        public string Dept8;
+        public string User1;
+        public string User2;
+        public string User3;
+        public string User4;
+        public string User5;
+        public string User6;
+        public string User7;
+        public string User8;
+        public string User9;
+        public string User10;
+        public string User11;
+        public string User12;
+        public string User13;
+        public string User14;
+        public string User15;
+        public string User16;
+        public string User17;
+        public string User18;
+        public string User19;
+        public string User20;
+        public string Site1;
+        public string Site2;
+        public string Site3;
+        public string Site4;
+        public string Issue1;
+        public string Issue2;
+        public string Issue3;
+        public string Issue4;
+        public string Issue5;
+        public string Issue6;
+        public string Issue7;
+        public string Issue8;
+        public string Issue9;
+        public string Issue10;
+        public string Issue11;
+        public string Issue12;
+        public string Issue13;
+        public string Issue14;
+        public string Issue15;
+        public string Issue16;
+        public string Issue17;
+        public string Issue18;
+        public string Issue19;
+        public string Issue20;
     }
 
     public class DemoTable
     {
-        public DemoDefinition d1 = new DemoDefinition();
-        public DemoDefinition d2 = new DemoDefinition();
-        public DemoDefinition d3 = new DemoDefinition();
-        public DemoDefinition d4 = new DemoDefinition();
-        public DemoDefinition d5 = new DemoDefinition();
-        public DemoDefinition d6 = new DemoDefinition();
-        public DemoDefinition d7 = new DemoDefinition();
-        public DemoDefinition d8 = new DemoDefinition();
-        public DemoDefinition d9 = new DemoDefinition();
-        public DemoDefinition d10 = new DemoDefinition();
-        public DemoDefinition d11 = new DemoDefinition();
-        public DemoDefinition d12 = new DemoDefinition();
-        public DemoDefinition d13 = new DemoDefinition();
-        public DemoDefinition d14 = new DemoDefinition();
-        public DemoDefinition d15 = new DemoDefinition();
-        public DemoDefinition d16 = new DemoDefinition();
-        public DemoDefinition d17 = new DemoDefinition();
-        public DemoDefinition d18 = new DemoDefinition();
-        public DemoDefinition d19 = new DemoDefinition();
-        public DemoDefinition d20 = new DemoDefinition();
-        public DemoDefinition d21 = new DemoDefinition();
-        public DemoDefinition d22 = new DemoDefinition();
-        public DemoDefinition d23 = new DemoDefinition();
-        public DemoDefinition d24 = new DemoDefinition();
+        public DemoDefinition Dept1 = new DemoDefinition();
+        public DemoDefinition Dept2 = new DemoDefinition();
+        public DemoDefinition Dept3 = new DemoDefinition();
+        public DemoDefinition Dept4 = new DemoDefinition();
+        public DemoDefinition Dept5 = new DemoDefinition();
+        public DemoDefinition Dept6 = new DemoDefinition();
+        public DemoDefinition Dept7 = new DemoDefinition();
+        public DemoDefinition Dept8 = new DemoDefinition();
+        public DemoDefinition User1 = new DemoDefinition();
+        public DemoDefinition User2 = new DemoDefinition();
+        public DemoDefinition User3 = new DemoDefinition();
+        public DemoDefinition User4 = new DemoDefinition();
+        public DemoDefinition User5 = new DemoDefinition();
+        public DemoDefinition User6 = new DemoDefinition();
+        public DemoDefinition User7 = new DemoDefinition();
+        public DemoDefinition User8 = new DemoDefinition();
+        public DemoDefinition User9 = new DemoDefinition();
+        public DemoDefinition User10 = new DemoDefinition();
+        public DemoDefinition User11 = new DemoDefinition();
+        public DemoDefinition User12 = new DemoDefinition();
+        public DemoDefinition User13 = new DemoDefinition();
+        public DemoDefinition User14 = new DemoDefinition();
+        public DemoDefinition User15 = new DemoDefinition();
+        public DemoDefinition User16 = new DemoDefinition();
+        public DemoDefinition User17 = new DemoDefinition();
+        public DemoDefinition User18 = new DemoDefinition();
+        public DemoDefinition User19 = new DemoDefinition();
+        public DemoDefinition User20 = new DemoDefinition();
+        public DemoDefinition Site1 = new DemoDefinition();
+        public DemoDefinition Site2 = new DemoDefinition();
+        public DemoDefinition Site3 = new DemoDefinition();
+        public DemoDefinition Site4 = new DemoDefinition();
+        public DemoDefinition Issue1 = new DemoDefinition();
+        public DemoDefinition Issue2 = new DemoDefinition();
+        public DemoDefinition Issue3 = new DemoDefinition();
+        public DemoDefinition Issue4 = new DemoDefinition();
+        public DemoDefinition Issue5 = new DemoDefinition();
+        public DemoDefinition Issue6 = new DemoDefinition();
+        public DemoDefinition Issue7 = new DemoDefinition();
+        public DemoDefinition Issue8 = new DemoDefinition();
+        public DemoDefinition Issue9 = new DemoDefinition();
+        public DemoDefinition Issue10 = new DemoDefinition();
+        public DemoDefinition Issue11 = new DemoDefinition();
+        public DemoDefinition Issue12 = new DemoDefinition();
+        public DemoDefinition Issue13 = new DemoDefinition();
+        public DemoDefinition Issue14 = new DemoDefinition();
+        public DemoDefinition Issue15 = new DemoDefinition();
+        public DemoDefinition Issue16 = new DemoDefinition();
+        public DemoDefinition Issue17 = new DemoDefinition();
+        public DemoDefinition Issue18 = new DemoDefinition();
+        public DemoDefinition Issue19 = new DemoDefinition();
+        public DemoDefinition Issue20 = new DemoDefinition();
     }
 
     public class DisplayDefinition

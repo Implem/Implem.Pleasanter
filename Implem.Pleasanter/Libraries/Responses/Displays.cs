@@ -588,6 +588,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Demos_MailAddress(params string[] data) { return Get("Demos_MailAddress", data); }
         public static HtmlBuilder Displays_Demos_Initialized(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Demos_Initialized", data)); }
         public static string Demos_Initialized(params string[] data) { return Get("Demos_Initialized", data); }
+        public static HtmlBuilder Displays_Demos_TimeLag(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Demos_TimeLag", data)); }
+        public static string Demos_TimeLag(params string[] data) { return Get("Demos_TimeLag", data); }
         public static HtmlBuilder Displays_SysLogs_CreatedTime(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SysLogs_CreatedTime", data)); }
         public static string SysLogs_CreatedTime(params string[] data) { return Get("SysLogs_CreatedTime", data); }
         public static HtmlBuilder Displays_SysLogs_SysLogId(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SysLogs_SysLogId", data)); }
