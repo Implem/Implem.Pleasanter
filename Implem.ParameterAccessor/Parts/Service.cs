@@ -8,5 +8,6 @@
         public bool ImportData;
         public bool Demo;
         public int DemoDays;
+        public int DemoInitialDays;
     }
 }
