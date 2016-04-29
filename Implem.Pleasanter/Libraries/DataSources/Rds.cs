@@ -1457,6 +1457,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             SqlStatement select = null,
+            bool addUpdatorParam = true,
             string conditions = "",
             bool _using = true)
         {
@@ -1469,6 +1470,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SelectIdentity = selectIdentity,
                 SqlParamCollection = param,
                 Select = select,
+                AddUpdatorParam = addUpdatorParam,
                 Conditions = conditions,
                 Using = _using
             };
@@ -1500,6 +1502,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             SqlStatement select = null,
+            bool addUpdatorParam = true,
             string conditions = "",
             bool _using = true)
         {
@@ -1512,6 +1515,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SelectIdentity = selectIdentity,
                 SqlParamCollection = param,
                 Select = select,
+                AddUpdatorParam = addUpdatorParam,
                 Conditions = conditions,
                 Using = _using
             };
@@ -1543,6 +1547,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             SqlStatement select = null,
+            bool addUpdatorParam = true,
             string conditions = "",
             bool _using = true)
         {
@@ -1555,6 +1560,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SelectIdentity = selectIdentity,
                 SqlParamCollection = param,
                 Select = select,
+                AddUpdatorParam = addUpdatorParam,
                 Conditions = conditions,
                 Using = _using
             };
@@ -1586,6 +1592,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             SqlStatement select = null,
+            bool addUpdatorParam = true,
             string conditions = "",
             bool _using = true)
         {
@@ -1598,6 +1605,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SelectIdentity = selectIdentity,
                 SqlParamCollection = param,
                 Select = select,
+                AddUpdatorParam = addUpdatorParam,
                 Conditions = conditions,
                 Using = _using
             };
@@ -1629,6 +1637,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             SqlStatement select = null,
+            bool addUpdatorParam = true,
             string conditions = "",
             bool _using = true)
         {
@@ -1641,6 +1650,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SelectIdentity = selectIdentity,
                 SqlParamCollection = param,
                 Select = select,
+                AddUpdatorParam = addUpdatorParam,
                 Conditions = conditions,
                 Using = _using
             };
@@ -1672,6 +1682,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             SqlStatement select = null,
+            bool addUpdatorParam = true,
             string conditions = "",
             bool _using = true)
         {
@@ -1684,6 +1695,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SelectIdentity = selectIdentity,
                 SqlParamCollection = param,
                 Select = select,
+                AddUpdatorParam = addUpdatorParam,
                 Conditions = conditions,
                 Using = _using
             };
@@ -1715,6 +1727,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             SqlStatement select = null,
+            bool addUpdatorParam = true,
             string conditions = "",
             bool _using = true)
         {
@@ -1727,6 +1740,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SelectIdentity = selectIdentity,
                 SqlParamCollection = param,
                 Select = select,
+                AddUpdatorParam = addUpdatorParam,
                 Conditions = conditions,
                 Using = _using
             };
@@ -1758,6 +1772,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             SqlStatement select = null,
+            bool addUpdatorParam = true,
             string conditions = "",
             bool _using = true)
         {
@@ -1770,6 +1785,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SelectIdentity = selectIdentity,
                 SqlParamCollection = param,
                 Select = select,
+                AddUpdatorParam = addUpdatorParam,
                 Conditions = conditions,
                 Using = _using
             };
@@ -1801,6 +1817,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             SqlStatement select = null,
+            bool addUpdatorParam = true,
             string conditions = "",
             bool _using = true)
         {
@@ -1813,6 +1830,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SelectIdentity = selectIdentity,
                 SqlParamCollection = param,
                 Select = select,
+                AddUpdatorParam = addUpdatorParam,
                 Conditions = conditions,
                 Using = _using
             };
@@ -1844,6 +1862,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             SqlStatement select = null,
+            bool addUpdatorParam = true,
             string conditions = "",
             bool _using = true)
         {
@@ -1856,6 +1875,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SelectIdentity = selectIdentity,
                 SqlParamCollection = param,
                 Select = select,
+                AddUpdatorParam = addUpdatorParam,
                 Conditions = conditions,
                 Using = _using
             };
@@ -1887,6 +1907,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             SqlStatement select = null,
+            bool addUpdatorParam = true,
             string conditions = "",
             bool _using = true)
         {
@@ -1899,6 +1920,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SelectIdentity = selectIdentity,
                 SqlParamCollection = param,
                 Select = select,
+                AddUpdatorParam = addUpdatorParam,
                 Conditions = conditions,
                 Using = _using
             };
@@ -1930,6 +1952,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             SqlStatement select = null,
+            bool addUpdatorParam = true,
             string conditions = "",
             bool _using = true)
         {
@@ -1942,6 +1965,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SelectIdentity = selectIdentity,
                 SqlParamCollection = param,
                 Select = select,
+                AddUpdatorParam = addUpdatorParam,
                 Conditions = conditions,
                 Using = _using
             };
@@ -1973,6 +1997,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             SqlStatement select = null,
+            bool addUpdatorParam = true,
             string conditions = "",
             bool _using = true)
         {
@@ -1985,6 +2010,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SelectIdentity = selectIdentity,
                 SqlParamCollection = param,
                 Select = select,
+                AddUpdatorParam = addUpdatorParam,
                 Conditions = conditions,
                 Using = _using
             };
@@ -2016,6 +2042,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             SqlStatement select = null,
+            bool addUpdatorParam = true,
             string conditions = "",
             bool _using = true)
         {
@@ -2028,6 +2055,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SelectIdentity = selectIdentity,
                 SqlParamCollection = param,
                 Select = select,
+                AddUpdatorParam = addUpdatorParam,
                 Conditions = conditions,
                 Using = _using
             };
@@ -2059,6 +2087,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             SqlStatement select = null,
+            bool addUpdatorParam = true,
             string conditions = "",
             bool _using = true)
         {
@@ -2071,6 +2100,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SelectIdentity = selectIdentity,
                 SqlParamCollection = param,
                 Select = select,
+                AddUpdatorParam = addUpdatorParam,
                 Conditions = conditions,
                 Using = _using
             };
@@ -2102,6 +2132,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             SqlStatement select = null,
+            bool addUpdatorParam = true,
             string conditions = "",
             bool _using = true)
         {
@@ -2114,6 +2145,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SelectIdentity = selectIdentity,
                 SqlParamCollection = param,
                 Select = select,
+                AddUpdatorParam = addUpdatorParam,
                 Conditions = conditions,
                 Using = _using
             };
@@ -2145,6 +2177,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             SqlStatement select = null,
+            bool addUpdatorParam = true,
             string conditions = "",
             bool _using = true)
         {
@@ -2157,6 +2190,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SelectIdentity = selectIdentity,
                 SqlParamCollection = param,
                 Select = select,
+                AddUpdatorParam = addUpdatorParam,
                 Conditions = conditions,
                 Using = _using
             };
@@ -2188,6 +2222,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             SqlStatement select = null,
+            bool addUpdatorParam = true,
             string conditions = "",
             bool _using = true)
         {
@@ -2200,6 +2235,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SelectIdentity = selectIdentity,
                 SqlParamCollection = param,
                 Select = select,
+                AddUpdatorParam = addUpdatorParam,
                 Conditions = conditions,
                 Using = _using
             };
