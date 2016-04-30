@@ -24,5 +24,9 @@
 - Wiki
 - マルチ言語
 
+## デモサイト
+下記URLでメールアドレスを登録  
+https://pleasanter.azurewebsites.net
+
 ## Auther
 Taiji Uchida @implem_
