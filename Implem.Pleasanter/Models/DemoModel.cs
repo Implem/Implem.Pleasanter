@@ -613,7 +613,9 @@ namespace Implem.Pleasanter.Models
             var criteria = DateTime.Today.AddDays(Parameters.Service.DemoInitialDays);
             TimeLag = (
                 criteria.AddDays(DayOfWeek.Monday - criteria.DayOfWeek) -
-                Def.DemoDefinitionCollection.Select(o => o.CreatedTime).Min()).Days;
+                Def.DemoDefinitionCollection
+                    .Where(o => o.CreatedTime >= Parameters.General.MinTime)
+                    .Select(o => o.CreatedTime).Min()).Days;
         }
     }
 
