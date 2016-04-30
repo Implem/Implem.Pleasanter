@@ -12,7 +12,9 @@ namespace Implem.Libraries.Utilities
 
         public static string ToJson(this object obj)
         {
-            return JsonConvert.SerializeObject(obj);
+            var settings = new JsonSerializerSettings();
+            settings.NullValueHandling = NullValueHandling.Ignore;
+            return JsonConvert.SerializeObject(obj, settings);
         }
 
         public static T Deserialize<T>(this string str)
