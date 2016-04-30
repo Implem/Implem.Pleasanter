@@ -47,7 +47,7 @@ namespace Implem.Pleasanter.Libraries.Utilities
         }
 
         private static SqlStatement[] Statements(
-            IList<KeyValuePair<string, int>> SearchIndexCollection, long id, bool first)
+            IList<KeyValuePair<string, int>> searchIndexCollection, long id, bool first)
         {
             var statements = new List<SqlStatement>();
             if (first)
@@ -55,7 +55,7 @@ namespace Implem.Pleasanter.Libraries.Utilities
                 statements.Add(Rds.PhysicalDeleteSearchIndexes(
                     where: Rds.SearchIndexesWhere().ReferenceId(id)));
             }
-            SearchIndexCollection.ForEach(word =>
+            searchIndexCollection.ForEach(word =>
                 statements.Add(Rds.InsertSearchIndexes(
                     param: Rds.SearchIndexesParam()
                         .Word(word.Key)
