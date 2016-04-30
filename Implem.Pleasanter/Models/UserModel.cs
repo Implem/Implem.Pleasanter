@@ -975,6 +975,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public void SetSession()
         {
+            HttpContext.Session["TenantId"] = TenantId;
             HttpContext.Session["UserId"] = UserId;
             HttpContext.Session["Language"] = Language;
             HttpContext.Session["Developer"] = Developer;

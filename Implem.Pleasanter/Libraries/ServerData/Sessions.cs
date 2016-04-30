@@ -19,26 +19,12 @@ namespace Implem.Pleasanter.Libraries.ServerData
         {
             if (HttpContext.Current.Session != null)
             {
-                if (!HasTenantId())
-                {
-                    HttpContext.Current.Session["TenantId"] = Rds.ExecuteScalar_int(statements:
-                        Rds.SelectUsers(
-                            column: Rds.UsersColumn().TenantId(),
-                            where: Rds.UsersWhere().UserId(UserId())));
-                }
                 return HttpContext.Current.Session["TenantId"].ToInt();
             }
             else
             {
                 return 0;
             }
-        }
-
-        private static bool HasTenantId()
-        {
-            return
-                HttpContext.Current.Session["TenantId"] != null &&
-                HttpContext.Current.Session["TenantId"].ToInt() != 0;
         }
 
         public static bool LoggedIn()
