@@ -1547,6 +1547,9 @@ namespace Implem.Pleasanter.Models
             });
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static string Comments(
             DemoModel demoModel,
             Dictionary<string, long> idHash,
