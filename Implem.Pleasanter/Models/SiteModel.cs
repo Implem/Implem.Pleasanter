@@ -189,7 +189,7 @@ namespace Implem.Pleasanter.Models
                             .UpdatedTime(timestamp, _using: timestamp.NotZero()),
                         param: param ?? Rds.SitesParamDefault(this, paramAll: paramAll),
                         countRecord: true),
-                    Rds.Conditions("@@rowcount = 1"),
+                    Rds.If("@@rowcount = 1"),
                     Rds.UpdateItems(
                         where: Rds.ItemsWhere().ReferenceId(SiteId),
                         param: Rds.ItemsParam()

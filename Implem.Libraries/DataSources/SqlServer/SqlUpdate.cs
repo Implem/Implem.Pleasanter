@@ -18,7 +18,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             int? commandCount = null)
         {
             if (!Using) return;
-            Build_ConditionsBefore(commandText);
+            Build_If(commandText);
             Build_UpdateStatement(sqlContainer, sqlCommand, commandText, commandCount);
             SqlWhereCollection?.BuildCommandText(
                 sqlContainer, sqlCommand, commandText, commandCount);
@@ -26,7 +26,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             AddParams_Param(sqlCommand, commandCount);
             AddTermination(commandText);
             Build_CountRecord(commandText);
-            Build_ConditionsAfter(commandText);
+            Build_EndIf(commandText);
         }
 
         private void Build_UpdateStatement(

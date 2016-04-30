@@ -15,14 +15,14 @@ namespace Implem.Libraries.DataSources.SqlServer
             int? commandCount = null)
         {
             if (!Using) return;
-            Build_ConditionsBefore(commandText);
+            Build_If(commandText);
             commandText.Append(Statement(commandCount));
             SqlWhereCollection?.BuildCommandText(
                 sqlContainer, sqlCommand, commandText, commandCount);
             AddParams_Where(sqlCommand, commandCount);
             AddTermination(commandText);
             Build_CountRecord(commandText);
-            Build_ConditionsAfter(commandText);
+            Build_EndIf(commandText);
         }
 
         private string Statement(int? commandCount)

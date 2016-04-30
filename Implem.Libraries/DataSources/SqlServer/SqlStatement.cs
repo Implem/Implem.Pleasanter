@@ -23,7 +23,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         public bool AddUpdatedTimeParam = true;
         public bool SelectIdentity;
         public bool CountRecord;
-        public string Conditions;
+        public string If;
         public bool Terminate = true;
         public bool Using = true;
         public Sqls.UnionTypes UnionType;
@@ -198,17 +198,17 @@ namespace Implem.Libraries.DataSources.SqlServer
             }
         }
 
-        protected void Build_ConditionsBefore(StringBuilder commandText)
+        protected void Build_If(StringBuilder commandText)
         {
-            if (!Conditions.IsNullOrEmpty())
+            if (!If.IsNullOrEmpty())
             {
-                commandText.Append("if (" + Conditions + ") begin\n");
+                commandText.Append("if (" + If + ") begin\n");
             }
         }
 
-        protected void Build_ConditionsAfter(StringBuilder commandText)
+        protected void Build_EndIf(StringBuilder commandText)
         {
-            if (!Conditions.IsNullOrEmpty())
+            if (!If.IsNullOrEmpty())
             {
                 commandText.Append("end\n");
             }

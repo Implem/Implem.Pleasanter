@@ -152,9 +152,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 statements: statements).ExecuteDataSet();
         }
 
-        public static SqlStatement Conditions(string conditions)
+        public static SqlStatement If(string _if)
         {
-            return new SqlStatement("if (" + conditions + ") begin\n");
+            return new SqlStatement("if (" + _if + ") begin\n");
         }
 
         public static SqlStatement End()
@@ -1458,7 +1458,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlParamCollection param = null,
             SqlStatement select = null,
             bool addUpdatorParam = true,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlInsert
@@ -1471,7 +1471,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlParamCollection = param,
                 Select = select,
                 AddUpdatorParam = addUpdatorParam,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -1503,7 +1503,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlParamCollection param = null,
             SqlStatement select = null,
             bool addUpdatorParam = true,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlInsert
@@ -1516,7 +1516,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlParamCollection = param,
                 Select = select,
                 AddUpdatorParam = addUpdatorParam,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -1548,7 +1548,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlParamCollection param = null,
             SqlStatement select = null,
             bool addUpdatorParam = true,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlInsert
@@ -1561,7 +1561,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlParamCollection = param,
                 Select = select,
                 AddUpdatorParam = addUpdatorParam,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -1593,7 +1593,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlParamCollection param = null,
             SqlStatement select = null,
             bool addUpdatorParam = true,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlInsert
@@ -1606,7 +1606,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlParamCollection = param,
                 Select = select,
                 AddUpdatorParam = addUpdatorParam,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -1638,7 +1638,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlParamCollection param = null,
             SqlStatement select = null,
             bool addUpdatorParam = true,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlInsert
@@ -1651,7 +1651,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlParamCollection = param,
                 Select = select,
                 AddUpdatorParam = addUpdatorParam,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -1683,7 +1683,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlParamCollection param = null,
             SqlStatement select = null,
             bool addUpdatorParam = true,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlInsert
@@ -1696,7 +1696,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlParamCollection = param,
                 Select = select,
                 AddUpdatorParam = addUpdatorParam,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -1728,7 +1728,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlParamCollection param = null,
             SqlStatement select = null,
             bool addUpdatorParam = true,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlInsert
@@ -1741,7 +1741,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlParamCollection = param,
                 Select = select,
                 AddUpdatorParam = addUpdatorParam,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -1773,7 +1773,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlParamCollection param = null,
             SqlStatement select = null,
             bool addUpdatorParam = true,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlInsert
@@ -1786,7 +1786,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlParamCollection = param,
                 Select = select,
                 AddUpdatorParam = addUpdatorParam,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -1818,7 +1818,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlParamCollection param = null,
             SqlStatement select = null,
             bool addUpdatorParam = true,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlInsert
@@ -1831,7 +1831,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlParamCollection = param,
                 Select = select,
                 AddUpdatorParam = addUpdatorParam,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -1863,7 +1863,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlParamCollection param = null,
             SqlStatement select = null,
             bool addUpdatorParam = true,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlInsert
@@ -1876,7 +1876,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlParamCollection = param,
                 Select = select,
                 AddUpdatorParam = addUpdatorParam,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -1908,7 +1908,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlParamCollection param = null,
             SqlStatement select = null,
             bool addUpdatorParam = true,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlInsert
@@ -1921,7 +1921,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlParamCollection = param,
                 Select = select,
                 AddUpdatorParam = addUpdatorParam,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -1953,7 +1953,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlParamCollection param = null,
             SqlStatement select = null,
             bool addUpdatorParam = true,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlInsert
@@ -1966,7 +1966,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlParamCollection = param,
                 Select = select,
                 AddUpdatorParam = addUpdatorParam,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -1998,7 +1998,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlParamCollection param = null,
             SqlStatement select = null,
             bool addUpdatorParam = true,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlInsert
@@ -2011,7 +2011,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlParamCollection = param,
                 Select = select,
                 AddUpdatorParam = addUpdatorParam,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2043,7 +2043,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlParamCollection param = null,
             SqlStatement select = null,
             bool addUpdatorParam = true,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlInsert
@@ -2056,7 +2056,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlParamCollection = param,
                 Select = select,
                 AddUpdatorParam = addUpdatorParam,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2088,7 +2088,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlParamCollection param = null,
             SqlStatement select = null,
             bool addUpdatorParam = true,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlInsert
@@ -2101,7 +2101,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlParamCollection = param,
                 Select = select,
                 AddUpdatorParam = addUpdatorParam,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2133,7 +2133,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlParamCollection param = null,
             SqlStatement select = null,
             bool addUpdatorParam = true,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlInsert
@@ -2146,7 +2146,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlParamCollection = param,
                 Select = select,
                 AddUpdatorParam = addUpdatorParam,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2178,7 +2178,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlParamCollection param = null,
             SqlStatement select = null,
             bool addUpdatorParam = true,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlInsert
@@ -2191,7 +2191,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlParamCollection = param,
                 Select = select,
                 AddUpdatorParam = addUpdatorParam,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2223,7 +2223,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlParamCollection param = null,
             SqlStatement select = null,
             bool addUpdatorParam = true,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlInsert
@@ -2236,7 +2236,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlParamCollection = param,
                 Select = select,
                 AddUpdatorParam = addUpdatorParam,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2270,7 +2270,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdate
@@ -2285,7 +2285,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2298,7 +2298,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdate
@@ -2313,7 +2313,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2326,7 +2326,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdate
@@ -2341,7 +2341,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2354,7 +2354,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdate
@@ -2369,7 +2369,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2382,7 +2382,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdate
@@ -2397,7 +2397,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2410,7 +2410,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdate
@@ -2425,7 +2425,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2438,7 +2438,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdate
@@ -2453,7 +2453,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2466,7 +2466,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdate
@@ -2481,7 +2481,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2494,7 +2494,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdate
@@ -2509,7 +2509,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2522,7 +2522,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdate
@@ -2537,7 +2537,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2550,7 +2550,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdate
@@ -2565,7 +2565,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2578,7 +2578,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdate
@@ -2593,7 +2593,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2606,7 +2606,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdate
@@ -2621,7 +2621,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2634,7 +2634,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdate
@@ -2649,7 +2649,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2662,7 +2662,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdate
@@ -2677,7 +2677,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2690,7 +2690,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdate
@@ -2705,7 +2705,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2718,7 +2718,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdate
@@ -2733,7 +2733,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2746,7 +2746,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdate
@@ -2761,7 +2761,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2774,7 +2774,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdateOrInsert
@@ -2789,7 +2789,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2802,7 +2802,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdateOrInsert
@@ -2817,7 +2817,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2830,7 +2830,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdateOrInsert
@@ -2845,7 +2845,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2858,7 +2858,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdateOrInsert
@@ -2873,7 +2873,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2886,7 +2886,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdateOrInsert
@@ -2901,7 +2901,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2914,7 +2914,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdateOrInsert
@@ -2929,7 +2929,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2942,7 +2942,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdateOrInsert
@@ -2957,7 +2957,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2970,7 +2970,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdateOrInsert
@@ -2985,7 +2985,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -2998,7 +2998,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdateOrInsert
@@ -3013,7 +3013,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3026,7 +3026,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdateOrInsert
@@ -3041,7 +3041,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3054,7 +3054,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdateOrInsert
@@ -3069,7 +3069,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3082,7 +3082,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdateOrInsert
@@ -3097,7 +3097,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3110,7 +3110,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdateOrInsert
@@ -3125,7 +3125,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3138,7 +3138,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdateOrInsert
@@ -3153,7 +3153,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3166,7 +3166,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdateOrInsert
@@ -3181,7 +3181,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3194,7 +3194,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdateOrInsert
@@ -3209,7 +3209,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3222,7 +3222,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdateOrInsert
@@ -3237,7 +3237,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3250,7 +3250,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool addUpdatorParam = true,
             bool addUpdatedTimeParam = true,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlUpdateOrInsert
@@ -3265,7 +3265,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 AddUpdatorParam = addUpdatorParam,
                 AddUpdatedTimeParam = addUpdatedTimeParam,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3274,7 +3274,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlDelete()
@@ -3286,7 +3286,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3295,7 +3295,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlDelete()
@@ -3307,7 +3307,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3316,7 +3316,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlDelete()
@@ -3328,7 +3328,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3337,7 +3337,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlDelete()
@@ -3349,7 +3349,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3358,7 +3358,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlDelete()
@@ -3370,7 +3370,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3379,7 +3379,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlDelete()
@@ -3391,7 +3391,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3400,7 +3400,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlDelete()
@@ -3412,7 +3412,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3421,7 +3421,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlDelete()
@@ -3433,7 +3433,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3442,7 +3442,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlDelete()
@@ -3454,7 +3454,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3463,7 +3463,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlDelete()
@@ -3475,7 +3475,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3484,7 +3484,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlDelete()
@@ -3496,7 +3496,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3505,7 +3505,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlDelete()
@@ -3517,7 +3517,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3526,7 +3526,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlDelete()
@@ -3538,7 +3538,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3547,7 +3547,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlDelete()
@@ -3559,7 +3559,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3568,7 +3568,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlDelete()
@@ -3580,7 +3580,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3589,7 +3589,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlDelete()
@@ -3601,7 +3601,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3610,7 +3610,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlDelete()
@@ -3622,7 +3622,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3631,7 +3631,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlDelete()
@@ -3643,7 +3643,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3654,7 +3654,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlPhysicalDelete()
@@ -3667,7 +3667,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3678,7 +3678,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlPhysicalDelete()
@@ -3691,7 +3691,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3702,7 +3702,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlPhysicalDelete()
@@ -3715,7 +3715,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3726,7 +3726,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlPhysicalDelete()
@@ -3739,7 +3739,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3750,7 +3750,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlPhysicalDelete()
@@ -3763,7 +3763,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3774,7 +3774,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlPhysicalDelete()
@@ -3787,7 +3787,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3798,7 +3798,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlPhysicalDelete()
@@ -3811,7 +3811,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3822,7 +3822,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlPhysicalDelete()
@@ -3835,7 +3835,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3846,7 +3846,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlPhysicalDelete()
@@ -3859,7 +3859,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3870,7 +3870,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlPhysicalDelete()
@@ -3883,7 +3883,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3894,7 +3894,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlPhysicalDelete()
@@ -3907,7 +3907,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3918,7 +3918,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlPhysicalDelete()
@@ -3931,7 +3931,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3942,7 +3942,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlPhysicalDelete()
@@ -3955,7 +3955,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3966,7 +3966,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlPhysicalDelete()
@@ -3979,7 +3979,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -3990,7 +3990,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlPhysicalDelete()
@@ -4003,7 +4003,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -4014,7 +4014,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlPhysicalDelete()
@@ -4027,7 +4027,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -4038,7 +4038,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlPhysicalDelete()
@@ -4051,7 +4051,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -4062,7 +4062,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlPhysicalDelete()
@@ -4075,7 +4075,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -4084,7 +4084,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlRestore()
@@ -4096,7 +4096,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -4105,7 +4105,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlRestore()
@@ -4117,7 +4117,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -4126,7 +4126,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlRestore()
@@ -4138,7 +4138,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -4147,7 +4147,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlRestore()
@@ -4159,7 +4159,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -4168,7 +4168,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlRestore()
@@ -4180,7 +4180,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -4189,7 +4189,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlRestore()
@@ -4201,7 +4201,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -4210,7 +4210,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlRestore()
@@ -4222,7 +4222,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -4231,7 +4231,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlRestore()
@@ -4243,7 +4243,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -4252,7 +4252,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlRestore()
@@ -4264,7 +4264,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -4273,7 +4273,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlRestore()
@@ -4285,7 +4285,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -4294,7 +4294,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlRestore()
@@ -4306,7 +4306,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -4315,7 +4315,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlRestore()
@@ -4327,7 +4327,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -4336,7 +4336,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlRestore()
@@ -4348,7 +4348,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -4357,7 +4357,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlRestore()
@@ -4369,7 +4369,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -4378,7 +4378,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlRestore()
@@ -4390,7 +4390,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -4399,7 +4399,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlRestore()
@@ -4411,7 +4411,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -4420,7 +4420,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlRestore()
@@ -4432,7 +4432,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
@@ -4441,7 +4441,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
             bool countRecord = false,
-            string conditions = "",
+            string _if = "",
             bool _using = true)
         {
             return new SqlRestore()
@@ -4453,7 +4453,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
-                Conditions = conditions,
+                If = _if,
                 Using = _using
             };
         }
