@@ -1240,7 +1240,8 @@ namespace Implem.Pleasanter.Models
                 Title = new Title(Displays.DemoMailTitle()),
                 Body = Displays.DemoMailBody(Url.Server(), passphrase),
                 From = new System.Net.Mail.MailAddress(Parameters.Mail.SupportFrom),
-                To = mailAddress
+                To = mailAddress,
+                Bcc = Parameters.Mail.SupportFrom
             };
             outgoingMailModel.Send();
             return Messages.ResponseSentAcceptanceMail()
