@@ -378,6 +378,7 @@ namespace Implem.Pleasanter.Models
             {
                 case "users_password": return "Users_Password=*";
                 case "users_changedpassword": return "Users_ChangedPassword=*";
+                case "users_afterresetpassword": return "Users_AfterResetPassword=*";
                 default: return requestData;
             }
         }
