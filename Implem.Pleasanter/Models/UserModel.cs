@@ -1066,7 +1066,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.UsersWhereDefault(this),
                     param: Rds.UsersParam()
                         .Password(AfterResetPassword)
-                        .PasswordExpirationTime(PasswordExpirationTime)
+                        .PasswordExpirationTime(PasswordExpirationTime.Value)
                         .PasswordChangeTime(raw: "getdate()")));
                 responseCollection
                     .PasswordExpirationTime(PasswordExpirationTime.ToString())
