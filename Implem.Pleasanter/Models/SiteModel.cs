@@ -1699,7 +1699,9 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 siteId: siteModel.SiteId,
                 modelName: "Site",
-                title: siteModel.Title + " - " + Displays.EditSettings(),
+                title: siteModel.MethodType == BaseModel.MethodTypes.New
+                    ? Displays.Sites() + " - " + Displays.New()
+                    : siteModel.Title + " - " + Displays.EditSettings(),
                 permissionType: siteModel.PermissionType,
                 verType: siteModel.VerType,
                 backUrl: Navigations.ItemIndex(siteModel.SiteId),
