@@ -1446,6 +1446,7 @@ namespace Implem.Pleasanter.Models
                                 .ClassA(demoDefinition.ClassA)
                                 .ClassB(demoDefinition.ClassB)
                                 .ClassC(demoDefinition.ClassC)
+                                .Comments(Comments(demoModel, idHash, demoDefinition.Id))
                                 .Creator(idHash[demoDefinition.Creator])
                                 .Updator(idHash[demoDefinition.Updator])
                                 .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
@@ -1494,6 +1495,7 @@ namespace Implem.Pleasanter.Models
                                 .ClassA(demoDefinition.ClassA)
                                 .ClassB(demoDefinition.ClassB)
                                 .ClassC(demoDefinition.ClassC)
+                                .Comments(Comments(demoModel, idHash, demoDefinition.Id))
                                 .Creator(idHash[demoDefinition.Creator])
                                 .Updator(idHash[demoDefinition.Updator])
                                 .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
@@ -1541,6 +1543,27 @@ namespace Implem.Pleasanter.Models
                                 .PermissionType(Permissions.Types.ReadWrite)));
                 });
             });
+        }
+
+        private static string Comments(
+            DemoModel demoModel,
+            Dictionary<string, long> idHash,
+            string parentId)
+        {
+            var comments = new Comments();
+            Def.DemoDefinitionCollection
+                .Where(o => o.Type == "Comments")
+                .Where(o => o.ParentId == parentId)
+                .Select((o, i) => new { DemoDefinition = o, Index = i })
+                .ForEach(data =>
+                    comments.Add(new Comment
+                    {
+                        CommentId = data.Index,
+                        CreatedTime = data.DemoDefinition.CreatedTime.DemoTime(demoModel),
+                        Creator = idHash[data.DemoDefinition.Creator].ToInt(),
+                        Body = data.DemoDefinition.Body
+                    }));
+            return comments.ToJson();
         }
 
         /// <summary>
