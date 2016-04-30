@@ -107,7 +107,7 @@ namespace Implem.DefinitionAccessor
             Parameters.Rds.UserConnectionString = 
                 Parameters.Rds.UserConnectionString.Replace(
                     "#ServiceName#", Environments.ServiceName);
-            switch (Environments.RdsProvider)
+            switch (Parameters.Rds.Provider)
             {
                 case "Azure":
                     Environments.RdsProvider = "Azure";
