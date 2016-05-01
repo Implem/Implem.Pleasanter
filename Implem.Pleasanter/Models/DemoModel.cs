@@ -1289,6 +1289,7 @@ namespace Implem.Pleasanter.Models
                 InitializeDepts(demoModel, idHash);
                 InitializeUsers(demoModel, idHash, password);
                 InitializeSites(demoModel, idHash);
+                InitializeLinks(demoModel, idHash);
                 InitializeIssues(demoModel, idHash);
                 InitializePermissions(idHash);
                 Rds.ExecuteNonQuery(statements: Rds.UpdateDemos(
@@ -1395,6 +1396,21 @@ namespace Implem.Pleasanter.Models
                             .Subset(Jsons.ToJson(new SiteSubset(
                                 siteModel, siteModel.SiteSettings))),
                         where: Rds.ItemsWhere().ReferenceId(siteModel.SiteId))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void InitializeLinks(DemoModel demoModel, Dictionary<string, long> idHash)
+        {
+            Def.DemoDefinitionCollection
+                .Where(o => o.Type == "Sites")
+                .Where(o => o.ClassB.Trim() != string.Empty)
+                .ForEach(demoDefinition =>
+                    Rds.ExecuteNonQuery(statements:
+                        Rds.InsertLinks(param: Rds.LinksParam()
+                            .DestinationId(idHash[demoDefinition.ClassB])
+                            .SourceId(idHash[demoDefinition.Id]))));
         }
 
         /// <summary>
