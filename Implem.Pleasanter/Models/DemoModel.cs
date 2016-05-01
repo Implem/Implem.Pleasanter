@@ -1380,7 +1380,7 @@ namespace Implem.Pleasanter.Models
                                         ? idHash[demoDefinition.ParentId]
                                         : 0)
                                     .InheritPermission(idHash, topId, demoDefinition.ParentId)
-                                    .SiteSettings(demoDefinition.Body)
+                                    .SiteSettings(demoDefinition.Body.Replace(idHash))
                                     .Creator(idHash[demoDefinition.Creator])
                                     .Updator(idHash[demoDefinition.Updator])
                                     .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
@@ -1437,7 +1437,7 @@ namespace Implem.Pleasanter.Models
                                 .SiteId(idHash[demoDefinition.ParentId])
                                 .IssueId(raw: Def.Sql.Identity)
                                 .Title(demoDefinition.Title)
-                                .Body(demoDefinition.Body)
+                                .Body(demoDefinition.Body.Replace(idHash))
                                 .StartTime(demoDefinition.StartTime.DemoTime(demoModel))
                                 .CompletionTime(demoDefinition.CompletionTime
                                     .AddDays(1).DemoTime(demoModel))
@@ -1491,7 +1491,7 @@ namespace Implem.Pleasanter.Models
                                 .SiteId(idHash[demoDefinition.ParentId])
                                 .ResultId(raw: Def.Sql.Identity)
                                 .Title(demoDefinition.Title)
-                                .Body(demoDefinition.Body)
+                                .Body(demoDefinition.Body.Replace(idHash))
                                 .Status(demoDefinition.Status)
                                 .Manager(idHash[demoDefinition.Manager])
                                 .Owner(idHash[demoDefinition.Owner])
@@ -1567,9 +1567,22 @@ namespace Implem.Pleasanter.Models
                         CommentId = data.Index,
                         CreatedTime = data.DemoDefinition.CreatedTime.DemoTime(demoModel),
                         Creator = idHash[data.DemoDefinition.Creator].ToInt(),
-                        Body = data.DemoDefinition.Body
+                        Body = data.DemoDefinition.Body.Replace(idHash)
                     }));
             return comments.ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string Replace(this string self, Dictionary<string, long> idHash)
+        {
+            foreach(var id in self.RegexValues("#[A-Za-z0-9]+?#").Distinct())
+            {
+                self = self.Replace(
+                    id, idHash[id.ToString().Substring(1, id.Length - 2)].ToString());
+            }
+            return self;
         }
 
         /// <summary>
