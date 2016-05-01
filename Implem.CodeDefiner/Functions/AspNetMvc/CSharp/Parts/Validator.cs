@@ -3,7 +3,6 @@ using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
 {
     internal class Validator

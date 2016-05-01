@@ -2,7 +2,6 @@
 using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
 {
     internal static class DefinitionColumn
