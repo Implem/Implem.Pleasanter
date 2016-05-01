@@ -108,10 +108,9 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             string columnNameAlias,
             string joinExpression)
         {
-            foreach (Match placeholder in code.RegexMatches(
-                CodePatterns.ReplacementPlaceholder))
+            foreach (var placeholder in code.RegexValues(CodePatterns.ReplacementPlaceholder))
             {
-                switch (placeholder.Value)
+                switch (placeholder)
                 {
                     case "TableName":
                         code = code.Replace("#TableName#", columnDefinition.TableName);

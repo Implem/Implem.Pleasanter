@@ -165,9 +165,9 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             ColumnDefinition columnDefinition,
             int columnCount = 0)
         {
-            foreach (Match placeholder in code.RegexMatches(CodePatterns.ReplacementPlaceholder))
+            foreach (var placeholder in code.RegexValues(CodePatterns.ReplacementPlaceholder))
             {
-                switch (placeholder.Value)
+                switch (placeholder)
                 {
                     case "columnName":
                         code = code.Replace(
@@ -244,13 +244,12 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
         }
 
         private static string ReplaceCode(
-            string code, ColumnDefinition columnDefinition, Match placeholder)
+            string code, ColumnDefinition columnDefinition, string placeholder)
         {
-            if (Def.ColumnXls.XlsSheet.Columns.Contains(placeholder.Value))
+            if (Def.ColumnXls.XlsSheet.Columns.Contains(placeholder))
             {
                 code = code.Replace(
-                    "#" + placeholder.Value + "#",
-                    columnDefinition[placeholder.Value].ToString());
+                    "#" + placeholder + "#", columnDefinition[placeholder].ToString());
             }
             return code;
         }

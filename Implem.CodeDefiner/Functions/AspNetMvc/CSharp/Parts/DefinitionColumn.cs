@@ -50,10 +50,9 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             string definitionColumnNameAlternate,
             string definitionColumnType)
         {
-            foreach (Match placeholder in code.RegexMatches(
-                CodePatterns.ReplacementPlaceholder))
+            foreach (var placeholder in code.RegexValues(CodePatterns.ReplacementPlaceholder))
             {
-                switch (placeholder.Value)
+                switch (placeholder)
                 {
                     case "DefColumnName":
                         code = code.Replace("#DefColumnName#", definitionColumnNameAlternate);

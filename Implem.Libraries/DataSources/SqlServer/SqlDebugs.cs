@@ -24,11 +24,9 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             var commandTextFormatted = new StringBuilder();
             var commandTextTemp = sqlCommand.CommandText;
-            commandTextTemp.RegexMatches(
+            commandTextTemp.RegexValues(
                 NewLineDelimiters().Select(o => @"(?<!\n)\b" + o + @"\b").Join("|"),
                 RegexOptions.Multiline)
-                    .Cast<Match>()
-                    .Select(o => o.Value)
                     .Distinct()
                     .ForEach(match =>
                         commandTextTemp = commandTextTemp.Replace(match, "\r\n" + match));

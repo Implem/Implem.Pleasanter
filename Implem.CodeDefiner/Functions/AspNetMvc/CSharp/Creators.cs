@@ -5,7 +5,6 @@ using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
 {
     internal static class Creators
@@ -13,14 +12,14 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
         internal static string Create(CodeDefinition codeDefinition, DataContainer dataContainer)
         {
             var code = codeDefinition.FormattedCode();
-            foreach (Match placeholder in code.RegexMatches(CodePatterns.IdPlaceholder))
+            foreach (var placeholder in code.RegexValues(CodePatterns.IdPlaceholder))
             {
-                var id = placeholder.Value.RegexFirst(CodePatterns.Id);
+                var id = placeholder.RegexFirst(CodePatterns.Id);
                 var codeChildDefinition = Def.CodeDefinitionCollection
                     .FirstOrDefault(o => o.Id == id);
                 if (codeChildDefinition != null)
                 {
-                    Def.SetCodeDefinitionOption(placeholder.Value, codeChildDefinition);
+                    Def.SetCodeDefinitionOption(placeholder, codeChildDefinition);
                     var codeChildCollection = new List<string>();
                     switch (codeChildDefinition.RepeatType)
                     {
@@ -107,12 +106,12 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
 
         private static string CodeChildCollection(
             string code,
-            Match placeholder,
+            string placeholder,
             CodeDefinition codeChildDefinition,
             List<string> codeChildCollection)
         {
             return code.Replace(
-                placeholder.Value,
+                placeholder,
                 codeChildCollection.Join(codeChildDefinition.Separator.Replace("\\r\\n", "\r\n")));
         }
 
@@ -142,9 +141,9 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
 
         private static void ReplaceCode(ref string code, string tableName)
         {
-            foreach (Match placeholder in code.RegexMatches(CodePatterns.ReplacementPlaceholder))
+            foreach (var placeholder in code.RegexValues(CodePatterns.ReplacementPlaceholder))
             {
-                switch (placeholder.Value)
+                switch (placeholder)
                 {
                     case "IdType":
                         code = code.Replace("#IdType#", tableName.CsTypeIdColumn());

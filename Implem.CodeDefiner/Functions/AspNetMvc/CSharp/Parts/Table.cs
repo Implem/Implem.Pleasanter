@@ -54,9 +54,9 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             CodeDefinition codeDefinition,
             DataContainer dataContainer)
         {
-            foreach (Match placeholder in code.RegexMatches(CodePatterns.ReplacementPlaceholder))
+            foreach (var placeholder in code.RegexValues(CodePatterns.ReplacementPlaceholder))
             {
-                switch (placeholder.Value)
+                switch (placeholder)
                 {
                     case "ModelName":
                         code = code.Replace("#ModelName#", dataContainer.ModelName);

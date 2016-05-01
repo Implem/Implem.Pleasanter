@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 namespace Implem.Libraries.Utilities
 {
     public static class Regexes
@@ -31,5 +32,15 @@ namespace Implem.Libraries.Utilities
             return Regex.Matches(self, pattern, regexOptions);
         }
 
+        public static IEnumerable<string> RegexValues(
+            this string self,
+            string pattern,
+            RegexOptions regexOptions = RegexOptions.Singleline)
+        {
+            foreach (Match match in Regex.Matches(self, pattern, regexOptions))
+            {
+                yield return match.Value;
+            }
+        }
     }
 }

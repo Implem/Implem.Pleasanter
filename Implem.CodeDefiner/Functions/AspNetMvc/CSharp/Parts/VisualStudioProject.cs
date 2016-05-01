@@ -25,11 +25,9 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             var projectCode = Files.Read(filePath);
             var itemGroupCodeBlock = projectCode.RegexFirst(
                 @"(?<=<ItemGroup>\r?\n) *<Compile.*?(?=\n *</ItemGroup>)");
-            var itemGroupCodeBlockNew = itemGroupCodeBlock.RegexMatches(
+            var itemGroupCodeBlockNew = itemGroupCodeBlock.RegexValues(
                 "    <(Compile|Content).+?/>|    <(Compile|Content)(?:.|\n)+?</(Compile|Content)>",
                 RegexOptions.Multiline)
-                    .Cast<Match>()
-                    .Select(o => o.Value)
                     .Where(o =>
                         !o.StartsWith("    <Compile Include=\"Models\\") &&
                         !o.StartsWith("    <Compile Include=\"Controllers\\"))
