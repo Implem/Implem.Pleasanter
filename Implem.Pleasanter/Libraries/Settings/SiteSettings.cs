@@ -31,15 +31,15 @@ namespace Implem.Pleasanter.Libraries.Settings
         public decimal? NearDeadlineAfterDays;
         public decimal? NearDeadlineBeforeDays;
         public int? GridPageSize;
-        public List<string> GridOrder = new List<string>();
-        public List<string> EditorOrder = new List<string>();
-        public List<string> TitleOrder = new List<string>();
+        public List<string> GridOrder;
+        public List<string> EditorOrder;
+        public List<string> TitleOrder;
         public string TitleSeparator = ")";
-        public List<string> HistoryGrid = new List<string>();
-        public List<Column> ColumnCollection = new List<Column>();
-        public List<Aggregation> AggregationCollection = new List<Aggregation>();
-        public Dictionary<string, long> LinkColumnSiteIdHash = new Dictionary<string, long>();
-        public List<Summary> SummaryCollection = new List<Summary>();
+        public List<string> HistoryGrid;
+        public List<Column> ColumnCollection;
+        public List<Aggregation> AggregationCollection;
+        public Dictionary<string, long> LinkColumnSiteIdHash;
+        public List<Summary> SummaryCollection;
         public string AddressBook;
         public string MailToDefault;
         public string MailCcDefault;
@@ -55,41 +55,19 @@ namespace Implem.Pleasanter.Libraries.Settings
             Init();
         }
 
-        public SiteSettings(SiteSettings source)
-        {
-            ReferenceType = source.ReferenceType;
-            SiteId = source.SiteId;
-            InheritPermission = source.InheritPermission;
-            ParentId = source.ParentId;
-            Title = source.Title;
-            AccessStatus = source.AccessStatus;
-            NearDeadlineAfterDays = source.NearDeadlineAfterDays;
-            NearDeadlineBeforeDays = source.NearDeadlineBeforeDays;
-            GridPageSize = source.GridPageSize;
-            GridOrder = new List<string>(source.GridOrder);
-            EditorOrder = new List<string>(source.EditorOrder);
-            TitleOrder = new List<string>(source.TitleOrder);
-            TitleSeparator = source.TitleSeparator;
-            ColumnCollection = new List<Column>(source.ColumnCollection);
-            AggregationCollection = new List<Aggregation>(source.AggregationCollection);
-            LinkColumnSiteIdHash = new Dictionary<string, long>(source.LinkColumnSiteIdHash);
-            SummaryCollection = new List<Summary>(source.SummaryCollection);
-            AddressBook = source.AddressBook;
-            MailToDefault = source.MailToDefault;
-            MailCcDefault = source.MailCcDefault;
-            MailBccDefault = source.MailBccDefault;
-        }
-
         public void Init()
         {
             NearDeadlineBeforeDays = NearDeadlineBeforeDays ?? Parameters.General.NearDeadlineBeforeDays;
             NearDeadlineAfterDays = NearDeadlineAfterDays ?? Parameters.General.NearDeadlineAfterDays;
             GridPageSize = GridPageSize ?? Parameters.General.GridPageSize;
-            UpdateGrid();
-            UpdateEditor();
-            UpdateTableSet();
+            UpdateGridOrder();
+            UpdateEditorOrder();
+            UpdateTitleOrder();
             UpdateHistoryGrid();
             UpdateColumnCollection();
+            if (AggregationCollection == null) AggregationCollection = new List<Aggregation>();
+            if (LinkColumnSiteIdHash == null) LinkColumnSiteIdHash = new Dictionary<string, long>();
+            if (SummaryCollection == null) SummaryCollection = new List<Summary>();
         }
 
         [OnDeserialized]
@@ -104,13 +82,66 @@ namespace Implem.Pleasanter.Libraries.Settings
             UpdateColumnCollection(onSerializing: true);
         }
 
-        public string ToJson()
+        public string RecordingJson()
         {
-            return Jsons.ToJson(new SiteSettings(this));
+            var def = new SiteSettings(ReferenceType);
+            var self = this.ToJson().Deserialize<SiteSettings>();
+            if (self.NearDeadlineAfterDays == def.NearDeadlineAfterDays) self.NearDeadlineAfterDays = null;
+            if (self.NearDeadlineBeforeDays == def.NearDeadlineBeforeDays) self.NearDeadlineBeforeDays = null;
+            if (self.GridPageSize == def.GridPageSize) self.GridPageSize = null;
+            if (self.GridOrder.SequenceEqual(def.GridOrder)) self.GridOrder = null;
+            if (self.EditorOrder.SequenceEqual(def.EditorOrder)) self.EditorOrder = null;
+            if (self.TitleOrder.SequenceEqual(def.TitleOrder)) self.TitleOrder = null;
+            if (self.TitleSeparator == def.TitleSeparator) self.TitleSeparator = null;
+            if (self.HistoryGrid.SequenceEqual(def.HistoryGrid)) self.HistoryGrid = null;
+            if (self.ColumnCollection.SequenceEqual(def.ColumnCollection)) self.ColumnCollection = null;
+            if (self.AggregationCollection.SequenceEqual(def.AggregationCollection)) self.AggregationCollection = null;
+            if (self.LinkColumnSiteIdHash.SequenceEqual(def.LinkColumnSiteIdHash)) self.LinkColumnSiteIdHash = null;
+            if (self.SummaryCollection.SequenceEqual(def.SummaryCollection)) self.SummaryCollection = null;
+            if (AddressBook == string.Empty) self.AddressBook = null;
+            if (MailToDefault == string.Empty) self.MailToDefault = null;
+            if (MailCcDefault == string.Empty) self.MailCcDefault = null;
+            if (MailBccDefault == string.Empty) self.MailBccDefault = null;
+            var removeCollection = new HashSet<string>();
+            self.ColumnCollection.ForEach(column =>
+            {
+                var columnDefinition = Def.ColumnDefinitionCollection
+                    .Where(o => o.TableName == ReferenceType)
+                    .Where(o => o.ColumnName == column.ColumnName)
+                    .FirstOrDefault();
+                if (column.ToJson() == def.ColumnCollection.FirstOrDefault(o =>
+                    o.ColumnName == column.ColumnName)?.ToJson())
+                {
+                    removeCollection.Add(column.ColumnName);
+                }
+                else
+                {
+                    if (column.LabelText == Displays.Get(columnDefinition.Id)) column.LabelText = null;
+                    if (column.ChoicesText == columnDefinition.ChoicesText) column.ChoicesText = null;
+                    if (column.DefaultInput == columnDefinition.DefaultInput) column.DefaultInput = null;
+                    if (column.GridVisible == columnDefinition.GridVisible) column.GridVisible = null;
+                    if (column.GridDateTime == columnDefinition.GridDateTime) column.GridDateTime = null;
+                    if (column.ControlDateTime == columnDefinition.ControlDateTime) column.ControlDateTime = null;
+                    if (column.ControlType == columnDefinition.ControlType) column.ControlType = null;
+                    if (column.DecimalPlaces == columnDefinition.DecimalPlaces) column.DecimalPlaces = null;
+                    if (column.Min == columnDefinition.Min) column.Min = null;
+                    if (column.Max == DefaultMax(columnDefinition)) column.Max = null;
+                    if (column.Step == DefaultStep(columnDefinition)) column.Step = null;
+                    if (column.EditorVisible == columnDefinition.EditorVisible) column.EditorVisible = null;
+                    if (column.EditorReadOnly == false) column.EditorReadOnly = null;
+                    if (column.FieldCss == columnDefinition.FieldCss) column.FieldCss = null;
+                    if (column.TitleVisible == DefaultTitleVisible(column)) column.TitleVisible = null;
+                    if (column.Unit == columnDefinition.Unit) column.Unit = null;
+                    if (column.Link == false) column.Link = null;
+                }
+            });
+            self.ColumnCollection.RemoveAll(o => removeCollection.Contains(o.ColumnName));
+            return self.ToJson();
         }
 
-        private void UpdateGrid()
+        private void UpdateGridOrder()
         {
+            if (GridOrder == null) GridOrder = new List<string>();
             GridOrder.AddRange(Def.ColumnDefinitionCollection
                 .Where(o => !GridOrder.Any(p => p == o.ColumnName))
                 .Where(o => o.TableName == ReferenceType)
@@ -124,8 +155,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     p.GridColumn > 0));
         }
 
-        private void UpdateEditor()
+        private void UpdateEditorOrder()
         {
+            if (EditorOrder == null) EditorOrder = new List<string>();
             EditorOrder.AddRange(Def.ColumnDefinitionCollection
                 .Where(o => !EditorOrder.Any(p => p == o.ColumnName))
                 .Where(o => o.TableName == ReferenceType && o.EditorColumn)
@@ -140,8 +172,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     !p.NotSettings));
         }
 
-        private void UpdateTableSet()
+        private void UpdateTitleOrder()
         {
+            if (TitleOrder == null) TitleOrder = new List<string>();
             TitleOrder.AddRange(Def.ColumnDefinitionCollection
                 .Where(o => !TitleOrder.Any(p => p == o.ColumnName))
                 .Where(o => o.TableName == ReferenceType)
@@ -158,6 +191,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void UpdateHistoryGrid()
         {
+            if (HistoryGrid == null) HistoryGrid = new List<string>();
             HistoryGrid.AddRange(Def.ColumnDefinitionCollection
                 .Where(o => !HistoryGrid.Any(p => p == o.ColumnName))
                 .Where(o => o.TableName == ReferenceType)
@@ -170,6 +204,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void UpdateColumnCollection(bool onSerializing = false)
         {
+            if (ColumnCollection == null) ColumnCollection = new List<Column>();
             Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == ReferenceType)
                 .ForEach(columnDefinition =>
@@ -205,19 +240,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.ControlType = column.ControlType ?? columnDefinition.ControlType;
                 column.DecimalPlaces = column.DecimalPlaces ?? columnDefinition.DecimalPlaces;
                 column.Min = column.Min ?? columnDefinition.Min;
-                column.Max = column.Max ?? (columnDefinition.Max > 0
-                    ? columnDefinition.Max
-                    : columnDefinition.MaxLength);
-                column.Step = column.Step ?? (columnDefinition.Step > 0
-                    ? columnDefinition.Step
-                    : 1);
+                column.Max = column.Max ?? DefaultMax(columnDefinition);
+                column.Step = column.Step ?? DefaultStep(columnDefinition);
                 column.EditorVisible = column.EditorVisible ?? columnDefinition.EditorVisible;
                 column.EditorReadOnly = column.EditorReadOnly ?? false;
                 column.FieldCss = column.FieldCss ?? columnDefinition.FieldCss;
                 column.ControlDateTime = column.ControlDateTime ?? columnDefinition.ControlDateTime;
-                column.TitleVisible = column.TitleVisible ?? column.ColumnName == "Title"
-                    ? true
-                    : false;
+                column.TitleVisible = column.TitleVisible ?? DefaultTitleVisible(column);
                 column.Unit = column.Unit ?? columnDefinition.Unit;
                 column.Nullable = columnDefinition.Nullable;
                 column.ReadPermission = Permissions.Get(columnDefinition.ReadPermission);
@@ -245,6 +274,25 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.Computable = columnDefinition.Computable;
                 column.Validators = columnDefinition.Validators;
             }
+        }
+
+        private decimal DefaultMax(ColumnDefinition columnDefinition)
+        {
+            return (columnDefinition.Max > 0
+                ? columnDefinition.Max
+                : columnDefinition.MaxLength);
+        }
+
+        private decimal DefaultStep(ColumnDefinition columnDefinition)
+        {
+            return (columnDefinition.Step > 0
+                ? columnDefinition.Step
+                : 1);
+        }
+
+        private static bool DefaultTitleVisible(Column column)
+        {
+            return column.ColumnName == "Title";
         }
 
         public Column AllColumn(string columnName)
@@ -332,7 +380,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         private Dictionary<string, string> ColumnHash(IEnumerable<string> columnNames, string type)
         {
             var hash = new Dictionary<string, string>();
-            columnNames.ForEach(columnName =>
+            columnNames?.ForEach(columnName =>
             {
                 var column = GridColumn(columnName);
                 if (column != null) Visible(hash, column, type);
@@ -356,7 +404,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Dictionary<string, string> AggregationDestination()
         {
-            return AggregationCollection.ToDictionary(
+            return AggregationCollection?.ToDictionary(
                 o => o.Id.ToString(),
                 o => (o.GroupBy == "[NotGroupBy]"
                     ? Displays.SettingNotGroupBy() 
@@ -672,7 +720,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void SetLinks()
         {
-            if (LinkColumnSiteIdHash.Count > 0)
+            if (LinkColumnSiteIdHash?.Count > 0)
             {
                 var dataRows = Rds.ExecuteTable(
                     statements: Rds.SelectItems(
@@ -729,6 +777,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public EnumerableRowCollection<DataRow> SummarySiteDataRows()
         {
+            if (LinkColumnSiteIdHash == null) return null;
             var siteIdCollection = LinkColumnSiteIdHash.Values.ToList<long>();
             if (siteIdCollection.Count == 0)
             {

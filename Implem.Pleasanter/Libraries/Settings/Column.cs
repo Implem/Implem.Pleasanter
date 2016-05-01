@@ -16,9 +16,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ChoicesText;
         public string DefaultInput;
         public bool? GridVisible;
-        public bool? GridComputable;
-        public bool? GridSortable;
-        public bool? GridSearchable;
         public string GridDateTime;
         public string ControlDateTime;
         public string ControlType;
@@ -112,9 +109,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             ChoicesText = source.ChoicesText;
             DefaultInput = source.DefaultInput;
             GridVisible = source.GridVisible;
-            GridComputable = source.GridComputable;
-            GridSortable = source.GridSortable;
-            GridSearchable = source.GridSearchable;
             GridDateTime = source.GridDateTime;
             ControlDateTime = source.ControlDateTime;
             ControlType = source.ControlType;

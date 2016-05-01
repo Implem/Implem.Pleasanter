@@ -15128,7 +15128,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .ReferenceType(siteModel.ReferenceType.MaxLength(32), _using: siteModel.ReferenceType_Updated || setDefault || paramAll)
                 .ParentId(siteModel.ParentId, _using: siteModel.ParentId_Updated || setDefault || paramAll)
                 .InheritPermission(siteModel.InheritPermission, _using: siteModel.InheritPermission_Updated || setDefault || paramAll)
-                .SiteSettings(siteModel.SiteSettings.ToJson(), _using: siteModel.SiteSettings_Updated || paramAll)
+                .SiteSettings(siteModel.SiteSettings.RecordingJson(), _using: siteModel.SiteSettings_Updated || paramAll)
                 .Comments(siteModel.Comments.ToJson(), _using: siteModel.Comments_Updated || paramAll);
         }
 

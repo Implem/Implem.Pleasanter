@@ -49,7 +49,7 @@ namespace Implem.Pleasanter.Models
         public bool ReferenceType_Updated { get { return ReferenceType != SavedReferenceType && ReferenceType != null; } }
         public bool ParentId_Updated { get { return ParentId != SavedParentId; } }
         public bool InheritPermission_Updated { get { return InheritPermission != SavedInheritPermission; } }
-        public bool SiteSettings_Updated { get { return SiteSettings.ToJson() != SavedSiteSettings && SiteSettings.ToJson() != null; } }
+        public bool SiteSettings_Updated { get { return SiteSettings.RecordingJson() != SavedSiteSettings && SiteSettings.RecordingJson() != null; } }
 
         public SiteSettings Session_SiteSettings()
         {
@@ -599,7 +599,7 @@ namespace Implem.Pleasanter.Models
                     case "ParentId": ParentId = dataRow[name].ToLong(); SavedParentId = ParentId; break;
                     case "InheritPermission": InheritPermission = dataRow[name].ToLong(); SavedInheritPermission = InheritPermission; break;
                     case "PermissionType": PermissionType = GetPermissionType(dataRow); SavedPermissionType = PermissionType.ToLong(); break;
-                    case "SiteSettings": SiteSettings = GetSiteSettings(dataRow); SavedSiteSettings = SiteSettings.ToJson(); break;
+                    case "SiteSettings": SiteSettings = GetSiteSettings(dataRow); SavedSiteSettings = SiteSettings.RecordingJson(); break;
                     case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
                     case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
@@ -672,7 +672,7 @@ namespace Implem.Pleasanter.Models
                             .InheritPermission(raw: inheritPermission == 0
                                 ? Def.Sql.Identity
                                 : inheritPermission.ToString())
-                            .SiteSettings(SiteSettings.ToJson())
+                            .SiteSettings(SiteSettings.RecordingJson())
                             .Comments(Comments.ToJson())),
                     Rds.UpdateItems(
                         where: Rds.ItemsWhere().ReferenceId(raw: Def.Sql.Identity),
@@ -2363,6 +2363,10 @@ namespace Implem.Pleasanter.Models
             SiteSettings siteSettings)
         {
             var siteDataRows = siteSettings.SummarySiteDataRows();
+            if (siteDataRows == null)
+            {
+                return hb.SummarySettingsEditorNoLinks();
+            }
             var summarySiteIdHash = SummarySiteIdHash(siteDataRows, siteSettings);
             var firstSiteId = summarySiteIdHash.Select(o => o.Key.ToLong()).FirstOrDefault();
             return siteDataRows.Count() > 0
@@ -2405,11 +2409,19 @@ namespace Implem.Pleasanter.Models
                                             action: "SetSiteSettings",
                                             method: "put")))
                                 .SummarySettings(sourceSiteSettings: siteSettings)))
-                : hb.FieldSet(
-                    id: "SummarySettingsEditor",
-                    action: () => hb
-                        .P(action: () => hb
-                            .Text(text: Displays.NoLinks())));
+                : hb.SummarySettingsEditorNoLinks();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder SummarySettingsEditorNoLinks(this HtmlBuilder hb)
+        {
+            return hb.FieldSet(
+                id: "SummarySettingsEditor",
+                action: () => hb
+                    .P(action: () => hb
+                        .Text(text: Displays.NoLinks())));
         }
 
         /// <summary>
