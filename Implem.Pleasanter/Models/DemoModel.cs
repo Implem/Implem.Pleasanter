@@ -1380,6 +1380,7 @@ namespace Implem.Pleasanter.Models
                                         ? idHash[demoDefinition.ParentId]
                                         : 0)
                                     .InheritPermission(idHash, topId, demoDefinition.ParentId)
+                                    .SiteSettings(demoDefinition.Body)
                                     .Creator(idHash[demoDefinition.Creator])
                                     .Updator(idHash[demoDefinition.Updator])
                                     .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
