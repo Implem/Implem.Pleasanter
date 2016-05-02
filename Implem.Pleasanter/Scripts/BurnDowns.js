@@ -25,7 +25,9 @@
         .range([padding, bodyWidth]);
     var yScale = d3.scale.linear()
         .domain([d3.max(dataSet, function (d) {
-            return Math.max.apply(null, [d.Total, d.Planned, d.Earned]);
+            return d.Total !== undefined || d.Earned !== undefined
+                ? Math.max.apply(null, [d.Total, d.Planned, d.Earned])
+                : d.Planned;
         }), 0])
         .range([padding, bodyHeight])
         .nice();
