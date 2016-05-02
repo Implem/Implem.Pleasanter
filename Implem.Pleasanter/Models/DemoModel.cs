@@ -1289,8 +1289,8 @@ namespace Implem.Pleasanter.Models
                 InitializeDepts(demoModel, idHash);
                 InitializeUsers(demoModel, idHash, password);
                 InitializeSites(demoModel, idHash);
-                InitializeLinks(demoModel, idHash);
                 InitializeIssues(demoModel, idHash);
+                InitializeLinks(demoModel, idHash);
                 InitializePermissions(idHash);
                 Rds.ExecuteNonQuery(statements: Rds.UpdateDemos(
                     param: Rds.DemosParam().Initialized(true),
@@ -1401,21 +1401,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static void InitializeLinks(DemoModel demoModel, Dictionary<string, long> idHash)
-        {
-            Def.DemoDefinitionCollection
-                .Where(o => o.Type == "Sites")
-                .Where(o => o.ClassB.Trim() != string.Empty)
-                .ForEach(demoDefinition =>
-                    Rds.ExecuteNonQuery(statements:
-                        Rds.InsertLinks(param: Rds.LinksParam()
-                            .DestinationId(idHash[demoDefinition.ClassB])
-                            .SourceId(idHash[demoDefinition.Id]))));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         private static Rds.SitesParamCollection InheritPermission(
              this Rds.SitesParamCollection self, 
              Dictionary<string, long> idHash,
@@ -1462,9 +1447,9 @@ namespace Implem.Pleasanter.Models
                                 .Status(demoDefinition.Status)
                                 .Manager(idHash[demoDefinition.Manager])
                                 .Owner(idHash[demoDefinition.Owner])
-                                .ClassA(demoDefinition.ClassA)
-                                .ClassB(demoDefinition.ClassB)
-                                .ClassC(demoDefinition.ClassC)
+                                .ClassA(demoDefinition.ClassA.Replace(idHash))
+                                .ClassB(demoDefinition.ClassB.Replace(idHash))
+                                .ClassC(demoDefinition.ClassC.Replace(idHash))
                                 .Comments(Comments(demoModel, idHash, demoDefinition.Id))
                                 .Creator(idHash[demoDefinition.Creator])
                                 .Updator(idHash[demoDefinition.Updator])
@@ -1511,9 +1496,9 @@ namespace Implem.Pleasanter.Models
                                 .Status(demoDefinition.Status)
                                 .Manager(idHash[demoDefinition.Manager])
                                 .Owner(idHash[demoDefinition.Owner])
-                                .ClassA(demoDefinition.ClassA)
-                                .ClassB(demoDefinition.ClassB)
-                                .ClassC(demoDefinition.ClassC)
+                                .ClassA(demoDefinition.ClassA.Replace(idHash))
+                                .ClassB(demoDefinition.ClassB.Replace(idHash))
+                                .ClassC(demoDefinition.ClassC.Replace(idHash))
                                 .Comments(Comments(demoModel, idHash, demoDefinition.Id))
                                 .Creator(idHash[demoDefinition.Creator])
                                 .Updator(idHash[demoDefinition.Updator])
@@ -1533,6 +1518,29 @@ namespace Implem.Pleasanter.Models
                                     resultModel, resultModel.SiteSettings))),
                             where: Rds.ItemsWhere().ReferenceId(resultModel.ResultId)));
                 });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void InitializeLinks(DemoModel demoModel, Dictionary<string, long> idHash)
+        {
+            Def.DemoDefinitionCollection
+                .Where(o => o.Type == "Sites")
+                .Where(o => o.ClassB.Trim() != string.Empty)
+                .ForEach(demoDefinition =>
+                    Rds.ExecuteNonQuery(statements:
+                        Rds.InsertLinks(param: Rds.LinksParam()
+                            .DestinationId(idHash[demoDefinition.ClassB])
+                            .SourceId(idHash[demoDefinition.Id]))));
+            Def.DemoDefinitionCollection
+                .Where(o => o.ClassA.RegexExists("^#[A-Za-z0-9]+?#$"))
+                .ForEach(demoDefinition =>
+                    Rds.ExecuteNonQuery(statements:
+                        Rds.InsertLinks(param: Rds.LinksParam()
+                            .DestinationId(idHash[demoDefinition.ClassA
+                                .Substring(1, demoDefinition.ClassA.Length - 2)])
+                            .SourceId(idHash[demoDefinition.Id]))));
         }
 
         /// <summary>
