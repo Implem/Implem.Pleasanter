@@ -1290,6 +1290,7 @@ namespace Implem.Pleasanter.Models
                 InitializeUsers(demoModel, idHash, password);
                 InitializeSites(demoModel, idHash);
                 InitializeIssues(demoModel, idHash);
+                InitializeResults(demoModel, idHash);
                 InitializeLinks(demoModel, idHash);
                 InitializePermissions(idHash);
                 Rds.ExecuteNonQuery(statements: Rds.UpdateDemos(
