@@ -2055,12 +2055,11 @@ namespace Implem.DefinitionAccessor
                     case "Issue12": Demo.Issue12 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue12, definitionRow, DemoXls); break;
                     case "Issue13": Demo.Issue13 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue13, definitionRow, DemoXls); break;
                     case "Issue14": Demo.Issue14 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue14, definitionRow, DemoXls); break;
-                    case "Issue15": Demo.Issue15 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue15, definitionRow, DemoXls); break;
-                    case "Issue16": Demo.Issue16 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue16, definitionRow, DemoXls); break;
-                    case "Issue17": Demo.Issue17 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue17, definitionRow, DemoXls); break;
-                    case "Issue18": Demo.Issue18 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue18, definitionRow, DemoXls); break;
-                    case "Issue19": Demo.Issue19 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue19, definitionRow, DemoXls); break;
-                    case "Issue20": Demo.Issue20 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue20, definitionRow, DemoXls); break;
+                    case "Comment1": Demo.Comment1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment1, definitionRow, DemoXls); break;
+                    case "Comment2": Demo.Comment2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment2, definitionRow, DemoXls); break;
+                    case "Comment3": Demo.Comment3 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment3, definitionRow, DemoXls); break;
+                    case "Comment4": Demo.Comment4 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment4, definitionRow, DemoXls); break;
+                    case "Comment5": Demo.Comment5 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment5, definitionRow, DemoXls); break;
                     default: break;
                 }
             });
@@ -6742,12 +6741,11 @@ namespace Implem.DefinitionAccessor
         public string Issue12;
         public string Issue13;
         public string Issue14;
-        public string Issue15;
-        public string Issue16;
-        public string Issue17;
-        public string Issue18;
-        public string Issue19;
-        public string Issue20;
+        public string Comment1;
+        public string Comment2;
+        public string Comment3;
+        public string Comment4;
+        public string Comment5;
     }
 
     public class DemoTable
@@ -6798,12 +6796,11 @@ namespace Implem.DefinitionAccessor
         public DemoDefinition Issue12 = new DemoDefinition();
         public DemoDefinition Issue13 = new DemoDefinition();
         public DemoDefinition Issue14 = new DemoDefinition();
-        public DemoDefinition Issue15 = new DemoDefinition();
-        public DemoDefinition Issue16 = new DemoDefinition();
-        public DemoDefinition Issue17 = new DemoDefinition();
-        public DemoDefinition Issue18 = new DemoDefinition();
-        public DemoDefinition Issue19 = new DemoDefinition();
-        public DemoDefinition Issue20 = new DemoDefinition();
+        public DemoDefinition Comment1 = new DemoDefinition();
+        public DemoDefinition Comment2 = new DemoDefinition();
+        public DemoDefinition Comment3 = new DemoDefinition();
+        public DemoDefinition Comment4 = new DemoDefinition();
+        public DemoDefinition Comment5 = new DemoDefinition();
     }
 
     public class DisplayDefinition
