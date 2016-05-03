@@ -1,6 +1,6 @@
 # Implem.Pleasanter
 ## 概要
-軽量で高機能なチケット管理アプリケーション。マネジメントに必要な機能及びコミュニケーションに必要な機能を統合することで、ビジネスに必要となる様々な情報の一元管理を実現します。
+軽量で高機能なチケット管理アプリケーション。マネジメントとコミュニケーションに必要となる情報を一元管理することで、情報共有のストレスを軽減し、ビジネスを快適化します。
 
 ## 画面イメージ
 ### チケット一覧
@@ -36,11 +36,11 @@ https://github.com/Implem/Implem.Pleasanter/wiki
 - Wiki
 - マルチ言語
 
-## デモサイト
+## Demo site
 下記URLでメールアドレスを登録  
 https://pleasanter.azurewebsites.net
 
-## Web Site
+## Web site
 http://pleasanter.org/
 
 ## Auther
