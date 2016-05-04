@@ -94,7 +94,7 @@ namespace Implem.Pleasanter.Libraries.Views
                             hb.BurnDownRecordDetails(
                                 elements: burnDown
                                     .Where(o => o.UpdatedTime == updatedMaxTime),
-                                column: siteSettings.AllColumn("Status"),
+                                column: siteSettings.AllColumn("ProgressRate"),
                                 colspan: updators.Count() + 5,
                                 unit: column.Unit);
                         }
