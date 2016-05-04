@@ -1506,10 +1506,10 @@ namespace Implem.Pleasanter.Models
                                     where: Rds.IssuesWhere()
                                         .IssueId(issueModel.IssueId)
                                         .Ver(sub: Rds.SelectIssues(
-                                                tableType: Sqls.TableTypes.History,
-                                                column: Rds.IssuesColumn().Add("max(Ver)"),
-                                                where: Rds.IssuesWhere()
-                                                    .IssueId(issueModel.IssueId)))));
+                                            tableType: Sqls.TableTypes.History,
+                                            column: Rds.IssuesColumn().Add("max(Ver)"),
+                                            where: Rds.IssuesWhere()
+                                                .IssueId(issueModel.IssueId)))));
                         }
                         Rds.ExecuteNonQuery(statements:
                             Rds.UpdateIssues(
