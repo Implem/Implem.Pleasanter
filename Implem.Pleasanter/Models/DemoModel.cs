@@ -1461,7 +1461,7 @@ namespace Implem.Pleasanter.Models
                     idHash.Add(demoDefinition.Id, issueId);
                     var siteModel = new SiteModel(idHash[demoDefinition.ParentId]);
                     var issueModel = new IssueModel(
-                        siteModel.SiteSettings, Permissions.Types.Manager, issueId);
+                        siteModel.IssuesSiteSettings(), Permissions.Types.Manager, issueId);
                     Rds.ExecuteNonQuery(statements:
                         Rds.UpdateItems(
                             param: Rds.ItemsParam()
@@ -1470,7 +1470,71 @@ namespace Implem.Pleasanter.Models
                                 .Subset(Jsons.ToJson(new IssueSubset(
                                     issueModel, issueModel.SiteSettings))),
                             where: Rds.ItemsWhere().ReferenceId(issueModel.IssueId)));
+                    var days = issueModel.CompletionTime.Value < DateTime.Now
+                        ? (issueModel.CompletionTime.Value - issueModel.StartTime).Days
+                        : (DateTime.Now - issueModel.StartTime).Days;
+                    if (issueModel.ProgressRate.Value > 0 && days > 0)
+                    {
+                        var startTime = issueModel.StartTime;
+                        var progressRate = issueModel.ProgressRate.Value;
+                        var creator = issueModel.Creator.Id;
+                        var updator = issueModel.Updator.Id;
+                        var updatedTime = issueModel.UpdatedTime.Value;
+                        var createdTime = issueModel.CreatedTime.Value;
+                        for (var d = 0; d < days; d++)
+                        {
+                            issueModel.VerUp = true;
+                            issueModel.Update();
+                            var recordingTime = d > 0
+                                ? startTime.AddDays(d).AddHours(-6)
+                                : Def.DemoDefinitionCollection
+                                    .Where(o => o.CreatedTime >= Parameters.General.MinTime)
+                                    .Select(o => o.CreatedTime)
+                                    .Min()
+                                    .DemoTime(demoModel);
+                            Rds.ExecuteNonQuery(statements:
+                                Rds.UpdateIssues(
+                                    tableType: Sqls.TableTypes.History,
+                                    addUpdatedTimeParam: false,
+                                    addUpdatorParam: false,
+                                    param: Rds.IssuesParam()
+                                        .ProgressRate(ProgressRate(progressRate, days, d))
+                                        .Creator(creator)
+                                        .Updator(updator)
+                                        .CreatedTime(recordingTime)
+                                        .UpdatedTime(recordingTime),
+                                    where: Rds.IssuesWhere()
+                                        .IssueId(issueModel.IssueId)
+                                        .Ver(sub: Rds.SelectIssues(
+                                                tableType: Sqls.TableTypes.History,
+                                                column: Rds.IssuesColumn().Add("max(Ver)"),
+                                                where: Rds.IssuesWhere()
+                                                    .IssueId(issueModel.IssueId)))));
+                        }
+                        Rds.ExecuteNonQuery(statements:
+                            Rds.UpdateIssues(
+                                addUpdatorParam: false,
+                                addUpdatedTimeParam: false,
+                                param: Rds.IssuesParam()
+                                    .ProgressRate(progressRate)
+                                    .Creator(creator)
+                                    .Updator(updator)
+                                    .CreatedTime(createdTime)
+                                    .UpdatedTime(updatedTime.AddHours(-30)),
+                                where: Rds.IssuesWhere()
+                                    .IssueId(issueModel.IssueId)));
+                    }
                 });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static decimal ProgressRate(decimal progressRate, int days, int d)
+        {
+            return d == 0
+                ? 0
+                : progressRate / days * (d + (new Random().NextDouble() - 0.4).ToDecimal());
         }
 
         /// <summary>
@@ -1510,7 +1574,7 @@ namespace Implem.Pleasanter.Models
                     idHash.Add(demoDefinition.Id, resultId);
                     var siteModel = new SiteModel(idHash[demoDefinition.ParentId]);
                     var resultModel = new ResultModel(
-                        siteModel.SiteSettings, Permissions.Types.Manager, resultId);
+                        siteModel.ResultsSiteSettings(), Permissions.Types.Manager, resultId);
                     Rds.ExecuteNonQuery(statements:
                         Rds.UpdateItems(
                             param: Rds.ItemsParam()
