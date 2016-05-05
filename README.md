@@ -20,7 +20,7 @@
 
 ## プリザンター利用ガイド
 プリザンターを初めて利用する方を対象に、セットアップの手順及び操作方法について説明します。  
-https://github.com/Implem/Implem.Pleasanter/wiki/プリザンター利用ガイド
+https://github.com/Implem/Implem.Pleasanter/wiki
 
 ## 機能概要
 - チケット管理
