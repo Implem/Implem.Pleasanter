@@ -37,7 +37,7 @@ https://github.com/Implem/Implem.Pleasanter/wiki/プリザンター利用ガイ�
 - マルチ言語
 
 ## Demo site
-下記のサイトでe-mailアドレスを登録するとプリザンターを施行することが出来ます。  
+下記のサイトでe-mailアドレスを登録するとプリザンターを試行することが出来ます。  
 https://pleasanter.azurewebsites.net
 
 ## Web site
