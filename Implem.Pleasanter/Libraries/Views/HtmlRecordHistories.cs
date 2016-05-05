@@ -12,11 +12,11 @@ namespace Implem.Pleasanter.Libraries.Views
             var hasHistories = !(ver == 1 && verType == Versions.VerTypes.Latest);
             return hb
                 .Button(
-                    text: Displays.Previous(),
+                    text: Displays.Older(),
                     controlCss: "button-previous",
                     onClick: hasHistories && ver != 1
                         ? Def.JavaScript.History.Params(ver)
-                        : string.Empty, 
+                        : string.Empty,
                     action: "PreviousHistory",
                     method: "post")
                 .Button(
@@ -26,18 +26,18 @@ namespace Implem.Pleasanter.Libraries.Views
                     action: "Histories",
                     method: "get")
                 .Button(
+                    text: Displays.Newer(),
+                    controlCss: "button-next",
+                    onClick: hasHistories && verType != Versions.VerTypes.Latest
+                        ? Def.JavaScript.History.Params(ver)
+                        : string.Empty,
+                    action: "NextHistory",
+                    method: "post")
+                .Button(
                     text: Displays.Latest(),
                     controlCss: "button-history",
                     onClick: Def.JavaScript.Submit,
                     action: "Reload",
-                    method: "post")
-                .Button(
-                    text: Displays.Next(),
-                    controlCss: "button-next",
-                    onClick: hasHistories && verType != Versions.VerTypes.Latest
-                        ? Def.JavaScript.History.Params(ver) 
-                        : string.Empty,
-                    action: "NextHistory",
                     method: "post");
         }
 

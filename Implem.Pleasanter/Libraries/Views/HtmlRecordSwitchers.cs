@@ -25,7 +25,7 @@ namespace Implem.Pleasanter.Libraries.Views
             return switchTargets?.Count >= 2 && switcher
                 ? hb
                     .Button(
-                        text: Displays.PreviousRecord(),
+                        text: Displays.Previous(),
                         controlCss: "button-previous",
                         onClick: Def.JavaScript.WindowScrollTopAndSubmit,
                         accessKey: "b",
@@ -33,7 +33,7 @@ namespace Implem.Pleasanter.Libraries.Views
                         method: "post")
                     .Current(id: id, switchTargets: switchTargets)
                     .Button(
-                        text: Displays.NextRecord(),
+                        text: Displays.Next(),
                         controlCss: "button-next",
                         accessKey: "n",
                         onClick: Def.JavaScript.WindowScrollTopAndSubmit,

@@ -509,25 +509,26 @@ pre{
 }
 
 .record-header > div{
-    float:left;
-    margin-right:10px;
+
 }
 
 .record-info{
+    float:left;
     padding:6px 0px 0px 0px;
 }
 
 .record-info p{
     float:left;
-    margin-right:10px;
+    margin-right:5px;
 }
 
 .record-histories{
-
+    float:right;
+    margin-right:20px;
 }
 
 .record-switchers{
-
+    float:right;
 }
 
 .record-switchers > *{

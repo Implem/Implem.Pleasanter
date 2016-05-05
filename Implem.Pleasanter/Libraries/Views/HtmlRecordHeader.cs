@@ -17,16 +17,16 @@ namespace Implem.Pleasanter.Libraries.Views
                 ? hb.Div(css: "record-header", action: () => hb
                     .Div(id: "RecordInfo", css: "record-info", action: () => hb
                         .RecordInfo(baseModel: baseModel, tableName: tableName))
-                    .Div(
-                        id: "RecordHistories",
-                        css: "record-histories",
-                        action: () => hb
-                            .RecordHistories(ver: baseModel.Ver, verType: baseModel.VerType))
                     .Div(css: "record-switchers", action: () => hb
                         .RecordSwitchers(
                             id: id,
                             switchTargets: switchTargets,
-                            switcher: switcher)))
+                            switcher: switcher))
+                    .Div(
+                        id: "RecordHistories",
+                        css: "record-histories",
+                        action: () => hb
+                            .RecordHistories(ver: baseModel.Ver, verType: baseModel.VerType)))
                 : hb;
         }
     }

@@ -110,6 +110,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Next(params string[] data) { return Get("Next", data); }
         public static HtmlBuilder Displays_Reload(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Reload", data)); }
         public static string Reload(params string[] data) { return Get("Reload", data); }
+        public static HtmlBuilder Displays_Newer(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Newer", data)); }
+        public static string Newer(params string[] data) { return Get("Newer", data); }
+        public static HtmlBuilder Displays_Older(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Older", data)); }
+        public static string Older(params string[] data) { return Get("Older", data); }
         public static HtmlBuilder Displays_Latest(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Latest", data)); }
         public static string Latest(params string[] data) { return Get("Latest", data); }
         public static HtmlBuilder Displays_Visible(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Visible", data)); }
@@ -152,10 +156,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string History(params string[] data) { return Get("History", data); }
         public static HtmlBuilder Displays_HistoryList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("HistoryList", data)); }
         public static string HistoryList(params string[] data) { return Get("HistoryList", data); }
-        public static HtmlBuilder Displays_NextRecord(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NextRecord", data)); }
-        public static string NextRecord(params string[] data) { return Get("NextRecord", data); }
-        public static HtmlBuilder Displays_PreviousRecord(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("PreviousRecord", data)); }
-        public static string PreviousRecord(params string[] data) { return Get("PreviousRecord", data); }
         public static HtmlBuilder Displays_Links(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Links", data)); }
         public static string Links(params string[] data) { return Get("Links", data); }
         public static HtmlBuilder Displays_LinkDestinations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LinkDestinations", data)); }

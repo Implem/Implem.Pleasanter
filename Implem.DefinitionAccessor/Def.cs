@@ -2215,6 +2215,10 @@ namespace Implem.DefinitionAccessor
                     case "Next_ja": Display.Next_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Next_ja, definitionRow, DisplayXls); break;
                     case "Reload": Display.Reload = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Reload, definitionRow, DisplayXls); break;
                     case "Reload_ja": Display.Reload_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Reload_ja, definitionRow, DisplayXls); break;
+                    case "Newer": Display.Newer = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Newer, definitionRow, DisplayXls); break;
+                    case "Newer_ja": Display.Newer_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Newer_ja, definitionRow, DisplayXls); break;
+                    case "Older": Display.Older = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Older, definitionRow, DisplayXls); break;
+                    case "Older_ja": Display.Older_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Older_ja, definitionRow, DisplayXls); break;
                     case "Latest": Display.Latest = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Latest, definitionRow, DisplayXls); break;
                     case "Latest_ja": Display.Latest_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Latest_ja, definitionRow, DisplayXls); break;
                     case "Visible": Display.Visible = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Visible, definitionRow, DisplayXls); break;
@@ -2257,10 +2261,6 @@ namespace Implem.DefinitionAccessor
                     case "History_ja": Display.History_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.History_ja, definitionRow, DisplayXls); break;
                     case "HistoryList": Display.HistoryList = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.HistoryList, definitionRow, DisplayXls); break;
                     case "HistoryList_ja": Display.HistoryList_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.HistoryList_ja, definitionRow, DisplayXls); break;
-                    case "NextRecord": Display.NextRecord = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.NextRecord, definitionRow, DisplayXls); break;
-                    case "NextRecord_ja": Display.NextRecord_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.NextRecord_ja, definitionRow, DisplayXls); break;
-                    case "PreviousRecord": Display.PreviousRecord = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.PreviousRecord, definitionRow, DisplayXls); break;
-                    case "PreviousRecord_ja": Display.PreviousRecord_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.PreviousRecord_ja, definitionRow, DisplayXls); break;
                     case "Links": Display.Links = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Links, definitionRow, DisplayXls); break;
                     case "Links_ja": Display.Links_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Links_ja, definitionRow, DisplayXls); break;
                     case "LinkDestinations": Display.LinkDestinations = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.LinkDestinations, definitionRow, DisplayXls); break;
@@ -6941,6 +6941,10 @@ namespace Implem.DefinitionAccessor
         public string Next_ja;
         public string Reload;
         public string Reload_ja;
+        public string Newer;
+        public string Newer_ja;
+        public string Older;
+        public string Older_ja;
         public string Latest;
         public string Latest_ja;
         public string Visible;
@@ -6983,10 +6987,6 @@ namespace Implem.DefinitionAccessor
         public string History_ja;
         public string HistoryList;
         public string HistoryList_ja;
-        public string NextRecord;
-        public string NextRecord_ja;
-        public string PreviousRecord;
-        public string PreviousRecord_ja;
         public string Links;
         public string Links_ja;
         public string LinkDestinations;
@@ -7483,6 +7483,10 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition Next_ja = new DisplayDefinition();
         public DisplayDefinition Reload = new DisplayDefinition();
         public DisplayDefinition Reload_ja = new DisplayDefinition();
+        public DisplayDefinition Newer = new DisplayDefinition();
+        public DisplayDefinition Newer_ja = new DisplayDefinition();
+        public DisplayDefinition Older = new DisplayDefinition();
+        public DisplayDefinition Older_ja = new DisplayDefinition();
         public DisplayDefinition Latest = new DisplayDefinition();
         public DisplayDefinition Latest_ja = new DisplayDefinition();
         public DisplayDefinition Visible = new DisplayDefinition();
@@ -7525,10 +7529,6 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition History_ja = new DisplayDefinition();
         public DisplayDefinition HistoryList = new DisplayDefinition();
         public DisplayDefinition HistoryList_ja = new DisplayDefinition();
-        public DisplayDefinition NextRecord = new DisplayDefinition();
-        public DisplayDefinition NextRecord_ja = new DisplayDefinition();
-        public DisplayDefinition PreviousRecord = new DisplayDefinition();
-        public DisplayDefinition PreviousRecord_ja = new DisplayDefinition();
         public DisplayDefinition Links = new DisplayDefinition();
         public DisplayDefinition Links_ja = new DisplayDefinition();
         public DisplayDefinition LinkDestinations = new DisplayDefinition();
