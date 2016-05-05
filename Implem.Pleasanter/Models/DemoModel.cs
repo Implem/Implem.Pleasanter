@@ -1336,12 +1336,15 @@ namespace Implem.Pleasanter.Models
             Def.DemoDefinitionCollection
                 .Where(o => o.Type == "Users")
                 .ForEach(demoDefinition =>
-                    idHash.Add(demoDefinition.Id, Rds.ExecuteScalar_long(statements:
+                {
+                    var loginId = LoginId(demoModel, demoDefinition.Id);
+                    idHash.Add(demoDefinition.Id, Rds.ExecuteScalar_long(statements: new SqlStatement[]
+                    {
                         Rds.InsertUsers(
                             selectIdentity: true,
                             param: Rds.UsersParam()
                                 .TenantId(demoModel.TenantId)
-                                .LoginId(LoginId(demoModel, demoDefinition.Id))
+                                .LoginId(loginId)
                                 .Password(password)
                                 .LastName(demoDefinition.Title.Split_1st(' '))
                                 .FirstName(demoDefinition.Title.Split_2nd(' '))
@@ -1352,7 +1355,14 @@ namespace Implem.Pleasanter.Models
                                 .Birthday(demoDefinition.ClassC.ToDateTime())
                                 .Sex(demoDefinition.ClassB)
                                 .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
-                                .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel))))));
+                                .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel))),
+                        Rds.InsertMailAddresses(
+                            param: Rds.MailAddressesParam()
+                                .OwnerId(raw: Def.Sql.Identity)
+                                .OwnerType("Users")
+                                .MailAddress(loginId + "@example.com"))
+                    }));
+                });
         }
 
         /// <summary>
