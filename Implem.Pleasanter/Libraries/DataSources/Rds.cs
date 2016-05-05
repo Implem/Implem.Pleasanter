@@ -15642,7 +15642,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Ver(resultModel.Ver, _using: resultModel.Ver_Updated || setDefault || paramAll)
                 .Title(resultModel.Title.Value.MaxLength(1024), _using: resultModel.Title_Updated || paramAll)
                 .Body(resultModel.Body, _using: resultModel.Body_Updated || paramAll)
-                .Status(resultModel.Status.Value, _using: resultModel.Status_Updated || setDefault || paramAll)
+                .Status(resultModel.Status.Value, _using: resultModel.Status_Updated || paramAll)
                 .Manager(resultModel.Manager.Id, _using: resultModel.Manager_Updated || paramAll)
                 .Owner(resultModel.Owner.Id, _using: resultModel.Owner_Updated || paramAll)
                 .ClassA(resultModel.ClassA.MaxLength(1024), _using: resultModel.ClassA_Updated || paramAll)
