@@ -19,7 +19,7 @@
 - Sql Server 2012/2014 All Editions / Microsoft Azure - SQL Database
 
 ## プリザンター利用ガイド
-プリザンターを初めて利用する方を対象に、セットアップの手順及び操作方法について説明します。  
+プリザンターのセットアップ手順及び、操作手順をキャプチャー画像や動画を使用して説明します。  
 https://github.com/Implem/Implem.Pleasanter/wiki
 
 ## 機能概要
