@@ -4,13 +4,13 @@
 
 ## 画面イメージ
 ### チケット一覧
-![image](https://cloud.githubusercontent.com/assets/12204265/14933767/94c30712-0ed4-11e6-9b08-1883c80afc39.png)
+![default](https://cloud.githubusercontent.com/assets/12204265/15035273/2bcd5f88-12bb-11e6-9720-85503693ca3d.gif)
 
 ### ガントチャート
-![image](https://cloud.githubusercontent.com/assets/12204265/14933768/9b7f8aee-0ed4-11e6-8fa1-c4ebbbe6caf8.png)
+![default](https://cloud.githubusercontent.com/assets/12204265/15035400/7f81971a-12bc-11e6-9fc4-3376b4c23bf0.gif)
 
 ### バーンダウンチャート
-![image](https://cloud.githubusercontent.com/assets/12204265/14933769/a18e94e8-0ed4-11e6-9bb9-00de0a8c9aa9.png)
+![default](https://cloud.githubusercontent.com/assets/12204265/15035467/2a464e70-12bd-11e6-82dd-a5529b43776b.gif)
 
 ## 動作条件
 - Windows Server 2012 R2 All Editions / Windows 10 All Editions / Microsoft Azure Web App
@@ -18,8 +18,8 @@
 - IIS
 - Sql Server 2012/2014 All Editions / Microsoft Azure - SQL Database
 
-## インストレーション
-Wikiを参照  
+## マニュアル
+プリザンターを初めて利用する方を対象に、セットアップの手順及び操作方法について説明します。  
 https://github.com/Implem/Implem.Pleasanter/wiki
 
 ## 機能概要
@@ -37,11 +37,11 @@ https://github.com/Implem/Implem.Pleasanter/wiki
 - マルチ言語
 
 ## Demo site
-下記URLでメールアドレスを登録  
+下記のサイトでe-mailアドレスを登録するとプリザンターを施行することが出来ます。  
 https://pleasanter.azurewebsites.net
 
 ## Web site
-http://pleasanter.org/
+http://pleasanter.org
 
 ## Auther
 Taiji Uchida @implem_
