@@ -18,7 +18,7 @@
 - IIS
 - Sql Server 2012/2014 All Editions / Microsoft Azure - SQL Database
 
-## マニュアル
+## プリザンター利用ガイド
 プリザンターを初めて利用する方を対象に、セットアップの手順及び操作方法について説明します。  
 https://github.com/Implem/Implem.Pleasanter/wiki
 
