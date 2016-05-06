@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.Libraries.Utilities
 {
     public static class Summaries
     {
-        public static string Synchronize(SiteSettings siteSettings)
+        public static string Synchronize(SiteSettings siteSettings, long siteId)
         {
             var summary = siteSettings.SummaryCollection.FirstOrDefault(
                 o => o.Id == Forms.Data("ControlId").Split(',')._2nd().ToLong());
@@ -18,6 +18,7 @@ namespace Implem.Pleasanter.Libraries.Utilities
                 summary.SiteId,
                 new SiteModel(summary.SiteId).ReferenceType,
                 summary.DestinationColumn,
+                siteId,
                 siteSettings.ReferenceType,
                 summary.LinkColumn,
                 summary.Type,
@@ -25,9 +26,10 @@ namespace Implem.Pleasanter.Libraries.Utilities
         }
 
         public static string Synchronize(
-            long siteId,
+            long destinationSiteId,
             string destinationReferenceType,
             string destination,
+            long sourceSiteId,
             string sourceReferenceType,
             string link,
             string type,
@@ -37,18 +39,40 @@ namespace Implem.Pleasanter.Libraries.Utilities
             switch (destinationReferenceType)
             {
                 case "Issues": SynchronizeIssues(
-                    siteId, destination, sourceReferenceType, link, type, source, id); break;
+                    destinationSiteId,
+                    destination,
+                    sourceSiteId,
+                    sourceReferenceType,
+                    link,
+                    type,
+                    source,
+                    id); break;
                 case "Results": SynchronizeResults(
-                    siteId, destination, sourceReferenceType, link, type, source, id); break;
+                    destinationSiteId,
+                    destination,
+                    sourceSiteId,
+                    sourceReferenceType,
+                    link,
+                    type,
+                    source,
+                    id); break;
                 case "Wikis": SynchronizeWikis(
-                    siteId, destination, sourceReferenceType, link, type, source, id); break;
+                    destinationSiteId,
+                    destination,
+                    sourceSiteId,
+                    sourceReferenceType,
+                    link,
+                    type,
+                    source,
+                    id); break;
             }
             return Messages.ResponseSynchronizationCompleted().ToJson();        
         }
 
         private static void SynchronizeIssues(
-            long siteId,
+            long destinationSiteId,
             string destination,
+            long sourceSiteId,
             string sourceReferenceType,
             string link,
             string type,
@@ -60,12 +84,13 @@ namespace Implem.Pleasanter.Libraries.Utilities
                     param: IssuesParamCollection(
                         destination,
                         "convert(nvarchar, [Issues].[IssueId])",
+                        sourceSiteId,
                         sourceReferenceType,
                         link,
                         type,
                         source),
                     where: Rds.IssuesWhere()
-                        .SiteId(siteId)
+                        .SiteId(destinationSiteId)
                         .IssueId(issueId, _using: issueId != 0),
                     addUpdatedTimeParam: false,
                     addUpdatorParam: false));
@@ -74,6 +99,7 @@ namespace Implem.Pleasanter.Libraries.Utilities
         private static Rds.IssuesParamCollection IssuesParamCollection(
             string destination,
             string destinationPk,
+            long sourceSiteId,
             string sourceReferenceType,
             string link,
             string type,
@@ -81,47 +107,48 @@ namespace Implem.Pleasanter.Libraries.Utilities
         {
             switch (destination)
             {
-                case "WorkValue": return Rds.IssuesParam().WorkValue(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumA": return Rds.IssuesParam().NumA(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumB": return Rds.IssuesParam().NumB(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumC": return Rds.IssuesParam().NumC(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumD": return Rds.IssuesParam().NumD(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumE": return Rds.IssuesParam().NumE(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumF": return Rds.IssuesParam().NumF(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumG": return Rds.IssuesParam().NumG(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumH": return Rds.IssuesParam().NumH(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumI": return Rds.IssuesParam().NumI(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumJ": return Rds.IssuesParam().NumJ(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumK": return Rds.IssuesParam().NumK(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumL": return Rds.IssuesParam().NumL(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumM": return Rds.IssuesParam().NumM(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumN": return Rds.IssuesParam().NumN(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumO": return Rds.IssuesParam().NumO(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumP": return Rds.IssuesParam().NumP(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
+                case "WorkValue": return Rds.IssuesParam().WorkValue(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumA": return Rds.IssuesParam().NumA(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumB": return Rds.IssuesParam().NumB(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumC": return Rds.IssuesParam().NumC(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumD": return Rds.IssuesParam().NumD(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumE": return Rds.IssuesParam().NumE(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumF": return Rds.IssuesParam().NumF(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumG": return Rds.IssuesParam().NumG(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumH": return Rds.IssuesParam().NumH(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumI": return Rds.IssuesParam().NumI(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumJ": return Rds.IssuesParam().NumJ(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumK": return Rds.IssuesParam().NumK(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumL": return Rds.IssuesParam().NumL(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumM": return Rds.IssuesParam().NumM(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumN": return Rds.IssuesParam().NumN(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumO": return Rds.IssuesParam().NumO(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumP": return Rds.IssuesParam().NumP(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
                 default: return null;
             }
         }
 
         private static void SynchronizeResults(
-            long siteId,
+            long destinationSiteId,
             string destination,
+            long sourceSiteId,
             string sourceReferenceType,
             string link,
             string type,
@@ -133,12 +160,13 @@ namespace Implem.Pleasanter.Libraries.Utilities
                     param: ResultsParamCollection(
                         destination,
                         "convert(nvarchar, [Results].[ResultId])",
+                        sourceSiteId,
                         sourceReferenceType,
                         link,
                         type,
                         source),
                     where: Rds.ResultsWhere()
-                        .SiteId(siteId)
+                        .SiteId(destinationSiteId)
                         .ResultId(resultId, _using: resultId != 0),
                     addUpdatedTimeParam: false,
                     addUpdatorParam: false));
@@ -147,6 +175,7 @@ namespace Implem.Pleasanter.Libraries.Utilities
         private static Rds.ResultsParamCollection ResultsParamCollection(
             string destination,
             string destinationPk,
+            long sourceSiteId,
             string sourceReferenceType,
             string link,
             string type,
@@ -154,45 +183,46 @@ namespace Implem.Pleasanter.Libraries.Utilities
         {
             switch (destination)
             {
-                case "NumA": return Rds.ResultsParam().NumA(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumB": return Rds.ResultsParam().NumB(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumC": return Rds.ResultsParam().NumC(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumD": return Rds.ResultsParam().NumD(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumE": return Rds.ResultsParam().NumE(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumF": return Rds.ResultsParam().NumF(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumG": return Rds.ResultsParam().NumG(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumH": return Rds.ResultsParam().NumH(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumI": return Rds.ResultsParam().NumI(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumJ": return Rds.ResultsParam().NumJ(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumK": return Rds.ResultsParam().NumK(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumL": return Rds.ResultsParam().NumL(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumM": return Rds.ResultsParam().NumM(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumN": return Rds.ResultsParam().NumN(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumO": return Rds.ResultsParam().NumO(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
-                case "NumP": return Rds.ResultsParam().NumP(sub: Select(
-                    destinationPk, sourceReferenceType, link, type, source));
+                case "NumA": return Rds.ResultsParam().NumA(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumB": return Rds.ResultsParam().NumB(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumC": return Rds.ResultsParam().NumC(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumD": return Rds.ResultsParam().NumD(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumE": return Rds.ResultsParam().NumE(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumF": return Rds.ResultsParam().NumF(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumG": return Rds.ResultsParam().NumG(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumH": return Rds.ResultsParam().NumH(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumI": return Rds.ResultsParam().NumI(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumJ": return Rds.ResultsParam().NumJ(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumK": return Rds.ResultsParam().NumK(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumL": return Rds.ResultsParam().NumL(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumM": return Rds.ResultsParam().NumM(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumN": return Rds.ResultsParam().NumN(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumO": return Rds.ResultsParam().NumO(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumP": return Rds.ResultsParam().NumP(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
                 default: return null;
             }
         }
 
         private static void SynchronizeWikis(
-            long siteId,
+            long destinationSiteId,
             string destination,
+            long sourceSiteId,
             string sourceReferenceType,
             string link,
             string type,
@@ -204,12 +234,13 @@ namespace Implem.Pleasanter.Libraries.Utilities
                     param: WikisParamCollection(
                         destination,
                         "convert(nvarchar, [Wikis].[WikiId])",
+                        sourceSiteId,
                         sourceReferenceType,
                         link,
                         type,
                         source),
                     where: Rds.WikisWhere()
-                        .SiteId(siteId)
+                        .SiteId(destinationSiteId)
                         .WikiId(wikiId, _using: wikiId != 0),
                     addUpdatedTimeParam: false,
                     addUpdatorParam: false));
@@ -218,6 +249,7 @@ namespace Implem.Pleasanter.Libraries.Utilities
         private static Rds.WikisParamCollection WikisParamCollection(
             string destination,
             string destinationPk,
+            long sourceSiteId,
             string sourceReferenceType,
             string link,
             string type,
@@ -231,6 +263,7 @@ namespace Implem.Pleasanter.Libraries.Utilities
 
         private static SqlSelect Select(
             string destinationPk,
+            long sourceSiteId,
             string sourceReferenceType,
             string link,
             string type,
@@ -239,21 +272,22 @@ namespace Implem.Pleasanter.Libraries.Utilities
             switch (type)
             {
                 case "Count": return SelectCount(
-                    destinationPk, sourceReferenceType, link);
+                    destinationPk, sourceSiteId, sourceReferenceType, link);
                 case "Total": return SelectTotal(
-                    destinationPk, sourceReferenceType, link, source);
+                    destinationPk, sourceSiteId, sourceReferenceType, link, source);
                 case "Average": return SelectAverage(
-                    destinationPk, sourceReferenceType, link, source);
+                    destinationPk, sourceSiteId, sourceReferenceType, link, source);
                 case "Max": return SelectMax(
-                    destinationPk, sourceReferenceType, link, source);
+                    destinationPk, sourceSiteId, sourceReferenceType, link, source);
                 case "Min": return SelectMin(
-                    destinationPk, sourceReferenceType, link, source);
+                    destinationPk, sourceSiteId, sourceReferenceType, link, source);
                 default: return null;
             }
         }
 
         private static SqlSelect SelectCount(
             string destinationPk,
+            long sourceSiteId,
             string sourceReferenceType,
             string link)
         {
@@ -261,19 +295,20 @@ namespace Implem.Pleasanter.Libraries.Utilities
             {
                 case "Issues": return Rds.SelectIssues(
                     column: Rds.IssuesColumn().IssuesCount(),
-                    where: IssuesWhere(destinationPk, link));
+                    where: IssuesWhere(destinationPk, sourceSiteId, link));
                 case "Results": return Rds.SelectResults(
                     column: Rds.ResultsColumn().ResultsCount(),
-                    where: ResultsWhere(destinationPk, link));
+                    where: ResultsWhere(destinationPk, sourceSiteId, link));
                 case "Wikis": return Rds.SelectWikis(
                     column: Rds.WikisColumn().WikisCount(),
-                    where: WikisWhere(destinationPk, link));
+                    where: WikisWhere(destinationPk, sourceSiteId, link));
                 default: return null;
             }
         }
 
         private static SqlSelect SelectTotal(
             string destinationPk,
+            long sourceSiteId,
             string sourceReferenceType,
             string link,
             string source)
@@ -282,13 +317,13 @@ namespace Implem.Pleasanter.Libraries.Utilities
             {
                 case "Issues": return Rds.SelectIssues(
                     column: IssuesTotalColumn(source),
-                    where: IssuesWhere(destinationPk, link));
+                    where: IssuesWhere(destinationPk, sourceSiteId, link));
                 case "Results": return Rds.SelectResults(
                     column: ResultsTotalColumn(source),
-                    where: ResultsWhere(destinationPk, link));
+                    where: ResultsWhere(destinationPk, sourceSiteId, link));
                 case "Wikis": return Rds.SelectWikis(
                     column: WikisTotalColumn(source),
-                    where: WikisWhere(destinationPk, link));
+                    where: WikisWhere(destinationPk, sourceSiteId, link));
                 default: return null;
             }
         }
@@ -353,6 +388,7 @@ namespace Implem.Pleasanter.Libraries.Utilities
 
         private static SqlSelect SelectAverage(
             string destinationPk,
+            long sourceSiteId,
             string sourceReferenceType,
             string link,
             string source)
@@ -361,13 +397,13 @@ namespace Implem.Pleasanter.Libraries.Utilities
             {
                 case "Issues": return Rds.SelectIssues(
                     column: IssuesAverageColumn(source),
-                    where: IssuesWhere(destinationPk, link));
+                    where: IssuesWhere(destinationPk, sourceSiteId, link));
                 case "Results": return Rds.SelectResults(
                     column: ResultsAverageColumn(source),
-                    where: ResultsWhere(destinationPk, link));
+                    where: ResultsWhere(destinationPk, sourceSiteId, link));
                 case "Wikis": return Rds.SelectWikis(
                     column: WikisAverageColumn(source),
-                    where: WikisWhere(destinationPk, link));
+                    where: WikisWhere(destinationPk, sourceSiteId, link));
                 default: return null;
             }
         }
@@ -432,6 +468,7 @@ namespace Implem.Pleasanter.Libraries.Utilities
 
         private static SqlSelect SelectMax(
             string destinationPk,
+            long sourceSiteId,
             string sourceReferenceType,
             string link,
             string source)
@@ -440,13 +477,13 @@ namespace Implem.Pleasanter.Libraries.Utilities
             {
                 case "Issues": return Rds.SelectIssues(
                     column: IssuesMaxColumn(source),
-                    where: IssuesWhere(destinationPk, link));
+                    where: IssuesWhere(destinationPk, sourceSiteId, link));
                 case "Results": return Rds.SelectResults(
                     column: ResultsMaxColumn(source),
-                    where: ResultsWhere(destinationPk, link));
+                    where: ResultsWhere(destinationPk, sourceSiteId, link));
                 case "Wikis": return Rds.SelectWikis(
                     column: WikisMaxColumn(source),
-                    where: WikisWhere(destinationPk, link));
+                    where: WikisWhere(destinationPk, sourceSiteId, link));
                 default: return null;
             }
         }
@@ -511,6 +548,7 @@ namespace Implem.Pleasanter.Libraries.Utilities
 
         private static SqlSelect SelectMin(
             string destinationPk,
+            long sourceSiteId,
             string sourceReferenceType,
             string link,
             string source)
@@ -519,13 +557,13 @@ namespace Implem.Pleasanter.Libraries.Utilities
             {
                 case "Issues": return Rds.SelectIssues(
                     column: IssuesMinColumn(source),
-                    where: IssuesWhere(destinationPk, link));
+                    where: IssuesWhere(destinationPk, sourceSiteId, link));
                 case "Results": return Rds.SelectResults(
                     column: ResultsMinColumn(source),
-                    where: ResultsWhere(destinationPk, link));
+                    where: ResultsWhere(destinationPk, sourceSiteId, link));
                 case "Wikis": return Rds.SelectWikis(
                     column: WikisMinColumn(source),
-                    where: WikisWhere(destinationPk, link));
+                    where: WikisWhere(destinationPk, sourceSiteId, link));
                 default: return null;
             }
         }
@@ -588,55 +626,119 @@ namespace Implem.Pleasanter.Libraries.Utilities
             }
         }
 
-        private static SqlWhereCollection IssuesWhere(string destinationPk, string link)
+        private static SqlWhereCollection IssuesWhere(string destinationPk, long sourceSiteId, string link)
         {
             switch (link)
             {
-                case "ClassA": return Rds.IssuesWhere().ClassA(raw: destinationPk);
-                case "ClassB": return Rds.IssuesWhere().ClassB(raw: destinationPk);
-                case "ClassC": return Rds.IssuesWhere().ClassC(raw: destinationPk);
-                case "ClassD": return Rds.IssuesWhere().ClassD(raw: destinationPk);
-                case "ClassE": return Rds.IssuesWhere().ClassE(raw: destinationPk);
-                case "ClassF": return Rds.IssuesWhere().ClassF(raw: destinationPk);
-                case "ClassG": return Rds.IssuesWhere().ClassG(raw: destinationPk);
-                case "ClassH": return Rds.IssuesWhere().ClassH(raw: destinationPk);
-                case "ClassI": return Rds.IssuesWhere().ClassI(raw: destinationPk);
-                case "ClassJ": return Rds.IssuesWhere().ClassJ(raw: destinationPk);
-                case "ClassK": return Rds.IssuesWhere().ClassK(raw: destinationPk);
-                case "ClassL": return Rds.IssuesWhere().ClassL(raw: destinationPk);
-                case "ClassM": return Rds.IssuesWhere().ClassM(raw: destinationPk);
-                case "ClassN": return Rds.IssuesWhere().ClassN(raw: destinationPk);
-                case "ClassO": return Rds.IssuesWhere().ClassO(raw: destinationPk);
-                case "ClassP": return Rds.IssuesWhere().ClassP(raw: destinationPk);
+                case "ClassA": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassA(raw: destinationPk);
+                case "ClassB": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassB(raw: destinationPk);
+                case "ClassC": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassC(raw: destinationPk);
+                case "ClassD": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassD(raw: destinationPk);
+                case "ClassE": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassE(raw: destinationPk);
+                case "ClassF": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassF(raw: destinationPk);
+                case "ClassG": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassG(raw: destinationPk);
+                case "ClassH": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassH(raw: destinationPk);
+                case "ClassI": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassI(raw: destinationPk);
+                case "ClassJ": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassJ(raw: destinationPk);
+                case "ClassK": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassK(raw: destinationPk);
+                case "ClassL": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassL(raw: destinationPk);
+                case "ClassM": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassM(raw: destinationPk);
+                case "ClassN": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassN(raw: destinationPk);
+                case "ClassO": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassO(raw: destinationPk);
+                case "ClassP": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassP(raw: destinationPk);
                 default: return null;
             }
         }
 
-        private static SqlWhereCollection ResultsWhere(string destinationPk, string link)
+        private static SqlWhereCollection ResultsWhere(string destinationPk, long sourceSiteId, string link)
         {
             switch (link)
             {
-                case "ClassA": return Rds.ResultsWhere().ClassA(raw: destinationPk);
-                case "ClassB": return Rds.ResultsWhere().ClassB(raw: destinationPk);
-                case "ClassC": return Rds.ResultsWhere().ClassC(raw: destinationPk);
-                case "ClassD": return Rds.ResultsWhere().ClassD(raw: destinationPk);
-                case "ClassE": return Rds.ResultsWhere().ClassE(raw: destinationPk);
-                case "ClassF": return Rds.ResultsWhere().ClassF(raw: destinationPk);
-                case "ClassG": return Rds.ResultsWhere().ClassG(raw: destinationPk);
-                case "ClassH": return Rds.ResultsWhere().ClassH(raw: destinationPk);
-                case "ClassI": return Rds.ResultsWhere().ClassI(raw: destinationPk);
-                case "ClassJ": return Rds.ResultsWhere().ClassJ(raw: destinationPk);
-                case "ClassK": return Rds.ResultsWhere().ClassK(raw: destinationPk);
-                case "ClassL": return Rds.ResultsWhere().ClassL(raw: destinationPk);
-                case "ClassM": return Rds.ResultsWhere().ClassM(raw: destinationPk);
-                case "ClassN": return Rds.ResultsWhere().ClassN(raw: destinationPk);
-                case "ClassO": return Rds.ResultsWhere().ClassO(raw: destinationPk);
-                case "ClassP": return Rds.ResultsWhere().ClassP(raw: destinationPk);
+                case "ClassA": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassA(raw: destinationPk);
+                case "ClassB": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassB(raw: destinationPk);
+                case "ClassC": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassC(raw: destinationPk);
+                case "ClassD": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassD(raw: destinationPk);
+                case "ClassE": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassE(raw: destinationPk);
+                case "ClassF": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassF(raw: destinationPk);
+                case "ClassG": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassG(raw: destinationPk);
+                case "ClassH": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassH(raw: destinationPk);
+                case "ClassI": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassI(raw: destinationPk);
+                case "ClassJ": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassJ(raw: destinationPk);
+                case "ClassK": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassK(raw: destinationPk);
+                case "ClassL": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassL(raw: destinationPk);
+                case "ClassM": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassM(raw: destinationPk);
+                case "ClassN": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassN(raw: destinationPk);
+                case "ClassO": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassO(raw: destinationPk);
+                case "ClassP": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassP(raw: destinationPk);
                 default: return null;
             }
         }
 
-        private static SqlWhereCollection WikisWhere(string destinationPk, string link)
+        private static SqlWhereCollection WikisWhere(string destinationPk, long sourceSiteId, string link)
         {
             switch (link)
             {

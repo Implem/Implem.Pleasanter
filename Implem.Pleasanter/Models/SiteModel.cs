@@ -1017,7 +1017,7 @@ namespace Implem.Pleasanter.Models
         public string SynchronizeSummary()
         {
             SetSiteSettingsPropertiesBySession();
-            return Summaries.Synchronize(SiteSettings);
+            return Summaries.Synchronize(SiteSettings, SiteId);
         }
 
         /// <summary>

@@ -918,6 +918,7 @@ namespace Implem.Pleasanter.Models
                 summary.SiteId,
                 summary.DestinationReferenceType,
                 summary.DestinationColumn,
+                SiteId,
                 "Results",
                 summary.LinkColumn,
                 summary.Type,

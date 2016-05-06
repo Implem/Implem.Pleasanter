@@ -949,6 +949,7 @@ namespace Implem.Pleasanter.Models
                 summary.SiteId,
                 summary.DestinationReferenceType,
                 summary.DestinationColumn,
+                SiteId,
                 "Issues",
                 summary.LinkColumn,
                 summary.Type,
