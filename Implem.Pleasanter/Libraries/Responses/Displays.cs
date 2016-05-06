@@ -190,8 +190,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SettingTitleColumn(params string[] data) { return Get("SettingTitleColumn", data); }
         public static HtmlBuilder Displays_SettingTitleSeparator(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingTitleSeparator", data)); }
         public static string SettingTitleSeparator(params string[] data) { return Get("SettingTitleSeparator", data); }
-        public static HtmlBuilder Displays_SettingGroupByList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingGroupByList", data)); }
-        public static string SettingGroupByList(params string[] data) { return Get("SettingGroupByList", data); }
+        public static HtmlBuilder Displays_SettingAggregationList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingAggregationList", data)); }
+        public static string SettingAggregationList(params string[] data) { return Get("SettingAggregationList", data); }
         public static HtmlBuilder Displays_SettingNotGroupBy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingNotGroupBy", data)); }
         public static string SettingNotGroupBy(params string[] data) { return Get("SettingNotGroupBy", data); }
         public static HtmlBuilder Displays_SettingNearDeadlineBeforeDays(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingNearDeadlineBeforeDays", data)); }

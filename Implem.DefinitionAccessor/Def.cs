@@ -2294,8 +2294,8 @@ namespace Implem.DefinitionAccessor
                     case "SettingTitleColumn_ja": Display.SettingTitleColumn_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingTitleColumn_ja, definitionRow, DisplayXls); break;
                     case "SettingTitleSeparator": Display.SettingTitleSeparator = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingTitleSeparator, definitionRow, DisplayXls); break;
                     case "SettingTitleSeparator_ja": Display.SettingTitleSeparator_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingTitleSeparator_ja, definitionRow, DisplayXls); break;
-                    case "SettingGroupByList": Display.SettingGroupByList = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingGroupByList, definitionRow, DisplayXls); break;
-                    case "SettingGroupByList_ja": Display.SettingGroupByList_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingGroupByList_ja, definitionRow, DisplayXls); break;
+                    case "SettingAggregationList": Display.SettingAggregationList = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingAggregationList, definitionRow, DisplayXls); break;
+                    case "SettingAggregationList_ja": Display.SettingAggregationList_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingAggregationList_ja, definitionRow, DisplayXls); break;
                     case "SettingNotGroupBy": Display.SettingNotGroupBy = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingNotGroupBy, definitionRow, DisplayXls); break;
                     case "SettingNotGroupBy_ja": Display.SettingNotGroupBy_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingNotGroupBy_ja, definitionRow, DisplayXls); break;
                     case "SettingNearDeadlineBeforeDays": Display.SettingNearDeadlineBeforeDays = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingNearDeadlineBeforeDays, definitionRow, DisplayXls); break;
@@ -7020,8 +7020,8 @@ namespace Implem.DefinitionAccessor
         public string SettingTitleColumn_ja;
         public string SettingTitleSeparator;
         public string SettingTitleSeparator_ja;
-        public string SettingGroupByList;
-        public string SettingGroupByList_ja;
+        public string SettingAggregationList;
+        public string SettingAggregationList_ja;
         public string SettingNotGroupBy;
         public string SettingNotGroupBy_ja;
         public string SettingNearDeadlineBeforeDays;
@@ -7562,8 +7562,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition SettingTitleColumn_ja = new DisplayDefinition();
         public DisplayDefinition SettingTitleSeparator = new DisplayDefinition();
         public DisplayDefinition SettingTitleSeparator_ja = new DisplayDefinition();
-        public DisplayDefinition SettingGroupByList = new DisplayDefinition();
-        public DisplayDefinition SettingGroupByList_ja = new DisplayDefinition();
+        public DisplayDefinition SettingAggregationList = new DisplayDefinition();
+        public DisplayDefinition SettingAggregationList_ja = new DisplayDefinition();
         public DisplayDefinition SettingNotGroupBy = new DisplayDefinition();
         public DisplayDefinition SettingNotGroupBy_ja = new DisplayDefinition();
         public DisplayDefinition SettingNearDeadlineBeforeDays = new DisplayDefinition();

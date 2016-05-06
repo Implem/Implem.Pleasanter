@@ -1972,7 +1972,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-vertical both",
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
-                        labelText: Displays.SettingGroupByList(),
+                        labelText: Displays.SettingAggregationList(),
                         listItemCollection: siteSettings.AggregationDestination(),
                         selectedValueCollection: new List<string>(),
                         commandOptionPositionIsTop: true,
