@@ -246,8 +246,12 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Search(params string[] data) { return Get("Search", data); }
         public static HtmlBuilder Displays_Admin(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Admin", data)); }
         public static string Admin(params string[] data) { return Get("Admin", data); }
+        public static HtmlBuilder Displays_Default(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Default", data)); }
+        public static string Default(params string[] data) { return Get("Default", data); }
         public static HtmlBuilder Displays_AddressBook(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("AddressBook", data)); }
         public static string AddressBook(params string[] data) { return Get("AddressBook", data); }
+        public static HtmlBuilder Displays_DefaultAddressBook(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DefaultAddressBook", data)); }
+        public static string DefaultAddressBook(params string[] data) { return Get("DefaultAddressBook", data); }
         public static HtmlBuilder Displays_DefaultDestinations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DefaultDestinations", data)); }
         public static string DefaultDestinations(params string[] data) { return Get("DefaultDestinations", data); }
         public static HtmlBuilder Displays_LimitJust(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitJust", data)); }
@@ -398,8 +402,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string File(params string[] data) { return Get("File", data); }
         public static HtmlBuilder Displays_NotSet(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NotSet", data)); }
         public static string NotSet(params string[] data) { return Get("NotSet", data); }
-        public static HtmlBuilder Displays_Internal(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Internal", data)); }
-        public static string Internal(params string[] data) { return Get("Internal", data); }
+        public static HtmlBuilder Displays_SiteUser(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SiteUser", data)); }
+        public static string SiteUser(params string[] data) { return Get("SiteUser", data); }
         public static HtmlBuilder Displays_All(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("All", data)); }
         public static string All(params string[] data) { return Get("All", data); }
         public static HtmlBuilder Displays_Quantity(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Quantity", data)); }

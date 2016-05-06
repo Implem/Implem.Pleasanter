@@ -2055,11 +2055,13 @@ namespace Implem.DefinitionAccessor
                     case "Issue12": Demo.Issue12 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue12, definitionRow, DemoXls); break;
                     case "Issue13": Demo.Issue13 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue13, definitionRow, DemoXls); break;
                     case "Issue14": Demo.Issue14 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue14, definitionRow, DemoXls); break;
+                    case "Issue15": Demo.Issue15 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue15, definitionRow, DemoXls); break;
                     case "Comment1": Demo.Comment1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment1, definitionRow, DemoXls); break;
                     case "Comment2": Demo.Comment2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment2, definitionRow, DemoXls); break;
                     case "Comment3": Demo.Comment3 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment3, definitionRow, DemoXls); break;
                     case "Comment4": Demo.Comment4 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment4, definitionRow, DemoXls); break;
                     case "Comment5": Demo.Comment5 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment5, definitionRow, DemoXls); break;
+                    case "Comment6": Demo.Comment6 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment6, definitionRow, DemoXls); break;
                     default: break;
                 }
             });
@@ -2349,8 +2351,12 @@ namespace Implem.DefinitionAccessor
                     case "Search_ja": Display.Search_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Search_ja, definitionRow, DisplayXls); break;
                     case "Admin": Display.Admin = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Admin, definitionRow, DisplayXls); break;
                     case "Admin_ja": Display.Admin_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Admin_ja, definitionRow, DisplayXls); break;
+                    case "Default": Display.Default = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Default, definitionRow, DisplayXls); break;
+                    case "Default_ja": Display.Default_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Default_ja, definitionRow, DisplayXls); break;
                     case "AddressBook": Display.AddressBook = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.AddressBook, definitionRow, DisplayXls); break;
                     case "AddressBook_ja": Display.AddressBook_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.AddressBook_ja, definitionRow, DisplayXls); break;
+                    case "DefaultAddressBook": Display.DefaultAddressBook = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DefaultAddressBook, definitionRow, DisplayXls); break;
+                    case "DefaultAddressBook_ja": Display.DefaultAddressBook_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DefaultAddressBook_ja, definitionRow, DisplayXls); break;
                     case "DefaultDestinations": Display.DefaultDestinations = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DefaultDestinations, definitionRow, DisplayXls); break;
                     case "DefaultDestinations_ja": Display.DefaultDestinations_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DefaultDestinations_ja, definitionRow, DisplayXls); break;
                     case "LimitJust": Display.LimitJust = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.LimitJust, definitionRow, DisplayXls); break;
@@ -2501,8 +2507,8 @@ namespace Implem.DefinitionAccessor
                     case "File_ja": Display.File_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.File_ja, definitionRow, DisplayXls); break;
                     case "NotSet": Display.NotSet = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.NotSet, definitionRow, DisplayXls); break;
                     case "NotSet_ja": Display.NotSet_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.NotSet_ja, definitionRow, DisplayXls); break;
-                    case "Internal": Display.Internal = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Internal, definitionRow, DisplayXls); break;
-                    case "Internal_ja": Display.Internal_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Internal_ja, definitionRow, DisplayXls); break;
+                    case "SiteUser": Display.SiteUser = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SiteUser, definitionRow, DisplayXls); break;
+                    case "SiteUser_ja": Display.SiteUser_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SiteUser_ja, definitionRow, DisplayXls); break;
                     case "All": Display.All = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.All, definitionRow, DisplayXls); break;
                     case "All_ja": Display.All_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.All_ja, definitionRow, DisplayXls); break;
                     case "Quantity": Display.Quantity = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Quantity, definitionRow, DisplayXls); break;
@@ -6741,11 +6747,13 @@ namespace Implem.DefinitionAccessor
         public string Issue12;
         public string Issue13;
         public string Issue14;
+        public string Issue15;
         public string Comment1;
         public string Comment2;
         public string Comment3;
         public string Comment4;
         public string Comment5;
+        public string Comment6;
     }
 
     public class DemoTable
@@ -6796,11 +6804,13 @@ namespace Implem.DefinitionAccessor
         public DemoDefinition Issue12 = new DemoDefinition();
         public DemoDefinition Issue13 = new DemoDefinition();
         public DemoDefinition Issue14 = new DemoDefinition();
+        public DemoDefinition Issue15 = new DemoDefinition();
         public DemoDefinition Comment1 = new DemoDefinition();
         public DemoDefinition Comment2 = new DemoDefinition();
         public DemoDefinition Comment3 = new DemoDefinition();
         public DemoDefinition Comment4 = new DemoDefinition();
         public DemoDefinition Comment5 = new DemoDefinition();
+        public DemoDefinition Comment6 = new DemoDefinition();
     }
 
     public class DisplayDefinition
@@ -7075,8 +7085,12 @@ namespace Implem.DefinitionAccessor
         public string Search_ja;
         public string Admin;
         public string Admin_ja;
+        public string Default;
+        public string Default_ja;
         public string AddressBook;
         public string AddressBook_ja;
+        public string DefaultAddressBook;
+        public string DefaultAddressBook_ja;
         public string DefaultDestinations;
         public string DefaultDestinations_ja;
         public string LimitJust;
@@ -7227,8 +7241,8 @@ namespace Implem.DefinitionAccessor
         public string File_ja;
         public string NotSet;
         public string NotSet_ja;
-        public string Internal;
-        public string Internal_ja;
+        public string SiteUser;
+        public string SiteUser_ja;
         public string All;
         public string All_ja;
         public string Quantity;
@@ -7617,8 +7631,12 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition Search_ja = new DisplayDefinition();
         public DisplayDefinition Admin = new DisplayDefinition();
         public DisplayDefinition Admin_ja = new DisplayDefinition();
+        public DisplayDefinition Default = new DisplayDefinition();
+        public DisplayDefinition Default_ja = new DisplayDefinition();
         public DisplayDefinition AddressBook = new DisplayDefinition();
         public DisplayDefinition AddressBook_ja = new DisplayDefinition();
+        public DisplayDefinition DefaultAddressBook = new DisplayDefinition();
+        public DisplayDefinition DefaultAddressBook_ja = new DisplayDefinition();
         public DisplayDefinition DefaultDestinations = new DisplayDefinition();
         public DisplayDefinition DefaultDestinations_ja = new DisplayDefinition();
         public DisplayDefinition LimitJust = new DisplayDefinition();
@@ -7769,8 +7787,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition File_ja = new DisplayDefinition();
         public DisplayDefinition NotSet = new DisplayDefinition();
         public DisplayDefinition NotSet_ja = new DisplayDefinition();
-        public DisplayDefinition Internal = new DisplayDefinition();
-        public DisplayDefinition Internal_ja = new DisplayDefinition();
+        public DisplayDefinition SiteUser = new DisplayDefinition();
+        public DisplayDefinition SiteUser_ja = new DisplayDefinition();
         public DisplayDefinition All = new DisplayDefinition();
         public DisplayDefinition All_ja = new DisplayDefinition();
         public DisplayDefinition Quantity = new DisplayDefinition();

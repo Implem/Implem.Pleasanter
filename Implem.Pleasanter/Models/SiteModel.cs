@@ -2655,7 +2655,7 @@ namespace Implem.Pleasanter.Models
                         textStyle: HtmlControls.TextStyles.MultiLine,
                         controlId: "SiteSettings,AddressBook",
                         fieldCss: "field-wide",
-                        labelText: Displays.AddressBook(),
+                        labelText: Displays.DefaultAddressBook(),
                         text: siteSettings.AddressBook.ToStr())
                     .FieldSet(
                         legendText: Displays.DefaultDestinations(),

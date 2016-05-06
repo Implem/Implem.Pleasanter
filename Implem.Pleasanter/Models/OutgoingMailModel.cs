@@ -1743,8 +1743,8 @@ namespace Implem.Pleasanter.Models
             var addressBook = AddressBook(siteSettings);
             var searchRangeDefault = SiteInfo.IsItem()
                 ? addressBook.Count > 0
-                    ? "DefaultDestinations"
-                    : "Internal"
+                    ? "DefaultAddressBook"
+                    : "SiteUser"
                 : "All";
             return hb
                 .Div(css: "container-left", action: () => hb
@@ -1810,17 +1810,17 @@ namespace Implem.Pleasanter.Models
         {
             switch (searchRangeDefault)
             {
-                case "DefaultDestinations":
+                case "DefaultAddressBook":
                     return new Dictionary<string, ControlData>
                     {
-                        { "DefaultDestinations", new ControlData(Displays.DefaultDestinations()) },
-                        { "Internal", new ControlData(Displays.Internal()) },
+                        { "DefaultAddressBook", new ControlData(Displays.DefaultAddressBook()) },
+                        { "SiteUser", new ControlData(Displays.SiteUser()) },
                         { "All", new ControlData(Displays.All()) }
                     };
-                case "Internal":
+                case "SiteUser":
                     return new Dictionary<string, ControlData>
                     {
-                        { "Internal", new ControlData(Displays.Internal()) },
+                        { "SiteUser", new ControlData(Displays.SiteUser()) },
                         { "All", new ControlData(Displays.All()) }
                     };
                 default:
@@ -1844,9 +1844,9 @@ namespace Implem.Pleasanter.Models
                 "inner join [MailAddresses] on [MailAddresses].[OwnerId]=[t0].[UserId]");
             switch (searchRange)
             {
-                case "DefaultDestinations":
+                case "DefaultAddressBook":
                     return addressBook;
-                case "Internal":
+                case "SiteUser":
                     var joinPermissions = new SqlJoin(
                         "inner join [Permissions] on " +
                         "([t0].[UserId]=[Permissions].[UserId] and [Permissions].[UserId] <> 0) or " +
