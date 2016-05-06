@@ -58,7 +58,7 @@ namespace Implem.Pleasanter.Libraries.Converts
 
         public static string ToControl(this decimal self, Column column)
         {
-            return self.ToString(column.StringFormat);
+            return column.Format(self);
         }
 
         public static string ToControl<T>(this IEnumerable<T> self, Column column)
