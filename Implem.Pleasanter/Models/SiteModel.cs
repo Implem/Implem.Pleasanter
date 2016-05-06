@@ -1876,6 +1876,17 @@ namespace Implem.Pleasanter.Models
             return hb.FieldSet(
                 id: "GridSettingsEditor",
                 action: () => hb
+                    .GridColumns(siteSettings)
+                    .Aggregations(siteSettings)
+                    .FieldSpinner(
+                        controlId: "SiteSettings,GridPageSize",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.SettingGridPageSize(),
+                        value: siteSettings.GridPageSize.ToDecimal(),
+                        min: Parameters.General.GridPageSizeMin,
+                        max: Parameters.General.GridPageSizeMax,
+                        step: 1,
+                        width: 25)
                     .FieldSpinner(
                         controlId: "SiteSettings,NearDeadlineBeforeDays",
                         fieldCss: "field-auto-thin",
@@ -1894,17 +1905,6 @@ namespace Implem.Pleasanter.Models
                         max: Parameters.General.NearDeadlineAfterDaysMax,
                         step: 1,
                         width: 25)
-                    .FieldSpinner(
-                        controlId: "SiteSettings,GridPageSize",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.SettingGridPageSize(),
-                        value: siteSettings.GridPageSize.ToDecimal(),
-                        min: Parameters.General.GridPageSizeMin,
-                        max: Parameters.General.GridPageSizeMax,
-                        step: 1,
-                        width: 25)
-                    .GridColumns(siteSettings)
-                    .Aggregations(siteSettings)
                     .Dialog_AggregationDetails(siteSettings));
         }
 
