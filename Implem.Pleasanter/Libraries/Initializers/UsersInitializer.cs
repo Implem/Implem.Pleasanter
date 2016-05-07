@@ -17,7 +17,8 @@ namespace Implem.Pleasanter.Libraries.Initializers
                     "Administrator",
                     "System Admin",
                     password: Securities.DefaultAdminPassword().Sha512Cng(),
-                    passwordExpirationTime: new Time(DateTime.Now));
+                    passwordExpirationTime: new Time(DateTime.Now),
+                    tenantAdmin: true);
                 Create(
                     0,
                     "Anonymouse",
@@ -32,7 +33,8 @@ namespace Implem.Pleasanter.Libraries.Initializers
             string name,
             bool disabled = false,
             string password = "",
-            Time passwordExpirationTime = null)
+            Time passwordExpirationTime = null,
+            bool tenantAdmin = false)
         {
             Rds.ExecuteNonQuery(statements:
                 Rds.InsertUsers(
@@ -47,7 +49,8 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .FirstAndLastNameOrder(1)
                         .PasswordExpirationTime(
                             passwordExpirationTime?.ToString(),
-                            _using: passwordExpirationTime != null)));
+                            _using: passwordExpirationTime != null)
+                        .TenantAdmin(tenantAdmin)));
         }
     }
 }
