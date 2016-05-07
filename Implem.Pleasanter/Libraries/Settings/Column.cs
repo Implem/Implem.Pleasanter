@@ -102,59 +102,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             ColumnName = columnName;
         }
 
-        public Column(Column source)
-        {
-            Id = source.Id;
-            No = source.No;
-            ColumnName = source.ColumnName;
-            LabelText = source.LabelText;
-            ChoicesText = source.ChoicesText;
-            DefaultInput = source.DefaultInput;
-            GridVisible = source.GridVisible;
-            GridDateTime = source.GridDateTime;
-            ControlDateTime = source.ControlDateTime;
-            ControlType = source.ControlType;
-            DecimalPlaces = source.DecimalPlaces;
-            Min = source.Min;
-            Max = source.Max;
-            Step = source.Step;
-            EditorVisible = source.EditorVisible;
-            EditorReadOnly = source.EditorReadOnly;
-            TitleVisible = source.TitleVisible;
-            Unit = source.Unit;
-            Link = source.Link;
-            Size = source.Size;
-            Nullable = source.Nullable;
-            ReadPermission = source.ReadPermission;
-            CreatePermission = source.CreatePermission;
-            UpdatePermission = source.UpdatePermission;
-            NotSelect = source.NotSelect;
-            NotUpdate = source.NotUpdate;
-            GridColumn = source.GridColumn;
-            EditSelf = source.EditSelf;
-            EditorColumn = source.EditorColumn;
-            TitleColumn = source.TitleColumn;
-            Export = source.Export;
-            LabelTextDefault = source.LabelTextDefault;
-            TypeName = source.TypeName;
-            TypeCs = source.TypeCs;
-            ColumnType = source.ColumnType;
-            ControlType = source.ControlType;
-            UserColumn = source.UserColumn;
-            UserColumn = source.Hash;
-            StringFormat = source.StringFormat;
-            UnitDefault = source.UnitDefault;
-            Width = source.Width;
-            FieldCss = source.FieldCss;
-            ControlCss = source.ControlCss;
-            MarkDown = source.MarkDown;
-            GridStyle = source.GridStyle;
-            Aggregatable = source.Aggregatable;
-            Computable = source.Computable;
-            Validators = source.Validators;
-            FloatClear = source.FloatClear;
-        }
-
         public Dictionary<string, ControlData> EditChoices(
             long siteId,
             bool addBlank = false,
