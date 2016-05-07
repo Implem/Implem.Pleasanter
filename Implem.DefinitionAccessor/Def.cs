@@ -2055,7 +2055,7 @@ namespace Implem.DefinitionAccessor
                     case "Issue12": Demo.Issue12 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue12, definitionRow, DemoXls); break;
                     case "Issue13": Demo.Issue13 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue13, definitionRow, DemoXls); break;
                     case "Issue14": Demo.Issue14 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue14, definitionRow, DemoXls); break;
-                    case "Issue15": Demo.Issue15 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue15, definitionRow, DemoXls); break;
+                    case "Result1": Demo.Result1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Result1, definitionRow, DemoXls); break;
                     case "Comment1": Demo.Comment1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment1, definitionRow, DemoXls); break;
                     case "Comment2": Demo.Comment2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment2, definitionRow, DemoXls); break;
                     case "Comment3": Demo.Comment3 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment3, definitionRow, DemoXls); break;
@@ -6747,7 +6747,7 @@ namespace Implem.DefinitionAccessor
         public string Issue12;
         public string Issue13;
         public string Issue14;
-        public string Issue15;
+        public string Result1;
         public string Comment1;
         public string Comment2;
         public string Comment3;
@@ -6804,7 +6804,7 @@ namespace Implem.DefinitionAccessor
         public DemoDefinition Issue12 = new DemoDefinition();
         public DemoDefinition Issue13 = new DemoDefinition();
         public DemoDefinition Issue14 = new DemoDefinition();
-        public DemoDefinition Issue15 = new DemoDefinition();
+        public DemoDefinition Result1 = new DemoDefinition();
         public DemoDefinition Comment1 = new DemoDefinition();
         public DemoDefinition Comment2 = new DemoDefinition();
         public DemoDefinition Comment3 = new DemoDefinition();
