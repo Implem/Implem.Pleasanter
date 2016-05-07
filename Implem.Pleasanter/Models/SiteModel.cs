@@ -2250,21 +2250,24 @@ namespace Implem.Pleasanter.Models
                         case Types.CsNumeric:
                             if (column.ControlType != "ChoicesText")
                             {
-                                hb
-                                    .FieldTextBox(
-                                        controlId: "ColumnProperty,Unit",
-                                        fieldCss: "field-auto-thin",
-                                        controlCss: " w50",
-                                        labelText: Displays.SettingUnit(),
-                                        text: column.Unit)
-                                    .FieldSpinner(
+                                hb.FieldTextBox(
+                                    controlId: "ColumnProperty,Unit",
+                                    fieldCss: "field-auto-thin",
+                                    controlCss: " w50",
+                                    labelText: Displays.SettingUnit(),
+                                    text: column.Unit);
+                                var maxDecimalPlaces = MaxDecimalPlaces(column);
+                                if (maxDecimalPlaces > 0)
+                                {
+                                    hb.FieldSpinner(
                                         controlId: "ColumnProperty,DecimalPlaces",
                                         fieldCss: "field-auto-thin",
                                         labelText: Displays.DecimalPlaces(),
                                         value: column.DecimalPlaces.ToDecimal(),
                                         min: 0,
-                                        max: 3,
+                                        max: maxDecimalPlaces,
                                         step: 1);
+                                }
                                 if (!column.NotUpdate)
                                 {
                                     var hidden = column.ControlType != "Spinner"
@@ -2353,6 +2356,14 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o.Type == "Date")
                 .Where(o => o.Language == string.Empty)
                 .ToDictionary(o => o.Id, o => Displays.Get(o.Id));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static int MaxDecimalPlaces(Column column)
+        {
+            return column.Size.Split_2nd().ToInt();
         }
 
         /// <summary>

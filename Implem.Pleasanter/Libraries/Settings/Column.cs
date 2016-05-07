@@ -32,6 +32,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public int? No;
         [NonSerialized]
+        public string Size;
+        [NonSerialized]
         public bool Nullable;
         [NonSerialized]
         public Permissions.Types ReadPermission;
@@ -121,6 +123,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             TitleVisible = source.TitleVisible;
             Unit = source.Unit;
             Link = source.Link;
+            Size = source.Size;
             Nullable = source.Nullable;
             ReadPermission = source.ReadPermission;
             CreatePermission = source.CreatePermission;

@@ -248,6 +248,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.ControlDateTime = column.ControlDateTime ?? columnDefinition.ControlDateTime;
                 column.TitleVisible = column.TitleVisible ?? DefaultTitleVisible(column);
                 column.Unit = column.Unit ?? columnDefinition.Unit;
+                column.Size = columnDefinition.Size;
                 column.Nullable = columnDefinition.Nullable;
                 column.ReadPermission = Permissions.Get(columnDefinition.ReadPermission);
                 column.CreatePermission = Permissions.Get(columnDefinition.CreatePermission);
