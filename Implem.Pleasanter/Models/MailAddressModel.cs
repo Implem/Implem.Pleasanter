@@ -386,7 +386,7 @@ namespace Implem.Pleasanter.Models
                         siteSettings: SiteSettings,
                         permissionType: PermissionType,
                         where: Rds.MailAddressesWhere().MailAddressId(MailAddressId),
-                        orderBy: Rds.MailAddressesOrderBy().UpdatedTime(SqlOrderBy.Types.desc),
+                        orderBy: Rds.MailAddressesOrderBy().Ver(SqlOrderBy.Types.desc),
                         tableType: Sqls.TableTypes.NormalAndHistory).ForEach(mailAddressModel => hb
                             .Tr(
                                 attributes: Html.Attributes()

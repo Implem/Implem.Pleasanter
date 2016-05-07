@@ -402,7 +402,7 @@ namespace Implem.Pleasanter.Models
                         siteSettings: SiteSettings,
                         permissionType: PermissionType,
                         where: Rds.DeptsWhere().DeptId(DeptId),
-                        orderBy: Rds.DeptsOrderBy().UpdatedTime(SqlOrderBy.Types.desc),
+                        orderBy: Rds.DeptsOrderBy().Ver(SqlOrderBy.Types.desc),
                         tableType: Sqls.TableTypes.NormalAndHistory).ForEach(deptModel => hb
                             .Tr(
                                 attributes: Html.Attributes()

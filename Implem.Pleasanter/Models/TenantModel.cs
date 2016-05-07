@@ -383,7 +383,7 @@ namespace Implem.Pleasanter.Models
                         siteSettings: SiteSettings,
                         permissionType: PermissionType,
                         where: Rds.TenantsWhere().TenantId(TenantId),
-                        orderBy: Rds.TenantsOrderBy().UpdatedTime(SqlOrderBy.Types.desc),
+                        orderBy: Rds.TenantsOrderBy().Ver(SqlOrderBy.Types.desc),
                         tableType: Sqls.TableTypes.NormalAndHistory).ForEach(tenantModel => hb
                             .Tr(
                                 attributes: Html.Attributes()

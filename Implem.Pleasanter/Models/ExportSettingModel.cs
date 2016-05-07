@@ -473,7 +473,7 @@ namespace Implem.Pleasanter.Models
                         siteSettings: SiteSettings,
                         permissionType: PermissionType,
                         where: Rds.ExportSettingsWhere().ExportSettingId(ExportSettingId),
-                        orderBy: Rds.ExportSettingsOrderBy().UpdatedTime(SqlOrderBy.Types.desc),
+                        orderBy: Rds.ExportSettingsOrderBy().Ver(SqlOrderBy.Types.desc),
                         tableType: Sqls.TableTypes.NormalAndHistory).ForEach(exportSettingModel => hb
                             .Tr(
                                 attributes: Html.Attributes()

@@ -519,7 +519,7 @@ namespace Implem.Pleasanter.Models
                         siteSettings: SiteSettings,
                         permissionType: PermissionType,
                         where: Rds.WikisWhere().WikiId(WikiId),
-                        orderBy: Rds.WikisOrderBy().UpdatedTime(SqlOrderBy.Types.desc),
+                        orderBy: Rds.WikisOrderBy().Ver(SqlOrderBy.Types.desc),
                         tableType: Sqls.TableTypes.NormalAndHistory).ForEach(wikiModel => hb
                             .Tr(
                                 attributes: Html.Attributes()

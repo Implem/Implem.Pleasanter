@@ -417,7 +417,7 @@ namespace Implem.Pleasanter.Models
                         checkRow: false);
                     new SiteCollection(
                         where: Rds.SitesWhere().SiteId(SiteId),
-                        orderBy: Rds.SitesOrderBy().UpdatedTime(SqlOrderBy.Types.desc),
+                        orderBy: Rds.SitesOrderBy().Ver(SqlOrderBy.Types.desc),
                         tableType: Sqls.TableTypes.NormalAndHistory).ForEach(siteModel => hb
                             .Tr(
                                 attributes: Html.Attributes()

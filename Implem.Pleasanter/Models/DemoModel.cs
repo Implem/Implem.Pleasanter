@@ -400,7 +400,7 @@ namespace Implem.Pleasanter.Models
                         siteSettings: SiteSettings,
                         permissionType: PermissionType,
                         where: Rds.DemosWhere().DemoId(DemoId),
-                        orderBy: Rds.DemosOrderBy().UpdatedTime(SqlOrderBy.Types.desc),
+                        orderBy: Rds.DemosOrderBy().Ver(SqlOrderBy.Types.desc),
                         tableType: Sqls.TableTypes.NormalAndHistory).ForEach(demoModel => hb
                             .Tr(
                                 attributes: Html.Attributes()

@@ -441,7 +441,7 @@ namespace Implem.Pleasanter.Models
                         siteSettings: SiteSettings,
                         permissionType: PermissionType,
                         where: Rds.BinariesWhere().BinaryId(BinaryId),
-                        orderBy: Rds.BinariesOrderBy().UpdatedTime(SqlOrderBy.Types.desc),
+                        orderBy: Rds.BinariesOrderBy().Ver(SqlOrderBy.Types.desc),
                         tableType: Sqls.TableTypes.NormalAndHistory).ForEach(binaryModel => hb
                             .Tr(
                                 attributes: Html.Attributes()

@@ -1061,7 +1061,7 @@ namespace Implem.Pleasanter.Models
                         siteSettings: SiteSettings,
                         permissionType: PermissionType,
                         where: Rds.IssuesWhere().IssueId(IssueId),
-                        orderBy: Rds.IssuesOrderBy().UpdatedTime(SqlOrderBy.Types.desc),
+                        orderBy: Rds.IssuesOrderBy().Ver(SqlOrderBy.Types.desc),
                         tableType: Sqls.TableTypes.NormalAndHistory).ForEach(issueModel => hb
                             .Tr(
                                 attributes: Html.Attributes()

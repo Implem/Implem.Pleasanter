@@ -430,7 +430,7 @@ namespace Implem.Pleasanter.Models
                         checkRow: false);
                     new OutgoingMailCollection(
                         where: Rds.OutgoingMailsWhere().OutgoingMailId(OutgoingMailId),
-                        orderBy: Rds.OutgoingMailsOrderBy().UpdatedTime(SqlOrderBy.Types.desc),
+                        orderBy: Rds.OutgoingMailsOrderBy().Ver(SqlOrderBy.Types.desc),
                         tableType: Sqls.TableTypes.NormalAndHistory).ForEach(outgoingMailModel => hb
                             .Tr(
                                 attributes: Html.Attributes()

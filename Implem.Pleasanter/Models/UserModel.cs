@@ -537,7 +537,7 @@ namespace Implem.Pleasanter.Models
                         siteSettings: SiteSettings,
                         permissionType: PermissionType,
                         where: Rds.UsersWhere().UserId(UserId),
-                        orderBy: Rds.UsersOrderBy().UpdatedTime(SqlOrderBy.Types.desc),
+                        orderBy: Rds.UsersOrderBy().Ver(SqlOrderBy.Types.desc),
                         tableType: Sqls.TableTypes.NormalAndHistory).ForEach(userModel => hb
                             .Tr(
                                 attributes: Html.Attributes()
