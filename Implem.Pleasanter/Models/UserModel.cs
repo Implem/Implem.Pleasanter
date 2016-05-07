@@ -1535,6 +1535,8 @@ namespace Implem.Pleasanter.Models
                 case "Ver": return hb.Td(column: column, value: userModel.Ver);
                 case "LoginId": return hb.Td(column: column, value: userModel.LoginId);
                 case "Disabled": return hb.Td(column: column, value: userModel.Disabled);
+                case "LastName": return hb.Td(column: column, value: userModel.LastName);
+                case "FirstName": return hb.Td(column: column, value: userModel.FirstName);
                 case "Birthday": return hb.Td(column: column, value: userModel.Birthday);
                 case "Sex": return hb.Td(column: column, value: userModel.Sex);
                 case "Language": return hb.Td(column: column, value: userModel.Language);
