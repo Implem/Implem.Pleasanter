@@ -1654,11 +1654,8 @@ namespace Implem.Pleasanter.Models
         private static void SetSites(Dictionary<string, long> idHash)
         {
             idHash.Where(o => o.Key.StartsWith("Site")).Select(o => o.Value).ForEach(siteId =>
-            {
-                var siteModel = new SiteModel(siteId);
-                SiteInfo.SetSiteDeptIdCollection(siteModel.InheritPermission, reload: true);
-                SiteInfo.SetSiteUserIdCollection(siteModel.InheritPermission, reload: true);
-            });
+                SiteInfo.SetSiteUserIdCollection(
+                    new SiteModel(siteId).InheritPermission, reload: true));
         }
 
         /// <summary>

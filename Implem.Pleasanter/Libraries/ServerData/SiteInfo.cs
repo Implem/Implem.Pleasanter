@@ -15,52 +15,10 @@ namespace Implem.Pleasanter.Libraries.ServerData
 {
     public static class SiteInfo
     {
-        private static Dictionary<long, List<int>> SiteDeptIdCollection =
-            new Dictionary<long, List<int>>();
-        private static Dictionary<long, List<int>> SiteUserIdCollection =
+        public static Dictionary<long, List<int>> SiteUserIdCollection =
             new Dictionary<long, List<int>>();
         public static Dictionary<int, DeptModel> Depts;
         public static Dictionary<int, User> Users;
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static void SetSiteDeptIdCollection(long siteId, bool reload = false)
-        {
-            if (!SiteDeptIdCollection.ContainsKey(siteId))
-            {
-                SiteDeptIdCollection.Add(siteId, GetSiteDeptIdCollection(siteId));
-            }
-            else if (reload)
-            {
-                SiteDeptIdCollection[siteId] = GetSiteDeptIdCollection(siteId);
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static List<int> GetSiteDeptIdCollection(long siteId)
-        {
-            var siteDeptCollection = new List<int>();
-            foreach (DataRow dataRow in SiteDeptDataTable(siteId).Rows)
-            {
-                siteDeptCollection.Add(dataRow["DeptId"].ToInt());
-            }
-            return siteDeptCollection;
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static DataTable SiteDeptDataTable(long siteId)
-        {
-            return Rds.ExecuteTable(statements: new SqlStatement(
-                commandText: Def.Sql.SiteDepts,
-                param: Rds.PermissionsParam()
-                    .ReferenceType("Sites")
-                    .ReferenceId(siteId)));
-        }
 
         public static IEnumerable<int> UserIdCollection(long siteId)
         {
@@ -71,9 +29,6 @@ namespace Implem.Pleasanter.Libraries.ServerData
             return SiteUserIdCollection[siteId];
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public static void SetSiteUserIdCollection(long siteId, bool reload = false)
         {
             if (!SiteUserIdCollection.ContainsKey(siteId))
@@ -86,9 +41,6 @@ namespace Implem.Pleasanter.Libraries.ServerData
             }
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         private static List<int> GetSiteUserIdCollection(long siteId)
         {
             var siteUserCollection = new List<int>();
@@ -99,9 +51,6 @@ namespace Implem.Pleasanter.Libraries.ServerData
             return siteUserCollection;
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         private static DataTable SiteUserDataTable(long siteId)
         {
             return Rds.ExecuteTable(statements: new SqlStatement(
@@ -115,6 +64,18 @@ namespace Implem.Pleasanter.Libraries.ServerData
         {
             if (Depts == null) RefreshDepts();
             return Depts;
+        }
+
+        public static void SetDept(DeptModel deptModel)
+        {
+            if (DeptExists(deptModel.DeptId))
+            {
+                Depts[deptModel.DeptId] = deptModel;
+            }
+            else
+            {
+                Depts.Add(deptModel.DeptId, deptModel);
+            }
         }
 
         public static void RefreshDepts()

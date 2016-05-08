@@ -233,8 +233,12 @@ namespace Implem.Pleasanter.Models
             PasswordExpirationPeriod();
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void OnCreated()
         {
+            SetSiteInfo();
         }
 
         private string ValidateBeforeCreate()
@@ -333,8 +337,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void OnUpdated(ref UsersResponseCollection responseCollection)
         {
-            SiteInfo.SetUser(User());
-            if (Self()) SetSession();
+            SetSiteInfo();
         }
 
         private string ValidateBeforeUpdate()
@@ -778,6 +781,16 @@ namespace Implem.Pleasanter.Models
             return AccessStatus == Databases.AccessStatuses.Selected
                 ? Messages.ResponseUpdateConflicts(Updator.FullName).ToJson()
                 : Messages.ResponseDeleteConflicts().ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetSiteInfo()
+        {
+            SiteInfo.SiteUserIdCollection.Clear();
+            SiteInfo.SetUser(User());
+            if (Self()) SetSession();
         }
 
         /// <summary>

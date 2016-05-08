@@ -138,7 +138,6 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void OnConstructed()
         {
-            SiteInfo.SetSiteDeptIdCollection(SiteId);
             SiteInfo.SetSiteUserIdCollection(SiteId);
         }
 

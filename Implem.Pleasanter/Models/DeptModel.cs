@@ -159,8 +159,12 @@ namespace Implem.Pleasanter.Models
         {
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void OnCreated()
         {
+            SiteInfo.SetDept(this);
         }
 
         private string ValidateBeforeCreate()
@@ -226,8 +230,13 @@ namespace Implem.Pleasanter.Models
         {
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        /// <param name="responseCollection"></param>
         private void OnUpdated(ref DeptsResponseCollection responseCollection)
         {
+            SiteInfo.SetDept(this);
         }
 
         private string ValidateBeforeUpdate()

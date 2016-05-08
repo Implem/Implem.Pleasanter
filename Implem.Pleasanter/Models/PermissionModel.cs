@@ -740,7 +740,6 @@ namespace Implem.Pleasanter.Models
                     where: Rds.SitesWhere().SiteId(siteModel.SiteId),
                     param: Rds.SitesParam().InheritPermission(siteModel.InheritPermission)));
                 Rds.ExecuteNonQuery(transactional: true, statements: statements.ToArray());
-                SiteInfo.SetSiteDeptIdCollection(siteModel.InheritPermission, reload: true);
                 SiteInfo.SetSiteUserIdCollection(siteModel.InheritPermission, reload: true);
                 return Messages.ResponseUpdated("permissions").ToJson();
             }
