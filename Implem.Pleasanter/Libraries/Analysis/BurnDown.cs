@@ -175,7 +175,7 @@ namespace Implem.Pleasanter.Libraries.Analysis
                     var totalValue = targets.Select(o => o.WorkValue).Sum();
                     elements.Add(new Element()
                     {
-                        Day = currentTime.ToShortDateString(),
+                        Day = currentTime.ToLocal(Displays.YmdFormat()),
                         Total = TotalValueSummary(currentTime, now, totalValue),
                         Planned = PlannedValueSummary(currentTime, targets, totalValue),
                         Earned = EarnedValueSummary(currentTime, now, targets, totalValue)
