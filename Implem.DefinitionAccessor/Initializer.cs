@@ -6,15 +6,20 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 namespace Implem.DefinitionAccessor
 {
     public class Initializer
     {
-        public static void Initialize(string path, bool codeDefiner = false)
+        public static void Initialize(
+            string path, bool codeDefiner = false,
+            bool setSaPassword = false,
+            bool setRandomPassword = false)
         {
             Environments.CodeDefiner = codeDefiner;
             Environments.CurrentDirectoryPath = GetCurrentDirectoryPath(
                 new FileInfo(path).Directory);
+            SetRdsPassword(setSaPassword, setRandomPassword);
             SetParameters();
             Environments.ServiceName = Parameters.Service.Name;
             SetRdsParameters();
@@ -27,6 +32,31 @@ namespace Implem.DefinitionAccessor
             Environments.TimeZoneInfoDefault = TimeZoneInfo.GetSystemTimeZones()
                 .FirstOrDefault(o => o.Id == Parameters.Service.TimeZoneDefault);
             SetSqls();
+        }
+
+        private static void SetRdsPassword(bool setRdsPassword, bool setRandomPassword)
+        {
+            if (setRdsPassword)
+            {
+                Console.WriteLine("Please enter the SA password.");
+                var rdsParameters = Files.Read(ParametersPath("Rds"));
+                rdsParameters = Regex.Replace(
+                    rdsParameters,
+                    "(?<=UID\\=sa;PWD\\=).*?(?=;)",
+                    Console.ReadLine());
+                if (setRandomPassword)
+                {
+                    rdsParameters = Regex.Replace(
+                        rdsParameters,
+                        "(?<=UID\\=#ServiceName#_Owner;PWD\\=).*?(?=;)",
+                        Strings.NewGuid());
+                    rdsParameters = Regex.Replace(
+                        rdsParameters,
+                        "(?<=UID\\=#ServiceName#_User;PWD\\=).*?(?=;)",
+                        Strings.NewGuid());
+                }
+                rdsParameters.Write(ParametersPath("Rds"));
+            }
         }
 
         private static void SetParameters()

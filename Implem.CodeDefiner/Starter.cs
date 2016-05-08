@@ -22,7 +22,11 @@ namespace Implem.CodeDefiner
             var target = argHash.ContainsKey("t")
                 ? argHash["t"]
                 : string.Empty;
-            Initializer.Initialize(path, codeDefiner: true);
+            Initializer.Initialize(
+                path,
+                codeDefiner: true,
+                setSaPassword: argHash.ContainsKey("s"),
+                setRandomPassword: argHash.ContainsKey("r"));
             Performances.Record(MethodBase.GetCurrentMethod().Name);
             DeleteTemporaryFiles();
             switch (action)
