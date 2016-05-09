@@ -54,48 +54,39 @@ namespace Implem.Pleasanter.Libraries.Views
                         }
                         else
                         {
-                            if (updateButton && permissionType.CanUpdate())
-                            {
-                                hb.Button(
+                            hb
+                                .Button(
                                     text: Displays.Update(),
                                     controlCss: "button-save validate",
                                     accessKey: "s",
                                     onClick: Def.JavaScript.Update,
                                     action: "Update",
-                                    method: "put");
-                            }
-                            if (copyButton && permissionType.CanCreate())
-                            {
-                                hb.Button(
+                                    method: "put",
+                                    _using: updateButton && permissionType.CanUpdate())
+                                .Button(
                                     text: Displays.Copy(),
                                     controlCss: "button-copy open-dialog",
                                     accessKey: "c",
                                     onClick: Def.JavaScript.OpenDialog,
-                                    selector: "#Dialog_ConfirmCopy");
-                            }
-                            if (moveButton && permissionType.CanUpdate())
-                            {
-                                hb.Button(
+                                    selector: "#Dialog_ConfirmCopy",
+                                    _using: copyButton && permissionType.CanCreate())
+                                .Button(
                                     text: Displays.Move(),
                                     controlCss: "button-move open-dialog",
                                     accessKey: "o",
                                     onClick: Def.JavaScript.MoveTargets,
                                     action: "MoveTargets",
-                                    method: "get");
-                            }
-                            if (bulkMoveButton && permissionType.CanUpdate())
-                            {
-                                hb.Button(
+                                    method: "get",
+                                    _using: moveButton && permissionType.CanUpdate())
+                                .Button(
                                     text: Displays.BulkMove(),
                                     controlCss: "button-move open-dialog",
                                     accessKey: "o",
                                     onClick: Def.JavaScript.MoveTargets,
                                     action: "MoveTargets",
-                                    method: "get");
-                            }
-                            if (mailButton && permissionType.CanUpdate())
-                            {
-                                hb.Button(
+                                    method: "get",
+                                    _using: bulkMoveButton && permissionType.CanUpdate())
+                                .Button(
                                     controlId: "EditOutgoingMail",
                                     text: Displays.Mail(),
                                     controlCss: "button-send-mail",
@@ -105,43 +96,35 @@ namespace Implem.Pleasanter.Libraries.Views
                                         referenceId,
                                         "OutgoingMails"),
                                     method: "put",
-                                    accessKey: "m");
-                            }
-                            if (deleteButton && permissionType.CanDelete())
-                            {
-                                hb.Button(
+                                    accessKey: "m",
+                                    _using: mailButton && permissionType.CanUpdate())
+                                .Button(
                                     text: Displays.Delete(),
                                     controlCss: "button-delete",
                                     accessKey: "r",
                                     onClick: Def.JavaScript.Delete,
                                     action: "Delete",
                                     method: "delete",
-                                    confirm: "Displays_ConfirmDelete");
-                            }
-                            if (bulkDeleteButton && permissionType.CanDelete())
-                            {
-                                hb.Button(
+                                    confirm: "Displays_ConfirmDelete",
+                                    _using: deleteButton && permissionType.CanDelete())
+                                .Button(
                                     text: Displays.BulkDelete(),
                                     controlCss: "button-delete",
                                     accessKey: "r",
                                     onClick: Def.JavaScript.Delete,
                                     action: "BulkDelete",
                                     method: "delete",
-                                    confirm: "Displays_ConfirmDelete");
-                            }
-                            if (importButton && permissionType.CanImport())
-                            {
-                                hb.Button(
+                                    confirm: "Displays_ConfirmDelete",
+                                    _using: bulkDeleteButton && permissionType.CanDelete())
+                                .Button(
                                     controlId: "EditImportSettings",
                                     text: Displays.Import(),
                                     controlCss: "button-import",
                                     accessKey: "w",
                                     onClick: Def.JavaScript.EditImportSettings,
-                                    selector: "#Dialog_ImportSettings");
-                            }
-                            if (exportButton && permissionType.CanExport())
-                            {
-                                hb.Button(
+                                    selector: "#Dialog_ImportSettings",
+                                    _using: importButton && permissionType.CanImport())
+                                .Button(
                                     controlId: "EditExportSettings",
                                     text: Displays.Export(),
                                     controlCss: "button-export",
@@ -149,8 +132,8 @@ namespace Implem.Pleasanter.Libraries.Views
                                     onClick: Def.JavaScript.EditExportSettings,
                                     action: Navigations.ItemAction(
                                         siteId, "ExportSettings", "Edit"),
-                                    method: "put");
-                            }
+                                    method: "put",
+                                    _using: exportButton && permissionType.CanExport());
                         }
                     }
                     if (extensions != null) extensions();
