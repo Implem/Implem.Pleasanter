@@ -387,12 +387,16 @@ namespace Implem.Pleasanter.Models
             return Editor();
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public string Delete(bool redirect = true)
         {
             if (!PermissionType.CanDelete())
             {
                 return Messages.ResponseHasNotPermission().ToJson();
             }
+            var redirectUrl = Navigations.ItemIndex(new SiteModel(SiteId).ParentId);
             OnDeleting();
             Rds.ExecuteNonQuery(
                 transactional: true,
@@ -401,13 +405,17 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteItems(
                         where: Rds.ItemsWhere().ReferenceId(WikiId)),
                     Rds.DeleteWikis(
-                        where: Rds.WikisWhere().SiteId(SiteId).WikiId(WikiId))
+                        where: Rds.WikisWhere().SiteId(SiteId).WikiId(WikiId)),
+                    Rds.DeleteItems(
+                        where: Rds.ItemsWhere().ReferenceId(SiteId)),
+                    Rds.DeleteSites(
+                        where: Rds.SitesWhere().SiteId(SiteId))
                 });
             var responseCollection = new WikisResponseCollection(this);
             OnDeleted(ref responseCollection);
             if (redirect)
             {
-                responseCollection.Href(Navigations.ItemIndex(SiteId));
+                responseCollection.Href(redirectUrl);
             }
             return responseCollection.ToJson();
         }
