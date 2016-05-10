@@ -13,10 +13,16 @@
 ![default](https://cloud.githubusercontent.com/assets/12204265/15035467/2a464e70-12bd-11e6-82dd-a5529b43776b.gif)
 
 ## 動作条件
-- Windows Server 2012 R2 All Editions / Windows 10 All Editions / Microsoft Azure Web App
-- .NET Framework 4.6
-- IIS
-- Sql Server 2012/2014 All Editions / Microsoft Azure - SQL Database
+|条件|Windows Server 2012 R2|Windows 10|Microsoft Azure|
+|:--|:--:|:--:|:--:|
+|.NET Framework 4.6|◯|導入済|-|
+|.NET Framework 3.5|◯|◯|-|
+|IIS|◯|◯|-|
+|ASP.NET 4.X|◯|◯|-|
+|SQL Server 2014|◯|◯|-|
+|Web Deploy v3.5|◯|◯|-|
+|Microsoft Azure Web App|-|-|◯|
+|Microsoft Azure SQL Database|-|-|◯|
 
 ## プリザンター利用ガイド
 プリザンターのセットアップ手順及び、操作手順をキャプチャー画像や動画を使用して説明します。  
