@@ -105,9 +105,8 @@ namespace Implem.Pleasanter.Libraries.Views
         private static HtmlBuilder NavigationButtons(
             this HtmlBuilder hb, long siteId, Permissions.Types permissionType, bool _using)
         {
-            if (_using)
-            {
-                hb
+            return _using
+                ? hb
                     .Li(css: "nav-function", action: () => hb
                         .Button(
                             text: Displays.New(),
@@ -115,27 +114,26 @@ namespace Implem.Pleasanter.Libraries.Views
                             accessKey: "i",
                             href: SiteInfo.IsItem()
                                 ? Navigations.ItemNew(siteId)
-                                : Navigations.New(Url.RouteData("controller"))));
-                if (permissionType.CanEditSite() && siteId != 0)
-                {
-                    hb.Li(css: "nav-function", action: () => hb
-                    .Button(
-                        text: Displays.List(),
-                        controlCss: "button-list",
-                        accessKey: "k",
-                        href: Navigations.ItemIndex(siteId)));
-                }
-                if (permissionType.CanEditSite() && siteId != 0)
-                {
-                    hb.Li(css: "nav-function", action: () => hb
-                        .Button(
-                            text: Displays.EditSettings(),
-                            controlCss: "button-setting",
-                            accessKey: "g",
-                            href: Navigations.ItemEdit(siteId)));
-                }
-            }
-            return hb;
+                                : Navigations.New(Url.RouteData("controller"))))
+                    .Li(
+                        css: "nav-function",
+                        _using: permissionType.CanEditSite() && siteId != 0,
+                        action: () => hb
+                            .Button(
+                                text: Displays.List(),
+                                controlCss: "button-list",
+                                accessKey: "k",
+                                href: Navigations.ItemIndex(siteId)))
+                    .Li(
+                        css: "nav-function",
+                        _using: permissionType.CanEditSite() && siteId != 0,
+                        action: () => hb
+                            .Button(
+                                text: Displays.EditSettings(),
+                                controlCss: "button-setting",
+                                accessKey: "g",
+                                href: Navigations.ItemEdit(siteId)))
+                : hb;
         }
     }
 }
