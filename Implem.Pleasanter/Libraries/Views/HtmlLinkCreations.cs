@@ -1,9 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Pleasanter.Libraries.DataSources;
-using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
-using Implem.Pleasanter.Libraries.Utilities;
 using Implem.Pleasanter.Models;
 namespace Implem.Pleasanter.Libraries.Views
 {
