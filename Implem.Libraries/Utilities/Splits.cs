@@ -11,7 +11,9 @@
 
         public static string SplitNo(string str, char delimiter, int index)
         {
-            return str.Split(delimiter)[index];
+            return str != string.Empty
+                ? str.Split(delimiter)[index]
+                : string.Empty;
         }
 
         public static string Split_1st(this string str, char delimiter = ',')
