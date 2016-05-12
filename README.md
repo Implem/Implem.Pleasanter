@@ -24,7 +24,7 @@
 |Microsoft Azure Web App|-|-|◯|
 |Microsoft Azure SQL Database|-|-|◯|
 
-## プリザンター利用ガイド
+## 利用ガイド
 プリザンターのセットアップ手順及び、操作手順をキャプチャー画像や動画を使用して説明します。  
 https://github.com/Implem/Implem.Pleasanter/wiki
 
