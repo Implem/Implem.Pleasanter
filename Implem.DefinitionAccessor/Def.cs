@@ -645,7 +645,6 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("ExcludeDefaultCs")) { newCodeDefinition.ExcludeDefaultCs = definitionRow["ExcludeDefaultCs"].ToString(); newCodeDefinition.SavedExcludeDefaultCs = newCodeDefinition.ExcludeDefaultCs; }
                 if (definitionRow.ContainsKey("History")) { newCodeDefinition.History = definitionRow["History"].ToBool(); newCodeDefinition.SavedHistory = newCodeDefinition.History; }
                 if (definitionRow.ContainsKey("PkHistory")) { newCodeDefinition.PkHistory = definitionRow["PkHistory"].ToBool(); newCodeDefinition.SavedPkHistory = newCodeDefinition.PkHistory; }
-                if (definitionRow.ContainsKey("Settings")) { newCodeDefinition.Settings = definitionRow["Settings"].ToBool(); newCodeDefinition.SavedSettings = newCodeDefinition.Settings; }
                 if (definitionRow.ContainsKey("ControlType")) { newCodeDefinition.ControlType = definitionRow["ControlType"].ToString(); newCodeDefinition.SavedControlType = newCodeDefinition.ControlType; }
                 if (definitionRow.ContainsKey("ReplaceOld")) { newCodeDefinition.ReplaceOld = definitionRow["ReplaceOld"].ToString(); newCodeDefinition.SavedReplaceOld = newCodeDefinition.ReplaceOld; }
                 if (definitionRow.ContainsKey("ReplaceNew")) { newCodeDefinition.ReplaceNew = definitionRow["ReplaceNew"].ToString(); newCodeDefinition.SavedReplaceNew = newCodeDefinition.ReplaceNew; }
@@ -719,7 +718,6 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("ExcludeDefaultCs")) { definition.ExcludeDefaultCs = definitionRow["ExcludeDefaultCs"].ToString(); definition.SavedExcludeDefaultCs = definition.ExcludeDefaultCs; }
             if (definitionRow.ContainsKey("History")) { definition.History = definitionRow["History"].ToBool(); definition.SavedHistory = definition.History; }
             if (definitionRow.ContainsKey("PkHistory")) { definition.PkHistory = definitionRow["PkHistory"].ToBool(); definition.SavedPkHistory = definition.PkHistory; }
-            if (definitionRow.ContainsKey("Settings")) { definition.Settings = definitionRow["Settings"].ToBool(); definition.SavedSettings = definition.Settings; }
             if (definitionRow.ContainsKey("ControlType")) { definition.ControlType = definitionRow["ControlType"].ToString(); definition.SavedControlType = definition.ControlType; }
             if (definitionRow.ContainsKey("ReplaceOld")) { definition.ReplaceOld = definitionRow["ReplaceOld"].ToString(); definition.SavedReplaceOld = definition.ReplaceOld; }
             if (definitionRow.ContainsKey("ReplaceNew")) { definition.ReplaceNew = definitionRow["ReplaceNew"].ToString(); definition.SavedReplaceNew = definition.ReplaceNew; }
@@ -2923,7 +2921,6 @@ namespace Implem.DefinitionAccessor
                         case "ExcludeDefaultCs": codeDefinition.ExcludeDefaultCs = optionValue.ToString(); break;
                         case "History": codeDefinition.History = optionValue.ToBool(); break;
                         case "PkHistory": codeDefinition.PkHistory = optionValue.ToBool(); break;
-                        case "Settings": codeDefinition.Settings = optionValue.ToBool(); break;
                         case "ControlType": codeDefinition.ControlType = optionValue.ToString(); break;
                         case "ReplaceOld": codeDefinition.ReplaceOld = optionValue.ToString(); break;
                         case "ReplaceNew": codeDefinition.ReplaceNew = optionValue.ToString(); break;
@@ -3277,7 +3274,6 @@ namespace Implem.DefinitionAccessor
         public string ExcludeDefaultCs; public string SavedExcludeDefaultCs;
         public bool History; public bool SavedHistory;
         public bool PkHistory; public bool SavedPkHistory;
-        public bool Settings; public bool SavedSettings;
         public string ControlType; public string SavedControlType;
         public string ReplaceOld; public string SavedReplaceOld;
         public string ReplaceNew; public string SavedReplaceNew;
@@ -3352,7 +3348,6 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("ExcludeDefaultCs")) ExcludeDefaultCs = propertyCollection["ExcludeDefaultCs"].ToString(); else ExcludeDefaultCs = string.Empty;
             if (propertyCollection.ContainsKey("History")) History = propertyCollection["History"].ToBool(); else History = false;
             if (propertyCollection.ContainsKey("PkHistory")) PkHistory = propertyCollection["PkHistory"].ToBool(); else PkHistory = false;
-            if (propertyCollection.ContainsKey("Settings")) Settings = propertyCollection["Settings"].ToBool(); else Settings = false;
             if (propertyCollection.ContainsKey("ControlType")) ControlType = propertyCollection["ControlType"].ToString(); else ControlType = string.Empty;
             if (propertyCollection.ContainsKey("ReplaceOld")) ReplaceOld = propertyCollection["ReplaceOld"].ToString(); else ReplaceOld = string.Empty;
             if (propertyCollection.ContainsKey("ReplaceNew")) ReplaceNew = propertyCollection["ReplaceNew"].ToString(); else ReplaceNew = string.Empty;
@@ -3427,7 +3422,6 @@ namespace Implem.DefinitionAccessor
                     case "ExcludeDefaultCs": return ExcludeDefaultCs;
                     case "History": return History;
                     case "PkHistory": return PkHistory;
-                    case "Settings": return Settings;
                     case "ControlType": return ControlType;
                     case "ReplaceOld": return ReplaceOld;
                     case "ReplaceNew": return ReplaceNew;
@@ -3502,7 +3496,6 @@ namespace Implem.DefinitionAccessor
             ExcludeDefaultCs = SavedExcludeDefaultCs;
             History = SavedHistory;
             PkHistory = SavedPkHistory;
-            Settings = SavedSettings;
             ControlType = SavedControlType;
             ReplaceOld = SavedReplaceOld;
             ReplaceNew = SavedReplaceNew;
