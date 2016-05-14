@@ -94,13 +94,13 @@ namespace Implem.Pleasanter.Libraries.Requests
             {
                 return (HttpContext.Current.Session[key] as FormData)
                     .Update(HttpContext.Current.Request.Form)
-                    .RemoveEmpty();
+                    .RemoveIfEmpty();
             }
             else
             {
                 var formData = new FormData(HttpContext.Current.Request.Form);
                 HttpContext.Current.Session[key] = formData;
-                return formData.RemoveEmpty();
+                return formData.RemoveIfEmpty();
             }
         }
 

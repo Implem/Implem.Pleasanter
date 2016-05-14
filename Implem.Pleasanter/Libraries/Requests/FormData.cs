@@ -45,7 +45,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             return this;
         }
 
-        public FormData RemoveEmpty()
+        public FormData RemoveIfEmpty()
         {
             this
                 .Where(o => o.Value == string.Empty)
