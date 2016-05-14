@@ -543,7 +543,6 @@ namespace Implem.DefinitionAccessor
                     case "HtmlLinks_TableCases": Code.HtmlLinks_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_TableCases, definitionRow, CodeXls); break;
                     case "HtmlLinks_HeaderCases": Code.HtmlLinks_HeaderCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_HeaderCases, definitionRow, CodeXls); break;
                     case "HtmlLinks_Headers": Code.HtmlLinks_Headers = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_Headers, definitionRow, CodeXls); break;
-                    case "HtmlLinks_HeaderColumns": Code.HtmlLinks_HeaderColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_HeaderColumns, definitionRow, CodeXls); break;
                     case "HtmlLinks_Rows": Code.HtmlLinks_Rows = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_Rows, definitionRow, CodeXls); break;
                     case "HtmlLinks_RowColumns": Code.HtmlLinks_RowColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_RowColumns, definitionRow, CodeXls); break;
                     case "Summaries": Code.Summaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries, definitionRow, CodeXls); break;
@@ -616,7 +615,6 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("NotItemId")) { newCodeDefinition.NotItemId = definitionRow["NotItemId"].ToBool(); newCodeDefinition.SavedNotItemId = newCodeDefinition.NotItemId; }
                 if (definitionRow.ContainsKey("Calc")) { newCodeDefinition.Calc = definitionRow["Calc"].ToBool(); newCodeDefinition.SavedCalc = newCodeDefinition.Calc; }
                 if (definitionRow.ContainsKey("NotCalc")) { newCodeDefinition.NotCalc = definitionRow["NotCalc"].ToBool(); newCodeDefinition.SavedNotCalc = newCodeDefinition.NotCalc; }
-                if (definitionRow.ContainsKey("LinkGrid")) { newCodeDefinition.LinkGrid = definitionRow["LinkGrid"].ToBool(); newCodeDefinition.SavedLinkGrid = newCodeDefinition.LinkGrid; }
                 if (definitionRow.ContainsKey("SearchIndex")) { newCodeDefinition.SearchIndex = definitionRow["SearchIndex"].ToBool(); newCodeDefinition.SavedSearchIndex = newCodeDefinition.SearchIndex; }
                 if (definitionRow.ContainsKey("NotByForm")) { newCodeDefinition.NotByForm = definitionRow["NotByForm"].ToBool(); newCodeDefinition.SavedNotByForm = newCodeDefinition.NotByForm; }
                 if (definitionRow.ContainsKey("Form")) { newCodeDefinition.Form = definitionRow["Form"].ToBool(); newCodeDefinition.SavedForm = newCodeDefinition.Form; }
@@ -691,7 +689,6 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("NotItemId")) { definition.NotItemId = definitionRow["NotItemId"].ToBool(); definition.SavedNotItemId = definition.NotItemId; }
             if (definitionRow.ContainsKey("Calc")) { definition.Calc = definitionRow["Calc"].ToBool(); definition.SavedCalc = definition.Calc; }
             if (definitionRow.ContainsKey("NotCalc")) { definition.NotCalc = definitionRow["NotCalc"].ToBool(); definition.SavedNotCalc = definition.NotCalc; }
-            if (definitionRow.ContainsKey("LinkGrid")) { definition.LinkGrid = definitionRow["LinkGrid"].ToBool(); definition.SavedLinkGrid = definition.LinkGrid; }
             if (definitionRow.ContainsKey("SearchIndex")) { definition.SearchIndex = definitionRow["SearchIndex"].ToBool(); definition.SavedSearchIndex = definition.SearchIndex; }
             if (definitionRow.ContainsKey("NotByForm")) { definition.NotByForm = definitionRow["NotByForm"].ToBool(); definition.SavedNotByForm = definition.NotByForm; }
             if (definitionRow.ContainsKey("Form")) { definition.Form = definitionRow["Form"].ToBool(); definition.SavedForm = definition.Form; }
@@ -1302,7 +1299,11 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("GridVisible")) { newColumnDefinition.GridVisible = definitionRow["GridVisible"].ToBool(); newColumnDefinition.SavedGridVisible = newColumnDefinition.GridVisible; }
                 if (definitionRow.ContainsKey("EditorColumn")) { newColumnDefinition.EditorColumn = definitionRow["EditorColumn"].ToBool(); newColumnDefinition.SavedEditorColumn = newColumnDefinition.EditorColumn; }
                 if (definitionRow.ContainsKey("EditorVisible")) { newColumnDefinition.EditorVisible = definitionRow["EditorVisible"].ToBool(); newColumnDefinition.SavedEditorVisible = newColumnDefinition.EditorVisible; }
-                if (definitionRow.ContainsKey("TitleColumn")) { newColumnDefinition.TitleColumn = definitionRow["TitleColumn"].ToBool(); newColumnDefinition.SavedTitleColumn = newColumnDefinition.TitleColumn; }
+                if (definitionRow.ContainsKey("TitleColumn")) { newColumnDefinition.TitleColumn = definitionRow["TitleColumn"].ToInt(); newColumnDefinition.SavedTitleColumn = newColumnDefinition.TitleColumn; }
+                if (definitionRow.ContainsKey("LinkColumn")) { newColumnDefinition.LinkColumn = definitionRow["LinkColumn"].ToInt(); newColumnDefinition.SavedLinkColumn = newColumnDefinition.LinkColumn; }
+                if (definitionRow.ContainsKey("LinkVisible")) { newColumnDefinition.LinkVisible = definitionRow["LinkVisible"].ToBool(); newColumnDefinition.SavedLinkVisible = newColumnDefinition.LinkVisible; }
+                if (definitionRow.ContainsKey("HistoryColumn")) { newColumnDefinition.HistoryColumn = definitionRow["HistoryColumn"].ToInt(); newColumnDefinition.SavedHistoryColumn = newColumnDefinition.HistoryColumn; }
+                if (definitionRow.ContainsKey("HistoryVisible")) { newColumnDefinition.HistoryVisible = definitionRow["HistoryVisible"].ToBool(); newColumnDefinition.SavedHistoryVisible = newColumnDefinition.HistoryVisible; }
                 if (definitionRow.ContainsKey("TypeName")) { newColumnDefinition.TypeName = definitionRow["TypeName"].ToString(); newColumnDefinition.SavedTypeName = newColumnDefinition.TypeName; }
                 if (definitionRow.ContainsKey("TypeCs")) { newColumnDefinition.TypeCs = definitionRow["TypeCs"].ToString(); newColumnDefinition.SavedTypeCs = newColumnDefinition.TypeCs; }
                 if (definitionRow.ContainsKey("RecordingData")) { newColumnDefinition.RecordingData = definitionRow["RecordingData"].ToString(); newColumnDefinition.SavedRecordingData = newColumnDefinition.RecordingData; }
@@ -1334,8 +1335,6 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("CreatePermission")) { newColumnDefinition.CreatePermission = definitionRow["CreatePermission"].ToString(); newColumnDefinition.SavedCreatePermission = newColumnDefinition.CreatePermission; }
                 if (definitionRow.ContainsKey("UpdatePermission")) { newColumnDefinition.UpdatePermission = definitionRow["UpdatePermission"].ToString(); newColumnDefinition.SavedUpdatePermission = newColumnDefinition.UpdatePermission; }
                 if (definitionRow.ContainsKey("NotEditSelf")) { newColumnDefinition.NotEditSelf = definitionRow["NotEditSelf"].ToBool(); newColumnDefinition.SavedNotEditSelf = newColumnDefinition.NotEditSelf; }
-                if (definitionRow.ContainsKey("HistoryGrid")) { newColumnDefinition.HistoryGrid = definitionRow["HistoryGrid"].ToInt(); newColumnDefinition.SavedHistoryGrid = newColumnDefinition.HistoryGrid; }
-                if (definitionRow.ContainsKey("LinkGrid")) { newColumnDefinition.LinkGrid = definitionRow["LinkGrid"].ToInt(); newColumnDefinition.SavedLinkGrid = newColumnDefinition.LinkGrid; }
                 if (definitionRow.ContainsKey("SearchIndexPriority")) { newColumnDefinition.SearchIndexPriority = definitionRow["SearchIndexPriority"].ToInt(); newColumnDefinition.SavedSearchIndexPriority = newColumnDefinition.SearchIndexPriority; }
                 if (definitionRow.ContainsKey("NotForm")) { newColumnDefinition.NotForm = definitionRow["NotForm"].ToBool(); newColumnDefinition.SavedNotForm = newColumnDefinition.NotForm; }
                 if (definitionRow.ContainsKey("NotSelect")) { newColumnDefinition.NotSelect = definitionRow["NotSelect"].ToBool(); newColumnDefinition.SavedNotSelect = newColumnDefinition.NotSelect; }
@@ -1398,7 +1397,11 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("GridVisible")) { definition.GridVisible = definitionRow["GridVisible"].ToBool(); definition.SavedGridVisible = definition.GridVisible; }
             if (definitionRow.ContainsKey("EditorColumn")) { definition.EditorColumn = definitionRow["EditorColumn"].ToBool(); definition.SavedEditorColumn = definition.EditorColumn; }
             if (definitionRow.ContainsKey("EditorVisible")) { definition.EditorVisible = definitionRow["EditorVisible"].ToBool(); definition.SavedEditorVisible = definition.EditorVisible; }
-            if (definitionRow.ContainsKey("TitleColumn")) { definition.TitleColumn = definitionRow["TitleColumn"].ToBool(); definition.SavedTitleColumn = definition.TitleColumn; }
+            if (definitionRow.ContainsKey("TitleColumn")) { definition.TitleColumn = definitionRow["TitleColumn"].ToInt(); definition.SavedTitleColumn = definition.TitleColumn; }
+            if (definitionRow.ContainsKey("LinkColumn")) { definition.LinkColumn = definitionRow["LinkColumn"].ToInt(); definition.SavedLinkColumn = definition.LinkColumn; }
+            if (definitionRow.ContainsKey("LinkVisible")) { definition.LinkVisible = definitionRow["LinkVisible"].ToBool(); definition.SavedLinkVisible = definition.LinkVisible; }
+            if (definitionRow.ContainsKey("HistoryColumn")) { definition.HistoryColumn = definitionRow["HistoryColumn"].ToInt(); definition.SavedHistoryColumn = definition.HistoryColumn; }
+            if (definitionRow.ContainsKey("HistoryVisible")) { definition.HistoryVisible = definitionRow["HistoryVisible"].ToBool(); definition.SavedHistoryVisible = definition.HistoryVisible; }
             if (definitionRow.ContainsKey("TypeName")) { definition.TypeName = definitionRow["TypeName"].ToString(); definition.SavedTypeName = definition.TypeName; }
             if (definitionRow.ContainsKey("TypeCs")) { definition.TypeCs = definitionRow["TypeCs"].ToString(); definition.SavedTypeCs = definition.TypeCs; }
             if (definitionRow.ContainsKey("RecordingData")) { definition.RecordingData = definitionRow["RecordingData"].ToString(); definition.SavedRecordingData = definition.RecordingData; }
@@ -1430,8 +1433,6 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("CreatePermission")) { definition.CreatePermission = definitionRow["CreatePermission"].ToString(); definition.SavedCreatePermission = definition.CreatePermission; }
             if (definitionRow.ContainsKey("UpdatePermission")) { definition.UpdatePermission = definitionRow["UpdatePermission"].ToString(); definition.SavedUpdatePermission = definition.UpdatePermission; }
             if (definitionRow.ContainsKey("NotEditSelf")) { definition.NotEditSelf = definitionRow["NotEditSelf"].ToBool(); definition.SavedNotEditSelf = definition.NotEditSelf; }
-            if (definitionRow.ContainsKey("HistoryGrid")) { definition.HistoryGrid = definitionRow["HistoryGrid"].ToInt(); definition.SavedHistoryGrid = definition.HistoryGrid; }
-            if (definitionRow.ContainsKey("LinkGrid")) { definition.LinkGrid = definitionRow["LinkGrid"].ToInt(); definition.SavedLinkGrid = definition.LinkGrid; }
             if (definitionRow.ContainsKey("SearchIndexPriority")) { definition.SearchIndexPriority = definitionRow["SearchIndexPriority"].ToInt(); definition.SavedSearchIndexPriority = definition.SearchIndexPriority; }
             if (definitionRow.ContainsKey("NotForm")) { definition.NotForm = definitionRow["NotForm"].ToBool(); definition.SavedNotForm = definition.NotForm; }
             if (definitionRow.ContainsKey("NotSelect")) { definition.NotSelect = definitionRow["NotSelect"].ToBool(); definition.SavedNotSelect = definition.NotSelect; }
@@ -2324,8 +2325,16 @@ namespace Implem.DefinitionAccessor
                     case "SettingChoicesVisible_ja": Display.SettingChoicesVisible_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingChoicesVisible_ja, definitionRow, DisplayXls); break;
                     case "SettingLimitDefault": Display.SettingLimitDefault = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingLimitDefault, definitionRow, DisplayXls); break;
                     case "SettingLimitDefault_ja": Display.SettingLimitDefault_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingLimitDefault_ja, definitionRow, DisplayXls); break;
-                    case "SettingColumns": Display.SettingColumns = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingColumns, definitionRow, DisplayXls); break;
-                    case "SettingColumns_ja": Display.SettingColumns_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingColumns_ja, definitionRow, DisplayXls); break;
+                    case "SettingGridColumns": Display.SettingGridColumns = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingGridColumns, definitionRow, DisplayXls); break;
+                    case "SettingGridColumns_ja": Display.SettingGridColumns_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingGridColumns_ja, definitionRow, DisplayXls); break;
+                    case "SettingSummaryColumns": Display.SettingSummaryColumns = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingSummaryColumns, definitionRow, DisplayXls); break;
+                    case "SettingSummaryColumns_ja": Display.SettingSummaryColumns_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingSummaryColumns_ja, definitionRow, DisplayXls); break;
+                    case "SettingEditorColumns": Display.SettingEditorColumns = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingEditorColumns, definitionRow, DisplayXls); break;
+                    case "SettingEditorColumns_ja": Display.SettingEditorColumns_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingEditorColumns_ja, definitionRow, DisplayXls); break;
+                    case "SettingLinkColumns": Display.SettingLinkColumns = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingLinkColumns, definitionRow, DisplayXls); break;
+                    case "SettingLinkColumns_ja": Display.SettingLinkColumns_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingLinkColumns_ja, definitionRow, DisplayXls); break;
+                    case "SettingHistoryColumns": Display.SettingHistoryColumns = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingHistoryColumns, definitionRow, DisplayXls); break;
+                    case "SettingHistoryColumns_ja": Display.SettingHistoryColumns_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingHistoryColumns_ja, definitionRow, DisplayXls); break;
                     case "SettingAggregations": Display.SettingAggregations = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingAggregations, definitionRow, DisplayXls); break;
                     case "SettingAggregations_ja": Display.SettingAggregations_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingAggregations_ja, definitionRow, DisplayXls); break;
                     case "SettingAggregationType": Display.SettingAggregationType = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingAggregationType, definitionRow, DisplayXls); break;
@@ -2884,7 +2893,6 @@ namespace Implem.DefinitionAccessor
                         case "NotItemId": codeDefinition.NotItemId = optionValue.ToBool(); break;
                         case "Calc": codeDefinition.Calc = optionValue.ToBool(); break;
                         case "NotCalc": codeDefinition.NotCalc = optionValue.ToBool(); break;
-                        case "LinkGrid": codeDefinition.LinkGrid = optionValue.ToBool(); break;
                         case "SearchIndex": codeDefinition.SearchIndex = optionValue.ToBool(); break;
                         case "NotByForm": codeDefinition.NotByForm = optionValue.ToBool(); break;
                         case "Form": codeDefinition.Form = optionValue.ToBool(); break;
@@ -2957,7 +2965,11 @@ namespace Implem.DefinitionAccessor
                         case "GridVisible": columnDefinition.GridVisible = optionValue.ToBool(); break;
                         case "EditorColumn": columnDefinition.EditorColumn = optionValue.ToBool(); break;
                         case "EditorVisible": columnDefinition.EditorVisible = optionValue.ToBool(); break;
-                        case "TitleColumn": columnDefinition.TitleColumn = optionValue.ToBool(); break;
+                        case "TitleColumn": columnDefinition.TitleColumn = optionValue.ToInt(); break;
+                        case "LinkColumn": columnDefinition.LinkColumn = optionValue.ToInt(); break;
+                        case "LinkVisible": columnDefinition.LinkVisible = optionValue.ToBool(); break;
+                        case "HistoryColumn": columnDefinition.HistoryColumn = optionValue.ToInt(); break;
+                        case "HistoryVisible": columnDefinition.HistoryVisible = optionValue.ToBool(); break;
                         case "TypeName": columnDefinition.TypeName = optionValue.ToString(); break;
                         case "TypeCs": columnDefinition.TypeCs = optionValue.ToString(); break;
                         case "RecordingData": columnDefinition.RecordingData = optionValue.ToString(); break;
@@ -2989,8 +3001,6 @@ namespace Implem.DefinitionAccessor
                         case "CreatePermission": columnDefinition.CreatePermission = optionValue.ToString(); break;
                         case "UpdatePermission": columnDefinition.UpdatePermission = optionValue.ToString(); break;
                         case "NotEditSelf": columnDefinition.NotEditSelf = optionValue.ToBool(); break;
-                        case "HistoryGrid": columnDefinition.HistoryGrid = optionValue.ToInt(); break;
-                        case "LinkGrid": columnDefinition.LinkGrid = optionValue.ToInt(); break;
                         case "SearchIndexPriority": columnDefinition.SearchIndexPriority = optionValue.ToInt(); break;
                         case "NotForm": columnDefinition.NotForm = optionValue.ToBool(); break;
                         case "NotSelect": columnDefinition.NotSelect = optionValue.ToBool(); break;
@@ -3237,7 +3247,6 @@ namespace Implem.DefinitionAccessor
         public bool NotItemId; public bool SavedNotItemId;
         public bool Calc; public bool SavedCalc;
         public bool NotCalc; public bool SavedNotCalc;
-        public bool LinkGrid; public bool SavedLinkGrid;
         public bool SearchIndex; public bool SavedSearchIndex;
         public bool NotByForm; public bool SavedNotByForm;
         public bool Form; public bool SavedForm;
@@ -3313,7 +3322,6 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("NotItemId")) NotItemId = propertyCollection["NotItemId"].ToBool(); else NotItemId = false;
             if (propertyCollection.ContainsKey("Calc")) Calc = propertyCollection["Calc"].ToBool(); else Calc = false;
             if (propertyCollection.ContainsKey("NotCalc")) NotCalc = propertyCollection["NotCalc"].ToBool(); else NotCalc = false;
-            if (propertyCollection.ContainsKey("LinkGrid")) LinkGrid = propertyCollection["LinkGrid"].ToBool(); else LinkGrid = false;
             if (propertyCollection.ContainsKey("SearchIndex")) SearchIndex = propertyCollection["SearchIndex"].ToBool(); else SearchIndex = false;
             if (propertyCollection.ContainsKey("NotByForm")) NotByForm = propertyCollection["NotByForm"].ToBool(); else NotByForm = false;
             if (propertyCollection.ContainsKey("Form")) Form = propertyCollection["Form"].ToBool(); else Form = false;
@@ -3389,7 +3397,6 @@ namespace Implem.DefinitionAccessor
                     case "NotItemId": return NotItemId;
                     case "Calc": return Calc;
                     case "NotCalc": return NotCalc;
-                    case "LinkGrid": return LinkGrid;
                     case "SearchIndex": return SearchIndex;
                     case "NotByForm": return NotByForm;
                     case "Form": return Form;
@@ -3465,7 +3472,6 @@ namespace Implem.DefinitionAccessor
             NotItemId = SavedNotItemId;
             Calc = SavedCalc;
             NotCalc = SavedNotCalc;
-            LinkGrid = SavedLinkGrid;
             SearchIndex = SavedSearchIndex;
             NotByForm = SavedNotByForm;
             Form = SavedForm;
@@ -3813,7 +3819,6 @@ namespace Implem.DefinitionAccessor
         public string HtmlLinks_TableCases;
         public string HtmlLinks_HeaderCases;
         public string HtmlLinks_Headers;
-        public string HtmlLinks_HeaderColumns;
         public string HtmlLinks_Rows;
         public string HtmlLinks_RowColumns;
         public string Summaries;
@@ -4158,7 +4163,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition HtmlLinks_TableCases = new CodeDefinition();
         public CodeDefinition HtmlLinks_HeaderCases = new CodeDefinition();
         public CodeDefinition HtmlLinks_Headers = new CodeDefinition();
-        public CodeDefinition HtmlLinks_HeaderColumns = new CodeDefinition();
         public CodeDefinition HtmlLinks_Rows = new CodeDefinition();
         public CodeDefinition HtmlLinks_RowColumns = new CodeDefinition();
         public CodeDefinition Summaries = new CodeDefinition();
@@ -4219,7 +4223,11 @@ namespace Implem.DefinitionAccessor
         public bool GridVisible; public bool SavedGridVisible;
         public bool EditorColumn; public bool SavedEditorColumn;
         public bool EditorVisible; public bool SavedEditorVisible;
-        public bool TitleColumn; public bool SavedTitleColumn;
+        public int TitleColumn; public int SavedTitleColumn;
+        public int LinkColumn; public int SavedLinkColumn;
+        public bool LinkVisible; public bool SavedLinkVisible;
+        public int HistoryColumn; public int SavedHistoryColumn;
+        public bool HistoryVisible; public bool SavedHistoryVisible;
         public string TypeName; public string SavedTypeName;
         public string TypeCs; public string SavedTypeCs;
         public string RecordingData; public string SavedRecordingData;
@@ -4251,8 +4259,6 @@ namespace Implem.DefinitionAccessor
         public string CreatePermission; public string SavedCreatePermission;
         public string UpdatePermission; public string SavedUpdatePermission;
         public bool NotEditSelf; public bool SavedNotEditSelf;
-        public int HistoryGrid; public int SavedHistoryGrid;
-        public int LinkGrid; public int SavedLinkGrid;
         public int SearchIndexPriority; public int SavedSearchIndexPriority;
         public bool NotForm; public bool SavedNotForm;
         public bool NotSelect; public bool SavedNotSelect;
@@ -4316,7 +4322,11 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("GridVisible")) GridVisible = propertyCollection["GridVisible"].ToBool(); else GridVisible = false;
             if (propertyCollection.ContainsKey("EditorColumn")) EditorColumn = propertyCollection["EditorColumn"].ToBool(); else EditorColumn = false;
             if (propertyCollection.ContainsKey("EditorVisible")) EditorVisible = propertyCollection["EditorVisible"].ToBool(); else EditorVisible = false;
-            if (propertyCollection.ContainsKey("TitleColumn")) TitleColumn = propertyCollection["TitleColumn"].ToBool(); else TitleColumn = false;
+            if (propertyCollection.ContainsKey("TitleColumn")) TitleColumn = propertyCollection["TitleColumn"].ToInt(); else TitleColumn = 0;
+            if (propertyCollection.ContainsKey("LinkColumn")) LinkColumn = propertyCollection["LinkColumn"].ToInt(); else LinkColumn = 0;
+            if (propertyCollection.ContainsKey("LinkVisible")) LinkVisible = propertyCollection["LinkVisible"].ToBool(); else LinkVisible = false;
+            if (propertyCollection.ContainsKey("HistoryColumn")) HistoryColumn = propertyCollection["HistoryColumn"].ToInt(); else HistoryColumn = 0;
+            if (propertyCollection.ContainsKey("HistoryVisible")) HistoryVisible = propertyCollection["HistoryVisible"].ToBool(); else HistoryVisible = false;
             if (propertyCollection.ContainsKey("TypeName")) TypeName = propertyCollection["TypeName"].ToString(); else TypeName = string.Empty;
             if (propertyCollection.ContainsKey("TypeCs")) TypeCs = propertyCollection["TypeCs"].ToString(); else TypeCs = string.Empty;
             if (propertyCollection.ContainsKey("RecordingData")) RecordingData = propertyCollection["RecordingData"].ToString(); else RecordingData = string.Empty;
@@ -4348,8 +4358,6 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("CreatePermission")) CreatePermission = propertyCollection["CreatePermission"].ToString(); else CreatePermission = string.Empty;
             if (propertyCollection.ContainsKey("UpdatePermission")) UpdatePermission = propertyCollection["UpdatePermission"].ToString(); else UpdatePermission = string.Empty;
             if (propertyCollection.ContainsKey("NotEditSelf")) NotEditSelf = propertyCollection["NotEditSelf"].ToBool(); else NotEditSelf = false;
-            if (propertyCollection.ContainsKey("HistoryGrid")) HistoryGrid = propertyCollection["HistoryGrid"].ToInt(); else HistoryGrid = 0;
-            if (propertyCollection.ContainsKey("LinkGrid")) LinkGrid = propertyCollection["LinkGrid"].ToInt(); else LinkGrid = 0;
             if (propertyCollection.ContainsKey("SearchIndexPriority")) SearchIndexPriority = propertyCollection["SearchIndexPriority"].ToInt(); else SearchIndexPriority = 0;
             if (propertyCollection.ContainsKey("NotForm")) NotForm = propertyCollection["NotForm"].ToBool(); else NotForm = false;
             if (propertyCollection.ContainsKey("NotSelect")) NotSelect = propertyCollection["NotSelect"].ToBool(); else NotSelect = false;
@@ -4414,6 +4422,10 @@ namespace Implem.DefinitionAccessor
                     case "EditorColumn": return EditorColumn;
                     case "EditorVisible": return EditorVisible;
                     case "TitleColumn": return TitleColumn;
+                    case "LinkColumn": return LinkColumn;
+                    case "LinkVisible": return LinkVisible;
+                    case "HistoryColumn": return HistoryColumn;
+                    case "HistoryVisible": return HistoryVisible;
                     case "TypeName": return TypeName;
                     case "TypeCs": return TypeCs;
                     case "RecordingData": return RecordingData;
@@ -4445,8 +4457,6 @@ namespace Implem.DefinitionAccessor
                     case "CreatePermission": return CreatePermission;
                     case "UpdatePermission": return UpdatePermission;
                     case "NotEditSelf": return NotEditSelf;
-                    case "HistoryGrid": return HistoryGrid;
-                    case "LinkGrid": return LinkGrid;
                     case "SearchIndexPriority": return SearchIndexPriority;
                     case "NotForm": return NotForm;
                     case "NotSelect": return NotSelect;
@@ -4511,6 +4521,10 @@ namespace Implem.DefinitionAccessor
             EditorColumn = SavedEditorColumn;
             EditorVisible = SavedEditorVisible;
             TitleColumn = SavedTitleColumn;
+            LinkColumn = SavedLinkColumn;
+            LinkVisible = SavedLinkVisible;
+            HistoryColumn = SavedHistoryColumn;
+            HistoryVisible = SavedHistoryVisible;
             TypeName = SavedTypeName;
             TypeCs = SavedTypeCs;
             RecordingData = SavedRecordingData;
@@ -4542,8 +4556,6 @@ namespace Implem.DefinitionAccessor
             CreatePermission = SavedCreatePermission;
             UpdatePermission = SavedUpdatePermission;
             NotEditSelf = SavedNotEditSelf;
-            HistoryGrid = SavedHistoryGrid;
-            LinkGrid = SavedLinkGrid;
             SearchIndexPriority = SavedSearchIndexPriority;
             NotForm = SavedNotForm;
             NotSelect = SavedNotSelect;
@@ -7058,8 +7070,16 @@ namespace Implem.DefinitionAccessor
         public string SettingChoicesVisible_ja;
         public string SettingLimitDefault;
         public string SettingLimitDefault_ja;
-        public string SettingColumns;
-        public string SettingColumns_ja;
+        public string SettingGridColumns;
+        public string SettingGridColumns_ja;
+        public string SettingSummaryColumns;
+        public string SettingSummaryColumns_ja;
+        public string SettingEditorColumns;
+        public string SettingEditorColumns_ja;
+        public string SettingLinkColumns;
+        public string SettingLinkColumns_ja;
+        public string SettingHistoryColumns;
+        public string SettingHistoryColumns_ja;
         public string SettingAggregations;
         public string SettingAggregations_ja;
         public string SettingAggregationType;
@@ -7604,8 +7624,16 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition SettingChoicesVisible_ja = new DisplayDefinition();
         public DisplayDefinition SettingLimitDefault = new DisplayDefinition();
         public DisplayDefinition SettingLimitDefault_ja = new DisplayDefinition();
-        public DisplayDefinition SettingColumns = new DisplayDefinition();
-        public DisplayDefinition SettingColumns_ja = new DisplayDefinition();
+        public DisplayDefinition SettingGridColumns = new DisplayDefinition();
+        public DisplayDefinition SettingGridColumns_ja = new DisplayDefinition();
+        public DisplayDefinition SettingSummaryColumns = new DisplayDefinition();
+        public DisplayDefinition SettingSummaryColumns_ja = new DisplayDefinition();
+        public DisplayDefinition SettingEditorColumns = new DisplayDefinition();
+        public DisplayDefinition SettingEditorColumns_ja = new DisplayDefinition();
+        public DisplayDefinition SettingLinkColumns = new DisplayDefinition();
+        public DisplayDefinition SettingLinkColumns_ja = new DisplayDefinition();
+        public DisplayDefinition SettingHistoryColumns = new DisplayDefinition();
+        public DisplayDefinition SettingHistoryColumns_ja = new DisplayDefinition();
         public DisplayDefinition SettingAggregations = new DisplayDefinition();
         public DisplayDefinition SettingAggregations_ja = new DisplayDefinition();
         public DisplayDefinition SettingAggregationType = new DisplayDefinition();

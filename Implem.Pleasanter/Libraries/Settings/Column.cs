@@ -27,6 +27,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? EditorReadOnly;
         public string FieldCss;
         public bool? TitleVisible;
+        public bool? LinkVisible;
+        public bool? HistoryVisible;
         public string Unit;
         public bool? Link;
         [NonSerialized]
@@ -53,6 +55,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool EditorColumn;
         [NonSerialized]
         public bool TitleColumn;
+        [NonSerialized]
+        public bool LinkColumn;
+        [NonSerialized]
+        public bool HistoryColumn;
         [NonSerialized]
         public bool Export;
         [NonSerialized]

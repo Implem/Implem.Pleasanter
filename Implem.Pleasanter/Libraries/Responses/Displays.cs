@@ -218,8 +218,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SettingChoicesVisible(params string[] data) { return Get("SettingChoicesVisible", data); }
         public static HtmlBuilder Displays_SettingLimitDefault(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingLimitDefault", data)); }
         public static string SettingLimitDefault(params string[] data) { return Get("SettingLimitDefault", data); }
-        public static HtmlBuilder Displays_SettingColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingColumns", data)); }
-        public static string SettingColumns(params string[] data) { return Get("SettingColumns", data); }
+        public static HtmlBuilder Displays_SettingGridColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingGridColumns", data)); }
+        public static string SettingGridColumns(params string[] data) { return Get("SettingGridColumns", data); }
+        public static HtmlBuilder Displays_SettingSummaryColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingSummaryColumns", data)); }
+        public static string SettingSummaryColumns(params string[] data) { return Get("SettingSummaryColumns", data); }
+        public static HtmlBuilder Displays_SettingEditorColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingEditorColumns", data)); }
+        public static string SettingEditorColumns(params string[] data) { return Get("SettingEditorColumns", data); }
+        public static HtmlBuilder Displays_SettingLinkColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingLinkColumns", data)); }
+        public static string SettingLinkColumns(params string[] data) { return Get("SettingLinkColumns", data); }
+        public static HtmlBuilder Displays_SettingHistoryColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingHistoryColumns", data)); }
+        public static string SettingHistoryColumns(params string[] data) { return Get("SettingHistoryColumns", data); }
         public static HtmlBuilder Displays_SettingAggregations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingAggregations", data)); }
         public static string SettingAggregations(params string[] data) { return Get("SettingAggregations", data); }
         public static HtmlBuilder Displays_SettingAggregationType(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingAggregationType", data)); }

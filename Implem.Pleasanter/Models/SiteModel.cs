@@ -411,7 +411,7 @@ namespace Implem.Pleasanter.Models
                 action: () =>
                 {
                     hb.GridHeader(
-                        columnCollection: SiteSettings.HistoryGridColumnCollection(),
+                        columnCollection: SiteSettings.HistoryColumnCollection(),
                         sort: false,
                         checkRow: false);
                     new SiteCollection(
@@ -427,7 +427,7 @@ namespace Implem.Pleasanter.Models
                                     .DataMethod("post")
                                     .Add("data-latest", 1, _using: siteModel.Ver == Ver),
                                 action: () =>
-                                    SiteSettings.HistoryGridColumnCollection().ForEach(column =>
+                                    SiteSettings.HistoryColumnCollection().ForEach(column =>
                                         hb.TdValue(column, siteModel))));
                 });
             return new SitesResponseCollection(this).Html("#HistoriesForm", hb).ToJson();
@@ -775,6 +775,8 @@ namespace Implem.Pleasanter.Models
                     SetEditorColumns(responseCollection);
                     SetColumnProperties(responseCollection);
                     SetTitleColumns(responseCollection);
+                    SetLinkColumns(responseCollection);
+                    SetHistoryColumns(responseCollection);
                     SetAggregations(responseCollection);
                     SetSummaries(responseCollection);
                     break;
@@ -1004,7 +1006,7 @@ namespace Implem.Pleasanter.Models
                                 data.Value));
                     responseCollection.Html("#EditorColumns",
                         Html.Builder().SelectableItems(
-                            listItemCollection: SiteSettings.EditorColumnHash(),
+                            listItemCollection: SiteSettings.EditorColumnsHash(),
                             selectedValueTextCollection: selectedColumns));
                 }
             }
@@ -1036,6 +1038,34 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void SetLinkColumns(ResponseCollection responseCollection)
+        {
+            var selectedColumns = Forms.Data("LinkColumns").Split(';').
+                Where(o => o != string.Empty);
+            if (selectedColumns.Count() != 0)
+            {
+                SiteSettings.SetLinkColumns(
+                    responseCollection, Forms.Data("ControlId"), selectedColumns);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetHistoryColumns(ResponseCollection responseCollection)
+        {
+            var selectedColumns = Forms.Data("HistoryColumns").Split(';').
+                Where(o => o != string.Empty);
+            if (selectedColumns.Count() != 0)
+            {
+                SiteSettings.SetHistoryColumns(
+                    responseCollection, Forms.Data("ControlId"), selectedColumns);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public SiteModel InheritSite()
         {
             return new SiteModel(InheritPermission);
@@ -1048,6 +1078,8 @@ namespace Implem.Pleasanter.Models
         public string TenantId_LabelText;
         public long SiteId;
         public string SiteId_LabelText;
+        public Time UpdatedTime;
+        public string UpdatedTime_LabelText;
         public int Ver;
         public string Ver_LabelText;
         public Title Title;
@@ -1080,6 +1112,12 @@ namespace Implem.Pleasanter.Models
         public string Creator_LabelText;
         public User Updator;
         public string Updator_LabelText;
+        public Time CreatedTime;
+        public string CreatedTime_LabelText;
+        public bool VerUp;
+        public string VerUp_LabelText;
+        public string Timestamp;
+        public string Timestamp_LabelText;
 
         public SiteSubset()
         {
@@ -1091,6 +1129,8 @@ namespace Implem.Pleasanter.Models
             TenantId_LabelText = siteSettings.EditorColumn("TenantId")?.LabelText;
             SiteId = siteModel.SiteId;
             SiteId_LabelText = siteSettings.EditorColumn("SiteId")?.LabelText;
+            UpdatedTime = siteModel.UpdatedTime;
+            UpdatedTime_LabelText = siteSettings.EditorColumn("UpdatedTime")?.LabelText;
             Ver = siteModel.Ver;
             Ver_LabelText = siteSettings.EditorColumn("Ver")?.LabelText;
             Title = siteModel.Title;
@@ -1123,6 +1163,12 @@ namespace Implem.Pleasanter.Models
             Creator_LabelText = siteSettings.EditorColumn("Creator")?.LabelText;
             Updator = siteModel.Updator;
             Updator_LabelText = siteSettings.EditorColumn("Updator")?.LabelText;
+            CreatedTime = siteModel.CreatedTime;
+            CreatedTime_LabelText = siteSettings.EditorColumn("CreatedTime")?.LabelText;
+            VerUp = siteModel.VerUp;
+            VerUp_LabelText = siteSettings.EditorColumn("VerUp")?.LabelText;
+            Timestamp = siteModel.Timestamp;
+            Timestamp_LabelText = siteSettings.EditorColumn("Timestamp")?.LabelText;
         }
 
         public Dictionary<string, int> SearchIndexCollection()
@@ -1331,7 +1377,7 @@ namespace Implem.Pleasanter.Models
         {
             var displayValue = siteSettings.ColumnCollection
                 .Where(o => o.TitleVisible.ToBool())
-                .OrderBy(o => siteSettings.TitleOrder.IndexOf(o.ColumnName))
+                .OrderBy(o => siteSettings.TitleColumnsOrder.IndexOf(o.ColumnName))
                 .Select(column => TitleDisplayValue(column, siteModel))
                 .Where(o => o != string.Empty)
                 .Join(siteSettings.TitleSeparator);
@@ -1355,7 +1401,7 @@ namespace Implem.Pleasanter.Models
         {
             var displayValue = siteSettings.ColumnCollection
                 .Where(o => o.TitleVisible.ToBool())
-                .OrderBy(o => siteSettings.TitleOrder.IndexOf(o.ColumnName))
+                .OrderBy(o => siteSettings.TitleColumnsOrder.IndexOf(o.ColumnName))
                 .Select(column => TitleDisplayValue(column, dataRow))
                 .Where(o => o != string.Empty)
                 .Join(siteSettings.TitleSeparator);
@@ -1914,7 +1960,7 @@ namespace Implem.Pleasanter.Models
         {
             return hb.FieldSet(
                 css: " enclosed-thin",
-                legendText: Displays.SettingColumns(),
+                legendText: Displays.SettingGridColumns(),
                 action: () => hb
                     .FieldSelectable(
                     controlId: "GridColumns",
@@ -1922,7 +1968,7 @@ namespace Implem.Pleasanter.Models
                     controlContainerCss: "container-selectable",
                     controlCss: " h350",
                     labelText: Displays.SettingColumnList(),
-                    listItemCollection: siteSettings.GridColumnHash(),
+                    listItemCollection: siteSettings.GridColumnsHash(),
                     selectedValueCollection: new List<string>(),
                     commandOptionPositionIsTop: true,
                     commandOptionAction: () => hb
@@ -2078,58 +2124,170 @@ namespace Implem.Pleasanter.Models
             return hb.FieldSet(
                 id: "EditorSettingsEditor",
                 action: () =>
-                    hb.FieldSet(
-                        legendText: Displays.SettingColumns(),
-                        css: " enclosed",
-                        action: () => hb
-                            .FieldSelectable(
-                                controlId: "EditorColumns",
-                                fieldCss: "field-vertical",
-                                controlContainerCss: "container-selectable",
-                                controlCss: " h350",
-                                labelText: Displays.SettingColumnList(),
-                                listItemCollection: siteSettings.EditorColumnHash(),
-                                commandOptionPositionIsTop: true,
-                                commandOptionAction: () => hb
-                                    .Div(css: "command-center", action: () => hb
-                                        .Button(
-                                            controlId: "MoveUpEditorColumns",
-                                            text: Displays.Up(),
-                                            controlCss: "button-up",
-                                            onClick: Def.JavaScript.Submit,
-                                            action: "SetSiteSettings",
-                                            method: "post")
-                                        .Button(
-                                            controlId: "MoveDownEditorColumns",
-                                            text: Displays.Down(),
-                                            controlCss: "button-down",
-                                            onClick: Def.JavaScript.Submit,
-                                            action: "SetSiteSettings",
-                                            method: "post")
-                                        .Button(
-                                            controlId: "ShowEditorColumns",
-                                            text: Displays.Visible(),
-                                            controlCss: "button-visible",
-                                            onClick: Def.JavaScript.Submit,
-                                            action: "SetSiteSettings",
-                                            method: "put")
-                                        .Button(
-                                            controlId: "HideEditorColumns",
-                                            text: Displays.Hide(),
-                                            controlCss: "button-hide",
-                                            onClick: Def.JavaScript.Submit,
-                                            action: "SetSiteSettings",
-                                            method: "put")
-                                        .Button(
-                                            controlId: "OpenDialog_ColumnProperties",
-                                            text: Displays.AdvancedSetting(),
-                                            controlCss: "button-setting",
-                                            onClick: Def.JavaScript.OpenDialog_ColumnProperties,
-                                            action: "SetSiteSettings",
-                                            method: "put")))
+                    hb
+                        .SiteSettingEditorColumns(siteSettings)
+                        .SiteSettingLinkColumns(siteSettings)
+                        .SiteSettingHistoryColumns(siteSettings));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder SiteSettingEditorColumns(
+            this HtmlBuilder hb, SiteSettings siteSettings)
+        {
+            return hb.FieldSet(
+                legendText: Displays.SettingEditorColumns(),
+                css: " enclosed",
+                action: () => hb
+                    .FieldSelectable(
+                        controlId: "EditorColumns",
+                        fieldCss: "field-vertical",
+                        controlContainerCss: "container-selectable",
+                        controlCss: " h350",
+                        labelText: Displays.SettingColumnList(),
+                        listItemCollection: siteSettings.EditorColumnsHash(),
+                        commandOptionPositionIsTop: true,
+                        commandOptionAction: () => hb
+                            .Div(css: "command-center", action: () => hb
+                                .Button(
+                                    controlId: "MoveUpEditorColumns",
+                                    text: Displays.Up(),
+                                    controlCss: "button-up",
+                                    onClick: Def.JavaScript.Submit,
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    controlId: "MoveDownEditorColumns",
+                                    text: Displays.Down(),
+                                    controlCss: "button-down",
+                                    onClick: Def.JavaScript.Submit,
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    controlId: "ShowEditorColumns",
+                                    text: Displays.Visible(),
+                                    controlCss: "button-visible",
+                                    onClick: Def.JavaScript.Submit,
+                                    action: "SetSiteSettings",
+                                    method: "put")
+                                .Button(
+                                    controlId: "HideEditorColumns",
+                                    text: Displays.Hide(),
+                                    controlCss: "button-hide",
+                                    onClick: Def.JavaScript.Submit,
+                                    action: "SetSiteSettings",
+                                    method: "put")
+                                .Button(
+                                    controlId: "OpenDialog_ColumnProperties",
+                                    text: Displays.AdvancedSetting(),
+                                    controlCss: "button-setting",
+                                    onClick: Def.JavaScript.OpenDialog_ColumnProperties,
+                                    action: "SetSiteSettings",
+                                    method: "put"))))
                     .Div(attributes: Html.Attributes()
                         .Id_Css("Dialog_ColumnProperties", "dialog")
-                        .Title(Displays.AdvancedSetting()))));
+                        .Title(Displays.AdvancedSetting()));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder SiteSettingLinkColumns(
+            this HtmlBuilder hb, SiteSettings siteSettings)
+        {
+            return hb.FieldSet(
+                legendText: Displays.SettingLinkColumns(),
+                css: " enclosed",
+                action: () => hb
+                    .FieldSelectable(
+                        controlId: "LinkColumns",
+                        fieldCss: "field-vertical",
+                        controlContainerCss: "container-selectable",
+                        controlCss: " h350",
+                        labelText: Displays.SettingColumnList(),
+                        listItemCollection: siteSettings.LinkColumnsHash(),
+                        commandOptionPositionIsTop: true,
+                        commandOptionAction: () => hb
+                            .Div(css: "command-center", action: () => hb
+                                .Button(
+                                    controlId: "MoveUpLinkColumns",
+                                    text: Displays.Up(),
+                                    controlCss: "button-up",
+                                    onClick: Def.JavaScript.Submit,
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    controlId: "MoveDownLinkColumns",
+                                    text: Displays.Down(),
+                                    controlCss: "button-down",
+                                    onClick: Def.JavaScript.Submit,
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    controlId: "ShowLinkColumns",
+                                    text: Displays.Visible(),
+                                    controlCss: "button-visible",
+                                    onClick: Def.JavaScript.Submit,
+                                    action: "SetSiteSettings",
+                                    method: "put")
+                                .Button(
+                                    controlId: "HideLinkColumns",
+                                    text: Displays.Hide(),
+                                    controlCss: "button-hide",
+                                    onClick: Def.JavaScript.Submit,
+                                    action: "SetSiteSettings",
+                                    method: "put"))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder SiteSettingHistoryColumns(
+            this HtmlBuilder hb, SiteSettings siteSettings)
+        {
+            return hb.FieldSet(
+                legendText: Displays.SettingHistoryColumns(),
+                css: " enclosed",
+                action: () => hb
+                    .FieldSelectable(
+                        controlId: "HistoryColumns",
+                        fieldCss: "field-vertical",
+                        controlContainerCss: "container-selectable",
+                        controlCss: " h350",
+                        labelText: Displays.SettingColumnList(),
+                        listItemCollection: siteSettings.HistoryColumnsHash(),
+                        commandOptionPositionIsTop: true,
+                        commandOptionAction: () => hb
+                            .Div(css: "command-center", action: () => hb
+                                .Button(
+                                    controlId: "MoveUpHistoryColumns",
+                                    text: Displays.Up(),
+                                    controlCss: "button-up",
+                                    onClick: Def.JavaScript.Submit,
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    controlId: "MoveDownHistoryColumns",
+                                    text: Displays.Down(),
+                                    controlCss: "button-down",
+                                    onClick: Def.JavaScript.Submit,
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    controlId: "ShowHistoryColumns",
+                                    text: Displays.Visible(),
+                                    controlCss: "button-visible",
+                                    onClick: Def.JavaScript.Submit,
+                                    action: "SetSiteSettings",
+                                    method: "put")
+                                .Button(
+                                    controlId: "HideHistoryColumns",
+                                    text: Displays.Hide(),
+                                    controlCss: "button-hide",
+                                    onClick: Def.JavaScript.Submit,
+                                    action: "SetSiteSettings",
+                                    method: "put"))));
         }
 
         /// <summary>
@@ -2204,7 +2362,7 @@ namespace Implem.Pleasanter.Models
                                 controlContainerCss: "container-selectable",
                                 controlCss: " h350",
                                 labelText: Displays.SettingTitleColumn(),
-                                listItemCollection: siteSettings.TitleColumnHash(),
+                                listItemCollection: siteSettings.TitleColumnsHash(),
                                 commandOptionPositionIsTop: true,
                                 commandOptionAction: () => hb
                                     .Div(css: "command-center", action: () => hb
@@ -2384,7 +2542,7 @@ namespace Implem.Pleasanter.Models
                     id: "SummarySettingsEditor",
                     action: () =>
                         hb.FieldSet(
-                            legendText: Displays.SettingColumns(),
+                            legendText: Displays.SettingSummaryColumns(),
                             css: " enclosed",
                             action: () => hb
                                 .FieldDropDown(

@@ -31,11 +31,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         public decimal? NearDeadlineAfterDays;
         public decimal? NearDeadlineBeforeDays;
         public int? GridPageSize;
-        public List<string> GridOrder;
-        public List<string> EditorOrder;
-        public List<string> TitleOrder;
+        public List<string> GridColumnsOrder;
+        public List<string> EditorColumnsOrder;
+        public List<string> TitleColumnsOrder;
+        public List<string> LinkColumnsOrder;
+        public List<string> HistoryColumnsOrder;
         public string TitleSeparator = ")";
-        public List<string> HistoryGrid;
         public List<Column> ColumnCollection;
         public List<Aggregation> AggregationCollection;
         public Dictionary<string, long> LinkColumnSiteIdHash;
@@ -60,10 +61,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             NearDeadlineBeforeDays = NearDeadlineBeforeDays ?? Parameters.General.NearDeadlineBeforeDays;
             NearDeadlineAfterDays = NearDeadlineAfterDays ?? Parameters.General.NearDeadlineAfterDays;
             GridPageSize = GridPageSize ?? Parameters.General.GridPageSize;
-            UpdateGridOrder();
-            UpdateEditorOrder();
-            UpdateTitleOrder();
-            UpdateHistoryGrid();
+            UpdateGridColumnsOrder();
+            UpdateEditorColumnsOrder();
+            UpdateTitleColumnsOrder();
+            UpdateLinkColumnsOrder();
+            UpdateHistoryColumnsOrder();
             UpdateColumnCollection();
             if (AggregationCollection == null) AggregationCollection = new List<Aggregation>();
             if (LinkColumnSiteIdHash == null) LinkColumnSiteIdHash = new Dictionary<string, long>();
@@ -89,11 +91,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (self.NearDeadlineAfterDays == def.NearDeadlineAfterDays) self.NearDeadlineAfterDays = null;
             if (self.NearDeadlineBeforeDays == def.NearDeadlineBeforeDays) self.NearDeadlineBeforeDays = null;
             if (self.GridPageSize == def.GridPageSize) self.GridPageSize = null;
-            if (self.GridOrder.SequenceEqual(def.GridOrder)) self.GridOrder = null;
-            if (self.EditorOrder.SequenceEqual(def.EditorOrder)) self.EditorOrder = null;
-            if (self.TitleOrder.SequenceEqual(def.TitleOrder)) self.TitleOrder = null;
+            if (self.GridColumnsOrder.SequenceEqual(def.GridColumnsOrder)) self.GridColumnsOrder = null;
+            if (self.EditorColumnsOrder.SequenceEqual(def.EditorColumnsOrder)) self.EditorColumnsOrder = null;
+            if (self.TitleColumnsOrder.SequenceEqual(def.TitleColumnsOrder)) self.TitleColumnsOrder = null;
             if (self.TitleSeparator == def.TitleSeparator) self.TitleSeparator = null;
-            if (self.HistoryGrid.SequenceEqual(def.HistoryGrid)) self.HistoryGrid = null;
+            if (self.LinkColumnsOrder.SequenceEqual(def.LinkColumnsOrder)) self.LinkColumnsOrder = null;
+            if (self.HistoryColumnsOrder.SequenceEqual(def.HistoryColumnsOrder)) self.HistoryColumnsOrder = null;
             if (self.ColumnCollection.SequenceEqual(def.ColumnCollection)) self.ColumnCollection = null;
             if (self.AggregationCollection.SequenceEqual(def.AggregationCollection)) self.AggregationCollection = null;
             if (self.LinkColumnSiteIdHash.SequenceEqual(def.LinkColumnSiteIdHash)) self.LinkColumnSiteIdHash = null;
@@ -131,6 +134,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     if (column.EditorReadOnly == false) column.EditorReadOnly = null;
                     if (column.FieldCss == columnDefinition.FieldCss) column.FieldCss = null;
                     if (column.TitleVisible == DefaultTitleVisible(column)) column.TitleVisible = null;
+                    if (column.LinkVisible == columnDefinition.LinkVisible) column.LinkVisible = null;
+                    if (column.HistoryVisible == columnDefinition.HistoryVisible) column.HistoryVisible = null;
                     if (column.Unit == columnDefinition.Unit) column.Unit = null;
                     if (column.Link == false) column.Link = null;
                 }
@@ -139,32 +144,32 @@ namespace Implem.Pleasanter.Libraries.Settings
             return self.ToJson();
         }
 
-        private void UpdateGridOrder()
+        private void UpdateGridColumnsOrder()
         {
-            if (GridOrder == null) GridOrder = new List<string>();
-            GridOrder.AddRange(Def.ColumnDefinitionCollection
-                .Where(o => !GridOrder.Any(p => p == o.ColumnName))
+            if (GridColumnsOrder == null) GridColumnsOrder = new List<string>();
+            GridColumnsOrder.AddRange(Def.ColumnDefinitionCollection
+                .Where(o => !GridColumnsOrder.Any(p => p == o.ColumnName))
                 .Where(o => o.TableName == ReferenceType)
                 .Where(o => o.GridColumn > 0)
                 .OrderBy(o => o.GridColumn)
                 .Select(o => o.ColumnName).ToList<string>());
-            GridOrder.RemoveAll(o =>
+            GridColumnsOrder.RemoveAll(o =>
                 !Def.ColumnDefinitionCollection.Any(p =>
                     p.ColumnName == o &&
                     p.TableName == ReferenceType &&
                     p.GridColumn > 0));
         }
 
-        private void UpdateEditorOrder()
+        private void UpdateEditorColumnsOrder()
         {
-            if (EditorOrder == null) EditorOrder = new List<string>();
-            EditorOrder.AddRange(Def.ColumnDefinitionCollection
-                .Where(o => !EditorOrder.Any(p => p == o.ColumnName))
+            if (EditorColumnsOrder == null) EditorColumnsOrder = new List<string>();
+            EditorColumnsOrder.AddRange(Def.ColumnDefinitionCollection
+                .Where(o => !EditorColumnsOrder.Any(p => p == o.ColumnName))
                 .Where(o => o.TableName == ReferenceType && o.EditorColumn)
                 .Where(o => !o.NotSettings)
                 .OrderBy(o => o.No)
                 .Select(o => o.ColumnName).ToList<string>());
-            EditorOrder.RemoveAll(o => 
+            EditorColumnsOrder.RemoveAll(o => 
                 !Def.ColumnDefinitionCollection.Any(p =>
                     p.ColumnName == o && 
                     p.TableName == ReferenceType &&
@@ -172,34 +177,53 @@ namespace Implem.Pleasanter.Libraries.Settings
                     !p.NotSettings));
         }
 
-        private void UpdateTitleOrder()
+        private void UpdateTitleColumnsOrder()
         {
-            if (TitleOrder == null) TitleOrder = new List<string>();
-            TitleOrder.AddRange(Def.ColumnDefinitionCollection
-                .Where(o => !TitleOrder.Any(p => p == o.ColumnName))
+            if (TitleColumnsOrder == null) TitleColumnsOrder = new List<string>();
+            TitleColumnsOrder.AddRange(Def.ColumnDefinitionCollection
+                .Where(o => !TitleColumnsOrder.Any(p => p == o.ColumnName))
                 .Where(o => o.TableName == ReferenceType)
-                .Where(o => o.TitleColumn)
-                .OrderBy(o => o.No)
+                .Where(o => o.TitleColumn > 0)
+                .OrderBy(o => o.TitleColumn)
                 .Select(o => o.ColumnName).ToList<string>());
-            TitleOrder.RemoveAll(o =>
+            TitleColumnsOrder.RemoveAll(o =>
                 !Def.ColumnDefinitionCollection.Any(p =>
                     p.TableName == ReferenceType &&
                     p.ColumnName == o &&
-                    p.TitleColumn &&
+                    p.TitleColumn > 0 &&
                     !p.NotSettings));
         }
 
-        private void UpdateHistoryGrid()
+        private void UpdateLinkColumnsOrder()
         {
-            if (HistoryGrid == null) HistoryGrid = new List<string>();
-            HistoryGrid.AddRange(Def.ColumnDefinitionCollection
-                .Where(o => !HistoryGrid.Any(p => p == o.ColumnName))
+            if (LinkColumnsOrder == null) LinkColumnsOrder = new List<string>();
+            LinkColumnsOrder.AddRange(Def.ColumnDefinitionCollection
+                .Where(o => !LinkColumnsOrder.Any(p => p == o.ColumnName))
                 .Where(o => o.TableName == ReferenceType)
-                .Where(o => o.HistoryGrid > 0)
-                .OrderBy(o => o.HistoryGrid)
+                .Where(o => o.LinkColumn > 0)
+                .OrderBy(o => o.LinkColumn)
                 .Select(o => o.ColumnName).ToList<string>());
-            HistoryGrid.RemoveAll(o =>
-                !Def.ColumnDefinitionCollection.Any(p => p.ColumnName == o && p.HistoryGrid > 0));
+            LinkColumnsOrder.RemoveAll(o =>
+                !Def.ColumnDefinitionCollection.Any(p =>
+                    p.TableName == ReferenceType &&
+                    p.ColumnName == o &&
+                    p.LinkColumn > 0));
+        }
+
+        private void UpdateHistoryColumnsOrder()
+        {
+            if (HistoryColumnsOrder == null) HistoryColumnsOrder = new List<string>();
+            HistoryColumnsOrder.AddRange(Def.ColumnDefinitionCollection
+                .Where(o => !HistoryColumnsOrder.Any(p => p == o.ColumnName))
+                .Where(o => o.TableName == ReferenceType)
+                .Where(o => o.HistoryColumn > 0)
+                .OrderBy(o => o.HistoryColumn)
+                .Select(o => o.ColumnName).ToList<string>());
+            HistoryColumnsOrder.RemoveAll(o =>
+                !Def.ColumnDefinitionCollection.Any(p =>
+                    p.TableName == ReferenceType &&
+                    p.ColumnName == o &&
+                    p.HistoryColumn > 0));
         }
 
         private void UpdateColumnCollection(bool onSerializing = false)
@@ -247,6 +271,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.FieldCss = column.FieldCss ?? columnDefinition.FieldCss;
                 column.ControlDateTime = column.ControlDateTime ?? columnDefinition.ControlDateTime;
                 column.TitleVisible = column.TitleVisible ?? DefaultTitleVisible(column);
+                column.LinkVisible = column.LinkVisible ?? columnDefinition.LinkVisible;
+                column.HistoryVisible = column.HistoryVisible ?? columnDefinition.HistoryVisible;
                 column.Unit = column.Unit ?? columnDefinition.Unit;
                 column.Size = columnDefinition.Size;
                 column.Nullable = columnDefinition.Nullable;
@@ -258,7 +284,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.EditSelf = !columnDefinition.NotEditSelf;
                 column.GridColumn = columnDefinition.GridColumn > 0;
                 column.EditorColumn = columnDefinition.EditorColumn;
-                column.TitleColumn = columnDefinition.TitleColumn;
+                column.TitleColumn = columnDefinition.TitleColumn > 0;
+                column.LinkColumn = columnDefinition.LinkColumn > 0;
+                column.HistoryColumn = columnDefinition.HistoryColumn > 0;
                 column.Export = columnDefinition.Export > 0;
                 column.LabelTextDefault = Displays.Get(columnDefinition.Id);
                 column.TypeName = columnDefinition.TypeName;
@@ -308,7 +336,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public IEnumerable<Column> GridColumnCollection(bool withTitle = false)
         {
-            foreach (var columnName in GridOrder)
+            foreach (var columnName in GridColumnsOrder)
             {
                 var column = GridColumn(columnName);
                 if (column != null &&
@@ -326,26 +354,27 @@ namespace Implem.Pleasanter.Libraries.Settings
                 o.ColumnName == columnName && o.EditorColumn);
         }
 
-        public IEnumerable<Column> EditorColumnCollection()
-        {
-            foreach (var columnName in EditorOrder)
-            {
-                var column = EditorColumn(columnName);
-                if (column != null && column.EditorVisible.Value)
-                {
-                    yield return column;
-                }
-            }
-        }
-
         public Column TitleColumn(string columnName)
         {
-            return ColumnCollection.FirstOrDefault(o => o.ColumnName == columnName && o.TitleColumn);
+            return ColumnCollection.FirstOrDefault(o =>
+                o.ColumnName == columnName && o.TitleColumn);
+        }
+
+        public Column LinkColumn(string columnName)
+        {
+            return ColumnCollection.FirstOrDefault(o =>
+                o.ColumnName == columnName && o.LinkColumn);
+        }
+
+        public Column HistoryColumn(string columnName)
+        {
+            return ColumnCollection.FirstOrDefault(o =>
+                o.ColumnName == columnName && o.HistoryColumn);
         }
 
         public IEnumerable<Column> TitleColumnCollection()
         {
-            foreach (var columnName in TitleOrder)
+            foreach (var columnName in TitleColumnsOrder)
             {
                 var column = TitleColumn(columnName);
                 if (column != null && column.TitleVisible.Value)
@@ -355,27 +384,53 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public IEnumerable<Column> HistoryGridColumnCollection()
+        public IEnumerable<Column> LinkColumnCollection()
         {
-            foreach (var columnName in HistoryGrid)
+            foreach (var columnName in LinkColumnsOrder)
             {
-                yield return AllColumn(columnName);
+                var column = LinkColumn(columnName);
+                if (column != null && column.LinkVisible.Value)
+                {
+                    yield return column;
+                }
             }
         }
 
-        public Dictionary<string, string> GridColumnHash()
+        public IEnumerable<Column> HistoryColumnCollection()
         {
-            return ColumnHash(GridOrder, "Grid");
+            foreach (var columnName in HistoryColumnsOrder)
+            {
+                var column = HistoryColumn(columnName);
+                if (column != null && column.HistoryVisible.Value)
+                {
+                    yield return column;
+                }
+            }
         }
 
-        public Dictionary<string, string> EditorColumnHash()
+        public Dictionary<string, string> GridColumnsHash()
         {
-            return ColumnHash(EditorOrder, "Editor");
+            return ColumnHash(GridColumnsOrder, "Grid");
         }
 
-        public Dictionary<string, string> TitleColumnHash()
+        public Dictionary<string, string> EditorColumnsHash()
         {
-            return ColumnHash(TitleOrder, "Title");
+            return ColumnHash(EditorColumnsOrder, "Editor");
+        }
+
+        public Dictionary<string, string> TitleColumnsHash()
+        {
+            return ColumnHash(TitleColumnsOrder, "Titles");
+        }
+
+        public Dictionary<string, string> LinkColumnsHash()
+        {
+            return ColumnHash(LinkColumnsOrder, "Link");
+        }
+
+        public Dictionary<string, string> HistoryColumnsHash()
+        {
+            return ColumnHash(HistoryColumnsOrder, "History");
         }
 
         private Dictionary<string, string> ColumnHash(IEnumerable<string> columnNames, string type)
@@ -397,6 +452,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "Grid": visible = column.GridVisible.ToBool(); break;
                 case "Editor": visible = column.EditorVisible.ToBool(); break;
                 case "Title": visible = column.TitleVisible.ToBool(); break;
+                case "Link": visible = column.LinkVisible.ToBool(); break;
+                case "History": visible = column.HistoryVisible.ToBool(); break;
             }
             hash.Add(column.ColumnName, visible
                 ? Displays.Get(column.LabelText)
@@ -459,7 +516,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string controlId,
             IEnumerable<string> selectedColumns)
         {
-            var order = GridOrder.ToArray();
+            var order = GridColumnsOrder.ToArray();
             if (controlId == "MoveDownGridColumns") Array.Reverse(order);
             order.Select((o, i) => new { ColumnName = o, Index = i }).ForEach(data =>
             {
@@ -485,10 +542,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
             });
             if (controlId == "MoveDownGridColumns") Array.Reverse(order);
-            GridOrder = order.ToList<string>();
+            GridColumnsOrder = order.ToList<string>();
             responseCollection.Html("#GridColumns",
                 Html.Builder().SelectableItems(
-                    listItemCollection: GridColumnHash(),
+                    listItemCollection: GridColumnsHash(),
                     selectedValueTextCollection: selectedColumns));
         }
 
@@ -565,7 +622,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string controlId,
             IEnumerable<string> selectedColumns)
         {
-            var order = EditorOrder.ToArray();
+            var order = EditorColumnsOrder.ToArray();
             if (controlId == "MoveDownEditorColumns") Array.Reverse(order);
             order.Select((o, i) => new { ColumnName = o, Index = i }).ForEach(data =>
             {
@@ -591,10 +648,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
             });
             if (controlId == "MoveDownEditorColumns") Array.Reverse(order);
-            EditorOrder = order.ToList<string>();
+            EditorColumnsOrder = order.ToList<string>();
             responseCollection.Html("#EditorColumns",
                 Html.Builder().SelectableItems(
-                    listItemCollection: EditorColumnHash(),
+                    listItemCollection: EditorColumnsHash(),
                     selectedValueTextCollection: selectedColumns));
         }
 
@@ -686,7 +743,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string controlId,
             IEnumerable<string> selectedColumns)
         {
-            var order = TitleOrder.ToArray();
+            var order = TitleColumnsOrder.ToArray();
             if (controlId == "MoveDownTitleColumns") Array.Reverse(order);
             order.Select((o, i) => new { ColumnName = o, Index = i }).ForEach(data =>
             {
@@ -712,10 +769,86 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
             });
             if (controlId == "MoveDownTitleColumns") Array.Reverse(order);
-            TitleOrder = order.ToList<string>();
+            TitleColumnsOrder = order.ToList<string>();
             responseCollection.Html("#TitleColumns",
                 Html.Builder().SelectableItems(
-                    listItemCollection: TitleColumnHash(),
+                    listItemCollection: TitleColumnsHash(),
+                    selectedValueTextCollection: selectedColumns));
+        }
+
+        public void SetLinkColumns(
+            ResponseCollection responseCollection,
+            string controlId,
+            IEnumerable<string> selectedColumns)
+        {
+            var order = LinkColumnsOrder.ToArray();
+            if (controlId == "MoveDownLinkColumns") Array.Reverse(order);
+            order.Select((o, i) => new { ColumnName = o, Index = i }).ForEach(data =>
+            {
+                if (selectedColumns.Contains(data.ColumnName))
+                {
+                    switch (controlId)
+                    {
+                        case "MoveUpLinkColumns":
+                        case "MoveDownLinkColumns":
+                            if (data.Index > 0 &&
+                                selectedColumns.Contains(order[data.Index - 1]) == false)
+                            {
+                                order = Arrays.Swap(order, data.Index, data.Index - 1);
+                            }
+                            break;
+                        case "ShowLinkColumns":
+                            LinkColumn(order[data.Index]).LinkVisible = true;
+                            break;
+                        case "HideLinkColumns":
+                            LinkColumn(order[data.Index]).LinkVisible = false;
+                            break;
+                    }
+                }
+            });
+            if (controlId == "MoveDownLinkColumns") Array.Reverse(order);
+            LinkColumnsOrder = order.ToList<string>();
+            responseCollection.Html("#LinkColumns",
+                Html.Builder().SelectableItems(
+                    listItemCollection: LinkColumnsHash(),
+                    selectedValueTextCollection: selectedColumns));
+        }
+
+        public void SetHistoryColumns(
+            ResponseCollection responseCollection,
+            string controlId,
+            IEnumerable<string> selectedColumns)
+        {
+            var order = HistoryColumnsOrder.ToArray();
+            if (controlId == "MoveDownHistoryColumns") Array.Reverse(order);
+            order.Select((o, i) => new { ColumnName = o, Index = i }).ForEach(data =>
+            {
+                if (selectedColumns.Contains(data.ColumnName))
+                {
+                    switch (controlId)
+                    {
+                        case "MoveUpHistoryColumns":
+                        case "MoveDownHistoryColumns":
+                            if (data.Index > 0 &&
+                                selectedColumns.Contains(order[data.Index - 1]) == false)
+                            {
+                                order = Arrays.Swap(order, data.Index, data.Index - 1);
+                            }
+                            break;
+                        case "ShowHistoryColumns":
+                            HistoryColumn(order[data.Index]).HistoryVisible = true;
+                            break;
+                        case "HideHistoryColumns":
+                            HistoryColumn(order[data.Index]).HistoryVisible = false;
+                            break;
+                    }
+                }
+            });
+            if (controlId == "MoveDownHistoryColumns") Array.Reverse(order);
+            HistoryColumnsOrder = order.ToList<string>();
+            responseCollection.Html("#HistoryColumns",
+                Html.Builder().SelectableItems(
+                    listItemCollection: HistoryColumnsHash(),
                     selectedValueTextCollection: selectedColumns));
         }
 

@@ -376,7 +376,7 @@ namespace Implem.Pleasanter.Models
                 action: () =>
                 {
                     hb.GridHeader(
-                        columnCollection: SiteSettings.HistoryGridColumnCollection(),
+                        columnCollection: SiteSettings.HistoryColumnCollection(),
                         sort: false,
                         checkRow: false);
                     new TenantCollection(
@@ -394,7 +394,7 @@ namespace Implem.Pleasanter.Models
                                     .DataMethod("post")
                                     .Add("data-latest", 1, _using: tenantModel.Ver == Ver),
                                 action: () =>
-                                    SiteSettings.HistoryGridColumnCollection().ForEach(column =>
+                                    SiteSettings.HistoryColumnCollection().ForEach(column =>
                                         hb.TdValue(column, tenantModel))));
                 });
             return new TenantsResponseCollection(this).Html("#HistoriesForm", hb).ToJson();
@@ -1123,7 +1123,7 @@ namespace Implem.Pleasanter.Models
             {
                 siteSettings.ColumnCollection
                     .Where(o => o.EditorVisible.ToBool())
-                    .OrderBy(o => siteSettings.EditorOrder.IndexOf(o.ColumnName))
+                    .OrderBy(o => siteSettings.EditorColumnsOrder.IndexOf(o.ColumnName))
                     .ForEach(column =>
                     {
                         switch (column.ColumnName)

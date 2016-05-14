@@ -1054,7 +1054,7 @@ namespace Implem.Pleasanter.Models
                 action: () =>
                 {
                     hb.GridHeader(
-                        columnCollection: SiteSettings.HistoryGridColumnCollection(),
+                        columnCollection: SiteSettings.HistoryColumnCollection(),
                         sort: false,
                         checkRow: false);
                     new IssueCollection(
@@ -1072,7 +1072,7 @@ namespace Implem.Pleasanter.Models
                                     .DataMethod("post")
                                     .Add("data-latest", 1, _using: issueModel.Ver == Ver),
                                 action: () =>
-                                    SiteSettings.HistoryGridColumnCollection().ForEach(column =>
+                                    SiteSettings.HistoryColumnCollection().ForEach(column =>
                                         hb.TdValue(column, issueModel))));
                 });
             return new IssuesResponseCollection(this).Html("#HistoriesForm", hb).ToJson();
@@ -1446,6 +1446,8 @@ namespace Implem.Pleasanter.Models
     {
         public long SiteId;
         public string SiteId_LabelText;
+        public Time UpdatedTime;
+        public string UpdatedTime_LabelText;
         public long IssueId;
         public string IssueId_LabelText;
         public int Ver;
@@ -1638,6 +1640,12 @@ namespace Implem.Pleasanter.Models
         public string Creator_LabelText;
         public User Updator;
         public string Updator_LabelText;
+        public Time CreatedTime;
+        public string CreatedTime_LabelText;
+        public bool VerUp;
+        public string VerUp_LabelText;
+        public string Timestamp;
+        public string Timestamp_LabelText;
 
         public IssueSubset()
         {
@@ -1647,6 +1655,8 @@ namespace Implem.Pleasanter.Models
         {
             SiteId = issueModel.SiteId;
             SiteId_LabelText = siteSettings.EditorColumn("SiteId")?.LabelText;
+            UpdatedTime = issueModel.UpdatedTime;
+            UpdatedTime_LabelText = siteSettings.EditorColumn("UpdatedTime")?.LabelText;
             IssueId = issueModel.IssueId;
             IssueId_LabelText = siteSettings.EditorColumn("IssueId")?.LabelText;
             Ver = issueModel.Ver;
@@ -1839,6 +1849,12 @@ namespace Implem.Pleasanter.Models
             Creator_LabelText = siteSettings.EditorColumn("Creator")?.LabelText;
             Updator = issueModel.Updator;
             Updator_LabelText = siteSettings.EditorColumn("Updator")?.LabelText;
+            CreatedTime = issueModel.CreatedTime;
+            CreatedTime_LabelText = siteSettings.EditorColumn("CreatedTime")?.LabelText;
+            VerUp = issueModel.VerUp;
+            VerUp_LabelText = siteSettings.EditorColumn("VerUp")?.LabelText;
+            Timestamp = issueModel.Timestamp;
+            Timestamp_LabelText = siteSettings.EditorColumn("Timestamp")?.LabelText;
         }
 
         public Dictionary<string, int> SearchIndexCollection()
@@ -2640,7 +2656,7 @@ namespace Implem.Pleasanter.Models
             {
                 siteSettings.ColumnCollection
                     .Where(o => o.EditorVisible.ToBool())
-                    .OrderBy(o => siteSettings.EditorOrder.IndexOf(o.ColumnName))
+                    .OrderBy(o => siteSettings.EditorColumnsOrder.IndexOf(o.ColumnName))
                     .ForEach(column =>
                     {
                         switch (column.ColumnName)
@@ -3298,7 +3314,7 @@ namespace Implem.Pleasanter.Models
         {
             var displayValue = siteSettings.ColumnCollection
                 .Where(o => o.TitleVisible.ToBool())
-                .OrderBy(o => siteSettings.TitleOrder.IndexOf(o.ColumnName))
+                .OrderBy(o => siteSettings.TitleColumnsOrder.IndexOf(o.ColumnName))
                 .Select(column => TitleDisplayValue(column, issueModel))
                 .Where(o => o != string.Empty)
                 .Join(siteSettings.TitleSeparator);
@@ -3370,7 +3386,7 @@ namespace Implem.Pleasanter.Models
         {
             var displayValue = siteSettings.ColumnCollection
                 .Where(o => o.TitleVisible.ToBool())
-                .OrderBy(o => siteSettings.TitleOrder.IndexOf(o.ColumnName))
+                .OrderBy(o => siteSettings.TitleColumnsOrder.IndexOf(o.ColumnName))
                 .Select(column => TitleDisplayValue(column, dataRow))
                 .Where(o => o != string.Empty)
                 .Join(siteSettings.TitleSeparator);
