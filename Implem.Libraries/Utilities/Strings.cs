@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 namespace Implem.Libraries.Utilities
 {
@@ -97,6 +98,11 @@ namespace Implem.Libraries.Utilities
             return args.Count() > 0
                 ? string.Format(format, args)
                 : string.Empty;
+        }
+
+        public static int IndexOf(this string self, string value, CompareOptions compareOptions)
+        {
+            return CultureInfo.CurrentCulture.CompareInfo.IndexOf(self, value, compareOptions);
         }
 
         public static string IfBlank(this string self, string data)
