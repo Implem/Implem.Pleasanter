@@ -47,7 +47,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 columnNameCollection.Add("[Creator]");
                 columnNameCollection.Add("[Updator]");
                 valueCollection.Add("@_U");
-                valueCollection.Add("@_D");
+                valueCollection.Add("@_U");
             }
             SqlParamCollection
                 .Where(o => o.Using)
