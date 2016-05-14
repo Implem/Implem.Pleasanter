@@ -7,13 +7,26 @@ using System.Runtime.Serialization;
 namespace Implem.Pleasanter.Libraries.Requests
 {
     [Serializable]
-    public class FormData : Dictionary<string, string>
+    public class FormDataValue
+    {
+        public string Value;
+        public DateTime CreatedTime;
+
+        public FormDataValue(string value)
+        {
+            Value = value;
+            CreatedTime = DateTime.Now;
+        }
+    }
+
+    [Serializable]
+    public class FormData : Dictionary<string, FormDataValue>
     {
         public FormData(NameValueCollection nameValueCollection)
         {
             foreach(var key in nameValueCollection.Keys)
             {
-                this.Add(key.ToString(), nameValueCollection[key.ToString()]);
+                this.Add(key.ToString(), new FormDataValue(nameValueCollection[key.ToString()]));
             }
         }
 
@@ -25,21 +38,31 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public string Get(string key)
         {
-            return ContainsKey(key) ? this[key] : string.Empty;
+            return ContainsKey(key) ? this[key].Value : string.Empty;
         }
 
         public FormData Update(NameValueCollection nameValueCollection)
         {
-            foreach (var key in nameValueCollection.Keys)
+            foreach (string key in nameValueCollection.Keys)
             {
-                var value = nameValueCollection[key.ToString()];
-                if (ContainsKey(key.ToString()))
+                var value = nameValueCollection[key];
+                if (ContainsKey(key))
                 {
-                    this[key.ToString()] = value;
+                    if (value != string.Empty)
+                    {
+                        this[key].Value = value;
+                    }
+                    else
+                    {
+                        this.Remove(key);
+                    }
                 }
                 else
                 {
-                    this.Add(key.ToString(), value);
+                    if (value != string.Empty)
+                    {
+                        this.Add(key, new FormDataValue(value));
+                    }
                 }
             }
             return this;
@@ -48,7 +71,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public FormData RemoveIfEmpty()
         {
             this
-                .Where(o => o.Value == string.Empty)
+                .Where(o => o.Value.Value == string.Empty)
                 .Select(o => o.Key)
                 .ToList()
                 .ForEach(key => this.Remove(key));

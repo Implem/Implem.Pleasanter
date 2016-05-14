@@ -50,10 +50,10 @@ namespace Implem.Pleasanter.Libraries.Requests
             this SqlOrderByCollection orderBy,
             FormData formData)
         {
-            formData.Keys.ForEach(key =>
+            formData.OrderBy(o => o.Value.CreatedTime).ForEach(data =>
             {
-                var type = Type(formData[key]);
-                switch (key)
+                var type = Type(data.Value.Value);
+                switch (data.Key)
                 {
                     case "GridSorters_Tenants_TenantId": orderBy.Tenants_TenantId(type); break;
                     case "GridSorters_Tenants_Ver": orderBy.Tenants_Ver(type); break;
