@@ -86,7 +86,6 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             if (codeDefinition.Calc && columnDefinition.Calc == string.Empty) return true;
             if (codeDefinition.NotCalc && columnDefinition.Calc != string.Empty) return true;
             if (codeDefinition.NotWhereSpecial && columnDefinition.WhereSpecial) return true;
-            if (codeDefinition.LinkGrid && columnDefinition.LinkGrid == 0) return true;
             if (codeDefinition.SearchIndex && columnDefinition.SearchIndexPriority == 0) return true;
             if (codeDefinition.NotByForm && columnDefinition.ByForm != string.Empty) return true;
             if (codeDefinition.Form && columnDefinition.NotForm) return true;
@@ -109,7 +108,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             if (codeDefinition.PkHistory && columnDefinition.PkHistory == 0) return true;
             if (codeDefinition.GridColumn && columnDefinition.GridColumn == 0) return true;
             if (codeDefinition.EditorColumn && !columnDefinition.EditorColumn) return true;
-            if (codeDefinition.TitleColumn && !columnDefinition.TitleColumn) return true;
+            if (codeDefinition.TitleColumn && columnDefinition.TitleColumn == 0) return true;
             if (codeDefinition.UserColumn && !columnDefinition.UserColumn) return true;
             if (codeDefinition.EnumColumn && !columnDefinition.EnumColumn) return true;
             if (codeDefinition.Exclude.Split(',').Contains(columnDefinition.ColumnName)) return true;
