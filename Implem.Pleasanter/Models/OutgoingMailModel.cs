@@ -1845,7 +1845,14 @@ namespace Implem.Pleasanter.Models
             switch (searchRange)
             {
                 case "DefaultAddressBook":
-                    return addressBook;
+                    return searchText == string.Empty
+                        ? addressBook
+                        : addressBook
+                            .Where(o => o.Value.IndexOf(searchText,
+                                System.Globalization.CompareOptions.IgnoreCase |
+                                System.Globalization.CompareOptions.IgnoreKanaType |
+                                System.Globalization.CompareOptions.IgnoreWidth) != -1)
+                            .ToDictionary(o => o.Key, o => o.Value);
                 case "SiteUser":
                     var joinPermissions = new SqlJoin(
                         "inner join [Permissions] on " +
