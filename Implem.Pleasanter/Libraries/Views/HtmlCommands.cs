@@ -29,15 +29,13 @@ namespace Implem.Pleasanter.Libraries.Views
             return hb.Div(css: "command-main-container", action: () => hb
                 .Div(css: "command-main", action: () =>
                 {
-                    if (backUrl != string.Empty)
-                    {
-                        hb.Button(
-                            controlId: "GoBack",
-                            text: Displays.GoBack(),
-                            controlCss: "button-goback",
-                            accessKey: "q",
-                            href: backUrl);
-                    }
+                    hb.Button(
+                        controlId: "GoBack",
+                        text: Displays.GoBack(),
+                        controlCss: "button-goback",
+                        accessKey: "q",
+                        href: backUrl,
+                        _using: backUrl != string.Empty);
                     var routesAction = Routes.Action();
                     if (permissionType.CanRead() && 
                         verType == Versions.VerTypes.Latest)
