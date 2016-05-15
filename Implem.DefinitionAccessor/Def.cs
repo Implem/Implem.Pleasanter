@@ -1354,7 +1354,7 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("Session")) { newColumnDefinition.Session = definitionRow["Session"].ToBool(); newColumnDefinition.SavedSession = newColumnDefinition.Session; }
                 if (definitionRow.ContainsKey("UserColumn")) { newColumnDefinition.UserColumn = definitionRow["UserColumn"].ToBool(); newColumnDefinition.SavedUserColumn = newColumnDefinition.UserColumn; }
                 if (definitionRow.ContainsKey("EnumColumn")) { newColumnDefinition.EnumColumn = definitionRow["EnumColumn"].ToBool(); newColumnDefinition.SavedEnumColumn = newColumnDefinition.EnumColumn; }
-                if (definitionRow.ContainsKey("NotSettings")) { newColumnDefinition.NotSettings = definitionRow["NotSettings"].ToBool(); newColumnDefinition.SavedNotSettings = newColumnDefinition.NotSettings; }
+                if (definitionRow.ContainsKey("NotEditorSettings")) { newColumnDefinition.NotEditorSettings = definitionRow["NotEditorSettings"].ToBool(); newColumnDefinition.SavedNotEditorSettings = newColumnDefinition.NotEditorSettings; }
                 if (definitionRow.ContainsKey("ControlType")) { newColumnDefinition.ControlType = definitionRow["ControlType"].ToString(); newColumnDefinition.SavedControlType = newColumnDefinition.ControlType; }
                 if (definitionRow.ContainsKey("ControlDateTime")) { newColumnDefinition.ControlDateTime = definitionRow["ControlDateTime"].ToString(); newColumnDefinition.SavedControlDateTime = newColumnDefinition.ControlDateTime; }
                 if (definitionRow.ContainsKey("GridDateTime")) { newColumnDefinition.GridDateTime = definitionRow["GridDateTime"].ToString(); newColumnDefinition.SavedGridDateTime = newColumnDefinition.GridDateTime; }
@@ -1452,7 +1452,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("Session")) { definition.Session = definitionRow["Session"].ToBool(); definition.SavedSession = definition.Session; }
             if (definitionRow.ContainsKey("UserColumn")) { definition.UserColumn = definitionRow["UserColumn"].ToBool(); definition.SavedUserColumn = definition.UserColumn; }
             if (definitionRow.ContainsKey("EnumColumn")) { definition.EnumColumn = definitionRow["EnumColumn"].ToBool(); definition.SavedEnumColumn = definition.EnumColumn; }
-            if (definitionRow.ContainsKey("NotSettings")) { definition.NotSettings = definitionRow["NotSettings"].ToBool(); definition.SavedNotSettings = definition.NotSettings; }
+            if (definitionRow.ContainsKey("NotEditorSettings")) { definition.NotEditorSettings = definitionRow["NotEditorSettings"].ToBool(); definition.SavedNotEditorSettings = definition.NotEditorSettings; }
             if (definitionRow.ContainsKey("ControlType")) { definition.ControlType = definitionRow["ControlType"].ToString(); definition.SavedControlType = definition.ControlType; }
             if (definitionRow.ContainsKey("ControlDateTime")) { definition.ControlDateTime = definitionRow["ControlDateTime"].ToString(); definition.SavedControlDateTime = definition.ControlDateTime; }
             if (definitionRow.ContainsKey("GridDateTime")) { definition.GridDateTime = definitionRow["GridDateTime"].ToString(); definition.SavedGridDateTime = definition.GridDateTime; }
@@ -3019,7 +3019,7 @@ namespace Implem.DefinitionAccessor
                         case "Session": columnDefinition.Session = optionValue.ToBool(); break;
                         case "UserColumn": columnDefinition.UserColumn = optionValue.ToBool(); break;
                         case "EnumColumn": columnDefinition.EnumColumn = optionValue.ToBool(); break;
-                        case "NotSettings": columnDefinition.NotSettings = optionValue.ToBool(); break;
+                        case "NotEditorSettings": columnDefinition.NotEditorSettings = optionValue.ToBool(); break;
                         case "ControlType": columnDefinition.ControlType = optionValue.ToString(); break;
                         case "ControlDateTime": columnDefinition.ControlDateTime = optionValue.ToString(); break;
                         case "GridDateTime": columnDefinition.GridDateTime = optionValue.ToString(); break;
@@ -4273,7 +4273,7 @@ namespace Implem.DefinitionAccessor
         public bool Session; public bool SavedSession;
         public bool UserColumn; public bool SavedUserColumn;
         public bool EnumColumn; public bool SavedEnumColumn;
-        public bool NotSettings; public bool SavedNotSettings;
+        public bool NotEditorSettings; public bool SavedNotEditorSettings;
         public string ControlType; public string SavedControlType;
         public string ControlDateTime; public string SavedControlDateTime;
         public string GridDateTime; public string SavedGridDateTime;
@@ -4372,7 +4372,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("Session")) Session = propertyCollection["Session"].ToBool(); else Session = false;
             if (propertyCollection.ContainsKey("UserColumn")) UserColumn = propertyCollection["UserColumn"].ToBool(); else UserColumn = false;
             if (propertyCollection.ContainsKey("EnumColumn")) EnumColumn = propertyCollection["EnumColumn"].ToBool(); else EnumColumn = false;
-            if (propertyCollection.ContainsKey("NotSettings")) NotSettings = propertyCollection["NotSettings"].ToBool(); else NotSettings = false;
+            if (propertyCollection.ContainsKey("NotEditorSettings")) NotEditorSettings = propertyCollection["NotEditorSettings"].ToBool(); else NotEditorSettings = false;
             if (propertyCollection.ContainsKey("ControlType")) ControlType = propertyCollection["ControlType"].ToString(); else ControlType = string.Empty;
             if (propertyCollection.ContainsKey("ControlDateTime")) ControlDateTime = propertyCollection["ControlDateTime"].ToString(); else ControlDateTime = string.Empty;
             if (propertyCollection.ContainsKey("GridDateTime")) GridDateTime = propertyCollection["GridDateTime"].ToString(); else GridDateTime = string.Empty;
@@ -4471,7 +4471,7 @@ namespace Implem.DefinitionAccessor
                     case "Session": return Session;
                     case "UserColumn": return UserColumn;
                     case "EnumColumn": return EnumColumn;
-                    case "NotSettings": return NotSettings;
+                    case "NotEditorSettings": return NotEditorSettings;
                     case "ControlType": return ControlType;
                     case "ControlDateTime": return ControlDateTime;
                     case "GridDateTime": return GridDateTime;
@@ -4570,7 +4570,7 @@ namespace Implem.DefinitionAccessor
             Session = SavedSession;
             UserColumn = SavedUserColumn;
             EnumColumn = SavedEnumColumn;
-            NotSettings = SavedNotSettings;
+            NotEditorSettings = SavedNotEditorSettings;
             ControlType = SavedControlType;
             ControlDateTime = SavedControlDateTime;
             GridDateTime = SavedGridDateTime;

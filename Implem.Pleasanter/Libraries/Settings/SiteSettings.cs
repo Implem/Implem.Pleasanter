@@ -166,7 +166,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             EditorColumnsOrder.AddRange(Def.ColumnDefinitionCollection
                 .Where(o => !EditorColumnsOrder.Any(p => p == o.ColumnName))
                 .Where(o => o.TableName == ReferenceType && o.EditorColumn)
-                .Where(o => !o.NotSettings)
+                .Where(o => !o.NotEditorSettings)
                 .OrderBy(o => o.No)
                 .Select(o => o.ColumnName).ToList<string>());
             EditorColumnsOrder.RemoveAll(o => 
@@ -174,7 +174,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     p.ColumnName == o && 
                     p.TableName == ReferenceType &&
                     p.EditorColumn &&
-                    !p.NotSettings));
+                    !p.NotEditorSettings));
         }
 
         private void UpdateTitleColumnsOrder()
@@ -191,7 +191,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     p.TableName == ReferenceType &&
                     p.ColumnName == o &&
                     p.TitleColumn > 0 &&
-                    !p.NotSettings));
+                    !p.NotEditorSettings));
         }
 
         private void UpdateLinkColumnsOrder()
