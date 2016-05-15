@@ -256,6 +256,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Admin(params string[] data) { return Get("Admin", data); }
         public static HtmlBuilder Displays_Default(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Default", data)); }
         public static string Default(params string[] data) { return Get("Default", data); }
+        public static HtmlBuilder Displays_DefaultInput(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DefaultInput", data)); }
+        public static string DefaultInput(params string[] data) { return Get("DefaultInput", data); }
         public static HtmlBuilder Displays_AddressBook(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("AddressBook", data)); }
         public static string AddressBook(params string[] data) { return Get("AddressBook", data); }
         public static HtmlBuilder Displays_DefaultAddressBook(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DefaultAddressBook", data)); }

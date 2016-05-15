@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Styles;
 using Implem.Pleasanter.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Validators;
+using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,7 @@ namespace Implem.Pleasanter.Libraries.Views
             this HtmlBuilder hb,
             SiteSettings siteSettings,
             Column column,
+            BaseModel.MethodTypes methodType = BaseModel.MethodTypes.NotSet,
             string value = "",
             Permissions.ColumnPermissionTypes columnPermissionType = 
                 Permissions.ColumnPermissionTypes.Update,
@@ -52,7 +54,9 @@ namespace Implem.Pleasanter.Libraries.Views
                     controlContainerCss: controlContainerCss,
                     controlCss: Strings.CoalesceEmpty(controlCss, column.ControlCss),
                     controlType: ControlType(column),
-                    value: value.ToDefault(siteSettings, column),
+                    value: methodType == BaseModel.MethodTypes.New
+                        ? value.ToDefault(siteSettings, column)
+                        : value,
                     optionCollection: column.EditChoices(siteSettings.InheritPermission),
                     attributes: ClientValidators.MessageCollection(column.Validators));
             }
@@ -235,21 +239,28 @@ namespace Implem.Pleasanter.Libraries.Views
         private static string ToDefault(
             this string self, SiteSettings siteSettings, Column column)
         {
-            switch (column.ControlType)
-            {
-                case "Limit":
-                    if (!self.ToDateTime().NotZero())
-                    {
-                        return DateTime.Now
-                            .ToLocal()
-                            .AddDays(column.DefaultInput.ToInt())
-                            .ToString(Displays.Get(column.ControlDateTime + "Format"));
-                    }
-                    break;
-            }
             if (IsLinked(siteSettings, column))
             {
                 return Forms.Data("LinkId");
+            }
+            if (column.DefaultInput != string.Empty)
+            {
+                switch (column.TypeName.CsTypeSummary())
+                {
+                    case Types.CsBool:
+                        return column.DefaultInput.ToBool().ToOneOrZeroString();
+                    case Types.CsNumeric:
+                        return column.DefaultInput.ToLong().ToString();
+                    case Types.CsDateTime:
+                        return !self.ToDateTime().NotZero()
+                            ? DateTime.Now
+                                .ToLocal()
+                                .AddDays(column.DefaultInput.ToInt())
+                                .ToString(Displays.Get(column.ControlDateTime + "Format"))
+                            : self;
+                    default:
+                        return column.DefaultInput;
+                }
             }
             return self;
         }
@@ -719,7 +730,7 @@ namespace Implem.Pleasanter.Libraries.Views
             string controlContainerCss = "",
             string controlCss = "",
             string labelText = "",
-            decimal value = 0,
+            decimal? value = 0,
             decimal min = -1,
             decimal max = -1,
             decimal step = -1,

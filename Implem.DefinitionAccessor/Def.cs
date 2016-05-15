@@ -2360,6 +2360,8 @@ namespace Implem.DefinitionAccessor
                     case "Admin_ja": Display.Admin_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Admin_ja, definitionRow, DisplayXls); break;
                     case "Default": Display.Default = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Default, definitionRow, DisplayXls); break;
                     case "Default_ja": Display.Default_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Default_ja, definitionRow, DisplayXls); break;
+                    case "DefaultInput": Display.DefaultInput = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DefaultInput, definitionRow, DisplayXls); break;
+                    case "DefaultInput_ja": Display.DefaultInput_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DefaultInput_ja, definitionRow, DisplayXls); break;
                     case "AddressBook": Display.AddressBook = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.AddressBook, definitionRow, DisplayXls); break;
                     case "AddressBook_ja": Display.AddressBook_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.AddressBook_ja, definitionRow, DisplayXls); break;
                     case "DefaultAddressBook": Display.DefaultAddressBook = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DefaultAddressBook, definitionRow, DisplayXls); break;
@@ -7100,6 +7102,8 @@ namespace Implem.DefinitionAccessor
         public string Admin_ja;
         public string Default;
         public string Default_ja;
+        public string DefaultInput;
+        public string DefaultInput_ja;
         public string AddressBook;
         public string AddressBook_ja;
         public string DefaultAddressBook;
@@ -7654,6 +7658,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition Admin_ja = new DisplayDefinition();
         public DisplayDefinition Default = new DisplayDefinition();
         public DisplayDefinition Default_ja = new DisplayDefinition();
+        public DisplayDefinition DefaultInput = new DisplayDefinition();
+        public DisplayDefinition DefaultInput_ja = new DisplayDefinition();
         public DisplayDefinition AddressBook = new DisplayDefinition();
         public DisplayDefinition AddressBook_ja = new DisplayDefinition();
         public DisplayDefinition DefaultAddressBook = new DisplayDefinition();

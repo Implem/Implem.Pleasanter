@@ -271,7 +271,7 @@ namespace Implem.Pleasanter.Libraries.Views
             this HtmlBuilder hb,
             string controlId = "",
             string controlCss = "",
-            decimal value = 0,
+            decimal? value = 0,
             decimal min = -1,
             decimal max = -1,
             decimal step = -1,
@@ -285,7 +285,9 @@ namespace Implem.Pleasanter.Libraries.Views
                 ? hb.Input(Html.Attributes()
                     .Id_Css(controlId, CssClasses.Get("control-spinner", controlCss))
                     .Type("number")
-                    .Value(value.ToString())
+                    .Value(value != null
+                        ? value.ToString()
+                        : string.Empty)
                     .Min(min)
                     .Max(max)
                     .Step(step)
