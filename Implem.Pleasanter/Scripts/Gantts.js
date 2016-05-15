@@ -46,7 +46,7 @@
         drawLine(padding + xScale(currentDate), 'date');
         currentDate = dateAdd('d', 1, currentDate);
     }
-    svg.append('g').attr('class', 'plan')
+    svg.append('g').attr('class', 'planned')
         .selectAll('rect')
         .data(dataSet)
         .enter()
@@ -69,7 +69,7 @@
         .text(function (d) {
             return d.StartTime + ' - ' + d.DisplayCompletionTime;
         });
-    svg.append('g').attr('class', 'earn')
+    svg.append('g').attr('class', 'earned')
         .selectAll('rect')
         .data(dataSet)
         .enter()
@@ -150,7 +150,7 @@
         svg.append('g').attr('class', css).append('path').attr('d', nowLine(nowLineData));
     }
 
-    $(document).on('click', '#Gantt .plan rect,#Gantt .earn rect,#Gantt .title text', function () {
+    $(document).on('click', '#Gantt .planned rect,#Gantt .earned rect,#Gantt .title text', function () {
         location.href = $('#BaseUrl').val() + $(this).attr('data-id');
     });
 }

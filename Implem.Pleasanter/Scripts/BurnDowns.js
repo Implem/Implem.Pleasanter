@@ -61,8 +61,8 @@
         .y(function (d) { return d[1]; });
     svg.append('g').attr('class', 'now').append('path').attr('d', nowLine(nowLineData));
     draw('total', 0, dataSet.filter(function (d) { return d.Total !== undefined; }));
-    draw('plan', 1, dataSet.filter(function (d) { return d.Planned !== undefined; }));
-    draw('earn', 2, dataSet.filter(function (d) { return d.Earned !== undefined; }));
+    draw('planned', 1, dataSet.filter(function (d) { return d.Planned !== undefined; }));
+    draw('earned', 2, dataSet.filter(function (d) { return d.Earned !== undefined; }));
 
     function draw(css, n, ds) {
         var line = d3.svg.line()

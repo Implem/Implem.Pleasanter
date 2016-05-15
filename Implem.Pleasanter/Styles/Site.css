@@ -1271,12 +1271,12 @@ pre{
     stroke:red;
 }
 
-.gantt .plan rect{
+.gantt .planned rect{
     cursor:pointer;
     fill:gainsboro;
 }
 
-.gantt .earn rect{
+.gantt .earned rect{
     cursor:pointer;
     fill:darkseagreen;
 }
@@ -1326,12 +1326,12 @@ pre{
     stroke:green;
 }
 
-.burn-down .plan{
+.burn-down .planned{
     fill:none;
     stroke:gray;
 }
 
-.burn-down .earn{
+.burn-down .earned{
     fill:none;
     stroke:orange;
 }
@@ -1340,11 +1340,11 @@ pre{
     fill:green;
 }
 
-.burn-down .plan circle{
+.burn-down .planned circle{
     fill:gray;
 }
 
-.burn-down .earn circle{
+.burn-down .earned circle{
     fill:orange;
 }
 
