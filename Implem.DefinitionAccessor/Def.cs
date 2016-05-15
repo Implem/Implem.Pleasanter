@@ -2680,6 +2680,8 @@ namespace Implem.DefinitionAccessor
                     case "HasBeenDeleted_ja": Display.HasBeenDeleted_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.HasBeenDeleted_ja, definitionRow, DisplayXls); break;
                     case "ValidateRequired": Display.ValidateRequired = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateRequired, definitionRow, DisplayXls); break;
                     case "ValidateRequired_ja": Display.ValidateRequired_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateRequired_ja, definitionRow, DisplayXls); break;
+                    case "ValidateNumber": Display.ValidateNumber = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateNumber, definitionRow, DisplayXls); break;
+                    case "ValidateNumber_ja": Display.ValidateNumber_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateNumber_ja, definitionRow, DisplayXls); break;
                     case "ValidateDate": Display.ValidateDate = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateDate, definitionRow, DisplayXls); break;
                     case "ValidateDate_ja": Display.ValidateDate_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateDate_ja, definitionRow, DisplayXls); break;
                     case "ValidateMail": Display.ValidateMail = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateMail, definitionRow, DisplayXls); break;
@@ -7422,6 +7424,8 @@ namespace Implem.DefinitionAccessor
         public string HasBeenDeleted_ja;
         public string ValidateRequired;
         public string ValidateRequired_ja;
+        public string ValidateNumber;
+        public string ValidateNumber_ja;
         public string ValidateDate;
         public string ValidateDate_ja;
         public string ValidateMail;
@@ -7978,6 +7982,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition HasBeenDeleted_ja = new DisplayDefinition();
         public DisplayDefinition ValidateRequired = new DisplayDefinition();
         public DisplayDefinition ValidateRequired_ja = new DisplayDefinition();
+        public DisplayDefinition ValidateNumber = new DisplayDefinition();
+        public DisplayDefinition ValidateNumber_ja = new DisplayDefinition();
         public DisplayDefinition ValidateDate = new DisplayDefinition();
         public DisplayDefinition ValidateDate_ja = new DisplayDefinition();
         public DisplayDefinition ValidateMail = new DisplayDefinition();

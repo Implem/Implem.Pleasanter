@@ -576,6 +576,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string HasBeenDeleted(params string[] data) { return Get("HasBeenDeleted", data); }
         public static HtmlBuilder Displays_ValidateRequired(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ValidateRequired", data)); }
         public static string ValidateRequired(params string[] data) { return Get("ValidateRequired", data); }
+        public static HtmlBuilder Displays_ValidateNumber(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ValidateNumber", data)); }
+        public static string ValidateNumber(params string[] data) { return Get("ValidateNumber", data); }
         public static HtmlBuilder Displays_ValidateDate(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ValidateDate", data)); }
         public static string ValidateDate(params string[] data) { return Get("ValidateDate", data); }
         public static HtmlBuilder Displays_ValidateMail(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ValidateMail", data)); }
