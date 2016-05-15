@@ -68,8 +68,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public string TypeCs;
         [NonSerialized]
-        public string ColumnType;
-        [NonSerialized]
         public bool UserColumn;
         [NonSerialized]
         public bool Hash;
