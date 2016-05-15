@@ -1,6 +1,8 @@
 ﻿$(function () {
     $(document).on('change', '.control-spinner', function () {
-        if ($(this).val() === '' ||
+        if ($(this).val() === '' && $(this).hasClass('allow-blank')) {
+            $(this).val('');
+        } else if ($(this).val() === '' ||
             $(this).val().match(/[^0-9\.]/g) ||
             parseInt($(this).val()) < parseInt($(this).attr('min'))) {
             $(this).val($(this).attr('min'));
