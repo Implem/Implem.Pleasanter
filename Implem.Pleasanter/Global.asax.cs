@@ -97,6 +97,7 @@ namespace Implem.Pleasanter
                 {
                     Securities.Logout();
                     SetAnonymouseSession();
+                    Response.Redirect(HttpContext.Current.Request.Url.ToString());
                 }
             }
             else
