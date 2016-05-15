@@ -20,7 +20,7 @@ namespace Implem.Pleasanter.Libraries.Views
                         .Reset()
                         .Incomplete(siteSettings: siteSettings, formData: formData)
                         .Own(siteSettings: siteSettings, formData: formData)
-                        .NearDeadline(siteSettings: siteSettings, formData: formData)
+                        .NearCompletionTime(siteSettings: siteSettings, formData: formData)
                         .Delay(siteSettings: siteSettings, formData: formData)
                         .Limit(siteSettings: siteSettings, formData: formData)
                         .Choices(siteSettings: siteSettings, formData: formData)));
@@ -68,16 +68,16 @@ namespace Implem.Pleasanter.Libraries.Views
                 : hb;
         }
 
-        private static HtmlBuilder NearDeadline(
+        private static HtmlBuilder NearCompletionTime(
             this HtmlBuilder hb, SiteSettings siteSettings, FormData formData)
         {
             return Def.ExistsTable(siteSettings.ReferenceType, o => o.TypeCs == "CompletionTime")
                 ? hb.FieldCheckBox(
-                    controlId: "DataViewFilters_NearDeadline",
+                    controlId: "DataViewFilters_NearCompletionTime",
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
-                    labelText: Displays.NearDeadline(),
-                    _checked: formData.Checked("DataViewFilters_NearDeadline"),
+                    labelText: Displays.NearCompletionTime(),
+                    _checked: formData.Checked("DataViewFilters_NearCompletionTime"),
                     action: "DataView",
                     method: "post",
                     labelPositionIsRight: true)

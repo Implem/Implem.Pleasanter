@@ -194,10 +194,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SettingAggregationList(params string[] data) { return Get("SettingAggregationList", data); }
         public static HtmlBuilder Displays_SettingNotGroupBy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingNotGroupBy", data)); }
         public static string SettingNotGroupBy(params string[] data) { return Get("SettingNotGroupBy", data); }
-        public static HtmlBuilder Displays_SettingNearDeadlineBeforeDays(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingNearDeadlineBeforeDays", data)); }
-        public static string SettingNearDeadlineBeforeDays(params string[] data) { return Get("SettingNearDeadlineBeforeDays", data); }
-        public static HtmlBuilder Displays_SettingNearDeadlineAfterDays(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingNearDeadlineAfterDays", data)); }
-        public static string SettingNearDeadlineAfterDays(params string[] data) { return Get("SettingNearDeadlineAfterDays", data); }
+        public static HtmlBuilder Displays_SettingNearCompletionTimeBeforeDays(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingNearCompletionTimeBeforeDays", data)); }
+        public static string SettingNearCompletionTimeBeforeDays(params string[] data) { return Get("SettingNearCompletionTimeBeforeDays", data); }
+        public static HtmlBuilder Displays_SettingNearCompletionTimeAfterDays(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingNearCompletionTimeAfterDays", data)); }
+        public static string SettingNearCompletionTimeAfterDays(params string[] data) { return Get("SettingNearCompletionTimeAfterDays", data); }
         public static HtmlBuilder Displays_SettingGridPageSize(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingGridPageSize", data)); }
         public static string SettingGridPageSize(params string[] data) { return Get("SettingGridPageSize", data); }
         public static HtmlBuilder Displays_SettingLabel(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingLabel", data)); }
@@ -322,8 +322,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Blank(params string[] data) { return Get("Blank", data); }
         public static HtmlBuilder Displays_Own(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Own", data)); }
         public static string Own(params string[] data) { return Get("Own", data); }
-        public static HtmlBuilder Displays_NearDeadline(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NearDeadline", data)); }
-        public static string NearDeadline(params string[] data) { return Get("NearDeadline", data); }
+        public static HtmlBuilder Displays_NearCompletionTime(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NearCompletionTime", data)); }
+        public static string NearCompletionTime(params string[] data) { return Get("NearCompletionTime", data); }
         public static HtmlBuilder Displays_Delay(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Delay", data)); }
         public static string Delay(params string[] data) { return Get("Delay", data); }
         public static HtmlBuilder Displays_Overdue(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Overdue", data)); }

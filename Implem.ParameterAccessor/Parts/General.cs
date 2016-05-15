@@ -16,12 +16,12 @@ namespace Implem.ParameterAccessor.Parts
         public int LimitWarning3;
         public int DeleteTempOldThan;
         public int DeleteHistoriesOldThan;
-        public int NearDeadlineBeforeDays;
-        public int NearDeadlineBeforeDaysMin;
-        public int NearDeadlineBeforeDaysMax;
-        public int NearDeadlineAfterDays;
-        public int NearDeadlineAfterDaysMin;
-        public int NearDeadlineAfterDaysMax;
+        public int NearCompletionTimeBeforeDays;
+        public int NearCompletionTimeBeforeDaysMin;
+        public int NearCompletionTimeBeforeDaysMax;
+        public int NearCompletionTimeAfterDays;
+        public int NearCompletionTimeAfterDaysMin;
+        public int NearCompletionTimeAfterDaysMax;
         public int GridPageSize;
         public int GridPageSizeMin;
         public int GridPageSizeMax;

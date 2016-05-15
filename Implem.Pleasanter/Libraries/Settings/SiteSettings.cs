@@ -28,8 +28,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public Databases.AccessStatuses AccessStatus;
         public string ReferenceType;
-        public decimal? NearDeadlineAfterDays;
-        public decimal? NearDeadlineBeforeDays;
+        public decimal? NearCompletionTimeAfterDays;
+        public decimal? NearCompletionTimeBeforeDays;
         public int? GridPageSize;
         public List<string> GridColumnsOrder;
         public List<string> EditorColumnsOrder;
@@ -58,8 +58,10 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void Init()
         {
-            NearDeadlineBeforeDays = NearDeadlineBeforeDays ?? Parameters.General.NearDeadlineBeforeDays;
-            NearDeadlineAfterDays = NearDeadlineAfterDays ?? Parameters.General.NearDeadlineAfterDays;
+            NearCompletionTimeBeforeDays = NearCompletionTimeBeforeDays ??
+                Parameters.General.NearCompletionTimeBeforeDays;
+            NearCompletionTimeAfterDays = NearCompletionTimeAfterDays ??
+                Parameters.General.NearCompletionTimeAfterDays;
             GridPageSize = GridPageSize ?? Parameters.General.GridPageSize;
             UpdateGridColumnsOrder();
             UpdateEditorColumnsOrder();
@@ -88,8 +90,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var def = new SiteSettings(ReferenceType);
             var self = this.ToJson().Deserialize<SiteSettings>();
-            if (self.NearDeadlineAfterDays == def.NearDeadlineAfterDays) self.NearDeadlineAfterDays = null;
-            if (self.NearDeadlineBeforeDays == def.NearDeadlineBeforeDays) self.NearDeadlineBeforeDays = null;
+            if (self.NearCompletionTimeAfterDays == def.NearCompletionTimeAfterDays) self.NearCompletionTimeAfterDays = null;
+            if (self.NearCompletionTimeBeforeDays == def.NearCompletionTimeBeforeDays) self.NearCompletionTimeBeforeDays = null;
             if (self.GridPageSize == def.GridPageSize) self.GridPageSize = null;
             if (self.GridColumnsOrder.SequenceEqual(def.GridColumnsOrder)) self.GridColumnsOrder = null;
             if (self.EditorColumnsOrder.SequenceEqual(def.EditorColumnsOrder)) self.EditorColumnsOrder = null;
@@ -500,8 +502,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             switch (propertyName)
             {
-                case "NearDeadlineBeforeDays": NearDeadlineBeforeDays = value.ToInt(); break;
-                case "NearDeadlineAfterDays": NearDeadlineAfterDays = value.ToInt(); break;
+                case "NearCompletionTimeBeforeDays": NearCompletionTimeBeforeDays = value.ToInt(); break;
+                case "NearCompletionTimeAfterDays": NearCompletionTimeAfterDays = value.ToInt(); break;
                 case "GridPageSize": GridPageSize = value.ToInt(); break;
                 case "AddressBook": AddressBook = value; break;
                 case "MailToDefault": MailToDefault = value; break;

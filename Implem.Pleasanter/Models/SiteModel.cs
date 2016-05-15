@@ -1933,21 +1933,21 @@ namespace Implem.Pleasanter.Models
                         step: 1,
                         width: 25)
                     .FieldSpinner(
-                        controlId: "SiteSettings,NearDeadlineBeforeDays",
+                        controlId: "SiteSettings,NearCompletionTimeBeforeDays",
                         fieldCss: "field-auto-thin",
-                        labelText: Displays.SettingNearDeadlineBeforeDays(),
-                        value: siteSettings.NearDeadlineBeforeDays.ToDecimal(),
-                        min: Parameters.General.NearDeadlineBeforeDaysMin,
-                        max: Parameters.General.NearDeadlineBeforeDaysMax,
+                        labelText: Displays.SettingNearCompletionTimeBeforeDays(),
+                        value: siteSettings.NearCompletionTimeBeforeDays.ToDecimal(),
+                        min: Parameters.General.NearCompletionTimeBeforeDaysMin,
+                        max: Parameters.General.NearCompletionTimeBeforeDaysMax,
                         step: 1,
                         width: 25)
                     .FieldSpinner(
-                        controlId: "SiteSettings,NearDeadlineAfterDays",
+                        controlId: "SiteSettings,NearCompletionTimeAfterDays",
                         fieldCss: "field-auto-thin",
-                        labelText: Displays.SettingNearDeadlineAfterDays(),
-                        value: siteSettings.NearDeadlineAfterDays.ToDecimal(),
-                        min: Parameters.General.NearDeadlineAfterDaysMin,
-                        max: Parameters.General.NearDeadlineAfterDaysMax,
+                        labelText: Displays.SettingNearCompletionTimeAfterDays(),
+                        value: siteSettings.NearCompletionTimeAfterDays.ToDecimal(),
+                        min: Parameters.General.NearCompletionTimeAfterDaysMin,
+                        max: Parameters.General.NearCompletionTimeAfterDaysMax,
                         step: 1,
                         width: 25)
                     .Dialog_AggregationDetails(siteSettings));

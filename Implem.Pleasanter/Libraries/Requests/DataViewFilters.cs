@@ -46,14 +46,14 @@ namespace Implem.Pleasanter.Libraries.Requests
                             name: "_U",
                             value: Sessions.UserId());
                         break;
-                    case "DataViewFilters_NearDeadline":
+                    case "DataViewFilters_NearCompletionTime":
                         sqlWhereCollection.Add(
                             columnBrackets: new string[] { "[t0].[CompletionTime]" },
                             _operator: " between '{0}' and '{1}' ".Params(
                                 DateTime.Now.ToLocal().Date
-                                    .AddDays(siteSettings.NearDeadlineBeforeDays.ToInt() * (-1)),
+                                    .AddDays(siteSettings.NearCompletionTimeBeforeDays.ToInt() * (-1)),
                                 DateTime.Now.ToLocal().Date
-                                    .AddDays(siteSettings.NearDeadlineAfterDays.ToInt() + 1)
+                                    .AddDays(siteSettings.NearCompletionTimeAfterDays.ToInt() + 1)
                                     .AddMilliseconds(-1)
                                     .ToString("yyyy/M/d H:m:s.fff")));
                         break;
