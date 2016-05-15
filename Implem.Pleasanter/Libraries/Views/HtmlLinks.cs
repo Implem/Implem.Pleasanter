@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Responses;
@@ -93,28 +94,46 @@ namespace Implem.Pleasanter.Libraries.Views
                         {
                             case "Issues":
                                 hb
-                                    .Caption(caption: caption + " : " + siteModel.Title.Value)
+                                    .Caption(caption: "{0} : {1} {2} - {3} {4}".Params(
+                                        caption,
+                                        siteModel.SiteId,
+                                        siteModel.Title.Value,
+                                        Displays.Quantity(),
+                                        linkCollection.Count))
                                     .IssuesLinkHeader(siteModel: siteModel, type: type)
                                     .IssuesRows(
-                                        linkCollection: linkCollection.Where(o => o.SiteId == siteModel.SiteId),
+                                        linkCollection: linkCollection
+                                            .Where(o => o.SiteId == siteModel.SiteId),
                                         siteSettings: siteModel.IssuesSiteSettings(),
                                         type: type);
                                 break;
                             case "Results":
                                 hb
-                                    .Caption(caption: caption + " : " + siteModel.Title.Value)
+                                    .Caption(caption: "{0} : {1} {2} - {3} {4}".Params(
+                                        caption,
+                                        siteModel.SiteId,
+                                        siteModel.Title.Value,
+                                        Displays.Quantity(),
+                                        linkCollection.Count))
                                     .ResultsLinkHeader(siteModel: siteModel, type: type)
                                     .ResultsRows(
-                                        linkCollection: linkCollection.Where(o => o.SiteId == siteModel.SiteId),
+                                        linkCollection: linkCollection
+                                            .Where(o => o.SiteId == siteModel.SiteId),
                                         siteSettings: siteModel.ResultsSiteSettings(),
                                         type: type);
                                 break;
                             case "Wikis":
                                 hb
-                                    .Caption(caption: caption + " : " + siteModel.Title.Value)
+                                    .Caption(caption: "{0} : {1} {2} - {3} {4}".Params(
+                                        caption,
+                                        siteModel.SiteId,
+                                        siteModel.Title.Value,
+                                        Displays.Quantity(),
+                                        linkCollection.Count))
                                     .WikisLinkHeader(siteModel: siteModel, type: type)
                                     .WikisRows(
-                                        linkCollection: linkCollection.Where(o => o.SiteId == siteModel.SiteId),
+                                        linkCollection: linkCollection
+                                            .Where(o => o.SiteId == siteModel.SiteId),
                                         siteSettings: siteModel.WikisSiteSettings(),
                                         type: type);
                                 break;
