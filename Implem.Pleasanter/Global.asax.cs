@@ -104,7 +104,14 @@ namespace Implem.Pleasanter
             {
                 SetAnonymouseSession();
             }
-            new SysLogModel().Finish();
+            switch (Request.AppRelativeCurrentExecutionFilePath.ToLower())
+            {
+                case "~/admintasks/do":
+                    break;
+                default:
+                    new SysLogModel().Finish();
+                    break;
+            }
         }
 
         private void SetAnonymouseSession()
