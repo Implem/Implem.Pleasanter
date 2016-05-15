@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Initializers;
 using Implem.Pleasanter.Libraries.ServerData;
 using Implem.Pleasanter.Libraries.Settings;
@@ -78,10 +79,15 @@ namespace Implem.Pleasanter
             Session["SessionGuid"] = Strings.NewGuid();
             if (Sessions.LoggedIn())
             {
+                var userId = HttpContext.Current.User.Identity.Name.ToInt();
+                Session["TenantId"] = Rds.ExecuteScalar_int(statements:
+                    Rds.SelectUsers(
+                        column: Rds.UsersColumn().TenantId(),
+                        where: Rds.UsersWhere().UserId(userId)));
                 var userModel = new UserModel(
                     SiteSettingsUtility.UsersSiteSettings(),
                     Permissions.Admins(),
-                    HttpContext.Current.User.Identity.Name.ToInt());
+                    userId);
                 if (userModel.AccessStatus == Databases.AccessStatuses.Selected &&
                     !userModel.Disabled)
                 {
