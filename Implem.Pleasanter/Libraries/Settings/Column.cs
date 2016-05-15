@@ -34,6 +34,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public int? No;
         [NonSerialized]
+        public bool Id_Ver;
+        [NonSerialized]
         public string Size;
         [NonSerialized]
         public bool Nullable;
