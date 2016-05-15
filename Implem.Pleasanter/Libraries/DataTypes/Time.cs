@@ -5,7 +5,7 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Views;
+using Implem.Pleasanter.Libraries.ViewParts;
 using System;
 using System.Data;
 using System.Runtime.Serialization;

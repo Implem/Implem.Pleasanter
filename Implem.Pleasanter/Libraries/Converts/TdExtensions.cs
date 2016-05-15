@@ -1,7 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Settings;
-using Implem.Pleasanter.Libraries.Views;
+using Implem.Pleasanter.Libraries.ViewParts;
 using System;
 namespace Implem.Pleasanter.Libraries.Converts
 {

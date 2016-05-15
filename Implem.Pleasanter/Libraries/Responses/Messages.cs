@@ -1,4 +1,4 @@
-﻿using Implem.Pleasanter.Libraries.Views;
+﻿using Implem.Pleasanter.Libraries.ViewParts;
 namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class Messages

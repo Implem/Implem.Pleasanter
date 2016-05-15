@@ -1,7 +1,7 @@
 ﻿using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Views;
+using Implem.Pleasanter.Libraries.ViewParts;
 namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class ResponseComment
