@@ -256,7 +256,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (column != null)
             {
                 column.Id = column.Id ?? columnDefinition.Id;
-                column.No = column.No ?? columnDefinition.No;
+                column.No = columnDefinition.No;
                 column.Id_Ver = columnDefinition.Unique || columnDefinition.ColumnName == "Ver";
                 column.ColumnName = column.ColumnName ?? columnDefinition.ColumnName;
                 column.LabelText = column.LabelText ?? Displays.Get(columnDefinition.Id);
