@@ -1,6 +1,5 @@
 ﻿using Implem.Libraries.Classes;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Models;
 using System;
@@ -10,6 +9,23 @@ namespace Implem.Pleasanter.Libraries.ServerData
 {
     public static class Sessions
     {
+        public static string Data(string name)
+        {
+            return HttpContext.Current.Session[name] != null
+                ? HttpContext.Current.Session[name].ToString()
+                : string.Empty;
+        }
+
+        public static void Set(string name, object data)
+        {
+            HttpContext.Current.Session[name] = data;
+        }
+
+        public static void Clear(string name)
+        {
+            HttpContext.Current.Session[name] = null;
+        }
+
         public static bool Created()
         {
             return HttpContext.Current?.Session != null;
