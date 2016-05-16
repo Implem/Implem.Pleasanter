@@ -341,6 +341,7 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteSites(
                         where: Rds.SitesWhere().TenantId(TenantId).SiteId(SiteId))
                 });
+            Sessions.Set("Message", Messages.Deleted(Title.Value).Html);
             var responseCollection = new SitesResponseCollection(this);
             OnDeleted(ref responseCollection);
             if (redirect)

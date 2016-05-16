@@ -465,6 +465,7 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteUsers(
                         where: Rds.UsersWhere().UserId(UserId))
                 });
+            Sessions.Set("Message", Messages.Deleted(Title.Value).Html);
             var responseCollection = new UsersResponseCollection(this);
             OnDeleted(ref responseCollection);
             if (redirect)

@@ -336,6 +336,7 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteDepts(
                         where: Rds.DeptsWhere().DeptId(DeptId))
                 });
+            Sessions.Set("Message", Messages.Deleted(Title.Value).Html);
             var responseCollection = new DeptsResponseCollection(this);
             OnDeleted(ref responseCollection);
             if (redirect)

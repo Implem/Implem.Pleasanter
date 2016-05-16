@@ -325,6 +325,7 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteDemos(
                         where: Rds.DemosWhere().DemoId(DemoId))
                 });
+            Sessions.Set("Message", Messages.Deleted(Title.Value).Html);
             var responseCollection = new DemosResponseCollection(this);
             OnDeleted(ref responseCollection);
             if (redirect)

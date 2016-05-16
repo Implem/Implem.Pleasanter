@@ -366,6 +366,7 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteBinaries(
                         where: Rds.BinariesWhere().BinaryId(BinaryId))
                 });
+            Sessions.Set("Message", Messages.Deleted(Title.Value).Html);
             var responseCollection = new BinariesResponseCollection(this);
             OnDeleted(ref responseCollection);
             if (redirect)

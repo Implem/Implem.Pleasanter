@@ -357,6 +357,7 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteOutgoingMails(
                         where: Rds.OutgoingMailsWhere().OutgoingMailId(OutgoingMailId))
                 });
+            Sessions.Set("Message", Messages.Deleted(Title.Value).Html);
             var responseCollection = new OutgoingMailsResponseCollection(this);
             OnDeleted(ref responseCollection);
             if (redirect)

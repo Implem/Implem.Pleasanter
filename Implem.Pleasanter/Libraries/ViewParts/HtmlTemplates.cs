@@ -2,6 +2,7 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.ServerData;
 using Implem.Pleasanter.Libraries.Utilities;
 using Implem.Pleasanter.Models;
 using System;
@@ -57,7 +58,7 @@ namespace Implem.Pleasanter.Libraries.ViewParts
                         else
                         {
                             hb.P(id: "Message", css: "message", action: () => hb
-                                .Raw(text: string.Empty));
+                                .Raw(text: SessionMessage()));
                         }
                     }
                     else
@@ -110,6 +111,20 @@ namespace Implem.Pleasanter.Libraries.ViewParts
                     .H(number: 1, id: "HeaderTitle", action: () => hb
                         .Text(text: text)))
                 : hb;
+        }
+
+        private static string SessionMessage()
+        {
+            var html = Sessions.Data("Message");
+            if (html != string.Empty)
+            {
+                Sessions.Clear("Message");
+                return html;
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
 
         public static HtmlBuilder NotFound()

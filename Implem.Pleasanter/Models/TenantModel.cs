@@ -308,6 +308,7 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteTenants(
                         where: Rds.TenantsWhere().TenantId(TenantId))
                 });
+            Sessions.Set("Message", Messages.Deleted(Title.Value).Html);
             var responseCollection = new TenantsResponseCollection(this);
             OnDeleted(ref responseCollection);
             if (redirect)

@@ -311,6 +311,7 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteMailAddresses(
                         where: Rds.MailAddressesWhere().MailAddressId(MailAddressId))
                 });
+            Sessions.Set("Message", Messages.Deleted(Title.Value).Html);
             var responseCollection = new MailAddressesResponseCollection(this);
             OnDeleted(ref responseCollection);
             if (redirect)

@@ -394,6 +394,7 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteExportSettings(
                         where: Rds.ExportSettingsWhere().ExportSettingId(ExportSettingId))
                 });
+            Sessions.Set("Message", Messages.Deleted(Title.Value).Html);
             var responseCollection = new ExportSettingsResponseCollection(this);
             OnDeleted(ref responseCollection);
             if (redirect)
