@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Edit(string table, long id)
         {
             var log = new SysLogModel();
-            var html = PermissionsUtility.Edit(id);
+            var html = PermissionsUtility.Editor(id);
             ViewBag.HtmlBody = html;
             log.Finish(html.Length);
             return View();

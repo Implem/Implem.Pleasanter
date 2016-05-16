@@ -352,7 +352,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string Edit(long siteId)
+        public static string Editor(long siteId)
         {
             var siteModel = new SiteModel(siteId, clearSessions: true);
             var siteSettings = siteModel.PermissionsSiteSettings();
@@ -368,14 +368,14 @@ namespace Implem.Pleasanter.Models
                 allowAccess: siteModel.PermissionType.CanEditPermission(),
                 useNavigationButtons: false,
                 action: () => hb
-                    .EditForm(siteModel: siteModel, siteSettings: siteSettings));
+                    .Editor(siteModel: siteModel, siteSettings: siteSettings));
             return hb.ToString();
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder EditForm(
+        private static HtmlBuilder Editor(
             this HtmlBuilder hb, SiteModel siteModel, SiteSettings siteSettings)
         {
             return hb.Form(
