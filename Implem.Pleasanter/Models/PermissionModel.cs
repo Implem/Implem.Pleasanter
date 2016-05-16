@@ -428,7 +428,6 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static HtmlBuilder Inherit(this HtmlBuilder hb, SiteModel siteModel)
         {
-            var optionCollection = new Dictionary<string, ControlData>();
             return siteModel.SiteId != 0
                 ? hb.FieldDropDown(
                     controlId: "Sites_InheritPermission",
