@@ -831,7 +831,7 @@ namespace Implem.Pleasanter.Libraries.ViewParts
                                 css: "legend",
                                 action: () => hb.Text(legendText));
                         }
-                        action();
+                        if (action != null) action();
                     })
                 : hb;
         }
