@@ -387,7 +387,7 @@
     <Content Include="Scripts\SiteInfo.js" />
     <Content Include="Scripts\SiteMenu.js" />
     <Content Include="Scripts\JqueryUi.js" />
-    <Content Include="Scripts\Tabs.js" />
+    <Content Include="Scripts\KeyControls.js" />
     <Content Include="Scripts\Times.js" />
     <Content Include="Scripts\Transports.js" />
     <Content Include="Scripts\Validators\Dept.js" />
