@@ -43,7 +43,7 @@
         .style('text-anchor', 'start');
     var currentDate = minDate;
     while (currentDate <= maxDate) {
-        drawLine(padding + xScale(currentDate), 'date');
+        draw(padding + xScale(currentDate), 'date');
         currentDate = dateAdd('d', 1, currentDate);
     }
     svg.append('g').attr('class', 'planned')
@@ -98,7 +98,7 @@
         .text(function (d) {
             return d.StartTime + ' - ' + d.DisplayCompletionTime;
         });
-    drawLine(now, 'now');
+    draw(now, 'now');
     svg.append('g').attr('class', 'title')
         .selectAll('text')
         .data(dataSet)
@@ -140,7 +140,7 @@
             return d.StartTime + ' - ' + d.DisplayCompletionTime;
         });
 
-    function drawLine(day, css) {
+    function draw(day, css) {
         var nowLineData = [
             [day, padding - 10],
             [day, (padding + dataSet.length * 25) + 10]];
