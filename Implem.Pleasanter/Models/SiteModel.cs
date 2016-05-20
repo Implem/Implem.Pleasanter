@@ -1864,6 +1864,7 @@ namespace Implem.Pleasanter.Models
                             .FieldTextBox(
                                 textStyle: HtmlControls.TextStyles.File,
                                 controlId: "SiteSettings,SiteImage",
+                                fieldCss: "field-auto-thin",
                                 controlCss: " w400",
                                 labelText: Displays.File())
                             .Button(
