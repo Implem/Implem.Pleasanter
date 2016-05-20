@@ -1830,7 +1830,7 @@ namespace Implem.Pleasanter.Models
                         text: siteModel.SiteId.ToString())
                     .FieldText(
                         controlId: "Sites_Ver",
-                        controlCss: siteModel.SiteSettings.AllColumn("Ver").ControlCss,
+                        controlCss: siteModel.SiteSettings?.AllColumn("Ver").ControlCss,
                         labelText: Displays.Sites_Ver(),
                         text: siteModel.Ver.ToString())
                     .FieldTextBox(
