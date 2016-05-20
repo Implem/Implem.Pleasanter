@@ -1711,7 +1711,7 @@ namespace Implem.Pleasanter.Models
                     : siteModel.Title + " - " + Displays.EditSettings(),
                 permissionType: siteModel.PermissionType,
                 verType: siteModel.VerType,
-                backUrl: Navigations.ItemIndex(siteModel.SiteId),
+                backUrl: EditorBackUrl(siteModel),
                 methodType: siteModel.MethodType,
                 allowAccess: AllowAccess(siteModel),
                 action: () => hb
@@ -1769,7 +1769,7 @@ namespace Implem.Pleasanter.Models
                                 siteId: siteModel.SiteId,
                                 permissionType: siteModel.PermissionType,
                                 verType: siteModel.VerType,
-                                backUrl: Navigations.ItemIndex(siteModel.SiteId),
+                                backUrl: EditorBackUrl(siteModel),
                                 referenceType: "items",
                                 referenceId: siteModel.SiteId,
                                 updateButton: true,
@@ -1786,6 +1786,27 @@ namespace Implem.Pleasanter.Models
                 .OutgoingMailsForm("Sites", siteModel.SiteId, siteModel.Ver)
                 .Dialog_Copy("items", siteModel.SiteId)
                 .Dialog_Move("items", siteModel.SiteId));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string EditorBackUrl(SiteModel siteModel)
+        {
+            switch (siteModel.ReferenceType)
+            {
+                case "Wikis":
+                    var wikiId = Rds.ExecuteScalar_long(statements:
+                        Rds.SelectWikis(
+                            top: 1,
+                            column: Rds.WikisColumn().WikiId(),
+                            where: Rds.WikisWhere().SiteId(siteModel.SiteId)));
+                    return wikiId != 0
+                        ? Navigations.ItemEdit(wikiId)
+                        : Navigations.ItemIndex(siteModel.ParentId);
+                default:
+                    return Navigations.ItemIndex(siteModel.SiteId);
+            }
         }
 
         /// <summary>
