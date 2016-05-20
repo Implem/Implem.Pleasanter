@@ -1761,8 +1761,10 @@ namespace Implem.Pleasanter.Models
                         .Div(css: "edit-form-tabs", action: () => hb
                             .FieldTabs(siteModel: siteModel)
                             .FieldSetGeneral(siteModel: siteModel)
-                            .FieldSet(id: "FieldSetHistories")
-                            .FieldSet(id: "FieldSetMail")
+                            .FieldSet(attributes: Html.Attributes()
+                                .Id("FieldSetHistories")
+                                .DataAction("Histories")
+                                .DataMethod("get"))
                             .MainCommands(
                                 siteId: siteModel.SiteId,
                                 permissionType: siteModel.PermissionType,
