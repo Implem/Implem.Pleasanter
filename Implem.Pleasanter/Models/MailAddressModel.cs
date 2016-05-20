@@ -838,13 +838,11 @@ namespace Implem.Pleasanter.Models
             var formData = DataViewFilters.SessionFormData();
             var mailAddressCollection = MailAddressCollection(siteSettings, permissionType, formData);
             return new ResponseCollection()
-                .Html("#DataViewContainer", mailAddressCollection.Count > 0
-                    ? Html.Builder().Grid(
-                        siteSettings: siteSettings,
-                        mailAddressCollection: mailAddressCollection,
-                        permissionType: permissionType,
-                        formData: formData)
-                    : Html.Builder())
+                .Html("#DataViewContainer", Html.Builder().Grid(
+                    siteSettings: siteSettings,
+                    mailAddressCollection: mailAddressCollection,
+                    permissionType: permissionType,
+                    formData: formData))
                 .Html("#Aggregations", Html.Builder().Aggregations(
                     siteSettings: siteSettings,
                     aggregations: mailAddressCollection.Aggregations,

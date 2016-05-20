@@ -1028,13 +1028,11 @@ namespace Implem.Pleasanter.Models
             var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
             var wikiCollection = WikiCollection(siteSettings, permissionType, formData);
             return new ResponseCollection()
-                .Html("#DataViewContainer", wikiCollection.Count > 0
-                    ? Html.Builder().Grid(
-                        siteSettings: siteSettings,
-                        wikiCollection: wikiCollection,
-                        permissionType: permissionType,
-                        formData: formData)
-                    : Html.Builder())
+                .Html("#DataViewContainer", Html.Builder().Grid(
+                    siteSettings: siteSettings,
+                    wikiCollection: wikiCollection,
+                    permissionType: permissionType,
+                    formData: formData))
                 .Html("#Aggregations", Html.Builder().Aggregations(
                     siteSettings: siteSettings,
                     aggregations: wikiCollection.Aggregations,

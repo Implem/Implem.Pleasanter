@@ -881,13 +881,11 @@ namespace Implem.Pleasanter.Models
             var formData = DataViewFilters.SessionFormData();
             var deptCollection = DeptCollection(siteSettings, permissionType, formData);
             return new ResponseCollection()
-                .Html("#DataViewContainer", deptCollection.Count > 0
-                    ? Html.Builder().Grid(
-                        siteSettings: siteSettings,
-                        deptCollection: deptCollection,
-                        permissionType: permissionType,
-                        formData: formData)
-                    : Html.Builder())
+                .Html("#DataViewContainer", Html.Builder().Grid(
+                    siteSettings: siteSettings,
+                    deptCollection: deptCollection,
+                    permissionType: permissionType,
+                    formData: formData))
                 .Html("#Aggregations", Html.Builder().Aggregations(
                     siteSettings: siteSettings,
                     aggregations: deptCollection.Aggregations,

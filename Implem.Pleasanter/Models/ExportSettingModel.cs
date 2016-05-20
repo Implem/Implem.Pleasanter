@@ -1000,13 +1000,11 @@ namespace Implem.Pleasanter.Models
             var formData = DataViewFilters.SessionFormData();
             var exportSettingCollection = ExportSettingCollection(siteSettings, permissionType, formData);
             return new ResponseCollection()
-                .Html("#DataViewContainer", exportSettingCollection.Count > 0
-                    ? Html.Builder().Grid(
-                        siteSettings: siteSettings,
-                        exportSettingCollection: exportSettingCollection,
-                        permissionType: permissionType,
-                        formData: formData)
-                    : Html.Builder())
+                .Html("#DataViewContainer", Html.Builder().Grid(
+                    siteSettings: siteSettings,
+                    exportSettingCollection: exportSettingCollection,
+                    permissionType: permissionType,
+                    formData: formData))
                 .Html("#Aggregations", Html.Builder().Aggregations(
                     siteSettings: siteSettings,
                     aggregations: exportSettingCollection.Aggregations,
