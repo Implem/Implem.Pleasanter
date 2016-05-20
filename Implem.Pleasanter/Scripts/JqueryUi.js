@@ -1,5 +1,11 @@
 ﻿func.setUi = function () {
-    $('.edit-form-tabs').tabs();
+    $('.edit-form-tabs').tabs({
+        beforeActivate: function (event, ui) {
+            if (ui.newPanel.attr('data-action')) {
+                requestByForm(getForm(ui.newPanel), ui.newPanel);
+            }
+        }
+    });
     $('.edit-form-tabs-max').tabs();
     $('.button-goback').button({ icons: { primary: 'ui-icon-circle-arrow-w' } });
     $('.button-create').button({ icons: { primary: 'ui-icon-plus' } });

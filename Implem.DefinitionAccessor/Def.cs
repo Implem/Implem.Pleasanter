@@ -380,8 +380,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_SeparateCases": Code.Model_SeparateCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SeparateCases, definitionRow, CodeXls); break;
                     case "Model_HistoriesCases": Code.Model_HistoriesCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_HistoriesCases, definitionRow, CodeXls); break;
                     case "Model_HistoryCases": Code.Model_HistoryCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_HistoryCases, definitionRow, CodeXls); break;
-                    case "Model_PreviousHistoryCases": Code.Model_PreviousHistoryCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PreviousHistoryCases, definitionRow, CodeXls); break;
-                    case "Model_NextHistoryCases": Code.Model_NextHistoryCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_NextHistoryCases, definitionRow, CodeXls); break;
                     case "Model_PreviousCases": Code.Model_PreviousCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PreviousCases, definitionRow, CodeXls); break;
                     case "Model_NextCases": Code.Model_NextCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_NextCases, definitionRow, CodeXls); break;
                     case "Model_ReloadCases": Code.Model_ReloadCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ReloadCases, definitionRow, CodeXls); break;
@@ -2260,8 +2258,8 @@ namespace Implem.DefinitionAccessor
                     case "Edit_ja": Display.Edit_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Edit_ja, definitionRow, DisplayXls); break;
                     case "History": Display.History = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.History, definitionRow, DisplayXls); break;
                     case "History_ja": Display.History_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.History_ja, definitionRow, DisplayXls); break;
-                    case "HistoryList": Display.HistoryList = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.HistoryList, definitionRow, DisplayXls); break;
-                    case "HistoryList_ja": Display.HistoryList_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.HistoryList_ja, definitionRow, DisplayXls); break;
+                    case "Histories": Display.Histories = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Histories, definitionRow, DisplayXls); break;
+                    case "Histories_ja": Display.Histories_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Histories_ja, definitionRow, DisplayXls); break;
                     case "Links": Display.Links = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Links, definitionRow, DisplayXls); break;
                     case "Links_ja": Display.Links_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Links_ja, definitionRow, DisplayXls); break;
                     case "LinkDestinations": Display.LinkDestinations = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.LinkDestinations, definitionRow, DisplayXls); break;
@@ -3653,8 +3651,6 @@ namespace Implem.DefinitionAccessor
         public string Model_SeparateCases;
         public string Model_HistoriesCases;
         public string Model_HistoryCases;
-        public string Model_PreviousHistoryCases;
-        public string Model_NextHistoryCases;
         public string Model_PreviousCases;
         public string Model_NextCases;
         public string Model_ReloadCases;
@@ -3997,8 +3993,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SeparateCases = new CodeDefinition();
         public CodeDefinition Model_HistoriesCases = new CodeDefinition();
         public CodeDefinition Model_HistoryCases = new CodeDefinition();
-        public CodeDefinition Model_PreviousHistoryCases = new CodeDefinition();
-        public CodeDefinition Model_NextHistoryCases = new CodeDefinition();
         public CodeDefinition Model_PreviousCases = new CodeDefinition();
         public CodeDefinition Model_NextCases = new CodeDefinition();
         public CodeDefinition Model_ReloadCases = new CodeDefinition();
@@ -7004,8 +6998,8 @@ namespace Implem.DefinitionAccessor
         public string Edit_ja;
         public string History;
         public string History_ja;
-        public string HistoryList;
-        public string HistoryList_ja;
+        public string Histories;
+        public string Histories_ja;
         public string Links;
         public string Links_ja;
         public string LinkDestinations;
@@ -7562,8 +7556,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition Edit_ja = new DisplayDefinition();
         public DisplayDefinition History = new DisplayDefinition();
         public DisplayDefinition History_ja = new DisplayDefinition();
-        public DisplayDefinition HistoryList = new DisplayDefinition();
-        public DisplayDefinition HistoryList_ja = new DisplayDefinition();
+        public DisplayDefinition Histories = new DisplayDefinition();
+        public DisplayDefinition Histories_ja = new DisplayDefinition();
         public DisplayDefinition Links = new DisplayDefinition();
         public DisplayDefinition Links_ja = new DisplayDefinition();
         public DisplayDefinition LinkDestinations = new DisplayDefinition();

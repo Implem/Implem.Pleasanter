@@ -310,7 +310,6 @@ namespace Implem.Pleasanter.Models
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", Title.Value + " - " + Displays.Edit())
                 .Html("#RecordInfo", Html.Builder().RecordInfo(baseModel: this, tableName: "Binaries"))
-                .Html("#RecordHistories", Html.Builder().RecordHistories(ver: Ver, verType: VerType))
                 .Message(Messages.Updated(Title.ToString()))
                 .RemoveComment(DeleteCommentId, _using: DeleteCommentId != 0)
                 .ClearFormData();
@@ -456,7 +455,7 @@ namespace Implem.Pleasanter.Models
                                     SiteSettings.HistoryColumnCollection().ForEach(column =>
                                         hb.TdValue(column, binaryModel))));
                 });
-            return new BinariesResponseCollection(this).Html("#HistoriesForm", hb).ToJson();
+            return new BinariesResponseCollection(this).Html("#FieldSetHistories", hb).ToJson();
         }
 
         public string History()
@@ -471,48 +470,6 @@ namespace Implem.Pleasanter.Models
                 : Versions.VerType(BinaryId);
             SwitchTargets = BinariesUtility.GetSwitchTargets(SiteSettings);
             return Editor();
-        }
-
-        public string PreviousHistory()
-        {
-            Get(
-                where: Rds.BinariesWhere()
-                    .BinaryId(BinaryId)
-                    .Ver(Forms.Int("Ver"), _operator: "<"),
-                orderBy: Rds.BinariesOrderBy()
-                    .Ver(SqlOrderBy.Types.desc),
-                tableType: Sqls.TableTypes.History,
-                top: 1);
-            SwitchTargets = BinariesUtility.GetSwitchTargets(SiteSettings);
-            switch (AccessStatus)
-            {
-                case Databases.AccessStatuses.Selected:
-                    VerType = Versions.VerType(BinaryId, Versions.DirectioTypes.Previous);
-                    return Editor();
-                default:
-                    return new BinariesResponseCollection(this).ToJson();
-            }
-        }
-
-        public string NextHistory()
-        {
-            Get(
-                where: Rds.BinariesWhere()
-                    .BinaryId(BinaryId)
-                    .Ver(Forms.Int("Ver"), _operator: ">"),
-                orderBy: Rds.BinariesOrderBy()
-                    .Ver(SqlOrderBy.Types.asc),
-                tableType: Sqls.TableTypes.History,
-                top: 1);
-            SwitchTargets = BinariesUtility.GetSwitchTargets(SiteSettings);
-            switch (AccessStatus)
-            {
-                case Databases.AccessStatuses.Selected:
-                    VerType = Versions.VerType(BinaryId, Versions.DirectioTypes.Next);
-                    return Editor();
-                default:
-                    return new BinariesResponseCollection(this).ToJson();
-            }
         }
 
         public string Previous()
@@ -1305,10 +1262,14 @@ namespace Implem.Pleasanter.Models
                                 verType: binaryModel.VerType))
                         .Div(css: "edit-form-tabs", action: () => hb
                             .FieldTabs(binaryModel: binaryModel)
-                            .Fields(
+                            .FieldSetGeneral(
                                 siteSettings: siteSettings,
                                 permissionType: permissionType,
                                 binaryModel: binaryModel)
+                            .FieldSet(attributes: Html.Attributes()
+                                .Id("FieldSetHistories")
+                                .DataAction("Histories")
+                                .DataMethod("get"))
                             .MainCommands(
                                 siteId: 0,
                                 permissionType: permissionType,
@@ -1336,7 +1297,6 @@ namespace Implem.Pleasanter.Models
                             value: binaryModel.SwitchTargets?.Join()))
                 .OutgoingMailsForm("Binaries", binaryModel.BinaryId, binaryModel.Ver)
                 .Dialog_Copy("Binaries", binaryModel.BinaryId)
-                .Dialog_Histories(Navigations.Action("Binaries", binaryModel.BinaryId))
                 .Dialog_OutgoingMail()
                 .EditorExtensions(binaryModel: binaryModel, siteSettings: siteSettings));
         }
@@ -1347,10 +1307,14 @@ namespace Implem.Pleasanter.Models
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral", 
-                        text: Displays.Basic())));
+                        text: Displays.Basic()))
+                .Li(action: () => hb
+                    .A(
+                        href: "#FieldSetHistories",
+                        text: Displays.Histories())));
         }
 
-        private static HtmlBuilder Fields(
+        private static HtmlBuilder FieldSetGeneral(
             this HtmlBuilder hb,
             SiteSettings siteSettings,
             Permissions.Types permissionType,

@@ -572,58 +572,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public string PreviousHistory()
-        {
-            SetSite();
-            switch (ReferenceType)
-            {
-                case "Sites": return new SiteModel(ReferenceId)
-                    .PreviousHistory();
-                case "Issues": return new IssueModel(
-                    Site.IssuesSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId)
-                        .PreviousHistory();
-                case "Results": return new ResultModel(
-                    Site.ResultsSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId)
-                        .PreviousHistory();
-                case "Wikis": return new WikiModel(
-                    Site.WikisSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId)
-                        .PreviousHistory();
-                default: return Messages.ResponseNotFound().ToJson();
-            }
-        }
-
-        public string NextHistory()
-        {
-            SetSite();
-            switch (ReferenceType)
-            {
-                case "Sites": return new SiteModel(ReferenceId)
-                    .NextHistory();
-                case "Issues": return new IssueModel(
-                    Site.IssuesSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId)
-                        .NextHistory();
-                case "Results": return new ResultModel(
-                    Site.ResultsSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId)
-                        .NextHistory();
-                case "Wikis": return new WikiModel(
-                    Site.WikisSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId)
-                        .NextHistory();
-                default: return Messages.ResponseNotFound().ToJson();
-            }
-        }
-
         public string Previous()
         {
             SetSite();

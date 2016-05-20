@@ -302,7 +302,6 @@ namespace Implem.Pleasanter.Models
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", Title.Value + " - " + Displays.Edit())
                 .Html("#RecordInfo", Html.Builder().RecordInfo(baseModel: this, tableName: "ExportSettings"))
-                .Html("#RecordHistories", Html.Builder().RecordHistories(ver: Ver, verType: VerType))
                 .Message(Messages.Updated(Title.ToString()))
                 .RemoveComment(DeleteCommentId, _using: DeleteCommentId != 0)
                 .ClearFormData();
@@ -488,7 +487,7 @@ namespace Implem.Pleasanter.Models
                                     SiteSettings.HistoryColumnCollection().ForEach(column =>
                                         hb.TdValue(column, exportSettingModel))));
                 });
-            return new ExportSettingsResponseCollection(this).Html("#HistoriesForm", hb).ToJson();
+            return new ExportSettingsResponseCollection(this).Html("#FieldSetHistories", hb).ToJson();
         }
 
         public string History()
@@ -503,48 +502,6 @@ namespace Implem.Pleasanter.Models
                 : Versions.VerType(ExportSettingId);
             SwitchTargets = ExportSettingsUtility.GetSwitchTargets(SiteSettings);
             return Editor();
-        }
-
-        public string PreviousHistory()
-        {
-            Get(
-                where: Rds.ExportSettingsWhere()
-                    .ExportSettingId(ExportSettingId)
-                    .Ver(Forms.Int("Ver"), _operator: "<"),
-                orderBy: Rds.ExportSettingsOrderBy()
-                    .Ver(SqlOrderBy.Types.desc),
-                tableType: Sqls.TableTypes.History,
-                top: 1);
-            SwitchTargets = ExportSettingsUtility.GetSwitchTargets(SiteSettings);
-            switch (AccessStatus)
-            {
-                case Databases.AccessStatuses.Selected:
-                    VerType = Versions.VerType(ExportSettingId, Versions.DirectioTypes.Previous);
-                    return Editor();
-                default:
-                    return new ExportSettingsResponseCollection(this).ToJson();
-            }
-        }
-
-        public string NextHistory()
-        {
-            Get(
-                where: Rds.ExportSettingsWhere()
-                    .ExportSettingId(ExportSettingId)
-                    .Ver(Forms.Int("Ver"), _operator: ">"),
-                orderBy: Rds.ExportSettingsOrderBy()
-                    .Ver(SqlOrderBy.Types.asc),
-                tableType: Sqls.TableTypes.History,
-                top: 1);
-            SwitchTargets = ExportSettingsUtility.GetSwitchTargets(SiteSettings);
-            switch (AccessStatus)
-            {
-                case Databases.AccessStatuses.Selected:
-                    VerType = Versions.VerType(ExportSettingId, Versions.DirectioTypes.Next);
-                    return Editor();
-                default:
-                    return new ExportSettingsResponseCollection(this).ToJson();
-            }
         }
 
         public string Previous()
@@ -1245,10 +1202,14 @@ namespace Implem.Pleasanter.Models
                                 verType: exportSettingModel.VerType))
                         .Div(css: "edit-form-tabs", action: () => hb
                             .FieldTabs(exportSettingModel: exportSettingModel)
-                            .Fields(
+                            .FieldSetGeneral(
                                 siteSettings: siteSettings,
                                 permissionType: permissionType,
                                 exportSettingModel: exportSettingModel)
+                            .FieldSet(attributes: Html.Attributes()
+                                .Id("FieldSetHistories")
+                                .DataAction("Histories")
+                                .DataMethod("get"))
                             .MainCommands(
                                 siteId: 0,
                                 permissionType: permissionType,
@@ -1276,7 +1237,6 @@ namespace Implem.Pleasanter.Models
                             value: exportSettingModel.SwitchTargets?.Join()))
                 .OutgoingMailsForm("ExportSettings", exportSettingModel.ExportSettingId, exportSettingModel.Ver)
                 .Dialog_Copy("ExportSettings", exportSettingModel.ExportSettingId)
-                .Dialog_Histories(Navigations.Action("ExportSettings", exportSettingModel.ExportSettingId))
                 .Dialog_OutgoingMail()
                 .EditorExtensions(exportSettingModel: exportSettingModel, siteSettings: siteSettings));
         }
@@ -1287,10 +1247,14 @@ namespace Implem.Pleasanter.Models
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral", 
-                        text: Displays.Basic())));
+                        text: Displays.Basic()))
+                .Li(action: () => hb
+                    .A(
+                        href: "#FieldSetHistories",
+                        text: Displays.Histories())));
         }
 
-        private static HtmlBuilder Fields(
+        private static HtmlBuilder FieldSetGeneral(
             this HtmlBuilder hb,
             SiteSettings siteSettings,
             Permissions.Types permissionType,

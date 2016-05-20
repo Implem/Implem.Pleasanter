@@ -304,7 +304,6 @@ namespace Implem.Pleasanter.Models
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", Title.DisplayValue + " - " + Displays.Edit())
                 .Html("#RecordInfo", Html.Builder().RecordInfo(baseModel: this, tableName: "Wikis"))
-                .Html("#RecordHistories", Html.Builder().RecordHistories(ver: Ver, verType: VerType))
                 .Html("#Links", Html.Builder().Links(WikiId))
                 .Message(Messages.Updated(Title.ToString()))
                 .RemoveComment(DeleteCommentId, _using: DeleteCommentId != 0)
@@ -541,7 +540,7 @@ namespace Implem.Pleasanter.Models
                                     SiteSettings.HistoryColumnCollection().ForEach(column =>
                                         hb.TdValue(column, wikiModel))));
                 });
-            return new WikisResponseCollection(this).Html("#HistoriesForm", hb).ToJson();
+            return new WikisResponseCollection(this).Html("#FieldSetHistories", hb).ToJson();
         }
 
         public string History()
@@ -556,48 +555,6 @@ namespace Implem.Pleasanter.Models
                 : Versions.VerType(WikiId);
             SwitchTargets = WikisUtility.GetSwitchTargets(SiteSettings, SiteId);
             return Editor();
-        }
-
-        public string PreviousHistory()
-        {
-            Get(
-                where: Rds.WikisWhere()
-                    .WikiId(WikiId)
-                    .Ver(Forms.Int("Ver"), _operator: "<"),
-                orderBy: Rds.WikisOrderBy()
-                    .Ver(SqlOrderBy.Types.desc),
-                tableType: Sqls.TableTypes.History,
-                top: 1);
-            SwitchTargets = WikisUtility.GetSwitchTargets(SiteSettings, SiteId);
-            switch (AccessStatus)
-            {
-                case Databases.AccessStatuses.Selected:
-                    VerType = Versions.VerType(WikiId, Versions.DirectioTypes.Previous);
-                    return Editor();
-                default:
-                    return new WikisResponseCollection(this).ToJson();
-            }
-        }
-
-        public string NextHistory()
-        {
-            Get(
-                where: Rds.WikisWhere()
-                    .WikiId(WikiId)
-                    .Ver(Forms.Int("Ver"), _operator: ">"),
-                orderBy: Rds.WikisOrderBy()
-                    .Ver(SqlOrderBy.Types.asc),
-                tableType: Sqls.TableTypes.History,
-                top: 1);
-            SwitchTargets = WikisUtility.GetSwitchTargets(SiteSettings, SiteId);
-            switch (AccessStatus)
-            {
-                case Databases.AccessStatuses.Selected:
-                    VerType = Versions.VerType(WikiId, Versions.DirectioTypes.Next);
-                    return Editor();
-                default:
-                    return new WikisResponseCollection(this).ToJson();
-            }
         }
 
         public string Previous()
@@ -1283,17 +1240,12 @@ namespace Implem.Pleasanter.Models
                                 verType: wikiModel.VerType))
                         .Div(css: "edit-form-tabs", action: () => hb
                             .FieldTabs(wikiModel: wikiModel)
-                            .Fields(
+                            .FieldSetGeneral(
                                 wikiModel: wikiModel,
                                 permissionType: siteModel.PermissionType,
                                 siteSettings: siteSettings)
-                            .Div(id: "LinkCreations", css: "links", action: () => hb
-                                .LinkCreations(
-                                    siteSettings: siteSettings,
-                                    linkId: wikiModel.WikiId,
-                                    methodType: wikiModel.MethodType))
-                            .Div(id: "Links", css: "links", action: () => hb
-                                .Links(linkId: wikiModel.WikiId))
+                            .FieldSet(id: "FieldSetHistories")
+                            .FieldSet(id: "FieldSetMail")
                             .MainCommands(
                                 siteId: siteModel.SiteId,
                                 permissionType: siteModel.PermissionType,
@@ -1318,9 +1270,7 @@ namespace Implem.Pleasanter.Models
                             value: wikiModel.SwitchTargets?.Join()))
                 .OutgoingMailsForm("Wikis", wikiModel.WikiId, wikiModel.Ver)
                 .Dialog_Copy("items", wikiModel.WikiId)
-                .Dialog_Move("items", wikiModel.WikiId)
-                .Dialog_Histories(Navigations.ItemAction(wikiModel.WikiId))
-                .Dialog_OutgoingMail());
+                .Dialog_Move("items", wikiModel.WikiId));
         }
 
         private static HtmlBuilder FieldTabs(this HtmlBuilder hb, WikiModel wikiModel)
@@ -1329,10 +1279,14 @@ namespace Implem.Pleasanter.Models
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral", 
-                        text: Displays.Basic())));
+                        text: Displays.Basic()))
+                .Li(action: () => hb
+                    .A(
+                        href: "#FieldSetHistories",
+                        text: Displays.Histories())));
         }
 
-        private static HtmlBuilder Fields(
+        private static HtmlBuilder FieldSetGeneral(
             this HtmlBuilder hb,
             WikiModel wikiModel,
             Permissions.Types permissionType,
@@ -1353,7 +1307,15 @@ namespace Implem.Pleasanter.Models
                             case "Body": hb.Field(siteSettings, column, wikiModel.MethodType, wikiModel.Body.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                         }
                     });
-                hb.VerUpCheckBox(wikiModel);
+                hb
+                    .VerUpCheckBox(wikiModel)
+                    .Div(id: "LinkCreations", css: "links", action: () => hb
+                        .LinkCreations(
+                            siteSettings: siteSettings,
+                            linkId: wikiModel.WikiId,
+                            methodType: wikiModel.MethodType))
+                    .Div(id: "Links", css: "links", action: () => hb
+                        .Links(linkId: wikiModel.WikiId));
             });
         }
 

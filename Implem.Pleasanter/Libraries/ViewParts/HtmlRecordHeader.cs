@@ -21,12 +21,7 @@ namespace Implem.Pleasanter.Libraries.ViewParts
                         .RecordSwitchers(
                             id: id,
                             switchTargets: switchTargets,
-                            switcher: switcher))
-                    .Div(
-                        id: "RecordHistories",
-                        css: "record-histories",
-                        action: () => hb
-                            .RecordHistories(ver: baseModel.Ver, verType: baseModel.VerType)))
+                            switcher: switcher)))
                 : hb;
         }
     }

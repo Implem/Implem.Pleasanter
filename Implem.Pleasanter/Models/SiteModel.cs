@@ -277,7 +277,6 @@ namespace Implem.Pleasanter.Models
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", Title.DisplayValue + " - " + Displays.EditSettings())
                 .Html("#RecordInfo", Html.Builder().RecordInfo(baseModel: this, tableName: "Sites"))
-                .Html("#RecordHistories", Html.Builder().RecordHistories(ver: Ver, verType: VerType))
                 .Message(Messages.Updated(Title.ToString()))
                 .RemoveComment(DeleteCommentId, _using: DeleteCommentId != 0)
                 .ClearFormData();
@@ -431,7 +430,7 @@ namespace Implem.Pleasanter.Models
                                     SiteSettings.HistoryColumnCollection().ForEach(column =>
                                         hb.TdValue(column, siteModel))));
                 });
-            return new SitesResponseCollection(this).Html("#HistoriesForm", hb).ToJson();
+            return new SitesResponseCollection(this).Html("#FieldSetHistories", hb).ToJson();
         }
 
         public string History()
@@ -446,48 +445,6 @@ namespace Implem.Pleasanter.Models
                 : Versions.VerType(SiteId);
             SwitchTargets = SitesUtility.GetSwitchTargets(SiteSettings, SiteId);
             return Editor();
-        }
-
-        public string PreviousHistory()
-        {
-            Get(
-                where: Rds.SitesWhere()
-                    .SiteId(SiteId)
-                    .Ver(Forms.Int("Ver"), _operator: "<"),
-                orderBy: Rds.SitesOrderBy()
-                    .Ver(SqlOrderBy.Types.desc),
-                tableType: Sqls.TableTypes.History,
-                top: 1);
-            SwitchTargets = SitesUtility.GetSwitchTargets(SiteSettings, SiteId);
-            switch (AccessStatus)
-            {
-                case Databases.AccessStatuses.Selected:
-                    VerType = Versions.VerType(SiteId, Versions.DirectioTypes.Previous);
-                    return Editor();
-                default:
-                    return new SitesResponseCollection(this).ToJson();
-            }
-        }
-
-        public string NextHistory()
-        {
-            Get(
-                where: Rds.SitesWhere()
-                    .SiteId(SiteId)
-                    .Ver(Forms.Int("Ver"), _operator: ">"),
-                orderBy: Rds.SitesOrderBy()
-                    .Ver(SqlOrderBy.Types.asc),
-                tableType: Sqls.TableTypes.History,
-                top: 1);
-            SwitchTargets = SitesUtility.GetSwitchTargets(SiteSettings, SiteId);
-            switch (AccessStatus)
-            {
-                case Databases.AccessStatuses.Selected:
-                    VerType = Versions.VerType(SiteId, Versions.DirectioTypes.Next);
-                    return Editor();
-                default:
-                    return new SitesResponseCollection(this).ToJson();
-            }
         }
 
         public string Previous()
@@ -1469,6 +1426,10 @@ namespace Implem.Pleasanter.Models
                                     text: Displays.MailerSettingsEditor()));
                     }
                 }
+                hb.Li(action: () => hb
+                    .A(
+                        href: "#FieldSetHistories",
+                        text: Displays.Histories()));
                 hb.Hidden(controlId: "TableName", value: "Sites");
             });
         }
@@ -1799,7 +1760,9 @@ namespace Implem.Pleasanter.Models
                                 verType: siteModel.VerType))
                         .Div(css: "edit-form-tabs", action: () => hb
                             .FieldTabs(siteModel: siteModel)
-                            .Fields(siteModel: siteModel)
+                            .FieldSetGeneral(siteModel: siteModel)
+                            .FieldSet(id: "FieldSetHistories")
+                            .FieldSet(id: "FieldSetMail")
                             .MainCommands(
                                 siteId: siteModel.SiteId,
                                 permissionType: siteModel.PermissionType,
@@ -1820,15 +1783,13 @@ namespace Implem.Pleasanter.Models
                             value: siteModel.Timestamp))
                 .OutgoingMailsForm("Sites", siteModel.SiteId, siteModel.Ver)
                 .Dialog_Copy("items", siteModel.SiteId)
-                .Dialog_Move("items", siteModel.SiteId)
-                .Dialog_Histories(Navigations.ItemAction(siteModel.SiteId))
-                .Dialog_OutgoingMail());
+                .Dialog_Move("items", siteModel.SiteId));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder Fields(this HtmlBuilder hb, SiteModel siteModel)
+        private static HtmlBuilder FieldSetGeneral(this HtmlBuilder hb, SiteModel siteModel)
         {
             hb.FieldSet(id: "FieldSetGeneral", action: () =>
             {

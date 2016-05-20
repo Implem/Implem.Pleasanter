@@ -151,32 +151,6 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
-        public string PreviousHistory(int id)
-        {
-            var log = new SysLogModel();
-            var json = new DeptModel(
-                SiteSettingsUtility.DeptsSiteSettings(),
-                Permissions.Admins(),
-                id)
-                    .PreviousHistory();
-            log.Finish(json.Length);
-            return json;
-        }
-
-        [HttpPost]
-        public string NextHistory(int id)
-        {
-            var log = new SysLogModel();
-            var json = new DeptModel(
-                SiteSettingsUtility.DeptsSiteSettings(),
-                Permissions.Admins(),
-                id)
-                    .NextHistory();
-            log.Finish(json.Length);
-            return json;
-        }
-
-        [HttpPost]
         public string Previous(int id)
         {
             var log = new SysLogModel();

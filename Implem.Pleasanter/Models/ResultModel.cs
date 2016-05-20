@@ -734,7 +734,6 @@ namespace Implem.Pleasanter.Models
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", Title.DisplayValue + " - " + Displays.Edit())
                 .Html("#RecordInfo", Html.Builder().RecordInfo(baseModel: this, tableName: "Results"))
-                .Html("#RecordHistories", Html.Builder().RecordHistories(ver: Ver, verType: VerType))
                 .Html("#Links", Html.Builder().Links(ResultId))
                 .Message(Messages.Updated(Title.ToString()))
                 .RemoveComment(DeleteCommentId, _using: DeleteCommentId != 0)
@@ -980,7 +979,7 @@ namespace Implem.Pleasanter.Models
                                     SiteSettings.HistoryColumnCollection().ForEach(column =>
                                         hb.TdValue(column, resultModel))));
                 });
-            return new ResultsResponseCollection(this).Html("#HistoriesForm", hb).ToJson();
+            return new ResultsResponseCollection(this).Html("#FieldSetHistories", hb).ToJson();
         }
 
         public string History()
@@ -995,48 +994,6 @@ namespace Implem.Pleasanter.Models
                 : Versions.VerType(ResultId);
             SwitchTargets = ResultsUtility.GetSwitchTargets(SiteSettings, SiteId);
             return Editor();
-        }
-
-        public string PreviousHistory()
-        {
-            Get(
-                where: Rds.ResultsWhere()
-                    .ResultId(ResultId)
-                    .Ver(Forms.Int("Ver"), _operator: "<"),
-                orderBy: Rds.ResultsOrderBy()
-                    .Ver(SqlOrderBy.Types.desc),
-                tableType: Sqls.TableTypes.History,
-                top: 1);
-            SwitchTargets = ResultsUtility.GetSwitchTargets(SiteSettings, SiteId);
-            switch (AccessStatus)
-            {
-                case Databases.AccessStatuses.Selected:
-                    VerType = Versions.VerType(ResultId, Versions.DirectioTypes.Previous);
-                    return Editor();
-                default:
-                    return new ResultsResponseCollection(this).ToJson();
-            }
-        }
-
-        public string NextHistory()
-        {
-            Get(
-                where: Rds.ResultsWhere()
-                    .ResultId(ResultId)
-                    .Ver(Forms.Int("Ver"), _operator: ">"),
-                orderBy: Rds.ResultsOrderBy()
-                    .Ver(SqlOrderBy.Types.asc),
-                tableType: Sqls.TableTypes.History,
-                top: 1);
-            SwitchTargets = ResultsUtility.GetSwitchTargets(SiteSettings, SiteId);
-            switch (AccessStatus)
-            {
-                case Databases.AccessStatuses.Selected:
-                    VerType = Versions.VerType(ResultId, Versions.DirectioTypes.Next);
-                    return Editor();
-                default:
-                    return new ResultsResponseCollection(this).ToJson();
-            }
         }
 
         public string Previous()
@@ -2422,17 +2379,14 @@ namespace Implem.Pleasanter.Models
                                 verType: resultModel.VerType))
                         .Div(css: "edit-form-tabs", action: () => hb
                             .FieldTabs(resultModel: resultModel)
-                            .Fields(
+                            .FieldSetGeneral(
                                 siteSettings: siteSettings,
                                 permissionType: siteModel.PermissionType,
                                 resultModel: resultModel)
-                            .Div(id: "LinkCreations", css: "links", action: () => hb
-                                .LinkCreations(
-                                    siteSettings: siteSettings,
-                                    linkId: resultModel.ResultId,
-                                    methodType: resultModel.MethodType))
-                            .Div(id: "Links", css: "links", action: () => hb
-                                .Links(linkId: resultModel.ResultId))
+                            .FieldSet(attributes: Html.Attributes()
+                                .Id("FieldSetHistories")
+                                .DataAction("Histories")
+                                .DataMethod("get"))
                             .MainCommands(
                                 siteId: siteModel.SiteId,
                                 permissionType: siteModel.PermissionType,
@@ -2464,7 +2418,6 @@ namespace Implem.Pleasanter.Models
                 .OutgoingMailsForm("Results", resultModel.ResultId, resultModel.Ver)
                 .Dialog_Copy("items", resultModel.ResultId)
                 .Dialog_Move("items", resultModel.ResultId)
-                .Dialog_Histories(Navigations.ItemAction(resultModel.ResultId))
                 .Dialog_OutgoingMail()
                 .EditorExtensions(resultModel: resultModel, siteSettings: siteSettings));
         }
@@ -2475,10 +2428,14 @@ namespace Implem.Pleasanter.Models
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral", 
-                        text: Displays.Basic())));
+                        text: Displays.Basic()))
+                .Li(action: () => hb
+                    .A(
+                        href: "#FieldSetHistories",
+                        text: Displays.Histories())));
         }
 
-        private static HtmlBuilder Fields(
+        private static HtmlBuilder FieldSetGeneral(
             this HtmlBuilder hb,
             ResultModel resultModel,
             Permissions.Types permissionType,
@@ -2582,7 +2539,15 @@ namespace Implem.Pleasanter.Models
                             case "CheckP": hb.Field(siteSettings, column, resultModel.MethodType, resultModel.CheckP.ToControl(column), column.ColumnPermissionType(permissionType)); break;
                         }
                     });
-                hb.VerUpCheckBox(resultModel);
+                hb
+                    .VerUpCheckBox(resultModel)
+                    .Div(id: "LinkCreations", css: "links", action: () => hb
+                        .LinkCreations(
+                            siteSettings: siteSettings,
+                            linkId: resultModel.ResultId,
+                            methodType: resultModel.MethodType))
+                    .Div(id: "Links", css: "links", action: () => hb
+                        .Links(linkId: resultModel.ResultId));
             });
         }
 

@@ -301,7 +301,6 @@ namespace Implem.Pleasanter.Models
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", Title.Value + " - " + Displays.Edit())
                 .Html("#RecordInfo", Html.Builder().RecordInfo(baseModel: this, tableName: "OutgoingMails"))
-                .Html("#RecordHistories", Html.Builder().RecordHistories(ver: Ver, verType: VerType))
                 .Message(Messages.Updated(Title.ToString()))
                 .RemoveComment(DeleteCommentId, _using: DeleteCommentId != 0)
                 .ClearFormData();
@@ -445,7 +444,7 @@ namespace Implem.Pleasanter.Models
                                     SiteSettings.HistoryColumnCollection().ForEach(column =>
                                         hb.TdValue(column, outgoingMailModel))));
                 });
-            return new OutgoingMailsResponseCollection(this).Html("#HistoriesForm", hb).ToJson();
+            return new OutgoingMailsResponseCollection(this).Html("#FieldSetHistories", hb).ToJson();
         }
 
         public string History()
@@ -460,48 +459,6 @@ namespace Implem.Pleasanter.Models
                 : Versions.VerType(OutgoingMailId);
             SwitchTargets = OutgoingMailsUtility.GetSwitchTargets(SiteSettings);
             return Editor();
-        }
-
-        public string PreviousHistory()
-        {
-            Get(
-                where: Rds.OutgoingMailsWhere()
-                    .OutgoingMailId(OutgoingMailId)
-                    .Ver(Forms.Int("Ver"), _operator: "<"),
-                orderBy: Rds.OutgoingMailsOrderBy()
-                    .Ver(SqlOrderBy.Types.desc),
-                tableType: Sqls.TableTypes.History,
-                top: 1);
-            SwitchTargets = OutgoingMailsUtility.GetSwitchTargets(SiteSettings);
-            switch (AccessStatus)
-            {
-                case Databases.AccessStatuses.Selected:
-                    VerType = Versions.VerType(OutgoingMailId, Versions.DirectioTypes.Previous);
-                    return Editor();
-                default:
-                    return new OutgoingMailsResponseCollection(this).ToJson();
-            }
-        }
-
-        public string NextHistory()
-        {
-            Get(
-                where: Rds.OutgoingMailsWhere()
-                    .OutgoingMailId(OutgoingMailId)
-                    .Ver(Forms.Int("Ver"), _operator: ">"),
-                orderBy: Rds.OutgoingMailsOrderBy()
-                    .Ver(SqlOrderBy.Types.asc),
-                tableType: Sqls.TableTypes.History,
-                top: 1);
-            SwitchTargets = OutgoingMailsUtility.GetSwitchTargets(SiteSettings);
-            switch (AccessStatus)
-            {
-                case Databases.AccessStatuses.Selected:
-                    VerType = Versions.VerType(OutgoingMailId, Versions.DirectioTypes.Next);
-                    return Editor();
-                default:
-                    return new OutgoingMailsResponseCollection(this).ToJson();
-            }
         }
 
         public string Previous()
@@ -1329,10 +1286,14 @@ namespace Implem.Pleasanter.Models
                                 verType: outgoingMailModel.VerType))
                         .Div(css: "edit-form-tabs", action: () => hb
                             .FieldTabs(outgoingMailModel: outgoingMailModel)
-                            .Fields(
+                            .FieldSetGeneral(
                                 siteSettings: siteSettings,
                                 permissionType: permissionType,
                                 outgoingMailModel: outgoingMailModel)
+                            .FieldSet(attributes: Html.Attributes()
+                                .Id("FieldSetHistories")
+                                .DataAction("Histories")
+                                .DataMethod("get"))
                             .MainCommands(
                                 siteId: 0,
                                 permissionType: permissionType,
@@ -1360,7 +1321,6 @@ namespace Implem.Pleasanter.Models
                             value: outgoingMailModel.SwitchTargets?.Join()))
                 .OutgoingMailsForm("OutgoingMails", outgoingMailModel.OutgoingMailId, outgoingMailModel.Ver)
                 .Dialog_Copy("OutgoingMails", outgoingMailModel.OutgoingMailId)
-                .Dialog_Histories(Navigations.Action("OutgoingMails", outgoingMailModel.OutgoingMailId))
                 .Dialog_OutgoingMail()
                 .EditorExtensions(outgoingMailModel: outgoingMailModel, siteSettings: siteSettings));
         }
@@ -1371,10 +1331,14 @@ namespace Implem.Pleasanter.Models
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral", 
-                        text: Displays.Basic())));
+                        text: Displays.Basic()))
+                .Li(action: () => hb
+                    .A(
+                        href: "#FieldSetHistories",
+                        text: Displays.Histories())));
         }
 
-        private static HtmlBuilder Fields(
+        private static HtmlBuilder FieldSetGeneral(
             this HtmlBuilder hb,
             SiteSettings siteSettings,
             Permissions.Types permissionType,

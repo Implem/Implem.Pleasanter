@@ -154,8 +154,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Edit(params string[] data) { return Get("Edit", data); }
         public static HtmlBuilder Displays_History(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("History", data)); }
         public static string History(params string[] data) { return Get("History", data); }
-        public static HtmlBuilder Displays_HistoryList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("HistoryList", data)); }
-        public static string HistoryList(params string[] data) { return Get("HistoryList", data); }
+        public static HtmlBuilder Displays_Histories(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Histories", data)); }
+        public static string Histories(params string[] data) { return Get("Histories", data); }
         public static HtmlBuilder Displays_Links(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Links", data)); }
         public static string Links(params string[] data) { return Get("Links", data); }
         public static HtmlBuilder Displays_LinkDestinations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LinkDestinations", data)); }

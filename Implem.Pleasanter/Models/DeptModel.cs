@@ -280,7 +280,6 @@ namespace Implem.Pleasanter.Models
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", Title.Value + " - " + Displays.Edit())
                 .Html("#RecordInfo", Html.Builder().RecordInfo(baseModel: this, tableName: "Depts"))
-                .Html("#RecordHistories", Html.Builder().RecordHistories(ver: Ver, verType: VerType))
                 .Message(Messages.Updated(Title.ToString()))
                 .RemoveComment(DeleteCommentId, _using: DeleteCommentId != 0)
                 .ClearFormData();
@@ -426,7 +425,7 @@ namespace Implem.Pleasanter.Models
                                     SiteSettings.HistoryColumnCollection().ForEach(column =>
                                         hb.TdValue(column, deptModel))));
                 });
-            return new DeptsResponseCollection(this).Html("#HistoriesForm", hb).ToJson();
+            return new DeptsResponseCollection(this).Html("#FieldSetHistories", hb).ToJson();
         }
 
         public string History()
@@ -441,48 +440,6 @@ namespace Implem.Pleasanter.Models
                 : Versions.VerType(DeptId);
             SwitchTargets = DeptsUtility.GetSwitchTargets(SiteSettings);
             return Editor();
-        }
-
-        public string PreviousHistory()
-        {
-            Get(
-                where: Rds.DeptsWhere()
-                    .DeptId(DeptId)
-                    .Ver(Forms.Int("Ver"), _operator: "<"),
-                orderBy: Rds.DeptsOrderBy()
-                    .Ver(SqlOrderBy.Types.desc),
-                tableType: Sqls.TableTypes.History,
-                top: 1);
-            SwitchTargets = DeptsUtility.GetSwitchTargets(SiteSettings);
-            switch (AccessStatus)
-            {
-                case Databases.AccessStatuses.Selected:
-                    VerType = Versions.VerType(DeptId, Versions.DirectioTypes.Previous);
-                    return Editor();
-                default:
-                    return new DeptsResponseCollection(this).ToJson();
-            }
-        }
-
-        public string NextHistory()
-        {
-            Get(
-                where: Rds.DeptsWhere()
-                    .DeptId(DeptId)
-                    .Ver(Forms.Int("Ver"), _operator: ">"),
-                orderBy: Rds.DeptsOrderBy()
-                    .Ver(SqlOrderBy.Types.asc),
-                tableType: Sqls.TableTypes.History,
-                top: 1);
-            SwitchTargets = DeptsUtility.GetSwitchTargets(SiteSettings);
-            switch (AccessStatus)
-            {
-                case Databases.AccessStatuses.Selected:
-                    VerType = Versions.VerType(DeptId, Versions.DirectioTypes.Next);
-                    return Editor();
-                default:
-                    return new DeptsResponseCollection(this).ToJson();
-            }
         }
 
         public string Previous()
@@ -1133,10 +1090,14 @@ namespace Implem.Pleasanter.Models
                                 verType: deptModel.VerType))
                         .Div(css: "edit-form-tabs", action: () => hb
                             .FieldTabs(deptModel: deptModel)
-                            .Fields(
+                            .FieldSetGeneral(
                                 siteSettings: siteSettings,
                                 permissionType: permissionType,
                                 deptModel: deptModel)
+                            .FieldSet(attributes: Html.Attributes()
+                                .Id("FieldSetHistories")
+                                .DataAction("Histories")
+                                .DataMethod("get"))
                             .MainCommands(
                                 siteId: 0,
                                 permissionType: permissionType,
@@ -1164,7 +1125,6 @@ namespace Implem.Pleasanter.Models
                             value: deptModel.SwitchTargets?.Join()))
                 .OutgoingMailsForm("Depts", deptModel.DeptId, deptModel.Ver)
                 .Dialog_Copy("Depts", deptModel.DeptId)
-                .Dialog_Histories(Navigations.Action("Depts", deptModel.DeptId))
                 .Dialog_OutgoingMail()
                 .EditorExtensions(deptModel: deptModel, siteSettings: siteSettings));
         }
@@ -1175,10 +1135,14 @@ namespace Implem.Pleasanter.Models
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral", 
-                        text: Displays.Basic())));
+                        text: Displays.Basic()))
+                .Li(action: () => hb
+                    .A(
+                        href: "#FieldSetHistories",
+                        text: Displays.Histories())));
         }
 
-        private static HtmlBuilder Fields(
+        private static HtmlBuilder FieldSetGeneral(
             this HtmlBuilder hb,
             SiteSettings siteSettings,
             Permissions.Types permissionType,

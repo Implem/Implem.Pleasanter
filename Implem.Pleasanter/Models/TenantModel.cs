@@ -252,7 +252,6 @@ namespace Implem.Pleasanter.Models
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", Title.Value + " - " + Displays.Edit())
                 .Html("#RecordInfo", Html.Builder().RecordInfo(baseModel: this, tableName: "Tenants"))
-                .Html("#RecordHistories", Html.Builder().RecordHistories(ver: Ver, verType: VerType))
                 .Message(Messages.Updated(Title.ToString()))
                 .RemoveComment(DeleteCommentId, _using: DeleteCommentId != 0)
                 .ClearFormData();
@@ -398,7 +397,7 @@ namespace Implem.Pleasanter.Models
                                     SiteSettings.HistoryColumnCollection().ForEach(column =>
                                         hb.TdValue(column, tenantModel))));
                 });
-            return new TenantsResponseCollection(this).Html("#HistoriesForm", hb).ToJson();
+            return new TenantsResponseCollection(this).Html("#FieldSetHistories", hb).ToJson();
         }
 
         public string History()
@@ -413,48 +412,6 @@ namespace Implem.Pleasanter.Models
                 : Versions.VerType(TenantId);
             SwitchTargets = TenantsUtility.GetSwitchTargets(SiteSettings);
             return Editor();
-        }
-
-        public string PreviousHistory()
-        {
-            Get(
-                where: Rds.TenantsWhere()
-                    .TenantId(TenantId)
-                    .Ver(Forms.Int("Ver"), _operator: "<"),
-                orderBy: Rds.TenantsOrderBy()
-                    .Ver(SqlOrderBy.Types.desc),
-                tableType: Sqls.TableTypes.History,
-                top: 1);
-            SwitchTargets = TenantsUtility.GetSwitchTargets(SiteSettings);
-            switch (AccessStatus)
-            {
-                case Databases.AccessStatuses.Selected:
-                    VerType = Versions.VerType(TenantId, Versions.DirectioTypes.Previous);
-                    return Editor();
-                default:
-                    return new TenantsResponseCollection(this).ToJson();
-            }
-        }
-
-        public string NextHistory()
-        {
-            Get(
-                where: Rds.TenantsWhere()
-                    .TenantId(TenantId)
-                    .Ver(Forms.Int("Ver"), _operator: ">"),
-                orderBy: Rds.TenantsOrderBy()
-                    .Ver(SqlOrderBy.Types.asc),
-                tableType: Sqls.TableTypes.History,
-                top: 1);
-            SwitchTargets = TenantsUtility.GetSwitchTargets(SiteSettings);
-            switch (AccessStatus)
-            {
-                case Databases.AccessStatuses.Selected:
-                    VerType = Versions.VerType(TenantId, Versions.DirectioTypes.Next);
-                    return Editor();
-                default:
-                    return new TenantsResponseCollection(this).ToJson();
-            }
         }
 
         public string Previous()
@@ -1069,10 +1026,14 @@ namespace Implem.Pleasanter.Models
                                 verType: tenantModel.VerType))
                         .Div(css: "edit-form-tabs", action: () => hb
                             .FieldTabs(tenantModel: tenantModel)
-                            .Fields(
+                            .FieldSetGeneral(
                                 siteSettings: siteSettings,
                                 permissionType: permissionType,
                                 tenantModel: tenantModel)
+                            .FieldSet(attributes: Html.Attributes()
+                                .Id("FieldSetHistories")
+                                .DataAction("Histories")
+                                .DataMethod("get"))
                             .MainCommands(
                                 siteId: 0,
                                 permissionType: permissionType,
@@ -1100,7 +1061,6 @@ namespace Implem.Pleasanter.Models
                             value: tenantModel.SwitchTargets?.Join()))
                 .OutgoingMailsForm("Tenants", tenantModel.TenantId, tenantModel.Ver)
                 .Dialog_Copy("Tenants", tenantModel.TenantId)
-                .Dialog_Histories(Navigations.Action("Tenants", tenantModel.TenantId))
                 .Dialog_OutgoingMail()
                 .EditorExtensions(tenantModel: tenantModel, siteSettings: siteSettings));
         }
@@ -1111,10 +1071,14 @@ namespace Implem.Pleasanter.Models
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral", 
-                        text: Displays.Basic())));
+                        text: Displays.Basic()))
+                .Li(action: () => hb
+                    .A(
+                        href: "#FieldSetHistories",
+                        text: Displays.Histories())));
         }
 
-        private static HtmlBuilder Fields(
+        private static HtmlBuilder FieldSetGeneral(
             this HtmlBuilder hb,
             SiteSettings siteSettings,
             Permissions.Types permissionType,

@@ -299,7 +299,6 @@
     <Compile Include="Libraries\ViewParts\HtmlMoves.cs" />
     <Compile Include="Libraries\ViewParts\HtmlNavigations.cs" />
     <Compile Include="Libraries\ViewParts\HtmlRecordHeader.cs" />
-    <Compile Include="Libraries\ViewParts\HtmlRecordHistories.cs" />
     <Compile Include="Libraries\ViewParts\HtmlRecordInfo.cs" />
     <Compile Include="Libraries\ViewParts\HtmlRecordSwitchers.cs" />
     <Compile Include="Libraries\ViewParts\HtmlScripts.cs" />
