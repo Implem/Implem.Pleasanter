@@ -1244,8 +1244,10 @@ namespace Implem.Pleasanter.Models
                                 wikiModel: wikiModel,
                                 permissionType: siteModel.PermissionType,
                                 siteSettings: siteSettings)
-                            .FieldSet(id: "FieldSetHistories")
-                            .FieldSet(id: "FieldSetMail")
+                            .FieldSet(attributes: Html.Attributes()
+                                .Id("FieldSetHistories")
+                                .DataAction("Histories")
+                                .DataMethod("get"))
                             .MainCommands(
                                 siteId: siteModel.SiteId,
                                 permissionType: siteModel.PermissionType,
