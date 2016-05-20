@@ -1792,7 +1792,8 @@ namespace Implem.Pleasanter.Models
                             value: siteModel.Timestamp))
                 .OutgoingMailsForm("Sites", siteModel.SiteId, siteModel.Ver)
                 .Dialog_Copy("items", siteModel.SiteId)
-                .Dialog_Move("items", siteModel.SiteId));
+                .Dialog_Move("items", siteModel.SiteId))
+                .Dialog_OutgoingMail();
         }
 
         /// <summary>
@@ -1830,6 +1831,7 @@ namespace Implem.Pleasanter.Models
                         text: siteModel.SiteId.ToString())
                     .FieldText(
                         controlId: "Sites_Ver",
+                        controlCss: siteModel.SiteSettings.AllColumn("Ver").ControlCss,
                         labelText: Displays.Sites_Ver(),
                         text: siteModel.Ver.ToString())
                     .FieldTextBox(
