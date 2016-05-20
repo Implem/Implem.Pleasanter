@@ -1792,8 +1792,7 @@ namespace Implem.Pleasanter.Models
                             value: siteModel.Timestamp))
                 .OutgoingMailsForm("Sites", siteModel.SiteId, siteModel.Ver)
                 .Dialog_Copy("items", siteModel.SiteId)
-                .Dialog_Move("items", siteModel.SiteId))
-                .Dialog_OutgoingMail();
+                .Dialog_OutgoingMail());
         }
 
         /// <summary>
