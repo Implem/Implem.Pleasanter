@@ -15436,7 +15436,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .StartTime(issueModel.StartTime, _using: issueModel.StartTime_Updated || paramAll)
                 .CompletionTime(issueModel.CompletionTime.Value, _using: issueModel.CompletionTime_Updated || setDefault || paramAll)
                 .WorkValue(issueModel.WorkValue.Value, _using: issueModel.WorkValue_Updated || paramAll)
-                .ProgressRate(issueModel.ProgressRate.Value, _using: issueModel.ProgressRate_Updated || setDefault || paramAll)
+                .ProgressRate(issueModel.ProgressRate.Value, _using: issueModel.ProgressRate_Updated || paramAll)
                 .Status(issueModel.Status.Value, _using: issueModel.Status_Updated || setDefault || paramAll)
                 .Manager(issueModel.Manager.Id, _using: issueModel.Manager_Updated || paramAll)
                 .Owner(issueModel.Owner.Id, _using: issueModel.Owner_Updated || paramAll)
