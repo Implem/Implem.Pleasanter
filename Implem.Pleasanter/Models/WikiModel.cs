@@ -1188,9 +1188,9 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 siteId: siteModel.SiteId,
                 modelName: "Wiki",
-                title: wikiModel.MethodType != BaseModel.MethodTypes.New
-                    ? wikiModel.Title.DisplayValue + " - " + Displays.Edit()
-                    : siteModel.Title.DisplayValue + " - " + Displays.New(),
+                title: wikiModel.MethodType == BaseModel.MethodTypes.New
+                    ? siteModel.Title.DisplayValue + " - " + Displays.New()
+                    : wikiModel.Title.DisplayValue,
                 permissionType: wikiModel.PermissionType,
                 verType: wikiModel.VerType,
                 backUrl: Navigations.ItemIndex(wikiModel.SiteId),

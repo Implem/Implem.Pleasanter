@@ -987,9 +987,9 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 siteId: 0,
                 modelName: "MailAddress",
-                title: mailAddressModel.MethodType != BaseModel.MethodTypes.New
-                    ? mailAddressModel.Title.Value + " - " + Displays.Edit()
-                    : Displays.MailAddresses() + " - " + Displays.New(),
+                title: mailAddressModel.MethodType == BaseModel.MethodTypes.New
+                    ? Displays.MailAddresses() + " - " + Displays.New()
+                    : mailAddressModel.Title.Value,
                 permissionType: permissionType,
                 verType: mailAddressModel.VerType,
                 backUrl: Navigations.ItemIndex(0),

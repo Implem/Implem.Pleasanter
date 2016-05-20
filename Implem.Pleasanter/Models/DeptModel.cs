@@ -1039,9 +1039,9 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 siteId: 0,
                 modelName: "Dept",
-                title: deptModel.MethodType != BaseModel.MethodTypes.New
-                    ? deptModel.Title.Value + " - " + Displays.Edit()
-                    : Displays.Depts() + " - " + Displays.New(),
+                title: deptModel.MethodType == BaseModel.MethodTypes.New
+                    ? Displays.Depts() + " - " + Displays.New()
+                    : deptModel.Title.Value,
                 permissionType: permissionType,
                 verType: deptModel.VerType,
                 backUrl: Navigations.ItemIndex(0),

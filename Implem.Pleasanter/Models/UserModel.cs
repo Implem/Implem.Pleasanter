@@ -1554,9 +1554,9 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 siteId: 0,
                 modelName: "User",
-                title: userModel.MethodType != BaseModel.MethodTypes.New
-                    ? userModel.Title.Value + " - " + Displays.Edit()
-                    : Displays.Users() + " - " + Displays.New(),
+                title: userModel.MethodType == BaseModel.MethodTypes.New
+                    ? Displays.Users() + " - " + Displays.New()
+                    : userModel.Title.Value,
                 permissionType: permissionType,
                 verType: userModel.VerType,
                 backUrl: Navigations.ItemIndex(0),

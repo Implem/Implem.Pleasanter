@@ -975,9 +975,9 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 siteId: 0,
                 modelName: "Tenant",
-                title: tenantModel.MethodType != BaseModel.MethodTypes.New
-                    ? tenantModel.Title.Value + " - " + Displays.Edit()
-                    : Displays.Tenants() + " - " + Displays.New(),
+                title: tenantModel.MethodType == BaseModel.MethodTypes.New
+                    ? Displays.Tenants() + " - " + Displays.New()
+                    : tenantModel.Title.Value,
                 permissionType: permissionType,
                 verType: tenantModel.VerType,
                 backUrl: Navigations.ItemIndex(0),

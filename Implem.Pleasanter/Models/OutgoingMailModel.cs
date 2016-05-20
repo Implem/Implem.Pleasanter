@@ -1235,9 +1235,9 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 siteId: 0,
                 modelName: "OutgoingMail",
-                title: outgoingMailModel.MethodType != BaseModel.MethodTypes.New
-                    ? outgoingMailModel.Title.Value + " - " + Displays.Edit()
-                    : Displays.OutgoingMails() + " - " + Displays.New(),
+                title: outgoingMailModel.MethodType == BaseModel.MethodTypes.New
+                    ? Displays.OutgoingMails() + " - " + Displays.New()
+                    : outgoingMailModel.Title.Value,
                 permissionType: permissionType,
                 verType: outgoingMailModel.VerType,
                 backUrl: Navigations.ItemIndex(0),

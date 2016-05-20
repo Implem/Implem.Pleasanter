@@ -1009,9 +1009,9 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 siteId: 0,
                 modelName: "Demo",
-                title: demoModel.MethodType != BaseModel.MethodTypes.New
-                    ? demoModel.Title.Value + " - " + Displays.Edit()
-                    : Displays.Demos() + " - " + Displays.New(),
+                title: demoModel.MethodType == BaseModel.MethodTypes.New
+                    ? Displays.Demos() + " - " + Displays.New()
+                    : demoModel.Title.Value,
                 permissionType: permissionType,
                 verType: demoModel.VerType,
                 backUrl: Navigations.ItemIndex(0),

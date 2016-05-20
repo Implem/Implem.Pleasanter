@@ -2499,9 +2499,9 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 siteId: siteModel.SiteId,
                 modelName: "Issue",
-                title: issueModel.MethodType != BaseModel.MethodTypes.New
-                    ? issueModel.Title.DisplayValue + " - " + Displays.Edit()
-                    : siteModel.Title.DisplayValue + " - " + Displays.New(),
+                title: issueModel.MethodType == BaseModel.MethodTypes.New
+                    ? siteModel.Title.DisplayValue + " - " + Displays.New()
+                    : issueModel.Title.DisplayValue,
                 permissionType: issueModel.PermissionType,
                 verType: issueModel.VerType,
                 backUrl: Navigations.ItemIndex(issueModel.SiteId),

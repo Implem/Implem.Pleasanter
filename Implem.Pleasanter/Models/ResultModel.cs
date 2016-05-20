@@ -2330,9 +2330,9 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 siteId: siteModel.SiteId,
                 modelName: "Result",
-                title: resultModel.MethodType != BaseModel.MethodTypes.New
-                    ? resultModel.Title.DisplayValue + " - " + Displays.Edit()
-                    : siteModel.Title.DisplayValue + " - " + Displays.New(),
+                title: resultModel.MethodType == BaseModel.MethodTypes.New
+                    ? siteModel.Title.DisplayValue + " - " + Displays.New()
+                    : resultModel.Title.DisplayValue,
                 permissionType: resultModel.PermissionType,
                 verType: resultModel.VerType,
                 backUrl: Navigations.ItemIndex(resultModel.SiteId),

@@ -1211,9 +1211,9 @@ namespace Implem.Pleasanter.Models
             return hb.Template(
                 siteId: 0,
                 modelName: "Binary",
-                title: binaryModel.MethodType != BaseModel.MethodTypes.New
-                    ? binaryModel.Title.Value + " - " + Displays.Edit()
-                    : Displays.Binaries() + " - " + Displays.New(),
+                title: binaryModel.MethodType == BaseModel.MethodTypes.New
+                    ? Displays.Binaries() + " - " + Displays.New()
+                    : binaryModel.Title.Value,
                 permissionType: permissionType,
                 verType: binaryModel.VerType,
                 backUrl: Navigations.ItemIndex(0),
