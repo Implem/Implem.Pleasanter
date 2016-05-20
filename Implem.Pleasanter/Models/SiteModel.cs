@@ -1405,25 +1405,35 @@ namespace Implem.Pleasanter.Models
                         .A(
                             href: "#SiteImageSettingsEditor",
                             text: Displays.SiteImageSettingsEditor()));
-                    if (siteModel.ReferenceType != "Sites")
+                    switch (siteModel.ReferenceType)
                     {
-                        hb
-                            .Li(action: () => hb
-                                .A(
-                                    href: "#GridSettingsEditor",
-                                    text: Displays.GridSettingsEditor()))
-                            .Li(action: () => hb
-                                .A(
-                                    href: "#EditorSettingsEditor",
-                                    text: Displays.EditorSettingsEditor()))
-                            .Li(action: () => hb
-                                .A(
-                                    href: "#SummarySettingsEditor",
-                                    text: Displays.SummarySettingsEditor()))
-                            .Li(action: () => hb
+                        case "Sites":
+                            break;
+                        case "Wikis":
+                            hb.Li(action: () => hb
                                 .A(
                                     href: "#MailerSettingsEditor",
                                     text: Displays.MailerSettingsEditor()));
+                            break;
+                        default:
+                            hb
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#GridSettingsEditor",
+                                        text: Displays.GridSettingsEditor()))
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#EditorSettingsEditor",
+                                        text: Displays.EditorSettingsEditor()))
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#SummarySettingsEditor",
+                                        text: Displays.SummarySettingsEditor()))
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#MailerSettingsEditor",
+                                        text: Displays.MailerSettingsEditor()));
+                            break;
                     }
                 }
                 hb.Li(action: () => hb
@@ -1827,12 +1837,14 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-wide",
                         controlCss: " focus",
                         labelText: Displays.Sites_Title(),
-                        text: siteModel.Title.Value.ToString())
+                        text: siteModel.Title.Value.ToString(),
+                        _using: siteModel.ReferenceType != "Wikis")
                     .FieldMarkDown(
                         controlId: "Sites_Body",
                         fieldCss: "field-wide",
                         labelText: Displays.Sites_Body(),
-                        text: siteModel.Body)
+                        text: siteModel.Body,
+                        _using: siteModel.ReferenceType != "Wikis")
                     .Field(
                         controlId: "Sites_ReferenceType",
                         labelText: Displays.Sites_ReferenceType(),
@@ -1854,13 +1866,20 @@ namespace Implem.Pleasanter.Models
             if (siteModel.MethodType != BaseModel.MethodTypes.New)
             {
                 hb.SiteImageSettingsEditor(siteModel.SiteSettings);
-                if (siteModel.ReferenceType != "Sites")
+                switch (siteModel.ReferenceType)
                 {
-                    hb
-                        .GridSettingsEditor(siteModel.SiteSettings)
-                        .EditorSettingsEditor(siteModel.SiteSettings)
-                        .SummarySettingsEditor(siteModel.SiteSettings)
-                        .MailerSettingsEditor(siteModel.SiteSettings);
+                    case "Sites":
+                        break;
+                    case "Wikis":
+                        hb.MailerSettingsEditor(siteModel.SiteSettings);
+                        break;
+                    default:
+                        hb
+                            .GridSettingsEditor(siteModel.SiteSettings)
+                            .EditorSettingsEditor(siteModel.SiteSettings)
+                            .SummarySettingsEditor(siteModel.SiteSettings)
+                            .MailerSettingsEditor(siteModel.SiteSettings);
+                        break;
                 }
             }
             return hb;
