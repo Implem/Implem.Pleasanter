@@ -751,7 +751,6 @@ namespace Implem.Pleasanter.Models
                 title: Displays.Depts() + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
-                backUrl: Navigations.Index("Admins"),
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: Sessions.User().TenantAdmin,
                 action: () =>
@@ -1044,7 +1043,6 @@ namespace Implem.Pleasanter.Models
                     : deptModel.Title.Value,
                 permissionType: permissionType,
                 verType: deptModel.VerType,
-                backUrl: Navigations.ItemIndex(0),
                 methodType: deptModel.MethodType,
                 allowAccess:
                     permissionType.CanEditTenant() &&

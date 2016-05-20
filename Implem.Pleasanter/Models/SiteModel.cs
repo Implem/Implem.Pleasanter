@@ -1448,7 +1448,6 @@ namespace Implem.Pleasanter.Models
                 title: Displays.Top(),
                 permissionType: permissionType,
                 verType: verType,
-                backUrl: string.Empty,
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: true,
                 action: () =>
@@ -1489,7 +1488,6 @@ namespace Implem.Pleasanter.Models
                 title: siteModel.Title.Value,
                 permissionType: siteModel.PermissionType,
                 verType: Versions.VerTypes.Latest,
-                backUrl: Navigations.ItemIndex(siteSettings.ParentId),
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess:
                     siteModel.PermissionType.CanRead() &&
@@ -1711,7 +1709,6 @@ namespace Implem.Pleasanter.Models
                     : siteModel.Title + " - " + Displays.EditSettings(),
                 permissionType: siteModel.PermissionType,
                 verType: siteModel.VerType,
-                backUrl: EditorBackUrl(siteModel),
                 methodType: siteModel.MethodType,
                 allowAccess: AllowAccess(siteModel),
                 action: () => hb

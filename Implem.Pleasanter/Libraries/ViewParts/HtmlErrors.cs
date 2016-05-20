@@ -18,7 +18,6 @@ namespace Implem.Pleasanter.Libraries.ViewParts
                 title: Displays.Error(),
                 permissionType: Permissions.Types.NotSet,
                 verType: Versions.VerTypes.Latest,
-                backUrl: Navigations.Top(),
                 methodType: Models.BaseModel.MethodTypes.NotSet,
                 allowAccess: true,
                 action: () => hb

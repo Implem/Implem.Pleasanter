@@ -1,5 +1,4 @@
-﻿using Implem.Pleasanter.Libraries.Requests;
-using Implem.Pleasanter.Libraries.Responses;
+﻿using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.ServerData;
 using Implem.Pleasanter.Libraries.Utilities;
 namespace Implem.Pleasanter.Libraries.ViewParts
@@ -18,7 +17,6 @@ namespace Implem.Pleasanter.Libraries.ViewParts
                 methodType: Models.BaseModel.MethodTypes.NotSet,
                 allowAccess: Sessions.User().TenantAdmin,
                 verType: Versions.VerTypes.Latest,
-                backUrl: Navigations.Top(),
                 useNavigationButtons: false,
                 action: () => hb
                     .Nav(css: "cf", action: () => hb

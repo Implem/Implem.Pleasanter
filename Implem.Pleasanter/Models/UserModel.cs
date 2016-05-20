@@ -1241,7 +1241,6 @@ namespace Implem.Pleasanter.Models
                 title: Displays.Users() + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
-                backUrl: Navigations.Index("Admins"),
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: Sessions.User().TenantAdmin,
                 action: () =>
@@ -1559,7 +1558,6 @@ namespace Implem.Pleasanter.Models
                     : userModel.Title.Value,
                 permissionType: permissionType,
                 verType: userModel.VerType,
-                backUrl: Navigations.ItemIndex(0),
                 methodType: userModel.MethodType,
                 allowAccess:
                     permissionType.CanEditTenant() || userModel.Self() &&
@@ -1892,7 +1890,6 @@ namespace Implem.Pleasanter.Models
                 title: string.Empty,
                 permissionType: Permissions.Admins(),
                 verType: Versions.VerTypes.Latest,
-                backUrl: string.Empty,
                 useBreadCrumbs: false,
                 useTitle: false,
                 useSearch: false,

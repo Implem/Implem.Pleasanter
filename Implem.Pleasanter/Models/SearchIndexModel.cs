@@ -350,7 +350,6 @@ namespace Implem.Pleasanter.Models
                 title: string.Empty,
                 permissionType: Permissions.Types.Read,
                 verType: Versions.VerTypes.Unknown,
-                backUrl: string.Empty,
                 methodType: BaseModel.MethodTypes.NotSet,
                 allowAccess: true,
                 useNavigationButtons: false,

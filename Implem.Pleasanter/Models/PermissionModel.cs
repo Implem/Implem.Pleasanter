@@ -363,7 +363,6 @@ namespace Implem.Pleasanter.Models
                 title: siteModel.Title.Value + " - " + Displays.EditPermissions(),
                 permissionType: siteModel.PermissionType,
                 verType: Versions.VerTypes.Latest,
-                backUrl: Navigations.ItemEdit(siteId),
                 methodType: BaseModel.MethodTypes.Edit,
                 allowAccess: siteModel.PermissionType.CanEditPermission(),
                 useNavigationButtons: false,

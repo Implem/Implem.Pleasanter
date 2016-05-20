@@ -862,7 +862,6 @@ namespace Implem.Pleasanter.Models
                 title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
-                backUrl: Navigations.ItemIndex(siteSettings.ParentId),
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: permissionType.CanRead(),
                 script: IndexScript(
@@ -1156,7 +1155,6 @@ namespace Implem.Pleasanter.Models
                     : exportSettingModel.Title.Value,
                 permissionType: permissionType,
                 verType: exportSettingModel.VerType,
-                backUrl: Navigations.ItemIndex(0),
                 methodType: exportSettingModel.MethodType,
                 allowAccess:
                     permissionType.CanEditTenant() &&

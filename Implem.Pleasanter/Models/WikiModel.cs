@@ -1193,7 +1193,6 @@ namespace Implem.Pleasanter.Models
                     : wikiModel.Title.DisplayValue,
                 permissionType: wikiModel.PermissionType,
                 verType: wikiModel.VerType,
-                backUrl: Navigations.ItemIndex(wikiModel.SiteId),
                 methodType: wikiModel.MethodType,
                 allowAccess:
                     wikiModel.PermissionType.CanRead() &&
@@ -1735,7 +1734,6 @@ namespace Implem.Pleasanter.Models
                     : siteModel.Title.DisplayValue + " - " + Displays.New(),
                 permissionType: siteModel.PermissionType,
                 verType: wikiModel.VerType,
-                backUrl: Navigations.ItemIndex(siteModel.ParentId),
                 methodType: wikiModel.MethodType,
                 allowAccess:
                     siteModel.PermissionType.CanRead() &&

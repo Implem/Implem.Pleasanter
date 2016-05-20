@@ -700,7 +700,6 @@ namespace Implem.Pleasanter.Models
                 title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
-                backUrl: Navigations.ItemIndex(siteSettings.ParentId),
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: permissionType.CanRead(),
                 script: IndexScript(
@@ -992,7 +991,6 @@ namespace Implem.Pleasanter.Models
                     : mailAddressModel.Title.Value,
                 permissionType: permissionType,
                 verType: mailAddressModel.VerType,
-                backUrl: Navigations.ItemIndex(0),
                 methodType: mailAddressModel.MethodType,
                 allowAccess:
                     permissionType.CanEditTenant() &&
