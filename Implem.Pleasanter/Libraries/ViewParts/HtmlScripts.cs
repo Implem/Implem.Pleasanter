@@ -30,7 +30,9 @@ namespace Implem.Pleasanter.Libraries.ViewParts
             bool allowAccess)
         {
             return Editor(methodType) && allowAccess
-                ? hb.Script(src: Validator(modelName))
+                ? hb
+                    .Script(src: Validator(modelName))
+                    .Script(src: Validator("OutgoingMail"))
                 : hb;
         }
 
