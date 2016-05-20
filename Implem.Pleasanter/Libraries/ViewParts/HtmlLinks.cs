@@ -86,10 +86,12 @@ namespace Implem.Pleasanter.Libraries.ViewParts
             {
                 var siteCollection = new SiteCollection(
                     where: Rds.SitesWhere()
-                        .SiteId_In( linkCollection.Select(o => o.SiteId).Distinct()));
+                        .SiteId_In(linkCollection.Select(o => o.SiteId).Distinct()));
                 siteCollection.ForEach(siteModel => hb
                     .Table(css: "grid", action: () =>
                     {
+                        var siteLinkCollection = linkCollection
+                            .Where(o => o.SiteId == siteModel.SiteId);
                         switch (siteModel.SiteSettings.ReferenceType)
                         {
                             case "Issues":
@@ -99,11 +101,10 @@ namespace Implem.Pleasanter.Libraries.ViewParts
                                         siteModel.SiteId,
                                         siteModel.Title.Value,
                                         Displays.Quantity(),
-                                        linkCollection.Count))
+                                        siteLinkCollection.Count()))
                                     .IssuesLinkHeader(siteModel: siteModel, type: type)
                                     .IssuesRows(
-                                        linkCollection: linkCollection
-                                            .Where(o => o.SiteId == siteModel.SiteId),
+                                        linkCollection: siteLinkCollection,
                                         siteSettings: siteModel.IssuesSiteSettings(),
                                         type: type);
                                 break;
@@ -114,11 +115,10 @@ namespace Implem.Pleasanter.Libraries.ViewParts
                                         siteModel.SiteId,
                                         siteModel.Title.Value,
                                         Displays.Quantity(),
-                                        linkCollection.Count))
+                                        siteLinkCollection.Count()))
                                     .ResultsLinkHeader(siteModel: siteModel, type: type)
                                     .ResultsRows(
-                                        linkCollection: linkCollection
-                                            .Where(o => o.SiteId == siteModel.SiteId),
+                                        linkCollection: siteLinkCollection,
                                         siteSettings: siteModel.ResultsSiteSettings(),
                                         type: type);
                                 break;
@@ -129,11 +129,10 @@ namespace Implem.Pleasanter.Libraries.ViewParts
                                         siteModel.SiteId,
                                         siteModel.Title.Value,
                                         Displays.Quantity(),
-                                        linkCollection.Count))
+                                        siteLinkCollection.Count()))
                                     .WikisLinkHeader(siteModel: siteModel, type: type)
                                     .WikisRows(
-                                        linkCollection: linkCollection
-                                            .Where(o => o.SiteId == siteModel.SiteId),
+                                        linkCollection: siteLinkCollection,
                                         siteSettings: siteModel.WikisSiteSettings(),
                                         type: type);
                                 break;
