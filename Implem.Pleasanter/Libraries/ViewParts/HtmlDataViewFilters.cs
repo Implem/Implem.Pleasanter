@@ -1,5 +1,4 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.Utilities;
+﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
@@ -39,81 +38,82 @@ namespace Implem.Pleasanter.Libraries.ViewParts
         private static HtmlBuilder Incomplete(
             this HtmlBuilder hb, SiteSettings siteSettings, FormData formData)
         {
-            return Def.ExistsTable(siteSettings.ReferenceType, o => o.TypeCs == "Status")
-                ? hb.FieldCheckBox(
-                    controlId: "DataViewFilters_Incomplete",
-                    fieldCss: "field-auto-thin",
-                    controlCss: " auto-postback",
-                    labelText: Displays.Incomplete(),
-                    _checked: formData.Checked("DataViewFilters_Incomplete"),
-                    action: "DataView",
-                    method: "post",
-                    labelPositionIsRight: true)
-                : hb;
+            return hb.FieldCheckBox(
+                controlId: "DataViewFilters_Incomplete",
+                fieldCss: "field-auto-thin",
+                controlCss: " auto-postback",
+                labelText: Displays.Incomplete(),
+                _checked: formData.Checked("DataViewFilters_Incomplete"),
+                action: "DataView",
+                method: "post",
+                labelPositionIsRight: true,
+                _using: Visible(siteSettings, "Status"));
         }
 
         private static HtmlBuilder Own(
             this HtmlBuilder hb, SiteSettings siteSettings, FormData formData)
         {
-            return Def.ExistsTable(siteSettings.ReferenceType, o => o.Own)
-                ? hb.FieldCheckBox(
-                    controlId: "DataViewFilters_Own",
-                    fieldCss: "field-auto-thin",
-                    controlCss: " auto-postback",
-                    labelText: Displays.Own(),
-                    _checked: formData.Checked("DataViewFilters_Own"),
-                    action: "DataView",
-                    method: "post",
-                    labelPositionIsRight: true)
-                : hb;
+            return hb.FieldCheckBox(
+                controlId: "DataViewFilters_Own",
+                fieldCss: "field-auto-thin",
+                controlCss: " auto-postback",
+                labelText: Displays.Own(),
+                _checked: formData.Checked("DataViewFilters_Own"),
+                action: "DataView",
+                method: "post",
+                labelPositionIsRight: true);
         }
 
         private static HtmlBuilder NearCompletionTime(
             this HtmlBuilder hb, SiteSettings siteSettings, FormData formData)
         {
-            return Def.ExistsTable(siteSettings.ReferenceType, o => o.TypeCs == "CompletionTime")
-                ? hb.FieldCheckBox(
-                    controlId: "DataViewFilters_NearCompletionTime",
-                    fieldCss: "field-auto-thin",
-                    controlCss: " auto-postback",
-                    labelText: Displays.NearCompletionTime(),
-                    _checked: formData.Checked("DataViewFilters_NearCompletionTime"),
-                    action: "DataView",
-                    method: "post",
-                    labelPositionIsRight: true)
-                : hb;
+            return hb.FieldCheckBox(
+                controlId: "DataViewFilters_NearCompletionTime",
+                fieldCss: "field-auto-thin",
+                controlCss: " auto-postback",
+                labelText: Displays.NearCompletionTime(),
+                _checked: formData.Checked("DataViewFilters_NearCompletionTime"),
+                action: "DataView",
+                method: "post",
+                labelPositionIsRight: true,
+                _using: Visible(siteSettings, "CompletionTime"));
         }
 
         private static HtmlBuilder Delay(
             this HtmlBuilder hb, SiteSettings siteSettings, FormData formData)
         {
-            return Def.ExistsTable(siteSettings.ReferenceType, o => o.TypeCs == "ProgressRate")
-                ? hb.FieldCheckBox(
-                    controlId: "DataViewFilters_Delay",
-                    fieldCss: "field-auto-thin",
-                    controlCss: " auto-postback",
-                    labelText: Displays.Delay(),
-                    _checked: formData.Checked("DataViewFilters_Delay"),
-                    action: "DataView",
-                    method: "post",
-                    labelPositionIsRight: true)
-                : hb;
+            return hb.FieldCheckBox(
+                controlId: "DataViewFilters_Delay",
+                fieldCss: "field-auto-thin",
+                controlCss: " auto-postback",
+                labelText: Displays.Delay(),
+                _checked: formData.Checked("DataViewFilters_Delay"),
+                action: "DataView",
+                method: "post",
+                labelPositionIsRight: true,
+                _using: Visible(siteSettings, "ProgressRate"));
         }
 
         private static HtmlBuilder Limit(
             this HtmlBuilder hb, SiteSettings siteSettings, FormData formData)
         {
-            return Def.ExistsTable(siteSettings.ReferenceType, o => o.TypeCs == "CompletionTime")
-                ? hb.FieldCheckBox(
-                    controlId: "DataViewFilters_Overdue",
-                    fieldCss: "field-auto-thin",
-                    controlCss: " auto-postback",
-                    labelText: Displays.Overdue(),
-                    _checked: formData.Checked("DataViewFilters_Overdue"),
-                    action: "DataView",
-                    method: "post",
-                    labelPositionIsRight: true)
-                : hb;
+            return hb.FieldCheckBox(
+                controlId: "DataViewFilters_Overdue",
+                fieldCss: "field-auto-thin",
+                controlCss: " auto-postback",
+                labelText: Displays.Overdue(),
+                _checked: formData.Checked("DataViewFilters_Overdue"),
+                action: "DataView",
+                method: "post",
+                labelPositionIsRight: true,
+                _using: Visible(siteSettings, "CompletionTime"));
+        }
+
+        private static bool Visible(SiteSettings siteSettings, string columnName)
+        {
+            var column = siteSettings.AllColumn(columnName);
+            return column != null &&
+                (column.GridVisible.ToBool() || column.EditorVisible.ToBool());
         }
 
         private static HtmlBuilder Choices(
@@ -131,7 +131,8 @@ namespace Implem.Pleasanter.Libraries.ViewParts
                         labelText: Displays.Get(column.LabelText),
                         _checked: formData.Get("DataViewFilters_" + column.Id).ToBool(),
                         action: "DataView",
-                        method: "post");
+                        method: "post",
+                        _using: column.GridVisible.ToBool() || column.EditorVisible.ToBool());
                 });
             siteSettings.ColumnCollection
                 .Where(o => o.HasChoices())
@@ -148,7 +149,8 @@ namespace Implem.Pleasanter.Libraries.ViewParts
                         selectedValue: formData.Get("DataViewFilters_" + column.Id),
                         addSelectedValue: false,
                         action: "DataView",
-                        method: "post");
+                        method: "post",
+                        _using: column.GridVisible.ToBool() || column.EditorVisible.ToBool());
                 });
             return hb;
         }
