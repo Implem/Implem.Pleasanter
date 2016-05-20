@@ -80,7 +80,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public bool Checked(string key)
         {
-            return ContainsKey(key) && this[key].ToBool();
+            return ContainsKey(key) && this[key].Value.ToBool();
         }
     }
 }
