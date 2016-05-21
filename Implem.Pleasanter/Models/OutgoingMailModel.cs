@@ -498,6 +498,7 @@ namespace Implem.Pleasanter.Models
                         : OutgoingMailsUtility.Editor(this))
                 .Message(message)
                 .PushState(
+                    "Edit",
                     Navigations.Edit("OutgoingMails", outgoingMailModel.OutgoingMailId),
                     _using: pushState)
                 .ClearFormData()

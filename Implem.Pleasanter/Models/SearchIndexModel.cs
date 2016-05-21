@@ -308,8 +308,10 @@ namespace Implem.Pleasanter.Models
             if (offset == 0)
             {
                 responseCollection
-                    .PushState(Navigations.Get(
-                        "Items", "Search?text=" + HttpUtility.UrlEncode(text)))
+                    .PushState(
+                        "Search",
+                        Navigations.Get("Items", "Search?text=" + HttpUtility.UrlEncode(text)),
+                        _using: !QueryStrings.Bool("reload"))
                     .Html(
                         "#MainContainer",
                         MainContainer(

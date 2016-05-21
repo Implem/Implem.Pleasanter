@@ -218,7 +218,7 @@ function processResponse(response, data, $eventSender) {
                 location.href = value;
                 break;
             case 'PushState':
-                history.pushState('/reload', '', value);
+                history.pushState(target, '', value);
                 break;
             case 'SetFormData':
                 data[target] = value;

@@ -545,6 +545,7 @@ namespace Implem.Pleasanter.Models
                         : ExportSettingsUtility.Editor(this))
                 .Message(message)
                 .PushState(
+                    "Edit",
                     Navigations.Edit("ExportSettings", exportSettingModel.ExportSettingId),
                     _using: pushState)
                 .ClearFormData()

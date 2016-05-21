@@ -1038,6 +1038,7 @@ namespace Implem.Pleasanter.Models
                         : ResultsUtility.Editor(siteModel, this))
                 .Message(message)
                 .PushState(
+                    "Edit",
                     Navigations.ItemEdit(resultModel.ResultId),
                     _using: pushState)
                 .ClearFormData()

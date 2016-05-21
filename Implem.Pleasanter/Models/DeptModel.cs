@@ -483,6 +483,7 @@ namespace Implem.Pleasanter.Models
                         : DeptsUtility.Editor(this))
                 .Message(message)
                 .PushState(
+                    "Edit",
                     Navigations.Edit("Depts", deptModel.DeptId),
                     _using: pushState)
                 .ClearFormData()

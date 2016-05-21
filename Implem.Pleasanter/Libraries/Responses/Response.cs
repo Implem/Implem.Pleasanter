@@ -65,16 +65,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Add("Href", string.Empty, url);
         }
 
-        public ResponseCollection PushState(string url = null, bool _using = true)
+        public ResponseCollection PushState(string state, string url, bool _using = true)
         {
             return _using
-                ? Add("PushState", string.Empty, url)
+                ? Add("PushState", state, url)
                 : this;
-        }
-
-        public ResponseCollection PushState(string url = null)
-        {
-            return Add("PushState", string.Empty, url);
         }
 
         public ResponseCollection SetFormData(string target, object value)

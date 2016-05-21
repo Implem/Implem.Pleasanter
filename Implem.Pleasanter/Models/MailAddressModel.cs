@@ -458,6 +458,7 @@ namespace Implem.Pleasanter.Models
                         : MailAddressesUtility.Editor(this))
                 .Message(message)
                 .PushState(
+                    "Edit",
                     Navigations.Edit("MailAddresses", mailAddressModel.MailAddressId),
                     _using: pushState)
                 .ClearFormData()

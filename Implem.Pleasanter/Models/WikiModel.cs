@@ -599,6 +599,7 @@ namespace Implem.Pleasanter.Models
                         : WikisUtility.Editor(siteModel, this))
                 .Message(message)
                 .PushState(
+                    "Edit",
                     Navigations.ItemEdit(wikiModel.WikiId),
                     _using: pushState)
                 .ClearFormData()

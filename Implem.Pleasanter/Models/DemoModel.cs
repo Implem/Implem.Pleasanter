@@ -472,6 +472,7 @@ namespace Implem.Pleasanter.Models
                         : DemosUtility.Editor(this))
                 .Message(message)
                 .PushState(
+                    "Edit",
                     Navigations.Edit("Demos", demoModel.DemoId),
                     _using: pushState)
                 .ClearFormData()
