@@ -813,11 +813,9 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
-                    responseCollection
-                        .Html(
-                            "#Dialog_ColumnProperties",
-                            SitesUtility.ColumnProperties(SiteSettings, column))
-                        .ClearFormData("ColumnProperty,", "startsWith");
+                    responseCollection.Html(
+                        "#Dialog_ColumnProperties",
+                        SitesUtility.ColumnProperties(SiteSettings, column));
                 }
             }
         }

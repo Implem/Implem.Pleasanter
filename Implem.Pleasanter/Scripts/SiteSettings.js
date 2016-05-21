@@ -1,4 +1,7 @@
 ﻿$(function () {
+    $(document).on('selectableselected', '#EditorColumns', function () {
+        clearFormData('ColumnProperty,', getFormData($('.main-form')), 'startsWith');
+    });
     $(document).on('change', '[id="ColumnProperty,ControlType"]', function () {
         var visibility = $(this).val() === 'Spinner';
         $('[id="Field_ColumnProperty,Min"]').toggle(visibility);
