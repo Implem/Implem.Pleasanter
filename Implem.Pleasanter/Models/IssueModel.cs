@@ -2729,14 +2729,16 @@ namespace Implem.Pleasanter.Models
             IssueModel issueModel,
             SiteSettings siteSettings)
         {
-            return issueModel.MethodType == BaseModel.MethodTypes.Edit
-                ? hb.Button(
-                    text: Displays.Separate(),
-                    controlCss: "button-separate",
-                    onClick: Def.JavaScript.EditSeparateSettings,
-                    action: "EditSeparateSettings",
-                    method: "post")
-                : hb;
+            return 
+                issueModel.MethodType != BaseModel.MethodTypes.New &&
+                issueModel.VerType == Versions.VerTypes.Latest
+                    ? hb.Button(
+                        text: Displays.Separate(),
+                        controlCss: "button-separate",
+                        onClick: Def.JavaScript.EditSeparateSettings,
+                        action: "EditSeparateSettings",
+                        method: "post")
+                    : hb;
         }
 
         /// <summary>
@@ -2747,9 +2749,11 @@ namespace Implem.Pleasanter.Models
             IssueModel issueModel,
             SiteSettings siteSettings)
         {
-            return issueModel.MethodType == BaseModel.MethodTypes.Edit
-                ? hb.Dialog_SeparateSettings()
-                : hb;
+            return
+                issueModel.MethodType != BaseModel.MethodTypes.New &&
+                issueModel.VerType == Versions.VerTypes.Latest
+                    ? hb.Dialog_SeparateSettings()
+                    : hb;
         }
 
         public static List<long> GetSwitchTargets(SiteSettings siteSettings, long siteId)
