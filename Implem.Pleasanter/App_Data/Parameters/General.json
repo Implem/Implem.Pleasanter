@@ -3,7 +3,7 @@
     "HtmlHeadKeywords": "CMS,Project Management,IT Service Management,Knowledge Management",
     "HtmlHeadDescription": "Web tool that helps the efficiency of business",
     "HtmlHeadAuther": "Implem",
-    "HtmlHeadViewport": "width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no",
+    "HtmlHeadViewport": "",
     "HtmlLogoText": ".Pleasanter",
     "HtmlCopyright": "Copyright &copy; Implem 2014 - {0}",
     "HtmlCopyrightUrl": "https://github.com/Implem",
