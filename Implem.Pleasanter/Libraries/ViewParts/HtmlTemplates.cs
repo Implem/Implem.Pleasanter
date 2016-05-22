@@ -24,6 +24,7 @@ namespace Implem.Pleasanter.Libraries.ViewParts
             bool useSearch = true,
             bool useNavigationButtons = true,
             string script = "",
+            string userScript = "",
             Action action = null)
         {
             return hb
@@ -83,6 +84,7 @@ namespace Implem.Pleasanter.Libraries.ViewParts
                 .Scripts(
                     methodType: methodType,
                     script: script,
+                    userScript: userScript,
                     modelName: modelName,
                     allowAccess: allowAccess);
         }

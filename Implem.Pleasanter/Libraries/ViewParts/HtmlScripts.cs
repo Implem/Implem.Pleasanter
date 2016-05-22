@@ -10,6 +10,7 @@ namespace Implem.Pleasanter.Libraries.ViewParts
             this HtmlBuilder hb,
             BaseModel.MethodTypes methodType,
             string script,
+            string userScript,
             string modelName,
             bool allowAccess)
         {
@@ -19,6 +20,7 @@ namespace Implem.Pleasanter.Libraries.ViewParts
                 .Script(src: Navigations.Get("Scripts/Plugins/jquery.validate.min.js"))
                 .Script(src: Navigations.Get("Scripts/Plugins/d3.min.js"))
                 .Script(script: script, _using: script != string.Empty)
+                .Script(script: userScript, _using: userScript != string.Empty)
                 .Validator(methodType: methodType, modelName: modelName, allowAccess: allowAccess)
                 .Internationalization();
         }

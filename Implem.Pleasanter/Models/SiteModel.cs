@@ -1409,10 +1409,15 @@ namespace Implem.Pleasanter.Models
                         case "Sites":
                             break;
                         case "Wikis":
-                            hb.Li(action: () => hb
-                                .A(
-                                    href: "#MailerSettingsEditor",
-                                    text: Displays.MailerSettingsEditor()));
+                            hb
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#MailerSettingsEditor",
+                                        text: Displays.MailerSettingsEditor()))
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#ScriptSettingsEditor",
+                                        text: Displays.ScriptSettingsEditor()));
                             break;
                         default:
                             hb
@@ -1431,7 +1436,11 @@ namespace Implem.Pleasanter.Models
                                 .Li(action: () => hb
                                     .A(
                                         href: "#MailerSettingsEditor",
-                                        text: Displays.MailerSettingsEditor()));
+                                        text: Displays.MailerSettingsEditor()))
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#ScriptSettingsEditor",
+                                        text: Displays.ScriptSettingsEditor()));
                             break;
                     }
                 }
@@ -1871,14 +1880,17 @@ namespace Implem.Pleasanter.Models
                     case "Sites":
                         break;
                     case "Wikis":
-                        hb.MailerSettingsEditor(siteModel.SiteSettings);
+                        hb
+                            .MailerSettingsEditor(siteModel.SiteSettings)
+                            .ScriptSettingsEditor(siteModel.SiteSettings);
                         break;
                     default:
                         hb
                             .GridSettingsEditor(siteModel.SiteSettings)
                             .EditorSettingsEditor(siteModel.SiteSettings)
                             .SummarySettingsEditor(siteModel.SiteSettings)
-                            .MailerSettingsEditor(siteModel.SiteSettings);
+                            .MailerSettingsEditor(siteModel.SiteSettings)
+                            .ScriptSettingsEditor(siteModel.SiteSettings);
                         break;
                 }
             }
@@ -2874,6 +2886,35 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: "field-wide",
                                 labelText: Displays.OutgoingMails_Bcc(),
                                 text: siteSettings.MailBccDefault.ToStr())));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ScriptSettingsEditor(
+            this HtmlBuilder hb, SiteSettings siteSettings)
+        {
+            return hb.FieldSet(
+                id: "ScriptSettingsEditor",
+                action: () => hb
+                    .FieldTextBox(
+                        textStyle: HtmlControls.TextStyles.MultiLine,
+                        controlId: "SiteSettings,GridScript",
+                        fieldCss: "field-wide",
+                        labelText: Displays.GridScript(),
+                        text: siteSettings.GridScript.ToStr())
+                    .FieldTextBox(
+                        textStyle: HtmlControls.TextStyles.MultiLine,
+                        controlId: "SiteSettings,NewScript",
+                        fieldCss: "field-wide",
+                        labelText: Displays.NewScript(),
+                        text: siteSettings.NewScript.ToStr())
+                    .FieldTextBox(
+                        textStyle: HtmlControls.TextStyles.MultiLine,
+                        controlId: "SiteSettings,EditScript",
+                        fieldCss: "field-wide",
+                        labelText: Displays.EditScript(),
+                        text: siteSettings.EditScript.ToStr()));
         }
     }
 }

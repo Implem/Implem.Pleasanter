@@ -1874,6 +1874,7 @@ namespace Implem.Pleasanter.Models
                     permissionType: permissionType,
                     formData: formData,
                     dataViewName: dataViewName),
+                userScript: siteSettings.GridScript,
                 action: () => hb
                     .Form(
                         attributes: Html.Attributes()
@@ -2339,6 +2340,9 @@ namespace Implem.Pleasanter.Models
                 allowAccess:
                     resultModel.PermissionType.CanRead() &&
                     resultModel.AccessStatus != Databases.AccessStatuses.NotFound,
+                userScript: resultModel.MethodType == BaseModel.MethodTypes.New
+                    ? resultModel.SiteSettings.NewScript
+                    : resultModel.SiteSettings.EditScript,
                 action: () =>
                 {
                     hb

@@ -372,6 +372,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string EditorSettingsEditor(params string[] data) { return Get("EditorSettingsEditor", data); }
         public static HtmlBuilder Displays_MailerSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MailerSettingsEditor", data)); }
         public static string MailerSettingsEditor(params string[] data) { return Get("MailerSettingsEditor", data); }
+        public static HtmlBuilder Displays_ScriptSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ScriptSettingsEditor", data)); }
+        public static string ScriptSettingsEditor(params string[] data) { return Get("ScriptSettingsEditor", data); }
         public static HtmlBuilder Displays_SummarySettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SummarySettingsEditor", data)); }
         public static string SummarySettingsEditor(params string[] data) { return Get("SummarySettingsEditor", data); }
         public static HtmlBuilder Displays_PermissionSetting(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("PermissionSetting", data)); }
@@ -424,6 +426,14 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string DataViewSelector(params string[] data) { return Get("DataViewSelector", data); }
         public static HtmlBuilder Displays_Grid(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Grid", data)); }
         public static string Grid(params string[] data) { return Get("Grid", data); }
+        public static HtmlBuilder Displays_Script(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Script", data)); }
+        public static string Script(params string[] data) { return Get("Script", data); }
+        public static HtmlBuilder Displays_GridScript(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("GridScript", data)); }
+        public static string GridScript(params string[] data) { return Get("GridScript", data); }
+        public static HtmlBuilder Displays_NewScript(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NewScript", data)); }
+        public static string NewScript(params string[] data) { return Get("NewScript", data); }
+        public static HtmlBuilder Displays_EditScript(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EditScript", data)); }
+        public static string EditScript(params string[] data) { return Get("EditScript", data); }
         public static HtmlBuilder Displays_BurnDown(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("BurnDown", data)); }
         public static string BurnDown(params string[] data) { return Get("BurnDown", data); }
         public static HtmlBuilder Displays_Gantt(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Gantt", data)); }

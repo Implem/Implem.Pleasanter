@@ -1198,6 +1198,9 @@ namespace Implem.Pleasanter.Models
                 allowAccess:
                     wikiModel.PermissionType.CanRead() &&
                     wikiModel.AccessStatus != Databases.AccessStatuses.NotFound,
+                userScript: wikiModel.MethodType == BaseModel.MethodTypes.New
+                    ? wikiModel.SiteSettings.NewScript
+                    : wikiModel.SiteSettings.EditScript,
                 action: () =>
                 {
                     hb

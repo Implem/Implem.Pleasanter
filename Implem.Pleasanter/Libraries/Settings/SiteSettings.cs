@@ -36,15 +36,18 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<string> TitleColumnsOrder;
         public List<string> LinkColumnsOrder;
         public List<string> HistoryColumnsOrder;
-        public string TitleSeparator = ")";
         public List<Column> ColumnCollection;
         public List<Aggregation> AggregationCollection;
         public Dictionary<string, long> LinkColumnSiteIdHash;
         public List<Summary> SummaryCollection;
+        public string TitleSeparator = ")";
         public string AddressBook;
         public string MailToDefault;
         public string MailCcDefault;
         public string MailBccDefault;
+        public string GridScript;
+        public string NewScript;
+        public string EditScript;
 
         public SiteSettings()
         {
@@ -107,6 +110,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (MailToDefault == string.Empty) self.MailToDefault = null;
             if (MailCcDefault == string.Empty) self.MailCcDefault = null;
             if (MailBccDefault == string.Empty) self.MailBccDefault = null;
+            if (GridScript == string.Empty) self.GridScript = null;
+            if (NewScript == string.Empty) self.NewScript = null;
+            if (EditScript == string.Empty) self.EditScript = null;
             var removeCollection = new HashSet<string>();
             self.ColumnCollection.ForEach(column =>
             {
@@ -506,11 +512,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "NearCompletionTimeBeforeDays": NearCompletionTimeBeforeDays = value.ToInt(); break;
                 case "NearCompletionTimeAfterDays": NearCompletionTimeAfterDays = value.ToInt(); break;
                 case "GridPageSize": GridPageSize = value.ToInt(); break;
+                case "TitleSeparator": TitleSeparator = value; break;
                 case "AddressBook": AddressBook = value; break;
                 case "MailToDefault": MailToDefault = value; break;
                 case "MailCcDefault": MailCcDefault = value; break;
                 case "MailBccDefault": MailBccDefault = value; break;
-                case "TitleSeparator": TitleSeparator = value; break;
+                case "GridScript": GridScript = value; break;
+                case "NewScript": NewScript = value; break;
+                case "EditScript": EditScript = value; break;
             }
         }
 
