@@ -55,8 +55,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public virtual HtmlBuilder Td(HtmlBuilder hb, Column column)
         {
             return hb.Td(action: () => hb
-                .Div(css: "grid-title-body", action: () => hb
-                    .P(action: () => TdTitle(hb, column))));
+                .P(action: () => TdTitle(hb, column)));
         }
 
         protected void TdTitle(HtmlBuilder hb, Column column)
