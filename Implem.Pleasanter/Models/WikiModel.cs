@@ -530,11 +530,10 @@ namespace Implem.Pleasanter.Models
                         tableType: Sqls.TableTypes.NormalAndHistory).ForEach(wikiModel => hb
                             .Tr(
                                 attributes: Html.Attributes()
-                                    .Class("grid-row not-link")
-                                    .OnClick(Def.JavaScript.HistoryAndCloseDialog
-                                        .Params(wikiModel.Ver))
+                                    .Class("grid-row history not-link")
                                     .DataAction("History")
                                     .DataMethod("post")
+                                    .Add("data-ver", wikiModel.Ver)
                                     .Add("data-latest", 1, _using: wikiModel.Ver == Ver),
                                 action: () =>
                                     SiteSettings.HistoryColumnCollection().ForEach(column =>

@@ -420,11 +420,10 @@ namespace Implem.Pleasanter.Models
                         tableType: Sqls.TableTypes.NormalAndHistory).ForEach(siteModel => hb
                             .Tr(
                                 attributes: Html.Attributes()
-                                    .Class("grid-row not-link")
-                                    .OnClick(Def.JavaScript.HistoryAndCloseDialog
-                                        .Params(siteModel.Ver))
+                                    .Class("grid-row history not-link")
                                     .DataAction("History")
                                     .DataMethod("post")
+                                    .Add("data-ver", siteModel.Ver)
                                     .Add("data-latest", 1, _using: siteModel.Ver == Ver),
                                 action: () =>
                                     SiteSettings.HistoryColumnCollection().ForEach(column =>

@@ -2764,9 +2764,6 @@ namespace Implem.DefinitionAccessor
                     case "EditSeparateSettings": JavaScript.EditSeparateSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.EditSeparateSettings, definitionRow, JavaScriptXls); break;
                     case "AddSummary": JavaScript.AddSummary = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.AddSummary, definitionRow, JavaScriptXls); break;
                     case "Reply": JavaScript.Reply = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.Reply, definitionRow, JavaScriptXls); break;
-                    case "Histories": JavaScript.Histories = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.Histories, definitionRow, JavaScriptXls); break;
-                    case "HistoryAndCloseDialog": JavaScript.HistoryAndCloseDialog = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.HistoryAndCloseDialog, definitionRow, JavaScriptXls); break;
-                    case "History": JavaScript.History = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.History, definitionRow, JavaScriptXls); break;
                     case "EditMarkDown": JavaScript.EditMarkDown = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.EditMarkDown, definitionRow, JavaScriptXls); break;
                     case "CancelDialog": JavaScript.CancelDialog = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.CancelDialog, definitionRow, JavaScriptXls); break;
                     case "OpenDialog": JavaScript.OpenDialog = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.OpenDialog, definitionRow, JavaScriptXls); break;
@@ -8075,9 +8072,6 @@ namespace Implem.DefinitionAccessor
         public string EditSeparateSettings;
         public string AddSummary;
         public string Reply;
-        public string Histories;
-        public string HistoryAndCloseDialog;
-        public string History;
         public string EditMarkDown;
         public string CancelDialog;
         public string OpenDialog;
@@ -8108,9 +8102,6 @@ namespace Implem.DefinitionAccessor
         public JavaScriptDefinition EditSeparateSettings = new JavaScriptDefinition();
         public JavaScriptDefinition AddSummary = new JavaScriptDefinition();
         public JavaScriptDefinition Reply = new JavaScriptDefinition();
-        public JavaScriptDefinition Histories = new JavaScriptDefinition();
-        public JavaScriptDefinition HistoryAndCloseDialog = new JavaScriptDefinition();
-        public JavaScriptDefinition History = new JavaScriptDefinition();
         public JavaScriptDefinition EditMarkDown = new JavaScriptDefinition();
         public JavaScriptDefinition CancelDialog = new JavaScriptDefinition();
         public JavaScriptDefinition OpenDialog = new JavaScriptDefinition();

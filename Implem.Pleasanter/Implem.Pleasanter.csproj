@@ -339,6 +339,7 @@
     <Content Include="Scripts\Focuses.js" />
     <Content Include="Scripts\Gantts.js" />
     <Content Include="Scripts\Grids.js" />
+    <Content Include="Scripts\Histories.js" />
     <Content Include="Scripts\Legends.js" />
     <Content Include="Scripts\Logins.js" />
     <Content Include="Scripts\Navigations.js" />
