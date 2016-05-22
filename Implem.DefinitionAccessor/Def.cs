@@ -1679,9 +1679,9 @@ namespace Implem.DefinitionAccessor
                     case "_dot_grid_space_td": Css._dot_grid_space_td = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_space_td, definitionRow, CssXls); break;
                     case "_dot_grid_row": Css._dot_grid_row = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row, definitionRow, CssXls); break;
                     case "_dot_grid_row_space__dot_comment": Css._dot_grid_row_space__dot_comment = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row_space__dot_comment, definitionRow, CssXls); break;
-                    case "_dot_grid_row_colon_not__dot_not_link__colon_hover": Css._dot_grid_row_colon_not__dot_not_link__colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row_colon_not__dot_not_link__colon_hover, definitionRow, CssXls); break;
-                    case "_dot_grid_row_colon_not__dot_not_link__colon_hover_space__dot_comment": Css._dot_grid_row_colon_not__dot_not_link__colon_hover_space__dot_comment = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row_colon_not__dot_not_link__colon_hover_space__dot_comment, definitionRow, CssXls); break;
-                    case "_dot_grid_row_colon_not__dot_not_link__colon_hover_space__dot_grid_title_body": Css._dot_grid_row_colon_not__dot_not_link__colon_hover_space__dot_grid_title_body = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row_colon_not__dot_not_link__colon_hover_space__dot_grid_title_body, definitionRow, CssXls); break;
+                    case "_dot_grid_row_colon_hover": Css._dot_grid_row_colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row_colon_hover, definitionRow, CssXls); break;
+                    case "_dot_grid_row_colon_hover_space__dot_comment": Css._dot_grid_row_colon_hover_space__dot_comment = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row_colon_hover_space__dot_comment, definitionRow, CssXls); break;
+                    case "_dot_grid_row_colon_hover_space__dot_grid_title_body": Css._dot_grid_row_colon_hover_space__dot_grid_title_body = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row_colon_hover_space__dot_grid_title_body, definitionRow, CssXls); break;
                     case "_dot_grid_row_space_p": Css._dot_grid_row_space_p = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row_space_p, definitionRow, CssXls); break;
                     case "_dot_grid_row_space_p_dot_body": Css._dot_grid_row_space_p_dot_body = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row_space_p_dot_body, definitionRow, CssXls); break;
                     case "_dot_grid_title_body": Css._dot_grid_title_body = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_title_body, definitionRow, CssXls); break;
@@ -6089,9 +6089,9 @@ namespace Implem.DefinitionAccessor
         public string _dot_grid_space_td;
         public string _dot_grid_row;
         public string _dot_grid_row_space__dot_comment;
-        public string _dot_grid_row_colon_not__dot_not_link__colon_hover;
-        public string _dot_grid_row_colon_not__dot_not_link__colon_hover_space__dot_comment;
-        public string _dot_grid_row_colon_not__dot_not_link__colon_hover_space__dot_grid_title_body;
+        public string _dot_grid_row_colon_hover;
+        public string _dot_grid_row_colon_hover_space__dot_comment;
+        public string _dot_grid_row_colon_hover_space__dot_grid_title_body;
         public string _dot_grid_row_space_p;
         public string _dot_grid_row_space_p_dot_body;
         public string _dot_grid_title_body;
@@ -6419,9 +6419,9 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_grid_space_td = new CssDefinition();
         public CssDefinition _dot_grid_row = new CssDefinition();
         public CssDefinition _dot_grid_row_space__dot_comment = new CssDefinition();
-        public CssDefinition _dot_grid_row_colon_not__dot_not_link__colon_hover = new CssDefinition();
-        public CssDefinition _dot_grid_row_colon_not__dot_not_link__colon_hover_space__dot_comment = new CssDefinition();
-        public CssDefinition _dot_grid_row_colon_not__dot_not_link__colon_hover_space__dot_grid_title_body = new CssDefinition();
+        public CssDefinition _dot_grid_row_colon_hover = new CssDefinition();
+        public CssDefinition _dot_grid_row_colon_hover_space__dot_comment = new CssDefinition();
+        public CssDefinition _dot_grid_row_colon_hover_space__dot_grid_title_body = new CssDefinition();
         public CssDefinition _dot_grid_row_space_p = new CssDefinition();
         public CssDefinition _dot_grid_row_space_p_dot_body = new CssDefinition();
         public CssDefinition _dot_grid_title_body = new CssDefinition();

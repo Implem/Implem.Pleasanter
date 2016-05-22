@@ -1205,17 +1205,17 @@ pre{
     overflow:hidden;
 }
 
-.grid-row:not(.not-link):hover{
+.grid-row:hover{
     background-color:whitesmoke;
     cursor:pointer;
 }
 
-.grid-row:not(.not-link):hover .comment{
+.grid-row:hover .comment{
     background-color:lightyellow;
     border:solid 1px gainsboro;
 }
 
-.grid-row:not(.not-link):hover .grid-title-body{
+.grid-row:hover .grid-title-body{
     border:solid 1px gainsboro;
 }
 
