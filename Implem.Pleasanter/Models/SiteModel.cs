@@ -2531,13 +2531,6 @@ namespace Implem.Pleasanter.Models
                                     controlCss: "button-hide",
                                     onClick: Def.JavaScript.Submit,
                                     action: "SetSiteSettings",
-                                    method: "put")
-                                .Button(
-                                    controlId: "OpenDialog_ColumnProperties",
-                                    text: Displays.AdvancedSetting(),
-                                    controlCss: "button-setting",
-                                    onClick: Def.JavaScript.OpenDialog_ColumnProperties,
-                                    action: "SetSiteSettings",
                                     method: "put")))
                 : hb;
         }
