@@ -107,14 +107,17 @@ namespace Implem.Pleasanter.Libraries.ViewParts
         {
             return _using
                 ? hb
-                    .Li(css: "nav-function", action: () => hb
-                        .Button(
-                            text: Displays.New(),
-                            controlCss: "button-create",
-                            accessKey: "i",
-                            href: SiteInfo.IsItem()
-                                ? Navigations.ItemNew(siteId)
-                                : Navigations.New(Url.RouteData("controller"))))
+                    .Li(
+                        css: "nav-function",
+                        _using: permissionType.CanCreate() || siteId == 0,
+                        action: () => hb
+                            .Button(
+                                text: Displays.New(),
+                                controlCss: "button-create",
+                                accessKey: "i",
+                                href: SiteInfo.IsItem()
+                                    ? Navigations.ItemNew(siteId)
+                                    : Navigations.New(Url.RouteData("controller"))))
                     .Li(
                         css: "nav-function",
                         _using: permissionType.CanEditSite() && siteId != 0,
