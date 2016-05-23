@@ -1281,7 +1281,8 @@ namespace Implem.Pleasanter.Models
                             value: wikiModel.SwitchTargets?.Join()))
                 .OutgoingMailsForm("Wikis", wikiModel.WikiId, wikiModel.Ver)
                 .Dialog_Copy("items", wikiModel.WikiId)
-                .Dialog_Move("items", wikiModel.WikiId));
+                .Dialog_Move("items", wikiModel.WikiId)
+                .Dialog_OutgoingMail());
         }
 
         private static HtmlBuilder FieldTabs(this HtmlBuilder hb, WikiModel wikiModel)
