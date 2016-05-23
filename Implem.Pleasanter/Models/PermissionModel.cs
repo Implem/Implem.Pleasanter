@@ -359,7 +359,7 @@ namespace Implem.Pleasanter.Models
             var hb = Html.Builder();
             hb.Template(
                 siteId: siteModel.SiteId,
-                modelName: "Permission",
+                referenceId: "Permissions",
                 title: siteModel.Title.Value + " - " + Displays.EditPermissions(),
                 permissionType: siteModel.PermissionType,
                 verType: Versions.VerTypes.Latest,

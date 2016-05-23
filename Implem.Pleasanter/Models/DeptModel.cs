@@ -747,7 +747,7 @@ namespace Implem.Pleasanter.Models
             var deptCollection = DeptCollection(siteSettings, permissionType, formData);
             return hb.Template(
                 siteId: 0,
-                modelName: "Dept",
+                referenceId: "Depts",
                 title: Displays.Depts() + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
@@ -1037,7 +1037,7 @@ namespace Implem.Pleasanter.Models
             var siteSettings = SiteSettingsUtility.DeptsSiteSettings();
             return hb.Template(
                 siteId: 0,
-                modelName: "Dept",
+                referenceId: "Depts",
                 title: deptModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Depts() + " - " + Displays.New()
                     : deptModel.Title.Value,

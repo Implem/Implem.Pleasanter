@@ -696,7 +696,7 @@ namespace Implem.Pleasanter.Models
             var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
             return hb.Template(
                 siteId: siteSettings.SiteId,
-                modelName: "MailAddress",
+                referenceId: "MailAddresses",
                 title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
@@ -986,7 +986,7 @@ namespace Implem.Pleasanter.Models
             var siteSettings = SiteSettingsUtility.MailAddressesSiteSettings();
             return hb.Template(
                 siteId: 0,
-                modelName: "MailAddress",
+                referenceId: "MailAddresses",
                 title: mailAddressModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.MailAddresses() + " - " + Displays.New()
                     : mailAddressModel.Title.Value,

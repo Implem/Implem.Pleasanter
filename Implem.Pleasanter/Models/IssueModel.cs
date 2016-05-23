@@ -1986,7 +1986,7 @@ namespace Implem.Pleasanter.Models
             var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
             return hb.Template(
                 siteId: siteSettings.SiteId,
-                modelName: "Issue",
+                referenceId: "Issues",
                 title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
@@ -2498,7 +2498,7 @@ namespace Implem.Pleasanter.Models
             issueModel.SiteSettings.SetLinks();
             return hb.Template(
                 siteId: siteModel.SiteId,
-                modelName: "Issue",
+                referenceId: "Issues",
                 title: issueModel.MethodType == BaseModel.MethodTypes.New
                     ? siteModel.Title.DisplayValue + " - " + Displays.New()
                     : issueModel.Title.DisplayValue,

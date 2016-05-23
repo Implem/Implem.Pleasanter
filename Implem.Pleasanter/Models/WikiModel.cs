@@ -1187,7 +1187,7 @@ namespace Implem.Pleasanter.Models
             wikiModel.SiteSettings.SetLinks();
             return hb.Template(
                 siteId: siteModel.SiteId,
-                modelName: "Wiki",
+                referenceId: "Wikis",
                 title: wikiModel.MethodType == BaseModel.MethodTypes.New
                     ? siteModel.Title.DisplayValue + " - " + Displays.New()
                     : wikiModel.Title.DisplayValue,
@@ -1731,7 +1731,7 @@ namespace Implem.Pleasanter.Models
             siteSettings.SetLinks();
             return hb.Template(
                 siteId: siteModel.SiteId,
-                modelName: "Wiki",
+                referenceId: "Wikis",
                 title: wikiModel.MethodType != BaseModel.MethodTypes.New
                     ? wikiModel.Title.DisplayValue + " - " + Displays.Edit()
                     : siteModel.Title.DisplayValue + " - " + Displays.New(),

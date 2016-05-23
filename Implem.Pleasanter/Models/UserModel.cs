@@ -1237,7 +1237,7 @@ namespace Implem.Pleasanter.Models
                 formData);
             return hb.Template(
                 siteId: 0,
-                modelName: "User",
+                referenceId: "Users",
                 title: Displays.Users() + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
@@ -1552,7 +1552,7 @@ namespace Implem.Pleasanter.Models
             var siteSettings = SiteSettingsUtility.UsersSiteSettings();
             return hb.Template(
                 siteId: 0,
-                modelName: "User",
+                referenceId: "Users",
                 title: userModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Users() + " - " + Displays.New()
                     : userModel.Title.Value,
@@ -1886,7 +1886,7 @@ namespace Implem.Pleasanter.Models
             var siteSettings = SiteSettingsUtility.UsersSiteSettings();
             return hb.Template(
                 siteId: 0,
-                modelName: "User",
+                referenceId: "Users",
                 title: string.Empty,
                 permissionType: Permissions.Admins(),
                 verType: Versions.VerTypes.Latest,

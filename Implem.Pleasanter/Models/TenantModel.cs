@@ -681,7 +681,7 @@ namespace Implem.Pleasanter.Models
             var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
             return hb.Template(
                 siteId: siteSettings.SiteId,
-                modelName: "Tenant",
+                referenceId: "Tenants",
                 title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
@@ -974,7 +974,7 @@ namespace Implem.Pleasanter.Models
             var siteSettings = SiteSettingsUtility.TenantsSiteSettings();
             return hb.Template(
                 siteId: 0,
-                modelName: "Tenant",
+                referenceId: "Tenants",
                 title: tenantModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Tenants() + " - " + Displays.New()
                     : tenantModel.Title.Value,

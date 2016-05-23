@@ -14,7 +14,7 @@ namespace Implem.Pleasanter.Libraries.ViewParts
             var hb = Html.Builder();
             return hb.Template(
                 siteId: 0,
-                modelName: string.Empty,
+                referenceId: string.Empty,
                 title: Displays.Error(),
                 permissionType: Permissions.Types.NotSet,
                 verType: Versions.VerTypes.Latest,

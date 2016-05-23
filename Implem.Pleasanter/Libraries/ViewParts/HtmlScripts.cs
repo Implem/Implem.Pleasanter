@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.Libraries.ViewParts
             BaseModel.MethodTypes methodType,
             string script,
             string userScript,
-            string modelName,
+            string referenceId,
             bool allowAccess)
         {
             return hb
@@ -21,20 +21,20 @@ namespace Implem.Pleasanter.Libraries.ViewParts
                 .Script(src: Navigations.Get("Scripts/Plugins/d3.min.js"))
                 .Script(script: script, _using: script != string.Empty)
                 .Script(script: userScript, _using: userScript != string.Empty)
-                .Validator(methodType: methodType, modelName: modelName, allowAccess: allowAccess)
+                .Validator(methodType: methodType, referenceId: referenceId, allowAccess: allowAccess)
                 .Internationalization();
         }
 
         private static HtmlBuilder Validator(
             this HtmlBuilder hb,
             BaseModel.MethodTypes methodType,
-            string modelName,
+            string referenceId,
             bool allowAccess)
         {
             return Editor(methodType) && allowAccess
                 ? hb
-                    .Script(src: Validator(modelName))
-                    .Script(src: Validator("OutgoingMail"))
+                    .Script(src: Validator(referenceId))
+                    .Script(src: Validator("OutgoingMails"))
                 : hb;
         }
 
@@ -43,23 +43,6 @@ namespace Implem.Pleasanter.Libraries.ViewParts
             return
                 methodType == BaseModel.MethodTypes.Edit ||
                 methodType == BaseModel.MethodTypes.New;
-        }
-
-        private static string Validator(string modelName)
-        {
-            switch (modelName)
-            {
-                case "Tenant": return ResolveBundleUrl("~/bundles/TenantValidator");
-                case "Demo": return ResolveBundleUrl("~/bundles/DemoValidator");
-                case "Dept": return ResolveBundleUrl("~/bundles/DeptValidator");
-                case "User": return ResolveBundleUrl("~/bundles/UserValidator");
-                case "OutgoingMail": return ResolveBundleUrl("~/bundles/OutgoingMailValidator");
-                case "Site": return ResolveBundleUrl("~/bundles/SiteValidator");
-                case "Issue": return ResolveBundleUrl("~/bundles/IssueValidator");
-                case "Result": return ResolveBundleUrl("~/bundles/ResultValidator");
-                case "Wiki": return ResolveBundleUrl("~/bundles/WikiValidator");
-                default: return string.Empty;
-            }
         }
 
         private static string ResolveBundleUrl(string url)
@@ -75,6 +58,23 @@ namespace Implem.Pleasanter.Libraries.ViewParts
                     .Script(src: Navigations.Get(
                         "Scripts/Plugins/jquery-ui/i18n/datepicker-ja.js"));
                 default: return hb;
+            }
+        }
+
+        private static string Validator(string referenceId)
+        {
+            switch (referenceId)
+            {
+                case "Tenants": return ResolveBundleUrl("~/bundles/TenantsValidator");
+                case "Demos": return ResolveBundleUrl("~/bundles/DemosValidator");
+                case "Depts": return ResolveBundleUrl("~/bundles/DeptsValidator");
+                case "Users": return ResolveBundleUrl("~/bundles/UsersValidator");
+                case "OutgoingMails": return ResolveBundleUrl("~/bundles/OutgoingMailsValidator");
+                case "Sites": return ResolveBundleUrl("~/bundles/SitesValidator");
+                case "Issues": return ResolveBundleUrl("~/bundles/IssuesValidator");
+                case "Results": return ResolveBundleUrl("~/bundles/ResultsValidator");
+                case "Wikis": return ResolveBundleUrl("~/bundles/WikisValidator");
+                default: return string.Empty;
             }
         }
     }

@@ -858,7 +858,7 @@ namespace Implem.Pleasanter.Models
             var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
             return hb.Template(
                 siteId: siteSettings.SiteId,
-                modelName: "ExportSetting",
+                referenceId: "ExportSettings",
                 title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
@@ -1150,7 +1150,7 @@ namespace Implem.Pleasanter.Models
             var siteSettings = SiteSettingsUtility.ExportSettingsSiteSettings();
             return hb.Template(
                 siteId: 0,
-                modelName: "ExportSetting",
+                referenceId: "ExportSettings",
                 title: exportSettingModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.ExportSettings() + " - " + Displays.New()
                     : exportSettingModel.Title.Value,

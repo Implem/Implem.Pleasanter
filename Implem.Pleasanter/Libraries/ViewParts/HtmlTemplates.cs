@@ -13,7 +13,7 @@ namespace Implem.Pleasanter.Libraries.ViewParts
         public static HtmlBuilder Template(
             this HtmlBuilder hb,
             long siteId,
-            string modelName,
+            string referenceId,
             string title,
             Permissions.Types permissionType,
             Versions.VerTypes verType,
@@ -85,7 +85,7 @@ namespace Implem.Pleasanter.Libraries.ViewParts
                     methodType: methodType,
                     script: script,
                     userScript: userScript,
-                    modelName: modelName,
+                    referenceId: referenceId,
                     allowAccess: allowAccess);
         }
 
@@ -133,7 +133,7 @@ namespace Implem.Pleasanter.Libraries.ViewParts
             return Html.Builder()
                 .Template(
                     siteId: 0,
-                    modelName: string.Empty,
+                    referenceId: string.Empty,
                     title: string.Empty,
                     permissionType: Permissions.Types.NotSet,
                     verType: Versions.VerTypes.Unknown,

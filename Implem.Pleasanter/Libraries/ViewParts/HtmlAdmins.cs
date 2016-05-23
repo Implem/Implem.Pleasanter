@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.Libraries.ViewParts
             var permissionType = Permissions.Admins();
             return hb.Template(
                 siteId: 0,
-                modelName: string.Empty,
+                referenceId: string.Empty,
                 title: Displays.Admin(),
                 permissionType: permissionType,
                 methodType: Models.BaseModel.MethodTypes.NotSet,

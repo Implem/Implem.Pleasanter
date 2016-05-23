@@ -716,7 +716,7 @@ namespace Implem.Pleasanter.Models
             var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
             return hb.Template(
                 siteId: siteSettings.SiteId,
-                modelName: "Demo",
+                referenceId: "Demos",
                 title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
@@ -1008,7 +1008,7 @@ namespace Implem.Pleasanter.Models
             var siteSettings = SiteSettingsUtility.DemosSiteSettings();
             return hb.Template(
                 siteId: 0,
-                modelName: "Demo",
+                referenceId: "Demos",
                 title: demoModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Demos() + " - " + Displays.New()
                     : demoModel.Title.Value,

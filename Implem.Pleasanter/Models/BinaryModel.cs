@@ -912,7 +912,7 @@ namespace Implem.Pleasanter.Models
             var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
             return hb.Template(
                 siteId: siteSettings.SiteId,
-                modelName: "Binary",
+                referenceId: "Binaries",
                 title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
@@ -1210,7 +1210,7 @@ namespace Implem.Pleasanter.Models
             var siteSettings = SiteSettingsUtility.BinariesSiteSettings();
             return hb.Template(
                 siteId: 0,
-                modelName: "Binary",
+                referenceId: "Binaries",
                 title: binaryModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Binaries() + " - " + Displays.New()
                     : binaryModel.Title.Value,

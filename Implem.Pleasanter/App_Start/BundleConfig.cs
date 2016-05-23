@@ -40,15 +40,15 @@ namespace Implem.Pleasanter
 
         private static void Validators(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/bundles/TenantValidator").Include("~/Scripts/Validators/Tenant.js"));
-            bundles.Add(new ScriptBundle("~/bundles/DemoValidator").Include("~/Scripts/Validators/Demo.js"));
-            bundles.Add(new ScriptBundle("~/bundles/DeptValidator").Include("~/Scripts/Validators/Dept.js"));
-            bundles.Add(new ScriptBundle("~/bundles/UserValidator").Include("~/Scripts/Validators/User.js"));
-            bundles.Add(new ScriptBundle("~/bundles/OutgoingMailValidator").Include("~/Scripts/Validators/OutgoingMail.js"));
-            bundles.Add(new ScriptBundle("~/bundles/SiteValidator").Include("~/Scripts/Validators/Site.js"));
-            bundles.Add(new ScriptBundle("~/bundles/IssueValidator").Include("~/Scripts/Validators/Issue.js"));
-            bundles.Add(new ScriptBundle("~/bundles/ResultValidator").Include("~/Scripts/Validators/Result.js"));
-            bundles.Add(new ScriptBundle("~/bundles/WikiValidator").Include("~/Scripts/Validators/Wiki.js"));
+            bundles.Add(new ScriptBundle("~/bundles/TenantsValidator").Include("~/Scripts/Validators/Tenants.js"));
+            bundles.Add(new ScriptBundle("~/bundles/DemosValidator").Include("~/Scripts/Validators/Demos.js"));
+            bundles.Add(new ScriptBundle("~/bundles/DeptsValidator").Include("~/Scripts/Validators/Depts.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UsersValidator").Include("~/Scripts/Validators/Users.js"));
+            bundles.Add(new ScriptBundle("~/bundles/OutgoingMailsValidator").Include("~/Scripts/Validators/OutgoingMails.js"));
+            bundles.Add(new ScriptBundle("~/bundles/SitesValidator").Include("~/Scripts/Validators/Sites.js"));
+            bundles.Add(new ScriptBundle("~/bundles/IssuesValidator").Include("~/Scripts/Validators/Issues.js"));
+            bundles.Add(new ScriptBundle("~/bundles/ResultsValidator").Include("~/Scripts/Validators/Results.js"));
+            bundles.Add(new ScriptBundle("~/bundles/WikisValidator").Include("~/Scripts/Validators/Wikis.js"));
         }
     }
 }

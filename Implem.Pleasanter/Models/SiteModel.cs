@@ -1461,7 +1461,7 @@ namespace Implem.Pleasanter.Models
             var verType = Versions.VerTypes.Latest;
             return hb.Template(
                 siteId: 0,
-                modelName: "Site",
+                referenceId: "Sites",
                 title: Displays.Top(),
                 permissionType: permissionType,
                 verType: verType,
@@ -1501,7 +1501,7 @@ namespace Implem.Pleasanter.Models
             var siteSettings = siteModel.SitesSiteSettings();
             return hb.Template(
                 siteId: siteModel.SiteId,
-                modelName: "Site",
+                referenceId: "Sites",
                 title: siteModel.Title.Value,
                 permissionType: siteModel.PermissionType,
                 verType: Versions.VerTypes.Latest,
@@ -1720,7 +1720,7 @@ namespace Implem.Pleasanter.Models
             var hb = Html.Builder();
             return hb.Template(
                 siteId: siteModel.SiteId,
-                modelName: "Site",
+                referenceId: "Sites",
                 title: siteModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Sites() + " - " + Displays.New()
                     : siteModel.Title + " - " + Displays.EditSettings(),
