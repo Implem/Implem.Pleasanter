@@ -192,7 +192,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => !TitleColumnsOrder.Any(p => p == o.ColumnName))
                 .Where(o => o.TableName == ReferenceType)
                 .Where(o => o.TitleColumn > 0)
-                .OrderBy(o => o.TitleColumn)
+                .OrderBy(o => o.No)
                 .Select(o => o.ColumnName).ToList<string>());
             TitleColumnsOrder.RemoveAll(o =>
                 !Def.ColumnDefinitionCollection.Any(p =>
