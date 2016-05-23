@@ -429,7 +429,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Dictionary<string, string> TitleColumnsHash()
         {
-            return ColumnHash(TitleColumnsOrder, "Titles");
+            return ColumnHash(TitleColumnsOrder, "Title");
         }
 
         public Dictionary<string, string> LinkColumnsHash()
