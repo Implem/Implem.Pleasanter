@@ -78,6 +78,7 @@ namespace Implem.Pleasanter.Libraries.ViewParts
         public static HtmlBuilder NavigationFunctions(
             this HtmlBuilder hb,
             long siteId,
+            string referenceId,
             Permissions.Types permissionType,
             bool useSearch,
             bool useNavigationButtons)
@@ -85,7 +86,10 @@ namespace Implem.Pleasanter.Libraries.ViewParts
             return hb.Ul(css: "nav-functions", action: () => hb
                 .Search(siteId: siteId, permissionType: permissionType, _using: useSearch)
                 .NavigationButtons(
-                    siteId: siteId, permissionType: permissionType, _using: useNavigationButtons));
+                    siteId: siteId,
+                    referenceId: referenceId,
+                    permissionType: permissionType,
+                    _using: useNavigationButtons));
         }
 
         private static HtmlBuilder Search(
@@ -103,13 +107,19 @@ namespace Implem.Pleasanter.Libraries.ViewParts
         }
 
         private static HtmlBuilder NavigationButtons(
-            this HtmlBuilder hb, long siteId, Permissions.Types permissionType, bool _using)
+            this HtmlBuilder hb,
+            long siteId,
+            string referenceId,
+            Permissions.Types permissionType,
+            bool _using)
         {
             return _using
                 ? hb
                     .Li(
                         css: "nav-function",
-                        _using: permissionType.CanCreate() || siteId == 0,
+                        _using: 
+                            (permissionType.CanCreate() || siteId == 0) &&
+                            referenceId != "Wikis",
                         action: () => hb
                             .Button(
                                 text: Displays.New(),
@@ -120,7 +130,9 @@ namespace Implem.Pleasanter.Libraries.ViewParts
                                     : Navigations.New(Url.RouteData("controller"))))
                     .Li(
                         css: "nav-function",
-                        _using: permissionType.CanEditSite() && siteId != 0,
+                        _using: 
+                            permissionType.CanEditSite() && siteId != 0 &&
+                            referenceId != "Wikis",
                         action: () => hb
                             .Button(
                                 text: Displays.List(),

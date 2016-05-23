@@ -40,6 +40,7 @@ namespace Implem.Pleasanter.Libraries.ViewParts
                                 _using: useBreadCrumbs)
                             .NavigationFunctions(
                                 siteId: siteId,
+                                referenceId: referenceId,
                                 permissionType: permissionType,
                                 useSearch: useSearch,
                                 useNavigationButtons: useNavigationButtons));
