@@ -1154,17 +1154,26 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string EditorNew(SiteModel siteModel, long siteId)
         {
-            return Editor(
-                siteModel,
-                new WikiModel(
-                    siteModel.WikisSiteSettings(),
-                    siteModel.PermissionType,
-                    methodType: BaseModel.MethodTypes.New)
-                {
-                    SiteId = siteId
-                });
+            var wikiId = Rds.ExecuteScalar_long(statements:
+                Rds.SelectWikis(
+                    column: Rds.WikisColumn().WikiId(),
+                    where: Rds.WikisWhere().SiteId(siteId)));
+            return wikiId == 0
+                ? Editor(
+                    siteModel,
+                    new WikiModel(
+                        siteModel.WikisSiteSettings(),
+                        siteModel.PermissionType,
+                        methodType: BaseModel.MethodTypes.New)
+                    {
+                        SiteId = siteId
+                    })
+                : HtmlTemplates.NotFound().ToString();
         }
 
         public static string Editor(SiteModel siteModel, long wikiId, bool clearSessions)
