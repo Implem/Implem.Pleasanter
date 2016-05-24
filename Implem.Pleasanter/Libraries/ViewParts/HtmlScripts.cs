@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Responses;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.ServerData;
 using Implem.Pleasanter.Models;
 using System.Web.Optimization;
@@ -19,8 +20,8 @@ namespace Implem.Pleasanter.Libraries.ViewParts
                 .Script(src: Navigations.Get("Scripts/Plugins/jquery-ui.min.js"))
                 .Script(src: Navigations.Get("Scripts/Plugins/jquery.validate.min.js"))
                 .Script(src: Navigations.Get("Scripts/Plugins/d3.min.js"))
-                .Script(script: script, _using: script != string.Empty)
-                .Script(script: userScript, _using: userScript != string.Empty)
+                .Script(script: script, _using: !script.IsNullOrEmpty())
+                .Script(script: userScript, _using: !userScript.IsNullOrEmpty())
                 .Validator(methodType: methodType, referenceId: referenceId, allowAccess: allowAccess)
                 .Internationalization();
         }
