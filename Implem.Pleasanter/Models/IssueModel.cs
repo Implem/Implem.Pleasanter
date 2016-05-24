@@ -1006,6 +1006,7 @@ namespace Implem.Pleasanter.Models
             if (number >= 2)
             {
                 var idHash = new Dictionary<int, long> { { 1, IssueId } };
+                var ver = Ver;
                 var timestampHash = new Dictionary<int, string> { { 1, Timestamp } };
                 var comments = Comments.ToJson();
                 for (var index = 2; index <= number; index++)
@@ -1025,6 +1026,9 @@ namespace Implem.Pleasanter.Models
                 {
                     var source = index == 1;
                     IssueId = idHash[index];
+                    Ver = source
+                        ? ver
+                        : 1;
                     Timestamp = timestampHash[index];
                     Title.Value = Forms.Data("SeparateTitle_" + index);
                     WorkValue.Value = source
