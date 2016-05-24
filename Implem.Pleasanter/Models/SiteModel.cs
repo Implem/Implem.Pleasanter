@@ -1442,11 +1442,11 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.ScriptSettingsEditor()));
                             break;
                     }
+                    hb.Li(action: () => hb
+                        .A(
+                            href: "#FieldSetHistories",
+                            text: Displays.Histories()));
                 }
-                hb.Li(action: () => hb
-                    .A(
-                        href: "#FieldSetHistories",
-                        text: Displays.Histories()));
                 hb.Hidden(controlId: "TableName", value: "Sites");
             });
         }
@@ -1775,10 +1775,12 @@ namespace Implem.Pleasanter.Models
                         .Div(css: "edit-form-tabs", action: () => hb
                             .FieldTabs(siteModel: siteModel)
                             .FieldSetGeneral(siteModel: siteModel)
-                            .FieldSet(attributes: Html.Attributes()
-                                .Id("FieldSetHistories")
-                                .DataAction("Histories")
-                                .DataMethod("get"))
+                            .FieldSet(
+                                attributes: Html.Attributes()
+                                    .Id("FieldSetHistories")
+                                    .DataAction("Histories")
+                                    .DataMethod("get"),
+                                _using: siteModel.MethodType != BaseModel.MethodTypes.New)
                             .MainCommands(
                                 siteId: siteModel.SiteId,
                                 permissionType: siteModel.PermissionType,

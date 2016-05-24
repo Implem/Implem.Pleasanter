@@ -1203,10 +1203,12 @@ namespace Implem.Pleasanter.Models
                                 siteSettings: siteSettings,
                                 permissionType: permissionType,
                                 exportSettingModel: exportSettingModel)
-                            .FieldSet(attributes: Html.Attributes()
-                                .Id("FieldSetHistories")
-                                .DataAction("Histories")
-                                .DataMethod("get"))
+                            .FieldSet(
+                                attributes: Html.Attributes()
+                                    .Id("FieldSetHistories")
+                                    .DataAction("Histories")
+                                    .DataMethod("get"),
+                                _using: exportSettingModel.MethodType != BaseModel.MethodTypes.New)
                             .MainCommands(
                                 siteId: 0,
                                 permissionType: permissionType,
@@ -1245,10 +1247,12 @@ namespace Implem.Pleasanter.Models
                     .A(
                         href: "#FieldSetGeneral", 
                         text: Displays.Basic()))
-                .Li(action: () => hb
-                    .A(
-                        href: "#FieldSetHistories",
-                        text: Displays.Histories())));
+                .Li(
+                    _using: exportSettingModel.MethodType != BaseModel.MethodTypes.New,
+                    action: () => hb
+                        .A(
+                            href: "#FieldSetHistories",
+                            text: Displays.Histories())));
         }
 
         private static HtmlBuilder FieldSetGeneral(
