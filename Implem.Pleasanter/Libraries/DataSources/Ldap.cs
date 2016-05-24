@@ -78,7 +78,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         private static string Property(this DirectoryEntry entry, string propertyName)
         {
-            if (propertyName != "N/A")
+            if (!propertyName.IsNullOrEmpty())
             {
                 try
                 {
