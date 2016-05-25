@@ -1490,14 +1490,14 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder OutgoingMailListItemDestination(
-            this HtmlBuilder hb, string distinations, string labelText)
+            this HtmlBuilder hb, string destinations, string labelText)
         {
-            if (distinations != string.Empty)
+            if (destinations != string.Empty)
             {
                 return hb.FieldText(
                     controlId: string.Empty,
                     labelText: labelText,
-                    text: distinations,
+                    text: destinations,
                     fieldCss: "field-wide");
             }
             else
