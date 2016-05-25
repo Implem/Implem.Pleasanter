@@ -114,7 +114,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             AddParams_Param(sqlCommand, commandCount);
         }
 
-        protected void AddParams_Paging(SqlCommand sqlCommand, int? commandCount)
+        private void AddParams_Paging(SqlCommand sqlCommand, int? commandCount)
         {
             if (SqlOrderByCollection?.Count > 0 && PageSize != 0)
             {
