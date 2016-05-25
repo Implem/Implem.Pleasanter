@@ -23,6 +23,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             switch (TableType)
             {
                 case Sqls.TableTypes.History:
+                    SqlColumnCollection?.Add(new SqlColumn("1 as [IsHistory]", adHoc: true));
                     BuildCommandText(
                         sqlContainer: sqlContainer,
                         sqlCommand: sqlCommand,
@@ -34,6 +35,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                         commandCount: commandCount);
                     break;
                 case Sqls.TableTypes.NormalAndHistory:
+                    SqlColumnCollection?.Add(new SqlColumn("0 as [IsHistory]", adHoc: true));
                     BuildCommandText(
                         sqlContainer: sqlContainer,
                         sqlCommand: sqlCommand,
@@ -45,6 +47,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                         commandCount: commandCount);
                     goto case Sqls.TableTypes.History;
                 case Sqls.TableTypes.Deleted:
+                    SqlColumnCollection?.Add(new SqlColumn("1 as [IsDeleted]", adHoc: true));
                     BuildCommandText(
                         sqlContainer: sqlContainer,
                         sqlCommand: sqlCommand,
