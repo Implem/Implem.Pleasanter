@@ -7,14 +7,16 @@ namespace Implem.Libraries.DataSources.SqlServer
     public class SqlColumn
     {
         public string ColumnBracket;
+        public bool AdHoc;
 
         public SqlColumn()
         {
         }
 
-        public SqlColumn(string columnBracket)
+        public SqlColumn(string columnBracket, bool adHoc = false)
         {
             ColumnBracket = columnBracket;
+            AdHoc = adHoc;
         }
     }
 
@@ -40,6 +42,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             commandText.Append(this
                 .Select(o => o.ColumnBracket)
                 .Join(), " ");
+            RemoveAll(o => o.AdHoc);
         }
 
         private void Build_DistinctClause(StringBuilder commandText, bool distinct)
