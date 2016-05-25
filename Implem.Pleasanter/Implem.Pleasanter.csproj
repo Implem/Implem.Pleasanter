@@ -229,6 +229,7 @@
     <Compile Include="Libraries\DataTypes\Status.cs" />
     <Compile Include="Libraries\DataTypes\Time.cs" />
     <Compile Include="Libraries\DataTypes\Title.cs" />
+    <Compile Include="Libraries\DataTypes\TitleBody.cs" />
     <Compile Include="Libraries\DataTypes\User.cs" />
     <Compile Include="Libraries\DataTypes\WorkValue.cs" />
     <Compile Include="Libraries\Initializers\ItemsInitializer.cs" />
