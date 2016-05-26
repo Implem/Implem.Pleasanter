@@ -7,13 +7,14 @@ using Implem.Pleasanter.Libraries.Analysis;
 using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.ServerData;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Styles;
 using Implem.Pleasanter.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.ViewParts;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -300,7 +301,7 @@ namespace Implem.Pleasanter.Models
                 .Val("#VerUp", false)
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", Title.Value + " - " + Displays.Edit())
-                .Html("#RecordInfo", Html.Builder().RecordInfo(baseModel: this, tableName: "OutgoingMails"))
+                .Html("#RecordInfo", new HtmlBuilder().RecordInfo(baseModel: this, tableName: "OutgoingMails"))
                 .Message(Messages.Updated(Title.ToString()))
                 .RemoveComment(DeleteCommentId, _using: DeleteCommentId != 0)
                 .ClearFormData();
@@ -419,9 +420,9 @@ namespace Implem.Pleasanter.Models
 
         public string Histories()
         {
-            var hb = Html.Builder();
+            var hb = new HtmlBuilder();
             hb.Table(
-                attributes: Html.Attributes().Class("grid"),
+                attributes: new HtmlAttributes().Class("grid"),
                 action: () =>
                 {
                     hb.GridHeader(
@@ -433,7 +434,7 @@ namespace Implem.Pleasanter.Models
                         orderBy: Rds.OutgoingMailsOrderBy().Ver(SqlOrderBy.Types.desc),
                         tableType: Sqls.TableTypes.NormalAndHistory).ForEach(outgoingMailModel => hb
                             .Tr(
-                                attributes: Html.Attributes()
+                                attributes: new HtmlAttributes()
                                     .Class("grid-row history not-link")
                                     .DataAction("History")
                                     .DataMethod("post")
@@ -635,7 +636,7 @@ namespace Implem.Pleasanter.Models
             var siteSettings = siteModel.SitesSiteSettings();
             return new OutgoingMailsResponseCollection(this)
                 .Html("#OutgoingMails_MailAddresses",
-                    Html.Builder().SelectableItems(
+                    new HtmlBuilder().SelectableItems(
                         listItemCollection: OutgoingMailsUtility.Destinations(
                             referenceId: siteModel.InheritPermission,
                             addressBook: OutgoingMailsUtility.AddressBook(siteSettings),
@@ -803,7 +804,7 @@ namespace Implem.Pleasanter.Models
                 .Html("#Dialog_OutgoingMail", string.Empty)
                 .Val("#OutgoingMails_Title", string.Empty)
                 .Val("#OutgoingMails_Body", string.Empty)
-                .Prepend("#OutgoingMailsForm", Html.Builder().OutgoingMailListItem(
+                .Prepend("#OutgoingMailsForm", new HtmlBuilder().OutgoingMailListItem(
                     this, selector: "#ImmediatelyAfterSending" + OutgoingMailId))
                 .Markup()
                 .Message(Messages.MailTransmissionCompletion())
@@ -936,7 +937,7 @@ namespace Implem.Pleasanter.Models
     {
         public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
         {
-            var hb = Html.Builder();
+            var hb = new HtmlBuilder();
             var formData = DataViewFilters.SessionFormData();
             var outgoingMailCollection = OutgoingMailCollection(siteSettings, permissionType, formData);
             var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
@@ -957,7 +958,7 @@ namespace Implem.Pleasanter.Models
                 userScript: siteSettings.GridScript,
                 action: () => hb
                     .Form(
-                        attributes: Html.Attributes()
+                        attributes: new HtmlAttributes()
                             .Id_Css("OutgoingMailsForm", "main-form")
                             .Action(Navigations.ItemAction(siteSettings.SiteId)),
                         action: () => hb
@@ -990,7 +991,7 @@ namespace Implem.Pleasanter.Models
                             .Hidden(controlId: "TableName", value: "OutgoingMails")
                             .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
                     .Dialog_Move("items", siteSettings.SiteId, bulk: true)
-                    .Div(attributes: Html.Attributes()
+                    .Div(attributes: new HtmlAttributes()
                         .Id_Css("Dialog_ExportSettings", "dialog")
                         .Title(Displays.ExportSettings()))).ToString();
         }
@@ -1061,7 +1062,7 @@ namespace Implem.Pleasanter.Models
         {
             return hb
                 .Table(
-                    attributes: Html.Attributes()
+                    attributes: new HtmlAttributes()
                         .Id_Css("Grid", "grid")
                         .DataAction("GridRows")
                         .DataMethod("post"),
@@ -1082,12 +1083,12 @@ namespace Implem.Pleasanter.Models
             var formData = DataViewFilters.SessionFormData();
             var outgoingMailCollection = OutgoingMailCollection(siteSettings, permissionType, formData);
             return new ResponseCollection()
-                .Html("#DataViewContainer", Html.Builder().Grid(
+                .Html("#DataViewContainer", new HtmlBuilder().Grid(
                     siteSettings: siteSettings,
                     outgoingMailCollection: outgoingMailCollection,
                     permissionType: permissionType,
                     formData: formData))
-                .Html("#Aggregations", Html.Builder().Aggregations(
+                .Html("#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
                     aggregations: outgoingMailCollection.Aggregations,
                     container: false))
@@ -1110,13 +1111,13 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData("GridUnCheckedItems", _using: clearCheck)
                 .ClearFormData("GridCheckedItems", _using: clearCheck)
                 .Message(message)
-                .Append("#Grid", Html.Builder().GridRows(
+                .Append("#Grid", new HtmlBuilder().GridRows(
                     siteSettings: siteSettings,
                     outgoingMailCollection: outgoingMailCollection,
                     formData: formData,
                     addHeader: offset == 0,
                     clearCheck: clearCheck))
-                .Html("#Aggregations", Html.Builder().Aggregations(
+                .Html("#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
                     aggregations: outgoingMailCollection.Aggregations,
                     container: false))
@@ -1143,7 +1144,7 @@ namespace Implem.Pleasanter.Models
             }
             outgoingMailCollection.ForEach(outgoingMailModel => hb
                 .Tr(
-                    attributes: Html.Attributes()
+                    attributes: new HtmlAttributes()
                         .Class("grid-row")
                         .DataId(outgoingMailModel.OutgoingMailId.ToString()),
                     action: () =>
@@ -1230,7 +1231,7 @@ namespace Implem.Pleasanter.Models
 
         public static string Editor(OutgoingMailModel outgoingMailModel)
         {
-            var hb = Html.Builder();
+            var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
             var siteSettings = SiteSettingsUtility.OutgoingMailsSiteSettings();
             return hb.Template(
@@ -1266,7 +1267,7 @@ namespace Implem.Pleasanter.Models
         {
             return hb.Div(css: "edit-form", action: () => hb
                 .Form(
-                    attributes: Html.Attributes()
+                    attributes: new HtmlAttributes()
                         .Id_Css("OutgoingMailForm", "main-form")
                         .Action(outgoingMailModel.OutgoingMailId != 0
                             ? Navigations.Action("OutgoingMails", outgoingMailModel.OutgoingMailId)
@@ -1289,7 +1290,7 @@ namespace Implem.Pleasanter.Models
                                 permissionType: permissionType,
                                 outgoingMailModel: outgoingMailModel)
                             .FieldSet(
-                                attributes: Html.Attributes()
+                                attributes: new HtmlAttributes()
                                     .Id("FieldSetHistories")
                                     .DataAction("Histories")
                                     .DataMethod("get"),
@@ -1423,7 +1424,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, string referenceType, long referenceId, int referenceVer)
         {
             return hb.Form(
-                attributes: Html.Attributes()
+                attributes: new HtmlAttributes()
                     .Id_Css("OutgoingMailsForm", "edit-form-mail-list")
                     .Action(Navigations.ItemAction(referenceId, "OutgoingMails")),
                 action: () =>
@@ -1512,7 +1513,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static HtmlBuilder Dialog_OutgoingMail(this HtmlBuilder hb)
         {
-            return hb.Div(attributes: Html.Attributes()
+            return hb.Div(attributes: new HtmlAttributes()
                 .Id_Css("Dialog_OutgoingMail", "dialog"));
         }
 
@@ -1526,7 +1527,7 @@ namespace Implem.Pleasanter.Models
             var outgoingMailModel = new OutgoingMailModel().Get(
                 where: Rds.OutgoingMailsWhere().OutgoingMailId(
                     Forms.Long("OutgoingMails_OutgoingMailId")));
-            var hb = Html.Builder();
+            var hb = new HtmlBuilder();
             return new ResponseCollection()
                 .Html("#Dialog_OutgoingMail", hb
                     .Div(css: "edit-form-tabs-max no-border", action: () => hb
@@ -1541,7 +1542,7 @@ namespace Implem.Pleasanter.Models
                                     text: Displays.AddressBook())))
                         .FieldSet(id: "FieldSetMailEditor", action: () => hb
                             .Form(
-                                attributes: Html.Attributes()
+                                attributes: new HtmlAttributes()
                                     .Id("OutgoingMailForm")
                                     .Action(Navigations.Action(
                                         referenceType, referenceId, "OutgoingMails")),
@@ -1551,7 +1552,7 @@ namespace Implem.Pleasanter.Models
                                         outgoingMailModel: outgoingMailModel)))
                         .FieldSet(id: "FieldSetAddressBook", action: () => hb
                             .Form(
-                                attributes: Html.Attributes()
+                                attributes: new HtmlAttributes()
                                     .Id("OutgoingMailDestinationForm")
                                     .Action(Navigations.Action(
                                         referenceType, referenceId, "OutgoingMails")),

@@ -1,6 +1,7 @@
 ﻿using Implem.Libraries.DataSources.SqlServer;
 using Implem.Pleasanter.Libraries.DataSources;
-using Implem.Pleasanter.Libraries.ViewParts;
+using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.HtmlParts;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Requests
 {

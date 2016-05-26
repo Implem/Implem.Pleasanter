@@ -7,13 +7,14 @@ using Implem.Pleasanter.Libraries.Analysis;
 using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.ServerData;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Styles;
 using Implem.Pleasanter.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.ViewParts;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -327,7 +328,7 @@ namespace Implem.Pleasanter.Models
                 responseCollection
                     .Append(
                         "#SearchResults",
-                        Html.Builder().Results(text: text, offset: offset, results: results))
+                        new HtmlBuilder().Results(text: text, offset: offset, results: results))
                     .Val(
                         "#SearchOffset",
                         (results != null &&
@@ -345,7 +346,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder MainContainer(
             string text, int offset, EnumerableRowCollection<DataRow> results, int count)
         {
-            var hb = Html.Builder();
+            var hb = new HtmlBuilder();
             var searchIndexes = text.SearchIndexes();
             return hb.Template(
                 siteId: 0,

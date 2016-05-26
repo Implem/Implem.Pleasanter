@@ -1,11 +1,12 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.ServerData;
 using Implem.Pleasanter.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.ViewParts;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
@@ -556,7 +557,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (controlId == "MoveDownGridColumns") Array.Reverse(order);
             GridColumnsOrder = order.ToList<string>();
             responseCollection.Html("#GridColumns",
-                Html.Builder().SelectableItems(
+                new HtmlBuilder().SelectableItems(
                     listItemCollection: GridColumnsHash(),
                     selectedValueTextCollection: selectedColumns));
         }
@@ -622,7 +623,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     break;
             }
             responseCollection
-                .Html("#AggregationDestination", Html.Builder()
+                .Html("#AggregationDestination", new HtmlBuilder()
                     .SelectableItems(
                         listItemCollection: AggregationDestination(),
                         selectedValueTextCollection: selectedDestination))
@@ -662,7 +663,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (controlId == "MoveDownEditorColumns") Array.Reverse(order);
             EditorColumnsOrder = order.ToList<string>();
             responseCollection.Html("#EditorColumns",
-                Html.Builder().SelectableItems(
+                new HtmlBuilder().SelectableItems(
                     listItemCollection: EditorColumnsHash(),
                     selectedValueTextCollection: selectedColumns));
         }
@@ -783,7 +784,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (controlId == "MoveDownTitleColumns") Array.Reverse(order);
             TitleColumnsOrder = order.ToList<string>();
             responseCollection.Html("#TitleColumns",
-                Html.Builder().SelectableItems(
+                new HtmlBuilder().SelectableItems(
                     listItemCollection: TitleColumnsHash(),
                     selectedValueTextCollection: selectedColumns));
         }
@@ -821,7 +822,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (controlId == "MoveDownLinkColumns") Array.Reverse(order);
             LinkColumnsOrder = order.ToList<string>();
             responseCollection.Html("#LinkColumns",
-                Html.Builder().SelectableItems(
+                new HtmlBuilder().SelectableItems(
                     listItemCollection: LinkColumnsHash(),
                     selectedValueTextCollection: selectedColumns));
         }
@@ -859,7 +860,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (controlId == "MoveDownHistoryColumns") Array.Reverse(order);
             HistoryColumnsOrder = order.ToList<string>();
             responseCollection.Html("#HistoryColumns",
-                Html.Builder().SelectableItems(
+                new HtmlBuilder().SelectableItems(
                     listItemCollection: HistoryColumnsHash(),
                     selectedValueTextCollection: selectedColumns));
         }

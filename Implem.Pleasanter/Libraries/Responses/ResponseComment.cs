@@ -1,7 +1,8 @@
 ﻿using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.ViewParts;
 namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class ResponseComment
@@ -15,7 +16,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 ? responseCollection
                     .Val("#Comments", string.Empty)
                     .Focus("#Comments")
-                    .Prepend("#CommentList", Html.Builder()
+                    .Prepend("#CommentList", new HtmlBuilder()
                         .Comment(comment: comments[0], verType: verType))
                     .Markup()
                 : responseCollection;

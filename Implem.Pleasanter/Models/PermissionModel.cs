@@ -7,13 +7,14 @@ using Implem.Pleasanter.Libraries.Analysis;
 using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.ServerData;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Styles;
 using Implem.Pleasanter.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.ViewParts;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -357,7 +358,7 @@ namespace Implem.Pleasanter.Models
         {
             var siteModel = new SiteModel(siteId, clearSessions: true);
             var siteSettings = siteModel.PermissionsSiteSettings();
-            var hb = Html.Builder();
+            var hb = new HtmlBuilder();
             hb.Template(
                 siteId: siteModel.SiteId,
                 referenceId: "Permissions",
@@ -379,7 +380,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, SiteModel siteModel, SiteSettings siteSettings)
         {
             return hb.Form(
-                attributes: Html.Attributes()
+                attributes: new HtmlAttributes()
                     .Id_Css("PermissionForm", "edit-form")
                     .Action(Navigations.ItemAction(siteModel.SiteId, "Permissions")),
                 action: () => hb
@@ -679,7 +680,7 @@ namespace Implem.Pleasanter.Models
             switch (sourceOrDestination)
             {
                 case Types.Destination:
-                    return Html.Builder().SelectableItems(
+                    return new HtmlBuilder().SelectableItems(
                         listItemCollection: siteModel.Session_PermissionDestinationCollection()
                             .OrderBy(o => o.PermissionId)
                             .ToDictionary(
@@ -688,7 +689,7 @@ namespace Implem.Pleasanter.Models
                         selectedValueTextCollection:
                             selectedValueTextCollection ?? new List<string>()).ToString();
                 case Types.Source:
-                    return Html.Builder().SelectableItems(
+                    return new HtmlBuilder().SelectableItems(
                         listItemCollection: siteModel.Session_PermissionSourceCollection()
                             .OrderBy(o => o.PermissionId)
                             .ToDictionary(o => o.PermissionId, o => o.PermissionTitle),
@@ -705,7 +706,7 @@ namespace Implem.Pleasanter.Models
         public static string ChangeInherit(long siteId)
         {
             var inheritPermission = Forms.Long("Sites_InheritPermission");
-            var hb = Html.Builder();
+            var hb = new HtmlBuilder();
             if (siteId == inheritPermission)
             {
                 var inheritSite = new SiteModel(siteId).InheritSite();

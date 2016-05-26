@@ -7,13 +7,14 @@ using Implem.Pleasanter.Libraries.Analysis;
 using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.ServerData;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Styles;
 using Implem.Pleasanter.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.ViewParts;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -279,7 +280,7 @@ namespace Implem.Pleasanter.Models
                 .Val("#VerUp", false)
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", Title.Value + " - " + Displays.Edit())
-                .Html("#RecordInfo", Html.Builder().RecordInfo(baseModel: this, tableName: "Depts"))
+                .Html("#RecordInfo", new HtmlBuilder().RecordInfo(baseModel: this, tableName: "Depts"))
                 .Message(Messages.Updated(Title.ToString()))
                 .RemoveComment(DeleteCommentId, _using: DeleteCommentId != 0)
                 .ClearFormData();
@@ -398,9 +399,9 @@ namespace Implem.Pleasanter.Models
 
         public string Histories()
         {
-            var hb = Html.Builder();
+            var hb = new HtmlBuilder();
             hb.Table(
-                attributes: Html.Attributes().Class("grid"),
+                attributes: new HtmlAttributes().Class("grid"),
                 action: () =>
                 {
                     hb.GridHeader(
@@ -414,7 +415,7 @@ namespace Implem.Pleasanter.Models
                         orderBy: Rds.DeptsOrderBy().Ver(SqlOrderBy.Types.desc),
                         tableType: Sqls.TableTypes.NormalAndHistory).ForEach(deptModel => hb
                             .Tr(
-                                attributes: Html.Attributes()
+                                attributes: new HtmlAttributes()
                                     .Class("grid-row history not-link")
                                     .DataAction("History")
                                     .DataMethod("post")
@@ -743,7 +744,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
         {
-            var hb = Html.Builder();
+            var hb = new HtmlBuilder();
             var formData = DataViewFilters.SessionFormData();
             var deptCollection = DeptCollection(siteSettings, permissionType, formData);
             return hb.Template(
@@ -758,7 +759,7 @@ namespace Implem.Pleasanter.Models
                 {
                     hb
                         .Form(
-                            attributes: Html.Attributes()
+                            attributes: new HtmlAttributes()
                                 .Id("DeptForm")
                                 .Action(Navigations.Action("Depts")),
                             action: () => hb
@@ -783,10 +784,10 @@ namespace Implem.Pleasanter.Models
                                 .Hidden(
                                     controlId: "GridOffset",
                                     value: Parameters.General.GridPageSize.ToString()))
-                        .Div(attributes: Html.Attributes()
+                        .Div(attributes: new HtmlAttributes()
                             .Id_Css("Dialog_ImportSettings", "dialog")
                             .Title(Displays.Import()))
-                        .Div(attributes: Html.Attributes()
+                        .Div(attributes: new HtmlAttributes()
                             .Id_Css("Dialog_ExportSettings", "dialog")
                             .Title(Displays.ExportSettings()));
                 }).ToString();
@@ -860,7 +861,7 @@ namespace Implem.Pleasanter.Models
         {
             return hb
                 .Table(
-                    attributes: Html.Attributes()
+                    attributes: new HtmlAttributes()
                         .Id_Css("Grid", "grid")
                         .DataAction("GridRows")
                         .DataMethod("post"),
@@ -881,12 +882,12 @@ namespace Implem.Pleasanter.Models
             var formData = DataViewFilters.SessionFormData();
             var deptCollection = DeptCollection(siteSettings, permissionType, formData);
             return new ResponseCollection()
-                .Html("#DataViewContainer", Html.Builder().Grid(
+                .Html("#DataViewContainer", new HtmlBuilder().Grid(
                     siteSettings: siteSettings,
                     deptCollection: deptCollection,
                     permissionType: permissionType,
                     formData: formData))
-                .Html("#Aggregations", Html.Builder().Aggregations(
+                .Html("#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
                     aggregations: deptCollection.Aggregations,
                     container: false))
@@ -909,13 +910,13 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData("GridUnCheckedItems", _using: clearCheck)
                 .ClearFormData("GridCheckedItems", _using: clearCheck)
                 .Message(message)
-                .Append("#Grid", Html.Builder().GridRows(
+                .Append("#Grid", new HtmlBuilder().GridRows(
                     siteSettings: siteSettings,
                     deptCollection: deptCollection,
                     formData: formData,
                     addHeader: offset == 0,
                     clearCheck: clearCheck))
-                .Html("#Aggregations", Html.Builder().Aggregations(
+                .Html("#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
                     aggregations: deptCollection.Aggregations,
                     container: false))
@@ -942,7 +943,7 @@ namespace Implem.Pleasanter.Models
             }
             deptCollection.ForEach(deptModel => hb
                 .Tr(
-                    attributes: Html.Attributes()
+                    attributes: new HtmlAttributes()
                         .Class("grid-row")
                         .DataId(deptModel.DeptId.ToString()),
                     action: () =>
@@ -1033,7 +1034,7 @@ namespace Implem.Pleasanter.Models
 
         public static string Editor(DeptModel deptModel)
         {
-            var hb = Html.Builder();
+            var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
             var siteSettings = SiteSettingsUtility.DeptsSiteSettings();
             return hb.Template(
@@ -1069,7 +1070,7 @@ namespace Implem.Pleasanter.Models
         {
             return hb.Div(css: "edit-form", action: () => hb
                 .Form(
-                    attributes: Html.Attributes()
+                    attributes: new HtmlAttributes()
                         .Id_Css("DeptForm", "main-form")
                         .Action(deptModel.DeptId != 0
                             ? Navigations.Action("Depts", deptModel.DeptId)
@@ -1092,7 +1093,7 @@ namespace Implem.Pleasanter.Models
                                 permissionType: permissionType,
                                 deptModel: deptModel)
                             .FieldSet(
-                                attributes: Html.Attributes()
+                                attributes: new HtmlAttributes()
                                     .Id("FieldSetHistories")
                                     .DataAction("Histories")
                                     .DataMethod("get"),

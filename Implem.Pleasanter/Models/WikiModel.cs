@@ -7,13 +7,14 @@ using Implem.Pleasanter.Libraries.Analysis;
 using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.ServerData;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Styles;
 using Implem.Pleasanter.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.ViewParts;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -303,8 +304,8 @@ namespace Implem.Pleasanter.Models
                 .Val("#VerUp", false)
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", Title.DisplayValue + " - " + Displays.Edit())
-                .Html("#RecordInfo", Html.Builder().RecordInfo(baseModel: this, tableName: "Wikis"))
-                .Html("#Links", Html.Builder().Links(WikiId))
+                .Html("#RecordInfo", new HtmlBuilder().RecordInfo(baseModel: this, tableName: "Wikis"))
+                .Html("#Links", new HtmlBuilder().Links(WikiId))
                 .Message(Messages.Updated(Title.ToString()))
                 .RemoveComment(DeleteCommentId, _using: DeleteCommentId != 0)
                 .ClearFormData();
@@ -513,9 +514,9 @@ namespace Implem.Pleasanter.Models
 
         public string Histories()
         {
-            var hb = Html.Builder();
+            var hb = new HtmlBuilder();
             hb.Table(
-                attributes: Html.Attributes().Class("grid"),
+                attributes: new HtmlAttributes().Class("grid"),
                 action: () =>
                 {
                     hb.GridHeader(
@@ -529,7 +530,7 @@ namespace Implem.Pleasanter.Models
                         orderBy: Rds.WikisOrderBy().Ver(SqlOrderBy.Types.desc),
                         tableType: Sqls.TableTypes.NormalAndHistory).ForEach(wikiModel => hb
                             .Tr(
-                                attributes: Html.Attributes()
+                                attributes: new HtmlAttributes()
                                     .Class("grid-row history not-link")
                                     .DataAction("History")
                                     .DataMethod("post")
@@ -1008,7 +1009,7 @@ namespace Implem.Pleasanter.Models
         {
             return hb
                 .Table(
-                    attributes: Html.Attributes()
+                    attributes: new HtmlAttributes()
                         .Id_Css("Grid", "grid")
                         .DataAction("GridRows")
                         .DataMethod("post"),
@@ -1029,12 +1030,12 @@ namespace Implem.Pleasanter.Models
             var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
             var wikiCollection = WikiCollection(siteSettings, permissionType, formData);
             return new ResponseCollection()
-                .Html("#DataViewContainer", Html.Builder().Grid(
+                .Html("#DataViewContainer", new HtmlBuilder().Grid(
                     siteSettings: siteSettings,
                     wikiCollection: wikiCollection,
                     permissionType: permissionType,
                     formData: formData))
-                .Html("#Aggregations", Html.Builder().Aggregations(
+                .Html("#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
                     aggregations: wikiCollection.Aggregations,
                     container: false))
@@ -1057,13 +1058,13 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData("GridUnCheckedItems", _using: clearCheck)
                 .ClearFormData("GridCheckedItems", _using: clearCheck)
                 .Message(message)
-                .Append("#Grid", Html.Builder().GridRows(
+                .Append("#Grid", new HtmlBuilder().GridRows(
                     siteSettings: siteSettings,
                     wikiCollection: wikiCollection,
                     formData: formData,
                     addHeader: offset == 0,
                     clearCheck: clearCheck))
-                .Html("#Aggregations", Html.Builder().Aggregations(
+                .Html("#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
                     aggregations: wikiCollection.Aggregations,
                     container: false))
@@ -1090,7 +1091,7 @@ namespace Implem.Pleasanter.Models
             }
             wikiCollection.ForEach(wikiModel => hb
                 .Tr(
-                    attributes: Html.Attributes()
+                    attributes: new HtmlAttributes()
                         .Class("grid-row")
                         .DataId(wikiModel.WikiId.ToString()),
                     action: () =>
@@ -1193,7 +1194,7 @@ namespace Implem.Pleasanter.Models
 
         public static string Editor(SiteModel siteModel, WikiModel wikiModel)
         {
-            var hb = Html.Builder();
+            var hb = new HtmlBuilder();
             wikiModel.SiteSettings.SetLinks();
             return hb.Template(
                 siteId: siteModel.SiteId,
@@ -1233,7 +1234,7 @@ namespace Implem.Pleasanter.Models
         {
             return hb.Div(css: "edit-form", action: () => hb
                 .Form(
-                    attributes: Html.Attributes()
+                    attributes: new HtmlAttributes()
                         .Id_Css("WikiForm", "main-form")
                         .Action(Navigations.ItemAction(wikiModel.WikiId != 0
                             ? wikiModel.WikiId
@@ -1255,7 +1256,7 @@ namespace Implem.Pleasanter.Models
                                 permissionType: siteModel.PermissionType,
                                 siteSettings: siteSettings)
                             .FieldSet(
-                                attributes: Html.Attributes()
+                                attributes: new HtmlAttributes()
                                     .Id("FieldSetHistories")
                                     .DataAction("Histories")
                                     .DataMethod("get"),
@@ -1742,7 +1743,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings siteSettings,
             WikiModel wikiModel)
         {
-            var hb = Html.Builder();
+            var hb = new HtmlBuilder();
             siteSettings.SetLinks();
             return hb.Template(
                 siteId: siteModel.SiteId,

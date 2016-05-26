@@ -1,6 +1,7 @@
 ﻿using Implem.Pleasanter.Interfaces;
+using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Settings;
-using Implem.Pleasanter.Libraries.ViewParts;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     public class TitleBody : Title, IConvertable

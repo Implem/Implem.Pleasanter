@@ -1,4 +1,4 @@
-﻿using Implem.Pleasanter.Libraries.ViewParts;
+﻿using Implem.Pleasanter.Libraries.Html;
 using System;
 using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.Responses

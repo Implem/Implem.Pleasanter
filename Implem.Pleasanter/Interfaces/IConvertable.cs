@@ -1,5 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Settings;
-using Implem.Pleasanter.Libraries.ViewParts;
+﻿using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Settings;
 namespace Implem.Pleasanter.Interfaces
 {
     public interface IConvertable

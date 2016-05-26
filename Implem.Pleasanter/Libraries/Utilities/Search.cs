@@ -1,9 +1,10 @@
 ﻿using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
-using Implem.Pleasanter.Libraries.ViewParts;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
@@ -98,7 +99,7 @@ namespace Implem.Pleasanter.Libraries.Utilities
                     var siteSubset = dataRow["Subset"].ToString().Deserialize<SiteSubset>();
                     href = Navigations.ItemIndex(siteSubset.SiteId);
                     hb.Section(
-                        attributes: Html.Attributes()
+                        attributes: new HtmlAttributes()
                             .Class("result")
                             .Add("data-href", href),
                         action: () => hb
@@ -113,7 +114,7 @@ namespace Implem.Pleasanter.Libraries.Utilities
                     var issueSubset = dataRow["Subset"].ToString().Deserialize<IssueSubset>();
                         href = Navigations.ItemEdit(issueSubset.IssueId);
                         hb.Section(
-                            attributes: Html.Attributes()
+                            attributes: new HtmlAttributes()
                                 .Class("result")
                                 .Add("data-href", href),
                             action: () => hb
@@ -128,7 +129,7 @@ namespace Implem.Pleasanter.Libraries.Utilities
                     var resultSubset = dataRow["Subset"].ToString().Deserialize<ResultSubset>();
                         href = Navigations.ItemEdit(resultSubset.ResultId);
                         hb.Section(
-                            attributes: Html.Attributes()
+                            attributes: new HtmlAttributes()
                                 .Class("result")
                                 .Add("data-href", href),
                             action: () => hb
@@ -143,7 +144,7 @@ namespace Implem.Pleasanter.Libraries.Utilities
                     var wikiSubset = dataRow["Subset"].ToString().Deserialize<WikiSubset>();
                         href = Navigations.ItemEdit(wikiSubset.WikiId);
                         hb.Section(
-                            attributes: Html.Attributes()
+                            attributes: new HtmlAttributes()
                                 .Class("result")
                                 .Add("data-href", href),
                             action: () => hb

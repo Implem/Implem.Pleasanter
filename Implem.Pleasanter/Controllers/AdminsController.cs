@@ -1,5 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
-using Implem.Pleasanter.Libraries.ViewParts;
+using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Models;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers

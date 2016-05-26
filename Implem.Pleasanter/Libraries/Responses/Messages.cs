@@ -1,11 +1,12 @@
-﻿using Implem.Pleasanter.Libraries.ViewParts;
+﻿using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.HtmlParts;
 namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class Messages
     {
         private static Message Get(string text, string status)
         {
-            var hb = Html.Builder();
+            var hb = new HtmlBuilder();
             return new Message(
                 hb.Span(css: status, action: () => hb
                     .Text(text: text)).ToString(),

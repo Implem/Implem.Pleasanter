@@ -7,13 +7,14 @@ using Implem.Pleasanter.Libraries.Analysis;
 using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.ServerData;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Styles;
 using Implem.Pleasanter.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.ViewParts;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -301,7 +302,7 @@ namespace Implem.Pleasanter.Models
                 .Val("#VerUp", false)
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", Title.Value + " - " + Displays.Edit())
-                .Html("#RecordInfo", Html.Builder().RecordInfo(baseModel: this, tableName: "ExportSettings"))
+                .Html("#RecordInfo", new HtmlBuilder().RecordInfo(baseModel: this, tableName: "ExportSettings"))
                 .Message(Messages.Updated(Title.ToString()))
                 .RemoveComment(DeleteCommentId, _using: DeleteCommentId != 0)
                 .ClearFormData();
@@ -370,7 +371,7 @@ namespace Implem.Pleasanter.Models
             responseCollection
                 .Html(
                     "#ExportSettings_ExportSettingId",
-                    Html.Builder().OptionCollection(
+                    new HtmlBuilder().OptionCollection(
                     optionCollection: exportSettingsCollection.ToDictionary(
                         o => o.ExportSettingId.ToString(),
                         o => new ControlData(o.Title.Value)),
@@ -460,9 +461,9 @@ namespace Implem.Pleasanter.Models
 
         public string Histories()
         {
-            var hb = Html.Builder();
+            var hb = new HtmlBuilder();
             hb.Table(
-                attributes: Html.Attributes().Class("grid"),
+                attributes: new HtmlAttributes().Class("grid"),
                 action: () =>
                 {
                     hb.GridHeader(
@@ -476,7 +477,7 @@ namespace Implem.Pleasanter.Models
                         orderBy: Rds.ExportSettingsOrderBy().Ver(SqlOrderBy.Types.desc),
                         tableType: Sqls.TableTypes.NormalAndHistory).ForEach(exportSettingModel => hb
                             .Tr(
-                                attributes: Html.Attributes()
+                                attributes: new HtmlAttributes()
                                     .Class("grid-row history not-link")
                                     .DataAction("History")
                                     .DataMethod("post")
@@ -853,7 +854,7 @@ namespace Implem.Pleasanter.Models
     {
         public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
         {
-            var hb = Html.Builder();
+            var hb = new HtmlBuilder();
             var formData = DataViewFilters.SessionFormData();
             var exportSettingCollection = ExportSettingCollection(siteSettings, permissionType, formData);
             var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
@@ -874,7 +875,7 @@ namespace Implem.Pleasanter.Models
                 userScript: siteSettings.GridScript,
                 action: () => hb
                     .Form(
-                        attributes: Html.Attributes()
+                        attributes: new HtmlAttributes()
                             .Id_Css("ExportSettingsForm", "main-form")
                             .Action(Navigations.ItemAction(siteSettings.SiteId)),
                         action: () => hb
@@ -907,7 +908,7 @@ namespace Implem.Pleasanter.Models
                             .Hidden(controlId: "TableName", value: "ExportSettings")
                             .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
                     .Dialog_Move("items", siteSettings.SiteId, bulk: true)
-                    .Div(attributes: Html.Attributes()
+                    .Div(attributes: new HtmlAttributes()
                         .Id_Css("Dialog_ExportSettings", "dialog")
                         .Title(Displays.ExportSettings()))).ToString();
         }
@@ -980,7 +981,7 @@ namespace Implem.Pleasanter.Models
         {
             return hb
                 .Table(
-                    attributes: Html.Attributes()
+                    attributes: new HtmlAttributes()
                         .Id_Css("Grid", "grid")
                         .DataAction("GridRows")
                         .DataMethod("post"),
@@ -1001,12 +1002,12 @@ namespace Implem.Pleasanter.Models
             var formData = DataViewFilters.SessionFormData();
             var exportSettingCollection = ExportSettingCollection(siteSettings, permissionType, formData);
             return new ResponseCollection()
-                .Html("#DataViewContainer", Html.Builder().Grid(
+                .Html("#DataViewContainer", new HtmlBuilder().Grid(
                     siteSettings: siteSettings,
                     exportSettingCollection: exportSettingCollection,
                     permissionType: permissionType,
                     formData: formData))
-                .Html("#Aggregations", Html.Builder().Aggregations(
+                .Html("#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
                     aggregations: exportSettingCollection.Aggregations,
                     container: false))
@@ -1029,13 +1030,13 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData("GridUnCheckedItems", _using: clearCheck)
                 .ClearFormData("GridCheckedItems", _using: clearCheck)
                 .Message(message)
-                .Append("#Grid", Html.Builder().GridRows(
+                .Append("#Grid", new HtmlBuilder().GridRows(
                     siteSettings: siteSettings,
                     exportSettingCollection: exportSettingCollection,
                     formData: formData,
                     addHeader: offset == 0,
                     clearCheck: clearCheck))
-                .Html("#Aggregations", Html.Builder().Aggregations(
+                .Html("#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
                     aggregations: exportSettingCollection.Aggregations,
                     container: false))
@@ -1062,7 +1063,7 @@ namespace Implem.Pleasanter.Models
             }
             exportSettingCollection.ForEach(exportSettingModel => hb
                 .Tr(
-                    attributes: Html.Attributes()
+                    attributes: new HtmlAttributes()
                         .Class("grid-row")
                         .DataId(exportSettingModel.ExportSettingId.ToString()),
                     action: () =>
@@ -1146,7 +1147,7 @@ namespace Implem.Pleasanter.Models
 
         public static string Editor(ExportSettingModel exportSettingModel)
         {
-            var hb = Html.Builder();
+            var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
             var siteSettings = SiteSettingsUtility.ExportSettingsSiteSettings();
             return hb.Template(
@@ -1182,7 +1183,7 @@ namespace Implem.Pleasanter.Models
         {
             return hb.Div(css: "edit-form", action: () => hb
                 .Form(
-                    attributes: Html.Attributes()
+                    attributes: new HtmlAttributes()
                         .Id_Css("ExportSettingForm", "main-form")
                         .Action(exportSettingModel.ExportSettingId != 0
                             ? Navigations.Action("ExportSettings", exportSettingModel.ExportSettingId)
@@ -1205,7 +1206,7 @@ namespace Implem.Pleasanter.Models
                                 permissionType: permissionType,
                                 exportSettingModel: exportSettingModel)
                             .FieldSet(
-                                attributes: Html.Attributes()
+                                attributes: new HtmlAttributes()
                                     .Id("FieldSetHistories")
                                     .DataAction("Histories")
                                     .DataMethod("get"),
@@ -1342,11 +1343,11 @@ namespace Implem.Pleasanter.Models
         {
             var exportSettingModel = ExportSetting(referenceType, referenceId);
             ExportSettingsUtility.SetSessions(exportSettingModel);
-            var hb = Html.Builder();
+            var hb = new HtmlBuilder();
             return responseCollection
                 .Html("#Dialog_ExportSettings", hb
                     .Form(
-                        attributes: Html.Attributes()
+                        attributes: new HtmlAttributes()
                             .Id("ExportSettingsForm")
                             .Action(Navigations.ItemAction(referenceId, "ExportSettings")),
                         action: () => hb
@@ -1529,7 +1530,7 @@ namespace Implem.Pleasanter.Models
                         .ExportSettingId(Forms.Long("ExportSettings_ExportSettingId")));
             SetSessions(exportSettingModel);
             exportSettingModel.Session_ExportColumns(Jsons.ToJson(exportSettingModel.ExportColumns));
-            return Html.Builder()
+            return new HtmlBuilder()
                 .SelectableItems(listItemCollection: exportSettingModel.ExportColumnHash())
                 .Html("#ExportSettings_Columns")
                 .Val("#ExportSettings_Title", exportSettingModel.Title.Value)
