@@ -298,6 +298,7 @@ namespace Implem.Libraries.Utilities
                         obj.ToString().Trim().ToLower() == "true" ||
                         obj.ToString().Trim().ToLower() == "on";
                 case "Int":
+                case "Int32":
                 case "Long":
                 case "Single":
                 case "Double":
