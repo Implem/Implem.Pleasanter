@@ -6,9 +6,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlAdmins
     {
-        public static string Index()
+        public static string AdminsIndex(this HtmlBuilder hb)
         {
-            var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
             return hb.Template(
                 siteId: 0,
