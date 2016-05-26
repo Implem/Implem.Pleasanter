@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
@@ -12,6 +13,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
     public class CompletionTime : Time
     {
         public Status Status;
+        public DateTime UpdatedTime;
+        public Versions.VerTypes VerType = Versions.VerTypes.Latest;
 
         public CompletionTime() : base()
         {
@@ -22,9 +25,17 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Value = dataRow.DateTime(name);
             DisplayValue = Value.ToLocal().AddDays(-1);
             Status = new Status(dataRow, "Status");
+            UpdatedTime = dataRow["UpdatedTime"].ToDateTime();
+            if (dataRow.Table.Columns.Contains("IsHistory"))
+            {
+                VerType = dataRow["IsHistory"].ToBool()
+                    ? Versions.VerTypes.History
+                    : Versions.VerTypes.Latest;
+            }
         }
 
-        public CompletionTime(DateTime value, Status status, bool byForm = false) : base(value, byForm)
+        public CompletionTime(
+            DateTime value, Status status, bool byForm = false) : base(value, byForm)
         {
             Value = byForm
                 ? value.ToUniversal().AddDays(1)
@@ -58,7 +69,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             {
                 return hb;
             }
-            var now = DateTime.Now.ToLocal();
+            var now = VerType == Versions.VerTypes.Latest
+                ? DateTime.Now.ToLocal()
+                : UpdatedTime.ToLocal();
             var css = LimitCss(now, Value);
             var years = Times.DateDiff(Times.Types.Years, now, Value);
             if (Math.Abs(years) >= 2)
