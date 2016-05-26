@@ -1914,7 +1914,7 @@ namespace Implem.Pleasanter.Models
                         legendText: Displays.Icon(),
                         action: () => hb
                             .FieldTextBox(
-                                textStyle: HtmlControls.TextStyles.File,
+                                textType: HtmlTypes.TextTypes.File,
                                 controlId: "SiteSettings,SiteImage",
                                 fieldCss: "field-auto-thin",
                                 controlCss: " w400",
@@ -2447,7 +2447,7 @@ namespace Implem.Pleasanter.Models
                                     text: column.DefaultInput,
                                     _using: !column.MarkDown)
                                 .FieldTextBox(
-                                    textStyle: HtmlControls.TextStyles.MultiLine,
+                                    textType: HtmlTypes.TextTypes.MultiLine,
                                     controlId: "ColumnProperty,DefaultInput",
                                     fieldCss: column.FieldCss,
                                     labelText: Displays.DefaultInput(),
@@ -2459,7 +2459,7 @@ namespace Implem.Pleasanter.Models
                     {
                         case "ChoicesText":
                             hb.TextBox(
-                                textStyle: HtmlControls.TextStyles.MultiLine,
+                                textType: HtmlTypes.TextTypes.MultiLine,
                                 controlId: "ColumnProperty,ChoicesText",
                                 controlCss: " choices",
                                 placeholder: Displays.SettingSelectionList(),
@@ -2855,7 +2855,7 @@ namespace Implem.Pleasanter.Models
                 id: "MailerSettingsEditor",
                 action: () => hb
                     .FieldTextBox(
-                        textStyle: HtmlControls.TextStyles.MultiLine,
+                        textType: HtmlTypes.TextTypes.MultiLine,
                         controlId: "SiteSettings,AddressBook",
                         fieldCss: "field-wide",
                         labelText: Displays.DefaultAddressBook(),
@@ -2865,19 +2865,19 @@ namespace Implem.Pleasanter.Models
                         css: " enclosed-thin",
                         action: () => hb
                             .FieldTextBox(
-                                textStyle: HtmlControls.TextStyles.MultiLine,
+                                textType: HtmlTypes.TextTypes.MultiLine,
                                 controlId: "SiteSettings,MailToDefault",
                                 fieldCss: "field-wide",
                                 labelText: Displays.OutgoingMails_To(),
                                 text: siteSettings.MailToDefault.ToStr())
                             .FieldTextBox(
-                                textStyle: HtmlControls.TextStyles.MultiLine,
+                                textType: HtmlTypes.TextTypes.MultiLine,
                                 controlId: "SiteSettings,MailCcDefault",
                                 fieldCss: "field-wide",
                                 labelText: Displays.OutgoingMails_Cc(),
                                 text: siteSettings.MailCcDefault.ToStr())
                             .FieldTextBox(
-                                textStyle: HtmlControls.TextStyles.MultiLine,
+                                textType: HtmlTypes.TextTypes.MultiLine,
                                 controlId: "SiteSettings,MailBccDefault",
                                 fieldCss: "field-wide",
                                 labelText: Displays.OutgoingMails_Bcc(),
@@ -2894,19 +2894,19 @@ namespace Implem.Pleasanter.Models
                 id: "ScriptSettingsEditor",
                 action: () => hb
                     .FieldTextBox(
-                        textStyle: HtmlControls.TextStyles.MultiLine,
+                        textType: HtmlTypes.TextTypes.MultiLine,
                         controlId: "SiteSettings,GridScript",
                         fieldCss: "field-wide",
                         labelText: Displays.GridScript(),
                         text: siteSettings.GridScript.ToStr())
                     .FieldTextBox(
-                        textStyle: HtmlControls.TextStyles.MultiLine,
+                        textType: HtmlTypes.TextTypes.MultiLine,
                         controlId: "SiteSettings,NewScript",
                         fieldCss: "field-wide",
                         labelText: Displays.NewScript(),
                         text: siteSettings.NewScript.ToStr())
                     .FieldTextBox(
-                        textStyle: HtmlControls.TextStyles.MultiLine,
+                        textType: HtmlTypes.TextTypes.MultiLine,
                         controlId: "SiteSettings,EditScript",
                         fieldCss: "field-wide",
                         labelText: Displays.EditScript(),

@@ -1599,7 +1599,7 @@ namespace Implem.Pleasanter.Models
                     labelText: Displays.OutgoingMails_Title(),
                     text: ReplyTitle(outgoingMailModel))
                 .FieldTextBox(
-                    textStyle: HtmlControls.TextStyles.MultiLine,
+                    textType: HtmlTypes.TextTypes.MultiLine,
                     controlId: "OutgoingMails_Body",
                     fieldCss: "field-wide",
                     controlCss: " must-transport h300",

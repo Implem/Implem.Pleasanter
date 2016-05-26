@@ -234,6 +234,7 @@
     <Compile Include="Libraries\DataTypes\WorkValue.cs" />
     <Compile Include="Libraries\Html\HtmlAttributes.cs" />
     <Compile Include="Libraries\Html\HtmlBuilder.cs" />
+    <Compile Include="Libraries\Html\HtmlTypes.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlAdmins.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlAggregations.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlBurnDowns.cs" />

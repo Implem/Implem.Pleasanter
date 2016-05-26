@@ -14,7 +14,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Title(Displays.Import()),
                 action: () => hb
                     .FieldTextBox(
-                        textStyle: HtmlControls.TextStyles.File,
+                        textType: HtmlTypes.TextTypes.File,
                         controlId: "Import",
                         labelText: Displays.CsvFile())
                     .FieldDropDown(

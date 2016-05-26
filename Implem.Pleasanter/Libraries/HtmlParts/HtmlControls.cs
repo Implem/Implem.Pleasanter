@@ -11,18 +11,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlControls
     {
-
-        public enum TextStyles
-        {
-            Normal,
-            MultiLine,
-            Password,
-            File
-        }
-
         public static HtmlBuilder TextBox(
             this HtmlBuilder hb,
-            TextStyles textStyle = TextStyles.Normal,
+            HtmlTypes.TextTypes textType = HtmlTypes.TextTypes.Normal,
             string controlId = "",
             string controlCss = "",
             string text = "",
@@ -34,9 +25,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool _using = true)
         {
             if (!_using) return hb;
-            switch (textStyle)
+            switch (textType)
             {
-                case TextStyles.Normal:
+                case HtmlTypes.TextTypes.Normal:
                     return hb.Input(attributes: new HtmlAttributes()
                         .Id_Css(controlId, CssClasses.Get("control-textbox", controlCss))
                         .Type("text")
@@ -46,7 +37,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .DataAction(action)
                         .DataMethod(method)
                         .Add(attributes));
-                case TextStyles.MultiLine:
+                case HtmlTypes.TextTypes.MultiLine:
                     return hb.TextArea(
                         attributes: new HtmlAttributes()
                             .Id_Css(controlId, CssClasses.Get("control-textarea", controlCss))
@@ -57,7 +48,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Add(attributes),
                         action: () => hb
                             .Text(text: text));
-                case TextStyles.Password:
+                case HtmlTypes.TextTypes.Password:
                     return hb.Input(attributes: new HtmlAttributes()
                         .Id_Css(controlId, CssClasses.Get("control-textbox", controlCss))
                         .Type("password")
@@ -65,7 +56,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Placeholder(placeholder)
                         .OnChange(onChange)
                         .Add(attributes));
-                case TextStyles.File:
+                case HtmlTypes.TextTypes.File:
                     return hb.Input(attributes: new HtmlAttributes()
                         .Id_Css(controlId, CssClasses.Get("control-textbox", controlCss))
                         .Type("file")

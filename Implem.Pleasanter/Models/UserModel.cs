@@ -1852,7 +1852,7 @@ namespace Implem.Pleasanter.Models
                                 column: siteSettings.AllColumn("AfterResetPasswordValidator"))
                             .P(css: "hidden", action: () => hb
                                 .TextBox(
-                                    textStyle: HtmlControls.TextStyles.Password,
+                                    textType: HtmlTypes.TextTypes.Password,
                                     controlCss: " dummy not-transport"))
                             .P(css: "message-dialog")
                             .Div(css: "command-center", action: () => hb

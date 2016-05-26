@@ -11,7 +11,6 @@ using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static Implem.Pleasanter.Libraries.HtmlParts.HtmlControls;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlFields
@@ -135,7 +134,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 unit: column.Unit);
                         case ControlTypes.TextBoxMultiLine:
                             return hb.FieldTextBox(
-                                textStyle: TextStyles.MultiLine,
+                                textType: HtmlTypes.TextTypes.MultiLine,
                                 controlId: controlId,
                                 fieldCss: fieldCss,
                                 labelCss: labelCss,
@@ -157,9 +156,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 attributes: attributes);
                         case ControlTypes.TextBox:
                             return hb.FieldTextBox(
-                                textStyle: column.Hash
-                                    ? TextStyles.Password
-                                    : TextStyles.Normal,
+                                textType: column.Hash
+                                    ? HtmlTypes.TextTypes.Password
+                                    : HtmlTypes.TextTypes.Normal,
                                 controlId: controlId,
                                 fieldCss: fieldCss,
                                 labelCss: labelCss,
@@ -170,7 +169,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 attributes: attributes);
                         case ControlTypes.TextBoxNumeric:
                             return hb.FieldTextBox(
-                                textStyle: TextStyles.Normal,
+                                textType: HtmlTypes.TextTypes.Normal,
                                 controlId: controlId,
                                 fieldCss: fieldCss,
                                 labelCss: labelCss,
@@ -183,7 +182,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 attributes: attributes);
                         case ControlTypes.TextBoxDateTime:
                             return hb.FieldTextBox(
-                                textStyle: TextStyles.Normal,
+                                textType: HtmlTypes.TextTypes.Normal,
                                 controlId: controlId,
                                 fieldCss: fieldCss,
                                 labelCss: labelCss,
@@ -455,7 +454,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder FieldTextBox(
             this HtmlBuilder hb,
-            TextStyles textStyle = TextStyles.Normal,
+            HtmlTypes.TextTypes textType = HtmlTypes.TextTypes.Normal,
             string fieldId = "",
             string controlId = "",
             string fieldCss = "",
@@ -480,7 +479,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelText: labelText,
                     controlAction: () => hb
                         .TextBox(
-                            textStyle: textStyle,
+                            textType: textType,
                             controlId: controlId,
                             controlCss: controlCss,
                             text: text,
