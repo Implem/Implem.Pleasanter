@@ -441,7 +441,7 @@ namespace Implem.Pleasanter.Models
                 tableType: Sqls.TableTypes.NormalAndHistory);
             VerType =  Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
-                : Versions.VerType(SiteId);
+                : Versions.VerTypes.History;
             SwitchTargets = SitesUtility.GetSwitchTargets(SiteSettings, SiteId);
             return Editor();
         }
@@ -561,6 +561,7 @@ namespace Implem.Pleasanter.Models
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
                     case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
                     case "CreatedTime": CreatedTime = new Time(dataRow, "CreatedTime"); SavedCreatedTime = CreatedTime.Value; break;
+                    case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
                 }
             }
             if (SiteSettings != null)
