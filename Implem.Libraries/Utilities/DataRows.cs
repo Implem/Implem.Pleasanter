@@ -1,7 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using System;
 using System.Data;
-namespace Implem.Pleasanter.Libraries.Utilities
+namespace Implem.Libraries.Utilities
 {
     public static class DataRows
     {

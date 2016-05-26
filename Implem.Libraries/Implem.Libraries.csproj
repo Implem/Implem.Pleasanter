@@ -163,6 +163,7 @@
     <Compile Include="Utilities\Bytes.cs" />
     <Compile Include="Utilities\Consoles.cs" />
     <Compile Include="Utilities\Databases.cs" />
+    <Compile Include="Utilities\DataRows.cs" />
     <Compile Include="Utilities\Debugs.cs" />
     <Compile Include="Utilities\Encryptions.cs" />
     <Compile Include="Utilities\Enumerables.cs" />
