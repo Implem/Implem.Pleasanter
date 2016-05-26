@@ -105,7 +105,7 @@ namespace Implem.Pleasanter.Models
                 case "Issues": return IssuesUtility.Index(Site.IssuesSiteSettings(), Site.PermissionType);
                 case "Results": return ResultsUtility.Index(Site.ResultsSiteSettings(), Site.PermissionType);
                 case "Wikis": return WikisUtility.Index(Site.WikisSiteSettings(), Site.PermissionType);
-                default: return HtmlTemplates.NotFound().ToString();
+                default: return new HtmlBuilder().NotFoundTemplate().ToString();
             }
         }
 
@@ -122,7 +122,7 @@ namespace Implem.Pleasanter.Models
                 case "Issues": return IssuesUtility.EditorNew(Site, ReferenceId);
                 case "Results": return ResultsUtility.EditorNew(Site, ReferenceId);
                 case "Wikis": return WikisUtility.EditorNew(Site, ReferenceId);
-                default: return HtmlTemplates.NotFound().ToString();
+                default: return new HtmlBuilder().NotFoundTemplate().ToString();
             }
         }
 
@@ -146,7 +146,7 @@ namespace Implem.Pleasanter.Models
                 case "Issues": return IssuesUtility.Editor(Site, ReferenceId, clearSessions: true);
                 case "Results": return ResultsUtility.Editor(Site, ReferenceId, clearSessions: true);
                 case "Wikis": return WikisUtility.Editor(Site, ReferenceId, clearSessions: true);
-                default: return HtmlTemplates.NotFound().ToString();
+                default: return new HtmlBuilder().NotFoundTemplate().ToString();
             }
         }
 

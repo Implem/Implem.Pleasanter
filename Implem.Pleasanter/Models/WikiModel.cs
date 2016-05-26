@@ -938,7 +938,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
         {
-            return HtmlTemplates.NotFound().ToString();
+            return new HtmlBuilder().NotFoundTemplate().ToString();
         }
 
         private static WikiCollection WikiCollection(
@@ -1175,7 +1175,7 @@ namespace Implem.Pleasanter.Models
                     {
                         SiteId = siteId
                     })
-                : HtmlTemplates.NotFound().ToString();
+                : new HtmlBuilder().NotFoundTemplate().ToString();
         }
 
         public static string Editor(SiteModel siteModel, long wikiId, bool clearSessions)

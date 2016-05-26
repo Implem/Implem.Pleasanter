@@ -130,20 +130,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
         }
 
-        public static HtmlBuilder NotFound()
+        public static HtmlBuilder NotFoundTemplate(this HtmlBuilder hb)
         {
-            return new HtmlBuilder()
-                .Template(
-                    siteId: 0,
-                    referenceId: string.Empty,
-                    title: string.Empty,
-                    permissionType: Permissions.Types.NotSet,
-                    verType: Versions.VerTypes.Unknown,
-                    methodType: BaseModel.MethodTypes.NotSet,
-                    allowAccess: false,
-                    useBreadCrumbs: false,
-                    useTitle: false,
-                    useNavigationButtons: false);
+            return hb.Template(
+                siteId: 0,
+                referenceId: string.Empty,
+                title: string.Empty,
+                permissionType: Permissions.Types.NotSet,
+                verType: Versions.VerTypes.Unknown,
+                methodType: BaseModel.MethodTypes.NotSet,
+                allowAccess: false,
+                useBreadCrumbs: false,
+                useTitle: false,
+                useNavigationButtons: false);
         }
 
         private static string BackUrl()
