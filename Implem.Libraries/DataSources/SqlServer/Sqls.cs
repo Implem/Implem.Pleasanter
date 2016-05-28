@@ -20,6 +20,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             Normal,
             History,
+            HistoryWithoutFlag,
             NormalAndHistory,
             Deleted
         }
