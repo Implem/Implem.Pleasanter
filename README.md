@@ -15,11 +15,11 @@
 ## 動作条件
 |条件|Windows Server 2012 R2|Windows 10|Microsoft Azure|
 |:--|:--:|:--:|:--:|
-|.NET Framework 4.6|◯|導入済|-|
+|.NET Framework 4.5|導入済|導入済|-|
 |.NET Framework 3.5|◯|◯|-|
 |IIS|◯|◯|-|
-|ASP.NET 4.X|◯|◯|-|
-|SQL Server 2014|◯|◯|-|
+|ASP.NET 4.5|◯|◯|-|
+|SQL Server 2012/2014|◯|◯|-|
 |Web Deploy v3.5|◯|◯|-|
 |Microsoft Azure Web App|-|-|◯|
 |Microsoft Azure SQL Database|-|-|◯|
