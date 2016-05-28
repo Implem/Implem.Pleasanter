@@ -24,7 +24,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             {
                 case Sqls.TableTypes.History:
                     SqlColumnCollection?.Add(new SqlColumn("1 as [IsHistory]", adHoc: true));
-                    goto case Sqls.TableTypes.History;
+                    goto case Sqls.TableTypes.HistoryWithoutFlag;
                 case Sqls.TableTypes.HistoryWithoutFlag:
                     BuildCommandText(
                         sqlContainer: sqlContainer,
