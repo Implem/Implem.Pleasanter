@@ -353,7 +353,7 @@ namespace Implem.Pleasanter.Models
                 referenceId: "SearchIndexes",
                 title: string.Empty,
                 permissionType: Permissions.Types.Read,
-                verType: Versions.VerTypes.Unknown,
+                verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.NotSet,
                 allowAccess: true,
                 useNavigationButtons: false,

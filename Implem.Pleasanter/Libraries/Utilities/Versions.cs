@@ -5,8 +5,7 @@
         public enum VerTypes
         {
             Latest,
-            History,
-            Unknown
+            History
         }
     }
 }

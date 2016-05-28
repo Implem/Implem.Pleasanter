@@ -50,8 +50,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             hb.Title(permissionType: permissionType, siteId: siteId, text: title);
                         }
                         action();
-                        if (verType != Versions.VerTypes.Latest &&
-                            verType != Versions.VerTypes.Unknown)
+                        if (verType == Versions.VerTypes.History)
                         {
                             hb.P(id: "Message", css: "message", action: () => hb
                                 .Span(css: "alert-information", action: () => hb
@@ -137,7 +136,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 referenceId: string.Empty,
                 title: string.Empty,
                 permissionType: Permissions.Types.NotSet,
-                verType: Versions.VerTypes.Unknown,
+                verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.NotSet,
                 allowAccess: false,
                 useBreadCrumbs: false,
