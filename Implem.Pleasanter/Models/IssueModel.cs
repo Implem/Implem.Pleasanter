@@ -3560,7 +3560,7 @@ namespace Implem.Pleasanter.Models
                         where: where,
                         unionType: Sqls.UnionTypes.Union),
                     Rds.SelectIssues(
-                        tableType: Sqls.TableTypes.History,
+                        tableType: Sqls.TableTypes.HistoryWithoutFlag,
                         column: Rds.IssuesTitleColumn(siteSettings)
                             .IssueId(_as: "Id")
                             .Ver()
