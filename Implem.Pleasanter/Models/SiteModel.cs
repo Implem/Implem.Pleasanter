@@ -1417,6 +1417,10 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.MailerSettingsEditor()))
                                 .Li(action: () => hb
                                     .A(
+                                        href: "#StyleSettingsEditor",
+                                        text: Displays.StyleSettingsEditor()))
+                                .Li(action: () => hb
+                                    .A(
                                         href: "#ScriptSettingsEditor",
                                         text: Displays.ScriptSettingsEditor()));
                             break;
@@ -1438,6 +1442,10 @@ namespace Implem.Pleasanter.Models
                                     .A(
                                         href: "#MailerSettingsEditor",
                                         text: Displays.MailerSettingsEditor()))
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#StyleSettingsEditor",
+                                        text: Displays.StyleSettingsEditor()))
                                 .Li(action: () => hb
                                     .A(
                                         href: "#ScriptSettingsEditor",
@@ -1885,6 +1893,7 @@ namespace Implem.Pleasanter.Models
                     case "Wikis":
                         hb
                             .MailerSettingsEditor(siteModel.SiteSettings)
+                            .StyleSettingsEditor(siteModel.SiteSettings)
                             .ScriptSettingsEditor(siteModel.SiteSettings);
                         break;
                     default:
@@ -1893,6 +1902,7 @@ namespace Implem.Pleasanter.Models
                             .EditorSettingsEditor(siteModel.SiteSettings)
                             .SummarySettingsEditor(siteModel.SiteSettings)
                             .MailerSettingsEditor(siteModel.SiteSettings)
+                            .StyleSettingsEditor(siteModel.SiteSettings)
                             .ScriptSettingsEditor(siteModel.SiteSettings);
                         break;
                 }
@@ -2882,6 +2892,35 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: "field-wide",
                                 labelText: Displays.OutgoingMails_Bcc(),
                                 text: siteSettings.MailBccDefault.ToStr())));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder StyleSettingsEditor(
+            this HtmlBuilder hb, SiteSettings siteSettings)
+        {
+            return hb.FieldSet(
+                id: "StyleSettingsEditor",
+                action: () => hb
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.MultiLine,
+                        controlId: "SiteSettings,GridStyle",
+                        fieldCss: "field-wide",
+                        labelText: Displays.GridStyle(),
+                        text: siteSettings.GridStyle.ToStr())
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.MultiLine,
+                        controlId: "SiteSettings,NewStyle",
+                        fieldCss: "field-wide",
+                        labelText: Displays.NewStyle(),
+                        text: siteSettings.NewStyle.ToStr())
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.MultiLine,
+                        controlId: "SiteSettings,EditStyle",
+                        fieldCss: "field-wide",
+                        labelText: Displays.EditStyle(),
+                        text: siteSettings.EditStyle.ToStr()));
         }
 
         /// <summary>

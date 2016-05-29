@@ -46,6 +46,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string MailToDefault;
         public string MailCcDefault;
         public string MailBccDefault;
+        public string GridStyle;
+        public string NewStyle;
+        public string EditStyle;
         public string GridScript;
         public string NewScript;
         public string EditScript;
@@ -111,6 +114,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (MailToDefault == string.Empty) self.MailToDefault = null;
             if (MailCcDefault == string.Empty) self.MailCcDefault = null;
             if (MailBccDefault == string.Empty) self.MailBccDefault = null;
+            if (GridStyle == string.Empty) self.GridStyle = null;
+            if (NewStyle == string.Empty) self.NewStyle = null;
+            if (EditStyle == string.Empty) self.EditStyle = null;
             if (GridScript == string.Empty) self.GridScript = null;
             if (NewScript == string.Empty) self.NewScript = null;
             if (EditScript == string.Empty) self.EditScript = null;
@@ -518,6 +524,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "MailToDefault": MailToDefault = value; break;
                 case "MailCcDefault": MailCcDefault = value; break;
                 case "MailBccDefault": MailBccDefault = value; break;
+                case "GridStyle": GridStyle = value; break;
+                case "NewStyle": NewStyle = value; break;
+                case "EditStyle": EditStyle = value; break;
                 case "GridScript": GridScript = value; break;
                 case "NewScript": NewScript = value; break;
                 case "EditScript": EditScript = value; break;

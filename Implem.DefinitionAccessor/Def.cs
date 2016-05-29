@@ -2454,8 +2454,6 @@ namespace Implem.DefinitionAccessor
                     case "AdvancedSetting_ja": Display.AdvancedSetting_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.AdvancedSetting_ja, definitionRow, DisplayXls); break;
                     case "Basic": Display.Basic = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Basic, definitionRow, DisplayXls); break;
                     case "Basic_ja": Display.Basic_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Basic_ja, definitionRow, DisplayXls); break;
-                    case "Style": Display.Style = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Style, definitionRow, DisplayXls); break;
-                    case "Style_ja": Display.Style_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Style_ja, definitionRow, DisplayXls); break;
                     case "Normal": Display.Normal = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Normal, definitionRow, DisplayXls); break;
                     case "Normal_ja": Display.Normal_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Normal_ja, definitionRow, DisplayXls); break;
                     case "Wide": Display.Wide = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Wide, definitionRow, DisplayXls); break;
@@ -2474,6 +2472,8 @@ namespace Implem.DefinitionAccessor
                     case "EditorSettingsEditor_ja": Display.EditorSettingsEditor_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.EditorSettingsEditor_ja, definitionRow, DisplayXls); break;
                     case "MailerSettingsEditor": Display.MailerSettingsEditor = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.MailerSettingsEditor, definitionRow, DisplayXls); break;
                     case "MailerSettingsEditor_ja": Display.MailerSettingsEditor_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.MailerSettingsEditor_ja, definitionRow, DisplayXls); break;
+                    case "StyleSettingsEditor": Display.StyleSettingsEditor = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.StyleSettingsEditor, definitionRow, DisplayXls); break;
+                    case "StyleSettingsEditor_ja": Display.StyleSettingsEditor_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.StyleSettingsEditor_ja, definitionRow, DisplayXls); break;
                     case "ScriptSettingsEditor": Display.ScriptSettingsEditor = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ScriptSettingsEditor, definitionRow, DisplayXls); break;
                     case "ScriptSettingsEditor_ja": Display.ScriptSettingsEditor_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ScriptSettingsEditor_ja, definitionRow, DisplayXls); break;
                     case "SummarySettingsEditor": Display.SummarySettingsEditor = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SummarySettingsEditor, definitionRow, DisplayXls); break;
@@ -2528,6 +2528,14 @@ namespace Implem.DefinitionAccessor
                     case "DataViewSelector_ja": Display.DataViewSelector_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DataViewSelector_ja, definitionRow, DisplayXls); break;
                     case "Grid": Display.Grid = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Grid, definitionRow, DisplayXls); break;
                     case "Grid_ja": Display.Grid_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Grid_ja, definitionRow, DisplayXls); break;
+                    case "Style": Display.Style = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Style, definitionRow, DisplayXls); break;
+                    case "Style_ja": Display.Style_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Style_ja, definitionRow, DisplayXls); break;
+                    case "GridStyle": Display.GridStyle = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.GridStyle, definitionRow, DisplayXls); break;
+                    case "GridStyle_ja": Display.GridStyle_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.GridStyle_ja, definitionRow, DisplayXls); break;
+                    case "NewStyle": Display.NewStyle = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.NewStyle, definitionRow, DisplayXls); break;
+                    case "NewStyle_ja": Display.NewStyle_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.NewStyle_ja, definitionRow, DisplayXls); break;
+                    case "EditStyle": Display.EditStyle = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.EditStyle, definitionRow, DisplayXls); break;
+                    case "EditStyle_ja": Display.EditStyle_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.EditStyle_ja, definitionRow, DisplayXls); break;
                     case "Script": Display.Script = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Script, definitionRow, DisplayXls); break;
                     case "Script_ja": Display.Script_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Script_ja, definitionRow, DisplayXls); break;
                     case "GridScript": Display.GridScript = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.GridScript, definitionRow, DisplayXls); break;
@@ -7201,8 +7209,6 @@ namespace Implem.DefinitionAccessor
         public string AdvancedSetting_ja;
         public string Basic;
         public string Basic_ja;
-        public string Style;
-        public string Style_ja;
         public string Normal;
         public string Normal_ja;
         public string Wide;
@@ -7221,6 +7227,8 @@ namespace Implem.DefinitionAccessor
         public string EditorSettingsEditor_ja;
         public string MailerSettingsEditor;
         public string MailerSettingsEditor_ja;
+        public string StyleSettingsEditor;
+        public string StyleSettingsEditor_ja;
         public string ScriptSettingsEditor;
         public string ScriptSettingsEditor_ja;
         public string SummarySettingsEditor;
@@ -7275,6 +7283,14 @@ namespace Implem.DefinitionAccessor
         public string DataViewSelector_ja;
         public string Grid;
         public string Grid_ja;
+        public string Style;
+        public string Style_ja;
+        public string GridStyle;
+        public string GridStyle_ja;
+        public string NewStyle;
+        public string NewStyle_ja;
+        public string EditStyle;
+        public string EditStyle_ja;
         public string Script;
         public string Script_ja;
         public string GridScript;
@@ -7769,8 +7785,6 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition AdvancedSetting_ja = new DisplayDefinition();
         public DisplayDefinition Basic = new DisplayDefinition();
         public DisplayDefinition Basic_ja = new DisplayDefinition();
-        public DisplayDefinition Style = new DisplayDefinition();
-        public DisplayDefinition Style_ja = new DisplayDefinition();
         public DisplayDefinition Normal = new DisplayDefinition();
         public DisplayDefinition Normal_ja = new DisplayDefinition();
         public DisplayDefinition Wide = new DisplayDefinition();
@@ -7789,6 +7803,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition EditorSettingsEditor_ja = new DisplayDefinition();
         public DisplayDefinition MailerSettingsEditor = new DisplayDefinition();
         public DisplayDefinition MailerSettingsEditor_ja = new DisplayDefinition();
+        public DisplayDefinition StyleSettingsEditor = new DisplayDefinition();
+        public DisplayDefinition StyleSettingsEditor_ja = new DisplayDefinition();
         public DisplayDefinition ScriptSettingsEditor = new DisplayDefinition();
         public DisplayDefinition ScriptSettingsEditor_ja = new DisplayDefinition();
         public DisplayDefinition SummarySettingsEditor = new DisplayDefinition();
@@ -7843,6 +7859,14 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition DataViewSelector_ja = new DisplayDefinition();
         public DisplayDefinition Grid = new DisplayDefinition();
         public DisplayDefinition Grid_ja = new DisplayDefinition();
+        public DisplayDefinition Style = new DisplayDefinition();
+        public DisplayDefinition Style_ja = new DisplayDefinition();
+        public DisplayDefinition GridStyle = new DisplayDefinition();
+        public DisplayDefinition GridStyle_ja = new DisplayDefinition();
+        public DisplayDefinition NewStyle = new DisplayDefinition();
+        public DisplayDefinition NewStyle_ja = new DisplayDefinition();
+        public DisplayDefinition EditStyle = new DisplayDefinition();
+        public DisplayDefinition EditStyle_ja = new DisplayDefinition();
         public DisplayDefinition Script = new DisplayDefinition();
         public DisplayDefinition Script_ja = new DisplayDefinition();
         public DisplayDefinition GridScript = new DisplayDefinition();

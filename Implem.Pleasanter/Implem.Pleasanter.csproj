@@ -254,6 +254,7 @@
     <Compile Include="Libraries\HtmlParts\HtmlRecordSwitchers.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlScripts.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlSeparates.cs" />
+    <Compile Include="Libraries\HtmlParts\HtmlStyles.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlSvg.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlTags.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlTemplates.cs" />

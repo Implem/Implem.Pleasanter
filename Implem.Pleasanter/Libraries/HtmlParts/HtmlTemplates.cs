@@ -25,6 +25,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool useSearch = true,
             bool useNavigationButtons = true,
             string script = "",
+            string userStyle = "",
             string userScript = "",
             Action action = null)
         {
@@ -82,6 +83,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: () => hb
                                 .Raw(Parameters.General.HtmlCopyright.Params(DateTime.Now.Year)))))
                 .Hidden(controlId: "ApplicationPath", value: Navigations.Get())
+                .Styles(style: userStyle)
                 .Scripts(
                     methodType: methodType,
                     script: script,

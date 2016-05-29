@@ -710,6 +710,7 @@ namespace Implem.Pleasanter.Models
                     permissionType: permissionType,
                     formData: formData,
                     dataViewName: dataViewName),
+                userStyle: siteSettings.GridStyle,
                 userScript: siteSettings.GridScript,
                 action: () => hb
                     .Form(
