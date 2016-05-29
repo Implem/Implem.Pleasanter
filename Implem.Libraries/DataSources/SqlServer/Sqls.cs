@@ -11,13 +11,6 @@ namespace Implem.Libraries.DataSources.SqlServer
         public static string BeginTransaction;
         public static string CommitTransaction;
 
-        public enum ConnectionTypes
-        {
-            System,
-            Admin,
-            User,
-        }
-
         public enum TableTypes
         {
             Normal,
