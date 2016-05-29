@@ -853,6 +853,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
+        public static HtmlBuilder Style(
+            this HtmlBuilder hb,
+            string type = "",
+            string style = "",
+            bool _using = true)
+        {
+            return _using
+                ? hb.Append(
+                    tag: "style",
+                    attributes: new HtmlAttributes().Type(type),
+                    action: () => hb
+                        .Raw(text: style))
+                : hb;
+        }
+
         public static HtmlBuilder Script(
             this HtmlBuilder hb,
             string src = "",
