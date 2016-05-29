@@ -1,5 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 namespace Implem.Libraries.DataSources.SqlServer
 {
@@ -78,6 +80,37 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             return self.Add(raw:
                 clauseFormat.Replace("#SqlWhere#", whereCollection.Join(" and ")));
+        }
+
+        public static bool TryOpenConnections(
+            out int number,
+            out string message,
+            params string[] connectionStrings)
+        {
+            try
+            {
+                connectionStrings.ForEach(connectionString =>
+                {
+                    var sqlConnection = new SqlConnection(connectionString);
+                    sqlConnection.Open();
+                    sqlConnection.Close();
+                });
+                number = 0;
+                message = string.Empty;
+                return true;
+            }
+            catch (SqlException e)
+            {
+                number = e.Number;
+                message = e.Message;
+                return false;
+            }
+            catch (Exception e)
+            {
+                number = -1;
+                message = e.Message;
+                return false;
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Classes;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
@@ -93,10 +94,23 @@ namespace Implem.CodeDefiner
 
         private static void ConfigureDatabase()
         {
+            TryOpenConnections();
             Performances.Record(MethodBase.GetCurrentMethod().Name);
             Functions.SqlServer.Configurator.Configure();
             Consoles.Write(Def.Display.CodeDefinerRdsCompleted, Consoles.Types.Success);
             Performances.Record(MethodBase.GetCurrentMethod().Name);
+        }
+
+        private static void TryOpenConnections()
+        {
+            int number;
+            string message;
+            if (!Sqls.TryOpenConnections(
+                out number, out message, Parameters.Rds.SaConnectionString))
+            {
+                Console.Write("[{0}] {1}", number, message);
+                Environment.Exit(0);
+            }
         }
 
         private static void CreateDefinitionAccessorCode()
