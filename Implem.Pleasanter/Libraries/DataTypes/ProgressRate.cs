@@ -16,6 +16,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public DateTime StartTime;
         public DateTime CompletionTime;
         public decimal Value;
+        public DateTime UpdatedTime;
+        public Versions.VerTypes VerType = Versions.VerTypes.Latest;
 
         public ProgressRate()
         {
@@ -32,6 +34,13 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             StartTime = dataRow.DateTime(startTimeColumnName);
             CompletionTime = dataRow.DateTime(completionTimeColumnName);
             Value = dataRow.Decimal(progressRateColumnName);
+            UpdatedTime = dataRow["UpdatedTime"].ToDateTime();
+            if (dataRow.Table.Columns.Contains("IsHistory"))
+            {
+                VerType = dataRow["IsHistory"].ToBool()
+                    ? Versions.VerTypes.History
+                    : Versions.VerTypes.Latest;
+            }
         }
 
         public ProgressRate(
@@ -63,7 +72,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public HtmlBuilder Td(HtmlBuilder hb, Column column)
         {
-            var now = DateTime.Now.ToLocal();
+            var now = VerType == Versions.VerTypes.Latest
+                ? DateTime.Now.ToLocal()
+                : UpdatedTime.ToLocal();
             var start = Start().ToLocal();
             var end = CompletionTime.ToLocal();
             var range = Times.DateDiff(Times.Types.Seconds, start, end);
