@@ -1,7 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -179,37 +178,10 @@ namespace Implem.Libraries.DataSources.SqlServer
             return dataSet;
         }
 
-        public DataTable ExecuteTable(SqlStatement sqlStatement)
-        {
-            SqlContainer.SqlStatementCollection.Add(sqlStatement);
-            return ExecuteTable();
-        }
-
-        public List<T> ExecuteList<T>(SqlStatement sqlStatement, string keyColumnName)
-        {
-            SqlContainer.SqlStatementCollection.Add(sqlStatement);
-            return ExecuteTable().AsEnumerable().Select(o => (T)o[keyColumnName]).ToList();
-        }
-
-        public Dictionary<TKdy, TValue> ExecuteDictionary<TKdy, TValue>(
-            SqlStatement sqlStatement, string keyColumnName, string valueColumnName)
-        {
-            SqlContainer.SqlStatementCollection.Add(sqlStatement);
-            return ExecuteTable().AsEnumerable()
-                .ToDictionary(o => (TKdy)o[keyColumnName], o => (TValue)o[valueColumnName]);
-        }
-
         public void ExecuteNonQuery(SqlStatement sqlStatement)
         {
             SqlContainer.SqlStatementCollection.Add(sqlStatement);
             ExecuteNonQuery();
-        }
-
-        public void ExecuteNonQuery(
-            string commandText,
-            SqlParamCollection parameterCollection)
-        {
-            ExecuteNonQuery(new SqlStatement(commandText, parameterCollection));
         }
 
         public void ExecuteNonQuery(string commandText)
@@ -217,27 +189,9 @@ namespace Implem.Libraries.DataSources.SqlServer
             ExecuteNonQuery(new SqlStatement(commandText));
         }
 
-        public object ExecuteScalar(
-            string commandText,
-            SqlParamCollection parameterCollection = null)
-        {
-            SqlContainer.SqlStatementCollection.Add(
-                new SqlStatement(commandText, parameterCollection));
-            return ExecuteScalar();
-        }
-
         public bool ExecuteScalar_bool()
         {
             return ExecuteScalar().ToBool();
-        }
-
-        public bool ExecuteScalar_bool(
-            string commandText,
-            SqlParamCollection parameterCollection = null)
-        {
-            SqlContainer.SqlStatementCollection.Add(
-                new SqlStatement(commandText, parameterCollection));
-            return ExecuteScalar_bool();
         }
 
         public string ExecuteScalar_string()
@@ -245,27 +199,9 @@ namespace Implem.Libraries.DataSources.SqlServer
             return ExecuteScalar().ToString();
         }
 
-        public string ExecuteScalar_string(
-            string commandText,
-            SqlParamCollection parameterCollection = null)
-        {
-            SqlContainer.SqlStatementCollection.Add(
-                new SqlStatement(commandText, parameterCollection));
-            return ExecuteScalar_string();
-        }
-
         public int ExecuteScalar_int()
         {
             return ExecuteScalar().ToInt();
-        }
-
-        public int ExecuteScalar_int(
-            string commandText,
-            SqlParamCollection parameterCollection = null)
-        {
-            SqlContainer.SqlStatementCollection.Add(
-                new SqlStatement(commandText, parameterCollection));
-            return ExecuteScalar_int();
         }
 
         public long ExecuteScalar_long()
@@ -273,27 +209,9 @@ namespace Implem.Libraries.DataSources.SqlServer
             return ExecuteScalar().ToLong();
         }
 
-        public long ExecuteScalar_long(
-            string commandText,
-            SqlParamCollection parameterCollection = null)
-        {
-            SqlContainer.SqlStatementCollection.Add(
-                new SqlStatement(commandText, parameterCollection));
-            return ExecuteScalar_long();
-        }
-
         public decimal ExecuteScalar_decimal()
         {
             return ExecuteScalar().ToDecimal();
-        }
-
-        public decimal ExecuteScalar_decimal(
-            string commandText,
-            SqlParamCollection parameterCollection = null)
-        {
-            SqlContainer.SqlStatementCollection.Add(
-                new SqlStatement(commandText, parameterCollection));
-            return ExecuteScalar_decimal();
         }
 
         public DateTime ExecuteScalar_datetime()
@@ -301,36 +219,9 @@ namespace Implem.Libraries.DataSources.SqlServer
             return ExecuteScalar().ToDateTime();
         }
 
-        public DateTime ExecuteScalar_datetime(
-            string commandText,
-            SqlParamCollection parameterCollection = null)
-        {
-            SqlContainer.SqlStatementCollection.Add(
-                new SqlStatement(commandText, parameterCollection));
-            return ExecuteScalar_datetime();
-        }
-
         public byte[] ExecuteScalar_bytes()
         {
             return (byte[])ExecuteScalar();
-        }
-
-        public byte[] ExecuteScalar_bytes(
-            string commandText,
-            SqlParamCollection parameterCollection = null)
-        {
-            SqlContainer.SqlStatementCollection.Add(
-                new SqlStatement(commandText, parameterCollection));
-            return ExecuteScalar_bytes();
-        }
-
-        public DataTable ExecuteTable(
-            string commandText,
-            SqlParamCollection parameterCollection)
-        {
-            SqlContainer.SqlStatementCollection.Add(
-                new SqlStatement(commandText, parameterCollection));
-            return ExecuteTable();
         }
 
         public DataTable ExecuteTable(string commandText)
