@@ -12,16 +12,13 @@ namespace Implem.Pleasanter.Controllers
         [OutputCache(Duration = 86400)]
         public ActionResult SiteImageThumbnail(string reference, long id)
         {
-            var log = new SysLogModel();
             if (reference.ToLower() == "items")
             {
                 var bytes = new BinaryModel(new SiteModel(id)).SiteImageThumbnail();
-                log.Finish(bytes.Length);
                 return new FileContentResult(bytes, "image/png");
             }
             else
             {
-                log.Finish(0);
                 return null;
             }
         }
@@ -30,16 +27,13 @@ namespace Implem.Pleasanter.Controllers
         [OutputCache(Duration = 86400)]
         public ActionResult SiteImageIcon(string reference, long id)
         {
-            var log = new SysLogModel();
             if (reference.ToLower() == "items")
             {
                 var bytes = new BinaryModel(new SiteModel(id)).SiteImageIcon();
-                log.Finish(bytes.Length);
                 return new FileContentResult(bytes, "image/png");
             }
             else
             {
-                log.Finish(0);
                 return null;
             }
         }
