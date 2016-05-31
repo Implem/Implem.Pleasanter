@@ -173,13 +173,14 @@ namespace Implem.Pleasanter.Libraries.ServerData
                 : Routes.Controller() == "items";
         }
 
-        public static string PageKey()
+        public static string PageKey(BaseModel baseModel, string name)
         {
-            return PageKey(Routes.Action());
+            return SiteInfo.PageKey() + "_" + name.ToLower();
         }
 
-        public static string PageKey(string callerOfMethod)
+        public static string PageKey()
         {
+            var callerOfMethod = Routes.Action();
             if (Sessions.Created())
             {
                 var path = Url.AbsolutePath().ToLower()
@@ -190,11 +191,6 @@ namespace Implem.Pleasanter.Libraries.ServerData
                     : path.Join("/");
             }
             return string.Empty;
-        }
-
-        public static string PageKey(BaseModel baseModel, string name)
-        {
-            return SiteInfo.PageKey(Routes.Action()) + "_" + name.ToLower();
         }
     }
 }
