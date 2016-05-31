@@ -112,7 +112,7 @@ namespace Implem.Pleasanter.Models
 
         public string New()
         {
-            SetSite();
+            SetSite(siteOnly: true);
             switch (Site.ReferenceType)
             {
                 case "Sites": return SitesUtility.EditorNew(
@@ -669,14 +669,16 @@ namespace Implem.Pleasanter.Models
             return Site.SynchronizeSummary();
         }
 
-        private void SetSite()
+        private void SetSite(bool siteOnly = false)
         {
-            Site = GetSite();
+            Site = GetSite(siteOnly);
         }
 
-        public SiteModel GetSite()
+        public SiteModel GetSite(bool siteOnly = false)
         {
-            return new SiteModel(ReferenceType == "Sites" ? ReferenceId : SiteId);
+            return siteOnly
+                ? new SiteModel(ReferenceId)
+                : new SiteModel(ReferenceType == "Sites" ? ReferenceId : SiteId);
         }
 
         private void SetBySession()
