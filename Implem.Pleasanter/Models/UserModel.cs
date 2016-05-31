@@ -9,6 +9,7 @@ using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
+using Implem.Pleasanter.Libraries.Mails;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.ServerData;
@@ -55,6 +56,7 @@ namespace Implem.Pleasanter.Models
         public string ChangedPasswordValidator = string.Empty;
         public string AfterResetPassword = string.Empty;
         public string AfterResetPasswordValidator = string.Empty;
+        public List<string> MailAddresses = new List<string>();
         public string DemoMailAddress = string.Empty;
         public string SessionGuid = string.Empty;
         public string FullName1 { get { return FirstName + " " + LastName; } }
@@ -92,6 +94,7 @@ namespace Implem.Pleasanter.Models
         public string SavedChangedPasswordValidator = string.Empty;
         public string SavedAfterResetPassword = string.Empty;
         public string SavedAfterResetPasswordValidator = string.Empty;
+        public string SavedMailAddresses = string.Empty;
         public string SavedDemoMailAddress = string.Empty;
         public string SavedSessionGuid = string.Empty;
         public bool TenantId_Updated { get { return TenantId != SavedTenantId; } }
@@ -116,6 +119,19 @@ namespace Implem.Pleasanter.Models
         public bool TenantAdmin_Updated { get { return TenantAdmin != SavedTenantAdmin; } }
         public bool ServiceAdmin_Updated { get { return ServiceAdmin != SavedServiceAdmin; } }
         public bool Developer_Updated { get { return Developer != SavedDeveloper; } }
+
+        public List<string> Session_MailAddresses()
+        {
+            return this.PageSession("MailAddresses") != null
+                ? this.PageSession("MailAddresses") as List<string>
+                : MailAddresses;
+        }
+
+        public void  Session_MailAddresses(object value)
+        {
+            this.PageSession("MailAddresses", value);
+        }
+
         public List<int> SwitchTargets;
 
         public UserModel()
@@ -178,6 +194,7 @@ namespace Implem.Pleasanter.Models
 
         public void ClearSessions()
         {
+            Session_MailAddresses(null);
         }
 
         public UserModel Get(
@@ -288,6 +305,7 @@ namespace Implem.Pleasanter.Models
                     case "Users_ChangedPasswordValidator": if (!SiteSettings.AllColumn("ChangedPasswordValidator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_AfterResetPassword": if (!SiteSettings.AllColumn("AfterResetPassword").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_AfterResetPasswordValidator": if (!SiteSettings.AllColumn("AfterResetPasswordValidator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Users_MailAddresses": if (!SiteSettings.AllColumn("MailAddresses").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_DemoMailAddress": if (!SiteSettings.AllColumn("DemoMailAddress").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_SessionGuid": if (!SiteSettings.AllColumn("SessionGuid").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_Comments": if (!SiteSettings.AllColumn("Comments").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
@@ -338,6 +356,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void OnUpdated(ref UsersResponseCollection responseCollection)
         {
+            UpdateMailAddresses();
             SetSiteInfo();
         }
 
@@ -387,6 +406,7 @@ namespace Implem.Pleasanter.Models
                     case "Users_ChangedPasswordValidator": if (!SiteSettings.AllColumn("ChangedPasswordValidator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_AfterResetPassword": if (!SiteSettings.AllColumn("AfterResetPassword").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_AfterResetPasswordValidator": if (!SiteSettings.AllColumn("AfterResetPasswordValidator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
+                    case "Users_MailAddresses": if (!SiteSettings.AllColumn("MailAddresses").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_DemoMailAddress": if (!SiteSettings.AllColumn("DemoMailAddress").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_SessionGuid": if (!SiteSettings.AllColumn("SessionGuid").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Users_Comments": if (!SiteSettings.AllColumn("Comments").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
@@ -675,6 +695,7 @@ namespace Implem.Pleasanter.Models
 
         private void SetBySession()
         {
+            if (!Forms.HasData("Users_MailAddresses")) MailAddresses = Session_MailAddresses();
         }
 
         private void Set(DataTable dataTable)
@@ -741,6 +762,27 @@ namespace Implem.Pleasanter.Models
             return AccessStatus == Databases.AccessStatuses.Selected
                 ? Messages.ResponseUpdateConflicts(Updator.FullName).ToJson()
                 : Messages.ResponseDeleteConflicts().ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateMailAddresses()
+        {
+            var statements = new List<SqlStatement>
+            {
+                Rds.DeleteMailAddresses(
+                    where: Rds.MailAddressesWhere()
+                        .OwnerId(UserId)
+                        .OwnerType("Users"))
+            };
+            Session_MailAddresses().ForEach(mailAddress =>
+                statements.Add(Rds.InsertMailAddresses(
+                    param: Rds.MailAddressesParam()
+                        .OwnerId(UserId)
+                        .OwnerType("Users")
+                        .MailAddress(mailAddress))));
+            Rds.ExecuteNonQuery(transactional: true, statements: statements.ToArray());
         }
 
         /// <summary>
@@ -1092,6 +1134,58 @@ namespace Implem.Pleasanter.Models
         public string ToExport(Column column)
         {
             return SiteInfo.UserFullName(UserId);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string AddMailAddress()
+        {
+            var mailAddress = Forms.Data("MailAddress").Trim();
+            var selected = Forms.Data("MailAddresses").Split(';');
+            var mailAddresses = Session_MailAddresses();
+            var badMailAddress = Libraries.Mails.MailAddresses.BadMailAddress(mailAddress);
+            if (badMailAddress != string.Empty)
+            {
+                return Messages
+                    .ResponseBadMailAddress(badMailAddress)
+                    .Focus("#MailAddress")
+                    .ToJson();
+            }
+            if (!mailAddresses.Contains(mailAddress))
+            {
+                mailAddresses.Add(mailAddress);
+                Session_MailAddresses(mailAddresses);
+            }
+            return ResponseMailAddresses(selected, mailAddresses);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string DeleteMailAddresses()
+        {
+            var selected = Forms.Data("MailAddresses").Split(';');
+            var mailAddresses = Session_MailAddresses();
+            mailAddresses.RemoveAll(o => selected.Contains(o));
+            Session_MailAddresses(mailAddresses);
+            return ResponseMailAddresses(selected, mailAddresses);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string ResponseMailAddresses(string[] selected, List<string> mailAddresses)
+        {
+            return new ResponseCollection()
+                .Html(
+                    "#MailAddresses",
+                    new HtmlBuilder().SelectableItems(
+                        listItemCollection: mailAddresses.ToDictionary(o => o, o => o),
+                        selectedValueTextCollection: selected))
+                .Val("#MailAddress", string.Empty)
+                .Focus("#MailAddress")
+                .ToJson();
         }
     }
 
@@ -1577,6 +1671,9 @@ namespace Implem.Pleasanter.Models
                 }).ToString();
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder Editor(
             this HtmlBuilder hb,
             UserModel userModel,
@@ -1607,6 +1704,7 @@ namespace Implem.Pleasanter.Models
                                 siteSettings: siteSettings,
                                 permissionType: permissionType,
                                 userModel: userModel)
+                            .FieldSetMailAddresses(userModel: userModel)
                             .FieldSet(
                                 attributes: new HtmlAttributes()
                                     .Id("FieldSetHistories")
@@ -1644,6 +1742,9 @@ namespace Implem.Pleasanter.Models
                 .EditorExtensions(userModel: userModel, siteSettings: siteSettings));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder FieldTabs(this HtmlBuilder hb, UserModel userModel)
         {
             return hb.Ul(css: "field-tab", action: () => hb
@@ -1651,6 +1752,10 @@ namespace Implem.Pleasanter.Models
                     .A(
                         href: "#FieldSetGeneral", 
                         text: Displays.Basic()))
+                .Li(action: () => hb
+                    .A(
+                        href: "#FieldSetMailAddresses",
+                        text: Displays.MailAddresses()))
                 .Li(
                     _using: userModel.MethodType != BaseModel.MethodTypes.New,
                     action: () => hb
@@ -1990,6 +2095,52 @@ namespace Implem.Pleasanter.Models
                                     text: Displays.Cancel(),
                                     controlCss: "button-cancel",
                                     onClick: Def.JavaScript.CancelDialog))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder FieldSetMailAddresses(this HtmlBuilder hb, UserModel userModel)
+        {
+            var listItemCollection = Rds.ExecuteTable(statements:
+                Rds.SelectMailAddresses(
+                    column: Rds.MailAddressesColumn()
+                        .MailAddressId()
+                        .MailAddress(),
+                    where: Rds.MailAddressesWhere()
+                        .OwnerId(userModel.UserId)
+                        .OwnerType("Users")))
+                            .AsEnumerable()
+                            .ToDictionary(
+                                o => o["MailAddress"].ToString(),
+                                o => o["MailAddress"].ToString());
+            userModel.Session_MailAddresses(listItemCollection.Values.ToList<string>());
+            return hb.FieldSet(id: "FieldSetMailAddresses", action: () => hb
+                .FieldSelectable(
+                    controlId: "MailAddresses",
+                    fieldCss: "field-vertical w500",
+                    controlContainerCss: "container-selectable",
+                    controlCss: " h350",
+                    labelText: Displays.MailAddresses(),
+                    listItemCollection: listItemCollection,
+                    commandOptionAction: () => hb
+                        .Div(css: "command-left", action: () => hb
+                            .TextBox(
+                                controlId: "MailAddress",
+                                controlCss: " w200")
+                            .Button(
+                                text: Displays.Add(),
+                                controlCss: "button-save",
+                                onClick: Def.JavaScript.Submit,
+                                action: "AddMailAddress",
+                                method: "post")
+                            .Button(
+                                controlId: "DeleteMailAddresses",
+                                controlCss: "button-visible",
+                                text: Displays.Delete(),
+                                onClick: Def.JavaScript.Submit,
+                                action: "DeleteMailAddresses",
+                                method: "put"))));
         }
     }
 }

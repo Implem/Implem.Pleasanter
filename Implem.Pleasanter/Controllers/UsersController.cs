@@ -274,5 +274,35 @@ namespace Implem.Pleasanter.Controllers
             log.Finish(json.Length);
             return json;
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string AddMailAddress(int id)
+        {
+            var log = new SysLogModel();
+            var json = new UserModel(
+                SiteSettingsUtility.UsersSiteSettings(),
+                Permissions.Admins(),
+                id)
+                    .AddMailAddress();
+            log.Finish(json.Length);
+            return json;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string DeleteMailAddresses(int id)
+        {
+            var log = new SysLogModel();
+            var json = new UserModel(
+                SiteSettingsUtility.UsersSiteSettings(),
+                Permissions.Admins(),
+                id)
+                    .DeleteMailAddresses();
+            log.Finish(json.Length);
+            return json;
+        }
     }
 }

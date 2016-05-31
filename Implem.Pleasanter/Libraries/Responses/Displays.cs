@@ -789,6 +789,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Users_AfterResetPassword(params string[] data) { return Get("Users_AfterResetPassword", data); }
         public static HtmlBuilder Displays_Users_AfterResetPasswordValidator(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Users_AfterResetPasswordValidator", data)); }
         public static string Users_AfterResetPasswordValidator(params string[] data) { return Get("Users_AfterResetPasswordValidator", data); }
+        public static HtmlBuilder Displays_Users_MailAddresses(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Users_MailAddresses", data)); }
+        public static string Users_MailAddresses(params string[] data) { return Get("Users_MailAddresses", data); }
         public static HtmlBuilder Displays_Users_DemoMailAddress(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Users_DemoMailAddress", data)); }
         public static string Users_DemoMailAddress(params string[] data) { return Get("Users_DemoMailAddress", data); }
         public static HtmlBuilder Displays_Users_SessionGuid(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Users_SessionGuid", data)); }

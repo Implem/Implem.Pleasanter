@@ -856,6 +856,7 @@ namespace Implem.DefinitionAccessor
                     case "Users_ChangedPasswordValidator": Column.Users_ChangedPasswordValidator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_ChangedPasswordValidator, definitionRow, ColumnXls); break;
                     case "Users_AfterResetPassword": Column.Users_AfterResetPassword = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AfterResetPassword, definitionRow, ColumnXls); break;
                     case "Users_AfterResetPasswordValidator": Column.Users_AfterResetPasswordValidator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AfterResetPasswordValidator, definitionRow, ColumnXls); break;
+                    case "Users_MailAddresses": Column.Users_MailAddresses = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_MailAddresses, definitionRow, ColumnXls); break;
                     case "Users_DemoMailAddress": Column.Users_DemoMailAddress = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_DemoMailAddress, definitionRow, ColumnXls); break;
                     case "Users_SessionGuid": Column.Users_SessionGuid = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_SessionGuid, definitionRow, ColumnXls); break;
                     case "MailAddresses_OwnerId": Column.MailAddresses_OwnerId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.MailAddresses_OwnerId, definitionRow, ColumnXls); break;
@@ -4713,6 +4714,7 @@ namespace Implem.DefinitionAccessor
         public string Users_ChangedPasswordValidator;
         public string Users_AfterResetPassword;
         public string Users_AfterResetPasswordValidator;
+        public string Users_MailAddresses;
         public string Users_DemoMailAddress;
         public string Users_SessionGuid;
         public string MailAddresses_OwnerId;
@@ -5240,6 +5242,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_ChangedPasswordValidator = new ColumnDefinition();
         public ColumnDefinition Users_AfterResetPassword = new ColumnDefinition();
         public ColumnDefinition Users_AfterResetPasswordValidator = new ColumnDefinition();
+        public ColumnDefinition Users_MailAddresses = new ColumnDefinition();
         public ColumnDefinition Users_DemoMailAddress = new ColumnDefinition();
         public ColumnDefinition Users_SessionGuid = new ColumnDefinition();
         public ColumnDefinition MailAddresses_OwnerId = new ColumnDefinition();
