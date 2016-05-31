@@ -261,6 +261,7 @@
     <Compile Include="Libraries\HtmlParts\HtmlVerUps.cs" />
     <Compile Include="Libraries\Initializers\ItemsInitializer.cs" />
     <Compile Include="Libraries\Initializers\UsersInitializer.cs" />
+    <Compile Include="Libraries\Mails\MailAddresses.cs" />
     <Compile Include="Libraries\Requests\DataViewFilters.cs" />
     <Compile Include="Libraries\Requests\DataViewSelectors.cs" />
     <Compile Include="Libraries\Requests\FormData.cs" />
