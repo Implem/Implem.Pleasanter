@@ -1567,7 +1567,8 @@ namespace Implem.DefinitionAccessor
                     case "_dot_record_header": Css._dot_record_header = definitionRow[1].ToString(); SetCssTable(CssTable._dot_record_header, definitionRow, CssXls); break;
                     case "_dot_record_header_space___space_div": Css._dot_record_header_space___space_div = definitionRow[1].ToString(); SetCssTable(CssTable._dot_record_header_space___space_div, definitionRow, CssXls); break;
                     case "_dot_record_info": Css._dot_record_info = definitionRow[1].ToString(); SetCssTable(CssTable._dot_record_info, definitionRow, CssXls); break;
-                    case "_dot_record_info_space_p": Css._dot_record_info_space_p = definitionRow[1].ToString(); SetCssTable(CssTable._dot_record_info_space_p, definitionRow, CssXls); break;
+                    case "_dot_record_info_space_div": Css._dot_record_info_space_div = definitionRow[1].ToString(); SetCssTable(CssTable._dot_record_info_space_div, definitionRow, CssXls); break;
+                    case "_dot_record_info_space_div_space_p": Css._dot_record_info_space_div_space_p = definitionRow[1].ToString(); SetCssTable(CssTable._dot_record_info_space_div_space_p, definitionRow, CssXls); break;
                     case "_dot_record_histories": Css._dot_record_histories = definitionRow[1].ToString(); SetCssTable(CssTable._dot_record_histories, definitionRow, CssXls); break;
                     case "_dot_record_switchers": Css._dot_record_switchers = definitionRow[1].ToString(); SetCssTable(CssTable._dot_record_switchers, definitionRow, CssXls); break;
                     case "_dot_record_switchers_space___space__asterisk_": Css._dot_record_switchers_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_record_switchers_space___space__asterisk_, definitionRow, CssXls); break;
@@ -5986,7 +5987,8 @@ namespace Implem.DefinitionAccessor
         public string _dot_record_header;
         public string _dot_record_header_space___space_div;
         public string _dot_record_info;
-        public string _dot_record_info_space_p;
+        public string _dot_record_info_space_div;
+        public string _dot_record_info_space_div_space_p;
         public string _dot_record_histories;
         public string _dot_record_switchers;
         public string _dot_record_switchers_space___space__asterisk_;
@@ -6316,7 +6318,8 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_record_header = new CssDefinition();
         public CssDefinition _dot_record_header_space___space_div = new CssDefinition();
         public CssDefinition _dot_record_info = new CssDefinition();
-        public CssDefinition _dot_record_info_space_p = new CssDefinition();
+        public CssDefinition _dot_record_info_space_div = new CssDefinition();
+        public CssDefinition _dot_record_info_space_div_space_p = new CssDefinition();
         public CssDefinition _dot_record_histories = new CssDefinition();
         public CssDefinition _dot_record_switchers = new CssDefinition();
         public CssDefinition _dot_record_switchers_space___space__asterisk_ = new CssDefinition();

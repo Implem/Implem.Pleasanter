@@ -517,7 +517,12 @@ pre{
     padding:6px 0px 0px 0px;
 }
 
-.record-info p{
+.record-info div{
+    float:left;
+    margin-right:50px;
+}
+
+.record-info div p{
     float:left;
     margin-right:5px;
 }
