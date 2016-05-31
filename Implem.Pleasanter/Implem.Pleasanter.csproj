@@ -483,6 +483,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\pleasanter配布.pubxml" />
+    <Content Include="Tools\BackgroundTasks.ps1" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
