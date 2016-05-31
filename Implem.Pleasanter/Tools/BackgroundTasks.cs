@@ -8,9 +8,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading;
-namespace Implem.Pleasanter.Libraries.Admins
+namespace Implem.Pleasanter.Tools
 {
-    public static class AdminTasks
+    public static class BackgroundTasks
     {
         public static string Do()
         {
