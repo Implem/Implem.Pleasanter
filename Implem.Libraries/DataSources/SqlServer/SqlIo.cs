@@ -196,7 +196,7 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         public string ExecuteScalar_string()
         {
-            return ExecuteScalar().ToString();
+            return ExecuteScalar().ToStr();
         }
 
         public int ExecuteScalar_int()
