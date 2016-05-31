@@ -202,7 +202,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IConvertable.cs" />
-    <Compile Include="Tools\BackgroundTasks.cs" />
     <Compile Include="Libraries\Analysis\Aggregations.cs" />
     <Compile Include="Libraries\Analysis\BurnDown.cs" />
     <Compile Include="Libraries\Analysis\Gantt.cs" />
@@ -261,7 +260,7 @@
     <Compile Include="Libraries\HtmlParts\HtmlVerUps.cs" />
     <Compile Include="Libraries\Initializers\ItemsInitializer.cs" />
     <Compile Include="Libraries\Initializers\UsersInitializer.cs" />
-    <Compile Include="Libraries\Mails\MailAddresses.cs" />
+    <Compile Include="Libraries\Mails\Addresses.cs" />
     <Compile Include="Libraries\Requests\DataViewFilters.cs" />
     <Compile Include="Libraries\Requests\DataViewSelectors.cs" />
     <Compile Include="Libraries\Requests\FormData.cs" />
@@ -324,6 +323,7 @@
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\WikiModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\BackgroundTasks.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />

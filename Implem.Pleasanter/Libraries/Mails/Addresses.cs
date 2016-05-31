@@ -3,30 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Mails
 {
-    public static class MailAddresses
+    public static class Addresses
     {
-        public static IEnumerable<string> GetEnumerable(string mailAddresses)
+        public static IEnumerable<string> GetEnumerable(string addresses)
         {
-            return mailAddresses.Split(';')
+            return addresses.Split(';')
                 .Select(o => o.Trim())
                 .Where(o => o != string.Empty);
         }
 
-        public static string BadMailAddress(string mailAddresses)
+        public static string BadAddress(string addresses)
         {
-            foreach (var mailAddress in GetEnumerable(mailAddresses))
+            foreach (var address in GetEnumerable(addresses))
             {
-                if (Get(mailAddress) == string.Empty)
+                if (Get(address) == string.Empty)
                 {
-                    return mailAddress;
+                    return address;
                 }
             }
             return string.Empty;
         }
 
-        public static string Get(string mailAddress)
+        public static string Get(string address)
         {
-            return mailAddress.RegexFirst(
+            return address.RegexFirst(
                 @"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b",
                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
         }

@@ -9,7 +9,6 @@ using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
-using Implem.Pleasanter.Libraries.Mails;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.ServerData;
@@ -1144,7 +1143,7 @@ namespace Implem.Pleasanter.Models
             var mailAddress = Forms.Data("MailAddress").Trim();
             var selected = Forms.Data("MailAddresses").Split(';');
             var mailAddresses = Session_MailAddresses();
-            var badMailAddress = Libraries.Mails.MailAddresses.BadMailAddress(mailAddress);
+            var badMailAddress = Libraries.Mails.Addresses.BadAddress(mailAddress);
             if (badMailAddress != string.Empty)
             {
                 return Messages
