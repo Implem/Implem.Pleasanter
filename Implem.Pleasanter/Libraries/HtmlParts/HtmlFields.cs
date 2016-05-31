@@ -358,7 +358,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return _using
                 ? hb.Div(
                     id: fieldId,
-                    css: CssClasses.Get("field-normal", fieldCss), action: () =>
+                    css: Css.Class("field-normal", fieldCss), action: () =>
                     {
                         if (actionOptions != null) actionOptions();
                     })
@@ -377,7 +377,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return _using
                 ? hb.Div(
                     id: fieldId,
-                    css: CssClasses.Get("field-normal", fieldCss), action: () =>
+                    css: Css.Class("field-normal", fieldCss), action: () =>
                     {
                         actionLabel();
                         actionControl();
@@ -414,7 +414,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 action: () => hb
                     .Append(
                         tag: tagControlContainer,
-                        css: CssClasses.Get("container-normal", controlContainerCss),
+                        css: Css.Class("container-normal", controlContainerCss),
                         action: () =>
                             controlAction()));
         }
@@ -443,7 +443,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlAction: () => hb
                         .Span(
                             attributes: new HtmlAttributes()
-                                .Id_Css(controlId, CssClasses.Get("control-text", controlCss))
+                                .Id_Css(controlId, Css.Class("control-text", controlCss))
                                 .DataValue(dataValue)
                                 .DataUnit(unit),
                             action: () => hb

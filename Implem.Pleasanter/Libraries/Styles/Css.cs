@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 namespace Implem.Pleasanter.Libraries.Styles
 {
-    public static class CssClasses
+    public static class Css
     {
-        public static string Get(string _default, string additional)
+        public static string Class(string _default, string additional)
         {
             if (additional == string.Empty || additional == null)
             {

@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 case HtmlTypes.TextTypes.Normal:
                     return hb.Input(attributes: new HtmlAttributes()
-                        .Id_Css(controlId, CssClasses.Get("control-textbox", controlCss))
+                        .Id_Css(controlId, Css.Class("control-textbox", controlCss))
                         .Type("text")
                         .Value(text)
                         .Placeholder(placeholder)
@@ -40,7 +40,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case HtmlTypes.TextTypes.MultiLine:
                     return hb.TextArea(
                         attributes: new HtmlAttributes()
-                            .Id_Css(controlId, CssClasses.Get("control-textarea", controlCss))
+                            .Id_Css(controlId, Css.Class("control-textarea", controlCss))
                             .Placeholder(placeholder)
                             .OnChange(onChange)
                             .DataAction(action)
@@ -50,7 +50,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Text(text: text));
                 case HtmlTypes.TextTypes.Password:
                     return hb.Input(attributes: new HtmlAttributes()
-                        .Id_Css(controlId, CssClasses.Get("control-textbox", controlCss))
+                        .Id_Css(controlId, Css.Class("control-textbox", controlCss))
                         .Type("password")
                         .Value(text)
                         .Placeholder(placeholder)
@@ -58,7 +58,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Add(attributes));
                 case HtmlTypes.TextTypes.File:
                     return hb.Input(attributes: new HtmlAttributes()
-                        .Id_Css(controlId, CssClasses.Get("control-textbox", controlCss))
+                        .Id_Css(controlId, Css.Class("control-textbox", controlCss))
                         .Type("file")
                         .Value(text)
                         .Placeholder(placeholder)
@@ -94,7 +94,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         attributes: new HtmlAttributes()
                             .Id_Css(
                                 controlId,
-                                CssClasses.Get("control-markdown upload-image", controlCss))
+                                Css.Class("control-markdown upload-image", controlCss))
                             .Placeholder(placeholder)
                             .Add(attributes),
                         action: () => hb
@@ -115,7 +115,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     attributes: new HtmlAttributes()
                         .Id_Css(
                             controlId,
-                            CssClasses.Get("control-markup markup", controlCss)),
+                            Css.Class("control-markup markup", controlCss)),
                     action: () => hb
                         .Text(text: text))
                 : hb;
@@ -137,7 +137,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return _using
                 ? hb.Select(
                     attributes: new HtmlAttributes()
-                        .Id_Css(controlId, CssClasses.Get("control-dropdown", controlCss))
+                        .Id_Css(controlId, Css.Class("control-dropdown", controlCss))
                         .OnChange(onChange)
                         .DataAction(action)
                         .DataMethod(method),
@@ -247,7 +247,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .ForEach(data => hb
                         .Input(new HtmlAttributes()
                             .Id(name, data.Index)
-                            .Class(CssClasses.Get("control-radio", controlCss))
+                            .Class(Css.Class("control-radio", controlCss))
                             .Type("radio")
                             .Value(data.Option.Key)
                             .Checked(data.Option.Key == selectedValue))
@@ -275,7 +275,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return _using
                 ? hb.Input(new HtmlAttributes()
-                    .Id_Css(controlId, CssClasses.Get("control-spinner", controlCss))
+                    .Id_Css(controlId, Css.Class("control-spinner", controlCss))
                     .Type("number")
                     .Value(value != null
                         ? value.ToString()
@@ -305,7 +305,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             if (_using)
             {
                 hb.Input(attributes: new HtmlAttributes()
-                    .Id_Css(controlId, CssClasses.Get("control-checkbox", controlCss))
+                    .Id_Css(controlId, Css.Class("control-checkbox", controlCss))
                     .Type("checkbox")
                     .Disabled(disabled)
                     .DataId(dataId)
@@ -345,7 +345,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Step(step))
                     .P(
                         attributes: new HtmlAttributes()
-                            .Class(CssClasses.Get("control-slider", controlCss)),
+                            .Class(Css.Class("control-slider", controlCss)),
                         action: () => hb
                             .Span(
                                 attributes: new HtmlAttributes()
@@ -403,7 +403,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return _using
                 ? hb.A(
                     id: controlId,
-                    css: CssClasses.Get("control-anchor", controlCss),
+                    css: Css.Class("control-anchor", controlCss),
                     href: href,
                     text: text)
                 : hb;
@@ -460,7 +460,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return _using
                 ? hb.Div(
-                    css: CssClasses.Get("control", controlCss),
+                    css: Css.Class("control", controlCss),
                     action: () => hb
                         .Ol(
                             attributes: new HtmlAttributes()
@@ -483,7 +483,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return _using
                 ? hb.Ol(
                     attributes: new HtmlAttributes()
-                        .Id_Css(controlId, CssClasses.Get("control-basket", controlCss)),
+                        .Id_Css(controlId, Css.Class("control-basket", controlCss)),
                     action: () => hb
                         .SelectableItems(
                             listItemCollection: listItemCollection,

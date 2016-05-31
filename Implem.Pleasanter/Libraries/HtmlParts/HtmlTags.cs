@@ -445,7 +445,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return _using
                 ? hb.TextArea(
                     id: id,
-                    css: CssClasses.Get("control-textarea", controlCss),
+                    css: Css.Class("control-textarea", controlCss),
                     placeholder: placeholder,
                     action: () => hb.Text(text: text))
                 : hb;
@@ -822,7 +822,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb.Append(
                     tag: "fieldset",
                     id: id,
-                    css: CssClasses.Get("fieldset cf", css),
+                    css: Css.Class("fieldset cf", css),
                     action: () =>
                     {
                         if (legendText != string.Empty)

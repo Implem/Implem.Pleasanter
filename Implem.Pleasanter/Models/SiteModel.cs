@@ -13,7 +13,6 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.ServerData;
 using Implem.Pleasanter.Libraries.Settings;
-using Implem.Pleasanter.Libraries.Styles;
 using Implem.Pleasanter.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
@@ -1598,7 +1597,7 @@ namespace Implem.Pleasanter.Models
             var hasImage = binaryModel.ExistsSiteImage(ImageData.SizeTypes.Thumbnail);
             return hb.Li(
                 attributes: new HtmlAttributes()
-                    .Class(CssClasses.Get("nav-site " + referenceType.ToLower() +
+                    .Class(Libraries.Styles.Css.Class("nav-site " + referenceType.ToLower() +
                         (hasImage
                             ? " has-image"
                             : string.Empty),
