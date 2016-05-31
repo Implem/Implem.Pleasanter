@@ -624,7 +624,7 @@ namespace Implem.Pleasanter.Models
             ReferenceVer = Forms.Int("Ver");
             From = new System.Net.Mail.MailAddress("\"{0}\" <{1}>".Params(
                 Sessions.User().FullName,
-                new MailAddressModel(Sessions.UserId()).MailAddress));
+                OutgoingMailsUtility.FromMailAddress()));
             SetByForm();
         }
 
@@ -1499,6 +1499,13 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Editor(string referenceType, long referenceId)
         {
+            if (FromMailAddress() == string.Empty)
+            {
+                return new ResponseCollection()
+                    .CloseDialog()
+                    .Message(Messages.MailAddressHasNotSet())
+                    .ToJson();
+            }
             var siteModel = new ItemModel(referenceId).GetSite();
             var siteSettings = siteModel.SitesSiteSettings();
             var outgoingMailModel = new OutgoingMailModel().Get(
@@ -1864,6 +1871,21 @@ namespace Implem.Pleasanter.Models
                         .ToDictionary(
                             o => o.Index.ToString(),
                             o => o.Name);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string FromMailAddress()
+        {
+            return Rds.ExecuteScalar_string(statements:
+                Rds.SelectMailAddresses(
+                    top: 1,
+                    column: Rds.MailAddressesColumn().MailAddress(),
+                    where: Rds.MailAddressesWhere()
+                        .OwnerId(Sessions.UserId())
+                        .OwnerType("Users"),
+                    orderBy: Rds.MailAddressesOrderBy().MailAddressId()));
         }
     }
 }

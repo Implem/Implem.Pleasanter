@@ -519,6 +519,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ExternalMailAddress(params string[] data) { return Get("ExternalMailAddress", data); }
         public static HtmlBuilder Displays_BadMailAddress(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("BadMailAddress", data)); }
         public static string BadMailAddress(params string[] data) { return Get("BadMailAddress", data); }
+        public static HtmlBuilder Displays_MailAddressHasNotSet(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MailAddressHasNotSet", data)); }
+        public static string MailAddressHasNotSet(params string[] data) { return Get("MailAddressHasNotSet", data); }
         public static HtmlBuilder Displays_FileNotFound(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("FileNotFound", data)); }
         public static string FileNotFound(params string[] data) { return Get("FileNotFound", data); }
         public static HtmlBuilder Displays_NotRequiredColumn(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NotRequiredColumn", data)); }

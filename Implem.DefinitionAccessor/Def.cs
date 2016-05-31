@@ -2621,6 +2621,8 @@ namespace Implem.DefinitionAccessor
                     case "ExternalMailAddress_ja": Display.ExternalMailAddress_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ExternalMailAddress_ja, definitionRow, DisplayXls); break;
                     case "BadMailAddress": Display.BadMailAddress = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.BadMailAddress, definitionRow, DisplayXls); break;
                     case "BadMailAddress_ja": Display.BadMailAddress_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.BadMailAddress_ja, definitionRow, DisplayXls); break;
+                    case "MailAddressHasNotSet": Display.MailAddressHasNotSet = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.MailAddressHasNotSet, definitionRow, DisplayXls); break;
+                    case "MailAddressHasNotSet_ja": Display.MailAddressHasNotSet_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.MailAddressHasNotSet_ja, definitionRow, DisplayXls); break;
                     case "FileNotFound": Display.FileNotFound = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.FileNotFound, definitionRow, DisplayXls); break;
                     case "FileNotFound_ja": Display.FileNotFound_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.FileNotFound_ja, definitionRow, DisplayXls); break;
                     case "NotRequiredColumn": Display.NotRequiredColumn = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.NotRequiredColumn, definitionRow, DisplayXls); break;
@@ -7378,6 +7380,8 @@ namespace Implem.DefinitionAccessor
         public string ExternalMailAddress_ja;
         public string BadMailAddress;
         public string BadMailAddress_ja;
+        public string MailAddressHasNotSet;
+        public string MailAddressHasNotSet_ja;
         public string FileNotFound;
         public string FileNotFound_ja;
         public string NotRequiredColumn;
@@ -7954,6 +7958,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition ExternalMailAddress_ja = new DisplayDefinition();
         public DisplayDefinition BadMailAddress = new DisplayDefinition();
         public DisplayDefinition BadMailAddress_ja = new DisplayDefinition();
+        public DisplayDefinition MailAddressHasNotSet = new DisplayDefinition();
+        public DisplayDefinition MailAddressHasNotSet_ja = new DisplayDefinition();
         public DisplayDefinition FileNotFound = new DisplayDefinition();
         public DisplayDefinition FileNotFound_ja = new DisplayDefinition();
         public DisplayDefinition NotRequiredColumn = new DisplayDefinition();
