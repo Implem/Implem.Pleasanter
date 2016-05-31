@@ -9,6 +9,7 @@ using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
+using Implem.Pleasanter.Libraries.Mails;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.ServerData;
@@ -687,7 +688,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private string VerifyBadMailAddress(string mailAddresses)
         {
-            var badMailAddress = BadMailAddress(mailAddresses);
+            var badMailAddress = MailAddresses.BadMailAddress(mailAddresses);
             if (badMailAddress != string.Empty)
             {
                 return Messages.ResponseBadMailAddress(badMailAddress).ToJson();
@@ -717,9 +718,9 @@ namespace Implem.Pleasanter.Models
             Port = Parameters.Mail.SmtpPort;
             var mailMessage = new System.Net.Mail.MailMessage();
             mailMessage.From = From;
-            MailAddresses(To).ForEach(to => mailMessage.To.Add(to));
-            MailAddresses(Cc).ForEach(cc => mailMessage.CC.Add(cc));
-            MailAddresses(Bcc).ForEach(bcc => mailMessage.Bcc.Add(bcc));
+            MailAddresses.GetEnumerable(To).ForEach(to => mailMessage.To.Add(to));
+            MailAddresses.GetEnumerable(Cc).ForEach(cc => mailMessage.CC.Add(cc));
+            MailAddresses.GetEnumerable(Bcc).ForEach(bcc => mailMessage.Bcc.Add(bcc));
             mailMessage.Subject = Title.Value;
             mailMessage.Body = Body;
             var smtpClient = new System.Net.Mail.SmtpClient();
@@ -738,39 +739,14 @@ namespace Implem.Pleasanter.Models
             Host = "smtp.sendgrid.net";
             var sendGridMessage = new SendGrid.SendGridMessage();
             sendGridMessage.From = From;
-            MailAddresses(To).ForEach(to => sendGridMessage.AddTo(to));
-            MailAddresses(Cc).ForEach(cc => sendGridMessage.AddCc(cc));
-            MailAddresses(Bcc).ForEach(bcc => sendGridMessage.AddBcc(bcc));
+            MailAddresses.GetEnumerable(To).ForEach(to => sendGridMessage.AddTo(to));
+            MailAddresses.GetEnumerable(Cc).ForEach(cc => sendGridMessage.AddCc(cc));
+            MailAddresses.GetEnumerable(Bcc).ForEach(bcc => sendGridMessage.AddBcc(bcc));
             sendGridMessage.Subject = Title.Value;
             sendGridMessage.Text = Body;
             new SendGrid.Web(new System.Net.NetworkCredential(
                 Parameters.Mail.SendGridSmtpUser,
                 Parameters.Mail.SendGridSmtpPassword)).DeliverAsync(sendGridMessage);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private IEnumerable<string> MailAddresses(string mailAddresses)
-        {
-            return mailAddresses.Split(';')
-                .Select(o => o.Trim())
-                .Where(o => o != string.Empty);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private string BadMailAddress(string mailAddresses)
-        {
-            foreach (var mailAddress in MailAddresses(mailAddresses))
-            {
-                if (OutgoingMailsUtility.MailAddress(mailAddress) == string.Empty)
-                {
-                    return mailAddress;
-                }
-            }
-            return string.Empty;
         }
 
         /// <summary>
@@ -783,9 +759,9 @@ namespace Implem.Pleasanter.Models
                 .Select(o => o.Trim())
                 .Where(o => o != string.Empty);
             if (domains.Count() == 0) return string.Empty;
-            foreach (var mailAddress in MailAddresses(mailAddresses))
+            foreach (var mailAddress in MailAddresses.GetEnumerable(mailAddresses))
             {
-                if (!domains.Any(o => OutgoingMailsUtility.MailAddress(mailAddress).EndsWith(o)))
+                if (!domains.Any(o => MailAddresses.Get(mailAddress).EndsWith(o)))
                 {
                     return mailAddress;
                 }
@@ -1679,7 +1655,7 @@ namespace Implem.Pleasanter.Models
                     case "to":
                         var to = outgoingMailModel.To
                             .Split(';')
-                            .Where(o => MailAddress(o) != myAddress)
+                            .Where(o => MailAddresses.Get(o) != myAddress)
                             .Where(o => o.Trim() != string.Empty)
                             .Join(";");
                         return to.Trim() != string.Empty
@@ -1888,16 +1864,6 @@ namespace Implem.Pleasanter.Models
                         .ToDictionary(
                             o => o.Index.ToString(),
                             o => o.Name);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string MailAddress(string mailAddress)
-        {
-            return mailAddress.RegexFirst(
-                @"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b",
-                System.Text.RegularExpressions.RegexOptions.IgnoreCase);
         }
     }
 }
