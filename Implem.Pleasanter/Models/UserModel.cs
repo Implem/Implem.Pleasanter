@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
-using System.Web;
 namespace Implem.Pleasanter.Models
 {
     public class UserModel : BaseModel, IConvertable
@@ -978,8 +977,7 @@ namespace Implem.Pleasanter.Models
         public void SetFormsAuthentication(string returnUrl)
         {
             System.Web.Security.FormsAuthentication.SetAuthCookie(
-                UserId.ToString(),
-                HttpContext.Current.Request.Form["Users_RememberMe"].ToBool());
+                UserId.ToString(), Forms.Bool("Users_RememberMe"));
             SetSession();
         }
 
@@ -2010,7 +2008,7 @@ namespace Implem.Pleasanter.Models
                         attributes: new HtmlAttributes()
                             .Id_Css("UserForm", "main-form")
                             .Action(Navigations.Get("users", "_action_?ReturnUrl="
-                                + HttpUtility.UrlEncode(returnUrl))),
+                                + Url.Encode(returnUrl))),
                         action: () => hb
                             .FieldSet(css: "login", action: () => hb
                                 .Div(action: () => hb

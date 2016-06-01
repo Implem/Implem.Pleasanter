@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
-using System.Web;
 namespace Implem.Pleasanter.Models
 {
     public class OutgoingMailModel : BaseModel
@@ -1680,7 +1679,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static string Location()
         {
-            var location = HttpContext.Current.Request.Url.AbsoluteUri.ToLower();
+            var location = Url.AbsoluteUri().ToLower();
             return location.Substring(0, location.IndexOf("/outgoingmails"));
         }
 

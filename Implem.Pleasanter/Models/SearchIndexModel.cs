@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
-using System.Web;
 namespace Implem.Pleasanter.Models
 {
     public class SearchIndexModel : BaseModel
@@ -311,7 +310,7 @@ namespace Implem.Pleasanter.Models
                 responseCollection
                     .PushState(
                         "Search",
-                        Navigations.Get("Items", "Search?text=" + HttpUtility.UrlEncode(text)),
+                        Navigations.Get("Items", "Search?text=" + Url.Encode(text)),
                         _using: !QueryStrings.Bool("reload"))
                     .Html(
                         "#MainContainer",

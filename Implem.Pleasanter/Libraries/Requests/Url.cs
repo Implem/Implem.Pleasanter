@@ -19,6 +19,11 @@ namespace Implem.Pleasanter.Libraries.Requests
                 : path + "/";
         }
 
+        public static string AbsoluteUri()
+        {
+            return HttpContext.Current.Request.Url.AbsoluteUri;
+        }
+
         public static string LocalPath()
         {
             return HttpContext.Current.Request.Url.LocalPath;
@@ -40,6 +45,11 @@ namespace Implem.Pleasanter.Libraries.Requests
                 .GetRouteData(new HttpContextWrapper(HttpContext.Current))
                 .Values[name]?
                 .ToString();
+        }
+
+        public static string Encode(string url)
+        {
+            return HttpUtility.UrlEncode(url);
         }
     }
 }

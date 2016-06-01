@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
-using System.Web;
 namespace Implem.Pleasanter.Models
 {
     public class SysLogModel : BaseModel
@@ -337,66 +336,26 @@ namespace Implem.Pleasanter.Models
             MachineName = Environments.MachineName;
             ServiceName = Environments.ServiceName;
             Application = Environments.Application;
-            var httpRequest = HttpRequest();
-            if (httpRequest != null)
+            var request = new Request(HttpContext);
+            if (request.HttpRequest != null)
             {
-                RequestData = ProcessedRequestData(httpRequest);
-                HttpMethod = httpRequest.HttpMethod;
+                RequestData = request.ProcessedRequestData();
+                HttpMethod = request.HttpMethod();
                 ApplicationAge = Applications.ApplicationAge();
                 ApplicationRequestInterval = Applications.ApplicationRequestInterval();
                 SessionAge = Sessions.SessionAge();
                 SessionRequestInterval = Sessions.SessionRequestInterval();
                 RequestSize = RequestData.Length;
-                Url = httpRequest.Url.ToString();
-                if (httpRequest.UrlReferrer != null) { UrlReferer = httpRequest.UrlReferrer.ToStr(); }
-                if (httpRequest.UserHostName != null) { UserHostName = httpRequest.UserHostName; }
-                if (httpRequest.UserHostAddress != null) { UserHostAddress = httpRequest.UserHostAddress; }
-                if (httpRequest.UserLanguages != null && httpRequest.UserLanguages.Length > 0) { UserLanguage = httpRequest.UserLanguages[0]; }
-                if (httpRequest.UserAgent != null) { UserAgent = httpRequest.UserAgent; }
+                Url = request.Url();
+                UrlReferer = request.UrlReferrer();
+                UserHostName = request.UserHostName();
+                UserHostAddress = request.UserHostAddress();
+                UserLanguage = request.UserLanguage();
+                UserAgent = request.UserAgent();
                 SessionGuid = Sessions.SessionGuid();
             }
             InDebug = Debugs.InDebug();
             AssemblyVersion = Environments.AssemblyVersion;
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private string ProcessedRequestData(HttpRequest httpRequest)
-        {
-            return httpRequest.Form.ToString().Split('&')
-                .Where(o => o.Contains('='))
-                .Select(o => ProcessedRequestData(o))
-                .Join("&");
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private string ProcessedRequestData(string requestData)
-        {
-            switch (requestData.Substring(0, requestData.IndexOf("=")).ToLower())
-            {
-                case "users_password": return "Users_Password=*";
-                case "users_changedpassword": return "Users_ChangedPassword=*";
-                case "users_afterresetpassword": return "Users_AfterResetPassword=*";
-                default: return requestData;
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private HttpRequest HttpRequest()
-        {
-            if (HttpContext != null && HttpContext.User != null)
-            {
-                return HttpContext.Request;
-            }
-            else
-            {
-                return null;
-            }
         }
 
         /// <summary>
