@@ -11,6 +11,7 @@ using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.ServerData;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Utilities;
@@ -425,7 +426,7 @@ namespace Implem.Pleasanter.Models
                 .Timestamp()
                 .Val("#VerUp", false)
                 .Disabled("#VerUp", false)
-                .Html("#HeaderTitle", Title.Value + " - " + Displays.Edit())
+                .Html("#HeaderTitle", Title.Value)
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(baseModel: this, tableName: "Users"))
                 .Message(Messages.Updated(Title.ToString()))
                 .RemoveComment(DeleteCommentId, _using: DeleteCommentId != 0)

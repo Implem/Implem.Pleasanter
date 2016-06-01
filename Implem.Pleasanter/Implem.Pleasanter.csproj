@@ -266,8 +266,8 @@
     <Compile Include="Libraries\Requests\FormData.cs" />
     <Compile Include="Libraries\Requests\Forms.cs" />
     <Compile Include="Libraries\Requests\GridSorters.cs" />
-    <Compile Include="Libraries\Requests\Request.cs" />
     <Compile Include="Libraries\Requests\QueryStrings.cs" />
+    <Compile Include="Libraries\Requests\Request.cs" />
     <Compile Include="Libraries\Requests\Routes.cs" />
     <Compile Include="Libraries\Requests\Url.cs" />
     <Compile Include="Libraries\Responses\ControlData.cs" />
@@ -281,6 +281,7 @@
     <Compile Include="Libraries\Responses\ResponseFileNames.cs" />
     <Compile Include="Libraries\Responses\ResponseImage.cs" />
     <Compile Include="Libraries\Responses\ResponseSpecials.cs" />
+    <Compile Include="Libraries\Security\Permissions.cs" />
     <Compile Include="Libraries\ServerData\Applications.cs" />
     <Compile Include="Libraries\ServerData\Sessions.cs" />
     <Compile Include="Libraries\ServerData\SiteInfo.cs" />
@@ -296,7 +297,6 @@
     <Compile Include="Libraries\Utilities\Imports.cs" />
     <Compile Include="Libraries\Utilities\Mime.cs" />
     <Compile Include="Libraries\Utilities\OptionCollections.cs" />
-    <Compile Include="Libraries\Utilities\Permissions.cs" />
     <Compile Include="Libraries\Utilities\Search.cs" />
     <Compile Include="Libraries\Utilities\Securities.cs" />
     <Compile Include="Libraries\Utilities\Summaries.cs" />

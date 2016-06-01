@@ -4,7 +4,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.ServerData;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
-namespace Implem.Pleasanter.Libraries.Utilities
+namespace Implem.Pleasanter.Libraries.Security
 {
     public static class Permissions
     {
