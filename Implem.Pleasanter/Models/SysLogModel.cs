@@ -505,5 +505,21 @@ namespace Implem.Pleasanter.Models
 
     public static class SysLogsUtility
     {
+        public static void Mainte()
+        {
+            if (Parameters.SysLog.RetentionPeriod > 0)
+            {
+                if ((DateTime.Now - Applications.LogMaintenanceDate).Days > 0)
+                {
+                    Rds.ExecuteNonQuery(statements:
+                        Rds.PhysicalDeleteSysLogs(
+                            where: Rds.SysLogsWhere().CreatedTime(
+                                DateTime.Now.Date.AddDays(
+                                    Parameters.SysLog.RetentionPeriod * -1),
+                                _operator: "<")));
+                    Applications.LogMaintenanceDate = DateTime.Now;
+                }
+            }
+        }
     }
 }

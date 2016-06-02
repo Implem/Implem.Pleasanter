@@ -13,6 +13,7 @@ namespace Implem.Pleasanter.Tools
             var now = DateTime.Now;
             while ((DateTime.Now - now).Seconds <= Parameters.General.AdminTasksDoSpan)
             {
+                SysLogsUtility.Mainte();
                 ItemsUtility.Mainte();
                 Thread.Sleep(100);
             }
