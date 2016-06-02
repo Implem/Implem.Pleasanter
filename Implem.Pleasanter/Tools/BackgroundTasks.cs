@@ -2,7 +2,6 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,7 +18,7 @@ namespace Implem.Pleasanter.Tools
             {
                 GetUpdateTarget().ForEach(referenceId =>
                 {
-                    Search.CreateIndex(referenceId);
+                    Libraries.Search.Indexes.Create(referenceId);
                     Update(referenceId);
                 });
                 Thread.Sleep(100);

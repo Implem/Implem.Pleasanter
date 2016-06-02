@@ -281,6 +281,10 @@
     <Compile Include="Libraries\Responses\ResponseFileNames.cs" />
     <Compile Include="Libraries\Responses\ResponseImage.cs" />
     <Compile Include="Libraries\Responses\ResponseSpecials.cs" />
+    <Compile Include="Libraries\Search\Indexes.cs" />
+    <Compile Include="Libraries\Search\Responses.cs" />
+    <Compile Include="Libraries\Search\WordBreaker.cs" />
+    <Compile Include="Libraries\Security\Authentications.cs" />
     <Compile Include="Libraries\Security\Passwords.cs" />
     <Compile Include="Libraries\Security\Permissions.cs" />
     <Compile Include="Libraries\ServerData\Applications.cs" />
@@ -298,12 +302,9 @@
     <Compile Include="Libraries\Utilities\Imports.cs" />
     <Compile Include="Libraries\Utilities\Mime.cs" />
     <Compile Include="Libraries\Utilities\OptionCollections.cs" />
-    <Compile Include="Libraries\Utilities\Search.cs" />
-    <Compile Include="Libraries\Security\Authentications.cs" />
     <Compile Include="Libraries\Utilities\Summaries.cs" />
     <Compile Include="Libraries\Utilities\Times.cs" />
     <Compile Include="Libraries\Utilities\Versions.cs" />
-    <Compile Include="Libraries\Utilities\WordBreaker.cs" />
     <Compile Include="Libraries\Validators\ClientValidators.cs" />
     <Compile Include="Models\_BaseModel.cs" />
     <Compile Include="Models\BinaryModel.cs" />

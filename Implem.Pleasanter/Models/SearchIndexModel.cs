@@ -401,8 +401,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder Results(
             this HtmlBuilder hb, string text, int offset, EnumerableRowCollection<DataRow> results)
         {
-            results?.ForEach(dataRow => hb
-                .Result(dataRow, text));
+            results?.ForEach(dataRow => Libraries.Search.Responses.Get(hb, dataRow, text));
             return hb;
         }
 

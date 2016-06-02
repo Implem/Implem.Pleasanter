@@ -2,7 +2,7 @@
 using Implem.Libraries.Utilities;
 using System.Collections.Generic;
 using System.Linq;
-namespace Implem.Pleasanter.Libraries.Utilities
+namespace Implem.Pleasanter.Libraries.Search
 {
     public class WordBreaker
     {

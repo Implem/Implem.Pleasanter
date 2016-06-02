@@ -2,7 +2,6 @@
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.ServerData;
-using Implem.Pleasanter.Libraries.Utilities;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -99,7 +98,7 @@ namespace Implem.Pleasanter.Libraries.Converts
 
         public static IEnumerable<string> SearchIndexes(this string self, bool createIndex = false)
         {
-            return new WordBreaker(self, createIndex).Results
+            return new Search.WordBreaker(self, createIndex).Results
                 .Select(o => o.Trim())
                 .Where(o => o != string.Empty)
                 .Distinct();
