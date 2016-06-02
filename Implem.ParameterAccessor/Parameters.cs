@@ -10,5 +10,6 @@ namespace Implem.DefinitionAccessor
         public static Path Path;
         public static Rds Rds;
         public static Service Service;
+        public static SysLog SysLog;
     }
 }

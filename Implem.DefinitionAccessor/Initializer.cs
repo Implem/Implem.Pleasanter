@@ -75,6 +75,8 @@ namespace Implem.DefinitionAccessor
                 .Deserialize<ParameterAccessor.Parts.Rds>();
             Parameters.Service = Files.Read(ParametersPath("Service"))
                 .Deserialize<ParameterAccessor.Parts.Service>();
+            Parameters.SysLog = Files.Read(ParametersPath("SysLog"))
+                .Deserialize<ParameterAccessor.Parts.SysLog>();
         }
 
         private static string ParametersPath(string name)

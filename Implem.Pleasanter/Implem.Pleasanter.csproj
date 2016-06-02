@@ -485,6 +485,7 @@
     <Content Include="App_Data\Parameters\BinaryStorage.json" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Parameters\SysLog.json" />
     <None Include="Properties\PublishProfiles\pleasanter配布.pubxml" />
     <Content Include="Tools\BackgroundTasks.ps1" />
   </ItemGroup>
