@@ -2,7 +2,6 @@
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Analysis;
 using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
@@ -22,7 +21,7 @@ using System.Linq;
 using System.Text;
 namespace Implem.Pleasanter.Models
 {
-    public class DeptModel : BaseModel, IConvertable
+    public class DeptModel : BaseModel, Interfaces.IConvertable
     {
         public int TenantId = Sessions.TenantId();
         public int DeptId = 0;
