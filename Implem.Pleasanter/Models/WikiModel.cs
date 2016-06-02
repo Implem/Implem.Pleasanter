@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 namespace Implem.Pleasanter.Models
 {
     public class WikiModel : BaseItemModel
@@ -1634,7 +1633,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.WikisWhere().SiteId(siteModel.SiteId)),
                 orderBy: GridSorters.Get(
                     formData, Rds.WikisOrderBy().UpdatedTime(SqlOrderBy.Types.desc)));
-            var csv = new StringBuilder();
+            var csv = new System.Text.StringBuilder();
             var exportColumns = (Sessions.PageSession(
                 siteModel.Id, 
                 "ExportSettings_ExportColumns").ToString().Deserialize<ExportColumns>());
