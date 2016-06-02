@@ -281,6 +281,7 @@
     <Compile Include="Libraries\Responses\ResponseFileNames.cs" />
     <Compile Include="Libraries\Responses\ResponseImage.cs" />
     <Compile Include="Libraries\Responses\ResponseSpecials.cs" />
+    <Compile Include="Libraries\Security\Passwords.cs" />
     <Compile Include="Libraries\Security\Permissions.cs" />
     <Compile Include="Libraries\ServerData\Applications.cs" />
     <Compile Include="Libraries\ServerData\Sessions.cs" />

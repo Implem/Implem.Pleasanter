@@ -1,7 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
-using Implem.Pleasanter.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Security;
 using System;
 namespace Implem.Pleasanter.Libraries.Initializers
 {
@@ -16,7 +16,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                     1,
                     "Administrator",
                     "System Admin",
-                    password: Securities.DefaultAdminPassword().Sha512Cng(),
+                    password: Passwords.Default().Sha512Cng(),
                     passwordExpirationTime: new Time(DateTime.Now),
                     tenantAdmin: true);
                 Create(
