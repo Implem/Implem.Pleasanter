@@ -299,7 +299,7 @@
     <Compile Include="Libraries\Utilities\Mime.cs" />
     <Compile Include="Libraries\Utilities\OptionCollections.cs" />
     <Compile Include="Libraries\Utilities\Search.cs" />
-    <Compile Include="Libraries\Utilities\Securities.cs" />
+    <Compile Include="Libraries\Security\Authentications.cs" />
     <Compile Include="Libraries\Utilities\Summaries.cs" />
     <Compile Include="Libraries\Utilities\Times.cs" />
     <Compile Include="Libraries\Utilities\Versions.cs" />

@@ -220,7 +220,7 @@ namespace Implem.Pleasanter.Controllers
         public string Authenticate(string returnUrl)
         {
             var log = new SysLogModel();
-            var json = Securities.Authenticate(returnUrl);
+            var json = Authentications.SignIn(returnUrl);
             log.Finish(json.Length);
             return json;
         }
@@ -233,7 +233,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Logout(string returnUrl)
         {
             var log = new SysLogModel();
-            Securities.Logout();
+            Authentications.SignOut();
             var url = Navigations.Login();
             log.Finish();
             return Redirect(url);
