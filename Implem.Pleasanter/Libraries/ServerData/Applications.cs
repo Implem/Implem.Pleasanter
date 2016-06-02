@@ -3,7 +3,7 @@ using System;
 using System.Web;
 namespace Implem.Pleasanter.Libraries.ServerData
 {
-    public class Applications
+    public static class Applications
     {
         public static double ApplicationAge()
         {
