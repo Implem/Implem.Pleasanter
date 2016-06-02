@@ -27,21 +27,21 @@ namespace Implem.Pleasanter.Models
         public long SiteId = 0;
         public string Title = string.Empty;
         public string Subset = string.Empty;
-        public bool UpdateTarget = true;
+        public bool MaintenanceTarget = true;
         public SiteModel Site = null;
         public long SavedReferenceId = 0;
         public string SavedReferenceType = string.Empty;
         public long SavedSiteId = 0;
         public string SavedTitle = string.Empty;
         public string SavedSubset = string.Empty;
-        public bool SavedUpdateTarget = true;
+        public bool SavedMaintenanceTarget = true;
         public SiteModel SavedSite = null;
         public bool ReferenceId_Updated { get { return ReferenceId != SavedReferenceId; } }
         public bool ReferenceType_Updated { get { return ReferenceType != SavedReferenceType && ReferenceType != null; } }
         public bool SiteId_Updated { get { return SiteId != SavedSiteId; } }
         public bool Title_Updated { get { return Title != SavedTitle && Title != null; } }
         public bool Subset_Updated { get { return Subset != SavedSubset && Subset != null; } }
-        public bool UpdateTarget_Updated { get { return UpdateTarget != SavedUpdateTarget; } }
+        public bool MaintenanceTarget_Updated { get { return MaintenanceTarget != SavedMaintenanceTarget; } }
 
         public ItemModel(
             SiteSettings siteSettings, 
@@ -705,7 +705,7 @@ namespace Implem.Pleasanter.Models
                     case "SiteId": SiteId = dataRow[name].ToLong(); SavedSiteId = SiteId; break;
                     case "Title": Title = dataRow[name].ToString(); SavedTitle = Title; break;
                     case "Subset": Subset = dataRow[name].ToString(); SavedSubset = Subset; break;
-                    case "UpdateTarget": UpdateTarget = dataRow[name].ToBool(); SavedUpdateTarget = UpdateTarget; break;
+                    case "MaintenanceTarget": MaintenanceTarget = dataRow[name].ToBool(); SavedMaintenanceTarget = MaintenanceTarget; break;
                     case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
                     case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
@@ -874,5 +874,44 @@ namespace Implem.Pleasanter.Models
 
     public static class ItemsUtility
     {
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static void Mainte()
+        {
+            MaintenanceTarget().ForEach(referenceId =>
+            {
+                Libraries.Search.Indexes.Create(referenceId);
+                UpdateMaintenanceTarget(referenceId);
+            });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static List<long> MaintenanceTarget()
+        {
+            return Rds.ExecuteTable(statements:
+                Rds.SelectItems(
+                    top: 100,
+                    column: Rds.ItemsColumn().ReferenceId(),
+                    where: Rds.ItemsWhere().MaintenanceTarget(true)))
+                        .AsEnumerable()
+                        .Select(o => o["ReferenceId"].ToLong())
+                        .ToList();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void UpdateMaintenanceTarget(long referenceId)
+        {
+            Rds.ExecuteNonQuery(statements:
+                Rds.UpdateItems(
+                    param: Rds.ItemsParam().MaintenanceTarget(false),
+                    where: Rds.ItemsWhere().ReferenceId(referenceId),
+                    addUpdatedTimeParam: false,
+                    addUpdatorParam: false));
+        }
     }
 }

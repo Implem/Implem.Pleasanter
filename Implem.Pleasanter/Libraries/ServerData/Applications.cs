@@ -5,6 +5,8 @@ namespace Implem.Pleasanter.Libraries.ServerData
 {
     public static class Applications
     {
+        public static DateTime LogMaintenanceDate;
+
         public static double ApplicationAge()
         {
             return (DateTime.Now - HttpContext.Current.Application["StartTime"].ToDateTime())

@@ -558,7 +558,7 @@ namespace Implem.Pleasanter.Models
                             .SiteId(SiteId)
                             .Title(ResultsUtility.TitleDisplayValue(SiteSettings, this))
                             .Subset(Jsons.ToJson(new ResultSubset(this, SiteSettings)))
-                            .UpdateTarget(true)),
+                            .MaintenanceTarget(true)),
                     Rds.PhysicalDeleteLinks(
                         where: Rds.LinksWhere().SourceId(ResultId)),
                     InsertLinks(SiteSettings),

@@ -224,7 +224,7 @@ namespace Implem.Pleasanter.Models
                             .SiteId(SiteId)
                             .Title(WikisUtility.TitleDisplayValue(SiteSettings, this))
                             .Subset(Jsons.ToJson(new WikiSubset(this, SiteSettings)))
-                            .UpdateTarget(true)),
+                            .MaintenanceTarget(true)),
                     Rds.PhysicalDeleteLinks(
                         where: Rds.LinksWhere().SourceId(WikiId)),
                     InsertLinks(SiteSettings),

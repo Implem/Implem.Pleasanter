@@ -285,7 +285,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     case "DataViewFilters_Items_Updator": where.Items_Updator(formData[key].Value, "t0"); break;
                     case "DataViewFilters_Items_CreatedTime": where.Items_CreatedTime(formData[key].Value, "t0"); break;
                     case "DataViewFilters_Items_UpdatedTime": where.Items_UpdatedTime(formData[key].Value, "t0"); break;
-                    case "DataViewFilters_Items_UpdateTarget": if (formData[key].Value.ToBool()) where.Items_UpdateTarget(formData[key].Value, "t0"); break;
+                    case "DataViewFilters_Items_MaintenanceTarget": if (formData[key].Value.ToBool()) where.Items_MaintenanceTarget(formData[key].Value, "t0"); break;
                     case "DataViewFilters_Sites_TenantId": where.Sites_TenantId(formData[key].Value, "t0"); break;
                     case "DataViewFilters_Sites_SiteId": where.Sites_SiteId(formData[key].Value, "t0"); break;
                     case "DataViewFilters_Sites_UpdatedTime": where.Sites_UpdatedTime(formData[key].Value, "t0"); break;

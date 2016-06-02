@@ -232,7 +232,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ItemsWhere()
                             .ReferenceType(ReferenceType)
                             .ReferenceId(ReferenceId),
-                        param: Rds.ItemsParam().UpdateTarget(1)),
+                        param: Rds.ItemsParam().MaintenanceTarget(true)),
                     Rds.End()
                 });
             if (count == 0) return ResponseConflicts();
