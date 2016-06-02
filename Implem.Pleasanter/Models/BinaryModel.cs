@@ -616,7 +616,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public bool ExistsSiteImage(ImageData.SizeTypes sizeType)
+        public bool ExistsSiteImage(Libraries.Images.ImageData.SizeTypes sizeType)
         {
             if (!PermissionType.CanRead())
             {
@@ -625,7 +625,9 @@ namespace Implem.Pleasanter.Models
             switch (Parameters.BinaryStorage.Provider)
             {
                 case "Local":
-                    return new ImageData(ReferenceId, ImageData.Types.SiteImage).Exists(sizeType);
+                    return new Libraries.Images.ImageData(
+                        ReferenceId, Libraries.Images.ImageData.Types.SiteImage)
+                            .Exists(sizeType);
                 default:
                     return Rds.ExecuteScalar_int(statements:
                         Rds.SelectBinaries(
@@ -637,7 +639,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string SiteImagePrefix(ImageData.SizeTypes sizeType)
+        public string SiteImagePrefix(Libraries.Images.ImageData.SizeTypes sizeType)
         {
             if (!PermissionType.CanRead())
             {
@@ -646,7 +648,9 @@ namespace Implem.Pleasanter.Models
             switch (Parameters.BinaryStorage.Provider)
             {
                 case "Local":
-                    return new ImageData(ReferenceId, ImageData.Types.SiteImage).UrlPrefix(sizeType);
+                    return new Libraries.Images.ImageData(
+                        ReferenceId, Libraries.Images.ImageData.Types.SiteImage)
+                            .UrlPrefix(sizeType);
                 default:
                     return Rds.ExecuteScalar_datetime(statements:
                         Rds.SelectBinaries(
@@ -661,7 +665,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public byte[] SiteImageThumbnail()
         {
-            return SiteImage(ImageData.SizeTypes.Thumbnail, Rds.BinariesColumn().Thumbnail());
+            return SiteImage(
+                Libraries.Images.ImageData.SizeTypes.Thumbnail, Rds.BinariesColumn()
+                    .Thumbnail());
         }
 
         /// <summary>
@@ -669,13 +675,16 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public byte[] SiteImageIcon()
         {
-            return SiteImage(ImageData.SizeTypes.Icon, Rds.BinariesColumn().Icon());
+            return SiteImage(
+                Libraries.Images.ImageData.SizeTypes.Icon, Rds.BinariesColumn()
+                    .Icon());
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private byte[] SiteImage(ImageData.SizeTypes sizeType, SqlColumnCollection column)
+        private byte[] SiteImage(
+            Libraries.Images.ImageData.SizeTypes sizeType, SqlColumnCollection column)
         {
             if (!PermissionType.CanRead())
             {
@@ -684,7 +693,9 @@ namespace Implem.Pleasanter.Models
             switch (Parameters.BinaryStorage.Provider)
             {
                 case "Local":
-                    return new ImageData(ReferenceId, ImageData.Types.SiteImage).Read(sizeType);
+                    return new Libraries.Images.ImageData(
+                        ReferenceId, Libraries.Images.ImageData.Types.SiteImage)
+                            .Read(sizeType);
                 default:
                     return Rds.ExecuteScalar_bytes(statements:
                         Rds.SelectBinaries(
@@ -703,17 +714,18 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission().ToJson();
             }
             BinaryType = "SiteImage";
-            var imageData = new ImageData(
-                Forms.File(ImageData.Types.SiteImage.ToString()),
+            var imageData = new Libraries.Images.ImageData(
+                Forms.File(Libraries.Images.ImageData.Types.SiteImage.ToString()),
                 ReferenceId,
-                ImageData.Types.SiteImage);
+                Libraries.Images.ImageData.Types.SiteImage);
             switch (Parameters.BinaryStorage.Provider)
             {
                 case "Local": imageData.WriteToLocal(); break;
                 default:
-                    Bin = imageData.ReSizeBytes(ImageData.SizeTypes.Regular);
-                    Thumbnail = imageData.ReSizeBytes(ImageData.SizeTypes.Thumbnail);
-                    Icon = imageData.ReSizeBytes(ImageData.SizeTypes.Icon);
+                    Bin = imageData.ReSizeBytes(Libraries.Images.ImageData.SizeTypes.Regular);
+                    Thumbnail = imageData.ReSizeBytes(
+                        Libraries.Images.ImageData.SizeTypes.Thumbnail);
+                    Icon = imageData.ReSizeBytes(Libraries.Images.ImageData.SizeTypes.Icon);
                     Rds.ExecuteNonQuery(transactional: true, statements:
                         Rds.UpdateOrInsertBinaries(
                             selectIdentity: true,

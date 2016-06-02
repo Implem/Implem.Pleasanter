@@ -1592,7 +1592,8 @@ namespace Implem.Pleasanter.Models
             bool toUpper = false)
         {
             var binaryModel = new BinaryModel(permissionType, siteId);
-            var hasImage = binaryModel.ExistsSiteImage(ImageData.SizeTypes.Thumbnail);
+            var hasImage = binaryModel.ExistsSiteImage(
+                Libraries.Images.ImageData.SizeTypes.Thumbnail);
             return hb.Li(
                 attributes: new HtmlAttributes()
                     .Class(Libraries.Styles.Css.Class("nav-site " + referenceType.ToLower() +
@@ -1622,7 +1623,7 @@ namespace Implem.Pleasanter.Models
                                                 "Binaries",
                                                 "SiteImageIcon",
                                                 binaryModel.SiteImagePrefix(
-                                                    ImageData.SizeTypes.Thumbnail)),
+                                                    Libraries.Images.ImageData.SizeTypes.Thumbnail)),
                                             css: "site-image-icon")
                                         .Span(css: "title", action: () => hb
                                             .Text(title));
@@ -1646,7 +1647,7 @@ namespace Implem.Pleasanter.Models
                                             "Binaries",
                                             "SiteImageThumbnail",
                                             binaryModel.SiteImagePrefix(
-                                                ImageData.SizeTypes.Thumbnail)),
+                                                Libraries.Images.ImageData.SizeTypes.Thumbnail)),
                                         css: "site-image-thumbnail");
                                 }
                                 hb.Span(css: "title", action: () => hb

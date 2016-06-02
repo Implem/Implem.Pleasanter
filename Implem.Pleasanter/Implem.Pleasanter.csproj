@@ -258,6 +258,7 @@
     <Compile Include="Libraries\HtmlParts\HtmlTags.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlTemplates.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlVerUps.cs" />
+    <Compile Include="Libraries\Images\ImageData.cs" />
     <Compile Include="Libraries\Initializers\ItemsInitializer.cs" />
     <Compile Include="Libraries\Initializers\UsersInitializer.cs" />
     <Compile Include="Libraries\Mails\Addresses.cs" />
@@ -298,7 +299,6 @@
     <Compile Include="Libraries\Settings\SiteSettingsUtility.cs" />
     <Compile Include="Libraries\Settings\Summary.cs" />
     <Compile Include="Libraries\Styles\Css.cs" />
-    <Compile Include="Libraries\Utilities\ImageData.cs" />
     <Compile Include="Libraries\Utilities\Imports.cs" />
     <Compile Include="Libraries\Utilities\Mime.cs" />
     <Compile Include="Libraries\Utilities\OptionCollections.cs" />
