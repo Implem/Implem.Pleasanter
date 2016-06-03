@@ -8,11 +8,6 @@ namespace Implem.Libraries.Utilities
             return self.ToOADate() != 0;
         }
 
-        public static int ElapsedSecond(this DateTime self)
-        {
-            return Convert.ToInt32((DateTime.Now - self).TotalSeconds);
-        }
-
         public static string Full()
         {
             return Full(DateTime.Now);
