@@ -505,6 +505,9 @@ namespace Implem.Pleasanter.Models
 
     public static class SysLogsUtility
     {
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static void Mainte()
         {
             if (Parameters.SysLog.RetentionPeriod > 0)
