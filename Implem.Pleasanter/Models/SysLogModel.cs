@@ -509,7 +509,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static void Mainte()
+        public static void Maintenance()
         {
             if (Parameters.SysLog.RetentionPeriod > 0)
             {

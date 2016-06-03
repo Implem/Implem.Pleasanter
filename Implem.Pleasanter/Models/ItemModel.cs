@@ -878,7 +878,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static void Mainte()
+        public static void Maintenance()
         {
             MaintenanceTarget().ForEach(referenceId =>
             {
