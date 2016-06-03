@@ -4,7 +4,6 @@ using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Settings;
-using Implem.Pleasanter.Libraries.Utilities;
 using System;
 using System.Data;
 namespace Implem.Pleasanter.Libraries.DataTypes

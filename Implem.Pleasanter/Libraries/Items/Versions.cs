@@ -1,4 +1,4 @@
-﻿namespace Implem.Pleasanter.Libraries.Utilities
+﻿namespace Implem.Pleasanter.Libraries.Items
 {
     public static class Versions
     {

@@ -261,6 +261,9 @@
     <Compile Include="Libraries\Images\ImageData.cs" />
     <Compile Include="Libraries\Initializers\ItemsInitializer.cs" />
     <Compile Include="Libraries\Initializers\UsersInitializer.cs" />
+    <Compile Include="Libraries\Items\Imports.cs" />
+    <Compile Include="Libraries\Items\Summaries.cs" />
+    <Compile Include="Libraries\Items\Versions.cs" />
     <Compile Include="Libraries\Mails\Addresses.cs" />
     <Compile Include="Libraries\Requests\DataViewFilters.cs" />
     <Compile Include="Libraries\Requests\DataViewSelectors.cs" />
@@ -300,9 +303,6 @@
     <Compile Include="Libraries\Settings\SiteSettingsUtility.cs" />
     <Compile Include="Libraries\Settings\Summary.cs" />
     <Compile Include="Libraries\Styles\Css.cs" />
-    <Compile Include="Libraries\Utilities\Imports.cs" />
-    <Compile Include="Libraries\Utilities\Summaries.cs" />
-    <Compile Include="Libraries\Utilities\Versions.cs" />
     <Compile Include="Libraries\Validators\ClientValidators.cs" />
     <Compile Include="Libraries\Web\Mime.cs" />
     <Compile Include="Models\_BaseModel.cs" />

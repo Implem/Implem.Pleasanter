@@ -1,8 +1,8 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Items;
 using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.Libraries.Utilities;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlComments

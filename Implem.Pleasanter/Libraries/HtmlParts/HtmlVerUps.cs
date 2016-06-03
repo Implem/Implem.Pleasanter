@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             var mustVerUp = MustVerUp(baseModel);
             return 
-                baseModel.VerType == Utilities.Versions.VerTypes.Latest &&
+                baseModel.VerType == Items.Versions.VerTypes.Latest &&
                 baseModel.MethodType != BaseModel.MethodTypes.New
                     ? hb.FieldCheckBox(
                         controlId: "VerUp",
