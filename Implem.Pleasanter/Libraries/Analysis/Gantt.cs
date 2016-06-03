@@ -6,8 +6,6 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Analysis
 {
-
-
     public class Gantt : List<GanttElement>
     {
         public int Height;
