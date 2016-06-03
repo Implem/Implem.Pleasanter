@@ -288,6 +288,7 @@
     <Compile Include="Libraries\Security\Authentications.cs" />
     <Compile Include="Libraries\Security\Passwords.cs" />
     <Compile Include="Libraries\Security\Permissions.cs" />
+    <Compile Include="Libraries\Server\Times.cs" />
     <Compile Include="Libraries\ServerData\Applications.cs" />
     <Compile Include="Libraries\ServerData\Sessions.cs" />
     <Compile Include="Libraries\ServerData\SiteInfo.cs" />
@@ -300,11 +301,10 @@
     <Compile Include="Libraries\Settings\Summary.cs" />
     <Compile Include="Libraries\Styles\Css.cs" />
     <Compile Include="Libraries\Utilities\Imports.cs" />
-    <Compile Include="Libraries\Web\Mime.cs" />
     <Compile Include="Libraries\Utilities\Summaries.cs" />
-    <Compile Include="Libraries\Utilities\Times.cs" />
     <Compile Include="Libraries\Utilities\Versions.cs" />
     <Compile Include="Libraries\Validators\ClientValidators.cs" />
+    <Compile Include="Libraries\Web\Mime.cs" />
     <Compile Include="Models\_BaseModel.cs" />
     <Compile Include="Models\BinaryModel.cs" />
     <Compile Include="Models\DemoModel.cs" />

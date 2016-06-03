@@ -3,7 +3,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.ServerData;
 using System;
 using System.Linq;
-namespace Implem.Pleasanter.Libraries.Utilities
+namespace Implem.Pleasanter.Libraries.Server
 {
     public static class Times
     {
@@ -39,7 +39,7 @@ namespace Implem.Pleasanter.Libraries.Utilities
                 : value;
         }
 
-        public static int DateDiff(Types interval, DateTime from, DateTime to)
+        public static int DateDiff(Times.Types interval, DateTime from, DateTime to)
         {
             if (!InRange(from, to))
             {
@@ -47,17 +47,17 @@ namespace Implem.Pleasanter.Libraries.Utilities
             }
             switch (interval)
             {
-                case Types.Seconds:
+                case Times.Types.Seconds:
                     return Math.Ceiling((to - from).TotalSeconds).ToInt();
-                case Types.Minutes:
+                case Times.Types.Minutes:
                     return Math.Ceiling((to - from).TotalMinutes).ToInt();
-                case Types.Hours:
+                case Times.Types.Hours:
                     return Math.Ceiling((to - from).TotalHours).ToInt();
-                case Types.Days:
+                case Times.Types.Days:
                     return Math.Ceiling((to - from).TotalDays).ToInt();
-                case Types.Months:
+                case Times.Types.Months:
                     return to.Month - from.Month + (to.Year * 12 - from.Year * 12);
-                case Types.Years:
+                case Times.Types.Years:
                     return to.Year - from.Year;
                 default:
                     return 0;
@@ -67,7 +67,8 @@ namespace Implem.Pleasanter.Libraries.Utilities
         public static bool InRange(params DateTime[] times)
         {
             return !times.ToList().Any(o =>
-                o < Parameters.General.MinTime || o > Parameters.General.MaxTime);
+                o < Parameters.General.MinTime ||
+                o > Parameters.General.MaxTime);
         }
     }
 }
