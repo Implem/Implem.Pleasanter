@@ -2,7 +2,7 @@
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 using System.Linq;
-namespace Implem.Pleasanter.Libraries.ServerData
+namespace Implem.Pleasanter.Libraries.Server
 {
     public class Pages
     {

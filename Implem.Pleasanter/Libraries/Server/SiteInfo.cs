@@ -11,7 +11,7 @@ using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-namespace Implem.Pleasanter.Libraries.ServerData
+namespace Implem.Pleasanter.Libraries.Server
 {
     public static class SiteInfo
     {

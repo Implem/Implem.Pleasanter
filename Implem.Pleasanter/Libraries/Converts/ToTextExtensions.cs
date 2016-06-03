@@ -1,6 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.Libraries.ServerData;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 namespace Implem.Pleasanter.Libraries.Converts

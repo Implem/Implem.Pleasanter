@@ -2,7 +2,7 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
-using Implem.Pleasanter.Libraries.ServerData;
+using Implem.Pleasanter.Libraries.Server;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Responses
 {

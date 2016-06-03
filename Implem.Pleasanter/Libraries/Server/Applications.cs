@@ -1,7 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using System;
 using System.Web;
-namespace Implem.Pleasanter.Libraries.ServerData
+namespace Implem.Pleasanter.Libraries.Server
 {
     public static class Applications
     {

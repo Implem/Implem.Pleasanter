@@ -291,11 +291,11 @@
     <Compile Include="Libraries\Security\Authentications.cs" />
     <Compile Include="Libraries\Security\Passwords.cs" />
     <Compile Include="Libraries\Security\Permissions.cs" />
-    <Compile Include="Libraries\ServerData\Pages.cs" />
+    <Compile Include="Libraries\Server\Applications.cs" />
+    <Compile Include="Libraries\Server\Pages.cs" />
+    <Compile Include="Libraries\Server\Sessions.cs" />
+    <Compile Include="Libraries\Server\SiteInfo.cs" />
     <Compile Include="Libraries\Server\Times.cs" />
-    <Compile Include="Libraries\ServerData\Applications.cs" />
-    <Compile Include="Libraries\ServerData\Sessions.cs" />
-    <Compile Include="Libraries\ServerData\SiteInfo.cs" />
     <Compile Include="Libraries\Settings\Aggregation.cs" />
     <Compile Include="Libraries\Settings\BinarySettings.cs" />
     <Compile Include="Libraries\Settings\Choice.cs" />

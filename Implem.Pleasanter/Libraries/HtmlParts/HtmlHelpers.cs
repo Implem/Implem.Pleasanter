@@ -1,5 +1,5 @@
 ﻿using Implem.Pleasanter.Libraries.Html;
-using Implem.Pleasanter.Libraries.ServerData;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {

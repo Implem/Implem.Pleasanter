@@ -1,7 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Server;
-using Implem.Pleasanter.Libraries.ServerData;
 using Implem.Pleasanter.Models;
 using System;
 namespace Implem.Pleasanter.Libraries.Responses

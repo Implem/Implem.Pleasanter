@@ -1,7 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.Libraries.ServerData;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
 using System.Web.Optimization;
 namespace Implem.Pleasanter.Libraries.HtmlParts

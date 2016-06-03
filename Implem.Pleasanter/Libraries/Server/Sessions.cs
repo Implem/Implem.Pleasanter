@@ -5,7 +5,7 @@ using Implem.Pleasanter.Models;
 using System;
 using System.Globalization;
 using System.Web;
-namespace Implem.Pleasanter.Libraries.ServerData
+namespace Implem.Pleasanter.Libraries.Server
 {
     public static class Sessions
     {
