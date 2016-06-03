@@ -291,6 +291,7 @@
     <Compile Include="Libraries\Security\Authentications.cs" />
     <Compile Include="Libraries\Security\Passwords.cs" />
     <Compile Include="Libraries\Security\Permissions.cs" />
+    <Compile Include="Libraries\ServerData\Pages.cs" />
     <Compile Include="Libraries\Server\Times.cs" />
     <Compile Include="Libraries\ServerData\Applications.cs" />
     <Compile Include="Libraries\ServerData\Sessions.cs" />

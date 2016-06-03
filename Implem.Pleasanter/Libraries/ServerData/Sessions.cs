@@ -130,17 +130,17 @@ namespace Implem.Pleasanter.Libraries.ServerData
 
         public static object PageSession(long id, string name = "")
         {
-            return HttpContext.Current.Session[SiteInfo.PageKey() + name.ExistsTo("/{0}")];
+            return HttpContext.Current.Session[Pages.Key() + name.ExistsTo("/{0}")];
         }
 
         public static object PageSession(this BaseModel baseModel, string name)
         {
-            return HttpContext.Current.Session[SiteInfo.PageKey(baseModel, name)];
+            return HttpContext.Current.Session[Pages.Key(baseModel, name)];
         }
 
         public static void PageSession(this BaseModel baseModel, string name, object value)
         {
-            HttpContext.Current.Session[SiteInfo.PageKey(baseModel, name)] = value;
+            HttpContext.Current.Session[Pages.Key(baseModel, name)] = value;
         }
     }
 }

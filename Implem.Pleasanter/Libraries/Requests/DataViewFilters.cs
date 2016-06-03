@@ -88,7 +88,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public static FormData SessionFormData(long? siteId = null)
         {
             var key = siteId == null
-                 ? "DataView_" + SiteInfo.PageKey()
+                 ? "DataView_" + Pages.Key()
                  : "DataView_" + siteId;
             if (HttpContext.Current.Session[key] != null)
             {
