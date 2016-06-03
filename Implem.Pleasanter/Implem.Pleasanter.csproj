@@ -300,7 +300,7 @@
     <Compile Include="Libraries\Settings\Summary.cs" />
     <Compile Include="Libraries\Styles\Css.cs" />
     <Compile Include="Libraries\Utilities\Imports.cs" />
-    <Compile Include="Libraries\Utilities\Mime.cs" />
+    <Compile Include="Libraries\Web\Mime.cs" />
     <Compile Include="Libraries\Utilities\Summaries.cs" />
     <Compile Include="Libraries\Utilities\Times.cs" />
     <Compile Include="Libraries\Utilities\Versions.cs" />

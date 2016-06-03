@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-namespace Implem.Pleasanter.Libraries.Utilities
+namespace Implem.Pleasanter.Libraries.Web
 {
     public static class Mime
     {
