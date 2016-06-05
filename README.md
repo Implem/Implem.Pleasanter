@@ -50,4 +50,5 @@ https://pleasanter.azurewebsites.net
 http://pleasanter.org
 
 ## Auther
-Taiji Uchida @implem_
+Taiji Uchida  
+<https://twitter.com/implem_>
