@@ -137,7 +137,8 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                             "#ColumnBrackets#",
                             ColumnBrackets(
                                 columnDefinition, 
-                                tableNameAlias));
+                                tableNameAlias,
+                                selectColumnAlias: false));
                         break;
                     case "ColumnBracketsWithAlias":
                         code = code.Replace(
@@ -145,7 +146,8 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                             ColumnBrackets(
                                 columnDefinition, 
                                 tableNameAlias, 
-                                columnNameAlias));
+                                columnNameAlias,
+                                selectColumnAlias: true));
                         break;
                     case "ColumnTotal":
                         code = code.Replace(
@@ -274,25 +276,26 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
         private static string ColumnBrackets(
             ColumnDefinition columnDefinition,
             string tableNameAlias,
-            string columnNameAlias = "")
+            string columnNameAlias = "",
+            bool selectColumnAlias = true)
         {
             return columnDefinition.SelectColumns == string.Empty
                 ? columnDefinition.ComputeColumn == string.Empty
                     ? ColumnBracket(columnDefinition, tableNameAlias, columnNameAlias)
                     : ComputeColumn(columnDefinition, string.Empty, tableNameAlias, columnNameAlias)
-                : SelectColumns(columnDefinition, tableNameAlias, columnNameAlias);
+                : SelectColumns(columnDefinition, tableNameAlias, selectColumnAlias);
         }
 
         private static string SelectColumns(
-            ColumnDefinition columnDefinition, 
-            string tableNameAlias,
-            string columnNameAlias)
+            ColumnDefinition columnDefinition, string tableNameAlias, bool selectColumnAlias)
         {
             return columnDefinition.SelectColumns
                 .Split(',')
-                .Select(o => "\"" +
-                    o.ReplaceTableName(columnDefinition, tableNameAlias) +
-                    columnNameAlias + "\"")
+                .Select(o => o.Trim())
+                .Select(o => "\"" + o.ReplaceTableName(columnDefinition, tableNameAlias) + "\"" +
+                    (selectColumnAlias && o.EndsWith(".[" + columnDefinition.ColumnName + "]")
+                        ? " + (!_as.IsNullOrEmpty() ? \" as \" + _as : string.Empty)"
+                        : string.Empty))
                 .Join(", ");
         }
 
@@ -302,7 +305,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             string columnNameAlias = "")
         {
             return "\"" + ColumnName(columnDefinition, tableNameAlias).ReplaceTableName(
-                columnDefinition, tableNameAlias) + columnNameAlias + "\"";
+                columnDefinition, tableNameAlias) + "\"" + ColumnNameAliasCode(columnNameAlias);
         }
 
         private static string ComputeColumn(
@@ -314,8 +317,15 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             var column = ComputeColumn(columnDefinition, tableNameAlias)
                 .ReplaceTableName(columnDefinition, tableNameAlias);
             return method != string.Empty
-                ? "\"" + method + "(" + column + ")" + columnNameAlias + "\""
-                : "\"" + column + columnNameAlias + "\"";
+                ? "\"" + method + "(" + column + ")\"" + ColumnNameAliasCode(columnNameAlias)
+                : "\"" + column + "\"" + ColumnNameAliasCode(columnNameAlias);
+        }
+
+        private static string ColumnNameAliasCode(string columnNameAlias)
+        {
+            return columnNameAlias != string.Empty
+                ? " + (!_as.IsNullOrEmpty() ? \" as [\" + _as + \"]\" : \"" + columnNameAlias + "\")"
+                : string.Empty;
         }
 
         internal static string ComputeColumn(
