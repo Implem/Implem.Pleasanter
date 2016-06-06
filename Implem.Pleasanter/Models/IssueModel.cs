@@ -2082,6 +2082,7 @@ namespace Implem.Pleasanter.Models
                 {
                     case "BurnDown": return Def.JavaScript.DrawBurnDown;
                     case "Gantt": return Def.JavaScript.DrawGantt;
+                    case "TimeSeries": return Def.JavaScript.DrawTimeSeries;
                 }
             }
             return string.Empty;
@@ -2115,6 +2116,12 @@ namespace Implem.Pleasanter.Models
                         siteSettings: siteSettings,
                         formData: formData),
                     unit: siteSettings.AllColumn("WorkValue").Unit);
+                case "TimeSeries":
+                    return hb.TimeSeries(
+                        siteSettings: siteSettings,
+                        permissionType: permissionType,
+                        formData: formData,
+                        graphOnly: false);
                 default: return hb.Grid(
                     issueCollection: issueCollection,
                     siteSettings: siteSettings,
@@ -2133,6 +2140,7 @@ namespace Implem.Pleasanter.Models
             {
                 case "BurnDown": return BurnDownResponse(siteSettings, permissionType);
                 case "Gantt": return GanttResponse(siteSettings, permissionType);
+                case "TimeSeries": return TimeSeriesResponse(siteSettings, permissionType);
                 default: return Grid(siteSettings: siteSettings, permissionType: permissionType);
             }
         }
@@ -3582,6 +3590,96 @@ namespace Implem.Pleasanter.Models
                             .IssueId()
                             .Ver())
                 }).AsEnumerable();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string TimeSeriesResponse(
+            SiteSettings siteSettings, Permissions.Types permissionType)
+        {
+            var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
+            var issueCollection = IssueCollection(siteSettings, permissionType, formData);
+            var graphOnly = Forms.Data("ControlId").StartsWith("TimeSeries");
+            return new ResponseCollection()
+                .Html(
+                    !graphOnly ? "#DataViewContainer" : "#TimeSeriesChart",
+                    new HtmlBuilder().TimeSeries(
+                        siteSettings: siteSettings,
+                        permissionType: permissionType,
+                        formData: formData,
+                        graphOnly: graphOnly))
+                .Html(
+                    "#Aggregations", new HtmlBuilder().Aggregations(
+                    siteSettings: siteSettings,
+                    aggregations: issueCollection.Aggregations,
+                    container: false))
+                .Func("drawTimeSeries")
+                .WindowScrollTop().ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder TimeSeries(
+            this HtmlBuilder hb,
+            SiteSettings siteSettings,
+            Permissions.Types permissionType,
+            FormData formData,
+            bool graphOnly)
+        {
+            var groupByColumn = formData.Keys.Contains("TimeSeriesGroupByColumn")
+                ? formData["TimeSeriesGroupByColumn"].Value
+                : "Status";
+            var aggregateType = formData.Keys.Contains("TimeSeriesAggregateType")
+                ? formData["TimeSeriesAggregateType"].Value
+                : "Count";
+            var valueColumn = formData.Keys.Contains("TimeSeriesValueColumn")
+                ? formData["TimeSeriesValueColumn"].Value
+                : "RemainingWorkValue";
+            var dataRows = TimeSeriesDataRows(
+                siteSettings: siteSettings,
+                formData: formData,
+                groupByColumn: groupByColumn,
+                valueColumn: valueColumn);
+            return !graphOnly
+                ? hb.TimeSeries(
+                    siteSettings: siteSettings,
+                    groupByColumn: groupByColumn,
+                    aggregateType: aggregateType,
+                    valueColumn: valueColumn,
+                    permissionType: permissionType,
+                    dataRows: dataRows)
+                : hb.TimeSeriesChart(
+                    siteSettings: siteSettings,
+                    groupByColumn: groupByColumn,
+                    aggregateType: aggregateType,
+                    dataRows: dataRows);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static EnumerableRowCollection<DataRow> TimeSeriesDataRows(
+            SiteSettings siteSettings, FormData formData, string groupByColumn, string valueColumn)
+        {
+            return groupByColumn != string.Empty && valueColumn != string.Empty
+                ? Rds.ExecuteTable(statements:
+                    Rds.SelectIssues(
+                        tableType: Sqls.TableTypes.NormalAndHistory,
+                        column: Rds.IssuesColumn()
+                            .IssueId(_as: "Id")
+                            .Ver()
+                            .UpdatedTime()
+                            .IssuesColumn(groupByColumn, _as: "Index")
+                            .IssuesColumn(valueColumn, _as: "Value"),
+                        where: DataViewFilters.Get(
+                            siteSettings,
+                            "Issues",
+                            formData,
+                            Rds.IssuesWhere().SiteId(siteSettings.SiteId))))
+                                .AsEnumerable()
+                : null;
         }
     }
 }

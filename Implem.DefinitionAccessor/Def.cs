@@ -481,6 +481,11 @@ namespace Implem.DefinitionAccessor
                     case "Rds_Columns_ConstSqlWhereLike": Code.Rds_Columns_ConstSqlWhereLike = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_ConstSqlWhereLike, definitionRow, CodeXls); break;
                     case "Rds_Columns_ConstSqlWhereExists": Code.Rds_Columns_ConstSqlWhereExists = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_ConstSqlWhereExists, definitionRow, CodeXls); break;
                     case "Rds_Columns_ConstSqlWhereNotExists": Code.Rds_Columns_ConstSqlWhereNotExists = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_ConstSqlWhereNotExists, definitionRow, CodeXls); break;
+                    case "Rds_Columns_SqlColumnCases": Code.Rds_Columns_SqlColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlColumnCases, definitionRow, CodeXls); break;
+                    case "Rds_Columns_SqlTotalCases": Code.Rds_Columns_SqlTotalCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlTotalCases, definitionRow, CodeXls); break;
+                    case "Rds_Columns_SqlAverageCases": Code.Rds_Columns_SqlAverageCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlAverageCases, definitionRow, CodeXls); break;
+                    case "Rds_Columns_SqlMaxCases": Code.Rds_Columns_SqlMaxCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlMaxCases, definitionRow, CodeXls); break;
+                    case "Rds_Columns_SqlMinCases": Code.Rds_Columns_SqlMinCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlMinCases, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlColumn": Code.Rds_Columns_SqlColumn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlColumn, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlColumn_SelectColumns": Code.Rds_Columns_SqlColumn_SelectColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlColumn_SelectColumns, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlColumn_ComputeColumn": Code.Rds_Columns_SqlColumn_ComputeColumn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlColumn_ComputeColumn, definitionRow, CodeXls); break;
@@ -492,6 +497,7 @@ namespace Implem.DefinitionAccessor
                     case "Rds_Columns_SqlWhere_In": Code.Rds_Columns_SqlWhere_In = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlWhere_In, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlWhere_Between_Number": Code.Rds_Columns_SqlWhere_Between_Number = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlWhere_Between_Number, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlWhere_Between_DateTime": Code.Rds_Columns_SqlWhere_Between_DateTime = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlWhere_Between_DateTime, definitionRow, CodeXls); break;
+                    case "Rds_Columns_SqlGroupByCases": Code.Rds_Columns_SqlGroupByCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlGroupByCases, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlGroupBy": Code.Rds_Columns_SqlGroupBy = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlGroupBy, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlHavingComputes1": Code.Rds_Columns_SqlHavingComputes1 = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlHavingComputes1, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlHavingComputes2": Code.Rds_Columns_SqlHavingComputes2 = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlHavingComputes2, definitionRow, CodeXls); break;
@@ -1968,6 +1974,8 @@ namespace Implem.DefinitionAccessor
                 {
                     case "Issues_Gantt": DataView.Issues_Gantt = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_Gantt, definitionRow, DataViewXls); break;
                     case "Issues_BurnDown": DataView.Issues_BurnDown = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_BurnDown, definitionRow, DataViewXls); break;
+                    case "Issues_TimeSeries": DataView.Issues_TimeSeries = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_TimeSeries, definitionRow, DataViewXls); break;
+                    case "Results_TimeSeries": DataView.Results_TimeSeries = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Results_TimeSeries, definitionRow, DataViewXls); break;
                     default: break;
                 }
             });
@@ -2189,6 +2197,8 @@ namespace Implem.DefinitionAccessor
                     case "Synchronize_ja": Display.Synchronize_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Synchronize_ja, definitionRow, DisplayXls); break;
                     case "Operations": Display.Operations = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Operations, definitionRow, DisplayXls); break;
                     case "Operations_ja": Display.Operations_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Operations_ja, definitionRow, DisplayXls); break;
+                    case "GroupBy": Display.GroupBy = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.GroupBy, definitionRow, DisplayXls); break;
+                    case "GroupBy_ja": Display.GroupBy_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.GroupBy_ja, definitionRow, DisplayXls); break;
                     case "Date": Display.Date = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Date, definitionRow, DisplayXls); break;
                     case "Date_ja": Display.Date_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Date_ja, definitionRow, DisplayXls); break;
                     case "Count": Display.Count = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Count, definitionRow, DisplayXls); break;
@@ -2551,6 +2561,8 @@ namespace Implem.DefinitionAccessor
                     case "BurnDown_ja": Display.BurnDown_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.BurnDown_ja, definitionRow, DisplayXls); break;
                     case "Gantt": Display.Gantt = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Gantt, definitionRow, DisplayXls); break;
                     case "Gantt_ja": Display.Gantt_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Gantt_ja, definitionRow, DisplayXls); break;
+                    case "TimeSeries": Display.TimeSeries = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.TimeSeries, definitionRow, DisplayXls); break;
+                    case "TimeSeries_ja": Display.TimeSeries_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.TimeSeries_ja, definitionRow, DisplayXls); break;
                     case "NoData": Display.NoData = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.NoData, definitionRow, DisplayXls); break;
                     case "NoData_ja": Display.NoData_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.NoData_ja, definitionRow, DisplayXls); break;
                     case "NoLinks": Display.NoLinks = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.NoLinks, definitionRow, DisplayXls); break;
@@ -2784,6 +2796,7 @@ namespace Implem.DefinitionAccessor
                     case "Import": JavaScript.Import = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.Import, definitionRow, JavaScriptXls); break;
                     case "DrawGantt": JavaScript.DrawGantt = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.DrawGantt, definitionRow, JavaScriptXls); break;
                     case "DrawBurnDown": JavaScript.DrawBurnDown = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.DrawBurnDown, definitionRow, JavaScriptXls); break;
+                    case "DrawTimeSeries": JavaScript.DrawTimeSeries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.DrawTimeSeries, definitionRow, JavaScriptXls); break;
                     default: break;
                 }
             });
@@ -3772,6 +3785,11 @@ namespace Implem.DefinitionAccessor
         public string Rds_Columns_ConstSqlWhereLike;
         public string Rds_Columns_ConstSqlWhereExists;
         public string Rds_Columns_ConstSqlWhereNotExists;
+        public string Rds_Columns_SqlColumnCases;
+        public string Rds_Columns_SqlTotalCases;
+        public string Rds_Columns_SqlAverageCases;
+        public string Rds_Columns_SqlMaxCases;
+        public string Rds_Columns_SqlMinCases;
         public string Rds_Columns_SqlColumn;
         public string Rds_Columns_SqlColumn_SelectColumns;
         public string Rds_Columns_SqlColumn_ComputeColumn;
@@ -3783,6 +3801,7 @@ namespace Implem.DefinitionAccessor
         public string Rds_Columns_SqlWhere_In;
         public string Rds_Columns_SqlWhere_Between_Number;
         public string Rds_Columns_SqlWhere_Between_DateTime;
+        public string Rds_Columns_SqlGroupByCases;
         public string Rds_Columns_SqlGroupBy;
         public string Rds_Columns_SqlHavingComputes1;
         public string Rds_Columns_SqlHavingComputes2;
@@ -4115,6 +4134,11 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Rds_Columns_ConstSqlWhereLike = new CodeDefinition();
         public CodeDefinition Rds_Columns_ConstSqlWhereExists = new CodeDefinition();
         public CodeDefinition Rds_Columns_ConstSqlWhereNotExists = new CodeDefinition();
+        public CodeDefinition Rds_Columns_SqlColumnCases = new CodeDefinition();
+        public CodeDefinition Rds_Columns_SqlTotalCases = new CodeDefinition();
+        public CodeDefinition Rds_Columns_SqlAverageCases = new CodeDefinition();
+        public CodeDefinition Rds_Columns_SqlMaxCases = new CodeDefinition();
+        public CodeDefinition Rds_Columns_SqlMinCases = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlColumn = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlColumn_SelectColumns = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlColumn_ComputeColumn = new CodeDefinition();
@@ -4126,6 +4150,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Rds_Columns_SqlWhere_In = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlWhere_Between_Number = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlWhere_Between_DateTime = new CodeDefinition();
+        public CodeDefinition Rds_Columns_SqlGroupByCases = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlGroupBy = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlHavingComputes1 = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlHavingComputes2 = new CodeDefinition();
@@ -6618,12 +6643,16 @@ namespace Implem.DefinitionAccessor
     {
         public string Issues_Gantt;
         public string Issues_BurnDown;
+        public string Issues_TimeSeries;
+        public string Results_TimeSeries;
     }
 
     public class DataViewTable
     {
         public DataViewDefinition Issues_Gantt = new DataViewDefinition();
         public DataViewDefinition Issues_BurnDown = new DataViewDefinition();
+        public DataViewDefinition Issues_TimeSeries = new DataViewDefinition();
+        public DataViewDefinition Results_TimeSeries = new DataViewDefinition();
     }
 
     public class DemoDefinition
@@ -6952,6 +6981,8 @@ namespace Implem.DefinitionAccessor
         public string Synchronize_ja;
         public string Operations;
         public string Operations_ja;
+        public string GroupBy;
+        public string GroupBy_ja;
         public string Date;
         public string Date_ja;
         public string Count;
@@ -7314,6 +7345,8 @@ namespace Implem.DefinitionAccessor
         public string BurnDown_ja;
         public string Gantt;
         public string Gantt_ja;
+        public string TimeSeries;
+        public string TimeSeries_ja;
         public string NoData;
         public string NoData_ja;
         public string NoLinks;
@@ -7530,6 +7563,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition Synchronize_ja = new DisplayDefinition();
         public DisplayDefinition Operations = new DisplayDefinition();
         public DisplayDefinition Operations_ja = new DisplayDefinition();
+        public DisplayDefinition GroupBy = new DisplayDefinition();
+        public DisplayDefinition GroupBy_ja = new DisplayDefinition();
         public DisplayDefinition Date = new DisplayDefinition();
         public DisplayDefinition Date_ja = new DisplayDefinition();
         public DisplayDefinition Count = new DisplayDefinition();
@@ -7892,6 +7927,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition BurnDown_ja = new DisplayDefinition();
         public DisplayDefinition Gantt = new DisplayDefinition();
         public DisplayDefinition Gantt_ja = new DisplayDefinition();
+        public DisplayDefinition TimeSeries = new DisplayDefinition();
+        public DisplayDefinition TimeSeries_ja = new DisplayDefinition();
         public DisplayDefinition NoData = new DisplayDefinition();
         public DisplayDefinition NoData_ja = new DisplayDefinition();
         public DisplayDefinition NoLinks = new DisplayDefinition();
@@ -8118,6 +8155,7 @@ namespace Implem.DefinitionAccessor
         public string Import;
         public string DrawGantt;
         public string DrawBurnDown;
+        public string DrawTimeSeries;
     }
 
     public class JavaScriptTable
@@ -8148,6 +8186,7 @@ namespace Implem.DefinitionAccessor
         public JavaScriptDefinition Import = new JavaScriptDefinition();
         public JavaScriptDefinition DrawGantt = new JavaScriptDefinition();
         public JavaScriptDefinition DrawBurnDown = new JavaScriptDefinition();
+        public JavaScriptDefinition DrawTimeSeries = new JavaScriptDefinition();
     }
 
     public class SqlDefinition

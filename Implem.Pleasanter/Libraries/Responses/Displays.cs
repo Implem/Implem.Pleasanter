@@ -83,6 +83,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Synchronize(params string[] data) { return Get("Synchronize", data); }
         public static HtmlBuilder Displays_Operations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Operations", data)); }
         public static string Operations(params string[] data) { return Get("Operations", data); }
+        public static HtmlBuilder Displays_GroupBy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("GroupBy", data)); }
+        public static string GroupBy(params string[] data) { return Get("GroupBy", data); }
         public static HtmlBuilder Displays_Date(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Date", data)); }
         public static string Date(params string[] data) { return Get("Date", data); }
         public static HtmlBuilder Displays_Count(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Count", data)); }
@@ -447,6 +449,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string BurnDown(params string[] data) { return Get("BurnDown", data); }
         public static HtmlBuilder Displays_Gantt(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Gantt", data)); }
         public static string Gantt(params string[] data) { return Get("Gantt", data); }
+        public static HtmlBuilder Displays_TimeSeries(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("TimeSeries", data)); }
+        public static string TimeSeries(params string[] data) { return Get("TimeSeries", data); }
         public static HtmlBuilder Displays_NoData(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NoData", data)); }
         public static string NoData(params string[] data) { return Get("NoData", data); }
         public static HtmlBuilder Displays_NoLinks(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NoLinks", data)); }

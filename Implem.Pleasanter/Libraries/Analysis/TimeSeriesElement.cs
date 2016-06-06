@@ -3,16 +3,19 @@ namespace Implem.Pleasanter.Libraries.Analysis
 {
     public class TimeSeriesElement
     {
-        public DateTime Time;
-        public int Number;
-        public string Name;
+        public long Id;
+        public int Ver;
+        public DateTime UpdatedTime;
+        public string Index;
         public decimal Value;
 
-        public TimeSeriesElement(DateTime time, int number, string name, decimal value)
+        public TimeSeriesElement(
+            long id, int ver, DateTime updatedTime, string index, decimal value)
         {
-            Time = time;
-            Number = number;
-            Name = name;
+            Id = id;
+            Ver = ver;
+            UpdatedTime = updatedTime;
+            Index = index;
             Value = value;
         }
     }

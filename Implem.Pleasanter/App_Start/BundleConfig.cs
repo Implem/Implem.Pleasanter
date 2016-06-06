@@ -28,6 +28,7 @@ namespace Implem.Pleasanter
                 .Include("~/Scripts/SiteSettings.js")
                 .Include("~/Scripts/Statuses.js")
                 .Include("~/Scripts/Times.js")
+                .Include("~/Scripts/TimeSeries.js")
                 .Include("~/Scripts/Focuses.js")
                 .Include("~/Scripts/SiteInfo.js")
                 .Include("~/Scripts/Transports.js")

@@ -1,0 +1,88 @@
+﻿func.drawTimeSeries = function () {
+    $('#TimeSeriesValueColumnField').toggle($('#TimeSeriesAggregateType').val() !== 'Count');
+    var $svg = $('#TimeSeries');
+    if ($svg.length !== 1) {
+        return;
+    }
+    $svg.empty();
+    var indexes = JSON.parse($('#TimeSeriesJson').val()).Indexes;
+    var dataSet = JSON.parse($('#TimeSeriesJson').val()).Elements;
+    if (dataSet.length === 0) {
+        $svg.hide();
+        return;
+    }
+    $svg.show();
+    var svg = d3.select('#TimeSeries');
+    var padding = 40;
+    var axisPadding = 70;
+    var width = parseInt(svg.style('width'));
+    var height = parseInt(svg.style('height'));
+    var bodyWidth = width - axisPadding - (padding);
+    var bodyHeight = height - axisPadding - (padding);
+    var minDate = new Date(d3.min(dataSet, function (d) { return d.Day; }));
+    var maxDate = new Date(d3.max(dataSet, function (d) { return d.Day; }));
+    var dayWidth = (bodyWidth - padding) / dateDiff('d', maxDate, minDate);
+    var xScale = d3.time.scale()
+        .domain([minDate, maxDate])
+        .range([padding, bodyWidth]);
+    var yScale = d3.scale.linear()
+        .domain([d3.max(dataSet, function (d) {
+            return d.Y;
+        }), 0])
+        .range([padding, bodyHeight])
+        .nice();
+    var xAxis = d3.svg.axis()
+        .scale(xScale)
+        .tickFormat(d3.time.format('%m/%d'))
+        .ticks(10);
+    var yAxis = d3.svg.axis()
+        .scale(yScale)
+        .orient('left');
+    svg.append('g')
+        .attr('class', 'axis')
+        .attr('transform', 'translate(' + axisPadding + ', ' + (height - axisPadding) + ')')
+        .call(xAxis)
+        .selectAll('text')
+        .attr('x', -20)
+        .attr('y', 20)
+        .style('text-anchor', 'start');
+    svg.append('g')
+        .attr('class', 'axis')
+        .attr('transform', 'translate(' + axisPadding + ', 0)')
+        .call(yAxis)
+        .selectAll('text')
+        .attr('x', -20);
+    indexes.forEach(function (index) {
+        draw('total', 0, dataSet.filter(function (d) { return d.Index === index.Id; }));
+    });
+
+    function draw(css, n, ds) {
+        var area = d3.svg.area()
+            .x(function (d) {
+                return (dateDiff('d', new Date(d.Day), minDate) * dayWidth)
+                    + axisPadding + padding;
+            })
+            .y0(function (d) {
+                return yScale(0);
+            })
+            .y1(function (d) {
+                return yScale(d.Y);
+            });
+        var g = svg.append('g').attr('class', css);
+        g.append('path').attr('d', area(ds));
+    }
+
+    $(document).on('click', '.burn-down-details-row', function () {
+        if (!$(this).next().hasClass('burn-down-record-details')) {
+            var formData = getFormData($(this));
+            formData['BurnDownDate'] = $(this).attr('data-date');
+            formData['BurnDownColspan'] = $(this).find('td').length;
+            requestByForm(getForm($(this)), $(this));
+        } else {
+            $(this).next().remove();
+        }
+    });
+    $(document).on('click', '.burn-down-record-details', function () {
+        $(this).remove();
+    });
+}

@@ -1395,6 +1395,18 @@ pre{
     text-decoration:underline;
 }
 
+.time-series{
+    width:100%;
+    height:350px;
+    background-color:whitesmoke;
+    border-radius:20px;
+}
+
+.time-series .total{
+    fill:gainsboro;
+    stroke:white;
+}
+
 .text{
     width:250px;
     display:block;

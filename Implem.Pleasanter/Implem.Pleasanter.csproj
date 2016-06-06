@@ -204,7 +204,11 @@
     <Compile Include="Interfaces\IConvertable.cs" />
     <Compile Include="Libraries\Analysis\Aggregations.cs" />
     <Compile Include="Libraries\Analysis\BurnDown.cs" />
+    <Compile Include="Libraries\Analysis\BurnDownElement.cs" />
     <Compile Include="Libraries\Analysis\Gantt.cs" />
+    <Compile Include="Libraries\Analysis\GanttElement.cs" />
+    <Compile Include="Libraries\Analysis\TimeSeries.cs" />
+    <Compile Include="Libraries\Analysis\TimeSeriesElement.cs" />
     <Compile Include="Libraries\Converts\SearchIndexExtensions.cs" />
     <Compile Include="Libraries\Converts\TdExtensions.cs" />
     <Compile Include="Libraries\Converts\ToControlExtensions.cs" />
@@ -257,6 +261,7 @@
     <Compile Include="Libraries\HtmlParts\HtmlSvg.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlTags.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlTemplates.cs" />
+    <Compile Include="Libraries\HtmlParts\HtmlTimeSeries.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlVerUps.cs" />
     <Compile Include="Libraries\Images\ImageData.cs" />
     <Compile Include="Libraries\Initializers\ItemsInitializer.cs" />
@@ -352,6 +357,7 @@
     <Content Include="Scripts\Separates.js" />
     <Content Include="Scripts\SiteSettings.js" />
     <Content Include="Scripts\Statuses.js" />
+    <Content Include="Scripts\TimeSeries.js" />
     <Content Include="Scripts\Validators\Demos.js" />
     <Content Include="Scripts\Validators\Depts.js" />
     <Content Include="Scripts\Validators\Issues.js" />
