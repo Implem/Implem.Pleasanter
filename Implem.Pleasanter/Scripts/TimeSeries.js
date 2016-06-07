@@ -88,20 +88,6 @@
         g.append('path').attr('d', area(ds)).attr('fill', color());
     }
 
-    $(document).on('click', '.burn-down-details-row', function () {
-        if (!$(this).next().hasClass('burn-down-record-details')) {
-            var formData = getFormData($(this));
-            formData['BurnDownDate'] = $(this).attr('data-date');
-            formData['BurnDownColspan'] = $(this).find('td').length;
-            requestByForm(getForm($(this)), $(this));
-        } else {
-            $(this).next().remove();
-        }
-    });
-    $(document).on('click', '.burn-down-record-details', function () {
-        $(this).remove();
-    });
-
     function color() {
         return '#' + Math.floor(Math.random() * 10000000 + 3000000).toString(16);
     }
