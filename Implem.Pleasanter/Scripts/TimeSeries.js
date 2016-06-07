@@ -68,7 +68,8 @@
                 .attr('y', yScale(last.Y - (last.Value / 2)))
                 .attr('text-anchor', 'end')
                 .attr('dominant-baseline', 'middle')
-                .text(indexes.filter(function (d) { return d.Id === last.Index })[0].Text);
+                .text(indexes.filter(function (d) { return d.Id === last.Index })[0].Text
+                    + ' (' + last.Value + ')');
         }
     });
 
