@@ -26,6 +26,7 @@ namespace Implem.Pleasanter.Libraries.Analysis
         private struct Index
         {
             public int Id;
+            public string Key;
             public string Text;
             public string Style;
         }
@@ -52,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.Analysis
                 Add(new TimeSeriesElement(
                     dataRow["Id"].ToLong(),
                     dataRow["Ver"].ToInt(),
-                    dataRow["UpdatedTime"].ToDateTime(),
+                    dataRow["UpdatedTime"].ToDateTime().ToLocal().Date,
                     dataRow["Index"].ToString(),
                     dataRow["Value"].ToDecimal()));
             });
@@ -69,17 +70,24 @@ namespace Implem.Pleasanter.Libraries.Analysis
             var elements = new List<Element>();
             var choices = SiteSettings.AllColumn(GroupByColumn).EditChoices(SiteSettings.SiteId);
             var choiceKeys = choices.Keys.ToList();
+            var indexes = choices.Select((o, i) => new Index
+            {
+                Id = i,
+                Key = o.Key,
+                Text = o.Value.Text,
+                Style = o.Value.Style
+            }).ToList();
             if (this.Count > 0)
             {
                 var now = DateTime.Now.ToLocal().Date;
                 for (var d = 0; d <= Days; d++)
                 {
                     decimal y = 0;
-                    this.Select(o => o.Index).Distinct().ForEach(index =>
+                    var currentTime = MinTime.AddDays(d);
+                    var targets = Targets(currentTime);
+                    indexes.Select(o => o.Key).ForEach(index =>
                     {
-                        var currentTime = MinTime.AddDays(d);
-                        var targets = Targets(currentTime, index);
-                        var value = GetValue(targets);
+                        var value = GetValue(targets.Where(o => o.Index == index));
                         if (!choices.ContainsKey(index))
                         {
                             choices.Add(index, new ControlData("? " + index));
@@ -97,22 +105,16 @@ namespace Implem.Pleasanter.Libraries.Analysis
             }
             return new Data()
             {
-                Indexes = choices.Select((o, i) => new Index
-                {
-                    Id = i,
-                    Text = o.Value.Text,
-                    Style = o.Value.Style
-                }).OrderByDescending(o => o.Id).ToList(),
+                Indexes = indexes.OrderByDescending(o => o.Id).ToList(),
                 Elements = elements
             }.ToJson();
         }
 
-        private IEnumerable<TimeSeriesElement> Targets(DateTime currentTime, string index)
+        private IEnumerable<TimeSeriesElement> Targets(DateTime currentTime)
         {
             var processed = new HashSet<long>();
             var ret = new List<TimeSeriesElement>();
-            this.Where(o => o.Index == index)
-                .Where(o => o.UpdatedTime <= currentTime)
+            this.Where(o => o.UpdatedTime <= currentTime)
                 .OrderByDescending(o => o.UpdatedTime)
                 .ThenByDescending(o => o.Ver)
                 .ForEach(data =>
