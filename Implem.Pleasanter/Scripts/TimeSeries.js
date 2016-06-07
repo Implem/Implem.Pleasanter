@@ -53,10 +53,26 @@
         .selectAll('text')
         .attr('x', -20);
     indexes.forEach(function (index) {
-        draw('total', 0, dataSet.filter(function (d) { return d.Index === index.Id; }));
+        var ds = dataSet.filter(function (d) { return d.Index === index.Id; });
+        draw(ds);
+    });
+    indexes.forEach(function (index) {
+        var ds = dataSet.filter(function (d) { return d.Index === index.Id; });
+        if (ds.length !== 0) {
+            var last = ds[ds.length - 1];
+            var g = svg.append('g');
+            g.append('text')
+                .attr('class', 'index')
+                .attr('x', (dateDiff('d', new Date(last.Day), minDate) * dayWidth)
+                    + axisPadding + padding - 10)
+                .attr('y', yScale(last.Y - (last.Value / 2)))
+                .attr('text-anchor', 'end')
+                .attr('dominant-baseline', 'middle')
+                .text(indexes.filter(function (d) { return d.Id === last.Index })[0].Text);
+        }
     });
 
-    function draw(css, n, ds) {
+    function draw(ds) {
         var area = d3.svg.area()
             .x(function (d) {
                 return (dateDiff('d', new Date(d.Day), minDate) * dayWidth)
@@ -68,8 +84,8 @@
             .y1(function (d) {
                 return yScale(d.Y);
             });
-        var g = svg.append('g').attr('class', css);
-        g.append('path').attr('d', area(ds));
+        var g = svg.append('g').attr('class', 'surface');
+        g.append('path').attr('d', area(ds)).attr('fill', color());
     }
 
     $(document).on('click', '.burn-down-details-row', function () {
@@ -85,4 +101,8 @@
     $(document).on('click', '.burn-down-record-details', function () {
         $(this).remove();
     });
+
+    function color() {
+        return '#' + Math.floor(Math.random() * 10000000 + 3000000).toString(16);
+    }
 }

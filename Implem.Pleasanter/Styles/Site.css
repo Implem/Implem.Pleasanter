@@ -1402,9 +1402,14 @@ pre{
     border-radius:20px;
 }
 
-.time-series .total{
+.time-series .surface{
     fill:gainsboro;
     stroke:white;
+}
+
+.time-series .index{
+    font-size:0.7em;
+    fill:black;
 }
 
 .text{
