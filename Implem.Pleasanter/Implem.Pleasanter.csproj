@@ -202,7 +202,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IConvertable.cs" />
-    <Compile Include="Libraries\Analysis\Aggregations.cs" />
+    <Compile Include="Libraries\Items\Aggregations.cs" />
     <Compile Include="Libraries\Analysis\BurnDown.cs" />
     <Compile Include="Libraries\Analysis\BurnDownElement.cs" />
     <Compile Include="Libraries\Analysis\Gantt.cs" />
