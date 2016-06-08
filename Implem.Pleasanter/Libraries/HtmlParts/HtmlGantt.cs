@@ -32,7 +32,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder Graph(this HtmlBuilder hb, Gantt gantt)
         {
-            return hb.Div(css: "gantt-graph", action: () => hb
+            return hb.Div(css: "gantt-chart", action: () => hb
                 .Svg(
                     attributes: new HtmlAttributes()
                         .Id_Css("Gantt", "gantt")
