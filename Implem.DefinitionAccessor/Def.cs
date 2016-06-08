@@ -1725,6 +1725,9 @@ namespace Implem.DefinitionAccessor
                     case "_dot_burn_down_record_details_space__dot_items": Css._dot_burn_down_record_details_space__dot_items = definitionRow[1].ToString(); SetCssTable(CssTable._dot_burn_down_record_details_space__dot_items, definitionRow, CssXls); break;
                     case "_dot_burn_down_record_details_space__dot_items_space_a": Css._dot_burn_down_record_details_space__dot_items_space_a = definitionRow[1].ToString(); SetCssTable(CssTable._dot_burn_down_record_details_space__dot_items_space_a, definitionRow, CssXls); break;
                     case "_dot_burn_down_record_details_space__dot_items_space_a_colon_hover": Css._dot_burn_down_record_details_space__dot_items_space_a_colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._dot_burn_down_record_details_space__dot_items_space_a_colon_hover, definitionRow, CssXls); break;
+                    case "_dot_time_series": Css._dot_time_series = definitionRow[1].ToString(); SetCssTable(CssTable._dot_time_series, definitionRow, CssXls); break;
+                    case "_dot_time_series_space__dot_surface": Css._dot_time_series_space__dot_surface = definitionRow[1].ToString(); SetCssTable(CssTable._dot_time_series_space__dot_surface, definitionRow, CssXls); break;
+                    case "_dot_time_series_space__dot_index": Css._dot_time_series_space__dot_index = definitionRow[1].ToString(); SetCssTable(CssTable._dot_time_series_space__dot_index, definitionRow, CssXls); break;
                     case "_dot_text": Css._dot_text = definitionRow[1].ToString(); SetCssTable(CssTable._dot_text, definitionRow, CssXls); break;
                     case "_dot_datepicker": Css._dot_datepicker = definitionRow[1].ToString(); SetCssTable(CssTable._dot_datepicker, definitionRow, CssXls); break;
                     case "_dot_dropdown": Css._dot_dropdown = definitionRow[1].ToString(); SetCssTable(CssTable._dot_dropdown, definitionRow, CssXls); break;
@@ -1975,7 +1978,6 @@ namespace Implem.DefinitionAccessor
                     case "Issues_Gantt": DataView.Issues_Gantt = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_Gantt, definitionRow, DataViewXls); break;
                     case "Issues_BurnDown": DataView.Issues_BurnDown = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_BurnDown, definitionRow, DataViewXls); break;
                     case "Issues_TimeSeries": DataView.Issues_TimeSeries = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_TimeSeries, definitionRow, DataViewXls); break;
-                    case "Results_TimeSeries": DataView.Results_TimeSeries = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Results_TimeSeries, definitionRow, DataViewXls); break;
                     default: break;
                 }
             });
@@ -6166,6 +6168,9 @@ namespace Implem.DefinitionAccessor
         public string _dot_burn_down_record_details_space__dot_items;
         public string _dot_burn_down_record_details_space__dot_items_space_a;
         public string _dot_burn_down_record_details_space__dot_items_space_a_colon_hover;
+        public string _dot_time_series;
+        public string _dot_time_series_space__dot_surface;
+        public string _dot_time_series_space__dot_index;
         public string _dot_text;
         public string _dot_datepicker;
         public string _dot_dropdown;
@@ -6497,6 +6502,9 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_burn_down_record_details_space__dot_items = new CssDefinition();
         public CssDefinition _dot_burn_down_record_details_space__dot_items_space_a = new CssDefinition();
         public CssDefinition _dot_burn_down_record_details_space__dot_items_space_a_colon_hover = new CssDefinition();
+        public CssDefinition _dot_time_series = new CssDefinition();
+        public CssDefinition _dot_time_series_space__dot_surface = new CssDefinition();
+        public CssDefinition _dot_time_series_space__dot_index = new CssDefinition();
         public CssDefinition _dot_text = new CssDefinition();
         public CssDefinition _dot_datepicker = new CssDefinition();
         public CssDefinition _dot_dropdown = new CssDefinition();
@@ -6644,7 +6652,6 @@ namespace Implem.DefinitionAccessor
         public string Issues_Gantt;
         public string Issues_BurnDown;
         public string Issues_TimeSeries;
-        public string Results_TimeSeries;
     }
 
     public class DataViewTable
@@ -6652,7 +6659,6 @@ namespace Implem.DefinitionAccessor
         public DataViewDefinition Issues_Gantt = new DataViewDefinition();
         public DataViewDefinition Issues_BurnDown = new DataViewDefinition();
         public DataViewDefinition Issues_TimeSeries = new DataViewDefinition();
-        public DataViewDefinition Results_TimeSeries = new DataViewDefinition();
     }
 
     public class DemoDefinition
