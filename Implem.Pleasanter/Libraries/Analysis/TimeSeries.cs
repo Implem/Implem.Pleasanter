@@ -22,6 +22,7 @@ namespace Implem.Pleasanter.Libraries.Analysis
         {
             public List<Index> Indexes;
             public IEnumerable<Element> Elements;
+            public string Unit;
         }
 
         private struct Index
@@ -123,7 +124,10 @@ namespace Implem.Pleasanter.Libraries.Analysis
             return new Data()
             {
                 Indexes = indexes.OrderByDescending(o => o.Id).ToList(),
-                Elements = elements
+                Elements = elements,
+                Unit = AggregationType != "Count"
+                    ? valueColumn.Unit
+                    : string.Empty
             }.ToJson();
         }
 

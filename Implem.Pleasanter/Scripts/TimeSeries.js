@@ -5,8 +5,9 @@
         return;
     }
     $svg.empty();
-    var indexes = JSON.parse($('#TimeSeriesJson').val()).Indexes;
-    var dataSet = JSON.parse($('#TimeSeriesJson').val()).Elements;
+    var json = JSON.parse($('#TimeSeriesJson').val());
+    var indexes = json.Indexes;
+    var dataSet = json.Elements;
     if (dataSet.length === 0) {
         $svg.hide();
         return;
@@ -69,7 +70,7 @@
                 .attr('text-anchor', 'end')
                 .attr('dominant-baseline', 'middle')
                 .text(indexes.filter(function (d) { return d.Id === last.Index })[0].Text
-                    + ' (' + last.Value + ')');
+                    + ' (' + last.Value + json.Unit + ')');
         }
     });
 
