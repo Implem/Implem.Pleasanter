@@ -24,7 +24,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             var burnDown = new BurnDown(siteSettings, dataRows);
             return hb
-                .LineGraph(burnDown: burnDown)
+                .Chart(burnDown: burnDown)
                 .Details(
                     burnDown: burnDown,
                     siteSettings: siteSettings,
@@ -39,7 +39,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     exportButton: true);
         }
 
-        private static HtmlBuilder LineGraph(this HtmlBuilder hb, BurnDown burnDown)
+        private static HtmlBuilder Chart(this HtmlBuilder hb, BurnDown burnDown)
         {
             return hb.Div(css: "burn-down-line-graph", action: () => hb
                 .Svg(
