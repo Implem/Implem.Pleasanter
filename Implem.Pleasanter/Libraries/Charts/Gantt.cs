@@ -32,7 +32,7 @@ namespace Implem.Pleasanter.Libraries.Charts
             Height = this.Count * 25 + 80;
         }
 
-        public string GanttGraphJson()
+        public string ChartJson()
         {
             return Jsons.ToJson(this
                 .OrderBy(o => o.StartTime)

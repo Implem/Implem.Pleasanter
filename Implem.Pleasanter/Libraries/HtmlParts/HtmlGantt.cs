@@ -42,7 +42,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Id_Css("GanttAxis", "gantt-axis"))
                 .Hidden(
                     controlId: "GanttJson",
-                    value: gantt.GanttGraphJson()));
+                    value: gantt.ChartJson()));
         }
     }
 }
