@@ -65,6 +65,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             siteSettings: siteSettings,
                             groupByColumn: groupByColumn,
                             aggregateType: aggregateType,
+                            valueColumn: valueColumn,
                             dataRows: dataRows))
                     .MainCommands(
                         siteId: siteSettings.SiteId,
@@ -81,12 +82,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings siteSettings,
             string groupByColumn,
             string aggregateType,
+            string valueColumn,
             IEnumerable<DataRow> dataRows)
         {
             if (dataRows != null && dataRows.Count() > 0)
             {
                 var timeSeries = new TimeSeries(
-                    siteSettings, groupByColumn, aggregateType, dataRows);
+                    siteSettings, groupByColumn, aggregateType, valueColumn, dataRows);
                 return hb
                     .Svg(
                         attributes: new HtmlAttributes().Id_Css("TimeSeries", "time-series"),

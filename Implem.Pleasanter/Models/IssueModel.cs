@@ -3654,6 +3654,7 @@ namespace Implem.Pleasanter.Models
                     siteSettings: siteSettings,
                     groupByColumn: groupByColumn,
                     aggregateType: aggregateType,
+                    valueColumn: valueColumn,
                     dataRows: dataRows);
         }
 

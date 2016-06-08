@@ -13,6 +13,7 @@ namespace Implem.Pleasanter.Libraries.Analysis
         public SiteSettings SiteSettings;
         public string GroupByColumn;
         public string AggregationType;
+        public string ValueColumn;
         public DateTime MinTime;
         public DateTime MaxTime;
         public int Days;
@@ -43,11 +44,13 @@ namespace Implem.Pleasanter.Libraries.Analysis
             SiteSettings siteSettings,
             string groupByColumn,
             string aggregationType,
+            string valueColumn,
             IEnumerable<DataRow> dataRows)
         {
             SiteSettings = siteSettings;
             GroupByColumn = groupByColumn;
             AggregationType = aggregationType;
+            ValueColumn = valueColumn;
             dataRows.ForEach(dataRow =>
             {
                 Add(new TimeSeriesElement(
@@ -82,6 +85,7 @@ namespace Implem.Pleasanter.Libraries.Analysis
         {
             var elements = new List<Element>();
             var choices = SiteSettings.AllColumn(GroupByColumn).EditChoices(SiteSettings.SiteId);
+            var valueColumn = SiteSettings.AllColumn(ValueColumn);
             var choiceKeys = choices.Keys.ToList();
             var indexes = choices.Select((o, i) => new Index
             {
@@ -110,7 +114,7 @@ namespace Implem.Pleasanter.Libraries.Analysis
                         {
                             Index = choiceKeys.IndexOf(index),
                             Day = currentTime.ToLocal(Displays.YmdFormat()),
-                            Value = value,
+                            Value = valueColumn.Format(value).ToDecimal(),
                             Y = y
                         });
                     });
