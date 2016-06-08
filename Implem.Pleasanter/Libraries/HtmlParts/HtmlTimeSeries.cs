@@ -55,7 +55,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
                         labelText: Displays.SettingAggregationTarget(),
-                        optionCollection: siteSettings.ColumnCollection.Where(o => o.Computable)
+                        optionCollection: siteSettings.ColumnCollection
+                            .Where(o => o.Computable)
+                            .Where(o => o.TypeName != "datetime")
                             .ToDictionary(o => o.ColumnName, o => o.LabelText),
                         selectedValue: valueColumn,
                         action: "DataView",
