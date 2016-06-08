@@ -48,15 +48,15 @@ namespace Implem.Pleasanter.Libraries.Analysis
                     EarnedValueAddtions(workValue, progressRateAddtions),
                     dataRow["CreatedTime"].ToDateTime(),
                     dataRow["UpdatedTime"].ToDateTime()));
-                if (this.Count > 0)
-                {
-                    var latest = Targets(DateTime.MaxValue);
-                    MinTime = latest.Select(o => o.StartTime).Min();
-                    MaxTime = latest.Select(o => o.CompletionTime).Max();
-                    LatestUpdatedTime = latest.Select(o => o.UpdatedTime).Max();
-                    Days = Times.DateDiff(Times.Types.Days, MinTime, MaxTime);
-                }
             });
+            if (this.Count > 0)
+            {
+                var latest = Targets(DateTime.MaxValue);
+                MinTime = latest.Select(o => o.StartTime).Min();
+                MaxTime = latest.Select(o => o.CompletionTime).Max();
+                LatestUpdatedTime = latest.Select(o => o.UpdatedTime).Max();
+                Days = Times.DateDiff(Times.Types.Days, MinTime, MaxTime);
+            }
         }
 
         private decimal ProgressRateAddtions(BurnDownElement target, decimal progressRate)
