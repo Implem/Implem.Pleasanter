@@ -7,7 +7,7 @@ namespace Implem.Pleasanter
         {
             bundles.Add(new ScriptBundle("~/bundles/Generals")
                 .Include("~/Scripts/_Init.js")
-                .Include("~/Scripts/BurnDowns.js")
+                .Include("~/Scripts/BurnDown.js")
                 .Include("~/Scripts/Displays.js")
                 .Include("~/Scripts/EventHandlers.js")
                 .Include("~/Scripts/Markdowns.js")

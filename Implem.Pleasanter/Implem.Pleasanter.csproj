@@ -339,7 +339,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Content Include="Global.asax" />
     <Content Include="Images\logo-corp.png" />
-    <Content Include="Scripts\BurnDowns.js" />
+    <Content Include="Scripts\BurnDown.js" />
     <Content Include="Scripts\Dialogs.js" />
     <Content Include="Scripts\DropDowns.js" />
     <Content Include="Scripts\Focuses.js" />
