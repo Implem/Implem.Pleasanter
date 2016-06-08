@@ -7,8 +7,8 @@
     $svg.empty();
     var json = JSON.parse($('#TimeSeriesJson').val());
     var indexes = json.Indexes;
-    var dataSet = json.Elements;
-    if (dataSet.length === 0) {
+    var elements = json.Elements;
+    if (elements.length === 0) {
         $svg.hide();
         return;
     }
@@ -20,14 +20,14 @@
     var height = parseInt(svg.style('height'));
     var bodyWidth = width - axisPadding - (padding);
     var bodyHeight = height - axisPadding - (padding);
-    var minDate = new Date(d3.min(dataSet, function (d) { return d.Day; }));
-    var maxDate = new Date(d3.max(dataSet, function (d) { return d.Day; }));
+    var minDate = new Date(d3.min(elements, function (d) { return d.Day; }));
+    var maxDate = new Date(d3.max(elements, function (d) { return d.Day; }));
     var dayWidth = (bodyWidth - padding) / dateDiff('d', maxDate, minDate);
     var xScale = d3.time.scale()
         .domain([minDate, maxDate])
         .range([padding, bodyWidth]);
     var yScale = d3.scale.linear()
-        .domain([d3.max(dataSet, function (d) {
+        .domain([d3.max(elements, function (d) {
             return d.Y;
         }), 0])
         .range([padding, bodyHeight])
@@ -54,11 +54,11 @@
         .selectAll('text')
         .attr('x', -20);
     indexes.forEach(function (index) {
-        var ds = dataSet.filter(function (d) { return d.Index === index.Id; });
+        var ds = elements.filter(function (d) { return d.Index === index.Id; });
         draw(ds);
     });
     indexes.forEach(function (index) {
-        var ds = dataSet.filter(function (d) { return d.Index === index.Id; });
+        var ds = elements.filter(function (d) { return d.Index === index.Id; });
         if (ds.length !== 0) {
             var last = ds[ds.length - 1];
             var g = svg.append('g');
