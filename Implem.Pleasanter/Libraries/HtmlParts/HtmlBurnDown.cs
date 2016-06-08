@@ -47,7 +47,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     action: () => { })
                 .Hidden(
                     controlId: "BurnDownJson",
-                    value: burnDown.LineGraphJson()));
+                    value: burnDown.ChartJson()));
         }
 
         private static HtmlBuilder Details(

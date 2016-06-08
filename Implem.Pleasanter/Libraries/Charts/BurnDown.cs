@@ -79,7 +79,7 @@ namespace Implem.Pleasanter.Libraries.Charts
                 .LastOrDefault();
         }
 
-        public string LineGraphJson()
+        public string ChartJson()
         {
             var elements = new List<Element>();
             if (this.Count > 0)
