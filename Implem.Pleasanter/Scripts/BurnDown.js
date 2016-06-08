@@ -4,8 +4,8 @@
         return;
     }
     $svg.empty();
-    var dataSet = JSON.parse($('#BurnDownJson').val());
-    if (dataSet.length === 0) {
+    var json = JSON.parse($('#BurnDownJson').val());
+    if (json.length === 0) {
         $svg.hide();
         return;
     }
@@ -17,14 +17,14 @@
     var height = parseInt(svg.style('height'));
     var bodyWidth = width - axisPadding - (padding);
     var bodyHeight = height - axisPadding - (padding);
-    var minDate = new Date(d3.min(dataSet, function (d) { return d.Day; }));
-    var maxDate = new Date(d3.max(dataSet, function (d) { return d.Day; }));
+    var minDate = new Date(d3.min(json, function (d) { return d.Day; }));
+    var maxDate = new Date(d3.max(json, function (d) { return d.Day; }));
     var dayWidth = (bodyWidth - padding) / dateDiff('d', maxDate, minDate);
     var xScale = d3.time.scale()
         .domain([minDate, maxDate])
         .range([padding, bodyWidth]);
     var yScale = d3.scale.linear()
-        .domain([d3.max(dataSet, function (d) {
+        .domain([d3.max(json, function (d) {
             return d.Total !== undefined || d.Earned !== undefined
                 ? Math.max.apply(null, [d.Total, d.Planned, d.Earned])
                 : d.Planned;
@@ -60,9 +60,9 @@
         .x(function (d) { return d[0]; })
         .y(function (d) { return d[1]; });
     svg.append('g').attr('class', 'now').append('path').attr('d', nowLine(nowLineData));
-    draw('total', 0, dataSet.filter(function (d) { return d.Total !== undefined; }));
-    draw('planned', 1, dataSet.filter(function (d) { return d.Planned !== undefined; }));
-    draw('earned', 2, dataSet.filter(function (d) { return d.Earned !== undefined; }));
+    draw('total', 0, json.filter(function (d) { return d.Total !== undefined; }));
+    draw('planned', 1, json.filter(function (d) { return d.Planned !== undefined; }));
+    draw('earned', 2, json.filter(function (d) { return d.Earned !== undefined; }));
 
     function draw(css, n, ds) {
         var line = d3.svg.line()
