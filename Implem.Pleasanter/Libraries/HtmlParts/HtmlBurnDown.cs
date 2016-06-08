@@ -12,7 +12,7 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
-    public static class HtmlBurnDowns
+    public static class HtmlBurnDown
     {
         public static HtmlBuilder BurnDown(
             this HtmlBuilder hb,

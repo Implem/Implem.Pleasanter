@@ -233,7 +233,7 @@
     <Compile Include="Libraries\Html\HtmlTypes.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlAdmins.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlAggregations.cs" />
-    <Compile Include="Libraries\HtmlParts\HtmlBurnDowns.cs" />
+    <Compile Include="Libraries\HtmlParts\HtmlBurnDown.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlCommands.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlComments.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlControls.cs" />
