@@ -2,7 +2,6 @@
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Charts;
 using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
@@ -3530,7 +3529,7 @@ namespace Implem.Pleasanter.Models
             var date = Forms.DateTime("BurnDownDate");
             return new ResponseCollection()
                 .After(string.Empty, new HtmlBuilder().BurnDownRecordDetails(
-                    elements: new BurnDown(siteSettings, BurnDownDataRows(
+                    elements: new Libraries.Charts.BurnDown(siteSettings, BurnDownDataRows(
                         siteSettings: siteSettings,
                         formData: DataViewFilters.SessionFormData(siteSettings.SiteId)))
                             .Where(o => o.UpdatedTime == date),
