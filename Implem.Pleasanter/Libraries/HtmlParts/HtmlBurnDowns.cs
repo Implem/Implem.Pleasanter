@@ -1,5 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Analysis;
+using Implem.Pleasanter.Libraries.Charts;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Items;
 using Implem.Pleasanter.Libraries.Responses;

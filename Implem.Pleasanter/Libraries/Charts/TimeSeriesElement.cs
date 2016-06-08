@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Implem.Pleasanter.Libraries.Analysis
+namespace Implem.Pleasanter.Libraries.Charts
 {
     public class TimeSeriesElement
     {

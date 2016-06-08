@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-namespace Implem.Pleasanter.Libraries.Analysis
+namespace Implem.Pleasanter.Libraries.Charts
 {
     public class TimeSeries : List<TimeSeriesElement>
     {

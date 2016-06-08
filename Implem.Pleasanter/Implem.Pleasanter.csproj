@@ -202,13 +202,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IConvertable.cs" />
-    <Compile Include="Libraries\Items\Aggregations.cs" />
-    <Compile Include="Libraries\Analysis\BurnDown.cs" />
-    <Compile Include="Libraries\Analysis\BurnDownElement.cs" />
-    <Compile Include="Libraries\Analysis\Gantt.cs" />
-    <Compile Include="Libraries\Analysis\GanttElement.cs" />
-    <Compile Include="Libraries\Analysis\TimeSeries.cs" />
-    <Compile Include="Libraries\Analysis\TimeSeriesElement.cs" />
+    <Compile Include="Libraries\Charts\BurnDown.cs" />
+    <Compile Include="Libraries\Charts\BurnDownElement.cs" />
+    <Compile Include="Libraries\Charts\Gantt.cs" />
+    <Compile Include="Libraries\Charts\GanttElement.cs" />
+    <Compile Include="Libraries\Charts\TimeSeries.cs" />
+    <Compile Include="Libraries\Charts\TimeSeriesElement.cs" />
     <Compile Include="Libraries\Converts\SearchIndexExtensions.cs" />
     <Compile Include="Libraries\Converts\TdExtensions.cs" />
     <Compile Include="Libraries\Converts\ToControlExtensions.cs" />
@@ -266,6 +265,7 @@
     <Compile Include="Libraries\Images\ImageData.cs" />
     <Compile Include="Libraries\Initializers\ItemsInitializer.cs" />
     <Compile Include="Libraries\Initializers\UsersInitializer.cs" />
+    <Compile Include="Libraries\Items\Aggregations.cs" />
     <Compile Include="Libraries\Items\Imports.cs" />
     <Compile Include="Libraries\Items\Summaries.cs" />
     <Compile Include="Libraries\Items\Versions.cs" />
