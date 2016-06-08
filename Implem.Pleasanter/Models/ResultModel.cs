@@ -1953,7 +1953,7 @@ namespace Implem.Pleasanter.Models
                         siteSettings: siteSettings,
                         permissionType: permissionType,
                         formData: formData,
-                        graphOnly: false);
+                        chartOnly: false);
                 default: return hb.Grid(
                     resultCollection: resultCollection,
                     siteSettings: siteSettings,
@@ -3223,15 +3223,15 @@ namespace Implem.Pleasanter.Models
         {
             var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
             var resultCollection = ResultCollection(siteSettings, permissionType, formData);
-            var graphOnly = Forms.Data("ControlId").StartsWith("TimeSeries");
+            var chartOnly = Forms.Data("ControlId").StartsWith("TimeSeries");
             return new ResponseCollection()
                 .Html(
-                    !graphOnly ? "#DataViewContainer" : "#TimeSeriesChart",
+                    !chartOnly ? "#DataViewContainer" : "#TimeSeriesChart",
                     new HtmlBuilder().TimeSeries(
                         siteSettings: siteSettings,
                         permissionType: permissionType,
                         formData: formData,
-                        graphOnly: graphOnly))
+                        chartOnly: chartOnly))
                 .Html(
                     "#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
@@ -3249,7 +3249,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings siteSettings,
             Permissions.Types permissionType,
             FormData formData,
-            bool graphOnly)
+            bool chartOnly)
         {
             var groupByColumn = formData.Keys.Contains("TimeSeriesGroupByColumn")
                 ? formData["TimeSeriesGroupByColumn"].Value
@@ -3265,7 +3265,7 @@ namespace Implem.Pleasanter.Models
                 formData: formData,
                 groupByColumn: groupByColumn,
                 valueColumn: valueColumn);
-            return !graphOnly
+            return !chartOnly
                 ? hb.TimeSeries(
                     siteSettings: siteSettings,
                     groupByColumn: groupByColumn,
