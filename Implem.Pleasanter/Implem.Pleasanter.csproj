@@ -343,7 +343,7 @@
     <Content Include="Scripts\Dialogs.js" />
     <Content Include="Scripts\DropDowns.js" />
     <Content Include="Scripts\Focuses.js" />
-    <Content Include="Scripts\Gantts.js" />
+    <Content Include="Scripts\Gantt.js" />
     <Content Include="Scripts\Grids.js" />
     <Content Include="Scripts\Histories.js" />
     <Content Include="Scripts\Legends.js" />
