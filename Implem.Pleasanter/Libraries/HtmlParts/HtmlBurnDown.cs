@@ -41,7 +41,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder Chart(this HtmlBuilder hb, BurnDown burnDown)
         {
-            return hb.Div(css: "burn-down-line-graph", action: () => hb
+            return hb.Div(css: "burn-down-chart", action: () => hb
                 .Svg(
                     attributes: new HtmlAttributes().Id_Css("BurnDown", "burn-down"),
                     action: () => { })
