@@ -4,8 +4,8 @@
         return;
     }
     $svg.empty();
-    var dataSet = JSON.parse($('#GanttJson').val());
-    if (dataSet.length === 0) {
+    var json = JSON.parse($('#GanttJson').val());
+    if (json.length === 0) {
         $svg.hide();
         return;
     }
@@ -17,10 +17,10 @@
     var width = parseInt(svg.style('width'));
     var height = parseInt(svg.style('height'));
     var bodyWidth = width - padding * 2;
-    var minDate = new Date(d3.min(dataSet, function (d) {
+    var minDate = new Date(d3.min(json, function (d) {
         return Math.min.apply(null, [new Date(d.StartTime), justTime]);
     }));
-    var maxDate = new Date(d3.max(dataSet, function (d) {
+    var maxDate = new Date(d3.max(json, function (d) {
         return Math.max.apply(null, [new Date(d.CompletionTime), justTime]);
     }));
     var dayWidth = (bodyWidth - padding) / dateDiff('d', maxDate, minDate);
@@ -48,7 +48,7 @@
     }
     svg.append('g').attr('class', 'planned')
         .selectAll('rect')
-        .data(dataSet)
+        .data(json)
         .enter()
         .append('rect')
         .attr('x', function (d) { return padding + xScale(new Date(d.StartTime)) })
@@ -71,7 +71,7 @@
         });
     svg.append('g').attr('class', 'earned')
         .selectAll('rect')
-        .data(dataSet)
+        .data(json)
         .enter()
         .append('rect')
         .attr('x', function (d) { return padding + xScale(new Date(d.StartTime)) })
@@ -101,7 +101,7 @@
     draw(now, 'now');
     svg.append('g').attr('class', 'title')
         .selectAll('text')
-        .data(dataSet)
+        .data(json)
         .enter()
         .append('text')
         .attr('x', function (d) {
@@ -143,7 +143,7 @@
     function draw(day, css) {
         var nowLineData = [
             [day, padding - 10],
-            [day, (padding + dataSet.length * 25) + 10]];
+            [day, (padding + json.length * 25) + 10]];
         var nowLine = d3.svg.line()
             .x(function (d) { return d[0]; })
             .y(function (d) { return d[1]; });
