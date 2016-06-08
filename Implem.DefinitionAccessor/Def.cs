@@ -1978,6 +1978,7 @@ namespace Implem.DefinitionAccessor
                     case "Issues_Gantt": DataView.Issues_Gantt = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_Gantt, definitionRow, DataViewXls); break;
                     case "Issues_BurnDown": DataView.Issues_BurnDown = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_BurnDown, definitionRow, DataViewXls); break;
                     case "Issues_TimeSeries": DataView.Issues_TimeSeries = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_TimeSeries, definitionRow, DataViewXls); break;
+                    case "Results_TimeSeries": DataView.Results_TimeSeries = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Results_TimeSeries, definitionRow, DataViewXls); break;
                     default: break;
                 }
             });
@@ -6652,6 +6653,7 @@ namespace Implem.DefinitionAccessor
         public string Issues_Gantt;
         public string Issues_BurnDown;
         public string Issues_TimeSeries;
+        public string Results_TimeSeries;
     }
 
     public class DataViewTable
@@ -6659,6 +6661,7 @@ namespace Implem.DefinitionAccessor
         public DataViewDefinition Issues_Gantt = new DataViewDefinition();
         public DataViewDefinition Issues_BurnDown = new DataViewDefinition();
         public DataViewDefinition Issues_TimeSeries = new DataViewDefinition();
+        public DataViewDefinition Results_TimeSeries = new DataViewDefinition();
     }
 
     public class DemoDefinition

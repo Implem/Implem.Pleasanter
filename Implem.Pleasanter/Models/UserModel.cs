@@ -1393,16 +1393,6 @@ namespace Implem.Pleasanter.Models
                 aggregationCollection: siteSettings.AggregationCollection);
         }
 
-        public static string IndexScript(
-            UserCollection userCollection,
-            SiteSettings siteSettings,
-            Permissions.Types permissionType,
-            FormData formData,
-            string dataViewName)
-        {
-            return string.Empty;
-        }
-
         public static HtmlBuilder DataView(
             this HtmlBuilder hb,
             UserCollection userCollection,

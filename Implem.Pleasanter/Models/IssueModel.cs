@@ -1994,8 +1994,7 @@ namespace Implem.Pleasanter.Models
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: permissionType.CanRead(),
-                script: IndexScript(
-                    issueCollection: issueCollection,
+                script: Libraries.Scripts.JavaScripts.DataView(
                     siteSettings: siteSettings,
                     permissionType: permissionType,
                     formData: formData,
@@ -2063,28 +2062,6 @@ namespace Implem.Pleasanter.Models
                 pageSize: siteSettings.GridPageSize.ToInt(),
                 countRecord: true,
                 aggregationCollection: siteSettings.AggregationCollection);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string IndexScript(
-            IssueCollection issueCollection,
-            SiteSettings siteSettings,
-            Permissions.Types permissionType,
-            FormData formData,
-            string dataViewName)
-        {
-            if (Routes.Method() == "get")
-            {
-                switch (dataViewName)
-                {
-                    case "BurnDown": return Def.JavaScript.DrawBurnDown;
-                    case "Gantt": return Def.JavaScript.DrawGantt;
-                    case "TimeSeries": return Def.JavaScript.DrawTimeSeries;
-                }
-            }
-            return string.Empty;
         }
 
         /// <summary>

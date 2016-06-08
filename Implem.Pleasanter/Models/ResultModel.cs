@@ -1865,8 +1865,7 @@ namespace Implem.Pleasanter.Models
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: permissionType.CanRead(),
-                script: IndexScript(
-                    resultCollection: resultCollection,
+                script: Libraries.Scripts.JavaScripts.DataView(
                     siteSettings: siteSettings,
                     permissionType: permissionType,
                     formData: formData,
@@ -1936,16 +1935,9 @@ namespace Implem.Pleasanter.Models
                 aggregationCollection: siteSettings.AggregationCollection);
         }
 
-        public static string IndexScript(
-            ResultCollection resultCollection,
-            SiteSettings siteSettings,
-            Permissions.Types permissionType,
-            FormData formData,
-            string dataViewName)
-        {
-            return string.Empty;
-        }
-
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static HtmlBuilder DataView(
             this HtmlBuilder hb,
             ResultCollection resultCollection,
@@ -1956,6 +1948,12 @@ namespace Implem.Pleasanter.Models
         {
             switch (dataViewName)
             {
+                case "TimeSeries":
+                    return hb.TimeSeries(
+                        siteSettings: siteSettings,
+                        permissionType: permissionType,
+                        formData: formData,
+                        graphOnly: false);
                 default: return hb.Grid(
                     resultCollection: resultCollection,
                     siteSettings: siteSettings,
@@ -1964,11 +1962,15 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string DataView(
             SiteSettings siteSettings, Permissions.Types permissionType)
         {
             switch (DataViewSelectors.Get(siteSettings.SiteId))
             {
+                case "TimeSeries": return TimeSeriesResponse(siteSettings, permissionType);
                 default: return Grid(siteSettings: siteSettings, permissionType: permissionType);
             }
         }
@@ -3211,6 +3213,97 @@ namespace Implem.Pleasanter.Models
                     : dataRow["ClassP"].ToString();
                 default: return string.Empty;
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string TimeSeriesResponse(
+            SiteSettings siteSettings, Permissions.Types permissionType)
+        {
+            var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
+            var resultCollection = ResultCollection(siteSettings, permissionType, formData);
+            var graphOnly = Forms.Data("ControlId").StartsWith("TimeSeries");
+            return new ResponseCollection()
+                .Html(
+                    !graphOnly ? "#DataViewContainer" : "#TimeSeriesChart",
+                    new HtmlBuilder().TimeSeries(
+                        siteSettings: siteSettings,
+                        permissionType: permissionType,
+                        formData: formData,
+                        graphOnly: graphOnly))
+                .Html(
+                    "#Aggregations", new HtmlBuilder().Aggregations(
+                    siteSettings: siteSettings,
+                    aggregations: resultCollection.Aggregations,
+                    container: false))
+                .Func("drawTimeSeries")
+                .WindowScrollTop().ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder TimeSeries(
+            this HtmlBuilder hb,
+            SiteSettings siteSettings,
+            Permissions.Types permissionType,
+            FormData formData,
+            bool graphOnly)
+        {
+            var groupByColumn = formData.Keys.Contains("TimeSeriesGroupByColumn")
+                ? formData["TimeSeriesGroupByColumn"].Value
+                : "Owner";
+            var aggregateType = formData.Keys.Contains("TimeSeriesAggregateType")
+                ? formData["TimeSeriesAggregateType"].Value
+                : "Count";
+            var valueColumn = formData.Keys.Contains("TimeSeriesValueColumn")
+                ? formData["TimeSeriesValueColumn"].Value
+                : "NumA";
+            var dataRows = TimeSeriesDataRows(
+                siteSettings: siteSettings,
+                formData: formData,
+                groupByColumn: groupByColumn,
+                valueColumn: valueColumn);
+            return !graphOnly
+                ? hb.TimeSeries(
+                    siteSettings: siteSettings,
+                    groupByColumn: groupByColumn,
+                    aggregateType: aggregateType,
+                    valueColumn: valueColumn,
+                    permissionType: permissionType,
+                    dataRows: dataRows)
+                : hb.TimeSeriesChart(
+                    siteSettings: siteSettings,
+                    groupByColumn: groupByColumn,
+                    aggregateType: aggregateType,
+                    valueColumn: valueColumn,
+                    dataRows: dataRows);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static EnumerableRowCollection<DataRow> TimeSeriesDataRows(
+            SiteSettings siteSettings, FormData formData, string groupByColumn, string valueColumn)
+        {
+            return groupByColumn != string.Empty && valueColumn != string.Empty
+                ? Rds.ExecuteTable(statements:
+                    Rds.SelectResults(
+                        tableType: Sqls.TableTypes.NormalAndHistory,
+                        column: Rds.ResultsColumn()
+                            .ResultId(_as: "Id")
+                            .Ver()
+                            .UpdatedTime()
+                            .ResultsColumn(groupByColumn, _as: "Index")
+                            .ResultsColumn(valueColumn, _as: "Value"),
+                        where: DataViewFilters.Get(
+                            siteSettings,
+                            "Results",
+                            formData,
+                            Rds.ResultsWhere().SiteId(siteSettings.SiteId))))
+                                .AsEnumerable()
+                : null;
         }
     }
 }

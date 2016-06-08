@@ -700,8 +700,7 @@ namespace Implem.Pleasanter.Models
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: permissionType.CanRead(),
-                script: IndexScript(
-                    mailAddressCollection: mailAddressCollection,
+                script: Libraries.Scripts.JavaScripts.DataView(
                     siteSettings: siteSettings,
                     permissionType: permissionType,
                     formData: formData,
@@ -768,16 +767,6 @@ namespace Implem.Pleasanter.Models
                 pageSize: siteSettings.GridPageSize.ToInt(),
                 countRecord: true,
                 aggregationCollection: siteSettings.AggregationCollection);
-        }
-
-        public static string IndexScript(
-            MailAddressCollection mailAddressCollection,
-            SiteSettings siteSettings,
-            Permissions.Types permissionType,
-            FormData formData,
-            string dataViewName)
-        {
-            return string.Empty;
         }
 
         public static HtmlBuilder DataView(
