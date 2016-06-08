@@ -55,7 +55,8 @@ namespace Implem.Pleasanter.Libraries.Analysis
                     dataRow["Ver"].ToInt(),
                     dataRow["UpdatedTime"].ToDateTime().ToLocal().Date,
                     dataRow["Index"].ToString(),
-                    dataRow["Value"].ToDecimal()));
+                    dataRow["Value"].ToDecimal(),
+                    dataRow["IsHistory"].ToBool()));
             });
             if (this.Count > 0)
             {
@@ -63,6 +64,18 @@ namespace Implem.Pleasanter.Libraries.Analysis
                 MaxTime = this.Select(o => o.UpdatedTime).Max();
                 Days = Times.DateDiff(Times.Types.Days, MinTime, MaxTime);
             }
+            this.Select(o => o.Id).Distinct().ForEach(id =>
+            {
+                var latest = this
+                    .Where(o => o.Id == id)
+                    .OrderByDescending(o => o.Ver)
+                    .First();
+                latest.Latest = true;
+                if (latest.IsHistory)
+                {
+                    latest.UpdatedTime = latest.UpdatedTime.AddDays(-1);
+                }
+            });
         }
 
         public string ChartJson()
@@ -121,7 +134,10 @@ namespace Implem.Pleasanter.Libraries.Analysis
                 {
                     if (!processed.Contains(data.Id))
                     {
-                        ret.Add(data);
+                        if (!(data.IsHistory && data.Latest && data.UpdatedTime != currentTime))
+                        {
+                            ret.Add(data);
+                        }
                         processed.Add(data.Id);
                     }
                 });
