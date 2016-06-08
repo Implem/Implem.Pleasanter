@@ -20,7 +20,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             var gantt = new Gantt(siteSettings, dataRows);
             return hb
-                .Graph(gantt: gantt)
+                .Chart(gantt: gantt)
                 .MainCommands(
                     siteId: siteSettings.SiteId,
                     permissionType: permissionType,
@@ -30,7 +30,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     exportButton: true);
         }
 
-        private static HtmlBuilder Graph(this HtmlBuilder hb, Gantt gantt)
+        private static HtmlBuilder Chart(this HtmlBuilder hb, Gantt gantt)
         {
             return hb.Div(css: "gantt-chart", action: () => hb
                 .Svg(
