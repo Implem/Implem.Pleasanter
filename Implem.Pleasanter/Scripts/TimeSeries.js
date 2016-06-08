@@ -90,6 +90,11 @@
     }
 
     function color() {
-        return '#' + Math.floor(Math.random() * 10000000 + 3000000).toString(16);
+        var c = Math.floor(Math.random() * 50 + 180);
+        return '#' + part(c) + part(c) + part(c);
+    }
+
+    function part(c) {
+        return (c + Math.floor(Math.random() * 10 - 5)).toString(16);
     }
 }
