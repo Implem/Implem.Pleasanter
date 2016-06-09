@@ -872,18 +872,18 @@ namespace Implem.Pleasanter.Models
                     var destinationSiteSettings = new SiteModel(destinationSiteId);
                     var siteDataRows = SiteSettings.SummarySiteDataRows();
                     responseCollection
-                        .ReplaceAll("#Field_SummaryDestinationColumn", new HtmlBuilder()
+                        .ReplaceAll("#SummaryDestinationColumnField", new HtmlBuilder()
                             .SummaryDestinationColumn(
                                 referenceType: destinationSiteSettings.ReferenceType,
                                 siteId: destinationSiteSettings.SiteId,
                                 siteDataRows: siteDataRows))
-                        .ReplaceAll("#Field_SummaryLinkColumn", new HtmlBuilder()
+                        .ReplaceAll("#SummaryLinkColumnField", new HtmlBuilder()
                             .SummaryLinkColumn(
                                 siteId: destinationSiteId,
                                 siteSettings: SiteSettings));
                     break;
                 case "SummaryType":
-                    responseCollection.ReplaceAll("#Field_SummarySourceColumn", new HtmlBuilder()
+                    responseCollection.ReplaceAll("#SummarySourceColumnField", new HtmlBuilder()
                         .SummarySourceColumn(SiteSettings, Forms.Data("SummaryType")));
                     break;
                 case "AddSummary":
@@ -2412,19 +2412,19 @@ namespace Implem.Pleasanter.Models
                                             },
                                             selectedValue: column.ControlType)
                                         .FieldTextBox(
-                                            fieldId: "Field_ColumnProperty,Min",
+                                            fieldId: "ColumnPropertyField,Min",
                                             controlId: "ColumnProperty,Min",
                                             fieldCss: " both" + hidden,
                                             labelText: Displays.Min(),
                                             text: column.Format(column.Min.ToDecimal()))
                                         .FieldTextBox(
-                                            fieldId: "Field_ColumnProperty,Max",
+                                            fieldId: "ColumnPropertyField,Max",
                                             controlId: "ColumnProperty,Max",
                                             fieldCss: hidden,
                                             labelText: Displays.Max(),
                                             text: column.Format(column.Max.ToDecimal()))
                                         .FieldTextBox(
-                                            fieldId: "Field_ColumnProperty,Step",
+                                            fieldId: "ColumnPropertyField,Step",
                                             controlId: "ColumnProperty,Step",
                                             fieldCss: hidden,
                                             labelText: Displays.Step(),
@@ -2644,7 +2644,7 @@ namespace Implem.Pleasanter.Models
             EnumerableRowCollection<DataRow> siteDataRows)
         {
             return hb.FieldDropDown(
-                fieldId: "Field_SummaryDestinationColumn",
+                fieldId: "SummaryDestinationColumnField",
                 controlId: "SummaryDestinationColumn",
                 labelText: Displays.SummaryDestinationColumn(),
                 optionCollection: SummaryDestinationColumnCollection(
@@ -2714,7 +2714,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings siteSettings)
         {
             return hb.FieldDropDown(
-                fieldId: "Field_SummaryLinkColumn",
+                fieldId: "SummaryLinkColumnField",
                 controlId: "SummaryLinkColumn",
                 labelText: Displays.SummaryLinkColumn(),
                 optionCollection: siteSettings.LinkColumnSiteIdHash
@@ -2736,11 +2736,11 @@ namespace Implem.Pleasanter.Models
             {
                 case "Count":
                     return hb.FieldContainer(
-                        fieldId: "Field_SummarySourceColumn",
+                        fieldId: "SummarySourceColumnField",
                         fieldCss: " hidden");
                 default:
                     return hb.FieldDropDown(
-                        fieldId: "Field_SummarySourceColumn",
+                        fieldId: "SummarySourceColumnField",
                         controlId: "SummarySourceColumn",
                         labelText: Displays.SummarySourceColumn(),
                         optionCollection: siteSettings.ColumnCollection
