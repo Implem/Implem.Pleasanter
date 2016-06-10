@@ -87,7 +87,9 @@ namespace Implem.Pleasanter.Libraries.Charts
             var elements = new List<Element>();
             var choices = SiteSettings
                 .AllColumn(GroupByColumn)
-                .EditChoices(SiteSettings.InheritPermission);
+                .EditChoices(SiteSettings.InheritPermission)
+                .Where(o => this.Select(p => p.Index).Contains(o.Key))
+                .ToDictionary(o => o.Key, o => o.Value);
             var valueColumn = SiteSettings.AllColumn(ValueColumn);
             var choiceKeys = choices.Keys.ToList();
             var indexes = choices.Select((o, i) => new Index
