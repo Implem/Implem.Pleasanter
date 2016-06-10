@@ -85,7 +85,9 @@ namespace Implem.Pleasanter.Libraries.Charts
         public string ChartJson()
         {
             var elements = new List<Element>();
-            var choices = SiteSettings.AllColumn(GroupByColumn).EditChoices(SiteSettings.SiteId);
+            var choices = SiteSettings
+                .AllColumn(GroupByColumn)
+                .EditChoices(SiteSettings.InheritPermission);
             var valueColumn = SiteSettings.AllColumn(ValueColumn);
             var choiceKeys = choices.Keys.ToList();
             var indexes = choices.Select((o, i) => new Index
