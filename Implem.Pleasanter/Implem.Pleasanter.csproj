@@ -266,6 +266,7 @@
     <Compile Include="Libraries\Initializers\ItemsInitializer.cs" />
     <Compile Include="Libraries\Initializers\UsersInitializer.cs" />
     <Compile Include="Libraries\Items\Aggregations.cs" />
+    <Compile Include="Libraries\Items\Formula.cs" />
     <Compile Include="Libraries\Items\Imports.cs" />
     <Compile Include="Libraries\Items\Summaries.cs" />
     <Compile Include="Libraries\Items\Versions.cs" />
