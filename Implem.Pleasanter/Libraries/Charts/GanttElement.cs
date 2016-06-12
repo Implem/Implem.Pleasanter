@@ -48,7 +48,7 @@ namespace Implem.Pleasanter.Libraries.Charts
             CompletionTime = completionTime.ToLocal(Displays.YmdFormat());
             DisplayCompletionTime = completionTime.AddDays(-1).ToLocal(Displays.YmdFormat());
             ProgressRate = progressRate;
-            Completed = status == Parameters.General.CompletionCode;
+            Completed = status >= Parameters.General.CompletionCode;
         }
     }
 }

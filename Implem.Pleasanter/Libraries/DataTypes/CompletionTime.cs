@@ -58,7 +58,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             {
                 hb.P(css: "time", action: () => hb
                     .Text(DisplayValue.ToText(column)));
-                if (Status?.Value != Parameters.General.CompletionCode)
+                if (Status?.Value < Parameters.General.CompletionCode)
                 {
                     LimitText(hb);
                 }

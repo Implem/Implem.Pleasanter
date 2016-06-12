@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                         sqlWhereCollection.Add(
                             columnBrackets: new string[] { "[t0].[Status]" },
                             name: "_U",
-                            _operator: " <> {0}".Params(Parameters.General.CompletionCode));
+                            _operator: " < {0}".Params(Parameters.General.CompletionCode));
                         break;
                     case "DataViewFilters_Own":
                         sqlWhereCollection.Add(
@@ -61,7 +61,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                             .Add(
                                 columnBrackets: new string[] { "[t0].[Status]" },
                                 name: "_U",
-                                _operator: " <> {0}".Params(Parameters.General.CompletionCode))
+                                _operator: " < {0}".Params(Parameters.General.CompletionCode))
                             .Add(
                                 columnBrackets: new string[] { "[t0].[ProgressRate]" },
                                 _operator: "<",
@@ -73,7 +73,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                             .Add(
                                 columnBrackets: new string[] { "[t0].[Status]" },
                                 name: "_U",
-                                _operator: " <> {0}".Params(Parameters.General.CompletionCode))
+                                _operator: " < {0}".Params(Parameters.General.CompletionCode))
                             .Add(
                                 columnBrackets: new string[] { "[t0].[CompletionTime]" },
                                 _operator: " < getdate() ");
