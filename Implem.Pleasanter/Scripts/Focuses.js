@@ -4,11 +4,6 @@
             $('.focus').focus();
         }, 0);
     }
-    else {
-        setTimeout(function () {
-            $('.control-textbox, .control-textarea').filter(':first').focus();
-        }, 0);
-    }
 });
 
 function focusMainForm() {
