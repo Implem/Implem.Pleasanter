@@ -43,11 +43,14 @@ namespace Implem.Pleasanter.Libraries.Items
                 case OperatorTypes.Addition:
                     return result + GetValue(data);
                 case OperatorTypes.Subtraction:
-                    return result + GetValue(data);
+                    return result - GetValue(data);
                 case OperatorTypes.Multiplication:
-                    return result + GetValue(data);
+                    return result * GetValue(data);
                 case OperatorTypes.Division:
-                    return result + GetValue(data);
+                    var right = GetValue(data);
+                    return right != 0
+                        ? result / GetValue(data)
+                        : 0;
                 default:
                     return result;
             }
