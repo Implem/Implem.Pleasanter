@@ -31,13 +31,13 @@ function getMarkedUp(markdownValue, encoded) {
     if (!encoded) text = getEncordedHtml(text);
     return getMarkedUpHtml(text)
         .replace(url_regex_t, function ($1) {
-            return '<a href="' + cutBrackets($1.match(url_regex)[0], 0) + '">' +
+            return '<a href="' + cutBrackets($1.match(url_regex)[0], 0) + '" target="_blank">' +
                 cutBrackets($1.match(title_regex)[0], 1) +
                 '</a>';
         })
         .replace(url_regex, function ($1) {
             return $1.slice(-1) != '"'
-                ? '<a href="' + $1 + '">' + $1 + '</a>'
+                ? '<a href="' + $1 + '" target="_blank">' + $1 + '</a>'
                 : $1;
         })
         .replace(unc_regex_t, function ($1) {
