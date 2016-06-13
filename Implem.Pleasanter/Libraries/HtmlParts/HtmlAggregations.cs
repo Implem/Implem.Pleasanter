@@ -71,7 +71,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             value: (targetColumn != null 
                                 ? targetColumn.Format(data.Value) 
                                 : data.Value.ToString()) +
-                                    (aggregation.Type != Settings.Aggregation.Types.Count
+                                    (aggregation.Type != Aggregation.Types.Count
                                         ? targetColumn?.Unit
                                         : string.Empty),
                             attributes: new HtmlAttributes()
@@ -96,7 +96,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : string.Empty;
             switch (aggregation.Type)
             {
-                case Settings.Aggregation.Types.Count:
+                case Aggregation.Types.Count:
                     text += Displays.Get(aggregation.Type.ToString());
                     break;
                 default:

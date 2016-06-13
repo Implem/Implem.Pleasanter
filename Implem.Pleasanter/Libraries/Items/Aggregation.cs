@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-namespace Implem.Pleasanter.Libraries.Settings
+namespace Implem.Pleasanter.Libraries.Items
 {
     public class Aggregation
     {

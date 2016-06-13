@@ -265,6 +265,7 @@
     <Compile Include="Libraries\Images\ImageData.cs" />
     <Compile Include="Libraries\Initializers\ItemsInitializer.cs" />
     <Compile Include="Libraries\Initializers\UsersInitializer.cs" />
+    <Compile Include="Libraries\Items\Aggregation.cs" />
     <Compile Include="Libraries\Items\Aggregations.cs" />
     <Compile Include="Libraries\Items\Formula.cs" />
     <Compile Include="Libraries\Items\Imports.cs" />
@@ -303,7 +304,6 @@
     <Compile Include="Libraries\Server\Sessions.cs" />
     <Compile Include="Libraries\Server\SiteInfo.cs" />
     <Compile Include="Libraries\Server\Times.cs" />
-    <Compile Include="Libraries\Settings\Aggregation.cs" />
     <Compile Include="Libraries\Settings\BinarySettings.cs" />
     <Compile Include="Libraries\Settings\Choice.cs" />
     <Compile Include="Libraries\Settings\Column.cs" />
