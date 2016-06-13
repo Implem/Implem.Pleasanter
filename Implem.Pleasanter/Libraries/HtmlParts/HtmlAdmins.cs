@@ -1,5 +1,5 @@
 ﻿using Implem.Pleasanter.Libraries.Html;
-using Implem.Pleasanter.Libraries.Items;
+using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 referenceId: string.Empty,
                 title: Displays.Admin(),
                 permissionType: permissionType,
-                methodType: Models.BaseModel.MethodTypes.NotSet,
+                methodType: Pleasanter.Models.BaseModel.MethodTypes.NotSet,
                 allowAccess: Sessions.User().TenantAdmin,
                 verType: Versions.VerTypes.Latest,
                 useNavigationButtons: false,

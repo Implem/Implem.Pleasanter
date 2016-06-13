@@ -6,7 +6,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Linq;
-namespace Implem.Pleasanter.Libraries.Items
+namespace Implem.Pleasanter.Libraries.Models
 {
     public static class Summaries
     {

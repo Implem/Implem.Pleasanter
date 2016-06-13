@@ -1,5 +1,5 @@
 ﻿using Implem.Pleasanter.Libraries.Html;
-using Implem.Pleasanter.Libraries.Items;
+using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
@@ -19,7 +19,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 title: Displays.Error(),
                 permissionType: Permissions.Types.NotSet,
                 verType: Versions.VerTypes.Latest,
-                methodType: Models.BaseModel.MethodTypes.NotSet,
+                methodType: Pleasanter.Models.BaseModel.MethodTypes.NotSet,
                 allowAccess: true,
                 action: () => hb
                     .Section(css: "error-page", action: () => hb

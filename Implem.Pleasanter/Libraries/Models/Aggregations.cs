@@ -4,7 +4,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-namespace Implem.Pleasanter.Libraries.Items
+namespace Implem.Pleasanter.Libraries.Models
 {
     public class Aggregations
     {

@@ -5,7 +5,7 @@ using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
 using System.Linq;
-namespace Implem.Pleasanter.Libraries.Items
+namespace Implem.Pleasanter.Libraries.Models
 {
     public static class Imports
     {

@@ -2,7 +2,7 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Images;
-using Implem.Pleasanter.Libraries.Items;
+using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
@@ -73,7 +73,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .MainCommands(
                                 siteId: siteId,
                                 permissionType: permissionType,
-                                verType: Items.Versions.VerTypes.Latest,
+                                verType: Versions.VerTypes.Latest,
                                 backUrl: BackUrl());
                     }
                 })

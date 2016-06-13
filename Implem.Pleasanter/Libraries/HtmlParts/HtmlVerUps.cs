@@ -1,4 +1,5 @@
 ﻿using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
@@ -10,7 +11,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             var mustVerUp = MustVerUp(baseModel);
             return 
-                baseModel.VerType == Items.Versions.VerTypes.Latest &&
+                baseModel.VerType == Versions.VerTypes.Latest &&
                 baseModel.MethodType != BaseModel.MethodTypes.New
                     ? hb.FieldCheckBox(
                         controlId: "VerUp",
