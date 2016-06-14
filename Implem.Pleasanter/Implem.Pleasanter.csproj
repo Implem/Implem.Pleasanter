@@ -265,13 +265,13 @@
     <Compile Include="Libraries\Images\ImageData.cs" />
     <Compile Include="Libraries\Initializers\ItemsInitializer.cs" />
     <Compile Include="Libraries\Initializers\UsersInitializer.cs" />
+    <Compile Include="Libraries\Mails\Addresses.cs" />
     <Compile Include="Libraries\Models\Aggregation.cs" />
     <Compile Include="Libraries\Models\Aggregations.cs" />
     <Compile Include="Libraries\Models\Formula.cs" />
     <Compile Include="Libraries\Models\Imports.cs" />
     <Compile Include="Libraries\Models\Summaries.cs" />
     <Compile Include="Libraries\Models\Versions.cs" />
-    <Compile Include="Libraries\Mails\Addresses.cs" />
     <Compile Include="Libraries\Requests\DataViewFilters.cs" />
     <Compile Include="Libraries\Requests\DataViewSelectors.cs" />
     <Compile Include="Libraries\Requests\FormData.cs" />
