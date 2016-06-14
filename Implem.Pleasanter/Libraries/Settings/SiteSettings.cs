@@ -42,6 +42,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<Aggregation> AggregationCollection;
         public Dictionary<string, long> LinkColumnSiteIdHash;
         public List<Summary> SummaryCollection;
+        public Dictionary<string, Formula> FormulaHash;
         public string TitleSeparator = ")";
         public string AddressBook;
         public string MailToDefault;
@@ -80,6 +81,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (AggregationCollection == null) AggregationCollection = new List<Aggregation>();
             if (LinkColumnSiteIdHash == null) LinkColumnSiteIdHash = new Dictionary<string, long>();
             if (SummaryCollection == null) SummaryCollection = new List<Summary>();
+            if (FormulaHash == null) FormulaHash = new Dictionary<string, Formula>();
         }
 
         [OnDeserialized]
@@ -111,6 +113,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (self.AggregationCollection.SequenceEqual(def.AggregationCollection)) self.AggregationCollection = null;
             if (self.LinkColumnSiteIdHash.SequenceEqual(def.LinkColumnSiteIdHash)) self.LinkColumnSiteIdHash = null;
             if (self.SummaryCollection.SequenceEqual(def.SummaryCollection)) self.SummaryCollection = null;
+            if (self.FormulaHash.SequenceEqual(def.FormulaHash)) self.FormulaHash = null;
             if (AddressBook == string.Empty) self.AddressBook = null;
             if (MailToDefault == string.Empty) self.MailToDefault = null;
             if (MailCcDefault == string.Empty) self.MailCcDefault = null;

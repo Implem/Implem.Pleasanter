@@ -2150,7 +2150,8 @@ namespace Implem.Pleasanter.Models
                     hb
                         .SiteSettingEditorColumns(siteSettings)
                         .SiteSettingLinkColumns(siteSettings)
-                        .SiteSettingHistoryColumns(siteSettings));
+                        .SiteSettingHistoryColumns(siteSettings)
+                        .SiteSettingFormulas(siteSettings));
         }
 
         /// <summary>
@@ -2568,9 +2569,47 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static HtmlBuilder SiteSettingFormulas(
+            this HtmlBuilder hb, SiteSettings siteSettings)
+        {
+            return hb.FieldSet(
+                legendText: Displays.SettingFormulas(),
+                css: " enclosed",
+                action: () => hb
+                    .FieldSelectable(
+                        controlId: "Formulas",
+                        fieldCss: "field-vertical w600",
+                        controlContainerCss: "container-selectable",
+                        controlCss: " h200",
+                        labelText: Displays.SettingColumnList(),
+                        listItemCollection: siteSettings.FormulaHash
+                            .ToDictionary(o => o.Key, o => o.Value.Text()),
+                        commandOptionAction: () => hb
+                            .Div(css: "command-left", action: () => hb
+                                .TextBox(
+                                    controlId: "Formula",
+                                    controlCss: " w400")
+                                .Button(
+                                    controlId: "AddFormula",
+                                    controlCss: "button-create",
+                                    text: Displays.Add(),
+                                    onClick: Def.JavaScript.Submit,
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    controlId: "DeleteFormula",
+                                    controlCss: "button-delete",
+                                    text: Displays.Delete(),
+                                    onClick: Def.JavaScript.Submit,
+                                    action: "SetSiteSettings",
+                                    method: "post"))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder SummarySettingsEditor(
-            this HtmlBuilder hb,
-            SiteSettings siteSettings)
+            this HtmlBuilder hb, SiteSettings siteSettings)
         {
             var siteDataRows = siteSettings.SummarySiteDataRows();
             if (siteDataRows == null)

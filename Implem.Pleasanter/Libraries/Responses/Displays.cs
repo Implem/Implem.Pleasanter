@@ -231,6 +231,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SettingLinkColumns(params string[] data) { return Get("SettingLinkColumns", data); }
         public static HtmlBuilder Displays_SettingHistoryColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingHistoryColumns", data)); }
         public static string SettingHistoryColumns(params string[] data) { return Get("SettingHistoryColumns", data); }
+        public static HtmlBuilder Displays_SettingFormulas(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingFormulas", data)); }
+        public static string SettingFormulas(params string[] data) { return Get("SettingFormulas", data); }
         public static HtmlBuilder Displays_SettingAggregations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingAggregations", data)); }
         public static string SettingAggregations(params string[] data) { return Get("SettingAggregations", data); }
         public static HtmlBuilder Displays_SettingAggregationType(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingAggregationType", data)); }

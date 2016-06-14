@@ -2347,6 +2347,8 @@ namespace Implem.DefinitionAccessor
                     case "SettingLinkColumns_ja": Display.SettingLinkColumns_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingLinkColumns_ja, definitionRow, DisplayXls); break;
                     case "SettingHistoryColumns": Display.SettingHistoryColumns = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingHistoryColumns, definitionRow, DisplayXls); break;
                     case "SettingHistoryColumns_ja": Display.SettingHistoryColumns_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingHistoryColumns_ja, definitionRow, DisplayXls); break;
+                    case "SettingFormulas": Display.SettingFormulas = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingFormulas, definitionRow, DisplayXls); break;
+                    case "SettingFormulas_ja": Display.SettingFormulas_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingFormulas_ja, definitionRow, DisplayXls); break;
                     case "SettingAggregations": Display.SettingAggregations = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingAggregations, definitionRow, DisplayXls); break;
                     case "SettingAggregations_ja": Display.SettingAggregations_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingAggregations_ja, definitionRow, DisplayXls); break;
                     case "SettingAggregationType": Display.SettingAggregationType = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingAggregationType, definitionRow, DisplayXls); break;
@@ -7137,6 +7139,8 @@ namespace Implem.DefinitionAccessor
         public string SettingLinkColumns_ja;
         public string SettingHistoryColumns;
         public string SettingHistoryColumns_ja;
+        public string SettingFormulas;
+        public string SettingFormulas_ja;
         public string SettingAggregations;
         public string SettingAggregations_ja;
         public string SettingAggregationType;
@@ -7719,6 +7723,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition SettingLinkColumns_ja = new DisplayDefinition();
         public DisplayDefinition SettingHistoryColumns = new DisplayDefinition();
         public DisplayDefinition SettingHistoryColumns_ja = new DisplayDefinition();
+        public DisplayDefinition SettingFormulas = new DisplayDefinition();
+        public DisplayDefinition SettingFormulas_ja = new DisplayDefinition();
         public DisplayDefinition SettingAggregations = new DisplayDefinition();
         public DisplayDefinition SettingAggregations_ja = new DisplayDefinition();
         public DisplayDefinition SettingAggregationType = new DisplayDefinition();
