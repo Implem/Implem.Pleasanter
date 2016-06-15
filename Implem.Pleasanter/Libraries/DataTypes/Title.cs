@@ -79,18 +79,4 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return Value;
         }
     }
-
-    public static class TitleUtility
-    {
-        public static string DisplayValue(SiteSettings siteSettings, DataRow dataRow)
-        {
-            switch (siteSettings.ReferenceType)
-            {
-                case "Issues": return IssuesUtility.TitleDisplayValue(siteSettings, dataRow);
-                case "Results": return ResultsUtility.TitleDisplayValue(siteSettings, dataRow);
-                case "Wikis": return WikisUtility.TitleDisplayValue(siteSettings, dataRow);
-                default: return string.Empty;
-            }
-        }
-    }
 }

@@ -1,5 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
 using System.Data;
@@ -16,7 +16,7 @@ namespace Implem.Pleasanter.Libraries.Charts
             {
                 Add(new GanttElement(
                     dataRow["Id"].ToLong(),
-                    TitleUtility.DisplayValue(siteSettings, dataRow),
+                    Titles.DisplayValue(siteSettings, dataRow),
                     dataRow["WorkValue"].ToDecimal(),
                     dataRow["StartTime"].ToDateTime(),
                     dataRow["CompletionTime"].ToDateTime(),

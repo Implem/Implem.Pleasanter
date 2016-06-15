@@ -271,6 +271,7 @@
     <Compile Include="Libraries\Models\Formula.cs" />
     <Compile Include="Libraries\Models\Imports.cs" />
     <Compile Include="Libraries\Models\Summaries.cs" />
+    <Compile Include="Libraries\Models\Titles.cs" />
     <Compile Include="Libraries\Models\Versions.cs" />
     <Compile Include="Libraries\Requests\DataViewFilters.cs" />
     <Compile Include="Libraries\Requests\DataViewSelectors.cs" />
