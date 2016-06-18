@@ -759,6 +759,7 @@ namespace Implem.Pleasanter.Models
                 .Ver()
                 .Timestamp()
                 .Val("#VerUp", false)
+                .Formula(this)
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", Title.DisplayValue)
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(baseModel: this, tableName: "Issues"))
@@ -1254,6 +1255,60 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
+            SetByFormula();
+        }
+
+        private void SetByFormula()
+        {
+            if (SiteSettings.FormulaHash?.Count > 0)
+            {
+                var data = new Dictionary<string, decimal>
+                {
+                    { "WorkValue", WorkValue.Value },
+                    { "RemainingWorkValue", RemainingWorkValue },
+                    { "NumA", NumA },
+                    { "NumB", NumB },
+                    { "NumC", NumC },
+                    { "NumD", NumD },
+                    { "NumE", NumE },
+                    { "NumF", NumF },
+                    { "NumG", NumG },
+                    { "NumH", NumH },
+                    { "NumI", NumI },
+                    { "NumJ", NumJ },
+                    { "NumK", NumK },
+                    { "NumL", NumL },
+                    { "NumM", NumM },
+                    { "NumN", NumN },
+                    { "NumO", NumO },
+                    { "NumP", NumP }
+                };
+                SiteSettings.FormulaHash.Keys.ForEach(columnName =>
+                {
+                    switch (columnName)
+                    {
+                        case "WorkValue": WorkValue.Value = SiteSettings.FormulaHash[columnName].GetResult(data); break;
+                        case "RemainingWorkValue": RemainingWorkValue = SiteSettings.FormulaHash[columnName].GetResult(data); break;
+                        case "NumA": NumA = SiteSettings.FormulaHash[columnName].GetResult(data); break;
+                        case "NumB": NumB = SiteSettings.FormulaHash[columnName].GetResult(data); break;
+                        case "NumC": NumC = SiteSettings.FormulaHash[columnName].GetResult(data); break;
+                        case "NumD": NumD = SiteSettings.FormulaHash[columnName].GetResult(data); break;
+                        case "NumE": NumE = SiteSettings.FormulaHash[columnName].GetResult(data); break;
+                        case "NumF": NumF = SiteSettings.FormulaHash[columnName].GetResult(data); break;
+                        case "NumG": NumG = SiteSettings.FormulaHash[columnName].GetResult(data); break;
+                        case "NumH": NumH = SiteSettings.FormulaHash[columnName].GetResult(data); break;
+                        case "NumI": NumI = SiteSettings.FormulaHash[columnName].GetResult(data); break;
+                        case "NumJ": NumJ = SiteSettings.FormulaHash[columnName].GetResult(data); break;
+                        case "NumK": NumK = SiteSettings.FormulaHash[columnName].GetResult(data); break;
+                        case "NumL": NumL = SiteSettings.FormulaHash[columnName].GetResult(data); break;
+                        case "NumM": NumM = SiteSettings.FormulaHash[columnName].GetResult(data); break;
+                        case "NumN": NumN = SiteSettings.FormulaHash[columnName].GetResult(data); break;
+                        case "NumO": NumO = SiteSettings.FormulaHash[columnName].GetResult(data); break;
+                        case "NumP": NumP = SiteSettings.FormulaHash[columnName].GetResult(data); break;
+                        default: break;
+                    }
+                });
+            }
         }
 
         private void SetBySession()
@@ -2780,6 +2835,38 @@ namespace Implem.Pleasanter.Models
                                 .ToList();    
             }
             return switchTargets;
+        }
+
+        public static ResponseCollection Formula(
+            this ResponseCollection responseCollection, IssueModel issueModel)
+        {
+            issueModel.SiteSettings.FormulaHash?.Keys.ForEach(columnName =>
+            {
+                var column = issueModel.SiteSettings.AllColumn(columnName);
+                switch (columnName)
+                {
+                    case "WorkValue": responseCollection.Val("#Issues_WorkValue", issueModel.WorkValue.ToControl(column)); break;
+                    case "RemainingWorkValue": responseCollection.Val("#Issues_RemainingWorkValue", issueModel.RemainingWorkValue.ToControl(column)); break;
+                    case "NumA": responseCollection.Val("#Issues_NumA", issueModel.NumA.ToControl(column)); break;
+                    case "NumB": responseCollection.Val("#Issues_NumB", issueModel.NumB.ToControl(column)); break;
+                    case "NumC": responseCollection.Val("#Issues_NumC", issueModel.NumC.ToControl(column)); break;
+                    case "NumD": responseCollection.Val("#Issues_NumD", issueModel.NumD.ToControl(column)); break;
+                    case "NumE": responseCollection.Val("#Issues_NumE", issueModel.NumE.ToControl(column)); break;
+                    case "NumF": responseCollection.Val("#Issues_NumF", issueModel.NumF.ToControl(column)); break;
+                    case "NumG": responseCollection.Val("#Issues_NumG", issueModel.NumG.ToControl(column)); break;
+                    case "NumH": responseCollection.Val("#Issues_NumH", issueModel.NumH.ToControl(column)); break;
+                    case "NumI": responseCollection.Val("#Issues_NumI", issueModel.NumI.ToControl(column)); break;
+                    case "NumJ": responseCollection.Val("#Issues_NumJ", issueModel.NumJ.ToControl(column)); break;
+                    case "NumK": responseCollection.Val("#Issues_NumK", issueModel.NumK.ToControl(column)); break;
+                    case "NumL": responseCollection.Val("#Issues_NumL", issueModel.NumL.ToControl(column)); break;
+                    case "NumM": responseCollection.Val("#Issues_NumM", issueModel.NumM.ToControl(column)); break;
+                    case "NumN": responseCollection.Val("#Issues_NumN", issueModel.NumN.ToControl(column)); break;
+                    case "NumO": responseCollection.Val("#Issues_NumO", issueModel.NumO.ToControl(column)); break;
+                    case "NumP": responseCollection.Val("#Issues_NumP", issueModel.NumP.ToControl(column)); break;
+                    default: break;
+                }
+            });
+            return responseCollection;
         }
 
         public static string BulkMove(SiteSettings siteSettings, Permissions.Types permissionType)

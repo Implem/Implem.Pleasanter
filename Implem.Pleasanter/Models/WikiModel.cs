@@ -298,6 +298,7 @@ namespace Implem.Pleasanter.Models
                 .Ver()
                 .Timestamp()
                 .Val("#VerUp", false)
+                .Formula(this)
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", Title.DisplayValue)
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(baseModel: this, tableName: "Wikis"))
@@ -628,6 +629,24 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
+            SetByFormula();
+        }
+
+        private void SetByFormula()
+        {
+            if (SiteSettings.FormulaHash?.Count > 0)
+            {
+                var data = new Dictionary<string, decimal>
+                {
+                };
+                SiteSettings.FormulaHash.Keys.ForEach(columnName =>
+                {
+                    switch (columnName)
+                    {
+                        default: break;
+                    }
+                });
+            }
         }
 
         private void SetBySession()
@@ -1367,6 +1386,20 @@ namespace Implem.Pleasanter.Models
                                 .ToList();    
             }
             return switchTargets;
+        }
+
+        public static ResponseCollection Formula(
+            this ResponseCollection responseCollection, WikiModel wikiModel)
+        {
+            wikiModel.SiteSettings.FormulaHash?.Keys.ForEach(columnName =>
+            {
+                var column = wikiModel.SiteSettings.AllColumn(columnName);
+                switch (columnName)
+                {
+                    default: break;
+                }
+            });
+            return responseCollection;
         }
 
         public static string BulkMove(SiteSettings siteSettings, Permissions.Types permissionType)

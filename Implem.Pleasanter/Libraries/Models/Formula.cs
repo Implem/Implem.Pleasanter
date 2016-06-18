@@ -12,7 +12,7 @@ namespace Implem.Pleasanter.Libraries.Models
         public OperatorTypes OperatorType = OperatorTypes.NotSet;
         public List<Formula> Children;
         [NonSerialized]
-        public decimal Result;
+        public decimal Result = 0;
 
         public enum OperatorTypes
         {
@@ -39,38 +39,45 @@ namespace Implem.Pleasanter.Libraries.Models
             return formula;
         }
 
-        public decimal GetResult(Dictionary<string, decimal> data, decimal left = 0)
+        public decimal GetResult(Dictionary<string, decimal> data)
         {
-            Result = left;
-            Children.Where(o =>
-                o.OperatorType == OperatorTypes.Multiplication ||
-                o.OperatorType == OperatorTypes.Subtraction).ForEach(fomura =>
-                    Result = fomura.GetResult(data, Result));
-            Children.Where(o =>
-                o.OperatorType == OperatorTypes.Addition ||
-                o.OperatorType == OperatorTypes.Subtraction).ForEach(fomura =>
-                    Result = fomura.GetResult(data, Result));
-            switch (OperatorType)
+            Children?.ForEach(formula => formula.SetValue(data));
+            Formula before = null;
+            Children?.ForEach(formula =>
             {
-                case OperatorTypes.Addition:
-                    return Result + GetValue(data);
-                case OperatorTypes.Subtraction:
-                    return Result - GetValue(data);
-                case OperatorTypes.Multiplication:
-                    return Result * GetValue(data);
-                case OperatorTypes.Division:
-                    var right = GetValue(data);
-                    return right != 0
-                        ? Result / GetValue(data)
-                        : 0;
-                default:
-                    return Result;
-            }
+                var result = formula.GetResult(data);
+                switch (formula.OperatorType)
+                {
+                    case OperatorTypes.Multiplication:
+                        before.Result *= result;
+                        break;
+                    case OperatorTypes.Division:
+                        before.Result = result != 0
+                            ? before.Result / result
+                            : 0;
+                        break;
+                }
+                before = formula;
+            });
+            Children?.ForEach(formula =>
+            {
+                switch (formula.OperatorType)
+                {
+                    case OperatorTypes.NotSet:
+                    case OperatorTypes.Addition:
+                        Result += formula.GetResult(data);
+                        break;
+                    case OperatorTypes.Subtraction:
+                        Result -= formula.GetResult(data);
+                        break;
+                }
+            });
+            return Result;
         }
 
-        private decimal GetValue(Dictionary<string, decimal> data)
+        public void SetValue(Dictionary<string, decimal> data)
         {
-            return ColumnName != null && data.ContainsKey(ColumnName)
+            Result = ColumnName != null && data.ContainsKey(ColumnName)
                 ? data[ColumnName]
                 : Value.ToDecimal();
         }

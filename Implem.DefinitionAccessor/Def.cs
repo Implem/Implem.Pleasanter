@@ -315,6 +315,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_InsertLinks": Code.Model_InsertLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertLinks, definitionRow, CodeXls); break;
                     case "Model_InsertLinksCases": Code.Model_InsertLinksCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertLinksCases, definitionRow, CodeXls); break;
                     case "Model_ResponseLinks": Code.Model_ResponseLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ResponseLinks, definitionRow, CodeXls); break;
+                    case "Model_ResponseByUpdate_FormulaResponse": Code.Model_ResponseByUpdate_FormulaResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ResponseByUpdate_FormulaResponse, definitionRow, CodeXls); break;
                     case "Model_Copy": Code.Model_Copy = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Copy, definitionRow, CodeXls); break;
                     case "Model_Move": Code.Model_Move = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Move, definitionRow, CodeXls); break;
                     case "Model_Delete": Code.Model_Delete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete, definitionRow, CodeXls); break;
@@ -340,10 +341,14 @@ namespace Implem.DefinitionAccessor
                     case "Model_Title": Code.Model_Title = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Title, definitionRow, CodeXls); break;
                     case "Model_AddSqlParamPkHistory": Code.Model_AddSqlParamPkHistory = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AddSqlParamPkHistory, definitionRow, CodeXls); break;
                     case "Model_SetByForm": Code.Model_SetByForm = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm, definitionRow, CodeXls); break;
-                    case "Model_SetByFormCases": Code.Model_SetByFormCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByFormCases, definitionRow, CodeXls); break;
+                    case "Model_SetByForm_ColumnCases": Code.Model_SetByForm_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_ColumnCases, definitionRow, CodeXls); break;
+                    case "Model_SetByForm_SetByFormula": Code.Model_SetByForm_SetByFormula = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_SetByFormula, definitionRow, CodeXls); break;
                     case "Model_ToUniversal": Code.Model_ToUniversal = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToUniversal, definitionRow, CodeXls); break;
                     case "Model_SetByForm_Files": Code.Model_SetByForm_Files = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_Files, definitionRow, CodeXls); break;
                     case "Model_SetByForm_Site": Code.Model_SetByForm_Site = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_Site, definitionRow, CodeXls); break;
+                    case "Model_SetByFormula": Code.Model_SetByFormula = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByFormula, definitionRow, CodeXls); break;
+                    case "Model_SetByFormula_Data": Code.Model_SetByFormula_Data = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByFormula_Data, definitionRow, CodeXls); break;
+                    case "Model_SetByFormula_ColumnCases": Code.Model_SetByFormula_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByFormula_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_SetBySession": Code.Model_SetBySession = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetBySession, definitionRow, CodeXls); break;
                     case "Model_SetPk": Code.Model_SetPk = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetPk, definitionRow, CodeXls); break;
                     case "Model_Set": Code.Model_Set = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Set, definitionRow, CodeXls); break;
@@ -431,6 +436,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utility_SqlWhereSiteId": Code.Model_Utility_SqlWhereSiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_SqlWhereSiteId, definitionRow, CodeXls); break;
                     case "Model_Utility_SiteId": Code.Model_Utility_SiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_SiteId, definitionRow, CodeXls); break;
                     case "Model_Utility_SiteIdParam": Code.Model_Utility_SiteIdParam = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_SiteIdParam, definitionRow, CodeXls); break;
+                    case "Model_Utility_FormulaResponse": Code.Model_Utility_FormulaResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_FormulaResponse, definitionRow, CodeXls); break;
+                    case "Model_Utility_FormulaResponse_ColumnCases": Code.Model_Utility_FormulaResponse_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_FormulaResponse_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_Utility_TableName": Code.Model_Utility_TableName = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_TableName, definitionRow, CodeXls); break;
                     case "Model_Utility_TableNameCases": Code.Model_Utility_TableNameCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_TableNameCases, definitionRow, CodeXls); break;
                     case "Model_Utility_BulkMove": Code.Model_Utility_BulkMove = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_BulkMove, definitionRow, CodeXls); break;
@@ -3626,6 +3633,7 @@ namespace Implem.DefinitionAccessor
         public string Model_InsertLinks;
         public string Model_InsertLinksCases;
         public string Model_ResponseLinks;
+        public string Model_ResponseByUpdate_FormulaResponse;
         public string Model_Copy;
         public string Model_Move;
         public string Model_Delete;
@@ -3651,10 +3659,14 @@ namespace Implem.DefinitionAccessor
         public string Model_Title;
         public string Model_AddSqlParamPkHistory;
         public string Model_SetByForm;
-        public string Model_SetByFormCases;
+        public string Model_SetByForm_ColumnCases;
+        public string Model_SetByForm_SetByFormula;
         public string Model_ToUniversal;
         public string Model_SetByForm_Files;
         public string Model_SetByForm_Site;
+        public string Model_SetByFormula;
+        public string Model_SetByFormula_Data;
+        public string Model_SetByFormula_ColumnCases;
         public string Model_SetBySession;
         public string Model_SetPk;
         public string Model_Set;
@@ -3742,6 +3754,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Utility_SqlWhereSiteId;
         public string Model_Utility_SiteId;
         public string Model_Utility_SiteIdParam;
+        public string Model_Utility_FormulaResponse;
+        public string Model_Utility_FormulaResponse_ColumnCases;
         public string Model_Utility_TableName;
         public string Model_Utility_TableNameCases;
         public string Model_Utility_BulkMove;
@@ -3975,6 +3989,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_InsertLinks = new CodeDefinition();
         public CodeDefinition Model_InsertLinksCases = new CodeDefinition();
         public CodeDefinition Model_ResponseLinks = new CodeDefinition();
+        public CodeDefinition Model_ResponseByUpdate_FormulaResponse = new CodeDefinition();
         public CodeDefinition Model_Copy = new CodeDefinition();
         public CodeDefinition Model_Move = new CodeDefinition();
         public CodeDefinition Model_Delete = new CodeDefinition();
@@ -4000,10 +4015,14 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Title = new CodeDefinition();
         public CodeDefinition Model_AddSqlParamPkHistory = new CodeDefinition();
         public CodeDefinition Model_SetByForm = new CodeDefinition();
-        public CodeDefinition Model_SetByFormCases = new CodeDefinition();
+        public CodeDefinition Model_SetByForm_ColumnCases = new CodeDefinition();
+        public CodeDefinition Model_SetByForm_SetByFormula = new CodeDefinition();
         public CodeDefinition Model_ToUniversal = new CodeDefinition();
         public CodeDefinition Model_SetByForm_Files = new CodeDefinition();
         public CodeDefinition Model_SetByForm_Site = new CodeDefinition();
+        public CodeDefinition Model_SetByFormula = new CodeDefinition();
+        public CodeDefinition Model_SetByFormula_Data = new CodeDefinition();
+        public CodeDefinition Model_SetByFormula_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_SetBySession = new CodeDefinition();
         public CodeDefinition Model_SetPk = new CodeDefinition();
         public CodeDefinition Model_Set = new CodeDefinition();
@@ -4091,6 +4110,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utility_SqlWhereSiteId = new CodeDefinition();
         public CodeDefinition Model_Utility_SiteId = new CodeDefinition();
         public CodeDefinition Model_Utility_SiteIdParam = new CodeDefinition();
+        public CodeDefinition Model_Utility_FormulaResponse = new CodeDefinition();
+        public CodeDefinition Model_Utility_FormulaResponse_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_Utility_TableName = new CodeDefinition();
         public CodeDefinition Model_Utility_TableNameCases = new CodeDefinition();
         public CodeDefinition Model_Utility_BulkMove = new CodeDefinition();
