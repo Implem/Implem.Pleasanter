@@ -118,17 +118,17 @@ namespace Implem.Pleasanter.Libraries.Models
             {
                 if (Children.Count == 1 || !child)
                 {
-                    formula += RightToString(siteSettings);
+                    formula += ChildrenToString(siteSettings);
                 }
                 else
                 {
-                    formula += "(" + RightToString(siteSettings) + ")";
+                    formula += "(" + ChildrenToString(siteSettings) + ")";
                 }
             }
             return formula;
         }
 
-        private string RightToString(SiteSettings siteSettings)
+        private string ChildrenToString(SiteSettings siteSettings)
         {
             return Children.Select(o => o.ToString(siteSettings, child: true)).Join(string.Empty);
         }
