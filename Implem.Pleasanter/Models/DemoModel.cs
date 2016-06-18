@@ -1116,7 +1116,7 @@ namespace Implem.Pleasanter.Models
                     {
                         switch (column.ColumnName)
                         {
-                            case "Ver": hb.Field(siteSettings, column, demoModel.MethodType, demoModel.Ver.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "Ver": hb.Field(siteSettings, column, demoModel.MethodType, demoModel.Ver.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
                         }
                     });
                 hb.VerUpCheckBox(demoModel);

@@ -1,7 +1,10 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Settings;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlSeparates
@@ -14,7 +17,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         public static HtmlBuilder SeparateSettings(
-            this HtmlBuilder hb, string title, decimal workValue, string unit)
+            this HtmlBuilder hb,
+            string title,
+            decimal workValue,
+            Column column, Permissions.Types permissionType)
         {
             var max = Parameters.General.SeparateMax;
             var min = Parameters.General.SeparateMin;
@@ -46,13 +52,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         fieldCss: "field-auto-thin",
                         controlCss: " w100",
                         labelText: Displays.WorkValue() + "-1",
-                        text: workValue.ToString(),
-                        dataValue: workValue.ToString(),
-                        unit: unit))
+                        text: workValue.ToControl(column, permissionType),
+                        dataValue: workValue.ToString())
+                    .Hidden(
+                        controlId: "WorkValueUnit",
+                        value: column.Unit))
                 .Items(
                     title: title,
                     workValue: workValue,
-                    unit: unit,
+                    unit: column.Unit,
                     max: max,
                     min: min)
                 .P(css: "message-dialog")

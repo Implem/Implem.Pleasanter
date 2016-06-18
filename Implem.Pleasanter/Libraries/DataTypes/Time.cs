@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
@@ -45,10 +46,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return Value.ToText(column);
         }
 
-        public virtual string ToControl(Column column)
+        public virtual string ToControl(Column column, Permissions.Types permissionType)
         {
             return Value.NotZero()
-                ? DisplayValue.ToControl(column)
+                ? DisplayValue.ToControl(column, permissionType)
                 : string.Empty;
         }
 

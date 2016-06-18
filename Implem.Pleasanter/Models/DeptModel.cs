@@ -573,7 +573,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string ToControl(Column column)
+        public string ToControl(Column column, Permissions.Types permissionType)
         {
             return string.Empty;
         }
@@ -1145,13 +1145,13 @@ namespace Implem.Pleasanter.Models
                     {
                         switch (column.ColumnName)
                         {
-                            case "TenantId": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.TenantId.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "DeptId": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.DeptId.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "Ver": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.Ver.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "ParentDeptId": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.ParentDeptId.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "DeptCode": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.DeptCode.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "DeptName": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.DeptName.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "Body": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.Body.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "TenantId": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.TenantId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                            case "DeptId": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.DeptId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                            case "Ver": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.Ver.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                            case "ParentDeptId": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.ParentDeptId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                            case "DeptCode": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.DeptCode.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                            case "DeptName": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.DeptName.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                            case "Body": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.Body.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
                         }
                     });
                 hb.VerUpCheckBox(deptModel);

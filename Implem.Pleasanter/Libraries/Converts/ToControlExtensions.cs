@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
@@ -8,7 +9,8 @@ namespace Implem.Pleasanter.Libraries.Converts
 {
     public static class ToControlExtensions
     {
-        public static string ToControl(this Enum self, Column column)
+        public static string ToControl(
+            this Enum self, Column column, Permissions.Types permissionType)
         {
             switch (column.TypeName)
             {
@@ -18,12 +20,14 @@ namespace Implem.Pleasanter.Libraries.Converts
             }
         }
 
-        public static string ToControl(this bool self, Column column)
+        public static string ToControl(
+            this bool self, Column column, Permissions.Types permissionType)
         {
             return self.ToString();
         }
 
-        public static string ToControl(this DateTime self, Column column)
+        public static string ToControl(
+            this DateTime self, Column column, Permissions.Types permissionType)
         {
             return self.NotZero()
                 ? self.Formatted(column)
@@ -41,27 +45,32 @@ namespace Implem.Pleasanter.Libraries.Converts
                     Sessions.CultureInfo());
         }
 
-        public static string ToControl(this string self, Column column)
+        public static string ToControl(
+            this string self, Column column, Permissions.Types permissionType)
         {
             return self;
         }
 
-        public static string ToControl(this int self, Column column)
+        public static string ToControl(
+            this int self, Column column, Permissions.Types permissionType)
         {
             return self.ToString(column.StringFormat);
         }
 
-        public static string ToControl(this long self, Column column)
+        public static string ToControl(
+            this long self, Column column, Permissions.Types permissionType)
         {
             return self.ToString(column.StringFormat);
         }
 
-        public static string ToControl(this decimal self, Column column)
+        public static string ToControl(
+            this decimal self, Column column, Permissions.Types permissionType)
         {
-            return column.Format(self);
+            return column.Format(self, permissionType);
         }
 
-        public static string ToControl<T>(this IEnumerable<T> self, Column column)
+        public static string ToControl<T>(
+            this IEnumerable<T> self, Column column, Permissions.Types permissionType)
         {
             return self?.Join() ?? string.Empty;
         }

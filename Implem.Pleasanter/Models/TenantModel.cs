@@ -1082,9 +1082,9 @@ namespace Implem.Pleasanter.Models
                     {
                         switch (column.ColumnName)
                         {
-                            case "Ver": hb.Field(siteSettings, column, tenantModel.MethodType, tenantModel.Ver.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "Title": hb.Field(siteSettings, column, tenantModel.MethodType, tenantModel.Title.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "Body": hb.Field(siteSettings, column, tenantModel.MethodType, tenantModel.Body.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "Ver": hb.Field(siteSettings, column, tenantModel.MethodType, tenantModel.Ver.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                            case "Title": hb.Field(siteSettings, column, tenantModel.MethodType, tenantModel.Title.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                            case "Body": hb.Field(siteSettings, column, tenantModel.MethodType, tenantModel.Body.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
                         }
                     });
                 hb.VerUpCheckBox(tenantModel);

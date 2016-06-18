@@ -385,16 +385,6 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes DataUnit(string dataUnit)
-        {
-            if (dataUnit != string.Empty)
-            {
-                base.Add("data-unit");
-                base.Add(dataUnit);
-            }
-            return this;
-        }
-
         public HtmlAttributes DataConfirm(string dataConfirm)
         {
             if (dataConfirm != string.Empty)

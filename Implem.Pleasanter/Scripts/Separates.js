@@ -39,7 +39,7 @@
             ret = false;
             source = 0;
         }
-        $source.text(source + $source.attr('data-unit'));
+        $source.text(source + $('#WorkValueUnit').val());
         getFormData($('.main-form')).SourceWorkValue = source;
         return ret;
     }

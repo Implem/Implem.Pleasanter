@@ -235,5 +235,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? "0"
                 : "0." + new String('0', DecimalPlaces.ToInt()));
         }
+
+        public string Format(decimal value, Permissions.Types permissionType)
+        {
+            return Format(value) + (EditorReadOnly.ToBool() || !this.CanUpdate(permissionType)
+                ? Unit
+                : string.Empty);
+        }
     }
 }

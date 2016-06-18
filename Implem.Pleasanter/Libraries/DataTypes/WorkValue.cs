@@ -3,6 +3,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Data;
@@ -32,9 +33,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             ProgressRate = progressRate;
         }
 
-        public string ToControl(Column column)
+        public string ToControl(Column column, Permissions.Types permissionType)
         {
-            return Value.ToString();
+            return column.Format(Value, permissionType);
         }
 
         public string ToResponse()

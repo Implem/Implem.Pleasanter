@@ -106,8 +106,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelText: column.LabelText,
                                 text: column.HasChoices() && optionCollection.ContainsKey(value)
                                     ? optionCollection[value].Text
-                                    : value,
-                                unit: column.Unit);
+                                    : value);
                     }
                 case Permissions.ColumnPermissionTypes.Update:
                     switch (controlType)
@@ -131,8 +130,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: column.LabelText,
-                                text: value,
-                                unit: column.Unit);
+                                text: value);
                         case ControlTypes.TextBoxMultiLine:
                             return hb.FieldTextBox(
                                 textType: HtmlTypes.TextTypes.MultiLine,
@@ -431,7 +429,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelText = "",
             string text = "",
             string dataValue = "",
-            string unit = "",
             bool _using = true)
         {
             return _using
@@ -445,10 +442,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Span(
                             attributes: new HtmlAttributes()
                                 .Id_Css(controlId, Css.Class("control-text", controlCss))
-                                .DataValue(dataValue)
-                                .DataUnit(unit),
+                                .DataValue(dataValue),
                             action: () => hb
-                                .Text(text: text + unit)),
+                                .Text(text: text)),
                     controlContainerCss: controlContainerCss)
                 : hb;
         }

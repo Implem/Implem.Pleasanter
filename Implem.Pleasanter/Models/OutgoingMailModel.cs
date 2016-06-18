@@ -1317,18 +1317,18 @@ namespace Implem.Pleasanter.Models
                     {
                         switch (column.ColumnName)
                         {
-                            case "ReferenceType": hb.Field(siteSettings, column, outgoingMailModel.MethodType, outgoingMailModel.ReferenceType.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "ReferenceId": hb.Field(siteSettings, column, outgoingMailModel.MethodType, outgoingMailModel.ReferenceId.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "OutgoingMailId": hb.Field(siteSettings, column, outgoingMailModel.MethodType, outgoingMailModel.OutgoingMailId.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "Ver": hb.Field(siteSettings, column, outgoingMailModel.MethodType, outgoingMailModel.Ver.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "To": hb.Field(siteSettings, column, outgoingMailModel.MethodType, outgoingMailModel.To.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "Cc": hb.Field(siteSettings, column, outgoingMailModel.MethodType, outgoingMailModel.Cc.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "Bcc": hb.Field(siteSettings, column, outgoingMailModel.MethodType, outgoingMailModel.Bcc.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "Title": hb.Field(siteSettings, column, outgoingMailModel.MethodType, outgoingMailModel.Title.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "Body": hb.Field(siteSettings, column, outgoingMailModel.MethodType, outgoingMailModel.Body.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "SentTime": hb.Field(siteSettings, column, outgoingMailModel.MethodType, outgoingMailModel.SentTime.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "DestinationSearchRange": hb.Field(siteSettings, column, outgoingMailModel.MethodType, outgoingMailModel.DestinationSearchRange.ToControl(column), column.ColumnPermissionType(permissionType)); break;
-                            case "DestinationSearchText": hb.Field(siteSettings, column, outgoingMailModel.MethodType, outgoingMailModel.DestinationSearchText.ToControl(column), column.ColumnPermissionType(permissionType)); break;
+                            case "ReferenceType": hb.Field(siteSettings, column, outgoingMailModel.MethodType, outgoingMailModel.ReferenceType.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                            case "ReferenceId": hb.Field(siteSettings, column, outgoingMailModel.MethodType, outgoingMailModel.ReferenceId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                            case "OutgoingMailId": hb.Field(siteSettings, column, outgoingMailModel.MethodType, outgoingMailModel.OutgoingMailId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                            case "Ver": hb.Field(siteSettings, column, outgoingMailModel.MethodType, outgoingMailModel.Ver.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                            case "To": hb.Field(siteSettings, column, outgoingMailModel.MethodType, outgoingMailModel.To.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                            case "Cc": hb.Field(siteSettings, column, outgoingMailModel.MethodType, outgoingMailModel.Cc.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                            case "Bcc": hb.Field(siteSettings, column, outgoingMailModel.MethodType, outgoingMailModel.Bcc.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                            case "Title": hb.Field(siteSettings, column, outgoingMailModel.MethodType, outgoingMailModel.Title.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                            case "Body": hb.Field(siteSettings, column, outgoingMailModel.MethodType, outgoingMailModel.Body.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                            case "SentTime": hb.Field(siteSettings, column, outgoingMailModel.MethodType, outgoingMailModel.SentTime.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                            case "DestinationSearchRange": hb.Field(siteSettings, column, outgoingMailModel.MethodType, outgoingMailModel.DestinationSearchRange.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                            case "DestinationSearchText": hb.Field(siteSettings, column, outgoingMailModel.MethodType, outgoingMailModel.DestinationSearchText.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
                         }
                     });
                 hb.VerUpCheckBox(outgoingMailModel);
