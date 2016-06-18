@@ -138,6 +138,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.AlreadyAdded(data), "alert-error");
         }
 
+        public static Message InvalidFormula(params string[] data)
+        {
+            return Get(Displays.InvalidFormula(data), "alert-error");
+        }
+
         public static Message SelectTargets(params string[] data)
         {
             return Get(Displays.SelectTargets(data), "alert-warning");
@@ -411,6 +416,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseAlreadyAdded(params string[] data)
         {
             return ResponseMessage(Messages.AlreadyAdded(data));
+        }
+
+        public static ResponseCollection ResponseInvalidFormula(params string[] data)
+        {
+            return ResponseMessage(Messages.InvalidFormula(data));
         }
 
         public static ResponseCollection ResponseSelectTargets(params string[] data)

@@ -539,6 +539,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string CanNotHide(params string[] data) { return Get("CanNotHide", data); }
         public static HtmlBuilder Displays_AlreadyAdded(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("AlreadyAdded", data)); }
         public static string AlreadyAdded(params string[] data) { return Get("AlreadyAdded", data); }
+        public static HtmlBuilder Displays_InvalidFormula(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("InvalidFormula", data)); }
+        public static string InvalidFormula(params string[] data) { return Get("InvalidFormula", data); }
         public static HtmlBuilder Displays_SelectTargets(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SelectTargets", data)); }
         public static string SelectTargets(params string[] data) { return Get("SelectTargets", data); }
         public static HtmlBuilder Displays_LoginIn(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LoginIn", data)); }

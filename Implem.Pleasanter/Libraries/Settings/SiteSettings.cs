@@ -954,5 +954,206 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .SiteId_In(siteIdCollection)))
                         .AsEnumerable();
         }
+
+        public void SetFormulas(
+            ResponseCollection responseCollection,
+            string controlId,
+            IEnumerable<string> selectedColumns)
+        {
+            var order = FormulaHash.Keys.ToArray();
+            switch (controlId)
+            {
+                case "MoveUpFormulas":
+                case "MoveDownFormulas":
+                    if (controlId == "MoveDownFormulas") Array.Reverse(order);
+                    order.Select((o, i) => new { ColumnName = o, Index = i }).ForEach(data =>
+                    {
+                        if (selectedColumns.Contains(data.ColumnName))
+                        {
+                            if (data.Index > 0 &&
+                                selectedColumns.Contains(order[data.Index - 1]) == false)
+                            {
+                                order = Arrays.Swap(order, data.Index, data.Index - 1);
+                            }
+                        }
+                    });
+                    if (controlId == "MoveDownFormulas") Array.Reverse(order);
+                    FormulaHash = order
+                        .Where(o => FormulaHash.Keys.Contains(o))
+                        .ToDictionary(o => o, o => FormulaHash[o]);
+                    break;
+                case "AddFormula":
+                    AddFormula(responseCollection);
+                    break;
+                case "DeleteFormulas":
+                    DeleteFormulas(responseCollection);
+                    break;
+
+            }
+            responseCollection.Html("#Formulas", new HtmlBuilder()
+                .SelectableItems(
+                    listItemCollection: FormulaItemCollection(),
+                    selectedValueTextCollection: selectedColumns));
+        }
+
+        private void AddFormula(ResponseCollection responseCollection)
+        {
+            var formula = Forms.Data("Formula");
+            var parts = Forms.Data("Formula")
+                .Replace("(", "( ")
+                .Replace(")", " )")
+                .Split(' ')
+                .Select(o => o.Trim())
+                .Where(o => o != string.Empty);
+            if (parts.Count() < 3)
+            {
+                responseCollection.Message(Messages.InvalidFormula());
+                return;
+            }
+            var target = FormulaColumn(parts.Take(1).Last());
+            if (target == null)
+            {
+                responseCollection.Message(Messages.InvalidFormula());
+                return;
+            }
+            if (FormulaHash.Keys.Contains(target.ColumnName))
+            {
+                responseCollection.Message(Messages.AlreadyAdded());
+                return;
+            }
+            if (parts.Take(2).Last() != "=")
+            {
+                responseCollection.Message(Messages.InvalidFormula());
+                return;
+            }
+            var stack = new Stack<Formula>();
+            var root = new Formula();
+            var current = new Formula();
+            root.Add(current);
+            stack.Push(root);
+            parts.Skip(2).ForEach(part =>
+            {
+                switch (part)
+                {
+                    case "+":
+                        if (!AddFormulaOperator(
+                            responseCollection,
+                            stack,
+                            current,
+                            Formula.OperatorTypes.Addition)) return;
+                        break;
+                    case "-":
+                        if (!AddFormulaOperator(
+                            responseCollection,
+                            stack,
+                            current,
+                            Formula.OperatorTypes.Subtraction)) return;
+                        break;
+                    case "*":
+                        if (!AddFormulaOperator(
+                            responseCollection,
+                            stack,
+                            current,
+                            Formula.OperatorTypes.Multiplication)) return;
+                        break;
+                    case "/":
+                        if (!AddFormulaOperator(
+                            responseCollection,
+                            stack,
+                            current,
+                            Formula.OperatorTypes.Division)) return;
+                        break;
+                    case "(":
+                        Formula container;
+                        if (stack.First().Children.Last().OperatorType !=
+                            Formula.OperatorTypes.NotSet)
+                        {
+                            container = stack.First().Children.Last();
+                        }
+                        else
+                        {
+                            container = new Formula();
+                            stack.First().Add(container);
+                        }
+                        container.Add(new Formula());
+                        stack.Push(container);
+                        break;
+                    case ")":
+                        if (stack.Count <= 1)
+                        {
+                            responseCollection.Message(Messages.InvalidFormula());
+                            return;
+                        }
+                        stack.Pop();
+                        break;
+                    default:
+                        var columnName = FormulaColumn(part)?.ColumnName;
+                        if (columnName != null)
+                        {
+                            stack.First().Children.Last().ColumnName = columnName;
+                        }
+                        else if (part.RegexExists(@"^[0-9]*\.?[0-9]+$"))
+                        {
+                            stack.First().Children.Last().Value = part.ToDecimal();
+                        }
+                        else
+                        {
+                            responseCollection.Message(Messages.InvalidFormula());
+                            return;
+                        }
+                        break;
+                }
+            });
+            if (stack.Count != 1)
+            {
+                responseCollection.Message(Messages.InvalidFormula());
+                return;
+            }
+            FormulaHash.Add(target.ColumnName, root);
+            responseCollection.Val("#Formula", string.Empty);
+        }
+
+        private void DeleteFormulas(ResponseCollection responseCollection)
+        {
+            var selected = Forms.Data("Formulas").Split(';');
+            FormulaHash.RemoveAll((key, value) => selected.Contains(key));
+        }
+
+        private bool AddFormulaOperator(
+            ResponseCollection responseCollection,
+            Stack<Formula> stack,
+            Formula current,
+            Formula.OperatorTypes operatorType)
+        {
+            if (!stack.First().Children.Last().Completion())
+            {
+                responseCollection.Message(Messages.InvalidFormula());
+                return false;
+            }
+            else
+            {
+                current = new Formula(operatorType);
+                stack.First().Add(current);
+                return true;
+            }
+        }
+
+        public Column FormulaColumn(string name)
+        {
+            return ColumnCollection
+                .Where(o => o.ColumnName == name || o.LabelText == name)
+                .Where(o => o.Computable)
+                .Where(o => o.TypeName != "datetime")
+                .FirstOrDefault();
+        }
+
+        public Dictionary<string, string> FormulaItemCollection()
+        {
+            return FormulaHash.ToDictionary(
+                o => o.Key,
+                o =>
+                    FormulaColumn(o.Key).LabelText + " = " +
+                    o.Value.ToString(this));
+        }
     }
 }

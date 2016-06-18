@@ -733,6 +733,7 @@ namespace Implem.Pleasanter.Models
                     SetTitleColumns(responseCollection);
                     SetLinkColumns(responseCollection);
                     SetHistoryColumns(responseCollection);
+                    SetFormulas(responseCollection);
                     SetAggregations(responseCollection);
                     SetSummaries(responseCollection);
                     break;
@@ -1014,6 +1015,21 @@ namespace Implem.Pleasanter.Models
             {
                 SiteSettings.SetHistoryColumns(
                     responseCollection, Forms.Data("ControlId"), selectedColumns);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetFormulas(ResponseCollection responseCollection)
+        {
+            var selectedColumns = Forms.Data("Formulas").Split(';').
+                Where(o => o != string.Empty);
+            var controlId = Forms.Data("ControlId");
+            if (selectedColumns.Count() != 0 || controlId == "AddFormula")
+            {
+                SiteSettings.SetFormulas(
+                    responseCollection, controlId, selectedColumns);
             }
         }
 
@@ -2582,13 +2598,12 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h200",
                         labelText: Displays.SettingColumnList(),
-                        listItemCollection: siteSettings.FormulaHash
-                            .ToDictionary(o => o.Key, o => o.Value.Text()),
+                        listItemCollection: siteSettings.FormulaItemCollection(),
                         commandOptionAction: () => hb
                             .Div(css: "command-left", action: () => hb
                                 .TextBox(
                                     controlId: "Formula",
-                                    controlCss: " w400")
+                                    controlCss: " w300")
                                 .Button(
                                     controlId: "AddFormula",
                                     controlCss: "button-create",
@@ -2597,7 +2612,21 @@ namespace Implem.Pleasanter.Models
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
-                                    controlId: "DeleteFormula",
+                                    controlId: "MoveUpFormulas",
+                                    controlCss: "button-up",
+                                    text: Displays.Up(),
+                                    onClick: Def.JavaScript.Submit,
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    controlId: "MoveDownFormulas",
+                                    controlCss: "button-down",
+                                    text: Displays.Down(),
+                                    onClick: Def.JavaScript.Submit,
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    controlId: "DeleteFormulas",
                                     controlCss: "button-delete",
                                     text: Displays.Delete(),
                                     onClick: Def.JavaScript.Submit,
