@@ -523,8 +523,8 @@ namespace Implem.DefinitionAccessor
                     case "Rds_SiteSettings_SiteId": Code.Rds_SiteSettings_SiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SiteSettings_SiteId, definitionRow, CodeXls); break;
                     case "Rds_TitleColumn": Code.Rds_TitleColumn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_TitleColumn, definitionRow, CodeXls); break;
                     case "Rds_TitleColumnCases": Code.Rds_TitleColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_TitleColumnCases, definitionRow, CodeXls); break;
-                    case "TitleUtility": Code.TitleUtility = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.TitleUtility, definitionRow, CodeXls); break;
-                    case "TitleUtility_TitleDisplayValueCases": Code.TitleUtility_TitleDisplayValueCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.TitleUtility_TitleDisplayValueCases, definitionRow, CodeXls); break;
+                    case "Titles": Code.Titles = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Titles, definitionRow, CodeXls); break;
+                    case "Titles_TitleDisplayValueCases": Code.Titles_TitleDisplayValueCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Titles_TitleDisplayValueCases, definitionRow, CodeXls); break;
                     case "Indexes": Code.Indexes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Indexes, definitionRow, CodeXls); break;
                     case "Indexes_TableCases": Code.Indexes_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Indexes_TableCases, definitionRow, CodeXls); break;
                     case "Responses": Code.Responses = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Responses, definitionRow, CodeXls); break;
@@ -2654,6 +2654,8 @@ namespace Implem.DefinitionAccessor
                     case "CanNotHide_ja": Display.CanNotHide_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CanNotHide_ja, definitionRow, DisplayXls); break;
                     case "AlreadyAdded": Display.AlreadyAdded = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.AlreadyAdded, definitionRow, DisplayXls); break;
                     case "AlreadyAdded_ja": Display.AlreadyAdded_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.AlreadyAdded_ja, definitionRow, DisplayXls); break;
+                    case "InvalidFormula": Display.InvalidFormula = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.InvalidFormula, definitionRow, DisplayXls); break;
+                    case "InvalidFormula_ja": Display.InvalidFormula_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.InvalidFormula_ja, definitionRow, DisplayXls); break;
                     case "SelectTargets": Display.SelectTargets = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SelectTargets, definitionRow, DisplayXls); break;
                     case "SelectTargets_ja": Display.SelectTargets_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SelectTargets_ja, definitionRow, DisplayXls); break;
                     case "LoginIn": Display.LoginIn = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.LoginIn, definitionRow, DisplayXls); break;
@@ -3832,8 +3834,8 @@ namespace Implem.DefinitionAccessor
         public string Rds_SiteSettings_SiteId;
         public string Rds_TitleColumn;
         public string Rds_TitleColumnCases;
-        public string TitleUtility;
-        public string TitleUtility_TitleDisplayValueCases;
+        public string Titles;
+        public string Titles_TitleDisplayValueCases;
         public string Indexes;
         public string Indexes_TableCases;
         public string Responses;
@@ -4181,8 +4183,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Rds_SiteSettings_SiteId = new CodeDefinition();
         public CodeDefinition Rds_TitleColumn = new CodeDefinition();
         public CodeDefinition Rds_TitleColumnCases = new CodeDefinition();
-        public CodeDefinition TitleUtility = new CodeDefinition();
-        public CodeDefinition TitleUtility_TitleDisplayValueCases = new CodeDefinition();
+        public CodeDefinition Titles = new CodeDefinition();
+        public CodeDefinition Titles_TitleDisplayValueCases = new CodeDefinition();
         public CodeDefinition Indexes = new CodeDefinition();
         public CodeDefinition Indexes_TableCases = new CodeDefinition();
         public CodeDefinition Responses = new CodeDefinition();
@@ -7446,6 +7448,8 @@ namespace Implem.DefinitionAccessor
         public string CanNotHide_ja;
         public string AlreadyAdded;
         public string AlreadyAdded_ja;
+        public string InvalidFormula;
+        public string InvalidFormula_ja;
         public string SelectTargets;
         public string SelectTargets_ja;
         public string LoginIn;
@@ -8030,6 +8034,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition CanNotHide_ja = new DisplayDefinition();
         public DisplayDefinition AlreadyAdded = new DisplayDefinition();
         public DisplayDefinition AlreadyAdded_ja = new DisplayDefinition();
+        public DisplayDefinition InvalidFormula = new DisplayDefinition();
+        public DisplayDefinition InvalidFormula_ja = new DisplayDefinition();
         public DisplayDefinition SelectTargets = new DisplayDefinition();
         public DisplayDefinition SelectTargets_ja = new DisplayDefinition();
         public DisplayDefinition LoginIn = new DisplayDefinition();
