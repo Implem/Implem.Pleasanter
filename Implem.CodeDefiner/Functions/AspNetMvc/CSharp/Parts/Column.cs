@@ -166,6 +166,21 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             {
                 switch (placeholder)
                 {
+                    case "ByForm":
+                        code = code.ByForm(columnDefinition);
+                        break;
+                    case "ByDataRow":
+                        code = code.ByDataRow(columnDefinition);
+                        break;
+                    case "BySession":
+                        code = code.BySession(columnDefinition);
+                        break;
+                }
+            }
+            foreach (var placeholder in code.RegexValues(CodePatterns.ReplacementPlaceholder))
+            {
+                switch (placeholder)
+                {
                     case "columnName":
                         code = code.Replace(
                             "#columnName#", columnDefinition.ColumnName.LocalalVariableName());
@@ -189,15 +204,6 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                         break;
                     case "CastType":
                         code = code.Replace("#CastType#", columnDefinition.TypeName.CastType());
-                        break;
-                    case "ByForm":
-                        code = code.ByForm(columnDefinition);
-                        break;
-                    case "ByDataRow":
-                        code = code.ByDataRow(columnDefinition);
-                        break;
-                    case "BySession":
-                        code = code.BySession(columnDefinition);
                         break;
                     case "DefaultData":
                         code = code.Replace(
