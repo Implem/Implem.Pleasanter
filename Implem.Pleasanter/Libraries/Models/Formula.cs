@@ -8,7 +8,7 @@ namespace Implem.Pleasanter.Libraries.Models
     public class Formula
     {
         public string ColumnName;
-        public decimal? Value;
+        public decimal? RawValue;
         public OperatorTypes OperatorType = OperatorTypes.NotSet;
         public List<Formula> Children;
         [NonSerialized]
@@ -79,7 +79,7 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             Result = ColumnName != null && data.ContainsKey(ColumnName)
                 ? data[ColumnName]
-                : Value.ToDecimal();
+                : RawValue.ToDecimal();
         }
 
         public string Text()
@@ -90,8 +90,10 @@ namespace Implem.Pleasanter.Libraries.Models
         public bool Completion()
         {
             return
-                ColumnName != null || Value != null ||
-                (Children != null && (Children.Last().ColumnName != null || Children.Last().Value != null));
+                ColumnName != null || RawValue != null ||
+                (Children != null && (
+                    Children.Last().ColumnName != null ||
+                    Children.Last().RawValue != null));
         }
 
         public string ToString(SiteSettings siteSettings, bool child = false)
@@ -108,9 +110,9 @@ namespace Implem.Pleasanter.Libraries.Models
             {
                 formula += siteSettings.FormulaColumn(ColumnName).LabelText;
             }
-            if (Value != null)
+            if (RawValue != null)
             {
-                formula += Value;
+                formula += RawValue;
             }
             if (Children != null)
             {

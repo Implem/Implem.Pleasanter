@@ -1094,7 +1094,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                         else if (part.RegexExists(@"^[0-9]*\.?[0-9]+$"))
                         {
-                            stack.First().Children.Last().Value = part.ToDecimal();
+                            stack.First().Children.Last().RawValue = part.ToDecimal();
                         }
                         else
                         {
