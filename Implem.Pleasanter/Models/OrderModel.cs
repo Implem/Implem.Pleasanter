@@ -311,5 +311,18 @@ namespace Implem.Pleasanter.Models
                 default: return hb;
             }
         }
+
+        public static ResponseCollection FormResponse(
+            this ResponseCollection responseCollection, OrderModel orderModel)
+        {
+            Forms.All().Keys.ForEach(key =>
+            {
+                switch (key)
+                {
+                    default: break;
+                }
+            });
+            return responseCollection;
+        }
     }
 }

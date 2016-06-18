@@ -728,6 +728,7 @@ namespace Implem.Pleasanter.Models
                 .Ver()
                 .Timestamp()
                 .Val("#VerUp", false)
+                .FormResponse(this)
                 .Formula(this)
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", Title.DisplayValue)
@@ -1069,22 +1070,22 @@ namespace Implem.Pleasanter.Models
                     case "Results_ClassN": ClassN = Forms.Data(controlId).ToString(); break;
                     case "Results_ClassO": ClassO = Forms.Data(controlId).ToString(); break;
                     case "Results_ClassP": ClassP = Forms.Data(controlId).ToString(); break;
-                    case "Results_NumA": NumA = Forms.Data(controlId).ToDecimal(); break;
-                    case "Results_NumB": NumB = Forms.Data(controlId).ToDecimal(); break;
-                    case "Results_NumC": NumC = Forms.Data(controlId).ToDecimal(); break;
-                    case "Results_NumD": NumD = Forms.Data(controlId).ToDecimal(); break;
-                    case "Results_NumE": NumE = Forms.Data(controlId).ToDecimal(); break;
-                    case "Results_NumF": NumF = Forms.Data(controlId).ToDecimal(); break;
-                    case "Results_NumG": NumG = Forms.Data(controlId).ToDecimal(); break;
-                    case "Results_NumH": NumH = Forms.Data(controlId).ToDecimal(); break;
-                    case "Results_NumI": NumI = Forms.Data(controlId).ToDecimal(); break;
-                    case "Results_NumJ": NumJ = Forms.Data(controlId).ToDecimal(); break;
-                    case "Results_NumK": NumK = Forms.Data(controlId).ToDecimal(); break;
-                    case "Results_NumL": NumL = Forms.Data(controlId).ToDecimal(); break;
-                    case "Results_NumM": NumM = Forms.Data(controlId).ToDecimal(); break;
-                    case "Results_NumN": NumN = Forms.Data(controlId).ToDecimal(); break;
-                    case "Results_NumO": NumO = Forms.Data(controlId).ToDecimal(); break;
-                    case "Results_NumP": NumP = Forms.Data(controlId).ToDecimal(); break;
+                    case "Results_NumA": NumA = SiteSettings.AllColumn("NumA").Round(Forms.Decimal(controlId)); break;
+                    case "Results_NumB": NumB = SiteSettings.AllColumn("NumB").Round(Forms.Decimal(controlId)); break;
+                    case "Results_NumC": NumC = SiteSettings.AllColumn("NumC").Round(Forms.Decimal(controlId)); break;
+                    case "Results_NumD": NumD = SiteSettings.AllColumn("NumD").Round(Forms.Decimal(controlId)); break;
+                    case "Results_NumE": NumE = SiteSettings.AllColumn("NumE").Round(Forms.Decimal(controlId)); break;
+                    case "Results_NumF": NumF = SiteSettings.AllColumn("NumF").Round(Forms.Decimal(controlId)); break;
+                    case "Results_NumG": NumG = SiteSettings.AllColumn("NumG").Round(Forms.Decimal(controlId)); break;
+                    case "Results_NumH": NumH = SiteSettings.AllColumn("NumH").Round(Forms.Decimal(controlId)); break;
+                    case "Results_NumI": NumI = SiteSettings.AllColumn("NumI").Round(Forms.Decimal(controlId)); break;
+                    case "Results_NumJ": NumJ = SiteSettings.AllColumn("NumJ").Round(Forms.Decimal(controlId)); break;
+                    case "Results_NumK": NumK = SiteSettings.AllColumn("NumK").Round(Forms.Decimal(controlId)); break;
+                    case "Results_NumL": NumL = SiteSettings.AllColumn("NumL").Round(Forms.Decimal(controlId)); break;
+                    case "Results_NumM": NumM = SiteSettings.AllColumn("NumM").Round(Forms.Decimal(controlId)); break;
+                    case "Results_NumN": NumN = SiteSettings.AllColumn("NumN").Round(Forms.Decimal(controlId)); break;
+                    case "Results_NumO": NumO = SiteSettings.AllColumn("NumO").Round(Forms.Decimal(controlId)); break;
+                    case "Results_NumP": NumP = SiteSettings.AllColumn("NumP").Round(Forms.Decimal(controlId)); break;
                     case "Results_DateA": DateA = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
                     case "Results_DateB": DateB = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
                     case "Results_DateC": DateC = Forms.Data(controlId).ToDateTime().ToUniversal(); break;
@@ -2651,6 +2652,35 @@ namespace Implem.Pleasanter.Models
                                 .ToList();    
             }
             return switchTargets;
+        }
+
+        public static ResponseCollection FormResponse(
+            this ResponseCollection responseCollection, ResultModel resultModel)
+        {
+            Forms.All().Keys.ForEach(key =>
+            {
+                switch (key)
+                {
+                    case "Results_NumA": responseCollection.Val("#" + key, resultModel.NumA.ToControl(resultModel.SiteSettings.AllColumn("NumA"), resultModel.PermissionType)); break;
+                    case "Results_NumB": responseCollection.Val("#" + key, resultModel.NumB.ToControl(resultModel.SiteSettings.AllColumn("NumB"), resultModel.PermissionType)); break;
+                    case "Results_NumC": responseCollection.Val("#" + key, resultModel.NumC.ToControl(resultModel.SiteSettings.AllColumn("NumC"), resultModel.PermissionType)); break;
+                    case "Results_NumD": responseCollection.Val("#" + key, resultModel.NumD.ToControl(resultModel.SiteSettings.AllColumn("NumD"), resultModel.PermissionType)); break;
+                    case "Results_NumE": responseCollection.Val("#" + key, resultModel.NumE.ToControl(resultModel.SiteSettings.AllColumn("NumE"), resultModel.PermissionType)); break;
+                    case "Results_NumF": responseCollection.Val("#" + key, resultModel.NumF.ToControl(resultModel.SiteSettings.AllColumn("NumF"), resultModel.PermissionType)); break;
+                    case "Results_NumG": responseCollection.Val("#" + key, resultModel.NumG.ToControl(resultModel.SiteSettings.AllColumn("NumG"), resultModel.PermissionType)); break;
+                    case "Results_NumH": responseCollection.Val("#" + key, resultModel.NumH.ToControl(resultModel.SiteSettings.AllColumn("NumH"), resultModel.PermissionType)); break;
+                    case "Results_NumI": responseCollection.Val("#" + key, resultModel.NumI.ToControl(resultModel.SiteSettings.AllColumn("NumI"), resultModel.PermissionType)); break;
+                    case "Results_NumJ": responseCollection.Val("#" + key, resultModel.NumJ.ToControl(resultModel.SiteSettings.AllColumn("NumJ"), resultModel.PermissionType)); break;
+                    case "Results_NumK": responseCollection.Val("#" + key, resultModel.NumK.ToControl(resultModel.SiteSettings.AllColumn("NumK"), resultModel.PermissionType)); break;
+                    case "Results_NumL": responseCollection.Val("#" + key, resultModel.NumL.ToControl(resultModel.SiteSettings.AllColumn("NumL"), resultModel.PermissionType)); break;
+                    case "Results_NumM": responseCollection.Val("#" + key, resultModel.NumM.ToControl(resultModel.SiteSettings.AllColumn("NumM"), resultModel.PermissionType)); break;
+                    case "Results_NumN": responseCollection.Val("#" + key, resultModel.NumN.ToControl(resultModel.SiteSettings.AllColumn("NumN"), resultModel.PermissionType)); break;
+                    case "Results_NumO": responseCollection.Val("#" + key, resultModel.NumO.ToControl(resultModel.SiteSettings.AllColumn("NumO"), resultModel.PermissionType)); break;
+                    case "Results_NumP": responseCollection.Val("#" + key, resultModel.NumP.ToControl(resultModel.SiteSettings.AllColumn("NumP"), resultModel.PermissionType)); break;
+                    default: break;
+                }
+            });
+            return responseCollection;
         }
 
         public static ResponseCollection Formula(

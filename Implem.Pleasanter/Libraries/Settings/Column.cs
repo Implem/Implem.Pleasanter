@@ -242,5 +242,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? Unit
                 : string.Empty);
         }
+
+        public decimal Round(decimal value)
+        {
+             return Math.Round(value, DecimalPlaces.ToInt(), MidpointRounding.AwayFromZero);
+        }
     }
 }

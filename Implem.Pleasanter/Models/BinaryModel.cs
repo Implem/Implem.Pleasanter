@@ -304,6 +304,7 @@ namespace Implem.Pleasanter.Models
                 .Ver()
                 .Timestamp()
                 .Val("#VerUp", false)
+                .FormResponse(this)
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", Title.Value)
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(baseModel: this, tableName: "Binaries"))
@@ -1386,6 +1387,19 @@ namespace Implem.Pleasanter.Models
                                 .ToList();    
             }
             return switchTargets;
+        }
+
+        public static ResponseCollection FormResponse(
+            this ResponseCollection responseCollection, BinaryModel binaryModel)
+        {
+            Forms.All().Keys.ForEach(key =>
+            {
+                switch (key)
+                {
+                    default: break;
+                }
+            });
+            return responseCollection;
         }
     }
 }

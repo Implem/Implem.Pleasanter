@@ -298,6 +298,7 @@ namespace Implem.Pleasanter.Models
                 .Ver()
                 .Timestamp()
                 .Val("#VerUp", false)
+                .FormResponse(this)
                 .Formula(this)
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", Title.DisplayValue)
@@ -1386,6 +1387,19 @@ namespace Implem.Pleasanter.Models
                                 .ToList();    
             }
             return switchTargets;
+        }
+
+        public static ResponseCollection FormResponse(
+            this ResponseCollection responseCollection, WikiModel wikiModel)
+        {
+            Forms.All().Keys.ForEach(key =>
+            {
+                switch (key)
+                {
+                    default: break;
+                }
+            });
+            return responseCollection;
         }
 
         public static ResponseCollection Formula(
