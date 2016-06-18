@@ -82,11 +82,6 @@ namespace Implem.Pleasanter.Libraries.Models
                 : RawValue.ToDecimal();
         }
 
-        public string Text()
-        {
-            return string.Empty;
-        }
-
         public bool Completion()
         {
             return
