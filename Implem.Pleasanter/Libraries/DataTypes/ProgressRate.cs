@@ -136,13 +136,6 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 : 0;
         }
 
-        private static string Spi(float plannedValue, float earnedValue)
-        {
-            return earnedValue != 0 && plannedValue != 0
-                ? " (" + (earnedValue / plannedValue).ToString("0.00") + ")"
-                : string.Empty;
-        }
-
         public string ToExport(Column column)
         {
             return Value.ToString();
