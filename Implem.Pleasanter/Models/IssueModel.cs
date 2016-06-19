@@ -1327,7 +1327,6 @@ namespace Implem.Pleasanter.Models
                     switch (columnName)
                     {
                         case "WorkValue": WorkValue.Value = SiteSettings.FormulaHash[columnName].GetResult(data); break;
-                        case "RemainingWorkValue": RemainingWorkValue = SiteSettings.FormulaHash[columnName].GetResult(data); break;
                         case "NumA": NumA = SiteSettings.FormulaHash[columnName].GetResult(data); break;
                         case "NumB": NumB = SiteSettings.FormulaHash[columnName].GetResult(data); break;
                         case "NumC": NumC = SiteSettings.FormulaHash[columnName].GetResult(data); break;
@@ -2884,7 +2883,6 @@ namespace Implem.Pleasanter.Models
                 switch (key)
                 {
                     case "Issues_WorkValue": responseCollection.Val("#" + key, issueModel.WorkValue.ToControl(issueModel.SiteSettings.AllColumn("WorkValue"), issueModel.PermissionType)); break;
-                    case "Issues_RemainingWorkValue": responseCollection.Val("#" + key, issueModel.RemainingWorkValue.ToControl(issueModel.SiteSettings.AllColumn("RemainingWorkValue"), issueModel.PermissionType)); break;
                     case "Issues_NumA": responseCollection.Val("#" + key, issueModel.NumA.ToControl(issueModel.SiteSettings.AllColumn("NumA"), issueModel.PermissionType)); break;
                     case "Issues_NumB": responseCollection.Val("#" + key, issueModel.NumB.ToControl(issueModel.SiteSettings.AllColumn("NumB"), issueModel.PermissionType)); break;
                     case "Issues_NumC": responseCollection.Val("#" + key, issueModel.NumC.ToControl(issueModel.SiteSettings.AllColumn("NumC"), issueModel.PermissionType)); break;
@@ -2916,7 +2914,6 @@ namespace Implem.Pleasanter.Models
                 switch (columnName)
                 {
                     case "WorkValue": responseCollection.Val("#Issues_WorkValue", issueModel.WorkValue.ToControl(column, issueModel.PermissionType)); break;
-                    case "RemainingWorkValue": responseCollection.Val("#Issues_RemainingWorkValue", issueModel.RemainingWorkValue.ToControl(column, issueModel.PermissionType)); break;
                     case "NumA": responseCollection.Val("#Issues_NumA", issueModel.NumA.ToControl(column, issueModel.PermissionType)); break;
                     case "NumB": responseCollection.Val("#Issues_NumB", issueModel.NumB.ToControl(column, issueModel.PermissionType)); break;
                     case "NumC": responseCollection.Val("#Issues_NumC", issueModel.NumC.ToControl(column, issueModel.PermissionType)); break;
