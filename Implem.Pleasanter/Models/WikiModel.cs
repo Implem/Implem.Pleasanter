@@ -500,6 +500,7 @@ namespace Implem.Pleasanter.Models
                 summary.Type,
                 summary.SourceColumn,
                 id);
+            Formulas.Update(id);
         }
 
         private long SynchronizeSummaryDestinationId(string linkColumn, bool saved = false)
@@ -508,6 +509,25 @@ namespace Implem.Pleasanter.Models
             {
                 default: return 0;
             }
+        }
+
+        public void UpdateFormulaColumns()
+        {
+            SetByFormula();
+            var param = Rds.WikisParam();
+            SiteSettings.FormulaHash.Keys.ForEach(columnName =>
+            {
+                switch (columnName)
+                {
+                    default: break;
+                }
+            });
+            Rds.ExecuteNonQuery(statements:
+                Rds.UpdateWikis(
+                    param: param,
+                    where: Rds.WikisWhereDefault(this),
+                    addUpdatedTimeParam: false,
+                    addUpdatorParam: false));
         }
 
         public string Histories()

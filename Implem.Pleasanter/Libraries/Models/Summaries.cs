@@ -14,15 +14,18 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             var summary = siteSettings.SummaryCollection.FirstOrDefault(
                 o => o.Id == Forms.Data("ControlId").Split(',')._2nd().ToLong());
-            return Synchronize(
+            var destinationSiteModel = new SiteModel(summary.SiteId);
+            var json = Synchronize(
                 summary.SiteId,
-                new SiteModel(summary.SiteId).ReferenceType,
+                destinationSiteModel.ReferenceType,
                 summary.DestinationColumn,
                 siteId,
                 siteSettings.ReferenceType,
                 summary.LinkColumn,
                 summary.Type,
                 summary.SourceColumn);
+            Formulas.Update(destinationSiteModel);
+            return json;
         }
 
         public static string Synchronize(

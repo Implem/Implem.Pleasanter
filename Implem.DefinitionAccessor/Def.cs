@@ -308,6 +308,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_SynchronizeSummaryExecute": Code.Model_SynchronizeSummaryExecute = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SynchronizeSummaryExecute, definitionRow, CodeXls); break;
                     case "Model_SynchronizeSummary": Code.Model_SynchronizeSummary = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SynchronizeSummary, definitionRow, CodeXls); break;
                     case "Model_SynchronizeSummaryColumnCases": Code.Model_SynchronizeSummaryColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SynchronizeSummaryColumnCases, definitionRow, CodeXls); break;
+                    case "Model_UpdateFormulaColumns": Code.Model_UpdateFormulaColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateFormulaColumns, definitionRow, CodeXls); break;
+                    case "Model_UpdateFormulaColumns_ColumnCases": Code.Model_UpdateFormulaColumns_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateFormulaColumns_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_UpdateOrCreate": Code.Model_UpdateOrCreate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateOrCreate, definitionRow, CodeXls); break;
                     case "Model_InsertLinksByCreate": Code.Model_InsertLinksByCreate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertLinksByCreate, definitionRow, CodeXls); break;
                     case "Model_InsertLinksByUpdate": Code.Model_InsertLinksByUpdate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertLinksByUpdate, definitionRow, CodeXls); break;
@@ -578,6 +580,9 @@ namespace Implem.DefinitionAccessor
                     case "Summaries_SelectMinColumnCases": Code.Summaries_SelectMinColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries_SelectMinColumnCases, definitionRow, CodeXls); break;
                     case "Summaries_WhereTables": Code.Summaries_WhereTables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries_WhereTables, definitionRow, CodeXls); break;
                     case "Summaries_WhereColumnCases": Code.Summaries_WhereColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries_WhereColumnCases, definitionRow, CodeXls); break;
+                    case "Formulas": Code.Formulas = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Formulas, definitionRow, CodeXls); break;
+                    case "Formulas_TableCases": Code.Formulas_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Formulas_TableCases, definitionRow, CodeXls); break;
+                    case "Formulas_Updates": Code.Formulas_Updates = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Formulas_Updates, definitionRow, CodeXls); break;
                     case "Messages": Code.Messages = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Messages, definitionRow, CodeXls); break;
                     case "Messages_Parts": Code.Messages_Parts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Messages_Parts, definitionRow, CodeXls); break;
                     case "Messages_Resonses": Code.Messages_Resonses = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Messages_Resonses, definitionRow, CodeXls); break;
@@ -3628,6 +3633,8 @@ namespace Implem.DefinitionAccessor
         public string Model_SynchronizeSummaryExecute;
         public string Model_SynchronizeSummary;
         public string Model_SynchronizeSummaryColumnCases;
+        public string Model_UpdateFormulaColumns;
+        public string Model_UpdateFormulaColumns_ColumnCases;
         public string Model_UpdateOrCreate;
         public string Model_InsertLinksByCreate;
         public string Model_InsertLinksByUpdate;
@@ -3898,6 +3905,9 @@ namespace Implem.DefinitionAccessor
         public string Summaries_SelectMinColumnCases;
         public string Summaries_WhereTables;
         public string Summaries_WhereColumnCases;
+        public string Formulas;
+        public string Formulas_TableCases;
+        public string Formulas_Updates;
         public string Messages;
         public string Messages_Parts;
         public string Messages_Resonses;
@@ -3986,6 +3996,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SynchronizeSummaryExecute = new CodeDefinition();
         public CodeDefinition Model_SynchronizeSummary = new CodeDefinition();
         public CodeDefinition Model_SynchronizeSummaryColumnCases = new CodeDefinition();
+        public CodeDefinition Model_UpdateFormulaColumns = new CodeDefinition();
+        public CodeDefinition Model_UpdateFormulaColumns_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_UpdateOrCreate = new CodeDefinition();
         public CodeDefinition Model_InsertLinksByCreate = new CodeDefinition();
         public CodeDefinition Model_InsertLinksByUpdate = new CodeDefinition();
@@ -4256,6 +4268,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Summaries_SelectMinColumnCases = new CodeDefinition();
         public CodeDefinition Summaries_WhereTables = new CodeDefinition();
         public CodeDefinition Summaries_WhereColumnCases = new CodeDefinition();
+        public CodeDefinition Formulas = new CodeDefinition();
+        public CodeDefinition Formulas_TableCases = new CodeDefinition();
+        public CodeDefinition Formulas_Updates = new CodeDefinition();
         public CodeDefinition Messages = new CodeDefinition();
         public CodeDefinition Messages_Parts = new CodeDefinition();
         public CodeDefinition Messages_Resonses = new CodeDefinition();

@@ -923,6 +923,7 @@ namespace Implem.Pleasanter.Models
                 summary.Type,
                 summary.SourceColumn,
                 id);
+            Formulas.Update(id);
         }
 
         private long SynchronizeSummaryDestinationId(string linkColumn, bool saved = false)
@@ -947,6 +948,41 @@ namespace Implem.Pleasanter.Models
                 case "ClassP": return saved ? SavedClassP.ToLong() : ClassP.ToLong();
                 default: return 0;
             }
+        }
+
+        public void UpdateFormulaColumns()
+        {
+            SetByFormula();
+            var param = Rds.ResultsParam();
+            SiteSettings.FormulaHash.Keys.ForEach(columnName =>
+            {
+                switch (columnName)
+                {
+                    case "NumA": param.NumA(NumA); break;
+                    case "NumB": param.NumB(NumB); break;
+                    case "NumC": param.NumC(NumC); break;
+                    case "NumD": param.NumD(NumD); break;
+                    case "NumE": param.NumE(NumE); break;
+                    case "NumF": param.NumF(NumF); break;
+                    case "NumG": param.NumG(NumG); break;
+                    case "NumH": param.NumH(NumH); break;
+                    case "NumI": param.NumI(NumI); break;
+                    case "NumJ": param.NumJ(NumJ); break;
+                    case "NumK": param.NumK(NumK); break;
+                    case "NumL": param.NumL(NumL); break;
+                    case "NumM": param.NumM(NumM); break;
+                    case "NumN": param.NumN(NumN); break;
+                    case "NumO": param.NumO(NumO); break;
+                    case "NumP": param.NumP(NumP); break;
+                    default: break;
+                }
+            });
+            Rds.ExecuteNonQuery(statements:
+                Rds.UpdateResults(
+                    param: param,
+                    where: Rds.ResultsWhereDefault(this),
+                    addUpdatedTimeParam: false,
+                    addUpdatorParam: false));
         }
 
         public string Histories()

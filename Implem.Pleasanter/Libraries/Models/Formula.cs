@@ -12,7 +12,7 @@ namespace Implem.Pleasanter.Libraries.Models
         public OperatorTypes OperatorType = OperatorTypes.NotSet;
         public List<Formula> Children;
         [NonSerialized]
-        public decimal Result = 0;
+        private decimal Result = 0;
 
         public enum OperatorTypes
         {
@@ -39,21 +39,24 @@ namespace Implem.Pleasanter.Libraries.Models
             return formula;
         }
 
-        public decimal GetResult(Dictionary<string, decimal> data)
+        public decimal GetResult(Dictionary<string, decimal> data, bool children = false)
         {
-            Children?.ForEach(formula => formula.SetValue(data));
+            if (!children)
+            {
+                Children?.ForEach(formula => formula.SetValue(data));
+            }
             Formula before = null;
             Children?.ForEach(formula =>
             {
-                var result = formula.GetResult(data);
+                var childResult = formula.GetResult(data, children: true);
                 switch (formula.OperatorType)
                 {
                     case OperatorTypes.Multiplication:
-                        before.Result *= result;
+                        before.Result *= childResult;
                         break;
                     case OperatorTypes.Division:
-                        before.Result = result != 0
-                            ? before.Result / result
+                        before.Result = childResult != 0
+                            ? before.Result / childResult
                             : 0;
                         break;
                 }
@@ -65,21 +68,29 @@ namespace Implem.Pleasanter.Libraries.Models
                 {
                     case OperatorTypes.NotSet:
                     case OperatorTypes.Addition:
-                        Result += formula.GetResult(data);
+                        Result += formula.GetResult(data, children: true);
                         break;
                     case OperatorTypes.Subtraction:
-                        Result -= formula.GetResult(data);
+                        Result -= formula.GetResult(data, children: true);
                         break;
                 }
             });
-            return Result;
+            var result = Result;
+            if (!children) ClearResults();
+            return result;
         }
 
-        public void SetValue(Dictionary<string, decimal> data)
+        private void SetValue(Dictionary<string, decimal> data)
         {
             Result = ColumnName != null && data.ContainsKey(ColumnName)
                 ? data[ColumnName]
                 : RawValue.ToDecimal();
+        }
+
+        private void ClearResults()
+        {
+            Result = 0;
+            Children?.ForEach(formula => formula.ClearResults());
         }
 
         public bool Completion()
