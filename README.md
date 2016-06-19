@@ -20,7 +20,7 @@ http://pleasanter.org
 |.NET Framework 3.5|◯|◯|-|
 |IIS|◯|◯|-|
 |ASP.NET 4.5|◯|◯|-|
-|SQL Server 2012/2014|◯|◯|-|
+|SQL Server 2012/2014/2016|◯|◯|-|
 |Web Deploy v3.5|◯|◯|-|
 |Microsoft Azure Web App|-|-|◯|
 |Microsoft Azure SQL Database|-|-|◯|
