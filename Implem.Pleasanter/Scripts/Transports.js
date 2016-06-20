@@ -48,6 +48,38 @@ function setFormData($control) {
     }
 }
 
+function setValueAndFormData($control, value, data) {
+    setValue($control, value);
+    if (data === undefined) {
+        setFormData($control);
+    } else {
+        data[$control.attr('id')] = value;
+    }
+}
+
+function setValue($control, value) {
+    switch ($control.prop('type')) {
+        case 'checkbox':
+            $control.prop('checked', value);
+            break;
+        case 'radio':
+            $control.val([value]);
+            break;
+        default:
+            switch ($control.prop('tagName')) {
+                case 'SPAN':
+                    $control.html(value);
+                case 'TIME':
+                    $control.html(value);
+                    $control.attr('datetime', value);
+                    break;
+                default:
+                    $control.val('' + value + '');
+                    break;
+            }
+    }
+}
+
 function clearFormData(target, data, type) {
     if (data) {
         if (target === '') {
@@ -257,8 +289,7 @@ function processResponse(response, data, $eventSender) {
                 setValue($(target), value);
                 break;
             case 'SetValueAndFormData':
-                data[$(target).attr('id')] = value;
-                setValue($(target), value);
+                setValueAndFormData($(target), value, data);
                 break;
             case 'Markup':
                 $('.markup').each(function () {
@@ -290,29 +321,6 @@ function processResponse(response, data, $eventSender) {
             case 'Disabled':
                 $(target).prop('disabled', value);
                 break;
-        }
-
-        function setValue($control, value) {
-            switch ($control.prop('type')) {
-                case 'checkbox':
-                    $control.prop('checked', value);
-                    break;
-                case 'radio':
-                    $control.val([value]);
-                    break;
-                default:
-                    switch ($control.prop('tagName')) {
-                        case 'SPAN':
-                            $control.html(value);
-                        case 'TIME':
-                            $control.html(value);
-                            $control.attr('datetime', value);
-                            break;
-                        default:
-                            $control.val('' + value + '');
-                            break;
-                    }
-            }
         }
 
         function setMessage(value) {
