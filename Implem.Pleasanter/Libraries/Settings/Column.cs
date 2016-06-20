@@ -243,6 +243,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : string.Empty);
         }
 
+        public string Format(decimal value, bool unit)
+        {
+            return Format(value) + (unit
+                ? Unit
+                : string.Empty);
+        }
+
         public decimal Round(decimal value)
         {
              return Math.Round(value, DecimalPlaces.ToInt(), MidpointRounding.AwayFromZero);
