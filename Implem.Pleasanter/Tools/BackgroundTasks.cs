@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.Tools
         public static string Do()
         {
             var now = DateTime.Now;
-            while ((DateTime.Now - now).Seconds <= Parameters.General.AdminTasksDoSpan)
+            while ((DateTime.Now - now).Seconds <= Parameters.General.BackgroundTaskSpan)
             {
                 SysLogsUtility.Maintenance();
                 ItemsUtility.Maintenance();
