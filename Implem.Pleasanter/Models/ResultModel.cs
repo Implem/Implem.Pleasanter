@@ -1218,22 +1218,22 @@ namespace Implem.Pleasanter.Models
                 {
                     switch (columnName)
                     {
-                        case "NumA": NumA = SiteSettings.FormulaHash[columnName].GetResult(data); break;
-                        case "NumB": NumB = SiteSettings.FormulaHash[columnName].GetResult(data); break;
-                        case "NumC": NumC = SiteSettings.FormulaHash[columnName].GetResult(data); break;
-                        case "NumD": NumD = SiteSettings.FormulaHash[columnName].GetResult(data); break;
-                        case "NumE": NumE = SiteSettings.FormulaHash[columnName].GetResult(data); break;
-                        case "NumF": NumF = SiteSettings.FormulaHash[columnName].GetResult(data); break;
-                        case "NumG": NumG = SiteSettings.FormulaHash[columnName].GetResult(data); break;
-                        case "NumH": NumH = SiteSettings.FormulaHash[columnName].GetResult(data); break;
-                        case "NumI": NumI = SiteSettings.FormulaHash[columnName].GetResult(data); break;
-                        case "NumJ": NumJ = SiteSettings.FormulaHash[columnName].GetResult(data); break;
-                        case "NumK": NumK = SiteSettings.FormulaHash[columnName].GetResult(data); break;
-                        case "NumL": NumL = SiteSettings.FormulaHash[columnName].GetResult(data); break;
-                        case "NumM": NumM = SiteSettings.FormulaHash[columnName].GetResult(data); break;
-                        case "NumN": NumN = SiteSettings.FormulaHash[columnName].GetResult(data); break;
-                        case "NumO": NumO = SiteSettings.FormulaHash[columnName].GetResult(data); break;
-                        case "NumP": NumP = SiteSettings.FormulaHash[columnName].GetResult(data); break;
+                        case "NumA": NumA = SiteSettings.FormulaResult(columnName, data); break;
+                        case "NumB": NumB = SiteSettings.FormulaResult(columnName, data); break;
+                        case "NumC": NumC = SiteSettings.FormulaResult(columnName, data); break;
+                        case "NumD": NumD = SiteSettings.FormulaResult(columnName, data); break;
+                        case "NumE": NumE = SiteSettings.FormulaResult(columnName, data); break;
+                        case "NumF": NumF = SiteSettings.FormulaResult(columnName, data); break;
+                        case "NumG": NumG = SiteSettings.FormulaResult(columnName, data); break;
+                        case "NumH": NumH = SiteSettings.FormulaResult(columnName, data); break;
+                        case "NumI": NumI = SiteSettings.FormulaResult(columnName, data); break;
+                        case "NumJ": NumJ = SiteSettings.FormulaResult(columnName, data); break;
+                        case "NumK": NumK = SiteSettings.FormulaResult(columnName, data); break;
+                        case "NumL": NumL = SiteSettings.FormulaResult(columnName, data); break;
+                        case "NumM": NumM = SiteSettings.FormulaResult(columnName, data); break;
+                        case "NumN": NumN = SiteSettings.FormulaResult(columnName, data); break;
+                        case "NumO": NumO = SiteSettings.FormulaResult(columnName, data); break;
+                        case "NumP": NumP = SiteSettings.FormulaResult(columnName, data); break;
                         default: break;
                     }
                 });

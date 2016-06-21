@@ -1155,5 +1155,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     FormulaColumn(o.Key).LabelText + " = " +
                     o.Value.ToString(this));
         }
+
+        public decimal FormulaResult(string columnName, Dictionary<string, decimal> data)
+        {
+            return AllColumn(columnName).Round(FormulaHash[columnName].GetResult(data));
+        }
     }
 }
