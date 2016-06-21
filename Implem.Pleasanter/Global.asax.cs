@@ -106,7 +106,7 @@ namespace Implem.Pleasanter
             }
             switch (Request.AppRelativeCurrentExecutionFilePath.ToLower())
             {
-                case "~/admintasks/do":
+                case "~/backgroundtasks/do":
                     break;
                 default:
                     new SysLogModel().Finish();
