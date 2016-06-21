@@ -301,5 +301,14 @@ namespace Implem.Pleasanter.Controllers
             log.Finish(json.Length);
             return json;
         }
+
+        [HttpPut]
+        public string SynchronizeFormulas(long id)
+        {
+            var log = new SysLogModel();
+            var json = new ItemModel(id).SynchronizeFormulas();
+            log.Finish(json.Length);
+            return json;
+        }
     }
 }

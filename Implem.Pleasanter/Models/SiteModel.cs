@@ -979,6 +979,16 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public string SynchronizeFormulas()
+        {
+            SetSiteSettingsPropertiesBySession();
+            Formulas.Synchronize(this);
+            return Messages.ResponseSynchronizationCompleted().ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void SetTitleColumns(ResponseCollection responseCollection)
         {
             var selectedColumns = Forms.Data("TitleColumns").Split(';').
@@ -2603,7 +2613,7 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-left", action: () => hb
                                 .TextBox(
                                     controlId: "Formula",
-                                    controlCss: " w300")
+                                    controlCss: " w250")
                                 .Button(
                                     controlId: "AddFormula",
                                     controlCss: "button-create",
@@ -2631,7 +2641,15 @@ namespace Implem.Pleasanter.Models
                                     text: Displays.Delete(),
                                     onClick: Def.JavaScript.Submit,
                                     action: "SetSiteSettings",
-                                    method: "post"))));
+                                    method: "post")
+                                .Button(
+                                    controlId: "SynchronizeFormulas",
+                                    controlCss: "button-synchronize",
+                                    text: Displays.Synchronize(),
+                                    onClick: Def.JavaScript.Submit,
+                                    action: "SynchronizeFormulas",
+                                    method: "put",
+                                    confirm: Displays.ConfirmSynchronize()))));
         }
 
         /// <summary>

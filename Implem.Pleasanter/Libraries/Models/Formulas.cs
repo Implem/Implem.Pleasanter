@@ -4,7 +4,7 @@ namespace Implem.Pleasanter.Libraries.Models
 {
     public static class Formulas
     {
-        public static void Update(SiteModel siteModel)
+        public static void Synchronize(SiteModel siteModel)
         {
             Update(siteModel, 0);
         }
