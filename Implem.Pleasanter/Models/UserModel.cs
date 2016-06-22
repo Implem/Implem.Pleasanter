@@ -1740,7 +1740,8 @@ namespace Implem.Pleasanter.Models
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetMailAddresses",
-                        text: Displays.MailAddresses()))
+                        text: Displays.MailAddresses(),
+                        _using: userModel.MethodType != BaseModel.MethodTypes.New))
                 .Li(
                     _using: userModel.MethodType != BaseModel.MethodTypes.New,
                     action: () => hb
@@ -2100,6 +2101,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static HtmlBuilder FieldSetMailAddresses(this HtmlBuilder hb, UserModel userModel)
         {
+            if (userModel.MethodType == BaseModel.MethodTypes.New) return hb;
             var listItemCollection = Rds.ExecuteTable(statements:
                 Rds.SelectMailAddresses(
                     column: Rds.MailAddressesColumn()
