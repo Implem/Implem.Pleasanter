@@ -23,7 +23,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .NearCompletionTime(siteSettings: siteSettings, formData: formData)
                         .Delay(siteSettings: siteSettings, formData: formData)
                         .Limit(siteSettings: siteSettings, formData: formData)
-                        .Choices(siteSettings: siteSettings, formData: formData)));
+                        .Choices(siteSettings: siteSettings, formData: formData)
+                        .Search(siteSettings: siteSettings, formData: formData)));
         }
 
         private static HtmlBuilder Reset(this HtmlBuilder hb)
@@ -154,6 +155,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         _using: column.GridVisible.ToBool() || column.EditorVisible.ToBool());
                 });
             return hb;
+        }
+
+        private static HtmlBuilder Search(
+            this HtmlBuilder hb, SiteSettings siteSettings, FormData formData)
+        {
+            return hb.FieldTextBox(
+                controlId: "DataViewFilters_Search",
+                fieldCss: "field-auto-thin",
+                controlCss: " auto-postback",
+                labelText: Displays.Search(),
+                text: formData.Get("DataViewFilters_Search"),
+                action: "DataView",
+                method: "post");
         }
     }
 }

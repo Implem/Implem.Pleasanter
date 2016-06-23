@@ -297,9 +297,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Search()
         {
-            var dataSet = DataRows(
+            var dataSet = Get(
                 searchIndexes: QueryStrings.Data("text").SearchIndexes(),
-                offset: QueryStrings.Int("offset"));
+                offset: QueryStrings.Int("offset"),
+                pageSize: Parameters.General.SearchPageSize);
             return MainContainer(
                 text: QueryStrings.Data("text"),
                 offset: 0,
@@ -314,7 +315,10 @@ namespace Implem.Pleasanter.Models
         {
             var offset = QueryStrings.Int("offset");
             var text = QueryStrings.Data("text");
-            var dataSet = DataRows(text.SearchIndexes(), offset);
+            var dataSet = Get(
+                searchIndexes: text.SearchIndexes(),
+                offset: offset,
+                pageSize: Parameters.General.SearchPageSize);
             var results = dataSet?.Tables["Main"].AsEnumerable();
             var responseCollection = new ResponseCollection();
             if (offset == 0)
@@ -419,7 +423,8 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static DataSet DataRows(IEnumerable<string> searchIndexes, int offset)
+        public static DataSet Get(
+            IEnumerable<string> searchIndexes, int offset = 0, int pageSize = 0)
         {
             if (searchIndexes.Count() == 0) return null;
             var concordance = Math.Ceiling(
@@ -450,7 +455,7 @@ namespace Implem.Pleasanter.Models
                         .PriorityTotal()
                         .UpdatedTimeMax(SqlOrderBy.Types.desc),
                     offset: offset,
-                    pageSize: Parameters.General.SearchPageSize,
+                    pageSize: pageSize,
                     countRecord: offset == 0));
         }
     }

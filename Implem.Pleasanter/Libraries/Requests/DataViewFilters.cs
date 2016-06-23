@@ -1,10 +1,14 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
 using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 namespace Implem.Pleasanter.Libraries.Requests
@@ -19,7 +23,8 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             return where
                 .Generals(siteSettings: siteSettings, tableName: tableName, formData: formData)
-                .Columns(formData: formData);
+                .Columns(formData: formData)
+                .Search(tableName: tableName, formData: formData);
         }
 
         private static SqlWhereCollection Generals(
@@ -561,6 +566,55 @@ namespace Implem.Pleasanter.Libraries.Requests
                     default: break;
                 }
             });
+            return where;
+        }
+
+        private static SqlWhereCollection Search(
+            this SqlWhereCollection where, string tableName, FormData formData)
+        {
+            var words = formData.Get("DataViewFilters_Search").SearchIndexes();
+            return words.Count() != 0
+                ? where.Search(tableName, words)
+                : where;
+        }
+
+        private static SqlWhereCollection Search(
+            this SqlWhereCollection where, string tableName, IEnumerable<string> words)
+        {
+            var results = SearchIndexesUtility.Get(searchIndexes: words)
+                .Tables[0]
+                .AsEnumerable()
+                .Distinct()
+                .Select(o => o["ReferenceId"].ToLong())
+                .Join();
+            if (results != string.Empty)
+            {
+                switch (tableName)
+                {
+                    case "Issues":
+                        where.Add(
+                            columnBrackets: new string[] { "[IssueId]" },
+                            name: "IssueId",
+                            _operator: " in (" + results + ")");
+                        break;
+                    case "Results":
+                        where.Add(
+                            columnBrackets: new string[] { "[ResultId]" },
+                            name: "ResultId",
+                            _operator: " in (" + results + ")");
+                        break;
+                    case "Wikis":
+                        where.Add(
+                            columnBrackets: new string[] { "[WikiId]" },
+                            name: "WikiId",
+                            _operator: " in (" + results + ")");
+                        break;
+                }
+            }
+            else
+            {
+                where.Add(raw: "0 = 1");
+            }
             return where;
         }
     }

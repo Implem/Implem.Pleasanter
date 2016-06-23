@@ -28,9 +28,16 @@
         }
     });
     $(document).on('click', '#DataViewFilters_Reset', function () {
-        $('input[id^="DataViewFilters_"]').prop('checked', false);
-        $('select[id^="DataViewFilters_"]').val('');
         $('[id^="DataViewFilters_"]').each(function () {
+            switch ($(this).prop('tagName')) {
+                case 'INPUT':
+                    switch ($(this).prop('type')) {
+                        case 'checkbox': $(this).prop('checked', false); break;
+                        case 'text': $(this).val(''); break;
+                    }
+                    break;
+                case 'SELECT.': $(this).val(''); break;
+            }
             setFormData($(this));
         });
         requestByForm(getForm($(this)), $(this));
