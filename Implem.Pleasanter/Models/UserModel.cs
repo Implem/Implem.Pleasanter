@@ -2017,11 +2017,13 @@ namespace Implem.Pleasanter.Models
                                 .Div(action: () => hb
                                     .Field(
                                         siteSettings: siteSettings,
-                                        column: siteSettings.AllColumn("LoginId"))
+                                        column: siteSettings.AllColumn("LoginId"),
+                                        controlCss: " must-transport")
                                     .Field(
                                         siteSettings: siteSettings,
                                         column: siteSettings.AllColumn("Password"),
-                                        fieldCss: "field-wide")
+                                        fieldCss: "field-wide",
+                                        controlCss: " must-transport")
                                     .Field(
                                         siteSettings: siteSettings,
                                         column: siteSettings.AllColumn("RememberMe")))
