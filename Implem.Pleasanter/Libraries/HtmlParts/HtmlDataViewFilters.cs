@@ -23,6 +23,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .NearCompletionTime(siteSettings: siteSettings, formData: formData)
                         .Delay(siteSettings: siteSettings, formData: formData)
                         .Limit(siteSettings: siteSettings, formData: formData)
+                        .Checks(siteSettings: siteSettings, formData: formData)
                         .Choices(siteSettings: siteSettings, formData: formData)
                         .Search(siteSettings: siteSettings, formData: formData)));
         }
@@ -118,7 +119,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 (column.GridVisible.ToBool() || column.EditorVisible.ToBool());
         }
 
-        private static HtmlBuilder Choices(
+        private static HtmlBuilder Checks(
             this HtmlBuilder hb, SiteSettings siteSettings, FormData formData)
         {
             siteSettings.ColumnCollection
@@ -136,6 +137,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         method: "post",
                         _using: column.GridVisible.ToBool() || column.EditorVisible.ToBool());
                 });
+            return hb;
+        }
+
+        private static HtmlBuilder Choices(
+            this HtmlBuilder hb, SiteSettings siteSettings, FormData formData)
+        {
             siteSettings.ColumnCollection
                 .Where(o => o.HasChoices())
                 .ForEach(column =>
