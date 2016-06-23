@@ -26,7 +26,7 @@
             }
         }
     });
-    $(document).on('change', '.auto-postback', function () {
+    $(document).on('change', '.auto-postback:not([type="text"])', function () {
         requestByForm(getForm($(this)), $(this));
         if (!$(this).hasClass('keep-form-data')) {
             delete getFormData($(this))[this.id];
