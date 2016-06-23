@@ -371,6 +371,7 @@
     <Content Include="Scripts\Validators\Tenants.js" />
     <Content Include="Scripts\Validators\Users.js" />
     <Content Include="Scripts\Validators\Wikis.js" />
+    <Content Include="Scripts\_DefaultButton.js" />
     <Content Include="Styles\Plugins\images\ui-bg_diagonals-medium_20_d34d17_40x40.png" />
     <Content Include="Styles\Plugins\images\ui-bg_gloss-wave_45_817865_500x100.png" />
     <Content Include="Styles\Plugins\images\ui-bg_gloss-wave_60_fece2f_500x100.png" />
