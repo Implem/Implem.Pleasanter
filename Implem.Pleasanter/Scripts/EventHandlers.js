@@ -32,7 +32,7 @@
             delete getFormData($(this))[this.id];
         }
     });
-    $(document).on('keyup', '.auto-postback', function (e) {
+    $(document).on('keyup', '.auto-postback[type="text"]', function (e) {
         setFormData($(this));
         if (e.keyCode === 13) {
             requestByForm(getForm($(this)), $(this));
