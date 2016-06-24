@@ -36,7 +36,7 @@
                         case 'text': $(this).val(''); break;
                     }
                     break;
-                case 'SELECT.': $(this).val(''); break;
+                case 'SELECT': $(this).val(''); break;
             }
             setFormData($(this));
         });
