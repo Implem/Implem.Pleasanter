@@ -96,9 +96,9 @@ namespace Implem.Pleasanter.Libraries.Charts
             {
                 Id = i,
                 Key = o.Key,
-                Text = i == 0
-                    ? Displays.NotSet()
-                    : o.Value.Text,
+                Text = !o.Value.Text.IsNullOrEmpty()
+                    ? o.Value.Text
+                    : Displays.NotSet(),
                 Style = o.Value.Style
             }).ToList();
             if (this.Count > 0)
