@@ -154,7 +154,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         labelText: Displays.Get(column.LabelText),
                         optionCollection: column.EditChoices(
                             siteId: siteSettings.InheritPermission,
-                            addBlank: true),
+                            addBlank: true,
+                            addNotSet: true),
                         selectedValue: formData.Get("DataViewFilters_" + column.Id),
                         addSelectedValue: false,
                         action: "DataView",

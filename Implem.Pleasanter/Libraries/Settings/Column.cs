@@ -111,7 +111,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, ControlData> EditChoices(
             long siteId,
             bool addBlank = false,
-            bool shorten = false)
+            bool shorten = false,
+            bool addNotSet = false)
         {
             var tenantId = Sessions.TenantId();
             var editChoices = new Dictionary<string, ControlData>();
@@ -174,6 +175,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                         break;
                 }
             });
+            if (addNotSet && Nullable)
+            {
+                editChoices.Add("\t", new ControlData("(" + Displays.NotSet() + ")"));
+            }
             return editChoices;
         }
 
