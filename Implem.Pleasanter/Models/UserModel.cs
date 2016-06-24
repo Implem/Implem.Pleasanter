@@ -2012,6 +2012,7 @@ namespace Implem.Pleasanter.Models
                             .Id_Css("UserForm", "main-form")
                             .Action(Navigations.Get("users", "_action_?ReturnUrl="
                                 + Url.Encode(returnUrl))),
+                        cancelDefaultButton: false,
                         action: () => hb
                             .FieldSet(css: "login", action: () => hb
                                 .Div(action: () => hb
