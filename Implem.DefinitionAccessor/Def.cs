@@ -549,9 +549,6 @@ namespace Implem.DefinitionAccessor
                     case "SiteSettings_GetModels_Items": Code.SiteSettings_GetModels_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Includes": Code.SiteSettings_GetModels_Includes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Includes, definitionRow, CodeXls); break;
                     case "DataViewFilters": Code.DataViewFilters = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.DataViewFilters, definitionRow, CodeXls); break;
-                    case "DataViewFilters_Model": Code.DataViewFilters_Model = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.DataViewFilters_Model, definitionRow, CodeXls); break;
-                    case "DataViewFilters_Cases": Code.DataViewFilters_Cases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.DataViewFilters_Cases, definitionRow, CodeXls); break;
-                    case "DataViewFilters_Cases_Bit": Code.DataViewFilters_Cases_Bit = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.DataViewFilters_Cases_Bit, definitionRow, CodeXls); break;
                     case "DataViewFilters_Search_TableCases": Code.DataViewFilters_Search_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.DataViewFilters_Search_TableCases, definitionRow, CodeXls); break;
                     case "GridSorters": Code.GridSorters = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.GridSorters, definitionRow, CodeXls); break;
                     case "GridSorters_Model": Code.GridSorters_Model = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.GridSorters_Model, definitionRow, CodeXls); break;
@@ -3875,9 +3872,6 @@ namespace Implem.DefinitionAccessor
         public string SiteSettings_GetModels_Items;
         public string SiteSettings_GetModels_Includes;
         public string DataViewFilters;
-        public string DataViewFilters_Model;
-        public string DataViewFilters_Cases;
-        public string DataViewFilters_Cases_Bit;
         public string DataViewFilters_Search_TableCases;
         public string GridSorters;
         public string GridSorters_Model;
@@ -4239,9 +4233,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition SiteSettings_GetModels_Items = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Includes = new CodeDefinition();
         public CodeDefinition DataViewFilters = new CodeDefinition();
-        public CodeDefinition DataViewFilters_Model = new CodeDefinition();
-        public CodeDefinition DataViewFilters_Cases = new CodeDefinition();
-        public CodeDefinition DataViewFilters_Cases_Bit = new CodeDefinition();
         public CodeDefinition DataViewFilters_Search_TableCases = new CodeDefinition();
         public CodeDefinition GridSorters = new CodeDefinition();
         public CodeDefinition GridSorters_Model = new CodeDefinition();
