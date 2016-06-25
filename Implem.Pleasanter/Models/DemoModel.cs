@@ -1464,12 +1464,11 @@ namespace Implem.Pleasanter.Models
                             issueModel.VerUp = true;
                             issueModel.Update();
                             var recordingTime = d > 0
-                                ? startTime.AddDays(d).AddHours(-6)
-                                : Def.DemoDefinitionCollection
-                                    .Where(o => o.CreatedTime >= Parameters.General.MinTime)
-                                    .Select(o => o.CreatedTime)
-                                    .Min()
-                                    .DemoTime(demoModel);
+                                ? startTime
+                                    .AddDays(d)
+                                    .AddHours(-6)
+                                    .AddMinutes(new Random().Next(-360, +360))
+                                : issueModel.CreatedTime.Value;
                             Rds.ExecuteNonQuery(statements:
                                 Rds.UpdateIssues(
                                     tableType: Sqls.TableTypes.History,
