@@ -395,7 +395,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ColumnCollection.FirstOrDefault(o => o.ColumnName == columnName && o.FilterColumn);
         }
 
-        public IEnumerable<Column> FilterColumnCollection(bool withTitle = false)
+        public IEnumerable<Column> FilterColumnCollection()
         {
             foreach (var columnName in FilterColumnsOrder)
             {
