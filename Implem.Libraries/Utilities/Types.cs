@@ -280,7 +280,7 @@ namespace Implem.Libraries.Utilities
             var str = obj.ToString();
             return obj != null && DateTime.TryParse(str, out data)
                 ? data
-                : obj.ToLong() > 0
+                : obj.ToDecimal() > 0
                     ? DateTime.FromOADate(double.Parse(str))
                     : DateTime.FromOADate(0);
         }
