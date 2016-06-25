@@ -177,7 +177,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             });
             if (addNotSet && Nullable)
             {
-                editChoices.Add("\t", new ControlData("(" + Displays.NotSet() + ")"));
+                editChoices.Add("\t", new ControlData(Displays.NotSet()));
             }
             return editChoices;
         }
