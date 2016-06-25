@@ -112,7 +112,6 @@ namespace Implem.Pleasanter.Libraries.Charts
             }).ToList();
             if (this.Count > 0)
             {
-                var now = DateTime.Now.ToLocal().Date;
                 for (var d = 0; d <= Days; d++)
                 {
                     decimal y = 0;
