@@ -34,6 +34,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public decimal? NearCompletionTimeBeforeDays;
         public int? GridPageSize;
         public List<string> GridColumnsOrder;
+        public List<string> FilterColumnsOrder;
         public List<string> EditorColumnsOrder;
         public List<string> TitleColumnsOrder;
         public List<string> LinkColumnsOrder;
@@ -73,6 +74,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 Parameters.General.NearCompletionTimeAfterDays;
             GridPageSize = GridPageSize ?? Parameters.General.GridPageSize;
             UpdateGridColumnsOrder();
+            UpdateFilterColumnsOrder();
             UpdateEditorColumnsOrder();
             UpdateTitleColumnsOrder();
             UpdateLinkColumnsOrder();
@@ -104,6 +106,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (self.NearCompletionTimeBeforeDays == def.NearCompletionTimeBeforeDays) self.NearCompletionTimeBeforeDays = null;
             if (self.GridPageSize == def.GridPageSize) self.GridPageSize = null;
             if (self.GridColumnsOrder.SequenceEqual(def.GridColumnsOrder)) self.GridColumnsOrder = null;
+            if (self.FilterColumnsOrder.SequenceEqual(def.FilterColumnsOrder)) self.FilterColumnsOrder = null;
             if (self.EditorColumnsOrder.SequenceEqual(def.EditorColumnsOrder)) self.EditorColumnsOrder = null;
             if (self.TitleColumnsOrder.SequenceEqual(def.TitleColumnsOrder)) self.TitleColumnsOrder = null;
             if (self.TitleSeparator == def.TitleSeparator) self.TitleSeparator = null;
@@ -143,6 +146,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     if (column.DefaultInput == columnDefinition.DefaultInput) column.DefaultInput = null;
                     if (column.GridVisible == columnDefinition.GridVisible) column.GridVisible = null;
                     if (column.GridDateTime == columnDefinition.GridDateTime) column.GridDateTime = null;
+                    if (column.FilterVisible == columnDefinition.FilterVisible) column.FilterVisible = null;
                     if (column.ControlDateTime == columnDefinition.ControlDateTime) column.ControlDateTime = null;
                     if (column.ControlType == columnDefinition.ControlType) column.ControlType = null;
                     if (column.DecimalPlaces == columnDefinition.DecimalPlaces) column.DecimalPlaces = null;
@@ -177,6 +181,22 @@ namespace Implem.Pleasanter.Libraries.Settings
                     p.ColumnName == o &&
                     p.TableName == ReferenceType &&
                     p.GridColumn > 0));
+        }
+
+        private void UpdateFilterColumnsOrder()
+        {
+            if (FilterColumnsOrder == null) FilterColumnsOrder = new List<string>();
+            FilterColumnsOrder.AddRange(Def.ColumnDefinitionCollection
+                .Where(o => !FilterColumnsOrder.Any(p => p == o.ColumnName))
+                .Where(o => o.TableName == ReferenceType)
+                .Where(o => o.FilterColumn > 0)
+                .OrderBy(o => o.FilterColumn)
+                .Select(o => o.ColumnName).ToList<string>());
+            FilterColumnsOrder.RemoveAll(o =>
+                !Def.ColumnDefinitionCollection.Any(p =>
+                    p.ColumnName == o &&
+                    p.TableName == ReferenceType &&
+                    p.FilterColumn > 0));
         }
 
         private void UpdateEditorColumnsOrder()
@@ -281,6 +301,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.DefaultInput = column.DefaultInput ?? columnDefinition.DefaultInput;
                 column.GridVisible = column.GridVisible ?? columnDefinition.GridVisible;
                 column.GridDateTime = column.GridDateTime ?? columnDefinition.GridDateTime;
+                column.FilterVisible = column.FilterVisible ?? columnDefinition.FilterVisible;
                 column.ControlType = column.ControlType ?? columnDefinition.ControlType;
                 column.DecimalPlaces = column.DecimalPlaces ?? columnDefinition.DecimalPlaces;
                 column.Min = column.Min ?? columnDefinition.Min;
@@ -303,6 +324,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.NotUpdate = columnDefinition.NotUpdate;
                 column.EditSelf = !columnDefinition.NotEditSelf;
                 column.GridColumn = columnDefinition.GridColumn > 0;
+                column.FilterColumn = columnDefinition.FilterColumn > 0;
                 column.EditorColumn = columnDefinition.EditorColumn;
                 column.TitleColumn = columnDefinition.TitleColumn > 0;
                 column.LinkColumn = columnDefinition.LinkColumn > 0;
@@ -364,6 +386,25 @@ namespace Implem.Pleasanter.Libraries.Settings
                     (withTitle && column.TitleVisible.Value)))
                 {
                     yield return column; 
+                }
+            }
+        }
+
+        public Column FilterColumn(string columnName)
+        {
+            return ColumnCollection.FirstOrDefault(o => o.ColumnName == columnName && o.FilterColumn);
+        }
+
+        public IEnumerable<Column> FilterColumnCollection(bool withTitle = false)
+        {
+            foreach (var columnName in FilterColumnsOrder)
+            {
+                var column = FilterColumn(columnName);
+                if (column != null &&
+                    column.FilterVisible.ToBool() &&
+                    column.EditorVisible.ToBool())
+                {
+                    yield return column;
                 }
             }
         }
@@ -433,6 +474,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ColumnHash(GridColumnsOrder, "Grid");
         }
 
+        public Dictionary<string, string> FilterColumnsHash()
+        {
+            return ColumnHash(FilterColumnsOrder, "Filter");
+        }
+
         public Dictionary<string, string> EditorColumnsHash()
         {
             return ColumnHash(EditorColumnsOrder, "Editor");
@@ -470,6 +516,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (type)
             {
                 case "Grid": visible = column.GridVisible.ToBool(); break;
+                case "Filter": visible = column.FilterVisible.ToBool(); break;
                 case "Editor": visible = column.EditorVisible.ToBool(); break;
                 case "Title": visible = column.TitleVisible.ToBool(); break;
                 case "Link": visible = column.LinkVisible.ToBool(); break;
@@ -572,6 +619,44 @@ namespace Implem.Pleasanter.Libraries.Settings
             responseCollection.Html("#GridColumns",
                 new HtmlBuilder().SelectableItems(
                     listItemCollection: GridColumnsHash(),
+                    selectedValueTextCollection: selectedColumns));
+        }
+
+        public void SetFilterColumns(
+            ResponseCollection responseCollection,
+            string controlId,
+            IEnumerable<string> selectedColumns)
+        {
+            var order = FilterColumnsOrder.ToArray();
+            if (controlId == "MoveDownFilterColumns") Array.Reverse(order);
+            order.Select((o, i) => new { ColumnName = o, Index = i }).ForEach(data =>
+            {
+                if (selectedColumns.Contains(data.ColumnName))
+                {
+                    switch (controlId)
+                    {
+                        case "MoveUpFilterColumns":
+                        case "MoveDownFilterColumns":
+                            if (data.Index > 0 &&
+                                selectedColumns.Contains(order[data.Index - 1]) == false)
+                            {
+                                order = Arrays.Swap(order, data.Index, data.Index - 1);
+                            }
+                            break;
+                        case "ShowFilterColumns":
+                            FilterColumn(order[data.Index]).FilterVisible = true;
+                            break;
+                        case "HideFilterColumns":
+                            FilterColumn(order[data.Index]).FilterVisible = false;
+                            break;
+                    }
+                }
+            });
+            if (controlId == "MoveDownFilterColumns") Array.Reverse(order);
+            FilterColumnsOrder = order.ToList<string>();
+            responseCollection.Html("#FilterColumns",
+                new HtmlBuilder().SelectableItems(
+                    listItemCollection: FilterColumnsHash(),
                     selectedValueTextCollection: selectedColumns));
         }
 

@@ -728,6 +728,7 @@ namespace Implem.Pleasanter.Models
                 default:
                     SetSiteSettings(responseCollection);
                     SetGridColumns(responseCollection);
+                    SetFilterColumns(responseCollection);
                     SetEditorColumns(responseCollection);
                     SetColumnProperties(responseCollection);
                     SetTitleColumns(responseCollection);
@@ -838,6 +839,22 @@ namespace Implem.Pleasanter.Models
             if (selectedColumns.Count() != 0)
             {
                 SiteSettings.SetGridColumns(
+                    responseCollection,
+                    Forms.Data("ControlId"),
+                    selectedColumns);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetFilterColumns(ResponseCollection responseCollection)
+        {
+            var selectedColumns = Forms.Data("FilterColumns").Split(';').
+                Where(o => o != string.Empty);
+            if (selectedColumns.Count() != 0)
+            {
+                SiteSettings.SetFilterColumns(
                     responseCollection,
                     Forms.Data("ControlId"),
                     selectedColumns);
@@ -1971,6 +1988,7 @@ namespace Implem.Pleasanter.Models
                 id: "GridSettingsEditor",
                 action: () => hb
                     .GridColumns(siteSettings)
+                    .FilterColumns(siteSettings)
                     .Aggregations(siteSettings)
                     .FieldSpinner(
                         controlId: "SiteSettings,GridPageSize",
@@ -2045,6 +2063,56 @@ namespace Implem.Pleasanter.Models
                                 method: "put")
                             .Button(
                                 controlId: "HideGridColumns",
+                                controlCss: "button-hide",
+                                text: Displays.Hide(),
+                                onClick: Def.JavaScript.Submit,
+                                action: "SetSiteSettings",
+                                method: "put"))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder FilterColumns(this HtmlBuilder hb, SiteSettings siteSettings)
+        {
+            return hb.FieldSet(
+                css: " enclosed-thin",
+                legendText: Displays.SettingFilterColumns(),
+                action: () => hb
+                    .FieldSelectable(
+                    controlId: "FilterColumns",
+                    fieldCss: "field-vertical",
+                    controlContainerCss: "container-selectable",
+                    controlCss: " h350",
+                    labelText: Displays.SettingColumnList(),
+                    listItemCollection: siteSettings.FilterColumnsHash(),
+                    selectedValueCollection: new List<string>(),
+                    commandOptionPositionIsTop: true,
+                    commandOptionAction: () => hb
+                        .Div(css: "command-center", action: () => hb
+                            .Button(
+                                controlId: "MoveUpFilterColumns",
+                                controlCss: "button-up",
+                                text: Displays.Up(),
+                                onClick: Def.JavaScript.Submit,
+                                action: "SetSiteSettings",
+                                method: "post")
+                            .Button(
+                                controlId: "MoveDownFilterColumns",
+                                controlCss: "button-down",
+                                text: Displays.Down(),
+                                onClick: Def.JavaScript.Submit,
+                                action: "SetSiteSettings",
+                                method: "post")
+                            .Button(
+                                controlId: "ShowFilterColumns",
+                                controlCss: "button-visible",
+                                text: Displays.Visible(),
+                                onClick: Def.JavaScript.Submit,
+                                action: "SetSiteSettings",
+                                method: "put")
+                            .Button(
+                                controlId: "HideFilterColumns",
                                 controlCss: "button-hide",
                                 text: Displays.Hide(),
                                 onClick: Def.JavaScript.Submit,

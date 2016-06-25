@@ -1313,6 +1313,8 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("Export")) { newColumnDefinition.Export = definitionRow["Export"].ToInt(); newColumnDefinition.SavedExport = newColumnDefinition.Export; }
                 if (definitionRow.ContainsKey("GridColumn")) { newColumnDefinition.GridColumn = definitionRow["GridColumn"].ToInt(); newColumnDefinition.SavedGridColumn = newColumnDefinition.GridColumn; }
                 if (definitionRow.ContainsKey("GridVisible")) { newColumnDefinition.GridVisible = definitionRow["GridVisible"].ToBool(); newColumnDefinition.SavedGridVisible = newColumnDefinition.GridVisible; }
+                if (definitionRow.ContainsKey("FilterColumn")) { newColumnDefinition.FilterColumn = definitionRow["FilterColumn"].ToInt(); newColumnDefinition.SavedFilterColumn = newColumnDefinition.FilterColumn; }
+                if (definitionRow.ContainsKey("FilterVisible")) { newColumnDefinition.FilterVisible = definitionRow["FilterVisible"].ToBool(); newColumnDefinition.SavedFilterVisible = newColumnDefinition.FilterVisible; }
                 if (definitionRow.ContainsKey("EditorColumn")) { newColumnDefinition.EditorColumn = definitionRow["EditorColumn"].ToBool(); newColumnDefinition.SavedEditorColumn = newColumnDefinition.EditorColumn; }
                 if (definitionRow.ContainsKey("EditorVisible")) { newColumnDefinition.EditorVisible = definitionRow["EditorVisible"].ToBool(); newColumnDefinition.SavedEditorVisible = newColumnDefinition.EditorVisible; }
                 if (definitionRow.ContainsKey("TitleColumn")) { newColumnDefinition.TitleColumn = definitionRow["TitleColumn"].ToInt(); newColumnDefinition.SavedTitleColumn = newColumnDefinition.TitleColumn; }
@@ -1411,6 +1413,8 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("Export")) { definition.Export = definitionRow["Export"].ToInt(); definition.SavedExport = definition.Export; }
             if (definitionRow.ContainsKey("GridColumn")) { definition.GridColumn = definitionRow["GridColumn"].ToInt(); definition.SavedGridColumn = definition.GridColumn; }
             if (definitionRow.ContainsKey("GridVisible")) { definition.GridVisible = definitionRow["GridVisible"].ToBool(); definition.SavedGridVisible = definition.GridVisible; }
+            if (definitionRow.ContainsKey("FilterColumn")) { definition.FilterColumn = definitionRow["FilterColumn"].ToInt(); definition.SavedFilterColumn = definition.FilterColumn; }
+            if (definitionRow.ContainsKey("FilterVisible")) { definition.FilterVisible = definitionRow["FilterVisible"].ToBool(); definition.SavedFilterVisible = definition.FilterVisible; }
             if (definitionRow.ContainsKey("EditorColumn")) { definition.EditorColumn = definitionRow["EditorColumn"].ToBool(); definition.SavedEditorColumn = definition.EditorColumn; }
             if (definitionRow.ContainsKey("EditorVisible")) { definition.EditorVisible = definitionRow["EditorVisible"].ToBool(); definition.SavedEditorVisible = definition.EditorVisible; }
             if (definitionRow.ContainsKey("TitleColumn")) { definition.TitleColumn = definitionRow["TitleColumn"].ToInt(); definition.SavedTitleColumn = definition.TitleColumn; }
@@ -2078,6 +2082,7 @@ namespace Implem.DefinitionAccessor
                     case "Issue12": Demo.Issue12 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue12, definitionRow, DemoXls); break;
                     case "Issue13": Demo.Issue13 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue13, definitionRow, DemoXls); break;
                     case "Issue14": Demo.Issue14 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue14, definitionRow, DemoXls); break;
+                    case "Issue15": Demo.Issue15 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Issue15, definitionRow, DemoXls); break;
                     case "Result1": Demo.Result1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Result1, definitionRow, DemoXls); break;
                     case "Comment1": Demo.Comment1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment1, definitionRow, DemoXls); break;
                     case "Comment2": Demo.Comment2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Comment2, definitionRow, DemoXls); break;
@@ -2096,8 +2101,6 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("Type")) { newDemoDefinition.Type = definitionRow["Type"].ToString(); newDemoDefinition.SavedType = newDemoDefinition.Type; }
                 if (definitionRow.ContainsKey("ParentId")) { newDemoDefinition.ParentId = definitionRow["ParentId"].ToString(); newDemoDefinition.SavedParentId = newDemoDefinition.ParentId; }
                 if (definitionRow.ContainsKey("Title")) { newDemoDefinition.Title = definitionRow["Title"].ToString(); newDemoDefinition.SavedTitle = newDemoDefinition.Title; }
-                if (definitionRow.ContainsKey("StartTime")) { newDemoDefinition.StartTime = definitionRow["StartTime"].ToDateTime(); newDemoDefinition.SavedStartTime = newDemoDefinition.StartTime; }
-                if (definitionRow.ContainsKey("CompletionTime")) { newDemoDefinition.CompletionTime = definitionRow["CompletionTime"].ToDateTime(); newDemoDefinition.SavedCompletionTime = newDemoDefinition.CompletionTime; }
                 if (definitionRow.ContainsKey("WorkValue")) { newDemoDefinition.WorkValue = definitionRow["WorkValue"].ToDecimal(); newDemoDefinition.SavedWorkValue = newDemoDefinition.WorkValue; }
                 if (definitionRow.ContainsKey("ProgressRate")) { newDemoDefinition.ProgressRate = definitionRow["ProgressRate"].ToDecimal(); newDemoDefinition.SavedProgressRate = newDemoDefinition.ProgressRate; }
                 if (definitionRow.ContainsKey("Status")) { newDemoDefinition.Status = definitionRow["Status"].ToInt(); newDemoDefinition.SavedStatus = newDemoDefinition.Status; }
@@ -2108,6 +2111,8 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("ClassC")) { newDemoDefinition.ClassC = definitionRow["ClassC"].ToString(); newDemoDefinition.SavedClassC = newDemoDefinition.ClassC; }
                 if (definitionRow.ContainsKey("Creator")) { newDemoDefinition.Creator = definitionRow["Creator"].ToString(); newDemoDefinition.SavedCreator = newDemoDefinition.Creator; }
                 if (definitionRow.ContainsKey("Updator")) { newDemoDefinition.Updator = definitionRow["Updator"].ToString(); newDemoDefinition.SavedUpdator = newDemoDefinition.Updator; }
+                if (definitionRow.ContainsKey("StartTime")) { newDemoDefinition.StartTime = definitionRow["StartTime"].ToDateTime(); newDemoDefinition.SavedStartTime = newDemoDefinition.StartTime; }
+                if (definitionRow.ContainsKey("CompletionTime")) { newDemoDefinition.CompletionTime = definitionRow["CompletionTime"].ToDateTime(); newDemoDefinition.SavedCompletionTime = newDemoDefinition.CompletionTime; }
                 if (definitionRow.ContainsKey("CreatedTime")) { newDemoDefinition.CreatedTime = definitionRow["CreatedTime"].ToDateTime(); newDemoDefinition.SavedCreatedTime = newDemoDefinition.CreatedTime; }
                 if (definitionRow.ContainsKey("UpdatedTime")) { newDemoDefinition.UpdatedTime = definitionRow["UpdatedTime"].ToDateTime(); newDemoDefinition.SavedUpdatedTime = newDemoDefinition.UpdatedTime; }
                 DemoDefinitionCollection.Add(newDemoDefinition);
@@ -2121,8 +2126,6 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("Type")) { definition.Type = definitionRow["Type"].ToString(); definition.SavedType = definition.Type; }
             if (definitionRow.ContainsKey("ParentId")) { definition.ParentId = definitionRow["ParentId"].ToString(); definition.SavedParentId = definition.ParentId; }
             if (definitionRow.ContainsKey("Title")) { definition.Title = definitionRow["Title"].ToString(); definition.SavedTitle = definition.Title; }
-            if (definitionRow.ContainsKey("StartTime")) { definition.StartTime = definitionRow["StartTime"].ToDateTime(); definition.SavedStartTime = definition.StartTime; }
-            if (definitionRow.ContainsKey("CompletionTime")) { definition.CompletionTime = definitionRow["CompletionTime"].ToDateTime(); definition.SavedCompletionTime = definition.CompletionTime; }
             if (definitionRow.ContainsKey("WorkValue")) { definition.WorkValue = definitionRow["WorkValue"].ToDecimal(); definition.SavedWorkValue = definition.WorkValue; }
             if (definitionRow.ContainsKey("ProgressRate")) { definition.ProgressRate = definitionRow["ProgressRate"].ToDecimal(); definition.SavedProgressRate = definition.ProgressRate; }
             if (definitionRow.ContainsKey("Status")) { definition.Status = definitionRow["Status"].ToInt(); definition.SavedStatus = definition.Status; }
@@ -2133,6 +2136,8 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("ClassC")) { definition.ClassC = definitionRow["ClassC"].ToString(); definition.SavedClassC = definition.ClassC; }
             if (definitionRow.ContainsKey("Creator")) { definition.Creator = definitionRow["Creator"].ToString(); definition.SavedCreator = definition.Creator; }
             if (definitionRow.ContainsKey("Updator")) { definition.Updator = definitionRow["Updator"].ToString(); definition.SavedUpdator = definition.Updator; }
+            if (definitionRow.ContainsKey("StartTime")) { definition.StartTime = definitionRow["StartTime"].ToDateTime(); definition.SavedStartTime = definition.StartTime; }
+            if (definitionRow.ContainsKey("CompletionTime")) { definition.CompletionTime = definitionRow["CompletionTime"].ToDateTime(); definition.SavedCompletionTime = definition.CompletionTime; }
             if (definitionRow.ContainsKey("CreatedTime")) { definition.CreatedTime = definitionRow["CreatedTime"].ToDateTime(); definition.SavedCreatedTime = definition.CreatedTime; }
             if (definitionRow.ContainsKey("UpdatedTime")) { definition.UpdatedTime = definitionRow["UpdatedTime"].ToDateTime(); definition.SavedUpdatedTime = definition.UpdatedTime; }
         }
@@ -2351,6 +2356,8 @@ namespace Implem.DefinitionAccessor
                     case "SettingLimitDefault_ja": Display.SettingLimitDefault_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingLimitDefault_ja, definitionRow, DisplayXls); break;
                     case "SettingGridColumns": Display.SettingGridColumns = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingGridColumns, definitionRow, DisplayXls); break;
                     case "SettingGridColumns_ja": Display.SettingGridColumns_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingGridColumns_ja, definitionRow, DisplayXls); break;
+                    case "SettingFilterColumns": Display.SettingFilterColumns = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingFilterColumns, definitionRow, DisplayXls); break;
+                    case "SettingFilterColumns_ja": Display.SettingFilterColumns_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingFilterColumns_ja, definitionRow, DisplayXls); break;
                     case "SettingSummaryColumns": Display.SettingSummaryColumns = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingSummaryColumns, definitionRow, DisplayXls); break;
                     case "SettingSummaryColumns_ja": Display.SettingSummaryColumns_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingSummaryColumns_ja, definitionRow, DisplayXls); break;
                     case "SettingEditorColumns": Display.SettingEditorColumns = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingEditorColumns, definitionRow, DisplayXls); break;
@@ -3014,6 +3021,8 @@ namespace Implem.DefinitionAccessor
                         case "Export": columnDefinition.Export = optionValue.ToInt(); break;
                         case "GridColumn": columnDefinition.GridColumn = optionValue.ToInt(); break;
                         case "GridVisible": columnDefinition.GridVisible = optionValue.ToBool(); break;
+                        case "FilterColumn": columnDefinition.FilterColumn = optionValue.ToInt(); break;
+                        case "FilterVisible": columnDefinition.FilterVisible = optionValue.ToBool(); break;
                         case "EditorColumn": columnDefinition.EditorColumn = optionValue.ToBool(); break;
                         case "EditorVisible": columnDefinition.EditorVisible = optionValue.ToBool(); break;
                         case "TitleColumn": columnDefinition.TitleColumn = optionValue.ToInt(); break;
@@ -3197,8 +3206,6 @@ namespace Implem.DefinitionAccessor
                         case "Type": demoDefinition.Type = optionValue.ToString(); break;
                         case "ParentId": demoDefinition.ParentId = optionValue.ToString(); break;
                         case "Title": demoDefinition.Title = optionValue.ToString(); break;
-                        case "StartTime": demoDefinition.StartTime = optionValue.ToDateTime(); break;
-                        case "CompletionTime": demoDefinition.CompletionTime = optionValue.ToDateTime(); break;
                         case "WorkValue": demoDefinition.WorkValue = optionValue.ToDecimal(); break;
                         case "ProgressRate": demoDefinition.ProgressRate = optionValue.ToDecimal(); break;
                         case "Status": demoDefinition.Status = optionValue.ToInt(); break;
@@ -3209,6 +3216,8 @@ namespace Implem.DefinitionAccessor
                         case "ClassC": demoDefinition.ClassC = optionValue.ToString(); break;
                         case "Creator": demoDefinition.Creator = optionValue.ToString(); break;
                         case "Updator": demoDefinition.Updator = optionValue.ToString(); break;
+                        case "StartTime": demoDefinition.StartTime = optionValue.ToDateTime(); break;
+                        case "CompletionTime": demoDefinition.CompletionTime = optionValue.ToDateTime(); break;
                         case "CreatedTime": demoDefinition.CreatedTime = optionValue.ToDateTime(); break;
                         case "UpdatedTime": demoDefinition.UpdatedTime = optionValue.ToDateTime(); break;
                     }
@@ -4302,6 +4311,8 @@ namespace Implem.DefinitionAccessor
         public int Export; public int SavedExport;
         public int GridColumn; public int SavedGridColumn;
         public bool GridVisible; public bool SavedGridVisible;
+        public int FilterColumn; public int SavedFilterColumn;
+        public bool FilterVisible; public bool SavedFilterVisible;
         public bool EditorColumn; public bool SavedEditorColumn;
         public bool EditorVisible; public bool SavedEditorVisible;
         public int TitleColumn; public int SavedTitleColumn;
@@ -4401,6 +4412,8 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("Export")) Export = propertyCollection["Export"].ToInt(); else Export = 0;
             if (propertyCollection.ContainsKey("GridColumn")) GridColumn = propertyCollection["GridColumn"].ToInt(); else GridColumn = 0;
             if (propertyCollection.ContainsKey("GridVisible")) GridVisible = propertyCollection["GridVisible"].ToBool(); else GridVisible = false;
+            if (propertyCollection.ContainsKey("FilterColumn")) FilterColumn = propertyCollection["FilterColumn"].ToInt(); else FilterColumn = 0;
+            if (propertyCollection.ContainsKey("FilterVisible")) FilterVisible = propertyCollection["FilterVisible"].ToBool(); else FilterVisible = false;
             if (propertyCollection.ContainsKey("EditorColumn")) EditorColumn = propertyCollection["EditorColumn"].ToBool(); else EditorColumn = false;
             if (propertyCollection.ContainsKey("EditorVisible")) EditorVisible = propertyCollection["EditorVisible"].ToBool(); else EditorVisible = false;
             if (propertyCollection.ContainsKey("TitleColumn")) TitleColumn = propertyCollection["TitleColumn"].ToInt(); else TitleColumn = 0;
@@ -4500,6 +4513,8 @@ namespace Implem.DefinitionAccessor
                     case "Export": return Export;
                     case "GridColumn": return GridColumn;
                     case "GridVisible": return GridVisible;
+                    case "FilterColumn": return FilterColumn;
+                    case "FilterVisible": return FilterVisible;
                     case "EditorColumn": return EditorColumn;
                     case "EditorVisible": return EditorVisible;
                     case "TitleColumn": return TitleColumn;
@@ -4599,6 +4614,8 @@ namespace Implem.DefinitionAccessor
             Export = SavedExport;
             GridColumn = SavedGridColumn;
             GridVisible = SavedGridVisible;
+            FilterColumn = SavedFilterColumn;
+            FilterVisible = SavedFilterVisible;
             EditorColumn = SavedEditorColumn;
             EditorVisible = SavedEditorVisible;
             TitleColumn = SavedTitleColumn;
@@ -6711,8 +6728,6 @@ namespace Implem.DefinitionAccessor
         public string Type; public string SavedType;
         public string ParentId; public string SavedParentId;
         public string Title; public string SavedTitle;
-        public DateTime StartTime; public DateTime SavedStartTime;
-        public DateTime CompletionTime; public DateTime SavedCompletionTime;
         public decimal WorkValue; public decimal SavedWorkValue;
         public decimal ProgressRate; public decimal SavedProgressRate;
         public int Status; public int SavedStatus;
@@ -6723,6 +6738,8 @@ namespace Implem.DefinitionAccessor
         public string ClassC; public string SavedClassC;
         public string Creator; public string SavedCreator;
         public string Updator; public string SavedUpdator;
+        public DateTime StartTime; public DateTime SavedStartTime;
+        public DateTime CompletionTime; public DateTime SavedCompletionTime;
         public DateTime CreatedTime; public DateTime SavedCreatedTime;
         public DateTime UpdatedTime; public DateTime SavedUpdatedTime;
 
@@ -6737,8 +6754,6 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("Type")) Type = propertyCollection["Type"].ToString(); else Type = string.Empty;
             if (propertyCollection.ContainsKey("ParentId")) ParentId = propertyCollection["ParentId"].ToString(); else ParentId = string.Empty;
             if (propertyCollection.ContainsKey("Title")) Title = propertyCollection["Title"].ToString(); else Title = string.Empty;
-            if (propertyCollection.ContainsKey("StartTime")) StartTime = propertyCollection["StartTime"].ToDateTime(); else StartTime = 0.ToDateTime();
-            if (propertyCollection.ContainsKey("CompletionTime")) CompletionTime = propertyCollection["CompletionTime"].ToDateTime(); else CompletionTime = 0.ToDateTime();
             if (propertyCollection.ContainsKey("WorkValue")) WorkValue = propertyCollection["WorkValue"].ToDecimal(); else WorkValue = 0;
             if (propertyCollection.ContainsKey("ProgressRate")) ProgressRate = propertyCollection["ProgressRate"].ToDecimal(); else ProgressRate = 0;
             if (propertyCollection.ContainsKey("Status")) Status = propertyCollection["Status"].ToInt(); else Status = 0;
@@ -6749,6 +6764,8 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("ClassC")) ClassC = propertyCollection["ClassC"].ToString(); else ClassC = string.Empty;
             if (propertyCollection.ContainsKey("Creator")) Creator = propertyCollection["Creator"].ToString(); else Creator = string.Empty;
             if (propertyCollection.ContainsKey("Updator")) Updator = propertyCollection["Updator"].ToString(); else Updator = string.Empty;
+            if (propertyCollection.ContainsKey("StartTime")) StartTime = propertyCollection["StartTime"].ToDateTime(); else StartTime = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("CompletionTime")) CompletionTime = propertyCollection["CompletionTime"].ToDateTime(); else CompletionTime = 0.ToDateTime();
             if (propertyCollection.ContainsKey("CreatedTime")) CreatedTime = propertyCollection["CreatedTime"].ToDateTime(); else CreatedTime = 0.ToDateTime();
             if (propertyCollection.ContainsKey("UpdatedTime")) UpdatedTime = propertyCollection["UpdatedTime"].ToDateTime(); else UpdatedTime = 0.ToDateTime();
         }
@@ -6763,8 +6780,6 @@ namespace Implem.DefinitionAccessor
                     case "Type": return Type;
                     case "ParentId": return ParentId;
                     case "Title": return Title;
-                    case "StartTime": return StartTime;
-                    case "CompletionTime": return CompletionTime;
                     case "WorkValue": return WorkValue;
                     case "ProgressRate": return ProgressRate;
                     case "Status": return Status;
@@ -6775,6 +6790,8 @@ namespace Implem.DefinitionAccessor
                     case "ClassC": return ClassC;
                     case "Creator": return Creator;
                     case "Updator": return Updator;
+                    case "StartTime": return StartTime;
+                    case "CompletionTime": return CompletionTime;
                     case "CreatedTime": return CreatedTime;
                     case "UpdatedTime": return UpdatedTime;
                     default: return null;
@@ -6789,8 +6806,6 @@ namespace Implem.DefinitionAccessor
             Type = SavedType;
             ParentId = SavedParentId;
             Title = SavedTitle;
-            StartTime = SavedStartTime;
-            CompletionTime = SavedCompletionTime;
             WorkValue = SavedWorkValue;
             ProgressRate = SavedProgressRate;
             Status = SavedStatus;
@@ -6801,6 +6816,8 @@ namespace Implem.DefinitionAccessor
             ClassC = SavedClassC;
             Creator = SavedCreator;
             Updator = SavedUpdator;
+            StartTime = SavedStartTime;
+            CompletionTime = SavedCompletionTime;
             CreatedTime = SavedCreatedTime;
             UpdatedTime = SavedUpdatedTime;
         }
@@ -6854,6 +6871,7 @@ namespace Implem.DefinitionAccessor
         public string Issue12;
         public string Issue13;
         public string Issue14;
+        public string Issue15;
         public string Result1;
         public string Comment1;
         public string Comment2;
@@ -6911,6 +6929,7 @@ namespace Implem.DefinitionAccessor
         public DemoDefinition Issue12 = new DemoDefinition();
         public DemoDefinition Issue13 = new DemoDefinition();
         public DemoDefinition Issue14 = new DemoDefinition();
+        public DemoDefinition Issue15 = new DemoDefinition();
         public DemoDefinition Result1 = new DemoDefinition();
         public DemoDefinition Comment1 = new DemoDefinition();
         public DemoDefinition Comment2 = new DemoDefinition();
@@ -7169,6 +7188,8 @@ namespace Implem.DefinitionAccessor
         public string SettingLimitDefault_ja;
         public string SettingGridColumns;
         public string SettingGridColumns_ja;
+        public string SettingFilterColumns;
+        public string SettingFilterColumns_ja;
         public string SettingSummaryColumns;
         public string SettingSummaryColumns_ja;
         public string SettingEditorColumns;
@@ -7755,6 +7776,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition SettingLimitDefault_ja = new DisplayDefinition();
         public DisplayDefinition SettingGridColumns = new DisplayDefinition();
         public DisplayDefinition SettingGridColumns_ja = new DisplayDefinition();
+        public DisplayDefinition SettingFilterColumns = new DisplayDefinition();
+        public DisplayDefinition SettingFilterColumns_ja = new DisplayDefinition();
         public DisplayDefinition SettingSummaryColumns = new DisplayDefinition();
         public DisplayDefinition SettingSummaryColumns_ja = new DisplayDefinition();
         public DisplayDefinition SettingEditorColumns = new DisplayDefinition();

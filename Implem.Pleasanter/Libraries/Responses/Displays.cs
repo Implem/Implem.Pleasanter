@@ -223,6 +223,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SettingLimitDefault(params string[] data) { return Get("SettingLimitDefault", data); }
         public static HtmlBuilder Displays_SettingGridColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingGridColumns", data)); }
         public static string SettingGridColumns(params string[] data) { return Get("SettingGridColumns", data); }
+        public static HtmlBuilder Displays_SettingFilterColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingFilterColumns", data)); }
+        public static string SettingFilterColumns(params string[] data) { return Get("SettingFilterColumns", data); }
         public static HtmlBuilder Displays_SettingSummaryColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingSummaryColumns", data)); }
         public static string SettingSummaryColumns(params string[] data) { return Get("SettingSummaryColumns", data); }
         public static HtmlBuilder Displays_SettingEditorColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingEditorColumns", data)); }

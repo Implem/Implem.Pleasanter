@@ -17,6 +17,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string DefaultInput;
         public bool? GridVisible;
         public string GridDateTime;
+        public bool? FilterVisible;
         public string ControlDateTime;
         public string ControlType;
         public int? DecimalPlaces;
@@ -51,6 +52,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool NotUpdate;
         [NonSerialized]
         public bool GridColumn;
+        [NonSerialized]
+        public bool FilterColumn;
         [NonSerialized]
         public bool EditSelf;
         [NonSerialized]

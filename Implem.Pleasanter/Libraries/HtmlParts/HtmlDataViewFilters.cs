@@ -23,8 +23,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .NearCompletionTime(siteSettings: siteSettings, formData: formData)
                         .Delay(siteSettings: siteSettings, formData: formData)
                         .Limit(siteSettings: siteSettings, formData: formData)
-                        .Checks(siteSettings: siteSettings, formData: formData)
-                        .Choices(siteSettings: siteSettings, formData: formData)
+                        .Columns(siteSettings: siteSettings, formData: formData)
                         .Search(siteSettings: siteSettings, formData: formData)));
         }
 
@@ -119,50 +118,58 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 (column.GridVisible.ToBool() || column.EditorVisible.ToBool());
         }
 
-        private static HtmlBuilder Checks(
+        private static HtmlBuilder Columns(
             this HtmlBuilder hb, SiteSettings siteSettings, FormData formData)
         {
-            siteSettings.ColumnCollection
-                .Where(o => o.TypeName == "bit")
-                .Where(o => o.EditorVisible.ToBool())
-                .ForEach(column =>
+            siteSettings.FilterColumnCollection().ForEach(column =>
+            {
+                switch (column.TypeName)
                 {
-                    hb.FieldCheckBox(
-                        controlId: "DataViewFilters_" + column.Id,
-                        fieldCss: "field-auto-thin",
-                        controlCss: " auto-postback",
-                        labelText: Displays.Get(column.LabelText),
-                        _checked: formData.Get("DataViewFilters_" + column.Id).ToBool(),
-                        action: "DataView",
-                        method: "post",
-                        _using: column.GridVisible.ToBool() || column.EditorVisible.ToBool());
-                });
+                    case "bit":
+                        hb.CheckBox(column, formData);
+                        break;
+                    default:
+                        if (column.HasChoices())
+                        {
+                            hb.DropDown(siteSettings.InheritPermission, column, formData);
+                        }
+                        break;
+                }
+            });
             return hb;
         }
 
-        private static HtmlBuilder Choices(
-            this HtmlBuilder hb, SiteSettings siteSettings, FormData formData)
+        private static HtmlBuilder CheckBox(
+            this HtmlBuilder hb, Column column, FormData formData)
         {
-            siteSettings.ColumnCollection
-                .Where(o => o.HasChoices())
-                .ForEach(column =>
-                {
-                    hb.FieldDropDown(
-                        controlId: "DataViewFilters_" + column.Id,
-                        fieldCss: "field-auto-thin",
-                        controlCss: " auto-postback",
-                        labelText: Displays.Get(column.LabelText),
-                        optionCollection: column.EditChoices(
-                            siteId: siteSettings.InheritPermission,
-                            addBlank: true,
-                            addNotSet: true),
-                        selectedValue: formData.Get("DataViewFilters_" + column.Id),
-                        addSelectedValue: false,
-                        action: "DataView",
-                        method: "post",
-                        _using: column.GridVisible.ToBool() || column.EditorVisible.ToBool());
-                });
-            return hb;
+            return hb.FieldCheckBox(
+                controlId: "DataViewFilters_" + column.Id,
+                fieldCss: "field-auto-thin",
+                controlCss: " auto-postback",
+                labelText: Displays.Get(column.LabelText),
+                _checked: formData.Get("DataViewFilters_" + column.Id).ToBool(),
+                action: "DataView",
+                method: "post",
+                _using: column.GridVisible.ToBool() || column.EditorVisible.ToBool());
+        }
+
+        private static HtmlBuilder DropDown(
+            this HtmlBuilder hb, long siteId, Column column, FormData formData)
+        {
+            return hb.FieldDropDown(
+                controlId: "DataViewFilters_" + column.Id,
+                fieldCss: "field-auto-thin",
+                controlCss: " auto-postback",
+                labelText: Displays.Get(column.LabelText),
+                optionCollection: column.EditChoices(
+                    siteId: siteId,
+                    addBlank: true,
+                    addNotSet: true),
+                selectedValue: formData.Get("DataViewFilters_" + column.Id),
+                addSelectedValue: false,
+                action: "DataView",
+                method: "post",
+                _using: column.GridVisible.ToBool() || column.EditorVisible.ToBool());
         }
 
         private static HtmlBuilder Search(
