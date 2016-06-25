@@ -2041,12 +2041,12 @@ namespace Implem.Pleasanter.Models
                             .Id("DemoForm")
                             .Action(Navigations.Get("demos", "_action_")),
                         cancelDefaultButton: false,
+                        _using: Parameters.Service.Demo,
                         action: () => hb
                             .Div(css: "demo", action: () => hb
                                 .FieldSet(
                                     legendText: Displays.ViewDemoEnvironment(),
                                     css: " enclosed-thin",
-                                    _using: Parameters.Service.Demo,
                                     action: () => hb
                                         .Div(action: () => hb
                                             .Field(
