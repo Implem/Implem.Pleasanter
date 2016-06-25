@@ -2040,6 +2040,7 @@ namespace Implem.Pleasanter.Models
                         attributes: new HtmlAttributes()
                             .Id("DemoForm")
                             .Action(Navigations.Get("demos", "_action_")),
+                        cancelDefaultButton: false,
                         action: () => hb
                             .Div(css: "demo", action: () => hb
                                 .FieldSet(
