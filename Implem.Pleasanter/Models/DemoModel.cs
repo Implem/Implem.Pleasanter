@@ -1498,7 +1498,7 @@ namespace Implem.Pleasanter.Models
                                     .Creator(creator)
                                     .Updator(updator)
                                     .CreatedTime(createdTime)
-                                    .UpdatedTime(updatedTime.AddHours(-30)),
+                                    .UpdatedTime(updatedTime),
                                 where: Rds.IssuesWhere()
                                     .IssueId(issueModel.IssueId)));
                     }
