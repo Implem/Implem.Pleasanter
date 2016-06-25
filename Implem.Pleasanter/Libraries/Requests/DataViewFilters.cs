@@ -122,7 +122,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 {
                     Column = siteSettings.AllColumn(o.Substring(prefixLength)),
                     ColumnName = o.Substring(prefixLength),
-                    Value = Forms.Data(o)
+                    Value = formData[o].Value
                 })
                 .Where(o => o.Column != null)
                 .ForEach(data =>
