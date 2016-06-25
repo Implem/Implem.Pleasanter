@@ -1455,6 +1455,7 @@ namespace Implem.Pleasanter.Models
                     {
                         var startTime = issueModel.StartTime;
                         var progressRate = issueModel.ProgressRate.Value;
+                        var status = issueModel.Status.Value;
                         var creator = issueModel.Creator.Id;
                         var updator = issueModel.Updator.Id;
                         var updatedTime = issueModel.UpdatedTime.Value;
@@ -1476,6 +1477,7 @@ namespace Implem.Pleasanter.Models
                                     addUpdatorParam: false,
                                     param: Rds.IssuesParam()
                                         .ProgressRate(ProgressRate(progressRate, days, d))
+                                        .Status(d > 0 ? 200 : 100)
                                         .Creator(creator)
                                         .Updator(updator)
                                         .CreatedTime(recordingTime)
@@ -1494,6 +1496,7 @@ namespace Implem.Pleasanter.Models
                                 addUpdatedTimeParam: false,
                                 param: Rds.IssuesParam()
                                     .ProgressRate(progressRate)
+                                    .Status(status)
                                     .Creator(creator)
                                     .Updator(updator)
                                     .CreatedTime(createdTime)
