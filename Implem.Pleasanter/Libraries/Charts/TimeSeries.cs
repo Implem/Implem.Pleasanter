@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -85,18 +86,25 @@ namespace Implem.Pleasanter.Libraries.Charts
         public string ChartJson()
         {
             var elements = new List<Element>();
-            var choices = SiteSettings
-                .AllColumn(GroupByColumn)
+            var column = SiteSettings.AllColumn(GroupByColumn);
+            var choices = column
                 .EditChoices(SiteSettings.InheritPermission)
                 .Where(o => this.Select(p => p.Index).Contains(o.Key))
                 .ToDictionary(o => o.Key, o => o.Value);
+            if (column.UserColumn && this.Any(o =>
+                o.Index == User.UserTypes.Anonymous.ToInt().ToString()))
+            {
+                choices.Add(
+                    User.UserTypes.Anonymous.ToInt().ToString(),
+                    new ControlData(Displays.NotSet()));
+            }
             var valueColumn = SiteSettings.AllColumn(ValueColumn);
             var choiceKeys = choices.Keys.ToList();
             var indexes = choices.Select((o, i) => new Index
             {
                 Id = i,
                 Key = o.Key,
-                Text = !o.Value.Text.IsNullOrEmpty()
+                Text = o.Value.Text != string.Empty
                     ? o.Value.Text
                     : Displays.NotSet(),
                 Style = o.Value.Style
