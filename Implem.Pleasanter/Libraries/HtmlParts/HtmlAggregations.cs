@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Classes;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
@@ -75,11 +76,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         ? targetColumn?.Unit
                                         : string.Empty),
                             attributes: new HtmlAttributes()
-                                .Class("data" + (groupByColumn != null
-                                    ? " link"
-                                    : string.Empty))
-                                .DataSelector(Selector(siteSettings, aggregation.GroupBy))
-                                .DataValue(data.Key));
+                                .Attributes(siteSettings, aggregation, groupByColumn, data.Key));
                     });
                 });
             return hb;
@@ -136,6 +133,35 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static string Selector(SiteSettings siteSettings, string columnName)
         {
             return "#DataViewFilters_" + siteSettings.ReferenceType + "_" + columnName;
+        }
+
+        private static HtmlAttributes Attributes(
+            this HtmlAttributes attributes,
+            SiteSettings siteSettings,
+            Aggregation aggregation,
+            Column groupByColumn, string key)
+        {
+            return groupByColumn != null
+                ? attributes
+                    .Class("data" + (groupByColumn != null
+                        ? " link"
+                        : string.Empty))
+                    .DataSelector(Selector(siteSettings, aggregation.GroupBy))
+                    .DataValue(DataValue(groupByColumn, key))
+                : attributes
+                    .Class("data");
+        }
+
+        private static string DataValue(Column groupByColumn, string key)
+        {
+            if (groupByColumn.UserColumn)
+            {
+                if (User.UserTypes.Anonymous.ToInt().ToString() == key)
+                {
+                    return "\t";
+                }
+            }
+            return key != string.Empty ? key : "\t";
         }
     }
 }
