@@ -373,7 +373,8 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Column GridColumn(string columnName)
         {
-            return ColumnCollection.FirstOrDefault(o => o.ColumnName == columnName && o.GridColumn);
+            return ColumnCollection.FirstOrDefault(o =>
+                o.ColumnName == columnName && o.GridColumn);
         }
 
         public IEnumerable<Column> GridColumnCollection(bool withTitle = false)
@@ -392,7 +393,8 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Column FilterColumn(string columnName)
         {
-            return ColumnCollection.FirstOrDefault(o => o.ColumnName == columnName && o.FilterColumn);
+            return ColumnCollection.FirstOrDefault(o =>
+                o.ColumnName == columnName && o.FilterColumn);
         }
 
         public IEnumerable<Column> FilterColumnCollection()
