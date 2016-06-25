@@ -65,8 +65,8 @@ namespace Implem.Pleasanter.Libraries.Charts
             });
             if (this.Count > 0)
             {
-                MinTime = this.Select(o => o.UpdatedTime).Min();
-                MaxTime = this.Select(o => o.UpdatedTime).Max();
+                MinTime = this.Select(o => o.UpdatedTime).Min().AddDays(-1);
+                MaxTime = DateTime.Today;
                 Days = Times.DateDiff(Times.Types.Days, MinTime, MaxTime);
             }
             this.Select(o => o.Id).Distinct().ForEach(id =>
