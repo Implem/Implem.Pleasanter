@@ -42,6 +42,7 @@
     "BackgroundTaskSpan": 30,
     "SeparateMax": 10,
     "SeparateMin": 2,
+    "FirstMonth": 4,
     "MinTime": "2000/1/1",
     "MaxTime": "2050/1/1"
 }

@@ -46,6 +46,7 @@ namespace Implem.ParameterAccessor.Parts
         public int BackgroundTaskSpan;
         public int SeparateMax;
         public int SeparateMin;
+        public int FirstMonth;
         public DateTime MinTime;
         public DateTime MaxTime;
     }
