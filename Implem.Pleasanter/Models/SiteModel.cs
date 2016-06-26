@@ -2043,14 +2043,14 @@ namespace Implem.Pleasanter.Models
                             .Button(
                                 controlId: "MoveUpGridColumns",
                                 controlCss: "button-up",
-                                text: Displays.Up(),
+                                text: Displays.MoveUp(),
                                 onClick: Def.JavaScript.Submit,
                                 action: "SetSiteSettings",
                                 method: "post")
                             .Button(
                                 controlId: "MoveDownGridColumns",
                                 controlCss: "button-down",
-                                text: Displays.Down(),
+                                text: Displays.MoveDown(),
                                 onClick: Def.JavaScript.Submit,
                                 action: "SetSiteSettings",
                                 method: "post")
@@ -2093,14 +2093,14 @@ namespace Implem.Pleasanter.Models
                             .Button(
                                 controlId: "MoveUpFilterColumns",
                                 controlCss: "button-up",
-                                text: Displays.Up(),
+                                text: Displays.MoveUp(),
                                 onClick: Def.JavaScript.Submit,
                                 action: "SetSiteSettings",
                                 method: "post")
                             .Button(
                                 controlId: "MoveDownFilterColumns",
                                 controlCss: "button-down",
-                                text: Displays.Down(),
+                                text: Displays.MoveDown(),
                                 onClick: Def.JavaScript.Submit,
                                 action: "SetSiteSettings",
                                 method: "post")
@@ -2143,14 +2143,14 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     controlId: "MoveUpAggregations",
                                     controlCss: "button-up",
-                                    text: Displays.Up(),
+                                    text: Displays.MoveUp(),
                                     onClick: Def.JavaScript.Submit,
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "MoveDownAggregations",
                                     controlCss: "button-down",
-                                    text: Displays.Down(),
+                                    text: Displays.MoveDown(),
                                     onClick: Def.JavaScript.Submit,
                                     action: "SetSiteSettings",
                                     method: "post")
@@ -2270,14 +2270,14 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-center", action: () => hb
                                 .Button(
                                     controlId: "MoveUpEditorColumns",
-                                    text: Displays.Up(),
+                                    text: Displays.MoveUp(),
                                     controlCss: "button-up",
                                     onClick: Def.JavaScript.Submit,
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "MoveDownEditorColumns",
-                                    text: Displays.Down(),
+                                    text: Displays.MoveDown(),
                                     controlCss: "button-down",
                                     onClick: Def.JavaScript.Submit,
                                     action: "SetSiteSettings",
@@ -2330,14 +2330,14 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-center", action: () => hb
                                 .Button(
                                     controlId: "MoveUpLinkColumns",
-                                    text: Displays.Up(),
+                                    text: Displays.MoveUp(),
                                     controlCss: "button-up",
                                     onClick: Def.JavaScript.Submit,
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "MoveDownLinkColumns",
-                                    text: Displays.Down(),
+                                    text: Displays.MoveDown(),
                                     controlCss: "button-down",
                                     onClick: Def.JavaScript.Submit,
                                     action: "SetSiteSettings",
@@ -2380,14 +2380,14 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-center", action: () => hb
                                 .Button(
                                     controlId: "MoveUpHistoryColumns",
-                                    text: Displays.Up(),
+                                    text: Displays.MoveUp(),
                                     controlCss: "button-up",
                                     onClick: Def.JavaScript.Submit,
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "MoveDownHistoryColumns",
-                                    text: Displays.Down(),
+                                    text: Displays.MoveDown(),
                                     controlCss: "button-down",
                                     onClick: Def.JavaScript.Submit,
                                     action: "SetSiteSettings",
@@ -2612,14 +2612,14 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-center", action: () => hb
                                 .Button(
                                     controlId: "MoveUpTitleColumns",
-                                    text: Displays.Up(),
+                                    text: Displays.MoveUp(),
                                     controlCss: "button-up",
                                     onClick: Def.JavaScript.Submit,
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "MoveDownTitleColumns",
-                                    text: Displays.Down(),
+                                    text: Displays.MoveDown(),
                                     controlCss: "button-down",
                                     onClick: Def.JavaScript.Submit,
                                     action: "SetSiteSettings",
@@ -2692,14 +2692,14 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     controlId: "MoveUpFormulas",
                                     controlCss: "button-up",
-                                    text: Displays.Up(),
+                                    text: Displays.MoveUp(),
                                     onClick: Def.JavaScript.Submit,
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "MoveDownFormulas",
                                     controlCss: "button-down",
-                                    text: Displays.Down(),
+                                    text: Displays.MoveDown(),
                                     onClick: Def.JavaScript.Submit,
                                     action: "SetSiteSettings",
                                     method: "post")

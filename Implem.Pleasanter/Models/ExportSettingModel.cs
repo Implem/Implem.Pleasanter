@@ -1407,14 +1407,14 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     controlId: "ColumnToUp",
                                     controlCss: "button-up",
-                                    text: Displays.Up(),
+                                    text: Displays.MoveUp(),
                                     onClick: Def.JavaScript.Submit,
                                     action: "Set",
                                     method: "post")
                                 .Button(
                                     controlId: "ColumnToDown",
                                     controlCss: "button-down",
-                                    text: Displays.Down(),
+                                    text: Displays.MoveDown(),
                                     onClick: Def.JavaScript.Submit,
                                     action: "Set",
                                     method: "post")

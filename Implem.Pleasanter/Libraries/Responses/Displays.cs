@@ -103,10 +103,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string DecimalPlaces(params string[] data) { return Get("DecimalPlaces", data); }
         public static HtmlBuilder Displays_ToUpper(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ToUpper", data)); }
         public static string ToUpper(params string[] data) { return Get("ToUpper", data); }
-        public static HtmlBuilder Displays_Up(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Up", data)); }
-        public static string Up(params string[] data) { return Get("Up", data); }
-        public static HtmlBuilder Displays_Down(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Down", data)); }
-        public static string Down(params string[] data) { return Get("Down", data); }
+        public static HtmlBuilder Displays_MoveUp(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MoveUp", data)); }
+        public static string MoveUp(params string[] data) { return Get("MoveUp", data); }
+        public static HtmlBuilder Displays_MoveDown(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MoveDown", data)); }
+        public static string MoveDown(params string[] data) { return Get("MoveDown", data); }
         public static HtmlBuilder Displays_Previous(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Previous", data)); }
         public static string Previous(params string[] data) { return Get("Previous", data); }
         public static HtmlBuilder Displays_Next(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Next", data)); }
