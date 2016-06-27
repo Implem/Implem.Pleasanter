@@ -24,7 +24,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             return where
                 .Generals(siteSettings: siteSettings, tableName: tableName, formData: formData)
                 .Columns(siteSettings: siteSettings, tableName: tableName, formData: formData)
-                .Search(tableName: tableName, formData: formData);
+                .Search(tableName: tableName, formData: formData, siteId: siteSettings.SiteId);
         }
 
         private static SqlWhereCollection Generals(
@@ -181,18 +181,18 @@ namespace Implem.Pleasanter.Libraries.Requests
         }
 
         private static SqlWhereCollection Search(
-            this SqlWhereCollection where, string tableName, FormData formData)
+            this SqlWhereCollection where, string tableName, FormData formData, long siteId)
         {
             var words = formData.Get("DataViewFilters_Search").SearchIndexes();
             return words.Count() != 0
-                ? where.Search(tableName, words)
+                ? where.Search(tableName, words, siteId)
                 : where;
         }
 
         private static SqlWhereCollection Search(
-            this SqlWhereCollection where, string tableName, IEnumerable<string> words)
+            this SqlWhereCollection where, string tableName, IEnumerable<string> words, long siteId)
         {
-            var results = SearchIndexesUtility.Get(searchIndexes: words)
+            var results = SearchIndexesUtility.Get(searchIndexes: words, siteId: siteId)
                 .Tables[0]
                 .AsEnumerable()
                 .Distinct()

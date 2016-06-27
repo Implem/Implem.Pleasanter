@@ -424,7 +424,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static DataSet Get(
-            IEnumerable<string> searchIndexes, int offset = 0, int pageSize = 0)
+            IEnumerable<string> searchIndexes, int offset = 0, int pageSize = 0, long siteId = 0)
         {
             if (searchIndexes.Count() == 0) return null;
             var concordance = Math.Ceiling(
@@ -442,7 +442,8 @@ namespace Implem.Pleasanter.Models
                     join: Rds.SearchIndexesJoinDefault(),
                     where: Rds.SearchIndexesWhere()
                         .Word(searchIndexes, multiParamOperator: " or ")
-                        .PermissionType(0, _operator: "<>"),
+                        .PermissionType(0, _operator: "<>")
+                        .Items_SiteId(value: siteId, tableName: "t1", _using: siteId != 0),
                     groupBy: Rds.SearchIndexesGroupBy()
                         .ReferenceId()
                         .ReferenceType()
