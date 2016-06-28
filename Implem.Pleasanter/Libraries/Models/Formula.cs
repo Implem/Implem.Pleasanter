@@ -59,8 +59,10 @@ namespace Implem.Pleasanter.Libraries.Models
                             ? before.Result / childResult
                             : 0;
                         break;
+                    default:
+                        before = formula;
+                        break;
                 }
-                before = formula;
             });
             Children?.ForEach(formula =>
             {
