@@ -190,14 +190,13 @@ namespace Implem.Pleasanter.Libraries.Requests
         }
 
         private static SqlWhereCollection Search(
-            this SqlWhereCollection where, string tableName, IEnumerable<string> words, long siteId)
+            this SqlWhereCollection where,
+            string tableName,
+            IEnumerable<string> words,
+            long siteId)
         {
-            var results = SearchIndexesUtility.Get(searchIndexes: words, siteId: siteId)
-                .Tables[0]
-                .AsEnumerable()
-                .Distinct()
-                .Select(o => o["ReferenceId"].ToLong())
-                .Join();
+            var results = SearchIndexesUtility.GetIdCollection(
+                searchIndexes: words, siteId: siteId).Join();
             if (results != string.Empty)
             {
                 switch (tableName)

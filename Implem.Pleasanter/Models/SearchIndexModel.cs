@@ -423,8 +423,47 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static IEnumerable<long> GetIdCollection(IEnumerable<string> searchIndexes, long siteId)
+        {
+            return Get(
+                searchIndexes: searchIndexes,
+                column: Rds.SearchIndexesColumn().ReferenceId(),
+                siteId: siteId)
+                    .Tables[0]
+                    .AsEnumerable()
+                    .Distinct()
+                    .Select(o => o["ReferenceId"].ToLong());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static DataSet Get(IEnumerable<string> searchIndexes, int offset, int pageSize)
+        {
+            return Get(
+                searchIndexes: searchIndexes,
+                column: Rds.SearchIndexesColumn()
+                    .ReferenceId()
+                    .ReferenceType()
+                    .Title()
+                    .Subset()
+                    .PriorityTotal()
+                    .SearchIndexesCount(),
+                offset: offset,
+                pageSize: pageSize,
+                countRecord: offset == 0);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static DataSet Get(
-            IEnumerable<string> searchIndexes, int offset = 0, int pageSize = 0, long siteId = 0)
+            IEnumerable<string> searchIndexes,
+            SqlColumnCollection column,
+            int offset = 0,
+            int pageSize = 0,
+            long siteId = 0,
+            bool countRecord = false)
         {
             if (searchIndexes.Count() == 0) return null;
             var concordance = Math.Ceiling(
@@ -432,13 +471,7 @@ namespace Implem.Pleasanter.Models
             return Rds.ExecuteDataSet(statements:
                 Rds.SelectSearchIndexes(
                     dataTableName: "Main",
-                    column: Rds.SearchIndexesColumn()
-                        .ReferenceId()
-                        .ReferenceType()
-                        .Title()
-                        .Subset()
-                        .PriorityTotal()
-                        .SearchIndexesCount(),
+                    column: column,
                     join: Rds.SearchIndexesJoinDefault(),
                     where: Rds.SearchIndexesWhere()
                         .Word(searchIndexes, multiParamOperator: " or ")
@@ -457,7 +490,7 @@ namespace Implem.Pleasanter.Models
                         .UpdatedTimeMax(SqlOrderBy.Types.desc),
                     offset: offset,
                     pageSize: pageSize,
-                    countRecord: offset == 0));
+                    countRecord: countRecord));
         }
     }
 }
