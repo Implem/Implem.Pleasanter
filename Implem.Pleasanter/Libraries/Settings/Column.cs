@@ -239,9 +239,9 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public string Format(decimal value)
         {
-            return value.ToString("0", DecimalPlaces.ToInt() == 0
-                ? "0"
-                : "0." + new String('0', DecimalPlaces.ToInt()));
+            return DecimalPlaces.ToInt() == 0
+                ? value.ToString("0", "0")
+                : value.ToString("0", "0." + new String('0', DecimalPlaces.ToInt())).TrimEnd('0');
         }
 
         public string Format(decimal value, Permissions.Types permissionType)
