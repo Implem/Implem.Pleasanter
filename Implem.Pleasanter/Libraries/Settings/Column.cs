@@ -241,7 +241,14 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return DecimalPlaces.ToInt() == 0
                 ? value.ToString("0", "0")
-                : value.ToString("0", "0." + new String('0', DecimalPlaces.ToInt())).TrimEnd('0');
+                : TrimZero(value.ToString("0", "0." + new String('0', DecimalPlaces.ToInt())));
+        }
+
+        private static string TrimZero(string str)
+        {
+            return str.Contains(".")
+                ? str.TrimEnd('0')
+                : str;
         }
 
         public string Format(decimal value, Permissions.Types permissionType)
