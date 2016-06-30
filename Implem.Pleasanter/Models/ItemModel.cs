@@ -355,33 +355,45 @@ namespace Implem.Pleasanter.Models
             return new ResponseCollection().Html("#Dialog_MoveTargets", new HtmlBuilder()
                 .OptionCollection(
                     optionCollection: MoveTargets(
-                        new SiteCollection(where: Rds.SitesWhere()
-                            .TenantId(Sessions.TenantId())
-                            .ReferenceType(
-                                value: new string[] { "Sites", Site.ReferenceType }, 
-                                multiParamOperator: " or "))
-                                    .Where(o => o.PermissionType.CanRead())), 
+                        Rds.ExecuteTable(statements: Rds.SelectSites(
+                            column: Rds.SitesColumn()
+                                .SiteId()
+                                .Title()
+                                .ReferenceType()
+                                .ParentId()
+                                .PermissionType(),
+                            join: Rds.SitesJoin(),
+                            where: Rds.SitesWhere()
+                                .TenantId(Sessions.TenantId())
+                                .ReferenceType(
+                                    value: new string[] { "Sites", Site.ReferenceType }, 
+                                    multiParamOperator: " or ")
+                                .PermissionType(_operator: 
+                                    " & " +
+                                    Permissions.Types.Update.ToInt().ToString() +
+                                    " <> 0")))
+                                        .AsEnumerable()), 
                     selectedValue: Site.SiteId.ToString())).ToJson();
         }
 
-        private Dictionary<string, ControlData> MoveTargets(
-            IEnumerable<SiteModel> siteCollection)
+        private Dictionary<string, ControlData> MoveTargets(IEnumerable<DataRow> siteCollection)
         {
             var moveTargets = new Dictionary<string, ControlData>();
             siteCollection
-                .Where(o => o.ReferenceType == Site.ReferenceType)
-                .Where(o => o.PermissionType.CanUpdate())
-                .ForEach(siteModel =>
+                .Where(o => o["ReferenceType"].ToString() == Site.ReferenceType)
+                .ForEach(dataRow =>
                 {
-                    var current = siteModel;
-                    var titles = new List<string>() { current.Title.Value };
-                    while(siteCollection.Any(o => o.SiteId == current.ParentId))
-                    {
-                        current = siteCollection.First(o => o.SiteId == current.ParentId);
-                        titles.Insert(0, current.Title.Value);
-                    }
+                    var current = dataRow;
+                    var titles = new List<string>() { current["Title"].ToString() };
+                    while(siteCollection.Any(o =>
+                        current["SiteId"].ToLong() == current["ParentId"].ToLong()))
+                        {
+                            current = siteCollection.First(o =>
+                                o["SiteId"].ToLong() == current["ParentId"].ToLong());
+                            titles.Insert(0, current["Title"].ToString());
+                        }
                     moveTargets.Add(
-                        siteModel.SiteId.ToString(),
+                        dataRow["SiteId"].ToString(),
                         new ControlData(titles.Join(" / ")));
                 });
             return moveTargets;
