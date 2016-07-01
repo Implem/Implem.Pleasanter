@@ -355,23 +355,13 @@ namespace Implem.Pleasanter.Models
             return new ResponseCollection().Html("#Dialog_MoveTargets", new HtmlBuilder()
                 .OptionCollection(
                     optionCollection: MoveTargets(
-                        Rds.ExecuteTable(statements: Rds.SelectSites(
-                            column: Rds.SitesColumn()
-                                .SiteId()
-                                .Title()
-                                .ReferenceType()
-                                .ParentId()
-                                .PermissionType(),
-                            join: Rds.SitesJoin(),
-                            where: Rds.SitesWhere()
+                        Rds.ExecuteTable(statements: new SqlStatement(
+                            commandText: Def.Sql.MoveTarget,
+                            param: Rds.SitesParam()
                                 .TenantId(Sessions.TenantId())
-                                .ReferenceType(
-                                    value: new string[] { "Sites", Site.ReferenceType }, 
-                                    multiParamOperator: " or ")
-                                .PermissionType(_operator: 
-                                    " & " +
-                                    Permissions.Types.Update.ToInt().ToString() +
-                                    " <> 0")))
+                                .ReferenceType(Site.ReferenceType)
+                                .Permissions_PermissionType(
+                                    Permissions.Types.Update.ToInt().ToString())))
                                         .AsEnumerable()), 
                     selectedValue: Site.SiteId.ToString())).ToJson();
         }
@@ -386,7 +376,7 @@ namespace Implem.Pleasanter.Models
                     var current = dataRow;
                     var titles = new List<string>() { current["Title"].ToString() };
                     while(siteCollection.Any(o =>
-                        current["SiteId"].ToLong() == current["ParentId"].ToLong()))
+                        o["SiteId"].ToLong() == current["ParentId"].ToLong()))
                         {
                             current = siteCollection.First(o =>
                                 o["SiteId"].ToLong() == current["ParentId"].ToLong());

@@ -2870,6 +2870,7 @@ namespace Implem.DefinitionAccessor
                     case "SiteDepts": Sql.SiteDepts = definitionRow[1].ToString(); SetSqlTable(SqlTable.SiteDepts, definitionRow, SqlXls); break;
                     case "SiteUsers": Sql.SiteUsers = definitionRow[1].ToString(); SetSqlTable(SqlTable.SiteUsers, definitionRow, SqlXls); break;
                     case "ProgressRateDelay": Sql.ProgressRateDelay = definitionRow[1].ToString(); SetSqlTable(SqlTable.ProgressRateDelay, definitionRow, SqlXls); break;
+                    case "MoveTarget": Sql.MoveTarget = definitionRow[1].ToString(); SetSqlTable(SqlTable.MoveTarget, definitionRow, SqlXls); break;
                     case "CreateDatabase": Sql.CreateDatabase = definitionRow[1].ToString(); SetSqlTable(SqlTable.CreateDatabase, definitionRow, SqlXls); break;
                     case "SpWho": Sql.SpWho = definitionRow[1].ToString(); SetSqlTable(SqlTable.SpWho, definitionRow, SqlXls); break;
                     case "KillSpid": Sql.KillSpid = definitionRow[1].ToString(); SetSqlTable(SqlTable.KillSpid, definitionRow, SqlXls); break;
@@ -8311,6 +8312,7 @@ namespace Implem.DefinitionAccessor
         public string SiteDepts;
         public string SiteUsers;
         public string ProgressRateDelay;
+        public string MoveTarget;
         public string CreateDatabase;
         public string SpWho;
         public string KillSpid;
@@ -8341,6 +8343,7 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition SiteDepts = new SqlDefinition();
         public SqlDefinition SiteUsers = new SqlDefinition();
         public SqlDefinition ProgressRateDelay = new SqlDefinition();
+        public SqlDefinition MoveTarget = new SqlDefinition();
         public SqlDefinition CreateDatabase = new SqlDefinition();
         public SqlDefinition SpWho = new SqlDefinition();
         public SqlDefinition KillSpid = new SqlDefinition();
