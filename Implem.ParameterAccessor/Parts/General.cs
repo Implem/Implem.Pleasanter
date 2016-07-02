@@ -48,6 +48,8 @@ namespace Implem.ParameterAccessor.Parts
         public int SeparateMin;
         public int FirstDayOfWeek;
         public int FirstMonth;
+        public int FilterMinSpan;
+        public int FilterMaxSpan;
         public DateTime MinTime;
         public DateTime MaxTime;
     }

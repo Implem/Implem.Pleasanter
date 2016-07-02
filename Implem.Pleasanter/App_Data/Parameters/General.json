@@ -44,6 +44,8 @@
     "SeparateMin": 2,
     "FirstDayOfWeek": 1,
     "FirstMonth": 4,
+    "FilterMinSpan": -1,
+    "FilterMaxSpan": 1,
     "MinTime": "2000/1/1",
     "MaxTime": "2050/1/1"
 }

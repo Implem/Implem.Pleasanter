@@ -160,6 +160,15 @@ namespace Implem.Pleasanter.Libraries.Requests
                                     value: data.Value.ToLong());
                             }
                             break;
+                        case Types.CsDateTime:
+                            where.Add(raw: "[t0].[{0}] between '{1}' and '{2}'"
+                                .Params(
+                                    data.ColumnName,
+                                    data.Value.Split_1st().ToDateTime().ToUniversal()
+                                        .ToString("yyyy/M/d H:m:s"),
+                                    data.Value.Split_2nd().ToDateTime().ToUniversal()
+                                        .ToString("yyyy/M/d H:m:s.fff")));
+                            break;
                         case Types.CsString:
                             if (data.Value == "\t")
                             {

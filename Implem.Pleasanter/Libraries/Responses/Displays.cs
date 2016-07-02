@@ -465,6 +465,14 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string DemoMailTitle(params string[] data) { return Get("DemoMailTitle", data); }
         public static HtmlBuilder Displays_DemoMailBody(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DemoMailBody", data)); }
         public static string DemoMailBody(params string[] data) { return Get("DemoMailBody", data); }
+        public static HtmlBuilder Displays_Fy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Fy", data)); }
+        public static string Fy(params string[] data) { return Get("Fy", data); }
+        public static HtmlBuilder Displays_Half1(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Half1", data)); }
+        public static string Half1(params string[] data) { return Get("Half1", data); }
+        public static HtmlBuilder Displays_Half2(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Half2", data)); }
+        public static string Half2(params string[] data) { return Get("Half2", data); }
+        public static HtmlBuilder Displays_Quarter(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Quarter", data)); }
+        public static string Quarter(params string[] data) { return Get("Quarter", data); }
         public static HtmlBuilder Displays_Ymd(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Ymd", data)); }
         public static string Ymd(params string[] data) { return Get("Ymd", data); }
         public static HtmlBuilder Displays_Ymda(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Ymda", data)); }

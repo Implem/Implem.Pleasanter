@@ -41,6 +41,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public bool Nullable;
         [NonSerialized]
+        public bool RecordedTime;
+        [NonSerialized]
         public Permissions.Types ReadPermission;
         [NonSerialized]
         public Permissions.Types CreatePermission;

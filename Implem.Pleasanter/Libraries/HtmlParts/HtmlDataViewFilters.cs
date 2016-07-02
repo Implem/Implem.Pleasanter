@@ -1,8 +1,13 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Classes;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -123,16 +128,32 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             siteSettings.FilterColumnCollection().ForEach(column =>
             {
-                switch (column.TypeName)
+                switch (column.TypeName.CsTypeSummary())
                 {
-                    case "bit":
-                        hb.CheckBox(column, formData);
+                    case Types.CsBool:
+                        hb.CheckBox(column: column, formData: formData);
                         break;
-                    default:
+                    case Types.CsDateTime:
+                        var timePeriod = TimePeriod(column.RecordedTime);
+                        hb.DropDown(
+                            column: column,
+                            formData: formData,
+                            optionCollection: timePeriod);
+                        break;
+                    case Types.CsNumeric:
+                    case Types.CsString:
                         if (column.HasChoices())
                         {
-                            hb.DropDown(siteSettings.InheritPermission, column, formData);
+                            hb.DropDown(
+                                column: column,
+                                formData: formData,
+                                optionCollection: column.EditChoices(
+                                    siteId: siteSettings.InheritPermission,
+                                    addBlank: true,
+                                    addNotSet: true));
                         }
+                        break;
+                    default:
                         break;
                 }
             });
@@ -154,22 +175,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder DropDown(
-            this HtmlBuilder hb, long siteId, Column column, FormData formData)
+            this HtmlBuilder hb,
+            Column column,
+            FormData formData,
+            Dictionary<string, ControlData> optionCollection)
         {
             return hb.FieldDropDown(
                 controlId: "DataViewFilters_" + column.Id,
                 fieldCss: "field-auto-thin",
                 controlCss: " auto-postback",
                 labelText: Displays.Get(column.LabelText),
-                optionCollection: column.EditChoices(
-                    siteId: siteId,
-                    addBlank: true,
-                    addNotSet: true),
+                optionCollection: optionCollection,
                 selectedValue: formData.Get("DataViewFilters_" + column.Id),
                 addSelectedValue: false,
                 action: "DataView",
                 method: "post",
-                _using: column.GridVisible.ToBool() || column.EditorVisible.ToBool());
+                _using:
+                    column.GridVisible.ToBool() ||
+                    column.EditorVisible.ToBool() ||
+                    column.RecordedTime);
         }
 
         private static HtmlBuilder Search(
@@ -183,6 +207,116 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 text: formData.Get("DataViewFilters_Search"),
                 action: "DataView",
                 method: "post");
+        }
+
+        private static Dictionary<string, ControlData> TimePeriod(bool recordedTime)
+        {
+            var hash = new Dictionary<string, ControlData>
+            {
+                { string.Empty, new ControlData(string.Empty) }
+            };
+            var min = Min();
+            var max = Max();
+            for (var m = min; m <= max; m += 12)
+            {
+                SetFy(hash, DateTime.Now.AddMonths(m), recordedTime);
+            }
+            for (var m = min; m <= max; m += 6)
+            {
+                SetHalf(hash, DateTime.Now.AddMonths(m), recordedTime);
+            }
+            for (var m = min; m <= max; m += 3)
+            {
+                SetQuarter(hash, DateTime.Now.AddMonths(m), recordedTime);
+            }
+            for (var m = min; m <= max; m++)
+            {
+                SetMonth(hash, DateTime.Now.AddMonths(m), recordedTime);
+            }
+            return hash;
+        }
+
+        private static int Min()
+        {
+            return (DateTime.Now.AddYears(Parameters.General.FilterMinSpan).FyFrom() -
+                DateTime.Now).Months();
+        }
+
+        private static int Max()
+        {
+            return (DateTime.Now.AddYears(Parameters.General.FilterMaxSpan + 1).FyFrom() -
+                DateTime.Now).Months();
+        }
+
+        private static void SetMonth(
+            Dictionary<string, ControlData> hash, DateTime current, bool recordedTime)
+        {
+            var timePeriod = new TimePeriod(
+                Implem.Libraries.Classes.TimePeriod.Types.Month, current);
+            if (!recordedTime || timePeriod.From <= DateTime.Now)
+            {
+                hash.Add(
+                    Period(timePeriod),
+                    new ControlData(current.ToString("y", Sessions.CultureInfo()) +
+                        InRange(timePeriod)));
+            }
+        }
+
+        private static void SetQuarter(
+            Dictionary<string, ControlData> hash, DateTime current, bool recordedTime)
+        {
+            var timePeriod = new TimePeriod(
+                Implem.Libraries.Classes.TimePeriod.Types.Quarter, current);
+            if (!recordedTime || timePeriod.From <= DateTime.Now)
+            {
+                hash.Add(
+                   Period(timePeriod),
+                    new ControlData(Displays.Quarter(
+                        current.Fy().ToString(), current.Quarter().ToString()) +
+                            InRange(timePeriod)));
+            }
+        }
+
+        private static void SetHalf(
+            Dictionary<string, ControlData> hash, DateTime current, bool recordedTime)
+        {
+            var timePeriod = new TimePeriod(
+                Implem.Libraries.Classes.TimePeriod.Types.Half, current);
+            if (!recordedTime || timePeriod.From <= DateTime.Now)
+            {
+                hash.Add(
+                    Period(timePeriod),
+                    new ControlData((current.Half() == 1
+                        ? Displays.Half1(current.Fy().ToString())
+                        : Displays.Half2(current.Fy().ToString())) +
+                            InRange(timePeriod)));
+            }
+        }
+
+        private static void SetFy(
+            Dictionary<string, ControlData> hash, DateTime current, bool recordedTime)
+        {
+            var timePeriod = new TimePeriod(Implem.Libraries.Classes.TimePeriod.Types.Fy, current);
+            if (!recordedTime || timePeriod.From <= DateTime.Now)
+            {
+                hash.Add(
+                    Period(timePeriod),
+                    new ControlData(Displays.Fy(current.Fy().ToString()) + InRange(timePeriod)));
+            }
+        }
+
+        private static string Period(TimePeriod timePeriod)
+        {
+            return
+                timePeriod.From.ToString() + "," +
+                timePeriod.To.ToString("yyyy/M/d H:m:s.fff");
+        }
+
+        private static string InRange(TimePeriod timePeriod)
+        {
+            return timePeriod.InRange(DateTime.Now)
+                ? " *"
+                : string.Empty;
         }
     }
 }

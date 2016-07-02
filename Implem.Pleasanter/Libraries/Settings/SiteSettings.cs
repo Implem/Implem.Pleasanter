@@ -33,6 +33,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public decimal? NearCompletionTimeAfterDays;
         public decimal? NearCompletionTimeBeforeDays;
         public int? GridPageSize;
+        public int? FirstDayOfWeek;
+        public int? FirstMonth;
         public List<string> GridColumnsOrder;
         public List<string> FilterColumnsOrder;
         public List<string> EditorColumnsOrder;
@@ -73,6 +75,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             NearCompletionTimeAfterDays = NearCompletionTimeAfterDays ??
                 Parameters.General.NearCompletionTimeAfterDays;
             GridPageSize = GridPageSize ?? Parameters.General.GridPageSize;
+            FirstDayOfWeek = FirstDayOfWeek ?? Parameters.General.FirstDayOfWeek;
+            FirstMonth = FirstMonth ?? Parameters.General.FirstMonth;
             UpdateGridColumnsOrder();
             UpdateFilterColumnsOrder();
             UpdateEditorColumnsOrder();
@@ -105,6 +109,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (self.NearCompletionTimeAfterDays == def.NearCompletionTimeAfterDays) self.NearCompletionTimeAfterDays = null;
             if (self.NearCompletionTimeBeforeDays == def.NearCompletionTimeBeforeDays) self.NearCompletionTimeBeforeDays = null;
             if (self.GridPageSize == def.GridPageSize) self.GridPageSize = null;
+            if (self.FirstDayOfWeek == def.FirstDayOfWeek) self.FirstDayOfWeek = null;
+            if (self.FirstMonth == def.FirstMonth) self.FirstMonth = null;
             if (self.GridColumnsOrder.SequenceEqual(def.GridColumnsOrder)) self.GridColumnsOrder = null;
             if (self.FilterColumnsOrder.SequenceEqual(def.FilterColumnsOrder)) self.FilterColumnsOrder = null;
             if (self.EditorColumnsOrder.SequenceEqual(def.EditorColumnsOrder)) self.EditorColumnsOrder = null;
@@ -317,6 +323,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.Unit = column.Unit ?? columnDefinition.Unit;
                 column.Size = columnDefinition.Size;
                 column.Nullable = columnDefinition.Nullable;
+                column.RecordedTime = columnDefinition.Default == "now";
                 column.ReadPermission = Permissions.Get(columnDefinition.ReadPermission);
                 column.CreatePermission = Permissions.Get(columnDefinition.CreatePermission);
                 column.UpdatePermission = Permissions.Get(columnDefinition.UpdatePermission);
@@ -402,9 +409,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             foreach (var columnName in FilterColumnsOrder)
             {
                 var column = FilterColumn(columnName);
-                if (column != null &&
-                    column.FilterVisible.ToBool() &&
-                    column.EditorVisible.ToBool())
+                if (column != null && column.FilterVisible.ToBool())
                 {
                     yield return column;
                 }
@@ -572,6 +577,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "NearCompletionTimeBeforeDays": NearCompletionTimeBeforeDays = value.ToInt(); break;
                 case "NearCompletionTimeAfterDays": NearCompletionTimeAfterDays = value.ToInt(); break;
                 case "GridPageSize": GridPageSize = value.ToInt(); break;
+                case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
+                case "FirstMonth": FirstMonth = value.ToInt(); break;
                 case "TitleSeparator": TitleSeparator = value; break;
                 case "AddressBook": AddressBook = value; break;
                 case "MailToDefault": MailToDefault = value; break;

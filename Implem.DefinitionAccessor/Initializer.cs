@@ -32,6 +32,8 @@ namespace Implem.DefinitionAccessor
             Environments.TimeZoneInfoDefault = TimeZoneInfo.GetSystemTimeZones()
                 .FirstOrDefault(o => o.Id == Parameters.Service.TimeZoneDefault);
             SetSqls();
+            DateTimes.FirstDayOfWeek = Parameters.General.FirstDayOfWeek;
+            DateTimes.FirstMonth = Parameters.General.FirstMonth;
         }
 
         private static void SetRdsPassword(bool setRdsPassword, bool setRandomPassword)
