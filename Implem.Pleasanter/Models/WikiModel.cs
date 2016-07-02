@@ -827,12 +827,15 @@ namespace Implem.Pleasanter.Models
         public Dictionary<string, int> SearchIndexCollection()
         {
             var searchIndexHash = new Dictionary<string, int>();
+            SiteId.SearchIndexes(searchIndexHash, 200);
+            UpdatedTime.SearchIndexes(searchIndexHash, 200);
             WikiId.SearchIndexes(searchIndexHash, 1);
             Title.SearchIndexes(searchIndexHash, 4);
             Body.SearchIndexes(searchIndexHash, 200);
             Comments.SearchIndexes(searchIndexHash, 200);
             Creator.SearchIndexes(searchIndexHash, 100);
             Updator.SearchIndexes(searchIndexHash, 100);
+            CreatedTime.SearchIndexes(searchIndexHash, 200);
             SearchIndexExtensions.OutgoingMailsSearchIndexes(searchIndexHash, "Wikis", WikiId);
             return searchIndexHash;
         }

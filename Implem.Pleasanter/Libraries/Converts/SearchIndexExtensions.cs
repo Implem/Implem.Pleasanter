@@ -3,6 +3,7 @@ using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Converts
@@ -22,9 +23,39 @@ namespace Implem.Pleasanter.Libraries.Converts
         }
 
         public static void SearchIndexes(
+            this decimal self, Dictionary<string, int> searchIndexHash, int searchPriority)
+        {
+            Update(searchIndexHash, self.ToString(), searchPriority);
+        }
+
+        public static void SearchIndexes(
+            this DateTime self, Dictionary<string, int> searchIndexHash, int searchPriority)
+        {
+            Update(searchIndexHash, self.ToLocal().ToString(), searchPriority);
+        }
+
+        public static void SearchIndexes(
             this string self, Dictionary<string, int> searchIndexHash, int searchPriority)
         {
             SearchIndexes(searchIndexHash, self, searchPriority);
+        }
+
+        public static void SearchIndexes(
+            this ProgressRate self, Dictionary<string, int> searchIndexHash, int searchPriority)
+        {
+            SearchIndexes(searchIndexHash, self.Value.ToString(), searchPriority);
+        }
+
+        public static void SearchIndexes(
+            this Status self, Dictionary<string, int> searchIndexHash, int searchPriority)
+        {
+            SearchIndexes(searchIndexHash, self.Value.ToString(), searchPriority);
+        }
+
+        public static void SearchIndexes(
+            this Time self, Dictionary<string, int> searchIndexHash, int searchPriority)
+        {
+            SearchIndexes(searchIndexHash, self.Value.ToLocal().ToString(), searchPriority);
         }
 
         public static void SearchIndexes(
@@ -46,6 +77,12 @@ namespace Implem.Pleasanter.Libraries.Converts
                 searchIndexHash,
                 self.Select(o => SiteInfo.UserFullName(o.Creator) + " " + o.Body).Join(" "),
                 searchPriority);
+        }
+
+        public static void SearchIndexes(
+            this WorkValue self, Dictionary<string, int> searchIndexHash, int searchPriority)
+        {
+            SearchIndexes(searchIndexHash, self.Value.ToString(), searchPriority);
         }
 
         public static void OutgoingMailsSearchIndexes(
