@@ -381,6 +381,56 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         	    column: siteSettings.LinkColumn("ClassP"),
                                         	    value: issueSubset.ClassP);
                                         	break;
+                                        case "ClassQ":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("ClassQ"),
+                                        	    value: issueSubset.ClassQ);
+                                        	break;
+                                        case "ClassR":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("ClassR"),
+                                        	    value: issueSubset.ClassR);
+                                        	break;
+                                        case "ClassS":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("ClassS"),
+                                        	    value: issueSubset.ClassS);
+                                        	break;
+                                        case "ClassT":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("ClassT"),
+                                        	    value: issueSubset.ClassT);
+                                        	break;
+                                        case "ClassU":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("ClassU"),
+                                        	    value: issueSubset.ClassU);
+                                        	break;
+                                        case "ClassV":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("ClassV"),
+                                        	    value: issueSubset.ClassV);
+                                        	break;
+                                        case "ClassW":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("ClassW"),
+                                        	    value: issueSubset.ClassW);
+                                        	break;
+                                        case "ClassX":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("ClassX"),
+                                        	    value: issueSubset.ClassX);
+                                        	break;
+                                        case "ClassY":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("ClassY"),
+                                        	    value: issueSubset.ClassY);
+                                        	break;
+                                        case "ClassZ":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("ClassZ"),
+                                        	    value: issueSubset.ClassZ);
+                                        	break;
                                         case "NumA":
                                         	hb.Td(
                                         	    column: siteSettings.LinkColumn("NumA"),
@@ -460,6 +510,56 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         	hb.Td(
                                         	    column: siteSettings.LinkColumn("NumP"),
                                         	    value: issueSubset.NumP);
+                                        	break;
+                                        case "NumQ":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("NumQ"),
+                                        	    value: issueSubset.NumQ);
+                                        	break;
+                                        case "NumR":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("NumR"),
+                                        	    value: issueSubset.NumR);
+                                        	break;
+                                        case "NumS":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("NumS"),
+                                        	    value: issueSubset.NumS);
+                                        	break;
+                                        case "NumT":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("NumT"),
+                                        	    value: issueSubset.NumT);
+                                        	break;
+                                        case "NumU":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("NumU"),
+                                        	    value: issueSubset.NumU);
+                                        	break;
+                                        case "NumV":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("NumV"),
+                                        	    value: issueSubset.NumV);
+                                        	break;
+                                        case "NumW":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("NumW"),
+                                        	    value: issueSubset.NumW);
+                                        	break;
+                                        case "NumX":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("NumX"),
+                                        	    value: issueSubset.NumX);
+                                        	break;
+                                        case "NumY":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("NumY"),
+                                        	    value: issueSubset.NumY);
+                                        	break;
+                                        case "NumZ":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("NumZ"),
+                                        	    value: issueSubset.NumZ);
                                         	break;
                                         case "DateA":
                                         	hb.Td(
@@ -541,6 +641,56 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         	    column: siteSettings.LinkColumn("DateP"),
                                         	    value: issueSubset.DateP);
                                         	break;
+                                        case "DateQ":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DateQ"),
+                                        	    value: issueSubset.DateQ);
+                                        	break;
+                                        case "DateR":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DateR"),
+                                        	    value: issueSubset.DateR);
+                                        	break;
+                                        case "DateS":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DateS"),
+                                        	    value: issueSubset.DateS);
+                                        	break;
+                                        case "DateT":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DateT"),
+                                        	    value: issueSubset.DateT);
+                                        	break;
+                                        case "DateU":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DateU"),
+                                        	    value: issueSubset.DateU);
+                                        	break;
+                                        case "DateV":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DateV"),
+                                        	    value: issueSubset.DateV);
+                                        	break;
+                                        case "DateW":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DateW"),
+                                        	    value: issueSubset.DateW);
+                                        	break;
+                                        case "DateX":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DateX"),
+                                        	    value: issueSubset.DateX);
+                                        	break;
+                                        case "DateY":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DateY"),
+                                        	    value: issueSubset.DateY);
+                                        	break;
+                                        case "DateZ":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DateZ"),
+                                        	    value: issueSubset.DateZ);
+                                        	break;
                                         case "DescriptionA":
                                         	hb.Td(
                                         	    column: siteSettings.LinkColumn("DescriptionA"),
@@ -621,6 +771,56 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         	    column: siteSettings.LinkColumn("DescriptionP"),
                                         	    value: issueSubset.DescriptionP);
                                         	break;
+                                        case "DescriptionQ":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DescriptionQ"),
+                                        	    value: issueSubset.DescriptionQ);
+                                        	break;
+                                        case "DescriptionR":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DescriptionR"),
+                                        	    value: issueSubset.DescriptionR);
+                                        	break;
+                                        case "DescriptionS":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DescriptionS"),
+                                        	    value: issueSubset.DescriptionS);
+                                        	break;
+                                        case "DescriptionT":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DescriptionT"),
+                                        	    value: issueSubset.DescriptionT);
+                                        	break;
+                                        case "DescriptionU":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DescriptionU"),
+                                        	    value: issueSubset.DescriptionU);
+                                        	break;
+                                        case "DescriptionV":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DescriptionV"),
+                                        	    value: issueSubset.DescriptionV);
+                                        	break;
+                                        case "DescriptionW":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DescriptionW"),
+                                        	    value: issueSubset.DescriptionW);
+                                        	break;
+                                        case "DescriptionX":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DescriptionX"),
+                                        	    value: issueSubset.DescriptionX);
+                                        	break;
+                                        case "DescriptionY":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DescriptionY"),
+                                        	    value: issueSubset.DescriptionY);
+                                        	break;
+                                        case "DescriptionZ":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DescriptionZ"),
+                                        	    value: issueSubset.DescriptionZ);
+                                        	break;
                                         case "CheckA":
                                         	hb.Td(
                                         	    column: siteSettings.LinkColumn("CheckA"),
@@ -700,6 +900,56 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         	hb.Td(
                                         	    column: siteSettings.LinkColumn("CheckP"),
                                         	    value: issueSubset.CheckP);
+                                        	break;
+                                        case "CheckQ":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("CheckQ"),
+                                        	    value: issueSubset.CheckQ);
+                                        	break;
+                                        case "CheckR":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("CheckR"),
+                                        	    value: issueSubset.CheckR);
+                                        	break;
+                                        case "CheckS":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("CheckS"),
+                                        	    value: issueSubset.CheckS);
+                                        	break;
+                                        case "CheckT":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("CheckT"),
+                                        	    value: issueSubset.CheckT);
+                                        	break;
+                                        case "CheckU":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("CheckU"),
+                                        	    value: issueSubset.CheckU);
+                                        	break;
+                                        case "CheckV":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("CheckV"),
+                                        	    value: issueSubset.CheckV);
+                                        	break;
+                                        case "CheckW":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("CheckW"),
+                                        	    value: issueSubset.CheckW);
+                                        	break;
+                                        case "CheckX":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("CheckX"),
+                                        	    value: issueSubset.CheckX);
+                                        	break;
+                                        case "CheckY":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("CheckY"),
+                                        	    value: issueSubset.CheckY);
+                                        	break;
+                                        case "CheckZ":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("CheckZ"),
+                                        	    value: issueSubset.CheckZ);
                                         	break;
                                         case "Comments":
                                         	hb.Td(
@@ -896,6 +1146,56 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         	    column: siteSettings.LinkColumn("ClassP"),
                                         	    value: resultSubset.ClassP);
                                         	break;
+                                        case "ClassQ":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("ClassQ"),
+                                        	    value: resultSubset.ClassQ);
+                                        	break;
+                                        case "ClassR":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("ClassR"),
+                                        	    value: resultSubset.ClassR);
+                                        	break;
+                                        case "ClassS":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("ClassS"),
+                                        	    value: resultSubset.ClassS);
+                                        	break;
+                                        case "ClassT":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("ClassT"),
+                                        	    value: resultSubset.ClassT);
+                                        	break;
+                                        case "ClassU":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("ClassU"),
+                                        	    value: resultSubset.ClassU);
+                                        	break;
+                                        case "ClassV":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("ClassV"),
+                                        	    value: resultSubset.ClassV);
+                                        	break;
+                                        case "ClassW":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("ClassW"),
+                                        	    value: resultSubset.ClassW);
+                                        	break;
+                                        case "ClassX":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("ClassX"),
+                                        	    value: resultSubset.ClassX);
+                                        	break;
+                                        case "ClassY":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("ClassY"),
+                                        	    value: resultSubset.ClassY);
+                                        	break;
+                                        case "ClassZ":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("ClassZ"),
+                                        	    value: resultSubset.ClassZ);
+                                        	break;
                                         case "NumA":
                                         	hb.Td(
                                         	    column: siteSettings.LinkColumn("NumA"),
@@ -975,6 +1275,56 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         	hb.Td(
                                         	    column: siteSettings.LinkColumn("NumP"),
                                         	    value: resultSubset.NumP);
+                                        	break;
+                                        case "NumQ":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("NumQ"),
+                                        	    value: resultSubset.NumQ);
+                                        	break;
+                                        case "NumR":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("NumR"),
+                                        	    value: resultSubset.NumR);
+                                        	break;
+                                        case "NumS":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("NumS"),
+                                        	    value: resultSubset.NumS);
+                                        	break;
+                                        case "NumT":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("NumT"),
+                                        	    value: resultSubset.NumT);
+                                        	break;
+                                        case "NumU":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("NumU"),
+                                        	    value: resultSubset.NumU);
+                                        	break;
+                                        case "NumV":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("NumV"),
+                                        	    value: resultSubset.NumV);
+                                        	break;
+                                        case "NumW":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("NumW"),
+                                        	    value: resultSubset.NumW);
+                                        	break;
+                                        case "NumX":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("NumX"),
+                                        	    value: resultSubset.NumX);
+                                        	break;
+                                        case "NumY":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("NumY"),
+                                        	    value: resultSubset.NumY);
+                                        	break;
+                                        case "NumZ":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("NumZ"),
+                                        	    value: resultSubset.NumZ);
                                         	break;
                                         case "DateA":
                                         	hb.Td(
@@ -1056,6 +1406,56 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         	    column: siteSettings.LinkColumn("DateP"),
                                         	    value: resultSubset.DateP);
                                         	break;
+                                        case "DateQ":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DateQ"),
+                                        	    value: resultSubset.DateQ);
+                                        	break;
+                                        case "DateR":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DateR"),
+                                        	    value: resultSubset.DateR);
+                                        	break;
+                                        case "DateS":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DateS"),
+                                        	    value: resultSubset.DateS);
+                                        	break;
+                                        case "DateT":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DateT"),
+                                        	    value: resultSubset.DateT);
+                                        	break;
+                                        case "DateU":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DateU"),
+                                        	    value: resultSubset.DateU);
+                                        	break;
+                                        case "DateV":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DateV"),
+                                        	    value: resultSubset.DateV);
+                                        	break;
+                                        case "DateW":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DateW"),
+                                        	    value: resultSubset.DateW);
+                                        	break;
+                                        case "DateX":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DateX"),
+                                        	    value: resultSubset.DateX);
+                                        	break;
+                                        case "DateY":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DateY"),
+                                        	    value: resultSubset.DateY);
+                                        	break;
+                                        case "DateZ":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DateZ"),
+                                        	    value: resultSubset.DateZ);
+                                        	break;
                                         case "DescriptionA":
                                         	hb.Td(
                                         	    column: siteSettings.LinkColumn("DescriptionA"),
@@ -1136,6 +1536,56 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         	    column: siteSettings.LinkColumn("DescriptionP"),
                                         	    value: resultSubset.DescriptionP);
                                         	break;
+                                        case "DescriptionQ":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DescriptionQ"),
+                                        	    value: resultSubset.DescriptionQ);
+                                        	break;
+                                        case "DescriptionR":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DescriptionR"),
+                                        	    value: resultSubset.DescriptionR);
+                                        	break;
+                                        case "DescriptionS":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DescriptionS"),
+                                        	    value: resultSubset.DescriptionS);
+                                        	break;
+                                        case "DescriptionT":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DescriptionT"),
+                                        	    value: resultSubset.DescriptionT);
+                                        	break;
+                                        case "DescriptionU":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DescriptionU"),
+                                        	    value: resultSubset.DescriptionU);
+                                        	break;
+                                        case "DescriptionV":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DescriptionV"),
+                                        	    value: resultSubset.DescriptionV);
+                                        	break;
+                                        case "DescriptionW":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DescriptionW"),
+                                        	    value: resultSubset.DescriptionW);
+                                        	break;
+                                        case "DescriptionX":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DescriptionX"),
+                                        	    value: resultSubset.DescriptionX);
+                                        	break;
+                                        case "DescriptionY":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DescriptionY"),
+                                        	    value: resultSubset.DescriptionY);
+                                        	break;
+                                        case "DescriptionZ":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("DescriptionZ"),
+                                        	    value: resultSubset.DescriptionZ);
+                                        	break;
                                         case "CheckA":
                                         	hb.Td(
                                         	    column: siteSettings.LinkColumn("CheckA"),
@@ -1215,6 +1665,56 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         	hb.Td(
                                         	    column: siteSettings.LinkColumn("CheckP"),
                                         	    value: resultSubset.CheckP);
+                                        	break;
+                                        case "CheckQ":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("CheckQ"),
+                                        	    value: resultSubset.CheckQ);
+                                        	break;
+                                        case "CheckR":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("CheckR"),
+                                        	    value: resultSubset.CheckR);
+                                        	break;
+                                        case "CheckS":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("CheckS"),
+                                        	    value: resultSubset.CheckS);
+                                        	break;
+                                        case "CheckT":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("CheckT"),
+                                        	    value: resultSubset.CheckT);
+                                        	break;
+                                        case "CheckU":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("CheckU"),
+                                        	    value: resultSubset.CheckU);
+                                        	break;
+                                        case "CheckV":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("CheckV"),
+                                        	    value: resultSubset.CheckV);
+                                        	break;
+                                        case "CheckW":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("CheckW"),
+                                        	    value: resultSubset.CheckW);
+                                        	break;
+                                        case "CheckX":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("CheckX"),
+                                        	    value: resultSubset.CheckX);
+                                        	break;
+                                        case "CheckY":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("CheckY"),
+                                        	    value: resultSubset.CheckY);
+                                        	break;
+                                        case "CheckZ":
+                                        	hb.Td(
+                                        	    column: siteSettings.LinkColumn("CheckZ"),
+                                        	    value: resultSubset.CheckZ);
                                         	break;
                                         case "Comments":
                                         	hb.Td(

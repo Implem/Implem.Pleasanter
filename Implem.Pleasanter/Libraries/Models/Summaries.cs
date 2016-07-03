@@ -144,6 +144,26 @@ namespace Implem.Pleasanter.Libraries.Models
                     Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
                 case "NumP": return Rds.IssuesParam().NumP(sub:
                     Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumQ": return Rds.IssuesParam().NumQ(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumR": return Rds.IssuesParam().NumR(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumS": return Rds.IssuesParam().NumS(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumT": return Rds.IssuesParam().NumT(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumU": return Rds.IssuesParam().NumU(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumV": return Rds.IssuesParam().NumV(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumW": return Rds.IssuesParam().NumW(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumX": return Rds.IssuesParam().NumX(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumY": return Rds.IssuesParam().NumY(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumZ": return Rds.IssuesParam().NumZ(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
                 default: return null;
             }
         }
@@ -217,6 +237,26 @@ namespace Implem.Pleasanter.Libraries.Models
                 case "NumO": return Rds.ResultsParam().NumO(sub:
                     Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
                 case "NumP": return Rds.ResultsParam().NumP(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumQ": return Rds.ResultsParam().NumQ(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumR": return Rds.ResultsParam().NumR(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumS": return Rds.ResultsParam().NumS(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumT": return Rds.ResultsParam().NumT(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumU": return Rds.ResultsParam().NumU(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumV": return Rds.ResultsParam().NumV(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumW": return Rds.ResultsParam().NumW(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumX": return Rds.ResultsParam().NumX(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumY": return Rds.ResultsParam().NumY(sub:
+                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                case "NumZ": return Rds.ResultsParam().NumZ(sub:
                     Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
                 default: return null;
             }
@@ -353,6 +393,16 @@ namespace Implem.Pleasanter.Libraries.Models
                 case "NumN": return Rds.IssuesColumn().NumNTotal();
                 case "NumO": return Rds.IssuesColumn().NumOTotal();
                 case "NumP": return Rds.IssuesColumn().NumPTotal();
+                case "NumQ": return Rds.IssuesColumn().NumQTotal();
+                case "NumR": return Rds.IssuesColumn().NumRTotal();
+                case "NumS": return Rds.IssuesColumn().NumSTotal();
+                case "NumT": return Rds.IssuesColumn().NumTTotal();
+                case "NumU": return Rds.IssuesColumn().NumUTotal();
+                case "NumV": return Rds.IssuesColumn().NumVTotal();
+                case "NumW": return Rds.IssuesColumn().NumWTotal();
+                case "NumX": return Rds.IssuesColumn().NumXTotal();
+                case "NumY": return Rds.IssuesColumn().NumYTotal();
+                case "NumZ": return Rds.IssuesColumn().NumZTotal();
                 default: return null;
             }
         }
@@ -377,6 +427,16 @@ namespace Implem.Pleasanter.Libraries.Models
                 case "NumN": return Rds.ResultsColumn().NumNTotal();
                 case "NumO": return Rds.ResultsColumn().NumOTotal();
                 case "NumP": return Rds.ResultsColumn().NumPTotal();
+                case "NumQ": return Rds.ResultsColumn().NumQTotal();
+                case "NumR": return Rds.ResultsColumn().NumRTotal();
+                case "NumS": return Rds.ResultsColumn().NumSTotal();
+                case "NumT": return Rds.ResultsColumn().NumTTotal();
+                case "NumU": return Rds.ResultsColumn().NumUTotal();
+                case "NumV": return Rds.ResultsColumn().NumVTotal();
+                case "NumW": return Rds.ResultsColumn().NumWTotal();
+                case "NumX": return Rds.ResultsColumn().NumXTotal();
+                case "NumY": return Rds.ResultsColumn().NumYTotal();
+                case "NumZ": return Rds.ResultsColumn().NumZTotal();
                 default: return null;
             }
         }
@@ -433,6 +493,16 @@ namespace Implem.Pleasanter.Libraries.Models
                 case "NumN": return Rds.IssuesColumn().NumNAverage();
                 case "NumO": return Rds.IssuesColumn().NumOAverage();
                 case "NumP": return Rds.IssuesColumn().NumPAverage();
+                case "NumQ": return Rds.IssuesColumn().NumQAverage();
+                case "NumR": return Rds.IssuesColumn().NumRAverage();
+                case "NumS": return Rds.IssuesColumn().NumSAverage();
+                case "NumT": return Rds.IssuesColumn().NumTAverage();
+                case "NumU": return Rds.IssuesColumn().NumUAverage();
+                case "NumV": return Rds.IssuesColumn().NumVAverage();
+                case "NumW": return Rds.IssuesColumn().NumWAverage();
+                case "NumX": return Rds.IssuesColumn().NumXAverage();
+                case "NumY": return Rds.IssuesColumn().NumYAverage();
+                case "NumZ": return Rds.IssuesColumn().NumZAverage();
                 default: return null;
             }
         }
@@ -457,6 +527,16 @@ namespace Implem.Pleasanter.Libraries.Models
                 case "NumN": return Rds.ResultsColumn().NumNAverage();
                 case "NumO": return Rds.ResultsColumn().NumOAverage();
                 case "NumP": return Rds.ResultsColumn().NumPAverage();
+                case "NumQ": return Rds.ResultsColumn().NumQAverage();
+                case "NumR": return Rds.ResultsColumn().NumRAverage();
+                case "NumS": return Rds.ResultsColumn().NumSAverage();
+                case "NumT": return Rds.ResultsColumn().NumTAverage();
+                case "NumU": return Rds.ResultsColumn().NumUAverage();
+                case "NumV": return Rds.ResultsColumn().NumVAverage();
+                case "NumW": return Rds.ResultsColumn().NumWAverage();
+                case "NumX": return Rds.ResultsColumn().NumXAverage();
+                case "NumY": return Rds.ResultsColumn().NumYAverage();
+                case "NumZ": return Rds.ResultsColumn().NumZAverage();
                 default: return null;
             }
         }
@@ -513,6 +593,16 @@ namespace Implem.Pleasanter.Libraries.Models
                 case "NumN": return Rds.IssuesColumn().NumNMax();
                 case "NumO": return Rds.IssuesColumn().NumOMax();
                 case "NumP": return Rds.IssuesColumn().NumPMax();
+                case "NumQ": return Rds.IssuesColumn().NumQMax();
+                case "NumR": return Rds.IssuesColumn().NumRMax();
+                case "NumS": return Rds.IssuesColumn().NumSMax();
+                case "NumT": return Rds.IssuesColumn().NumTMax();
+                case "NumU": return Rds.IssuesColumn().NumUMax();
+                case "NumV": return Rds.IssuesColumn().NumVMax();
+                case "NumW": return Rds.IssuesColumn().NumWMax();
+                case "NumX": return Rds.IssuesColumn().NumXMax();
+                case "NumY": return Rds.IssuesColumn().NumYMax();
+                case "NumZ": return Rds.IssuesColumn().NumZMax();
                 default: return null;
             }
         }
@@ -537,6 +627,16 @@ namespace Implem.Pleasanter.Libraries.Models
                 case "NumN": return Rds.ResultsColumn().NumNMax();
                 case "NumO": return Rds.ResultsColumn().NumOMax();
                 case "NumP": return Rds.ResultsColumn().NumPMax();
+                case "NumQ": return Rds.ResultsColumn().NumQMax();
+                case "NumR": return Rds.ResultsColumn().NumRMax();
+                case "NumS": return Rds.ResultsColumn().NumSMax();
+                case "NumT": return Rds.ResultsColumn().NumTMax();
+                case "NumU": return Rds.ResultsColumn().NumUMax();
+                case "NumV": return Rds.ResultsColumn().NumVMax();
+                case "NumW": return Rds.ResultsColumn().NumWMax();
+                case "NumX": return Rds.ResultsColumn().NumXMax();
+                case "NumY": return Rds.ResultsColumn().NumYMax();
+                case "NumZ": return Rds.ResultsColumn().NumZMax();
                 default: return null;
             }
         }
@@ -593,6 +693,16 @@ namespace Implem.Pleasanter.Libraries.Models
                 case "NumN": return Rds.IssuesColumn().NumNMin();
                 case "NumO": return Rds.IssuesColumn().NumOMin();
                 case "NumP": return Rds.IssuesColumn().NumPMin();
+                case "NumQ": return Rds.IssuesColumn().NumQMin();
+                case "NumR": return Rds.IssuesColumn().NumRMin();
+                case "NumS": return Rds.IssuesColumn().NumSMin();
+                case "NumT": return Rds.IssuesColumn().NumTMin();
+                case "NumU": return Rds.IssuesColumn().NumUMin();
+                case "NumV": return Rds.IssuesColumn().NumVMin();
+                case "NumW": return Rds.IssuesColumn().NumWMin();
+                case "NumX": return Rds.IssuesColumn().NumXMin();
+                case "NumY": return Rds.IssuesColumn().NumYMin();
+                case "NumZ": return Rds.IssuesColumn().NumZMin();
                 default: return null;
             }
         }
@@ -617,6 +727,16 @@ namespace Implem.Pleasanter.Libraries.Models
                 case "NumN": return Rds.ResultsColumn().NumNMin();
                 case "NumO": return Rds.ResultsColumn().NumOMin();
                 case "NumP": return Rds.ResultsColumn().NumPMin();
+                case "NumQ": return Rds.ResultsColumn().NumQMin();
+                case "NumR": return Rds.ResultsColumn().NumRMin();
+                case "NumS": return Rds.ResultsColumn().NumSMin();
+                case "NumT": return Rds.ResultsColumn().NumTMin();
+                case "NumU": return Rds.ResultsColumn().NumUMin();
+                case "NumV": return Rds.ResultsColumn().NumVMin();
+                case "NumW": return Rds.ResultsColumn().NumWMin();
+                case "NumX": return Rds.ResultsColumn().NumXMin();
+                case "NumY": return Rds.ResultsColumn().NumYMin();
+                case "NumZ": return Rds.ResultsColumn().NumZMin();
                 default: return null;
             }
         }
@@ -681,6 +801,36 @@ namespace Implem.Pleasanter.Libraries.Models
                 case "ClassP": return Rds.IssuesWhere()
                     .SiteId(sourceSiteId)
                     .ClassP(raw: destinationPk);
+                case "ClassQ": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassQ(raw: destinationPk);
+                case "ClassR": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassR(raw: destinationPk);
+                case "ClassS": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassS(raw: destinationPk);
+                case "ClassT": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassT(raw: destinationPk);
+                case "ClassU": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassU(raw: destinationPk);
+                case "ClassV": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassV(raw: destinationPk);
+                case "ClassW": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassW(raw: destinationPk);
+                case "ClassX": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassX(raw: destinationPk);
+                case "ClassY": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassY(raw: destinationPk);
+                case "ClassZ": return Rds.IssuesWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassZ(raw: destinationPk);
                 default: return null;
             }
         }
@@ -737,6 +887,36 @@ namespace Implem.Pleasanter.Libraries.Models
                 case "ClassP": return Rds.ResultsWhere()
                     .SiteId(sourceSiteId)
                     .ClassP(raw: destinationPk);
+                case "ClassQ": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassQ(raw: destinationPk);
+                case "ClassR": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassR(raw: destinationPk);
+                case "ClassS": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassS(raw: destinationPk);
+                case "ClassT": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassT(raw: destinationPk);
+                case "ClassU": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassU(raw: destinationPk);
+                case "ClassV": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassV(raw: destinationPk);
+                case "ClassW": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassW(raw: destinationPk);
+                case "ClassX": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassX(raw: destinationPk);
+                case "ClassY": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassY(raw: destinationPk);
+                case "ClassZ": return Rds.ResultsWhere()
+                    .SiteId(sourceSiteId)
+                    .ClassZ(raw: destinationPk);
                 default: return null;
             }
         }
