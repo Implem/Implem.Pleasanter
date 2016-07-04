@@ -206,6 +206,7 @@
     <Compile Include="Libraries\Charts\BurnDownElement.cs" />
     <Compile Include="Libraries\Charts\Gantt.cs" />
     <Compile Include="Libraries\Charts\GanttElement.cs" />
+    <Compile Include="Libraries\Charts\KambanElement.cs" />
     <Compile Include="Libraries\Charts\TimeSeries.cs" />
     <Compile Include="Libraries\Charts\TimeSeriesElement.cs" />
     <Compile Include="Libraries\Converts\SearchIndexExtensions.cs" />
@@ -247,6 +248,7 @@
     <Compile Include="Libraries\HtmlParts\HtmlHeaders.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlHelpers.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlImports.cs" />
+    <Compile Include="Libraries\HtmlParts\HtmlKamban.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlLinkCreations.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlLinks.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlMoves.cs" />
@@ -349,6 +351,7 @@
     <Content Include="Scripts\Gantt.js" />
     <Content Include="Scripts\Grids.js" />
     <Content Include="Scripts\Histories.js" />
+    <Content Include="Scripts\Kamban.js" />
     <Content Include="Scripts\Legends.js" />
     <Content Include="Scripts\Logins.js" />
     <Content Include="Scripts\Navigations.js" />

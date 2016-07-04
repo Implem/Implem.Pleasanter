@@ -19,6 +19,7 @@ namespace Implem.Pleasanter.Libraries.Scripts
                     case "BurnDown": return Def.JavaScript.DrawBurnDown;
                     case "Gantt": return Def.JavaScript.DrawGantt;
                     case "TimeSeries": return Def.JavaScript.DrawTimeSeries;
+                    case "Kamban": return Def.JavaScript.SetKamban;
                 }
             }
             return string.Empty;

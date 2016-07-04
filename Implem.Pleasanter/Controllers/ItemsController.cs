@@ -293,6 +293,14 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
+        public string UpdateByKamban(long id)
+        {
+            var log = new SysLogModel();
+            var json = new ItemModel(id).UpdateByKamban();
+            log.Finish(json.Length);
+            return json;
+        }
+
         [HttpPut]
         public string SynchronizeSummary(long id)
         {

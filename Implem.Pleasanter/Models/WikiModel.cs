@@ -26,6 +26,28 @@ namespace Implem.Pleasanter.Models
         public long WikiId = 0;
         public TitleBody TitleBody { get { return new TitleBody(WikiId, Title.Value, Title.DisplayValue, Body); } }
         public long SavedWikiId = 0;
+
+        public string PropertyValue(string name)
+        {
+            switch (name)
+            {
+                case "SiteId": return SiteId.ToString();
+                case "UpdatedTime": return UpdatedTime.Value.ToString();
+                case "WikiId": return WikiId.ToString();
+                case "Ver": return Ver.ToString();
+                case "Title": return Title.Value;
+                case "Body": return Body;
+                case "TitleBody": return TitleBody.ToString();
+                case "Comments": return Comments.ToJson();
+                case "Creator": return Creator.Id.ToString();
+                case "Updator": return Updator.Id.ToString();
+                case "CreatedTime": return CreatedTime.Value.ToString();
+                case "VerUp": return VerUp.ToString();
+                case "Timestamp": return Timestamp;
+                default: return null;
+            }
+        }
+
         public List<long> SwitchTargets;
 
         public WikiModel(SiteSettings siteSettings)

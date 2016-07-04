@@ -84,6 +84,36 @@ namespace Implem.Pleasanter.Models
             this.PageSession("PermissionDestinationCollection", value);
         }
 
+        public string PropertyValue(string name)
+        {
+            switch (name)
+            {
+                case "TenantId": return TenantId.ToString();
+                case "SiteId": return SiteId.ToString();
+                case "UpdatedTime": return UpdatedTime.Value.ToString();
+                case "Ver": return Ver.ToString();
+                case "Title": return Title.Value;
+                case "Body": return Body;
+                case "TitleBody": return TitleBody.ToString();
+                case "ReferenceType": return ReferenceType;
+                case "ParentId": return ParentId.ToString();
+                case "InheritPermission": return InheritPermission.ToString();
+                case "PermissionType": return PermissionType.ToLong().ToString();
+                case "SiteSettings": return SiteSettings.RecordingJson();
+                case "Ancestors": return Ancestors.ToString();
+                case "PermissionSourceCollection": return PermissionSourceCollection.ToString();
+                case "PermissionDestinationCollection": return PermissionDestinationCollection.ToString();
+                case "SiteMenu": return SiteMenu.ToString();
+                case "Comments": return Comments.ToJson();
+                case "Creator": return Creator.Id.ToString();
+                case "Updator": return Updator.Id.ToString();
+                case "CreatedTime": return CreatedTime.Value.ToString();
+                case "VerUp": return VerUp.ToString();
+                case "Timestamp": return Timestamp;
+                default: return null;
+            }
+        }
+
         public List<long> SwitchTargets;
 
         public SiteModel()

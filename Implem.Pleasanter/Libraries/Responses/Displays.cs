@@ -455,6 +455,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Gantt(params string[] data) { return Get("Gantt", data); }
         public static HtmlBuilder Displays_TimeSeries(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("TimeSeries", data)); }
         public static string TimeSeries(params string[] data) { return Get("TimeSeries", data); }
+        public static HtmlBuilder Displays_Kamban(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Kamban", data)); }
+        public static string Kamban(params string[] data) { return Get("Kamban", data); }
         public static HtmlBuilder Displays_NoData(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NoData", data)); }
         public static string NoData(params string[] data) { return Get("NoData", data); }
         public static HtmlBuilder Displays_NoLinks(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NoLinks", data)); }

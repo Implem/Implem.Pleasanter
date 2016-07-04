@@ -17,6 +17,7 @@ namespace Implem.Pleasanter
                 .Include("~/Scripts/Histories.js")
                 .Include("~/Scripts/Gantt.js")
                 .Include("~/Scripts/Grids.js")
+                .Include("~/Scripts/Kamban.js")
                 .Include("~/Scripts/KeyControls.js")
                 .Include("~/Scripts/Legends.js")
                 .Include("~/Scripts/Logins.js")

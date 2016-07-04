@@ -1147,6 +1147,10 @@ pre{
     margin:0px 0px 10px 0px;
 }
 
+.grid.fixed{
+    table-layout:fixed;
+}
+
 .grid caption{
     margin:0px 0px 5px 0px;
 }
@@ -1408,6 +1412,19 @@ pre{
 
 .time-series .index{
     fill:black;
+}
+
+.kamban-item{
+    margin:3px;
+    padding:5px;
+    background-color:lightgoldenrodyellow;
+    border:solid 1px silver;
+    cursor:pointer;
+}
+
+.kamban-item:hover{
+    background-color:white;
+    border:solid 1px orange;
 }
 
 .text{

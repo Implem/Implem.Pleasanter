@@ -660,6 +660,17 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string UpdateByKamban()
+        {
+            SetSite();
+            switch (Site.ReferenceType)
+            {
+                case "Issues": return IssuesUtility.UpdateByKamban(Site);
+                case "Results": return ResultsUtility.UpdateByKamban(Site);
+                default: return Messages.ResponseNotFound().ToJson();
+            }
+        }
+
         public string SynchronizeSummary()
         {
             SetSite();

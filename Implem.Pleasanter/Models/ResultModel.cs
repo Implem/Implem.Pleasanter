@@ -425,6 +425,161 @@ namespace Implem.Pleasanter.Models
         public bool CheckX_Updated { get { return CheckX != SavedCheckX; } }
         public bool CheckY_Updated { get { return CheckY != SavedCheckY; } }
         public bool CheckZ_Updated { get { return CheckZ != SavedCheckZ; } }
+
+        public string PropertyValue(string name)
+        {
+            switch (name)
+            {
+                case "SiteId": return SiteId.ToString();
+                case "UpdatedTime": return UpdatedTime.Value.ToString();
+                case "ResultId": return ResultId.ToString();
+                case "Ver": return Ver.ToString();
+                case "Title": return Title.Value;
+                case "Body": return Body;
+                case "TitleBody": return TitleBody.ToString();
+                case "Status": return Status.Value.ToString();
+                case "Manager": return Manager.Id.ToString();
+                case "Owner": return Owner.Id.ToString();
+                case "ClassA": return ClassA;
+                case "ClassB": return ClassB;
+                case "ClassC": return ClassC;
+                case "ClassD": return ClassD;
+                case "ClassE": return ClassE;
+                case "ClassF": return ClassF;
+                case "ClassG": return ClassG;
+                case "ClassH": return ClassH;
+                case "ClassI": return ClassI;
+                case "ClassJ": return ClassJ;
+                case "ClassK": return ClassK;
+                case "ClassL": return ClassL;
+                case "ClassM": return ClassM;
+                case "ClassN": return ClassN;
+                case "ClassO": return ClassO;
+                case "ClassP": return ClassP;
+                case "ClassQ": return ClassQ;
+                case "ClassR": return ClassR;
+                case "ClassS": return ClassS;
+                case "ClassT": return ClassT;
+                case "ClassU": return ClassU;
+                case "ClassV": return ClassV;
+                case "ClassW": return ClassW;
+                case "ClassX": return ClassX;
+                case "ClassY": return ClassY;
+                case "ClassZ": return ClassZ;
+                case "NumA": return NumA.ToString();
+                case "NumB": return NumB.ToString();
+                case "NumC": return NumC.ToString();
+                case "NumD": return NumD.ToString();
+                case "NumE": return NumE.ToString();
+                case "NumF": return NumF.ToString();
+                case "NumG": return NumG.ToString();
+                case "NumH": return NumH.ToString();
+                case "NumI": return NumI.ToString();
+                case "NumJ": return NumJ.ToString();
+                case "NumK": return NumK.ToString();
+                case "NumL": return NumL.ToString();
+                case "NumM": return NumM.ToString();
+                case "NumN": return NumN.ToString();
+                case "NumO": return NumO.ToString();
+                case "NumP": return NumP.ToString();
+                case "NumQ": return NumQ.ToString();
+                case "NumR": return NumR.ToString();
+                case "NumS": return NumS.ToString();
+                case "NumT": return NumT.ToString();
+                case "NumU": return NumU.ToString();
+                case "NumV": return NumV.ToString();
+                case "NumW": return NumW.ToString();
+                case "NumX": return NumX.ToString();
+                case "NumY": return NumY.ToString();
+                case "NumZ": return NumZ.ToString();
+                case "DateA": return DateA.ToString();
+                case "DateB": return DateB.ToString();
+                case "DateC": return DateC.ToString();
+                case "DateD": return DateD.ToString();
+                case "DateE": return DateE.ToString();
+                case "DateF": return DateF.ToString();
+                case "DateG": return DateG.ToString();
+                case "DateH": return DateH.ToString();
+                case "DateI": return DateI.ToString();
+                case "DateJ": return DateJ.ToString();
+                case "DateK": return DateK.ToString();
+                case "DateL": return DateL.ToString();
+                case "DateM": return DateM.ToString();
+                case "DateN": return DateN.ToString();
+                case "DateO": return DateO.ToString();
+                case "DateP": return DateP.ToString();
+                case "DateQ": return DateQ.ToString();
+                case "DateR": return DateR.ToString();
+                case "DateS": return DateS.ToString();
+                case "DateT": return DateT.ToString();
+                case "DateU": return DateU.ToString();
+                case "DateV": return DateV.ToString();
+                case "DateW": return DateW.ToString();
+                case "DateX": return DateX.ToString();
+                case "DateY": return DateY.ToString();
+                case "DateZ": return DateZ.ToString();
+                case "DescriptionA": return DescriptionA;
+                case "DescriptionB": return DescriptionB;
+                case "DescriptionC": return DescriptionC;
+                case "DescriptionD": return DescriptionD;
+                case "DescriptionE": return DescriptionE;
+                case "DescriptionF": return DescriptionF;
+                case "DescriptionG": return DescriptionG;
+                case "DescriptionH": return DescriptionH;
+                case "DescriptionI": return DescriptionI;
+                case "DescriptionJ": return DescriptionJ;
+                case "DescriptionK": return DescriptionK;
+                case "DescriptionL": return DescriptionL;
+                case "DescriptionM": return DescriptionM;
+                case "DescriptionN": return DescriptionN;
+                case "DescriptionO": return DescriptionO;
+                case "DescriptionP": return DescriptionP;
+                case "DescriptionQ": return DescriptionQ;
+                case "DescriptionR": return DescriptionR;
+                case "DescriptionS": return DescriptionS;
+                case "DescriptionT": return DescriptionT;
+                case "DescriptionU": return DescriptionU;
+                case "DescriptionV": return DescriptionV;
+                case "DescriptionW": return DescriptionW;
+                case "DescriptionX": return DescriptionX;
+                case "DescriptionY": return DescriptionY;
+                case "DescriptionZ": return DescriptionZ;
+                case "CheckA": return CheckA.ToString();
+                case "CheckB": return CheckB.ToString();
+                case "CheckC": return CheckC.ToString();
+                case "CheckD": return CheckD.ToString();
+                case "CheckE": return CheckE.ToString();
+                case "CheckF": return CheckF.ToString();
+                case "CheckG": return CheckG.ToString();
+                case "CheckH": return CheckH.ToString();
+                case "CheckI": return CheckI.ToString();
+                case "CheckJ": return CheckJ.ToString();
+                case "CheckK": return CheckK.ToString();
+                case "CheckL": return CheckL.ToString();
+                case "CheckM": return CheckM.ToString();
+                case "CheckN": return CheckN.ToString();
+                case "CheckO": return CheckO.ToString();
+                case "CheckP": return CheckP.ToString();
+                case "CheckQ": return CheckQ.ToString();
+                case "CheckR": return CheckR.ToString();
+                case "CheckS": return CheckS.ToString();
+                case "CheckT": return CheckT.ToString();
+                case "CheckU": return CheckU.ToString();
+                case "CheckV": return CheckV.ToString();
+                case "CheckW": return CheckW.ToString();
+                case "CheckX": return CheckX.ToString();
+                case "CheckY": return CheckY.ToString();
+                case "CheckZ": return CheckZ.ToString();
+                case "Comments": return Comments.ToJson();
+                case "Creator": return Creator.Id.ToString();
+                case "Updator": return Updator.Id.ToString();
+                case "CreatedTime": return CreatedTime.Value.ToString();
+                case "VerUp": return VerUp.ToString();
+                case "Timestamp": return Timestamp;
+                default: return null;
+            }
+        }
+
         public List<long> SwitchTargets;
 
         public ResultModel(SiteSettings siteSettings)
@@ -2733,7 +2888,13 @@ namespace Implem.Pleasanter.Models
                         siteSettings: siteSettings,
                         permissionType: permissionType,
                         formData: formData,
-                        chartOnly: false);
+                        bodyOnly: false);
+                case "Kamban":
+                    return hb.Kamban(
+                        siteSettings: siteSettings,
+                        permissionType: permissionType,
+                        formData: formData,
+                        bodyOnly: false);
                 default: return hb.Grid(
                     resultCollection: resultCollection,
                     siteSettings: siteSettings,
@@ -2751,6 +2912,7 @@ namespace Implem.Pleasanter.Models
             switch (DataViewSelectors.Get(siteSettings.SiteId))
             {
                 case "TimeSeries": return TimeSeriesResponse(siteSettings, permissionType);
+                case "Kamban": return KambanResponse(siteSettings, permissionType);
                 default: return Grid(siteSettings: siteSettings, permissionType: permissionType);
             }
         }
@@ -4384,6 +4546,19 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string UpdateByKamban(SiteModel siteModel)
+        {
+            var siteSettings = siteModel.ResultsSiteSettings();
+            var resultModel = new ResultModel(
+                siteSettings,
+                siteModel.PermissionType,
+                Forms.Long("KambanId"),
+                setByForm: true);
+            resultModel.VerUp = Versions.MustVerUp(resultModel);
+            resultModel.Update();
+            return KambanResponse(siteSettings, siteModel.PermissionType);
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -4392,15 +4567,15 @@ namespace Implem.Pleasanter.Models
         {
             var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
             var resultCollection = ResultCollection(siteSettings, permissionType, formData);
-            var chartOnly = Forms.Data("ControlId").StartsWith("TimeSeries");
+            var bodyOnly = Forms.Data("ControlId").StartsWith("TimeSeries");
             return new ResponseCollection()
                 .Html(
-                    !chartOnly ? "#DataViewContainer" : "#TimeSeriesChart",
+                    !bodyOnly ? "#DataViewContainer" : "#TimeSeriesChart",
                     new HtmlBuilder().TimeSeries(
                         siteSettings: siteSettings,
                         permissionType: permissionType,
                         formData: formData,
-                        chartOnly: chartOnly))
+                        bodyOnly: bodyOnly))
                 .Html(
                     "#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
@@ -4418,7 +4593,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings siteSettings,
             Permissions.Types permissionType,
             FormData formData,
-            bool chartOnly)
+            bool bodyOnly)
         {
             var groupByColumn = formData.Keys.Contains("TimeSeriesGroupByColumn")
                 ? formData["TimeSeriesGroupByColumn"].Value
@@ -4434,7 +4609,7 @@ namespace Implem.Pleasanter.Models
                 formData: formData,
                 groupByColumn: groupByColumn,
                 valueColumn: valueColumn);
-            return !chartOnly
+            return !bodyOnly
                 ? hb.TimeSeries(
                     siteSettings: siteSettings,
                     groupByColumn: groupByColumn,
@@ -4473,6 +4648,94 @@ namespace Implem.Pleasanter.Models
                             Rds.ResultsWhere().SiteId(siteSettings.SiteId))))
                                 .AsEnumerable()
                 : null;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string KambanResponse(
+            SiteSettings siteSettings, Permissions.Types permissionType)
+        {
+            var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
+            var resultCollection = ResultCollection(siteSettings, permissionType, formData);
+            var bodyOnly = Forms.Data("ControlId").StartsWith("Kamban");
+            return new ResponseCollection()
+                .Html(
+                    !bodyOnly ? "#DataViewContainer" : "#KambanChart",
+                    new HtmlBuilder().Kamban(
+                        siteSettings: siteSettings,
+                        permissionType: permissionType,
+                        formData: formData,
+                        bodyOnly: bodyOnly))
+                .Html(
+                    "#Aggregations", new HtmlBuilder().Aggregations(
+                    siteSettings: siteSettings,
+                    aggregations: resultCollection.Aggregations,
+                    container: false))
+                .Func("setKamban")
+                .WindowScrollTop().ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder Kamban(
+            this HtmlBuilder hb,
+            SiteSettings siteSettings,
+            Permissions.Types permissionType,
+            FormData formData,
+            bool bodyOnly)
+        {
+            var groupByColumn = formData.Keys.Contains("KambanGroupByColumn")
+                ? formData["KambanGroupByColumn"].Value
+                : "Status";
+            var aggregateType = formData.Keys.Contains("KambanAggregateType")
+                ? formData["KambanAggregateType"].Value
+                : "Total";
+            var valueColumn = formData.Keys.Contains("KambanValueColumn")
+                ? formData["KambanValueColumn"].Value
+                : "NumA";
+            var column = Rds.ResultsColumn()
+                .ResultId()
+                .Manager()
+                .Owner();
+            siteSettings.TitleColumnCollection().ForEach(titleColumn =>
+                column.ResultsColumn(titleColumn.ColumnName));
+            column.ResultsColumn(groupByColumn);
+            column.ResultsColumn(valueColumn);
+            var data = new ResultCollection(
+                siteSettings: siteSettings,
+                permissionType: permissionType,
+                column: column,
+                where: DataViewFilters.Get(
+                    siteSettings: siteSettings,
+                    tableName: "Results",
+                    formData: formData,
+                    where: Rds.ResultsWhere().SiteId(siteSettings.SiteId)))
+                        .Select(o => new Libraries.Charts.KambanElement()
+                        {
+                            Id = o.Id,
+                            Title = o.Title.DisplayValue,
+                            Manager = o.Manager,
+                            Owner = o.Owner,
+                            Group = o.PropertyValue(groupByColumn),
+                            Value = o.PropertyValue(valueColumn).ToDecimal()
+                        });
+            return !bodyOnly
+                ? hb.Kamban(
+                    siteSettings: siteSettings,
+                    groupByColumn: groupByColumn,
+                    aggregateType: aggregateType,
+                    valueColumn: valueColumn,
+                    permissionType: permissionType,
+                    data: data)
+                : hb.KambanGrid(
+                    siteSettings: siteSettings,
+                    groupByColumn: siteSettings.AllColumn(groupByColumn),
+                    aggregateType: aggregateType,
+                    valueColumn: siteSettings.AllColumn(valueColumn),
+                    workValueColumn: null,
+                    data: data);
         }
     }
 }

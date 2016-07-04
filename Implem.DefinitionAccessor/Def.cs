@@ -276,6 +276,9 @@ namespace Implem.DefinitionAccessor
                     case "Model_ItemProperties": Code.Model_ItemProperties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ItemProperties, definitionRow, CodeXls); break;
                     case "Model_UrlId": Code.Model_UrlId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UrlId, definitionRow, CodeXls); break;
                     case "Model_SessionProperties": Code.Model_SessionProperties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SessionProperties, definitionRow, CodeXls); break;
+                    case "Model_PropertyValue": Code.Model_PropertyValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyValue, definitionRow, CodeXls); break;
+                    case "Model_PropertyValue_ColumnCases": Code.Model_PropertyValue_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyValue_ColumnCases, definitionRow, CodeXls); break;
+                    case "Model_PropertyValue_ColumnCases_ToString": Code.Model_PropertyValue_ColumnCases_ToString = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PropertyValue_ColumnCases_ToString, definitionRow, CodeXls); break;
                     case "Model_SwitchTargets": Code.Model_SwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchTargets, definitionRow, CodeXls); break;
                     case "Model_Constructor_Items": Code.Model_Constructor_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Constructor_Items, definitionRow, CodeXls); break;
                     case "Model_Constructor": Code.Model_Constructor = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Constructor, definitionRow, CodeXls); break;
@@ -392,6 +395,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_ReloadCases": Code.Model_ReloadCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ReloadCases, definitionRow, CodeXls); break;
                     case "Model_GetCases": Code.Model_GetCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetCases, definitionRow, CodeXls); break;
                     case "Model_BurnDownRecordDetailsCases": Code.Model_BurnDownRecordDetailsCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BurnDownRecordDetailsCases, definitionRow, CodeXls); break;
+                    case "Model_UpdateByKambanCases": Code.Model_UpdateByKambanCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateByKambanCases, definitionRow, CodeXls); break;
                     case "Model_Editor": Code.Model_Editor = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Editor, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsParameters": Code.Model_SiteSettingsParameters = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsParameters, definitionRow, CodeXls); break;
                     case "Model_PermissionTypeParameters": Code.Model_PermissionTypeParameters = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PermissionTypeParameters, definitionRow, CodeXls); break;
@@ -456,6 +460,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utility_TitleDisplayValue": Code.Model_Utility_TitleDisplayValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_TitleDisplayValue, definitionRow, CodeXls); break;
                     case "Model_Utility_TitleDisplayValueCases_Item": Code.Model_Utility_TitleDisplayValueCases_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_TitleDisplayValueCases_Item, definitionRow, CodeXls); break;
                     case "Model_Utility_TitleDisplayValueCases_DataRow": Code.Model_Utility_TitleDisplayValueCases_DataRow = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_TitleDisplayValueCases_DataRow, definitionRow, CodeXls); break;
+                    case "Model_Utility_UpdateByKamban": Code.Model_Utility_UpdateByKamban = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_UpdateByKamban, definitionRow, CodeXls); break;
                     case "Rds": Code.Rds = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds, definitionRow, CodeXls); break;
                     case "Rds_SqlStatement": Code.Rds_SqlStatement = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlStatement, definitionRow, CodeXls); break;
                     case "Rds_SqlSelect": Code.Rds_SqlSelect = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlSelect, definitionRow, CodeXls); break;
@@ -1794,6 +1799,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_aggregations_space__dot_data": Css._dot_aggregations_space__dot_data = definitionRow[1].ToString(); SetCssTable(CssTable._dot_aggregations_space__dot_data, definitionRow, CssXls); break;
                     case "_dot_aggregations_space_em": Css._dot_aggregations_space_em = definitionRow[1].ToString(); SetCssTable(CssTable._dot_aggregations_space_em, definitionRow, CssXls); break;
                     case "_dot_grid": Css._dot_grid = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid, definitionRow, CssXls); break;
+                    case "_dot_grid_dot_fixed": Css._dot_grid_dot_fixed = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_dot_fixed, definitionRow, CssXls); break;
                     case "_dot_grid_space_caption": Css._dot_grid_space_caption = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_space_caption, definitionRow, CssXls); break;
                     case "_dot_grid_space_th": Css._dot_grid_space_th = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_space_th, definitionRow, CssXls); break;
                     case "_dot_grid_space_th_space___space_div": Css._dot_grid_space_th_space___space_div = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_space_th_space___space_div, definitionRow, CssXls); break;
@@ -1844,6 +1850,8 @@ namespace Implem.DefinitionAccessor
                     case "_dot_time_series": Css._dot_time_series = definitionRow[1].ToString(); SetCssTable(CssTable._dot_time_series, definitionRow, CssXls); break;
                     case "_dot_time_series_space__dot_surface": Css._dot_time_series_space__dot_surface = definitionRow[1].ToString(); SetCssTable(CssTable._dot_time_series_space__dot_surface, definitionRow, CssXls); break;
                     case "_dot_time_series_space__dot_index": Css._dot_time_series_space__dot_index = definitionRow[1].ToString(); SetCssTable(CssTable._dot_time_series_space__dot_index, definitionRow, CssXls); break;
+                    case "_dot_kamban_item": Css._dot_kamban_item = definitionRow[1].ToString(); SetCssTable(CssTable._dot_kamban_item, definitionRow, CssXls); break;
+                    case "_dot_kamban_item_colon_hover": Css._dot_kamban_item_colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._dot_kamban_item_colon_hover, definitionRow, CssXls); break;
                     case "_dot_text": Css._dot_text = definitionRow[1].ToString(); SetCssTable(CssTable._dot_text, definitionRow, CssXls); break;
                     case "_dot_datepicker": Css._dot_datepicker = definitionRow[1].ToString(); SetCssTable(CssTable._dot_datepicker, definitionRow, CssXls); break;
                     case "_dot_dropdown": Css._dot_dropdown = definitionRow[1].ToString(); SetCssTable(CssTable._dot_dropdown, definitionRow, CssXls); break;
@@ -2094,7 +2102,9 @@ namespace Implem.DefinitionAccessor
                     case "Issues_Gantt": DataView.Issues_Gantt = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_Gantt, definitionRow, DataViewXls); break;
                     case "Issues_BurnDown": DataView.Issues_BurnDown = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_BurnDown, definitionRow, DataViewXls); break;
                     case "Issues_TimeSeries": DataView.Issues_TimeSeries = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_TimeSeries, definitionRow, DataViewXls); break;
+                    case "Issues_Kamban": DataView.Issues_Kamban = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_Kamban, definitionRow, DataViewXls); break;
                     case "Results_TimeSeries": DataView.Results_TimeSeries = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Results_TimeSeries, definitionRow, DataViewXls); break;
+                    case "Results_Kamban": DataView.Results_Kamban = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Results_Kamban, definitionRow, DataViewXls); break;
                     default: break;
                 }
             });
@@ -2687,6 +2697,8 @@ namespace Implem.DefinitionAccessor
                     case "Gantt_ja": Display.Gantt_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Gantt_ja, definitionRow, DisplayXls); break;
                     case "TimeSeries": Display.TimeSeries = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.TimeSeries, definitionRow, DisplayXls); break;
                     case "TimeSeries_ja": Display.TimeSeries_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.TimeSeries_ja, definitionRow, DisplayXls); break;
+                    case "Kamban": Display.Kamban = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Kamban, definitionRow, DisplayXls); break;
+                    case "Kamban_ja": Display.Kamban_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Kamban_ja, definitionRow, DisplayXls); break;
                     case "NoData": Display.NoData = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.NoData, definitionRow, DisplayXls); break;
                     case "NoData_ja": Display.NoData_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.NoData_ja, definitionRow, DisplayXls); break;
                     case "NoLinks": Display.NoLinks = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.NoLinks, definitionRow, DisplayXls); break;
@@ -2931,6 +2943,7 @@ namespace Implem.DefinitionAccessor
                     case "DrawGantt": JavaScript.DrawGantt = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.DrawGantt, definitionRow, JavaScriptXls); break;
                     case "DrawBurnDown": JavaScript.DrawBurnDown = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.DrawBurnDown, definitionRow, JavaScriptXls); break;
                     case "DrawTimeSeries": JavaScript.DrawTimeSeries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.DrawTimeSeries, definitionRow, JavaScriptXls); break;
+                    case "SetKamban": JavaScript.SetKamban = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.SetKamban, definitionRow, JavaScriptXls); break;
                     default: break;
                 }
             });
@@ -3717,6 +3730,9 @@ namespace Implem.DefinitionAccessor
         public string Model_ItemProperties;
         public string Model_UrlId;
         public string Model_SessionProperties;
+        public string Model_PropertyValue;
+        public string Model_PropertyValue_ColumnCases;
+        public string Model_PropertyValue_ColumnCases_ToString;
         public string Model_SwitchTargets;
         public string Model_Constructor_Items;
         public string Model_Constructor;
@@ -3833,6 +3849,7 @@ namespace Implem.DefinitionAccessor
         public string Model_ReloadCases;
         public string Model_GetCases;
         public string Model_BurnDownRecordDetailsCases;
+        public string Model_UpdateByKambanCases;
         public string Model_Editor;
         public string Model_SiteSettingsParameters;
         public string Model_PermissionTypeParameters;
@@ -3897,6 +3914,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utility_TitleDisplayValue;
         public string Model_Utility_TitleDisplayValueCases_Item;
         public string Model_Utility_TitleDisplayValueCases_DataRow;
+        public string Model_Utility_UpdateByKamban;
         public string Rds;
         public string Rds_SqlStatement;
         public string Rds_SqlSelect;
@@ -4078,6 +4096,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ItemProperties = new CodeDefinition();
         public CodeDefinition Model_UrlId = new CodeDefinition();
         public CodeDefinition Model_SessionProperties = new CodeDefinition();
+        public CodeDefinition Model_PropertyValue = new CodeDefinition();
+        public CodeDefinition Model_PropertyValue_ColumnCases = new CodeDefinition();
+        public CodeDefinition Model_PropertyValue_ColumnCases_ToString = new CodeDefinition();
         public CodeDefinition Model_SwitchTargets = new CodeDefinition();
         public CodeDefinition Model_Constructor_Items = new CodeDefinition();
         public CodeDefinition Model_Constructor = new CodeDefinition();
@@ -4194,6 +4215,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ReloadCases = new CodeDefinition();
         public CodeDefinition Model_GetCases = new CodeDefinition();
         public CodeDefinition Model_BurnDownRecordDetailsCases = new CodeDefinition();
+        public CodeDefinition Model_UpdateByKambanCases = new CodeDefinition();
         public CodeDefinition Model_Editor = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsParameters = new CodeDefinition();
         public CodeDefinition Model_PermissionTypeParameters = new CodeDefinition();
@@ -4258,6 +4280,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utility_TitleDisplayValue = new CodeDefinition();
         public CodeDefinition Model_Utility_TitleDisplayValueCases_Item = new CodeDefinition();
         public CodeDefinition Model_Utility_TitleDisplayValueCases_DataRow = new CodeDefinition();
+        public CodeDefinition Model_Utility_UpdateByKamban = new CodeDefinition();
         public CodeDefinition Rds = new CodeDefinition();
         public CodeDefinition Rds_SqlStatement = new CodeDefinition();
         public CodeDefinition Rds_SqlSelect = new CodeDefinition();
@@ -6488,6 +6511,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_aggregations_space__dot_data;
         public string _dot_aggregations_space_em;
         public string _dot_grid;
+        public string _dot_grid_dot_fixed;
         public string _dot_grid_space_caption;
         public string _dot_grid_space_th;
         public string _dot_grid_space_th_space___space_div;
@@ -6538,6 +6562,8 @@ namespace Implem.DefinitionAccessor
         public string _dot_time_series;
         public string _dot_time_series_space__dot_surface;
         public string _dot_time_series_space__dot_index;
+        public string _dot_kamban_item;
+        public string _dot_kamban_item_colon_hover;
         public string _dot_text;
         public string _dot_datepicker;
         public string _dot_dropdown;
@@ -6822,6 +6848,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_aggregations_space__dot_data = new CssDefinition();
         public CssDefinition _dot_aggregations_space_em = new CssDefinition();
         public CssDefinition _dot_grid = new CssDefinition();
+        public CssDefinition _dot_grid_dot_fixed = new CssDefinition();
         public CssDefinition _dot_grid_space_caption = new CssDefinition();
         public CssDefinition _dot_grid_space_th = new CssDefinition();
         public CssDefinition _dot_grid_space_th_space___space_div = new CssDefinition();
@@ -6872,6 +6899,8 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_time_series = new CssDefinition();
         public CssDefinition _dot_time_series_space__dot_surface = new CssDefinition();
         public CssDefinition _dot_time_series_space__dot_index = new CssDefinition();
+        public CssDefinition _dot_kamban_item = new CssDefinition();
+        public CssDefinition _dot_kamban_item_colon_hover = new CssDefinition();
         public CssDefinition _dot_text = new CssDefinition();
         public CssDefinition _dot_datepicker = new CssDefinition();
         public CssDefinition _dot_dropdown = new CssDefinition();
@@ -7019,7 +7048,9 @@ namespace Implem.DefinitionAccessor
         public string Issues_Gantt;
         public string Issues_BurnDown;
         public string Issues_TimeSeries;
+        public string Issues_Kamban;
         public string Results_TimeSeries;
+        public string Results_Kamban;
     }
 
     public class DataViewTable
@@ -7027,7 +7058,9 @@ namespace Implem.DefinitionAccessor
         public DataViewDefinition Issues_Gantt = new DataViewDefinition();
         public DataViewDefinition Issues_BurnDown = new DataViewDefinition();
         public DataViewDefinition Issues_TimeSeries = new DataViewDefinition();
+        public DataViewDefinition Issues_Kamban = new DataViewDefinition();
         public DataViewDefinition Results_TimeSeries = new DataViewDefinition();
+        public DataViewDefinition Results_Kamban = new DataViewDefinition();
     }
 
     public class DemoDefinition
@@ -7728,6 +7761,8 @@ namespace Implem.DefinitionAccessor
         public string Gantt_ja;
         public string TimeSeries;
         public string TimeSeries_ja;
+        public string Kamban;
+        public string Kamban_ja;
         public string NoData;
         public string NoData_ja;
         public string NoLinks;
@@ -8324,6 +8359,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition Gantt_ja = new DisplayDefinition();
         public DisplayDefinition TimeSeries = new DisplayDefinition();
         public DisplayDefinition TimeSeries_ja = new DisplayDefinition();
+        public DisplayDefinition Kamban = new DisplayDefinition();
+        public DisplayDefinition Kamban_ja = new DisplayDefinition();
         public DisplayDefinition NoData = new DisplayDefinition();
         public DisplayDefinition NoData_ja = new DisplayDefinition();
         public DisplayDefinition NoLinks = new DisplayDefinition();
@@ -8561,6 +8598,7 @@ namespace Implem.DefinitionAccessor
         public string DrawGantt;
         public string DrawBurnDown;
         public string DrawTimeSeries;
+        public string SetKamban;
     }
 
     public class JavaScriptTable
@@ -8592,6 +8630,7 @@ namespace Implem.DefinitionAccessor
         public JavaScriptDefinition DrawGantt = new JavaScriptDefinition();
         public JavaScriptDefinition DrawBurnDown = new JavaScriptDefinition();
         public JavaScriptDefinition DrawTimeSeries = new JavaScriptDefinition();
+        public JavaScriptDefinition SetKamban = new JavaScriptDefinition();
     }
 
     public class SqlDefinition
