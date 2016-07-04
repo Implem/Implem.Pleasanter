@@ -1,5 +1,7 @@
 ﻿func.setKamban = function () {
-    $('.kamban-item').draggable();
+    $('.kamban-item').draggable({
+        revert: 'invalid'
+    });
     $('.kamban-container').droppable({
         drop: function (e, ui) {
             var formData = getFormData($(this));
