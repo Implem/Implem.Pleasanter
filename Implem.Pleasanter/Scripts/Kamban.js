@@ -3,6 +3,7 @@
         revert: 'invalid'
     });
     $('.kamban-container').droppable({
+        tolerance: 'pointer',
         drop: function (e, ui) {
             var formData = getFormData($(this));
             formData["KambanId"] = $(ui.draggable).attr('data-id');
