@@ -1850,6 +1850,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_time_series": Css._dot_time_series = definitionRow[1].ToString(); SetCssTable(CssTable._dot_time_series, definitionRow, CssXls); break;
                     case "_dot_time_series_space__dot_surface": Css._dot_time_series_space__dot_surface = definitionRow[1].ToString(); SetCssTable(CssTable._dot_time_series_space__dot_surface, definitionRow, CssXls); break;
                     case "_dot_time_series_space__dot_index": Css._dot_time_series_space__dot_index = definitionRow[1].ToString(); SetCssTable(CssTable._dot_time_series_space__dot_index, definitionRow, CssXls); break;
+                    case "_dot_kamban_container_space__dot_kamban_item_colon_last_child": Css._dot_kamban_container_space__dot_kamban_item_colon_last_child = definitionRow[1].ToString(); SetCssTable(CssTable._dot_kamban_container_space__dot_kamban_item_colon_last_child, definitionRow, CssXls); break;
                     case "_dot_kamban_item": Css._dot_kamban_item = definitionRow[1].ToString(); SetCssTable(CssTable._dot_kamban_item, definitionRow, CssXls); break;
                     case "_dot_kamban_item_colon_hover": Css._dot_kamban_item_colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._dot_kamban_item_colon_hover, definitionRow, CssXls); break;
                     case "_dot_text": Css._dot_text = definitionRow[1].ToString(); SetCssTable(CssTable._dot_text, definitionRow, CssXls); break;
@@ -6562,6 +6563,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_time_series;
         public string _dot_time_series_space__dot_surface;
         public string _dot_time_series_space__dot_index;
+        public string _dot_kamban_container_space__dot_kamban_item_colon_last_child;
         public string _dot_kamban_item;
         public string _dot_kamban_item_colon_hover;
         public string _dot_text;
@@ -6899,6 +6901,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_time_series = new CssDefinition();
         public CssDefinition _dot_time_series_space__dot_surface = new CssDefinition();
         public CssDefinition _dot_time_series_space__dot_index = new CssDefinition();
+        public CssDefinition _dot_kamban_container_space__dot_kamban_item_colon_last_child = new CssDefinition();
         public CssDefinition _dot_kamban_item = new CssDefinition();
         public CssDefinition _dot_kamban_item_colon_hover = new CssDefinition();
         public CssDefinition _dot_text = new CssDefinition();

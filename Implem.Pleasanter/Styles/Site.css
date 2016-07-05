@@ -1414,6 +1414,10 @@ pre{
     fill:black;
 }
 
+.kamban-container .kamban-item:last-child{
+    margin:3px 3px 150px 3px;
+}
+
 .kamban-item{
     margin:3px;
     padding:5px;
