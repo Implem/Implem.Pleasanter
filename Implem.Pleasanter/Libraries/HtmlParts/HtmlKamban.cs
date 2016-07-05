@@ -163,6 +163,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Class("kamban-item")
                     .DataId(data.Id.ToString()),
                 action: () => hb
+                    .Span(css: "ui-icon ui-icon-pencil")
                     .Text(text: ItemText(workValueColumn, data)));
         }
 
