@@ -167,7 +167,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static string ItemText(Column valueColumn, KambanElement data)
         {
-            return data.WorkValue == null
+            return valueColumn == null
                 ? data.Title
                 : "{0} : {1}".Params(
                     data.Title,
