@@ -1,6 +1,11 @@
 ﻿func.setKamban = function () {
     $('.kamban-item').draggable({
-        revert: 'invalid'
+        revert: 'invalid',
+        start: function () {
+            $(this).parent().droppable({
+                disabled: true
+            });
+        }
     });
     $('.kamban-container').droppable({
         tolerance: 'pointer',
