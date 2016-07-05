@@ -106,7 +106,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         valueColumn: valueColumn,
                                         data: data,
                                         choice: choice))))
-                    .Tr(css: "", action: () =>
+                    .Tr(action: () =>
                         groupByColumn.EditChoices(siteSettings.InheritPermission)
                             .ForEach(choice => hb
                                 .Td(
