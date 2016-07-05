@@ -140,14 +140,14 @@ namespace Implem.Pleasanter.Libraries.Requests
                             {
                                 if (data.Column.UserColumn)
                                 {
-                                    where.Add(raw: "[t0].[{0}] is null or [t0].[{0}]={1}"
+                                    where.Add(raw: "([t0].[{0}] is null or [t0].[{0}]={1})"
                                         .Params(
                                             data.ColumnName,
                                             User.UserTypes.Anonymous.ToInt()));
                                 }
                                 else
                                 {
-                                    where.Add(raw: "[t0].[{0}] is null or [t0].[{0}]=0"
+                                    where.Add(raw: "([t0].[{0}] is null or [t0].[{0}]=0)"
                                         .Params(data.ColumnName));
                                 }
                             }
@@ -172,7 +172,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                         case Types.CsString:
                             if (data.Value == "\t")
                             {
-                                where.Add(raw: "[t0].[{0}] is null or [t0].[{0}] = ''"
+                                where.Add(raw: "([t0].[{0}] is null or [t0].[{0}]='')"
                                     .Params(data.ColumnName));
                             }
                             else
