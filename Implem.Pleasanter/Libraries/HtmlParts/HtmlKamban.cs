@@ -97,27 +97,29 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .DataMethod("post"),
                 action: () => hb
                     .Tr(css: "ui-widget-header", action: () =>
-                        groupByColumn.EditChoices(siteSettings.SiteId).ForEach(choice =>
-                            hb.Th(action: () => hb
-                                .Header(
-                                    siteSettings: siteSettings,
-                                    aggregateType: aggregateType,
-                                    valueColumn: valueColumn,
-                                    data: data,
-                                    choice: choice))))
+                        groupByColumn.EditChoices(siteSettings.InheritPermission)
+                            .ForEach(choice => hb
+                                .Th(action: () => hb
+                                    .Header(
+                                        siteSettings: siteSettings,
+                                        aggregateType: aggregateType,
+                                        valueColumn: valueColumn,
+                                        data: data,
+                                        choice: choice))))
                     .Tr(css: "", action: () =>
-                        groupByColumn.EditChoices(siteSettings.SiteId).ForEach(choice => hb
-                            .Td(
-                                attributes: new HtmlAttributes()
-                                    .Class("kamban-container")
-                                    .DataValue(HttpUtility.HtmlEncode(choice.Key)),
-                                action: () =>
-                                    data.Where(o => o.Group == choice.Key)
-                                        .ForEach(o => hb
-                                            .Item(
-                                                siteSettings: siteSettings,
-                                                workValueColumn: workValueColumn,
-                                                data: o))))));
+                        groupByColumn.EditChoices(siteSettings.InheritPermission)
+                            .ForEach(choice => hb
+                                .Td(
+                                    attributes: new HtmlAttributes()
+                                        .Class("kamban-container")
+                                        .DataValue(HttpUtility.HtmlEncode(choice.Key)),
+                                    action: () =>
+                                        data.Where(o => o.Group == choice.Key)
+                                            .ForEach(o => hb
+                                                .Item(
+                                                    siteSettings: siteSettings,
+                                                    workValueColumn: workValueColumn,
+                                                    data: o))))));
         }
 
         private static HtmlBuilder Header(
