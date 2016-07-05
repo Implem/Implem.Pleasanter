@@ -69,7 +69,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             groupByColumn: siteSettings.AllColumn(groupByColumn),
                             aggregateType: aggregateType,
                             valueColumn: siteSettings.AllColumn(valueColumn),
-                            workValueColumn: siteSettings.AllColumn("WorkValue"),
                             data: data))
                     .MainCommands(
                         siteId: siteSettings.SiteId,
@@ -87,7 +86,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column groupByColumn,
             string aggregateType,
             Column valueColumn,
-            Column workValueColumn,
             IEnumerable<KambanElement> data)
         {
             return hb.Table(
@@ -118,7 +116,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .ForEach(o => hb
                                                 .Item(
                                                     siteSettings: siteSettings,
-                                                    workValueColumn: workValueColumn,
+                                                    valueColumn: valueColumn,
                                                     data: o))))));
         }
 
@@ -155,7 +153,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder Item(
             this HtmlBuilder hb,
             SiteSettings siteSettings,
-            Column workValueColumn,
+            Column valueColumn,
             KambanElement data)
         {
             return hb.Div(
@@ -164,16 +162,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .DataId(data.Id.ToString()),
                 action: () => hb
                     .Span(css: "ui-icon ui-icon-pencil")
-                    .Text(text: ItemText(workValueColumn, data)));
+                    .Text(text: ItemText(valueColumn, data)));
         }
 
-        private static string ItemText(Column workValueColumn, KambanElement data)
+        private static string ItemText(Column valueColumn, KambanElement data)
         {
             return data.WorkValue == null
                 ? data.Title
                 : "{0} : {1}".Params(
                     data.Title,
-                    workValueColumn.Format(data.Value, unit: true));
+                    valueColumn.Format(data.Value, unit: true));
         }
     }
 }

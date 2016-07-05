@@ -5115,7 +5115,6 @@ namespace Implem.Pleasanter.Models
                     groupByColumn: siteSettings.AllColumn(groupByColumn),
                     aggregateType: aggregateType,
                     valueColumn: siteSettings.AllColumn(valueColumn),
-                    workValueColumn: siteSettings.AllColumn("WorkValue"),
                     data: data);
         }
     }
