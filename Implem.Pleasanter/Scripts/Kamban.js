@@ -11,4 +11,7 @@
             requestByForm(getForm($(this)), $('#KambanGrid'));
         }
     });
+    $(document).on('dblclick', '.kamban-item', function () {
+        location.href = $('#BaseUrl').val() + $(this).attr('data-id');
+    });
 };
