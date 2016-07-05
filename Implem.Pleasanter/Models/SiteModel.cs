@@ -1764,14 +1764,17 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static IEnumerable<SiteModel> Menu(long parentId)
         {
-            var siteDataRows = new SiteCollection(where: Rds.SitesWhere()
-                .TenantId(Sessions.TenantId())
-                .ParentId(parentId)
-                .Sub(Rds.ExistsPermissions(where: Rds.PermissionsWhere()
-                    .ReferenceType("Sites")
-                    .Or(Rds.PermissionsWhere()
-                        .UserId(_operator: "=@_U")
-                        .DeptId(_operator: "=@_D"))))).Where(o => o.PermissionType.CanRead());
+            var siteDataRows = new SiteCollection(
+                column: Rds.SitesColumn()
+                    .SiteId()
+                    .Title()
+                    .ReferenceType()
+                    .PermissionType(),
+                where: Rds.SitesWhere()
+                    .TenantId(Sessions.TenantId())
+                    .ParentId(parentId)
+                    .PermissionType(_operator: " & " +
+                        Permissions.Types.Read.ToInt().ToString() + "<>0"));
             var orderModel = new OrderModel(parentId, "Sites");
             siteDataRows.ForEach(siteModel =>
             {
