@@ -56,10 +56,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
                         labelText: Displays.SettingAggregationTarget(),
-                        optionCollection: siteSettings.ColumnCollection
-                            .Where(o => o.Computable)
-                            .Where(o => o.TypeName != "datetime")
-                            .ToDictionary(o => o.ColumnName, o => o.LabelText),
+                        optionCollection: KambanValueColumnOptionCollection(siteSettings),
                         selectedValue: valueColumn,
                         action: "DataView",
                         method: "post")
@@ -78,6 +75,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         importButton: true,
                         exportButton: true);
             });
+        }
+
+        private static Dictionary<string, string> KambanValueColumnOptionCollection(
+            SiteSettings siteSettings)
+        {
+            return new Dictionary<string, string>
+            {
+                { string.Empty, string.Empty }
+            }.Concat(siteSettings.ColumnCollection
+                .Where(o => o.Computable)
+                .Where(o => o.TypeName != "datetime")
+                .ToList()
+                .ToDictionary(o => o.ColumnName, o => o.LabelText))
+                .ToDictionary(o => o.Key, o => o.Value);
         }
 
         public static HtmlBuilder KambanGrid(
@@ -129,12 +140,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             KeyValuePair<string, ControlData> choice)
         {
             var d = data.Where(o => o.Group == choice.Key);
-            return hb.Text(text:  "{0}({1}) : {2}".Params(
+            return hb.Text(text:  "{0}({1}){2}".Params(
                 choice.Value.Text != string.Empty
                     ? choice.Value.Text
                     : Displays.NotSet(),
                 d.Count(),
-                valueColumn.Format(Summary(d, aggregateType), unit: true)));
+                valueColumn != null
+                    ? " : " + valueColumn.Format(Summary(d, aggregateType), unit: true)
+                    : string.Empty));
         }
 
         private static decimal Summary(IEnumerable<KambanElement> data, string aggregateType)

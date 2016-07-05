@@ -4694,7 +4694,7 @@ namespace Implem.Pleasanter.Models
                 : "Total";
             var valueColumn = formData.Keys.Contains("KambanValueColumn")
                 ? formData["KambanValueColumn"].Value
-                : "NumA";
+                : KambanValueColumn(siteSettings);
             var column = Rds.ResultsColumn()
                 .ResultId()
                 .Manager()
@@ -4737,6 +4737,18 @@ namespace Implem.Pleasanter.Models
                     aggregateType: aggregateType,
                     valueColumn: siteSettings.AllColumn(valueColumn),
                     data: data);
+        }
+
+        private static string KambanValueColumn(SiteSettings siteSettings)
+        {
+            var column = siteSettings.ColumnCollection
+                .Where(o => o.Computable)
+                .Where(o => o.TypeName != "datetime")
+                .Where(o => o.EditorVisible.ToBool())
+                .FirstOrDefault();
+            return column != null
+                ? column.ColumnName
+                : string.Empty;
         }
     }
 }
