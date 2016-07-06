@@ -144,9 +144,9 @@ namespace Implem.Pleasanter.Libraries.Responses
             return _using ? Add("Func", methodName) : this;
         }
 
-        public ResponseCollection WindowScrollTop(int value = 0)
+        public ResponseCollection WindowScrollTop(int value = 0, bool _using = true)
         {
-            return Add("WindowScrollTop", string.Empty, value);
+            return _using ? Add("WindowScrollTop", string.Empty, value) : this;
         }
 
         public ResponseCollection FocusMainForm()
