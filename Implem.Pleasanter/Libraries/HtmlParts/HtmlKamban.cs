@@ -98,7 +98,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column groupByColumn,
             string aggregateType,
             Column valueColumn,
-            IEnumerable<KambanElement> data)
+            IEnumerable<KambanElement> data,
+            long changedItemId = 0)
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
@@ -113,16 +114,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             choices: choices.ToDictionary(o => o.Key, o => o.Value),
                             aggregateType: aggregateType,
                             valueColumn: valueColumn,
-                            data: data)));
+                            data: data,
+                            changedItemId: changedItemId)));
         }
 
-        public static HtmlBuilder Table(
+        private static HtmlBuilder Table(
             this HtmlBuilder hb,
             SiteSettings siteSettings,
             Dictionary<string, ControlData> choices,
             string aggregateType,
             Column valueColumn,
-            IEnumerable<KambanElement> data)
+            IEnumerable<KambanElement> data,
+            long changedItemId)
         {
             return hb.Table(
                 css: "grid fixed",
@@ -148,7 +151,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .Item(
                                                 siteSettings: siteSettings,
                                                 valueColumn: valueColumn,
-                                                data: o))))));
+                                                data: o,
+                                                changedItemId: changedItemId))))));
         }
 
         private static HtmlBuilder Header(
@@ -187,11 +191,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             SiteSettings siteSettings,
             Column valueColumn,
-            KambanElement data)
+            KambanElement data,
+            long changedItemId)
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
-                    .Class("kamban-item")
+                    .Class("kamban-item" + ItemChanged(data.Id, changedItemId))
                     .DataId(data.Id.ToString()),
                 action: () => hb
                     .Span(css: "ui-icon ui-icon-pencil")
@@ -205,6 +210,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : "{0} : {1}".Params(
                     data.Title,
                     valueColumn.Format(data.Value, unit: true));
+        }
+
+        private static string ItemChanged(long id, long changedItemId)
+        {
+            return id == changedItemId
+                ? " changed"
+                : string.Empty;
         }
     }
 }

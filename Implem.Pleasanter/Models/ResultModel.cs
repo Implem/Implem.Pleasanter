@@ -4666,7 +4666,8 @@ namespace Implem.Pleasanter.Models
                         siteSettings: siteSettings,
                         permissionType: permissionType,
                         formData: formData,
-                        bodyOnly: bodyOnly))
+                        bodyOnly: bodyOnly,
+                        changedItemId: Forms.Long("KambanId")))
                 .Html(
                     "#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
@@ -4683,7 +4684,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings siteSettings,
             Permissions.Types permissionType,
             FormData formData,
-            bool bodyOnly)
+            bool bodyOnly,
+            long changedItemId = 0)
         {
             var groupByColumn = formData.Keys.Contains("KambanGroupByColumn")
                 ? formData["KambanGroupByColumn"].Value
@@ -4735,7 +4737,8 @@ namespace Implem.Pleasanter.Models
                     groupByColumn: siteSettings.AllColumn(groupByColumn),
                     aggregateType: aggregateType,
                     valueColumn: siteSettings.AllColumn(valueColumn),
-                    data: data);
+                    data: data,
+                    changedItemId: changedItemId);
         }
 
         private static string KambanValueColumn(SiteSettings siteSettings)

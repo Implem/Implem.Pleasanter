@@ -1437,6 +1437,12 @@ pre{
     border:solid 1px orange;
 }
 
+.kamban-item.changed{
+    font-weight:bold;
+    background-color:yellow;
+    border:solid 1px orange;
+}
+
 .kamban-item .ui-icon{
     position:absolute;
     top:0px;
