@@ -1429,6 +1429,7 @@ pre{
     border:solid 1px silver;
     position:relative;
     cursor:pointer;
+    border-radius:5px;
 }
 
 .kamban-item:hover{
