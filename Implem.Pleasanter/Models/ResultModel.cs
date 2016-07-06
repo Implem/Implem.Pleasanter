@@ -4672,8 +4672,7 @@ namespace Implem.Pleasanter.Models
                     siteSettings: siteSettings,
                     aggregations: resultCollection.Aggregations,
                     container: false))
-                .Func("setKamban")
-                .WindowScrollTop().ToJson();
+                .Func("setKamban").ToJson();
         }
 
         /// <summary>
