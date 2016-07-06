@@ -1414,8 +1414,12 @@ pre{
     fill:black;
 }
 
+.kamban-row{
+    min-height:30px;
+}
+
 .kamban-container .kamban-item:last-child{
-    margin:3px 3px 150px 3px;
+    margin:3px 3px 30px 3px;
 }
 
 .kamban-item{

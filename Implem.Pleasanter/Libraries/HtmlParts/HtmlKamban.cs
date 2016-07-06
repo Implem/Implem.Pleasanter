@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Charts;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
@@ -99,36 +100,55 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column valueColumn,
             IEnumerable<KambanElement> data)
         {
-            return hb.Table(
+            return hb.Div(
                 attributes: new HtmlAttributes()
-                    .Id_Css("KambanGrid", "grid fixed")
+                    .Id("KambanGrid")
                     .DataAction("UpdateByKamban")
                     .DataMethod("post"),
+                action: () => groupByColumn.EditChoices(siteSettings.InheritPermission)
+                    .Chunk(Parameters.General.KambanChunk)
+                    .ForEach(choices => hb
+                        .Table(
+                            siteSettings: siteSettings,
+                            choices: choices.ToDictionary(o => o.Key, o => o.Value),
+                            aggregateType: aggregateType,
+                            valueColumn: valueColumn,
+                            data: data)));
+        }
+
+        public static HtmlBuilder Table(
+            this HtmlBuilder hb,
+            SiteSettings siteSettings,
+            Dictionary<string, ControlData> choices,
+            string aggregateType,
+            Column valueColumn,
+            IEnumerable<KambanElement> data)
+        {
+            return hb.Table(
+                css: "grid fixed",
                 action: () => hb
-                    .Tr(css: "ui-widget-header", action: () =>
-                        groupByColumn.EditChoices(siteSettings.InheritPermission)
-                            .ForEach(choice => hb
-                                .Th(action: () => hb
-                                    .Header(
-                                        siteSettings: siteSettings,
-                                        aggregateType: aggregateType,
-                                        valueColumn: valueColumn,
-                                        data: data,
-                                        choice: choice))))
-                    .Tr(action: () =>
-                        groupByColumn.EditChoices(siteSettings.InheritPermission)
-                            .ForEach(choice => hb
-                                .Td(
-                                    attributes: new HtmlAttributes()
-                                        .Class("kamban-container")
-                                        .DataValue(HttpUtility.HtmlEncode(choice.Key)),
-                                    action: () =>
-                                        data.Where(o => o.Group == choice.Key)
-                                            .ForEach(o => hb
-                                                .Item(
-                                                    siteSettings: siteSettings,
-                                                    valueColumn: valueColumn,
-                                                    data: o))))));
+                    .Tr(css: "ui-widget-header", action: () => choices
+                        .ForEach(choice => hb
+                            .Th(action: () => hb
+                                .Header(
+                                    siteSettings: siteSettings,
+                                    aggregateType: aggregateType,
+                                    valueColumn: valueColumn,
+                                    data: data,
+                                    choice: choice))))
+                    .Tr(css: "kamban-row", action: () => choices
+                        .ForEach(choice => hb
+                            .Td(
+                                attributes: new HtmlAttributes()
+                                    .Class("kamban-container")
+                                    .DataValue(HttpUtility.HtmlEncode(choice.Key)),
+                                action: () =>
+                                    data.Where(o => o.Group == choice.Key)
+                                        .ForEach(o => hb
+                                            .Item(
+                                                siteSettings: siteSettings,
+                                                valueColumn: valueColumn,
+                                                data: o))))));
         }
 
         private static HtmlBuilder Header(
