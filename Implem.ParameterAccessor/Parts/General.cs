@@ -38,6 +38,7 @@ namespace Implem.ParameterAccessor.Parts
         public int ProgressRateTextTop;
         public int GanttItemMaxHeight;
         public int GanttItemMinHeight;
+        public int KambanChunk;
         public int ImageSizeRegular;
         public int ImageSizeThumbnail;
         public int ImageSizeIcon;
