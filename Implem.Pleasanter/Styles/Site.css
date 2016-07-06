@@ -1418,6 +1418,10 @@ pre{
     min-height:30px;
 }
 
+.kamban-container.hover{
+    background-color:whitesmoke;
+}
+
 .kamban-container .kamban-item:last-child{
     margin:3px 3px 30px 3px;
 }

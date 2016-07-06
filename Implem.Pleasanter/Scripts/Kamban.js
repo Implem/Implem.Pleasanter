@@ -8,6 +8,7 @@
         }
     });
     $('.kamban-container').droppable({
+        hoverClass: 'hover',
         tolerance: 'pointer',
         drop: function (e, ui) {
             var formData = getFormData($(this));
