@@ -2019,7 +2019,7 @@ namespace Implem.Pleasanter.Models
                                     .Field(
                                         siteSettings: siteSettings,
                                         column: siteSettings.AllColumn("LoginId"),
-                                        controlCss: " must-transport")
+                                        controlCss: " must-transport focus")
                                     .Field(
                                         siteSettings: siteSettings,
                                         column: siteSettings.AllColumn("Password"),
