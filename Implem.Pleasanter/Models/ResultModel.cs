@@ -4741,6 +4741,9 @@ namespace Implem.Pleasanter.Models
                     changedItemId: changedItemId);
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static string KambanValueColumn(SiteSettings siteSettings)
         {
             var column = siteSettings.ColumnCollection
