@@ -49,6 +49,7 @@
     <Compile Include="Parts\Authentication.cs" />
     <Compile Include="Parts\BackgroundTask.cs" />
     <Compile Include="Parts\BinaryStorage.cs" />
+    <Compile Include="Parts\Cache.cs" />
     <Compile Include="Parts\General.cs" />
     <Compile Include="Parts\Mail.cs" />
     <Compile Include="Parts\Path.cs" />

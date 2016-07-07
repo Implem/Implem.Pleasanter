@@ -343,6 +343,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <None Include="App_Data\Parameters\BackgroundTask.json" />
+    <None Include="App_Data\Parameters\Cache.json" />
     <Content Include="Global.asax" />
     <Content Include="Images\logo-corp.png" />
     <Content Include="Scripts\BurnDown.js" />
