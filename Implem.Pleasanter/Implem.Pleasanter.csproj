@@ -202,13 +202,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IConvertable.cs" />
-    <Compile Include="Libraries\Charts\BurnDown.cs" />
-    <Compile Include="Libraries\Charts\BurnDownElement.cs" />
-    <Compile Include="Libraries\Charts\Gantt.cs" />
-    <Compile Include="Libraries\Charts\GanttElement.cs" />
-    <Compile Include="Libraries\Charts\KambanElement.cs" />
-    <Compile Include="Libraries\Charts\TimeSeries.cs" />
-    <Compile Include="Libraries\Charts\TimeSeriesElement.cs" />
     <Compile Include="Libraries\Converts\SearchIndexExtensions.cs" />
     <Compile Include="Libraries\Converts\TdExtensions.cs" />
     <Compile Include="Libraries\Converts\ToControlExtensions.cs" />
@@ -229,6 +222,13 @@
     <Compile Include="Libraries\DataTypes\TitleBody.cs" />
     <Compile Include="Libraries\DataTypes\User.cs" />
     <Compile Include="Libraries\DataTypes\WorkValue.cs" />
+    <Compile Include="Libraries\DataViews\BurnDown.cs" />
+    <Compile Include="Libraries\DataViews\BurnDownElement.cs" />
+    <Compile Include="Libraries\DataViews\Gantt.cs" />
+    <Compile Include="Libraries\DataViews\GanttElement.cs" />
+    <Compile Include="Libraries\DataViews\KambanElement.cs" />
+    <Compile Include="Libraries\DataViews\TimeSeries.cs" />
+    <Compile Include="Libraries\DataViews\TimeSeriesElement.cs" />
     <Compile Include="Libraries\Html\HtmlAttributes.cs" />
     <Compile Include="Libraries\Html\HtmlBuilder.cs" />
     <Compile Include="Libraries\Html\HtmlTypes.cs" />

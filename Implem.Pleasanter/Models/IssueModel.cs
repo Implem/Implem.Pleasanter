@@ -4866,7 +4866,7 @@ namespace Implem.Pleasanter.Models
             var date = Forms.DateTime("BurnDownDate");
             return new ResponseCollection()
                 .After(string.Empty, new HtmlBuilder().BurnDownRecordDetails(
-                    elements: new Libraries.Charts.BurnDown(siteSettings, BurnDownDataRows(
+                    elements: new Libraries.DataViews.BurnDown(siteSettings, BurnDownDataRows(
                         siteSettings: siteSettings,
                         formData: DataViewFilters.SessionFormData(siteSettings.SiteId)))
                             .Where(o => o.UpdatedTime == date),
@@ -5089,7 +5089,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.IssuesWhere().SiteId(siteSettings.SiteId)),
                 orderBy: GridSorters.Get(
                     formData, Rds.IssuesOrderBy().UpdatedTime(SqlOrderBy.Types.desc)))
-                        .Select(o => new Libraries.Charts.KambanElement()
+                        .Select(o => new Libraries.DataViews.KambanElement()
                         {
                             Id = o.Id,
                             Title = o.Title.DisplayValue,

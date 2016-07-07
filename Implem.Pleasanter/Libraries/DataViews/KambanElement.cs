@@ -1,6 +1,6 @@
 ﻿using Implem.Pleasanter.Libraries.DataTypes;
 using System;
-namespace Implem.Pleasanter.Libraries.Charts
+namespace Implem.Pleasanter.Libraries.DataViews
 {
     public class KambanElement
     {

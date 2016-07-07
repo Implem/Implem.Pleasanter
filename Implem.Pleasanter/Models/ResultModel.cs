@@ -4715,7 +4715,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.ResultsWhere().SiteId(siteSettings.SiteId)),
                 orderBy: GridSorters.Get(
                     formData, Rds.IssuesOrderBy().UpdatedTime(SqlOrderBy.Types.desc)))
-                        .Select(o => new Libraries.Charts.KambanElement()
+                        .Select(o => new Libraries.DataViews.KambanElement()
                         {
                             Id = o.Id,
                             Title = o.Title.DisplayValue,

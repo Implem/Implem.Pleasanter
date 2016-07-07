@@ -1,7 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Server;
 using System;
-namespace Implem.Pleasanter.Libraries.Charts
+namespace Implem.Pleasanter.Libraries.DataViews
 {
     public class BurnDownElement
     {

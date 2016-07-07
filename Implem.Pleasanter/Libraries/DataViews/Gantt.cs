@@ -4,7 +4,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-namespace Implem.Pleasanter.Libraries.Charts
+namespace Implem.Pleasanter.Libraries.DataViews
 {
     public class Gantt : List<GanttElement>
     {
