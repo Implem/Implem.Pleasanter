@@ -65,6 +65,8 @@ namespace Implem.DefinitionAccessor
         {
             Parameters.Authentication = Files.Read(ParametersPath("Authentication"))
                 .Deserialize<ParameterAccessor.Parts.Authentication>();
+            Parameters.BackgroundTask = Files.Read(ParametersPath("BackgroundTask"))
+                .Deserialize<ParameterAccessor.Parts.BackgroundTask>();
             Parameters.BinaryStorage = Files.Read(ParametersPath("BinaryStorage"))
                 .Deserialize<ParameterAccessor.Parts.BinaryStorage>();
             Parameters.General = Files.Read(ParametersPath("General"))

@@ -4,6 +4,7 @@ namespace Implem.DefinitionAccessor
     public static class Parameters
     {
         public static Authentication Authentication;
+        public static BackgroundTask BackgroundTask;
         public static BinaryStorage BinaryStorage;
         public static General General;
         public static Mail Mail;

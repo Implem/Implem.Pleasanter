@@ -17,7 +17,7 @@ namespace Implem.Pleasanter.Tools
             {
                 SysLogsUtility.Maintenance();
                 ItemsUtility.Maintenance();
-                Thread.Sleep(100);
+                Thread.Sleep(Parameters.BackgroundTask.Interval);
                 LatestTime = DateTime.Now;
             }
             return new ResponseCollection().ToJson();
