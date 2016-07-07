@@ -8,6 +8,8 @@ namespace Implem.Pleasanter.Tools
 {
     public static class BackgroundTasks
     {
+        public static DateTime LatestTime;
+
         public static string Do()
         {
             var now = DateTime.Now;
@@ -16,6 +18,7 @@ namespace Implem.Pleasanter.Tools
                 SysLogsUtility.Maintenance();
                 ItemsUtility.Maintenance();
                 Thread.Sleep(100);
+                LatestTime = DateTime.Now;
             }
             return new ResponseCollection().ToJson();
         }
