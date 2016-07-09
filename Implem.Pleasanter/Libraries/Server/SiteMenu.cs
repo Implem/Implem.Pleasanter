@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.Libraries.Server
 {
     public class SiteMenu : Dictionary<long, SiteMenuElement>
     {
-        public SiteMenuElement Get(long siteId)
+        public SiteMenuElement Get(long siteId, bool reload = false)
         {
             if (siteId == 0)
             {
@@ -19,15 +19,23 @@ namespace Implem.Pleasanter.Libraries.Server
             }
             else
             {
-                if (!HasAvailableCache(siteId))
+                if (!HasAvailableCache(siteId) || reload)
                 {
-                    var data = Data(siteId);
-                    Add(siteId, new SiteMenuElement(
-                        data["TenantId"].ToInt(),
+                    var dataRow = SiteMenuElementDataRow(siteId);
+                    var siteMenuElement = new SiteMenuElement(
+                        dataRow["TenantId"].ToInt(),
                         siteId,
-                        data["ReferenceType"].ToString(),
-                        data["ParentId"].ToLong(),
-                        data["Title"].ToString()));
+                        dataRow["ReferenceType"].ToString(),
+                        dataRow["ParentId"].ToLong(),
+                        dataRow["Title"].ToString());
+                    if (ContainsKey(siteId))
+                    {
+                        this[siteId] = siteMenuElement;
+                    }
+                    else
+                    {
+                        Add(siteId, siteMenuElement);
+                    }
                 }
                 return this[siteId];
             }
@@ -59,8 +67,9 @@ namespace Implem.Pleasanter.Libraries.Server
                     Parameters.Cache.SiteMenuAvailableTime);
         }
 
-        private DataRow Data(long siteId)
+        private DataRow SiteMenuElementDataRow(long siteId)
         {
+            var tenantId = Sessions.TenantId();
             return Rds.ExecuteTable(statements: Rds.SelectSites(
                 column: Rds.SitesColumn()
                     .TenantId()
@@ -68,7 +77,7 @@ namespace Implem.Pleasanter.Libraries.Server
                     .ParentId()
                     .Title(),
                 where: Rds.SitesWhere()
-                    .TenantId(Sessions.TenantId())
+                    .TenantId(tenantId, _using: tenantId != 0)
                     .SiteId(siteId)))
                         .AsEnumerable()
                         .FirstOrDefault();

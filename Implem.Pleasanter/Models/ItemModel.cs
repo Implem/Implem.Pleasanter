@@ -910,26 +910,33 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static void Maintenance()
         {
-            MaintenanceTarget().ForEach(referenceId =>
+            MaintenanceTargets().ForEach(target =>
             {
-                Libraries.Search.Indexes.Create(referenceId);
-                UpdateMaintenanceTarget(referenceId);
+                Libraries.Search.Indexes.Create(target.Key);
+                switch (target.Value)
+                {
+                    case "Sites": SiteInfo.SiteMenu.Get(target.Key, reload: true); break;
+                }
+                UpdateMaintenanceTarget(target.Key);
             });
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static List<long> MaintenanceTarget()
+        private static Dictionary<long, string> MaintenanceTargets()
         {
             return Rds.ExecuteTable(statements:
                 Rds.SelectItems(
                     top: 100,
-                    column: Rds.ItemsColumn().ReferenceId(),
+                    column: Rds.ItemsColumn()
+                        .ReferenceId()
+                        .ReferenceType(),
                     where: Rds.ItemsWhere().MaintenanceTarget(true)))
                         .AsEnumerable()
-                        .Select(o => o["ReferenceId"].ToLong())
-                        .ToList();
+                        .ToDictionary(
+                            o => o["ReferenceId"].ToLong(),
+                            o => o["ReferenceType"].ToString());
         }
 
         /// <summary>
