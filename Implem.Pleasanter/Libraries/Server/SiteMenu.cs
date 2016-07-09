@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.Libraries.Server
 {
     public class SiteMenu : Dictionary<long, SiteMenuElement>
     {
-        public SiteMenuElement Get(long siteId, bool reload = false)
+        public SiteMenuElement Get(long siteId)
         {
             if (siteId == 0)
             {
@@ -19,25 +19,30 @@ namespace Implem.Pleasanter.Libraries.Server
             }
             else
             {
-                if (!HasAvailableCache(siteId) || reload)
+                if (!HasAvailableCache(siteId))
                 {
-                    var dataRow = SiteMenuElementDataRow(siteId);
-                    var siteMenuElement = new SiteMenuElement(
-                        dataRow["TenantId"].ToInt(),
-                        siteId,
-                        dataRow["ReferenceType"].ToString(),
-                        dataRow["ParentId"].ToLong(),
-                        dataRow["Title"].ToString());
-                    if (ContainsKey(siteId))
-                    {
-                        this[siteId] = siteMenuElement;
-                    }
-                    else
-                    {
-                        Add(siteId, siteMenuElement);
-                    }
+                    Set(siteId);
                 }
                 return this[siteId];
+            }
+        }
+
+        public void Set(long siteId)
+        {
+            var dataRow = SiteMenuElementDataRow(siteId);
+            var siteMenuElement = new SiteMenuElement(
+                dataRow["TenantId"].ToInt(),
+                siteId,
+                dataRow["ReferenceType"].ToString(),
+                dataRow["ParentId"].ToLong(),
+                dataRow["Title"].ToString());
+            if (ContainsKey(siteId))
+            {
+                this[siteId] = siteMenuElement;
+            }
+            else
+            {
+                Add(siteId, siteMenuElement);
             }
         }
 

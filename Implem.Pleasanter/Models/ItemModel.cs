@@ -915,7 +915,7 @@ namespace Implem.Pleasanter.Models
                 Libraries.Search.Indexes.Create(target.Key);
                 switch (target.Value)
                 {
-                    case "Sites": SiteInfo.SiteMenu.Get(target.Key, reload: true); break;
+                    case "Sites": SiteInfo.SiteMenu.Set(target.Key); break;
                 }
                 UpdateMaintenanceTarget(target.Key);
             });
