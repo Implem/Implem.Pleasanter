@@ -218,11 +218,11 @@ pre{
     clear:both;
 }
 
-.nav-breadcrumbs{
+.nav-breadcrumb{
 
 }
 
-.nav-breadcrumb{
+.nav-breadcrumb-item{
     display:block;
     float:left;
 }

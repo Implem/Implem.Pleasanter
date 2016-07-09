@@ -9,7 +9,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlNavigations
     {
-        public static HtmlBuilder BreadCrumbs(
+        public static HtmlBuilder Breadcrumb(
             this HtmlBuilder hb, long siteId, Permissions.Types permissionType, bool _using)
         {
             if (!Sessions.LoggedIn() || !_using)
@@ -21,23 +21,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 case "items":
                 case "permissions":
-                    return hb.BreadCrumbs(SiteInfo.SiteMenu.Breadcrumb(siteId)
+                    return hb.Breadcrumb(SiteInfo.SiteMenu.Breadcrumb(siteId)
                         .ToDictionary(
                             o => Navigations.ItemIndex(o.SiteId),
                             o => o.Title));
                 case "admins":
-                    return hb.BreadCrumbs(new Dictionary<string, string>
+                    return hb.Breadcrumb(new Dictionary<string, string>
                     {
                         { Navigations.Index("Admins"), Displays.Admin() }
                     });
                 case "users":
-                    return hb.BreadCrumbs(new Dictionary<string, string>
+                    return hb.Breadcrumb(new Dictionary<string, string>
                     {
                         { Navigations.Index("Admins"), Displays.Admin() },
                         { Navigations.Index(controller), Displays.Users() }
                     });
                 case "depts":
-                    return hb.BreadCrumbs(new Dictionary<string, string>
+                    return hb.Breadcrumb(new Dictionary<string, string>
                     {
                         { Navigations.Index("Admins"), Displays.Admin() },
                         { Navigations.Index(controller), Displays.Depts() }
@@ -47,22 +47,22 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
         }
 
-        private static HtmlBuilder BreadCrumbs(
-            this HtmlBuilder hb, Dictionary<string, string> breadCrumbs)
+        private static HtmlBuilder Breadcrumb(
+            this HtmlBuilder hb, Dictionary<string, string> breadcrumb)
         {
-            return hb.Ul(css: "nav-breadcrumbs", action: () =>
+            return hb.Ul(css: "nav-breadcrumb", action: () =>
             {
-                hb.BreadCrumbs(Navigations.Top(), Displays.Top());
-                breadCrumbs.ForEach(breadcrumb => hb
-                    .BreadCrumbs(
-                        href: breadcrumb.Key,
-                        text: breadcrumb.Value));
+                hb.BreadcrumbItem(Navigations.Top(), Displays.Top());
+                breadcrumb.ForEach(item => hb
+                    .BreadcrumbItem(
+                        href: item.Key,
+                        text: item.Value));
             });
         }
 
-        private static HtmlBuilder BreadCrumbs(this HtmlBuilder hb, string href, string text)
+        private static HtmlBuilder BreadcrumbItem(this HtmlBuilder hb, string href, string text)
         {
-            return hb.Li(css: "nav-breadcrumb", action: () => hb
+            return hb.Li(css: "nav-breadcrumb-item", action: () => hb
                 .A(href: href, text: text)
                 .Span(css: "nav-breadcrumb-separator", action: () => hb
                     .Text(text: ">")));

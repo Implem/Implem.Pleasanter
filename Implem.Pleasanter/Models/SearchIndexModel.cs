@@ -373,7 +373,7 @@ namespace Implem.Pleasanter.Models
                 useNavigationButtons: false,
                 useTitle: false,
                 useSearch: false,
-                useBreadCrumbs: false,
+                useBreadcrumb: false,
                 action: () => hb
                     .Div(id: "SearchResults", css: "search-results", action: () => hb
                         .Command(text: text)

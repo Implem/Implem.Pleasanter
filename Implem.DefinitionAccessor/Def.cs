@@ -1646,8 +1646,8 @@ namespace Implem.DefinitionAccessor
                     case "_dot_login_user_space___space_p_space___space_span": Css._dot_login_user_space___space_p_space___space_span = definitionRow[1].ToString(); SetCssTable(CssTable._dot_login_user_space___space_p_space___space_span, definitionRow, CssXls); break;
                     case "_dot_head": Css._dot_head = definitionRow[1].ToString(); SetCssTable(CssTable._dot_head, definitionRow, CssXls); break;
                     case "_dot_main_form_space___space_nav_colon_first_child": Css._dot_main_form_space___space_nav_colon_first_child = definitionRow[1].ToString(); SetCssTable(CssTable._dot_main_form_space___space_nav_colon_first_child, definitionRow, CssXls); break;
-                    case "_dot_nav_breadcrumbs": Css._dot_nav_breadcrumbs = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_breadcrumbs, definitionRow, CssXls); break;
                     case "_dot_nav_breadcrumb": Css._dot_nav_breadcrumb = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_breadcrumb, definitionRow, CssXls); break;
+                    case "_dot_nav_breadcrumb_item": Css._dot_nav_breadcrumb_item = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_breadcrumb_item, definitionRow, CssXls); break;
                     case "_dot_nav_breadcrumb_separator": Css._dot_nav_breadcrumb_separator = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_breadcrumb_separator, definitionRow, CssXls); break;
                     case "_dot_nav_functions": Css._dot_nav_functions = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_functions, definitionRow, CssXls); break;
                     case "_dot_nav_function": Css._dot_nav_function = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_function, definitionRow, CssXls); break;
@@ -6362,8 +6362,8 @@ namespace Implem.DefinitionAccessor
         public string _dot_login_user_space___space_p_space___space_span;
         public string _dot_head;
         public string _dot_main_form_space___space_nav_colon_first_child;
-        public string _dot_nav_breadcrumbs;
         public string _dot_nav_breadcrumb;
+        public string _dot_nav_breadcrumb_item;
         public string _dot_nav_breadcrumb_separator;
         public string _dot_nav_functions;
         public string _dot_nav_function;
@@ -6704,8 +6704,8 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_login_user_space___space_p_space___space_span = new CssDefinition();
         public CssDefinition _dot_head = new CssDefinition();
         public CssDefinition _dot_main_form_space___space_nav_colon_first_child = new CssDefinition();
-        public CssDefinition _dot_nav_breadcrumbs = new CssDefinition();
         public CssDefinition _dot_nav_breadcrumb = new CssDefinition();
+        public CssDefinition _dot_nav_breadcrumb_item = new CssDefinition();
         public CssDefinition _dot_nav_breadcrumb_separator = new CssDefinition();
         public CssDefinition _dot_nav_functions = new CssDefinition();
         public CssDefinition _dot_nav_function = new CssDefinition();

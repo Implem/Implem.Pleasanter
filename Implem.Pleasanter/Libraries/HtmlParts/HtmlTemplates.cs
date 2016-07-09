@@ -22,7 +22,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Versions.VerTypes verType,
             BaseModel.MethodTypes methodType,
             bool allowAccess,
-            bool useBreadCrumbs = true,
+            bool useBreadcrumb = true,
             bool useTitle = true,
             bool useSearch = true,
             bool useNavigationButtons = true,
@@ -38,10 +38,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     if (allowAccess)
                     {
                         hb.Nav(css: "both cf", action: () => hb
-                            .BreadCrumbs(
+                            .Breadcrumb(
                                 siteId: siteId,
                                 permissionType: permissionType,
-                                _using: useBreadCrumbs)
+                                _using: useBreadcrumb)
                             .NavigationFunctions(
                                 siteId: siteId,
                                 referenceId: referenceId,
@@ -143,7 +143,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.NotSet,
                 allowAccess: false,
-                useBreadCrumbs: false,
+                useBreadcrumb: false,
                 useTitle: false,
                 useNavigationButtons: false);
         }

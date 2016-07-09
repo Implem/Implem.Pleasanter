@@ -2000,7 +2000,7 @@ namespace Implem.Pleasanter.Models
                 title: string.Empty,
                 permissionType: Permissions.Admins(),
                 verType: Versions.VerTypes.Latest,
-                useBreadCrumbs: false,
+                useBreadcrumb: false,
                 useTitle: false,
                 useSearch: false,
                 useNavigationButtons: false,
