@@ -15,6 +15,7 @@ namespace Implem.Pleasanter.Libraries.Server
 {
     public static class SiteInfo
     {
+        public static SiteMenu SiteMenu = new SiteMenu();
         public static Dictionary<long, List<int>> SiteUserIdCollection =
             new Dictionary<long, List<int>>();
         public static Dictionary<int, DeptModel> Depts;
