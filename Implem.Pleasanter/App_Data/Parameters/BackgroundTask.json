@@ -1,3 +1,4 @@
 ﻿{
-    "Interval": 100
+    "Interval": 100,
+    "DisableInterval": 60000
 }
