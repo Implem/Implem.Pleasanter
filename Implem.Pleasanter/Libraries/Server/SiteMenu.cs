@@ -53,10 +53,10 @@ namespace Implem.Pleasanter.Libraries.Server
         private bool HasAvailableCache(long siteId)
         {
             return
-                !BackgroundTasks.Disabled() &&
                 ContainsKey(siteId) &&
+                (BackgroundTasks.Enabled() ||
                 (DateTime.Now - this[siteId].CreatedTime).Milliseconds <
-                    Parameters.Cache.SiteMenuAvailableTime;
+                    Parameters.Cache.SiteMenuAvailableTime);
         }
 
         private DataRow Data(long siteId)

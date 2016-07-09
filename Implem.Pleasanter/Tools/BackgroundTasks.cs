@@ -23,11 +23,10 @@ namespace Implem.Pleasanter.Tools
             return new ResponseCollection().ToJson();
         }
 
-        public static bool Disabled()
+        public static bool Enabled()
         {
-            return
-                (DateTime.Now - BackgroundTasks.LatestTime).Milliseconds >=
-                Parameters.BackgroundTask.DisableInterval;
+            return (DateTime.Now - BackgroundTasks.LatestTime).Milliseconds <=
+                Parameters.BackgroundTask.EnableInterval;
         }
     }
 }
