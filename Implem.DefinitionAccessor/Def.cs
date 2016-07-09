@@ -2992,7 +2992,6 @@ namespace Implem.DefinitionAccessor
                 {
                     case "BeginTransaction": Sql.BeginTransaction = definitionRow[1].ToString(); SetSqlTable(SqlTable.BeginTransaction, definitionRow, SqlXls); break;
                     case "CommitTransaction": Sql.CommitTransaction = definitionRow[1].ToString(); SetSqlTable(SqlTable.CommitTransaction, definitionRow, SqlXls); break;
-                    case "SiteBreadcrumb": Sql.SiteBreadcrumb = definitionRow[1].ToString(); SetSqlTable(SqlTable.SiteBreadcrumb, definitionRow, SqlXls); break;
                     case "SiteDepts": Sql.SiteDepts = definitionRow[1].ToString(); SetSqlTable(SqlTable.SiteDepts, definitionRow, SqlXls); break;
                     case "SiteUsers": Sql.SiteUsers = definitionRow[1].ToString(); SetSqlTable(SqlTable.SiteUsers, definitionRow, SqlXls); break;
                     case "ProgressRateDelay": Sql.ProgressRateDelay = definitionRow[1].ToString(); SetSqlTable(SqlTable.ProgressRateDelay, definitionRow, SqlXls); break;
@@ -8686,7 +8685,6 @@ namespace Implem.DefinitionAccessor
     {
         public string BeginTransaction;
         public string CommitTransaction;
-        public string SiteBreadcrumb;
         public string SiteDepts;
         public string SiteUsers;
         public string ProgressRateDelay;
@@ -8717,7 +8715,6 @@ namespace Implem.DefinitionAccessor
     {
         public SqlDefinition BeginTransaction = new SqlDefinition();
         public SqlDefinition CommitTransaction = new SqlDefinition();
-        public SqlDefinition SiteBreadcrumb = new SqlDefinition();
         public SqlDefinition SiteDepts = new SqlDefinition();
         public SqlDefinition SiteUsers = new SqlDefinition();
         public SqlDefinition ProgressRateDelay = new SqlDefinition();

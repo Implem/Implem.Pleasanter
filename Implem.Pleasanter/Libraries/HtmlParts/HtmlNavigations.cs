@@ -1,14 +1,9 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.DataSources.SqlServer;
-using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.DataSources;
-using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -26,13 +21,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 case "items":
                 case "permissions":
-                    return hb.BreadCrumbs(Rds.ExecuteTable(statements: new SqlStatement(
-                        commandText: Def.Sql.SiteBreadcrumb,
-                        param: Rds.SitesParam().SiteId(siteId)))
-                            .AsEnumerable()
-                            .ToDictionary(
-                                o => Navigations.ItemIndex(o["SiteId"].ToInt()),
-                                o => o["Title"].ToString()));
+                    return hb.BreadCrumbs(SiteInfo.SiteMenu.Breadcrumb(siteId)
+                        .ToDictionary(
+                            o => Navigations.ItemIndex(o.SiteId),
+                            o => o.Title));
                 case "admins":
                     return hb.BreadCrumbs(new Dictionary<string, string>
                     {

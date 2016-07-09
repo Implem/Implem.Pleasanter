@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Tools;
 using System;
 using System.Collections.Generic;
@@ -12,35 +13,48 @@ namespace Implem.Pleasanter.Libraries.Server
     {
         public SiteMenuElement Get(long siteId)
         {
-            if (!HasAvailableCache(siteId))
+            if (siteId == 0)
             {
-                var data = Data(siteId);
-                Add(siteId, new SiteMenuElement(
-                    data["TenantId"].ToInt(),
-                    siteId,
-                    data["ReferenceType"].ToString(),
-                    data["ParentId"].ToLong(),
-                    data["Title"].ToString()));
+                return null;
             }
-            return this[siteId];
+            else
+            {
+                if (!HasAvailableCache(siteId))
+                {
+                    var data = Data(siteId);
+                    Add(siteId, new SiteMenuElement(
+                        data["TenantId"].ToInt(),
+                        siteId,
+                        data["ReferenceType"].ToString(),
+                        data["ParentId"].ToLong(),
+                        data["Title"].ToString()));
+                }
+                return this[siteId];
+            }
         }
 
         public IEnumerable<SiteMenuElement> Breadcrumb(long siteId)
         {
-            var current = Get(siteId);
-            yield return current;
-            while (current.ParentId != 0)
+            var ret = new List<SiteMenuElement>();
+            if (siteId != 0)
             {
-                current = Get(current.ParentId);
-                yield return current;
+                var current = Get(siteId);
+                ret.Add(current);
+                while (current.ParentId != 0)
+                {
+                    current = Get(current.ParentId);
+                    ret.Add(current);
+                }
+                ret.Reverse();
             }
+            return ret;
         }
 
         private bool HasAvailableCache(long siteId)
         {
             return
                 !BackgroundTasks.Disabled() &&
-                !ContainsKey(siteId) &&
+                ContainsKey(siteId) &&
                 (DateTime.Now - this[siteId].CreatedTime).Milliseconds <
                     Parameters.Cache.SiteMenuAvailableTime;
         }
