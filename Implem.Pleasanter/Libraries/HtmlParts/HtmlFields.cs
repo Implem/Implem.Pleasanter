@@ -152,6 +152,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelText: column.LabelText,
                                 text: value,
                                 placeholder: column.LabelText,
+                                readOnly: column.EditorReadOnly.ToBool(),
                                 attributes: attributes);
                         case ControlTypes.TextBox:
                             return hb.FieldTextBox(
@@ -501,6 +502,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelText = "",
             string text = "",
             string placeholder = "",
+            bool readOnly = false,
             Dictionary<string, string> attributes = null,
             bool _using = true)
         {
@@ -518,6 +520,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlCss: controlCss,
                             text: text,
                             placeholder: placeholder,
+                            readOnly: readOnly,
                             attributes: attributes))
                 : hb;
         }

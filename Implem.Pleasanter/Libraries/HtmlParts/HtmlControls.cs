@@ -77,6 +77,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlCss = "",
             string text = "",
             string placeholder = "",
+            bool readOnly = false,
             Dictionary<string, string> attributes = null,
             bool _using = true)
         {
@@ -85,11 +86,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Div(attributes: new HtmlAttributes()
                         .Id_Css(controlId + ".viewer", "control-markup")
                         .OnDblClick(Def.JavaScript.EditMarkDown))
-                    .Div(attributes: new HtmlAttributes()
-                        .Id_Css(
-                            controlId + ".edit",
-                            "ui-icon ui-icon-pencil button-edit-markdown")
-                        .OnClick(Def.JavaScript.EditMarkDown))
+                    .Div(
+                        attributes: new HtmlAttributes()
+                            .Id_Css(
+                                controlId + ".edit",
+                                "ui-icon ui-icon-pencil button-edit-markdown")
+                            .OnClick(Def.JavaScript.EditMarkDown),
+                        _using: !readOnly)
                     .TextArea(
                         attributes: new HtmlAttributes()
                             .Id_Css(
@@ -97,6 +100,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 Css.Class("control-markdown upload-image", controlCss))
                             .Placeholder(placeholder)
                             .Add(attributes),
+                        _using: !readOnly,
                         action: () => hb
                             .Text(text: text))
                 : hb;

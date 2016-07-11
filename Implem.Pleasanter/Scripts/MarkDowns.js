@@ -115,9 +115,12 @@ function getGeneralId($self) {
 
 function switchControlMode($self, toEdit) {
     var id = getGeneralId($self);
-    $('[id="' + id + '.viewer"]').toggle(!toEdit);
-    $('[id="' + id + '.edit"]').toggle(!toEdit);
-    $('[id="' + id + '"]').toggle(toEdit);
+    if ($('[id="' + id + '.edit"]').length !== 0)
+    {
+        $('[id="' + id + '.viewer"]').toggle(!toEdit);
+        $('[id="' + id + '.edit"]').toggle(!toEdit);
+        $('[id="' + id + '"]').toggle(toEdit);
+    }
 }
 
 function joinParagraphNumber(paragraphType, paragraphsNumber, paragraphLevel) {
