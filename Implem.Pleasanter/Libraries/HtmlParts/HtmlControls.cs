@@ -100,7 +100,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 Css.Class("control-markdown upload-image", controlCss))
                             .Placeholder(placeholder)
                             .Add(attributes),
-                        _using: !readOnly,
                         action: () => hb
                             .Text(text: text))
                 : hb;
