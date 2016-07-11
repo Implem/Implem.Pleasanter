@@ -113,13 +113,13 @@ function getGeneralId($self) {
         : controlId.substring(0, controlId.indexOf('.'));
 }
 
-function switchControlMode($self, toEdit) {
+function switchControlMode($self, edit) {
     var id = getGeneralId($self);
     if ($('[id="' + id + '.editor"]').length !== 0)
     {
-        $('[id="' + id + '.viewer"]').toggle(!toEdit);
-        $('[id="' + id + '.editor"]').toggle(!toEdit);
-        $('[id="' + id + '"]').toggle(toEdit);
+        $('[id="' + id + '.viewer"]').toggle(!edit);
+        $('[id="' + id + '.editor"]').toggle(!edit);
+        $('[id="' + id + '"]').toggle(edit);
     }
 }
 
