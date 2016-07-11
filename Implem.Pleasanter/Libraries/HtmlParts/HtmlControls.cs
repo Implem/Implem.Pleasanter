@@ -89,7 +89,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Div(
                         attributes: new HtmlAttributes()
                             .Id_Css(
-                                controlId + ".edit",
+                                controlId + ".editor",
                                 "ui-icon ui-icon-pencil button-edit-markdown")
                             .OnClick(Def.JavaScript.EditMarkDown),
                         _using: !readOnly)

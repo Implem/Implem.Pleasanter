@@ -115,10 +115,10 @@ function getGeneralId($self) {
 
 function switchControlMode($self, toEdit) {
     var id = getGeneralId($self);
-    if ($('[id="' + id + '.edit"]').length !== 0)
+    if ($('[id="' + id + '.editor"]').length !== 0)
     {
         $('[id="' + id + '.viewer"]').toggle(!toEdit);
-        $('[id="' + id + '.edit"]').toggle(!toEdit);
+        $('[id="' + id + '.editor"]').toggle(!toEdit);
         $('[id="' + id + '"]').toggle(toEdit);
     }
 }
