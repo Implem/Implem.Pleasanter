@@ -11,7 +11,6 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
         {
             CreateEachTable(target);
             CreateNotRepeat(target);
-            VisualStudioProject.Update();
         }
 
         private static void CreateEachTable(string target)

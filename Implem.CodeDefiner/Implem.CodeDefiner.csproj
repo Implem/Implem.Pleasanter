@@ -84,7 +84,6 @@
     <Compile Include="Functions\AspNetMvc\CSharp\Parts\Join.cs" />
     <Compile Include="Functions\AspNetMvc\CSharp\Parts\Table.cs" />
     <Compile Include="Functions\AspNetMvc\CSharp\Parts\Display.cs" />
-    <Compile Include="Functions\AspNetMvc\CSharp\Parts\VisualStudioProject.cs" />
     <Compile Include="Functions\SqlServer\Parts\ColumnSize.cs" />
     <Compile Include="Functions\SqlServer\Parts\Constraints.cs" />
     <Compile Include="Functions\SqlServer\Parts\Columns.cs" />
