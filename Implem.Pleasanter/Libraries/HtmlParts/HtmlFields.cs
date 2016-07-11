@@ -282,7 +282,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     case Types.CsBool:
                         return ControlTypes.CheckBox;
                     default:
-                        return ControlTypes.Text;
+                        return column.MarkDown
+                            ? ControlTypes.MarkDown
+                            : ControlTypes.Text;
                 }
             }
             switch (column.ControlType)
