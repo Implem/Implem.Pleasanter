@@ -464,13 +464,13 @@ namespace Implem.Pleasanter.Models
             VerType =  Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
-            SwitchTargets = BinariesUtility.GetSwitchTargets(SiteSettings);
+            SwitchTargets = BinaryUtilities.GetSwitchTargets(SiteSettings);
             return Editor();
         }
 
         public string Previous()
         {
-            var switchTargets = BinariesUtility.GetSwitchTargets(SiteSettings);
+            var switchTargets = BinaryUtilities.GetSwitchTargets(SiteSettings);
             var binaryModel = new BinaryModel(
                 siteSettings: SiteSettings,
                 permissionType: PermissionType,
@@ -481,7 +481,7 @@ namespace Implem.Pleasanter.Models
 
         public string Next()
         {
-            var switchTargets = BinariesUtility.GetSwitchTargets(SiteSettings);
+            var switchTargets = BinaryUtilities.GetSwitchTargets(SiteSettings);
             var binaryModel = new BinaryModel(
                 siteSettings: SiteSettings,
                 permissionType: PermissionType,
@@ -492,7 +492,7 @@ namespace Implem.Pleasanter.Models
 
         public string Reload()
         {
-            SwitchTargets = BinariesUtility.GetSwitchTargets(SiteSettings);
+            SwitchTargets = BinaryUtilities.GetSwitchTargets(SiteSettings);
             return RecordResponse(this, pushState: false);
         }
 
@@ -505,8 +505,8 @@ namespace Implem.Pleasanter.Models
                 .Html(
                     "#MainContainer",
                     binaryModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? BinariesUtility.Editor(binaryModel)
-                        : BinariesUtility.Editor(this))
+                        ? BinaryUtilities.Editor(binaryModel)
+                        : BinaryUtilities.Editor(this))
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -600,7 +600,7 @@ namespace Implem.Pleasanter.Models
         private string Editor()
         {
             return new BinariesResponseCollection(this)
-                .Html("#MainContainer", BinariesUtility.Editor(this))
+                .Html("#MainContainer", BinaryUtilities.Editor(this))
                 .ToJson();
         }
 

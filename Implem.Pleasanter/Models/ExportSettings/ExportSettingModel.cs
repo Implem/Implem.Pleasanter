@@ -362,7 +362,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void OnUpdatedOrCreated(ref ExportSettingsResponseCollection responseCollection)
         {
-            var exportSettingsCollection = ExportSettingsUtility
+            var exportSettingsCollection = ExportSettingUtilities
                 .Collection(ReferenceType, ReferenceId);
             responseCollection
                 .Html(
@@ -496,13 +496,13 @@ namespace Implem.Pleasanter.Models
             VerType =  Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
-            SwitchTargets = ExportSettingsUtility.GetSwitchTargets(SiteSettings);
+            SwitchTargets = ExportSettingUtilities.GetSwitchTargets(SiteSettings);
             return Editor();
         }
 
         public string Previous()
         {
-            var switchTargets = ExportSettingsUtility.GetSwitchTargets(SiteSettings);
+            var switchTargets = ExportSettingUtilities.GetSwitchTargets(SiteSettings);
             var exportSettingModel = new ExportSettingModel(
                 siteSettings: SiteSettings,
                 permissionType: PermissionType,
@@ -513,7 +513,7 @@ namespace Implem.Pleasanter.Models
 
         public string Next()
         {
-            var switchTargets = ExportSettingsUtility.GetSwitchTargets(SiteSettings);
+            var switchTargets = ExportSettingUtilities.GetSwitchTargets(SiteSettings);
             var exportSettingModel = new ExportSettingModel(
                 siteSettings: SiteSettings,
                 permissionType: PermissionType,
@@ -524,7 +524,7 @@ namespace Implem.Pleasanter.Models
 
         public string Reload()
         {
-            SwitchTargets = ExportSettingsUtility.GetSwitchTargets(SiteSettings);
+            SwitchTargets = ExportSettingUtilities.GetSwitchTargets(SiteSettings);
             return RecordResponse(this, pushState: false);
         }
 
@@ -537,8 +537,8 @@ namespace Implem.Pleasanter.Models
                 .Html(
                     "#MainContainer",
                     exportSettingModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? ExportSettingsUtility.Editor(exportSettingModel)
-                        : ExportSettingsUtility.Editor(this))
+                        ? ExportSettingUtilities.Editor(exportSettingModel)
+                        : ExportSettingUtilities.Editor(this))
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -623,7 +623,7 @@ namespace Implem.Pleasanter.Models
         private string Editor()
         {
             return new ExportSettingsResponseCollection(this)
-                .Html("#MainContainer", ExportSettingsUtility.Editor(this))
+                .Html("#MainContainer", ExportSettingUtilities.Editor(this))
                 .ToJson();
         }
 
@@ -694,7 +694,7 @@ namespace Implem.Pleasanter.Models
                 Forms.Data("ControlId"),
                 Forms.Data("ExportSettings_Columns")?.Split(';'),
                 GetSiteSettings());
-            ExportSettingsUtility.SetSessions(this);
+            ExportSettingUtilities.SetSessions(this);
             return responseCollection.ToJson();
         }
 

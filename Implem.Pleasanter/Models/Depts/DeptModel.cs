@@ -434,13 +434,13 @@ namespace Implem.Pleasanter.Models
             VerType =  Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
-            SwitchTargets = DeptsUtility.GetSwitchTargets(SiteSettings);
+            SwitchTargets = DeptUtilities.GetSwitchTargets(SiteSettings);
             return Editor();
         }
 
         public string Previous()
         {
-            var switchTargets = DeptsUtility.GetSwitchTargets(SiteSettings);
+            var switchTargets = DeptUtilities.GetSwitchTargets(SiteSettings);
             var deptModel = new DeptModel(
                 siteSettings: SiteSettings,
                 permissionType: PermissionType,
@@ -451,7 +451,7 @@ namespace Implem.Pleasanter.Models
 
         public string Next()
         {
-            var switchTargets = DeptsUtility.GetSwitchTargets(SiteSettings);
+            var switchTargets = DeptUtilities.GetSwitchTargets(SiteSettings);
             var deptModel = new DeptModel(
                 siteSettings: SiteSettings,
                 permissionType: PermissionType,
@@ -462,7 +462,7 @@ namespace Implem.Pleasanter.Models
 
         public string Reload()
         {
-            SwitchTargets = DeptsUtility.GetSwitchTargets(SiteSettings);
+            SwitchTargets = DeptUtilities.GetSwitchTargets(SiteSettings);
             return RecordResponse(this, pushState: false);
         }
 
@@ -475,8 +475,8 @@ namespace Implem.Pleasanter.Models
                 .Html(
                     "#MainContainer",
                     deptModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? DeptsUtility.Editor(deptModel)
-                        : DeptsUtility.Editor(this))
+                        ? DeptUtilities.Editor(deptModel)
+                        : DeptUtilities.Editor(this))
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -558,7 +558,7 @@ namespace Implem.Pleasanter.Models
         private string Editor()
         {
             return new DeptsResponseCollection(this)
-                .Html("#MainContainer", DeptsUtility.Editor(this))
+                .Html("#MainContainer", DeptUtilities.Editor(this))
                 .ToJson();
         }
 

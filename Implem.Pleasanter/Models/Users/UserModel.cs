@@ -582,13 +582,13 @@ namespace Implem.Pleasanter.Models
             VerType =  Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
-            SwitchTargets = UsersUtility.GetSwitchTargets(SiteSettings);
+            SwitchTargets = UserUtilities.GetSwitchTargets(SiteSettings);
             return Editor();
         }
 
         public string Previous()
         {
-            var switchTargets = UsersUtility.GetSwitchTargets(SiteSettings);
+            var switchTargets = UserUtilities.GetSwitchTargets(SiteSettings);
             var userModel = new UserModel(
                 siteSettings: SiteSettings,
                 permissionType: PermissionType,
@@ -599,7 +599,7 @@ namespace Implem.Pleasanter.Models
 
         public string Next()
         {
-            var switchTargets = UsersUtility.GetSwitchTargets(SiteSettings);
+            var switchTargets = UserUtilities.GetSwitchTargets(SiteSettings);
             var userModel = new UserModel(
                 siteSettings: SiteSettings,
                 permissionType: PermissionType,
@@ -610,7 +610,7 @@ namespace Implem.Pleasanter.Models
 
         public string Reload()
         {
-            SwitchTargets = UsersUtility.GetSwitchTargets(SiteSettings);
+            SwitchTargets = UserUtilities.GetSwitchTargets(SiteSettings);
             return RecordResponse(this, pushState: false);
         }
 
@@ -623,8 +623,8 @@ namespace Implem.Pleasanter.Models
                 .Html(
                     "#MainContainer",
                     userModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? UsersUtility.Editor(userModel)
-                        : UsersUtility.Editor(this))
+                        ? UserUtilities.Editor(userModel)
+                        : UserUtilities.Editor(this))
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -747,7 +747,7 @@ namespace Implem.Pleasanter.Models
         private string Editor()
         {
             return new UsersResponseCollection(this)
-                .Html("#MainContainer", UsersUtility.Editor(this))
+                .Html("#MainContainer", UserUtilities.Editor(this))
                 .ToJson();
         }
 

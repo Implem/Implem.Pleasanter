@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.Controllers
         public string Edit(string reference, long id)
         {
             var log = new SysLogModel();
-            var json = OutgoingMailsUtility.Editor(reference, id);
+            var json = OutgoingMailUtilities.Editor(reference, id);
             log.Finish(json.Length);
             return json;
         }
@@ -19,7 +19,7 @@ namespace Implem.Pleasanter.Controllers
         public string Reply(string reference, long id)
         {
             var log = new SysLogModel();
-            var json = OutgoingMailsUtility.Editor(reference, id);
+            var json = OutgoingMailUtilities.Editor(reference, id);
             log.Finish(json.Length);
             return json;
         }

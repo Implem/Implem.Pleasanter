@@ -19,7 +19,7 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
-    public static class ItemsUtility
+    public static class ItemUtilities
     {
         public static ResponseCollection FormResponse(
             this ResponseCollection responseCollection, ItemModel itemModel)

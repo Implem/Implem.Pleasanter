@@ -19,7 +19,7 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
-    public static class WikisUtility
+    public static class WikiUtilities
     {
         /// <summary>
         /// Fixed:
@@ -265,7 +265,7 @@ namespace Implem.Pleasanter.Models
                 wikiId: wikiId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
-            wikiModel.SwitchTargets = WikisUtility.GetSwitchTargets(
+            wikiModel.SwitchTargets = WikiUtilities.GetSwitchTargets(
                 siteSettings, wikiModel.SiteId);
             return Editor(siteModel, wikiModel);
         }

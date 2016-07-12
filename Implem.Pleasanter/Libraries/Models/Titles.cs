@@ -9,9 +9,9 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             switch (siteSettings.ReferenceType)
             {
-                case "Issues": return IssuesUtility.TitleDisplayValue(siteSettings, dataRow);
-                case "Results": return ResultsUtility.TitleDisplayValue(siteSettings, dataRow);
-                case "Wikis": return WikisUtility.TitleDisplayValue(siteSettings, dataRow);
+                case "Issues": return IssueUtilities.TitleDisplayValue(siteSettings, dataRow);
+                case "Results": return ResultUtilities.TitleDisplayValue(siteSettings, dataRow);
+                case "Wikis": return WikiUtilities.TitleDisplayValue(siteSettings, dataRow);
                 default: return string.Empty;
             }
         }

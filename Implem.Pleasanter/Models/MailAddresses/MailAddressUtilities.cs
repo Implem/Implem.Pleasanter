@@ -19,7 +19,7 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
-    public static class MailAddressesUtility
+    public static class MailAddressUtilities
     {
         public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
         {
@@ -297,7 +297,7 @@ namespace Implem.Pleasanter.Models
                 mailAddressId: mailAddressId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
-            mailAddressModel.SwitchTargets = MailAddressesUtility.GetSwitchTargets(
+            mailAddressModel.SwitchTargets = MailAddressUtilities.GetSwitchTargets(
                 SiteSettingsUtility.MailAddressesSiteSettings());
             return Editor(mailAddressModel);
         }

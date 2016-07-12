@@ -49,7 +49,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static LinkCollection Destinations(long linkId)
         {
             return new LinkCollection(
-                join: LinksUtility.JoinByDestination(),
+                join: LinkUtilities.JoinByDestination(),
                 where: Rds.LinksWhere().SourceId(linkId));
         }
 

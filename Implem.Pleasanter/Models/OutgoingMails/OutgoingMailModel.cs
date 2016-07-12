@@ -453,13 +453,13 @@ namespace Implem.Pleasanter.Models
             VerType =  Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
-            SwitchTargets = OutgoingMailsUtility.GetSwitchTargets(SiteSettings);
+            SwitchTargets = OutgoingMailUtilities.GetSwitchTargets(SiteSettings);
             return Editor();
         }
 
         public string Previous()
         {
-            var switchTargets = OutgoingMailsUtility.GetSwitchTargets(SiteSettings);
+            var switchTargets = OutgoingMailUtilities.GetSwitchTargets(SiteSettings);
             var outgoingMailModel = new OutgoingMailModel(
                 outgoingMailId: switchTargets.Previous(OutgoingMailId),
                 switchTargets: switchTargets);
@@ -468,7 +468,7 @@ namespace Implem.Pleasanter.Models
 
         public string Next()
         {
-            var switchTargets = OutgoingMailsUtility.GetSwitchTargets(SiteSettings);
+            var switchTargets = OutgoingMailUtilities.GetSwitchTargets(SiteSettings);
             var outgoingMailModel = new OutgoingMailModel(
                 outgoingMailId: switchTargets.Next(OutgoingMailId),
                 switchTargets: switchTargets);
@@ -477,7 +477,7 @@ namespace Implem.Pleasanter.Models
 
         public string Reload()
         {
-            SwitchTargets = OutgoingMailsUtility.GetSwitchTargets(SiteSettings);
+            SwitchTargets = OutgoingMailUtilities.GetSwitchTargets(SiteSettings);
             return RecordResponse(this, pushState: false);
         }
 
@@ -490,8 +490,8 @@ namespace Implem.Pleasanter.Models
                 .Html(
                     "#MainContainer",
                     outgoingMailModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? OutgoingMailsUtility.Editor(outgoingMailModel)
-                        : OutgoingMailsUtility.Editor(this))
+                        ? OutgoingMailUtilities.Editor(outgoingMailModel)
+                        : OutgoingMailUtilities.Editor(this))
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -584,7 +584,7 @@ namespace Implem.Pleasanter.Models
         private string Editor()
         {
             return new OutgoingMailsResponseCollection(this)
-                .Html("#MainContainer", OutgoingMailsUtility.Editor(this))
+                .Html("#MainContainer", OutgoingMailUtilities.Editor(this))
                 .ToJson();
         }
 
@@ -619,7 +619,7 @@ namespace Implem.Pleasanter.Models
             ReferenceVer = Forms.Int("Ver");
             From = new System.Net.Mail.MailAddress("\"{0}\" <{1}>".Params(
                 Sessions.User().FullName,
-                OutgoingMailsUtility.FromMailAddress()));
+                OutgoingMailUtilities.FromMailAddress()));
             SetByForm();
         }
 
@@ -633,9 +633,9 @@ namespace Implem.Pleasanter.Models
             return new OutgoingMailsResponseCollection(this)
                 .Html("#OutgoingMails_MailAddresses",
                     new HtmlBuilder().SelectableItems(
-                        listItemCollection: OutgoingMailsUtility.Destinations(
+                        listItemCollection: OutgoingMailUtilities.Destinations(
                             referenceId: siteModel.InheritPermission,
-                            addressBook: OutgoingMailsUtility.AddressBook(siteSettings),
+                            addressBook: OutgoingMailUtilities.AddressBook(siteSettings),
                             searchRange: DestinationSearchRange,
                             searchText: DestinationSearchText),
                         selectedValueTextCollection: new List<string>())).ToJson();

@@ -219,12 +219,12 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ItemsWhere().ReferenceId(SiteId),
                         param: Rds.ItemsParam()
                             .SiteId(SiteId)
-                            .Title(SitesUtility.TitleDisplayValue(SiteSettings, this))
+                            .Title(SiteUtilities.TitleDisplayValue(SiteSettings, this))
                             .Subset(Jsons.ToJson(new SiteSubset(this, SiteSettings)))
                             .MaintenanceTarget(true)),
                     Rds.PhysicalDeleteLinks(
                         where: Rds.LinksWhere().SourceId(SiteId)),
-                    LinksUtility.Insert(SiteSettings.LinkColumnSiteIdHash
+                    LinkUtilities.Insert(SiteSettings.LinkColumnSiteIdHash
                         .Select(o => o.Value)
                         .Distinct()
                         .ToDictionary(o => o, o => SiteId)),
@@ -468,13 +468,13 @@ namespace Implem.Pleasanter.Models
             VerType =  Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
-            SwitchTargets = SitesUtility.GetSwitchTargets(SiteSettings, SiteId);
+            SwitchTargets = SiteUtilities.GetSwitchTargets(SiteSettings, SiteId);
             return Editor();
         }
 
         public string Previous()
         {
-            var switchTargets = SitesUtility.GetSwitchTargets(SiteSettings, SiteId);
+            var switchTargets = SiteUtilities.GetSwitchTargets(SiteSettings, SiteId);
             var siteModel = new SiteModel(
                 siteId: switchTargets.Previous(SiteId),
                 switchTargets: switchTargets);
@@ -483,7 +483,7 @@ namespace Implem.Pleasanter.Models
 
         public string Next()
         {
-            var switchTargets = SitesUtility.GetSwitchTargets(SiteSettings, SiteId);
+            var switchTargets = SiteUtilities.GetSwitchTargets(SiteSettings, SiteId);
             var siteModel = new SiteModel(
                 siteId: switchTargets.Next(SiteId),
                 switchTargets: switchTargets);
@@ -492,7 +492,7 @@ namespace Implem.Pleasanter.Models
 
         public string Reload()
         {
-            SwitchTargets = SitesUtility.GetSwitchTargets(SiteSettings, SiteId);
+            SwitchTargets = SiteUtilities.GetSwitchTargets(SiteSettings, SiteId);
             return RecordResponse(this, pushState: false);
         }
 
@@ -505,8 +505,8 @@ namespace Implem.Pleasanter.Models
                 .Html(
                     "#MainContainer",
                     siteModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? SitesUtility.Editor(siteModel)
-                        : SitesUtility.Editor(this))
+                        ? SiteUtilities.Editor(siteModel)
+                        : SiteUtilities.Editor(this))
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -592,14 +592,14 @@ namespace Implem.Pleasanter.Models
             }
             if (SiteSettings != null)
             {
-                Title.DisplayValue = SitesUtility.TitleDisplayValue(SiteSettings, this);
+                Title.DisplayValue = SiteUtilities.TitleDisplayValue(SiteSettings, this);
             }
         }
 
         private string Editor()
         {
             return new SitesResponseCollection(this)
-                .Html("#MainContainer", SitesUtility.Editor(this))
+                .Html("#MainContainer", SiteUtilities.Editor(this))
                 .ToJson();
         }
 
@@ -844,7 +844,7 @@ namespace Implem.Pleasanter.Models
                 {
                     responseCollection.Html(
                         "#Dialog_ColumnProperties",
-                        SitesUtility.ColumnProperties(SiteSettings, column));
+                        SiteUtilities.ColumnProperties(SiteSettings, column));
                 }
             }
         }

@@ -406,13 +406,13 @@ namespace Implem.Pleasanter.Models
             VerType =  Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
-            SwitchTargets = TenantsUtility.GetSwitchTargets(SiteSettings);
+            SwitchTargets = TenantUtilities.GetSwitchTargets(SiteSettings);
             return Editor();
         }
 
         public string Previous()
         {
-            var switchTargets = TenantsUtility.GetSwitchTargets(SiteSettings);
+            var switchTargets = TenantUtilities.GetSwitchTargets(SiteSettings);
             var tenantModel = new TenantModel(
                 siteSettings: SiteSettings,
                 permissionType: PermissionType,
@@ -423,7 +423,7 @@ namespace Implem.Pleasanter.Models
 
         public string Next()
         {
-            var switchTargets = TenantsUtility.GetSwitchTargets(SiteSettings);
+            var switchTargets = TenantUtilities.GetSwitchTargets(SiteSettings);
             var tenantModel = new TenantModel(
                 siteSettings: SiteSettings,
                 permissionType: PermissionType,
@@ -434,7 +434,7 @@ namespace Implem.Pleasanter.Models
 
         public string Reload()
         {
-            SwitchTargets = TenantsUtility.GetSwitchTargets(SiteSettings);
+            SwitchTargets = TenantUtilities.GetSwitchTargets(SiteSettings);
             return RecordResponse(this, pushState: false);
         }
 
@@ -447,8 +447,8 @@ namespace Implem.Pleasanter.Models
                 .Html(
                     "#MainContainer",
                     tenantModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? TenantsUtility.Editor(tenantModel)
-                        : TenantsUtility.Editor(this))
+                        ? TenantUtilities.Editor(tenantModel)
+                        : TenantUtilities.Editor(this))
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -527,7 +527,7 @@ namespace Implem.Pleasanter.Models
         private string Editor()
         {
             return new TenantsResponseCollection(this)
-                .Html("#MainContainer", TenantsUtility.Editor(this))
+                .Html("#MainContainer", TenantUtilities.Editor(this))
                 .ToJson();
         }
 

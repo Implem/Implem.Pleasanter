@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Index()
         {
             var log = new SysLogModel();
-            var html = UsersUtility.Index(
+            var html = UserUtilities.Index(
                 SiteSettingsUtility.UsersSiteSettings(),
                 Permissions.Admins());
             ViewBag.HtmlBody = html;
@@ -27,7 +27,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult New(long id = 0)
         {
             var log = new SysLogModel();
-            var html = UsersUtility.EditorNew();
+            var html = UserUtilities.EditorNew();
             ViewBag.HtmlBody = html;
             log.Finish(html.Length);
             return View();
@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Edit(int id)
         {
             var log = new SysLogModel();
-            var html = UsersUtility.Editor(id, clearSessions: true);
+            var html = UserUtilities.Editor(id, clearSessions: true);
             ViewBag.HtmlBody = html;
             log.Finish(html.Length);
             return View();
@@ -56,7 +56,7 @@ namespace Implem.Pleasanter.Controllers
         public string DataView()
         {
             var log = new SysLogModel();
-            var json = UsersUtility.DataView(
+            var json = UserUtilities.DataView(
                 SiteSettingsUtility.UsersSiteSettings(),
                 Permissions.Admins());
             log.Finish(json.Length);
@@ -67,7 +67,7 @@ namespace Implem.Pleasanter.Controllers
         public string GridRows()
         {
             var log = new SysLogModel();
-            var json = UsersUtility.GridRows();
+            var json = UserUtilities.GridRows();
             log.Finish(json.Length);
             return json;
         }
@@ -205,7 +205,7 @@ namespace Implem.Pleasanter.Controllers
             }
             else
             {
-                var html = UsersUtility.HtmlLogin(returnUrl);
+                var html = UserUtilities.HtmlLogin(returnUrl);
                 ViewBag.HtmlBody = html;
                 log.Finish(html.Length);
                 return View();

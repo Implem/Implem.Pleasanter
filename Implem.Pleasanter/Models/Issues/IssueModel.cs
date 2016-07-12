@@ -730,7 +730,7 @@ namespace Implem.Pleasanter.Models
             Rds.ExecuteNonQuery(statements:
                 Rds.UpdateItems(
                     param: Rds.ItemsParam()
-                        .Title(IssuesUtility.TitleDisplayValue(SiteSettings, this))
+                        .Title(IssueUtilities.TitleDisplayValue(SiteSettings, this))
                         .Subset(Jsons.ToJson(new IssueSubset(this, SiteSettings))),
                     where: Rds.ItemsWhere().ReferenceId(IssueId)));
             OnCreated();
@@ -933,7 +933,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ItemsWhere().ReferenceId(IssueId),
                         param: Rds.ItemsParam()
                             .SiteId(SiteId)
-                            .Title(IssuesUtility.TitleDisplayValue(SiteSettings, this))
+                            .Title(IssueUtilities.TitleDisplayValue(SiteSettings, this))
                             .Subset(Jsons.ToJson(new IssueSubset(this, SiteSettings)))
                             .MaintenanceTarget(true)),
                     Rds.PhysicalDeleteLinks(
@@ -988,7 +988,7 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
-            return LinksUtility.Insert(link, selectIdentity);
+            return LinkUtilities.Insert(link, selectIdentity);
         }
 
         private void OnUpdating(ref SqlParamCollection param)
@@ -1567,13 +1567,13 @@ namespace Implem.Pleasanter.Models
             VerType =  Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
-            SwitchTargets = IssuesUtility.GetSwitchTargets(SiteSettings, SiteId);
+            SwitchTargets = IssueUtilities.GetSwitchTargets(SiteSettings, SiteId);
             return Editor();
         }
 
         public string Previous()
         {
-            var switchTargets = IssuesUtility.GetSwitchTargets(SiteSettings, SiteId);
+            var switchTargets = IssueUtilities.GetSwitchTargets(SiteSettings, SiteId);
             var issueModel = new IssueModel(
                 siteSettings: SiteSettings,
                 permissionType: PermissionType,
@@ -1584,7 +1584,7 @@ namespace Implem.Pleasanter.Models
 
         public string Next()
         {
-            var switchTargets = IssuesUtility.GetSwitchTargets(SiteSettings, SiteId);
+            var switchTargets = IssueUtilities.GetSwitchTargets(SiteSettings, SiteId);
             var issueModel = new IssueModel(
                 siteSettings: SiteSettings,
                 permissionType: PermissionType,
@@ -1595,7 +1595,7 @@ namespace Implem.Pleasanter.Models
 
         public string Reload()
         {
-            SwitchTargets = IssuesUtility.GetSwitchTargets(SiteSettings, SiteId);
+            SwitchTargets = IssueUtilities.GetSwitchTargets(SiteSettings, SiteId);
             return RecordResponse(this, pushState: false);
         }
 
@@ -1609,8 +1609,8 @@ namespace Implem.Pleasanter.Models
                 .Html(
                     "#MainContainer",
                     issueModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? IssuesUtility.Editor(siteModel, issueModel)
-                        : IssuesUtility.Editor(siteModel, this))
+                        ? IssueUtilities.Editor(siteModel, issueModel)
+                        : IssueUtilities.Editor(siteModel, this))
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -2033,7 +2033,7 @@ namespace Implem.Pleasanter.Models
             }
             if (SiteSettings != null)
             {
-                Title.DisplayValue = IssuesUtility.TitleDisplayValue(SiteSettings, this);
+                Title.DisplayValue = IssueUtilities.TitleDisplayValue(SiteSettings, this);
             }
         }
 
@@ -2041,7 +2041,7 @@ namespace Implem.Pleasanter.Models
         {
             var siteModel = new SiteModel(SiteId);
             return new IssuesResponseCollection(this)
-                .Html("#MainContainer", IssuesUtility.Editor(siteModel, this))
+                .Html("#MainContainer", IssueUtilities.Editor(siteModel, this))
                 .ToJson();
         }
 

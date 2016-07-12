@@ -12,7 +12,7 @@ namespace Implem.Pleasanter.Controllers
         public string Register()
         {
             var log = new SysLogModel();
-            var json = DemosUtility.Register();
+            var json = DemoUtilities.Register();
             log.Finish(json.Length);
             return json;
         }
@@ -22,7 +22,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Login()
         {
             var log = new SysLogModel();
-            DemosUtility.Login();
+            DemoUtilities.Login();
             log.Finish();
             return Redirect(Navigations.Get());
         }

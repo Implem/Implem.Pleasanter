@@ -19,7 +19,7 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
-    public static class UsersUtility
+    public static class UserUtilities
     {
         /// <summary>
         /// Fixed:
@@ -327,7 +327,7 @@ namespace Implem.Pleasanter.Models
                 userId: userId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
-            userModel.SwitchTargets = UsersUtility.GetSwitchTargets(
+            userModel.SwitchTargets = UserUtilities.GetSwitchTargets(
                 SiteSettingsUtility.UsersSiteSettings());
             return Editor(userModel);
         }

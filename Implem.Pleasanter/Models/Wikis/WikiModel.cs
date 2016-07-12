@@ -177,7 +177,7 @@ namespace Implem.Pleasanter.Models
             Rds.ExecuteNonQuery(statements:
                 Rds.UpdateItems(
                     param: Rds.ItemsParam()
-                        .Title(WikisUtility.TitleDisplayValue(SiteSettings, this))
+                        .Title(WikiUtilities.TitleDisplayValue(SiteSettings, this))
                         .Subset(Jsons.ToJson(new WikiSubset(this, SiteSettings))),
                     where: Rds.ItemsWhere().ReferenceId(WikiId)));
             OnCreated();
@@ -242,7 +242,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ItemsWhere().ReferenceId(WikiId),
                         param: Rds.ItemsParam()
                             .SiteId(SiteId)
-                            .Title(WikisUtility.TitleDisplayValue(SiteSettings, this))
+                            .Title(WikiUtilities.TitleDisplayValue(SiteSettings, this))
                             .Subset(Jsons.ToJson(new WikiSubset(this, SiteSettings)))
                             .MaintenanceTarget(true)),
                     Rds.PhysicalDeleteLinks(
@@ -274,7 +274,7 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
-            return LinksUtility.Insert(link, selectIdentity);
+            return LinkUtilities.Insert(link, selectIdentity);
         }
 
         private void OnUpdating(ref SqlParamCollection param)
@@ -592,13 +592,13 @@ namespace Implem.Pleasanter.Models
             VerType =  Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
-            SwitchTargets = WikisUtility.GetSwitchTargets(SiteSettings, SiteId);
+            SwitchTargets = WikiUtilities.GetSwitchTargets(SiteSettings, SiteId);
             return Editor();
         }
 
         public string Previous()
         {
-            var switchTargets = WikisUtility.GetSwitchTargets(SiteSettings, SiteId);
+            var switchTargets = WikiUtilities.GetSwitchTargets(SiteSettings, SiteId);
             var wikiModel = new WikiModel(
                 siteSettings: SiteSettings,
                 permissionType: PermissionType,
@@ -609,7 +609,7 @@ namespace Implem.Pleasanter.Models
 
         public string Next()
         {
-            var switchTargets = WikisUtility.GetSwitchTargets(SiteSettings, SiteId);
+            var switchTargets = WikiUtilities.GetSwitchTargets(SiteSettings, SiteId);
             var wikiModel = new WikiModel(
                 siteSettings: SiteSettings,
                 permissionType: PermissionType,
@@ -620,7 +620,7 @@ namespace Implem.Pleasanter.Models
 
         public string Reload()
         {
-            SwitchTargets = WikisUtility.GetSwitchTargets(SiteSettings, SiteId);
+            SwitchTargets = WikiUtilities.GetSwitchTargets(SiteSettings, SiteId);
             return RecordResponse(this, pushState: false);
         }
 
@@ -634,8 +634,8 @@ namespace Implem.Pleasanter.Models
                 .Html(
                     "#MainContainer",
                     wikiModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? WikisUtility.Editor(siteModel, wikiModel)
-                        : WikisUtility.Editor(siteModel, this))
+                        ? WikiUtilities.Editor(siteModel, wikiModel)
+                        : WikiUtilities.Editor(siteModel, this))
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -728,7 +728,7 @@ namespace Implem.Pleasanter.Models
             }
             if (SiteSettings != null)
             {
-                Title.DisplayValue = WikisUtility.TitleDisplayValue(SiteSettings, this);
+                Title.DisplayValue = WikiUtilities.TitleDisplayValue(SiteSettings, this);
             }
         }
 
@@ -736,7 +736,7 @@ namespace Implem.Pleasanter.Models
         {
             var siteModel = new SiteModel(SiteId);
             return new WikisResponseCollection(this)
-                .Html("#MainContainer", WikisUtility.Editor(siteModel, this))
+                .Html("#MainContainer", WikiUtilities.Editor(siteModel, this))
                 .ToJson();
         }
 

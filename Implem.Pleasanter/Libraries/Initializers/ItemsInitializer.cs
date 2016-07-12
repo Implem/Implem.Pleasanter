@@ -106,7 +106,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .ReferenceId(issueModel.IssueId)
                                             .ReferenceType("Issues")
                                             .SiteId(issueModel.SiteId)
-                                            .Title(IssuesUtility.TitleDisplayValue(
+                                            .Title(IssueUtilities.TitleDisplayValue(
                                                 siteSettings, issueModel))
                                             .Subset(Jsons.ToJson(new IssueSubset(
                                                 issueModel, siteSettings)))),
@@ -143,7 +143,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .Ver(issueModel.Ver)
                                             .ReferenceType("Issues")
                                             .SiteId(issueModel.SiteId)
-                                            .Title(IssuesUtility.TitleDisplayValue(
+                                            .Title(IssueUtilities.TitleDisplayValue(
                                                 siteSettings, issueModel))
                                             .Subset(Jsons.ToJson(new IssueSubset(
                                                 issueModel, siteSettings))))
@@ -179,7 +179,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .ReferenceId(resultModel.ResultId)
                                             .ReferenceType("Results")
                                             .SiteId(resultModel.SiteId)
-                                            .Title(ResultsUtility.TitleDisplayValue(
+                                            .Title(ResultUtilities.TitleDisplayValue(
                                                 siteSettings, resultModel))
                                             .Subset(Jsons.ToJson(new ResultSubset(
                                                 resultModel, siteSettings)))),
@@ -216,7 +216,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .Ver(resultModel.Ver)
                                             .ReferenceType("Results")
                                             .SiteId(resultModel.SiteId)
-                                            .Title(ResultsUtility.TitleDisplayValue(
+                                            .Title(ResultUtilities.TitleDisplayValue(
                                                 siteSettings, resultModel))
                                             .Subset(Jsons.ToJson(new ResultSubset(
                                                 resultModel, siteSettings))))
@@ -252,7 +252,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .ReferenceId(wikiModel.WikiId)
                                             .ReferenceType("Wikis")
                                             .SiteId(wikiModel.SiteId)
-                                            .Title(WikisUtility.TitleDisplayValue(
+                                            .Title(WikiUtilities.TitleDisplayValue(
                                                 siteSettings, wikiModel))
                                             .Subset(Jsons.ToJson(new WikiSubset(
                                                 wikiModel, siteSettings)))),
@@ -289,7 +289,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .Ver(wikiModel.Ver)
                                             .ReferenceType("Wikis")
                                             .SiteId(wikiModel.SiteId)
-                                            .Title(WikisUtility.TitleDisplayValue(
+                                            .Title(WikiUtilities.TitleDisplayValue(
                                                 siteSettings, wikiModel))
                                             .Subset(Jsons.ToJson(new WikiSubset(
                                                 wikiModel, siteSettings))))

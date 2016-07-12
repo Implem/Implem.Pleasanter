@@ -71,7 +71,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Search()
         {
             var log = new SysLogModel();
-            var html = SearchIndexesUtility.Search();
+            var html = SearchIndexUtilities.Search();
             ViewBag.HtmlBody = html;
             log.Finish(html.Length);
             return View();
@@ -81,7 +81,7 @@ namespace Implem.Pleasanter.Controllers
         public string AjaxSearch()
         {
             var log = new SysLogModel();
-            var json = SearchIndexesUtility.AjaxSearch();
+            var json = SearchIndexUtilities.AjaxSearch();
             log.Finish(json.Length);
             return json;
         }

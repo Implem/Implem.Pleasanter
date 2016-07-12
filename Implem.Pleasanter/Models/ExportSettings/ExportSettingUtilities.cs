@@ -19,7 +19,7 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
-    public static class ExportSettingsUtility
+    public static class ExportSettingUtilities
     {
         public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
         {
@@ -299,7 +299,7 @@ namespace Implem.Pleasanter.Models
                 exportSettingId: exportSettingId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
-            exportSettingModel.SwitchTargets = ExportSettingsUtility.GetSwitchTargets(
+            exportSettingModel.SwitchTargets = ExportSettingUtilities.GetSwitchTargets(
                 SiteSettingsUtility.ExportSettingsSiteSettings());
             return Editor(exportSettingModel);
         }
@@ -514,7 +514,7 @@ namespace Implem.Pleasanter.Models
             this ResponseCollection responseCollection, string referenceType, long referenceId)
         {
             var exportSettingModel = ExportSetting(referenceType, referenceId);
-            ExportSettingsUtility.SetSessions(exportSettingModel);
+            ExportSettingUtilities.SetSessions(exportSettingModel);
             var hb = new HtmlBuilder();
             return responseCollection
                 .Html("#Dialog_ExportSettings", hb

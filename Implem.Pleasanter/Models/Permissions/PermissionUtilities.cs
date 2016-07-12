@@ -19,7 +19,7 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
-    public static class PermissionsUtility
+    public static class PermissionUtilities
     {
         public static HtmlBuilder TdValue(
             this HtmlBuilder hb, Column column, PermissionModel permissionModel)
@@ -195,10 +195,10 @@ namespace Implem.Pleasanter.Models
         private static void SetPermissionCollectionSession(SiteModel siteModel)
         {
             siteModel.Session_PermissionDestinationCollection(
-                PermissionsUtility.DestinationCollection(
+                PermissionUtilities.DestinationCollection(
                     "Sites", siteModel.SiteId));
             siteModel.Session_PermissionSourceCollection(
-                PermissionsUtility.SourceCollection(
+                PermissionUtilities.SourceCollection(
                     "Sites",
                     siteModel.SiteId,
                     Forms.Data("SearchText")));
@@ -561,7 +561,7 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "SearchText":
                         siteModel.Session_PermissionSourceCollection(
-                            PermissionsUtility.SourceCollection(
+                            PermissionUtilities.SourceCollection(
                                 "Sites",
                                 siteModel.SiteId,
                                 Forms.Data("SearchText")));

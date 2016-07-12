@@ -204,7 +204,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             IEnumerable<string> words,
             long siteId)
         {
-            var results = SearchIndexesUtility.GetIdCollection(
+            var results = SearchIndexUtilities.GetIdCollection(
                 searchIndexes: words, siteId: siteId).Join();
             if (results != string.Empty)
             {

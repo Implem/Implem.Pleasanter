@@ -409,13 +409,13 @@ namespace Implem.Pleasanter.Models
             VerType =  Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
-            SwitchTargets = MailAddressesUtility.GetSwitchTargets(SiteSettings);
+            SwitchTargets = MailAddressUtilities.GetSwitchTargets(SiteSettings);
             return Editor();
         }
 
         public string Previous()
         {
-            var switchTargets = MailAddressesUtility.GetSwitchTargets(SiteSettings);
+            var switchTargets = MailAddressUtilities.GetSwitchTargets(SiteSettings);
             var mailAddressModel = new MailAddressModel(
                 siteSettings: SiteSettings,
                 permissionType: PermissionType,
@@ -426,7 +426,7 @@ namespace Implem.Pleasanter.Models
 
         public string Next()
         {
-            var switchTargets = MailAddressesUtility.GetSwitchTargets(SiteSettings);
+            var switchTargets = MailAddressUtilities.GetSwitchTargets(SiteSettings);
             var mailAddressModel = new MailAddressModel(
                 siteSettings: SiteSettings,
                 permissionType: PermissionType,
@@ -437,7 +437,7 @@ namespace Implem.Pleasanter.Models
 
         public string Reload()
         {
-            SwitchTargets = MailAddressesUtility.GetSwitchTargets(SiteSettings);
+            SwitchTargets = MailAddressUtilities.GetSwitchTargets(SiteSettings);
             return RecordResponse(this, pushState: false);
         }
 
@@ -450,8 +450,8 @@ namespace Implem.Pleasanter.Models
                 .Html(
                     "#MainContainer",
                     mailAddressModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? MailAddressesUtility.Editor(mailAddressModel)
-                        : MailAddressesUtility.Editor(this))
+                        ? MailAddressUtilities.Editor(mailAddressModel)
+                        : MailAddressUtilities.Editor(this))
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -530,7 +530,7 @@ namespace Implem.Pleasanter.Models
         private string Editor()
         {
             return new MailAddressesResponseCollection(this)
-                .Html("#MainContainer", MailAddressesUtility.Editor(this))
+                .Html("#MainContainer", MailAddressUtilities.Editor(this))
                 .ToJson();
         }
 

@@ -19,7 +19,7 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
-    public static class LinksUtility
+    public static class LinkUtilities
     {
         public static HtmlBuilder TdValue(
             this HtmlBuilder hb, Column column, LinkModel linkModel)

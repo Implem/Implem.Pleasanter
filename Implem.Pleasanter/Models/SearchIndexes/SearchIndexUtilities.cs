@@ -19,7 +19,7 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
-    public static class SearchIndexesUtility
+    public static class SearchIndexUtilities
     {
         public static HtmlBuilder TdValue(
             this HtmlBuilder hb, Column column, SearchIndexModel searchIndexModel)

@@ -423,13 +423,13 @@ namespace Implem.Pleasanter.Models
             VerType =  Forms.Bool("Latest")
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
-            SwitchTargets = DemosUtility.GetSwitchTargets(SiteSettings);
+            SwitchTargets = DemoUtilities.GetSwitchTargets(SiteSettings);
             return Editor();
         }
 
         public string Previous()
         {
-            var switchTargets = DemosUtility.GetSwitchTargets(SiteSettings);
+            var switchTargets = DemoUtilities.GetSwitchTargets(SiteSettings);
             var demoModel = new DemoModel(
                 siteSettings: SiteSettings,
                 permissionType: PermissionType,
@@ -440,7 +440,7 @@ namespace Implem.Pleasanter.Models
 
         public string Next()
         {
-            var switchTargets = DemosUtility.GetSwitchTargets(SiteSettings);
+            var switchTargets = DemoUtilities.GetSwitchTargets(SiteSettings);
             var demoModel = new DemoModel(
                 siteSettings: SiteSettings,
                 permissionType: PermissionType,
@@ -451,7 +451,7 @@ namespace Implem.Pleasanter.Models
 
         public string Reload()
         {
-            SwitchTargets = DemosUtility.GetSwitchTargets(SiteSettings);
+            SwitchTargets = DemoUtilities.GetSwitchTargets(SiteSettings);
             return RecordResponse(this, pushState: false);
         }
 
@@ -464,8 +464,8 @@ namespace Implem.Pleasanter.Models
                 .Html(
                     "#MainContainer",
                     demoModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? DemosUtility.Editor(demoModel)
-                        : DemosUtility.Editor(this))
+                        ? DemoUtilities.Editor(demoModel)
+                        : DemoUtilities.Editor(this))
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -549,7 +549,7 @@ namespace Implem.Pleasanter.Models
         private string Editor()
         {
             return new DemosResponseCollection(this)
-                .Html("#MainContainer", DemosUtility.Editor(this))
+                .Html("#MainContainer", DemoUtilities.Editor(this))
                 .ToJson();
         }
 

@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Edit(string table, long id)
         {
             var log = new SysLogModel();
-            var html = PermissionsUtility.Editor(id);
+            var html = PermissionUtilities.Editor(id);
             ViewBag.HtmlBody = html;
             log.Finish(html.Length);
             return View();
@@ -20,7 +20,7 @@ namespace Implem.Pleasanter.Controllers
         public string ChangeInherit(string table, long id)
         {
             var log = new SysLogModel();
-            var json = PermissionsUtility.ChangeInherit(id);
+            var json = PermissionUtilities.ChangeInherit(id);
             log.Finish(json.Length);
             return json;
         }
@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Controllers
         public string Set(string table, long id)
         {
             var log = new SysLogModel();
-            var json = PermissionsUtility.Set(id);
+            var json = PermissionUtilities.Set(id);
             log.Finish(json.Length);
             return json;
         }
@@ -38,7 +38,7 @@ namespace Implem.Pleasanter.Controllers
         public string Update(string table, long id)
         {
             var log = new SysLogModel();
-            var json = PermissionsUtility.Update(id);
+            var json = PermissionUtilities.Update(id);
             log.Finish(json.Length);
             return json;
         }

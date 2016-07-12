@@ -19,7 +19,7 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
-    public static class IssuesUtility
+    public static class IssueUtilities
     {
         public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
         {
@@ -626,7 +626,7 @@ namespace Implem.Pleasanter.Models
                 issueId: issueId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
-            issueModel.SwitchTargets = IssuesUtility.GetSwitchTargets(
+            issueModel.SwitchTargets = IssueUtilities.GetSwitchTargets(
                 siteSettings, issueModel.SiteId);
             return Editor(siteModel, issueModel);
         }

@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Index()
         {
             var log = new SysLogModel();
-            var html = DeptsUtility.Index(
+            var html = DeptUtilities.Index(
                 SiteSettingsUtility.DeptsSiteSettings(),
                 Permissions.Admins());
             ViewBag.HtmlBody = html;
@@ -27,7 +27,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult New(long id = 0)
         {
             var log = new SysLogModel();
-            var html = DeptsUtility.EditorNew();
+            var html = DeptUtilities.EditorNew();
             ViewBag.HtmlBody = html;
             log.Finish(html.Length);
             return View();
@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Edit(int id)
         {
             var log = new SysLogModel();
-            var html = DeptsUtility.Editor(id, clearSessions: true);
+            var html = DeptUtilities.Editor(id, clearSessions: true);
             ViewBag.HtmlBody = html;
             log.Finish(html.Length);
             return View();
@@ -56,7 +56,7 @@ namespace Implem.Pleasanter.Controllers
         public string DataView()
         {
             var log = new SysLogModel();
-            var json = DeptsUtility.DataView(
+            var json = DeptUtilities.DataView(
                 SiteSettingsUtility.DeptsSiteSettings(),
                 Permissions.Admins());
             log.Finish(json.Length);
@@ -67,7 +67,7 @@ namespace Implem.Pleasanter.Controllers
         public string GridRows()
         {
             var log = new SysLogModel();
-            var json = DeptsUtility.GridRows();
+            var json = DeptUtilities.GridRows();
             log.Finish(json.Length);
             return json;
         }

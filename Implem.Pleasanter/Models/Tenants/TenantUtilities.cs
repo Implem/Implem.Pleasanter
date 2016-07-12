@@ -19,78 +19,85 @@ using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Models
 {
-    public static class DeptsUtility
+    public static class TenantUtilities
     {
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
         {
             var hb = new HtmlBuilder();
             var formData = DataViewFilters.SessionFormData();
-            var deptCollection = DeptCollection(siteSettings, permissionType, formData);
+            var tenantCollection = TenantCollection(siteSettings, permissionType, formData);
+            var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
             return hb.Template(
-                siteId: 0,
-                referenceId: "Depts",
-                title: Displays.Depts() + " - " + Displays.List(),
+                siteId: siteSettings.SiteId,
+                referenceId: "Tenants",
+                title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
-                allowAccess: Sessions.User().TenantAdmin,
-                action: () =>
-                {
-                    hb
-                        .Form(
-                            attributes: new HtmlAttributes()
-                                .Id("DeptForm")
-                                .Action(Navigations.Action("Depts")),
-                            action: () => hb
-                                .DataViewFilters(siteSettings)
-                                .Aggregations(
+                allowAccess: permissionType.CanRead(),
+                script: Libraries.Scripts.JavaScripts.DataView(
+                    siteSettings: siteSettings,
+                    permissionType: permissionType,
+                    formData: formData,
+                    dataViewName: dataViewName),
+                userStyle: siteSettings.GridStyle,
+                userScript: siteSettings.GridScript,
+                action: () => hb
+                    .Form(
+                        attributes: new HtmlAttributes()
+                            .Id_Css("TenantsForm", "main-form")
+                            .Action(Navigations.ItemAction(siteSettings.SiteId)),
+                        action: () => hb
+                            .DataViewSelector(
+                                referenceType: "Tenants",
+                                dataViewName: dataViewName)
+                            .DataViewFilters(
+                                siteSettings: siteSettings,
+                                siteId: siteSettings.SiteId)
+                            .Aggregations(
+                                siteSettings: siteSettings,
+                                aggregations: tenantCollection.Aggregations)
+                            .Div(id: "DataViewContainer", action: () => hb
+                                .DataView(
+                                    tenantCollection: tenantCollection,
                                     siteSettings: siteSettings,
-                                    aggregations: deptCollection.Aggregations)
-                                .Div(id: "DataViewContainer", action: () => hb
-                                    .Grid(
-                                        deptCollection: deptCollection,
-                                        permissionType: permissionType,
-                                        siteSettings: siteSettings,
-                                        formData: formData))
-                                .MainCommands(
-                                    siteId: siteSettings.SiteId,
                                     permissionType: permissionType,
-                                    verType: Versions.VerTypes.Latest,
-                                    backUrl: Navigations.Index("Admins"))
-                                .Div(css: "margin-bottom")
-                                .Hidden(controlId: "TableName", value: "Depts")
-                                .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl())
-                                .Hidden(
-                                    controlId: "GridOffset",
-                                    value: Parameters.General.GridPageSize.ToString()))
-                        .Div(attributes: new HtmlAttributes()
-                            .Id_Css("Dialog_ImportSettings", "dialog")
-                            .Title(Displays.Import()))
-                        .Div(attributes: new HtmlAttributes()
-                            .Id_Css("Dialog_ExportSettings", "dialog")
-                            .Title(Displays.ExportSettings()));
-                }).ToString();
+                                    formData: formData,
+                                    dataViewName: dataViewName))
+                            .MainCommands(
+                                siteId: siteSettings.SiteId,
+                                permissionType: permissionType,
+                                verType: Versions.VerTypes.Latest,
+                                backUrl: Navigations.Index("Admins"),
+                                bulkMoveButton: true,
+                                bulkDeleteButton: true,
+                                importButton: true,
+                                exportButton: true)
+                            .Div(css: "margin-bottom")
+                            .Hidden(controlId: "TableName", value: "Tenants")
+                            .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
+                    .Dialog_Move("items", siteSettings.SiteId, bulk: true)
+                    .Div(attributes: new HtmlAttributes()
+                        .Id_Css("Dialog_ExportSettings", "dialog")
+                        .Title(Displays.ExportSettings()))).ToString();
         }
 
-        private static DeptCollection DeptCollection(
+        private static TenantCollection TenantCollection(
             SiteSettings siteSettings,
             Permissions.Types permissionType,
             FormData formData, int offset = 0)
         {
-            return new DeptCollection(
+            return new TenantCollection(
                 siteSettings: siteSettings,
                 permissionType: permissionType,
                 column: GridSqlColumnCollection(siteSettings),
                 where: DataViewFilters.Get(
                     siteSettings: siteSettings,
-                    tableName: "Depts",
+                    tableName: "Tenants",
                     formData: formData,
-                    where: Rds.DeptsWhere().TenantId(Sessions.TenantId())),
+                    where: Rds.TenantsWhere().TenantId(Sessions.TenantId())),
                 orderBy: GridSorters.Get(
-                    formData, Rds.DeptsOrderBy().UpdatedTime(SqlOrderBy.Types.desc)),
+                    formData, Rds.TenantsOrderBy().UpdatedTime(SqlOrderBy.Types.desc)),
                 offset: offset,
                 pageSize: siteSettings.GridPageSize.ToInt(),
                 countRecord: true,
@@ -99,7 +106,7 @@ namespace Implem.Pleasanter.Models
 
         public static HtmlBuilder DataView(
             this HtmlBuilder hb,
-            DeptCollection deptCollection,
+            TenantCollection tenantCollection,
             SiteSettings siteSettings,
             Permissions.Types permissionType,
             FormData formData,
@@ -108,7 +115,7 @@ namespace Implem.Pleasanter.Models
             switch (dataViewName)
             {
                 default: return hb.Grid(
-                    deptCollection: deptCollection,
+                    tenantCollection: tenantCollection,
                     siteSettings: siteSettings,
                     permissionType: permissionType,
                     formData: formData);
@@ -128,7 +135,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             SiteSettings siteSettings,
             Permissions.Types permissionType,
-            DeptCollection deptCollection,
+            TenantCollection tenantCollection,
             FormData formData)
         {
             return hb
@@ -140,11 +147,11 @@ namespace Implem.Pleasanter.Models
                     action: () => hb
                         .GridRows(
                             siteSettings: siteSettings,
-                            deptCollection: deptCollection,
+                            tenantCollection: tenantCollection,
                             formData: formData))
                 .Hidden(
                     controlId: "GridOffset",
-                    value: siteSettings.GridPageSize == deptCollection.Count()
+                    value: siteSettings.GridPageSize == tenantCollection.Count()
                         ? siteSettings.GridPageSize.ToString()
                         : "-1");
         }
@@ -152,16 +159,16 @@ namespace Implem.Pleasanter.Models
         private static string Grid(SiteSettings siteSettings, Permissions.Types permissionType)
         {
             var formData = DataViewFilters.SessionFormData();
-            var deptCollection = DeptCollection(siteSettings, permissionType, formData);
+            var tenantCollection = TenantCollection(siteSettings, permissionType, formData);
             return new ResponseCollection()
                 .Html("#DataViewContainer", new HtmlBuilder().Grid(
                     siteSettings: siteSettings,
-                    deptCollection: deptCollection,
+                    tenantCollection: tenantCollection,
                     permissionType: permissionType,
                     formData: formData))
                 .Html("#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
-                    aggregations: deptCollection.Aggregations,
+                    aggregations: tenantCollection.Aggregations,
                     container: false))
                 .WindowScrollTop().ToJson();
         }
@@ -175,7 +182,7 @@ namespace Implem.Pleasanter.Models
             Message message = null)
         {
             var formData = DataViewFilters.SessionFormData();
-            var deptCollection = DeptCollection(siteSettings, permissionType, formData, offset);
+            var tenantCollection = TenantCollection(siteSettings, permissionType, formData, offset);
             return (responseCollection ?? new ResponseCollection())
                 .Remove(".grid tr", _using: offset == 0)
                 .ClearFormData("GridCheckAll", _using: clearCheck)
@@ -184,15 +191,15 @@ namespace Implem.Pleasanter.Models
                 .Message(message)
                 .Append("#Grid", new HtmlBuilder().GridRows(
                     siteSettings: siteSettings,
-                    deptCollection: deptCollection,
+                    tenantCollection: tenantCollection,
                     formData: formData,
                     addHeader: offset == 0,
                     clearCheck: clearCheck))
                 .Html("#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
-                    aggregations: deptCollection.Aggregations,
+                    aggregations: tenantCollection.Aggregations,
                     container: false))
-                .Val("#GridOffset", siteSettings.NextPageOffset(offset, deptCollection.Count()))
+                .Val("#GridOffset", siteSettings.NextPageOffset(offset, tenantCollection.Count()))
                 .Markup()
                 .ToJson();
         }
@@ -200,7 +207,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder GridRows(
             this HtmlBuilder hb,
             SiteSettings siteSettings,
-            DeptCollection deptCollection,
+            TenantCollection tenantCollection,
             FormData formData,
             bool addHeader = true,
             bool clearCheck = false)
@@ -213,31 +220,31 @@ namespace Implem.Pleasanter.Models
                     formData: formData,
                     checkAll: checkAll);
             }
-            deptCollection.ForEach(deptModel => hb
+            tenantCollection.ForEach(tenantModel => hb
                 .Tr(
                     attributes: new HtmlAttributes()
                         .Class("grid-row")
-                        .DataId(deptModel.DeptId.ToString()),
+                        .DataId(tenantModel.TenantId.ToString()),
                     action: () =>
                     {
                         hb.Td(action: () => hb
                             .CheckBox(
                                 controlCss: "grid-check",
                                 _checked: checkAll,
-                                dataId: deptModel.DeptId.ToString()));
+                                dataId: tenantModel.TenantId.ToString()));
                         siteSettings.GridColumnCollection()
                             .ForEach(column => hb
                                 .TdValue(
                                     column: column,
-                                    deptModel: deptModel));
+                                    tenantModel: tenantModel));
                     }));
             return hb;
         }
 
         private static SqlColumnCollection GridSqlColumnCollection(SiteSettings siteSettings)
         {
-            var select = Rds.DeptsColumn()
-                .DeptId()
+            var select = Rds.TenantsColumn()
+                .TenantId()
                 .Creator()
                 .Updator();
             siteSettings.GridColumnCollection(withTitle: true).ForEach(columnGrid =>
@@ -245,13 +252,9 @@ namespace Implem.Pleasanter.Models
                 switch (columnGrid.ColumnName)
                 {
                     case "TenantId": select.TenantId(); break;
-                    case "DeptId": select.DeptId(); break;
                     case "Ver": select.Ver(); break;
-                    case "ParentDeptId": select.ParentDeptId(); break;
-                    case "ParentDept": select.ParentDept(); break;
-                    case "DeptCode": select.DeptCode(); break;
-                    case "Dept": select.Dept(); break;
-                    case "DeptName": select.DeptName(); break;
+                    case "TenantName": select.TenantName(); break;
+                    case "Title": select.Title(); break;
                     case "Body": select.Body(); break;
                     case "Comments": select.Comments(); break;
                     case "Creator": select.Creator(); break;
@@ -264,144 +267,142 @@ namespace Implem.Pleasanter.Models
         }
 
         public static HtmlBuilder TdValue(
-            this HtmlBuilder hb, Column column, DeptModel deptModel)
+            this HtmlBuilder hb, Column column, TenantModel tenantModel)
         {
             switch (column.ColumnName)
             {
-                case "DeptId": return hb.Td(column: column, value: deptModel.DeptId);
-                case "Ver": return hb.Td(column: column, value: deptModel.Ver);
-                case "ParentDept": return hb.Td(column: column, value: deptModel.ParentDept);
-                case "DeptCode": return hb.Td(column: column, value: deptModel.DeptCode);
-                case "Dept": return hb.Td(column: column, value: deptModel.Dept);
-                case "Body": return hb.Td(column: column, value: deptModel.Body);
-                case "Comments": return hb.Td(column: column, value: deptModel.Comments);
-                case "Creator": return hb.Td(column: column, value: deptModel.Creator);
-                case "Updator": return hb.Td(column: column, value: deptModel.Updator);
-                case "CreatedTime": return hb.Td(column: column, value: deptModel.CreatedTime);
-                case "UpdatedTime": return hb.Td(column: column, value: deptModel.UpdatedTime);
+                case "Ver": return hb.Td(column: column, value: tenantModel.Ver);
+                case "TenantName": return hb.Td(column: column, value: tenantModel.TenantName);
+                case "Title": return hb.Td(column: column, value: tenantModel.Title);
+                case "Body": return hb.Td(column: column, value: tenantModel.Body);
+                case "Comments": return hb.Td(column: column, value: tenantModel.Comments);
+                case "Creator": return hb.Td(column: column, value: tenantModel.Creator);
+                case "Updator": return hb.Td(column: column, value: tenantModel.Updator);
+                case "CreatedTime": return hb.Td(column: column, value: tenantModel.CreatedTime);
+                case "UpdatedTime": return hb.Td(column: column, value: tenantModel.UpdatedTime);
                 default: return hb;
             }
         }
 
         public static string EditorNew()
         {
-            return Editor(new DeptModel(
-                SiteSettingsUtility.DeptsSiteSettings(),
+            return Editor(new TenantModel(
+                SiteSettingsUtility.TenantsSiteSettings(),
                 Permissions.Admins(),
                 methodType: BaseModel.MethodTypes.New));
         }
 
-        public static string Editor(int deptId, bool clearSessions)
+        public static string Editor(int tenantId, bool clearSessions)
         {
-            var deptModel = new DeptModel(
-                SiteSettingsUtility.DeptsSiteSettings(),
+            var tenantModel = new TenantModel(
+                SiteSettingsUtility.TenantsSiteSettings(),
                 Permissions.Admins(),
-                deptId: deptId,
+                tenantId: tenantId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
-            deptModel.SwitchTargets = DeptsUtility.GetSwitchTargets(
-                SiteSettingsUtility.DeptsSiteSettings());
-            return Editor(deptModel);
+            tenantModel.SwitchTargets = TenantUtilities.GetSwitchTargets(
+                SiteSettingsUtility.TenantsSiteSettings());
+            return Editor(tenantModel);
         }
 
-        public static string Editor(DeptModel deptModel)
+        public static string Editor(TenantModel tenantModel)
         {
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
-            var siteSettings = SiteSettingsUtility.DeptsSiteSettings();
+            var siteSettings = SiteSettingsUtility.TenantsSiteSettings();
             return hb.Template(
                 siteId: 0,
-                referenceId: "Depts",
-                title: deptModel.MethodType == BaseModel.MethodTypes.New
-                    ? Displays.Depts() + " - " + Displays.New()
-                    : deptModel.Title.Value,
+                referenceId: "Tenants",
+                title: tenantModel.MethodType == BaseModel.MethodTypes.New
+                    ? Displays.Tenants() + " - " + Displays.New()
+                    : tenantModel.Title.Value,
                 permissionType: permissionType,
-                verType: deptModel.VerType,
-                methodType: deptModel.MethodType,
+                verType: tenantModel.VerType,
+                methodType: tenantModel.MethodType,
                 allowAccess:
                     permissionType.CanEditTenant() &&
-                    deptModel.AccessStatus != Databases.AccessStatuses.NotFound,
+                    tenantModel.AccessStatus != Databases.AccessStatuses.NotFound,
                 action: () =>
                 {
                     permissionType = Permissions.Types.Manager;
                     hb
                         .Editor(
-                            deptModel: deptModel,
+                            tenantModel: tenantModel,
                             permissionType: permissionType,
                             siteSettings: siteSettings)
-                        .Hidden(controlId: "TableName", value: "Depts")
-                        .Hidden(controlId: "Id", value: deptModel.DeptId.ToString());
+                        .Hidden(controlId: "TableName", value: "Tenants")
+                        .Hidden(controlId: "Id", value: tenantModel.TenantId.ToString());
                 }).ToString();
         }
 
         private static HtmlBuilder Editor(
             this HtmlBuilder hb,
-            DeptModel deptModel,
+            TenantModel tenantModel,
             Permissions.Types permissionType,
             SiteSettings siteSettings)
         {
             return hb.Div(css: "edit-form", action: () => hb
                 .Form(
                     attributes: new HtmlAttributes()
-                        .Id_Css("DeptForm", "main-form")
-                        .Action(deptModel.DeptId != 0
-                            ? Navigations.Action("Depts", deptModel.DeptId)
-                            : Navigations.Action("Depts")),
+                        .Id_Css("TenantForm", "main-form")
+                        .Action(tenantModel.TenantId != 0
+                            ? Navigations.Action("Tenants", tenantModel.TenantId)
+                            : Navigations.Action("Tenants")),
                     action: () => hb
                         .RecordHeader(
-                            id: deptModel.DeptId,
-                            baseModel: deptModel,
-                            tableName: "Depts",
-                            switchTargets: deptModel.SwitchTargets?
+                            id: tenantModel.TenantId,
+                            baseModel: tenantModel,
+                            tableName: "Tenants",
+                            switchTargets: tenantModel.SwitchTargets?
                                 .Select(o => o.ToLong()).ToList())
                         .Div(css: "edit-form-comments", action: () => hb
                             .Comments(
-                                comments: deptModel.Comments,
-                                verType: deptModel.VerType))
+                                comments: tenantModel.Comments,
+                                verType: tenantModel.VerType))
                         .Div(css: "edit-form-tabs", action: () => hb
-                            .FieldTabs(deptModel: deptModel)
+                            .FieldTabs(tenantModel: tenantModel)
                             .FieldSetGeneral(
                                 siteSettings: siteSettings,
                                 permissionType: permissionType,
-                                deptModel: deptModel)
+                                tenantModel: tenantModel)
                             .FieldSet(
                                 attributes: new HtmlAttributes()
                                     .Id("FieldSetHistories")
                                     .DataAction("Histories")
                                     .DataMethod("get"),
-                                _using: deptModel.MethodType != BaseModel.MethodTypes.New)
+                                _using: tenantModel.MethodType != BaseModel.MethodTypes.New)
                             .MainCommands(
                                 siteId: 0,
                                 permissionType: permissionType,
-                                verType: deptModel.VerType,
-                                backUrl: Navigations.Index("Depts"),
-                                referenceType: "Depts",
-                                referenceId: deptModel.DeptId,
+                                verType: tenantModel.VerType,
+                                backUrl: Navigations.Index("Tenants"),
+                                referenceType: "Tenants",
+                                referenceId: tenantModel.TenantId,
                                 updateButton: true,
                                 mailButton: true,
                                 deleteButton: true,
                                 extensions: () => hb
                                     .MainCommandExtensions(
-                                        deptModel: deptModel,
+                                        tenantModel: tenantModel,
                                         siteSettings: siteSettings)))
                         .Hidden(
                             controlId: "MethodType",
-                            value: deptModel.MethodType.ToString().ToLower())
+                            value: tenantModel.MethodType.ToString().ToLower())
                         .Hidden(
-                            controlId: "Depts_Timestamp",
+                            controlId: "Tenants_Timestamp",
                             css: "must-transport",
-                            value: deptModel.Timestamp)
+                            value: tenantModel.Timestamp)
                         .Hidden(
                             controlId: "SwitchTargets",
                             css: "must-transport",
-                            value: deptModel.SwitchTargets?.Join()))
-                .OutgoingMailsForm("Depts", deptModel.DeptId, deptModel.Ver)
-                .Dialog_Copy("Depts", deptModel.DeptId)
+                            value: tenantModel.SwitchTargets?.Join()))
+                .OutgoingMailsForm("Tenants", tenantModel.TenantId, tenantModel.Ver)
+                .Dialog_Copy("Tenants", tenantModel.TenantId)
                 .Dialog_OutgoingMail()
-                .EditorExtensions(deptModel: deptModel, siteSettings: siteSettings));
+                .EditorExtensions(tenantModel: tenantModel, siteSettings: siteSettings));
         }
 
-        private static HtmlBuilder FieldTabs(this HtmlBuilder hb, DeptModel deptModel)
+        private static HtmlBuilder FieldTabs(this HtmlBuilder hb, TenantModel tenantModel)
         {
             return hb.Ul(css: "field-tab", action: () => hb
                 .Li(action: () => hb
@@ -409,7 +410,7 @@ namespace Implem.Pleasanter.Models
                         href: "#FieldSetGeneral", 
                         text: Displays.Basic()))
                 .Li(
-                    _using: deptModel.MethodType != BaseModel.MethodTypes.New,
+                    _using: tenantModel.MethodType != BaseModel.MethodTypes.New,
                     action: () => hb
                         .A(
                             href: "#FieldSetHistories",
@@ -420,7 +421,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             SiteSettings siteSettings,
             Permissions.Types permissionType,
-            DeptModel deptModel)
+            TenantModel tenantModel)
         {
             return hb.FieldSet(id: "FieldSetGeneral", action: () =>
             {
@@ -431,22 +432,18 @@ namespace Implem.Pleasanter.Models
                     {
                         switch (column.ColumnName)
                         {
-                            case "TenantId": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.TenantId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DeptId": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.DeptId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "Ver": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.Ver.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ParentDeptId": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.ParentDeptId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DeptCode": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.DeptCode.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DeptName": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.DeptName.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "Body": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.Body.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                            case "Ver": hb.Field(siteSettings, column, tenantModel.MethodType, tenantModel.Ver.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                            case "Title": hb.Field(siteSettings, column, tenantModel.MethodType, tenantModel.Title.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                            case "Body": hb.Field(siteSettings, column, tenantModel.MethodType, tenantModel.Body.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
                         }
                     });
-                hb.VerUpCheckBox(deptModel);
+                hb.VerUpCheckBox(tenantModel);
             });
         }
 
         private static HtmlBuilder MainCommandExtensions(
             this HtmlBuilder hb,
-            DeptModel deptModel,
+            TenantModel tenantModel,
             SiteSettings siteSettings)
         {
             return hb;
@@ -454,7 +451,7 @@ namespace Implem.Pleasanter.Models
 
         private static HtmlBuilder EditorExtensions(
             this HtmlBuilder hb,
-            DeptModel deptModel,
+            TenantModel tenantModel,
             SiteSettings siteSettings)
         {
             return hb;
@@ -471,24 +468,24 @@ namespace Implem.Pleasanter.Models
                 var formData = DataViewFilters.SessionFormData();
                 switchTargets = Rds.ExecuteTable(
                     transactional: false,
-                    statements: Rds.SelectDepts(
-                        column: Rds.DeptsColumn().DeptId(),
+                    statements: Rds.SelectTenants(
+                        column: Rds.TenantsColumn().TenantId(),
                         where: DataViewFilters.Get(
                             siteSettings: siteSettings,
-                            tableName: "Depts",
+                            tableName: "Tenants",
                             formData: formData,
-                            where: Rds.DeptsWhere().TenantId(Sessions.TenantId())),
+                            where: Rds.TenantsWhere().TenantId(Sessions.TenantId())),
                         orderBy: GridSorters.Get(
-                            formData, Rds.DeptsOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
+                            formData, Rds.TenantsOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
                                 .AsEnumerable()
-                                .Select(o => o["DeptId"].ToInt())
+                                .Select(o => o["TenantId"].ToInt())
                                 .ToList();    
             }
             return switchTargets;
         }
 
         public static ResponseCollection FormResponse(
-            this ResponseCollection responseCollection, DeptModel deptModel)
+            this ResponseCollection responseCollection, TenantModel tenantModel)
         {
             Forms.All().Keys.ForEach(key =>
             {
@@ -498,21 +495,6 @@ namespace Implem.Pleasanter.Models
                 }
             });
             return responseCollection;
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string GridRows()
-        {
-            return GridRows(
-                SiteSettingsUtility.DeptsSiteSettings(),
-                Permissions.Admins(),
-                offset:
-                    Forms.Data("ControlId").StartsWith("DataViewFilters_") ||
-                    Forms.Data("ControlId").StartsWith("GridSorters_")
-                        ? 0
-                        : Forms.Int("GridOffset"));
         }
     }
 }
