@@ -266,6 +266,7 @@
     <Compile Include="Libraries\HtmlParts\HtmlVerUps.cs" />
     <Compile Include="Libraries\Images\ImageData.cs" />
     <Compile Include="Libraries\Initializers\ItemsInitializer.cs" />
+    <Compile Include="Libraries\Initializers\SitesInitializer.cs" />
     <Compile Include="Libraries\Initializers\UsersInitializer.cs" />
     <Compile Include="Libraries\Mails\Addresses.cs" />
     <Compile Include="Libraries\Models\Aggregation.cs" />
