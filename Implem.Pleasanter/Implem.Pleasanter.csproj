@@ -377,7 +377,7 @@
     <Compile Include="Models\Wikis\WikiModel.cs" />
     <Compile Include="Models\Wikis\WikiSubset.cs" />
     <Compile Include="Models\Wikis\WikiUtilities.cs" />
-    <Compile Include="Models\_BaseModel.cs" />
+    <Compile Include="Models\Shared\_BaseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\BackgroundTasks.cs" />
   </ItemGroup>
