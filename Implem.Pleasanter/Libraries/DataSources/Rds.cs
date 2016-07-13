@@ -5699,14 +5699,107 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SqlWhereCollection Tenants_CreatedTime(this SqlWhereCollection self, object value = null, string tableName = "Tenants", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[CreatedTime]" }, "CreatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static TenantsWhereCollection UpdatedTime(this TenantsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static SqlWhereCollection Tenants_UpdatedTime(this SqlWhereCollection self, object value = null, string tableName = "Tenants", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static TenantsWhereCollection TenantId_In(this TenantsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Tenants_TenantId_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static TenantsWhereCollection Ver_In(this TenantsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Tenants_Ver_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static TenantsWhereCollection Creator_In(this TenantsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Tenants_Creator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static TenantsWhereCollection Updator_In(this TenantsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Tenants_Updator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+
+        public static TenantsWhereCollection TenantId_In(
+            this TenantsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[TenantId]" },
+                    "TenantId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static TenantsWhereCollection Ver_In(
+            this TenantsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Ver]" },
+                    "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static TenantsWhereCollection Creator_In(
+            this TenantsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Creator]" },
+                    "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static TenantsWhereCollection Updator_In(
+            this TenantsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Updator]" },
+                    "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
         public static TenantsWhereCollection TenantId_Between(this TenantsWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static SqlWhereCollection Tenants_TenantId_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static TenantsWhereCollection Ver_Between(this TenantsWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
@@ -6071,16 +6164,132 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SqlWhereCollection Demos_CreatedTime(this SqlWhereCollection self, object value = null, string tableName = "Demos", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[CreatedTime]" }, "CreatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static DemosWhereCollection UpdatedTime(this DemosWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static SqlWhereCollection Demos_UpdatedTime(this SqlWhereCollection self, object value = null, string tableName = "Demos", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static DemosWhereCollection DemoId_In(this DemosWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[DemoId]" }, "DemoId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Demos_DemoId_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[DemoId]" }, "DemoId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static DemosWhereCollection Ver_In(this DemosWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Demos_Ver_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static DemosWhereCollection TenantId_In(this DemosWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Demos_TenantId_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static DemosWhereCollection Creator_In(this DemosWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Demos_Creator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static DemosWhereCollection Updator_In(this DemosWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Demos_Updator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+
+        public static DemosWhereCollection DemoId_In(
+            this DemosWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[DemoId]" },
+                    "DemoId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static DemosWhereCollection Ver_In(
+            this DemosWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Ver]" },
+                    "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static DemosWhereCollection TenantId_In(
+            this DemosWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[TenantId]" },
+                    "TenantId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static DemosWhereCollection Creator_In(
+            this DemosWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Creator]" },
+                    "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static DemosWhereCollection Updator_In(
+            this DemosWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Updator]" },
+                    "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
         public static DemosWhereCollection DemoId_Between(this DemosWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[DemoId]" }, "DemoId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static SqlWhereCollection Demos_DemoId_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[DemoId]" }, "DemoId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static DemosWhereCollection Ver_Between(this DemosWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
@@ -6596,28 +6805,282 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SqlWhereCollection SysLogs_Updator(this SqlWhereCollection self, object value = null, string tableName = "SysLogs", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Updator]" }, "Updator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static SysLogsWhereCollection UpdatedTime(this SysLogsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static SqlWhereCollection SysLogs_UpdatedTime(this SqlWhereCollection self, object value = null, string tableName = "SysLogs", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SysLogsWhereCollection SysLogId_In(this SysLogsWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[SysLogId]" }, "SysLogId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection SysLogs_SysLogId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[SysLogId]" }, "SysLogId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SysLogsWhereCollection Ver_In(this SysLogsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection SysLogs_Ver_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SysLogsWhereCollection SysLogType_In(this SysLogsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[SysLogType]" }, "SysLogType", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection SysLogs_SysLogType_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[SysLogType]" }, "SysLogType", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SysLogsWhereCollection RequestSize_In(this SysLogsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[RequestSize]" }, "RequestSize", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection SysLogs_RequestSize_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[RequestSize]" }, "RequestSize", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SysLogsWhereCollection ResponseSize_In(this SysLogsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ResponseSize]" }, "ResponseSize", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection SysLogs_ResponseSize_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ResponseSize]" }, "ResponseSize", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SysLogsWhereCollection WorkingSet64_In(this SysLogsWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[WorkingSet64]" }, "WorkingSet64", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection SysLogs_WorkingSet64_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[WorkingSet64]" }, "WorkingSet64", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SysLogsWhereCollection VirtualMemorySize64_In(this SysLogsWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[VirtualMemorySize64]" }, "VirtualMemorySize64", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection SysLogs_VirtualMemorySize64_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[VirtualMemorySize64]" }, "VirtualMemorySize64", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SysLogsWhereCollection ProcessId_In(this SysLogsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ProcessId]" }, "ProcessId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection SysLogs_ProcessId_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ProcessId]" }, "ProcessId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SysLogsWhereCollection BasePriority_In(this SysLogsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[BasePriority]" }, "BasePriority", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection SysLogs_BasePriority_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[BasePriority]" }, "BasePriority", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SysLogsWhereCollection Creator_In(this SysLogsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection SysLogs_Creator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SysLogsWhereCollection Updator_In(this SysLogsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection SysLogs_Updator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+
+        public static SysLogsWhereCollection SysLogId_In(
+            this SysLogsWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[SysLogId]" },
+                    "SysLogId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static SysLogsWhereCollection Ver_In(
+            this SysLogsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Ver]" },
+                    "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static SysLogsWhereCollection SysLogType_In(
+            this SysLogsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[SysLogType]" },
+                    "SysLogType",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static SysLogsWhereCollection RequestSize_In(
+            this SysLogsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[RequestSize]" },
+                    "RequestSize",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static SysLogsWhereCollection ResponseSize_In(
+            this SysLogsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[ResponseSize]" },
+                    "ResponseSize",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static SysLogsWhereCollection WorkingSet64_In(
+            this SysLogsWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[WorkingSet64]" },
+                    "WorkingSet64",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static SysLogsWhereCollection VirtualMemorySize64_In(
+            this SysLogsWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[VirtualMemorySize64]" },
+                    "VirtualMemorySize64",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static SysLogsWhereCollection ProcessId_In(
+            this SysLogsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[ProcessId]" },
+                    "ProcessId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static SysLogsWhereCollection BasePriority_In(
+            this SysLogsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[BasePriority]" },
+                    "BasePriority",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static SysLogsWhereCollection Creator_In(
+            this SysLogsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Creator]" },
+                    "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static SysLogsWhereCollection Updator_In(
+            this SysLogsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Updator]" },
+                    "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
         public static SysLogsWhereCollection SysLogId_Between(this SysLogsWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[SysLogId]" }, "SysLogId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static SqlWhereCollection SysLogs_SysLogId_Between(this SqlWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[SysLogId]" }, "SysLogId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static SysLogsWhereCollection Ver_Between(this SysLogsWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
@@ -7211,18 +7674,157 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SqlWhereCollection Depts_ParentDept(this SqlWhereCollection self, object value = null, string tableName = "Depts", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[ParentDeptId]" }, "ParentDept", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static DeptsWhereCollection Dept(this DeptsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[DeptId]" }, "Dept", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static SqlWhereCollection Depts_Dept(this SqlWhereCollection self, object value = null, string tableName = "Depts", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[DeptId]" }, "Dept", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static DeptsWhereCollection TenantId_In(this DeptsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Depts_TenantId_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static DeptsWhereCollection DeptId_In(this DeptsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[DeptId]" }, "DeptId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Depts_DeptId_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[DeptId]" }, "DeptId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static DeptsWhereCollection Ver_In(this DeptsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Depts_Ver_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static DeptsWhereCollection ParentDeptId_In(this DeptsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ParentDeptId]" }, "ParentDeptId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Depts_ParentDeptId_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ParentDeptId]" }, "ParentDeptId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static DeptsWhereCollection Creator_In(this DeptsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Depts_Creator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static DeptsWhereCollection Updator_In(this DeptsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Depts_Updator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+
+        public static DeptsWhereCollection TenantId_In(
+            this DeptsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[TenantId]" },
+                    "TenantId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static DeptsWhereCollection DeptId_In(
+            this DeptsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[DeptId]" },
+                    "DeptId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static DeptsWhereCollection Ver_In(
+            this DeptsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Ver]" },
+                    "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static DeptsWhereCollection ParentDeptId_In(
+            this DeptsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[ParentDeptId]" },
+                    "ParentDeptId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static DeptsWhereCollection Creator_In(
+            this DeptsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Creator]" },
+                    "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static DeptsWhereCollection Updator_In(
+            this DeptsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Updator]" },
+                    "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
         public static DeptsWhereCollection TenantId_Between(this DeptsWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static SqlWhereCollection Depts_TenantId_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static DeptsWhereCollection DeptId_Between(this DeptsWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[DeptId]" }, "DeptId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
@@ -7703,24 +8305,232 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SqlWhereCollection Users_UpdatedTime(this SqlWhereCollection self, object value = null, string tableName = "Users", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static UsersWhereCollection Dept(this UsersWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[DeptId]" }, "Dept", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static SqlWhereCollection Users_Dept(this SqlWhereCollection self, object value = null, string tableName = "Users", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[DeptId]" }, "Dept", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static UsersWhereCollection TenantId_In(this UsersWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Users_TenantId_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static UsersWhereCollection UserId_In(this UsersWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[UserId]" }, "UserId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Users_UserId_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[UserId]" }, "UserId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static UsersWhereCollection Ver_In(this UsersWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Users_Ver_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static UsersWhereCollection DeptId_In(this UsersWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[DeptId]" }, "DeptId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Users_DeptId_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[DeptId]" }, "DeptId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static UsersWhereCollection FirstAndLastNameOrder_In(this UsersWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[FirstAndLastNameOrder]" }, "FirstAndLastNameOrder", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Users_FirstAndLastNameOrder_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[FirstAndLastNameOrder]" }, "FirstAndLastNameOrder", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static UsersWhereCollection NumberOfLogins_In(this UsersWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumberOfLogins]" }, "NumberOfLogins", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Users_NumberOfLogins_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumberOfLogins]" }, "NumberOfLogins", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static UsersWhereCollection NumberOfDenial_In(this UsersWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumberOfDenial]" }, "NumberOfDenial", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Users_NumberOfDenial_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumberOfDenial]" }, "NumberOfDenial", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static UsersWhereCollection Creator_In(this UsersWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Users_Creator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static UsersWhereCollection Updator_In(this UsersWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Users_Updator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+
+        public static UsersWhereCollection TenantId_In(
+            this UsersWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[TenantId]" },
+                    "TenantId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static UsersWhereCollection UserId_In(
+            this UsersWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[UserId]" },
+                    "UserId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static UsersWhereCollection Ver_In(
+            this UsersWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Ver]" },
+                    "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static UsersWhereCollection DeptId_In(
+            this UsersWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[DeptId]" },
+                    "DeptId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static UsersWhereCollection FirstAndLastNameOrder_In(
+            this UsersWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[FirstAndLastNameOrder]" },
+                    "FirstAndLastNameOrder",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static UsersWhereCollection NumberOfLogins_In(
+            this UsersWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumberOfLogins]" },
+                    "NumberOfLogins",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static UsersWhereCollection NumberOfDenial_In(
+            this UsersWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumberOfDenial]" },
+                    "NumberOfDenial",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static UsersWhereCollection Creator_In(
+            this UsersWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Creator]" },
+                    "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static UsersWhereCollection Updator_In(
+            this UsersWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Updator]" },
+                    "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
         public static UsersWhereCollection TenantId_Between(this UsersWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static SqlWhereCollection Users_TenantId_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static UsersWhereCollection UserId_Between(this UsersWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[UserId]" }, "UserId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
@@ -8224,16 +9034,132 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SqlWhereCollection MailAddresses_CreatedTime(this SqlWhereCollection self, object value = null, string tableName = "MailAddresses", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[CreatedTime]" }, "CreatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static MailAddressesWhereCollection UpdatedTime(this MailAddressesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static SqlWhereCollection MailAddresses_UpdatedTime(this SqlWhereCollection self, object value = null, string tableName = "MailAddresses", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static MailAddressesWhereCollection OwnerId_In(this MailAddressesWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[OwnerId]" }, "OwnerId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection MailAddresses_OwnerId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[OwnerId]" }, "OwnerId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static MailAddressesWhereCollection MailAddressId_In(this MailAddressesWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[MailAddressId]" }, "MailAddressId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection MailAddresses_MailAddressId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[MailAddressId]" }, "MailAddressId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static MailAddressesWhereCollection Ver_In(this MailAddressesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection MailAddresses_Ver_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static MailAddressesWhereCollection Creator_In(this MailAddressesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection MailAddresses_Creator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static MailAddressesWhereCollection Updator_In(this MailAddressesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection MailAddresses_Updator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+
+        public static MailAddressesWhereCollection OwnerId_In(
+            this MailAddressesWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[OwnerId]" },
+                    "OwnerId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static MailAddressesWhereCollection MailAddressId_In(
+            this MailAddressesWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[MailAddressId]" },
+                    "MailAddressId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static MailAddressesWhereCollection Ver_In(
+            this MailAddressesWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Ver]" },
+                    "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static MailAddressesWhereCollection Creator_In(
+            this MailAddressesWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Creator]" },
+                    "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static MailAddressesWhereCollection Updator_In(
+            this MailAddressesWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Updator]" },
+                    "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
         public static MailAddressesWhereCollection OwnerId_Between(this MailAddressesWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[OwnerId]" }, "OwnerId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static SqlWhereCollection MailAddresses_OwnerId_Between(this SqlWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[OwnerId]" }, "OwnerId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static MailAddressesWhereCollection MailAddressId_Between(this MailAddressesWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[MailAddressId]" }, "MailAddressId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
@@ -8615,22 +9541,207 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SqlWhereCollection Permissions_FullName1(this SqlWhereCollection self, object value = null, string tableName = "Permissions", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t2].[FirstName] + ' ' + [t2].[LastName]" }, "FullName1", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static PermissionsWhereCollection FullName2(this PermissionsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t2].[LastName] + ' ' + [t2].[FirstName]" }, "FullName2", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static SqlWhereCollection Permissions_FullName2(this SqlWhereCollection self, object value = null, string tableName = "Permissions", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t2].[LastName] + ' ' + [t2].[FirstName]" }, "FullName2", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static PermissionsWhereCollection ReferenceId_In(this PermissionsWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Permissions_ReferenceId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static PermissionsWhereCollection DeptId_In(this PermissionsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[DeptId]" }, "DeptId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Permissions_DeptId_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[DeptId]" }, "DeptId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static PermissionsWhereCollection UserId_In(this PermissionsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[UserId]" }, "UserId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Permissions_UserId_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[UserId]" }, "UserId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static PermissionsWhereCollection Ver_In(this PermissionsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Permissions_Ver_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static PermissionsWhereCollection FirstAndLastNameOrder_In(this PermissionsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t2].[FirstAndLastNameOrder]" }, "FirstAndLastNameOrder", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Permissions_FirstAndLastNameOrder_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t2].[FirstAndLastNameOrder]" }, "FirstAndLastNameOrder", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static PermissionsWhereCollection PermissionType_In(this PermissionsWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[PermissionType]" }, "PermissionType", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Permissions_PermissionType_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[PermissionType]" }, "PermissionType", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static PermissionsWhereCollection Creator_In(this PermissionsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Permissions_Creator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static PermissionsWhereCollection Updator_In(this PermissionsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Permissions_Updator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+
+        public static PermissionsWhereCollection ReferenceId_In(
+            this PermissionsWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[ReferenceId]" },
+                    "ReferenceId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static PermissionsWhereCollection DeptId_In(
+            this PermissionsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[DeptId]" },
+                    "DeptId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static PermissionsWhereCollection UserId_In(
+            this PermissionsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[UserId]" },
+                    "UserId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static PermissionsWhereCollection Ver_In(
+            this PermissionsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Ver]" },
+                    "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static PermissionsWhereCollection FirstAndLastNameOrder_In(
+            this PermissionsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t2].[FirstAndLastNameOrder]" },
+                    "FirstAndLastNameOrder",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static PermissionsWhereCollection PermissionType_In(
+            this PermissionsWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[PermissionType]" },
+                    "PermissionType",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static PermissionsWhereCollection Creator_In(
+            this PermissionsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Creator]" },
+                    "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static PermissionsWhereCollection Updator_In(
+            this PermissionsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Updator]" },
+                    "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
         public static PermissionsWhereCollection ReferenceId_Between(this PermissionsWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static SqlWhereCollection Permissions_ReferenceId_Between(this SqlWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static PermissionsWhereCollection DeptId_Between(this PermissionsWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[DeptId]" }, "DeptId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
@@ -9068,20 +10179,182 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SqlWhereCollection OutgoingMails_CreatedTime(this SqlWhereCollection self, object value = null, string tableName = "OutgoingMails", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[CreatedTime]" }, "CreatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static OutgoingMailsWhereCollection UpdatedTime(this OutgoingMailsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static SqlWhereCollection OutgoingMails_UpdatedTime(this SqlWhereCollection self, object value = null, string tableName = "OutgoingMails", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static OutgoingMailsWhereCollection ReferenceId_In(this OutgoingMailsWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection OutgoingMails_ReferenceId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static OutgoingMailsWhereCollection ReferenceVer_In(this OutgoingMailsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceVer]" }, "ReferenceVer", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection OutgoingMails_ReferenceVer_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceVer]" }, "ReferenceVer", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static OutgoingMailsWhereCollection OutgoingMailId_In(this OutgoingMailsWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[OutgoingMailId]" }, "OutgoingMailId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection OutgoingMails_OutgoingMailId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[OutgoingMailId]" }, "OutgoingMailId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static OutgoingMailsWhereCollection Ver_In(this OutgoingMailsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection OutgoingMails_Ver_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static OutgoingMailsWhereCollection Port_In(this OutgoingMailsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Port]" }, "Port", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection OutgoingMails_Port_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Port]" }, "Port", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static OutgoingMailsWhereCollection Creator_In(this OutgoingMailsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection OutgoingMails_Creator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static OutgoingMailsWhereCollection Updator_In(this OutgoingMailsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection OutgoingMails_Updator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+
+        public static OutgoingMailsWhereCollection ReferenceId_In(
+            this OutgoingMailsWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[ReferenceId]" },
+                    "ReferenceId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static OutgoingMailsWhereCollection ReferenceVer_In(
+            this OutgoingMailsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[ReferenceVer]" },
+                    "ReferenceVer",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static OutgoingMailsWhereCollection OutgoingMailId_In(
+            this OutgoingMailsWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[OutgoingMailId]" },
+                    "OutgoingMailId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static OutgoingMailsWhereCollection Ver_In(
+            this OutgoingMailsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Ver]" },
+                    "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static OutgoingMailsWhereCollection Port_In(
+            this OutgoingMailsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Port]" },
+                    "Port",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static OutgoingMailsWhereCollection Creator_In(
+            this OutgoingMailsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Creator]" },
+                    "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static OutgoingMailsWhereCollection Updator_In(
+            this OutgoingMailsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Updator]" },
+                    "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
         public static OutgoingMailsWhereCollection ReferenceId_Between(this OutgoingMailsWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static SqlWhereCollection OutgoingMails_ReferenceId_Between(this SqlWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static OutgoingMailsWhereCollection ReferenceVer_Between(this OutgoingMailsWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceVer]" }, "ReferenceVer", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
@@ -9533,18 +10806,157 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SqlWhereCollection SearchIndexes_UpdatedTime(this SqlWhereCollection self, object value = null, string tableName = "SearchIndexes", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static SearchIndexesWhereCollection PermissionType(this SearchIndexesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "(select max([PermissionType]) from [Permissions] where [Permissions].[ReferenceType] = 'Sites' and [Permissions].[ReferenceId] = [t2].[InheritPermission] and (([Permissions].[UserId] = @_U and @_U <> 0) or ([Permissions].[DeptId] = @_D and @_D <> 0)))" }, "PermissionType", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static SqlWhereCollection SearchIndexes_PermissionType(this SqlWhereCollection self, object value = null, string tableName = "SearchIndexes", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "(select max([PermissionType]) from [Permissions] where [Permissions].[ReferenceType] = 'Sites' and [Permissions].[ReferenceId] = [t2].[InheritPermission] and (([Permissions].[UserId] = @_U and @_U <> 0) or ([Permissions].[DeptId] = @_D and @_D <> 0)))" }, "PermissionType", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SearchIndexesWhereCollection ReferenceId_In(this SearchIndexesWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection SearchIndexes_ReferenceId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SearchIndexesWhereCollection Ver_In(this SearchIndexesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection SearchIndexes_Ver_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SearchIndexesWhereCollection Priority_In(this SearchIndexesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Priority]" }, "Priority", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection SearchIndexes_Priority_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Priority]" }, "Priority", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SearchIndexesWhereCollection PermissionType_In(this SearchIndexesWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t2].[PermissionType]" }, "PermissionType", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection SearchIndexes_PermissionType_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t2].[PermissionType]" }, "PermissionType", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SearchIndexesWhereCollection Creator_In(this SearchIndexesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection SearchIndexes_Creator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SearchIndexesWhereCollection Updator_In(this SearchIndexesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection SearchIndexes_Updator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+
+        public static SearchIndexesWhereCollection ReferenceId_In(
+            this SearchIndexesWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[ReferenceId]" },
+                    "ReferenceId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static SearchIndexesWhereCollection Ver_In(
+            this SearchIndexesWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Ver]" },
+                    "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static SearchIndexesWhereCollection Priority_In(
+            this SearchIndexesWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Priority]" },
+                    "Priority",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static SearchIndexesWhereCollection PermissionType_In(
+            this SearchIndexesWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t2].[PermissionType]" },
+                    "PermissionType",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static SearchIndexesWhereCollection Creator_In(
+            this SearchIndexesWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Creator]" },
+                    "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static SearchIndexesWhereCollection Updator_In(
+            this SearchIndexesWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Updator]" },
+                    "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
         public static SearchIndexesWhereCollection ReferenceId_Between(this SearchIndexesWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static SqlWhereCollection SearchIndexes_ReferenceId_Between(this SqlWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static SearchIndexesWhereCollection Ver_Between(this SearchIndexesWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
@@ -9941,16 +11353,132 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SqlWhereCollection Items_CreatedTime(this SqlWhereCollection self, object value = null, string tableName = "Items", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[CreatedTime]" }, "CreatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static ItemsWhereCollection UpdatedTime(this ItemsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static SqlWhereCollection Items_UpdatedTime(this SqlWhereCollection self, object value = null, string tableName = "Items", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static ItemsWhereCollection ReferenceId_In(this ItemsWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Items_ReferenceId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ItemsWhereCollection Ver_In(this ItemsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Items_Ver_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ItemsWhereCollection SiteId_In(this ItemsWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[SiteId]" }, "SiteId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Items_SiteId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[SiteId]" }, "SiteId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ItemsWhereCollection Creator_In(this ItemsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Items_Creator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ItemsWhereCollection Updator_In(this ItemsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Items_Updator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+
+        public static ItemsWhereCollection ReferenceId_In(
+            this ItemsWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[ReferenceId]" },
+                    "ReferenceId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ItemsWhereCollection Ver_In(
+            this ItemsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Ver]" },
+                    "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ItemsWhereCollection SiteId_In(
+            this ItemsWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[SiteId]" },
+                    "SiteId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ItemsWhereCollection Creator_In(
+            this ItemsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Creator]" },
+                    "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ItemsWhereCollection Updator_In(
+            this ItemsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Updator]" },
+                    "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
         public static ItemsWhereCollection ReferenceId_Between(this ItemsWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static SqlWhereCollection Items_ReferenceId_Between(this SqlWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static ItemsWhereCollection Ver_Between(this ItemsWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
@@ -10348,22 +11876,207 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SqlWhereCollection Sites_TitleBody(this SqlWhereCollection self, object value = null, string tableName = "Sites", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[TitleBody]" }, "TitleBody", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static SitesWhereCollection PermissionType(this SitesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "(select max([PermissionType]) from [Permissions] where [Permissions].[ReferenceType] = 'Sites' and [Permissions].[ReferenceId] = [t0].[InheritPermission] and (([Permissions].[UserId] = @_U and @_U <> 0) or ([Permissions].[DeptId] = @_D and @_D <> 0)))" }, "PermissionType", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static SqlWhereCollection Sites_PermissionType(this SqlWhereCollection self, object value = null, string tableName = "Sites", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "(select max([PermissionType]) from [Permissions] where [Permissions].[ReferenceType] = 'Sites' and [Permissions].[ReferenceId] = [t0].[InheritPermission] and (([Permissions].[UserId] = @_U and @_U <> 0) or ([Permissions].[DeptId] = @_D and @_D <> 0)))" }, "PermissionType", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static SitesWhereCollection TenantId_In(this SitesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Sites_TenantId_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SitesWhereCollection SiteId_In(this SitesWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[SiteId]" }, "SiteId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Sites_SiteId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[SiteId]" }, "SiteId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SitesWhereCollection Ver_In(this SitesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Sites_Ver_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SitesWhereCollection ParentId_In(this SitesWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ParentId]" }, "ParentId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Sites_ParentId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ParentId]" }, "ParentId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SitesWhereCollection InheritPermission_In(this SitesWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[InheritPermission]" }, "InheritPermission", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Sites_InheritPermission_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[InheritPermission]" }, "InheritPermission", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SitesWhereCollection PermissionType_In(this SitesWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[PermissionType]" }, "PermissionType", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Sites_PermissionType_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[PermissionType]" }, "PermissionType", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SitesWhereCollection Creator_In(this SitesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Sites_Creator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SitesWhereCollection Updator_In(this SitesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Sites_Updator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+
+        public static SitesWhereCollection TenantId_In(
+            this SitesWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[TenantId]" },
+                    "TenantId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static SitesWhereCollection SiteId_In(
+            this SitesWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[SiteId]" },
+                    "SiteId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static SitesWhereCollection Ver_In(
+            this SitesWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Ver]" },
+                    "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static SitesWhereCollection ParentId_In(
+            this SitesWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[ParentId]" },
+                    "ParentId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static SitesWhereCollection InheritPermission_In(
+            this SitesWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[InheritPermission]" },
+                    "InheritPermission",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static SitesWhereCollection PermissionType_In(
+            this SitesWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[PermissionType]" },
+                    "PermissionType",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static SitesWhereCollection Creator_In(
+            this SitesWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Creator]" },
+                    "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static SitesWhereCollection Updator_In(
+            this SitesWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Updator]" },
+                    "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
         public static SitesWhereCollection TenantId_Between(this SitesWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static SqlWhereCollection Sites_TenantId_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static SitesWhereCollection SiteId_Between(this SitesWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[SiteId]" }, "SiteId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
@@ -10768,16 +12481,132 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SqlWhereCollection Orders_CreatedTime(this SqlWhereCollection self, object value = null, string tableName = "Orders", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[CreatedTime]" }, "CreatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static OrdersWhereCollection UpdatedTime(this OrdersWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static SqlWhereCollection Orders_UpdatedTime(this SqlWhereCollection self, object value = null, string tableName = "Orders", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static OrdersWhereCollection ReferenceId_In(this OrdersWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Orders_ReferenceId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static OrdersWhereCollection OwnerId_In(this OrdersWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[OwnerId]" }, "OwnerId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Orders_OwnerId_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[OwnerId]" }, "OwnerId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static OrdersWhereCollection Ver_In(this OrdersWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Orders_Ver_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static OrdersWhereCollection Creator_In(this OrdersWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Orders_Creator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static OrdersWhereCollection Updator_In(this OrdersWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Orders_Updator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+
+        public static OrdersWhereCollection ReferenceId_In(
+            this OrdersWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[ReferenceId]" },
+                    "ReferenceId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static OrdersWhereCollection OwnerId_In(
+            this OrdersWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[OwnerId]" },
+                    "OwnerId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static OrdersWhereCollection Ver_In(
+            this OrdersWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Ver]" },
+                    "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static OrdersWhereCollection Creator_In(
+            this OrdersWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Creator]" },
+                    "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static OrdersWhereCollection Updator_In(
+            this OrdersWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Updator]" },
+                    "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
         public static OrdersWhereCollection ReferenceId_Between(this OrdersWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static SqlWhereCollection Orders_ReferenceId_Between(this SqlWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static OrdersWhereCollection OwnerId_Between(this OrdersWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[OwnerId]" }, "OwnerId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
@@ -11143,16 +12972,132 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SqlWhereCollection ExportSettings_CreatedTime(this SqlWhereCollection self, object value = null, string tableName = "ExportSettings", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[CreatedTime]" }, "CreatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static ExportSettingsWhereCollection UpdatedTime(this ExportSettingsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static SqlWhereCollection ExportSettings_UpdatedTime(this SqlWhereCollection self, object value = null, string tableName = "ExportSettings", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static ExportSettingsWhereCollection ReferenceId_In(this ExportSettingsWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection ExportSettings_ReferenceId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ExportSettingsWhereCollection ExportSettingId_In(this ExportSettingsWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ExportSettingId]" }, "ExportSettingId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection ExportSettings_ExportSettingId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ExportSettingId]" }, "ExportSettingId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ExportSettingsWhereCollection Ver_In(this ExportSettingsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection ExportSettings_Ver_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ExportSettingsWhereCollection Creator_In(this ExportSettingsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection ExportSettings_Creator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ExportSettingsWhereCollection Updator_In(this ExportSettingsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection ExportSettings_Updator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+
+        public static ExportSettingsWhereCollection ReferenceId_In(
+            this ExportSettingsWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[ReferenceId]" },
+                    "ReferenceId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ExportSettingsWhereCollection ExportSettingId_In(
+            this ExportSettingsWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[ExportSettingId]" },
+                    "ExportSettingId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ExportSettingsWhereCollection Ver_In(
+            this ExportSettingsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Ver]" },
+                    "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ExportSettingsWhereCollection Creator_In(
+            this ExportSettingsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Creator]" },
+                    "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ExportSettingsWhereCollection Updator_In(
+            this ExportSettingsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Updator]" },
+                    "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
         public static ExportSettingsWhereCollection ReferenceId_Between(this ExportSettingsWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static SqlWhereCollection ExportSettings_ReferenceId_Between(this SqlWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static ExportSettingsWhereCollection ExportSettingId_Between(this ExportSettingsWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[ExportSettingId]" }, "ExportSettingId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
@@ -11537,18 +13482,157 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SqlWhereCollection Links_UpdatedTime(this SqlWhereCollection self, object value = null, string tableName = "Links", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static LinksWhereCollection SiteTitle(this LinksWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t2].[Title]" }, "SiteTitle", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static SqlWhereCollection Links_SiteTitle(this SqlWhereCollection self, object value = null, string tableName = "Links", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t2].[Title]" }, "SiteTitle", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static LinksWhereCollection DestinationId_In(this LinksWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[DestinationId]" }, "DestinationId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Links_DestinationId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[DestinationId]" }, "DestinationId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static LinksWhereCollection SourceId_In(this LinksWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[SourceId]" }, "SourceId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Links_SourceId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[SourceId]" }, "SourceId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static LinksWhereCollection Ver_In(this LinksWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Links_Ver_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static LinksWhereCollection SiteId_In(this LinksWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t1].[SiteId]" }, "SiteId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Links_SiteId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t1].[SiteId]" }, "SiteId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static LinksWhereCollection Creator_In(this LinksWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Links_Creator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static LinksWhereCollection Updator_In(this LinksWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Links_Updator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+
+        public static LinksWhereCollection DestinationId_In(
+            this LinksWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[DestinationId]" },
+                    "DestinationId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static LinksWhereCollection SourceId_In(
+            this LinksWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[SourceId]" },
+                    "SourceId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static LinksWhereCollection Ver_In(
+            this LinksWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Ver]" },
+                    "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static LinksWhereCollection SiteId_In(
+            this LinksWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t1].[SiteId]" },
+                    "SiteId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static LinksWhereCollection Creator_In(
+            this LinksWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Creator]" },
+                    "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static LinksWhereCollection Updator_In(
+            this LinksWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Updator]" },
+                    "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
         public static LinksWhereCollection DestinationId_Between(this LinksWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[DestinationId]" }, "DestinationId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static SqlWhereCollection Links_DestinationId_Between(this SqlWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[DestinationId]" }, "DestinationId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static LinksWhereCollection SourceId_Between(this LinksWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[SourceId]" }, "SourceId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
@@ -11958,18 +14042,157 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SqlWhereCollection Binaries_CreatedTime(this SqlWhereCollection self, object value = null, string tableName = "Binaries", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[CreatedTime]" }, "CreatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static BinariesWhereCollection UpdatedTime(this BinariesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static SqlWhereCollection Binaries_UpdatedTime(this SqlWhereCollection self, object value = null, string tableName = "Binaries", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static BinariesWhereCollection ReferenceId_In(this BinariesWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Binaries_ReferenceId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static BinariesWhereCollection BinaryId_In(this BinariesWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[BinaryId]" }, "BinaryId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Binaries_BinaryId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[BinaryId]" }, "BinaryId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static BinariesWhereCollection Ver_In(this BinariesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Binaries_Ver_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static BinariesWhereCollection Size_In(this BinariesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Size]" }, "Size", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Binaries_Size_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Size]" }, "Size", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static BinariesWhereCollection Creator_In(this BinariesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Binaries_Creator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static BinariesWhereCollection Updator_In(this BinariesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Binaries_Updator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+
+        public static BinariesWhereCollection ReferenceId_In(
+            this BinariesWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[ReferenceId]" },
+                    "ReferenceId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static BinariesWhereCollection BinaryId_In(
+            this BinariesWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[BinaryId]" },
+                    "BinaryId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static BinariesWhereCollection Ver_In(
+            this BinariesWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Ver]" },
+                    "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static BinariesWhereCollection Size_In(
+            this BinariesWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Size]" },
+                    "Size",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static BinariesWhereCollection Creator_In(
+            this BinariesWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Creator]" },
+                    "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static BinariesWhereCollection Updator_In(
+            this BinariesWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Updator]" },
+                    "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
         public static BinariesWhereCollection ReferenceId_Between(this BinariesWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static SqlWhereCollection Binaries_ReferenceId_Between(this SqlWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[ReferenceId]" }, "ReferenceId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static BinariesWhereCollection BinaryId_Between(this BinariesWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[BinaryId]" }, "BinaryId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
@@ -13438,80 +15661,932 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SqlWhereCollection Issues_ProgressRate(this SqlWhereCollection self, object value = null, string tableName = "Issues", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[ProgressRate]" }, "ProgressRate", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static IssuesWhereCollection RemainingWorkValue(this IssuesWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[WorkValue] - ([t0].[WorkValue] * [t0].[ProgressRate] * 0.01)" }, "RemainingWorkValue", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static SqlWhereCollection Issues_RemainingWorkValue(this SqlWhereCollection self, object value = null, string tableName = "Issues", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[WorkValue] - ([t0].[WorkValue] * [t0].[ProgressRate] * 0.01)" }, "RemainingWorkValue", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static IssuesWhereCollection SiteId_In(this IssuesWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[SiteId]" }, "SiteId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_SiteId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[SiteId]" }, "SiteId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection IssueId_In(this IssuesWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[IssueId]" }, "IssueId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_IssueId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[IssueId]" }, "IssueId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection Ver_In(this IssuesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_Ver_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection WorkValue_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[WorkValue]" }, "WorkValue", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_WorkValue_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[WorkValue]" }, "WorkValue", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection ProgressRate_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ProgressRate]" }, "ProgressRate", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_ProgressRate_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ProgressRate]" }, "ProgressRate", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection RemainingWorkValue_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[RemainingWorkValue]" }, "RemainingWorkValue", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_RemainingWorkValue_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[RemainingWorkValue]" }, "RemainingWorkValue", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection Status_In(this IssuesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Status]" }, "Status", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_Status_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Status]" }, "Status", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection Manager_In(this IssuesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Manager]" }, "Manager", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_Manager_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Manager]" }, "Manager", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection Owner_In(this IssuesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Owner]" }, "Owner", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_Owner_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Owner]" }, "Owner", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumA_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumA]" }, "NumA", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumA_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumA]" }, "NumA", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumB_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumB]" }, "NumB", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumB_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumB]" }, "NumB", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumC_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumC]" }, "NumC", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumC_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumC]" }, "NumC", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumD_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumD]" }, "NumD", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumD_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumD]" }, "NumD", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumE_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumE]" }, "NumE", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumE_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumE]" }, "NumE", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumF_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumF]" }, "NumF", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumF_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumF]" }, "NumF", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumG_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumG]" }, "NumG", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumG_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumG]" }, "NumG", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumH_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumH]" }, "NumH", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumH_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumH]" }, "NumH", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumI_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumI]" }, "NumI", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumI_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumI]" }, "NumI", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumJ_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumJ]" }, "NumJ", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumJ_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumJ]" }, "NumJ", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumK_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumK]" }, "NumK", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumK_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumK]" }, "NumK", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumL_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumL]" }, "NumL", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumL_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumL]" }, "NumL", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumM_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumM]" }, "NumM", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumM_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumM]" }, "NumM", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumN_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumN]" }, "NumN", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumN_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumN]" }, "NumN", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumO_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumO]" }, "NumO", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumO_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumO]" }, "NumO", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumP_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumP]" }, "NumP", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumP_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumP]" }, "NumP", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumQ_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumQ]" }, "NumQ", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumQ_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumQ]" }, "NumQ", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumR_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumR]" }, "NumR", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumR_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumR]" }, "NumR", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumS_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumS]" }, "NumS", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumS_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumS]" }, "NumS", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumT_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumT]" }, "NumT", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumT_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumT]" }, "NumT", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumU_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumU]" }, "NumU", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumU_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumU]" }, "NumU", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumV_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumV]" }, "NumV", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumV_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumV]" }, "NumV", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumW_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumW]" }, "NumW", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumW_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumW]" }, "NumW", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumX_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumX]" }, "NumX", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumX_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumX]" }, "NumX", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumY_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumY]" }, "NumY", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumY_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumY]" }, "NumY", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection NumZ_In(this IssuesWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumZ]" }, "NumZ", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_NumZ_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumZ]" }, "NumZ", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection Creator_In(this IssuesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_Creator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static IssuesWhereCollection Updator_In(this IssuesWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Issues_Updator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+
+        public static IssuesWhereCollection SiteId_In(
+            this IssuesWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[SiteId]" },
+                    "SiteId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection IssueId_In(
+            this IssuesWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[IssueId]" },
+                    "IssueId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection Ver_In(
+            this IssuesWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Ver]" },
+                    "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection WorkValue_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[WorkValue]" },
+                    "WorkValue",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection ProgressRate_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[ProgressRate]" },
+                    "ProgressRate",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection RemainingWorkValue_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[RemainingWorkValue]" },
+                    "RemainingWorkValue",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection Status_In(
+            this IssuesWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Status]" },
+                    "Status",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection Manager_In(
+            this IssuesWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Manager]" },
+                    "Manager",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection Owner_In(
+            this IssuesWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Owner]" },
+                    "Owner",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumA_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumA]" },
+                    "NumA",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumB_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumB]" },
+                    "NumB",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumC_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumC]" },
+                    "NumC",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumD_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumD]" },
+                    "NumD",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumE_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumE]" },
+                    "NumE",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumF_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumF]" },
+                    "NumF",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumG_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumG]" },
+                    "NumG",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumH_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumH]" },
+                    "NumH",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumI_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumI]" },
+                    "NumI",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumJ_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumJ]" },
+                    "NumJ",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumK_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumK]" },
+                    "NumK",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumL_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumL]" },
+                    "NumL",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumM_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumM]" },
+                    "NumM",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumN_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumN]" },
+                    "NumN",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumO_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumO]" },
+                    "NumO",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumP_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumP]" },
+                    "NumP",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumQ_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumQ]" },
+                    "NumQ",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumR_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumR]" },
+                    "NumR",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumS_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumS]" },
+                    "NumS",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumT_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumT]" },
+                    "NumT",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumU_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumU]" },
+                    "NumU",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumV_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumV]" },
+                    "NumV",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumW_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumW]" },
+                    "NumW",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumX_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumX]" },
+                    "NumX",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumY_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumY]" },
+                    "NumY",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection NumZ_In(
+            this IssuesWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumZ]" },
+                    "NumZ",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection Creator_In(
+            this IssuesWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Creator]" },
+                    "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static IssuesWhereCollection Updator_In(
+            this IssuesWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Updator]" },
+                    "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
         public static IssuesWhereCollection SiteId_Between(this IssuesWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[SiteId]" }, "SiteId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static SqlWhereCollection Issues_SiteId_Between(this SqlWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[SiteId]" }, "SiteId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static IssuesWhereCollection IssueId_Between(this IssuesWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[IssueId]" }, "IssueId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
@@ -16415,74 +19490,857 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SqlWhereCollection Results_CreatedTime(this SqlWhereCollection self, object value = null, string tableName = "Results", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[CreatedTime]" }, "CreatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static ResultsWhereCollection TitleBody(this ResultsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[TitleBody]" }, "TitleBody", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static SqlWhereCollection Results_TitleBody(this SqlWhereCollection self, object value = null, string tableName = "Results", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[TitleBody]" }, "TitleBody", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static ResultsWhereCollection SiteId_In(this ResultsWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[SiteId]" }, "SiteId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_SiteId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[SiteId]" }, "SiteId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection ResultId_In(this ResultsWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ResultId]" }, "ResultId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_ResultId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[ResultId]" }, "ResultId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection Ver_In(this ResultsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_Ver_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection Status_In(this ResultsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Status]" }, "Status", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_Status_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Status]" }, "Status", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection Manager_In(this ResultsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Manager]" }, "Manager", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_Manager_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Manager]" }, "Manager", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection Owner_In(this ResultsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Owner]" }, "Owner", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_Owner_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Owner]" }, "Owner", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumA_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumA]" }, "NumA", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumA_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumA]" }, "NumA", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumB_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumB]" }, "NumB", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumB_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumB]" }, "NumB", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumC_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumC]" }, "NumC", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumC_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumC]" }, "NumC", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumD_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumD]" }, "NumD", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumD_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumD]" }, "NumD", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumE_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumE]" }, "NumE", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumE_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumE]" }, "NumE", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumF_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumF]" }, "NumF", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumF_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumF]" }, "NumF", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumG_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumG]" }, "NumG", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumG_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumG]" }, "NumG", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumH_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumH]" }, "NumH", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumH_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumH]" }, "NumH", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumI_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumI]" }, "NumI", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumI_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumI]" }, "NumI", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumJ_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumJ]" }, "NumJ", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumJ_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumJ]" }, "NumJ", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumK_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumK]" }, "NumK", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumK_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumK]" }, "NumK", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumL_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumL]" }, "NumL", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumL_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumL]" }, "NumL", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumM_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumM]" }, "NumM", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumM_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumM]" }, "NumM", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumN_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumN]" }, "NumN", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumN_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumN]" }, "NumN", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumO_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumO]" }, "NumO", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumO_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumO]" }, "NumO", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumP_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumP]" }, "NumP", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumP_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumP]" }, "NumP", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumQ_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumQ]" }, "NumQ", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumQ_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumQ]" }, "NumQ", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumR_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumR]" }, "NumR", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumR_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumR]" }, "NumR", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumS_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumS]" }, "NumS", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumS_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumS]" }, "NumS", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumT_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumT]" }, "NumT", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumT_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumT]" }, "NumT", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumU_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumU]" }, "NumU", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumU_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumU]" }, "NumU", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumV_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumV]" }, "NumV", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumV_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumV]" }, "NumV", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumW_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumW]" }, "NumW", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumW_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumW]" }, "NumW", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumX_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumX]" }, "NumX", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumX_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumX]" }, "NumX", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumY_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumY]" }, "NumY", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumY_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumY]" }, "NumY", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection NumZ_In(this ResultsWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumZ]" }, "NumZ", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_NumZ_In(this SqlWhereCollection self, IEnumerable<decimal> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[NumZ]" }, "NumZ", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection Creator_In(this ResultsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_Creator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static ResultsWhereCollection Updator_In(this ResultsWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Results_Updator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+
+        public static ResultsWhereCollection SiteId_In(
+            this ResultsWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[SiteId]" },
+                    "SiteId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection ResultId_In(
+            this ResultsWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[ResultId]" },
+                    "ResultId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection Ver_In(
+            this ResultsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Ver]" },
+                    "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection Status_In(
+            this ResultsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Status]" },
+                    "Status",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection Manager_In(
+            this ResultsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Manager]" },
+                    "Manager",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection Owner_In(
+            this ResultsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Owner]" },
+                    "Owner",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumA_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumA]" },
+                    "NumA",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumB_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumB]" },
+                    "NumB",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumC_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumC]" },
+                    "NumC",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumD_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumD]" },
+                    "NumD",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumE_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumE]" },
+                    "NumE",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumF_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumF]" },
+                    "NumF",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumG_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumG]" },
+                    "NumG",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumH_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumH]" },
+                    "NumH",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumI_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumI]" },
+                    "NumI",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumJ_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumJ]" },
+                    "NumJ",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumK_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumK]" },
+                    "NumK",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumL_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumL]" },
+                    "NumL",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumM_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumM]" },
+                    "NumM",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumN_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumN]" },
+                    "NumN",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumO_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumO]" },
+                    "NumO",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumP_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumP]" },
+                    "NumP",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumQ_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumQ]" },
+                    "NumQ",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumR_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumR]" },
+                    "NumR",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumS_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumS]" },
+                    "NumS",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumT_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumT]" },
+                    "NumT",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumU_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumU]" },
+                    "NumU",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumV_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumV]" },
+                    "NumV",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumW_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumW]" },
+                    "NumW",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumX_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumX]" },
+                    "NumX",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumY_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumY]" },
+                    "NumY",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection NumZ_In(
+            this ResultsWhereCollection self,
+            IEnumerable<decimal> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[NumZ]" },
+                    "NumZ",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection Creator_In(
+            this ResultsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Creator]" },
+                    "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static ResultsWhereCollection Updator_In(
+            this ResultsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Updator]" },
+                    "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
         public static ResultsWhereCollection SiteId_Between(this ResultsWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[SiteId]" }, "SiteId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static SqlWhereCollection Results_SiteId_Between(this SqlWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[SiteId]" }, "SiteId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static ResultsWhereCollection ResultId_Between(this ResultsWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[ResultId]" }, "ResultId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
@@ -18308,16 +22166,132 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SqlWhereCollection Wikis_CreatedTime(this SqlWhereCollection self, object value = null, string tableName = "Wikis", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[CreatedTime]" }, "CreatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static WikisWhereCollection TitleBody(this WikisWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[TitleBody]" }, "TitleBody", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
         public static SqlWhereCollection Wikis_TitleBody(this SqlWhereCollection self, object value = null, string tableName = "Wikis", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[TitleBody]" }, "TitleBody", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
-        public static WikisWhereCollection SiteId_In(this WikisWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[SiteId]" }, "SiteId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Wikis_SiteId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[SiteId]" }, "SiteId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static WikisWhereCollection WikiId_In(this WikisWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[WikiId]" }, "WikiId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Wikis_WikiId_In(this SqlWhereCollection self, IEnumerable<long> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[WikiId]" }, "WikiId", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static WikisWhereCollection Ver_In(this WikisWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Wikis_Ver_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static WikisWhereCollection Creator_In(this WikisWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Wikis_Creator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static WikisWhereCollection Updator_In(this WikisWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
-        public static SqlWhereCollection Wikis_Updator_In(this SqlWhereCollection self, IEnumerable<int> value = null, SqlStatement sub = null, bool negative = false, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: negative ? " not in " : " in ", raw: value != null ? "({0})".Params(value.Join()) : string.Empty, sub: sub, _using: _using); }
+
+        public static WikisWhereCollection SiteId_In(
+            this WikisWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[SiteId]" },
+                    "SiteId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static WikisWhereCollection WikiId_In(
+            this WikisWhereCollection self,
+            IEnumerable<long> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[WikiId]" },
+                    "WikiId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static WikisWhereCollection Ver_In(
+            this WikisWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Ver]" },
+                    "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static WikisWhereCollection Creator_In(
+            this WikisWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Creator]" },
+                    "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static WikisWhereCollection Updator_In(
+            this WikisWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (value != null && value.Count() > 0)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Updator]" },
+                    "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()),
+                    sub: sub,
+                    _using: _using);
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
         public static WikisWhereCollection SiteId_Between(this WikisWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[SiteId]" }, "SiteId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static SqlWhereCollection Wikis_SiteId_Between(this SqlWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[SiteId]" }, "SiteId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
         public static WikisWhereCollection WikiId_Between(this WikisWhereCollection self, long begin, long end, bool _using = true) { return self.Add(new string[] { "[t0].[WikiId]" }, "WikiId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
