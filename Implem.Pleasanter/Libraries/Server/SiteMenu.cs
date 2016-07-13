@@ -1,7 +1,9 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Tools;
 using System;
 using System.Collections.Generic;
@@ -61,6 +63,90 @@ namespace Implem.Pleasanter.Libraries.Server
                 ret.Reverse();
             }
             return ret;
+        }
+
+        public IEnumerable<SiteCondition> SiteConditions(long siteId)
+        {
+            var hash = ChildHash(siteId);
+            var sites = Rds.ExecuteTable(statements: Rds.SelectSites(
+                column: Rds.SitesColumn()
+                    .SiteId()
+                    .ReferenceType(),
+                where: Rds.SitesWhere()
+                    .TenantId(Sessions.TenantId())
+                    .SiteId_In(hash.SelectMany(o => o.Value))
+                    .ReferenceType("Sites", _operator: "<>")
+                    .PermissionType(_operator: " & " +
+                        Permissions.Types.Read.ToInt().ToString() + "<>0")))
+                            .AsEnumerable();
+            var issues = sites
+                .Where(o => o["ReferenceType"].ToString() == "Issues")
+                .Select(o => o["SiteId"].ToLong());
+            var dataSet = Rds.ExecuteDataSet(statements: new SqlStatement[]
+                {
+                    Rds.SelectItems(
+                        dataTableName: "Items",
+                        column: Rds.ItemsColumn()
+                            .SiteId()
+                            .ItemsCount()
+                            .UpdatedTimeMax(),
+                        where: Rds.ItemsWhere()
+                            .SiteId_In(sites.Select(o => o["SiteId"].ToLong())),
+                        groupBy: Rds.SitesGroupBy()
+                            .SiteId()),
+                    Rds.SelectIssues(
+                        dataTableName: "OverdueIssues",
+                        column: Rds.IssuesColumn()
+                            .SiteId()
+                            .IssuesCount(_as: "OverdueCount"),
+                        where: Rds.IssuesWhere()
+                            .SiteId_In(issues)
+                            .Status(_operator: "<{0}".Params(Parameters.General.CompletionCode))
+                            .CompletionTime(_operator: "<getdate()"),
+                        groupBy: Rds.SitesGroupBy()
+                            .SiteId())
+                });
+            return hash.Select(o => SiteCondition(dataSet, o.Key, o.Value));
+        }
+
+        private SiteCondition SiteCondition(DataSet dataSet, long siteId, List<long> children)
+        {
+            var items = dataSet.Tables["Items"]
+                .AsEnumerable()
+                .Where(o => children.Contains(o["SiteId"].ToLong()));
+            var overdueIssues = dataSet.Tables["OverdueIssues"]
+                .AsEnumerable()
+                .Where(o => children.Contains(o["SiteId"].ToLong()));
+            return new SiteCondition(
+                siteId,
+                items.Sum(o => o["ItemsCount"].ToLong()),
+                overdueIssues.Sum(o => o["OverdueCount"].ToLong()),
+                items.Count() > 0
+                    ? items.Max(o => o["UpdatedTimeMax"].ToDateTime())
+                    : DateTime.MinValue);
+        }
+
+        public Dictionary<long, List<long>> ChildHash(long siteId)
+        {
+            var ret = new Dictionary<long, List<long>>();
+            this.Select(o => o.Value)
+                .Where(o => o.TenantId == Sessions.TenantId())
+                .Where(o => o.ParentId == siteId)
+                .ForEach(child =>
+                    ret.Add(child.SiteId, Children(child.SiteId)));
+            return ret;
+        }
+
+        public List<long> Children(long siteId, List<long> data = null)
+        {
+            if (data == null) data = new List<long>();
+            data.Add(siteId);
+            this.Select(o => o.Value)
+                .Where(o => o.TenantId == Sessions.TenantId())
+                .Where(o => o.ParentId == siteId)
+                .ForEach(child =>
+                    Children(child.SiteId, data));
+            return data;
         }
 
         private bool HasAvailableCache(long siteId)

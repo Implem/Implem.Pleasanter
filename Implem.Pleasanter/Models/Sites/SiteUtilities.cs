@@ -225,6 +225,7 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Types.Manager;
             var verType = Versions.VerTypes.Latest;
+            var siteConditions = SiteInfo.SiteMenu.SiteConditions(0);
             return hb.Template(
                 siteId: 0,
                 referenceId: "Sites",
@@ -248,7 +249,8 @@ namespace Implem.Pleasanter.Models
                                             permissionType: permissionType,
                                             siteId: siteModelChild.SiteId,
                                             referenceType: siteModelChild.ReferenceType,
-                                            title: siteModelChild.Title.Value))))
+                                            title: siteModelChild.Title.Value,
+                                            siteConditions: siteConditions))))
                             .SiteMenuData());
                     hb.MainCommands(
                         siteId: 0,
@@ -265,6 +267,7 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             var siteSettings = siteModel.SitesSiteSettings();
+            var siteConditions = SiteInfo.SiteMenu.SiteConditions(siteModel.SiteId);
             return hb.Template(
                 siteId: siteModel.SiteId,
                 referenceId: "Sites",
@@ -293,7 +296,8 @@ namespace Implem.Pleasanter.Models
                                             permissionType: siteModel.PermissionType,
                                             siteId: siteModelChild.SiteId,
                                             referenceType: siteModelChild.ReferenceType,
-                                            title: siteModelChild.Title.Value))))
+                                            title: siteModelChild.Title.Value,
+                                            siteConditions: siteConditions))))
                             .SiteMenuData());
                     if (siteSettings.SiteId != 0)
                     {
@@ -348,7 +352,8 @@ namespace Implem.Pleasanter.Models
             long siteId,
             string referenceType,
             string title,
-            bool toUpper = false)
+            bool toUpper = false,
+            IEnumerable<SiteCondition> siteConditions = null)
         {
             var binaryModel = new BinaryModel(permissionType, siteId);
             var hasImage = binaryModel.ExistsSiteImage(
@@ -425,6 +430,20 @@ namespace Implem.Pleasanter.Models
                                         hb.Div(css: "stacking1").Div(css: "stacking2");
                                         break;
                                 }
+                            }
+                            if (siteConditions != null &&
+                                siteConditions.Any(o => o.SiteId == siteId))
+                            {
+                                var condition = siteConditions
+                                    .FirstOrDefault(o => o.SiteId == siteId);
+                                hb.Div(css: "conditions", action: () => hb
+                                    .Span(css: "count", action: () => hb
+                                        .Text(condition.ItemCount.ToString()))
+                                    .Span(
+                                        css: "overdue",
+                                        _using: condition.OverdueCount > 0,
+                                        action: () => hb
+                                            .Text(condition.OverdueCount.ToString())));
                             }
                         }));
         }

@@ -307,6 +307,7 @@
     <Compile Include="Libraries\Server\Applications.cs" />
     <Compile Include="Libraries\Server\Pages.cs" />
     <Compile Include="Libraries\Server\Sessions.cs" />
+    <Compile Include="Libraries\Server\SiteCondition.cs" />
     <Compile Include="Libraries\Server\SiteInfo.cs" />
     <Compile Include="Libraries\Server\SiteMenu.cs" />
     <Compile Include="Libraries\Server\SiteMenuElement.cs" />

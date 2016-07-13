@@ -362,6 +362,26 @@ pre{
     border-radius:8px;
 }
 
+.nav-site .conditions{
+    font-size:0.75em;
+    position:absolute;
+    bottom:3px;
+}
+
+.nav-site .conditions span{
+    display:block;
+    float:left;
+    margin:0px 3px;
+    padding:2px 5px;
+    background-color:gainsboro;
+    border-radius:5px;
+}
+
+.nav-site .conditions span.overdue{
+    color:white;
+    background-color:red;
+}
+
 .login{
     width:500px;
     margin:150px auto 20px auto;

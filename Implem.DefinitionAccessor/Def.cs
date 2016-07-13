@@ -1669,6 +1669,9 @@ namespace Implem.DefinitionAccessor
                     case "_dot_nav_site_dot_to_upper_space__dot_ui_icon": Css._dot_nav_site_dot_to_upper_space__dot_ui_icon = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_dot_to_upper_space__dot_ui_icon, definitionRow, CssXls); break;
                     case "_dot_nav_site_space__dot_site_image_thumbnail": Css._dot_nav_site_space__dot_site_image_thumbnail = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_space__dot_site_image_thumbnail, definitionRow, CssXls); break;
                     case "_dot_nav_site_space__dot_site_image_icon": Css._dot_nav_site_space__dot_site_image_icon = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_space__dot_site_image_icon, definitionRow, CssXls); break;
+                    case "_dot_nav_site_space__dot_conditions": Css._dot_nav_site_space__dot_conditions = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_space__dot_conditions, definitionRow, CssXls); break;
+                    case "_dot_nav_site_space__dot_conditions_space_span": Css._dot_nav_site_space__dot_conditions_space_span = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_space__dot_conditions_space_span, definitionRow, CssXls); break;
+                    case "_dot_nav_site_space__dot_conditions_space_span_dot_overdue": Css._dot_nav_site_space__dot_conditions_space_span_dot_overdue = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_space__dot_conditions_space_span_dot_overdue, definitionRow, CssXls); break;
                     case "_dot_login": Css._dot_login = definitionRow[1].ToString(); SetCssTable(CssTable._dot_login, definitionRow, CssXls); break;
                     case "_dot_login_commands": Css._dot_login_commands = definitionRow[1].ToString(); SetCssTable(CssTable._dot_login_commands, definitionRow, CssXls); break;
                     case "_dot_demo": Css._dot_demo = definitionRow[1].ToString(); SetCssTable(CssTable._dot_demo, definitionRow, CssXls); break;
@@ -6385,6 +6388,9 @@ namespace Implem.DefinitionAccessor
         public string _dot_nav_site_dot_to_upper_space__dot_ui_icon;
         public string _dot_nav_site_space__dot_site_image_thumbnail;
         public string _dot_nav_site_space__dot_site_image_icon;
+        public string _dot_nav_site_space__dot_conditions;
+        public string _dot_nav_site_space__dot_conditions_space_span;
+        public string _dot_nav_site_space__dot_conditions_space_span_dot_overdue;
         public string _dot_login;
         public string _dot_login_commands;
         public string _dot_demo;
@@ -6727,6 +6733,9 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_nav_site_dot_to_upper_space__dot_ui_icon = new CssDefinition();
         public CssDefinition _dot_nav_site_space__dot_site_image_thumbnail = new CssDefinition();
         public CssDefinition _dot_nav_site_space__dot_site_image_icon = new CssDefinition();
+        public CssDefinition _dot_nav_site_space__dot_conditions = new CssDefinition();
+        public CssDefinition _dot_nav_site_space__dot_conditions_space_span = new CssDefinition();
+        public CssDefinition _dot_nav_site_space__dot_conditions_space_span_dot_overdue = new CssDefinition();
         public CssDefinition _dot_login = new CssDefinition();
         public CssDefinition _dot_login_commands = new CssDefinition();
         public CssDefinition _dot_demo = new CssDefinition();
