@@ -365,16 +365,17 @@ pre{
 .nav-site .conditions{
     font-size:0.75em;
     position:absolute;
-    bottom:3px;
+    right:1px;
+    bottom:1px;
 }
 
 .nav-site .conditions span{
     display:block;
     float:left;
-    margin:0px 3px;
+    margin:2px 0px;
     padding:2px 5px;
     background-color:gainsboro;
-    border-radius:5px;
+    border-right:solid 1px white;
 }
 
 .nav-site .conditions span.overdue{
