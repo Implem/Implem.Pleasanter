@@ -91,7 +91,8 @@ namespace Implem.Pleasanter.Libraries.Server
                             .ItemsCount()
                             .UpdatedTimeMax(),
                         where: Rds.ItemsWhere()
-                            .SiteId_In(sites.Select(o => o["SiteId"].ToLong())),
+                            .SiteId_In(sites.Select(o => o["SiteId"].ToLong()))
+                            .ReferenceType("Sites", _operator: "<>"),
                         groupBy: Rds.SitesGroupBy()
                             .SiteId()),
                     Rds.SelectIssues(
