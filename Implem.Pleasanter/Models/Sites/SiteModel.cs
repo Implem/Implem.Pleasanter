@@ -380,8 +380,12 @@ namespace Implem.Pleasanter.Models
         {
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void OnDeleted(ref SitesResponseCollection responseCollection)
         {
+            SiteInfo.SiteMenu.RemoveAll((key, value) => key == SiteId);
         }
 
         public string Restore(long siteId)
