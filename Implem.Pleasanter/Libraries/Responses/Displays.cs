@@ -321,6 +321,30 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string LimitBeforeYear(params string[] data) { return Get("LimitBeforeYear", data); }
         public static HtmlBuilder Displays_LimitBeforeYears(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeYears", data)); }
         public static string LimitBeforeYears(params string[] data) { return Get("LimitBeforeYears", data); }
+        public static HtmlBuilder Displays_SecondAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SecondAgo", data)); }
+        public static string SecondAgo(params string[] data) { return Get("SecondAgo", data); }
+        public static HtmlBuilder Displays_SecondsAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SecondsAgo", data)); }
+        public static string SecondsAgo(params string[] data) { return Get("SecondsAgo", data); }
+        public static HtmlBuilder Displays_MinuteAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MinuteAgo", data)); }
+        public static string MinuteAgo(params string[] data) { return Get("MinuteAgo", data); }
+        public static HtmlBuilder Displays_MinutesAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MinutesAgo", data)); }
+        public static string MinutesAgo(params string[] data) { return Get("MinutesAgo", data); }
+        public static HtmlBuilder Displays_HourAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("HourAgo", data)); }
+        public static string HourAgo(params string[] data) { return Get("HourAgo", data); }
+        public static HtmlBuilder Displays_HoursAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("HoursAgo", data)); }
+        public static string HoursAgo(params string[] data) { return Get("HoursAgo", data); }
+        public static HtmlBuilder Displays_DayAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DayAgo", data)); }
+        public static string DayAgo(params string[] data) { return Get("DayAgo", data); }
+        public static HtmlBuilder Displays_DaysAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DaysAgo", data)); }
+        public static string DaysAgo(params string[] data) { return Get("DaysAgo", data); }
+        public static HtmlBuilder Displays_MonthAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MonthAgo", data)); }
+        public static string MonthAgo(params string[] data) { return Get("MonthAgo", data); }
+        public static HtmlBuilder Displays_MonthsAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MonthsAgo", data)); }
+        public static string MonthsAgo(params string[] data) { return Get("MonthsAgo", data); }
+        public static HtmlBuilder Displays_YearAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("YearAgo", data)); }
+        public static string YearAgo(params string[] data) { return Get("YearAgo", data); }
+        public static HtmlBuilder Displays_YearsAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("YearsAgo", data)); }
+        public static string YearsAgo(params string[] data) { return Get("YearsAgo", data); }
         public static HtmlBuilder Displays_WriteComment(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("WriteComment", data)); }
         public static string WriteComment(params string[] data) { return Get("WriteComment", data); }
         public static HtmlBuilder Displays_Filters(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Filters", data)); }

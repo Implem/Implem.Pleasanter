@@ -364,6 +364,7 @@ pre{
 
 .nav-site .conditions{
     font-size:0.75em;
+    color:black;
     position:absolute;
     right:1px;
     bottom:1px;
@@ -372,15 +373,19 @@ pre{
 .nav-site .conditions span{
     display:block;
     float:left;
-    margin:2px 0px;
+    margin:2px 2px 2px 0px;
     padding:2px 5px;
-    background-color:gainsboro;
-    border-right:solid 1px white;
+    background-color:#eee;
+    border-radius:2px;
 }
 
 .nav-site .conditions span.overdue{
     color:white;
     background-color:red;
+}
+
+.nav-site .conditions span.updated-time.old{
+    color:silver;
 }
 
 .login{

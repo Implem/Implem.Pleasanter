@@ -7,6 +7,7 @@
     "HtmlLogoText": ".Pleasanter",
     "HtmlCopyright": "Copyright &copy; Implem 2014 - {0}",
     "HtmlCopyrightUrl": "https://github.com/Implem",
+    "SiteMenuHotSpan": 30,
     "LimitWarning1": 86400,
     "LimitWarning2": 0,
     "LimitWarning3": -259200,
