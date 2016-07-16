@@ -21,10 +21,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 case "items":
                 case "permissions":
-                    return hb.Breadcrumb(SiteInfo.SiteMenu.Breadcrumb(siteId)
-                        .ToDictionary(
-                            o => Navigations.ItemIndex(o.SiteId),
-                            o => o.Title));
+                    return hb.Breadcrumb(siteId);
                 case "admins":
                     return hb.Breadcrumb(new Dictionary<string, string>
                     {
@@ -45,6 +42,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 default:
                     return hb;
             }
+        }
+
+        public static HtmlBuilder Breadcrumb(this HtmlBuilder hb, long siteId)
+        {
+            return hb.Breadcrumb(SiteInfo.SiteMenu.Breadcrumb(siteId)
+                .ToDictionary(
+                    o => Navigations.ItemIndex(o.SiteId),
+                    o => o.Title));
         }
 
         private static HtmlBuilder Breadcrumb(
