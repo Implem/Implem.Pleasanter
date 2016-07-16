@@ -3,6 +3,7 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
@@ -96,10 +97,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         {
                             case "Issues":
                                 hb
-                                    .Caption(caption: "{0} : {1} {2} - {3} {4}".Params(
+                                    .Caption(caption: "{0} : {1} - {2} {3}".Params(
                                         caption,
-                                        siteModel.SiteId,
-                                        siteModel.Title.Value,
+                                        SiteInfo.SiteMenu.Breadcrumb(siteModel.SiteId)
+                                            .Select(o => o.Title)
+                                            .Join(" > "),
                                         Displays.Quantity(),
                                         siteLinkCollection.Count()))
                                     .IssuesLinkHeader(siteModel: siteModel, type: type)
@@ -110,10 +112,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 break;
                             case "Results":
                                 hb
-                                    .Caption(caption: "{0} : {1} {2} - {3} {4}".Params(
+                                    .Caption(caption: "{0} : {1} - {2} {3}".Params(
                                         caption,
-                                        siteModel.SiteId,
-                                        siteModel.Title.Value,
+                                        SiteInfo.SiteMenu.Breadcrumb(siteModel.SiteId)
+                                            .Select(o => o.Title)
+                                            .Join(" > "),
                                         Displays.Quantity(),
                                         siteLinkCollection.Count()))
                                     .ResultsLinkHeader(siteModel: siteModel, type: type)
@@ -124,10 +127,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 break;
                             case "Wikis":
                                 hb
-                                    .Caption(caption: "{0} : {1} {2} - {3} {4}".Params(
+                                    .Caption(caption: "{0} : {1} - {2} {3}".Params(
                                         caption,
-                                        siteModel.SiteId,
-                                        siteModel.Title.Value,
+                                        SiteInfo.SiteMenu.Breadcrumb(siteModel.SiteId)
+                                            .Select(o => o.Title)
+                                            .Join(" > "),
                                         Displays.Quantity(),
                                         siteLinkCollection.Count()))
                                     .WikisLinkHeader(siteModel: siteModel, type: type)
