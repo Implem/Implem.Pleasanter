@@ -21,6 +21,7 @@ namespace Implem.Pleasanter.Libraries.Search
                             .Class("result")
                             .Add("data-href", href),
                         action: () => hb
+                            .Breadcrumb(siteSubset.ParentId)
                             .H(number:3, action: () => hb
                                 .A(
                                     href: href,
@@ -36,6 +37,7 @@ namespace Implem.Pleasanter.Libraries.Search
                             .Class("result")
                             .Add("data-href", href),
                         action: () => hb
+                            .Breadcrumb(issueSubset.SiteId)
                             .H(number:3, action: () => hb
                                 .A(
                                     href: href,
@@ -51,6 +53,7 @@ namespace Implem.Pleasanter.Libraries.Search
                             .Class("result")
                             .Add("data-href", href),
                         action: () => hb
+                            .Breadcrumb(resultSubset.SiteId)
                             .H(number:3, action: () => hb
                                 .A(
                                     href: href,
@@ -66,6 +69,7 @@ namespace Implem.Pleasanter.Libraries.Search
                             .Class("result")
                             .Add("data-href", href),
                         action: () => hb
+                            .Breadcrumb(wikiSubset.SiteId)
                             .H(number:3, action: () => hb
                                 .A(
                                     href: href,

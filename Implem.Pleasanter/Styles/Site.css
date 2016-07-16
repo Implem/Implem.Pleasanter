@@ -440,17 +440,33 @@ pre{
 .search-results .result{
     width:100%;
     float:left;
-    padding:5px 0px 5px 20px;
+    padding:15px;
     border:solid 1px white;
     clear:both;
 }
 
-.search-results .result > h3{
+.search-results .result > ul{
+    display:block;
+    float:left;
+    clear:both;
+}
 
+.search-results .result > h3{
+    display:block;
+    float:left;
+    margin:5px 0px;
+    clear:both;
+}
+
+.search-results .result > h3 > a{
+    font-size:1.3em;
+    font-weight:bold;
 }
 
 .search-results .result > p{
-    margin:10px 0px 0px 20px;
+    display:block;
+    float:left;
+    clear:both;
 }
 
 .search-results .result:hover{

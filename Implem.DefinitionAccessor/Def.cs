@@ -1682,7 +1682,9 @@ namespace Implem.DefinitionAccessor
                     case "_dot_search_results_space__dot_count_space__dot_label": Css._dot_search_results_space__dot_count_space__dot_label = definitionRow[1].ToString(); SetCssTable(CssTable._dot_search_results_space__dot_count_space__dot_label, definitionRow, CssXls); break;
                     case "_dot_search_results_space__dot_count_space__dot_data": Css._dot_search_results_space__dot_count_space__dot_data = definitionRow[1].ToString(); SetCssTable(CssTable._dot_search_results_space__dot_count_space__dot_data, definitionRow, CssXls); break;
                     case "_dot_search_results_space__dot_result": Css._dot_search_results_space__dot_result = definitionRow[1].ToString(); SetCssTable(CssTable._dot_search_results_space__dot_result, definitionRow, CssXls); break;
+                    case "_dot_search_results_space__dot_result_space___space_ul": Css._dot_search_results_space__dot_result_space___space_ul = definitionRow[1].ToString(); SetCssTable(CssTable._dot_search_results_space__dot_result_space___space_ul, definitionRow, CssXls); break;
                     case "_dot_search_results_space__dot_result_space___space_h3": Css._dot_search_results_space__dot_result_space___space_h3 = definitionRow[1].ToString(); SetCssTable(CssTable._dot_search_results_space__dot_result_space___space_h3, definitionRow, CssXls); break;
+                    case "_dot_search_results_space__dot_result_space___space_h3_space___space_a": Css._dot_search_results_space__dot_result_space___space_h3_space___space_a = definitionRow[1].ToString(); SetCssTable(CssTable._dot_search_results_space__dot_result_space___space_h3_space___space_a, definitionRow, CssXls); break;
                     case "_dot_search_results_space__dot_result_space___space_p": Css._dot_search_results_space__dot_result_space___space_p = definitionRow[1].ToString(); SetCssTable(CssTable._dot_search_results_space__dot_result_space___space_p, definitionRow, CssXls); break;
                     case "_dot_search_results_space__dot_result_colon_hover": Css._dot_search_results_space__dot_result_colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._dot_search_results_space__dot_result_colon_hover, definitionRow, CssXls); break;
                     case "_dot_error_page": Css._dot_error_page = definitionRow[1].ToString(); SetCssTable(CssTable._dot_error_page, definitionRow, CssXls); break;
@@ -6426,7 +6428,9 @@ namespace Implem.DefinitionAccessor
         public string _dot_search_results_space__dot_count_space__dot_label;
         public string _dot_search_results_space__dot_count_space__dot_data;
         public string _dot_search_results_space__dot_result;
+        public string _dot_search_results_space__dot_result_space___space_ul;
         public string _dot_search_results_space__dot_result_space___space_h3;
+        public string _dot_search_results_space__dot_result_space___space_h3_space___space_a;
         public string _dot_search_results_space__dot_result_space___space_p;
         public string _dot_search_results_space__dot_result_colon_hover;
         public string _dot_error_page;
@@ -6772,7 +6776,9 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_search_results_space__dot_count_space__dot_label = new CssDefinition();
         public CssDefinition _dot_search_results_space__dot_count_space__dot_data = new CssDefinition();
         public CssDefinition _dot_search_results_space__dot_result = new CssDefinition();
+        public CssDefinition _dot_search_results_space__dot_result_space___space_ul = new CssDefinition();
         public CssDefinition _dot_search_results_space__dot_result_space___space_h3 = new CssDefinition();
+        public CssDefinition _dot_search_results_space__dot_result_space___space_h3_space___space_a = new CssDefinition();
         public CssDefinition _dot_search_results_space__dot_result_space___space_p = new CssDefinition();
         public CssDefinition _dot_search_results_space__dot_result_colon_hover = new CssDefinition();
         public CssDefinition _dot_error_page = new CssDefinition();
