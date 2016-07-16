@@ -30,48 +30,48 @@ namespace Implem.Pleasanter.Libraries.Search
                     break;
                 case "Issues":
                     var issueSubset = dataRow["Subset"].ToString().Deserialize<IssueSubset>();
-                        href = Navigations.ItemEdit(issueSubset.IssueId);
-                        hb.Section(
-                            attributes: new HtmlAttributes()
-                                .Class("result")
-                                .Add("data-href", href),
-                            action: () => hb
-                                .H(number:3, action: () => hb
-                                    .A(
-                                        href: href,
-                                        text: dataRow["Title"].ToString()))
-                                .P(action: () => hb
-                                    .Text(text: issueSubset.Body)));
+                    href = Navigations.ItemEdit(issueSubset.IssueId);
+                    hb.Section(
+                        attributes: new HtmlAttributes()
+                            .Class("result")
+                            .Add("data-href", href),
+                        action: () => hb
+                            .H(number:3, action: () => hb
+                                .A(
+                                    href: href,
+                                    text: dataRow["Title"].ToString()))
+                            .P(action: () => hb
+                                .Text(text: issueSubset.Body)));
                     break;
                 case "Results":
                     var resultSubset = dataRow["Subset"].ToString().Deserialize<ResultSubset>();
-                        href = Navigations.ItemEdit(resultSubset.ResultId);
-                        hb.Section(
-                            attributes: new HtmlAttributes()
-                                .Class("result")
-                                .Add("data-href", href),
-                            action: () => hb
-                                .H(number:3, action: () => hb
-                                    .A(
-                                        href: href,
-                                        text: dataRow["Title"].ToString()))
-                                .P(action: () => hb
-                                    .Text(text: resultSubset.Body)));
+                    href = Navigations.ItemEdit(resultSubset.ResultId);
+                    hb.Section(
+                        attributes: new HtmlAttributes()
+                            .Class("result")
+                            .Add("data-href", href),
+                        action: () => hb
+                            .H(number:3, action: () => hb
+                                .A(
+                                    href: href,
+                                    text: dataRow["Title"].ToString()))
+                            .P(action: () => hb
+                                .Text(text: resultSubset.Body)));
                     break;
                 case "Wikis":
                     var wikiSubset = dataRow["Subset"].ToString().Deserialize<WikiSubset>();
-                        href = Navigations.ItemEdit(wikiSubset.WikiId);
-                        hb.Section(
-                            attributes: new HtmlAttributes()
-                                .Class("result")
-                                .Add("data-href", href),
-                            action: () => hb
-                                .H(number:3, action: () => hb
-                                    .A(
-                                        href: href,
-                                        text: dataRow["Title"].ToString()))
-                                .P(action: () => hb
-                                    .Text(text: wikiSubset.Body)));
+                    href = Navigations.ItemEdit(wikiSubset.WikiId);
+                    hb.Section(
+                        attributes: new HtmlAttributes()
+                            .Class("result")
+                            .Add("data-href", href),
+                        action: () => hb
+                            .H(number:3, action: () => hb
+                                .A(
+                                    href: href,
+                                    text: dataRow["Title"].ToString()))
+                            .P(action: () => hb
+                                .Text(text: wikiSubset.Body)));
                     break;
             }
             return hb;
