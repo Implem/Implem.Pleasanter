@@ -120,21 +120,21 @@ namespace Implem.Pleasanter.Models
             {
                 case "BurnDown":
                     return hb.BurnDown(
-       siteSettings: siteSettings,
-       permissionType: permissionType,
-       dataRows: BurnDownDataRows(
-           siteSettings: siteSettings,
-           formData: formData),
-       ownerLabelText: siteSettings.AllColumn("Owner").LabelText,
-       column: siteSettings.AllColumn("WorkValue"));
+                       siteSettings: siteSettings,
+                       permissionType: permissionType,
+                       dataRows: BurnDownDataRows(
+                           siteSettings: siteSettings,
+                           formData: formData),
+                       ownerLabelText: siteSettings.AllColumn("Owner").LabelText,
+                       column: siteSettings.AllColumn("WorkValue"));
                 case "Gantt":
                     return hb.Gantt(
-          siteSettings: siteSettings,
-          permissionType: permissionType,
-          dataRows: GanttDataRows(
-              siteSettings: siteSettings,
-              formData: formData),
-          unit: siteSettings.AllColumn("WorkValue").Unit);
+                      siteSettings: siteSettings,
+                      permissionType: permissionType,
+                      dataRows: GanttDataRows(
+                          siteSettings: siteSettings,
+                          formData: formData),
+                      unit: siteSettings.AllColumn("WorkValue").Unit);
                 case "TimeSeries":
                     return hb.TimeSeries(
                         siteSettings: siteSettings,
@@ -149,10 +149,10 @@ namespace Implem.Pleasanter.Models
                         bodyOnly: false);
                 default:
                     return hb.Grid(
-               issueCollection: issueCollection,
-               siteSettings: siteSettings,
-               permissionType: permissionType,
-               formData: formData);
+                       issueCollection: issueCollection,
+                       siteSettings: siteSettings,
+                       permissionType: permissionType,
+                       formData: formData);
             }
         }
 
