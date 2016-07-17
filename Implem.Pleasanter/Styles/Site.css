@@ -1170,12 +1170,22 @@ pre{
     border-radius:5px;
 }
 
+.aggregations .label.overdue{
+    font-weight:bold;
+    color:white;
+    background-color:red;
+}
+
 .aggregations .data{
     height:26px;
     display:block;
     float:left;
     margin:0px 5px 5px 0px;
     padding:5px;
+}
+
+.aggregations .data.overdue{
+    color:red;
 }
 
 .aggregations em{

@@ -32,6 +32,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return aggregations.TotalCount != 0
                 ? hb
                     .Total(aggregations)
+                    .Overdue(aggregations)
                     .Aggregations(siteSettings, aggregations)
                 : hb.Span(css: "label", action: () => hb
                     .Text(text: Displays.NoData()));
@@ -44,6 +45,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Text(text: Displays.Quantity()))
                 .Span(css: "data", action: () => hb
                     .Text(text: aggregations.TotalCount.ToString()));
+        }
+
+        private static HtmlBuilder Overdue(this HtmlBuilder hb, Aggregations aggregations)
+        {
+            return aggregations.OverdueCount > 0
+                ? hb
+                    .Span(css: "label overdue", action: () => hb
+                        .Text(text: Displays.Overdue()))
+                    .Span(css: "data overdue", action: () => hb
+                        .Text(text: aggregations.OverdueCount.ToString()))
+                : hb;
         }
 
         private static HtmlBuilder Aggregations(

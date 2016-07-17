@@ -5231,6 +5231,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         groupBy: groupBy);
                     statementCollection.Add(statement);
                 });
+            statementCollection.Add(Rds.SelectIssues(
+                dataTableName: "OverdueCount",
+                column: Rds.IssuesColumn().IssuesCount(_as: "OverdueCount"),
+                where: new SqlWhereCollection(where.ToArray())
+                    .Add(
+                        columnBrackets: new string[] { "[t0].[Status]" },
+                        name: "_U",
+                        _operator: "<{0}".Params(Parameters.General.CompletionCode))
+                    .Add(
+                        columnBrackets: new string[] { "[t0].[CompletionTime]" },
+                        _operator: "<getdate()")));
             return statementCollection;
         }
 
