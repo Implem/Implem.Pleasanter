@@ -42,7 +42,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                         sqlWhereCollection.Add(
                             columnBrackets: new string[] { "[t0].[Status]" },
                             name: "_U",
-                            _operator: " < {0}".Params(Parameters.General.CompletionCode));
+                            _operator: "<{0}".Params(Parameters.General.CompletionCode));
                         break;
                     case "DataViewFilters_Own":
                         sqlWhereCollection.Add(
@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     case "DataViewFilters_NearCompletionTime":
                         sqlWhereCollection.Add(
                             columnBrackets: new string[] { "[t0].[CompletionTime]" },
-                            _operator: " between '{0}' and '{1}' ".Params(
+                            _operator: " between '{0}' and '{1}'".Params(
                                 DateTime.Now.ToLocal().Date
                                     .AddDays(siteSettings.NearCompletionTimeBeforeDays.ToInt() * (-1)),
                                 DateTime.Now.ToLocal().Date
@@ -66,7 +66,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                             .Add(
                                 columnBrackets: new string[] { "[t0].[Status]" },
                                 name: "_U",
-                                _operator: " < {0}".Params(Parameters.General.CompletionCode))
+                                _operator: "<{0}".Params(Parameters.General.CompletionCode))
                             .Add(
                                 columnBrackets: new string[] { "[t0].[ProgressRate]" },
                                 _operator: "<",
@@ -78,10 +78,10 @@ namespace Implem.Pleasanter.Libraries.Requests
                             .Add(
                                 columnBrackets: new string[] { "[t0].[Status]" },
                                 name: "_U",
-                                _operator: " < {0}".Params(Parameters.General.CompletionCode))
+                                _operator: "<{0}".Params(Parameters.General.CompletionCode))
                             .Add(
                                 columnBrackets: new string[] { "[t0].[CompletionTime]" },
-                                _operator: " < getdate() ");
+                                _operator: "<getdate()");
                         break;
                     default: break;
                 }
@@ -232,7 +232,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
             else
             {
-                where.Add(raw: "0 = 1");
+                where.Add(raw: "0=1");
             }
             return where;
         }
