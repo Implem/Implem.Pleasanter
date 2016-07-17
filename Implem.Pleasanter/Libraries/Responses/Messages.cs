@@ -158,6 +158,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.Deleted(data), "alert-success");
         }
 
+        public static Message Moved(params string[] data)
+        {
+            return Get(Displays.Moved(data), "alert-success");
+        }
+
         public static Message BulkMoved(params string[] data)
         {
             return Get(Displays.BulkMoved(data), "alert-success");
@@ -436,6 +441,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseDeleted(params string[] data)
         {
             return ResponseMessage(Messages.Deleted(data));
+        }
+
+        public static ResponseCollection ResponseMoved(params string[] data)
+        {
+            return ResponseMessage(Messages.Moved(data));
         }
 
         public static ResponseCollection ResponseBulkMoved(params string[] data)

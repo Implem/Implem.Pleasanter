@@ -2836,6 +2836,8 @@ namespace Implem.DefinitionAccessor
                     case "LoginIn_ja": Display.LoginIn_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.LoginIn_ja, definitionRow, DisplayXls); break;
                     case "Deleted": Display.Deleted = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Deleted, definitionRow, DisplayXls); break;
                     case "Deleted_ja": Display.Deleted_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Deleted_ja, definitionRow, DisplayXls); break;
+                    case "Moved": Display.Moved = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Moved, definitionRow, DisplayXls); break;
+                    case "Moved_ja": Display.Moved_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Moved_ja, definitionRow, DisplayXls); break;
                     case "BulkMoved": Display.BulkMoved = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.BulkMoved, definitionRow, DisplayXls); break;
                     case "BulkMoved_ja": Display.BulkMoved_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.BulkMoved_ja, definitionRow, DisplayXls); break;
                     case "BulkDeleted": Display.BulkDeleted = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.BulkDeleted, definitionRow, DisplayXls); break;
@@ -7945,6 +7947,8 @@ namespace Implem.DefinitionAccessor
         public string LoginIn_ja;
         public string Deleted;
         public string Deleted_ja;
+        public string Moved;
+        public string Moved_ja;
         public string BulkMoved;
         public string BulkMoved_ja;
         public string BulkDeleted;
@@ -8567,6 +8571,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition LoginIn_ja = new DisplayDefinition();
         public DisplayDefinition Deleted = new DisplayDefinition();
         public DisplayDefinition Deleted_ja = new DisplayDefinition();
+        public DisplayDefinition Moved = new DisplayDefinition();
+        public DisplayDefinition Moved_ja = new DisplayDefinition();
         public DisplayDefinition BulkMoved = new DisplayDefinition();
         public DisplayDefinition BulkMoved_ja = new DisplayDefinition();
         public DisplayDefinition BulkDeleted = new DisplayDefinition();

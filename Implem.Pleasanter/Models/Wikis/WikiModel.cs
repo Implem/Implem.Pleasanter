@@ -404,6 +404,7 @@ namespace Implem.Pleasanter.Models
                     param: Rds.WikisParam().SiteId(SiteId))
             });
             Get();
+            Sessions.Set("Message", Messages.Moved(Title.Value).Html);
             return Editor();
         }
 

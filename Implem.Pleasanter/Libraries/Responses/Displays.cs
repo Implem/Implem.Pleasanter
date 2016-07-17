@@ -583,6 +583,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string LoginIn(params string[] data) { return Get("LoginIn", data); }
         public static HtmlBuilder Displays_Deleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Deleted", data)); }
         public static string Deleted(params string[] data) { return Get("Deleted", data); }
+        public static HtmlBuilder Displays_Moved(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Moved", data)); }
+        public static string Moved(params string[] data) { return Get("Moved", data); }
         public static HtmlBuilder Displays_BulkMoved(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("BulkMoved", data)); }
         public static string BulkMoved(params string[] data) { return Get("BulkMoved", data); }
         public static HtmlBuilder Displays_BulkDeleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("BulkDeleted", data)); }
