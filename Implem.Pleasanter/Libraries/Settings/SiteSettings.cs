@@ -354,6 +354,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        public void SetChoicesTexts()
+        {
+            ColumnCollection.Where(o => o.HasChoices()).ForEach(column =>
+                column.SetChoicesText(SiteId));
+        }
+
         private decimal DefaultMax(ColumnDefinition columnDefinition)
         {
             return (columnDefinition.Max > 0

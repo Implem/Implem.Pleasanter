@@ -274,6 +274,7 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             wikiModel.SiteSettings.SetLinks();
+            wikiModel.SiteSettings.SetChoicesTexts();
             return hb.Template(
                 siteId: siteModel.SiteId,
                 referenceId: "Wikis",
@@ -730,6 +731,7 @@ namespace Implem.Pleasanter.Models
             SiteModel siteModel)
         {
             siteModel.SiteSettings.SetLinks();
+            siteModel.SiteSettings.SetChoicesTexts();
             var formData = DataViewFilters.SessionFormData(siteModel.SiteId);
             var wikiCollection = new WikiCollection(
                 siteSettings: siteSettings,
@@ -853,6 +855,7 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             siteSettings.SetLinks();
+            siteSettings.SetChoicesTexts();
             return hb.Template(
                 siteId: siteModel.SiteId,
                 referenceId: "Wikis",

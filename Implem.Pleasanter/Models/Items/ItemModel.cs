@@ -94,6 +94,7 @@ namespace Implem.Pleasanter.Models
             }
             SetSite();
             Site.SiteSettings.SetLinks();
+            Site.SiteSettings.SetChoicesTexts();
             switch (Site.ReferenceType)
             {
                 case "Sites": return SiteUtilities.SiteMenu(Site);
@@ -161,6 +162,7 @@ namespace Implem.Pleasanter.Models
         {
             SetSite();
             Site.SiteSettings.SetLinks();
+            Site.SiteSettings.SetChoicesTexts();
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.Export(
@@ -183,6 +185,7 @@ namespace Implem.Pleasanter.Models
         {
             SetSite();
             Site.SiteSettings.SetLinks();
+            Site.SiteSettings.SetChoicesTexts();
             DataViewSelectors.Set(Site.SiteId);
             switch (Site.ReferenceType)
             {
@@ -200,6 +203,7 @@ namespace Implem.Pleasanter.Models
         {
             SetSite();
             Site.SiteSettings.SetLinks();
+            Site.SiteSettings.SetChoicesTexts();
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.GridRows(

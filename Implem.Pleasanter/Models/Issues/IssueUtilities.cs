@@ -635,6 +635,7 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             issueModel.SiteSettings.SetLinks();
+            issueModel.SiteSettings.SetChoicesTexts();
             return hb.Template(
                 siteId: siteModel.SiteId,
                 referenceId: "Issues",
@@ -1455,6 +1456,7 @@ namespace Implem.Pleasanter.Models
             SiteModel siteModel)
         {
             siteModel.SiteSettings.SetLinks();
+            siteModel.SiteSettings.SetChoicesTexts();
             var formData = DataViewFilters.SessionFormData(siteModel.SiteId);
             var issueCollection = new IssueCollection(
                 siteSettings: siteSettings,

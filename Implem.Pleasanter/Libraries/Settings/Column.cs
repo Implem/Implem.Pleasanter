@@ -106,11 +106,82 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Column()
         {
-        }
+        } 
 
         public Column(string columnName)
         {
             ColumnName = columnName;
+        }
+
+        public void SetChoicesText(long siteId)
+        {
+            var tenantId = Sessions.TenantId();
+            var choicesHash = new Dictionary<string, string>();
+            ChoicesText.SplitReturn()
+                .Select((o, i) => new { KeyValue = KeyValue(o), Index = i })
+                .ForEach(data =>
+                {
+                    switch (data.KeyValue.Key)
+                    {
+                        case "[[Depts]]":
+                            SiteInfo.GetDepts()
+                                .Where(o => o.Value.TenantId == tenantId)
+                                .ForEach(o => Add(
+                                    choicesHash,
+                                    o.Key.ToString(),
+                                    SiteInfo.DeptModel(o.Key).DeptName));
+                            break;
+                        case "[[Users]]":
+                            SiteInfo.UserIdCollection(siteId)
+                                .ForEach(o => Add(
+                                    choicesHash,
+                                    o.ToString(),
+                                    SiteInfo.UserFullName(o)));
+                            break;
+                        case "[[Users*]]":
+                            SiteInfo.Users
+                                .Where(o => o.Value.TenantId == tenantId)
+                                .ForEach(o => Add(
+                                    choicesHash,
+                                    o.Key.ToString(),
+                                    o.Value.FullName));
+                            break;
+                        case "[[TimeZones]]":
+                            TimeZoneInfo.GetSystemTimeZones()
+                                .ForEach(o => Add(
+                                    choicesHash,
+                                    o.Id,
+                                    o.StandardName));
+                            break;
+                        default:
+                            var key = TypeName != "bit"
+                                ? data.KeyValue.Key
+                                : (data.Index == 0).ToOneOrZeroString();
+                            Add(choicesHash, key, data.KeyValue.Value);
+                            break;
+                    }
+                });
+            ChoicesText = choicesHash.Select(o => 
+                o.Key + (o.Value != string.Empty 
+                    ? "," + o.Value
+                    : string.Empty)).Join("\r\n");
+        }
+
+        private KeyValuePair<string, string> KeyValue(string choice)
+        {
+            return choice.Contains(',')
+                ? new KeyValuePair<string, string>(
+                    choice.Substring(0, choice.IndexOf(',')),
+                    choice.Substring(choice.IndexOf(',') + 1))
+                : new KeyValuePair<string, string>(choice, string.Empty);
+        }
+
+        private void Add(Dictionary<string, string> choicesHash, string key, string value)
+        {
+            if (!choicesHash.Keys.Contains(key))
+            {
+                choicesHash.Add(key, value);
+            }
         }
 
         public Dictionary<string, ControlData> EditChoices(
@@ -127,57 +198,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             Choices().Select((o, i) => new { Choice = o, Index = i }).ForEach(data =>
             {
-                var value = data.Choice.SelectedValue;
-                switch (value)
+                if (!editChoices.ContainsKey(data.Choice.SelectedValue))
                 {
-                    case "[[Depts]]":
-                        editChoices = editChoices
-                            .Concat(SiteInfo.GetDepts()
-                                .Where(o => o.Value.TenantId == tenantId)
-                                .ToDictionary(
-                                    o => o.Key.ToString(),
-                                    o => new ControlData(SiteInfo.DeptModel(o.Key).DeptName)))
-                            .ToDictionary(o => o.Key, o => o.Value);
-                        break;
-                    case "[[Users]]":
-                        editChoices = editChoices
-                            .Concat(SiteInfo.UserIdCollection(siteId)
-                                .ToDictionary(
-                                    o => o.ToString(),
-                                    o => new ControlData(SiteInfo.UserFullName(o))))
-                            .ToDictionary(o => o.Key, o => o.Value);
-                        break;
-                    case "[[Users*]]":
-                        editChoices = editChoices
-                            .Concat(SiteInfo.Users
-                                .Where(o => o.Value.TenantId == tenantId)
-                                .ToDictionary(
-                                    o => o.Key.ToString(),
-                                    o => new ControlData(o.Value.FullName)))
-                            .ToDictionary(o => o.Key, o => o.Value);
-                        break;
-                    case "[[TimeZones]]":
-                        editChoices = editChoices
-                            .Concat(TimeZoneInfo.GetSystemTimeZones()
-                                .ToDictionary(
-                                    o => o.Id,
-                                    o => new ControlData(o.StandardName)))
-                            .ToDictionary(o => o.Key, o => o.Value);
-                        break;
-                    default:
-                        var key = TypeName != "bit"
-                                ? value
-                                : (data.Index == 0).ToOneOrZeroString();
-                        if (!editChoices.ContainsKey(key))
-                        {
-                            editChoices.Add(
-                                key,
-                                new ControlData(
-                                    text: data.Choice.Text(),
-                                    css: data.Choice.CssClass(),
-                                    style: data.Choice.Style()));
-                        }
-                        break;
+                    editChoices.Add(
+                        data.Choice.SelectedValue,
+                        new ControlData(
+                            text: data.Choice.Text(),
+                            css: data.Choice.CssClass(),
+                            style: data.Choice.Style()));
                 }
             });
             if (addNotSet && Nullable)
