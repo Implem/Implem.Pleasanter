@@ -403,6 +403,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.WikisWhere().WikiId(WikiId),
                     param: Rds.WikisParam().SiteId(SiteId))
             });
+            Get();
             return Editor();
         }
 

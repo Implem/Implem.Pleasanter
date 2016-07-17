@@ -1262,6 +1262,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.IssuesWhere().IssueId(IssueId),
                     param: Rds.IssuesParam().SiteId(SiteId))
             });
+            Get();
             return Editor();
         }
 
