@@ -60,6 +60,9 @@
             $control.trigger('change');
         }
     });
+    $(document).on('click', '#Aggregations .overdue', function () {
+        $('#DataViewFilters_Overdue').click();
+    })
 });
 $(function () {
     var timer;

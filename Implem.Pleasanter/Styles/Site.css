@@ -1174,6 +1174,7 @@ pre{
     font-weight:bold;
     color:white;
     background-color:red;
+    cursor:pointer;
 }
 
 .aggregations .data{
@@ -1186,6 +1187,7 @@ pre{
 
 .aggregations .data.overdue{
     color:red;
+    cursor:pointer;
 }
 
 .aggregations em{
