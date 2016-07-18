@@ -128,7 +128,7 @@ namespace Implem.Pleasanter.Models
         {
             Set(Rds.ExecuteTable(statements: Rds.SelectOutgoingMails(
                 tableType: tableType,
-                column: column ?? Rds.OutgoingMailsColumnDefault(),
+                column: column ?? Rds.EditorOutgoingMailsColumn(SiteSettings),
                 join: join ??  Rds.OutgoingMailsJoinDefault(),
                 where: where ?? Rds.OutgoingMailsWhereDefault(this),
                 orderBy: orderBy ?? null,

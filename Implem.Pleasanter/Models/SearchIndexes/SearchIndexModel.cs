@@ -72,7 +72,7 @@ namespace Implem.Pleasanter.Models
         {
             Set(Rds.ExecuteTable(statements: Rds.SelectSearchIndexes(
                 tableType: tableType,
-                column: column ?? Rds.SearchIndexesColumnDefault(),
+                column: column ?? Rds.EditorSearchIndexesColumn(SiteSettings),
                 join: join ??  Rds.SearchIndexesJoinDefault(),
                 where: where ?? Rds.SearchIndexesWhereDefault(this),
                 orderBy: orderBy ?? null,

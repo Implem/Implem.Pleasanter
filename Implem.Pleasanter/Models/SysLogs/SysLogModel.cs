@@ -164,7 +164,7 @@ namespace Implem.Pleasanter.Models
         {
             Set(Rds.ExecuteTable(statements: Rds.SelectSysLogs(
                 tableType: tableType,
-                column: column ?? Rds.SysLogsColumnDefault(),
+                column: column ?? Rds.EditorSysLogsColumn(SiteSettings),
                 join: join ??  Rds.SysLogsJoinDefault(),
                 where: where ?? Rds.SysLogsWhereDefault(this),
                 orderBy: orderBy ?? null,

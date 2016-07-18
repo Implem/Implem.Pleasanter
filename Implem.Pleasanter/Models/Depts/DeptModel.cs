@@ -117,7 +117,7 @@ namespace Implem.Pleasanter.Models
         {
             Set(Rds.ExecuteTable(statements: Rds.SelectDepts(
                 tableType: tableType,
-                column: column ?? Rds.DeptsColumnDefault(),
+                column: column ?? Rds.EditorDeptsColumn(SiteSettings),
                 join: join ??  Rds.DeptsJoinDefault(),
                 where: where ?? Rds.DeptsWhereDefault(this),
                 orderBy: orderBy ?? null,

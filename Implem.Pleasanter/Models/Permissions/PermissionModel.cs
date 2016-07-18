@@ -75,7 +75,7 @@ namespace Implem.Pleasanter.Models
         {
             Set(Rds.ExecuteTable(statements: Rds.SelectPermissions(
                 tableType: tableType,
-                column: column ?? Rds.PermissionsColumnDefault(),
+                column: column ?? Rds.EditorPermissionsColumn(SiteSettings),
                 join: join ??  Rds.PermissionsJoinDefault(),
                 where: where ?? Rds.PermissionsWhereDefault(this),
                 orderBy: orderBy ?? null,

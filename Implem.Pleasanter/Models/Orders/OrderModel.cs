@@ -68,7 +68,7 @@ namespace Implem.Pleasanter.Models
         {
             Set(Rds.ExecuteTable(statements: Rds.SelectOrders(
                 tableType: tableType,
-                column: column ?? Rds.OrdersColumnDefault(),
+                column: column ?? Rds.EditorOrdersColumn(SiteSettings),
                 join: join ??  Rds.OrdersJoinDefault(),
                 where: where ?? Rds.OrdersWhereDefault(this),
                 orderBy: orderBy ?? null,

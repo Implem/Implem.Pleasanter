@@ -69,7 +69,7 @@ namespace Implem.Pleasanter.Models
         {
             Set(Rds.ExecuteTable(statements: Rds.SelectLinks(
                 tableType: tableType,
-                column: column ?? Rds.LinksColumnDefault(),
+                column: column ?? Rds.EditorLinksColumn(SiteSettings),
                 join: join ??  Rds.LinksJoinDefault(),
                 where: where ?? Rds.LinksWhereDefault(this),
                 orderBy: orderBy ?? null,

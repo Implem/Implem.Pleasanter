@@ -690,7 +690,7 @@ namespace Implem.Pleasanter.Models
         {
             Set(Rds.ExecuteTable(statements: Rds.SelectIssues(
                 tableType: tableType,
-                column: column ?? Rds.IssuesColumnDefault(),
+                column: column ?? Rds.EditorIssuesColumn(SiteSettings),
                 join: join ??  Rds.IssuesJoinDefault(),
                 where: where ?? Rds.IssuesWhereDefault(this),
                 orderBy: orderBy ?? null,

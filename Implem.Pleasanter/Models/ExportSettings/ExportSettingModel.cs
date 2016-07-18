@@ -154,7 +154,7 @@ namespace Implem.Pleasanter.Models
         {
             Set(Rds.ExecuteTable(statements: Rds.SelectExportSettings(
                 tableType: tableType,
-                column: column ?? Rds.ExportSettingsColumnDefault(),
+                column: column ?? Rds.EditorExportSettingsColumn(SiteSettings),
                 join: join ??  Rds.ExportSettingsJoinDefault(),
                 where: where ?? Rds.ExportSettingsWhereDefault(this),
                 orderBy: orderBy ?? null,
