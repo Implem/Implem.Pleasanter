@@ -309,7 +309,7 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
-            var siteSettings = SiteSettingsUtility.OutgoingMailsSiteSettings();
+            outgoingMailModel.SiteSettings.SetChoicesTexts();
             return hb.Template(
                 siteId: 0,
                 referenceId: "OutgoingMails",
@@ -329,7 +329,7 @@ namespace Implem.Pleasanter.Models
                         .Editor(
                             outgoingMailModel: outgoingMailModel,
                             permissionType: permissionType,
-                            siteSettings: siteSettings)
+                            siteSettings: outgoingMailModel.SiteSettings)
                         .Hidden(controlId: "TableName", value: "OutgoingMails")
                         .Hidden(controlId: "Id", value: outgoingMailModel.OutgoingMailId.ToString());
                 }).ToString();

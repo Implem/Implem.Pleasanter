@@ -309,7 +309,7 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
-            var siteSettings = SiteSettingsUtility.TenantsSiteSettings();
+            tenantModel.SiteSettings.SetChoicesTexts();
             return hb.Template(
                 siteId: 0,
                 referenceId: "Tenants",
@@ -329,7 +329,7 @@ namespace Implem.Pleasanter.Models
                         .Editor(
                             tenantModel: tenantModel,
                             permissionType: permissionType,
-                            siteSettings: siteSettings)
+                            siteSettings: tenantModel.SiteSettings)
                         .Hidden(controlId: "TableName", value: "Tenants")
                         .Hidden(controlId: "Id", value: tenantModel.TenantId.ToString());
                 }).ToString();

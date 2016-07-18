@@ -306,7 +306,7 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
-            var siteSettings = SiteSettingsUtility.MailAddressesSiteSettings();
+            mailAddressModel.SiteSettings.SetChoicesTexts();
             return hb.Template(
                 siteId: 0,
                 referenceId: "MailAddresses",
@@ -326,7 +326,7 @@ namespace Implem.Pleasanter.Models
                         .Editor(
                             mailAddressModel: mailAddressModel,
                             permissionType: permissionType,
-                            siteSettings: siteSettings)
+                            siteSettings: mailAddressModel.SiteSettings)
                         .Hidden(controlId: "TableName", value: "MailAddresses")
                         .Hidden(controlId: "Id", value: mailAddressModel.MailAddressId.ToString());
                 }).ToString();

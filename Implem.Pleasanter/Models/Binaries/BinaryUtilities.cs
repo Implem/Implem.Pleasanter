@@ -314,7 +314,7 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
-            var siteSettings = SiteSettingsUtility.BinariesSiteSettings();
+            binaryModel.SiteSettings.SetChoicesTexts();
             return hb.Template(
                 siteId: 0,
                 referenceId: "Binaries",
@@ -334,7 +334,7 @@ namespace Implem.Pleasanter.Models
                         .Editor(
                             binaryModel: binaryModel,
                             permissionType: permissionType,
-                            siteSettings: siteSettings)
+                            siteSettings: binaryModel.SiteSettings)
                         .Hidden(controlId: "TableName", value: "Binaries")
                         .Hidden(controlId: "Id", value: binaryModel.BinaryId.ToString());
                 }).ToString();

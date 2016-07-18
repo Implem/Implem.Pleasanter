@@ -308,7 +308,7 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
-            var siteSettings = SiteSettingsUtility.DemosSiteSettings();
+            demoModel.SiteSettings.SetChoicesTexts();
             return hb.Template(
                 siteId: 0,
                 referenceId: "Demos",
@@ -328,7 +328,7 @@ namespace Implem.Pleasanter.Models
                         .Editor(
                             demoModel: demoModel,
                             permissionType: permissionType,
-                            siteSettings: siteSettings)
+                            siteSettings: demoModel.SiteSettings)
                         .Hidden(controlId: "TableName", value: "Demos")
                         .Hidden(controlId: "Id", value: demoModel.DemoId.ToString());
                 }).ToString();

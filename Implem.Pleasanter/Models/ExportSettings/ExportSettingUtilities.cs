@@ -308,7 +308,7 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
-            var siteSettings = SiteSettingsUtility.ExportSettingsSiteSettings();
+            exportSettingModel.SiteSettings.SetChoicesTexts();
             return hb.Template(
                 siteId: 0,
                 referenceId: "ExportSettings",
@@ -328,7 +328,7 @@ namespace Implem.Pleasanter.Models
                         .Editor(
                             exportSettingModel: exportSettingModel,
                             permissionType: permissionType,
-                            siteSettings: siteSettings)
+                            siteSettings: exportSettingModel.SiteSettings)
                         .Hidden(controlId: "TableName", value: "ExportSettings")
                         .Hidden(controlId: "Id", value: exportSettingModel.ExportSettingId.ToString());
                 }).ToString();
