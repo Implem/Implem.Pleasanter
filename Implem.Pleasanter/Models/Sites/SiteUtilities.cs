@@ -1081,7 +1081,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder SiteSettingEditorColumns(
+        private static HtmlBuilder SiteSettingEditorColumns(
             this HtmlBuilder hb, SiteSettings siteSettings)
         {
             return hb.FieldSet(
@@ -1141,7 +1141,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder SiteSettingLinkColumns(
+        private static HtmlBuilder SiteSettingLinkColumns(
             this HtmlBuilder hb, SiteSettings siteSettings)
         {
             return hb.FieldSet(
@@ -1191,7 +1191,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder SiteSettingHistoryColumns(
+        private static HtmlBuilder SiteSettingHistoryColumns(
             this HtmlBuilder hb, SiteSettings siteSettings)
         {
             return hb.FieldSet(
