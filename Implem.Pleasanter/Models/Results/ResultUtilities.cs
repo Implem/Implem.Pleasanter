@@ -147,6 +147,8 @@ namespace Implem.Pleasanter.Models
         public static string DataView(
             SiteSettings siteSettings, Permissions.Types permissionType)
         {
+            siteSettings.SetLinks();
+            siteSettings.SetChoicesTexts();
             switch (DataViewSelectors.Get(siteSettings.SiteId))
             {
                 case "TimeSeries": return TimeSeriesResponse(siteSettings, permissionType);

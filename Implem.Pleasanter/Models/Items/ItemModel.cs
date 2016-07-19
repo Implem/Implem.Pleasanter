@@ -182,8 +182,6 @@ namespace Implem.Pleasanter.Models
         public string DataView()
         {
             SetSite();
-            Site.SiteSettings.SetLinks();
-            Site.SiteSettings.SetChoicesTexts();
             DataViewSelectors.Set(Site.SiteId);
             switch (Site.ReferenceType)
             {
