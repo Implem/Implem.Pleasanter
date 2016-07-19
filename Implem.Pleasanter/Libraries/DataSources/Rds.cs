@@ -5635,29 +5635,29 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "Updator": return self.Updator(duplicate, _as);
                         case "CreatedTime": return self.CreatedTime(duplicate, _as);
                         case "UpdatedTime": return self.UpdatedTime(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Total":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Average":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Max":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Min":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
-                default: return null;
+                default: return self;
             }
         }
 
@@ -6124,29 +6124,29 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "Updator": return self.Updator(duplicate, _as);
                         case "CreatedTime": return self.CreatedTime(duplicate, _as);
                         case "UpdatedTime": return self.UpdatedTime(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Total":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Average":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Max":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Min":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
-                default: return null;
+                default: return self;
             }
         }
 
@@ -6697,29 +6697,29 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "Creator": return self.Creator(duplicate, _as);
                         case "Updator": return self.Updator(duplicate, _as);
                         case "UpdatedTime": return self.UpdatedTime(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Total":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Average":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Max":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Min":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
-                default: return null;
+                default: return self;
             }
         }
 
@@ -7754,29 +7754,29 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "Updator": return self.Updator(duplicate, _as);
                         case "CreatedTime": return self.CreatedTime(duplicate, _as);
                         case "UpdatedTime": return self.UpdatedTime(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Total":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Average":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Max":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Min":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
-                default: return null;
+                default: return self;
             }
         }
 
@@ -8373,29 +8373,29 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "Updator": return self.Updator(duplicate, _as);
                         case "CreatedTime": return self.CreatedTime(duplicate, _as);
                         case "UpdatedTime": return self.UpdatedTime(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Total":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Average":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Max":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Min":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
-                default: return null;
+                default: return self;
             }
         }
 
@@ -9250,29 +9250,29 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "Updator": return self.Updator(duplicate, _as);
                         case "CreatedTime": return self.CreatedTime(duplicate, _as);
                         case "UpdatedTime": return self.UpdatedTime(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Total":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Average":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Max":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Min":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
-                default: return null;
+                default: return self;
             }
         }
 
@@ -9777,29 +9777,29 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "Updator": return self.Updator(duplicate, _as);
                         case "CreatedTime": return self.CreatedTime(duplicate, _as);
                         case "UpdatedTime": return self.UpdatedTime(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Total":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Average":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Max":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Min":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
-                default: return null;
+                default: return self;
             }
         }
 
@@ -10463,29 +10463,29 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "Updator": return self.Updator(duplicate, _as);
                         case "CreatedTime": return self.CreatedTime(duplicate, _as);
                         case "UpdatedTime": return self.UpdatedTime(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Total":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Average":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Max":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Min":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
-                default: return null;
+                default: return self;
             }
         }
 
@@ -11158,33 +11158,33 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "Updator": return self.Updator(duplicate, _as);
                         case "CreatedTime": return self.CreatedTime(duplicate, _as);
                         case "UpdatedTime": return self.UpdatedTime(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Total":
                     switch (columnName)
                     {
                         case "Priority": return self.PriorityTotal(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Average":
                     switch (columnName)
                     {
                         case "Priority": return self.PriorityAverage(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Max":
                     switch (columnName)
                     {
                         case "Priority": return self.PriorityMax(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Min":
                     switch (columnName)
                     {
                         case "Priority": return self.PriorityMin(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
-                default: return null;
+                default: return self;
             }
         }
 
@@ -11769,29 +11769,29 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "Updator": return self.Updator(duplicate, _as);
                         case "CreatedTime": return self.CreatedTime(duplicate, _as);
                         case "UpdatedTime": return self.UpdatedTime(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Total":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Average":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Max":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Min":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
-                default: return null;
+                default: return self;
             }
         }
 
@@ -12320,29 +12320,29 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "Creator": return self.Creator(duplicate, _as);
                         case "Updator": return self.Updator(duplicate, _as);
                         case "CreatedTime": return self.CreatedTime(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Total":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Average":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Max":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Min":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
-                default: return null;
+                default: return self;
             }
         }
 
@@ -13009,29 +13009,29 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "Updator": return self.Updator(duplicate, _as);
                         case "CreatedTime": return self.CreatedTime(duplicate, _as);
                         case "UpdatedTime": return self.UpdatedTime(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Total":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Average":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Max":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Min":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
-                default: return null;
+                default: return self;
             }
         }
 
@@ -13532,29 +13532,29 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "Updator": return self.Updator(duplicate, _as);
                         case "CreatedTime": return self.CreatedTime(duplicate, _as);
                         case "UpdatedTime": return self.UpdatedTime(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Total":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Average":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Max":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Min":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
-                default: return null;
+                default: return self;
             }
         }
 
@@ -14078,29 +14078,29 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "Updator": return self.Updator(duplicate, _as);
                         case "CreatedTime": return self.CreatedTime(duplicate, _as);
                         case "UpdatedTime": return self.UpdatedTime(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Total":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Average":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Max":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Min":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
-                default: return null;
+                default: return self;
             }
         }
 
@@ -14666,29 +14666,29 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "Updator": return self.Updator(duplicate, _as);
                         case "CreatedTime": return self.CreatedTime(duplicate, _as);
                         case "UpdatedTime": return self.UpdatedTime(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Total":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Average":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Max":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Min":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
-                default: return null;
+                default: return self;
             }
         }
 
@@ -15477,7 +15477,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "Creator": return self.Creator(duplicate, _as);
                         case "Updator": return self.Updator(duplicate, _as);
                         case "CreatedTime": return self.CreatedTime(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Total":
                     switch (columnName)
@@ -15510,7 +15510,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "NumX": return self.NumXTotal(duplicate, _as);
                         case "NumY": return self.NumYTotal(duplicate, _as);
                         case "NumZ": return self.NumZTotal(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Average":
                     switch (columnName)
@@ -15543,7 +15543,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "NumX": return self.NumXAverage(duplicate, _as);
                         case "NumY": return self.NumYAverage(duplicate, _as);
                         case "NumZ": return self.NumZAverage(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Max":
                     switch (columnName)
@@ -15576,7 +15576,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "NumX": return self.NumXMax(duplicate, _as);
                         case "NumY": return self.NumYMax(duplicate, _as);
                         case "NumZ": return self.NumZMax(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Min":
                     switch (columnName)
@@ -15609,9 +15609,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "NumX": return self.NumXMin(duplicate, _as);
                         case "NumY": return self.NumYMin(duplicate, _as);
                         case "NumZ": return self.NumZMin(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
-                default: return null;
+                default: return self;
             }
         }
 
@@ -19646,7 +19646,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "Creator": return self.Creator(duplicate, _as);
                         case "Updator": return self.Updator(duplicate, _as);
                         case "CreatedTime": return self.CreatedTime(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Total":
                     switch (columnName)
@@ -19677,7 +19677,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "NumX": return self.NumXTotal(duplicate, _as);
                         case "NumY": return self.NumYTotal(duplicate, _as);
                         case "NumZ": return self.NumZTotal(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Average":
                     switch (columnName)
@@ -19708,7 +19708,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "NumX": return self.NumXAverage(duplicate, _as);
                         case "NumY": return self.NumYAverage(duplicate, _as);
                         case "NumZ": return self.NumZAverage(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Max":
                     switch (columnName)
@@ -19739,7 +19739,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "NumX": return self.NumXMax(duplicate, _as);
                         case "NumY": return self.NumYMax(duplicate, _as);
                         case "NumZ": return self.NumZMax(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Min":
                     switch (columnName)
@@ -19770,9 +19770,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "NumX": return self.NumXMin(duplicate, _as);
                         case "NumY": return self.NumYMin(duplicate, _as);
                         case "NumZ": return self.NumZMin(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
-                default: return null;
+                default: return self;
             }
         }
 
@@ -23438,29 +23438,29 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case "Creator": return self.Creator(duplicate, _as);
                         case "Updator": return self.Updator(duplicate, _as);
                         case "CreatedTime": return self.CreatedTime(duplicate, _as);
-                        default: return null;
+                        default: return self;
                     }
                 case "Total":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Average":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Max":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
                 case "Min":
                     switch (columnName)
                     {
-                        default: return null;
+                        default: return self;
                     }
-                default: return null;
+                default: return self;
             }
         }
 
