@@ -129,12 +129,10 @@ namespace Implem.Pleasanter.Models
                        column: siteSettings.AllColumn("WorkValue"));
                 case "Gantt":
                     return hb.Gantt(
-                      siteSettings: siteSettings,
-                      permissionType: permissionType,
-                      dataRows: GanttDataRows(
-                          siteSettings: siteSettings,
-                          formData: formData),
-                      unit: siteSettings.AllColumn("WorkValue").Unit);
+                        siteSettings: siteSettings,
+                        permissionType: permissionType,
+                        formData: formData,
+                        bodyOnly: false);
                 case "TimeSeries":
                     return hb.TimeSeries(
                         siteSettings: siteSettings,
@@ -1884,14 +1882,15 @@ namespace Implem.Pleasanter.Models
         {
             var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
             var issueCollection = IssueCollection(siteSettings, permissionType, formData);
+            var bodyOnly = Forms.Data("ControlId").StartsWith("Gantt");
             return new ResponseCollection()
                 .Html(
                     "#DataViewContainer",
                     new HtmlBuilder().Gantt(
                         siteSettings: siteSettings,
                         permissionType: permissionType,
-                        dataRows: GanttDataRows(siteSettings, formData),
-                        unit: siteSettings.AllColumn("WorkValue").Unit))
+                        formData: formData,
+                        bodyOnly: bodyOnly))
                 .Html(
                     "#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
@@ -1899,6 +1898,32 @@ namespace Implem.Pleasanter.Models
                     container: false))
                 .Func("drawGantt")
                 .WindowScrollTop().ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder Gantt(
+            this HtmlBuilder hb,
+            SiteSettings siteSettings,
+            Permissions.Types permissionType,
+            FormData formData,
+            bool bodyOnly)
+        {
+            var groupByColumn = formData.Keys.Contains("GanttGroupByColumn")
+                ? formData["GanttGroupByColumn"].Value
+                : string.Empty;
+            var dataRows = GanttDataRows(siteSettings, formData);
+            return !bodyOnly
+                ? hb.Gantt(
+                    siteSettings: siteSettings,
+                    groupByColumn: groupByColumn,
+                    permissionType: permissionType,
+                    dataRows: dataRows)
+                : hb.GanttChart(
+                    siteSettings: siteSettings,
+                    groupByColumn: groupByColumn,
+                    dataRows: dataRows);
         }
 
         /// <summary>

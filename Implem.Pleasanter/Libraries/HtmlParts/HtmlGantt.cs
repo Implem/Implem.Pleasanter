@@ -7,6 +7,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlGantts
@@ -14,35 +15,51 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Gantt(
             this HtmlBuilder hb,
             SiteSettings siteSettings,
+            string groupByColumn,
             Permissions.Types permissionType,
-            IEnumerable<DataRow> dataRows,
-            string unit)
+            IEnumerable<DataRow> dataRows)
         {
-            var gantt = new Gantt(siteSettings, dataRows);
-            return hb
-                .Chart(gantt: gantt)
+            return hb.Div(css: "both", action: () => hb
+                .FieldDropDown(
+                    controlId: "TimeSeriesGroupByColumn",
+                    fieldCss: "field-auto-thin hidden",
+                    controlCss: " auto-postback",
+                    labelText: Displays.GroupBy(),
+                    optionCollection: siteSettings.ColumnCollection.Where(o => o.HasChoices())
+                        .ToDictionary(o => o.ColumnName, o => o.LabelText),
+                    selectedValue: groupByColumn,
+                    action: "DataView",
+                    method: "post")
+                .Div(id: "GanttChart", action: () => hb
+                    .GanttChart(
+                        siteSettings: siteSettings,
+                        groupByColumn: groupByColumn,
+                        dataRows: dataRows))
                 .MainCommands(
                     siteId: siteSettings.SiteId,
                     permissionType: permissionType,
                     verType: Versions.VerTypes.Latest,
                     backUrl: Navigations.ItemIndex(siteSettings.ParentId),
                     importButton: true,
-                    exportButton: true);
+                    exportButton: true));
         }
 
-        private static HtmlBuilder Chart(this HtmlBuilder hb, Gantt gantt)
+        public static HtmlBuilder GanttChart(
+            this HtmlBuilder hb,
+            SiteSettings siteSettings,
+            string groupByColumn,
+            IEnumerable<DataRow> dataRows)
         {
-            return hb.Div(css: "gantt-chart", action: () => hb
-                .Svg(
-                    attributes: new HtmlAttributes()
-                        .Id_Css("Gantt", "gantt")
-                        .Height(gantt.Height.ToInt()))
-                .Svg(
-                    attributes: new HtmlAttributes()
-                        .Id_Css("GanttAxis", "gantt-axis"))
+            var gantt = new Gantt(siteSettings, dataRows);
+            return hb
+                .Svg(attributes: new HtmlAttributes()
+                    .Id_Css("Gantt", "gantt")
+                    .Height(gantt.Height.ToInt()))
+                .Svg(attributes: new HtmlAttributes()
+                    .Id_Css("GanttAxis", "gantt-axis"))
                 .Hidden(
                     controlId: "GanttJson",
-                    value: gantt.ChartJson()));
+                    value: gantt.ChartJson());
         }
     }
 }
