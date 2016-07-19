@@ -68,7 +68,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 _checked: formData.Checked("DataViewFilters_Own"),
                 action: "DataView",
                 method: "post",
-                labelPositionIsRight: true);
+                labelPositionIsRight: true,
+                _using: Visible(siteSettings, "Owner"));
         }
 
         private static HtmlBuilder NearCompletionTime(
