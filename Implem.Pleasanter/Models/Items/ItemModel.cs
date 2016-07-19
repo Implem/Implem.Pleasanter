@@ -196,8 +196,6 @@ namespace Implem.Pleasanter.Models
         public string GridRows()
         {
             SetSite();
-            Site.SiteSettings.SetLinks();
-            Site.SiteSettings.SetChoicesTexts();
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.GridRows(

@@ -130,6 +130,8 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false,
             Message message = null)
         {
+            siteSettings.SetLinks();
+            siteSettings.SetChoicesTexts();
             var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
             var wikiCollection = WikiCollection(siteSettings, permissionType, formData, offset);
             return (responseCollection ?? new ResponseCollection())

@@ -207,6 +207,8 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false,
             Message message = null)
         {
+            siteSettings.SetLinks();
+            siteSettings.SetChoicesTexts();
             var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
             var resultCollection = ResultCollection(siteSettings, permissionType, formData, offset);
             return (responseCollection ?? new ResponseCollection())
