@@ -73,7 +73,7 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public static RdsUser RdsUser()
         {
-            return HttpContext.Current.Session?["RdsUser"] as RdsUser;
+            return HttpContext.Current?.Session?["RdsUser"] as RdsUser;
         }
 
         public static string Language()
