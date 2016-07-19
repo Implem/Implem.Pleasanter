@@ -23823,7 +23823,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             if (siteSettings != null)
             {
-                var ret = Rds.TenantsColumn();
+                var ret = Rds.TenantsColumn()
+                    .Comments();
                 siteSettings.ColumnCollection
                     .Where(o => 
                         !o.Nullable.ToBool() ||
@@ -23881,7 +23882,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             if (siteSettings != null)
             {
-                var ret = Rds.DemosColumn();
+                var ret = Rds.DemosColumn()
+                    .Comments();
                 siteSettings.ColumnCollection
                     .Where(o => 
                         !o.Nullable.ToBool() ||
@@ -23969,7 +23971,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             if (siteSettings != null)
             {
-                var ret = Rds.SysLogsColumn();
+                var ret = Rds.SysLogsColumn()
+                    .Comments();
                 siteSettings.ColumnCollection
                     .Where(o => 
                         !o.Nullable.ToBool() ||
@@ -24059,7 +24062,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             if (siteSettings != null)
             {
-                var ret = Rds.DeptsColumn();
+                var ret = Rds.DeptsColumn()
+                    .Comments();
                 siteSettings.ColumnCollection
                     .Where(o => 
                         !o.Nullable.ToBool() ||
@@ -24137,7 +24141,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             if (siteSettings != null)
             {
-                var ret = Rds.UsersColumn();
+                var ret = Rds.UsersColumn()
+                    .Comments();
                 siteSettings.ColumnCollection
                     .Where(o => 
                         !o.Nullable.ToBool() ||
@@ -24212,7 +24217,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             if (siteSettings != null)
             {
-                var ret = Rds.MailAddressesColumn();
+                var ret = Rds.MailAddressesColumn()
+                    .Comments();
                 siteSettings.ColumnCollection
                     .Where(o => 
                         !o.Nullable.ToBool() ||
@@ -24275,7 +24281,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             if (siteSettings != null)
             {
-                var ret = Rds.PermissionsColumn();
+                var ret = Rds.PermissionsColumn()
+                    .Comments();
                 siteSettings.ColumnCollection
                     .Where(o => 
                         !o.Nullable.ToBool() ||
@@ -24342,7 +24349,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             if (siteSettings != null)
             {
-                var ret = Rds.OutgoingMailsColumn();
+                var ret = Rds.OutgoingMailsColumn()
+                    .Comments();
                 siteSettings.ColumnCollection
                     .Where(o => 
                         !o.Nullable.ToBool() ||
@@ -24413,7 +24421,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             if (siteSettings != null)
             {
-                var ret = Rds.SearchIndexesColumn();
+                var ret = Rds.SearchIndexesColumn()
+                    .Comments();
                 siteSettings.ColumnCollection
                     .Where(o => 
                         !o.Nullable.ToBool() ||
@@ -24472,7 +24481,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             if (siteSettings != null)
             {
-                var ret = Rds.ItemsColumn();
+                var ret = Rds.ItemsColumn()
+                    .Comments();
                 siteSettings.ColumnCollection
                     .Where(o => 
                         !o.Nullable.ToBool() ||
@@ -24536,7 +24546,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             if (siteSettings != null)
             {
-                var ret = Rds.SitesColumn();
+                var ret = Rds.SitesColumn()
+                    .Comments();
                 siteSettings.ColumnCollection
                     .Where(o => 
                         !o.Nullable.ToBool() ||
@@ -24598,7 +24609,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             if (siteSettings != null)
             {
-                var ret = Rds.OrdersColumn();
+                var ret = Rds.OrdersColumn()
+                    .Comments();
                 siteSettings.ColumnCollection
                     .Where(o => 
                         !o.Nullable.ToBool() ||
@@ -24659,7 +24671,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             if (siteSettings != null)
             {
-                var ret = Rds.ExportSettingsColumn();
+                var ret = Rds.ExportSettingsColumn()
+                    .Comments();
                 siteSettings.ColumnCollection
                     .Where(o => 
                         !o.Nullable.ToBool() ||
@@ -24722,7 +24735,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             if (siteSettings != null)
             {
-                var ret = Rds.LinksColumn();
+                var ret = Rds.LinksColumn()
+                    .Comments();
                 siteSettings.ColumnCollection
                     .Where(o => 
                         !o.Nullable.ToBool() ||
@@ -24786,7 +24800,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             if (siteSettings != null)
             {
-                var ret = Rds.BinariesColumn();
+                var ret = Rds.BinariesColumn()
+                    .Comments();
                 siteSettings.ColumnCollection
                     .Where(o => 
                         !o.Nullable.ToBool() ||
@@ -24990,7 +25005,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             if (siteSettings != null)
             {
-                var ret = Rds.IssuesColumn();
+                var ret = Rds.IssuesColumn()
+                    .Comments();
                 siteSettings.ColumnCollection
                     .Where(o => 
                         !o.Nullable.ToBool() ||
@@ -25318,7 +25334,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             if (siteSettings != null)
             {
-                var ret = Rds.ResultsColumn();
+                var ret = Rds.ResultsColumn()
+                    .Comments();
                 siteSettings.ColumnCollection
                     .Where(o => 
                         !o.Nullable.ToBool() ||
@@ -25509,7 +25526,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             if (siteSettings != null)
             {
-                var ret = Rds.WikisColumn();
+                var ret = Rds.WikisColumn()
+                    .Comments();
                 siteSettings.ColumnCollection
                     .Where(o => 
                         !o.Nullable.ToBool() ||
