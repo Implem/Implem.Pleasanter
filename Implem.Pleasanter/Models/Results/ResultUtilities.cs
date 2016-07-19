@@ -23,6 +23,8 @@ namespace Implem.Pleasanter.Models
     {
         public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
         {
+            siteSettings.SetLinks();
+            siteSettings.SetChoicesTexts();
             var hb = new HtmlBuilder();
             var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
             var resultCollection = ResultCollection(siteSettings, permissionType, formData);

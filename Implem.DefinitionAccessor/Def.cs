@@ -418,6 +418,7 @@ namespace Implem.DefinitionAccessor
                     case "Collection": Code.Collection = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection, definitionRow, CodeXls); break;
                     case "Model_Utility": Code.Model_Utility = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility, definitionRow, CodeXls); break;
                     case "Model_Utility_Index": Code.Model_Utility_Index = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_Index, definitionRow, CodeXls); break;
+                    case "Model_Utility_SetSiteSettings": Code.Model_Utility_SetSiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_SetSiteSettings, definitionRow, CodeXls); break;
                     case "Model_Utility_ImportSettings": Code.Model_Utility_ImportSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_ImportSettings, definitionRow, CodeXls); break;
                     case "Model_Utility_GridRows_BackUrl": Code.Model_Utility_GridRows_BackUrl = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_GridRows_BackUrl, definitionRow, CodeXls); break;
                     case "Model_Utility_GridRows_BackUrlItem": Code.Model_Utility_GridRows_BackUrlItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_GridRows_BackUrlItem, definitionRow, CodeXls); break;
@@ -3911,6 +3912,7 @@ namespace Implem.DefinitionAccessor
         public string Collection;
         public string Model_Utility;
         public string Model_Utility_Index;
+        public string Model_Utility_SetSiteSettings;
         public string Model_Utility_ImportSettings;
         public string Model_Utility_GridRows_BackUrl;
         public string Model_Utility_GridRows_BackUrlItem;
@@ -4278,6 +4280,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Collection = new CodeDefinition();
         public CodeDefinition Model_Utility = new CodeDefinition();
         public CodeDefinition Model_Utility_Index = new CodeDefinition();
+        public CodeDefinition Model_Utility_SetSiteSettings = new CodeDefinition();
         public CodeDefinition Model_Utility_ImportSettings = new CodeDefinition();
         public CodeDefinition Model_Utility_GridRows_BackUrl = new CodeDefinition();
         public CodeDefinition Model_Utility_GridRows_BackUrlItem = new CodeDefinition();

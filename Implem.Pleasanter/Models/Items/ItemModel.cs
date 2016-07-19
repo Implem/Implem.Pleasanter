@@ -93,8 +93,6 @@ namespace Implem.Pleasanter.Models
                 return SiteUtilities.SiteTop(SiteSettingsUtility.SitesSiteSettings(0));
             }
             SetSite();
-            Site.SiteSettings.SetLinks();
-            Site.SiteSettings.SetChoicesTexts();
             switch (Site.ReferenceType)
             {
                 case "Sites": return SiteUtilities.SiteMenu(Site);
