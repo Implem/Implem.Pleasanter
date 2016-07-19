@@ -20,63 +20,60 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Permissions.Types permissionType,
             IEnumerable<DataRow> dataRows)
         {
-            return hb.Div(css: "both", action: () =>
-            {
-                hb
-                    .FieldDropDown(
-                        controlId: "TimeSeriesGroupByColumn",
-                        fieldCss: "field-auto-thin",
-                        controlCss: " auto-postback",
-                        labelText: Displays.GroupBy(),
-                        optionCollection: siteSettings.ColumnCollection.Where(o => o.HasChoices())
-                            .ToDictionary(o => o.ColumnName, o => o.LabelText),
-                        selectedValue: groupByColumn,
-                        action: "DataView",
-                        method: "post")
-                    .FieldDropDown(
-                        controlId: "TimeSeriesAggregateType",
-                        fieldCss: "field-auto-thin",
-                        controlCss: " auto-postback",
-                        labelText: Displays.SettingAggregationType(),
-                        optionCollection: new Dictionary<string, string>
-                        {
-                            { "Count", Displays.Count() },
-                            { "Total", Displays.Total() },
-                            { "Average", Displays.Average() },
-                            { "Max", Displays.Max() },
-                            { "Min", Displays.Min() }
-                        },
-                        selectedValue: aggregateType,
-                        action: "DataView",
-                        method: "post")
-                    .FieldDropDown(
-                        fieldId: "TimeSeriesValueColumnField",
-                        controlId: "TimeSeriesValueColumn",
-                        fieldCss: "field-auto-thin",
-                        controlCss: " auto-postback",
-                        labelText: Displays.SettingAggregationTarget(),
-                        optionCollection: siteSettings.ColumnCollection
-                            .Where(o => o.Computable)
-                            .Where(o => o.TypeName != "datetime")
-                            .ToDictionary(o => o.ColumnName, o => o.LabelText),
-                        selectedValue: valueColumn,
-                        action: "DataView",
-                        method: "post")
-                    .Div(id: "TimeSeriesChart", action: () => hb
-                        .TimeSeriesChart(
-                            siteSettings: siteSettings,
-                            groupByColumn: groupByColumn,
-                            aggregateType: aggregateType,
-                            valueColumn: valueColumn,
-                            dataRows: dataRows))
-                    .MainCommands(
-                        siteId: siteSettings.SiteId,
-                        permissionType: permissionType,
-                        verType: Versions.VerTypes.Latest,
-                        backUrl: Navigations.ItemIndex(siteSettings.ParentId),
-                        importButton: true,
-                        exportButton: true);
-            });
+            return hb.Div(css: "both", action: () => hb
+                .FieldDropDown(
+                    controlId: "TimeSeriesGroupByColumn",
+                    fieldCss: "field-auto-thin",
+                    controlCss: " auto-postback",
+                    labelText: Displays.GroupBy(),
+                    optionCollection: siteSettings.ColumnCollection.Where(o => o.HasChoices())
+                        .ToDictionary(o => o.ColumnName, o => o.LabelText),
+                    selectedValue: groupByColumn,
+                    action: "DataView",
+                    method: "post")
+                .FieldDropDown(
+                    controlId: "TimeSeriesAggregateType",
+                    fieldCss: "field-auto-thin",
+                    controlCss: " auto-postback",
+                    labelText: Displays.SettingAggregationType(),
+                    optionCollection: new Dictionary<string, string>
+                    {
+                        { "Count", Displays.Count() },
+                        { "Total", Displays.Total() },
+                        { "Average", Displays.Average() },
+                        { "Max", Displays.Max() },
+                        { "Min", Displays.Min() }
+                    },
+                    selectedValue: aggregateType,
+                    action: "DataView",
+                    method: "post")
+                .FieldDropDown(
+                    fieldId: "TimeSeriesValueColumnField",
+                    controlId: "TimeSeriesValueColumn",
+                    fieldCss: "field-auto-thin",
+                    controlCss: " auto-postback",
+                    labelText: Displays.SettingAggregationTarget(),
+                    optionCollection: siteSettings.ColumnCollection
+                        .Where(o => o.Computable)
+                        .Where(o => o.TypeName != "datetime")
+                        .ToDictionary(o => o.ColumnName, o => o.LabelText),
+                    selectedValue: valueColumn,
+                    action: "DataView",
+                    method: "post")
+                .Div(id: "TimeSeriesChart", action: () => hb
+                    .TimeSeriesChart(
+                        siteSettings: siteSettings,
+                        groupByColumn: groupByColumn,
+                        aggregateType: aggregateType,
+                        valueColumn: valueColumn,
+                        dataRows: dataRows))
+                .MainCommands(
+                    siteId: siteSettings.SiteId,
+                    permissionType: permissionType,
+                    verType: Versions.VerTypes.Latest,
+                    backUrl: Navigations.ItemIndex(siteSettings.ParentId),
+                    importButton: true,
+                    exportButton: true));
         }
 
         public static HtmlBuilder TimeSeriesChart(
