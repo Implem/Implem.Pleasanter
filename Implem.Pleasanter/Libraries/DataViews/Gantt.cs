@@ -13,7 +13,6 @@ namespace Implem.Pleasanter.Libraries.DataViews
         public Gantt(SiteSettings siteSettings, IEnumerable<DataRow> dataRows)
         {
             dataRows.ForEach(dataRow =>
-            {
                 Add(new GanttElement(
                     dataRow["Id"].ToLong(),
                     Titles.DisplayValue(siteSettings, dataRow),
@@ -27,8 +26,7 @@ namespace Implem.Pleasanter.Libraries.DataViews
                     dataRow["CreatedTime"].ToDateTime(),
                     dataRow["UpdatedTime"].ToDateTime(),
                     siteSettings.AllColumn("Status"),
-                    siteSettings.AllColumn("WorkValue")));
-            });
+                    siteSettings.AllColumn("WorkValue"))));
             Height = this.Count * 25 + 80;
         }
 
