@@ -682,7 +682,7 @@ namespace Implem.Pleasanter.Models
             switch (ReferenceType)
             {
                 case "Wikis":
-                    var wikiModel = new WikiModel(SiteSettings, PermissionType)
+                    var wikiModel = new WikiModel(SiteSettings, permissionType)
                     {
                         SiteId = SiteId,
                         Title = Title,
