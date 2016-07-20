@@ -207,7 +207,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 labelText: Displays.Search(),
                 text: formData.Get("DataViewFilters_Search"),
                 action: "DataView",
-                method: "post");
+                method: "post",
+                _using: Routes.Controller().ToLower() == "items");
         }
 
         private static Dictionary<string, ControlData> TimePeriod(bool recordedTime)
