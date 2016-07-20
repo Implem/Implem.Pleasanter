@@ -1686,8 +1686,8 @@ namespace Implem.Pleasanter.Models
                 { "Count", Displays.Count() },
                 { "Total", Displays.Total() },
                 { "Average", Displays.Average() },
-                { "Max", Displays.Max() },
-                { "Min", Displays.Min() }
+                { "Min", Displays.Min() },
+                { "Max", Displays.Max() }
             };
         }
 
