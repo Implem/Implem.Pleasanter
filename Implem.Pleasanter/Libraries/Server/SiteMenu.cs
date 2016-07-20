@@ -25,7 +25,9 @@ namespace Implem.Pleasanter.Libraries.Server
                 {
                     Set(siteId);
                 }
-                return this[siteId];
+                return ContainsKey(siteId)
+                    ? this[siteId]
+                    : null;
             }
         }
 
@@ -54,11 +56,21 @@ namespace Implem.Pleasanter.Libraries.Server
             if (siteId != 0)
             {
                 var current = Get(siteId);
-                ret.Add(current);
-                while (current.ParentId != 0)
+                if (current != null)
                 {
-                    current = Get(current.ParentId);
                     ret.Add(current);
+                    while (current.ParentId != 0)
+                    {
+                        current = Get(current.ParentId);
+                        if (current != null)
+                        {
+                            ret.Add(current);
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
                 }
                 ret.Reverse();
             }
