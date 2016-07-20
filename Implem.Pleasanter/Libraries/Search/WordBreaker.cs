@@ -152,6 +152,7 @@ namespace Implem.Pleasanter.Libraries.Search
 
         private string Convert(string str)
         {
+            if (str == null) return string.Empty;
             var ret = str.Trim();
             ret = KanaEx.ToHankaku(ret);
             ret = KanaEx.ToZenkakuKana(ret);
