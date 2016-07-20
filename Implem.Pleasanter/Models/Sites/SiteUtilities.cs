@@ -547,8 +547,10 @@ namespace Implem.Pleasanter.Models
             switch (referenceType)
             {
                 case "Wikis":
-                    return Navigations.ItemEdit(new WikiModel(siteSettings)
-                        .Get(where: Rds.WikisWhere().SiteId(siteId)).WikiId);
+                    return Navigations.ItemEdit(Rds.ExecuteScalar_long(
+                        statements: Rds.SelectWikis(
+                            column: Rds.WikisColumn().WikiId(),
+                            where: Rds.WikisWhere().SiteId(siteId))));
                 default:
                     return Navigations.ItemIndex(siteId);
             }
