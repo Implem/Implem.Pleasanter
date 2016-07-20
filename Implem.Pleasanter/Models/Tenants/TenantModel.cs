@@ -108,7 +108,7 @@ namespace Implem.Pleasanter.Models
         {
             Set(Rds.ExecuteTable(statements: Rds.SelectTenants(
                 tableType: tableType,
-                column: column ?? Rds.EditorTenantsColumn(SiteSettings),
+                column: column ?? Rds.TenantsDefaultColumns(),
                 join: join ??  Rds.TenantsJoinDefault(),
                 where: where ?? Rds.TenantsWhereDefault(this),
                 orderBy: orderBy ?? null,

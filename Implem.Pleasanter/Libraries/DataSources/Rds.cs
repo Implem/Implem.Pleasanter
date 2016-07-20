@@ -23804,7 +23804,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static WikisParamCollection CreatedTime(this WikisParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[CreatedTime]", "CreatedTime", value, sub, raw, _using); }
         public static SqlParamCollection Wikis_CreatedTime(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[CreatedTime]", "CreatedTime", value, sub, raw, _using); }
 
-        public static TenantsColumnCollection TenantsColumnDefault()
+        public static TenantsColumnCollection TenantsDefaultColumns()
         {
             return Rds.TenantsColumn()
                 .TenantId()
@@ -23817,26 +23817,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Updator()
                 .CreatedTime()
                 .UpdatedTime();
-        }
-
-        public static TenantsColumnCollection EditorTenantsColumn(SiteSettings siteSettings)
-        {
-            if (siteSettings != null)
-            {
-                var ret = Rds.TenantsColumn()
-                    .Comments();
-                siteSettings.ColumnCollection
-                    .Where(o => 
-                        !o.Nullable.ToBool() ||
-                        o.EditorVisible.ToBool() ||
-                        o.TitleVisible.ToBool())
-                    .ForEach(column => ret.TenantsColumn(column.ColumnName));
-                return ret;
-            }
-            else
-            {
-                return TenantsColumnDefault();
-            }
         }
 
         public static TenantsJoinCollection TenantsJoinDefault()
@@ -23861,7 +23841,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Comments(tenantModel.Comments.ToJson(), _using: tenantModel.Comments_Updated || paramAll);
         }
 
-        public static DemosColumnCollection DemosColumnDefault()
+        public static DemosColumnCollection DemosDefaultColumns()
         {
             return Rds.DemosColumn()
                 .DemoId()
@@ -23876,26 +23856,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Updator()
                 .CreatedTime()
                 .UpdatedTime();
-        }
-
-        public static DemosColumnCollection EditorDemosColumn(SiteSettings siteSettings)
-        {
-            if (siteSettings != null)
-            {
-                var ret = Rds.DemosColumn()
-                    .Comments();
-                siteSettings.ColumnCollection
-                    .Where(o => 
-                        !o.Nullable.ToBool() ||
-                        o.EditorVisible.ToBool() ||
-                        o.TitleVisible.ToBool())
-                    .ForEach(column => ret.DemosColumn(column.ColumnName));
-                return ret;
-            }
-            else
-            {
-                return DemosColumnDefault();
-            }
         }
 
         public static DemosJoinCollection DemosJoinDefault()
@@ -23922,7 +23882,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Comments(demoModel.Comments.ToJson(), _using: demoModel.Comments_Updated || paramAll);
         }
 
-        public static SysLogsColumnCollection SysLogsColumnDefault()
+        public static SysLogsColumnCollection SysLogsDefaultColumns()
         {
             return Rds.SysLogsColumn()
                 .CreatedTime()
@@ -23965,26 +23925,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Creator()
                 .Updator()
                 .UpdatedTime();
-        }
-
-        public static SysLogsColumnCollection EditorSysLogsColumn(SiteSettings siteSettings)
-        {
-            if (siteSettings != null)
-            {
-                var ret = Rds.SysLogsColumn()
-                    .Comments();
-                siteSettings.ColumnCollection
-                    .Where(o => 
-                        !o.Nullable.ToBool() ||
-                        o.EditorVisible.ToBool() ||
-                        o.TitleVisible.ToBool())
-                    .ForEach(column => ret.SysLogsColumn(column.ColumnName));
-                return ret;
-            }
-            else
-            {
-                return SysLogsColumnDefault();
-            }
         }
 
         public static SysLogsJoinCollection SysLogsJoinDefault()
@@ -24039,7 +23979,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Comments(sysLogModel.Comments.ToJson(), _using: sysLogModel.Comments_Updated || paramAll);
         }
 
-        public static DeptsColumnCollection DeptsColumnDefault()
+        public static DeptsColumnCollection DeptsDefaultColumns()
         {
             return Rds.DeptsColumn()
                 .TenantId()
@@ -24056,26 +23996,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Updator()
                 .CreatedTime()
                 .UpdatedTime();
-        }
-
-        public static DeptsColumnCollection EditorDeptsColumn(SiteSettings siteSettings)
-        {
-            if (siteSettings != null)
-            {
-                var ret = Rds.DeptsColumn()
-                    .Comments();
-                siteSettings.ColumnCollection
-                    .Where(o => 
-                        !o.Nullable.ToBool() ||
-                        o.EditorVisible.ToBool() ||
-                        o.TitleVisible.ToBool())
-                    .ForEach(column => ret.DeptsColumn(column.ColumnName));
-                return ret;
-            }
-            else
-            {
-                return DeptsColumnDefault();
-            }
         }
 
         public static DeptsJoinCollection DeptsJoinDefault()
@@ -24103,7 +24023,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Comments(deptModel.Comments.ToJson(), _using: deptModel.Comments_Updated || paramAll);
         }
 
-        public static UsersColumnCollection UsersColumnDefault()
+        public static UsersColumnCollection UsersDefaultColumns()
         {
             return Rds.UsersColumn()
                 .TenantId()
@@ -24135,26 +24055,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Updator()
                 .CreatedTime()
                 .UpdatedTime();
-        }
-
-        public static UsersColumnCollection EditorUsersColumn(SiteSettings siteSettings)
-        {
-            if (siteSettings != null)
-            {
-                var ret = Rds.UsersColumn()
-                    .Comments();
-                siteSettings.ColumnCollection
-                    .Where(o => 
-                        !o.Nullable.ToBool() ||
-                        o.EditorVisible.ToBool() ||
-                        o.TitleVisible.ToBool())
-                    .ForEach(column => ret.UsersColumn(column.ColumnName));
-                return ret;
-            }
-            else
-            {
-                return UsersColumnDefault();
-            }
         }
 
         public static UsersJoinCollection UsersJoinDefault()
@@ -24198,7 +24098,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Comments(userModel.Comments.ToJson(), _using: userModel.Comments_Updated || paramAll);
         }
 
-        public static MailAddressesColumnCollection MailAddressesColumnDefault()
+        public static MailAddressesColumnCollection MailAddressesDefaultColumns()
         {
             return Rds.MailAddressesColumn()
                 .OwnerId()
@@ -24211,26 +24111,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Updator()
                 .CreatedTime()
                 .UpdatedTime();
-        }
-
-        public static MailAddressesColumnCollection EditorMailAddressesColumn(SiteSettings siteSettings)
-        {
-            if (siteSettings != null)
-            {
-                var ret = Rds.MailAddressesColumn()
-                    .Comments();
-                siteSettings.ColumnCollection
-                    .Where(o => 
-                        !o.Nullable.ToBool() ||
-                        o.EditorVisible.ToBool() ||
-                        o.TitleVisible.ToBool())
-                    .ForEach(column => ret.MailAddressesColumn(column.ColumnName));
-                return ret;
-            }
-            else
-            {
-                return MailAddressesColumnDefault();
-            }
         }
 
         public static MailAddressesJoinCollection MailAddressesJoinDefault()
@@ -24257,7 +24137,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Comments(mailAddressModel.Comments.ToJson(), _using: mailAddressModel.Comments_Updated || paramAll);
         }
 
-        public static PermissionsColumnCollection PermissionsColumnDefault()
+        public static PermissionsColumnCollection PermissionsDefaultColumns()
         {
             return Rds.PermissionsColumn()
                 .ReferenceType()
@@ -24275,26 +24155,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Updator()
                 .CreatedTime()
                 .UpdatedTime();
-        }
-
-        public static PermissionsColumnCollection EditorPermissionsColumn(SiteSettings siteSettings)
-        {
-            if (siteSettings != null)
-            {
-                var ret = Rds.PermissionsColumn()
-                    .Comments();
-                siteSettings.ColumnCollection
-                    .Where(o => 
-                        !o.Nullable.ToBool() ||
-                        o.EditorVisible.ToBool() ||
-                        o.TitleVisible.ToBool())
-                    .ForEach(column => ret.PermissionsColumn(column.ColumnName));
-                return ret;
-            }
-            else
-            {
-                return PermissionsColumnDefault();
-            }
         }
 
         public static PermissionsJoinCollection PermissionsJoinDefault()
@@ -24321,7 +24181,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Comments(permissionModel.Comments.ToJson(), _using: permissionModel.Comments_Updated || paramAll);
         }
 
-        public static OutgoingMailsColumnCollection OutgoingMailsColumnDefault()
+        public static OutgoingMailsColumnCollection OutgoingMailsDefaultColumns()
         {
             return Rds.OutgoingMailsColumn()
                 .ReferenceType()
@@ -24343,26 +24203,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Updator()
                 .CreatedTime()
                 .UpdatedTime();
-        }
-
-        public static OutgoingMailsColumnCollection EditorOutgoingMailsColumn(SiteSettings siteSettings)
-        {
-            if (siteSettings != null)
-            {
-                var ret = Rds.OutgoingMailsColumn()
-                    .Comments();
-                siteSettings.ColumnCollection
-                    .Where(o => 
-                        !o.Nullable.ToBool() ||
-                        o.EditorVisible.ToBool() ||
-                        o.TitleVisible.ToBool())
-                    .ForEach(column => ret.OutgoingMailsColumn(column.ColumnName));
-                return ret;
-            }
-            else
-            {
-                return OutgoingMailsColumnDefault();
-            }
         }
 
         public static OutgoingMailsJoinCollection OutgoingMailsJoinDefault()
@@ -24399,7 +24239,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Comments(outgoingMailModel.Comments.ToJson(), _using: outgoingMailModel.Comments_Updated || paramAll);
         }
 
-        public static SearchIndexesColumnCollection SearchIndexesColumnDefault()
+        public static SearchIndexesColumnCollection SearchIndexesDefaultColumns()
         {
             return Rds.SearchIndexesColumn()
                 .Word()
@@ -24415,26 +24255,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Updator()
                 .CreatedTime()
                 .UpdatedTime();
-        }
-
-        public static SearchIndexesColumnCollection EditorSearchIndexesColumn(SiteSettings siteSettings)
-        {
-            if (siteSettings != null)
-            {
-                var ret = Rds.SearchIndexesColumn()
-                    .Comments();
-                siteSettings.ColumnCollection
-                    .Where(o => 
-                        !o.Nullable.ToBool() ||
-                        o.EditorVisible.ToBool() ||
-                        o.TitleVisible.ToBool())
-                    .ForEach(column => ret.SearchIndexesColumn(column.ColumnName));
-                return ret;
-            }
-            else
-            {
-                return SearchIndexesColumnDefault();
-            }
         }
 
         public static SearchIndexesJoinCollection SearchIndexesJoinDefault()
@@ -24460,7 +24280,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Comments(searchIndexModel.Comments.ToJson(), _using: searchIndexModel.Comments_Updated || paramAll);
         }
 
-        public static ItemsColumnCollection ItemsColumnDefault()
+        public static ItemsColumnCollection ItemsDefaultColumns()
         {
             return Rds.ItemsColumn()
                 .ReferenceId()
@@ -24475,26 +24295,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Updator()
                 .CreatedTime()
                 .UpdatedTime();
-        }
-
-        public static ItemsColumnCollection EditorItemsColumn(SiteSettings siteSettings)
-        {
-            if (siteSettings != null)
-            {
-                var ret = Rds.ItemsColumn()
-                    .Comments();
-                siteSettings.ColumnCollection
-                    .Where(o => 
-                        !o.Nullable.ToBool() ||
-                        o.EditorVisible.ToBool() ||
-                        o.TitleVisible.ToBool())
-                    .ForEach(column => ret.ItemsColumn(column.ColumnName));
-                return ret;
-            }
-            else
-            {
-                return ItemsColumnDefault();
-            }
         }
 
         public static ItemsJoinCollection ItemsJoinDefault()
@@ -24521,7 +24321,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Comments(itemModel.Comments.ToJson(), _using: itemModel.Comments_Updated || paramAll);
         }
 
-        public static SitesColumnCollection SitesColumnDefault()
+        public static SitesColumnCollection SitesDefaultColumns()
         {
             return Rds.SitesColumn()
                 .TenantId()
@@ -24540,26 +24340,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Creator()
                 .Updator()
                 .CreatedTime();
-        }
-
-        public static SitesColumnCollection EditorSitesColumn(SiteSettings siteSettings)
-        {
-            if (siteSettings != null)
-            {
-                var ret = Rds.SitesColumn()
-                    .Comments();
-                siteSettings.ColumnCollection
-                    .Where(o => 
-                        !o.Nullable.ToBool() ||
-                        o.EditorVisible.ToBool() ||
-                        o.TitleVisible.ToBool())
-                    .ForEach(column => ret.SitesColumn(column.ColumnName));
-                return ret;
-            }
-            else
-            {
-                return SitesColumnDefault();
-            }
         }
 
         public static SitesJoinCollection SitesJoinDefault()
@@ -24590,7 +24370,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Comments(siteModel.Comments.ToJson(), _using: siteModel.Comments_Updated || paramAll);
         }
 
-        public static OrdersColumnCollection OrdersColumnDefault()
+        public static OrdersColumnCollection OrdersDefaultColumns()
         {
             return Rds.OrdersColumn()
                 .ReferenceId()
@@ -24603,26 +24383,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Updator()
                 .CreatedTime()
                 .UpdatedTime();
-        }
-
-        public static OrdersColumnCollection EditorOrdersColumn(SiteSettings siteSettings)
-        {
-            if (siteSettings != null)
-            {
-                var ret = Rds.OrdersColumn()
-                    .Comments();
-                siteSettings.ColumnCollection
-                    .Where(o => 
-                        !o.Nullable.ToBool() ||
-                        o.EditorVisible.ToBool() ||
-                        o.TitleVisible.ToBool())
-                    .ForEach(column => ret.OrdersColumn(column.ColumnName));
-                return ret;
-            }
-            else
-            {
-                return OrdersColumnDefault();
-            }
         }
 
         public static OrdersJoinCollection OrdersJoinDefault()
@@ -24650,7 +24410,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Comments(orderModel.Comments.ToJson(), _using: orderModel.Comments_Updated || paramAll);
         }
 
-        public static ExportSettingsColumnCollection ExportSettingsColumnDefault()
+        public static ExportSettingsColumnCollection ExportSettingsDefaultColumns()
         {
             return Rds.ExportSettingsColumn()
                 .ReferenceType()
@@ -24665,26 +24425,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Updator()
                 .CreatedTime()
                 .UpdatedTime();
-        }
-
-        public static ExportSettingsColumnCollection EditorExportSettingsColumn(SiteSettings siteSettings)
-        {
-            if (siteSettings != null)
-            {
-                var ret = Rds.ExportSettingsColumn()
-                    .Comments();
-                siteSettings.ColumnCollection
-                    .Where(o => 
-                        !o.Nullable.ToBool() ||
-                        o.EditorVisible.ToBool() ||
-                        o.TitleVisible.ToBool())
-                    .ForEach(column => ret.ExportSettingsColumn(column.ColumnName));
-                return ret;
-            }
-            else
-            {
-                return ExportSettingsColumnDefault();
-            }
         }
 
         public static ExportSettingsJoinCollection ExportSettingsJoinDefault()
@@ -24713,7 +24453,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Comments(exportSettingModel.Comments.ToJson(), _using: exportSettingModel.Comments_Updated || paramAll);
         }
 
-        public static LinksColumnCollection LinksColumnDefault()
+        public static LinksColumnCollection LinksDefaultColumns()
         {
             return Rds.LinksColumn()
                 .DestinationId()
@@ -24729,26 +24469,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Updator()
                 .CreatedTime()
                 .UpdatedTime();
-        }
-
-        public static LinksColumnCollection EditorLinksColumn(SiteSettings siteSettings)
-        {
-            if (siteSettings != null)
-            {
-                var ret = Rds.LinksColumn()
-                    .Comments();
-                siteSettings.ColumnCollection
-                    .Where(o => 
-                        !o.Nullable.ToBool() ||
-                        o.EditorVisible.ToBool() ||
-                        o.TitleVisible.ToBool())
-                    .ForEach(column => ret.LinksColumn(column.ColumnName));
-                return ret;
-            }
-            else
-            {
-                return LinksColumnDefault();
-            }
         }
 
         public static LinksJoinCollection LinksJoinDefault()
@@ -24773,7 +24493,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Comments(linkModel.Comments.ToJson(), _using: linkModel.Comments_Updated || paramAll);
         }
 
-        public static BinariesColumnCollection BinariesColumnDefault()
+        public static BinariesColumnCollection BinariesDefaultColumns()
         {
             return Rds.BinariesColumn()
                 .ReferenceId()
@@ -24794,26 +24514,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Updator()
                 .CreatedTime()
                 .UpdatedTime();
-        }
-
-        public static BinariesColumnCollection EditorBinariesColumn(SiteSettings siteSettings)
-        {
-            if (siteSettings != null)
-            {
-                var ret = Rds.BinariesColumn()
-                    .Comments();
-                siteSettings.ColumnCollection
-                    .Where(o => 
-                        !o.Nullable.ToBool() ||
-                        o.EditorVisible.ToBool() ||
-                        o.TitleVisible.ToBool())
-                    .ForEach(column => ret.BinariesColumn(column.ColumnName));
-                return ret;
-            }
-            else
-            {
-                return BinariesColumnDefault();
-            }
         }
 
         public static BinariesJoinCollection BinariesJoinDefault()
@@ -24847,7 +24547,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Comments(binaryModel.Comments.ToJson(), _using: binaryModel.Comments_Updated || paramAll);
         }
 
-        public static IssuesColumnCollection IssuesColumnDefault()
+        public static IssuesColumnCollection IssuesDefaultColumns()
         {
             return Rds.IssuesColumn()
                 .SiteId()
@@ -25001,11 +24701,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .CreatedTime();
         }
 
-        public static IssuesColumnCollection EditorIssuesColumn(SiteSettings siteSettings)
+        public static IssuesColumnCollection IssuesEditorColumns(SiteSettings siteSettings)
         {
             if (siteSettings != null)
             {
                 var ret = Rds.IssuesColumn()
+                    .SiteId()
+                    .IssueId()
                     .Comments();
                 siteSettings.ColumnCollection
                     .Where(o => 
@@ -25017,7 +24719,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
             else
             {
-                return IssuesColumnDefault();
+                return IssuesDefaultColumns();
             }
         }
 
@@ -25181,7 +24883,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Comments(issueModel.Comments.ToJson(), _using: issueModel.Comments_Updated || paramAll);
         }
 
-        public static ResultsColumnCollection ResultsColumnDefault()
+        public static ResultsColumnCollection ResultsDefaultColumns()
         {
             return Rds.ResultsColumn()
                 .SiteId()
@@ -25330,11 +25032,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .CreatedTime();
         }
 
-        public static ResultsColumnCollection EditorResultsColumn(SiteSettings siteSettings)
+        public static ResultsColumnCollection ResultsEditorColumns(SiteSettings siteSettings)
         {
             if (siteSettings != null)
             {
                 var ret = Rds.ResultsColumn()
+                    .SiteId()
+                    .ResultId()
                     .Comments();
                 siteSettings.ColumnCollection
                     .Where(o => 
@@ -25346,7 +25050,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
             else
             {
-                return ResultsColumnDefault();
+                return ResultsDefaultColumns();
             }
         }
 
@@ -25506,7 +25210,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Comments(resultModel.Comments.ToJson(), _using: resultModel.Comments_Updated || paramAll);
         }
 
-        public static WikisColumnCollection WikisColumnDefault()
+        public static WikisColumnCollection WikisDefaultColumns()
         {
             return Rds.WikisColumn()
                 .SiteId()
@@ -25522,11 +25226,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .CreatedTime();
         }
 
-        public static WikisColumnCollection EditorWikisColumn(SiteSettings siteSettings)
+        public static WikisColumnCollection WikisEditorColumns(SiteSettings siteSettings)
         {
             if (siteSettings != null)
             {
                 var ret = Rds.WikisColumn()
+                    .SiteId()
+                    .WikiId()
                     .Comments();
                 siteSettings.ColumnCollection
                     .Where(o => 
@@ -25538,7 +25244,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
             else
             {
-                return WikisColumnDefault();
+                return WikisDefaultColumns();
             }
         }
 

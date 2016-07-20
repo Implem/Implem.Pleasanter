@@ -107,7 +107,7 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.SelectPermissions(
                     dataTableName: "Main",
-                    column: column ?? Rds.PermissionsColumnDefault(),
+                    column: column ?? Rds.PermissionsDefaultColumns(),
                     join: join ??  Rds.PermissionsJoinDefault(),
                     where: where ?? null,
                     orderBy: orderBy ?? null,

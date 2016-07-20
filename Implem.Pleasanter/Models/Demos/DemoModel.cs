@@ -119,7 +119,7 @@ namespace Implem.Pleasanter.Models
         {
             Set(Rds.ExecuteTable(statements: Rds.SelectDemos(
                 tableType: tableType,
-                column: column ?? Rds.EditorDemosColumn(SiteSettings),
+                column: column ?? Rds.DemosDefaultColumns(),
                 join: join ??  Rds.DemosJoinDefault(),
                 where: where ?? Rds.DemosWhereDefault(this),
                 orderBy: orderBy ?? null,

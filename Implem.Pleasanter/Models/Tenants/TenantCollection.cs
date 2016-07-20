@@ -115,7 +115,7 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.SelectTenants(
                     dataTableName: "Main",
-                    column: column ?? Rds.TenantsColumnDefault(),
+                    column: column ?? Rds.TenantsDefaultColumns(),
                     join: join ??  Rds.TenantsJoinDefault(),
                     where: where ?? null,
                     orderBy: orderBy ?? null,

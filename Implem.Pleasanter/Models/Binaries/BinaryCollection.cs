@@ -115,7 +115,7 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.SelectBinaries(
                     dataTableName: "Main",
-                    column: column ?? Rds.BinariesColumnDefault(),
+                    column: column ?? Rds.BinariesDefaultColumns(),
                     join: join ??  Rds.BinariesJoinDefault(),
                     where: where ?? null,
                     orderBy: orderBy ?? null,

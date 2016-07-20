@@ -115,7 +115,7 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.SelectSearchIndexes(
                     dataTableName: "Main",
-                    column: column ?? Rds.SearchIndexesColumnDefault(),
+                    column: column ?? Rds.SearchIndexesDefaultColumns(),
                     join: join ??  Rds.SearchIndexesJoinDefault(),
                     where: where ?? null,
                     orderBy: orderBy ?? null,

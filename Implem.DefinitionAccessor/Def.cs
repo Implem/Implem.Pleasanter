@@ -289,6 +289,9 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetTitleDisplayValue": Code.Model_SetTitleDisplayValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTitleDisplayValue, definitionRow, CodeXls); break;
                     case "Model_ClearSessions": Code.Model_ClearSessions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ClearSessions, definitionRow, CodeXls); break;
                     case "Model_Get": Code.Model_Get = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Get, definitionRow, CodeXls); break;
+                    case "Model_GetDefaultColumns": Code.Model_GetDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetDefaultColumns, definitionRow, CodeXls); break;
+                    case "Model_GetSitesDefaultColumns": Code.Model_GetSitesDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetSitesDefaultColumns, definitionRow, CodeXls); break;
+                    case "Model_GetItemsDefaultColumns": Code.Model_GetItemsDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetItemsDefaultColumns, definitionRow, CodeXls); break;
                     case "Model_SetSiteSettingsProperties": Code.Model_SetSiteSettingsProperties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSiteSettingsProperties, definitionRow, CodeXls); break;
                     case "Model_SetTenantId": Code.Model_SetTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTenantId, definitionRow, CodeXls); break;
                     case "Model_SetSiteId": Code.Model_SetSiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSiteId, definitionRow, CodeXls); break;
@@ -528,6 +531,8 @@ namespace Implem.DefinitionAccessor
                     case "Rds_Columns_SqlParam_Enum": Code.Rds_Columns_SqlParam_Enum = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlParam_Enum, definitionRow, CodeXls); break;
                     case "Rds_Defaults": Code.Rds_Defaults = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Defaults, definitionRow, CodeXls); break;
                     case "Rds_ColumnDefault": Code.Rds_ColumnDefault = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_ColumnDefault, definitionRow, CodeXls); break;
+                    case "Rds_ItemEditorColumns": Code.Rds_ItemEditorColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_ItemEditorColumns, definitionRow, CodeXls); break;
+                    case "Rds_ColumnDefaultPk": Code.Rds_ColumnDefaultPk = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_ColumnDefaultPk, definitionRow, CodeXls); break;
                     case "Rds_JoinDefault": Code.Rds_JoinDefault = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_JoinDefault, definitionRow, CodeXls); break;
                     case "Rds_WherePk": Code.Rds_WherePk = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_WherePk, definitionRow, CodeXls); break;
                     case "Rds_Where_TenantId": Code.Rds_Where_TenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Where_TenantId, definitionRow, CodeXls); break;
@@ -3783,6 +3788,9 @@ namespace Implem.DefinitionAccessor
         public string Model_SetTitleDisplayValue;
         public string Model_ClearSessions;
         public string Model_Get;
+        public string Model_GetDefaultColumns;
+        public string Model_GetSitesDefaultColumns;
+        public string Model_GetItemsDefaultColumns;
         public string Model_SetSiteSettingsProperties;
         public string Model_SetTenantId;
         public string Model_SetSiteId;
@@ -4022,6 +4030,8 @@ namespace Implem.DefinitionAccessor
         public string Rds_Columns_SqlParam_Enum;
         public string Rds_Defaults;
         public string Rds_ColumnDefault;
+        public string Rds_ItemEditorColumns;
+        public string Rds_ColumnDefaultPk;
         public string Rds_JoinDefault;
         public string Rds_WherePk;
         public string Rds_Where_TenantId;
@@ -4151,6 +4161,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetTitleDisplayValue = new CodeDefinition();
         public CodeDefinition Model_ClearSessions = new CodeDefinition();
         public CodeDefinition Model_Get = new CodeDefinition();
+        public CodeDefinition Model_GetDefaultColumns = new CodeDefinition();
+        public CodeDefinition Model_GetSitesDefaultColumns = new CodeDefinition();
+        public CodeDefinition Model_GetItemsDefaultColumns = new CodeDefinition();
         public CodeDefinition Model_SetSiteSettingsProperties = new CodeDefinition();
         public CodeDefinition Model_SetTenantId = new CodeDefinition();
         public CodeDefinition Model_SetSiteId = new CodeDefinition();
@@ -4390,6 +4403,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Rds_Columns_SqlParam_Enum = new CodeDefinition();
         public CodeDefinition Rds_Defaults = new CodeDefinition();
         public CodeDefinition Rds_ColumnDefault = new CodeDefinition();
+        public CodeDefinition Rds_ItemEditorColumns = new CodeDefinition();
+        public CodeDefinition Rds_ColumnDefaultPk = new CodeDefinition();
         public CodeDefinition Rds_JoinDefault = new CodeDefinition();
         public CodeDefinition Rds_WherePk = new CodeDefinition();
         public CodeDefinition Rds_Where_TenantId = new CodeDefinition();

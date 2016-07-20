@@ -115,7 +115,7 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.SelectWikis(
                     dataTableName: "Main",
-                    column: column ?? Rds.WikisColumnDefault(),
+                    column: column ?? Rds.WikisDefaultColumns(),
                     join: join ??  Rds.WikisJoinDefault(),
                     where: where ?? null,
                     orderBy: orderBy ?? null,

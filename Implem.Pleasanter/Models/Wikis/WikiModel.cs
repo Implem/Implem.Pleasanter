@@ -137,7 +137,7 @@ namespace Implem.Pleasanter.Models
         {
             Set(Rds.ExecuteTable(statements: Rds.SelectWikis(
                 tableType: tableType,
-                column: column ?? Rds.EditorWikisColumn(SiteSettings),
+                column: column ?? Rds.WikisEditorColumns(SiteSettings),
                 join: join ??  Rds.WikisJoinDefault(),
                 where: where ?? Rds.WikisWhereDefault(this),
                 orderBy: orderBy ?? null,

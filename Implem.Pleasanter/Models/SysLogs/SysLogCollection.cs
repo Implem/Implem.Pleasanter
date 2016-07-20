@@ -115,7 +115,7 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.SelectSysLogs(
                     dataTableName: "Main",
-                    column: column ?? Rds.SysLogsColumnDefault(),
+                    column: column ?? Rds.SysLogsDefaultColumns(),
                     join: join ??  Rds.SysLogsJoinDefault(),
                     where: where ?? null,
                     orderBy: orderBy ?? null,

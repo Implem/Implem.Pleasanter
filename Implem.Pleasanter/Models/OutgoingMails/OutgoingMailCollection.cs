@@ -107,7 +107,7 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.SelectOutgoingMails(
                     dataTableName: "Main",
-                    column: column ?? Rds.OutgoingMailsColumnDefault(),
+                    column: column ?? Rds.OutgoingMailsDefaultColumns(),
                     join: join ??  Rds.OutgoingMailsJoinDefault(),
                     where: where ?? null,
                     orderBy: orderBy ?? null,

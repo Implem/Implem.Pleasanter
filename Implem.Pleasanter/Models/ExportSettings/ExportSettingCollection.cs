@@ -115,7 +115,7 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.SelectExportSettings(
                     dataTableName: "Main",
-                    column: column ?? Rds.ExportSettingsColumnDefault(),
+                    column: column ?? Rds.ExportSettingsDefaultColumns(),
                     join: join ??  Rds.ExportSettingsJoinDefault(),
                     where: where ?? null,
                     orderBy: orderBy ?? null,

@@ -146,7 +146,7 @@ namespace Implem.Pleasanter.Models
         {
             Set(Rds.ExecuteTable(statements: Rds.SelectBinaries(
                 tableType: tableType,
-                column: column ?? Rds.EditorBinariesColumn(SiteSettings),
+                column: column ?? Rds.BinariesDefaultColumns(),
                 join: join ??  Rds.BinariesJoinDefault(),
                 where: where ?? Rds.BinariesWhereDefault(this),
                 orderBy: orderBy ?? null,

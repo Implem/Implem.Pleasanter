@@ -107,7 +107,7 @@ namespace Implem.Pleasanter.Models
             {
                 Rds.SelectSites(
                     dataTableName: "Main",
-                    column: column ?? Rds.SitesColumnDefault(),
+                    column: column ?? Rds.SitesDefaultColumns(),
                     join: join ??  Rds.SitesJoinDefault(),
                     where: where ?? null,
                     orderBy: orderBy ?? null,

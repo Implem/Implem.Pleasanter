@@ -109,7 +109,7 @@ namespace Implem.Pleasanter.Models
         {
             Set(Rds.ExecuteTable(statements: Rds.SelectMailAddresses(
                 tableType: tableType,
-                column: column ?? Rds.EditorMailAddressesColumn(SiteSettings),
+                column: column ?? Rds.MailAddressesDefaultColumns(),
                 join: join ??  Rds.MailAddressesJoinDefault(),
                 where: where ?? Rds.MailAddressesWhereDefault(this),
                 orderBy: orderBy ?? null,
