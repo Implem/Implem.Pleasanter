@@ -8,7 +8,7 @@
                 ui.item.hide();
                 var data = getFormData($(this));
                 data['SiteId'] = siteId;
-                data['ParentId'] = $element.attr('data-id');
+                data['DestinationId'] = $element.attr('data-id');
                 requestByForm(getForm($('#MoveSiteMenu')), $('#MoveSiteMenu'));
             }
         },
