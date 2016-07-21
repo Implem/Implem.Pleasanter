@@ -799,6 +799,7 @@ namespace Implem.Pleasanter.Models
                     .TenantId(Sessions.TenantId())
                     .SiteId(siteId),
                 param: Rds.SitesParam().ParentId(Forms.Long("ParentId"))));
+            SiteInfo.SiteMenu.Set(siteId);
             return new ResponseCollection()
                 .Remove(".nav-site[data-id=\"" + siteId + "\"]")
                 .ToJson();
