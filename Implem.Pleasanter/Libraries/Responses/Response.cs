@@ -40,9 +40,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Add("Html", target, value);
         }
 
-        public ResponseCollection ReplaceAll(string target, HtmlBuilder value)
+        public ResponseCollection ReplaceAll(string target, HtmlBuilder value, bool _using = true)
         {
-            return ReplaceAll(target, value.ToString());
+            return _using
+                ? ReplaceAll(target, value.ToString())
+                : this;
         }
 
         public ResponseCollection ReplaceAll(string target, object value)
