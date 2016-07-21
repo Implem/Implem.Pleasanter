@@ -788,8 +788,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string MoveSiteMenu(long siteId)
+        public string MoveSiteMenu(long sourceId)
         {
+            var destinationId = Forms.Long("parentId");
+            var toParent = SiteInfo.SiteMenu.Get(SiteId).ParentId == destinationId;
             if (SiteId != 0 && !PermissionType.CanEditSite())
             {
                 return Messages.ResponseHasNotPermission().ToJson();
@@ -797,12 +799,30 @@ namespace Implem.Pleasanter.Models
             Rds.ExecuteNonQuery(statements: Rds.UpdateSites(
                 where: Rds.SitesWhere()
                     .TenantId(Sessions.TenantId())
-                    .SiteId(siteId),
-                param: Rds.SitesParam().ParentId(Forms.Long("ParentId"))));
-            SiteInfo.SiteMenu.Set(siteId);
+                    .SiteId(sourceId),
+                param: Rds.SitesParam().ParentId(destinationId)));
+            SiteInfo.SiteMenu.Set(sourceId);
             return new ResponseCollection()
-                .Remove(".nav-site[data-id=\"" + siteId + "\"]")
+                .Remove(".nav-site[data-id=\"" + sourceId + "\"]")
+                .ReplaceAll(
+                    "[data-id=\"" + destinationId + "\"]",
+                    ReplaceSiteMenu(sourceId, destinationId),
+                    _using: !toParent)
                 .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private HtmlBuilder ReplaceSiteMenu(long sourceId, long destinationId)
+        {
+            return new HtmlBuilder().SiteMenu(
+                siteSettings: SiteSettings,
+                permissionType: PermissionType,
+                siteId: destinationId,
+                referenceType: ReferenceType,
+                title: SiteInfo.SiteMenu.Get(destinationId).Title,
+                siteConditions: SiteInfo.SiteMenu.SiteConditions(SiteId));
         }
 
         /// <summary>
