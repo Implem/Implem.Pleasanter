@@ -287,7 +287,7 @@ namespace Implem.Pleasanter.Models
                         action: () => hb
                             .Nav(css: "cf", action: () => hb
                                 .Ul(css: "nav-sites", action: () => hb
-                                    .ToUpper(siteModel)))
+                                    .ToParent(siteModel)))
                             .Nav(css: "cf", action: () => hb
                                 .Ul(css: "nav-sites sortable", action: () =>
                                     Menu(siteSettings.SiteId).ForEach(siteModelChild => hb
@@ -329,7 +329,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder ToUpper(this HtmlBuilder hb, SiteModel siteModel)
+        private static HtmlBuilder ToParent(this HtmlBuilder hb, SiteModel siteModel)
         {
             return siteModel.SiteId != 0
                 ? hb.SiteMenu(
@@ -337,8 +337,8 @@ namespace Implem.Pleasanter.Models
                     permissionType: siteModel.PermissionType,
                     siteId: siteModel.ParentId,
                     referenceType: "Sites",
-                    title: Displays.ToUpper(),
-                    toUpper: true)
+                    title: Displays.ToParent(),
+                    toParent: true)
                 : hb;
         }
 
@@ -352,7 +352,7 @@ namespace Implem.Pleasanter.Models
             long siteId,
             string referenceType,
             string title,
-            bool toUpper = false,
+            bool toParent = false,
             IEnumerable<SiteCondition> siteConditions = null)
         {
             var binaryModel = new BinaryModel(permissionType, siteId);
@@ -364,8 +364,8 @@ namespace Implem.Pleasanter.Models
                         (hasImage
                             ? " has-image"
                             : string.Empty),
-                         toUpper
-                            ? " to-upper"
+                         toParent
+                            ? " to-parent"
                             : string.Empty))
                     .DataId(siteId.ToString())
                     .DataType(referenceType),
@@ -375,7 +375,7 @@ namespace Implem.Pleasanter.Models
                             .Href(SiteHref(siteSettings, siteId, referenceType)),
                         action: () =>
                         {
-                            if (toUpper)
+                            if (toParent)
                             {
                                 if (hasImage)
                                 {

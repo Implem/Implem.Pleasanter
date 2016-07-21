@@ -329,20 +329,20 @@ pre{
     margin-left:5px;
 }
 
-.nav-site.to-upper{
+.nav-site.to-parent{
     height:36px;
     background-color:white;
 }
 
-.nav-site.to-upper a{
+.nav-site.to-parent a{
     padding:9px 3px 3px 30px;
 }
 
-.nav-site.to-upper.has-image a{
+.nav-site.to-parent.has-image a{
     padding:9px 3px 3px 35px;
 }
 
-.nav-site.to-upper .ui-icon{
+.nav-site.to-parent .ui-icon{
     position:absolute;
     top:9px;
     left:9px;

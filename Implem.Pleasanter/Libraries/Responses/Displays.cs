@@ -101,8 +101,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Step(params string[] data) { return Get("Step", data); }
         public static HtmlBuilder Displays_DecimalPlaces(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DecimalPlaces", data)); }
         public static string DecimalPlaces(params string[] data) { return Get("DecimalPlaces", data); }
-        public static HtmlBuilder Displays_ToUpper(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ToUpper", data)); }
-        public static string ToUpper(params string[] data) { return Get("ToUpper", data); }
+        public static HtmlBuilder Displays_ToParent(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ToParent", data)); }
+        public static string ToParent(params string[] data) { return Get("ToParent", data); }
         public static HtmlBuilder Displays_MoveUp(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MoveUp", data)); }
         public static string MoveUp(params string[] data) { return Get("MoveUp", data); }
         public static HtmlBuilder Displays_MoveDown(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MoveDown", data)); }
