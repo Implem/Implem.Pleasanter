@@ -345,7 +345,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder SiteMenu(
+        public static HtmlBuilder SiteMenu(
             this HtmlBuilder hb,
             SiteSettings siteSettings,
             Permissions.Types permissionType,
