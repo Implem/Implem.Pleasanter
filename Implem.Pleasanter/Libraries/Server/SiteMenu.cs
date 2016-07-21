@@ -34,19 +34,22 @@ namespace Implem.Pleasanter.Libraries.Server
         public void Set(long siteId)
         {
             var dataRow = SiteMenuElementDataRow(siteId);
-            var siteMenuElement = new SiteMenuElement(
-                dataRow["TenantId"].ToInt(),
-                siteId,
-                dataRow["ReferenceType"].ToString(),
-                dataRow["ParentId"].ToLong(),
-                dataRow["Title"].ToString());
-            if (ContainsKey(siteId))
+            if (dataRow != null)
             {
-                this[siteId] = siteMenuElement;
-            }
-            else
-            {
-                Add(siteId, siteMenuElement);
+                var siteMenuElement = new SiteMenuElement(
+                    dataRow["TenantId"].ToInt(),
+                    siteId,
+                    dataRow["ReferenceType"].ToString(),
+                    dataRow["ParentId"].ToLong(),
+                    dataRow["Title"].ToString());
+                if (ContainsKey(siteId))
+                {
+                    this[siteId] = siteMenuElement;
+                }
+                else
+                {
+                    Add(siteId, siteMenuElement);
+                }
             }
         }
 
