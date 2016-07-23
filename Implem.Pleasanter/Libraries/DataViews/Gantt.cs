@@ -10,7 +10,9 @@ namespace Implem.Pleasanter.Libraries.DataViews
 {
     public class Gantt : List<GanttElement>
     {
+        [NonSerialized]
         public SiteSettings SiteSettings;
+        [NonSerialized]
         public Column GroupByColumn;
 
         public Gantt(
