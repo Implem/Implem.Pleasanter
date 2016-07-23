@@ -121,6 +121,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelText: column.LabelText,
                                 optionCollection: optionCollection,
                                 selectedValue: value,
+                                insertBlank: column.Nullable,
                                 column: column);
                         case ControlTypes.Text:
                             return hb.FieldText(

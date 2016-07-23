@@ -150,7 +150,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 formData: formData,
                                 optionCollection: column.EditChoices(
                                     siteId: siteSettings.InheritPermission,
-                                    addBlank: true,
                                     addNotSet: true));
                         }
                         break;
@@ -189,6 +188,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 optionCollection: optionCollection,
                 selectedValue: formData.Get("DataViewFilters_" + column.Id),
                 addSelectedValue: false,
+                insertBlank: true,
                 action: "DataView",
                 method: "post",
                 _using:
@@ -213,10 +213,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static Dictionary<string, ControlData> TimePeriod(bool recordedTime)
         {
-            var hash = new Dictionary<string, ControlData>
-            {
-                { string.Empty, new ControlData(string.Empty) }
-            };
+            var hash = new Dictionary<string, ControlData>();
             var min = Min();
             var max = Max();
             for (var m = min; m <= max; m += 12)
