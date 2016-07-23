@@ -56,8 +56,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var gantt = new Gantt(siteSettings, dataRows, groupByColumn);
             return hb
                 .Svg(attributes: new HtmlAttributes()
-                    .Id_Css("Gantt", "gantt")
-                    .Height(gantt.Height.ToInt()))
+                    .Id_Css("Gantt", "gantt"))
                 .Svg(attributes: new HtmlAttributes()
                     .Id_Css("GanttAxis", "gantt-axis"))
                 .Hidden(

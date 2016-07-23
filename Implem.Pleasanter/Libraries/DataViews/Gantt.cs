@@ -12,7 +12,6 @@ namespace Implem.Pleasanter.Libraries.DataViews
     {
         public SiteSettings SiteSettings;
         public Column GroupByColumn;
-        public int Height;
 
         public Gantt(
             SiteSettings siteSettings, IEnumerable<DataRow> dataRows, string groupByColumn)
@@ -74,7 +73,6 @@ namespace Implem.Pleasanter.Libraries.DataViews
                         dataRows);
                 }
             }
-            Height = 60 + (this.Count + (groupCount == 0 ? 0 : groupCount - 1)) * 25;
         }
 
         private void AddSummary(

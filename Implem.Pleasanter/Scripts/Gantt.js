@@ -48,6 +48,7 @@
         if (d.GroupSummary) groupCount++;
         d.Y = padding + i * 25 + groupCount * 25;
     });
+    $('#Gantt').css('height', d3.max(json, function (d) { return d.Y }) + 60);
     var currentDate = minDate;
     while (currentDate <= maxDate) {
         draw(padding + xScale(currentDate), 'date');
