@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
@@ -44,6 +45,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlCss = "",
             bool _using = true)
         {
+            if (column.UserColumn && value == User.UserTypes.Anonymous.ToInt().ToString())
+            {
+                value = string.Empty;
+            }
             if (columnPermissionType != Permissions.ColumnPermissionTypes.Deny && _using)
             {
                 return hb.SwitchField(
