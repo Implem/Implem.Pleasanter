@@ -131,6 +131,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Dictionary<string, ControlData> optionCollection = null,
             string selectedValue = "",
             bool addSelectedValue = true,
+            bool insertBlank = false,
             string onChange = "",
             string action = "",
             string method = "",
@@ -149,6 +150,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             optionCollection: optionCollection,
                             selectedValue: selectedValue,
                             addSelectedValue: addSelectedValue,
+                            insertBlank: insertBlank,
                             column: column))
                 : hb;
         }
@@ -158,6 +160,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Dictionary<string, string> optionCollection = null,
             string selectedValue = "",
             bool addSelectedValue = true,
+            bool insertBlank = false,
             Column column = null,
             bool _using = true)
         {
@@ -168,6 +171,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .ToDictionary(o => o.Key, o => new ControlData(o.Value)),
                     selectedValue: selectedValue,
                     addSelectedValue: addSelectedValue,
+                    insertBlank: insertBlank,
                     column: column)?
                         .ForEach(htmlData => hb.Option(
                             attributes: new HtmlAttributes()
@@ -187,6 +191,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Dictionary<string, ControlData> optionCollection = null,
             string selectedValue = "",
             bool addSelectedValue = true,
+            bool insertBlank = false,
             Column column = null,
             bool _using = true)
         {
@@ -196,6 +201,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     optionCollection: optionCollection,
                     selectedValue: selectedValue,
                     addSelectedValue: addSelectedValue,
+                    insertBlank: insertBlank,
                     column: column)?
                         .ForEach(htmlData => hb.Option(
                             attributes: new HtmlAttributes()
@@ -214,8 +220,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Dictionary<string, ControlData> optionCollection = null,
             string selectedValue = "",
             bool addSelectedValue = true,
+            bool insertBlank = false,
             Column column = null)
         {
+            if (insertBlank)
+            {
+                optionCollection = InsertBalnk(optionCollection);
+            }
             if (selectedValue.IsNullOrEmpty() || 
                 optionCollection.ContainsKey(selectedValue) ||
                 selectedValue == "0" ||
@@ -233,6 +244,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         : new ControlData("? " + selectedValue));
                 return optionCollection;
             }
+        }
+
+        private static Dictionary<string, ControlData> InsertBalnk(
+            Dictionary<string, ControlData> optionCollection)
+        {
+            return new Dictionary<string, ControlData>
+            {
+                { string.Empty, new ControlData(string.Empty) }
+            }.AddRange(optionCollection);
         }
 
         public static HtmlBuilder RadioButtons(
