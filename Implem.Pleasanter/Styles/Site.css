@@ -1339,13 +1339,25 @@ pre{
     fill:gainsboro;
 }
 
+.gantt .planned rect.summary{
+    cursor:auto;
+}
+
 .gantt .earned rect{
     cursor:pointer;
     fill:darkseagreen;
 }
 
+.gantt .earned rect.summary{
+    cursor:auto;
+}
+
 .gantt rect.delay{
     fill:#ffccd5;
+}
+
+.gantt rect.delay.summary{
+
 }
 
 .gantt rect.completed{
@@ -1358,6 +1370,12 @@ pre{
 
 .gantt .title text.delay{
     fill:red;
+}
+
+.gantt .title text.summary{
+    font-size:1.2em;
+    font-weight:bold;
+    cursor:auto;
 }
 
 .gantt-axis{

@@ -41,6 +41,13 @@
         .attr('x', -20)
         .attr('y', 20)
         .style('text-anchor', 'start');
+    var groupCount = json.filter(function (d) { return d.GroupSummary }).length === 0
+        ? 0
+        : -1;
+    $.each(json, function (i, d) {
+        if (d.GroupSummary) groupCount++;
+        d.Y = padding + i * 25 + groupCount * 25;
+    });
     var currentDate = minDate;
     while (currentDate <= maxDate) {
         draw(padding + xScale(currentDate), 'date');
@@ -52,17 +59,20 @@
         .enter()
         .append('rect')
         .attr('x', function (d) { return padding + xScale(new Date(d.StartTime)) })
-        .attr('y', function (d, i) {
-            return padding + i * 25;
+        .attr('y', function (d) {
+            return d.Y;
         })
         .attr('width', function (d) {
             return xScale(new Date(d.CompletionTime)) - xScale(new Date(d.StartTime))
         })
         .attr('height', 23)
         .attr('class', function (d) {
-            return d.Completed
+            var ret = d.Completed
                 ? 'completed'
                 : '';
+            return d.GroupSummary
+                ? ret + ' summary'
+                : ret;
         })
         .attr('data-id', function (d) { return d.Id; })
         .append('title')
@@ -75,8 +85,8 @@
         .enter()
         .append('rect')
         .attr('x', function (d) { return padding + xScale(new Date(d.StartTime)) })
-        .attr('y', function (d, i) {
-            return padding + i * 25;
+        .attr('y', function (d) {
+            return d.Y;
         })
         .attr('width', function (d) {
             return (xScale(new Date(d.CompletionTime)) - xScale(new Date(d.StartTime)))
@@ -84,14 +94,17 @@
         })
         .attr('height', 23)
         .attr('class', function (d) {
-            return d.ProgressRate < 100 &&
+            var ret = d.ProgressRate < 100 &&
                 (padding + xScale(new Date(d.StartTime)) +
                 ((xScale(new Date(d.CompletionTime)) - xScale(new Date(d.StartTime)))
                 * d.ProgressRate * 0.01)) < now
                     ? 'delay'
                     : d.ProgressRate === 100 && d.Completed
                         ? 'completed'
-                        : '';
+                        : ''
+            return d.GroupSummary
+                ? ret + ' summary'
+                : ret;
         })
         .attr('data-id', function (d) { return d.Id; })
         .append('title')
@@ -110,8 +123,8 @@
                     ? xScale(new Date(d.StartTime)) + 5
                     : xScale(new Date(d.CompletionTime)) - 5)
         })
-        .attr('y', function (d, i) {
-            return padding + 16 + i * 25;
+        .attr('y', function (d) {
+            return d.Y + 16;
         })
         .attr('width', function (d) {
             return (xScale(new Date(d.CompletionTime)) - xScale(new Date(d.StartTime)))
@@ -119,12 +132,15 @@
         })
         .attr('height', 23)
         .attr('class', function (d) {
-            return d.ProgressRate < 100 &&
+            var ret = d.ProgressRate < 100 &&
                 (padding + xScale(new Date(d.StartTime)) +
                 ((xScale(new Date(d.CompletionTime)) - xScale(new Date(d.StartTime)))
                 * d.ProgressRate * 0.01)) < now
                     ? 'delay'
                     : '';
+            return d.GroupSummary
+                ? ret + ' summary'
+                : ret;
         })
         .attr('text-anchor', function (d) {
             return xScale(new Date(d.StartTime)) < xHarf
@@ -143,7 +159,7 @@
     function draw(day, css) {
         var nowLineData = [
             [day, padding - 10],
-            [day, (padding + json.length * 25) + 10]];
+            [day, (padding + d3.max(json, function (d) { return d.Y })) + 10]];
         var nowLine = d3.svg.line()
             .x(function (d) { return d[0]; })
             .y(function (d) { return d[1]; });
@@ -151,6 +167,8 @@
     }
 
     $(document).on('click', '#Gantt .planned rect,#Gantt .earned rect,#Gantt .title text', function () {
-        location.href = $('#BaseUrl').val() + $(this).attr('data-id');
+        if ($(this).filter('.summary').length === 0) {
+            location.href = $('#BaseUrl').val() + $(this).attr('data-id');
+        }
     });
 }

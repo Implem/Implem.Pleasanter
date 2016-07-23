@@ -1891,7 +1891,7 @@ namespace Implem.Pleasanter.Models
             var bodyOnly = Forms.Data("ControlId").StartsWith("Gantt");
             return new ResponseCollection()
                 .Html(
-                    "#DataViewContainer",
+                    !bodyOnly ? "#DataViewContainer" : "#GanttChart",
                     new HtmlBuilder().Gantt(
                         siteSettings: siteSettings,
                         permissionType: permissionType,
@@ -1919,7 +1919,7 @@ namespace Implem.Pleasanter.Models
             var groupByColumn = formData.Keys.Contains("GanttGroupByColumn")
                 ? formData["GanttGroupByColumn"].Value
                 : string.Empty;
-            var dataRows = GanttDataRows(siteSettings, formData);
+            var dataRows = GanttDataRows(siteSettings, formData, groupByColumn);
             return !bodyOnly
                 ? hb.Gantt(
                     siteSettings: siteSettings,
@@ -1936,7 +1936,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static EnumerableRowCollection<DataRow> GanttDataRows(
-            SiteSettings siteSettings, FormData formData)
+            SiteSettings siteSettings, FormData formData, string groupByColumn)
         {
             return Rds.ExecuteTable(statements:
                 Rds.SelectIssues(
@@ -1951,7 +1951,8 @@ namespace Implem.Pleasanter.Models
                         .Owner()
                         .Updator()
                         .CreatedTime()
-                        .UpdatedTime(),
+                        .UpdatedTime()
+                        .IssuesColumn(groupByColumn, _as: "GroupBy"),
                     where: DataViewFilters.Get(
                         siteSettings,
                         "Issues",

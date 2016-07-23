@@ -2,6 +2,7 @@
 using Implem.Pleasanter.Libraries.DataViews;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
@@ -21,13 +22,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Div(css: "both", action: () => hb
                 .FieldDropDown(
-                    controlId: "TimeSeriesGroupByColumn",
-                    fieldCss: "field-auto-thin hidden",
+                    controlId: "GanttGroupByColumn",
+                    fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
                     labelText: Displays.GroupBy(),
-                    optionCollection: siteSettings.ColumnCollection.Where(o => o.HasChoices())
+                    optionCollection: siteSettings.ColumnCollection
+                        .Where(o => o.HasChoices())
                         .ToDictionary(o => o.ColumnName, o => o.LabelText),
                     selectedValue: groupByColumn,
+                    insertBlank: true,
                     action: "DataView",
                     method: "post")
                 .Div(id: "GanttChart", action: () => hb
@@ -50,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string groupByColumn,
             IEnumerable<DataRow> dataRows)
         {
-            var gantt = new Gantt(siteSettings, dataRows);
+            var gantt = new Gantt(siteSettings, dataRows, groupByColumn);
             return hb
                 .Svg(attributes: new HtmlAttributes()
                     .Id_Css("Gantt", "gantt")
