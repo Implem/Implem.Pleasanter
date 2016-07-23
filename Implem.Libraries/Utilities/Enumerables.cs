@@ -48,5 +48,12 @@ namespace Implem.Libraries.Utilities
             }
             return sortedSet;
         }
+
+        public static bool AllEqual<T>(this IEnumerable<T> self)
+        {
+            if (!self.Any()) return true;
+            var first = self.First();
+            return self.Skip(1).All(o => first.Equals(o));
+        }
     }
 }
