@@ -186,11 +186,20 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Dictionary<string, ControlData> EditChoices(
             long siteId,
+            bool insertBlank = false,
             bool shorten = false,
             bool addNotSet = false)
         {
             var tenantId = Sessions.TenantId();
             var editChoices = new Dictionary<string, ControlData>();
+            if (insertBlank)
+            {
+                editChoices.Add(
+                    UserColumn
+                        ? User.UserTypes.Anonymous.ToInt().ToString()
+                        : string.Empty,
+                    new ControlData(string.Empty));
+            }
             Choices().Select((o, i) => new { Choice = o, Index = i }).ForEach(data =>
             {
                 if (!editChoices.ContainsKey(data.Choice.SelectedValue))
