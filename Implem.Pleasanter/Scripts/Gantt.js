@@ -15,7 +15,6 @@
     var padding = 20;
     var axisPadding = 50;
     var width = parseInt(svg.style('width'));
-    var height = parseInt(svg.style('height'));
     var minDate = new Date(d3.min(json, function (d) {
         return Math.min.apply(null, [new Date(d.StartTime), justTime]);
     }));
