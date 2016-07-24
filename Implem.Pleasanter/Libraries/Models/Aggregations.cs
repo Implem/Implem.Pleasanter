@@ -29,18 +29,20 @@ namespace Implem.Pleasanter.Libraries.Models
                 .Select((o, i) => new { Aggregation = o, Index = i })
                 .Where(o => dataSet.Tables.Contains("Aggregation" + o.Index))
                 .ForEach(data =>
+                {
+                    var groupByColumn = siteSettings.AllColumn(data.Aggregation.GroupBy);
                     dataSet.Tables["Aggregation" + data.Index]
                         .AsEnumerable()
                         .ForEach(dataRow =>
                         {
-                            if (data.Aggregation.GroupBy != "[NotGroupBy]")
+                            if (groupByColumn != null)
                             {
                                 if (dataRow[1].ToDecimal() != 0)
                                 {
                                     var key = Key(
                                         siteSettings,
                                         dataRow[0].ToString(),
-                                        data.Aggregation.GroupBy);
+                                        groupByColumn);
                                     if (data.Aggregation.Data.ContainsKey(key))
                                     {
                                         data.Aggregation.Data[key] +=
@@ -58,12 +60,13 @@ namespace Implem.Pleasanter.Libraries.Models
                                 data.Aggregation.Data.Add(
                                     string.Empty, dataRow[0].ToDecimal());
                             }
-                        }));
+                        });
+                });
         }
 
-        private static string Key(SiteSettings siteSettings, string key, string groupBy)
+        private static string Key(SiteSettings siteSettings, string key, Column groupByColumn)
         {
-            return !(siteSettings.AllColumn(groupBy).UserColumn && key.ToInt() == 0)
+            return !(groupByColumn.UserColumn && key.ToInt() == 0)
                  ? key
                  : User.UserTypes.Anonymous.ToInt().ToString();
         }
