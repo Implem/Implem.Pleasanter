@@ -58,7 +58,7 @@ namespace Implem.Pleasanter.Libraries.Converts
             this HtmlBuilder hb, Column column, decimal value)
         {
             return hb.Td(action: () => hb
-                .Text(text: column.Format(value, unit: true)));
+                .Text(text: column.Display(value, unit: true)));
         }
 
         public static HtmlBuilder Td(

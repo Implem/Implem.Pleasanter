@@ -1003,7 +1003,7 @@ namespace Implem.Pleasanter.Models
             var column = SiteSettings.AllColumn("RemainingWorkValue");
             responseCollection.Val(
                 "#Issues_RemainingWorkValue",
-                column.Format(RemainingWorkValue, PermissionType));
+                column.Display(RemainingWorkValue, PermissionType));
         }
 
         private string ValidateBeforeUpdate()

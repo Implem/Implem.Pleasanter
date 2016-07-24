@@ -129,7 +129,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     updators.ForEach(updatorId => hb
                         .Th(action: () => hb
                             .Text(text: SiteInfo.User(updatorId).FullName() +
-                                " ({0})".Params(column.Format(burnDown
+                                " ({0})".Params(column.Display(burnDown
                                     .Where(p => p.Updator == updatorId)
                                     .Select(p => p.EarnedValueAdditions)
                                     .Sum()) + column.Unit))));
@@ -166,9 +166,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     Displays.Get("YmdaFormat"),
                                     Sessions.CultureInfo()))))
                         .Td(action: () => hb
-                            .Text(text: column.Format(planned) + column.Unit))
+                            .Text(text: column.Display(planned) + column.Unit))
                         .Td(action: () => hb
-                            .Text(text: column.Format(earned) + column.Unit))
+                            .Text(text: column.Display(earned) + column.Unit))
                         .Td(value: difference, unit: column.Unit, css: "difference")
                         .Td(value: burnDown
                                 .Where(o => o.UpdatedTime == currentTime)
@@ -241,7 +241,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 hb.Div(css: "user-info", action: () => hb
                     .Text("{0} ({1}{2})".Params(
                         fullName,
-                        column.Format(earndValue),
+                        column.Display(earndValue),
                         unit)));
                 elements
                     .Where(o => o.Updator == updatorId)
@@ -252,10 +252,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .A(
                                 href: Navigations.ItemEdit(element.Id),
                                 text: "{0}{1} * {2}% = {3}{1} : {4} - {5}".Params(
-                                    column.Format(element.WorkValue),
+                                    column.Display(element.WorkValue),
                                     unit,
-                                    column.Format(element.ProgressRateAdditions),
-                                    column.Format(element.EarnedValueAdditions),
+                                    column.Display(element.ProgressRateAdditions),
+                                    column.Display(element.EarnedValueAdditions),
                                     element.Title,
                                     column.Choice(element.Status.ToString())
                                         .Text()))));

@@ -35,7 +35,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public string ToControl(Column column, Permissions.Types permissionType)
         {
-            return column.Format(Value, permissionType);
+            return column.Display(Value, permissionType);
         }
 
         public string ToResponse()
@@ -51,7 +51,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return hb.Td(action: () => hb
                 .Svg(css: "svg-work-value", action: () => hb
                     .SvgText(
-                        text: column.Format(Value) + column.Unit,
+                        text: column.Display(Value) + column.Unit,
                         x: 0,
                         y: Parameters.General.WorkValueTextTop)
                     .Rect(

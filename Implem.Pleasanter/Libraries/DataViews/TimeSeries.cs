@@ -129,7 +129,7 @@ namespace Implem.Pleasanter.Libraries.DataViews
                         {
                             Index = choiceKeys.IndexOf(index),
                             Day = currentTime.ToLocal(Displays.YmdFormat()),
-                            Value = valueColumn.Format(value).ToDecimal(),
+                            Value = valueColumn.Display(value).ToDecimal(),
                             Y = y
                         });
                     });

@@ -1343,19 +1343,19 @@ namespace Implem.Pleasanter.Models
                                             controlId: "ColumnProperty,Min",
                                             fieldCss: " both" + hidden,
                                             labelText: Displays.Min(),
-                                            text: column.Format(column.Min.ToDecimal()))
+                                            text: column.Display(column.Min.ToDecimal()))
                                         .FieldTextBox(
                                             fieldId: "ColumnPropertyField,Max",
                                             controlId: "ColumnProperty,Max",
                                             fieldCss: hidden,
                                             labelText: Displays.Max(),
-                                            text: column.Format(column.Max.ToDecimal()))
+                                            text: column.Display(column.Max.ToDecimal()))
                                         .FieldTextBox(
                                             fieldId: "ColumnPropertyField,Step",
                                             controlId: "ColumnProperty,Step",
                                             fieldCss: hidden,
                                             labelText: Displays.Step(),
-                                            text: column.Format(column.Step.ToDecimal()));
+                                            text: column.Display(column.Step.ToDecimal()));
                                 }
                             }
                             break;

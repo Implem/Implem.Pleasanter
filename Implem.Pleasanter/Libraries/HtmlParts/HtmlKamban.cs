@@ -170,7 +170,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     : Displays.NotSet(),
                 d.Count(),
                 valueColumn != null
-                    ? " : " + valueColumn.Format(Summary(d, aggregateType), unit: true)
+                    ? " : " + valueColumn.Display(Summary(d, aggregateType), unit: true)
                     : string.Empty));
         }
 
@@ -209,7 +209,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? data.Title
                 : "{0} : {1}".Params(
                     data.Title,
-                    valueColumn.Format(data.Value, unit: true));
+                    valueColumn.Display(data.Value, unit: true));
         }
 
         private static string ItemChanged(long id, long changedItemId)

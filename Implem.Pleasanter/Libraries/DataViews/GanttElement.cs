@@ -41,9 +41,9 @@ namespace Implem.Pleasanter.Libraries.DataViews
             Id = id;
             Title = "{0} ({1}{2} * {3}{4}) {5} : {6}".Params(
                 title,
-                workValueColumn.Format(workValue),
+                workValueColumn.Display(workValue),
                 workValueColumn.Unit,
-                progressRateColumn.Format(progressRate),
+                progressRateColumn.Display(progressRate),
                 progressRateColumn.Unit,
                 SiteInfo.UserFullName(owner),
                 statusColumn.Choice(status.ToString()).Text());

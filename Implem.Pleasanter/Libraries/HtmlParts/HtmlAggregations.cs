@@ -81,7 +81,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     selectedValue: data.Key)
                                 : string.Empty,
                             value: (targetColumn != null 
-                                ? targetColumn.Format(data.Value) 
+                                ? targetColumn.Display(data.Value) 
                                 : data.Value.ToString()) +
                                     (aggregation.Type != Aggregation.Types.Count
                                         ? targetColumn?.Unit

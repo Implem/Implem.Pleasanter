@@ -271,7 +271,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public string Format(decimal value)
+        public string Display(decimal value)
         {
             return DecimalPlaces.ToInt() == 0
                 ? value.ToString("0", "0")
@@ -285,16 +285,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : str;
         }
 
-        public string Format(decimal value, Permissions.Types permissionType)
+        public string Display(decimal value, Permissions.Types permissionType)
         {
-            return Format(value) + (EditorReadOnly.ToBool() || !this.CanUpdate(permissionType)
+            return Display(value) + (EditorReadOnly.ToBool() || !this.CanUpdate(permissionType)
                 ? Unit
                 : string.Empty);
         }
 
-        public string Format(decimal value, bool unit)
+        public string Display(decimal value, bool unit)
         {
-            return Format(value) + (unit
+            return Display(value) + (unit
                 ? Unit
                 : string.Empty);
         }
