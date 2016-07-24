@@ -108,8 +108,8 @@ namespace Implem.Pleasanter.Libraries.DataViews
                 dataRows.Select(o => o["Updator"]).AllEqual()
                     ? dataRows.FirstOrDefault()["Updator"].ToInt()
                     : 0,
-                DateTime.MinValue,
-                DateTime.MinValue,
+                dataRows.Min(o => o["CreatedTime"].ToDateTime()),
+                dataRows.Max(o => o["UpdatedTime"].ToDateTime()),
                 statusColumn,
                 workValueColumn,
                 progressRateColumn,
