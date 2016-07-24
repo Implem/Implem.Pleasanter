@@ -13,7 +13,6 @@
     var justTime = new Date();
     var svg = d3.select('#Gantt');
     var padding = 20;
-    var axisPadding = 50;
     var width = parseInt(svg.style('width'));
     var minDate = new Date(d3.min(json, function (d) {
         return Math.min.apply(null, [new Date(d.StartTime), justTime]);
