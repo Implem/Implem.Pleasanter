@@ -1,4 +1,4 @@
-﻿function cancelDefaultButton(e) {
+﻿$p.cancelDefaultButton = function (e) {
     if (!e) var e = window.event;
     if (e.keyCode == 13) {
         if (e.srcElement.type != 'submit' && e.srcElement.type != 'textarea') {

@@ -733,7 +733,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             attributes.Add(
                 name: "onkeydown",
-                value: "return cancelDefaultButton(event);",
+                value: "return $p.cancelDefaultButton(event);",
                 _using: cancelDefaultButton);
             return _using
                 ? hb.Append(
