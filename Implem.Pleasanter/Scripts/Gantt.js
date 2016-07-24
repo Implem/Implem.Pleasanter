@@ -24,19 +24,48 @@
         .domain([minDate, maxDate])
         .range([0, width - 60]);
     var xHarf = xScale(maxDate) / 2;
-    var xAxis = d3.svg.axis()
-        .scale(xScale)
-        .tickFormat(d3.time.format('%m/%d'))
-        .ticks(20);
-    var now = padding + xScale(justTime);
-    d3.select('#GanttAxis').append('g')
-        .attr('class', 'axis')
-        .attr('transform', 'translate(30, 10)')
-        .call(xAxis)
+    var months = [];
+    var currentMonth;
+    var days = [];
+    for (var s = 0; s < $p.dateDiff('d', maxDate, minDate) ; s++) {
+        var d = $p.dateAdd('d', s, minDate);
+        days.push(d);
+        if (currentMonth !== d.getMonth()) {
+            currentMonth = d.getMonth();
+            months.push(d);
+        }
+    }
+    d3.select('#GanttAxis')
+        .append('g')
+        .attr('class', 'title')
         .selectAll('text')
-        .attr('x', -20)
+        .data(days)
+        .enter()
+        .append('text')
+        .attr('text-anchor', 'middle')
+        .attr('x', function (d) {
+            return 30 + xScale(d) + (xScale($p.dateAdd('d', 1, d)) - xScale(d)) / 2;
+        })
         .attr('y', 20)
-        .style('text-anchor', 'start');
+        .text(function (d) {
+            return d.getDate();
+        });
+    d3.select('#GanttAxis')
+        .append('g')
+        .attr('class', 'title')
+        .selectAll('text')
+        .data(months)
+        .enter()
+        .append('text')
+        .attr('text-anchor', 'middle')
+        .attr('x', function (d) {
+            return 30 + xScale(d) + (xScale($p.dateAdd('d', 1, d)) - xScale(d)) / 2;
+        })
+        .attr('y', 40)
+        .text(function (d) {
+            return d.getMonth() + 1;
+        });
+    var now = padding + xScale(justTime);
     var groupCount = json.filter(function (d) { return d.GroupSummary }).length === 0
         ? 0
         : -1;
