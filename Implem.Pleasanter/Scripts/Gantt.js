@@ -23,7 +23,6 @@
     var maxDate = new Date(d3.max(json, function (d) {
         return Math.max.apply(null, [new Date(d.CompletionTime), justTime]);
     }));
-    var dayWidth = (bodyWidth - padding) / dateDiff('d', maxDate, minDate);
     var xScale = d3.time.scale()
         .domain([minDate, maxDate])
         .range([padding, bodyWidth]);
