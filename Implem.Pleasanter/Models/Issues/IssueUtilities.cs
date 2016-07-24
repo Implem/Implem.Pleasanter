@@ -2015,25 +2015,46 @@ namespace Implem.Pleasanter.Models
                 "Issues",
                 formData,
                 Rds.IssuesWhere().SiteId(siteSettings.SiteId));
-            return Rds.ExecuteTable(statements: Rds.SelectIssues(
-                tableType: Sqls.TableTypes.NormalAndHistory,
-                column: Rds.IssuesTitleColumn(siteSettings)
-                    .IssueId(_as: "Id")
-                    .Ver()
-                    .Title()
-                    .WorkValue()
-                    .StartTime()
-                    .CompletionTime()
-                    .ProgressRate()
-                    .Status()
-                    .Updator()
-                    .CreatedTime()
-                    .UpdatedTime(),
-                where: where,
-                orderBy: Rds.IssuesOrderBy()
-                    .IssueId()
-                    .Ver()))
-                        .AsEnumerable();
+            return Rds.ExecuteTable(
+                statements: new SqlStatement[]
+                {
+                    Rds.SelectIssues(
+                        column: Rds.IssuesTitleColumn(siteSettings)
+                            .IssueId(_as: "Id")
+                            .Ver()
+                            .Title()
+                            .WorkValue()
+                            .StartTime()
+                            .CompletionTime()
+                            .ProgressRate()
+                            .Status()
+                            .Updator()
+                            .CreatedTime()
+                            .UpdatedTime(),
+                        where: where,
+                        unionType: Sqls.UnionTypes.Union),
+                    Rds.SelectIssues(
+                        tableType: Sqls.TableTypes.HistoryWithoutFlag,
+                        column: Rds.IssuesTitleColumn(siteSettings)
+                            .IssueId(_as: "Id")
+                            .Ver()
+                            .Title()
+                            .WorkValue()
+                            .StartTime()
+                            .CompletionTime()
+                            .ProgressRate()
+                            .Status()
+                            .Updator()
+                            .CreatedTime()
+                            .UpdatedTime(),
+                        where: Rds.IssuesWhere()
+                            .IssueId_In(sub: Rds.SelectIssues(
+                                column: Rds.IssuesColumn().IssueId(),
+                                where: where)),
+                        orderBy: Rds.IssuesOrderBy()
+                            .IssueId()
+                            .Ver())
+                }).AsEnumerable();
         }
 
         /// <summary>
