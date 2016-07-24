@@ -1,7 +1,7 @@
 ﻿$p.dateAdd = function (type, num, date) {
     switch (type) {
         case 'd':
-            return new Date(date.setDate(date.getDate() + num));
+            return new Date(new Date(date).setDate(date.getDate() + num));
     }
 }
 
