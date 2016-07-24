@@ -136,7 +136,7 @@ namespace Implem.Pleasanter.Models
             var dataSet = Rds.ExecuteDataSet(
                 transactional: false,
                 statements: statements.ToArray());
-            Aggregations.Set(siteSettings, dataSet, aggregationCollection);
+            Aggregations.Set(dataSet, aggregationCollection, siteSettings);
             return dataSet.Tables["Main"];
         }
 

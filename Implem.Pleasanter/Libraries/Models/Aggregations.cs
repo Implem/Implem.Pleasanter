@@ -14,9 +14,9 @@ namespace Implem.Pleasanter.Libraries.Models
         public IEnumerable<Aggregation> AggregationCollection;
 
         public void Set(
-            SiteSettings siteSettings,
             DataSet dataSet,
-            IEnumerable<Aggregation> aggregationCollection)
+            IEnumerable<Aggregation> aggregationCollection,
+            SiteSettings siteSettings = null)
         {
             AggregationCollection = aggregationCollection;
             TotalCount = Rds.Count(dataSet);
@@ -30,7 +30,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 .Where(o => dataSet.Tables.Contains("Aggregation" + o.Index))
                 .ForEach(data =>
                 {
-                    var groupByColumn = siteSettings.AllColumn(data.Aggregation.GroupBy);
+                    var groupByColumn = siteSettings?.AllColumn(data.Aggregation.GroupBy);
                     dataSet.Tables["Aggregation" + data.Index]
                         .AsEnumerable()
                         .ForEach(dataRow =>

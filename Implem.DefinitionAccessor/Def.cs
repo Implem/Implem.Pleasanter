@@ -422,6 +422,7 @@ namespace Implem.DefinitionAccessor
                     case "Collection_SiteSettings": Code.Collection_SiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_SiteSettings, definitionRow, CodeXls); break;
                     case "Collection_SiteSettingsArgument": Code.Collection_SiteSettingsArgument = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_SiteSettingsArgument, definitionRow, CodeXls); break;
                     case "Collection_Aggregation": Code.Collection_Aggregation = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_Aggregation, definitionRow, CodeXls); break;
+                    case "Collection_ItemAggregation": Code.Collection_ItemAggregation = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_ItemAggregation, definitionRow, CodeXls); break;
                     case "Model_Utility": Code.Model_Utility = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility, definitionRow, CodeXls); break;
                     case "Model_Utility_Index": Code.Model_Utility_Index = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_Index, definitionRow, CodeXls); break;
                     case "Model_Utility_SetSiteSettings": Code.Model_Utility_SetSiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_SetSiteSettings, definitionRow, CodeXls); break;
@@ -3928,6 +3929,7 @@ namespace Implem.DefinitionAccessor
         public string Collection_SiteSettings;
         public string Collection_SiteSettingsArgument;
         public string Collection_Aggregation;
+        public string Collection_ItemAggregation;
         public string Model_Utility;
         public string Model_Utility_Index;
         public string Model_Utility_SetSiteSettings;
@@ -4304,6 +4306,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Collection_SiteSettings = new CodeDefinition();
         public CodeDefinition Collection_SiteSettingsArgument = new CodeDefinition();
         public CodeDefinition Collection_Aggregation = new CodeDefinition();
+        public CodeDefinition Collection_ItemAggregation = new CodeDefinition();
         public CodeDefinition Model_Utility = new CodeDefinition();
         public CodeDefinition Model_Utility_Index = new CodeDefinition();
         public CodeDefinition Model_Utility_SetSiteSettings = new CodeDefinition();
