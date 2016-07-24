@@ -16,7 +16,6 @@
     var axisPadding = 50;
     var width = parseInt(svg.style('width'));
     var height = parseInt(svg.style('height'));
-    var bodyWidth = width - padding * 2;
     var minDate = new Date(d3.min(json, function (d) {
         return Math.min.apply(null, [new Date(d.StartTime), justTime]);
     }));
@@ -25,7 +24,7 @@
     }));
     var xScale = d3.time.scale()
         .domain([minDate, maxDate])
-        .range([padding, bodyWidth]);
+        .range([0, width - 60]);
     var xHarf = xScale(maxDate) / 2;
     var xAxis = d3.svg.axis()
         .scale(xScale)
@@ -47,7 +46,7 @@
         if (d.GroupSummary) groupCount++;
         d.Y = padding + i * 25 + groupCount * 25;
     });
-    $('#Gantt').css('height', d3.max(json, function (d) { return d.Y }) + 60);
+    $('#Gantt').css('height', d3.max(json, function (d) { return d.Y }) + 45);
     var currentDate = minDate;
     while (currentDate <= maxDate) {
         draw(padding + xScale(currentDate), 'date');
