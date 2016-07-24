@@ -22,7 +22,7 @@
     var bodyHeight = height - axisPadding - (padding);
     var minDate = new Date(d3.min(elements, function (d) { return d.Day; }));
     var maxDate = new Date(d3.max(elements, function (d) { return d.Day; }));
-    var dayWidth = (bodyWidth - padding) / dateDiff('d', maxDate, minDate);
+    var dayWidth = (bodyWidth - padding) / $p.dateDiff('d', maxDate, minDate);
     var xScale = d3.time.scale()
         .domain([minDate, maxDate])
         .range([padding, bodyWidth]);
@@ -64,7 +64,7 @@
             var g = svg.append('g');
             g.append('text')
                 .attr('class', 'index')
-                .attr('x', (dateDiff('d', new Date(last.Day), minDate) * dayWidth)
+                .attr('x', ($p.dateDiff('d', new Date(last.Day), minDate) * dayWidth)
                     + axisPadding + padding - 10)
                 .attr('y', yScale(last.Y - (last.Value / 2)))
                 .attr('text-anchor', 'end')
@@ -77,7 +77,7 @@
     function draw(ds) {
         var area = d3.svg.area()
             .x(function (d) {
-                return (dateDiff('d', new Date(d.Day), minDate) * dayWidth)
+                return ($p.dateDiff('d', new Date(d.Day), minDate) * dayWidth)
                     + axisPadding + padding;
             })
             .y0(function (d) {

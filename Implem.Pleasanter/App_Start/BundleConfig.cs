@@ -7,6 +7,7 @@ namespace Implem.Pleasanter
         {
             bundles.Add(new ScriptBundle("~/bundles/Generals")
                 .Include("~/Scripts/_Init.js")
+                .Include("~/Scripts/_Time.js")
                 .Include("~/Scripts/_DefaultButton.js")
                 .Include("~/Scripts/BurnDown.js")
                 .Include("~/Scripts/Displays.js")
@@ -29,7 +30,6 @@ namespace Implem.Pleasanter
                 .Include("~/Scripts/SiteMenu.js")
                 .Include("~/Scripts/SiteSettings.js")
                 .Include("~/Scripts/Statuses.js")
-                .Include("~/Scripts/Times.js")
                 .Include("~/Scripts/TimeSeries.js")
                 .Include("~/Scripts/Focuses.js")
                 .Include("~/Scripts/SiteInfo.js")

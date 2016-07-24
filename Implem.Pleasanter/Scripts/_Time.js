@@ -1,18 +1,18 @@
-﻿function dateAdd(type, num, date) {
+﻿$p.dateAdd = function (type, num, date) {
     switch (type) {
         case 'd':
             return new Date(date.setDate(date.getDate() + num));
     }
 }
 
-function dateDiff(type, date1, date2) {
+$p.dateDiff = function (type, date1, date2) {
     switch (type) {
         case 'd':
             return parseInt((date1 - date2) / 86400000);
     }
 }
 
-function shortDate(date) {
+$p.shortDate = function (date) {
     if (date === undefined) date = new Date();
     return new Date(date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate());
 }

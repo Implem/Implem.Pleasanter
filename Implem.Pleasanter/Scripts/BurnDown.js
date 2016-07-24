@@ -19,7 +19,7 @@
     var bodyHeight = height - axisPadding - (padding);
     var minDate = new Date(d3.min(json, function (d) { return d.Day; }));
     var maxDate = new Date(d3.max(json, function (d) { return d.Day; }));
-    var dayWidth = (bodyWidth - padding) / dateDiff('d', maxDate, minDate);
+    var dayWidth = (bodyWidth - padding) / $p.dateDiff('d', maxDate, minDate);
     var xScale = d3.time.scale()
         .domain([minDate, maxDate])
         .range([padding, bodyWidth]);
@@ -52,7 +52,7 @@
         .call(yAxis)
         .selectAll('text')
         .attr('x', -20);
-    var now = axisPadding + xScale(new shortDate());
+    var now = axisPadding + xScale(new $p.shortDate());
     var nowLineData = [
         [now, axisPadding - 40],
         [now, yScale(0) + 20]];
@@ -67,7 +67,7 @@
     function draw(css, n, ds) {
         var line = d3.svg.line()
             .x(function (d) {
-                return (dateDiff('d', new Date(d.Day), minDate) * dayWidth)
+                return ($p.dateDiff('d', new Date(d.Day), minDate) * dayWidth)
                     + axisPadding + padding;
             })
             .y(function (d) {

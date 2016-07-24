@@ -48,7 +48,7 @@
     var currentDate = minDate;
     while (currentDate <= maxDate) {
         draw(padding + xScale(currentDate), 'date');
-        currentDate = dateAdd('d', 1, currentDate);
+        currentDate = $p.dateAdd('d', 1, currentDate);
     }
     svg.append('g').attr('class', 'planned')
         .selectAll('rect')
