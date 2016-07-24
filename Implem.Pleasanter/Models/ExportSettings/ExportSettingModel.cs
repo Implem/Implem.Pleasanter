@@ -631,7 +631,7 @@ namespace Implem.Pleasanter.Models
         {
             Get();
             return AccessStatus == Databases.AccessStatuses.Selected
-                ? Messages.ResponseUpdateConflicts(Updator.FullName).ToJson()
+                ? Messages.ResponseUpdateConflicts(Updator.FullName()).ToJson()
                 : Messages.ResponseDeleteConflicts().ToJson();
         }
 

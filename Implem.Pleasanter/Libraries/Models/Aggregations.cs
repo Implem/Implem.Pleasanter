@@ -1,5 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -11,7 +13,10 @@ namespace Implem.Pleasanter.Libraries.Models
         public int OverdueCount;
         public IEnumerable<Aggregation> AggregationCollection;
 
-        public void Set(DataSet dataSet, IEnumerable<Aggregation> aggregationCollection)
+        public void Set(
+            SiteSettings siteSettings,
+            DataSet dataSet,
+            IEnumerable<Aggregation> aggregationCollection)
         {
             AggregationCollection = aggregationCollection;
             TotalCount = Rds.Count(dataSet);
@@ -32,15 +37,19 @@ namespace Implem.Pleasanter.Libraries.Models
                             {
                                 if (dataRow[1].ToDecimal() != 0)
                                 {
-                                    if (data.Aggregation.Data.ContainsKey(dataRow[0].ToString()))
+                                    var key = Key(
+                                        siteSettings,
+                                        dataRow[0].ToString(),
+                                        data.Aggregation.GroupBy);
+                                    if (data.Aggregation.Data.ContainsKey(key))
                                     {
-                                        data.Aggregation.Data[dataRow[0].ToString()] +=
+                                        data.Aggregation.Data[key] +=
                                             dataRow[1].ToDecimal();
                                     }
                                     else
                                     {
                                         data.Aggregation.Data.Add(
-                                            dataRow[0].ToString(), dataRow[1].ToDecimal());
+                                            key, dataRow[1].ToDecimal());
                                     }
                                 }
                             }
@@ -50,6 +59,13 @@ namespace Implem.Pleasanter.Libraries.Models
                                     string.Empty, dataRow[0].ToDecimal());
                             }
                         }));
+        }
+
+        private static string Key(SiteSettings siteSettings, string key, string groupBy)
+        {
+            return !(siteSettings.AllColumn(groupBy).UserColumn && key.ToInt() == 0)
+                 ? key
+                 : User.UserTypes.Anonymous.ToInt().ToString();
         }
     }
 }

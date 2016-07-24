@@ -157,7 +157,7 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public static string UserFullName(int userId)
         {
-            return SiteInfo.User(userId).FullName;
+            return SiteInfo.User(userId).FullName();
         }
 
         public static string IndexReferenceType(string referenceType, long referenceId)

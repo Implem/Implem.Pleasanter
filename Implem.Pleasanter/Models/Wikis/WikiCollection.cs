@@ -44,6 +44,7 @@ namespace Implem.Pleasanter.Models
             if (get)
             {
                 Set(siteSettings, permissionType, Get(
+                siteSettings: siteSettings,
                     column: column,
                     join: join,
                     where: where,
@@ -97,6 +98,7 @@ namespace Implem.Pleasanter.Models
         }
 
         private DataTable Get(
+            SiteSettings siteSettings,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
@@ -134,7 +136,7 @@ namespace Implem.Pleasanter.Models
             var dataSet = Rds.ExecuteDataSet(
                 transactional: false,
                 statements: statements.ToArray());
-            Aggregations.Set(dataSet, aggregationCollection);
+            Aggregations.Set(siteSettings, dataSet, aggregationCollection);
             return dataSet.Tables["Main"];
         }
 

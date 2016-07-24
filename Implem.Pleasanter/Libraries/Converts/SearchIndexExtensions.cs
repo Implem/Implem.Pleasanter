@@ -67,7 +67,7 @@ namespace Implem.Pleasanter.Libraries.Converts
         public static void SearchIndexes(
             this User self, Dictionary<string, int> searchIndexHash, int searchPriority)
         {
-            SearchIndexes(searchIndexHash, self.FullName, searchPriority);
+            SearchIndexes(searchIndexHash, self.FullName(), searchPriority);
         }
 
         public static void SearchIndexes(

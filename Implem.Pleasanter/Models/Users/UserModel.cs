@@ -755,7 +755,7 @@ namespace Implem.Pleasanter.Models
         {
             Get();
             return AccessStatus == Databases.AccessStatuses.Selected
-                ? Messages.ResponseUpdateConflicts(Updator.FullName).ToJson()
+                ? Messages.ResponseUpdateConflicts(Updator.FullName()).ToJson()
                 : Messages.ResponseDeleteConflicts().ToJson();
         }
 
@@ -810,7 +810,9 @@ namespace Implem.Pleasanter.Models
             {
                 Id = UserId,
                 DeptId = DeptId,
-                FullName = FullName(),
+                FirstName = FirstName,
+                LastName = LastName,
+                FirstAndLastNameOrders = FirstAndLastNameOrder,
                 TenantAdmin = TenantAdmin,
                 ServiceAdmin = ServiceAdmin
             };

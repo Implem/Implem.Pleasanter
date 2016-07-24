@@ -45,7 +45,7 @@ namespace Implem.Pleasanter.Libraries.DataViews
                 workValueColumn.Unit,
                 progressRateColumn.Format(progressRate),
                 progressRateColumn.Unit,
-                Owner(owner),
+                SiteInfo.UserFullName(owner),
                 statusColumn.Choice(status.ToString()).Text());
             StartTime = startTime.NotZero()
                 ? startTime.ToLocal(Displays.YmdFormat())
@@ -55,15 +55,6 @@ namespace Implem.Pleasanter.Libraries.DataViews
             ProgressRate = progressRate;
             Completed = status >= Parameters.General.CompletionCode;
             GroupSummary = summary;
-        }
-
-        private string Owner(int owner)
-        {
-            return owner == 0
-                ? string.Empty
-                : owner != User.UserTypes.Anonymous.ToInt()
-                    ? SiteInfo.UserFullName(owner)
-                    : Displays.NotSet();
         }
     }
 }

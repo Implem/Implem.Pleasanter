@@ -144,7 +144,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 .ForEach(o => Add(
                                     choicesHash,
                                     o.Key.ToString(),
-                                    o.Value.FullName));
+                                    o.Value.FullName()));
                             break;
                         case "[[TimeZones]]":
                             TimeZoneInfo.GetSystemTimeZones()
@@ -242,7 +242,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (UserColumn)
             {
                 recordingData = SiteInfo.Users
-                    .Where(o => o.Value.FullName == value)
+                    .Where(o => o.Value.FullName() == value)
                     .Select(o => o.Value.Id)
                     .FirstOrDefault(o => SiteInfo.UserIdCollection(siteId).Any(p => p == o));
             }

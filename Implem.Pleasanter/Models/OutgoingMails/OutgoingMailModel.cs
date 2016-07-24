@@ -592,7 +592,7 @@ namespace Implem.Pleasanter.Models
         {
             Get();
             return AccessStatus == Databases.AccessStatuses.Selected
-                ? Messages.ResponseUpdateConflicts(Updator.FullName).ToJson()
+                ? Messages.ResponseUpdateConflicts(Updator.FullName()).ToJson()
                 : Messages.ResponseDeleteConflicts().ToJson();
         }
 
@@ -618,7 +618,7 @@ namespace Implem.Pleasanter.Models
             ReferenceId = referenceId;
             ReferenceVer = Forms.Int("Ver");
             From = new System.Net.Mail.MailAddress("\"{0}\" <{1}>".Params(
-                Sessions.User().FullName,
+                Sessions.User().FullName(),
                 OutgoingMailUtilities.FromMailAddress()));
             SetByForm();
         }

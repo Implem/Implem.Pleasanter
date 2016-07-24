@@ -3,6 +3,7 @@ using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
+using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Data;
@@ -13,7 +14,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public int TenantId;
         public int Id;
         public int DeptId;
-        public string FullName;
+        public string FirstName;
+        public string LastName;
+        public Names.FirstAndLastNameOrders FirstAndLastNameOrders;
         public bool TenantAdmin;
         public bool ServiceAdmin;
 
@@ -29,22 +32,29 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public User(int userId)
         {
-            var dataTable = Rds.ExecuteTable(statements:
-                Rds.SelectUsers(
-                    column: Rds.UsersColumn()
-                        .TenantId()
-                        .UserId()
-                        .DeptId()
-                        .FirstName()
-                        .LastName()
-                        .FirstAndLastNameOrder()
-                        .TenantAdmin()
-                        .ServiceAdmin(),
-                    where: Rds.UsersWhere()
-                        .UserId(userId)));
-            if (dataTable.Rows.Count == 1)
+            if (userId != 0 && userId != 2)
             {
-                Set(dataTable.Rows[0]);
+                var dataTable = Rds.ExecuteTable(statements:
+                    Rds.SelectUsers(
+                        column: Rds.UsersColumn()
+                            .TenantId()
+                            .UserId()
+                            .DeptId()
+                            .FirstName()
+                            .LastName()
+                            .FirstAndLastNameOrder()
+                            .TenantAdmin()
+                            .ServiceAdmin(),
+                        where: Rds.UsersWhere()
+                            .UserId(userId)));
+                if (dataTable.Rows.Count == 1)
+                {
+                    Set(dataTable.Rows[0]);
+                }
+                else
+                {
+                    SetAnonymouse();
+                }
             }
             else
             {
@@ -62,10 +72,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             TenantId = dataRow.Int("TenantId");
             Id = dataRow.Int("UserId");
             DeptId = dataRow.Int("DeptId");
-            FullName = Names.FullName(
-                (Names.FirstAndLastNameOrders)dataRow["FirstAndLastNameOrder"],
-                dataRow.String("FirstName") + " " + dataRow.String("LastName"),
-                dataRow.String("LastName") + " " + dataRow.String("FirstName"));
+            FirstName = dataRow.String("FirstName");
+            LastName = dataRow.String("LastName");
+            FirstAndLastNameOrders = (Names.FirstAndLastNameOrders)dataRow["FirstAndLastNameOrder"];
             TenantAdmin = dataRow.Bool("TenantAdmin");
             ServiceAdmin = dataRow.Bool("ServiceAdmin");
         }
@@ -75,9 +84,18 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             TenantId = 0;
             Id = UserTypes.Anonymous.ToInt();
             DeptId = 0;
-            FullName = UserTypes.Anonymous.ToString();
             TenantAdmin = false;
             ServiceAdmin = false;
+        }
+
+        public string FullName()
+        {
+            return Id != UserTypes.Anonymous.ToInt()
+                ? Names.FullName(
+                    FirstAndLastNameOrders,
+                    FirstName + " " + LastName,
+                    LastName + " " + FirstName)
+                : Displays.NotSet();
         }
 
         public string ToControl(Column column, Permissions.Types permissionType)
@@ -100,7 +118,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public string ToExport(Column column)
         {
-            return FullName.ToString();
+            return FullName().ToString();
         }
     }
 }

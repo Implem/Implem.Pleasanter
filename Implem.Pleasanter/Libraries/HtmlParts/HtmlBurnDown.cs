@@ -128,7 +128,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Text(text: ownerLabelText + " " + Displays.Total()));
                     updators.ForEach(updatorId => hb
                         .Th(action: () => hb
-                            .Text(text: SiteInfo.User(updatorId).FullName +
+                            .Text(text: SiteInfo.User(updatorId).FullName() +
                                 " ({0})".Params(column.Format(burnDown
                                     .Where(p => p.Updator == updatorId)
                                     .Select(p => p.EarnedValueAdditions)
@@ -216,7 +216,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Distinct()
                             .ForEach(updatorId =>
                                 hb.BurnDownRecordDetail(
-                                    fullName: SiteInfo.User(updatorId).FullName,
+                                    fullName: SiteInfo.User(updatorId).FullName(),
                                     updatorId: updatorId,
                                     earndValue: elements
                                         .Where(o => o.Updator == updatorId)

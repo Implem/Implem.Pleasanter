@@ -1,5 +1,4 @@
-﻿using Implem.Libraries.Classes;
-using Implem.Libraries.Utilities;
+﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
@@ -121,9 +120,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (groupByColumn.UserColumn)
             {
-                return selectedValue.ToInt() != RdsUser.UserTypes.Anonymous.ToInt()
-                    ? SiteInfo.UserFullName(selectedValue.ToInt())
-                    : Displays.NotSet();
+                return SiteInfo.UserFullName(selectedValue.ToInt());
             }
             else if (groupByColumn.HasChoices())
             {
