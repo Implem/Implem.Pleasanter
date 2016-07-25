@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 namespace Implem.Libraries.Utilities
 {
@@ -247,6 +248,20 @@ namespace Implem.Libraries.Utilities
         {
             Decimal data;
             if (self != null && Decimal.TryParse(self.ToString(), out data))
+            {
+                return data;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public static decimal ToDecimal(this object self, CultureInfo cultureInfo)
+        {
+            decimal data;
+            if (self != null && decimal.TryParse(
+                self.ToString(), NumberStyles.Any, cultureInfo, out data))
             {
                 return data;
             }
