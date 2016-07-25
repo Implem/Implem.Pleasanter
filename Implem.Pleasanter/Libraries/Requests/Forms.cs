@@ -1,7 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Server;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -34,7 +34,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public static decimal Decimal(string key)
         {
-            return Data(key).ToDecimal();
+            return Data(key).ToDecimal(Sessions.CultureInfo());
         }
 
         public static DateTime DateTime(string key)

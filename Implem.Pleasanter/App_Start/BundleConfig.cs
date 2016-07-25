@@ -35,7 +35,8 @@ namespace Implem.Pleasanter
                 .Include("~/Scripts/SiteInfo.js")
                 .Include("~/Scripts/Transports.js")
                 .Include("~/Scripts/JqueryUi.js")
-                .Include("~/Scripts/_Show.js"));
+                .Include("~/Scripts/_Show.js")
+                .Include("~/Scripts/Validators/Custom.js"));
             Validators(bundles);
             bundles.Add(new StyleBundle("~/content/styles")
                 .Include("~/Styles/Site.css"));

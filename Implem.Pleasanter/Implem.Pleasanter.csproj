@@ -409,6 +409,7 @@
     <Content Include="Scripts\SiteSettings.js" />
     <Content Include="Scripts\Statuses.js" />
     <Content Include="Scripts\TimeSeries.js" />
+    <Content Include="Scripts\Validators\Custom.js" />
     <Content Include="Scripts\Validators\Demos.js" />
     <Content Include="Scripts\Validators\Depts.js" />
     <Content Include="Scripts\Validators\Issues.js" />

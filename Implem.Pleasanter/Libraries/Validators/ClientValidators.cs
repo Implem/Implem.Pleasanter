@@ -18,7 +18,7 @@ namespace Implem.Pleasanter.Libraries.Validators
             switch (validatorType)
             {
                 case "required": return Displays.ValidateRequired();
-                case "number": return Displays.ValidateNumber();
+                case "c_num": return Displays.ValidateNumber();
                 case "date": return Displays.ValidateDate();
                 case "email": return Displays.ValidateMail();
                 case "equalTo": return Displays.ValidateEqualTo();
