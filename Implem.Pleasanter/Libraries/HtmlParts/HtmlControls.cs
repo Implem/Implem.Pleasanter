@@ -84,7 +84,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return _using
                 ? hb
                     .Div(attributes: new HtmlAttributes()
-                        .Id_Css(controlId + ".viewer", "control-markup")
+                        .Id_Css(controlId + ".viewer", "control-markup not-transport")
                         .OnDblClick(Def.JavaScript.EditMarkDown))
                     .Div(
                         attributes: new HtmlAttributes()

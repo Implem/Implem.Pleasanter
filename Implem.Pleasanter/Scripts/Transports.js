@@ -142,7 +142,7 @@ function requestByForm($form, $eventSender, async) {
 
         function setMustData($form, action) {
             if (action.toLowerCase() === 'create') {
-                $form.find('[class*="control-"]:not(.control-text)').each(function () {
+                $form.find('[class*="control-"]').each(function () {
                     setFormData($(this));
                 });
             } else {
