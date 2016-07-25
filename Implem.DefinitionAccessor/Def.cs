@@ -2371,6 +2371,8 @@ namespace Implem.DefinitionAccessor
                     case "Min_ja": Display.Min_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Min_ja, definitionRow, DisplayXls); break;
                     case "Step": Display.Step = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Step, definitionRow, DisplayXls); break;
                     case "Step_ja": Display.Step_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Step_ja, definitionRow, DisplayXls); break;
+                    case "Currency": Display.Currency = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Currency, definitionRow, DisplayXls); break;
+                    case "Currency_ja": Display.Currency_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Currency_ja, definitionRow, DisplayXls); break;
                     case "DecimalPlaces": Display.DecimalPlaces = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DecimalPlaces, definitionRow, DisplayXls); break;
                     case "DecimalPlaces_ja": Display.DecimalPlaces_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DecimalPlaces_ja, definitionRow, DisplayXls); break;
                     case "ToParent": Display.ToParent = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ToParent, definitionRow, DisplayXls); break;
@@ -2454,6 +2456,8 @@ namespace Implem.DefinitionAccessor
                     case "CreatedTime_ja": Display.CreatedTime_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CreatedTime_ja, definitionRow, DisplayXls); break;
                     case "UpdatedTime": Display.UpdatedTime = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.UpdatedTime, definitionRow, DisplayXls); break;
                     case "UpdatedTime_ja": Display.UpdatedTime_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.UpdatedTime_ja, definitionRow, DisplayXls); break;
+                    case "Custom": Display.Custom = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Custom, definitionRow, DisplayXls); break;
+                    case "Custom_ja": Display.Custom_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Custom_ja, definitionRow, DisplayXls); break;
                     case "PermissionDestination": Display.PermissionDestination = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.PermissionDestination, definitionRow, DisplayXls); break;
                     case "PermissionDestination_ja": Display.PermissionDestination_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.PermissionDestination_ja, definitionRow, DisplayXls); break;
                     case "PermissionSource": Display.PermissionSource = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.PermissionSource, definitionRow, DisplayXls); break;
@@ -2480,6 +2484,8 @@ namespace Implem.DefinitionAccessor
                     case "SettingEnable_ja": Display.SettingEnable_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingEnable_ja, definitionRow, DisplayXls); break;
                     case "SettingOrder": Display.SettingOrder = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingOrder, definitionRow, DisplayXls); break;
                     case "SettingOrder_ja": Display.SettingOrder_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingOrder_ja, definitionRow, DisplayXls); break;
+                    case "SettingFormat": Display.SettingFormat = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingFormat, definitionRow, DisplayXls); break;
+                    case "SettingFormat_ja": Display.SettingFormat_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingFormat_ja, definitionRow, DisplayXls); break;
                     case "SettingUnit": Display.SettingUnit = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingUnit, definitionRow, DisplayXls); break;
                     case "SettingUnit_ja": Display.SettingUnit_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingUnit_ja, definitionRow, DisplayXls); break;
                     case "SettingControlDateTime": Display.SettingControlDateTime = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingControlDateTime, definitionRow, DisplayXls); break;
@@ -2833,6 +2839,8 @@ namespace Implem.DefinitionAccessor
                     case "BadMailAddress_ja": Display.BadMailAddress_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.BadMailAddress_ja, definitionRow, DisplayXls); break;
                     case "MailAddressHasNotSet": Display.MailAddressHasNotSet = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.MailAddressHasNotSet, definitionRow, DisplayXls); break;
                     case "MailAddressHasNotSet_ja": Display.MailAddressHasNotSet_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.MailAddressHasNotSet_ja, definitionRow, DisplayXls); break;
+                    case "BadFormat": Display.BadFormat = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.BadFormat, definitionRow, DisplayXls); break;
+                    case "BadFormat_ja": Display.BadFormat_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.BadFormat_ja, definitionRow, DisplayXls); break;
                     case "FileNotFound": Display.FileNotFound = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.FileNotFound, definitionRow, DisplayXls); break;
                     case "FileNotFound_ja": Display.FileNotFound_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.FileNotFound_ja, definitionRow, DisplayXls); break;
                     case "NotRequiredColumn": Display.NotRequiredColumn = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.NotRequiredColumn, definitionRow, DisplayXls); break;
@@ -7516,6 +7524,8 @@ namespace Implem.DefinitionAccessor
         public string Min_ja;
         public string Step;
         public string Step_ja;
+        public string Currency;
+        public string Currency_ja;
         public string DecimalPlaces;
         public string DecimalPlaces_ja;
         public string ToParent;
@@ -7599,6 +7609,8 @@ namespace Implem.DefinitionAccessor
         public string CreatedTime_ja;
         public string UpdatedTime;
         public string UpdatedTime_ja;
+        public string Custom;
+        public string Custom_ja;
         public string PermissionDestination;
         public string PermissionDestination_ja;
         public string PermissionSource;
@@ -7625,6 +7637,8 @@ namespace Implem.DefinitionAccessor
         public string SettingEnable_ja;
         public string SettingOrder;
         public string SettingOrder_ja;
+        public string SettingFormat;
+        public string SettingFormat_ja;
         public string SettingUnit;
         public string SettingUnit_ja;
         public string SettingControlDateTime;
@@ -7978,6 +7992,8 @@ namespace Implem.DefinitionAccessor
         public string BadMailAddress_ja;
         public string MailAddressHasNotSet;
         public string MailAddressHasNotSet_ja;
+        public string BadFormat;
+        public string BadFormat_ja;
         public string FileNotFound;
         public string FileNotFound_ja;
         public string NotRequiredColumn;
@@ -8140,6 +8156,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition Min_ja = new DisplayDefinition();
         public DisplayDefinition Step = new DisplayDefinition();
         public DisplayDefinition Step_ja = new DisplayDefinition();
+        public DisplayDefinition Currency = new DisplayDefinition();
+        public DisplayDefinition Currency_ja = new DisplayDefinition();
         public DisplayDefinition DecimalPlaces = new DisplayDefinition();
         public DisplayDefinition DecimalPlaces_ja = new DisplayDefinition();
         public DisplayDefinition ToParent = new DisplayDefinition();
@@ -8223,6 +8241,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition CreatedTime_ja = new DisplayDefinition();
         public DisplayDefinition UpdatedTime = new DisplayDefinition();
         public DisplayDefinition UpdatedTime_ja = new DisplayDefinition();
+        public DisplayDefinition Custom = new DisplayDefinition();
+        public DisplayDefinition Custom_ja = new DisplayDefinition();
         public DisplayDefinition PermissionDestination = new DisplayDefinition();
         public DisplayDefinition PermissionDestination_ja = new DisplayDefinition();
         public DisplayDefinition PermissionSource = new DisplayDefinition();
@@ -8249,6 +8269,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition SettingEnable_ja = new DisplayDefinition();
         public DisplayDefinition SettingOrder = new DisplayDefinition();
         public DisplayDefinition SettingOrder_ja = new DisplayDefinition();
+        public DisplayDefinition SettingFormat = new DisplayDefinition();
+        public DisplayDefinition SettingFormat_ja = new DisplayDefinition();
         public DisplayDefinition SettingUnit = new DisplayDefinition();
         public DisplayDefinition SettingUnit_ja = new DisplayDefinition();
         public DisplayDefinition SettingControlDateTime = new DisplayDefinition();
@@ -8602,6 +8624,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition BadMailAddress_ja = new DisplayDefinition();
         public DisplayDefinition MailAddressHasNotSet = new DisplayDefinition();
         public DisplayDefinition MailAddressHasNotSet_ja = new DisplayDefinition();
+        public DisplayDefinition BadFormat = new DisplayDefinition();
+        public DisplayDefinition BadFormat_ja = new DisplayDefinition();
         public DisplayDefinition FileNotFound = new DisplayDefinition();
         public DisplayDefinition FileNotFound_ja = new DisplayDefinition();
         public DisplayDefinition NotRequiredColumn = new DisplayDefinition();

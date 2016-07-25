@@ -751,6 +751,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string SetSiteSettings()
         {
+            var error = ValidateBeforeSetSiteSettings();
+            if (error != null) return error;
             var responseCollection = new SitesResponseCollection(this);
             SetSiteSettingsPropertiesBySession();
             switch (Forms.Data("ControlId"))
@@ -774,6 +776,30 @@ namespace Implem.Pleasanter.Models
             }
             Session_SiteSettings(Jsons.ToJson(SiteSettings));
             return responseCollection.ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string ValidateBeforeSetSiteSettings()
+        {
+            foreach(var data in Forms.All())
+            {
+                switch (data.Key)
+                {
+                    case "ColumnProperty,Format":
+                        try
+                        {
+                            0.ToString(data.Value, Sessions.CultureInfo());
+                        }
+                        catch (Exception)
+                        {
+                            return Messages.ResponseBadFormat(data.Value).ToJson();
+                        }
+                        break;
+                }
+            }
+            return null;
         }
 
         /// <summary>

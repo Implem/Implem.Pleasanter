@@ -71,6 +71,8 @@ namespace Implem.DefinitionAccessor
                 .Deserialize<ParameterAccessor.Parts.BinaryStorage>();
             Parameters.Cache = Files.Read(ParametersPath("Cache"))
                 .Deserialize<ParameterAccessor.Parts.Cache>();
+            Parameters.Formats = Files.Read(ParametersPath("Formats"))
+                .Deserialize<List<ParameterAccessor.Parts.Format>>();
             Parameters.General = Files.Read(ParametersPath("General"))
                 .Deserialize<ParameterAccessor.Parts.General>();
             Parameters.Mail = Files.Read(ParametersPath("Mail"))

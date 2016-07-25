@@ -534,6 +534,7 @@
     <Content Include="App_Data\Parameters\Rds.json" />
     <Content Include="App_Data\Parameters\Service.json" />
     <Content Include="App_Data\Parameters\SysLog.json" />
+    <Content Include="App_Data\Parameters\Formats.json" />
     <None Include="Properties\PublishProfiles\pleasanter配布.pubxml" />
     <Content Include="Tools\BackgroundTasks.ps1" />
   </ItemGroup>

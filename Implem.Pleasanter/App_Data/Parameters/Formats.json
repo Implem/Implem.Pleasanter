@@ -1,0 +1,12 @@
+﻿[
+    {
+        "Name": "Currency",
+        "Type": 1,
+        "String": "C"
+    },
+    {
+        "Name": "Custom",
+        "Type": 1,
+        "String": "\t"
+    }
+]

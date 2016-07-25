@@ -1309,6 +1309,7 @@ namespace Implem.Pleasanter.Models
                                         labelText: Displays.DefaultInput(),
                                         text: column.DefaultInput.ToLong().ToString(),
                                         _using: !column.Id_Ver)
+                                    .FormatColumnProperty(column: column)
                                     .FieldTextBox(
                                         controlId: "ColumnProperty,Unit",
                                         controlCss: " w50",
@@ -1418,6 +1419,38 @@ namespace Implem.Pleasanter.Models
                         text: Displays.Cancel(),
                         controlCss: "button-cancel",
                         onClick: Def.JavaScript.CancelDialog));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder FormatColumnProperty(this HtmlBuilder hb, Column column)
+        {
+            var formats = Parameters.Formats
+                .Where(o => (o.Type & ParameterAccessor.Parts.Format.Types.NumColumn) > 0);
+            var format = formats.FirstOrDefault(o => o.String == column.Format);
+            var other = !column.Format.IsNullOrEmpty() && format == null;
+            return hb
+                .FieldDropDown(
+                    controlId: "ColumnProperty,FormatSelector",
+                    labelText: Displays.SettingFormat(),
+                    optionCollection: formats
+                        .ToDictionary(o => o.String, o => Displays.Get(o.Name)),
+                    selectedValue: format != null
+                        ? format.String
+                        : other
+                            ? "\t"
+                            : string.Empty,
+                    insertBlank: true,
+                    _using: !column.Id_Ver)
+                .FieldTextBox(
+                    fieldId: "ColumnPropertyField,Format",
+                    controlId: "ColumnProperty,Format",
+                    fieldCss: other ? string.Empty : " hidden",
+                    labelText: Displays.Custom(),
+                    text: other
+                        ? column.Format
+                        : string.Empty);
         }
 
         /// <summary>

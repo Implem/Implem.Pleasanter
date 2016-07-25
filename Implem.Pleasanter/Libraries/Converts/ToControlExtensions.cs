@@ -66,7 +66,9 @@ namespace Implem.Pleasanter.Libraries.Converts
         public static string ToControl(
             this decimal self, Column column, Permissions.Types permissionType)
         {
-            return column.Display(self, permissionType);
+            return self != 0
+                ? column.Display(self, permissionType)
+                : string.Empty;
         }
 
         public static string ToControl<T>(

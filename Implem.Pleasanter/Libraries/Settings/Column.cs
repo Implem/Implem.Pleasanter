@@ -20,6 +20,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? FilterVisible;
         public string ControlDateTime;
         public string ControlType;
+        public string Format;
         public int? DecimalPlaces;
         public decimal? Min;
         public decimal? Max;
@@ -273,9 +274,11 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public string Display(decimal value)
         {
-            return DecimalPlaces.ToInt() == 0
-                ? value.ToString("0", "0")
-                : TrimZero(value.ToString("0", "0." + new String('0', DecimalPlaces.ToInt())));
+            return !Format.IsNullOrEmpty()
+                ? value.ToString(Format, Sessions.CultureInfo())
+                : DecimalPlaces.ToInt() == 0
+                    ? value.ToString("0", "0")
+                    : TrimZero(value.ToString("0", "0." + new String('0', DecimalPlaces.ToInt())));
         }
 
         private static string TrimZero(string str)

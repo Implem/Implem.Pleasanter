@@ -182,9 +182,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: column.LabelText,
-                                text: value.ToDecimal() != 0
-                                    ? column.Display(value.ToDecimal())
-                                    : string.Empty,
+                                text: value,
                                 attributes: attributes);
                         case ControlTypes.TextBoxDateTime:
                             return hb.FieldTextBox(

@@ -108,6 +108,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.MailAddressHasNotSet(data), "alert-error");
         }
 
+        public static Message BadFormat(params string[] data)
+        {
+            return Get(Displays.BadFormat(data), "alert-error");
+        }
+
         public static Message FileNotFound(params string[] data)
         {
             return Get(Displays.FileNotFound(data), "alert-error");
@@ -391,6 +396,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseMailAddressHasNotSet(params string[] data)
         {
             return ResponseMessage(Messages.MailAddressHasNotSet(data));
+        }
+
+        public static ResponseCollection ResponseBadFormat(params string[] data)
+        {
+            return ResponseMessage(Messages.BadFormat(data));
         }
 
         public static ResponseCollection ResponseFileNotFound(params string[] data)

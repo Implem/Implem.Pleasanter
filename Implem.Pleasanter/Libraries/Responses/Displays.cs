@@ -99,6 +99,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Min(params string[] data) { return Get("Min", data); }
         public static HtmlBuilder Displays_Step(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Step", data)); }
         public static string Step(params string[] data) { return Get("Step", data); }
+        public static HtmlBuilder Displays_Currency(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Currency", data)); }
+        public static string Currency(params string[] data) { return Get("Currency", data); }
         public static HtmlBuilder Displays_DecimalPlaces(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DecimalPlaces", data)); }
         public static string DecimalPlaces(params string[] data) { return Get("DecimalPlaces", data); }
         public static HtmlBuilder Displays_ToParent(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ToParent", data)); }
@@ -183,6 +185,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string CreatedTime(params string[] data) { return Get("CreatedTime", data); }
         public static HtmlBuilder Displays_UpdatedTime(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("UpdatedTime", data)); }
         public static string UpdatedTime(params string[] data) { return Get("UpdatedTime", data); }
+        public static HtmlBuilder Displays_Custom(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Custom", data)); }
+        public static string Custom(params string[] data) { return Get("Custom", data); }
         public static HtmlBuilder Displays_PermissionDestination(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("PermissionDestination", data)); }
         public static string PermissionDestination(params string[] data) { return Get("PermissionDestination", data); }
         public static HtmlBuilder Displays_PermissionSource(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("PermissionSource", data)); }
@@ -209,6 +213,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SettingEnable(params string[] data) { return Get("SettingEnable", data); }
         public static HtmlBuilder Displays_SettingOrder(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingOrder", data)); }
         public static string SettingOrder(params string[] data) { return Get("SettingOrder", data); }
+        public static HtmlBuilder Displays_SettingFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingFormat", data)); }
+        public static string SettingFormat(params string[] data) { return Get("SettingFormat", data); }
         public static HtmlBuilder Displays_SettingUnit(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingUnit", data)); }
         public static string SettingUnit(params string[] data) { return Get("SettingUnit", data); }
         public static HtmlBuilder Displays_SettingControlDateTime(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingControlDateTime", data)); }
@@ -563,6 +569,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string BadMailAddress(params string[] data) { return Get("BadMailAddress", data); }
         public static HtmlBuilder Displays_MailAddressHasNotSet(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MailAddressHasNotSet", data)); }
         public static string MailAddressHasNotSet(params string[] data) { return Get("MailAddressHasNotSet", data); }
+        public static HtmlBuilder Displays_BadFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("BadFormat", data)); }
+        public static string BadFormat(params string[] data) { return Get("BadFormat", data); }
         public static HtmlBuilder Displays_FileNotFound(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("FileNotFound", data)); }
         public static string FileNotFound(params string[] data) { return Get("FileNotFound", data); }
         public static HtmlBuilder Displays_NotRequiredColumn(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NotRequiredColumn", data)); }

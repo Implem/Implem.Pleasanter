@@ -155,6 +155,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     if (column.FilterVisible == columnDefinition.FilterVisible) column.FilterVisible = null;
                     if (column.ControlDateTime == columnDefinition.ControlDateTime) column.ControlDateTime = null;
                     if (column.ControlType == columnDefinition.ControlType) column.ControlType = null;
+                    if (column.Format?.Trim() == string.Empty) column.Format = null;
                     if (column.DecimalPlaces == columnDefinition.DecimalPlaces) column.DecimalPlaces = null;
                     if (column.Min == columnDefinition.Min) column.Min = null;
                     if (column.Max == DefaultMax(columnDefinition)) column.Max = null;
@@ -788,6 +789,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ColumnName": column.ColumnName = value; break;
                 case "LabelText": column.LabelText = value; break;
                 case "ControlType": column.ControlType = value; break;
+                case "Format": column.Format = value; break;
                 case "DecimalPlaces": column.DecimalPlaces = value.ToInt(); break;
                 case "Max": column.Max = value.ToDecimal(); break;
                 case "Min": column.Min = value.ToDecimal(); break;
