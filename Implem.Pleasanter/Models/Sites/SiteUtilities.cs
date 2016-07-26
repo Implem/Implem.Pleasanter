@@ -470,7 +470,7 @@ namespace Implem.Pleasanter.Models
             var now = DateTime.Now.ToLocal();
             var css = "updated-time" +
                 ((DateTime.Now - value).Days > Parameters.General.SiteMenuHotSpan
-                    ? "old"
+                    ? " old"
                     : string.Empty);
             var displayTime = Displays.UpdatedTime() + " " +
                 value.ToString(Sessions.CultureInfo());
