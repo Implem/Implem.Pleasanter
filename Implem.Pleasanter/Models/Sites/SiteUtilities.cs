@@ -1519,7 +1519,7 @@ namespace Implem.Pleasanter.Models
             }
             var summarySiteIdHash = SummarySiteIdHash(siteDataRows, siteSettings);
             var firstSiteId = summarySiteIdHash.Select(o => o.Key.ToLong()).FirstOrDefault();
-            return siteDataRows.Count() > 0
+            return siteDataRows.Any()
                 ? hb.FieldSet(
                     id: "SummarySettingsEditor",
                     action: () =>
