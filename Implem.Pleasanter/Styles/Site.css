@@ -384,7 +384,7 @@ pre{
     background-color:red;
 }
 
-.nav-site .conditions span.updated-time.old{
+.nav-site .conditions span.elapsed-time.old{
     color:silver;
 }
 
@@ -567,6 +567,14 @@ pre{
 .record-info div p{
     float:left;
     margin-right:5px;
+}
+
+.record-info div p .elapsed-time{
+    float:left;
+    padding:0px 5px;
+    font-weight:bold;
+    background-color:#eee;
+    border-radius:2px;
 }
 
 .record-histories{

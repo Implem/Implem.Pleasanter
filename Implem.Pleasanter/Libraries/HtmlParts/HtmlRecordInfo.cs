@@ -36,24 +36,26 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlId,
             Time time)
         {
-            return hb.P(action: () =>
+            if (time != null && time.Value.NotZero())
             {
-                if (time != null && time.Value.NotZero())
-                {
-                    hb.Time(
-                        attributes: new HtmlAttributes()
-                            .Id(controlId)
-                            .DateTime(time.Value)
-                            .Class("time"),
-                        action: () => hb
-                            .Text(time.ToViewText(
-                                Displays.Get(controlDateTime + "Format"))));
-                }
-                else
-                {
-                    hb.Displays_Hyphen();
-                }
-            });
+                return hb
+                    .P(action: () => hb
+                        .Time(
+                            attributes: new HtmlAttributes()
+                                .Id(controlId)
+                                .DateTime(time.Value)
+                                .Class("time"),
+                            action: () => hb
+                                .Text(time.ToViewText(
+                                    Displays.Get(controlDateTime + "Format")))))
+                    .P(action: () => hb
+                        .ElapsedTime(time.Value));
+            }
+            else
+            {
+                return hb.P(action: () => hb
+                    .Displays_Hyphen());
+            }
         }
     }
 }

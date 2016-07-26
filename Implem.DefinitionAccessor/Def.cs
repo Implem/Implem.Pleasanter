@@ -1683,7 +1683,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_nav_site_space__dot_conditions": Css._dot_nav_site_space__dot_conditions = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_space__dot_conditions, definitionRow, CssXls); break;
                     case "_dot_nav_site_space__dot_conditions_space_span": Css._dot_nav_site_space__dot_conditions_space_span = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_space__dot_conditions_space_span, definitionRow, CssXls); break;
                     case "_dot_nav_site_space__dot_conditions_space_span_dot_overdue": Css._dot_nav_site_space__dot_conditions_space_span_dot_overdue = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_space__dot_conditions_space_span_dot_overdue, definitionRow, CssXls); break;
-                    case "_dot_nav_site_space__dot_conditions_space_span_dot_updated_time_dot_old": Css._dot_nav_site_space__dot_conditions_space_span_dot_updated_time_dot_old = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_space__dot_conditions_space_span_dot_updated_time_dot_old, definitionRow, CssXls); break;
+                    case "_dot_nav_site_space__dot_conditions_space_span_dot_elapsed_time_dot_old": Css._dot_nav_site_space__dot_conditions_space_span_dot_elapsed_time_dot_old = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_space__dot_conditions_space_span_dot_elapsed_time_dot_old, definitionRow, CssXls); break;
                     case "_dot_login": Css._dot_login = definitionRow[1].ToString(); SetCssTable(CssTable._dot_login, definitionRow, CssXls); break;
                     case "_dot_login_commands": Css._dot_login_commands = definitionRow[1].ToString(); SetCssTable(CssTable._dot_login_commands, definitionRow, CssXls); break;
                     case "_dot_demo": Css._dot_demo = definitionRow[1].ToString(); SetCssTable(CssTable._dot_demo, definitionRow, CssXls); break;
@@ -1714,6 +1714,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_record_info": Css._dot_record_info = definitionRow[1].ToString(); SetCssTable(CssTable._dot_record_info, definitionRow, CssXls); break;
                     case "_dot_record_info_space_div": Css._dot_record_info_space_div = definitionRow[1].ToString(); SetCssTable(CssTable._dot_record_info_space_div, definitionRow, CssXls); break;
                     case "_dot_record_info_space_div_space_p": Css._dot_record_info_space_div_space_p = definitionRow[1].ToString(); SetCssTable(CssTable._dot_record_info_space_div_space_p, definitionRow, CssXls); break;
+                    case "_dot_record_info_space_div_space_p_space__dot_elapsed_time": Css._dot_record_info_space_div_space_p_space__dot_elapsed_time = definitionRow[1].ToString(); SetCssTable(CssTable._dot_record_info_space_div_space_p_space__dot_elapsed_time, definitionRow, CssXls); break;
                     case "_dot_record_histories": Css._dot_record_histories = definitionRow[1].ToString(); SetCssTable(CssTable._dot_record_histories, definitionRow, CssXls); break;
                     case "_dot_record_switchers": Css._dot_record_switchers = definitionRow[1].ToString(); SetCssTable(CssTable._dot_record_switchers, definitionRow, CssXls); break;
                     case "_dot_record_switchers_space___space__asterisk_": Css._dot_record_switchers_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_record_switchers_space___space__asterisk_, definitionRow, CssXls); break;
@@ -6467,7 +6468,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_nav_site_space__dot_conditions;
         public string _dot_nav_site_space__dot_conditions_space_span;
         public string _dot_nav_site_space__dot_conditions_space_span_dot_overdue;
-        public string _dot_nav_site_space__dot_conditions_space_span_dot_updated_time_dot_old;
+        public string _dot_nav_site_space__dot_conditions_space_span_dot_elapsed_time_dot_old;
         public string _dot_login;
         public string _dot_login_commands;
         public string _dot_demo;
@@ -6498,6 +6499,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_record_info;
         public string _dot_record_info_space_div;
         public string _dot_record_info_space_div_space_p;
+        public string _dot_record_info_space_div_space_p_space__dot_elapsed_time;
         public string _dot_record_histories;
         public string _dot_record_switchers;
         public string _dot_record_switchers_space___space__asterisk_;
@@ -6821,7 +6823,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_nav_site_space__dot_conditions = new CssDefinition();
         public CssDefinition _dot_nav_site_space__dot_conditions_space_span = new CssDefinition();
         public CssDefinition _dot_nav_site_space__dot_conditions_space_span_dot_overdue = new CssDefinition();
-        public CssDefinition _dot_nav_site_space__dot_conditions_space_span_dot_updated_time_dot_old = new CssDefinition();
+        public CssDefinition _dot_nav_site_space__dot_conditions_space_span_dot_elapsed_time_dot_old = new CssDefinition();
         public CssDefinition _dot_login = new CssDefinition();
         public CssDefinition _dot_login_commands = new CssDefinition();
         public CssDefinition _dot_demo = new CssDefinition();
@@ -6852,6 +6854,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_record_info = new CssDefinition();
         public CssDefinition _dot_record_info_space_div = new CssDefinition();
         public CssDefinition _dot_record_info_space_div_space_p = new CssDefinition();
+        public CssDefinition _dot_record_info_space_div_space_p_space__dot_elapsed_time = new CssDefinition();
         public CssDefinition _dot_record_histories = new CssDefinition();
         public CssDefinition _dot_record_switchers = new CssDefinition();
         public CssDefinition _dot_record_switchers_space___space__asterisk_ = new CssDefinition();
