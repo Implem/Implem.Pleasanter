@@ -638,6 +638,7 @@ namespace Implem.Pleasanter.Models
                     wikiModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? WikiUtilities.Editor(siteModel, wikiModel, byRest: true)
                         : WikiUtilities.Editor(siteModel, this, byRest: true))
+                .Validation("wikis")
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -741,6 +742,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     WikiUtilities.Editor(siteModel, this, byRest: true))
+                .Validation("wikis")
                 .ToJson();
         }
 

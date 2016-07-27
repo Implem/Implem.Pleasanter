@@ -662,6 +662,7 @@ namespace Implem.Pleasanter.Models
                                         referenceId: siteModel.InheritPermission)))))
                 .Func("initDialog_OutgoingMail")
                 .Focus("#OutgoingMails_Body")
+                .Validation("outgoingMails")
                 .ToJson();
         }
 

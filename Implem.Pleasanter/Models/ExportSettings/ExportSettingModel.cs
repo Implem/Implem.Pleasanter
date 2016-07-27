@@ -539,6 +539,7 @@ namespace Implem.Pleasanter.Models
                     exportSettingModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? ExportSettingUtilities.Editor(exportSettingModel, byRest: true)
                         : ExportSettingUtilities.Editor(this, byRest: true))
+                .Validation("exportSettings")
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -626,6 +627,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     ExportSettingUtilities.Editor(this, byRest: true))
+                .Validation("exportSettings")
                 .ToJson();
         }
 

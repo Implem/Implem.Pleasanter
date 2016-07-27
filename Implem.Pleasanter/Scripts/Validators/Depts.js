@@ -1,4 +1,4 @@
-﻿$(function () {
+﻿$p.form.validators.depts = function () {
     $('#DeptForm').validate({
         rules: {
             Depts_DeptName: { required:true }
@@ -7,4 +7,5 @@
             Depts_DeptName: { required: $('#Depts_DeptName').attr('data-validate-required') }
         }
     });
-});
+}
+$p.form.validators.depts();

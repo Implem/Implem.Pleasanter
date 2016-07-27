@@ -146,6 +146,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return _using ? Add("Func", methodName) : this;
         }
 
+        public ResponseCollection Validation(string tableName, bool _using = true)
+        {
+            return _using ? Add("Validation", tableName) : this;
+        }
+
         public ResponseCollection WindowScrollTop(int value = 0, bool _using = true)
         {
             return _using ? Add("WindowScrollTop", string.Empty, value) : this;

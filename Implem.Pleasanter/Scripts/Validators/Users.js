@@ -1,4 +1,4 @@
-﻿$(function () {
+﻿$p.form.validators.users = function () {
     $('#UserForm').validate({
         rules: {
             Users_LoginId: { required:true },
@@ -45,4 +45,5 @@
             Users_DemoMailAddress: { required: $('#Users_DemoMailAddress').attr('data-validate-required'),email: $('#Users_DemoMailAddress').attr('data-validate-email') }
         }
     });
-});
+}
+$p.form.validators.users();

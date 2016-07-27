@@ -507,6 +507,7 @@ namespace Implem.Pleasanter.Models
                     binaryModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? BinaryUtilities.Editor(binaryModel, byRest: true)
                         : BinaryUtilities.Editor(this, byRest: true))
+                .Validation("binaries")
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -603,6 +604,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     BinaryUtilities.Editor(this, byRest: true))
+                .Validation("binaries")
                 .ToJson();
         }
 

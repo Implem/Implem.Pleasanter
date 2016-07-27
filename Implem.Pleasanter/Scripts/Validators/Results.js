@@ -1,4 +1,4 @@
-﻿$(function () {
+﻿$p.form.validators.results = function () {
     $('#ResultForm').validate({
         rules: {
             Results_Title: { required:true },
@@ -111,4 +111,5 @@
             Results_DateZ: { date: $('#Results_DateZ').attr('data-validate-date') }
         }
     });
-});
+}
+$p.form.validators.results();

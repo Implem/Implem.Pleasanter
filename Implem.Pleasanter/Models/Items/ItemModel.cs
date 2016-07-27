@@ -124,6 +124,7 @@ namespace Implem.Pleasanter.Models
         {
             return new ResponseCollection()
                 .ReplaceAll("#MainContainer", New(byRest: true))
+                .Validation("items")
                 .WindowScrollTop()
                 .FocusMainForm()
                 .ClearFormData()

@@ -449,6 +449,7 @@ namespace Implem.Pleasanter.Models
                     tenantModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? TenantUtilities.Editor(tenantModel, byRest: true)
                         : TenantUtilities.Editor(this, byRest: true))
+                .Validation("tenants")
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -530,6 +531,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     TenantUtilities.Editor(this, byRest: true))
+                .Validation("tenants")
                 .ToJson();
         }
 

@@ -452,6 +452,7 @@ namespace Implem.Pleasanter.Models
                     mailAddressModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? MailAddressUtilities.Editor(mailAddressModel, byRest: true)
                         : MailAddressUtilities.Editor(this, byRest: true))
+                .Validation("mailAddresses")
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -533,6 +534,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     MailAddressUtilities.Editor(this, byRest: true))
+                .Validation("mailAddresses")
                 .ToJson();
         }
 

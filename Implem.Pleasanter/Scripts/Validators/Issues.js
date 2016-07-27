@@ -1,4 +1,4 @@
-﻿$(function () {
+﻿$p.form.validators.issues = function () {
     $('#IssueForm').validate({
         rules: {
             Issues_CompletionTime: { required:true,date:true },
@@ -113,4 +113,5 @@
             Issues_Title: { required: $('#Issues_Title').attr('data-validate-required') }
         }
     });
-});
+}
+$p.form.validators.issues();

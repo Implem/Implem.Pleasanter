@@ -466,6 +466,7 @@ namespace Implem.Pleasanter.Models
                     demoModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? DemoUtilities.Editor(demoModel, byRest: true)
                         : DemoUtilities.Editor(this, byRest: true))
+                .Validation("demos")
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -552,6 +553,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     DemoUtilities.Editor(this, byRest: true))
+                .Validation("demos")
                 .ToJson();
         }
 

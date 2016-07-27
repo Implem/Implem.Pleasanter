@@ -1506,6 +1506,7 @@ namespace Implem.Pleasanter.Models
                     resultModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? ResultUtilities.Editor(siteModel, resultModel, byRest: true)
                         : ResultUtilities.Editor(siteModel, this, byRest: true))
+                .Validation("results")
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -1927,6 +1928,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     ResultUtilities.Editor(siteModel, this, byRest: true))
+                .Validation("results")
                 .ToJson();
         }
 

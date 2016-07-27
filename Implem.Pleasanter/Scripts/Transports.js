@@ -309,6 +309,8 @@ function processResponse(response, data, $eventSender) {
             case 'Func':
                 func[target]();
                 break;
+            case 'Validation':
+                $p.form.validators[target]();
             case 'WindowScrollTop':
                 $(window).scrollTop(value);
                 break;

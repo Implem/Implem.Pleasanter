@@ -1,4 +1,4 @@
-﻿$(function () {
+﻿$p.form.validators.wikis = function () {
     $('#WikiForm').validate({
         rules: {
             Wikis_Title: { required:true }
@@ -7,4 +7,5 @@
             Wikis_Title: { required: $('#Wikis_Title').attr('data-validate-required') }
         }
     });
-});
+}
+$p.form.validators.wikis();

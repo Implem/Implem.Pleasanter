@@ -20,6 +20,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Script(src: Navigations.Get("Scripts/Plugins/jquery-ui.min.js"))
                     .Script(src: Navigations.Get("Scripts/Plugins/jquery.validate.min.js"))
                     .Script(src: Navigations.Get("Scripts/Plugins/d3.min.js"))
+                    .Script(src: ResolveBundleUrl("~/bundles/Generals"))
                     .Script(script: script, _using: !script.IsNullOrEmpty())
                     .Script(script: userScript, _using: !userScript.IsNullOrEmpty())
                     .Validator(referenceType: referenceType)

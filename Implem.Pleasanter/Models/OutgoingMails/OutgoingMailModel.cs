@@ -492,6 +492,7 @@ namespace Implem.Pleasanter.Models
                     outgoingMailModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? OutgoingMailUtilities.Editor(outgoingMailModel, byRest: true)
                         : OutgoingMailUtilities.Editor(this, byRest: true))
+                .Validation("outgoingMails")
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -587,6 +588,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     OutgoingMailUtilities.Editor(this, byRest: true))
+                .Validation("outgoingMails")
                 .ToJson();
         }
 
