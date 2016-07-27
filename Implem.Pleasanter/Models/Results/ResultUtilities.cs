@@ -1796,6 +1796,8 @@ namespace Implem.Pleasanter.Models
         public static string UpdateByKamban(SiteModel siteModel)
         {
             var siteSettings = siteModel.ResultsSiteSettings();
+            siteSettings.SetLinks();
+            siteSettings.SetChoicesTexts();
             var resultModel = new ResultModel(
                 siteSettings,
                 siteModel.PermissionType,
