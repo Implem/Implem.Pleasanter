@@ -14,7 +14,9 @@
             var formData = getFormData($(this));
             formData["KambanId"] = $(ui.draggable).attr('data-id');
             formData[$('#TableName').val() + '_' + $('#KambanGroupByColumn').val()] =
-                $(this).attr('data-value');
+                $(this).attr('data-value') !== undefined
+                    ? $(this).attr('data-value')
+                    : '';
             requestByForm(getForm($(this)), $('#KambanGrid'));
         }
     });
