@@ -106,16 +106,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Id("KambanGrid")
                     .DataAction("UpdateByKamban")
                     .DataMethod("post"),
-                action: () => groupByColumn.EditChoices(siteSettings.InheritPermission)
-                    .Chunk(Parameters.General.KambanChunk)
-                    .ForEach(choices => hb
-                        .Table(
-                            siteSettings: siteSettings,
-                            choices: choices.ToDictionary(o => o.Key, o => o.Value),
-                            aggregateType: aggregateType,
-                            valueColumn: valueColumn,
-                            data: data,
-                            changedItemId: changedItemId)));
+                action: () => groupByColumn.EditChoices(
+                    siteSettings.InheritPermission,
+                    insertBlank: groupByColumn.Nullable)
+                        .Chunk(Parameters.General.KambanChunk)
+                        .ForEach(choices => hb
+                            .Table(
+                                siteSettings: siteSettings,
+                                choices: choices.ToDictionary(o => o.Key, o => o.Value),
+                                aggregateType: aggregateType,
+                                valueColumn: valueColumn,
+                                data: data,
+                                changedItemId: changedItemId)));
         }
 
         private static HtmlBuilder Table(
