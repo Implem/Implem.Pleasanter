@@ -16,6 +16,9 @@ http://pleasanter.org
 * 時系列チャート
 ![default](https://cloud.githubusercontent.com/assets/12204265/17194324/688f9b8e-5492-11e6-961b-839c99d2c340.gif)
 
+* カンバン
+![default](https://cloud.githubusercontent.com/assets/12204265/17194895/8d84f846-5495-11e6-829d-18ff6e605a01.gif)
+
 ## 動作条件
 |条件|Windows Server 2012 R2|Windows 10|Microsoft Azure|
 |:--|:--:|:--:|:--:|
