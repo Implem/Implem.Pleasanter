@@ -8,7 +8,6 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Styles;
-using Implem.Pleasanter.Libraries.Validators;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
@@ -64,7 +63,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ? value.ToDefault(siteSettings, column)
                         : value,
                     optionCollection: column.EditChoices(siteSettings.InheritPermission),
-                    attributes: ClientValidators.MessageCollection(column.Validators));
+                    attributes: column.ValidationMessages());
             }
             else
             {
