@@ -103,7 +103,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public string New()
+        public string New(bool byRest)
         {
             SetSite(siteOnly: true);
             switch (Site.ReferenceType)
@@ -113,9 +113,9 @@ namespace Implem.Pleasanter.Models
                         ? Site.PermissionType
                         : Permissions.Types.Manager,
                     ReferenceId);
-                case "Issues": return IssueUtilities.EditorNew(Site, ReferenceId);
-                case "Results": return ResultUtilities.EditorNew(Site, ReferenceId);
-                case "Wikis": return WikiUtilities.EditorNew(Site, ReferenceId);
+                case "Issues": return IssueUtilities.EditorNew(Site, ReferenceId, byRest);
+                case "Results": return ResultUtilities.EditorNew(Site, ReferenceId, byRest);
+                case "Wikis": return WikiUtilities.EditorNew(Site, ReferenceId, byRest);
                 default: return new HtmlBuilder().NotFoundTemplate().ToString();
             }
         }
@@ -123,7 +123,7 @@ namespace Implem.Pleasanter.Models
         public string NewByLink()
         {
             return new ResponseCollection()
-                .Html("#MainContainer", New())
+                .ReplaceAll("#MainContainer", New(byRest: true))
                 .WindowScrollTop()
                 .FocusMainForm()
                 .ClearFormData()

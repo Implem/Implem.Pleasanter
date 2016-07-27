@@ -633,11 +633,11 @@ namespace Implem.Pleasanter.Models
             wikiModel.MethodType = BaseModel.MethodTypes.Edit;
             return new WikisResponseCollection(this)
                 .Func("clearDialogs")
-                .Html(
+                .ReplaceAll(
                     "#MainContainer",
                     wikiModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? WikiUtilities.Editor(siteModel, wikiModel)
-                        : WikiUtilities.Editor(siteModel, this))
+                        ? WikiUtilities.Editor(siteModel, wikiModel, byRest: true)
+                        : WikiUtilities.Editor(siteModel, this, byRest: true))
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -738,7 +738,9 @@ namespace Implem.Pleasanter.Models
         {
             var siteModel = new SiteModel(SiteId);
             return new WikisResponseCollection(this)
-                .Html("#MainContainer", WikiUtilities.Editor(siteModel, this))
+                .ReplaceAll(
+                    "#MainContainer",
+                    WikiUtilities.Editor(siteModel, this, byRest: true))
                 .ToJson();
         }
 

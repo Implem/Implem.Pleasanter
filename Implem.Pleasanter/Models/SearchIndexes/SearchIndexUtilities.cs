@@ -122,7 +122,7 @@ namespace Implem.Pleasanter.Models
             var searchIndexes = text.SearchIndexes();
             return hb.Template(
                 siteId: 0,
-                referenceId: "SearchIndexes",
+                referenceType: "SearchIndexes",
                 title: string.Empty,
                 permissionType: Permissions.Types.Read,
                 verType: Versions.VerTypes.Latest,

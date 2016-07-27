@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Models
             var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
             return hb.Template(
                 siteId: siteSettings.SiteId,
-                referenceId: "Binaries",
+                referenceType: "Binaries",
                 title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
@@ -40,8 +40,8 @@ namespace Implem.Pleasanter.Models
                     permissionType: permissionType,
                     formData: formData,
                     dataViewName: dataViewName),
-                userStyle: siteSettings.GridStyle,
                 userScript: siteSettings.GridScript,
+                userStyle: siteSettings.GridStyle,
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
@@ -76,10 +76,11 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "Binaries")
                             .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
-                    .Dialog_Move("items", siteSettings.SiteId, bulk: true)
-                    .Div(attributes: new HtmlAttributes()
-                        .Id_Css("Dialog_ExportSettings", "dialog")
-                        .Title(Displays.ExportSettings()))).ToString();
+                .Dialog_Move("items", siteSettings.SiteId, bulk: true)
+                .Div(attributes: new HtmlAttributes()
+                    .Id_Css("Dialog_ExportSettings", "dialog")
+                    .Title(Displays.ExportSettings())))
+                .ToString();
         }
 
         private static BinaryCollection BinaryCollection(
@@ -291,33 +292,35 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorNew()
         {
-            return Editor(new BinaryModel(
-                SiteSettingsUtility.BinariesSiteSettings(),
-                Permissions.Admins(),
-                methodType: BaseModel.MethodTypes.New));
+            return Editor(
+                new BinaryModel(
+                    SiteSettingsUtility.BinariesSiteSettings(),
+                    Permissions.Admins(),
+                    methodType: BaseModel.MethodTypes.New),
+                byRest: false);
         }
 
         public static string Editor(long binaryId, bool clearSessions)
         {
             var binaryModel = new BinaryModel(
-                SiteSettingsUtility.BinariesSiteSettings(),
-                Permissions.Admins(),
+                    SiteSettingsUtility.BinariesSiteSettings(),
+                    Permissions.Admins(),
                 binaryId: binaryId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
             binaryModel.SwitchTargets = BinaryUtilities.GetSwitchTargets(
                 SiteSettingsUtility.BinariesSiteSettings());
-            return Editor(binaryModel);
+            return Editor(binaryModel, byRest: false);
         }
 
-        public static string Editor(BinaryModel binaryModel)
+        public static string Editor(BinaryModel binaryModel, bool byRest)
         {
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
             binaryModel.SiteSettings.SetChoicesTexts();
             return hb.Template(
                 siteId: 0,
-                referenceId: "Binaries",
+                referenceType: "Binaries",
                 title: binaryModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Binaries() + " - " + Displays.New()
                     : binaryModel.Title.Value,
@@ -327,6 +330,7 @@ namespace Implem.Pleasanter.Models
                 allowAccess:
                     permissionType.CanEditTenant() &&
                     binaryModel.AccessStatus != Databases.AccessStatuses.NotFound,
+                byRest: byRest,
                 action: () =>
                 {
                     permissionType = Permissions.Types.Manager;

@@ -22,7 +22,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var log = new SysLogModel();
             var itemModel = new ItemModel(id);
-            var html = itemModel.New();
+            var html = itemModel.New(byRest: false);
             ViewBag.HtmlBody = html;
             log.Finish(html.Length);
             return View();

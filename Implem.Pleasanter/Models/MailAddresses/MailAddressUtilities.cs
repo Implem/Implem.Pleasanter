@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Models
             var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
             return hb.Template(
                 siteId: siteSettings.SiteId,
-                referenceId: "MailAddresses",
+                referenceType: "MailAddresses",
                 title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
@@ -40,8 +40,8 @@ namespace Implem.Pleasanter.Models
                     permissionType: permissionType,
                     formData: formData,
                     dataViewName: dataViewName),
-                userStyle: siteSettings.GridStyle,
                 userScript: siteSettings.GridScript,
+                userStyle: siteSettings.GridStyle,
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
@@ -76,10 +76,11 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "MailAddresses")
                             .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
-                    .Dialog_Move("items", siteSettings.SiteId, bulk: true)
-                    .Div(attributes: new HtmlAttributes()
-                        .Id_Css("Dialog_ExportSettings", "dialog")
-                        .Title(Displays.ExportSettings()))).ToString();
+                .Dialog_Move("items", siteSettings.SiteId, bulk: true)
+                .Div(attributes: new HtmlAttributes()
+                    .Id_Css("Dialog_ExportSettings", "dialog")
+                    .Title(Displays.ExportSettings())))
+                .ToString();
         }
 
         private static MailAddressCollection MailAddressCollection(
@@ -283,33 +284,35 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorNew()
         {
-            return Editor(new MailAddressModel(
-                SiteSettingsUtility.MailAddressesSiteSettings(),
-                Permissions.Admins(),
-                methodType: BaseModel.MethodTypes.New));
+            return Editor(
+                new MailAddressModel(
+                    SiteSettingsUtility.MailAddressesSiteSettings(),
+                    Permissions.Admins(),
+                    methodType: BaseModel.MethodTypes.New),
+                byRest: false);
         }
 
         public static string Editor(long mailAddressId, bool clearSessions)
         {
             var mailAddressModel = new MailAddressModel(
-                SiteSettingsUtility.MailAddressesSiteSettings(),
-                Permissions.Admins(),
+                    SiteSettingsUtility.MailAddressesSiteSettings(),
+                    Permissions.Admins(),
                 mailAddressId: mailAddressId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
             mailAddressModel.SwitchTargets = MailAddressUtilities.GetSwitchTargets(
                 SiteSettingsUtility.MailAddressesSiteSettings());
-            return Editor(mailAddressModel);
+            return Editor(mailAddressModel, byRest: false);
         }
 
-        public static string Editor(MailAddressModel mailAddressModel)
+        public static string Editor(MailAddressModel mailAddressModel, bool byRest)
         {
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
             mailAddressModel.SiteSettings.SetChoicesTexts();
             return hb.Template(
                 siteId: 0,
-                referenceId: "MailAddresses",
+                referenceType: "MailAddresses",
                 title: mailAddressModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.MailAddresses() + " - " + Displays.New()
                     : mailAddressModel.Title.Value,
@@ -319,6 +322,7 @@ namespace Implem.Pleasanter.Models
                 allowAccess:
                     permissionType.CanEditTenant() &&
                     mailAddressModel.AccessStatus != Databases.AccessStatuses.NotFound,
+                byRest: byRest,
                 action: () =>
                 {
                     permissionType = Permissions.Types.Manager;

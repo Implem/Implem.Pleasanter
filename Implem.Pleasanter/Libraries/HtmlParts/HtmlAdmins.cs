@@ -12,7 +12,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var permissionType = Permissions.Admins();
             return hb.Template(
                 siteId: 0,
-                referenceId: string.Empty,
+                referenceType: string.Empty,
                 title: Displays.Admin(),
                 permissionType: permissionType,
                 methodType: Pleasanter.Models.BaseModel.MethodTypes.NotSet,

@@ -241,7 +241,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string EditorNew(SiteModel siteModel, long siteId)
+        public static string EditorNew(SiteModel siteModel, long siteId, bool byRest)
         {
             var wikiId = Rds.ExecuteScalar_long(statements:
                 Rds.SelectWikis(
@@ -256,7 +256,8 @@ namespace Implem.Pleasanter.Models
                         methodType: BaseModel.MethodTypes.New)
                     {
                         SiteId = siteId
-                    })
+                    },
+                    byRest: byRest)
                 : new HtmlBuilder().NotFoundTemplate().ToString();
         }
 
@@ -271,17 +272,17 @@ namespace Implem.Pleasanter.Models
                 methodType: BaseModel.MethodTypes.Edit);
             wikiModel.SwitchTargets = WikiUtilities.GetSwitchTargets(
                 siteSettings, wikiModel.SiteId);
-            return Editor(siteModel, wikiModel);
+            return Editor(siteModel, wikiModel, byRest: false);
         }
 
-        public static string Editor(SiteModel siteModel, WikiModel wikiModel)
+        public static string Editor(SiteModel siteModel, WikiModel wikiModel, bool byRest)
         {
             var hb = new HtmlBuilder();
             wikiModel.SiteSettings.SetLinks();
             wikiModel.SiteSettings.SetChoicesTexts();
             return hb.Template(
                 siteId: siteModel.SiteId,
-                referenceId: "Wikis",
+                referenceType: "Wikis",
                 title: wikiModel.MethodType == BaseModel.MethodTypes.New
                     ? siteModel.Title.DisplayValue + " - " + Displays.New()
                     : wikiModel.Title.DisplayValue,
@@ -291,12 +292,13 @@ namespace Implem.Pleasanter.Models
                 allowAccess:
                     wikiModel.PermissionType.CanRead() &&
                     wikiModel.AccessStatus != Databases.AccessStatuses.NotFound,
-                userStyle: wikiModel.MethodType == BaseModel.MethodTypes.New
-                    ? wikiModel.SiteSettings.NewStyle
-                    : wikiModel.SiteSettings.EditStyle,
                 userScript: wikiModel.MethodType == BaseModel.MethodTypes.New
                     ? wikiModel.SiteSettings.NewScript
                     : wikiModel.SiteSettings.EditScript,
+                userStyle: wikiModel.MethodType == BaseModel.MethodTypes.New
+                    ? wikiModel.SiteSettings.NewStyle
+                    : wikiModel.SiteSettings.EditStyle,
+                byRest: byRest,
                 action: () =>
                 {
                     hb
@@ -862,7 +864,7 @@ namespace Implem.Pleasanter.Models
             siteSettings.SetChoicesTexts();
             return hb.Template(
                 siteId: siteModel.SiteId,
-                referenceId: "Wikis",
+                referenceType: "Wikis",
                 title: wikiModel.MethodType != BaseModel.MethodTypes.New
                     ? wikiModel.Title.DisplayValue + " - " + Displays.Edit()
                     : siteModel.Title.DisplayValue + " - " + Displays.New(),

@@ -34,7 +34,7 @@ namespace Implem.Pleasanter.Models
                 formData);
             return hb.Template(
                 siteId: 0,
-                referenceId: "Users",
+                referenceType: "Users",
                 title: Displays.Users() + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
@@ -313,33 +313,35 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorNew()
         {
-            return Editor(new UserModel(
-                SiteSettingsUtility.UsersSiteSettings(),
-                Permissions.Admins(),
-                methodType: BaseModel.MethodTypes.New));
+            return Editor(
+                new UserModel(
+                    SiteSettingsUtility.UsersSiteSettings(),
+                    Permissions.Admins(),
+                    methodType: BaseModel.MethodTypes.New),
+                byRest: false);
         }
 
         public static string Editor(int userId, bool clearSessions)
         {
             var userModel = new UserModel(
-                SiteSettingsUtility.UsersSiteSettings(),
-                Permissions.Admins(),
+                    SiteSettingsUtility.UsersSiteSettings(),
+                    Permissions.Admins(),
                 userId: userId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
             userModel.SwitchTargets = UserUtilities.GetSwitchTargets(
                 SiteSettingsUtility.UsersSiteSettings());
-            return Editor(userModel);
+            return Editor(userModel, byRest: false);
         }
 
-        public static string Editor(UserModel userModel)
+        public static string Editor(UserModel userModel, bool byRest)
         {
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
             userModel.SiteSettings.SetChoicesTexts();
             return hb.Template(
                 siteId: 0,
-                referenceId: "Users",
+                referenceType: "Users",
                 title: userModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Users() + " - " + Displays.New()
                     : userModel.Title.Value,
@@ -349,6 +351,7 @@ namespace Implem.Pleasanter.Models
                 allowAccess:
                     permissionType.CanEditTenant() || userModel.Self() &&
                     userModel.AccessStatus != Databases.AccessStatuses.NotFound,
+                byRest: byRest,
                 action: () =>
                 {
                     permissionType = Permissions.Types.Manager | Permissions.Types.EditProfile;
@@ -702,7 +705,7 @@ namespace Implem.Pleasanter.Models
             var siteSettings = SiteSettingsUtility.UsersSiteSettings();
             return hb.Template(
                 siteId: 0,
-                referenceId: "Users",
+                referenceType: "Users",
                 title: string.Empty,
                 permissionType: Permissions.Admins(),
                 verType: Versions.VerTypes.Latest,
@@ -767,7 +770,7 @@ namespace Implem.Pleasanter.Models
                     .P(id: "Message", css: "message-form-bottom")
                     .Dialog_ChangePasswordAtLogin(siteSettings: siteSettings)
                     .Hidden(controlId: "ReturnUrl", value: QueryStrings.Data("ReturnUrl")))
-                        .ToString();
+                    .ToString();
         }
 
         /// <summary>

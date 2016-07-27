@@ -506,11 +506,11 @@ namespace Implem.Pleasanter.Models
             siteModel.MethodType = BaseModel.MethodTypes.Edit;
             return new SitesResponseCollection(this)
                 .Func("clearDialogs")
-                .Html(
+                .ReplaceAll(
                     "#MainContainer",
                     siteModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? SiteUtilities.Editor(siteModel)
-                        : SiteUtilities.Editor(this))
+                        ? SiteUtilities.Editor(siteModel, byRest: true)
+                        : SiteUtilities.Editor(this, byRest: true))
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -603,7 +603,9 @@ namespace Implem.Pleasanter.Models
         private string Editor()
         {
             return new SitesResponseCollection(this)
-                .Html("#MainContainer", SiteUtilities.Editor(this))
+                .ReplaceAll(
+                    "#MainContainer",
+                    SiteUtilities.Editor(this, byRest: true))
                 .ToJson();
         }
 

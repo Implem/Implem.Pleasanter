@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Models
             var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
             return hb.Template(
                 siteId: siteSettings.SiteId,
-                referenceId: "Demos",
+                referenceType: "Demos",
                 title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
@@ -40,8 +40,8 @@ namespace Implem.Pleasanter.Models
                     permissionType: permissionType,
                     formData: formData,
                     dataViewName: dataViewName),
-                userStyle: siteSettings.GridStyle,
                 userScript: siteSettings.GridScript,
+                userStyle: siteSettings.GridStyle,
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
@@ -76,10 +76,11 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "Demos")
                             .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
-                    .Dialog_Move("items", siteSettings.SiteId, bulk: true)
-                    .Div(attributes: new HtmlAttributes()
-                        .Id_Css("Dialog_ExportSettings", "dialog")
-                        .Title(Displays.ExportSettings()))).ToString();
+                .Dialog_Move("items", siteSettings.SiteId, bulk: true)
+                .Div(attributes: new HtmlAttributes()
+                    .Id_Css("Dialog_ExportSettings", "dialog")
+                    .Title(Displays.ExportSettings())))
+                .ToString();
         }
 
         private static DemoCollection DemoCollection(
@@ -285,33 +286,35 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorNew()
         {
-            return Editor(new DemoModel(
-                SiteSettingsUtility.DemosSiteSettings(),
-                Permissions.Admins(),
-                methodType: BaseModel.MethodTypes.New));
+            return Editor(
+                new DemoModel(
+                    SiteSettingsUtility.DemosSiteSettings(),
+                    Permissions.Admins(),
+                    methodType: BaseModel.MethodTypes.New),
+                byRest: false);
         }
 
         public static string Editor(int demoId, bool clearSessions)
         {
             var demoModel = new DemoModel(
-                SiteSettingsUtility.DemosSiteSettings(),
-                Permissions.Admins(),
+                    SiteSettingsUtility.DemosSiteSettings(),
+                    Permissions.Admins(),
                 demoId: demoId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
             demoModel.SwitchTargets = DemoUtilities.GetSwitchTargets(
                 SiteSettingsUtility.DemosSiteSettings());
-            return Editor(demoModel);
+            return Editor(demoModel, byRest: false);
         }
 
-        public static string Editor(DemoModel demoModel)
+        public static string Editor(DemoModel demoModel, bool byRest)
         {
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
             demoModel.SiteSettings.SetChoicesTexts();
             return hb.Template(
                 siteId: 0,
-                referenceId: "Demos",
+                referenceType: "Demos",
                 title: demoModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Demos() + " - " + Displays.New()
                     : demoModel.Title.Value,
@@ -321,6 +324,7 @@ namespace Implem.Pleasanter.Models
                 allowAccess:
                     permissionType.CanEditTenant() &&
                     demoModel.AccessStatus != Databases.AccessStatuses.NotFound,
+                byRest: byRest,
                 action: () =>
                 {
                     permissionType = Permissions.Types.Manager;

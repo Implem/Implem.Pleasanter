@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Models
             var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
             return hb.Template(
                 siteId: siteSettings.SiteId,
-                referenceId: "OutgoingMails",
+                referenceType: "OutgoingMails",
                 title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
@@ -40,8 +40,8 @@ namespace Implem.Pleasanter.Models
                     permissionType: permissionType,
                     formData: formData,
                     dataViewName: dataViewName),
-                userStyle: siteSettings.GridStyle,
                 userScript: siteSettings.GridScript,
+                userStyle: siteSettings.GridStyle,
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
@@ -76,10 +76,11 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "OutgoingMails")
                             .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
-                    .Dialog_Move("items", siteSettings.SiteId, bulk: true)
-                    .Div(attributes: new HtmlAttributes()
-                        .Id_Css("Dialog_ExportSettings", "dialog")
-                        .Title(Displays.ExportSettings()))).ToString();
+                .Dialog_Move("items", siteSettings.SiteId, bulk: true)
+                .Div(attributes: new HtmlAttributes()
+                    .Id_Css("Dialog_ExportSettings", "dialog")
+                    .Title(Displays.ExportSettings())))
+                .ToString();
         }
 
         private static OutgoingMailCollection OutgoingMailCollection(
@@ -290,8 +291,10 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorNew()
         {
-            return Editor(new OutgoingMailModel(
-                methodType: BaseModel.MethodTypes.New));
+            return Editor(
+                new OutgoingMailModel(
+                    methodType: BaseModel.MethodTypes.New),
+                byRest: false);
         }
 
         public static string Editor(long outgoingMailId, bool clearSessions)
@@ -302,17 +305,17 @@ namespace Implem.Pleasanter.Models
                 methodType: BaseModel.MethodTypes.Edit);
             outgoingMailModel.SwitchTargets = OutgoingMailUtilities.GetSwitchTargets(
                 SiteSettingsUtility.OutgoingMailsSiteSettings());
-            return Editor(outgoingMailModel);
+            return Editor(outgoingMailModel, byRest: false);
         }
 
-        public static string Editor(OutgoingMailModel outgoingMailModel)
+        public static string Editor(OutgoingMailModel outgoingMailModel, bool byRest)
         {
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
             outgoingMailModel.SiteSettings.SetChoicesTexts();
             return hb.Template(
                 siteId: 0,
-                referenceId: "OutgoingMails",
+                referenceType: "OutgoingMails",
                 title: outgoingMailModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.OutgoingMails() + " - " + Displays.New()
                     : outgoingMailModel.Title.Value,
@@ -322,6 +325,7 @@ namespace Implem.Pleasanter.Models
                 allowAccess:
                     permissionType.CanEditTenant() &&
                     outgoingMailModel.AccessStatus != Databases.AccessStatuses.NotFound,
+                byRest: byRest,
                 action: () =>
                 {
                     permissionType = Permissions.Types.Manager;

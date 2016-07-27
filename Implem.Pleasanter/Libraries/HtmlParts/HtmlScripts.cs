@@ -2,7 +2,6 @@
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
-using Implem.Pleasanter.Models;
 using System.Web.Optimization;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -10,41 +9,29 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder Scripts(
             this HtmlBuilder hb,
-            BaseModel.MethodTypes methodType,
             string script,
             string userScript,
-            string referenceId,
-            bool allowAccess)
+            string referenceType,
+            bool byRest)
         {
-            return hb
-                .Script(src: Navigations.Get("Scripts/Plugins/jquery-2.1.4.min.js"))
-                .Script(src: Navigations.Get("Scripts/Plugins/jquery-ui.min.js"))
-                .Script(src: Navigations.Get("Scripts/Plugins/jquery.validate.min.js"))
-                .Script(src: Navigations.Get("Scripts/Plugins/d3.min.js"))
-                .Script(script: script, _using: !script.IsNullOrEmpty())
-                .Script(script: userScript, _using: !userScript.IsNullOrEmpty())
-                .Validator(methodType: methodType, referenceId: referenceId, allowAccess: allowAccess)
-                .Internationalization();
-        }
-
-        private static HtmlBuilder Validator(
-            this HtmlBuilder hb,
-            BaseModel.MethodTypes methodType,
-            string referenceId,
-            bool allowAccess)
-        {
-            return Editor(methodType) && allowAccess
+            return !byRest
                 ? hb
-                    .Script(src: Validator(referenceId))
-                    .Script(src: Validator("OutgoingMails"))
+                    .Script(src: Navigations.Get("Scripts/Plugins/jquery-2.1.4.min.js"))
+                    .Script(src: Navigations.Get("Scripts/Plugins/jquery-ui.min.js"))
+                    .Script(src: Navigations.Get("Scripts/Plugins/jquery.validate.min.js"))
+                    .Script(src: Navigations.Get("Scripts/Plugins/d3.min.js"))
+                    .Script(script: script, _using: !script.IsNullOrEmpty())
+                    .Script(script: userScript, _using: !userScript.IsNullOrEmpty())
+                    .Validator(referenceType: referenceType)
+                    .Internationalization()
                 : hb;
         }
 
-        private static bool Editor(BaseModel.MethodTypes methodType)
+        private static HtmlBuilder Validator(this HtmlBuilder hb, string referenceType)
         {
-            return
-                methodType == BaseModel.MethodTypes.Edit ||
-                methodType == BaseModel.MethodTypes.New;
+            return hb
+                .Script(src: Validator(referenceType))
+                .Script(src: Validator("OutgoingMails"));
         }
 
         private static string ResolveBundleUrl(string url)
@@ -63,9 +50,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
         }
 
-        private static string Validator(string referenceId)
+        private static string Validator(string referenceType)
         {
-            switch (referenceId)
+            switch (referenceType)
             {
                 case "Tenants": return ResolveBundleUrl("~/bundles/TenantsValidator");
                 case "Demos": return ResolveBundleUrl("~/bundles/DemosValidator");

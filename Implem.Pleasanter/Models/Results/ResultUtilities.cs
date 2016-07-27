@@ -31,7 +31,7 @@ namespace Implem.Pleasanter.Models
             var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
             return hb.Template(
                 siteId: siteSettings.SiteId,
-                referenceId: "Results",
+                referenceType: "Results",
                 title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
@@ -42,8 +42,8 @@ namespace Implem.Pleasanter.Models
                     permissionType: permissionType,
                     formData: formData,
                     dataViewName: dataViewName),
-                userStyle: siteSettings.GridStyle,
                 userScript: siteSettings.GridScript,
+                userStyle: siteSettings.GridStyle,
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
@@ -78,11 +78,12 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "Results")
                             .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
-                    .Dialog_Move("items", siteSettings.SiteId, bulk: true)
+                .Dialog_Move("items", siteSettings.SiteId, bulk: true)
                     .Dialog_ImportSettings()
-                    .Div(attributes: new HtmlAttributes()
-                        .Id_Css("Dialog_ExportSettings", "dialog")
-                        .Title(Displays.ExportSettings()))).ToString();
+                .Div(attributes: new HtmlAttributes()
+                    .Id_Css("Dialog_ExportSettings", "dialog")
+                    .Title(Displays.ExportSettings())))
+                .ToString();
         }
 
         private static ResultCollection ResultCollection(
@@ -581,7 +582,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string EditorNew(SiteModel siteModel, long siteId)
+        public static string EditorNew(SiteModel siteModel, long siteId, bool byRest)
         {
             return Editor(
                 siteModel,
@@ -591,7 +592,8 @@ namespace Implem.Pleasanter.Models
                     methodType: BaseModel.MethodTypes.New)
                 {
                     SiteId = siteId
-                });
+                },
+                byRest: byRest);
         }
 
         public static string Editor(SiteModel siteModel, long resultId, bool clearSessions)
@@ -605,17 +607,17 @@ namespace Implem.Pleasanter.Models
                 methodType: BaseModel.MethodTypes.Edit);
             resultModel.SwitchTargets = ResultUtilities.GetSwitchTargets(
                 siteSettings, resultModel.SiteId);
-            return Editor(siteModel, resultModel);
+            return Editor(siteModel, resultModel, byRest: false);
         }
 
-        public static string Editor(SiteModel siteModel, ResultModel resultModel)
+        public static string Editor(SiteModel siteModel, ResultModel resultModel, bool byRest)
         {
             var hb = new HtmlBuilder();
             resultModel.SiteSettings.SetLinks();
             resultModel.SiteSettings.SetChoicesTexts();
             return hb.Template(
                 siteId: siteModel.SiteId,
-                referenceId: "Results",
+                referenceType: "Results",
                 title: resultModel.MethodType == BaseModel.MethodTypes.New
                     ? siteModel.Title.DisplayValue + " - " + Displays.New()
                     : resultModel.Title.DisplayValue,
@@ -625,12 +627,13 @@ namespace Implem.Pleasanter.Models
                 allowAccess:
                     resultModel.PermissionType.CanRead() &&
                     resultModel.AccessStatus != Databases.AccessStatuses.NotFound,
-                userStyle: resultModel.MethodType == BaseModel.MethodTypes.New
-                    ? resultModel.SiteSettings.NewStyle
-                    : resultModel.SiteSettings.EditStyle,
                 userScript: resultModel.MethodType == BaseModel.MethodTypes.New
                     ? resultModel.SiteSettings.NewScript
                     : resultModel.SiteSettings.EditScript,
+                userStyle: resultModel.MethodType == BaseModel.MethodTypes.New
+                    ? resultModel.SiteSettings.NewStyle
+                    : resultModel.SiteSettings.EditStyle,
+                byRest: byRest,
                 action: () =>
                 {
                     hb

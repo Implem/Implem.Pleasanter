@@ -16,7 +16,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Template(
             this HtmlBuilder hb,
             long siteId,
-            string referenceId,
+            string referenceType,
             string title,
             Permissions.Types permissionType,
             Versions.VerTypes verType,
@@ -27,13 +27,52 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool useSearch = true,
             bool useNavigationButtons = true,
             string script = "",
-            string userStyle = "",
             string userScript = "",
+            string userStyle = "",
+            bool byRest = false,
             Action action = null)
         {
             return hb
+                .MainContainer(
+                    siteId: siteId,
+                    referenceId: referenceType,
+                    title: title,
+                    permissionType: permissionType,
+                    verType: verType,
+                    methodType: methodType,
+                    allowAccess: allowAccess,
+                    useBreadcrumb: useBreadcrumb,
+                    useTitle: useTitle,
+                    useSearch: useSearch,
+                    useNavigationButtons: useNavigationButtons,
+                    userStyle: userStyle,
+                    action: action)
+                .Scripts(
+                    script: script,
+                    userScript: userScript,
+                    referenceType: referenceType,
+                    byRest: byRest);
+        }
+
+        public static HtmlBuilder MainContainer(
+            this HtmlBuilder hb,
+            long siteId,
+            string referenceId,
+            string title,
+            Permissions.Types permissionType,
+            Versions.VerTypes verType,
+            BaseModel.MethodTypes methodType,
+            bool allowAccess,
+            bool useBreadcrumb = true,
+            bool useTitle = true,
+            bool useSearch = true,
+            bool useNavigationButtons = true,
+            string userStyle = "",
+            Action action = null)
+        {
+            return hb.Div(id: "MainContainer", action: () => hb
                 .PageHeader()
-                .Article(id: "application", action: () => 
+                .Article(id: "application", action: () =>
                 {
                     if (allowAccess)
                     {
@@ -85,13 +124,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: () => hb
                                 .Raw(Parameters.General.HtmlCopyright.Params(DateTime.Now.Year)))))
                 .Hidden(controlId: "ApplicationPath", value: Navigations.Get())
-                .Styles(style: userStyle)
-                .Scripts(
-                    methodType: methodType,
-                    script: script,
-                    userScript: userScript,
-                    referenceId: referenceId,
-                    allowAccess: allowAccess);
+                .Styles(style: userStyle));
         }
 
         private static HtmlBuilder Title(
@@ -137,7 +170,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Template(
                 siteId: 0,
-                referenceId: string.Empty,
+                referenceType: string.Empty,
                 title: string.Empty,
                 permissionType: Permissions.Types.NotSet,
                 verType: Versions.VerTypes.Latest,

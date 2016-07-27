@@ -444,11 +444,11 @@ namespace Implem.Pleasanter.Models
             tenantModel.MethodType = BaseModel.MethodTypes.Edit;
             return new TenantsResponseCollection(this)
                 .Func("clearDialogs")
-                .Html(
+                .ReplaceAll(
                     "#MainContainer",
                     tenantModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? TenantUtilities.Editor(tenantModel)
-                        : TenantUtilities.Editor(this))
+                        ? TenantUtilities.Editor(tenantModel, byRest: true)
+                        : TenantUtilities.Editor(this, byRest: true))
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -527,7 +527,9 @@ namespace Implem.Pleasanter.Models
         private string Editor()
         {
             return new TenantsResponseCollection(this)
-                .Html("#MainContainer", TenantUtilities.Editor(this))
+                .ReplaceAll(
+                    "#MainContainer",
+                    TenantUtilities.Editor(this, byRest: true))
                 .ToJson();
         }
 

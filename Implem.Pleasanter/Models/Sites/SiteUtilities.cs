@@ -140,8 +140,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Editor(long siteId, bool clearSessions)
         {
-            return Editor(new SiteModel(
-                siteId, clearSessions, methodType: BaseModel.MethodTypes.Edit));
+            return Editor(
+                new SiteModel(
+                    siteId, clearSessions, methodType: BaseModel.MethodTypes.Edit),
+                byRest: true);
         }
 
         /// <summary>
@@ -228,7 +230,7 @@ namespace Implem.Pleasanter.Models
             var siteConditions = SiteInfo.SiteMenu.SiteConditions(0);
             return hb.Template(
                 siteId: 0,
-                referenceId: "Sites",
+                referenceType: "Sites",
                 title: Displays.Top(),
                 permissionType: permissionType,
                 verType: verType,
@@ -270,7 +272,7 @@ namespace Implem.Pleasanter.Models
             var siteConditions = SiteInfo.SiteMenu.SiteConditions(siteModel.SiteId);
             return hb.Template(
                 siteId: siteModel.SiteId,
-                referenceId: "Sites",
+                referenceType: "Sites",
                 title: siteModel.Title.Value,
                 permissionType: siteModel.PermissionType,
                 verType: Versions.VerTypes.Latest,
@@ -506,23 +508,25 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string EditorNew(Permissions.Types permissionType, long siteId)
         {
-            return Editor(new SiteModel()
-            {
-                MethodType = BaseModel.MethodTypes.New,
-                SiteId = siteId,
-                PermissionType = permissionType
-            });
+            return Editor(
+                new SiteModel()
+                {
+                    MethodType = BaseModel.MethodTypes.New,
+                    SiteId = siteId,
+                    PermissionType = permissionType
+                },
+                byRest: false);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string Editor(SiteModel siteModel)
+        public static string Editor(SiteModel siteModel, bool byRest)
         {
             var hb = new HtmlBuilder();
             return hb.Template(
                 siteId: siteModel.SiteId,
-                referenceId: "Sites",
+                referenceType: "Sites",
                 title: siteModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Sites() + " - " + Displays.New()
                     : siteModel.Title + " - " + Displays.EditSettings(),

@@ -412,8 +412,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_PermissionType": Code.Model_PermissionType = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PermissionType, definitionRow, CodeXls); break;
                     case "Model_PermissionTypeWithParameterName": Code.Model_PermissionTypeWithParameterName = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PermissionTypeWithParameterName, definitionRow, CodeXls); break;
                     case "Model_PermissionTypeWithParameterNameLower": Code.Model_PermissionTypeWithParameterNameLower = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PermissionTypeWithParameterNameLower, definitionRow, CodeXls); break;
-                    case "Model_SiteSettingsUtility": Code.Model_SiteSettingsUtility = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsUtility, definitionRow, CodeXls); break;
-                    case "Model_PermissionTypesAdmins": Code.Model_PermissionTypesAdmins = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PermissionTypesAdmins, definitionRow, CodeXls); break;
                     case "Subset": Code.Subset = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Subset, definitionRow, CodeXls); break;
                     case "Subset_Properties": Code.Subset_Properties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Subset_Properties, definitionRow, CodeXls); break;
                     case "Subset_SetProperties": Code.Subset_SetProperties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Subset_SetProperties, definitionRow, CodeXls); break;
@@ -438,6 +436,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utility_GridSqlWhereTenantId": Code.Model_Utility_GridSqlWhereTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_GridSqlWhereTenantId, definitionRow, CodeXls); break;
                     case "Model_Utility_GridSqlWhereSiteId": Code.Model_Utility_GridSqlWhereSiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_GridSqlWhereSiteId, definitionRow, CodeXls); break;
                     case "Model_Utility_Editor": Code.Model_Utility_Editor = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_Editor, definitionRow, CodeXls); break;
+                    case "Model_Utility_SiteSettingsUtility": Code.Model_Utility_SiteSettingsUtility = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_SiteSettingsUtility, definitionRow, CodeXls); break;
+                    case "Model_Utility_PermissionTypesAdmins": Code.Model_Utility_PermissionTypesAdmins = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_PermissionTypesAdmins, definitionRow, CodeXls); break;
                     case "Model_Utility_UserSelf": Code.Model_Utility_UserSelf = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_UserSelf, definitionRow, CodeXls); break;
                     case "Model_Utility_EditorItem": Code.Model_Utility_EditorItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_EditorItem, definitionRow, CodeXls); break;
                     case "Model_Utility_EditorProfilePermission": Code.Model_Utility_EditorProfilePermission = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_EditorProfilePermission, definitionRow, CodeXls); break;
@@ -3928,8 +3928,6 @@ namespace Implem.DefinitionAccessor
         public string Model_PermissionType;
         public string Model_PermissionTypeWithParameterName;
         public string Model_PermissionTypeWithParameterNameLower;
-        public string Model_SiteSettingsUtility;
-        public string Model_PermissionTypesAdmins;
         public string Subset;
         public string Subset_Properties;
         public string Subset_SetProperties;
@@ -3954,6 +3952,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Utility_GridSqlWhereTenantId;
         public string Model_Utility_GridSqlWhereSiteId;
         public string Model_Utility_Editor;
+        public string Model_Utility_SiteSettingsUtility;
+        public string Model_Utility_PermissionTypesAdmins;
         public string Model_Utility_UserSelf;
         public string Model_Utility_EditorItem;
         public string Model_Utility_EditorProfilePermission;
@@ -4305,8 +4305,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_PermissionType = new CodeDefinition();
         public CodeDefinition Model_PermissionTypeWithParameterName = new CodeDefinition();
         public CodeDefinition Model_PermissionTypeWithParameterNameLower = new CodeDefinition();
-        public CodeDefinition Model_SiteSettingsUtility = new CodeDefinition();
-        public CodeDefinition Model_PermissionTypesAdmins = new CodeDefinition();
         public CodeDefinition Subset = new CodeDefinition();
         public CodeDefinition Subset_Properties = new CodeDefinition();
         public CodeDefinition Subset_SetProperties = new CodeDefinition();
@@ -4331,6 +4329,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utility_GridSqlWhereTenantId = new CodeDefinition();
         public CodeDefinition Model_Utility_GridSqlWhereSiteId = new CodeDefinition();
         public CodeDefinition Model_Utility_Editor = new CodeDefinition();
+        public CodeDefinition Model_Utility_SiteSettingsUtility = new CodeDefinition();
+        public CodeDefinition Model_Utility_PermissionTypesAdmins = new CodeDefinition();
         public CodeDefinition Model_Utility_UserSelf = new CodeDefinition();
         public CodeDefinition Model_Utility_EditorItem = new CodeDefinition();
         public CodeDefinition Model_Utility_EditorProfilePermission = new CodeDefinition();

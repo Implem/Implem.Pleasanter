@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Models
             var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
             return hb.Template(
                 siteId: siteSettings.SiteId,
-                referenceId: "Tenants",
+                referenceType: "Tenants",
                 title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
@@ -40,8 +40,8 @@ namespace Implem.Pleasanter.Models
                     permissionType: permissionType,
                     formData: formData,
                     dataViewName: dataViewName),
-                userStyle: siteSettings.GridStyle,
                 userScript: siteSettings.GridScript,
+                userStyle: siteSettings.GridStyle,
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
@@ -76,10 +76,11 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "Tenants")
                             .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
-                    .Dialog_Move("items", siteSettings.SiteId, bulk: true)
-                    .Div(attributes: new HtmlAttributes()
-                        .Id_Css("Dialog_ExportSettings", "dialog")
-                        .Title(Displays.ExportSettings()))).ToString();
+                .Dialog_Move("items", siteSettings.SiteId, bulk: true)
+                .Div(attributes: new HtmlAttributes()
+                    .Id_Css("Dialog_ExportSettings", "dialog")
+                    .Title(Displays.ExportSettings())))
+                .ToString();
         }
 
         private static TenantCollection TenantCollection(
@@ -286,33 +287,35 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorNew()
         {
-            return Editor(new TenantModel(
-                SiteSettingsUtility.TenantsSiteSettings(),
-                Permissions.Admins(),
-                methodType: BaseModel.MethodTypes.New));
+            return Editor(
+                new TenantModel(
+                    SiteSettingsUtility.TenantsSiteSettings(),
+                    Permissions.Admins(),
+                    methodType: BaseModel.MethodTypes.New),
+                byRest: false);
         }
 
         public static string Editor(int tenantId, bool clearSessions)
         {
             var tenantModel = new TenantModel(
-                SiteSettingsUtility.TenantsSiteSettings(),
-                Permissions.Admins(),
+                    SiteSettingsUtility.TenantsSiteSettings(),
+                    Permissions.Admins(),
                 tenantId: tenantId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
             tenantModel.SwitchTargets = TenantUtilities.GetSwitchTargets(
                 SiteSettingsUtility.TenantsSiteSettings());
-            return Editor(tenantModel);
+            return Editor(tenantModel, byRest: false);
         }
 
-        public static string Editor(TenantModel tenantModel)
+        public static string Editor(TenantModel tenantModel, bool byRest)
         {
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
             tenantModel.SiteSettings.SetChoicesTexts();
             return hb.Template(
                 siteId: 0,
-                referenceId: "Tenants",
+                referenceType: "Tenants",
                 title: tenantModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Tenants() + " - " + Displays.New()
                     : tenantModel.Title.Value,
@@ -322,6 +325,7 @@ namespace Implem.Pleasanter.Models
                 allowAccess:
                     permissionType.CanEditTenant() &&
                     tenantModel.AccessStatus != Databases.AccessStatuses.NotFound,
+                byRest: byRest,
                 action: () =>
                 {
                     permissionType = Permissions.Types.Manager;

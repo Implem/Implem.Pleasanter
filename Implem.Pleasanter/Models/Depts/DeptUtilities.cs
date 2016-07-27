@@ -31,7 +31,7 @@ namespace Implem.Pleasanter.Models
             var deptCollection = DeptCollection(siteSettings, permissionType, formData);
             return hb.Template(
                 siteId: 0,
-                referenceId: "Depts",
+                referenceType: "Depts",
                 title: Displays.Depts() + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
@@ -285,33 +285,35 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorNew()
         {
-            return Editor(new DeptModel(
-                SiteSettingsUtility.DeptsSiteSettings(),
-                Permissions.Admins(),
-                methodType: BaseModel.MethodTypes.New));
+            return Editor(
+                new DeptModel(
+                    SiteSettingsUtility.DeptsSiteSettings(),
+                    Permissions.Admins(),
+                    methodType: BaseModel.MethodTypes.New),
+                byRest: false);
         }
 
         public static string Editor(int deptId, bool clearSessions)
         {
             var deptModel = new DeptModel(
-                SiteSettingsUtility.DeptsSiteSettings(),
-                Permissions.Admins(),
+                    SiteSettingsUtility.DeptsSiteSettings(),
+                    Permissions.Admins(),
                 deptId: deptId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
             deptModel.SwitchTargets = DeptUtilities.GetSwitchTargets(
                 SiteSettingsUtility.DeptsSiteSettings());
-            return Editor(deptModel);
+            return Editor(deptModel, byRest: false);
         }
 
-        public static string Editor(DeptModel deptModel)
+        public static string Editor(DeptModel deptModel, bool byRest)
         {
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
             deptModel.SiteSettings.SetChoicesTexts();
             return hb.Template(
                 siteId: 0,
-                referenceId: "Depts",
+                referenceType: "Depts",
                 title: deptModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Depts() + " - " + Displays.New()
                     : deptModel.Title.Value,
@@ -321,6 +323,7 @@ namespace Implem.Pleasanter.Models
                 allowAccess:
                     permissionType.CanEditTenant() &&
                     deptModel.AccessStatus != Databases.AccessStatuses.NotFound,
+                byRest: byRest,
                 action: () =>
                 {
                     permissionType = Permissions.Types.Manager;

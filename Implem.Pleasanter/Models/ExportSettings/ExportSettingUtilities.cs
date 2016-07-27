@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Models
             var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
             return hb.Template(
                 siteId: siteSettings.SiteId,
-                referenceId: "ExportSettings",
+                referenceType: "ExportSettings",
                 title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
@@ -40,8 +40,8 @@ namespace Implem.Pleasanter.Models
                     permissionType: permissionType,
                     formData: formData,
                     dataViewName: dataViewName),
-                userStyle: siteSettings.GridStyle,
                 userScript: siteSettings.GridScript,
+                userStyle: siteSettings.GridStyle,
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
@@ -76,10 +76,11 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "ExportSettings")
                             .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
-                    .Dialog_Move("items", siteSettings.SiteId, bulk: true)
-                    .Div(attributes: new HtmlAttributes()
-                        .Id_Css("Dialog_ExportSettings", "dialog")
-                        .Title(Displays.ExportSettings()))).ToString();
+                .Dialog_Move("items", siteSettings.SiteId, bulk: true)
+                .Div(attributes: new HtmlAttributes()
+                    .Id_Css("Dialog_ExportSettings", "dialog")
+                    .Title(Displays.ExportSettings())))
+                .ToString();
         }
 
         private static ExportSettingCollection ExportSettingCollection(
@@ -285,33 +286,35 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorNew()
         {
-            return Editor(new ExportSettingModel(
-                SiteSettingsUtility.ExportSettingsSiteSettings(),
-                Permissions.Admins(),
-                methodType: BaseModel.MethodTypes.New));
+            return Editor(
+                new ExportSettingModel(
+                    SiteSettingsUtility.ExportSettingsSiteSettings(),
+                    Permissions.Admins(),
+                    methodType: BaseModel.MethodTypes.New),
+                byRest: false);
         }
 
         public static string Editor(long exportSettingId, bool clearSessions)
         {
             var exportSettingModel = new ExportSettingModel(
-                SiteSettingsUtility.ExportSettingsSiteSettings(),
-                Permissions.Admins(),
+                    SiteSettingsUtility.ExportSettingsSiteSettings(),
+                    Permissions.Admins(),
                 exportSettingId: exportSettingId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
             exportSettingModel.SwitchTargets = ExportSettingUtilities.GetSwitchTargets(
                 SiteSettingsUtility.ExportSettingsSiteSettings());
-            return Editor(exportSettingModel);
+            return Editor(exportSettingModel, byRest: false);
         }
 
-        public static string Editor(ExportSettingModel exportSettingModel)
+        public static string Editor(ExportSettingModel exportSettingModel, bool byRest)
         {
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
             exportSettingModel.SiteSettings.SetChoicesTexts();
             return hb.Template(
                 siteId: 0,
-                referenceId: "ExportSettings",
+                referenceType: "ExportSettings",
                 title: exportSettingModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.ExportSettings() + " - " + Displays.New()
                     : exportSettingModel.Title.Value,
@@ -321,6 +324,7 @@ namespace Implem.Pleasanter.Models
                 allowAccess:
                     permissionType.CanEditTenant() &&
                     exportSettingModel.AccessStatus != Databases.AccessStatuses.NotFound,
+                byRest: byRest,
                 action: () =>
                 {
                     permissionType = Permissions.Types.Manager;
