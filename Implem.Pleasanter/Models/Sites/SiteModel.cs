@@ -819,7 +819,7 @@ namespace Implem.Pleasanter.Models
         public string MoveSiteMenu(long sourceId)
         {
             var destinationId = Forms.Long("DestinationId");
-            var toParent = SiteInfo.SiteMenu.Get(SiteId).ParentId == destinationId;
+            var toParent = SiteId != 0 && SiteInfo.SiteMenu.Get(SiteId).ParentId == destinationId;
             if (SiteId != 0 && !PermissionType.CanEditSite())
             {
                 return Messages.ResponseHasNotPermission().ToJson();
