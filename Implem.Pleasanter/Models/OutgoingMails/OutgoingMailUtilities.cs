@@ -674,6 +674,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings siteSettings,
             OutgoingMailModel outgoingMailModel)
         {
+            outgoingMailModel.SiteSettings = SiteSettingsUtility.OutgoingMailsSiteSettings();
             return hb
                 .FieldBasket(
                     controlId: "OutgoingMails_To",
@@ -698,14 +699,18 @@ namespace Implem.Pleasanter.Models
                     fieldCss: "field-wide",
                     controlCss: " must-transport",
                     labelText: Displays.OutgoingMails_Title(),
-                    text: ReplyTitle(outgoingMailModel))
+                    text: ReplyTitle(outgoingMailModel),
+                    attributes: outgoingMailModel.SiteSettings.AllColumn("Title")
+                        .ValidationMessages())
                 .FieldTextBox(
                     textType: HtmlTypes.TextTypes.MultiLine,
                     controlId: "OutgoingMails_Body",
                     fieldCss: "field-wide",
                     controlCss: " must-transport h300",
                     labelText: Displays.OutgoingMails_Body(),
-                    text: ReplyBody(outgoingMailModel))
+                    text: ReplyBody(outgoingMailModel),
+                    attributes: outgoingMailModel.SiteSettings.AllColumn("Body")
+                        .ValidationMessages())
                 .P(css: "message-dialog")
                 .Div(css: "command-center", action: () => hb
                     .Button(
