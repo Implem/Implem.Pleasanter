@@ -2176,6 +2176,7 @@ namespace Implem.Pleasanter.Models
                     siteSettings: siteSettings,
                     aggregations: issueCollection.Aggregations,
                     container: false))
+                .ClearFormData()
                 .Func("setKamban").ToJson();
         }
 
