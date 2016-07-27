@@ -830,13 +830,15 @@ namespace Implem.Pleasanter.Models
                     .SiteId(sourceId),
                 param: Rds.SitesParam().ParentId(destinationId)));
             SiteInfo.SiteMenu.Set(sourceId);
-            return new ResponseCollection()
-                .Remove(".nav-site[data-id=\"" + sourceId + "\"]")
-                .ReplaceAll(
-                    "[data-id=\"" + destinationId + "\"]",
-                    ReplaceSiteMenu(sourceId, destinationId),
-                    _using: !toParent)
-                .ToJson();
+            var responseCollection = new ResponseCollection()
+                .Remove(".nav-site[data-id=\"" + sourceId + "\"]");
+            return toParent
+                ? responseCollection.ToJson()
+                : responseCollection
+                    .ReplaceAll(
+                        "[data-id=\"" + destinationId + "\"]",
+                        ReplaceSiteMenu(sourceId, destinationId))
+                    .ToJson();
         }
 
         /// <summary>
