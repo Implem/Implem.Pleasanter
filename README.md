@@ -13,6 +13,9 @@ http://pleasanter.org
 * バーンダウンチャート
 ![default](https://cloud.githubusercontent.com/assets/12204265/15035467/2a464e70-12bd-11e6-82dd-a5529b43776b.gif)
 
+* 時系列チャート
+![default](https://cloud.githubusercontent.com/assets/12204265/17194324/688f9b8e-5492-11e6-961b-839c99d2c340.gif)
+
 ## 動作条件
 |条件|Windows Server 2012 R2|Windows 10|Microsoft Azure|
 |:--|:--:|:--:|:--:|
