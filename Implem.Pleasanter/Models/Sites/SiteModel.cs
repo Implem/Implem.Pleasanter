@@ -848,7 +848,7 @@ namespace Implem.Pleasanter.Models
         {
             return new HtmlBuilder().SiteMenu(
                 siteSettings: SiteSettings,
-                permissionType: PermissionType,
+                permissionType: Permissions.Types.Manager,
                 siteId: destinationId,
                 referenceType: ReferenceType,
                 title: SiteInfo.SiteMenu.Get(destinationId).Title,
