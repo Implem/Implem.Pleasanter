@@ -1,8 +1,10 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.Validators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -270,6 +272,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "nvarchar": return recordingData;
                 default: return recordingData;
             }
+        }
+
+        public Dictionary<string, string> ValidationMessages()
+        {
+            return ClientValidators.MessageCollection(Validators);
         }
 
         public string Display(decimal value)
