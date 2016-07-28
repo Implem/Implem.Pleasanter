@@ -31,7 +31,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static LinkCollection LinkCollection(SiteSettings siteSettings)
         {
-            return new LinkCollection(where: Rds.LinksWhere().DestinationId(siteSettings.SiteId));
+            return new LinkCollection(
+                column: Rds.LinksColumn()
+                    .SourceId()
+                    .SiteTitle(),
+                where: Rds.LinksWhere().DestinationId(siteSettings.SiteId));
         }
 
         private static HtmlBuilder LinkCreations(
