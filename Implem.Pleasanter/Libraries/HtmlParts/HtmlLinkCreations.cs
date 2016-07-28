@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlLinkCreations
@@ -17,7 +18,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var linkCollection = LinkCollection(siteSettings);
             return
                 methodType != BaseModel.MethodTypes.New &&
-                linkCollection.Count > 0
+                linkCollection.Any()
                     ? hb.FieldSet(
                         css: " enclosed link-creations",
                         legendText: Displays.LinkCreations(),
