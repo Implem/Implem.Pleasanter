@@ -23,16 +23,32 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Script(src: ResolveBundleUrl("~/bundles/Generals"))
                     .Script(script: script, _using: !script.IsNullOrEmpty())
                     .Script(script: userScript, _using: !userScript.IsNullOrEmpty())
-                    .Validator(referenceType: referenceType)
+                    .ItemValidator(referenceType: referenceType)
+                    .Script(src: Src("OutgoingMails"))
                     .Internationalization()
                 : hb;
         }
 
-        private static HtmlBuilder Validator(this HtmlBuilder hb, string referenceType)
+        public static HtmlBuilder ItemValidator(this HtmlBuilder hb, string referenceType)
         {
-            return hb
-                .Script(src: Validator(referenceType))
-                .Script(src: Validator("OutgoingMails"));
+            return hb.Script(id: "ItemValidator", src: Src(referenceType));
+        }
+
+        private static string Src(string referenceType)
+        {
+            switch (referenceType)
+            {
+                case "Tenants": return ResolveBundleUrl("~/bundles/TenantsValidator");
+                case "Demos": return ResolveBundleUrl("~/bundles/DemosValidator");
+                case "Depts": return ResolveBundleUrl("~/bundles/DeptsValidator");
+                case "Users": return ResolveBundleUrl("~/bundles/UsersValidator");
+                case "OutgoingMails": return ResolveBundleUrl("~/bundles/OutgoingMailsValidator");
+                case "Sites": return ResolveBundleUrl("~/bundles/SitesValidator");
+                case "Issues": return ResolveBundleUrl("~/bundles/IssuesValidator");
+                case "Results": return ResolveBundleUrl("~/bundles/ResultsValidator");
+                case "Wikis": return ResolveBundleUrl("~/bundles/WikisValidator");
+                default: return string.Empty;
+            }
         }
 
         private static string ResolveBundleUrl(string url)

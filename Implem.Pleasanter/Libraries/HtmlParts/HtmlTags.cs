@@ -859,6 +859,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Script(
             this HtmlBuilder hb,
+            string id = "",
             string src = "",
             string script = "",
             bool _using = true)
@@ -866,7 +867,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return _using
                 ? hb.Append(
                     tag: "script",
-                    attributes: new HtmlAttributes().Src(src),
+                    attributes: new HtmlAttributes()
+                        .Id(id)
+                        .Src(src),
                     action: () => hb
                         .Raw(text: script))
                 : hb;
