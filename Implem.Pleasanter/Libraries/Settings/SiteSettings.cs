@@ -1041,10 +1041,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             if (LinkColumnSiteIdHash == null) return null;
             var siteIdCollection = LinkColumnSiteIdHash.Values.ToList<long>();
-            if (siteIdCollection.Count == 0)
-            {
-                siteIdCollection.Add(-1);
-            }
             return Rds.ExecuteTable(statements: Rds.SelectSites(
                 column: Rds.SitesColumn()
                     .SiteId()
