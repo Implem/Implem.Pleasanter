@@ -113,17 +113,28 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .ForEach(choices => hb
                             .Table(
                                 siteSettings: siteSettings,
-                                choices: choices.ToDictionary(o => o.Key, o => o.Value),
+                                choices: CorrectedChoices(groupByColumn, choices),
                                 aggregateType: aggregateType,
                                 valueColumn: valueColumn,
                                 data: data,
                                 changedItemId: changedItemId)));
         }
 
+        private static IEnumerable<KeyValuePair<string, ControlData>> CorrectedChoices(
+            Column groupByColumn,
+            IEnumerable<KeyValuePair<string, ControlData>> choices)
+        {
+            return groupByColumn.TypeName.CsTypeSummary() != Types.CsNumeric
+                ? choices
+                : choices.ToDictionary(
+                    o => o.Key != string.Empty ? o.Key : "0",
+                    o => o.Value);
+        }
+
         private static HtmlBuilder Table(
             this HtmlBuilder hb,
             SiteSettings siteSettings,
-            Dictionary<string, ControlData> choices,
+            IEnumerable<KeyValuePair<string, ControlData>> choices,
             string aggregateType,
             Column valueColumn,
             IEnumerable<KambanElement> data,
