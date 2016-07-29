@@ -24,7 +24,7 @@ namespace Implem.Pleasanter.Models
         public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
         {
             siteSettings.SetChoicesByLinks();
-            siteSettings.SetChoicesTexts();
+            siteSettings.SetChoicesByPlaceholders();
             var hb = new HtmlBuilder();
             var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
             var resultCollection = ResultCollection(siteSettings, permissionType, formData);
@@ -149,7 +149,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings siteSettings, Permissions.Types permissionType)
         {
             siteSettings.SetChoicesByLinks();
-            siteSettings.SetChoicesTexts();
+            siteSettings.SetChoicesByPlaceholders();
             switch (DataViewSelectors.Get(siteSettings.SiteId))
             {
                 case "TimeSeries": return TimeSeriesResponse(siteSettings, permissionType);
@@ -209,7 +209,7 @@ namespace Implem.Pleasanter.Models
             Message message = null)
         {
             siteSettings.SetChoicesByLinks();
-            siteSettings.SetChoicesTexts();
+            siteSettings.SetChoicesByPlaceholders();
             var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
             var resultCollection = ResultCollection(siteSettings, permissionType, formData, offset);
             return (responseCollection ?? new ResponseCollection())
@@ -614,7 +614,7 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             resultModel.SiteSettings.SetChoicesByLinks();
-            resultModel.SiteSettings.SetChoicesTexts();
+            resultModel.SiteSettings.SetChoicesByPlaceholders();
             return hb.Template(
                 siteId: siteModel.SiteId,
                 referenceType: "Results",
@@ -1391,7 +1391,7 @@ namespace Implem.Pleasanter.Models
             SiteModel siteModel)
         {
             siteModel.SiteSettings.SetChoicesByLinks();
-            siteModel.SiteSettings.SetChoicesTexts();
+            siteModel.SiteSettings.SetChoicesByPlaceholders();
             var formData = DataViewFilters.SessionFormData(siteModel.SiteId);
             var resultCollection = new ResultCollection(
                 siteSettings: siteSettings,
@@ -1797,7 +1797,7 @@ namespace Implem.Pleasanter.Models
         {
             var siteSettings = siteModel.ResultsSiteSettings();
             siteSettings.SetChoicesByLinks();
-            siteSettings.SetChoicesTexts();
+            siteSettings.SetChoicesByPlaceholders();
             var resultModel = new ResultModel(
                 siteSettings,
                 siteModel.PermissionType,

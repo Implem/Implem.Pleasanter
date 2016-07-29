@@ -312,7 +312,7 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
-            tenantModel.SiteSettings.SetChoicesTexts();
+            tenantModel.SiteSettings.SetChoicesByPlaceholders();
             return hb.Template(
                 siteId: 0,
                 referenceType: "Tenants",

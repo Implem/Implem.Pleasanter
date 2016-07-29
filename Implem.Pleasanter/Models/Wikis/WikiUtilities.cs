@@ -73,7 +73,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings siteSettings, Permissions.Types permissionType)
         {
             siteSettings.SetChoicesByLinks();
-            siteSettings.SetChoicesTexts();
+            siteSettings.SetChoicesByPlaceholders();
             switch (DataViewSelectors.Get(siteSettings.SiteId))
             {
                 default: return Grid(siteSettings: siteSettings, permissionType: permissionType);
@@ -131,7 +131,7 @@ namespace Implem.Pleasanter.Models
             Message message = null)
         {
             siteSettings.SetChoicesByLinks();
-            siteSettings.SetChoicesTexts();
+            siteSettings.SetChoicesByPlaceholders();
             var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
             var wikiCollection = WikiCollection(siteSettings, permissionType, formData, offset);
             return (responseCollection ?? new ResponseCollection())
@@ -279,7 +279,7 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             wikiModel.SiteSettings.SetChoicesByLinks();
-            wikiModel.SiteSettings.SetChoicesTexts();
+            wikiModel.SiteSettings.SetChoicesByPlaceholders();
             return hb.Template(
                 siteId: siteModel.SiteId,
                 referenceType: "Wikis",
@@ -737,7 +737,7 @@ namespace Implem.Pleasanter.Models
             SiteModel siteModel)
         {
             siteModel.SiteSettings.SetChoicesByLinks();
-            siteModel.SiteSettings.SetChoicesTexts();
+            siteModel.SiteSettings.SetChoicesByPlaceholders();
             var formData = DataViewFilters.SessionFormData(siteModel.SiteId);
             var wikiCollection = new WikiCollection(
                 siteSettings: siteSettings,
@@ -861,7 +861,7 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             siteSettings.SetChoicesByLinks();
-            siteSettings.SetChoicesTexts();
+            siteSettings.SetChoicesByPlaceholders();
             return hb.Template(
                 siteId: siteModel.SiteId,
                 referenceType: "Wikis",

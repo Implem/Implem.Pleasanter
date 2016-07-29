@@ -317,7 +317,7 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
-            binaryModel.SiteSettings.SetChoicesTexts();
+            binaryModel.SiteSettings.SetChoicesByPlaceholders();
             return hb.Template(
                 siteId: 0,
                 referenceType: "Binaries",

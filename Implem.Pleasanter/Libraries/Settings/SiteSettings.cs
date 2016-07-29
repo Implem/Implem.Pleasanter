@@ -355,12 +355,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public void SetChoicesTexts()
-        {
-            ColumnCollection.Where(o => o.HasChoices()).ForEach(column =>
-                column.SetChoicesText(InheritPermission));
-        }
-
         private decimal DefaultMax(ColumnDefinition columnDefinition)
         {
             return (columnDefinition.Max > 0
@@ -1035,6 +1029,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         p.ReferenceId,
                         p.Title))
                     .Join("\n");
+        }
+
+        public void SetChoicesByPlaceholders()
+        {
+            ColumnCollection.Where(o => o.HasChoices()).ForEach(column =>
+                column.SetChoicesByPlaceholders(InheritPermission));
         }
 
         public EnumerableRowCollection<DataRow> SummarySiteDataRows()

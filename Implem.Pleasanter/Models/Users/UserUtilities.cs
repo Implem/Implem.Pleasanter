@@ -338,7 +338,7 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
-            userModel.SiteSettings.SetChoicesTexts();
+            userModel.SiteSettings.SetChoicesByPlaceholders();
             return hb.Template(
                 siteId: 0,
                 referenceType: "Users",

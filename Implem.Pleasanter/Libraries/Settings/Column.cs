@@ -116,7 +116,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ColumnName = columnName;
         }
 
-        public void SetChoicesText(long siteId)
+        public void SetChoicesByPlaceholders(long siteId)
         {
             var tenantId = Sessions.TenantId();
             var choicesHash = new Dictionary<string, string>();
