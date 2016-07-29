@@ -812,7 +812,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 o.DestinationColumn == destinationColumn &&
                 o.LinkColumn == linkColumn))
             {
-                var id = SummaryCollection.Count() > 0
+                var id = SummaryCollection.Any()
                     ? SummaryCollection.Select(o => o.Id).Max() + 1
                     : 1;
                 SummaryCollection.Add(new Summary(
