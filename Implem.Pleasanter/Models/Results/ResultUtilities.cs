@@ -23,7 +23,7 @@ namespace Implem.Pleasanter.Models
     {
         public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
         {
-            siteSettings.SetLinks();
+            siteSettings.SetChoicesByLinks();
             siteSettings.SetChoicesTexts();
             var hb = new HtmlBuilder();
             var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
@@ -148,7 +148,7 @@ namespace Implem.Pleasanter.Models
         public static string DataView(
             SiteSettings siteSettings, Permissions.Types permissionType)
         {
-            siteSettings.SetLinks();
+            siteSettings.SetChoicesByLinks();
             siteSettings.SetChoicesTexts();
             switch (DataViewSelectors.Get(siteSettings.SiteId))
             {
@@ -208,7 +208,7 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false,
             Message message = null)
         {
-            siteSettings.SetLinks();
+            siteSettings.SetChoicesByLinks();
             siteSettings.SetChoicesTexts();
             var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
             var resultCollection = ResultCollection(siteSettings, permissionType, formData, offset);
@@ -613,7 +613,7 @@ namespace Implem.Pleasanter.Models
         public static string Editor(SiteModel siteModel, ResultModel resultModel, bool byRest)
         {
             var hb = new HtmlBuilder();
-            resultModel.SiteSettings.SetLinks();
+            resultModel.SiteSettings.SetChoicesByLinks();
             resultModel.SiteSettings.SetChoicesTexts();
             return hb.Template(
                 siteId: siteModel.SiteId,
@@ -1390,7 +1390,7 @@ namespace Implem.Pleasanter.Models
             Permissions.Types permissionType,
             SiteModel siteModel)
         {
-            siteModel.SiteSettings.SetLinks();
+            siteModel.SiteSettings.SetChoicesByLinks();
             siteModel.SiteSettings.SetChoicesTexts();
             var formData = DataViewFilters.SessionFormData(siteModel.SiteId);
             var resultCollection = new ResultCollection(
@@ -1796,7 +1796,7 @@ namespace Implem.Pleasanter.Models
         public static string UpdateByKamban(SiteModel siteModel)
         {
             var siteSettings = siteModel.ResultsSiteSettings();
-            siteSettings.SetLinks();
+            siteSettings.SetChoicesByLinks();
             siteSettings.SetChoicesTexts();
             var resultModel = new ResultModel(
                 siteSettings,

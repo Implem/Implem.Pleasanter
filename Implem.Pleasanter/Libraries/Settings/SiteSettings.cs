@@ -980,7 +980,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     selectedValueTextCollection: selectedColumns));
         }
 
-        public void SetLinks()
+        public void SetChoicesByLinks()
         {
             if (LinkColumnSiteIdHash?.Count > 0)
             {
@@ -999,11 +999,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         orderBy: Rds.ItemsOrderBy()
                             .Title())).AsEnumerable();
                 LinkColumnSiteIdHash.ForEach(linkColumnSiteId =>
-                    SetLinks(linkColumnSiteId, dataRows));
+                    SetChoicesByLinks(linkColumnSiteId, dataRows));
             }
         }
 
-        private void SetLinks(
+        private void SetChoicesByLinks(
             KeyValuePair<string, long> linkColumnSiteId, EnumerableRowCollection<DataRow> dataRows)
         {
             var columnKey = linkColumnSiteId.Key;
