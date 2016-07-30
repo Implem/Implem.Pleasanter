@@ -2,6 +2,8 @@
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
+using System.Linq;
+using System.Web;
 using System.Web.Optimization;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -16,17 +18,31 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return !byRest
                 ? hb
-                    .Script(src: Navigations.Get("Scripts/Plugins/jquery-2.1.4.min.js"))
+                    .Script(src: Navigations.Get("Scripts/Plugins/jquery-3.1.0.min.js"))
                     .Script(src: Navigations.Get("Scripts/Plugins/jquery-ui.min.js"))
                     .Script(src: Navigations.Get("Scripts/Plugins/jquery.validate.min.js"))
                     .Script(src: Navigations.Get("Scripts/Plugins/d3.min.js"))
-                    .Script(src: ResolveBundleUrl("~/bundles/Generals"))
+                    .Generals()
                     .Script(script: script, _using: !script.IsNullOrEmpty())
                     .Script(script: userScript, _using: !userScript.IsNullOrEmpty())
                     .ItemValidator(referenceType: referenceType)
                     .Script(src: Src("OutgoingMails"))
                     .Internationalization()
                 : hb;
+        }
+
+        public static HtmlBuilder Generals(this HtmlBuilder hb)
+        {
+            if (!System.Diagnostics.Debugger.IsAttached)
+            {
+                hb.Script(src: ResolveBundleUrl("~/bundles/Generals"));
+            }
+            else
+            {
+                BundleConfig.Generals().ForEach(path =>
+                    hb.Script(src: VirtualPathUtility.ToAbsolute(path)));
+            }
+            return hb;
         }
 
         public static HtmlBuilder ItemValidator(this HtmlBuilder hb, string referenceType)
