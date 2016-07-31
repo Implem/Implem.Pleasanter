@@ -326,7 +326,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
         private void AddMemberCollection(Parser baseCsParent, Parser margeCs)
         {
             int index;
-                if (baseCsParent.MemberCollection.Count() > 0)
+            if (baseCsParent.MemberCollection.Any())
             {
                 index = baseCsParent.MemberCollection.Max(o => o.Key) + 1;
             }
