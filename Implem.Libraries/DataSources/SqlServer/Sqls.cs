@@ -63,7 +63,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 value: searchTextCollection,
                 raw: "(@SearchText#ParamCount#_#CommandCount# = '' or (" +
                     clauseCollection.Join(" or ") + "))",
-                _using: searchTextCollection.Count() > 0);
+                _using: searchTextCollection.Any());
         }
 
         public static SqlWhereCollection SqlWhereExists(
