@@ -6,11 +6,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlImports
     {
-        public static HtmlBuilder Dialog_ImportSettings(this HtmlBuilder hb)
+        public static HtmlBuilder ImportSettingsDialog(this HtmlBuilder hb)
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
-                    .Id_Css("Dialog_ImportSettings", "dialog")
+                    .Id_Css("ImportSettingsDialog", "dialog")
                     .Title(Displays.Import()),
                 action: () => hb
                     .FieldTextBox(
@@ -32,13 +32,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Button(
                                 text: Displays.Import(),
                                 controlCss: "button-import",
-                                onClick: Def.JavaScript.Import,
+                                onClick: "$p.import($(this));",
                                 action: "Import",
                                 method: "post")
                             .Button(
                                 text: Displays.Cancel(),
                                 controlCss: "button-cancel",
-                                onClick: Def.JavaScript.CancelDialog)));
+                                onClick: "$p.closeDialog($(this));")));
         }
     }
 }

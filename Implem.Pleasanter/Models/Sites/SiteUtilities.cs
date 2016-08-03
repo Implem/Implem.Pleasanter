@@ -606,8 +606,8 @@ namespace Implem.Pleasanter.Models
                             css: "control-hidden must-transport",
                             value: siteModel.Timestamp))
                 .OutgoingMailsForm("Sites", siteModel.SiteId, siteModel.Ver)
-                .Dialog_Copy("items", siteModel.SiteId)
-                .Dialog_OutgoingMail());
+                .CopyDialog("items", siteModel.SiteId)
+                .OutgoingMailDialog());
         }
 
         /// <summary>
@@ -654,6 +654,7 @@ namespace Implem.Pleasanter.Models
                         controlCss: " focus",
                         labelText: Displays.Sites_Title(),
                         text: siteModel.Title.Value.ToString(),
+                        attributes: siteModel.SiteSettings.AllColumn("Title").ValidationMessages(),
                         _using: siteModel.ReferenceType != "Wikis")
                     .FieldMarkDown(
                         controlId: "Sites_Body",
@@ -729,7 +730,7 @@ namespace Implem.Pleasanter.Models
                                 controlId: "SetSiteImage",
                                 controlCss: "button-save",
                                 text: Displays.Setting(),
-                                onClick: Def.JavaScript.SetSiteImage,
+                                onClick: "$p.uploadSiteImage($(this));",
                                 action: "binaries/updatesiteimage",
                                 method: "post")));
         }
@@ -773,7 +774,7 @@ namespace Implem.Pleasanter.Models
                         max: Parameters.General.NearCompletionTimeAfterDaysMax,
                         step: 1,
                         width: 25)
-                    .Dialog_AggregationDetails(siteSettings));
+                    .AggregationDetailsDialog(siteSettings));
         }
 
         /// <summary>
@@ -800,28 +801,28 @@ namespace Implem.Pleasanter.Models
                                 controlId: "MoveUpGridColumns",
                                 controlCss: "button-up",
                                 text: Displays.MoveUp(),
-                                onClick: Def.JavaScript.Submit,
+                                onClick: "$p.send($(this));",
                                 action: "SetSiteSettings",
                                 method: "post")
                             .Button(
                                 controlId: "MoveDownGridColumns",
                                 controlCss: "button-down",
                                 text: Displays.MoveDown(),
-                                onClick: Def.JavaScript.Submit,
+                                onClick: "$p.send($(this));",
                                 action: "SetSiteSettings",
                                 method: "post")
                             .Button(
                                 controlId: "ShowGridColumns",
                                 controlCss: "button-visible",
                                 text: Displays.Visible(),
-                                onClick: Def.JavaScript.Submit,
+                                onClick: "$p.send($(this));",
                                 action: "SetSiteSettings",
                                 method: "put")
                             .Button(
                                 controlId: "HideGridColumns",
                                 controlCss: "button-hide",
                                 text: Displays.Hide(),
-                                onClick: Def.JavaScript.Submit,
+                                onClick: "$p.send($(this));",
                                 action: "SetSiteSettings",
                                 method: "put"))));
         }
@@ -850,28 +851,28 @@ namespace Implem.Pleasanter.Models
                                 controlId: "MoveUpFilterColumns",
                                 controlCss: "button-up",
                                 text: Displays.MoveUp(),
-                                onClick: Def.JavaScript.Submit,
+                                onClick: "$p.send($(this));",
                                 action: "SetSiteSettings",
                                 method: "post")
                             .Button(
                                 controlId: "MoveDownFilterColumns",
                                 controlCss: "button-down",
                                 text: Displays.MoveDown(),
-                                onClick: Def.JavaScript.Submit,
+                                onClick: "$p.send($(this));",
                                 action: "SetSiteSettings",
                                 method: "post")
                             .Button(
                                 controlId: "ShowFilterColumns",
                                 controlCss: "button-visible",
                                 text: Displays.Visible(),
-                                onClick: Def.JavaScript.Submit,
+                                onClick: "$p.send($(this));",
                                 action: "SetSiteSettings",
                                 method: "put")
                             .Button(
                                 controlId: "HideFilterColumns",
                                 controlCss: "button-hide",
                                 text: Displays.Hide(),
-                                onClick: Def.JavaScript.Submit,
+                                onClick: "$p.send($(this));",
                                 action: "SetSiteSettings",
                                 method: "put"))));
         }
@@ -900,26 +901,26 @@ namespace Implem.Pleasanter.Models
                                     controlId: "MoveUpAggregations",
                                     controlCss: "button-up",
                                     text: Displays.MoveUp(),
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "MoveDownAggregations",
                                     controlCss: "button-down",
                                     text: Displays.MoveDown(),
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     text: Displays.AdvancedSetting(),
                                     controlCss: "button-setting open-dialog",
-                                    onClick: Def.JavaScript.OpenDialog,
-                                    selector: "#Dialog_AggregationDetails")
+                                    onClick: "$p.openDialog($(this));",
+                                    selector: "#AggregationDetailsDialog")
                                 .Button(
                                     controlId: "DeleteAggregations",
                                     controlCss: "button-to-right",
                                     text: Displays.Delete(),
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
                                     method: "put")))
                     .FieldSelectable(
@@ -937,7 +938,7 @@ namespace Implem.Pleasanter.Models
                                     controlId: "AddAggregations",
                                     controlCss: "button-to-left",
                                     text: Displays.Add(),
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
                                     method: "post"))));
         }
@@ -945,12 +946,12 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder Dialog_AggregationDetails(
+        public static HtmlBuilder AggregationDetailsDialog(
             this HtmlBuilder hb, SiteSettings siteSettings)
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
-                    .Id_Css("Dialog_AggregationDetails", "dialog")
+                    .Id_Css("AggregationDetailsDialog", "dialog")
                     .Title(Displays.AggregationDetails()),
                 action: () => hb
                     .FieldDropDown(
@@ -979,13 +980,13 @@ namespace Implem.Pleasanter.Models
                             controlId: "SetAggregationDetails",
                             text: Displays.Setting(),
                             controlCss: "button-setting",
-                            onClick: Def.JavaScript.SetAggregationDetails,
+                            onClick: "$p.setAggregationDetails($(this));",
                             action: "SetSiteSettings",
                             method: "post")
                         .Button(
                             text: Displays.Cancel(),
                             controlCss: "button-cancel",
-                            onClick: Def.JavaScript.CancelDialog)));
+                            onClick: "$p.closeDialog($(this));")));
         }
 
         /// <summary>
@@ -1028,39 +1029,39 @@ namespace Implem.Pleasanter.Models
                                     controlId: "MoveUpEditorColumns",
                                     text: Displays.MoveUp(),
                                     controlCss: "button-up",
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "MoveDownEditorColumns",
                                     text: Displays.MoveDown(),
                                     controlCss: "button-down",
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "ShowEditorColumns",
                                     text: Displays.Visible(),
                                     controlCss: "button-visible",
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
                                     method: "put")
                                 .Button(
                                     controlId: "HideEditorColumns",
                                     text: Displays.Hide(),
                                     controlCss: "button-hide",
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
                                     method: "put")
                                 .Button(
-                                    controlId: "OpenDialog_ColumnProperties",
+                                    controlId: "OpenColumnPropertiesDialog",
                                     text: Displays.AdvancedSetting(),
                                     controlCss: "button-setting",
-                                    onClick: Def.JavaScript.OpenDialog_ColumnProperties,
+                                    onClick: "$p.openColumnPropertiesDialog($(this));",
                                     action: "SetSiteSettings",
                                     method: "put"))))
                     .Div(attributes: new HtmlAttributes()
-                        .Id_Css("Dialog_ColumnProperties", "dialog")
+                        .Id_Css("ColumnPropertiesDialog", "dialog")
                         .Title(Displays.AdvancedSetting()));
         }
 
@@ -1088,28 +1089,28 @@ namespace Implem.Pleasanter.Models
                                     controlId: "MoveUpLinkColumns",
                                     text: Displays.MoveUp(),
                                     controlCss: "button-up",
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "MoveDownLinkColumns",
                                     text: Displays.MoveDown(),
                                     controlCss: "button-down",
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "ShowLinkColumns",
                                     text: Displays.Visible(),
                                     controlCss: "button-visible",
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
                                     method: "put")
                                 .Button(
                                     controlId: "HideLinkColumns",
                                     text: Displays.Hide(),
                                     controlCss: "button-hide",
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
                                     method: "put"))));
         }
@@ -1138,28 +1139,28 @@ namespace Implem.Pleasanter.Models
                                     controlId: "MoveUpHistoryColumns",
                                     text: Displays.MoveUp(),
                                     controlCss: "button-up",
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "MoveDownHistoryColumns",
                                     text: Displays.MoveDown(),
                                     controlCss: "button-down",
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "ShowHistoryColumns",
                                     text: Displays.Visible(),
                                     controlCss: "button-visible",
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
                                     method: "put")
                                 .Button(
                                     controlId: "HideHistoryColumns",
                                     text: Displays.Hide(),
                                     controlCss: "button-hide",
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
                                     method: "put"))));
         }
@@ -1336,13 +1337,13 @@ namespace Implem.Pleasanter.Models
                         controlId: "SetColumnProperties",
                         text: Displays.Setting(),
                         controlCss: "button-setting",
-                        onClick: Def.JavaScript.CloseDialogAndSubmit,
+                        onClick: "$p.sendByDialog($(this));",
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
                         text: Displays.Cancel(),
                         controlCss: "button-cancel",
-                        onClick: Def.JavaScript.CancelDialog));
+                        onClick: "$p.closeDialog($(this));"));
         }
 
         /// <summary>
@@ -1404,28 +1405,28 @@ namespace Implem.Pleasanter.Models
                                     controlId: "MoveUpTitleColumns",
                                     text: Displays.MoveUp(),
                                     controlCss: "button-up",
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "MoveDownTitleColumns",
                                     text: Displays.MoveDown(),
                                     controlCss: "button-down",
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "ShowTitleColumns",
                                     text: Displays.Visible(),
                                     controlCss: "button-visible",
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
                                     method: "put")
                                 .Button(
                                     controlId: "HideTitleColumns",
                                     text: Displays.Hide(),
                                     controlCss: "button-hide",
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
                                     method: "put")))
                 : hb;
@@ -1476,35 +1477,35 @@ namespace Implem.Pleasanter.Models
                                     controlId: "AddFormula",
                                     controlCss: "button-create",
                                     text: Displays.Add(),
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "MoveUpFormulas",
                                     controlCss: "button-up",
                                     text: Displays.MoveUp(),
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "MoveDownFormulas",
                                     controlCss: "button-down",
                                     text: Displays.MoveDown(),
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "DeleteFormulas",
                                     controlCss: "button-delete",
                                     text: Displays.Delete(),
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "SynchronizeFormulas",
                                     controlCss: "button-synchronize",
                                     text: Displays.Synchronize(),
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "SynchronizeFormulas",
                                     method: "put",
                                     confirm: Displays.ConfirmSynchronize()))));
@@ -1559,7 +1560,7 @@ namespace Implem.Pleasanter.Models
                                             controlId: "AddSummary",
                                             text: Displays.Add(),
                                             controlCss: "button-create",
-                                            onClick: Def.JavaScript.AddSummary,
+                                            onClick: "$p.addSummary($(this));",
                                             action: "SetSiteSettings",
                                             method: "put")))
                                 .SummarySettings(sourceSiteSettings: siteSettings)))
@@ -1762,7 +1763,7 @@ namespace Implem.Pleasanter.Models
                                             controlId: "SynchronizeSummary," + summary.Id,
                                             controlCss: "button-synchronize",
                                             text: Displays.Synchronize(),
-                                            onClick: Def.JavaScript.Submit,
+                                            onClick: "$p.send($(this));",
                                             action: "SynchronizeSummary",
                                             method: "put",
                                             confirm: Displays.ConfirmSynchronize())
@@ -1770,7 +1771,7 @@ namespace Implem.Pleasanter.Models
                                             controlId: "DeleteSummary," + summary.Id,
                                             controlCss: "button-delete",
                                             text: Displays.Delete(),
-                                            onClick: Def.JavaScript.Submit,
+                                            onClick: "$p.send($(this));",
                                             action: "SetSiteSettings",
                                             method: "delete")));
                             }

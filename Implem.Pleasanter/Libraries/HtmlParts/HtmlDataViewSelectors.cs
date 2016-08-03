@@ -33,7 +33,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Button(
                         attributes: new HtmlAttributes()
                             .Class("button button-to-left")
-                            .OnClick(Def.JavaScript.Go)
+                            .OnClick("$(this).trigger('go');")
                             .AccessKey("b")
                             .DataSelector("#DataViewSelector"),
                         action: () => hb
@@ -41,7 +41,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Button(
                         attributes: new HtmlAttributes()
                             .Class("button button-to-right")
-                            .OnClick(Def.JavaScript.Go)
+                            .OnClick("$(this).trigger('go');")
                             .AccessKey("n")
                             .DataSelector("#DataViewSelector"),
                         action: () => hb

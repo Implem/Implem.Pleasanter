@@ -16,10 +16,10 @@ namespace Implem.Pleasanter.Libraries.Scripts
             {
                 switch (dataViewName)
                 {
-                    case "BurnDown": return Def.JavaScript.DrawBurnDown;
-                    case "Gantt": return Def.JavaScript.DrawGantt;
-                    case "TimeSeries": return Def.JavaScript.DrawTimeSeries;
-                    case "Kamban": return Def.JavaScript.SetKamban;
+                    case "BurnDown": return "$p.drawBurnDown();";
+                    case "Gantt": return "$p.drawGantt();";
+                    case "TimeSeries": return "$p.drawTimeSeries();";
+                    case "Kamban": return "$p.setKamban();";
                 }
             }
             return string.Empty;

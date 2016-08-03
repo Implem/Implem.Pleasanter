@@ -76,9 +76,9 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "OutgoingMails")
                             .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
-                .Dialog_Move("items", siteSettings.SiteId, bulk: true)
+                .MoveDialog("items", siteSettings.SiteId, bulk: true)
                 .Div(attributes: new HtmlAttributes()
-                    .Id_Css("Dialog_ExportSettings", "dialog")
+                    .Id_Css("ExportSettingsDialog", "dialog")
                     .Title(Displays.ExportSettings())))
                 .ToString();
         }
@@ -401,8 +401,8 @@ namespace Implem.Pleasanter.Models
                             css: "must-transport",
                             value: outgoingMailModel.SwitchTargets?.Join()))
                 .OutgoingMailsForm("OutgoingMails", outgoingMailModel.OutgoingMailId, outgoingMailModel.Ver)
-                .Dialog_Copy("OutgoingMails", outgoingMailModel.OutgoingMailId)
-                .Dialog_OutgoingMail()
+                .CopyDialog("OutgoingMails", outgoingMailModel.OutgoingMailId)
+                .OutgoingMailDialog()
                 .EditorExtensions(outgoingMailModel: outgoingMailModel, siteSettings: siteSettings));
         }
 
@@ -575,7 +575,7 @@ namespace Implem.Pleasanter.Models
                             .Button(
                                 text: Displays.Reply(),
                                 controlCss: "button-send-mail",
-                                onClick: Def.JavaScript.Reply,
+                                onClick: "$p.openOutgoingMailReplyDialog($(this));",
                                 dataId: outgoingMailModel.OutgoingMailId.ToString(),
                                 action: "Reply",
                                 method: "put"))));
@@ -604,10 +604,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder Dialog_OutgoingMail(this HtmlBuilder hb)
+        public static HtmlBuilder OutgoingMailDialog(this HtmlBuilder hb)
         {
             return hb.Div(attributes: new HtmlAttributes()
-                .Id_Css("Dialog_OutgoingMail", "dialog"));
+                .Id_Css("OutgoingMailDialog", "dialog"));
         }
 
         /// <summary>
@@ -629,7 +629,7 @@ namespace Implem.Pleasanter.Models
                     Forms.Long("OutgoingMails_OutgoingMailId")));
             var hb = new HtmlBuilder();
             return new ResponseCollection()
-                .Html("#Dialog_OutgoingMail", hb
+                .Html("#OutgoingMailDialog", hb
                     .Div(css: "edit-form-tabs-max no-border", action: () => hb
                         .Ul(css: "field-tab", action: () => hb
                             .Li(action: () => hb
@@ -660,9 +660,9 @@ namespace Implem.Pleasanter.Models
                                     .Destinations(
                                         siteSettings: siteSettings,
                                         referenceId: siteModel.InheritPermission)))))
-                .Func("initDialog_OutgoingMail")
+                .Invoke("initOutgoingMailDialog")
+                .Invoke("validateOutgoingMails")
                 .Focus("#OutgoingMails_Body")
-                .Validation("outgoingMails")
                 .ToJson();
         }
 
@@ -717,7 +717,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "OutgoingMails_Send",
                         controlCss: "button-send-mail validate",
                         text: Displays.SendMail(),
-                        onClick: Def.JavaScript.SendMail,
+                        onClick: "$p.sendMail($(this));",
                         action: "Send",
                         method: "post",
                         confirm: "Displays_ConfirmSendMail")
@@ -725,7 +725,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "OutgoingMails_Cancel",
                         controlCss: "button-cancel",
                         text: Displays.Cancel(),
-                        onClick: Def.JavaScript.CancelDialog))
+                        onClick: "$p.closeDialog($(this));"))
             .Hidden(controlId: "OutgoingMails_Location", value: Location())
             .Hidden(
                 controlId: "OutgoingMails_Reply",

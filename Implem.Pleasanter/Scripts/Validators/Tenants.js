@@ -1,4 +1,4 @@
-﻿$p.form.validators.tenants = function () {
+﻿$p.validateTenants = function () {
     $('#TenantForm').validate({
         rules: {
             Tenants_TenantName: { required:true },
@@ -10,4 +10,4 @@
         }
     });
 }
-$p.form.validators.tenants();
+$p.validateTenants();

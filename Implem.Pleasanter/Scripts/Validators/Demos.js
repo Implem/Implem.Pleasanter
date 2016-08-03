@@ -1,4 +1,4 @@
-﻿$p.form.validators.demos = function () {
+﻿$p.validateDemos = function () {
     $('#DemoForm').validate({
         rules: {
             Demos_Title: { required:true }
@@ -8,4 +8,4 @@
         }
     });
 }
-$p.form.validators.demos();
+$p.validateDemos();

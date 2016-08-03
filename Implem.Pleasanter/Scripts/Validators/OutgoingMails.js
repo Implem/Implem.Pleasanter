@@ -1,4 +1,4 @@
-﻿$p.form.validators.outgoingMails = function () {
+﻿$p.validateOutgoingMails = function () {
     $('#OutgoingMailForm').validate({
         rules: {
             OutgoingMails_Title: { required:true },
@@ -10,4 +10,4 @@
         }
     });
 }
-$p.form.validators.outgoingMails();
+$p.validateOutgoingMails();

@@ -1,4 +1,4 @@
-﻿func.setKamban = function () {
+﻿$p.setKamban = function () {
     $('.kamban-item').draggable({
         revert: 'invalid',
         start: function () {
@@ -11,16 +11,17 @@
         hoverClass: 'hover',
         tolerance: 'pointer',
         drop: function (e, ui) {
-            var formData = getFormData($(this));
-            formData["KambanId"] = $(ui.draggable).attr('data-id');
-            formData[$('#TableName').val() + '_' + $('#KambanGroupByColumn').val()] =
+            var data = $p.getData();
+            data["KambanId"] = $(ui.draggable).attr('data-id');
+            data[$('#TableName').val() + '_' + $('#KambanGroupByColumn').val()] =
                 $(this).attr('data-value') !== undefined
                     ? $(this).attr('data-value')
                     : '';
-            requestByForm(getForm($(this)), $('#KambanGrid'));
+            $p.send($('#KambanGrid'));
         }
     });
-};
+}
+
 $(function () {
     $(document).on('dblclick', '.kamban-item', function () {
         location.href = $('#BaseUrl').val() + $(this).attr('data-id');

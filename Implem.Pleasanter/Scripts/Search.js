@@ -22,7 +22,8 @@
     function search(offset)
     {
         if (offset !== '-1') {
-            request($('#ApplicationPath').val() +
+            console.log(arguments.callee.caller);
+            $p.ajax($('#ApplicationPath').val() +
                 'items/ajaxsearch?text=' + escape($('#Search').val()) +
                 '&offset=' + offset, 'get');
         }

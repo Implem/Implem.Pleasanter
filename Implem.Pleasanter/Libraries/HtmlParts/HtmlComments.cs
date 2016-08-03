@@ -49,7 +49,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     attributes: new HtmlAttributes()
                         .Id("DeleteComment," + comment.CommentId)
                         .Class("button")
-                        .OnClick(Def.JavaScript.Submit)
+                        .OnClick("$p.send($(this));")
                         .DataAction("DeleteComment")
                         .DataMethod("delete")
                         .DataConfirm("Displays_ConfirmDelete"),

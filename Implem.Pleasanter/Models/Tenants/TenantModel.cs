@@ -443,13 +443,13 @@ namespace Implem.Pleasanter.Models
         {
             tenantModel.MethodType = BaseModel.MethodTypes.Edit;
             return new TenantsResponseCollection(this)
-                .Func("clearDialogs")
+                .Invoke("clearDialogs")
                 .ReplaceAll(
                     "#MainContainer",
                     tenantModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? TenantUtilities.Editor(tenantModel, byRest: true)
                         : TenantUtilities.Editor(this, byRest: true))
-                .Validation("tenants")
+                .Invoke("validateTenants")
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -531,7 +531,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     TenantUtilities.Editor(this, byRest: true))
-                .Validation("tenants")
+                .Invoke("validateTenants")
                 .ToJson();
         }
 

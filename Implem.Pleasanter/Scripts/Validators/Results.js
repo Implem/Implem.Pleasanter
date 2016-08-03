@@ -1,4 +1,4 @@
-﻿$p.form.validators.results = function () {
+﻿$p.validateResults = function () {
     $('#ResultForm').validate({
         rules: {
             Results_Title: { required:true },
@@ -112,4 +112,4 @@
         }
     });
 }
-$p.form.validators.results();
+$p.validateResults();

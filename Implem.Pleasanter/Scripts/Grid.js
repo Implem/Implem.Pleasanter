@@ -1,18 +1,19 @@
 ﻿$(function () {
     $(document).on('click', '#GridCheckAll', function () {
         $('.grid-check').prop('checked', $('#GridCheckAll').prop('checked'));
-        getFormData($(this))['GridUnCheckedItems'] = '';
-        getFormData($(this))['GridCheckedItems'] = '';
+        var data = $p.getData();
+        data.GridUnCheckedItems = '';
+        data.GridCheckedItems = '';
     });
     $(document).on('change', '.grid-check', function () {
         if ($('#GridCheckAll').prop('checked')) {
-            getFormData($(this))['GridUnCheckedItems'] =
+            $p.getData().GridUnCheckedItems =
                 $('.grid-check').filter(':not(:checked)')
                     .map(function () { return $(this).attr('data-id'); })
                     .get()
                     .join(',');
         } else {
-            getFormData($(this))['GridCheckedItems'] =
+            $p.getData().GridCheckedItems =
                 $('.grid-check').filter(':checked')
                     .map(function () { return $(this).attr('data-id'); })
                     .get()
@@ -38,9 +39,9 @@
                     break;
                 case 'SELECT': $(this).val(''); break;
             }
-            setFormData($(this));
+            $p.setData($(this));
         });
-        requestByForm(getForm($(this)), $(this));
+        $p.send($(this));
     });
     $(document).on('change', '#AggregationType', function () {
         if ($(this).val() === 'Count') {
@@ -93,7 +94,7 @@ $(function () {
                 .attr('data-action', 'GridRows')
                 .attr('data-method', 'post')
                 .append($('<span/>').addClass('ui-icon ' + iconCss))
-                .append($('<span/>').text(getDisplay('Displays_Order' + orderType))));
+                .append($('<span/>').text($p.display('Displays_Order' + orderType))));
             return $(this);
         },
         addMenuReset: function () {
@@ -102,24 +103,24 @@ $(function () {
                 .attr('data-action', 'GridRows')
                 .attr('data-method', 'post')
                 .append($('<span/>').addClass('ui-icon ui-icon-power'))
-                .append($('<span/>').text(getDisplay('Displays_ResetOrder'))));
+                .append($('<span/>').text($p.display('Displays_ResetOrder'))));
             return $(this);
         }
     });
     $(document).on('click', '.menu-sort > li.sort', function (e) {
         var $control = $($(this).parent().attr('data-target'));
-        var formData = getFormData($control);
-        formData[$control.attr('id')] = $(this).attr('data-order-type');
-        requestByForm(getForm($(this)), $(this));
-        delete formData[$control.attr('id')];
+        var data = $p.getData();
+        data[$control.attr('id')] = $(this).attr('data-order-type');
+        $p.send($(this));
+        delete data[$control.attr('id')];
         e.stopPropagation();
     });
     $(document).on('click', '.menu-sort > li.reset', function (e) {
-        var data = getFormData($(this));
+        var data = $p.getData();
         $('[id^="GridSorters_"]').each(function () {
             data[this.id] = '';
         });
-        requestByForm(getForm($(this)), $(this));
+        $p.send($(this));
         $('[id^="GridSorters_"]').each(function () {
             delete data[this.id];
         });
@@ -127,10 +128,10 @@ $(function () {
     });
     $(document).on('click', 'th.sortable', function () {
         var $control = $(this).find('div');
-        var formData = getFormData($control);
-        formData[$control.attr('id')] = $control.attr('data-order-type');
-        requestByForm(getForm($control), $control);
-        delete formData[$control.attr('id')];
+        var data = $p.getData();
+        data[$control.attr('id')] = $control.attr('data-order-type');
+        $p.send($control);
+        delete data[$control.attr('id')];
     });
 });
 $(function () {

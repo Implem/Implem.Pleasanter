@@ -1,4 +1,4 @@
-﻿$p.form.validators.wikis = function () {
+﻿$p.validateWikis = function () {
     $('#WikiForm').validate({
         rules: {
             Wikis_Title: { required:true }
@@ -8,4 +8,4 @@
         }
     });
 }
-$p.form.validators.wikis();
+$p.validateWikis();

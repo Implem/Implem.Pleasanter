@@ -86,16 +86,18 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder Editor(
             this HtmlBuilder hb, SiteModel siteModel, SiteSettings siteSettings)
         {
-            return hb.Form(
-                attributes: new HtmlAttributes()
-                    .Id_Css("PermissionForm", "edit-form")
-                    .Action(Navigations.ItemAction(siteModel.SiteId, "Permissions")),
-                action: () => hb
-                    .Div(
-                        css: "edit-form-tabs-max",
-                        action: () => hb
-                            .FieldTabs()
-                            .Fields(siteModel: siteModel, siteSettings: siteSettings)));
+            return hb.Div(css: "edit-form", action: () => hb
+                .Form(
+                    attributes: new HtmlAttributes()
+                        .Id_Css("PermissionForm", "main-form")
+                        .Action(Navigations.ItemAction(siteModel.SiteId, "Permissions")),
+                    action: () => hb
+                        .Div(
+                            css: "edit-form-tabs-max",
+                            action: () => hb
+                                .FieldTabs()
+                                .Fields(siteModel: siteModel, siteSettings: siteSettings))
+                        .Hidden(controlId: "MethodType", value: "edit")));
         }
 
         /// <summary>
@@ -227,35 +229,35 @@ namespace Implem.Pleasanter.Models
                             controlId: "ReadOnly",
                             controlCss: "button-person post",
                             text: Displays.ReadOnly(),
-                            onClick: Def.JavaScript.Submit,
+                            onClick: "$p.send($(this));",
                             action: "Set",
                             method: "put")
                         .Button(
                             controlId: "ReadWrite",
                             controlCss: "button-person post",
                             text: Displays.ReadWrite(),
-                            onClick: Def.JavaScript.Submit,
+                            onClick: "$p.send($(this));",
                             action: "Set",
                             method: "put")
                         .Button(
                             controlId: "Leader",
                             controlCss: "button-person post",
                             text: Displays.Leader(),
-                            onClick: Def.JavaScript.Submit,
+                            onClick: "$p.send($(this));",
                             action: "Set",
                             method: "put")
                         .Button(
                             controlId: "Manager",
                             controlCss: "button-person post",
                             text: Displays.Manager(),
-                            onClick: Def.JavaScript.Submit,
+                            onClick: "$p.send($(this));",
                             action: "Set",
                             method: "put")
                         .Button(
                             controlId: "Delete",
                             controlCss: "button-to-right post",
                             text: Displays.DeletePermission(),
-                            onClick: Def.JavaScript.Submit,
+                            onClick: "$p.send($(this));",
                             action: "Set",
                             method: "delete")));
         }
@@ -283,7 +285,7 @@ namespace Implem.Pleasanter.Models
                             controlId: "Add",
                             controlCss: "button-to-left post",
                             text: Displays.AddPermission(),
-                            onClick: Def.JavaScript.Submit,
+                            onClick: "$p.send($(this));",
                             action: "Set",
                             method: "post")
                         .Span(css: "ui-icon ui-icon-search")

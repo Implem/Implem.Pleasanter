@@ -67,10 +67,10 @@ namespace Implem.Pleasanter.Models
                                     controlId: "GridOffset",
                                     value: Parameters.General.GridPageSize.ToString()))
                         .Div(attributes: new HtmlAttributes()
-                            .Id_Css("Dialog_ImportSettings", "dialog")
+                            .Id_Css("ImportSettingsDialog", "dialog")
                             .Title(Displays.Import()))
                         .Div(attributes: new HtmlAttributes()
-                            .Id_Css("Dialog_ExportSettings", "dialog")
+                            .Id_Css("ExportSettingsDialog", "dialog")
                             .Title(Displays.ExportSettings()));
                 }).ToString();
         }
@@ -399,8 +399,8 @@ namespace Implem.Pleasanter.Models
                             css: "must-transport",
                             value: deptModel.SwitchTargets?.Join()))
                 .OutgoingMailsForm("Depts", deptModel.DeptId, deptModel.Ver)
-                .Dialog_Copy("Depts", deptModel.DeptId)
-                .Dialog_OutgoingMail()
+                .CopyDialog("Depts", deptModel.DeptId)
+                .OutgoingMailDialog()
                 .EditorExtensions(deptModel: deptModel, siteSettings: siteSettings));
         }
 

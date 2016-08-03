@@ -125,7 +125,7 @@ namespace Implem.Pleasanter.Models
             return new ResponseCollection()
                 .ReplaceAll("#MainContainer", New(byRest: true))
                 .ReplaceAll("#ItemValidator", new HtmlBuilder().ItemValidator(Site.ReferenceType))
-                .Validation(Site.ReferenceType.ToLower())
+                .Invoke("validate" + Site.ReferenceType)
                 .WindowScrollTop()
                 .FocusMainForm()
                 .ClearFormData()
@@ -349,7 +349,7 @@ namespace Implem.Pleasanter.Models
         public string MoveTargets()
         {
             SetSite();
-            return new ResponseCollection().Html("#Dialog_MoveTargets", new HtmlBuilder()
+            return new ResponseCollection().Html("#MoveTargets", new HtmlBuilder()
                 .OptionCollection(
                     optionCollection: MoveTargets(
                         Rds.ExecuteTable(statements: new SqlStatement(

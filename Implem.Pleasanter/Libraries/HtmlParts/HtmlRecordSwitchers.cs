@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Button(
                     text: Displays.Reload(),
                     controlCss: "button-reload",
-                    onClick: Def.JavaScript.Submit,
+                    onClick: "$p.send($(this));",
                     action: "Reload",
                     method: "post");
         }
@@ -28,7 +28,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Button(
                         text: Displays.Previous(),
                         controlCss: "button-previous",
-                        onClick: Def.JavaScript.WindowScrollTopAndSubmit,
+                        onClick: "$p.send($(this));",
                         accessKey: "b",
                         action: "Previous",
                         method: "post")
@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         text: Displays.Next(),
                         controlCss: "button-next",
                         accessKey: "n",
-                        onClick: Def.JavaScript.WindowScrollTopAndSubmit,
+                        onClick: "$p.send($(this));",
                         action: "Next",
                         method: "post")
                 : hb;

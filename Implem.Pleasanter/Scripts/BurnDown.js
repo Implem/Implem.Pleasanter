@@ -1,4 +1,4 @@
-﻿func.drawBurnDown = function () {
+﻿$p.drawBurnDown = function () {
     var $svg = $('#BurnDown');
     if ($svg.length !== 1) {
         return;
@@ -93,18 +93,18 @@
             }
         }
     }
-
-    $(document).on('click', '.burn-down-details-row', function () {
-        if (!$(this).next().hasClass('burn-down-record-details')) {
-            var formData = getFormData($(this));
-            formData['BurnDownDate'] = $(this).attr('data-date');
-            formData['BurnDownColspan'] = $(this).find('td').length;
-            requestByForm(getForm($(this)), $(this));
-        } else {
-            $(this).next().remove();
-        }
-    });
-    $(document).on('click', '.burn-down-record-details', function () {
-        $(this).remove();
-    });
 }
+
+$(document).on('click', '.burn-down-details-row', function () {
+    if (!$(this).next().hasClass('burn-down-record-details')) {
+        var data = $p.getData();
+        data.BurnDownDate = $(this).attr('data-date');
+        data.BurnDownColspan = $(this).find('td').length;
+        $p.send($(this));
+    } else {
+        $(this).next().remove();
+    }
+});
+$(document).on('click', '.burn-down-record-details', function () {
+    $(this).remove();
+});

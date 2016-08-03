@@ -6,12 +6,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlMoves
     {
-        public static HtmlBuilder Dialog_Move(
+        public static HtmlBuilder MoveDialog(
             this HtmlBuilder hb, string referenceType, long id, bool bulk = false)
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
-                    .Id_Css("Dialog_Move", "dialog")
+                    .Id_Css("MoveDialog", "dialog")
                     .Title(Displays.MoveSettings()),
                 action: () => hb
                     .Form(
@@ -19,7 +19,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Action(Navigations.Action(referenceType, id)),
                         action: () => hb
                             .FieldDropDown(
-                                controlId: "Dialog_MoveTargets",
+                                controlId: "MoveTargets",
                                 labelText: Displays.Destination(),
                                 optionCollection: new Dictionary<string, ControlData>())
                             .P(css: "message-dialog")
@@ -27,13 +27,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Button(
                                     text: Displays.Move(),
                                     controlCss: "button-copy",
-                                    onClick: Def.JavaScript.Move,
+                                    onClick: "$p.move($(this));",
                                     action: bulk ? "BulkMove" : "Move",
                                     method: "put")
                                 .Button(
                                     text: Displays.Cancel(),
                                     controlCss: "button-cancel",
-                                    onClick: Def.JavaScript.CancelDialog))));
+                                    onClick: "$p.closeDialog($(this));"))));
         }
     }
 }

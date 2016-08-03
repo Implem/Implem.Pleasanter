@@ -619,13 +619,13 @@ namespace Implem.Pleasanter.Models
         {
             userModel.MethodType = BaseModel.MethodTypes.Edit;
             return new UsersResponseCollection(this)
-                .Func("clearDialogs")
+                .Invoke("clearDialogs")
                 .ReplaceAll(
                     "#MainContainer",
                     userModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? UserUtilities.Editor(userModel, byRest: true)
                         : UserUtilities.Editor(this, byRest: true))
-                .Validation("users")
+                .Invoke("validateUsers")
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -751,7 +751,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     UserUtilities.Editor(this, byRest: true))
-                .Validation("users")
+                .Invoke("validateUsers")
                 .ToJson();
         }
 
@@ -879,7 +879,7 @@ namespace Implem.Pleasanter.Models
             {
                 if (PasswordExpired())
                 {
-                    return OpenDialog_ChangePasswordAtLogin();
+                    return OpenChangePasswordAtLoginDialog();
                 }
                 else
                 {
@@ -935,7 +935,7 @@ namespace Implem.Pleasanter.Models
                     .LastLoginTime(DateTime.Now)));
             SetFormsAuthentication(returnUrl);
             return new UsersResponseCollection(this)
-                .CloseDialog("#Dialog_ChangePassword", _using: atLogin)
+                .CloseDialog("#ChangePasswordDialog", _using: atLogin)
                 .Message(Messages.LoginIn())
                 .Href(returnUrl == string.Empty
                     ? Navigations.Top()
@@ -958,10 +958,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private string OpenDialog_ChangePasswordAtLogin()
+        private string OpenChangePasswordAtLoginDialog()
         {
             return new ResponseCollection()
-                .Func("openDialog_ChangePassword")
+                .Invoke("openChangePasswordDialog")
                 .ToJson();
         }
 

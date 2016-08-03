@@ -471,13 +471,13 @@ namespace Implem.Pleasanter.Models
         {
             deptModel.MethodType = BaseModel.MethodTypes.Edit;
             return new DeptsResponseCollection(this)
-                .Func("clearDialogs")
+                .Invoke("clearDialogs")
                 .ReplaceAll(
                     "#MainContainer",
                     deptModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? DeptUtilities.Editor(deptModel, byRest: true)
                         : DeptUtilities.Editor(this, byRest: true))
-                .Validation("depts")
+                .Invoke("validateDepts")
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -562,7 +562,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     DeptUtilities.Editor(this, byRest: true))
-                .Validation("depts")
+                .Invoke("validateDepts")
                 .ToJson();
         }
 

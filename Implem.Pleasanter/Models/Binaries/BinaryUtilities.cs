@@ -76,9 +76,9 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "Binaries")
                             .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
-                .Dialog_Move("items", siteSettings.SiteId, bulk: true)
+                .MoveDialog("items", siteSettings.SiteId, bulk: true)
                 .Div(attributes: new HtmlAttributes()
-                    .Id_Css("Dialog_ExportSettings", "dialog")
+                    .Id_Css("ExportSettingsDialog", "dialog")
                     .Title(Displays.ExportSettings())))
                 .ToString();
         }
@@ -406,8 +406,8 @@ namespace Implem.Pleasanter.Models
                             css: "must-transport",
                             value: binaryModel.SwitchTargets?.Join()))
                 .OutgoingMailsForm("Binaries", binaryModel.BinaryId, binaryModel.Ver)
-                .Dialog_Copy("Binaries", binaryModel.BinaryId)
-                .Dialog_OutgoingMail()
+                .CopyDialog("Binaries", binaryModel.BinaryId)
+                .OutgoingMailDialog()
                 .EditorExtensions(binaryModel: binaryModel, siteSettings: siteSettings));
         }
 

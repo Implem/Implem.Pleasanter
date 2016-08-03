@@ -1,4 +1,4 @@
-﻿func.drawGantt = function () {
+﻿$p.drawGantt = function () {
     var $svg = $('#Gantt');
     if ($svg.length !== 1) {
         return;
@@ -191,10 +191,10 @@
             .y(function (d) { return d[1]; });
         svg.append('g').attr('class', css).append('path').attr('d', nowLine(nowLineData));
     }
-
-    $(document).on('click', '#Gantt .planned rect,#Gantt .earned rect,#Gantt .title text', function () {
-        if ($(this).filter('.summary').length === 0) {
-            location.href = $('#BaseUrl').val() + $(this).attr('data-id');
-        }
-    });
 }
+
+$(document).on('click', '#Gantt .planned rect,#Gantt .earned rect,#Gantt .title text', function () {
+    if ($(this).filter('.summary').length === 0) {
+        location.href = $('#BaseUrl').val() + $(this).attr('data-id');
+    }
+});

@@ -460,13 +460,13 @@ namespace Implem.Pleasanter.Models
         {
             demoModel.MethodType = BaseModel.MethodTypes.Edit;
             return new DemosResponseCollection(this)
-                .Func("clearDialogs")
+                .Invoke("clearDialogs")
                 .ReplaceAll(
                     "#MainContainer",
                     demoModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? DemoUtilities.Editor(demoModel, byRest: true)
                         : DemoUtilities.Editor(this, byRest: true))
-                .Validation("demos")
+                .Invoke("validateDemos")
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -553,7 +553,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     DemoUtilities.Editor(this, byRest: true))
-                .Validation("demos")
+                .Invoke("validateDemos")
                 .ToJson();
         }
 

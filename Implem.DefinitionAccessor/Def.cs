@@ -1970,8 +1970,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_ui_widget_space_input_comma__space__dot_ui_widget_space_select_comma__space__dot_ui_widget_space_button": Css._dot_ui_widget_space_input_comma__space__dot_ui_widget_space_select_comma__space__dot_ui_widget_space_button = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_widget_space_input_comma__space__dot_ui_widget_space_select_comma__space__dot_ui_widget_space_button, definitionRow, CssXls); break;
                     case "_dot_ui_widget_space_textarea": Css._dot_ui_widget_space_textarea = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_widget_space_textarea, definitionRow, CssXls); break;
                     case "_dot_ui_widget": Css._dot_ui_widget = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_widget, definitionRow, CssXls); break;
-                    case "_dot_button_space__dot_ui_button_icon_primary": Css._dot_button_space__dot_ui_button_icon_primary = definitionRow[1].ToString(); SetCssTable(CssTable._dot_button_space__dot_ui_button_icon_primary, definitionRow, CssXls); break;
-                    case "_dot_ui_button_text": Css._dot_ui_button_text = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_button_text, definitionRow, CssXls); break;
+                    case "_dot_ui_button": Css._dot_ui_button = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_button, definitionRow, CssXls); break;
                     case "_dot_ui_dialog": Css._dot_ui_dialog = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_dialog, definitionRow, CssXls); break;
                     case "_dot_ui_icon_dot_a": Css._dot_ui_icon_dot_a = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_icon_dot_a, definitionRow, CssXls); break;
                     case "_dot_ui_spinner": Css._dot_ui_spinner = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_spinner, definitionRow, CssXls); break;
@@ -2966,75 +2965,6 @@ namespace Implem.DefinitionAccessor
             DisplayTable = new DisplayTable();
         }
 
-        public static XlsIo JavaScriptXls;
-        public static List<JavaScriptDefinition> JavaScriptDefinitionCollection;
-        public static JavaScriptColumn2nd JavaScript;
-        public static JavaScriptTable JavaScriptTable;
-
-        public static void SetJavaScriptDefinition()
-        {
-            ConstructJavaScriptDefinitions();
-            if (JavaScriptXls.AccessStatus != Files.AccessStatuses.Read) { return; }
-            JavaScriptXls.XlsSheet.ForEach(definitionRow =>
-            {
-                switch (definitionRow[0].ToString())
-                {
-                    case "Create": JavaScript.Create = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.Create, definitionRow, JavaScriptXls); break;
-                    case "Update": JavaScript.Update = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.Update, definitionRow, JavaScriptXls); break;
-                    case "CloseDialogAndSubmit": JavaScript.CloseDialogAndSubmit = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.CloseDialogAndSubmit, definitionRow, JavaScriptXls); break;
-                    case "MoveTargets": JavaScript.MoveTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.MoveTargets, definitionRow, JavaScriptXls); break;
-                    case "Move": JavaScript.Move = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.Move, definitionRow, JavaScriptXls); break;
-                    case "SetAggregationDetails": JavaScript.SetAggregationDetails = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.SetAggregationDetails, definitionRow, JavaScriptXls); break;
-                    case "SendMail": JavaScript.SendMail = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.SendMail, definitionRow, JavaScriptXls); break;
-                    case "Delete": JavaScript.Delete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.Delete, definitionRow, JavaScriptXls); break;
-                    case "WindowScrollTopAndSubmit": JavaScript.WindowScrollTopAndSubmit = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.WindowScrollTopAndSubmit, definitionRow, JavaScriptXls); break;
-                    case "Submit": JavaScript.Submit = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.Submit, definitionRow, JavaScriptXls); break;
-                    case "SetSiteImage": JavaScript.SetSiteImage = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.SetSiteImage, definitionRow, JavaScriptXls); break;
-                    case "NewByLink": JavaScript.NewByLink = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.NewByLink, definitionRow, JavaScriptXls); break;
-                    case "OpenDialog_ColumnProperties": JavaScript.OpenDialog_ColumnProperties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.OpenDialog_ColumnProperties, definitionRow, JavaScriptXls); break;
-                    case "EditOutgoingMail": JavaScript.EditOutgoingMail = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.EditOutgoingMail, definitionRow, JavaScriptXls); break;
-                    case "EditExportSettings": JavaScript.EditExportSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.EditExportSettings, definitionRow, JavaScriptXls); break;
-                    case "EditImportSettings": JavaScript.EditImportSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.EditImportSettings, definitionRow, JavaScriptXls); break;
-                    case "EditSeparateSettings": JavaScript.EditSeparateSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.EditSeparateSettings, definitionRow, JavaScriptXls); break;
-                    case "AddSummary": JavaScript.AddSummary = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.AddSummary, definitionRow, JavaScriptXls); break;
-                    case "Reply": JavaScript.Reply = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.Reply, definitionRow, JavaScriptXls); break;
-                    case "EditMarkDown": JavaScript.EditMarkDown = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.EditMarkDown, definitionRow, JavaScriptXls); break;
-                    case "CancelDialog": JavaScript.CancelDialog = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.CancelDialog, definitionRow, JavaScriptXls); break;
-                    case "OpenDialog": JavaScript.OpenDialog = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.OpenDialog, definitionRow, JavaScriptXls); break;
-                    case "Go": JavaScript.Go = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.Go, definitionRow, JavaScriptXls); break;
-                    case "Import": JavaScript.Import = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.Import, definitionRow, JavaScriptXls); break;
-                    case "DrawGantt": JavaScript.DrawGantt = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.DrawGantt, definitionRow, JavaScriptXls); break;
-                    case "DrawBurnDown": JavaScript.DrawBurnDown = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.DrawBurnDown, definitionRow, JavaScriptXls); break;
-                    case "DrawTimeSeries": JavaScript.DrawTimeSeries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.DrawTimeSeries, definitionRow, JavaScriptXls); break;
-                    case "SetKamban": JavaScript.SetKamban = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetJavaScriptTable(JavaScriptTable.SetKamban, definitionRow, JavaScriptXls); break;
-                    default: break;
-                }
-            });
-            JavaScriptXls.XlsSheet.AsEnumerable().Skip(1).Where(o => o[0].ToString() != string.Empty).ForEach(definitionRow =>
-            {
-                var newJavaScriptDefinition = new JavaScriptDefinition();
-                if (definitionRow.ContainsKey("Id")) { newJavaScriptDefinition.Id = definitionRow["Id"].ToString(); newJavaScriptDefinition.SavedId = newJavaScriptDefinition.Id; }
-                if (definitionRow.ContainsKey("Body")) { newJavaScriptDefinition.Body = definitionRow["Body"].ToString(); newJavaScriptDefinition.SavedBody = newJavaScriptDefinition.Body; }
-                if (definitionRow.ContainsKey("NoSpace")) { newJavaScriptDefinition.NoSpace = definitionRow["NoSpace"].ToBool(); newJavaScriptDefinition.SavedNoSpace = newJavaScriptDefinition.NoSpace; }
-                JavaScriptDefinitionCollection.Add(newJavaScriptDefinition);
-            });
-        }
-
-        private static void SetJavaScriptTable(JavaScriptDefinition definition, XlsRow definitionRow, XlsIo javaScriptxls)
-        {
-            if (definitionRow.ContainsKey("Id")) { definition.Id = definitionRow["Id"].ToString(); definition.SavedId = definition.Id; }
-            if (definitionRow.ContainsKey("Body")) { definition.Body = definitionRow["Body"].ToString(); definition.SavedBody = definition.Body; }
-            if (definitionRow.ContainsKey("NoSpace")) { definition.NoSpace = definitionRow["NoSpace"].ToBool(); definition.SavedNoSpace = definition.NoSpace; }
-        }
-
-        private static void ConstructJavaScriptDefinitions()
-        {
-            JavaScriptXls = Initializer.DefinitionFile("definition_JavaScript.xlsm");
-            JavaScriptDefinitionCollection = new List<JavaScriptDefinition>();
-            JavaScript = new JavaScriptColumn2nd();
-            JavaScriptTable = new JavaScriptTable();
-        }
-
         public static XlsIo SqlXls;
         public static List<SqlDefinition> SqlDefinitionCollection;
         public static SqlColumn2nd Sql;
@@ -3425,23 +3355,6 @@ namespace Implem.DefinitionAccessor
                         case "Language": displayDefinition.Language = optionValue.ToString(); break;
                         case "CssClass": displayDefinition.CssClass = optionValue.ToString(); break;
                         case "ClientScript": displayDefinition.ClientScript = optionValue.ToBool(); break;
-                    }
-                });
-        }
-
-        public static void SetJavaScriptDefinitionOption(
-            string placeholder, JavaScriptDefinition javaScriptDefinition)
-        {
-            placeholder.RegexFirst("(?<=\\().+(?=\\))").Split(',')
-                .Where(o => !o.IsNullOrEmpty()).ForEach(option =>
-                {
-                    var optionName = option.Split_1st('=').Trim();
-                    var optionValue = option.Split_2nd('=').Trim();
-                    switch (optionName)
-                    {
-                        case "Id": javaScriptDefinition.Id = optionValue.ToString(); break;
-                        case "Body": javaScriptDefinition.Body = optionValue.ToString(); break;
-                        case "NoSpace": javaScriptDefinition.NoSpace = optionValue.ToBool(); break;
                     }
                 });
         }
@@ -6755,8 +6668,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_ui_widget_space_input_comma__space__dot_ui_widget_space_select_comma__space__dot_ui_widget_space_button;
         public string _dot_ui_widget_space_textarea;
         public string _dot_ui_widget;
-        public string _dot_button_space__dot_ui_button_icon_primary;
-        public string _dot_ui_button_text;
+        public string _dot_ui_button;
         public string _dot_ui_dialog;
         public string _dot_ui_icon_dot_a;
         public string _dot_ui_spinner;
@@ -7110,8 +7022,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_ui_widget_space_input_comma__space__dot_ui_widget_space_select_comma__space__dot_ui_widget_space_button = new CssDefinition();
         public CssDefinition _dot_ui_widget_space_textarea = new CssDefinition();
         public CssDefinition _dot_ui_widget = new CssDefinition();
-        public CssDefinition _dot_button_space__dot_ui_button_icon_primary = new CssDefinition();
-        public CssDefinition _dot_ui_button_text = new CssDefinition();
+        public CssDefinition _dot_ui_button = new CssDefinition();
         public CssDefinition _dot_ui_dialog = new CssDefinition();
         public CssDefinition _dot_ui_icon_dot_a = new CssDefinition();
         public CssDefinition _dot_ui_spinner = new CssDefinition();
@@ -8717,108 +8628,6 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition ValidateMail_ja = new DisplayDefinition();
         public DisplayDefinition ValidateEqualTo = new DisplayDefinition();
         public DisplayDefinition ValidateEqualTo_ja = new DisplayDefinition();
-    }
-
-    public class JavaScriptDefinition
-    {
-        public string Id; public string SavedId;
-        public string Body; public string SavedBody;
-        public bool NoSpace; public bool SavedNoSpace;
-
-        public JavaScriptDefinition()
-        {
-        }
-
-        public JavaScriptDefinition(Dictionary<string, string> propertyCollection)
-        {
-            if (propertyCollection.ContainsKey("Id")) Id = propertyCollection["Id"].ToString(); else Id = string.Empty;
-            if (propertyCollection.ContainsKey("Body")) Body = propertyCollection["Body"].ToString(); else Body = string.Empty;
-            if (propertyCollection.ContainsKey("NoSpace")) NoSpace = propertyCollection["NoSpace"].ToBool(); else NoSpace = false;
-        }
-
-        public object this[string key]
-        {
-            get{
-                switch(key)
-                {
-                    case "Id": return Id;
-                    case "Body": return Body;
-                    case "NoSpace": return NoSpace;
-                    default: return null;
-                }
-            }
-        }
-
-        public void RestoreBySavedMemory()
-        {
-            Id = SavedId;
-            Body = SavedBody;
-            NoSpace = SavedNoSpace;
-        }
-    }
-
-    public class JavaScriptColumn2nd
-    {
-        public string Create;
-        public string Update;
-        public string CloseDialogAndSubmit;
-        public string MoveTargets;
-        public string Move;
-        public string SetAggregationDetails;
-        public string SendMail;
-        public string Delete;
-        public string WindowScrollTopAndSubmit;
-        public string Submit;
-        public string SetSiteImage;
-        public string NewByLink;
-        public string OpenDialog_ColumnProperties;
-        public string EditOutgoingMail;
-        public string EditExportSettings;
-        public string EditImportSettings;
-        public string EditSeparateSettings;
-        public string AddSummary;
-        public string Reply;
-        public string EditMarkDown;
-        public string CancelDialog;
-        public string OpenDialog;
-        public string Go;
-        public string Import;
-        public string DrawGantt;
-        public string DrawBurnDown;
-        public string DrawTimeSeries;
-        public string SetKamban;
-    }
-
-    public class JavaScriptTable
-    {
-        public JavaScriptDefinition Create = new JavaScriptDefinition();
-        public JavaScriptDefinition Update = new JavaScriptDefinition();
-        public JavaScriptDefinition CloseDialogAndSubmit = new JavaScriptDefinition();
-        public JavaScriptDefinition MoveTargets = new JavaScriptDefinition();
-        public JavaScriptDefinition Move = new JavaScriptDefinition();
-        public JavaScriptDefinition SetAggregationDetails = new JavaScriptDefinition();
-        public JavaScriptDefinition SendMail = new JavaScriptDefinition();
-        public JavaScriptDefinition Delete = new JavaScriptDefinition();
-        public JavaScriptDefinition WindowScrollTopAndSubmit = new JavaScriptDefinition();
-        public JavaScriptDefinition Submit = new JavaScriptDefinition();
-        public JavaScriptDefinition SetSiteImage = new JavaScriptDefinition();
-        public JavaScriptDefinition NewByLink = new JavaScriptDefinition();
-        public JavaScriptDefinition OpenDialog_ColumnProperties = new JavaScriptDefinition();
-        public JavaScriptDefinition EditOutgoingMail = new JavaScriptDefinition();
-        public JavaScriptDefinition EditExportSettings = new JavaScriptDefinition();
-        public JavaScriptDefinition EditImportSettings = new JavaScriptDefinition();
-        public JavaScriptDefinition EditSeparateSettings = new JavaScriptDefinition();
-        public JavaScriptDefinition AddSummary = new JavaScriptDefinition();
-        public JavaScriptDefinition Reply = new JavaScriptDefinition();
-        public JavaScriptDefinition EditMarkDown = new JavaScriptDefinition();
-        public JavaScriptDefinition CancelDialog = new JavaScriptDefinition();
-        public JavaScriptDefinition OpenDialog = new JavaScriptDefinition();
-        public JavaScriptDefinition Go = new JavaScriptDefinition();
-        public JavaScriptDefinition Import = new JavaScriptDefinition();
-        public JavaScriptDefinition DrawGantt = new JavaScriptDefinition();
-        public JavaScriptDefinition DrawBurnDown = new JavaScriptDefinition();
-        public JavaScriptDefinition DrawTimeSeries = new JavaScriptDefinition();
-        public JavaScriptDefinition SetKamban = new JavaScriptDefinition();
     }
 
     public class SqlDefinition

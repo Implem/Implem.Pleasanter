@@ -1,4 +1,4 @@
-﻿$p.form.validators.sites = function () {
+﻿$p.validateSites = function () {
     $('#SiteForm').validate({
         rules: {
             Sites_Title: { required:true }
@@ -8,4 +8,4 @@
         }
     });
 }
-$p.form.validators.sites();
+$p.validateSites();

@@ -76,9 +76,9 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "MailAddresses")
                             .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
-                .Dialog_Move("items", siteSettings.SiteId, bulk: true)
+                .MoveDialog("items", siteSettings.SiteId, bulk: true)
                 .Div(attributes: new HtmlAttributes()
-                    .Id_Css("Dialog_ExportSettings", "dialog")
+                    .Id_Css("ExportSettingsDialog", "dialog")
                     .Title(Displays.ExportSettings())))
                 .ToString();
         }
@@ -398,8 +398,8 @@ namespace Implem.Pleasanter.Models
                             css: "must-transport",
                             value: mailAddressModel.SwitchTargets?.Join()))
                 .OutgoingMailsForm("MailAddresses", mailAddressModel.MailAddressId, mailAddressModel.Ver)
-                .Dialog_Copy("MailAddresses", mailAddressModel.MailAddressId)
-                .Dialog_OutgoingMail()
+                .CopyDialog("MailAddresses", mailAddressModel.MailAddressId)
+                .OutgoingMailDialog()
                 .EditorExtensions(mailAddressModel: mailAddressModel, siteSettings: siteSettings));
         }
 

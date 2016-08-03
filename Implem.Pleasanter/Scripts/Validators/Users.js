@@ -1,4 +1,4 @@
-﻿$p.form.validators.users = function () {
+﻿$p.validateUsers = function () {
     $('#UserForm').validate({
         rules: {
             Users_LoginId: { required:true },
@@ -46,4 +46,4 @@
         }
     });
 }
-$p.form.validators.users();
+$p.validateUsers();

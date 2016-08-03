@@ -486,13 +486,13 @@ namespace Implem.Pleasanter.Models
         {
             outgoingMailModel.MethodType = BaseModel.MethodTypes.Edit;
             return new OutgoingMailsResponseCollection(this)
-                .Func("clearDialogs")
+                .Invoke("clearDialogs")
                 .ReplaceAll(
                     "#MainContainer",
                     outgoingMailModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? OutgoingMailUtilities.Editor(outgoingMailModel, byRest: true)
                         : OutgoingMailUtilities.Editor(this, byRest: true))
-                .Validation("outgoingMails")
+                .Invoke("validateOutgoingMails")
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -588,7 +588,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     OutgoingMailUtilities.Editor(this, byRest: true))
-                .Validation("outgoingMails")
+                .Invoke("validateOutgoingMails")
                 .ToJson();
         }
 
@@ -776,7 +776,7 @@ namespace Implem.Pleasanter.Models
             return new OutgoingMailsResponseCollection(this)
                 .CloseDialog()
                 .ClearFormData()
-                .Html("#Dialog_OutgoingMail", string.Empty)
+                .Html("#OutgoingMailDialog", string.Empty)
                 .Val("#OutgoingMails_Title", string.Empty)
                 .Val("#OutgoingMails_Body", string.Empty)
                 .Prepend("#OutgoingMailsForm", new HtmlBuilder().OutgoingMailListItem(

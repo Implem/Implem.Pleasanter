@@ -56,7 +56,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Button(
                 attributes: new HtmlAttributes()
                     .Class("button button-create")
-                    .OnClick(Def.JavaScript.NewByLink)
+                    .OnClick("$p.newByLink($(this));")
                     .DataId(linkId.ToString())
                     .Add("data-from-site-id", siteId.ToString())
                     .Add("data-to-site-id", sourceId.ToString()),

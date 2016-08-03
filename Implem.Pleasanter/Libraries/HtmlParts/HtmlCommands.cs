@@ -1,5 +1,4 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
@@ -48,7 +47,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 text: Displays.Create(),
                                 controlCss: "button-save validate",
                                 accessKey: "s",
-                                onClick: Def.JavaScript.Create,
+                                onClick: "$p.send($(this));",
                                 action: "Create",
                                 method: "post");
                         }
@@ -59,7 +58,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     text: Displays.Update(),
                                     controlCss: "button-save validate",
                                     accessKey: "s",
-                                    onClick: Def.JavaScript.Update,
+                                    onClick: "$p.send($(this));",
                                     action: "Update",
                                     method: "put",
                                     _using: updateButton && permissionType.CanUpdate())
@@ -67,14 +66,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     text: Displays.Copy(),
                                     controlCss: "button-copy open-dialog",
                                     accessKey: "c",
-                                    onClick: Def.JavaScript.OpenDialog,
-                                    selector: "#Dialog_ConfirmCopy",
+                                    onClick: "$p.openDialog($(this));",
+                                    selector: "#CopyDialog",
                                     _using: copyButton && permissionType.CanCreate())
                                 .Button(
                                     text: Displays.Move(),
                                     controlCss: "button-move open-dialog",
                                     accessKey: "o",
-                                    onClick: Def.JavaScript.MoveTargets,
+                                    onClick: "$p.moveTargets($(this));",
+                                    selector: "#MoveDialog",
                                     action: "MoveTargets",
                                     method: "get",
                                     _using: moveButton && permissionType.CanUpdate())
@@ -82,7 +82,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     text: Displays.BulkMove(),
                                     controlCss: "button-move open-dialog",
                                     accessKey: "o",
-                                    onClick: Def.JavaScript.MoveTargets,
+                                    onClick: "$p.moveTargets($(this));",
+                                    selector: "#MoveDialog",
                                     action: "MoveTargets",
                                     method: "get",
                                     _using: bulkMoveButton && permissionType.CanUpdate())
@@ -90,7 +91,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     controlId: "EditOutgoingMail",
                                     text: Displays.Mail(),
                                     controlCss: "button-send-mail",
-                                    onClick: Def.JavaScript.EditOutgoingMail,
+                                    onClick: "$p.openOutgoingMailDialog($(this));",
                                     action: Navigations.Edit(
                                         referenceType,
                                         referenceId,
@@ -102,7 +103,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     text: Displays.Delete(),
                                     controlCss: "button-delete",
                                     accessKey: "r",
-                                    onClick: Def.JavaScript.Delete,
+                                    onClick: "$p.send($(this));",
                                     action: "Delete",
                                     method: "delete",
                                     confirm: "Displays_ConfirmDelete",
@@ -111,7 +112,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     text: Displays.BulkDelete(),
                                     controlCss: "button-delete",
                                     accessKey: "r",
-                                    onClick: Def.JavaScript.Delete,
+                                    onClick: "$p.send($(this));",
                                     action: "BulkDelete",
                                     method: "delete",
                                     confirm: "Displays_ConfirmDelete",
@@ -121,15 +122,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     text: Displays.Import(),
                                     controlCss: "button-import",
                                     accessKey: "w",
-                                    onClick: Def.JavaScript.EditImportSettings,
-                                    selector: "#Dialog_ImportSettings",
+                                    onClick: "$p.openImportSettingsDialog($(this));",
+                                    selector: "#ImportSettingsDialog",
                                     _using: importButton && permissionType.CanImport())
                                 .Button(
                                     controlId: "EditExportSettings",
                                     text: Displays.Export(),
                                     controlCss: "button-export",
                                     accessKey: "x",
-                                    onClick: Def.JavaScript.EditExportSettings,
+                                    onClick: "$p.openExportSettingsDialog($(this));",
                                     action: Navigations.ItemAction(
                                         siteId, "ExportSettings", "Edit"),
                                     method: "put",

@@ -140,15 +140,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return _using ? Add("Trigger", name, _event) : this;
         }
-
-        public ResponseCollection Func(string methodName, bool _using = true)
+        
+        public ResponseCollection Invoke(string methodName, bool _using = true)
         {
-            return _using ? Add("Func", methodName) : this;
-        }
-
-        public ResponseCollection Validation(string tableName, bool _using = true)
-        {
-            return _using ? Add("Validation", tableName) : this;
+            return _using ? Add("Invoke", methodName) : this;
         }
 
         public ResponseCollection WindowScrollTop(int value = 0, bool _using = true)

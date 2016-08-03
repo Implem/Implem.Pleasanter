@@ -1,4 +1,13 @@
-﻿func.separate = function () {
+﻿$p.openSeparateSettingsDialog = function ($control) {
+    $p.send($control, undefined, false);
+    $('#SeparateSettingsDialog').dialog({
+        modal: true,
+        width: '700px',
+        appendTo: '.main-form'
+    });
+}
+
+$p.separateSettings = function () {
     $("#SeparateSettings").on('spin', '#SeparateNumber', function (event, ui) {
         setSeparateNumber($(this), ui.value);
     });
@@ -40,7 +49,7 @@
             source = 0;
         }
         $source.text(source + $('#WorkValueUnit').val());
-        getFormData($('.main-form')).SourceWorkValue = source;
+        $p.getData().SourceWorkValue = source;
         return ret;
     }
 

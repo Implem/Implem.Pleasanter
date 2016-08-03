@@ -505,13 +505,13 @@ namespace Implem.Pleasanter.Models
         {
             siteModel.MethodType = BaseModel.MethodTypes.Edit;
             return new SitesResponseCollection(this)
-                .Func("clearDialogs")
+                .Invoke("clearDialogs")
                 .ReplaceAll(
                     "#MainContainer",
                     siteModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? SiteUtilities.Editor(siteModel, byRest: true)
                         : SiteUtilities.Editor(this, byRest: true))
-                .Validation("sites")
+                .Invoke("validateSites")
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -607,7 +607,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     SiteUtilities.Editor(this, byRest: true))
-                .Validation("sites")
+                .Invoke("validateSites")
                 .ToJson();
         }
 
@@ -709,7 +709,7 @@ namespace Implem.Pleasanter.Models
         public string Copy()
         {
             Title.Value += Displays.SuffixCopy();
-            if (!Forms.Data("Dialog_ConfirmCopy_WithComments").ToBool())
+            if (!Forms.Data("CopyWithComments").ToBool())
             {
                 Comments.Clear();
             }
@@ -761,8 +761,8 @@ namespace Implem.Pleasanter.Models
             SetSiteSettingsPropertiesBySession();
             switch (Forms.Data("ControlId"))
             {
-                case "OpenDialog_ColumnProperties":
-                    OpenDialog_ColumnProperties(responseCollection);
+                case "OpenColumnPropertiesDialog":
+                    OpenColumnPropertiesDialog(responseCollection);
                     break;
                 default:
                     SetSiteSettings(responseCollection);
@@ -882,7 +882,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void OpenDialog_ColumnProperties(ResponseCollection responseCollection)
+        private void OpenColumnPropertiesDialog(ResponseCollection responseCollection)
         {
             var selectedColumns = Forms.Data("EditorColumns").Split(';').
                 Where(o => o != string.Empty);
@@ -900,7 +900,7 @@ namespace Implem.Pleasanter.Models
                 else
                 {
                     responseCollection.Html(
-                        "#Dialog_ColumnProperties",
+                        "#ColumnPropertiesDialog",
                         SiteUtilities.ColumnProperties(SiteSettings, column));
                 }
             }

@@ -533,13 +533,13 @@ namespace Implem.Pleasanter.Models
         {
             exportSettingModel.MethodType = BaseModel.MethodTypes.Edit;
             return new ExportSettingsResponseCollection(this)
-                .Func("clearDialogs")
+                .Invoke("clearDialogs")
                 .ReplaceAll(
                     "#MainContainer",
                     exportSettingModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? ExportSettingUtilities.Editor(exportSettingModel, byRest: true)
                         : ExportSettingUtilities.Editor(this, byRest: true))
-                .Validation("exportSettings")
+                .Invoke("validateExportSettings")
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -627,7 +627,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     ExportSettingUtilities.Editor(this, byRest: true))
-                .Validation("exportSettings")
+                .Invoke("validateExportSettings")
                 .ToJson();
         }
 

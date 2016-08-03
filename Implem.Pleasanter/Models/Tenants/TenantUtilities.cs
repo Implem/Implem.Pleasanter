@@ -76,9 +76,9 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "Tenants")
                             .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
-                .Dialog_Move("items", siteSettings.SiteId, bulk: true)
+                .MoveDialog("items", siteSettings.SiteId, bulk: true)
                 .Div(attributes: new HtmlAttributes()
-                    .Id_Css("Dialog_ExportSettings", "dialog")
+                    .Id_Css("ExportSettingsDialog", "dialog")
                     .Title(Displays.ExportSettings())))
                 .ToString();
         }
@@ -401,8 +401,8 @@ namespace Implem.Pleasanter.Models
                             css: "must-transport",
                             value: tenantModel.SwitchTargets?.Join()))
                 .OutgoingMailsForm("Tenants", tenantModel.TenantId, tenantModel.Ver)
-                .Dialog_Copy("Tenants", tenantModel.TenantId)
-                .Dialog_OutgoingMail()
+                .CopyDialog("Tenants", tenantModel.TenantId)
+                .OutgoingMailDialog()
                 .EditorExtensions(tenantModel: tenantModel, siteSettings: siteSettings));
         }
 

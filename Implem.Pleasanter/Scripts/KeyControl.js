@@ -27,7 +27,7 @@
 
         function setFocus($control) {
             if ($control.hasClass('control-markdown')) {
-                switchControlMode($control, true);
+                $p.toggleEditor($control, true);
                 $('#' + $control.attr('id')).focus();
                 return 2;
             } else if ($control.is(':hidden') ||

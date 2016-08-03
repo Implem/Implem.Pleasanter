@@ -85,13 +85,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb
                     .Div(attributes: new HtmlAttributes()
                         .Id_Css(controlId + ".viewer", "control-markup not-transport")
-                        .OnDblClick(Def.JavaScript.EditMarkDown))
+                        .OnDblClick("$p.editMarkdown($(this));"))
                     .Div(
                         attributes: new HtmlAttributes()
                             .Id_Css(
                                 controlId + ".editor",
                                 "ui-icon ui-icon-pencil button-edit-markdown")
-                            .OnClick(Def.JavaScript.EditMarkDown),
+                            .OnClick("$p.editMarkdown($(this));"),
                         _using: !readOnly)
                     .TextArea(
                         attributes: new HtmlAttributes()
@@ -303,9 +303,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Value(value != null
                         ? value.ToString()
                         : string.Empty)
-                    .Min(min)
-                    .Max(max)
-                    .Step(step)
+                    .DataMin(min)
+                    .DataMax(max)
+                    .DataStep(step)
                     .DataWidth(width)
                     .OnChange(onChange)
                     .DataAction(action)
@@ -363,9 +363,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb
                     .Div(attributes: new HtmlAttributes()
                         .Id_Css(controlId + ",ui", "control-slider-ui")
-                        .Min(min)
-                        .Max(max)
-                        .Step(step))
+                        .DataMin(min)
+                        .DataMax(max)
+                        .DataStep(step))
                     .P(
                         attributes: new HtmlAttributes()
                             .Class(Css.Class("control-slider", controlCss)),

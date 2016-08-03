@@ -446,13 +446,13 @@ namespace Implem.Pleasanter.Models
         {
             mailAddressModel.MethodType = BaseModel.MethodTypes.Edit;
             return new MailAddressesResponseCollection(this)
-                .Func("clearDialogs")
+                .Invoke("clearDialogs")
                 .ReplaceAll(
                     "#MainContainer",
                     mailAddressModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? MailAddressUtilities.Editor(mailAddressModel, byRest: true)
                         : MailAddressUtilities.Editor(this, byRest: true))
-                .Validation("mailAddresses")
+                .Invoke("validateMailAddresses")
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -534,7 +534,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     MailAddressUtilities.Editor(this, byRest: true))
-                .Validation("mailAddresses")
+                .Invoke("validateMailAddresses")
                 .ToJson();
         }
 

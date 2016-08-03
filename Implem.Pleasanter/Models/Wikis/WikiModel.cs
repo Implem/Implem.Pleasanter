@@ -379,7 +379,7 @@ namespace Implem.Pleasanter.Models
             {
                 Title.Value += Displays.SuffixCopy();
             }
-            if (!Forms.Data("Dialog_ConfirmCopy_WithComments").ToBool())
+            if (!Forms.Data("CopyWithComments").ToBool())
             {
                 Comments.Clear();
             }
@@ -388,7 +388,7 @@ namespace Implem.Pleasanter.Models
 
         public string Move()
         {
-            var siteId = Forms.Long("Dialog_MoveTargets");
+            var siteId = Forms.Long("MoveTargets");
             if (siteId == 0 || !Permissions.CanMove(SiteId, siteId))
             {
                 return Messages.ResponseHasNotPermission().ToJson();
@@ -632,13 +632,13 @@ namespace Implem.Pleasanter.Models
             var siteModel = new SiteModel(SiteId);
             wikiModel.MethodType = BaseModel.MethodTypes.Edit;
             return new WikisResponseCollection(this)
-                .Func("clearDialogs")
+                .Invoke("clearDialogs")
                 .ReplaceAll(
                     "#MainContainer",
                     wikiModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? WikiUtilities.Editor(siteModel, wikiModel, byRest: true)
                         : WikiUtilities.Editor(siteModel, this, byRest: true))
-                .Validation("wikis")
+                .Invoke("validateWikis")
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -742,7 +742,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     WikiUtilities.Editor(siteModel, this, byRest: true))
-                .Validation("wikis")
+                .Invoke("validateWikis")
                 .ToJson();
         }
 

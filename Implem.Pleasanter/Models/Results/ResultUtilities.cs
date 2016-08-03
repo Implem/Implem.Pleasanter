@@ -78,10 +78,10 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "Results")
                             .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
-                .Dialog_Move("items", siteSettings.SiteId, bulk: true)
-                    .Dialog_ImportSettings()
+                .MoveDialog("items", siteSettings.SiteId, bulk: true)
+                    .ImportSettingsDialog()
                 .Div(attributes: new HtmlAttributes()
-                    .Id_Css("Dialog_ExportSettings", "dialog")
+                    .Id_Css("ExportSettingsDialog", "dialog")
                     .Title(Displays.ExportSettings())))
                 .ToString();
         }
@@ -710,9 +710,9 @@ namespace Implem.Pleasanter.Models
                             css: "must-transport",
                             value: resultModel.SwitchTargets?.Join()))
                 .OutgoingMailsForm("Results", resultModel.ResultId, resultModel.Ver)
-                .Dialog_Copy("items", resultModel.ResultId)
-                .Dialog_Move("items", resultModel.ResultId)
-                .Dialog_OutgoingMail()
+                .CopyDialog("items", resultModel.ResultId)
+                .MoveDialog("items", resultModel.ResultId)
+                .OutgoingMailDialog()
                 .EditorExtensions(resultModel: resultModel, siteSettings: siteSettings));
         }
 
@@ -1021,7 +1021,7 @@ namespace Implem.Pleasanter.Models
 
         public static string BulkMove(SiteSettings siteSettings, Permissions.Types permissionType)
         {
-            var siteId = Forms.Long("Dialog_MoveTargets");
+            var siteId = Forms.Long("MoveTargets");
             if (Permissions.CanMove(siteSettings.SiteId, siteId))
             {
                 var count = 0;
@@ -1369,7 +1369,7 @@ namespace Implem.Pleasanter.Models
                     }.Create(param: param));
                 return GridRows(siteSettings, siteModel.PermissionType, responseCollection
                     .WindowScrollTop()
-                    .CloseDialog("#Dialog_ImportSettings")
+                    .CloseDialog("#ImportSettingsDialog")
                     .Message(Messages.Imported(csv.Rows.Count().ToString())));
             }
             else
@@ -1830,7 +1830,7 @@ namespace Implem.Pleasanter.Models
                     siteSettings: siteSettings,
                     aggregations: resultCollection.Aggregations,
                     container: false))
-                .Func("drawTimeSeries")
+                .Invoke("drawTimeSeries")
                 .WindowScrollTop().ToJson();
         }
 
@@ -1923,7 +1923,7 @@ namespace Implem.Pleasanter.Models
                     aggregations: resultCollection.Aggregations,
                     container: false))
                 .ClearFormData()
-                .Func("setKamban").ToJson();
+                .Invoke("setKamban").ToJson();
         }
 
         /// <summary>

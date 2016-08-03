@@ -1,12 +1,9 @@
-﻿var mouseX;
-var mouseY;
-
-$(window).mousemove(function (e) {
-    mouseX = e.pageX;
-    mouseY = e.pageY;
+﻿$(window).mousemove(function (e) {
+    $p.mouseX = e.pageX;
+    $p.mouseY = e.pageY;
 });
 
-function getHoveredItem($elements) {
+$p.hoverd = function ($elements) {
     var $element;
     $elements.each(function () {
         if (isHover($(this))) {
@@ -15,19 +12,19 @@ function getHoveredItem($elements) {
         }
     });
     return $element;
-}
 
-function isHover($element) {
-    var left = $element.offset().left;
-    var top = $element.offset().top;
-    var right = left + $element.outerWidth();
-    var bottom = top + $element.outerHeight();
-    if (mouseX >= left &&
-        mouseX <= right &&
-        mouseY >= top &&
-        mouseY <= bottom) {
-        return true;
-    } else {
-        return false
+    function isHover($element) {
+        var left = $element.offset().left;
+        var top = $element.offset().top;
+        var right = left + $element.outerWidth();
+        var bottom = top + $element.outerHeight();
+        if ($p.mouseX >= left &&
+            $p.mouseX <= right &&
+            $p.mouseY >= top &&
+            $p.mouseY <= bottom) {
+            return true;
+        } else {
+            return false
+        }
     }
 }

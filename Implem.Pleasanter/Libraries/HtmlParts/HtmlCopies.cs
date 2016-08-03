@@ -5,12 +5,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlCopies
     {
-        public static HtmlBuilder Dialog_Copy(
+        public static HtmlBuilder CopyDialog(
             this HtmlBuilder hb, string referenceType, long id)
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
-                    .Id_Css("Dialog_ConfirmCopy", "dialog")
+                    .Id_Css("CopyDialog", "dialog")
                     .Title(Displays.CopySettings()),
                 action: () => hb
                     .Form(
@@ -18,7 +18,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Action(Navigations.Action(referenceType, id)),
                         action: () => hb
                             .FieldCheckBox(
-                                controlId: "Dialog_ConfirmCopy_WithComments",
+                                controlId: "CopyWithComments",
                                 labelText: Displays.CopyWithComments(),
                                 _checked: true,
                                 fieldCss: "field-wide",
@@ -30,13 +30,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Button(
                                     text: Displays.Copy(),
                                     controlCss: "button-copy",
-                                    onClick: Def.JavaScript.CloseDialogAndSubmit,
+                                    onClick: "$p.sendByDialog($(this));",
                                     action: "Copy",
                                     method: "post")
                                 .Button(
                                     text: Displays.Cancel(),
                                     controlCss: "button-cancel",
-                                    onClick: Def.JavaScript.CancelDialog))));
+                                    onClick: "$p.closeDialog($(this));"))));
         }
     }
 }

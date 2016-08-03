@@ -9,10 +9,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlSeparates
     {
-        public static HtmlBuilder Dialog_SeparateSettings(this HtmlBuilder hb)
+        public static HtmlBuilder SeparateSettingsDialog(this HtmlBuilder hb)
         {
             return hb.Div(attributes: new HtmlAttributes()
-                .Id_Css("Dialog_SeparateSettings", "dialog")
+                .Id_Css("SeparateSettingsDialog", "dialog")
                 .Title(Displays.SeparateSettings()));
         }
 
@@ -69,14 +69,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlId: "Separate",
                         text: Displays.Separate(),
                         controlCss: "button-separate",
-                        onClick: Def.JavaScript.Submit,
+                        onClick: "$p.send($(this));",
                         action: "Separate",
                         method: "put",
                         confirm: "Displays_ConfirmSeparate")
                     .Button(
                         text: Displays.Cancel(),
                         controlCss: "button-cancel",
-                        onClick: Def.JavaScript.CancelDialog)));
+                        onClick: "$p.closeDialog($(this));")));
         }
 
         private static HtmlBuilder Items(

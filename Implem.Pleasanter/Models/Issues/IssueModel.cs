@@ -1238,7 +1238,7 @@ namespace Implem.Pleasanter.Models
             {
                 Title.Value += Displays.SuffixCopy();
             }
-            if (!Forms.Data("Dialog_ConfirmCopy_WithComments").ToBool())
+            if (!Forms.Data("CopyWithComments").ToBool())
             {
                 Comments.Clear();
             }
@@ -1247,7 +1247,7 @@ namespace Implem.Pleasanter.Models
 
         public string Move()
         {
-            var siteId = Forms.Long("Dialog_MoveTargets");
+            var siteId = Forms.Long("MoveTargets");
             if (siteId == 0 || !Permissions.CanMove(SiteId, siteId))
             {
                 return Messages.ResponseHasNotPermission().ToJson();
@@ -1465,13 +1465,13 @@ namespace Implem.Pleasanter.Models
         {
             return new ResponseCollection()
                 .Html(
-                    "#Dialog_SeparateSettings",
+                    "#SeparateSettingsDialog",
                     new HtmlBuilder().SeparateSettings(
                         Title.Value,
                         WorkValue.Value,
                         SiteSettings.AllColumn("WorkValue"),
                         PermissionType))
-                .Func("separate")
+                .Invoke("separateSettings")
                 .ToJson();
         }
 
@@ -1607,13 +1607,13 @@ namespace Implem.Pleasanter.Models
             var siteModel = new SiteModel(SiteId);
             issueModel.MethodType = BaseModel.MethodTypes.Edit;
             return new IssuesResponseCollection(this)
-                .Func("clearDialogs")
+                .Invoke("clearDialogs")
                 .ReplaceAll(
                     "#MainContainer",
                     issueModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? IssueUtilities.Editor(siteModel, issueModel, byRest: true)
                         : IssueUtilities.Editor(siteModel, this, byRest: true))
-                .Validation("issues")
+                .Invoke("validateIssues")
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -2047,7 +2047,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     IssueUtilities.Editor(siteModel, this, byRest: true))
-                .Validation("issues")
+                .Invoke("validateIssues")
                 .ToJson();
         }
 

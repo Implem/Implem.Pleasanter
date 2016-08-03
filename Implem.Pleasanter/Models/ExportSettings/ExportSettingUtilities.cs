@@ -76,9 +76,9 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "ExportSettings")
                             .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
-                .Dialog_Move("items", siteSettings.SiteId, bulk: true)
+                .MoveDialog("items", siteSettings.SiteId, bulk: true)
                 .Div(attributes: new HtmlAttributes()
-                    .Id_Css("Dialog_ExportSettings", "dialog")
+                    .Id_Css("ExportSettingsDialog", "dialog")
                     .Title(Displays.ExportSettings())))
                 .ToString();
         }
@@ -400,8 +400,8 @@ namespace Implem.Pleasanter.Models
                             css: "must-transport",
                             value: exportSettingModel.SwitchTargets?.Join()))
                 .OutgoingMailsForm("ExportSettings", exportSettingModel.ExportSettingId, exportSettingModel.Ver)
-                .Dialog_Copy("ExportSettings", exportSettingModel.ExportSettingId)
-                .Dialog_OutgoingMail()
+                .CopyDialog("ExportSettings", exportSettingModel.ExportSettingId)
+                .OutgoingMailDialog()
                 .EditorExtensions(exportSettingModel: exportSettingModel, siteSettings: siteSettings));
         }
 
@@ -521,7 +521,7 @@ namespace Implem.Pleasanter.Models
             ExportSettingUtilities.SetSessions(exportSettingModel);
             var hb = new HtmlBuilder();
             return responseCollection
-                .Html("#Dialog_ExportSettings", hb
+                .Html("#ExportSettingsDialog", hb
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("ExportSettingsForm")
@@ -584,28 +584,28 @@ namespace Implem.Pleasanter.Models
                                     controlId: "ColumnToUp",
                                     controlCss: "button-up",
                                     text: Displays.MoveUp(),
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this), 'ExportSettingsForm');",
                                     action: "Set",
                                     method: "post")
                                 .Button(
                                     controlId: "ColumnToDown",
                                     controlCss: "button-down",
                                     text: Displays.MoveDown(),
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this), 'ExportSettingsForm');",
                                     action: "Set",
                                     method: "post")
                                 .Button(
                                     controlId: "ColumnToVisible",
                                     controlCss: "button-visible",
                                     text: Displays.Output(),
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this), 'ExportSettingsForm');",
                                     action: "Set",
                                     method: "put")
                                 .Button(
                                     controlId: "ColumnToHide",
                                     controlCss: "button-hide",
                                     text: Displays.NotOutput(),
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this), 'ExportSettingsForm');",
                                     action: "Set",
                                     method: "put"))));
         }
@@ -657,14 +657,14 @@ namespace Implem.Pleasanter.Models
                                 controlId: "UpdateExportSettings",
                                 controlCss: "button-save",
                                 text: Displays.Save(),
-                                onClick: Def.JavaScript.Submit,
+                                onClick: "$p.send($(this), 'ExportSettingsForm');",
                                 action: "UpdateOrCreate",
                                 method: "put")
                             .Button(
                                 controlId: "DeleteExportSettings",
                                 controlCss: "button-delete",
                                 text: Displays.Delete(),
-                                onClick: Def.JavaScript.Submit,
+                                onClick: "$p.send($(this), 'ExportSettingsForm');",
                                 action: "Delete",
                                 method: "delete",
                                 confirm: "Displays_ConfirmDelete")));
@@ -683,15 +683,14 @@ namespace Implem.Pleasanter.Models
                         controlId: "Export",
                         controlCss: "button-export",
                         text: Displays.Export(),
-                        onClick: Def.JavaScript.Submit,
-                        href: Navigations.Export(Url.RouteData("reference"), referenceId),
+                        onClick: "$p.export($(this));",
                         action: "Set",
                         method: "put")
                     .Button(
                         controlId: "CancelExport",
                         controlCss: "button-cancel",
                         text: Displays.Cancel(),
-                        onClick: Def.JavaScript.CancelDialog));
+                        onClick: "$p.closeDialog($(this));"));
         }
 
         /// <summary>

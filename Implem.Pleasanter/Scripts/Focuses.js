@@ -1,12 +1,4 @@
-﻿$(function () {
-    if ($('.focus').length !== 0) {
-        setTimeout(function () {
-            $('.focus').focus();
-        }, 0);
-    }
-});
-
-function focusMainForm() {
+﻿$p.focusMainForm = function () {
     $('#FieldSetGeneral').find('[class^="control-"]').each(function () {
         if (!$(this).is(':hidden') &&
             !$(this).hasClass('control-text') &&
@@ -16,3 +8,11 @@ function focusMainForm() {
         }
     });
 }
+
+$(function () {
+    if ($('.focus').length !== 0) {
+        setTimeout(function () {
+            $('.focus').focus();
+        }, 0);
+    }
+});

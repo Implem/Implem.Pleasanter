@@ -1,4 +1,4 @@
-﻿$p.form.validators.depts = function () {
+﻿$p.validateDepts = function () {
     $('#DeptForm').validate({
         rules: {
             Depts_DeptName: { required:true }
@@ -8,4 +8,4 @@
         }
     });
 }
-$p.form.validators.depts();
+$p.validateDepts();

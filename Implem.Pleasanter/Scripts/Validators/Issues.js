@@ -1,4 +1,4 @@
-﻿$p.form.validators.issues = function () {
+﻿$p.validateIssues = function () {
     $('#IssueForm').validate({
         rules: {
             Issues_CompletionTime: { required:true,date:true },
@@ -114,4 +114,4 @@
         }
     });
 }
-$p.form.validators.issues();
+$p.validateIssues();

@@ -372,9 +372,9 @@ namespace Implem.Pleasanter.Models
                             css: "must-transport",
                             value: wikiModel.SwitchTargets?.Join()))
                 .OutgoingMailsForm("Wikis", wikiModel.WikiId, wikiModel.Ver)
-                .Dialog_Copy("items", wikiModel.WikiId)
-                .Dialog_Move("items", wikiModel.WikiId)
-                .Dialog_OutgoingMail());
+                .CopyDialog("items", wikiModel.WikiId)
+                .MoveDialog("items", wikiModel.WikiId)
+                .OutgoingMailDialog());
         }
 
         private static HtmlBuilder FieldTabs(this HtmlBuilder hb, WikiModel wikiModel)
@@ -497,7 +497,7 @@ namespace Implem.Pleasanter.Models
 
         public static string BulkMove(SiteSettings siteSettings, Permissions.Types permissionType)
         {
-            var siteId = Forms.Long("Dialog_MoveTargets");
+            var siteId = Forms.Long("MoveTargets");
             if (Permissions.CanMove(siteSettings.SiteId, siteId))
             {
                 var count = 0;
@@ -715,7 +715,7 @@ namespace Implem.Pleasanter.Models
                     }.Create(param: param));
                 return GridRows(siteSettings, siteModel.PermissionType, responseCollection
                     .WindowScrollTop()
-                    .CloseDialog("#Dialog_ImportSettings")
+                    .CloseDialog("#ImportSettingsDialog")
                     .Message(Messages.Imported(csv.Rows.Count().ToString())));
             }
             else

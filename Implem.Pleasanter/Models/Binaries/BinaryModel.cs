@@ -501,13 +501,13 @@ namespace Implem.Pleasanter.Models
         {
             binaryModel.MethodType = BaseModel.MethodTypes.Edit;
             return new BinariesResponseCollection(this)
-                .Func("clearDialogs")
+                .Invoke("clearDialogs")
                 .ReplaceAll(
                     "#MainContainer",
                     binaryModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? BinaryUtilities.Editor(binaryModel, byRest: true)
                         : BinaryUtilities.Editor(this, byRest: true))
-                .Validation("binaries")
+                .Invoke("validateBinaries")
                 .Message(message)
                 .PushState(
                     "Edit",
@@ -604,7 +604,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     BinaryUtilities.Editor(this, byRest: true))
-                .Validation("binaries")
+                .Invoke("validateBinaries")
                 .ToJson();
         }
 

@@ -70,10 +70,10 @@ namespace Implem.Pleasanter.Models
                                     controlId: "GridOffset",
                                     value: Parameters.General.GridPageSize.ToString()))
                         .Div(attributes: new HtmlAttributes()
-                            .Id_Css("Dialog_ImportSettings", "dialog")
+                            .Id_Css("ImportSettingsDialog", "dialog")
                             .Title(Displays.Import()))
                         .Div(attributes: new HtmlAttributes()
-                            .Id_Css("Dialog_ExportSettings", "dialog")
+                            .Id_Css("ExportSettingsDialog", "dialog")
                             .Title(Displays.ExportSettings()));
                 }).ToString();
         }
@@ -431,8 +431,8 @@ namespace Implem.Pleasanter.Models
                             css: "must-transport",
                             value: userModel.SwitchTargets?.Join()))
                 .OutgoingMailsForm("Users", userModel.UserId, userModel.Ver)
-                .Dialog_Copy("Users", userModel.UserId)
-                .Dialog_OutgoingMail()
+                .CopyDialog("Users", userModel.UserId)
+                .OutgoingMailDialog()
                 .EditorExtensions(userModel: userModel, siteSettings: siteSettings));
         }
 
@@ -524,16 +524,16 @@ namespace Implem.Pleasanter.Models
                     hb.Button(
                         text: Displays.ChangePassword(),
                         controlCss: "button-person",
-                        onClick: Def.JavaScript.OpenDialog,
-                        selector: "#Dialog_ChangePassword");
+                        onClick: "$p.openDialog($(this));",
+                        selector: "#ChangePasswordDialog");
                 }
                 if (Sessions.User().TenantAdmin)
                 {
                     hb.Button(
                         text: Displays.ResetPassword(),
                         controlCss: "button-person",
-                        onClick: Def.JavaScript.OpenDialog,
-                        selector: "#Dialog_ResetPassword");
+                        onClick: "$p.openDialog($(this));",
+                        selector: "#ResetPasswordDialog");
                 }
             }
             return hb;
@@ -548,8 +548,8 @@ namespace Implem.Pleasanter.Models
             SiteSettings siteSettings)
         {
             return hb
-                .Dialog_ChangePassword(userId: userModel.UserId, siteSettings: siteSettings)
-                .Dialog_ResetPassword(userId: userModel.UserId, siteSettings: siteSettings);
+                .ChangePasswordDialog(userId: userModel.UserId, siteSettings: siteSettings)
+                .ResetPasswordDialog(userId: userModel.UserId, siteSettings: siteSettings);
         }
 
         /// <summary>
@@ -605,12 +605,12 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder Dialog_ChangePassword(
+        public static HtmlBuilder ChangePasswordDialog(
             this HtmlBuilder hb, long userId, SiteSettings siteSettings)
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
-                    .Id_Css("Dialog_ChangePassword", "dialog")
+                    .Id_Css("ChangePasswordDialog", "dialog")
                     .Title(Displays.ChangePassword()),
                 action: () => hb
                     .Form(
@@ -632,24 +632,24 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     text: Displays.Change(),
                                     controlCss: "button-save validate",
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "ChangePassword",
                                     method: "post")
                                 .Button(
                                     text: Displays.Cancel(),
                                     controlCss: "button-cancel",
-                                    onClick: Def.JavaScript.CancelDialog))));
+                                    onClick: "$p.closeDialog($(this));"))));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder Dialog_ResetPassword(
+        private static HtmlBuilder ResetPasswordDialog(
             this HtmlBuilder hb, long userId, SiteSettings siteSettings)
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
-                    .Id_Css("Dialog_ResetPassword", "dialog")
+                    .Id_Css("ResetPasswordDialog", "dialog")
                     .Title(Displays.ResetPassword()),
                 action: () => hb
                     .Form(
@@ -672,13 +672,13 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     text: Displays.Reset(),
                                     controlCss: "button-save validate",
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "ResetPassword",
                                     method: "post")
                                 .Button(
                                     text: Displays.Cancel(),
                                     controlCss: "button-cancel",
-                                    onClick: Def.JavaScript.CancelDialog))));
+                                    onClick: "$p.closeDialog($(this));"))));
         }
 
         /// <summary>
@@ -741,7 +741,7 @@ namespace Implem.Pleasanter.Models
                                     .Button(
                                         controlCss: "button-authenticate button-right-justified validate",
                                         text: Displays.Login(),
-                                        onClick: Def.JavaScript.Submit,
+                                        onClick: "$p.send($(this));",
                                         action: "Authenticate",
                                         method: "post",
                                         type: "submit"))))
@@ -764,11 +764,11 @@ namespace Implem.Pleasanter.Models
                                             .Button(
                                                 text: Displays.Register(),
                                                 controlCss: "button-send-mail validate",
-                                                onClick: Def.JavaScript.Submit,
+                                                onClick: "$p.send($(this));",
                                                 action: "Register",
                                                 method: "post")))))
                     .P(id: "Message", css: "message-form-bottom")
-                    .Dialog_ChangePasswordAtLogin(siteSettings: siteSettings)
+                    .ChangePasswordAtLoginDialog(siteSettings: siteSettings)
                     .Hidden(controlId: "ReturnUrl", value: QueryStrings.Data("ReturnUrl")))
                     .ToString();
         }
@@ -776,12 +776,12 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder Dialog_ChangePasswordAtLogin(
+        public static HtmlBuilder ChangePasswordAtLoginDialog(
             this HtmlBuilder hb, SiteSettings siteSettings)
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
-                    .Id_Css("Dialog_ChangePassword", "dialog")
+                    .Id_Css("ChangePasswordDialog", "dialog")
                     .Title(Displays.ChangePassword()),
                 action: () => hb
                     .Form(
@@ -800,13 +800,13 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     text: Displays.Change(),
                                     controlCss: "button-save validate",
-                                    onClick: Def.JavaScript.Submit,
+                                    onClick: "$p.send($(this));",
                                     action: "ChangePasswordAtLogin",
                                     method: "post")
                                 .Button(
                                     text: Displays.Cancel(),
                                     controlCss: "button-cancel",
-                                    onClick: Def.JavaScript.CancelDialog))));
+                                    onClick: "$p.closeDialog($(this));"))));
         }
 
         /// <summary>
@@ -844,14 +844,14 @@ namespace Implem.Pleasanter.Models
                             .Button(
                                 text: Displays.Add(),
                                 controlCss: "button-save",
-                                onClick: Def.JavaScript.Submit,
+                                onClick: "$p.send($(this));",
                                 action: "AddMailAddress",
                                 method: "post")
                             .Button(
                                 controlId: "DeleteMailAddresses",
                                 controlCss: "button-visible",
                                 text: Displays.Delete(),
-                                onClick: Def.JavaScript.Submit,
+                                onClick: "$p.send($(this));",
                                 action: "DeleteMailAddresses",
                                 method: "put"))));
         }

@@ -1,4 +1,4 @@
-﻿func.drawTimeSeries = function () {
+﻿$p.drawTimeSeries = function () {
     $('#TimeSeriesValueColumnField').toggle($('#TimeSeriesAggregateType').val() !== 'Count');
     var $svg = $('#TimeSeries');
     if ($svg.length !== 1) {

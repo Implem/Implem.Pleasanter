@@ -156,23 +156,23 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes Max(decimal max)
+        public HtmlAttributes DataMax(decimal max)
         {
-            base.Add("max");
+            base.Add("data-max");
             base.Add(max.ToString());
             return this;
         }
 
-        public HtmlAttributes Min(decimal min)
+        public HtmlAttributes DataMin(decimal min)
         {
-            base.Add("min");
+            base.Add("data-min");
             base.Add(min.ToString());
             return this;
         }
 
-        public HtmlAttributes Step(decimal step)
+        public HtmlAttributes DataStep(decimal step)
         {
-            base.Add("step");
+            base.Add("data-step");
             base.Add(step.ToString());
             return this;
         }
