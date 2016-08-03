@@ -86,7 +86,7 @@ namespace Implem.Pleasanter.Models
                         "Search",
                         Navigations.Get("Items", "Search?text=" + Url.Encode(text)),
                         _using: !QueryStrings.Bool("reload"))
-                    .Html(
+                    .ReplaceAll(
                         "#MainContainer",
                         MainContainer(
                             text: text,
@@ -132,6 +132,7 @@ namespace Implem.Pleasanter.Models
                 useTitle: false,
                 useSearch: false,
                 useBreadcrumb: false,
+                byRest: true,
                 action: () => hb
                     .Div(id: "SearchResults", css: "search-results", action: () => hb
                         .Command(text: text)
