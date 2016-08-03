@@ -1968,12 +1968,8 @@ h3.title-header{
     font-size:1em;
 }
 
-.button .ui-button-icon-primary{
-    left:2px !important;
-}
-
-.ui-button-text{
-    padding:4px 6px 4px 20px !important;
+.ui-button{
+    padding:4px 4px 4px 2px !important;
 }
 
 .ui-dialog{
