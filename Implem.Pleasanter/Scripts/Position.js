@@ -1,9 +1,4 @@
-﻿$(window).mousemove(function (e) {
-    $p.mouseX = e.pageX;
-    $p.mouseY = e.pageY;
-});
-
-$p.hoverd = function ($elements) {
+﻿$p.hoverd = function ($elements) {
     var $element;
     $elements.each(function () {
         if (isHover($(this))) {

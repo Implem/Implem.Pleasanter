@@ -8,17 +8,19 @@
 }
 
 $p.separateSettings = function () {
-    $("#SeparateSettings").on('spin', '#SeparateNumber', function (event, ui) {
-        setSeparateNumber($(this), ui.value);
-    });
-    $("#SeparateSettings").on('change', '#SeparateNumber', function () {
-        setSeparateNumber($(this), $(this).val());
-    });
-    $("#SeparateSettings").on('spin', '[id*="SeparateWorkValue_"]', function (event, ui) {
-        return setSource($(this), ui.value);
-    });
-    $("#SeparateSettings").on('change', '[id*="SeparateWorkValue_"]', function () {
-        setSource($(this), $(this).val());
+    $(function () {
+        $("#SeparateSettings").on('spin', '#SeparateNumber', function (event, ui) {
+            setSeparateNumber($(this), ui.value);
+        });
+        $("#SeparateSettings").on('change', '#SeparateNumber', function () {
+            setSeparateNumber($(this), $(this).val());
+        });
+        $("#SeparateSettings").on('spin', '[id*="SeparateWorkValue_"]', function (event, ui) {
+            return setSource($(this), ui.value);
+        });
+        $("#SeparateSettings").on('change', '[id*="SeparateWorkValue_"]', function () {
+            setSource($(this), $(this).val());
+        });
     });
 
     function setSeparateNumber($sender, number) {

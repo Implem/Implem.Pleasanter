@@ -18,9 +18,3 @@ $p.closeDialog = function ($control) {
 $p.clearDialogs = function () {
     $('body > .ui-dialog').remove();
 }
-
-$(function () {
-    $(document).on('click', '.ui-widget-overlay', function () {
-        $('.ui-dialog-content:visible').dialog('close');
-    });
-});
