@@ -68,7 +68,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             if (Value.IsCollection())
             {
                 var valueCollection = Value.ToStringEnumerable();
-                if (valueCollection.Count() > 0)
+                if (valueCollection.Any())
                 {
                     return "(" + ColumnBrackets
                          .Select(o => Sql_General(o, commandCount, valueCollection))
