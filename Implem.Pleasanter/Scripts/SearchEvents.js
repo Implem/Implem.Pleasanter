@@ -21,10 +21,12 @@
 
     function search(offset)
     {
-        if (offset !== '-1') {
+        var searchWord = $('#Search').val();
+        if (offset !== '-1' && $p.searchWord !== searchWord) {
+            $p.searchWord = searchWord;
             console.log(arguments.callee.caller);
             $p.ajax($('#ApplicationPath').val() +
-                'items/ajaxsearch?text=' + escape($('#Search').val()) +
+                'items/ajaxsearch?text=' + escape(searchWord) +
                 '&offset=' + offset, 'get');
         }
     }
