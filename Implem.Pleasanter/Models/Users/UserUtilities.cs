@@ -764,7 +764,7 @@ namespace Implem.Pleasanter.Models
                                             .Button(
                                                 text: Displays.Register(),
                                                 controlCss: "button-send-mail validate",
-                                                onClick: "$p.send($(this));",
+                                                onClick: "$p.send($(this), 'DemoForm');",
                                                 action: "Register",
                                                 method: "post")))))
                     .P(id: "Message", css: "message-form-bottom")
