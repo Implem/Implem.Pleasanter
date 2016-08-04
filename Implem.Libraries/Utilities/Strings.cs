@@ -95,7 +95,7 @@ namespace Implem.Libraries.Utilities
 
         public static string Params(this string format, params object[] args)
         {
-            return args.Count() > 0
+            return args.Any()
                 ? string.Format(format, args)
                 : string.Empty;
         }
