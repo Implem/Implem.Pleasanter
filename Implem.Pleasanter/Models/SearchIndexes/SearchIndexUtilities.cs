@@ -104,7 +104,7 @@ namespace Implem.Pleasanter.Models
                     .Val(
                         "#SearchOffset",
                         (results != null &&
-                        results.Count() > 0 &&
+                        results.Any() &&
                         results.Count() == Parameters.General.SearchPageSize
                             ? offset + Parameters.General.SearchPageSize
                             : -1).ToString());
