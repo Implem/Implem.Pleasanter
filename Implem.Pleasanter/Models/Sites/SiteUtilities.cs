@@ -1059,10 +1059,10 @@ namespace Implem.Pleasanter.Models
                                     controlCss: "button-setting",
                                     onClick: "$p.openColumnPropertiesDialog($(this));",
                                     action: "SetSiteSettings",
-                                    method: "put"))))
+                                    method: "put")))
                     .Div(attributes: new HtmlAttributes()
                         .Id_Css("ColumnPropertiesDialog", "dialog")
-                        .Title(Displays.AdvancedSetting()));
+                        .Title(Displays.AdvancedSetting())));
         }
 
         /// <summary>
