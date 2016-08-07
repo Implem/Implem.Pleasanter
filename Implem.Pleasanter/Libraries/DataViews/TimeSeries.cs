@@ -168,7 +168,7 @@ namespace Implem.Pleasanter.Libraries.DataViews
 
         private decimal GetValue(IEnumerable<TimeSeriesElement> targets)
         {
-            if (targets.Count() > 0)
+            if (targets.Any())
             {
                 switch (AggregationType)
                 {
