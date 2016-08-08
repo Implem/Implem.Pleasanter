@@ -22,8 +22,8 @@
     function search(offset)
     {
         var searchWord = $('#Search').val();
-        if (offset !== '-1' && $p.searchWord !== searchWord) {
-            $p.searchWord = searchWord;
+        if (offset !== '-1' && $p.searchWord !== searchWord + offset) {
+            $p.searchWord = searchWord + offset;
             console.log(arguments.callee.caller);
             $p.ajax($('#ApplicationPath').val() +
                 'items/ajaxsearch?text=' + escape(searchWord) +
