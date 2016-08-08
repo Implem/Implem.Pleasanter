@@ -512,7 +512,7 @@ namespace Implem.Pleasanter.Models
                 else
                 {
                     var checkedItems = GridItems("GridCheckedItems");
-                    if (checkedItems.Count() > 0)
+                    if (checkedItems.Any())
                     {
                         count = BulkMove(
                             siteId,
@@ -556,7 +556,7 @@ namespace Implem.Pleasanter.Models
                                 .WikiId_In(
                                     value: checkedItems,
                                     negative: negative,
-                                    _using: checkedItems.Count() > 0)),
+                                    _using: checkedItems.Any())),
                         param: Rds.WikisParam().SiteId(siteId),
                         countRecord: true),
                     Rds.UpdateItems(
@@ -587,7 +587,7 @@ namespace Implem.Pleasanter.Models
                 else
                 {
                     var checkedItems = GridItems("GridCheckedItems");
-                    if (checkedItems.Count() > 0)
+                    if (checkedItems.Any())
                     {
                         count = BulkDelete(
                             siteSettings,
@@ -624,7 +624,7 @@ namespace Implem.Pleasanter.Models
                     .WikiId_In(
                         value: checkedItems,
                         negative: negative,
-                        _using: checkedItems.Count() > 0));
+                        _using: checkedItems.Any()));
             return Rds.ExecuteScalar_int(
                 transactional: true,
                 statements: new SqlStatement[]
