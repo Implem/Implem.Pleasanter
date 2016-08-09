@@ -507,6 +507,7 @@ namespace Implem.Pleasanter.Models
             return Editor(
                 new SiteModel()
                 {
+                    SiteSettings = new SiteSettings("Sites"),
                     MethodType = BaseModel.MethodTypes.New,
                     SiteId = siteId,
                     PermissionType = permissionType
