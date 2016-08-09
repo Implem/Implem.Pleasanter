@@ -1013,12 +1013,11 @@ namespace Implem.Pleasanter.Models
         {
             return hb.FieldSet(
                 id: "EditorSettingsEditor",
-                action: () =>
-                    hb
-                        .SiteSettingEditorColumns(siteSettings)
-                        .SiteSettingLinkColumns(siteSettings)
-                        .SiteSettingHistoryColumns(siteSettings)
-                        .SiteSettingFormulas(siteSettings));
+                action: () => hb
+                    .SiteSettingEditorColumns(siteSettings)
+                    .SiteSettingLinkColumns(siteSettings)
+                    .SiteSettingHistoryColumns(siteSettings)
+                    .SiteSettingFormulas(siteSettings));
         }
 
         /// <summary>
