@@ -1,6 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataTypes;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
@@ -17,9 +16,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string LabelText;
         public string ChoicesText;
         public string DefaultInput;
-        public bool? GridVisible;
         public string GridDateTime;
-        public bool? FilterVisible;
         public string ControlDateTime;
         public string ControlType;
         public string Format;
@@ -27,12 +24,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public decimal? Min;
         public decimal? Max;
         public decimal? Step;
-        public bool? EditorVisible;
         public bool? EditorReadOnly;
         public string FieldCss;
-        public bool? TitleVisible;
-        public bool? LinkVisible;
-        public bool? HistoryVisible;
         public string Unit;
         public bool? Link;
         [NonSerialized]
@@ -63,6 +56,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool EditSelf;
         [NonSerialized]
         public bool EditorColumn;
+        [NonSerialized]
+        public bool NotEditorSettings;
         [NonSerialized]
         public bool TitleColumn;
         [NonSerialized]
@@ -101,6 +96,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Validators;
         [NonSerialized]
         public bool? FloatClear;
+        // compatibility
+        public bool? GridVisible;
+        public bool? FilterVisible;
+        public bool? EditorVisible;
+        public bool? TitleVisible;
+        public bool? LinkVisible;
+        public bool? HistoryVisible;
 
         public bool HasChoices()
         {

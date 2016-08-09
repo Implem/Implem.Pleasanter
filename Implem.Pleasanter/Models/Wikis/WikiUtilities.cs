@@ -400,19 +400,16 @@ namespace Implem.Pleasanter.Models
         {
             return hb.FieldSet(id: "FieldSetGeneral", action: () =>
             {
-                siteSettings.ColumnCollection
-                    .Where(o => o.EditorVisible.ToBool())
-                    .OrderBy(o => siteSettings.EditorColumnsOrder.IndexOf(o.ColumnName))
-                    .ForEach(column =>
+                siteSettings.EditorColumnCollection().ForEach(column =>
+                {
+                    switch (column.ColumnName)
                     {
-                        switch (column.ColumnName)
-                        {
-                            case "WikiId": hb.Field(siteSettings, column, wikiModel.MethodType, wikiModel.WikiId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "Ver": hb.Field(siteSettings, column, wikiModel.MethodType, wikiModel.Ver.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "Title": hb.Field(siteSettings, column, wikiModel.MethodType, wikiModel.Title.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "Body": hb.Field(siteSettings, column, wikiModel.MethodType, wikiModel.Body.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                        }
-                    });
+                        case "WikiId": hb.Field(siteSettings, column, wikiModel.MethodType, wikiModel.WikiId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "Ver": hb.Field(siteSettings, column, wikiModel.MethodType, wikiModel.Ver.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "Title": hb.Field(siteSettings, column, wikiModel.MethodType, wikiModel.Title.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "Body": hb.Field(siteSettings, column, wikiModel.MethodType, wikiModel.Body.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                    }
+                });
                 hb
                     .VerUpCheckBox(wikiModel)
                     .Div(id: "LinkCreations", css: "links", action: () => hb
@@ -804,9 +801,7 @@ namespace Implem.Pleasanter.Models
 
         public static string TitleDisplayValue(SiteSettings siteSettings, WikiModel wikiModel)
         {
-            var displayValue = siteSettings.ColumnCollection
-                .Where(o => o.TitleVisible.ToBool())
-                .OrderBy(o => siteSettings.TitleColumnsOrder.IndexOf(o.ColumnName))
+            var displayValue = siteSettings.TitleColumnCollection()
                 .Select(column => TitleDisplayValue(column, wikiModel))
                 .Where(o => o != string.Empty)
                 .Join(siteSettings.TitleSeparator);
@@ -828,9 +823,7 @@ namespace Implem.Pleasanter.Models
 
         public static string TitleDisplayValue(SiteSettings siteSettings, DataRow dataRow)
         {
-            var displayValue = siteSettings.ColumnCollection
-                .Where(o => o.TitleVisible.ToBool())
-                .OrderBy(o => siteSettings.TitleColumnsOrder.IndexOf(o.ColumnName))
+            var displayValue = siteSettings.TitleColumnCollection()
                 .Select(column => TitleDisplayValue(column, dataRow))
                 .Where(o => o != string.Empty)
                 .Join(siteSettings.TitleSeparator);

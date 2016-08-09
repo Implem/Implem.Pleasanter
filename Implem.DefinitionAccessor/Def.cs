@@ -2397,6 +2397,10 @@ namespace Implem.DefinitionAccessor
                     case "Visible_ja": Display.Visible_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Visible_ja, definitionRow, DisplayXls); break;
                     case "Hide": Display.Hide = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Hide, definitionRow, DisplayXls); break;
                     case "Hide_ja": Display.Hide_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Hide_ja, definitionRow, DisplayXls); break;
+                    case "ShowList": Display.ShowList = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ShowList, definitionRow, DisplayXls); break;
+                    case "ShowList_ja": Display.ShowList_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ShowList_ja, definitionRow, DisplayXls); break;
+                    case "HideList": Display.HideList = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.HideList, definitionRow, DisplayXls); break;
+                    case "HideList_ja": Display.HideList_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.HideList_ja, definitionRow, DisplayXls); break;
                     case "PlannedValue": Display.PlannedValue = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.PlannedValue, definitionRow, DisplayXls); break;
                     case "PlannedValue_ja": Display.PlannedValue_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.PlannedValue_ja, definitionRow, DisplayXls); break;
                     case "EarnedValue": Display.EarnedValue = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.EarnedValue, definitionRow, DisplayXls); break;
@@ -7464,6 +7468,10 @@ namespace Implem.DefinitionAccessor
         public string Visible_ja;
         public string Hide;
         public string Hide_ja;
+        public string ShowList;
+        public string ShowList_ja;
+        public string HideList;
+        public string HideList_ja;
         public string PlannedValue;
         public string PlannedValue_ja;
         public string EarnedValue;
@@ -8096,6 +8104,10 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition Visible_ja = new DisplayDefinition();
         public DisplayDefinition Hide = new DisplayDefinition();
         public DisplayDefinition Hide_ja = new DisplayDefinition();
+        public DisplayDefinition ShowList = new DisplayDefinition();
+        public DisplayDefinition ShowList_ja = new DisplayDefinition();
+        public DisplayDefinition HideList = new DisplayDefinition();
+        public DisplayDefinition HideList_ja = new DisplayDefinition();
         public DisplayDefinition PlannedValue = new DisplayDefinition();
         public DisplayDefinition PlannedValue_ja = new DisplayDefinition();
         public DisplayDefinition EarnedValue = new DisplayDefinition();

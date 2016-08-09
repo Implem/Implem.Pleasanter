@@ -920,14 +920,18 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetGridColumns(ResponseCollection responseCollection)
         {
-            var selectedColumns = Forms.Data("GridColumns").Split(';').
-                Where(o => o != string.Empty);
-            if (selectedColumns.Count() != 0)
+            if (Forms.Data("GridColumns") + Forms.Data("GridSourceColumns") != string.Empty)
             {
                 SiteSettings.SetGridColumns(
                     responseCollection,
                     Forms.Data("ControlId"),
-                    selectedColumns);
+                    Forms.Data("GridColumns").Split(';')
+                        .Where(o => o != string.Empty)
+                        .ToList(),
+                    Forms.Data("GridSourceColumns")
+                        .Split(';')
+                        .Where(o => o != string.Empty)
+                        .ToList());
             }
         }
 
@@ -936,14 +940,18 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetFilterColumns(ResponseCollection responseCollection)
         {
-            var selectedColumns = Forms.Data("FilterColumns").Split(';').
-                Where(o => o != string.Empty);
-            if (selectedColumns.Count() != 0)
+            if (Forms.Data("FilterColumns") + Forms.Data("FilterSourceColumns") != string.Empty)
             {
                 SiteSettings.SetFilterColumns(
                     responseCollection,
                     Forms.Data("ControlId"),
-                    selectedColumns);
+                    Forms.Data("FilterColumns").Split(';')
+                        .Where(o => o != string.Empty)
+                        .ToList(),
+                    Forms.Data("FilterSourceColumns")
+                        .Split(';')
+                        .Where(o => o != string.Empty)
+                        .ToList());
             }
         }
 
@@ -1020,9 +1028,15 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetEditorColumns(ResponseCollection responseCollection)
         {
-            var selectedColumns = Forms.Data("EditorColumns").Split(';').
-                Where(o => o != string.Empty);
-            if (selectedColumns.Count() != 0)
+            var selectedColumns = Forms.Data("EditorColumns")
+                .Split(';')
+                .Where(o => o != string.Empty)
+                .ToList();
+            var selectedSourceColumns = Forms.Data("EditorSourceColumns")
+                .Split(';')
+                .Where(o => o != string.Empty)
+                .ToList();
+            if (selectedColumns.Any() || selectedSourceColumns.Any())
             {
                 var controlId = Forms.Data("ControlId");
                 if (controlId == "HideEditorColumns" &&
@@ -1034,7 +1048,8 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
-                    SiteSettings.SetEditorColumns(responseCollection, controlId, selectedColumns);
+                    SiteSettings.SetEditorColumns(
+                        responseCollection, controlId, selectedColumns, selectedSourceColumns);
                 }
             }
         }
@@ -1094,12 +1109,18 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetTitleColumns(ResponseCollection responseCollection)
         {
-            var selectedColumns = Forms.Data("TitleColumns").Split(';').
-                Where(o => o != string.Empty);
-            if (selectedColumns.Count() != 0)
+            if (Forms.Data("TitleColumns") + Forms.Data("TitleSourceColumns") != string.Empty)
             {
                 SiteSettings.SetTitleColumns(
-                    responseCollection, Forms.Data("ControlId"), selectedColumns);
+                    responseCollection,
+                    Forms.Data("ControlId"),
+                    Forms.Data("TitleColumns").Split(';')
+                        .Where(o => o != string.Empty)
+                        .ToList(),
+                    Forms.Data("TitleSourceColumns")
+                        .Split(';')
+                        .Where(o => o != string.Empty)
+                        .ToList());
             }
         }
 
@@ -1108,12 +1129,18 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetLinkColumns(ResponseCollection responseCollection)
         {
-            var selectedColumns = Forms.Data("LinkColumns").Split(';').
-                Where(o => o != string.Empty);
-            if (selectedColumns.Count() != 0)
+            if (Forms.Data("LinkColumns") + Forms.Data("LinkSourceColumns") != string.Empty)
             {
                 SiteSettings.SetLinkColumns(
-                    responseCollection, Forms.Data("ControlId"), selectedColumns);
+                    responseCollection,
+                    Forms.Data("ControlId"),
+                    Forms.Data("LinkColumns").Split(';')
+                        .Where(o => o != string.Empty)
+                        .ToList(),
+                    Forms.Data("LinkSourceColumns")
+                        .Split(';')
+                        .Where(o => o != string.Empty)
+                        .ToList());
             }
         }
 
@@ -1122,12 +1149,18 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetHistoryColumns(ResponseCollection responseCollection)
         {
-            var selectedColumns = Forms.Data("HistoryColumns").Split(';').
-                Where(o => o != string.Empty);
-            if (selectedColumns.Count() != 0)
+            if (Forms.Data("HistoryColumns") + Forms.Data("HistorySourceColumns") != string.Empty)
             {
                 SiteSettings.SetHistoryColumns(
-                    responseCollection, Forms.Data("ControlId"), selectedColumns);
+                    responseCollection,
+                    Forms.Data("ControlId"),
+                    Forms.Data("HistoryColumns").Split(';')
+                        .Where(o => o != string.Empty)
+                        .ToList(),
+                    Forms.Data("HistorySourceColumns")
+                        .Split(';')
+                        .Where(o => o != string.Empty)
+                        .ToList());
             }
         }
 

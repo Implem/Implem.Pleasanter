@@ -428,21 +428,18 @@ namespace Implem.Pleasanter.Models
         {
             return hb.FieldSet(id: "FieldSetGeneral", action: () =>
             {
-                siteSettings.ColumnCollection
-                    .Where(o => o.EditorVisible.ToBool())
-                    .OrderBy(o => siteSettings.EditorColumnsOrder.IndexOf(o.ColumnName))
-                    .ForEach(column =>
+                siteSettings.EditorColumnCollection().ForEach(column =>
+                {
+                    switch (column.ColumnName)
                     {
-                        switch (column.ColumnName)
-                        {
-                            case "ReferenceType": hb.Field(siteSettings, column, exportSettingModel.MethodType, exportSettingModel.ReferenceType.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ReferenceId": hb.Field(siteSettings, column, exportSettingModel.MethodType, exportSettingModel.ReferenceId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "Title": hb.Field(siteSettings, column, exportSettingModel.MethodType, exportSettingModel.Title.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ExportSettingId": hb.Field(siteSettings, column, exportSettingModel.MethodType, exportSettingModel.ExportSettingId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "Ver": hb.Field(siteSettings, column, exportSettingModel.MethodType, exportSettingModel.Ver.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "AddHeader": hb.Field(siteSettings, column, exportSettingModel.MethodType, exportSettingModel.AddHeader.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                        }
-                    });
+                        case "ReferenceType": hb.Field(siteSettings, column, exportSettingModel.MethodType, exportSettingModel.ReferenceType.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ReferenceId": hb.Field(siteSettings, column, exportSettingModel.MethodType, exportSettingModel.ReferenceId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "Title": hb.Field(siteSettings, column, exportSettingModel.MethodType, exportSettingModel.Title.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ExportSettingId": hb.Field(siteSettings, column, exportSettingModel.MethodType, exportSettingModel.ExportSettingId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "Ver": hb.Field(siteSettings, column, exportSettingModel.MethodType, exportSettingModel.Ver.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "AddHeader": hb.Field(siteSettings, column, exportSettingModel.MethodType, exportSettingModel.AddHeader.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                    }
+                });
                 hb.VerUpCheckBox(exportSettingModel);
             });
         }

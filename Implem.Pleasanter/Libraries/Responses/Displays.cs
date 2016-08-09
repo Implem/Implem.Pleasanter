@@ -125,6 +125,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Visible(params string[] data) { return Get("Visible", data); }
         public static HtmlBuilder Displays_Hide(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Hide", data)); }
         public static string Hide(params string[] data) { return Get("Hide", data); }
+        public static HtmlBuilder Displays_ShowList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ShowList", data)); }
+        public static string ShowList(params string[] data) { return Get("ShowList", data); }
+        public static HtmlBuilder Displays_HideList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("HideList", data)); }
+        public static string HideList(params string[] data) { return Get("HideList", data); }
         public static HtmlBuilder Displays_PlannedValue(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("PlannedValue", data)); }
         public static string PlannedValue(params string[] data) { return Get("PlannedValue", data); }
         public static HtmlBuilder Displays_EarnedValue(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EarnedValue", data)); }

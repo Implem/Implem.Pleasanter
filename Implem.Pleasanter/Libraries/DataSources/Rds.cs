@@ -24709,11 +24709,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     .SiteId()
                     .IssueId()
                     .Comments();
-                siteSettings.ColumnCollection
-                    .Where(o => 
-                        !o.Nullable.ToBool() ||
-                        o.EditorVisible.ToBool() ||
-                        o.TitleVisible.ToBool())
+                siteSettings.SelectColumnCollection()
                     .ForEach(column => ret.IssuesColumn(column.ColumnName));
                 return ret;
             }
@@ -25040,11 +25036,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     .SiteId()
                     .ResultId()
                     .Comments();
-                siteSettings.ColumnCollection
-                    .Where(o => 
-                        !o.Nullable.ToBool() ||
-                        o.EditorVisible.ToBool() ||
-                        o.TitleVisible.ToBool())
+                siteSettings.SelectColumnCollection()
                     .ForEach(column => ret.ResultsColumn(column.ColumnName));
                 return ret;
             }
@@ -25234,11 +25226,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     .SiteId()
                     .WikiId()
                     .Comments();
-                siteSettings.ColumnCollection
-                    .Where(o => 
-                        !o.Nullable.ToBool() ||
-                        o.EditorVisible.ToBool() ||
-                        o.TitleVisible.ToBool())
+                siteSettings.SelectColumnCollection()
                     .ForEach(column => ret.WikisColumn(column.ColumnName));
                 return ret;
             }

@@ -166,7 +166,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 siteSettings
                     .LinkColumnCollection()
-                    .Where(o => o.LinkVisible.ToBool())
                     .ForEach(column => hb
                         .Th(action: () => hb
                             .Text(text: column.LabelText)));
@@ -181,7 +180,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 siteSettings
                     .LinkColumnCollection()
-                    .Where(o => o.LinkVisible.ToBool())
                     .ForEach(column => hb
                         .Th(action: () => hb
                             .Text(text: column.LabelText)));
@@ -196,7 +194,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 siteSettings
                     .LinkColumnCollection()
-                    .Where(o => o.LinkVisible.ToBool())
                     .ForEach(column => hb
                         .Th(action: () => hb
                             .Text(text: column.LabelText)));
@@ -225,7 +222,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         {
                             siteSettings
                                 .LinkColumnCollection()
-                                .Where(o => o.LinkVisible.ToBool())
                                 .ForEach(column =>
                                 {
                                     switch (column.ColumnName)
@@ -1015,7 +1011,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         {
                             siteSettings
                                 .LinkColumnCollection()
-                                .Where(o => o.LinkVisible.ToBool())
                                 .ForEach(column =>
                                 {
                                     switch (column.ColumnName)
@@ -1780,7 +1775,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         {
                             siteSettings
                                 .LinkColumnCollection()
-                                .Where(o => o.LinkVisible.ToBool())
                                 .ForEach(column =>
                                 {
                                     switch (column.ColumnName)

@@ -375,7 +375,7 @@ namespace Implem.Pleasanter.Models
         public string Copy()
         {
             WikiId = 0;
-            if (SiteSettings.AllColumn("Title").EditorVisible.ToBool())
+            if (SiteSettings.EditorColumnsOrder.Contains("Title"))
             {
                 Title.Value += Displays.SuffixCopy();
             }

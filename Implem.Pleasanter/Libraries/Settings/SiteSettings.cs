@@ -150,9 +150,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     if (column.LabelText == Displays.Get(columnDefinition.Id)) column.LabelText = null;
                     if (column.ChoicesText == columnDefinition.ChoicesText) column.ChoicesText = null;
                     if (column.DefaultInput == columnDefinition.DefaultInput) column.DefaultInput = null;
-                    if (column.GridVisible == columnDefinition.GridVisible) column.GridVisible = null;
                     if (column.GridDateTime == columnDefinition.GridDateTime) column.GridDateTime = null;
-                    if (column.FilterVisible == columnDefinition.FilterVisible) column.FilterVisible = null;
                     if (column.ControlDateTime == columnDefinition.ControlDateTime) column.ControlDateTime = null;
                     if (column.ControlType == columnDefinition.ControlType) column.ControlType = null;
                     if (column.Format?.Trim() == string.Empty) column.Format = null;
@@ -160,12 +158,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     if (column.Min == columnDefinition.Min) column.Min = null;
                     if (column.Max == DefaultMax(columnDefinition)) column.Max = null;
                     if (column.Step == DefaultStep(columnDefinition)) column.Step = null;
-                    if (column.EditorVisible == columnDefinition.EditorVisible) column.EditorVisible = null;
                     if (column.EditorReadOnly == false) column.EditorReadOnly = null;
                     if (column.FieldCss == columnDefinition.FieldCss) column.FieldCss = null;
-                    if (column.TitleVisible == DefaultTitleVisible(column)) column.TitleVisible = null;
-                    if (column.LinkVisible == columnDefinition.LinkVisible) column.LinkVisible = null;
-                    if (column.HistoryVisible == columnDefinition.HistoryVisible) column.HistoryVisible = null;
                     if (column.Unit == columnDefinition.Unit) column.Unit = null;
                     if (column.Link == false) column.Link = null;
                 }
@@ -176,100 +170,167 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void UpdateGridColumnsOrder()
         {
-            if (GridColumnsOrder == null) GridColumnsOrder = new List<string>();
-            GridColumnsOrder.AddRange(Def.ColumnDefinitionCollection
-                .Where(o => !GridColumnsOrder.Any(p => p == o.ColumnName))
+            if (GridColumnsOrder == null)
+            {
+                GridColumnsOrder = GridColumnDefinitions(visibleOnly: true)
+                    .Select(o => o.ColumnName)
+                    .ToList();
+            }
+            else
+            {
+                GridColumnsOrder.RemoveAll(o =>
+                    !Def.ColumnDefinitionCollection.Any(p =>
+                        p.ColumnName == o &&
+                        p.TableName == ReferenceType &&
+                        p.GridColumn > 0));
+            }
+        }
+
+        private IEnumerable<ColumnDefinition> GridColumnDefinitions(bool visibleOnly = false)
+        {
+            return Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == ReferenceType)
                 .Where(o => o.GridColumn > 0)
-                .OrderBy(o => o.GridColumn)
-                .Select(o => o.ColumnName).ToList<string>());
-            GridColumnsOrder.RemoveAll(o =>
-                !Def.ColumnDefinitionCollection.Any(p =>
-                    p.ColumnName == o &&
-                    p.TableName == ReferenceType &&
-                    p.GridColumn > 0));
+                .Where(o => o.GridVisible || !visibleOnly)
+                .OrderBy(o => o.GridColumn);
         }
 
         private void UpdateFilterColumnsOrder()
         {
-            if (FilterColumnsOrder == null) FilterColumnsOrder = new List<string>();
-            FilterColumnsOrder.AddRange(Def.ColumnDefinitionCollection
-                .Where(o => !FilterColumnsOrder.Any(p => p == o.ColumnName))
+            if (FilterColumnsOrder == null)
+            {
+                FilterColumnsOrder = FilterColumnDefinitions(visibleOnly: true)
+                    .Select(o => o.ColumnName)
+                    .ToList();
+            }
+            else
+            {
+                FilterColumnsOrder.RemoveAll(o =>
+                    !Def.ColumnDefinitionCollection.Any(p =>
+                        p.ColumnName == o &&
+                        p.TableName == ReferenceType &&
+                        p.FilterColumn > 0));
+            }
+        }
+
+        private IEnumerable<ColumnDefinition> FilterColumnDefinitions(bool visibleOnly = false)
+        {
+            return Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == ReferenceType)
                 .Where(o => o.FilterColumn > 0)
-                .OrderBy(o => o.FilterColumn)
-                .Select(o => o.ColumnName).ToList<string>());
-            FilterColumnsOrder.RemoveAll(o =>
-                !Def.ColumnDefinitionCollection.Any(p =>
-                    p.ColumnName == o &&
-                    p.TableName == ReferenceType &&
-                    p.FilterColumn > 0));
+                .Where(o => o.FilterVisible || !visibleOnly)
+                .OrderBy(o => o.FilterColumn);
         }
 
         private void UpdateEditorColumnsOrder()
         {
-            if (EditorColumnsOrder == null) EditorColumnsOrder = new List<string>();
-            EditorColumnsOrder.AddRange(Def.ColumnDefinitionCollection
-                .Where(o => !EditorColumnsOrder.Any(p => p == o.ColumnName))
-                .Where(o => o.TableName == ReferenceType && o.EditorColumn)
+            if (EditorColumnsOrder == null)
+            {
+                EditorColumnsOrder = EditorColumnDefinitions(visibleOnly: true)
+                    .Select(o => o.ColumnName)
+                    .ToList();
+            }
+            else
+            {
+                EditorColumnsOrder.RemoveAll(o =>
+                    !Def.ColumnDefinitionCollection.Any(p =>
+                        p.ColumnName == o &&
+                        p.TableName == ReferenceType &&
+                        p.EditorColumn &&
+                        !p.NotEditorSettings));
+            }
+        }
+
+        private IEnumerable<ColumnDefinition> EditorColumnDefinitions(bool visibleOnly = false)
+        {
+            return Def.ColumnDefinitionCollection
+                .Where(o => o.TableName == ReferenceType)
+                .Where(o => o.EditorColumn)
+                .Where(o => o.EditorVisible || !visibleOnly)
                 .Where(o => !o.NotEditorSettings)
-                .OrderBy(o => o.No)
-                .Select(o => o.ColumnName).ToList<string>());
-            EditorColumnsOrder.RemoveAll(o => 
-                !Def.ColumnDefinitionCollection.Any(p =>
-                    p.ColumnName == o && 
-                    p.TableName == ReferenceType &&
-                    p.EditorColumn &&
-                    !p.NotEditorSettings));
+                .OrderBy(o => o.No);
         }
 
         private void UpdateTitleColumnsOrder()
         {
-            if (TitleColumnsOrder == null) TitleColumnsOrder = new List<string>();
-            TitleColumnsOrder.AddRange(Def.ColumnDefinitionCollection
-                .Where(o => !TitleColumnsOrder.Any(p => p == o.ColumnName))
+            if (TitleColumnsOrder == null)
+            {
+                TitleColumnsOrder = TitleColumnDefinitions(visibleOnly: true)
+                    .Select(o => o.ColumnName)
+                    .ToList();
+            }
+            else
+            {
+                TitleColumnsOrder.RemoveAll(o =>
+                    !Def.ColumnDefinitionCollection.Any(p =>
+                        p.TableName == ReferenceType &&
+                        p.ColumnName == o &&
+                        p.TitleColumn > 0 &&
+                        !p.NotEditorSettings));
+            }
+        }
+
+        private IEnumerable<ColumnDefinition> TitleColumnDefinitions(bool visibleOnly = false)
+        {
+            return Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == ReferenceType)
                 .Where(o => o.TitleColumn > 0)
-                .OrderBy(o => o.No)
-                .Select(o => o.ColumnName).ToList<string>());
-            TitleColumnsOrder.RemoveAll(o =>
-                !Def.ColumnDefinitionCollection.Any(p =>
-                    p.TableName == ReferenceType &&
-                    p.ColumnName == o &&
-                    p.TitleColumn > 0 &&
-                    !p.NotEditorSettings));
+                .Where(o => o.ColumnName == "Title" || !visibleOnly)
+                .OrderBy(o => o.No);
         }
 
         private void UpdateLinkColumnsOrder()
         {
-            if (LinkColumnsOrder == null) LinkColumnsOrder = new List<string>();
-            LinkColumnsOrder.AddRange(Def.ColumnDefinitionCollection
-                .Where(o => !LinkColumnsOrder.Any(p => p == o.ColumnName))
+            if (LinkColumnsOrder == null)
+            {
+                LinkColumnsOrder = LinkColumnDefinitions(visibleOnly: true)
+                    .Select(o => o.ColumnName)
+                    .ToList();
+            }
+            else
+            {
+                LinkColumnsOrder.RemoveAll(o =>
+                    !Def.ColumnDefinitionCollection.Any(p =>
+                        p.TableName == ReferenceType &&
+                        p.ColumnName == o &&
+                        p.LinkColumn > 0));
+            }
+        }
+
+        private IEnumerable<ColumnDefinition> LinkColumnDefinitions(bool visibleOnly = false)
+        {
+            return Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == ReferenceType)
                 .Where(o => o.LinkColumn > 0)
-                .OrderBy(o => o.LinkColumn)
-                .Select(o => o.ColumnName).ToList<string>());
-            LinkColumnsOrder.RemoveAll(o =>
-                !Def.ColumnDefinitionCollection.Any(p =>
-                    p.TableName == ReferenceType &&
-                    p.ColumnName == o &&
-                    p.LinkColumn > 0));
+                .Where(o => o.LinkVisible || !visibleOnly)
+                .OrderBy(o => o.LinkColumn);
         }
 
         private void UpdateHistoryColumnsOrder()
         {
-            if (HistoryColumnsOrder == null) HistoryColumnsOrder = new List<string>();
-            HistoryColumnsOrder.AddRange(Def.ColumnDefinitionCollection
-                .Where(o => !HistoryColumnsOrder.Any(p => p == o.ColumnName))
+            if (HistoryColumnsOrder == null)
+            {
+                HistoryColumnsOrder = HistoryColumnDefinitions(visibleOnly: true)
+                    .Select(o => o.ColumnName)
+                    .ToList();
+            }
+            else
+            {
+                HistoryColumnsOrder.RemoveAll(o =>
+                    !Def.ColumnDefinitionCollection.Any(p =>
+                        p.TableName == ReferenceType &&
+                        p.ColumnName == o &&
+                        p.HistoryColumn > 0));
+            }
+        }
+
+        private IEnumerable<ColumnDefinition> HistoryColumnDefinitions(bool visibleOnly = false)
+        {
+            return Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == ReferenceType)
                 .Where(o => o.HistoryColumn > 0)
-                .OrderBy(o => o.HistoryColumn)
-                .Select(o => o.ColumnName).ToList<string>());
-            HistoryColumnsOrder.RemoveAll(o =>
-                !Def.ColumnDefinitionCollection.Any(p =>
-                    p.TableName == ReferenceType &&
-                    p.ColumnName == o &&
-                    p.HistoryColumn > 0));
+                .Where(o => o.HistoryVisible || !visibleOnly)
+                .OrderBy(o => o.HistoryColumn);
         }
 
         private void UpdateColumnCollection(bool onSerializing = false)
@@ -306,21 +367,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.LabelText = column.LabelText ?? Displays.Get(columnDefinition.Id);
                 column.ChoicesText = column.ChoicesText ?? columnDefinition.ChoicesText;
                 column.DefaultInput = column.DefaultInput ?? columnDefinition.DefaultInput;
-                column.GridVisible = column.GridVisible ?? columnDefinition.GridVisible;
                 column.GridDateTime = column.GridDateTime ?? columnDefinition.GridDateTime;
-                column.FilterVisible = column.FilterVisible ?? columnDefinition.FilterVisible;
                 column.ControlType = column.ControlType ?? columnDefinition.ControlType;
                 column.DecimalPlaces = column.DecimalPlaces ?? columnDefinition.DecimalPlaces;
                 column.Min = column.Min ?? columnDefinition.Min;
                 column.Max = column.Max ?? DefaultMax(columnDefinition);
                 column.Step = column.Step ?? DefaultStep(columnDefinition);
-                column.EditorVisible = column.EditorVisible ?? columnDefinition.EditorVisible;
                 column.EditorReadOnly = column.EditorReadOnly ?? false;
                 column.FieldCss = column.FieldCss ?? columnDefinition.FieldCss;
                 column.ControlDateTime = column.ControlDateTime ?? columnDefinition.ControlDateTime;
-                column.TitleVisible = column.TitleVisible ?? DefaultTitleVisible(column);
-                column.LinkVisible = column.LinkVisible ?? columnDefinition.LinkVisible;
-                column.HistoryVisible = column.HistoryVisible ?? columnDefinition.HistoryVisible;
                 column.Unit = column.Unit ?? columnDefinition.Unit;
                 column.Size = columnDefinition.Size;
                 column.Nullable = columnDefinition.Nullable;
@@ -334,6 +389,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.GridColumn = columnDefinition.GridColumn > 0;
                 column.FilterColumn = columnDefinition.FilterColumn > 0;
                 column.EditorColumn = columnDefinition.EditorColumn;
+                column.NotEditorSettings = columnDefinition.NotEditorSettings;
                 column.TitleColumn = columnDefinition.TitleColumn > 0;
                 column.LinkColumn = columnDefinition.LinkColumn > 0;
                 column.HistoryColumn = columnDefinition.HistoryColumn > 0;
@@ -369,11 +425,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : 1);
         }
 
-        private static bool DefaultTitleVisible(Column column)
-        {
-            return column.ColumnName == "Title";
-        }
-
         public Column AllColumn(string columnName)
         {
             return ColumnCollection.FirstOrDefault(o => o.ColumnName == columnName);
@@ -385,36 +436,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 o.ColumnName == columnName && o.GridColumn);
         }
 
-        public IEnumerable<Column> GridColumnCollection(bool withTitle = false)
-        {
-            foreach (var columnName in GridColumnsOrder)
-            {
-                var column = GridColumn(columnName);
-                if (column != null &&
-                    (column.GridVisible.Value ||
-                    (withTitle && column.TitleVisible.Value)))
-                {
-                    yield return column; 
-                }
-            }
-        }
-
         public Column FilterColumn(string columnName)
         {
             return ColumnCollection.FirstOrDefault(o =>
                 o.ColumnName == columnName && o.FilterColumn);
-        }
-
-        public IEnumerable<Column> FilterColumnCollection()
-        {
-            foreach (var columnName in FilterColumnsOrder)
-            {
-                var column = FilterColumn(columnName);
-                if (column != null && column.FilterVisible.ToBool())
-                {
-                    yield return column;
-                }
-            }
         }
 
         public Column EditorColumn(string columnName)
@@ -441,12 +466,49 @@ namespace Implem.Pleasanter.Libraries.Settings
                 o.ColumnName == columnName && o.HistoryColumn);
         }
 
+        public IEnumerable<Column> GridColumnCollection(bool withTitle = false)
+        {
+            foreach (var columnName in GridColumnsOrder)
+            {
+                var column = GridColumn(columnName);
+                if (column != null &&
+                    (!withTitle || withTitle && GridColumnsOrder.Contains(columnName)))
+                {
+                    yield return column; 
+                }
+            }
+        }
+
+        public IEnumerable<Column> FilterColumnCollection()
+        {
+            foreach (var columnName in FilterColumnsOrder)
+            {
+                var column = FilterColumn(columnName);
+                if (column != null)
+                {
+                    yield return column;
+                }
+            }
+        }
+
+        public IEnumerable<Column> EditorColumnCollection()
+        {
+            foreach (var columnName in EditorColumnsOrder)
+            {
+                var column = EditorColumn(columnName);
+                if (column != null)
+                {
+                    yield return column;
+                }
+            }
+        }
+
         public IEnumerable<Column> TitleColumnCollection()
         {
             foreach (var columnName in TitleColumnsOrder)
             {
                 var column = TitleColumn(columnName);
-                if (column != null && column.TitleVisible.Value)
+                if (column != null)
                 {
                     yield return column;
                 }
@@ -458,7 +520,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             foreach (var columnName in LinkColumnsOrder)
             {
                 var column = LinkColumn(columnName);
-                if (column != null && column.LinkVisible.Value)
+                if (column != null)
                 {
                     yield return column;
                 }
@@ -470,69 +532,82 @@ namespace Implem.Pleasanter.Libraries.Settings
             foreach (var columnName in HistoryColumnsOrder)
             {
                 var column = HistoryColumn(columnName);
-                if (column != null && column.HistoryVisible.Value)
+                if (column != null)
                 {
                     yield return column;
                 }
             }
         }
 
-        public Dictionary<string, string> GridColumnsHash()
+        public IEnumerable<Column> SelectColumnCollection()
         {
-            return ColumnHash(GridColumnsOrder, "Grid");
+            return ColumnCollection.Where(o =>
+                !o.Nullable.ToBool() ||
+                EditorColumnsOrder.Contains(o.ColumnName) ||
+                EditorColumnsOrder.Contains(o.ColumnName));
         }
 
-        public Dictionary<string, string> FilterColumnsHash()
+        public Dictionary<string, string> GridColumnsHash(bool visible = true)
         {
-            return ColumnHash(FilterColumnsOrder, "Filter");
+            return visible
+                ? ColumnsHash(GridColumnsOrder, visible)
+                : ColumnsHash(GridColumnDefinitions()
+                    .Where(o => !GridColumnsOrder.Contains(o.ColumnName))
+                    .Select(o => o.ColumnName), visible);
         }
 
-        public Dictionary<string, string> EditorColumnsHash()
+        public Dictionary<string, string> FilterColumnsHash(bool visible = true)
         {
-            return ColumnHash(EditorColumnsOrder, "Editor");
+            return visible
+                ? ColumnsHash(FilterColumnsOrder, visible)
+                : ColumnsHash(FilterColumnDefinitions()
+                    .Where(o => !FilterColumnsOrder.Contains(o.ColumnName))
+                    .Select(o => o.ColumnName), visible);
         }
 
-        public Dictionary<string, string> TitleColumnsHash()
+        public Dictionary<string, string> EditorColumnsHash(bool visible = true)
         {
-            return ColumnHash(TitleColumnsOrder, "Title");
+            return visible
+                ? ColumnsHash(EditorColumnsOrder, visible)
+                : ColumnsHash(EditorColumnDefinitions()
+                    .Where(o => !EditorColumnsOrder.Contains(o.ColumnName))
+                    .Select(o => o.ColumnName), visible);
         }
 
-        public Dictionary<string, string> LinkColumnsHash()
+        public Dictionary<string, string> TitleColumnsHash(bool visible = true)
         {
-            return ColumnHash(LinkColumnsOrder, "Link");
+            return visible
+                ? ColumnsHash(TitleColumnsOrder, visible)
+                : ColumnsHash(TitleColumnDefinitions()
+                    .Where(o => !TitleColumnsOrder.Contains(o.ColumnName))
+                    .Select(o => o.ColumnName), visible);
         }
 
-        public Dictionary<string, string> HistoryColumnsHash()
+        public Dictionary<string, string> LinkColumnsHash(bool visible = true)
         {
-            return ColumnHash(HistoryColumnsOrder, "History");
+            return visible
+                ? ColumnsHash(LinkColumnsOrder, visible)
+                : ColumnsHash(LinkColumnDefinitions()
+                    .Where(o => !LinkColumnsOrder.Contains(o.ColumnName))
+                    .Select(o => o.ColumnName), visible);
         }
 
-        private Dictionary<string, string> ColumnHash(IEnumerable<string> columnNames, string type)
+        public Dictionary<string, string> HistoryColumnsHash(bool visible = true)
         {
-            var hash = new Dictionary<string, string>();
-            columnNames?.ForEach(columnName =>
-            {
-                var column = GridColumn(columnName);
-                if (column != null) Visible(hash, column, type);
-            });
-            return hash;
+            return visible
+                ? ColumnsHash(HistoryColumnsOrder, visible)
+                : ColumnsHash(HistoryColumnDefinitions()
+                    .Where(o => !HistoryColumnsOrder.Contains(o.ColumnName))
+                    .Select(o => o.ColumnName), visible);
         }
 
-        private static void Visible(Dictionary<string, string> hash, Column column, string type)
+        private Dictionary<string, string> ColumnsHash(IEnumerable<string> columns, bool visible)
         {
-            var visible = false;
-            switch (type)
-            {
-                case "Grid": visible = column.GridVisible.ToBool(); break;
-                case "Filter": visible = column.FilterVisible.ToBool(); break;
-                case "Editor": visible = column.EditorVisible.ToBool(); break;
-                case "Title": visible = column.TitleVisible.ToBool(); break;
-                case "Link": visible = column.LinkVisible.ToBool(); break;
-                case "History": visible = column.HistoryVisible.ToBool(); break;
-            }
-            hash.Add(column.ColumnName, visible
-                ? Displays.Get(column.LabelText)
-                : Displays.Get(column.LabelText) + " (" + Displays.Hidden() + ")");
+            return columns.ToDictionary(
+                o => o,
+                o => visible
+                    ? Displays.Get(AllColumn(o).LabelText)
+                    : Displays.Get(AllColumn(o).LabelText) + " (" + Displays.Hidden() + ")");
         }
 
         public Dictionary<string, string> AggregationDestination()
@@ -592,82 +667,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "NewScript": NewScript = value; break;
                 case "EditScript": EditScript = value; break;
             }
-        }
-
-        public void SetGridColumns(
-            ResponseCollection responseCollection,
-            string controlId,
-            IEnumerable<string> selectedColumns)
-        {
-            var order = GridColumnsOrder.ToArray();
-            if (controlId == "MoveDownGridColumns") Array.Reverse(order);
-            order.Select((o, i) => new { ColumnName = o, Index = i }).ForEach(data =>
-            {
-                if (selectedColumns.Contains(data.ColumnName))
-                {
-                    switch (controlId)
-                    {
-                        case "MoveUpGridColumns":
-                        case "MoveDownGridColumns":
-                            if (data.Index > 0 &&
-                                selectedColumns.Contains(order[data.Index - 1]) == false)
-                            {
-                                order = Arrays.Swap(order, data.Index, data.Index - 1);
-                            }
-                            break;
-                        case "ShowGridColumns":
-                            GridColumn(order[data.Index]).GridVisible = true;
-                            break;
-                        case "HideGridColumns":
-                            GridColumn(order[data.Index]).GridVisible = false;
-                            break;
-                    }
-                }
-            });
-            if (controlId == "MoveDownGridColumns") Array.Reverse(order);
-            GridColumnsOrder = order.ToList<string>();
-            responseCollection.Html("#GridColumns",
-                new HtmlBuilder().SelectableItems(
-                    listItemCollection: GridColumnsHash(),
-                    selectedValueTextCollection: selectedColumns));
-        }
-
-        public void SetFilterColumns(
-            ResponseCollection responseCollection,
-            string controlId,
-            IEnumerable<string> selectedColumns)
-        {
-            var order = FilterColumnsOrder.ToArray();
-            if (controlId == "MoveDownFilterColumns") Array.Reverse(order);
-            order.Select((o, i) => new { ColumnName = o, Index = i }).ForEach(data =>
-            {
-                if (selectedColumns.Contains(data.ColumnName))
-                {
-                    switch (controlId)
-                    {
-                        case "MoveUpFilterColumns":
-                        case "MoveDownFilterColumns":
-                            if (data.Index > 0 &&
-                                selectedColumns.Contains(order[data.Index - 1]) == false)
-                            {
-                                order = Arrays.Swap(order, data.Index, data.Index - 1);
-                            }
-                            break;
-                        case "ShowFilterColumns":
-                            FilterColumn(order[data.Index]).FilterVisible = true;
-                            break;
-                        case "HideFilterColumns":
-                            FilterColumn(order[data.Index]).FilterVisible = false;
-                            break;
-                    }
-                }
-            });
-            if (controlId == "MoveDownFilterColumns") Array.Reverse(order);
-            FilterColumnsOrder = order.ToList<string>();
-            responseCollection.Html("#FilterColumns",
-                new HtmlBuilder().SelectableItems(
-                    listItemCollection: FilterColumnsHash(),
-                    selectedValueTextCollection: selectedColumns));
         }
 
         public void SetAggregations(
@@ -738,42 +737,204 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .SetFormData("AggregationDestination", selectedDestination?.Join(";"));
         }
 
+        public void SetGridColumns(
+            ResponseCollection responseCollection,
+            string controlId,
+            List<string> selectedColumns,
+            List<string> selectedSourceColumns)
+        {
+            var command = ChangeCommand(controlId);
+            GridColumnsOrder = ChangedColumns(
+                GridColumnsOrder, command, selectedColumns, selectedSourceColumns);
+            SetResponseAfterChangeColumns(
+                responseCollection,
+                command,
+                "Grid",
+                GridColumnsHash(),
+                selectedColumns,
+                GridColumnsHash(visible: false),
+                selectedSourceColumns);
+        }
+
+        public void SetFilterColumns(
+            ResponseCollection responseCollection,
+            string controlId,
+            List<string> selectedColumns,
+            List<string> selectedSourceColumns)
+        {
+            var command = ChangeCommand(controlId);
+            FilterColumnsOrder = ChangedColumns(
+                FilterColumnsOrder, command, selectedColumns, selectedSourceColumns);
+            SetResponseAfterChangeColumns(
+                responseCollection,
+                command,
+                "Filter",
+                FilterColumnsHash(),
+                selectedColumns,
+                FilterColumnsHash(visible: false),
+                selectedSourceColumns);
+        }
+
         public void SetEditorColumns(
             ResponseCollection responseCollection,
             string controlId,
-            IEnumerable<string> selectedColumns)
+            List<string> selectedColumns,
+            List<string> selectedSourceColumns)
         {
-            var order = EditorColumnsOrder.ToArray();
-            if (controlId == "MoveDownEditorColumns") Array.Reverse(order);
+            var command = ChangeCommand(controlId);
+            EditorColumnsOrder = ChangedColumns(
+                EditorColumnsOrder, command, selectedColumns, selectedSourceColumns);
+            SetResponseAfterChangeColumns(
+                responseCollection,
+                command,
+                "Editor",
+                EditorColumnsHash(),
+                selectedColumns,
+                EditorColumnsHash(visible: false),
+                selectedSourceColumns);
+        }
+
+        public void SetTitleColumns(
+            ResponseCollection responseCollection,
+            string controlId,
+            List<string> selectedColumns,
+            List<string> selectedSourceColumns)
+        {
+            var command = ChangeCommand(controlId);
+            TitleColumnsOrder = ChangedColumns(
+                TitleColumnsOrder, command, selectedColumns, selectedSourceColumns);
+            SetResponseAfterChangeColumns(
+                responseCollection,
+                command,
+                "Title",
+                TitleColumnsHash(),
+                selectedColumns,
+                TitleColumnsHash(visible: false),
+                selectedSourceColumns);
+        }
+
+        public void SetLinkColumns(
+            ResponseCollection responseCollection,
+            string controlId,
+            List<string> selectedColumns,
+            List<string> selectedSourceColumns)
+        {
+            var command = ChangeCommand(controlId);
+            LinkColumnsOrder = ChangedColumns(
+                LinkColumnsOrder, command, selectedColumns, selectedSourceColumns);
+            SetResponseAfterChangeColumns(
+                responseCollection,
+                command,
+                "Link",
+                LinkColumnsHash(),
+                selectedColumns,
+                LinkColumnsHash(visible: false),
+                selectedSourceColumns);
+        }
+
+        public void SetHistoryColumns(
+            ResponseCollection responseCollection,
+            string controlId,
+            List<string> selectedColumns,
+            List<string> selectedSourceColumns)
+        {
+            var command = ChangeCommand(controlId);
+            HistoryColumnsOrder = ChangedColumns(
+                HistoryColumnsOrder, command, selectedColumns, selectedSourceColumns);
+            SetResponseAfterChangeColumns(
+                responseCollection,
+                command,
+                "History",
+                HistoryColumnsHash(),
+                selectedColumns,
+                HistoryColumnsHash(visible: false),
+                selectedSourceColumns);
+        }
+
+        public string ChangeCommand(string controlId)
+        {
+            if (controlId.StartsWith("MoveUp")) return "MoveUp";
+            if (controlId.StartsWith("MoveDown")) return "MoveDown";
+            if (controlId.StartsWith("Hide")) return "Hide";
+            if (controlId.StartsWith("Show")) return "Show";
+            return null;
+        }
+
+        public List<string> ChangedColumns(
+            List<string> order,
+            string command,
+            List<string> selectedColumns,
+            List<string> selectedSourceColumns)
+        {
+            switch (command)
+            {
+                case "MoveUp":
+                case "MoveDown":
+                    order = SortedColumns(order.ToArray(), command, selectedColumns);
+                    break;
+                case "Hide":
+                    order.RemoveAll(o => selectedColumns.Contains(o));
+                    break;
+                case "Show":
+                    order.AddRange(selectedSourceColumns);
+                    break;
+            }
+            return order;
+        }
+
+        private static List<string> SortedColumns(
+            string[] order, string command, List<string> selectedColumns)
+        {
+            if (command == "MoveDown") Array.Reverse(order);
             order.Select((o, i) => new { ColumnName = o, Index = i }).ForEach(data =>
             {
-                if (selectedColumns.Contains(data.ColumnName))
+                if (selectedColumns.Contains(data.ColumnName) &&
+                    data.Index > 0 &&
+                    selectedColumns.Contains(order[data.Index - 1]) == false)
                 {
-                    switch (controlId)
-                    {
-                        case "MoveUpEditorColumns":
-                        case "MoveDownEditorColumns":
-                            if (data.Index > 0 &&
-                                selectedColumns.Contains(order[data.Index - 1]) == false)
-                            {
-                                order = Arrays.Swap(order, data.Index, data.Index - 1);
-                            }
-                            break;
-                        case "ShowEditorColumns":
-                            EditorColumn(order[data.Index]).EditorVisible = true;
-                            break;
-                        case "HideEditorColumns":
-                            EditorColumn(order[data.Index]).EditorVisible = false;
-                            break;
-                    }
+                    order = Arrays.Swap(order, data.Index, data.Index - 1);
                 }
             });
-            if (controlId == "MoveDownEditorColumns") Array.Reverse(order);
-            EditorColumnsOrder = order.ToList<string>();
-            responseCollection.Html("#EditorColumns",
-                new HtmlBuilder().SelectableItems(
-                    listItemCollection: EditorColumnsHash(),
-                    selectedValueTextCollection: selectedColumns));
+            if (command == "MoveDown") Array.Reverse(order);
+            return order.ToList();
+        }
+
+        private void SetResponseAfterChangeColumns(
+            ResponseCollection responseCollection,
+            string command,
+            string typeName,
+            Dictionary<string, string> editorColumnsHash,
+            List<string> selectedColumns,
+            Dictionary<string, string> editorSourceColumnsHash,
+            List<string> selectedSourceColumns)
+        {
+            switch (command)
+            {
+                case "Hide":
+                    Move(selectedColumns, selectedSourceColumns);
+                    break;
+                case "Show":
+                    Move(selectedSourceColumns, selectedColumns);
+                    break;
+            }
+            responseCollection
+                .Html("#" + typeName + "Columns",
+                    new HtmlBuilder().SelectableItems(
+                        listItemCollection: editorColumnsHash,
+                        selectedValueTextCollection: selectedColumns))
+                .SetFormData(typeName + "Columns", selectedColumns.Join(";"))
+                .Html("#" + typeName + "SourceColumns",
+                    new HtmlBuilder().SelectableItems(
+                        listItemCollection: editorSourceColumnsHash,
+                        selectedValueTextCollection: selectedSourceColumns))
+                .SetFormData(typeName + "SourceColumns", selectedSourceColumns.Join(";"));
+        }
+
+        private void Move(List<string> sources, List<string> destinations)
+        {
+            destinations.Clear();
+            destinations.AddRange(sources);
+            sources.Clear();
         }
 
         public void SetColumnProperty(Column column, string propertyName, string value)
@@ -859,121 +1020,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     }
                 });
         }
-
-        public void SetTitleColumns(
-            ResponseCollection responseCollection,
-            string controlId,
-            IEnumerable<string> selectedColumns)
-        {
-            var order = TitleColumnsOrder.ToArray();
-            if (controlId == "MoveDownTitleColumns") Array.Reverse(order);
-            order.Select((o, i) => new { ColumnName = o, Index = i }).ForEach(data =>
-            {
-                if (selectedColumns.Contains(data.ColumnName))
-                {
-                    switch (controlId)
-                    {
-                        case "MoveUpTitleColumns":
-                        case "MoveDownTitleColumns":
-                            if (data.Index > 0 &&
-                                selectedColumns.Contains(order[data.Index - 1]) == false)
-                            {
-                                order = Arrays.Swap(order, data.Index, data.Index - 1);
-                            }
-                            break;
-                        case "ShowTitleColumns":
-                            TitleColumn(order[data.Index]).TitleVisible = true;
-                            break;
-                        case "HideTitleColumns":
-                            TitleColumn(order[data.Index]).TitleVisible = false;
-                            break;
-                    }
-                }
-            });
-            if (controlId == "MoveDownTitleColumns") Array.Reverse(order);
-            TitleColumnsOrder = order.ToList<string>();
-            responseCollection.Html("#TitleColumns",
-                new HtmlBuilder().SelectableItems(
-                    listItemCollection: TitleColumnsHash(),
-                    selectedValueTextCollection: selectedColumns));
-        }
-
-        public void SetLinkColumns(
-            ResponseCollection responseCollection,
-            string controlId,
-            IEnumerable<string> selectedColumns)
-        {
-            var order = LinkColumnsOrder.ToArray();
-            if (controlId == "MoveDownLinkColumns") Array.Reverse(order);
-            order.Select((o, i) => new { ColumnName = o, Index = i }).ForEach(data =>
-            {
-                if (selectedColumns.Contains(data.ColumnName))
-                {
-                    switch (controlId)
-                    {
-                        case "MoveUpLinkColumns":
-                        case "MoveDownLinkColumns":
-                            if (data.Index > 0 &&
-                                selectedColumns.Contains(order[data.Index - 1]) == false)
-                            {
-                                order = Arrays.Swap(order, data.Index, data.Index - 1);
-                            }
-                            break;
-                        case "ShowLinkColumns":
-                            LinkColumn(order[data.Index]).LinkVisible = true;
-                            break;
-                        case "HideLinkColumns":
-                            LinkColumn(order[data.Index]).LinkVisible = false;
-                            break;
-                    }
-                }
-            });
-            if (controlId == "MoveDownLinkColumns") Array.Reverse(order);
-            LinkColumnsOrder = order.ToList<string>();
-            responseCollection.Html("#LinkColumns",
-                new HtmlBuilder().SelectableItems(
-                    listItemCollection: LinkColumnsHash(),
-                    selectedValueTextCollection: selectedColumns));
-        }
-
-        public void SetHistoryColumns(
-            ResponseCollection responseCollection,
-            string controlId,
-            IEnumerable<string> selectedColumns)
-        {
-            var order = HistoryColumnsOrder.ToArray();
-            if (controlId == "MoveDownHistoryColumns") Array.Reverse(order);
-            order.Select((o, i) => new { ColumnName = o, Index = i }).ForEach(data =>
-            {
-                if (selectedColumns.Contains(data.ColumnName))
-                {
-                    switch (controlId)
-                    {
-                        case "MoveUpHistoryColumns":
-                        case "MoveDownHistoryColumns":
-                            if (data.Index > 0 &&
-                                selectedColumns.Contains(order[data.Index - 1]) == false)
-                            {
-                                order = Arrays.Swap(order, data.Index, data.Index - 1);
-                            }
-                            break;
-                        case "ShowHistoryColumns":
-                            HistoryColumn(order[data.Index]).HistoryVisible = true;
-                            break;
-                        case "HideHistoryColumns":
-                            HistoryColumn(order[data.Index]).HistoryVisible = false;
-                            break;
-                    }
-                }
-            });
-            if (controlId == "MoveDownHistoryColumns") Array.Reverse(order);
-            HistoryColumnsOrder = order.ToList<string>();
-            responseCollection.Html("#HistoryColumns",
-                new HtmlBuilder().SelectableItems(
-                    listItemCollection: HistoryColumnsHash(),
-                    selectedValueTextCollection: selectedColumns));
-        }
-
+        
         public void SetChoicesByLinks()
         {
             if (LinkColumnSiteIdHash?.Count > 0)

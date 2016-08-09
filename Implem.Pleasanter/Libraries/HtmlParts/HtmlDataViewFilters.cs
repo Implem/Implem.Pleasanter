@@ -119,9 +119,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static bool Visible(SiteSettings siteSettings, string columnName)
         {
-            var column = siteSettings.AllColumn(columnName);
-            return column != null &&
-                (column.GridVisible.ToBool() || column.EditorVisible.ToBool());
+            return
+                siteSettings.GridColumnsOrder.Contains(columnName) ||
+                siteSettings.EditorColumnsOrder.Contains(columnName);
         }
 
         private static HtmlBuilder Columns(
@@ -132,11 +132,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 switch (column.TypeName.CsTypeSummary())
                 {
                     case Types.CsBool:
-                        hb.CheckBox(column: column, formData: formData);
+                        hb.CheckBox(
+                            column: column,
+                            siteSettings: siteSettings,
+                            formData: formData);
                         break;
                     case Types.CsDateTime:
                         var timePeriod = TimePeriod(column.RecordedTime);
                         hb.DropDown(
+                            siteSettings: siteSettings,
                             column: column,
                             formData: formData,
                             optionCollection: timePeriod);
@@ -146,6 +150,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         if (column.HasChoices())
                         {
                             hb.DropDown(
+                            siteSettings: siteSettings,
                                 column: column,
                                 formData: formData,
                                 optionCollection: column.EditChoices(
@@ -161,7 +166,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder CheckBox(
-            this HtmlBuilder hb, Column column, FormData formData)
+            this HtmlBuilder hb, SiteSettings siteSettings, Column column, FormData formData)
         {
             return hb.FieldCheckBox(
                 controlId: "DataViewFilters_" + column.Id,
@@ -171,11 +176,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 _checked: formData.Get("DataViewFilters_" + column.Id).ToBool(),
                 action: "DataView",
                 method: "post",
-                _using: column.GridVisible.ToBool() || column.EditorVisible.ToBool());
+                _using:
+                    siteSettings.GridColumnsOrder.Contains(column.ColumnName) ||
+                    siteSettings.EditorColumnsOrder.Contains(column.ColumnName));
         }
 
         private static HtmlBuilder DropDown(
             this HtmlBuilder hb,
+            SiteSettings siteSettings,
             Column column,
             FormData formData,
             Dictionary<string, ControlData> optionCollection)
@@ -192,8 +200,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 action: "DataView",
                 method: "post",
                 _using:
-                    column.GridVisible.ToBool() ||
-                    column.EditorVisible.ToBool() ||
+                    siteSettings.GridColumnsOrder.Contains(column.ColumnName) ||
+                    siteSettings.EditorColumnsOrder.Contains(column.ColumnName) ||
                     column.RecordedTime);
         }
 

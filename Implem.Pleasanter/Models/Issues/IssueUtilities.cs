@@ -766,157 +766,154 @@ namespace Implem.Pleasanter.Models
         {
             return hb.FieldSet(id: "FieldSetGeneral", action: () =>
             {
-                siteSettings.ColumnCollection
-                    .Where(o => o.EditorVisible.ToBool())
-                    .OrderBy(o => siteSettings.EditorColumnsOrder.IndexOf(o.ColumnName))
-                    .ForEach(column =>
+                siteSettings.EditorColumnCollection().ForEach(column =>
+                {
+                    switch (column.ColumnName)
                     {
-                        switch (column.ColumnName)
-                        {
-                            case "IssueId": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.IssueId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "Ver": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.Ver.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "Title": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.Title.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "Body": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.Body.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "StartTime": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.StartTime.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CompletionTime": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CompletionTime.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "WorkValue": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.WorkValue.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ProgressRate": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ProgressRate.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "RemainingWorkValue": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.RemainingWorkValue.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "Status": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.Status.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "Manager": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.Manager.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "Owner": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.Owner.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassA": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassA.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassB": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassB.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassC": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassC.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassD": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassD.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassE": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassE.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassF": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassF.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassG": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassG.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassH": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassH.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassI": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassI.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassJ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassJ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassK": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassK.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassL": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassL.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassM": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassM.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassN": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassN.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassO": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassO.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassP": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassP.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassQ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassQ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassR": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassR.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassS": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassS.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassT": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassT.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassU": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassU.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassV": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassV.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassW": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassW.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassX": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassX.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassY": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassY.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "ClassZ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassZ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumA": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumA.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumB": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumB.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumC": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumC.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumD": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumD.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumE": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumE.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumF": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumF.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumG": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumG.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumH": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumH.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumI": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumI.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumJ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumJ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumK": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumK.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumL": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumL.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumM": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumM.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumN": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumN.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumO": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumO.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumP": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumP.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumQ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumQ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumR": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumR.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumS": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumS.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumT": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumT.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumU": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumU.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumV": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumV.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumW": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumW.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumX": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumX.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumY": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumY.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "NumZ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumZ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateA": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateA.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateB": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateB.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateC": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateC.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateD": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateD.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateE": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateE.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateF": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateF.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateG": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateG.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateH": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateH.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateI": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateI.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateJ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateJ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateK": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateK.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateL": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateL.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateM": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateM.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateN": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateN.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateO": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateO.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateP": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateP.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateQ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateQ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateR": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateR.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateS": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateS.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateT": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateT.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateU": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateU.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateV": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateV.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateW": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateW.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateX": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateX.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateY": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateY.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DateZ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateZ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionA": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionA.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionB": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionB.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionC": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionC.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionD": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionD.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionE": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionE.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionF": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionF.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionG": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionG.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionH": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionH.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionI": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionI.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionJ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionJ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionK": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionK.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionL": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionL.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionM": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionM.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionN": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionN.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionO": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionO.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionP": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionP.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionQ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionQ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionR": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionR.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionS": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionS.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionT": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionT.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionU": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionU.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionV": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionV.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionW": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionW.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionX": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionX.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionY": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionY.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "DescriptionZ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionZ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckA": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckA.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckB": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckB.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckC": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckC.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckD": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckD.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckE": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckE.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckF": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckF.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckG": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckG.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckH": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckH.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckI": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckI.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckJ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckJ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckK": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckK.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckL": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckL.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckM": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckM.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckN": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckN.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckO": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckO.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckP": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckP.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckQ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckQ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckR": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckR.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckS": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckS.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckT": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckT.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckU": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckU.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckV": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckV.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckW": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckW.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckX": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckX.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckY": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckY.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "CheckZ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckZ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                        }
-                    });
+                        case "IssueId": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.IssueId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "Ver": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.Ver.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "Title": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.Title.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "Body": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.Body.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "StartTime": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.StartTime.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CompletionTime": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CompletionTime.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "WorkValue": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.WorkValue.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ProgressRate": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ProgressRate.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "RemainingWorkValue": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.RemainingWorkValue.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "Status": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.Status.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "Manager": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.Manager.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "Owner": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.Owner.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassA": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassA.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassB": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassB.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassC": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassC.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassD": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassD.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassE": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassE.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassF": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassF.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassG": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassG.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassH": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassH.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassI": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassI.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassJ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassJ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassK": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassK.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassL": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassL.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassM": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassM.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassN": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassN.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassO": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassO.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassP": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassP.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassQ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassQ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassR": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassR.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassS": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassS.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassT": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassT.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassU": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassU.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassV": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassV.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassW": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassW.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassX": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassX.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassY": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassY.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "ClassZ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.ClassZ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumA": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumA.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumB": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumB.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumC": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumC.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumD": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumD.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumE": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumE.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumF": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumF.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumG": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumG.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumH": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumH.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumI": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumI.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumJ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumJ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumK": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumK.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumL": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumL.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumM": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumM.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumN": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumN.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumO": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumO.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumP": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumP.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumQ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumQ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumR": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumR.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumS": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumS.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumT": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumT.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumU": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumU.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumV": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumV.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumW": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumW.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumX": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumX.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumY": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumY.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "NumZ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.NumZ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateA": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateA.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateB": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateB.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateC": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateC.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateD": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateD.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateE": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateE.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateF": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateF.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateG": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateG.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateH": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateH.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateI": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateI.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateJ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateJ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateK": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateK.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateL": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateL.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateM": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateM.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateN": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateN.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateO": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateO.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateP": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateP.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateQ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateQ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateR": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateR.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateS": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateS.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateT": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateT.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateU": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateU.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateV": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateV.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateW": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateW.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateX": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateX.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateY": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateY.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DateZ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DateZ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionA": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionA.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionB": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionB.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionC": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionC.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionD": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionD.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionE": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionE.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionF": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionF.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionG": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionG.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionH": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionH.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionI": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionI.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionJ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionJ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionK": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionK.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionL": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionL.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionM": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionM.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionN": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionN.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionO": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionO.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionP": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionP.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionQ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionQ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionR": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionR.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionS": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionS.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionT": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionT.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionU": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionU.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionV": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionV.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionW": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionW.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionX": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionX.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionY": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionY.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "DescriptionZ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.DescriptionZ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckA": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckA.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckB": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckB.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckC": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckC.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckD": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckD.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckE": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckE.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckF": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckF.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckG": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckG.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckH": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckH.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckI": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckI.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckJ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckJ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckK": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckK.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckL": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckL.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckM": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckM.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckN": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckN.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckO": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckO.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckP": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckP.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckQ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckQ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckR": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckR.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckS": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckS.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckT": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckT.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckU": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckU.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckV": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckV.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckW": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckW.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckX": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckX.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckY": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckY.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "CheckZ": hb.Field(siteSettings, column, issueModel.MethodType, issueModel.CheckZ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                    }
+                });
                 hb
                     .VerUpCheckBox(issueModel)
                     .Div(id: "LinkCreations", css: "links", action: () => hb
@@ -1668,9 +1665,7 @@ namespace Implem.Pleasanter.Models
 
         public static string TitleDisplayValue(SiteSettings siteSettings, IssueModel issueModel)
         {
-            var displayValue = siteSettings.ColumnCollection
-                .Where(o => o.TitleVisible.ToBool())
-                .OrderBy(o => siteSettings.TitleColumnsOrder.IndexOf(o.ColumnName))
+            var displayValue = siteSettings.TitleColumnCollection()
                 .Select(column => TitleDisplayValue(column, issueModel))
                 .Where(o => o != string.Empty)
                 .Join(siteSettings.TitleSeparator);
@@ -1770,9 +1765,7 @@ namespace Implem.Pleasanter.Models
 
         public static string TitleDisplayValue(SiteSettings siteSettings, DataRow dataRow)
         {
-            var displayValue = siteSettings.ColumnCollection
-                .Where(o => o.TitleVisible.ToBool())
-                .OrderBy(o => siteSettings.TitleColumnsOrder.IndexOf(o.ColumnName))
+            var displayValue = siteSettings.TitleColumnCollection()
                 .Select(column => TitleDisplayValue(column, dataRow))
                 .Where(o => o != string.Empty)
                 .Join(siteSettings.TitleSeparator);

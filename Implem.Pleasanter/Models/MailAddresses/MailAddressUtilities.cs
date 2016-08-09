@@ -426,21 +426,18 @@ namespace Implem.Pleasanter.Models
         {
             return hb.FieldSet(id: "FieldSetGeneral", action: () =>
             {
-                siteSettings.ColumnCollection
-                    .Where(o => o.EditorVisible.ToBool())
-                    .OrderBy(o => siteSettings.EditorColumnsOrder.IndexOf(o.ColumnName))
-                    .ForEach(column =>
+                siteSettings.EditorColumnCollection().ForEach(column =>
+                {
+                    switch (column.ColumnName)
                     {
-                        switch (column.ColumnName)
-                        {
-                            case "OwnerId": hb.Field(siteSettings, column, mailAddressModel.MethodType, mailAddressModel.OwnerId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "OwnerType": hb.Field(siteSettings, column, mailAddressModel.MethodType, mailAddressModel.OwnerType.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "MailAddressId": hb.Field(siteSettings, column, mailAddressModel.MethodType, mailAddressModel.MailAddressId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "Ver": hb.Field(siteSettings, column, mailAddressModel.MethodType, mailAddressModel.Ver.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "MailAddress": hb.Field(siteSettings, column, mailAddressModel.MethodType, mailAddressModel.MailAddress.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "Title": hb.Field(siteSettings, column, mailAddressModel.MethodType, mailAddressModel.Title.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                        }
-                    });
+                        case "OwnerId": hb.Field(siteSettings, column, mailAddressModel.MethodType, mailAddressModel.OwnerId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "OwnerType": hb.Field(siteSettings, column, mailAddressModel.MethodType, mailAddressModel.OwnerType.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "MailAddressId": hb.Field(siteSettings, column, mailAddressModel.MethodType, mailAddressModel.MailAddressId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "Ver": hb.Field(siteSettings, column, mailAddressModel.MethodType, mailAddressModel.Ver.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "MailAddress": hb.Field(siteSettings, column, mailAddressModel.MethodType, mailAddressModel.MailAddress.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "Title": hb.Field(siteSettings, column, mailAddressModel.MethodType, mailAddressModel.Title.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                    }
+                });
                 hb.VerUpCheckBox(mailAddressModel);
             });
         }

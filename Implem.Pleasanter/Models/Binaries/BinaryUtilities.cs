@@ -434,24 +434,21 @@ namespace Implem.Pleasanter.Models
         {
             return hb.FieldSet(id: "FieldSetGeneral", action: () =>
             {
-                siteSettings.ColumnCollection
-                    .Where(o => o.EditorVisible.ToBool())
-                    .OrderBy(o => siteSettings.EditorColumnsOrder.IndexOf(o.ColumnName))
-                    .ForEach(column =>
+                siteSettings.EditorColumnCollection().ForEach(column =>
+                {
+                    switch (column.ColumnName)
                     {
-                        switch (column.ColumnName)
-                        {
-                            case "ReferenceId": hb.Field(siteSettings, column, binaryModel.MethodType, binaryModel.ReferenceId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "BinaryId": hb.Field(siteSettings, column, binaryModel.MethodType, binaryModel.BinaryId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "Ver": hb.Field(siteSettings, column, binaryModel.MethodType, binaryModel.Ver.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "BinaryType": hb.Field(siteSettings, column, binaryModel.MethodType, binaryModel.BinaryType.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "Title": hb.Field(siteSettings, column, binaryModel.MethodType, binaryModel.Title.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "Body": hb.Field(siteSettings, column, binaryModel.MethodType, binaryModel.Body.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "FileName": hb.Field(siteSettings, column, binaryModel.MethodType, binaryModel.FileName.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "Extension": hb.Field(siteSettings, column, binaryModel.MethodType, binaryModel.Extension.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                            case "Size": hb.Field(siteSettings, column, binaryModel.MethodType, binaryModel.Size.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                        }
-                    });
+                        case "ReferenceId": hb.Field(siteSettings, column, binaryModel.MethodType, binaryModel.ReferenceId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "BinaryId": hb.Field(siteSettings, column, binaryModel.MethodType, binaryModel.BinaryId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "Ver": hb.Field(siteSettings, column, binaryModel.MethodType, binaryModel.Ver.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "BinaryType": hb.Field(siteSettings, column, binaryModel.MethodType, binaryModel.BinaryType.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "Title": hb.Field(siteSettings, column, binaryModel.MethodType, binaryModel.Title.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "Body": hb.Field(siteSettings, column, binaryModel.MethodType, binaryModel.Body.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "FileName": hb.Field(siteSettings, column, binaryModel.MethodType, binaryModel.FileName.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "Extension": hb.Field(siteSettings, column, binaryModel.MethodType, binaryModel.Extension.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "Size": hb.Field(siteSettings, column, binaryModel.MethodType, binaryModel.Size.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                    }
+                });
                 hb.VerUpCheckBox(binaryModel);
             });
         }
