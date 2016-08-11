@@ -32,6 +32,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Title;
         [NonSerialized]
         public Databases.AccessStatuses AccessStatus;
+        [NonSerialized]
+        public Dictionary<string, Column> ColumnHash;
         public string ReferenceType;
         public decimal? NearCompletionTimeAfterDays;
         public decimal? NearCompletionTimeBeforeDays;
@@ -88,6 +90,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             UpdateLinkColumnsOrder();
             UpdateHistoryColumnsOrder();
             UpdateColumnCollection();
+            UpdateColumnHash();
             if (AggregationCollection == null) AggregationCollection = new List<Aggregation>();
             if (LinkColumnSiteIdHash == null) LinkColumnSiteIdHash = new Dictionary<string, long>();
             if (SummaryCollection == null) SummaryCollection = new List<Summary>();
@@ -419,6 +422,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        private void UpdateColumnHash()
+        {
+            ColumnHash = ColumnCollection.ToDictionary(o => o.ColumnName, o => o);
+        }
+
         private decimal DefaultMax(ColumnDefinition columnDefinition)
         {
             return (columnDefinition.Max > 0
@@ -435,7 +443,9 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Column AllColumn(string columnName)
         {
-            return ColumnCollection.FirstOrDefault(o => o.ColumnName == columnName);
+            return ColumnHash.Keys.Contains(columnName)
+                ? ColumnHash[columnName]
+                : null;
         }
 
         public Column GridColumn(string columnName)
