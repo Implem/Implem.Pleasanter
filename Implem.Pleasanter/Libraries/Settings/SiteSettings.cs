@@ -751,17 +751,20 @@ namespace Implem.Pleasanter.Libraries.Settings
             List<string> selectedColumns,
             List<string> selectedSourceColumns)
         {
-            var command = ChangeCommand(controlId);
-            GridColumnsOrder = ChangedColumns(
-                GridColumnsOrder, command, selectedColumns, selectedSourceColumns);
-            SetResponseAfterChangeColumns(
-                responseCollection,
-                command,
-                "Grid",
-                GridColumnsHash(),
-                selectedColumns,
-                GridColumnsHash(visible: false),
-                selectedSourceColumns);
+            if (controlId.EndsWith("GridColumns"))
+            {
+                var command = ChangeCommand(controlId);
+                GridColumnsOrder = ChangedColumns(
+                    GridColumnsOrder, command, selectedColumns, selectedSourceColumns);
+                SetResponseAfterChangeColumns(
+                    responseCollection,
+                    command,
+                    "Grid",
+                    GridColumnsHash(),
+                    selectedColumns,
+                    GridColumnsHash(visible: false),
+                    selectedSourceColumns);
+            }
         }
 
         public void SetFilterColumns(
@@ -770,17 +773,20 @@ namespace Implem.Pleasanter.Libraries.Settings
             List<string> selectedColumns,
             List<string> selectedSourceColumns)
         {
-            var command = ChangeCommand(controlId);
-            FilterColumnsOrder = ChangedColumns(
-                FilterColumnsOrder, command, selectedColumns, selectedSourceColumns);
-            SetResponseAfterChangeColumns(
-                responseCollection,
-                command,
-                "Filter",
-                FilterColumnsHash(),
-                selectedColumns,
-                FilterColumnsHash(visible: false),
-                selectedSourceColumns);
+            if (controlId.EndsWith("FilterColumns"))
+            {
+                var command = ChangeCommand(controlId);
+                FilterColumnsOrder = ChangedColumns(
+                    FilterColumnsOrder, command, selectedColumns, selectedSourceColumns);
+                SetResponseAfterChangeColumns(
+                    responseCollection,
+                    command,
+                    "Filter",
+                    FilterColumnsHash(),
+                    selectedColumns,
+                    FilterColumnsHash(visible: false),
+                    selectedSourceColumns);
+            }
         }
 
         public void SetEditorColumns(
@@ -789,17 +795,20 @@ namespace Implem.Pleasanter.Libraries.Settings
             List<string> selectedColumns,
             List<string> selectedSourceColumns)
         {
-            var command = ChangeCommand(controlId);
-            EditorColumnsOrder = ChangedColumns(
-                EditorColumnsOrder, command, selectedColumns, selectedSourceColumns);
-            SetResponseAfterChangeColumns(
-                responseCollection,
-                command,
-                "Editor",
-                EditorColumnsHash(),
-                selectedColumns,
-                EditorColumnsHash(visible: false),
-                selectedSourceColumns);
+            if (controlId.EndsWith("EditorColumns"))
+            {
+                var command = ChangeCommand(controlId);
+                EditorColumnsOrder = ChangedColumns(
+                    EditorColumnsOrder, command, selectedColumns, selectedSourceColumns);
+                SetResponseAfterChangeColumns(
+                    responseCollection,
+                    command,
+                    "Editor",
+                    EditorColumnsHash(),
+                    selectedColumns,
+                    EditorColumnsHash(visible: false),
+                    selectedSourceColumns);
+            }
         }
 
         public void SetTitleColumns(
@@ -808,17 +817,20 @@ namespace Implem.Pleasanter.Libraries.Settings
             List<string> selectedColumns,
             List<string> selectedSourceColumns)
         {
-            var command = ChangeCommand(controlId);
-            TitleColumnsOrder = ChangedColumns(
-                TitleColumnsOrder, command, selectedColumns, selectedSourceColumns);
-            SetResponseAfterChangeColumns(
-                responseCollection,
-                command,
-                "Title",
-                TitleColumnsHash(),
-                selectedColumns,
-                TitleColumnsHash(visible: false),
-                selectedSourceColumns);
+            if (controlId.EndsWith("TitleColumns"))
+            {
+                var command = ChangeCommand(controlId);
+                TitleColumnsOrder = ChangedColumns(
+                    TitleColumnsOrder, command, selectedColumns, selectedSourceColumns);
+                SetResponseAfterChangeColumns(
+                    responseCollection,
+                    command,
+                    "Title",
+                    TitleColumnsHash(),
+                    selectedColumns,
+                    TitleColumnsHash(visible: false),
+                    selectedSourceColumns);
+            }
         }
 
         public void SetLinkColumns(
@@ -827,17 +839,20 @@ namespace Implem.Pleasanter.Libraries.Settings
             List<string> selectedColumns,
             List<string> selectedSourceColumns)
         {
-            var command = ChangeCommand(controlId);
-            LinkColumnsOrder = ChangedColumns(
-                LinkColumnsOrder, command, selectedColumns, selectedSourceColumns);
-            SetResponseAfterChangeColumns(
-                responseCollection,
-                command,
-                "Link",
-                LinkColumnsHash(),
-                selectedColumns,
-                LinkColumnsHash(visible: false),
-                selectedSourceColumns);
+            if (controlId.EndsWith("LinkColumns"))
+            {
+                var command = ChangeCommand(controlId);
+                LinkColumnsOrder = ChangedColumns(
+                    LinkColumnsOrder, command, selectedColumns, selectedSourceColumns);
+                SetResponseAfterChangeColumns(
+                    responseCollection,
+                    command,
+                    "Link",
+                    LinkColumnsHash(),
+                    selectedColumns,
+                    LinkColumnsHash(visible: false),
+                    selectedSourceColumns);
+            }
         }
 
         public void SetHistoryColumns(
@@ -846,17 +861,20 @@ namespace Implem.Pleasanter.Libraries.Settings
             List<string> selectedColumns,
             List<string> selectedSourceColumns)
         {
-            var command = ChangeCommand(controlId);
-            HistoryColumnsOrder = ChangedColumns(
-                HistoryColumnsOrder, command, selectedColumns, selectedSourceColumns);
-            SetResponseAfterChangeColumns(
-                responseCollection,
-                command,
-                "History",
-                HistoryColumnsHash(),
-                selectedColumns,
-                HistoryColumnsHash(visible: false),
-                selectedSourceColumns);
+            if (controlId.EndsWith("HistoryColumns"))
+            {
+                var command = ChangeCommand(controlId);
+                HistoryColumnsOrder = ChangedColumns(
+                    HistoryColumnsOrder, command, selectedColumns, selectedSourceColumns);
+                SetResponseAfterChangeColumns(
+                    responseCollection,
+                    command,
+                    "History",
+                    HistoryColumnsHash(),
+                    selectedColumns,
+                    HistoryColumnsHash(visible: false),
+                    selectedSourceColumns);
+            }
         }
 
         public string ChangeCommand(string controlId)
