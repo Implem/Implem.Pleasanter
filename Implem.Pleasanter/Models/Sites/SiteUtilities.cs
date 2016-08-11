@@ -827,7 +827,7 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-center", action: () => hb
                                 .Button(
                                     controlId: "ShowGridColumns",
-                                    text: Displays.Visible(),
+                                    text: Displays.Show(),
                                     controlCss: "button-visible",
                                     onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
@@ -887,7 +887,7 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-center", action: () => hb
                                 .Button(
                                     controlId: "ShowFilterColumns",
-                                    text: Displays.Visible(),
+                                    text: Displays.Show(),
                                     controlCss: "button-visible",
                                     onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
@@ -1081,7 +1081,7 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-center", action: () => hb
                                 .Button(
                                     controlId: "ShowEditorColumns",
-                                    text: Displays.Visible(),
+                                    text: Displays.Show(),
                                     controlCss: "button-visible",
                                     onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
@@ -1144,7 +1144,7 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-center", action: () => hb
                                 .Button(
                                     controlId: "ShowLinkColumns",
-                                    text: Displays.Visible(),
+                                    text: Displays.Show(),
                                     controlCss: "button-visible",
                                     onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
@@ -1204,7 +1204,7 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-center", action: () => hb
                                 .Button(
                                     controlId: "ShowHistoryColumns",
-                                    text: Displays.Visible(),
+                                    text: Displays.Show(),
                                     controlCss: "button-visible",
                                     onClick: "$p.send($(this));",
                                     action: "SetSiteSettings",
@@ -1477,7 +1477,7 @@ namespace Implem.Pleasanter.Models
                     .Div(css: "command-center", action: () => hb
                         .Button(
                             controlId: "ShowTitleColumns",
-                            text: Displays.Visible(),
+                            text: Displays.Show(),
                             controlCss: "button-visible",
                             onClick: "$p.send($(this));",
                             action: "SetSiteSettings",

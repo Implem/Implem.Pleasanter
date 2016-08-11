@@ -2393,8 +2393,8 @@ namespace Implem.DefinitionAccessor
                     case "Older_ja": Display.Older_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Older_ja, definitionRow, DisplayXls); break;
                     case "Latest": Display.Latest = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Latest, definitionRow, DisplayXls); break;
                     case "Latest_ja": Display.Latest_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Latest_ja, definitionRow, DisplayXls); break;
-                    case "Visible": Display.Visible = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Visible, definitionRow, DisplayXls); break;
-                    case "Visible_ja": Display.Visible_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Visible_ja, definitionRow, DisplayXls); break;
+                    case "Show": Display.Show = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Show, definitionRow, DisplayXls); break;
+                    case "Show_ja": Display.Show_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Show_ja, definitionRow, DisplayXls); break;
                     case "Hide": Display.Hide = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Hide, definitionRow, DisplayXls); break;
                     case "Hide_ja": Display.Hide_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Hide_ja, definitionRow, DisplayXls); break;
                     case "ShowList": Display.ShowList = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ShowList, definitionRow, DisplayXls); break;
@@ -7464,8 +7464,8 @@ namespace Implem.DefinitionAccessor
         public string Older_ja;
         public string Latest;
         public string Latest_ja;
-        public string Visible;
-        public string Visible_ja;
+        public string Show;
+        public string Show_ja;
         public string Hide;
         public string Hide_ja;
         public string ShowList;
@@ -8100,8 +8100,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition Older_ja = new DisplayDefinition();
         public DisplayDefinition Latest = new DisplayDefinition();
         public DisplayDefinition Latest_ja = new DisplayDefinition();
-        public DisplayDefinition Visible = new DisplayDefinition();
-        public DisplayDefinition Visible_ja = new DisplayDefinition();
+        public DisplayDefinition Show = new DisplayDefinition();
+        public DisplayDefinition Show_ja = new DisplayDefinition();
         public DisplayDefinition Hide = new DisplayDefinition();
         public DisplayDefinition Hide_ja = new DisplayDefinition();
         public DisplayDefinition ShowList = new DisplayDefinition();

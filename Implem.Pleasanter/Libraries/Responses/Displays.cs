@@ -121,8 +121,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Older(params string[] data) { return Get("Older", data); }
         public static HtmlBuilder Displays_Latest(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Latest", data)); }
         public static string Latest(params string[] data) { return Get("Latest", data); }
-        public static HtmlBuilder Displays_Visible(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Visible", data)); }
-        public static string Visible(params string[] data) { return Get("Visible", data); }
+        public static HtmlBuilder Displays_Show(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Show", data)); }
+        public static string Show(params string[] data) { return Get("Show", data); }
         public static HtmlBuilder Displays_Hide(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Hide", data)); }
         public static string Hide(params string[] data) { return Get("Hide", data); }
         public static HtmlBuilder Displays_ShowList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ShowList", data)); }
