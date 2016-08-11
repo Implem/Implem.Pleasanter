@@ -24,7 +24,7 @@
         var $control = $(this).find('.grid-check');
         if ($control.length === 0) {
             location.href = $('#BaseUrl').val() + $(this).closest('.grid-row').attr('data-id');
-        } else {
+        } else if (!$p.hoverd($control)) {
             $control.trigger('click');
         }
     });
