@@ -346,8 +346,15 @@ namespace Implem.Pleasanter.Models
         {
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void OnDeleted(ref DeptsResponseCollection responseCollection)
         {
+            if (SiteInfo.Depts.Keys.Contains(DeptId))
+            {
+                SiteInfo.Depts.Remove(DeptId);
+            }
         }
 
         public string Restore(int deptId)
