@@ -543,7 +543,7 @@ namespace Implem.Pleasanter.Models
                 Rds.DemosWhere().Passphrase(QueryStrings.Data("passphrase")));
             if (demoModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
-                Initializ(demoModel);
+                Initialize(demoModel);
                 return Sessions.LoggedIn();
             }
             else
@@ -555,7 +555,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static void Initializ(DemoModel demoModel)
+        private static void Initialize(DemoModel demoModel)
         {
             var idHash = new Dictionary<string, long>();
             var loginId = LoginId(demoModel, "User1");
