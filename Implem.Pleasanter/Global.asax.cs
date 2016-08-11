@@ -2,6 +2,7 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Initializers;
+using Implem.Pleasanter.Libraries.Migrators;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -24,6 +25,7 @@ namespace Implem.Pleasanter
             UsersInitializer.Initialize();
             ItemsInitializer.Initialize();
             SitesInitializer.Initialize();
+            SiteSettingsMigrator.Migrate();
             SetConfigrations();
             log.Finish();
         }

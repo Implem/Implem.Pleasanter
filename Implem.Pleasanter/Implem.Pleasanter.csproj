@@ -270,6 +270,8 @@
     <Compile Include="Libraries\Initializers\SitesInitializer.cs" />
     <Compile Include="Libraries\Initializers\UsersInitializer.cs" />
     <Compile Include="Libraries\Mails\Addresses.cs" />
+    <Compile Include="Libraries\Migrators\SiteSettingsMigrator.cs" />
+    <Compile Include="Libraries\Migrators\SiteSettings\Version1_001.cs" />
     <Compile Include="Libraries\Models\Aggregation.cs" />
     <Compile Include="Libraries\Models\Aggregations.cs" />
     <Compile Include="Libraries\Models\Formula.cs" />
@@ -552,6 +554,7 @@
     <Content Include="App_Data\Parameters\Service.json" />
     <Content Include="App_Data\Parameters\SysLog.json" />
     <Content Include="App_Data\Parameters\Formats.json" />
+    <Content Include="App_Data\Parameters\Version.json" />
     <None Include="Properties\PublishProfiles\pleasanter配布.pubxml" />
     <Content Include="Tools\BackgroundTasks.ps1" />
   </ItemGroup>

@@ -19,6 +19,9 @@ namespace Implem.Pleasanter.Libraries.Settings
     [Serializable()]
     public class SiteSettings
     {
+        public decimal Version;
+        [NonSerialized]
+        public bool Migrated;
         [NonSerialized]
         public long SiteId;
         [NonSerialized]
@@ -70,6 +73,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void Init()
         {
+            Version = Parameters.Asset.SiteSettingsVersion;
             NearCompletionTimeBeforeDays = NearCompletionTimeBeforeDays ??
                 Parameters.General.NearCompletionTimeBeforeDays;
             NearCompletionTimeAfterDays = NearCompletionTimeAfterDays ??
@@ -93,6 +97,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         [OnDeserialized]
         private void OnDeserialized(StreamingContext streamingContext)
         {
+            if (Version != Parameters.Asset.SiteSettingsVersion)
+            {
+                Migrators.SiteSettingsMigrator.Migrate(this);
+            }
             Init();
         }
 
@@ -276,7 +284,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => o.TableName == ReferenceType)
                 .Where(o => o.TitleColumn > 0)
                 .Where(o => o.ColumnName == "Title" || !visibleOnly)
-                .OrderBy(o => o.No);
+                .OrderBy(o => o.TitleColumn);
         }
 
         private void UpdateLinkColumnsOrder()
