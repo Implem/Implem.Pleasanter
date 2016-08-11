@@ -629,7 +629,7 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     text: Displays.Change(),
                                     controlCss: "button-save validate",
-                                    onClick: "$p.send($(this));",
+                                    onClick: "$p.send($(this), 'ChangePasswordForm');",
                                     action: "ChangePassword",
                                     method: "post")
                                 .Button(
@@ -669,7 +669,7 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     text: Displays.Reset(),
                                     controlCss: "button-save validate",
-                                    onClick: "$p.send($(this));",
+                                    onClick: "$p.send($(this), 'ResetPasswordForm');",
                                     action: "ResetPassword",
                                     method: "post")
                                 .Button(
