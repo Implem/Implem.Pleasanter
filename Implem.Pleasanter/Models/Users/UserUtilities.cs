@@ -617,13 +617,13 @@ namespace Implem.Pleasanter.Models
                         action: () => hb
                             .Field(
                                 siteSettings: siteSettings,
-                                column: siteSettings.AllColumn("OldPassword"))
+                                column: siteSettings.GetColumn("OldPassword"))
                             .Field(
                                 siteSettings: siteSettings,
-                                column: siteSettings.AllColumn("ChangedPassword"))
+                                column: siteSettings.GetColumn("ChangedPassword"))
                             .Field(
                                 siteSettings: siteSettings,
-                                column: siteSettings.AllColumn("ChangedPasswordValidator"))
+                                column: siteSettings.GetColumn("ChangedPasswordValidator"))
                             .P(css: "message-dialog")
                             .Div(css: "command-center", action: () => hb
                                 .Button(
@@ -656,10 +656,10 @@ namespace Implem.Pleasanter.Models
                         action: () => hb
                             .Field(
                                 siteSettings: siteSettings,
-                                column: siteSettings.AllColumn("AfterResetPassword"))
+                                column: siteSettings.GetColumn("AfterResetPassword"))
                             .Field(
                                 siteSettings: siteSettings,
-                                column: siteSettings.AllColumn("AfterResetPasswordValidator"))
+                                column: siteSettings.GetColumn("AfterResetPasswordValidator"))
                             .P(css: "hidden", action: () => hb
                                 .TextBox(
                                     textType: HtmlTypes.TextTypes.Password,
@@ -724,16 +724,16 @@ namespace Implem.Pleasanter.Models
                                 .Div(action: () => hb
                                     .Field(
                                         siteSettings: siteSettings,
-                                        column: siteSettings.AllColumn("LoginId"),
+                                        column: siteSettings.GetColumn("LoginId"),
                                         controlCss: " must-transport focus")
                                     .Field(
                                         siteSettings: siteSettings,
-                                        column: siteSettings.AllColumn("Password"),
+                                        column: siteSettings.GetColumn("Password"),
                                         fieldCss: "field-wide",
                                         controlCss: " must-transport")
                                     .Field(
                                         siteSettings: siteSettings,
-                                        column: siteSettings.AllColumn("RememberMe")))
+                                        column: siteSettings.GetColumn("RememberMe")))
                                 .Div(css: "login-commands cf", action: () => hb
                                     .Button(
                                         controlCss: "button-authenticate button-right-justified validate",
@@ -757,7 +757,7 @@ namespace Implem.Pleasanter.Models
                                         .Div(action: () => hb
                                             .Field(
                                                 siteSettings: siteSettings,
-                                                column: siteSettings.AllColumn("DemoMailAddress"))
+                                                column: siteSettings.GetColumn("DemoMailAddress"))
                                             .Button(
                                                 text: Displays.Register(),
                                                 controlCss: "button-send-mail validate",
@@ -788,10 +788,10 @@ namespace Implem.Pleasanter.Models
                         action: () => hb
                             .Field(
                                 siteSettings: siteSettings,
-                                column: siteSettings.AllColumn("ChangedPassword"))
+                                column: siteSettings.GetColumn("ChangedPassword"))
                             .Field(
                                 siteSettings: siteSettings,
-                                column: siteSettings.AllColumn("ChangedPasswordValidator"))
+                                column: siteSettings.GetColumn("ChangedPasswordValidator"))
                             .P(css: "message-dialog")
                             .Div(css: "command-center", action: () => hb
                                 .Button(

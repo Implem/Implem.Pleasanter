@@ -483,7 +483,7 @@ namespace Implem.Pleasanter.Models
         {
             wikiModel.SiteSettings.FormulaHash?.Keys.ForEach(columnName =>
             {
-                var column = wikiModel.SiteSettings.AllColumn(columnName);
+                var column = wikiModel.SiteSettings.GetColumn(columnName);
                 switch (columnName)
                 {
                     default: break;
@@ -700,7 +700,7 @@ namespace Implem.Pleasanter.Models
                     paramHash.Add(data.Index, param);
                 });
                 var errorTitle = Imports.Validate(
-                    paramHash, siteSettings.AllColumn("Title"));
+                    paramHash, siteSettings.GetColumn("Title"));
                 if (errorTitle != null) return errorTitle;
                 paramHash.Values.ForEach(param =>
                     new WikiModel(siteSettings, siteModel.PermissionType)

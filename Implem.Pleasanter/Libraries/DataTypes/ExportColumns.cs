@@ -132,7 +132,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public Dictionary<string, Column> ColumnHash(SiteSettings siteSettings)
         {
-            return Columns.ToDictionary(o => o.Key, o => siteSettings.AllColumn(o.Key));
+            return Columns.ToDictionary(o => o.Key, o => siteSettings.GetColumn(o.Key));
         }
     }
 }

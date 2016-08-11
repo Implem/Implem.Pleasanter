@@ -64,9 +64,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Div(id: "KambanChart", action: () => hb
                         .KambanGrid(
                             siteSettings: siteSettings,
-                            groupByColumn: siteSettings.AllColumn(groupByColumn),
+                            groupByColumn: siteSettings.GetColumn(groupByColumn),
                             aggregateType: aggregateType,
-                            valueColumn: siteSettings.AllColumn(valueColumn),
+                            valueColumn: siteSettings.GetColumn(valueColumn),
                             data: data))
                     .MainCommands(
                         siteId: siteSettings.SiteId,

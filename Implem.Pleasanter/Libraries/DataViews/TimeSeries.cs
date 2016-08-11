@@ -86,7 +86,7 @@ namespace Implem.Pleasanter.Libraries.DataViews
         public string ChartJson()
         {
             var elements = new List<Element>();
-            var column = SiteSettings.AllColumn(GroupByColumn);
+            var column = SiteSettings.GetColumn(GroupByColumn);
             var choices = column
                 .EditChoices(SiteSettings.InheritPermission)
                 .Reverse()
@@ -99,7 +99,7 @@ namespace Implem.Pleasanter.Libraries.DataViews
                     User.UserTypes.Anonymous.ToInt().ToString(),
                     new ControlData(Displays.NotSet()));
             }
-            var valueColumn = SiteSettings.AllColumn(ValueColumn);
+            var valueColumn = SiteSettings.GetColumn(ValueColumn);
             var choiceKeys = choices.Keys.ToList();
             var indexes = choices.Select((o, i) => new Index
             {

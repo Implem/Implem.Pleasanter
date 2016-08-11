@@ -642,7 +642,7 @@ namespace Implem.Pleasanter.Models
                         text: siteModel.SiteId.ToString())
                     .FieldText(
                         controlId: "Sites_Ver",
-                        controlCss: siteModel.SiteSettings?.AllColumn("Ver").ControlCss,
+                        controlCss: siteModel.SiteSettings?.GetColumn("Ver").ControlCss,
                         labelText: Displays.Sites_Ver(),
                         text: siteModel.Ver.ToString())
                     .FieldTextBox(
@@ -651,7 +651,7 @@ namespace Implem.Pleasanter.Models
                         controlCss: " focus",
                         labelText: Displays.Sites_Title(),
                         text: siteModel.Title.Value.ToString(),
-                        attributes: siteModel.SiteSettings.AllColumn("Title").ValidationMessages(),
+                        attributes: siteModel.SiteSettings.GetColumn("Title").ValidationMessages(),
                         _using: siteModel.ReferenceType != "Wikis")
                     .FieldMarkDown(
                         controlId: "Sites_Body",
@@ -990,7 +990,7 @@ namespace Implem.Pleasanter.Models
                             .Where(o => o.TypeName != "datetime")
                             .ToDictionary(
                                 o => o.ColumnName,
-                                o => siteSettings.AllColumn(o.ColumnName).LabelText))
+                                o => siteSettings.GetColumn(o.ColumnName).LabelText))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -1723,7 +1723,7 @@ namespace Implem.Pleasanter.Models
                     .Where(o => o.Value == siteId)
                     .ToDictionary(
                         o => o.Key.Split('_')._1st(),
-                        o => siteSettings.AllColumn(o.Key.Split('_')._1st()).LabelText),
+                        o => siteSettings.GetColumn(o.Key.Split('_')._1st()).LabelText),
                 action: "SetSiteSettings",
                 method: "post");
         }
@@ -1805,15 +1805,15 @@ namespace Implem.Pleasanter.Models
                                     .Td(action: () => hb
                                         .Text(dataRow["Title"].ToString()))
                                     .Td(action: () => hb
-                                        .Text(destinationSiteSettings.AllColumn(
+                                        .Text(destinationSiteSettings.GetColumn(
                                             summary.DestinationColumn)?.LabelText))
                                     .Td(action: () => hb
-                                        .Text(sourceSiteSettings.AllColumn(
+                                        .Text(sourceSiteSettings.GetColumn(
                                             summary.LinkColumn)?.LabelText))
                                     .Td(action: () => hb
                                         .Text(SummaryType(summary.Type)))
                                     .Td(action: () => hb
-                                        .Text(sourceSiteSettings.AllColumn(
+                                        .Text(sourceSiteSettings.GetColumn(
                                             summary.SourceColumn)?.LabelText))
                                     .Td(action: () => hb
                                         .Button(

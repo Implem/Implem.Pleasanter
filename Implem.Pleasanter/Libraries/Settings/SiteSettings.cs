@@ -441,7 +441,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : 1);
         }
 
-        public Column AllColumn(string columnName)
+        public Column GetColumn(string columnName)
         {
             return ColumnHash.Keys.Contains(columnName)
                 ? ColumnHash[columnName]
@@ -624,8 +624,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             return columns.ToDictionary(
                 o => o,
                 o => visible
-                    ? Displays.Get(AllColumn(o).LabelText)
-                    : Displays.Get(AllColumn(o).LabelText) + " (" + Displays.Hidden() + ")");
+                    ? Displays.Get(GetColumn(o).LabelText)
+                    : Displays.Get(GetColumn(o).LabelText) + " (" + Displays.Hidden() + ")");
         }
 
         public Dictionary<string, string> AggregationDestination()
@@ -634,11 +634,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 o => o.Id.ToString(),
                 o => (o.GroupBy == "[NotGroupBy]"
                     ? Displays.SettingNotGroupBy() 
-                    : AllColumn(o.GroupBy).LabelText) +
+                    : GetColumn(o.GroupBy).LabelText) +
                         " (" +
                         Displays.Get(o.Type.ToString()) +
                         (o.Target != string.Empty
-                            ? ": " + AllColumn(o.Target).LabelText
+                            ? ": " + GetColumn(o.Target).LabelText
                             : string.Empty) +
                         ")");
         }
@@ -654,7 +654,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => o.Aggregatable)
                 .ToDictionary(
                     o => o.ColumnName,
-                    o => AllColumn(o.ColumnName).LabelText));
+                    o => GetColumn(o.ColumnName).LabelText));
         }
 
         public int NextPageOffset(int gridOffset, int resultCount)
@@ -1085,7 +1085,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var columnKey = linkColumnSiteId.Key;
             var columnName = columnKey.Substring(0, columnKey.LastIndexOf('_'));
-            var column = AllColumn(columnName);
+            var column = GetColumn(columnName);
             column.ChoicesText = column.ChoicesText.SplitReturn()
                 .Select(o => o.Trim())
                 .Where(o => o != string.Empty)
@@ -1339,7 +1339,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public decimal FormulaResult(string columnName, Dictionary<string, decimal> data)
         {
-            return AllColumn(columnName).Round(FormulaHash[columnName].GetResult(data));
+            return GetColumn(columnName).Round(FormulaHash[columnName].GetResult(data));
         }
     }
 }

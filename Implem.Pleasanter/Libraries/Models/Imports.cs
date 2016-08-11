@@ -17,7 +17,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 if (!headers.Contains(name))
                 {
                     return Messages.ResponseNotRequiredColumn(
-                        siteSettings.AllColumn(name).LabelText).ToJson();
+                        siteSettings.GetColumn(name).LabelText).ToJson();
                 }
             }
             return null;

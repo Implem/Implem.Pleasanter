@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.Models
             {
                 switch (key)
                 {
-                    case "SearchIndexes_Priority": responseCollection.Val("#" + key, searchIndexModel.Priority.ToControl(searchIndexModel.SiteSettings.AllColumn("Priority"), searchIndexModel.PermissionType)); break;
+                    case "SearchIndexes_Priority": responseCollection.Val("#" + key, searchIndexModel.Priority.ToControl(searchIndexModel.SiteSettings.GetColumn("Priority"), searchIndexModel.PermissionType)); break;
                     default: break;
                 }
             });

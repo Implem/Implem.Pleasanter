@@ -9,7 +9,7 @@ namespace Implem.Pleasanter.Libraries.Migrators
         {
             var hash = Def.ColumnDefinitionCollection
                 .Where(p => p.TableName == siteSettings.ReferenceType)
-                .ToDictionary(o => o.ColumnName, o => siteSettings.AllColumn(o.ColumnName));
+                .ToDictionary(o => o.ColumnName, o => siteSettings.GetColumn(o.ColumnName));
             siteSettings.GridColumnsOrder = hash
                 .Where(o => (o.Value?.GridVisible).ToBool() || (o.Value == null &&
                     Def.ColumnDefinitionCollection

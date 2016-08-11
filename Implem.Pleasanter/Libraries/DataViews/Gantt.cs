@@ -19,10 +19,10 @@ namespace Implem.Pleasanter.Libraries.DataViews
             SiteSettings siteSettings, IEnumerable<DataRow> dataRows, string groupByColumn)
         {
             SiteSettings = siteSettings;
-            GroupByColumn = SiteSettings.AllColumn(groupByColumn);
-            var statusColumn = SiteSettings.AllColumn("Status");
-            var workValueColumn = SiteSettings.AllColumn("WorkValue");
-            var progressRateColumn = SiteSettings.AllColumn("ProgressRate");
+            GroupByColumn = SiteSettings.GetColumn(groupByColumn);
+            var statusColumn = SiteSettings.GetColumn("Status");
+            var workValueColumn = SiteSettings.GetColumn("WorkValue");
+            var progressRateColumn = SiteSettings.GetColumn("ProgressRate");
             var groupCount = 0;
             dataRows.ForEach(dataRow =>
                 Add(new GanttElement(

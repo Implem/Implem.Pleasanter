@@ -65,8 +65,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .ForEach(aggregation =>
                 {
                     var html = string.Empty;
-                    var groupByColumn = siteSettings.AllColumn(aggregation.GroupBy);
-                    var targetColumn = siteSettings.AllColumn(aggregation.Target);
+                    var groupByColumn = siteSettings.GetColumn(aggregation.GroupBy);
+                    var targetColumn = siteSettings.GetColumn(aggregation.Target);
                     if (aggregation.Data.Count > 0)
                     hb.GroupBy(
                         groupByColumn: groupByColumn,

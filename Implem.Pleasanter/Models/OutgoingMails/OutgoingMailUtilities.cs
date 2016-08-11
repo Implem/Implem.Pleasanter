@@ -697,7 +697,7 @@ namespace Implem.Pleasanter.Models
                     controlCss: " must-transport",
                     labelText: Displays.OutgoingMails_Title(),
                     text: ReplyTitle(outgoingMailModel),
-                    attributes: outgoingMailModel.SiteSettings.AllColumn("Title")
+                    attributes: outgoingMailModel.SiteSettings.GetColumn("Title")
                         .ValidationMessages())
                 .FieldTextBox(
                     textType: HtmlTypes.TextTypes.MultiLine,
@@ -706,7 +706,7 @@ namespace Implem.Pleasanter.Models
                     controlCss: " must-transport h300",
                     labelText: Displays.OutgoingMails_Body(),
                     text: ReplyBody(outgoingMailModel),
-                    attributes: outgoingMailModel.SiteSettings.AllColumn("Body")
+                    attributes: outgoingMailModel.SiteSettings.GetColumn("Body")
                         .ValidationMessages())
                 .P(css: "message-dialog")
                 .Div(css: "command-center", action: () => hb

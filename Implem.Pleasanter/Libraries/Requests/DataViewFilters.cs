@@ -120,7 +120,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 .Where(o => o.StartsWith(prefix))
                 .Select(o => new
                 {
-                    Column = siteSettings.AllColumn(o.Substring(prefixLength)),
+                    Column = siteSettings.GetColumn(o.Substring(prefixLength)),
                     ColumnName = o.Substring(prefixLength),
                     Value = formData[o].Value
                 })

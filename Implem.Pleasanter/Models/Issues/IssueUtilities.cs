@@ -128,8 +128,8 @@ namespace Implem.Pleasanter.Models
                        dataRows: BurnDownDataRows(
                            siteSettings: siteSettings,
                            formData: formData),
-                       ownerLabelText: siteSettings.AllColumn("Owner").LabelText,
-                       column: siteSettings.AllColumn("WorkValue"));
+                       ownerLabelText: siteSettings.GetColumn("Owner").LabelText,
+                       column: siteSettings.GetColumn("WorkValue"));
                 case "Gantt":
                     return hb.Gantt(
                         siteSettings: siteSettings,
@@ -995,33 +995,33 @@ namespace Implem.Pleasanter.Models
             {
                 switch (key)
                 {
-                    case "Issues_WorkValue": responseCollection.Val("#" + key, issueModel.WorkValue.ToControl(issueModel.SiteSettings.AllColumn("WorkValue"), issueModel.PermissionType)); break;
-                    case "Issues_NumA": responseCollection.Val("#" + key, issueModel.NumA.ToControl(issueModel.SiteSettings.AllColumn("NumA"), issueModel.PermissionType)); break;
-                    case "Issues_NumB": responseCollection.Val("#" + key, issueModel.NumB.ToControl(issueModel.SiteSettings.AllColumn("NumB"), issueModel.PermissionType)); break;
-                    case "Issues_NumC": responseCollection.Val("#" + key, issueModel.NumC.ToControl(issueModel.SiteSettings.AllColumn("NumC"), issueModel.PermissionType)); break;
-                    case "Issues_NumD": responseCollection.Val("#" + key, issueModel.NumD.ToControl(issueModel.SiteSettings.AllColumn("NumD"), issueModel.PermissionType)); break;
-                    case "Issues_NumE": responseCollection.Val("#" + key, issueModel.NumE.ToControl(issueModel.SiteSettings.AllColumn("NumE"), issueModel.PermissionType)); break;
-                    case "Issues_NumF": responseCollection.Val("#" + key, issueModel.NumF.ToControl(issueModel.SiteSettings.AllColumn("NumF"), issueModel.PermissionType)); break;
-                    case "Issues_NumG": responseCollection.Val("#" + key, issueModel.NumG.ToControl(issueModel.SiteSettings.AllColumn("NumG"), issueModel.PermissionType)); break;
-                    case "Issues_NumH": responseCollection.Val("#" + key, issueModel.NumH.ToControl(issueModel.SiteSettings.AllColumn("NumH"), issueModel.PermissionType)); break;
-                    case "Issues_NumI": responseCollection.Val("#" + key, issueModel.NumI.ToControl(issueModel.SiteSettings.AllColumn("NumI"), issueModel.PermissionType)); break;
-                    case "Issues_NumJ": responseCollection.Val("#" + key, issueModel.NumJ.ToControl(issueModel.SiteSettings.AllColumn("NumJ"), issueModel.PermissionType)); break;
-                    case "Issues_NumK": responseCollection.Val("#" + key, issueModel.NumK.ToControl(issueModel.SiteSettings.AllColumn("NumK"), issueModel.PermissionType)); break;
-                    case "Issues_NumL": responseCollection.Val("#" + key, issueModel.NumL.ToControl(issueModel.SiteSettings.AllColumn("NumL"), issueModel.PermissionType)); break;
-                    case "Issues_NumM": responseCollection.Val("#" + key, issueModel.NumM.ToControl(issueModel.SiteSettings.AllColumn("NumM"), issueModel.PermissionType)); break;
-                    case "Issues_NumN": responseCollection.Val("#" + key, issueModel.NumN.ToControl(issueModel.SiteSettings.AllColumn("NumN"), issueModel.PermissionType)); break;
-                    case "Issues_NumO": responseCollection.Val("#" + key, issueModel.NumO.ToControl(issueModel.SiteSettings.AllColumn("NumO"), issueModel.PermissionType)); break;
-                    case "Issues_NumP": responseCollection.Val("#" + key, issueModel.NumP.ToControl(issueModel.SiteSettings.AllColumn("NumP"), issueModel.PermissionType)); break;
-                    case "Issues_NumQ": responseCollection.Val("#" + key, issueModel.NumQ.ToControl(issueModel.SiteSettings.AllColumn("NumQ"), issueModel.PermissionType)); break;
-                    case "Issues_NumR": responseCollection.Val("#" + key, issueModel.NumR.ToControl(issueModel.SiteSettings.AllColumn("NumR"), issueModel.PermissionType)); break;
-                    case "Issues_NumS": responseCollection.Val("#" + key, issueModel.NumS.ToControl(issueModel.SiteSettings.AllColumn("NumS"), issueModel.PermissionType)); break;
-                    case "Issues_NumT": responseCollection.Val("#" + key, issueModel.NumT.ToControl(issueModel.SiteSettings.AllColumn("NumT"), issueModel.PermissionType)); break;
-                    case "Issues_NumU": responseCollection.Val("#" + key, issueModel.NumU.ToControl(issueModel.SiteSettings.AllColumn("NumU"), issueModel.PermissionType)); break;
-                    case "Issues_NumV": responseCollection.Val("#" + key, issueModel.NumV.ToControl(issueModel.SiteSettings.AllColumn("NumV"), issueModel.PermissionType)); break;
-                    case "Issues_NumW": responseCollection.Val("#" + key, issueModel.NumW.ToControl(issueModel.SiteSettings.AllColumn("NumW"), issueModel.PermissionType)); break;
-                    case "Issues_NumX": responseCollection.Val("#" + key, issueModel.NumX.ToControl(issueModel.SiteSettings.AllColumn("NumX"), issueModel.PermissionType)); break;
-                    case "Issues_NumY": responseCollection.Val("#" + key, issueModel.NumY.ToControl(issueModel.SiteSettings.AllColumn("NumY"), issueModel.PermissionType)); break;
-                    case "Issues_NumZ": responseCollection.Val("#" + key, issueModel.NumZ.ToControl(issueModel.SiteSettings.AllColumn("NumZ"), issueModel.PermissionType)); break;
+                    case "Issues_WorkValue": responseCollection.Val("#" + key, issueModel.WorkValue.ToControl(issueModel.SiteSettings.GetColumn("WorkValue"), issueModel.PermissionType)); break;
+                    case "Issues_NumA": responseCollection.Val("#" + key, issueModel.NumA.ToControl(issueModel.SiteSettings.GetColumn("NumA"), issueModel.PermissionType)); break;
+                    case "Issues_NumB": responseCollection.Val("#" + key, issueModel.NumB.ToControl(issueModel.SiteSettings.GetColumn("NumB"), issueModel.PermissionType)); break;
+                    case "Issues_NumC": responseCollection.Val("#" + key, issueModel.NumC.ToControl(issueModel.SiteSettings.GetColumn("NumC"), issueModel.PermissionType)); break;
+                    case "Issues_NumD": responseCollection.Val("#" + key, issueModel.NumD.ToControl(issueModel.SiteSettings.GetColumn("NumD"), issueModel.PermissionType)); break;
+                    case "Issues_NumE": responseCollection.Val("#" + key, issueModel.NumE.ToControl(issueModel.SiteSettings.GetColumn("NumE"), issueModel.PermissionType)); break;
+                    case "Issues_NumF": responseCollection.Val("#" + key, issueModel.NumF.ToControl(issueModel.SiteSettings.GetColumn("NumF"), issueModel.PermissionType)); break;
+                    case "Issues_NumG": responseCollection.Val("#" + key, issueModel.NumG.ToControl(issueModel.SiteSettings.GetColumn("NumG"), issueModel.PermissionType)); break;
+                    case "Issues_NumH": responseCollection.Val("#" + key, issueModel.NumH.ToControl(issueModel.SiteSettings.GetColumn("NumH"), issueModel.PermissionType)); break;
+                    case "Issues_NumI": responseCollection.Val("#" + key, issueModel.NumI.ToControl(issueModel.SiteSettings.GetColumn("NumI"), issueModel.PermissionType)); break;
+                    case "Issues_NumJ": responseCollection.Val("#" + key, issueModel.NumJ.ToControl(issueModel.SiteSettings.GetColumn("NumJ"), issueModel.PermissionType)); break;
+                    case "Issues_NumK": responseCollection.Val("#" + key, issueModel.NumK.ToControl(issueModel.SiteSettings.GetColumn("NumK"), issueModel.PermissionType)); break;
+                    case "Issues_NumL": responseCollection.Val("#" + key, issueModel.NumL.ToControl(issueModel.SiteSettings.GetColumn("NumL"), issueModel.PermissionType)); break;
+                    case "Issues_NumM": responseCollection.Val("#" + key, issueModel.NumM.ToControl(issueModel.SiteSettings.GetColumn("NumM"), issueModel.PermissionType)); break;
+                    case "Issues_NumN": responseCollection.Val("#" + key, issueModel.NumN.ToControl(issueModel.SiteSettings.GetColumn("NumN"), issueModel.PermissionType)); break;
+                    case "Issues_NumO": responseCollection.Val("#" + key, issueModel.NumO.ToControl(issueModel.SiteSettings.GetColumn("NumO"), issueModel.PermissionType)); break;
+                    case "Issues_NumP": responseCollection.Val("#" + key, issueModel.NumP.ToControl(issueModel.SiteSettings.GetColumn("NumP"), issueModel.PermissionType)); break;
+                    case "Issues_NumQ": responseCollection.Val("#" + key, issueModel.NumQ.ToControl(issueModel.SiteSettings.GetColumn("NumQ"), issueModel.PermissionType)); break;
+                    case "Issues_NumR": responseCollection.Val("#" + key, issueModel.NumR.ToControl(issueModel.SiteSettings.GetColumn("NumR"), issueModel.PermissionType)); break;
+                    case "Issues_NumS": responseCollection.Val("#" + key, issueModel.NumS.ToControl(issueModel.SiteSettings.GetColumn("NumS"), issueModel.PermissionType)); break;
+                    case "Issues_NumT": responseCollection.Val("#" + key, issueModel.NumT.ToControl(issueModel.SiteSettings.GetColumn("NumT"), issueModel.PermissionType)); break;
+                    case "Issues_NumU": responseCollection.Val("#" + key, issueModel.NumU.ToControl(issueModel.SiteSettings.GetColumn("NumU"), issueModel.PermissionType)); break;
+                    case "Issues_NumV": responseCollection.Val("#" + key, issueModel.NumV.ToControl(issueModel.SiteSettings.GetColumn("NumV"), issueModel.PermissionType)); break;
+                    case "Issues_NumW": responseCollection.Val("#" + key, issueModel.NumW.ToControl(issueModel.SiteSettings.GetColumn("NumW"), issueModel.PermissionType)); break;
+                    case "Issues_NumX": responseCollection.Val("#" + key, issueModel.NumX.ToControl(issueModel.SiteSettings.GetColumn("NumX"), issueModel.PermissionType)); break;
+                    case "Issues_NumY": responseCollection.Val("#" + key, issueModel.NumY.ToControl(issueModel.SiteSettings.GetColumn("NumY"), issueModel.PermissionType)); break;
+                    case "Issues_NumZ": responseCollection.Val("#" + key, issueModel.NumZ.ToControl(issueModel.SiteSettings.GetColumn("NumZ"), issueModel.PermissionType)); break;
                     default: break;
                 }
             });
@@ -1033,7 +1033,7 @@ namespace Implem.Pleasanter.Models
         {
             issueModel.SiteSettings.FormulaHash?.Keys.ForEach(columnName =>
             {
-                var column = issueModel.SiteSettings.AllColumn(columnName);
+                var column = issueModel.SiteSettings.GetColumn(columnName);
                 switch (columnName)
                 {
                     case "WorkValue": responseCollection.Val("#Issues_WorkValue", issueModel.WorkValue.ToControl(column, issueModel.PermissionType)); break;
@@ -1414,10 +1414,10 @@ namespace Implem.Pleasanter.Models
                     paramHash.Add(data.Index, param);
                 });
                 var errorTitle = Imports.Validate(
-                    paramHash, siteSettings.AllColumn("Title"));
+                    paramHash, siteSettings.GetColumn("Title"));
                 if (errorTitle != null) return errorTitle;
                 var errorCompletionTime = Imports.Validate(
-                    paramHash, siteSettings.AllColumn("CompletionTime"));
+                    paramHash, siteSettings.GetColumn("CompletionTime"));
                 if (errorCompletionTime != null) return errorCompletionTime;
                 paramHash.Values.ForEach(param =>
                     new IssueModel(siteSettings, siteModel.PermissionType)
@@ -1974,8 +1974,8 @@ namespace Implem.Pleasanter.Models
                         siteSettings: siteSettings,
                         permissionType: permissionType,
                         dataRows: BurnDownDataRows(siteSettings, formData),
-                        ownerLabelText: siteSettings.AllColumn("Owner").LabelText,
-                        column: siteSettings.AllColumn("WorkValue")))
+                        ownerLabelText: siteSettings.GetColumn("Owner").LabelText,
+                        column: siteSettings.GetColumn("WorkValue")))
                 .Html(
                     "#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
@@ -1997,9 +1997,9 @@ namespace Implem.Pleasanter.Models
                         siteSettings: siteSettings,
                         formData: DataViewFilters.SessionFormData(siteSettings.SiteId)))
                             .Where(o => o.UpdatedTime == date),
-                    column: siteSettings.AllColumn("ProgressRate"),
+                    column: siteSettings.GetColumn("ProgressRate"),
                     colspan: Forms.Int("BurnDownColspan"),
-                    unit: siteSettings.AllColumn("WorkValue").Unit)).ToJson();
+                    unit: siteSettings.GetColumn("WorkValue").Unit)).ToJson();
         }
 
         /// <summary>
@@ -2241,9 +2241,9 @@ namespace Implem.Pleasanter.Models
                     data: data)
                 : hb.KambanGrid(
                     siteSettings: siteSettings,
-                    groupByColumn: siteSettings.AllColumn(groupByColumn),
+                    groupByColumn: siteSettings.GetColumn(groupByColumn),
                     aggregateType: aggregateType,
-                    valueColumn: siteSettings.AllColumn(valueColumn),
+                    valueColumn: siteSettings.GetColumn(valueColumn),
                     data: data,
                     changedItemId: changedItemId);
         }

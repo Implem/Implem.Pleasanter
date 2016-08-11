@@ -30,7 +30,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 .Where(o => dataSet.Tables.Contains("Aggregation" + o.Index))
                 .ForEach(data =>
                 {
-                    var groupByColumn = siteSettings?.AllColumn(data.Aggregation.GroupBy);
+                    var groupByColumn = siteSettings?.GetColumn(data.Aggregation.GroupBy);
                     dataSet.Tables["Aggregation" + data.Index]
                         .AsEnumerable()
                         .ForEach(dataRow =>
