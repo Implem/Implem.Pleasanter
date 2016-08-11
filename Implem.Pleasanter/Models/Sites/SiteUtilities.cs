@@ -789,7 +789,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.ShowList(),
-                        listItemCollection: siteSettings.GridColumnsHash(),
+                        listItemCollection: siteSettings.GridSelectableItems(),
                         selectedValueCollection: new List<string>(),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
@@ -821,7 +821,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.HideList(),
-                        listItemCollection: siteSettings.GridColumnsHash(visible: false),
+                        listItemCollection: siteSettings.GridSelectableItems(visible: false),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
@@ -849,7 +849,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.ShowList(),
-                        listItemCollection: siteSettings.FilterColumnsHash(),
+                        listItemCollection: siteSettings.FilterSelectableItems(),
                         selectedValueCollection: new List<string>(),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
@@ -881,7 +881,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.HideList(),
-                        listItemCollection: siteSettings.FilterColumnsHash(visible: false),
+                        listItemCollection: siteSettings.FilterSelectableItems(visible: false),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
@@ -1037,7 +1037,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.ShowList(),
-                        listItemCollection: siteSettings.EditorColumnsHash(),
+                        listItemCollection: siteSettings.EditorSelectableItems(),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
@@ -1075,7 +1075,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.HideList(),
-                        listItemCollection: siteSettings.EditorColumnsHash(visible: false),
+                        listItemCollection: siteSettings.EditorSelectableItems(visible: false),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
@@ -1107,7 +1107,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.ShowList(),
-                        listItemCollection: siteSettings.LinkColumnsHash(),
+                        listItemCollection: siteSettings.LinkSelectableItems(),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
@@ -1138,7 +1138,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.HideList(),
-                        listItemCollection: siteSettings.LinkColumnsHash(visible: false),
+                        listItemCollection: siteSettings.LinkSelectableItems(visible: false),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
@@ -1167,7 +1167,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.ShowList(),
-                        listItemCollection: siteSettings.HistoryColumnsHash(),
+                        listItemCollection: siteSettings.HistorySelectableItems(),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
@@ -1198,7 +1198,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.HideList(),
-                        listItemCollection: siteSettings.HistoryColumnsHash(visible: false),
+                        listItemCollection: siteSettings.HistorySelectableItems(visible: false),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
@@ -1440,7 +1440,7 @@ namespace Implem.Pleasanter.Models
                 controlContainerCss: "container-selectable",
                 controlCss: " h350",
                 labelText: Displays.ShowList(),
-                listItemCollection: siteSettings.TitleColumnsHash(),
+                listItemCollection: siteSettings.TitleSelectableItems(),
                 commandOptionPositionIsTop: true,
                 commandOptionAction: () => hb
                     .Div(css: "command-center", action: () => hb
@@ -1471,7 +1471,7 @@ namespace Implem.Pleasanter.Models
                 controlContainerCss: "container-selectable",
                 controlCss: " h350",
                 labelText: Displays.HideList(),
-                listItemCollection: siteSettings.TitleColumnsHash(visible: false),
+                listItemCollection: siteSettings.TitleSelectableItems(visible: false),
                 commandOptionPositionIsTop: true,
                 commandOptionAction: () => hb
                     .Div(css: "command-center", action: () => hb

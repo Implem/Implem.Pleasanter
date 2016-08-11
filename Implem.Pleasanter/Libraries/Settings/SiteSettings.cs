@@ -555,61 +555,61 @@ namespace Implem.Pleasanter.Libraries.Settings
                 EditorColumnsOrder.Contains(o.ColumnName));
         }
 
-        public Dictionary<string, string> GridColumnsHash(bool visible = true)
+        public Dictionary<string, string> GridSelectableItems(bool visible = true)
         {
             return visible
-                ? ColumnsHash(GridColumnsOrder, visible)
-                : ColumnsHash(GridColumnDefinitions()
+                ? SelectableItems(GridColumnsOrder, visible)
+                : SelectableItems(GridColumnDefinitions()
                     .Where(o => !GridColumnsOrder.Contains(o.ColumnName))
                     .Select(o => o.ColumnName), visible);
         }
 
-        public Dictionary<string, string> FilterColumnsHash(bool visible = true)
+        public Dictionary<string, string> FilterSelectableItems(bool visible = true)
         {
             return visible
-                ? ColumnsHash(FilterColumnsOrder, visible)
-                : ColumnsHash(FilterColumnDefinitions()
+                ? SelectableItems(FilterColumnsOrder, visible)
+                : SelectableItems(FilterColumnDefinitions()
                     .Where(o => !FilterColumnsOrder.Contains(o.ColumnName))
                     .Select(o => o.ColumnName), visible);
         }
 
-        public Dictionary<string, string> EditorColumnsHash(bool visible = true)
+        public Dictionary<string, string> EditorSelectableItems(bool visible = true)
         {
             return visible
-                ? ColumnsHash(EditorColumnsOrder, visible)
-                : ColumnsHash(EditorColumnDefinitions()
+                ? SelectableItems(EditorColumnsOrder, visible)
+                : SelectableItems(EditorColumnDefinitions()
                     .Where(o => !EditorColumnsOrder.Contains(o.ColumnName))
                     .Select(o => o.ColumnName), visible);
         }
 
-        public Dictionary<string, string> TitleColumnsHash(bool visible = true)
+        public Dictionary<string, string> TitleSelectableItems(bool visible = true)
         {
             return visible
-                ? ColumnsHash(TitleColumnsOrder, visible)
-                : ColumnsHash(TitleColumnDefinitions()
+                ? SelectableItems(TitleColumnsOrder, visible)
+                : SelectableItems(TitleColumnDefinitions()
                     .Where(o => !TitleColumnsOrder.Contains(o.ColumnName))
                     .Select(o => o.ColumnName), visible);
         }
 
-        public Dictionary<string, string> LinkColumnsHash(bool visible = true)
+        public Dictionary<string, string> LinkSelectableItems(bool visible = true)
         {
             return visible
-                ? ColumnsHash(LinkColumnsOrder, visible)
-                : ColumnsHash(LinkColumnDefinitions()
+                ? SelectableItems(LinkColumnsOrder, visible)
+                : SelectableItems(LinkColumnDefinitions()
                     .Where(o => !LinkColumnsOrder.Contains(o.ColumnName))
                     .Select(o => o.ColumnName), visible);
         }
 
-        public Dictionary<string, string> HistoryColumnsHash(bool visible = true)
+        public Dictionary<string, string> HistorySelectableItems(bool visible = true)
         {
             return visible
-                ? ColumnsHash(HistoryColumnsOrder, visible)
-                : ColumnsHash(HistoryColumnDefinitions()
+                ? SelectableItems(HistoryColumnsOrder, visible)
+                : SelectableItems(HistoryColumnDefinitions()
                     .Where(o => !HistoryColumnsOrder.Contains(o.ColumnName))
                     .Select(o => o.ColumnName), visible);
         }
 
-        private Dictionary<string, string> ColumnsHash(IEnumerable<string> columns, bool visible)
+        private Dictionary<string, string> SelectableItems(IEnumerable<string> columns, bool visible)
         {
             return columns.ToDictionary(
                 o => o,
@@ -760,9 +760,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     responseCollection,
                     command,
                     "Grid",
-                    GridColumnsHash(),
+                    GridSelectableItems(),
                     selectedColumns,
-                    GridColumnsHash(visible: false),
+                    GridSelectableItems(visible: false),
                     selectedSourceColumns);
             }
         }
@@ -782,9 +782,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     responseCollection,
                     command,
                     "Filter",
-                    FilterColumnsHash(),
+                    FilterSelectableItems(),
                     selectedColumns,
-                    FilterColumnsHash(visible: false),
+                    FilterSelectableItems(visible: false),
                     selectedSourceColumns);
             }
         }
@@ -804,9 +804,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     responseCollection,
                     command,
                     "Editor",
-                    EditorColumnsHash(),
+                    EditorSelectableItems(),
                     selectedColumns,
-                    EditorColumnsHash(visible: false),
+                    EditorSelectableItems(visible: false),
                     selectedSourceColumns);
             }
         }
@@ -826,9 +826,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     responseCollection,
                     command,
                     "Title",
-                    TitleColumnsHash(),
+                    TitleSelectableItems(),
                     selectedColumns,
-                    TitleColumnsHash(visible: false),
+                    TitleSelectableItems(visible: false),
                     selectedSourceColumns);
             }
         }
@@ -848,9 +848,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     responseCollection,
                     command,
                     "Link",
-                    LinkColumnsHash(),
+                    LinkSelectableItems(),
                     selectedColumns,
-                    LinkColumnsHash(visible: false),
+                    LinkSelectableItems(visible: false),
                     selectedSourceColumns);
             }
         }
@@ -870,9 +870,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     responseCollection,
                     command,
                     "History",
-                    HistoryColumnsHash(),
+                    HistorySelectableItems(),
                     selectedColumns,
-                    HistoryColumnsHash(visible: false),
+                    HistorySelectableItems(visible: false),
                     selectedSourceColumns);
             }
         }
@@ -929,9 +929,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             ResponseCollection responseCollection,
             string command,
             string typeName,
-            Dictionary<string, string> editorColumnsHash,
+            Dictionary<string, string> editorSelectableItems,
             List<string> selectedColumns,
-            Dictionary<string, string> editorSourceColumnsHash,
+            Dictionary<string, string> editorSourceSelectableItems,
             List<string> selectedSourceColumns)
         {
             switch (command)
@@ -946,12 +946,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             responseCollection
                 .Html("#" + typeName + "Columns",
                     new HtmlBuilder().SelectableItems(
-                        listItemCollection: editorColumnsHash,
+                        listItemCollection: editorSelectableItems,
                         selectedValueTextCollection: selectedColumns))
                 .SetFormData(typeName + "Columns", selectedColumns.Join(";"))
                 .Html("#" + typeName + "SourceColumns",
                     new HtmlBuilder().SelectableItems(
-                        listItemCollection: editorSourceColumnsHash,
+                        listItemCollection: editorSourceSelectableItems,
                         selectedValueTextCollection: selectedSourceColumns))
                 .SetFormData(typeName + "SourceColumns", selectedSourceColumns.Join(";"));
         }

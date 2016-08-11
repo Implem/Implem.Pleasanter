@@ -1081,7 +1081,7 @@ namespace Implem.Pleasanter.Models
                                 data.Value));
                     responseCollection.Html("#EditorColumns",
                         new HtmlBuilder().SelectableItems(
-                            listItemCollection: SiteSettings.EditorColumnsHash(),
+                            listItemCollection: SiteSettings.EditorSelectableItems(),
                             selectedValueTextCollection: selectedColumns));
                 }
             }
