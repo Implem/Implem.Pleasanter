@@ -494,8 +494,17 @@ namespace Implem.Pleasanter.Models
         {
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void OnDeleted(ref UsersResponseCollection responseCollection)
         {
+            if (SiteInfo.Users.Keys.Contains(UserId))
+            {
+                SiteInfo.Users.Remove(UserId);
+                SiteInfo.SiteUserIdCollection.ForEach(data =>
+                    data.Value.RemoveAll(o => o == UserId));
+            }
         }
 
         public string Restore(int userId)
