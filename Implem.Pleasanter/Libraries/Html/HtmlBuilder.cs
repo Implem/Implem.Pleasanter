@@ -121,7 +121,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         private void AppendCloseTagCollection(int closeLevel = -1)
         {
-            if (closeTagCollection.Count() > 0)
+            if (closeTagCollection.Any())
             {
                 if (closeLevel == -1)
                 {
