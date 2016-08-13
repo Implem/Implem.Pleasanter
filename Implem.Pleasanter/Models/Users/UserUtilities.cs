@@ -239,46 +239,13 @@ namespace Implem.Pleasanter.Models
 
         private static SqlColumnCollection GridSqlColumnCollection(SiteSettings siteSettings)
         {
-            var select = Rds.UsersColumn()
+            var gridSqlColumn = Rds.UsersColumn()
                 .UserId()
                 .Creator()
                 .Updator();
-            siteSettings.GridColumnCollection(withTitle: true).ForEach(columnGrid =>
-            {
-                switch (columnGrid.ColumnName)
-                {
-                    case "TenantId": select.TenantId(); break;
-                    case "UserId": select.UserId(); break;
-                    case "Ver": select.Ver(); break;
-                    case "LoginId": select.LoginId(); break;
-                    case "Disabled": select.Disabled(); break;
-                    case "UserCode": select.UserCode(); break;
-                    case "Password": select.Password(); break;
-                    case "LastName": select.LastName(); break;
-                    case "FirstName": select.FirstName(); break;
-                    case "Birthday": select.Birthday(); break;
-                    case "Sex": select.Sex(); break;
-                    case "Language": select.Language(); break;
-                    case "TimeZone": select.TimeZone(); break;
-                    case "DeptId": select.DeptId(); break;
-                    case "Dept": select.Dept(); break;
-                    case "FirstAndLastNameOrder": select.FirstAndLastNameOrder(); break;
-                    case "LastLoginTime": select.LastLoginTime(); break;
-                    case "PasswordExpirationTime": select.PasswordExpirationTime(); break;
-                    case "PasswordChangeTime": select.PasswordChangeTime(); break;
-                    case "NumberOfLogins": select.NumberOfLogins(); break;
-                    case "NumberOfDenial": select.NumberOfDenial(); break;
-                    case "TenantAdmin": select.TenantAdmin(); break;
-                    case "ServiceAdmin": select.ServiceAdmin(); break;
-                    case "Developer": select.Developer(); break;
-                    case "Comments": select.Comments(); break;
-                    case "Creator": select.Creator(); break;
-                    case "Updator": select.Updator(); break;
-                    case "CreatedTime": select.CreatedTime(); break;
-                    case "UpdatedTime": select.UpdatedTime(); break;
-                }
-            });
-            return select;
+            siteSettings.GridColumnCollection(withTitle: true).ForEach(column =>
+                Rds.UsersColumn(gridSqlColumn, column.ColumnName));
+            return gridSqlColumn;
         }
 
         public static HtmlBuilder TdValue(

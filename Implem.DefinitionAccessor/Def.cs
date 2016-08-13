@@ -432,7 +432,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utility_Td": Code.Model_Utility_Td = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_Td, definitionRow, CodeXls); break;
                     case "Model_Utility_TdCases": Code.Model_Utility_TdCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_TdCases, definitionRow, CodeXls); break;
                     case "Model_Utility_AddSqlColumnSiteId": Code.Model_Utility_AddSqlColumnSiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_AddSqlColumnSiteId, definitionRow, CodeXls); break;
-                    case "Model_Utility_AddSqlColumn": Code.Model_Utility_AddSqlColumn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_AddSqlColumn, definitionRow, CodeXls); break;
                     case "Model_Utility_GridSqlWhereTenantId": Code.Model_Utility_GridSqlWhereTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_GridSqlWhereTenantId, definitionRow, CodeXls); break;
                     case "Model_Utility_GridSqlWhereSiteId": Code.Model_Utility_GridSqlWhereSiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_GridSqlWhereSiteId, definitionRow, CodeXls); break;
                     case "Model_Utility_Editor": Code.Model_Utility_Editor = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_Editor, definitionRow, CodeXls); break;
@@ -3865,7 +3864,6 @@ namespace Implem.DefinitionAccessor
         public string Model_Utility_Td;
         public string Model_Utility_TdCases;
         public string Model_Utility_AddSqlColumnSiteId;
-        public string Model_Utility_AddSqlColumn;
         public string Model_Utility_GridSqlWhereTenantId;
         public string Model_Utility_GridSqlWhereSiteId;
         public string Model_Utility_Editor;
@@ -4242,7 +4240,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utility_Td = new CodeDefinition();
         public CodeDefinition Model_Utility_TdCases = new CodeDefinition();
         public CodeDefinition Model_Utility_AddSqlColumnSiteId = new CodeDefinition();
-        public CodeDefinition Model_Utility_AddSqlColumn = new CodeDefinition();
         public CodeDefinition Model_Utility_GridSqlWhereTenantId = new CodeDefinition();
         public CodeDefinition Model_Utility_GridSqlWhereSiteId = new CodeDefinition();
         public CodeDefinition Model_Utility_Editor = new CodeDefinition();

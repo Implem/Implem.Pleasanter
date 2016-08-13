@@ -244,35 +244,13 @@ namespace Implem.Pleasanter.Models
 
         private static SqlColumnCollection GridSqlColumnCollection(SiteSettings siteSettings)
         {
-            var select = Rds.BinariesColumn()
+            var gridSqlColumn = Rds.BinariesColumn()
                 .BinaryId()
                 .Creator()
                 .Updator();
-            siteSettings.GridColumnCollection(withTitle: true).ForEach(columnGrid =>
-            {
-                switch (columnGrid.ColumnName)
-                {
-                    case "ReferenceId": select.ReferenceId(); break;
-                    case "BinaryId": select.BinaryId(); break;
-                    case "Ver": select.Ver(); break;
-                    case "BinaryType": select.BinaryType(); break;
-                    case "Title": select.Title(); break;
-                    case "Body": select.Body(); break;
-                    case "Bin": select.Bin(); break;
-                    case "Thumbnail": select.Thumbnail(); break;
-                    case "Icon": select.Icon(); break;
-                    case "FileName": select.FileName(); break;
-                    case "Extension": select.Extension(); break;
-                    case "Size": select.Size(); break;
-                    case "BinarySettings": select.BinarySettings(); break;
-                    case "Comments": select.Comments(); break;
-                    case "Creator": select.Creator(); break;
-                    case "Updator": select.Updator(); break;
-                    case "CreatedTime": select.CreatedTime(); break;
-                    case "UpdatedTime": select.UpdatedTime(); break;
-                }
-            });
-            return select;
+            siteSettings.GridColumnCollection(withTitle: true).ForEach(column =>
+                Rds.BinariesColumn(gridSqlColumn, column.ColumnName));
+            return gridSqlColumn;
         }
 
         public static HtmlBuilder TdValue(

@@ -244,29 +244,13 @@ namespace Implem.Pleasanter.Models
 
         private static SqlColumnCollection GridSqlColumnCollection(SiteSettings siteSettings)
         {
-            var select = Rds.ExportSettingsColumn()
+            var gridSqlColumn = Rds.ExportSettingsColumn()
                 .ExportSettingId()
                 .Creator()
                 .Updator();
-            siteSettings.GridColumnCollection(withTitle: true).ForEach(columnGrid =>
-            {
-                switch (columnGrid.ColumnName)
-                {
-                    case "ReferenceType": select.ReferenceType(); break;
-                    case "ReferenceId": select.ReferenceId(); break;
-                    case "Title": select.Title(); break;
-                    case "ExportSettingId": select.ExportSettingId(); break;
-                    case "Ver": select.Ver(); break;
-                    case "AddHeader": select.AddHeader(); break;
-                    case "ExportColumns": select.ExportColumns(); break;
-                    case "Comments": select.Comments(); break;
-                    case "Creator": select.Creator(); break;
-                    case "Updator": select.Updator(); break;
-                    case "CreatedTime": select.CreatedTime(); break;
-                    case "UpdatedTime": select.UpdatedTime(); break;
-                }
-            });
-            return select;
+            siteSettings.GridColumnCollection(withTitle: true).ForEach(column =>
+                Rds.ExportSettingsColumn(gridSqlColumn, column.ColumnName));
+            return gridSqlColumn;
         }
 
         public static HtmlBuilder TdValue(

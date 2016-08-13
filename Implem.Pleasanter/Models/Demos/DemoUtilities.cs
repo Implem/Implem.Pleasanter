@@ -244,29 +244,13 @@ namespace Implem.Pleasanter.Models
 
         private static SqlColumnCollection GridSqlColumnCollection(SiteSettings siteSettings)
         {
-            var select = Rds.DemosColumn()
+            var gridSqlColumn = Rds.DemosColumn()
                 .DemoId()
                 .Creator()
                 .Updator();
-            siteSettings.GridColumnCollection(withTitle: true).ForEach(columnGrid =>
-            {
-                switch (columnGrid.ColumnName)
-                {
-                    case "DemoId": select.DemoId(); break;
-                    case "Ver": select.Ver(); break;
-                    case "TenantId": select.TenantId(); break;
-                    case "Title": select.Title(); break;
-                    case "Passphrase": select.Passphrase(); break;
-                    case "MailAddress": select.MailAddress(); break;
-                    case "Initialized": select.Initialized(); break;
-                    case "Comments": select.Comments(); break;
-                    case "Creator": select.Creator(); break;
-                    case "Updator": select.Updator(); break;
-                    case "CreatedTime": select.CreatedTime(); break;
-                    case "UpdatedTime": select.UpdatedTime(); break;
-                }
-            });
-            return select;
+            siteSettings.GridColumnCollection(withTitle: true).ForEach(column =>
+                Rds.DemosColumn(gridSqlColumn, column.ColumnName));
+            return gridSqlColumn;
         }
 
         public static HtmlBuilder TdValue(

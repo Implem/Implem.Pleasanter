@@ -194,28 +194,14 @@ namespace Implem.Pleasanter.Models
 
         private static SqlColumnCollection GridSqlColumnCollection(SiteSettings siteSettings)
         {
-            var select = Rds.WikisColumn()
+            var gridSqlColumn = Rds.WikisColumn()
                 .SiteId()
                 .WikiId()
                 .Creator()
                 .Updator();
-            siteSettings.GridColumnCollection(withTitle: true).ForEach(columnGrid =>
-            {
-                switch (columnGrid.ColumnName)
-                {
-                    case "UpdatedTime": select.UpdatedTime(); break;
-                    case "WikiId": select.WikiId(); break;
-                    case "Ver": select.Ver(); break;
-                    case "Title": select.Title(); break;
-                    case "Body": select.Body(); break;
-                    case "TitleBody": select.TitleBody(); break;
-                    case "Comments": select.Comments(); break;
-                    case "Creator": select.Creator(); break;
-                    case "Updator": select.Updator(); break;
-                    case "CreatedTime": select.CreatedTime(); break;
-                }
-            });
-            return select;
+            siteSettings.GridColumnCollection(withTitle: true).ForEach(column =>
+                Rds.WikisColumn(gridSqlColumn, column.ColumnName));
+            return gridSqlColumn;
         }
 
         public static HtmlBuilder TdValue(

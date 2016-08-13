@@ -242,36 +242,13 @@ namespace Implem.Pleasanter.Models
 
         private static SqlColumnCollection GridSqlColumnCollection(SiteSettings siteSettings)
         {
-            var select = Rds.OutgoingMailsColumn()
+            var gridSqlColumn = Rds.OutgoingMailsColumn()
                 .OutgoingMailId()
                 .Creator()
                 .Updator();
-            siteSettings.GridColumnCollection(withTitle: true).ForEach(columnGrid =>
-            {
-                switch (columnGrid.ColumnName)
-                {
-                    case "ReferenceType": select.ReferenceType(); break;
-                    case "ReferenceId": select.ReferenceId(); break;
-                    case "ReferenceVer": select.ReferenceVer(); break;
-                    case "OutgoingMailId": select.OutgoingMailId(); break;
-                    case "Ver": select.Ver(); break;
-                    case "Host": select.Host(); break;
-                    case "Port": select.Port(); break;
-                    case "From": select.From(); break;
-                    case "To": select.To(); break;
-                    case "Cc": select.Cc(); break;
-                    case "Bcc": select.Bcc(); break;
-                    case "Title": select.Title(); break;
-                    case "Body": select.Body(); break;
-                    case "SentTime": select.SentTime(); break;
-                    case "Comments": select.Comments(); break;
-                    case "Creator": select.Creator(); break;
-                    case "Updator": select.Updator(); break;
-                    case "CreatedTime": select.CreatedTime(); break;
-                    case "UpdatedTime": select.UpdatedTime(); break;
-                }
-            });
-            return select;
+            siteSettings.GridColumnCollection(withTitle: true).ForEach(column =>
+                Rds.OutgoingMailsColumn(gridSqlColumn, column.ColumnName));
+            return gridSqlColumn;
         }
 
         public static HtmlBuilder TdValue(
