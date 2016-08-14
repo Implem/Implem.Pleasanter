@@ -648,10 +648,15 @@ namespace Implem.Pleasanter.Models
                         {
                             Rds.InsertItems(
                                 selectIdentity: true,
-                                param: Rds.ItemsParam().ReferenceType("Sites")),
+                                param: Rds.ItemsParam()
+                                    .ReferenceType("Sites")
+                                    .Creator(idHash[demoDefinition.Creator])
+                                    .Updator(idHash[demoDefinition.Updator])
+                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
+                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)),
+                                addUpdatorParam: false),
                             Rds.InsertSites(
                                 selectIdentity: true,
-                                addUpdatorParam: false,
                                 param: Rds.SitesParam()
                                     .TenantId(demoModel.TenantId)
                                     .SiteId(raw: Def.Sql.Identity)
@@ -665,7 +670,8 @@ namespace Implem.Pleasanter.Models
                                     .Creator(idHash[demoDefinition.Creator])
                                     .Updator(idHash[demoDefinition.Updator])
                                     .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
-                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)))
+                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)),
+                                addUpdatorParam: false)
                         })));
             new SiteCollection(where: Rds.SitesWhere().TenantId(demoModel.TenantId))
                 .ForEach(siteModel => Rds.ExecuteNonQuery(statements:
@@ -675,7 +681,9 @@ namespace Implem.Pleasanter.Models
                             .Title(siteModel.Title.DisplayValue)
                             .Subset(Jsons.ToJson(new SiteSubset(
                                 siteModel, siteModel.SiteSettings))),
-                        where: Rds.ItemsWhere().ReferenceId(siteModel.SiteId))));
+                        where: Rds.ItemsWhere().ReferenceId(siteModel.SiteId),
+                        addUpdatorParam: false,
+                        addUpdatedTimeParam: false)));
         }
 
         /// <summary>
@@ -710,10 +718,15 @@ namespace Implem.Pleasanter.Models
                     {
                         Rds.InsertItems(
                             selectIdentity: true,
-                            param: Rds.ItemsParam().ReferenceType("Issues")),
+                            param: Rds.ItemsParam()
+                                .ReferenceType("Issues")
+                                .Creator(idHash[demoDefinition.Creator])
+                                .Updator(idHash[demoDefinition.Updator])
+                                .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
+                                .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)),
+                            addUpdatorParam: false),
                         Rds.InsertIssues(
                             selectIdentity: true,
-                            addUpdatorParam: false,
                             param: Rds.IssuesParam()
                                 .SiteId(idHash[demoDefinition.ParentId])
                                 .IssueId(raw: Def.Sql.Identity)
@@ -734,7 +747,8 @@ namespace Implem.Pleasanter.Models
                                 .Creator(idHash[demoDefinition.Creator])
                                 .Updator(idHash[demoDefinition.Updator])
                                 .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
-                                .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)))
+                                .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)),
+                            addUpdatorParam: false)
                     });
                     idHash.Add(demoDefinition.Id, issueId);
                     var siteModel = new SiteModel(idHash[demoDefinition.ParentId]);
@@ -747,7 +761,9 @@ namespace Implem.Pleasanter.Models
                                 .Title(issueModel.Title.DisplayValue)
                                 .Subset(Jsons.ToJson(new IssueSubset(
                                     issueModel, issueModel.SiteSettings))),
-                            where: Rds.ItemsWhere().ReferenceId(issueModel.IssueId)));
+                            where: Rds.ItemsWhere().ReferenceId(issueModel.IssueId),
+                            addUpdatorParam: false,
+                            addUpdatedTimeParam: false));
                     var days = issueModel.CompletionTime.Value < DateTime.Now
                         ? (issueModel.CompletionTime.Value - issueModel.StartTime).Days
                         : (DateTime.Now - issueModel.StartTime).Days;
@@ -830,10 +846,15 @@ namespace Implem.Pleasanter.Models
                     {
                         Rds.InsertItems(
                             selectIdentity: true,
-                            param: Rds.ItemsParam().ReferenceType("Results")),
+                            param: Rds.ItemsParam()
+                                .ReferenceType("Results")
+                                .Creator(idHash[demoDefinition.Creator])
+                                .Updator(idHash[demoDefinition.Updator])
+                                .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
+                                .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)),
+                            addUpdatorParam: false),
                         Rds.InsertResults(
                             selectIdentity: true,
-                            addUpdatorParam: false,
                             param: Rds.ResultsParam()
                                 .SiteId(idHash[demoDefinition.ParentId])
                                 .ResultId(raw: Def.Sql.Identity)
@@ -849,7 +870,8 @@ namespace Implem.Pleasanter.Models
                                 .Creator(idHash[demoDefinition.Creator])
                                 .Updator(idHash[demoDefinition.Updator])
                                 .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
-                                .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)))
+                                .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)),
+                            addUpdatorParam: false)
                     });
                     idHash.Add(demoDefinition.Id, resultId);
                     var siteModel = new SiteModel(idHash[demoDefinition.ParentId]);
@@ -862,7 +884,9 @@ namespace Implem.Pleasanter.Models
                                 .Title(resultModel.Title.DisplayValue)
                                 .Subset(Jsons.ToJson(new ResultSubset(
                                     resultModel, resultModel.SiteSettings))),
-                            where: Rds.ItemsWhere().ReferenceId(resultModel.ResultId)));
+                            where: Rds.ItemsWhere().ReferenceId(resultModel.ResultId),
+                            addUpdatorParam: false,
+                            addUpdatedTimeParam: false));
                 });
         }
 
