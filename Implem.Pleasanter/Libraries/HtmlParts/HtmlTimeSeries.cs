@@ -84,7 +84,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string valueColumn,
             IEnumerable<DataRow> dataRows)
         {
-            if (dataRows != null && dataRows.Count() > 0)
+            if (dataRows != null && dataRows.Any())
             {
                 var timeSeries = new TimeSeries(
                     siteSettings, groupByColumn, aggregateType, valueColumn, dataRows);
