@@ -735,8 +735,8 @@ namespace Implem.Pleasanter.Models
                         case "CheckZ": hb.Field(siteSettings, column, resultModel.MethodType, resultModel.CheckZ.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
                     }
                 });
+                hb.VerUpCheckBox(resultModel);
                 hb
-                    .VerUpCheckBox(resultModel)
                     .Div(id: "LinkCreations", css: "links", action: () => hb
                         .LinkCreations(
                             siteSettings: siteSettings,

@@ -396,15 +396,7 @@ namespace Implem.Pleasanter.Models
                         case "Body": hb.Field(siteSettings, column, wikiModel.MethodType, wikiModel.Body.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
                     }
                 });
-                hb
-                    .VerUpCheckBox(wikiModel)
-                    .Div(id: "LinkCreations", css: "links", action: () => hb
-                        .LinkCreations(
-                            siteSettings: siteSettings,
-                            linkId: wikiModel.WikiId,
-                            methodType: wikiModel.MethodType))
-                    .Div(id: "Links", css: "links", action: () => hb
-                        .Links(linkId: wikiModel.WikiId));
+                hb.VerUpCheckBox(wikiModel);
             });
         }
 
