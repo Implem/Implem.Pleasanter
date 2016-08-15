@@ -4,6 +4,5 @@
     "RequireHttps": false,
     "ImportData": false,
     "Demo": false,
-    "DemoDays": 30,
-    "DemoInitialDays": -14
+    "DemoDays": 30
 }
