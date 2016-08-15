@@ -1065,6 +1065,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     statements: Rds.SelectItems(
                         column: Rds.ItemsColumn()
                             .ReferenceId()
+                            .ReferenceType()
                             .SiteId()
                             .Title(),
                         where: Rds.ItemsWhere()
@@ -1100,18 +1101,23 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return line != "[[{0}]]".Params(linkColumnSiteId.Value.ToString())
                 ? line
-                : dataRows
-                    .Select(p => new
-                    {
-                        ReferenceId = p["ReferenceId"].ToLong(),
-                        SiteId = p["SiteId"].ToLong(),
-                        Title = p["Title"].ToString()
-                    })
-                    .Where(p => p.SiteId == linkColumnSiteId.Value)
-                    .Select(p => "{0},{0}: {1}".Params(
-                        p.ReferenceId,
-                        p.Title))
-                    .Join("\n");
+                : dataRows.Any(o => o["ReferenceType"].ToString() == "Wikis")
+                    ? Rds.ExecuteScalar_string(statements:
+                        Rds.SelectWikis(
+                            column: Rds.WikisColumn().Body(),
+                            where: Rds.WikisWhere().SiteId(linkColumnSiteId.Value))).Trim()
+                    : dataRows
+                        .Select(p => new
+                        {
+                            ReferenceId = p["ReferenceId"].ToLong(),
+                            SiteId = p["SiteId"].ToLong(),
+                            Title = p["Title"].ToString()
+                        })
+                        .Where(p => p.SiteId == linkColumnSiteId.Value)
+                        .Select(p => "{0},{0}: {1}".Params(
+                            p.ReferenceId,
+                            p.Title))
+                        .Join("\n");
         }
 
         public void SetChoicesByPlaceholders()
