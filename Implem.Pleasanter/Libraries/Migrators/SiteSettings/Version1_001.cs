@@ -14,7 +14,8 @@ namespace Implem.Pleasanter.Libraries.Migrators
                     o => siteSettings.ColumnCollection.FirstOrDefault(p =>
                         p.ColumnName == o.ColumnName));
             siteSettings.GridColumnsOrder = hash
-                .Where(o => (o.Value?.GridVisible).ToBool() || (o.Value == null &&
+                .Where(o => (o.Value?.GridVisible).ToBool() ||
+                    (o.Value?.GridVisible == null &&
                     Def.ColumnDefinitionCollection
                         .Where(p => p.TableName == siteSettings.ReferenceType)
                         .Where(p => p.ColumnName == o.Key)
@@ -31,7 +32,8 @@ namespace Implem.Pleasanter.Libraries.Migrators
                 .Select(o => o.Key)
                 .ToList();
             siteSettings.FilterColumnsOrder = hash
-                .Where(o => (o.Value?.FilterVisible).ToBool() || (o.Value == null &&
+                .Where(o => (o.Value?.FilterVisible).ToBool() ||
+                    (o.Value?.FilterVisible == null &&
                     Def.ColumnDefinitionCollection
                         .Where(p => p.TableName == siteSettings.ReferenceType)
                         .Where(p => p.ColumnName == o.Key)
@@ -48,7 +50,8 @@ namespace Implem.Pleasanter.Libraries.Migrators
                 .Select(o => o.Key)
                 .ToList();
             siteSettings.EditorColumnsOrder = hash
-                .Where(o => (o.Value?.EditorVisible).ToBool() || (o.Value == null &&
+                .Where(o => (o.Value?.EditorVisible).ToBool() ||
+                    (o.Value?.EditorVisible == null &&
                     Def.ColumnDefinitionCollection
                         .Where(p => p.TableName == siteSettings.ReferenceType)
                         .Where(p => p.ColumnName == o.Key)
@@ -66,7 +69,8 @@ namespace Implem.Pleasanter.Libraries.Migrators
                 .Select(o => o.Key)
                 .ToList();
             siteSettings.TitleColumnsOrder = hash
-                .Where(o => (o.Value?.TitleVisible).ToBool() || (o.Value == null &&
+                .Where(o => (o.Value?.TitleVisible).ToBool() ||
+                    (o.Value?.TitleVisible == null &&
                     Def.ColumnDefinitionCollection
                         .Where(p => p.TableName == siteSettings.ReferenceType)
                         .Where(p => p.ColumnName == o.Key)
@@ -82,7 +86,8 @@ namespace Implem.Pleasanter.Libraries.Migrators
                 .Select(o => o.Key)
                 .ToList();
             siteSettings.LinkColumnsOrder = hash
-                .Where(o => (o.Value?.LinkVisible).ToBool() || (o.Value == null &&
+                .Where(o => (o.Value?.LinkVisible).ToBool() ||
+                    (o.Value?.LinkVisible == null &&
                     Def.ColumnDefinitionCollection
                         .Where(p => p.TableName == siteSettings.ReferenceType)
                         .Where(p => p.ColumnName == o.Key)
@@ -99,7 +104,8 @@ namespace Implem.Pleasanter.Libraries.Migrators
                 .Select(o => o.Key)
                 .ToList();
             siteSettings.HistoryColumnsOrder = hash
-                .Where(o => (o.Value?.HistoryVisible).ToBool() || (o.Value == null &&
+                .Where(o => (o.Value?.HistoryVisible).ToBool() ||
+                    (o.Value?.HistoryVisible == null &&
                     Def.ColumnDefinitionCollection
                         .Where(p => p.TableName == siteSettings.ReferenceType)
                         .Where(p => p.ColumnName == o.Key)
