@@ -1107,16 +1107,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                             column: Rds.WikisColumn().Body(),
                             where: Rds.WikisWhere().SiteId(linkColumnSiteId.Value))).Trim()
                     : dataRows
-                        .Select(p => new
-                        {
-                            ReferenceId = p["ReferenceId"].ToLong(),
-                            SiteId = p["SiteId"].ToLong(),
-                            Title = p["Title"].ToString()
-                        })
-                        .Where(p => p.SiteId == linkColumnSiteId.Value)
+                        .Where(p => p["SiteId"].ToLong() == linkColumnSiteId.Value)
                         .Select(p => "{0},{0}: {1}".Params(
-                            p.ReferenceId,
-                            p.Title))
+                            p["ReferenceId"],
+                            p["Title"]))
                         .Join("\n");
         }
 
