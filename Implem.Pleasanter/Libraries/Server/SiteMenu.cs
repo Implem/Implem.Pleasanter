@@ -137,7 +137,7 @@ namespace Implem.Pleasanter.Libraries.Server
                 siteId,
                 items.Sum(o => o["ItemsCount"].ToLong()),
                 overdueIssues.Sum(o => o["OverdueCount"].ToLong()),
-                items.Count() > 0
+                items.Any()
                     ? items.Max(o => o["UpdatedTimeMax"].ToDateTime())
                     : DateTime.MinValue);
         }
