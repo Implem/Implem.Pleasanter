@@ -176,14 +176,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             IEnumerable<KambanElement> data,
             KeyValuePair<string, ControlData> choice)
         {
-            var d = data.Where(o => o.Group == choice.Key);
+            var targets = data.Where(o => o.Group == choice.Key);
             return hb.Text(text: "{0}({1}){2}".Params(
                 choice.Value.Text != string.Empty
                     ? choice.Value.Text
                     : Displays.NotSet(),
-                d.Count(),
-                valueColumn != null && d.Any()
-                    ? " : " + valueColumn.Display(Summary(d, aggregateType), unit: true)
+                targets.Count(),
+                valueColumn != null && targets.Any()
+                    ? " : " + valueColumn.Display(Summary(targets, aggregateType), unit: true)
                     : string.Empty));
         }
 
