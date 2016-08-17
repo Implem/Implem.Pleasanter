@@ -1090,26 +1090,24 @@ namespace Implem.Pleasanter.Libraries.Settings
             column.ChoicesText = column.ChoicesText.SplitReturn()
                 .Select(o => o.Trim())
                 .Where(o => o != string.Empty)
-                .Select(o => ChoicesTextLine(linkColumnSiteId, dataRows, o))
+                .Select(o => ChoicesTextLine(linkColumnSiteId.Value, dataRows, o))
                 .Join("\n");
         }
 
         private static string ChoicesTextLine(
-            KeyValuePair<string, long> linkColumnSiteId,
-            EnumerableRowCollection<DataRow> dataRows,
-            string line)
+            long siteId, EnumerableRowCollection<DataRow> dataRows, string line)
         {
-            return line != "[[{0}]]".Params(linkColumnSiteId.Value.ToString())
+            return line != "[[{0}]]".Params(siteId.ToString())
                 ? line
                 : dataRows.Any(o =>
-                    o["SiteId"].ToLong() == linkColumnSiteId.Value &&
+                    o["SiteId"].ToLong() == siteId &&
                     o["ReferenceType"].ToString() == "Wikis")
                         ? Rds.ExecuteScalar_string(statements:
                             Rds.SelectWikis(
                                 column: Rds.WikisColumn().Body(),
-                                where: Rds.WikisWhere().SiteId(linkColumnSiteId.Value))).Trim()
+                                where: Rds.WikisWhere().SiteId(siteId))).Trim()
                         : dataRows
-                            .Where(p => p["SiteId"].ToLong() == linkColumnSiteId.Value)
+                            .Where(p => p["SiteId"].ToLong() == siteId)
                             .Select(p => "{0},{0}: {1}".Params(
                                 p["ReferenceId"],
                                 p["Title"]))
