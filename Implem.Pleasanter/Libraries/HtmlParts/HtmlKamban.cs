@@ -161,7 +161,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 action: () =>
                                     data.Where(o => o.Group == choice.Key)
                                         .ForEach(o => hb
-                                            .Item(
+                                            .Element(
                                                 siteSettings: siteSettings,
                                                 valueColumn: valueColumn,
                                                 data: o,
@@ -199,7 +199,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
         }
 
-        private static HtmlBuilder Item(
+        private static HtmlBuilder Element(
             this HtmlBuilder hb,
             SiteSettings siteSettings,
             Column valueColumn,
