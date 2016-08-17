@@ -674,8 +674,9 @@ namespace Implem.Pleasanter.Models
                                 addUpdatorParam: false)
                         })));
             new SiteCollection(where: Rds.SitesWhere().TenantId(demoModel.TenantId))
-                .ForEach(siteModel => Rds.ExecuteNonQuery(statements:
-                    Rds.UpdateItems(
+                .ForEach(siteModel =>
+                {
+                    Rds.ExecuteNonQuery(statements: Rds.UpdateItems(
                         param: Rds.ItemsParam()
                             .SiteId(siteModel.SiteId)
                             .Title(siteModel.Title.DisplayValue)
@@ -683,7 +684,9 @@ namespace Implem.Pleasanter.Models
                                 siteModel, siteModel.SiteSettings))),
                         where: Rds.ItemsWhere().ReferenceId(siteModel.SiteId),
                         addUpdatorParam: false,
-                        addUpdatedTimeParam: false)));
+                        addUpdatedTimeParam: false));
+                    SiteInfo.SiteMenu.Set(siteModel.SiteId);
+                });
         }
 
         /// <summary>
