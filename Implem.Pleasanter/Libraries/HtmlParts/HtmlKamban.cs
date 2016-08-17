@@ -182,14 +182,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ? choice.Value.Text
                     : Displays.NotSet(),
                 d.Count(),
-                valueColumn != null
+                valueColumn != null && d.Any()
                     ? " : " + valueColumn.Display(Summary(d, aggregateType), unit: true)
                     : string.Empty));
         }
 
         private static decimal Summary(IEnumerable<KambanElement> data, string aggregateType)
         {
-            if (data.Count() == 0) return 0;
             switch (aggregateType)
             {
                 case "Total": return data.Sum(o => o.Value);
