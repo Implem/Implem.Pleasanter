@@ -177,7 +177,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             KeyValuePair<string, ControlData> choice)
         {
             var d = data.Where(o => o.Group == choice.Key);
-            return hb.Text(text:  "{0}({1}){2}".Params(
+            return hb.Text(text: "{0}({1}){2}".Params(
                 choice.Value.Text != string.Empty
                     ? choice.Value.Text
                     : Displays.NotSet(),
