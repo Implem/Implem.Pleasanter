@@ -1090,11 +1090,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             column.ChoicesText = column.ChoicesText.SplitReturn()
                 .Select(o => o.Trim())
                 .Where(o => o != string.Empty)
-                .Select(o => ChoicesTextLine(linkColumnSiteId.Value, dataRows, o))
+                .Select(o => LinkedChoices(linkColumnSiteId.Value, dataRows, o))
                 .Join("\n");
         }
 
-        private static string ChoicesTextLine(
+        private static string LinkedChoices(
             long siteId, EnumerableRowCollection<DataRow> dataRows, string line)
         {
             return line != "[[{0}]]".Params(siteId.ToString())
