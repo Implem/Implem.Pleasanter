@@ -1101,17 +1101,19 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return line != "[[{0}]]".Params(linkColumnSiteId.Value.ToString())
                 ? line
-                : dataRows.Any(o => o["ReferenceType"].ToString() == "Wikis")
-                    ? Rds.ExecuteScalar_string(statements:
-                        Rds.SelectWikis(
-                            column: Rds.WikisColumn().Body(),
-                            where: Rds.WikisWhere().SiteId(linkColumnSiteId.Value))).Trim()
-                    : dataRows
-                        .Where(p => p["SiteId"].ToLong() == linkColumnSiteId.Value)
-                        .Select(p => "{0},{0}: {1}".Params(
-                            p["ReferenceId"],
-                            p["Title"]))
-                        .Join("\n");
+                : dataRows.Any(o =>
+                    o["SiteId"].ToLong() == linkColumnSiteId.Value &&
+                    o["ReferenceType"].ToString() == "Wikis")
+                        ? Rds.ExecuteScalar_string(statements:
+                            Rds.SelectWikis(
+                                column: Rds.WikisColumn().Body(),
+                                where: Rds.WikisWhere().SiteId(linkColumnSiteId.Value))).Trim()
+                        : dataRows
+                            .Where(p => p["SiteId"].ToLong() == linkColumnSiteId.Value)
+                            .Select(p => "{0},{0}: {1}".Params(
+                                p["ReferenceId"],
+                                p["Title"]))
+                            .Join("\n");
         }
 
         public void SetChoicesByPlaceholders()
