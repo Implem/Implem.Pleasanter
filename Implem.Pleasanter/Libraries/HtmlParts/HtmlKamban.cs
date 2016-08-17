@@ -146,7 +146,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Tr(css: "ui-widget-header", action: () => choices
                         .ForEach(choice => hb
                             .Th(action: () => hb
-                                .Header(
+                                .HeaderText(
                                     siteSettings: siteSettings,
                                     aggregateType: aggregateType,
                                     valueColumn: valueColumn,
@@ -168,7 +168,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 changedItemId: changedItemId))))));
         }
 
-        private static HtmlBuilder Header(
+        private static HtmlBuilder HeaderText(
             this HtmlBuilder hb,
             SiteSettings siteSettings,
             string aggregateType,
