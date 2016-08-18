@@ -86,10 +86,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             SiteSettings siteSettings)
         {
             var order = Columns.Keys.ToArray();
-            if (controlId == "ColumnToDown")
-            {
-                Array.Reverse(order);
-            }
+            if (controlId == "ColumnToDown") Array.Reverse(order);
             order.Select((o, i) => new { ColumnName = o, Index = i }).ForEach(data =>
             {
                 if (selectedValues.Contains(data.ColumnName))
@@ -116,10 +113,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     }
                 }
             });
-            if (controlId == "ColumnToDown")
-            {
-                Array.Reverse(order);
-            }
+            if (controlId == "ColumnToDown") Array.Reverse(order);
             var newColumns = order.ToDictionary(o => o, o => Columns[o]);
             Columns.Clear();
             Columns.AddRange(newColumns);
