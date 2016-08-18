@@ -1152,7 +1152,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         if (selectedColumns.Contains(data.ColumnName))
                         {
                             if (data.Index > 0 &&
-                                selectedColumns.Contains(order[data.Index - 1]) == false)
+                                !selectedColumns.Contains(order[data.Index - 1]))
                             {
                                 order = Arrays.Swap(order, data.Index, data.Index - 1);
                             }
