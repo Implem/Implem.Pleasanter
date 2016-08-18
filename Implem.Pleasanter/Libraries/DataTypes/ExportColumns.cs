@@ -105,8 +105,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         case "ColumnToUp":
                         case "ColumnToDown":
                             if (data.Index > 0 &&
-                                selectedValues.Contains(
-                                    order[data.Index - 1]) == false)
+                                !selectedValues.Contains(order[data.Index - 1]))
                             {
                                 order = Arrays.Swap(
                                     order,
