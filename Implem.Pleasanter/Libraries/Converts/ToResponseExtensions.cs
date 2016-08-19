@@ -1,7 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
-
 namespace Implem.Pleasanter.Libraries.Converts
 {
     public static class ToResponseExtensions
