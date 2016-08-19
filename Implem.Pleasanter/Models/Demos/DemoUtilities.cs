@@ -523,8 +523,11 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static bool Login()
         {
-            var demoModel = new DemoModel().Get(where:
-                Rds.DemosWhere().Passphrase(QueryStrings.Data("passphrase")));
+            var demoModel = new DemoModel().Get(where: Rds.DemosWhere()
+                .Passphrase(QueryStrings.Data("passphrase"))
+                .CreatedTime(
+                    DateTime.Now.AddDays(Parameters.Service.DemoDays * -1),
+                    _operator: ">="));
             if (demoModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
                 demoModel.Initialize();
