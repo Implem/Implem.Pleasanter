@@ -526,7 +526,7 @@ namespace Implem.Pleasanter.Models
             var demoModel = new DemoModel().Get(where: Rds.DemosWhere()
                 .Passphrase(QueryStrings.Data("passphrase"))
                 .CreatedTime(
-                    DateTime.Now.AddDays(Parameters.Service.DemoDays * -1),
+                    DateTime.Now.AddDays(Parameters.Service.DemoUsagePeriod * -1),
                     _operator: ">="));
             if (demoModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
