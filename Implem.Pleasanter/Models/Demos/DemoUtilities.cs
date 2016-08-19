@@ -530,6 +530,7 @@ namespace Implem.Pleasanter.Models
                     _operator: ">="));
             if (demoModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
+                System.Web.HttpContext.Current.Session["TenantId"] = demoModel.TenantId;
                 demoModel.Initialize();
                 return Sessions.LoggedIn();
             }
@@ -729,7 +730,7 @@ namespace Implem.Pleasanter.Models
                                 .Creator(idHash[demoDefinition.Creator])
                                 .Updator(idHash[demoDefinition.Updator])
                                 .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
-                                .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)),
+                                .UpdatedTime(demoDefinition.CreatedTime.DemoTime(demoModel)),
                             addUpdatorParam: false),
                         Rds.InsertIssues(
                             selectIdentity: true,
@@ -742,7 +743,7 @@ namespace Implem.Pleasanter.Models
                                 .CompletionTime(demoDefinition.CompletionTime
                                     .AddDays(1).DemoTime(demoModel))
                                 .WorkValue(demoDefinition.WorkValue)
-                                .ProgressRate(demoDefinition.ProgressRate)
+                                .ProgressRate(0)
                                 .Status(demoDefinition.Status)
                                 .Manager(idHash[demoDefinition.Manager])
                                 .Owner(idHash[demoDefinition.Owner])
@@ -753,13 +754,13 @@ namespace Implem.Pleasanter.Models
                                 .Creator(idHash[demoDefinition.Creator])
                                 .Updator(idHash[demoDefinition.Updator])
                                 .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
-                                .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)),
+                                .UpdatedTime(demoDefinition.CreatedTime.DemoTime(demoModel)),
                             addUpdatorParam: false)
                     });
                     idHash.Add(demoDefinition.Id, issueId);
                     var siteModel = new SiteModel(idHash[demoDefinition.ParentId]);
                     var issueModel = new IssueModel(
-                        siteModel.IssuesSiteSettings(), Permissions.Types.Manager, issueId);
+                        siteModel.SiteSettings, Permissions.Types.Manager, issueId);
                     Rds.ExecuteNonQuery(statements:
                         Rds.UpdateItems(
                             param: Rds.ItemsParam()
@@ -773,16 +774,14 @@ namespace Implem.Pleasanter.Models
                     var days = issueModel.CompletionTime.Value < DateTime.Now
                         ? (issueModel.CompletionTime.Value - issueModel.StartTime).Days
                         : (DateTime.Now - issueModel.StartTime).Days;
-                    if (issueModel.ProgressRate.Value > 0 && days > 0)
+                    if (demoDefinition.ProgressRate > 0)
                     {
                         var startTime = issueModel.StartTime;
-                        var progressRate = issueModel.ProgressRate.Value;
+                        var progressRate = demoDefinition.ProgressRate;
                         var status = issueModel.Status.Value;
                         var creator = issueModel.Creator.Id;
                         var updator = issueModel.Updator.Id;
-                        var updatedTime = issueModel.UpdatedTime.Value;
-                        var createdTime = issueModel.CreatedTime.Value;
-                        for (var d = 0; d < days; d++)
+                        for (var d = 0; d < days -1; d++)
                         {
                             issueModel.VerUp = true;
                             issueModel.Update();
@@ -821,8 +820,8 @@ namespace Implem.Pleasanter.Models
                                     .Status(status)
                                     .Creator(creator)
                                     .Updator(updator)
-                                    .CreatedTime(createdTime)
-                                    .UpdatedTime(updatedTime),
+                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
+                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel)),
                                 where: Rds.IssuesWhere()
                                     .IssueId(issueModel.IssueId)));
                     }
@@ -882,7 +881,7 @@ namespace Implem.Pleasanter.Models
                     idHash.Add(demoDefinition.Id, resultId);
                     var siteModel = new SiteModel(idHash[demoDefinition.ParentId]);
                     var resultModel = new ResultModel(
-                        siteModel.ResultsSiteSettings(), Permissions.Types.Manager, resultId);
+                        siteModel.SiteSettings, Permissions.Types.Manager, resultId);
                     Rds.ExecuteNonQuery(statements:
                         Rds.UpdateItems(
                             param: Rds.ItemsParam()
