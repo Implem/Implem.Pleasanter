@@ -41,6 +41,14 @@ namespace Implem.Pleasanter.Libraries.Converts
         }
 
         public static void SearchIndexes(
+            this IEnumerable<SiteMenuElement> self,
+            Dictionary<string, int> searchIndexHash,
+            int searchPriority)
+        {
+            SearchIndexes(searchIndexHash, self.Select(o => o.Title).Join(" "), searchPriority);
+        }
+
+        public static void SearchIndexes(
             this ProgressRate self, Dictionary<string, int> searchIndexHash, int searchPriority)
         {
             SearchIndexes(searchIndexHash, self.Value.ToString(), searchPriority);

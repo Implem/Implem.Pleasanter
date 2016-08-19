@@ -1,6 +1,7 @@
 ﻿using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
@@ -108,6 +109,7 @@ namespace Implem.Pleasanter.Models
         public Dictionary<string, int> SearchIndexCollection()
         {
             var searchIndexHash = new Dictionary<string, int>();
+            SiteInfo.SiteMenu.Breadcrumb(SiteId).SearchIndexes(searchIndexHash, 100);
             UpdatedTime.SearchIndexes(searchIndexHash, 200);
             Title.SearchIndexes(searchIndexHash, 4);
             Body.SearchIndexes(searchIndexHash, 200);
