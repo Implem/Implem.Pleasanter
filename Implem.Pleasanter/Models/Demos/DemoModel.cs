@@ -574,7 +574,7 @@ namespace Implem.Pleasanter.Models
                 DateTime.Now -
                 Def.DemoDefinitionCollection
                     .Where(o => o.UpdatedTime >= Parameters.General.MinTime)
-                    .Select(o => o.UpdatedTime).Max()).Days;
+                    .Select(o => o.UpdatedTime).Max()).Days - 1;
         }
     }
 }
