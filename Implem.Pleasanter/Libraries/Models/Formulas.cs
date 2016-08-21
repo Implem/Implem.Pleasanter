@@ -30,35 +30,38 @@ namespace Implem.Pleasanter.Libraries.Models
 
         private static void UpdateIssues(SiteModel siteModel, long id)
         {
-            var issueCollection = new IssueCollection(
+            new IssueCollection(
                 siteSettings: siteModel.SiteSettings,
                 permissionType: siteModel.PermissionType,
                 where: Rds.IssuesWhere()
                     .SiteId(siteModel.SiteId)
-                    .IssueId(id, _using: id != 0));
-            issueCollection.ForEach(issueModel => issueModel.UpdateFormulaColumns());
+                    .IssueId(id, _using: id != 0))
+                        .ForEach(issueModel =>
+                            issueModel.UpdateFormulaColumns());
         }
 
         private static void UpdateResults(SiteModel siteModel, long id)
         {
-            var resultCollection = new ResultCollection(
+            new ResultCollection(
                 siteSettings: siteModel.SiteSettings,
                 permissionType: siteModel.PermissionType,
                 where: Rds.ResultsWhere()
                     .SiteId(siteModel.SiteId)
-                    .ResultId(id, _using: id != 0));
-            resultCollection.ForEach(resultModel => resultModel.UpdateFormulaColumns());
+                    .ResultId(id, _using: id != 0))
+                        .ForEach(resultModel =>
+                            resultModel.UpdateFormulaColumns());
         }
 
         private static void UpdateWikis(SiteModel siteModel, long id)
         {
-            var wikiCollection = new WikiCollection(
+            new WikiCollection(
                 siteSettings: siteModel.SiteSettings,
                 permissionType: siteModel.PermissionType,
                 where: Rds.WikisWhere()
                     .SiteId(siteModel.SiteId)
-                    .WikiId(id, _using: id != 0));
-            wikiCollection.ForEach(wikiModel => wikiModel.UpdateFormulaColumns());
+                    .WikiId(id, _using: id != 0))
+                        .ForEach(wikiModel =>
+                            wikiModel.UpdateFormulaColumns());
         }
     }
 }
