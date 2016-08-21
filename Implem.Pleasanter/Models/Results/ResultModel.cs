@@ -1247,6 +1247,7 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteResults(
                         where: Rds.ResultsWhere().SiteId(SiteId).ResultId(ResultId))
                 });
+            SynchronizeSummary();
             Sessions.Set("Message", Messages.Deleted(Title.Value).Html);
             var responseCollection = new ResultsResponseCollection(this);
             OnDeleted(ref responseCollection);

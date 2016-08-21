@@ -1283,6 +1283,7 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteIssues(
                         where: Rds.IssuesWhere().SiteId(SiteId).IssueId(IssueId))
                 });
+            SynchronizeSummary();
             Sessions.Set("Message", Messages.Deleted(Title.Value).Html);
             var responseCollection = new IssuesResponseCollection(this);
             OnDeleted(ref responseCollection);
