@@ -11,8 +11,7 @@ namespace Implem.Pleasanter.Libraries.Models
 
         public static void Update(long id)
         {
-            var siteModel = new SiteModel(new ItemModel(id).SiteId);
-            Update(siteModel, id);
+            Update(new SiteModel(new ItemModel(id).SiteId), id);
         }
 
         private static void Update(SiteModel siteModel, long id)
