@@ -83,7 +83,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string caption,
             Types type)
         {
-            if (linkCollection.Count > 0)
+            if (linkCollection.Any())
             {
                 var siteCollection = new SiteCollection(
                     where: Rds.SitesWhere()
