@@ -149,11 +149,11 @@ namespace Implem.Pleasanter.Libraries.Server
                 .Where(o => o.TenantId == Sessions.TenantId())
                 .Where(o => o.ParentId == siteId)
                 .ForEach(child =>
-                    ret.Add(child.SiteId, Children(child.SiteId)));
+                    ret.Add(child.SiteId, ChildHashValues(child.SiteId)));
             return ret;
         }
 
-        private List<long> Children(long siteId, List<long> data = null)
+        private List<long> ChildHashValues(long siteId, List<long> data = null)
         {
             if (data == null) data = new List<long>();
             data.Add(siteId);
@@ -161,7 +161,7 @@ namespace Implem.Pleasanter.Libraries.Server
                 .Where(o => o.TenantId == Sessions.TenantId())
                 .Where(o => o.ParentId == siteId)
                 .ForEach(child =>
-                    Children(child.SiteId, data));
+                    ChildHashValues(child.SiteId, data));
             return data;
         }
 
