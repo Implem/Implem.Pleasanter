@@ -142,7 +142,7 @@ namespace Implem.Pleasanter.Libraries.Server
                     : DateTime.MinValue);
         }
 
-        public Dictionary<long, List<long>> ChildHash(long siteId)
+        private Dictionary<long, List<long>> ChildHash(long siteId)
         {
             var ret = new Dictionary<long, List<long>>();
             this.Select(o => o.Value)
@@ -153,7 +153,7 @@ namespace Implem.Pleasanter.Libraries.Server
             return ret;
         }
 
-        public List<long> Children(long siteId, List<long> data = null)
+        private List<long> Children(long siteId, List<long> data = null)
         {
             if (data == null) data = new List<long>();
             data.Add(siteId);
