@@ -139,7 +139,7 @@ $p.send = function ($eventSender, formId, async) {
     var action = $eventSender.attr('data-action');
     var method = $eventSender.attr('data-method');
     if (action !== undefined && method !== undefined) {
-        let data = $p.getData($form.attr('id'));
+        var data = $p.getData($form.attr('id'));
         if (method !== 'get') {
             data.ControlId = $eventSender.attr('id');
             $p.setMustData($form, action);
