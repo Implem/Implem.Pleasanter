@@ -356,36 +356,42 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseHasNotPermission().ToJson();
             }
-            OnDeleting();
+            var siteMenu = SiteInfo.SiteMenu.Children(SiteId, withParent: true);
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: new SqlStatement[]
                 {
                     Rds.DeleteItems(
-                        where: Rds.ItemsWhere().ReferenceId(SiteId)),
+                        where: Rds.ItemsWhere().SiteId_In(siteMenu.Select(o => o.SiteId))),
                     Rds.DeleteSites(
-                        where: Rds.SitesWhere().TenantId(TenantId).SiteId(SiteId))
+                        where: Rds.SitesWhere().SiteId_In(siteMenu
+                            .Where(o => o.ReferenceType == "Sites")
+                            .Select(o => o.SiteId))),
+                    Rds.DeleteIssues(
+                        where: Rds.IssuesWhere().SiteId_In(siteMenu
+                            .Where(o => o.ReferenceType == "Issues")
+                            .Select(o => o.SiteId))),
+                    Rds.DeleteResults(
+                        where: Rds.ResultsWhere().SiteId_In(siteMenu
+                            .Where(o => o.ReferenceType == "Results")
+                            .Select(o => o.SiteId))),
+                    Rds.DeleteWikis(
+                        where: Rds.WikisWhere().SiteId_In(siteMenu
+                            .Where(o => o.ReferenceType == "Wikis")
+                            .Select(o => o.SiteId))),
+                    Rds.DeleteSites(
+                        where: Rds.SitesWhere()
+                            .TenantId(TenantId)
+                            .SiteId_In(siteMenu.Select(o => o.SiteId)))
                 });
             Sessions.Set("Message", Messages.Deleted(Title.Value).Html);
             var responseCollection = new SitesResponseCollection(this);
-            OnDeleted(ref responseCollection);
+            SiteInfo.SiteMenu.RemoveAll((key, value) => key == SiteId);
             if (redirect)
             {
                 responseCollection.Href(Navigations.ItemIndex(ParentId));
             }
             return responseCollection.ToJson();
-        }
-
-        private void OnDeleting()
-        {
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void OnDeleted(ref SitesResponseCollection responseCollection)
-        {
-            SiteInfo.SiteMenu.RemoveAll((key, value) => key == SiteId);
         }
 
         public string Restore(long siteId)
