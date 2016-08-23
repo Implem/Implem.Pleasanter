@@ -263,19 +263,16 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static void Maintain()
         {
-            if (Parameters.SysLog.RetentionPeriod > 0)
+            if ((DateTime.Now - Applications.SearchIndexesMaintenanceDate).Days > 0)
             {
-                if ((DateTime.Now - Applications.SearchIndexesMaintenanceDate).Days > 0)
-                {
-                    Rds.ExecuteNonQuery(statements:
-                        Rds.PhysicalDeleteSearchIndexes(
-                            where: Rds.SearchIndexesWhere().Add(
-                                sub: Rds.ExistsItems(
-                                    not: true,
-                                    where: Rds.ItemsWhere()
-                                        .ReferenceId(raw: "[SearchIndexes].[ReferenceId]")))));
-                    Applications.SearchIndexesMaintenanceDate = DateTime.Now;
-                }
+                Rds.ExecuteNonQuery(statements:
+                    Rds.PhysicalDeleteSearchIndexes(
+                        where: Rds.SearchIndexesWhere().Add(
+                            sub: Rds.ExistsItems(
+                                not: true,
+                                where: Rds.ItemsWhere()
+                                    .ReferenceId(raw: "[SearchIndexes].[ReferenceId]")))));
+                Applications.SearchIndexesMaintenanceDate = DateTime.Now;
             }
         }
     }
