@@ -272,7 +272,7 @@ namespace Implem.Pleasanter.Models
                                 not: true,
                                 where: Rds.ItemsWhere()
                                     .ReferenceId(raw: "[SearchIndexes].[ReferenceId]")))));
-                Applications.SearchIndexesMaintenanceDate = DateTime.Now;
+                Applications.SearchIndexesMaintenanceDate = DateTime.Now.Date;
             }
         }
     }
