@@ -41,7 +41,7 @@ namespace Implem.Pleasanter.Models
         {
             if (Parameters.SysLog.RetentionPeriod > 0)
             {
-                if ((DateTime.Now - Applications.LogMaintenanceDate).Days > 0)
+                if ((DateTime.Now - Applications.SysLogsMaintenanceDate).Days > 0)
                 {
                     Rds.ExecuteNonQuery(statements:
                         Rds.PhysicalDeleteSysLogs(
@@ -49,7 +49,7 @@ namespace Implem.Pleasanter.Models
                                 DateTime.Now.Date.AddDays(
                                     Parameters.SysLog.RetentionPeriod * -1),
                                 _operator: "<")));
-                    Applications.LogMaintenanceDate = DateTime.Now;
+                    Applications.SysLogsMaintenanceDate = DateTime.Now;
                 }
             }
         }
