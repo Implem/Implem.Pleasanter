@@ -49,7 +49,7 @@ namespace Implem.Pleasanter.Models
                                 DateTime.Now.Date.AddDays(
                                     Parameters.SysLog.RetentionPeriod * -1),
                                 _operator: "<")));
-                    Applications.SysLogsMaintenanceDate = DateTime.Now;
+                    Applications.SysLogsMaintenanceDate = DateTime.Now.Date;
                 }
             }
         }
