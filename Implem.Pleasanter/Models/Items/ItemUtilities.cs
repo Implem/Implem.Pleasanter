@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static void Maintenance()
+        public static void Maintain()
         {
             MaintenanceTargets().ForEach(target =>
             {

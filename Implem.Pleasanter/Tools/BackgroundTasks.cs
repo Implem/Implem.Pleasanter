@@ -15,8 +15,8 @@ namespace Implem.Pleasanter.Tools
             var now = DateTime.Now;
             while ((DateTime.Now - now).Seconds <= Parameters.General.BackgroundTaskSpan)
             {
-                SysLogUtilities.Maintenance();
-                ItemUtilities.Maintenance();
+                SysLogUtilities.Maintain();
+                ItemUtilities.Maintain();
                 Thread.Sleep(Parameters.BackgroundTask.Interval);
                 LatestTime = DateTime.Now;
             }
