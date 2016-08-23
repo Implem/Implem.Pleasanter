@@ -1131,6 +1131,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlExists ExistsTenants(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool not = false,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
             bool _using = true)
@@ -1138,6 +1139,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlExists
             {
                 TableType = tableType,
+                Not = not,
                 TableBracket = "[Tenants]",
                 HistoryTableBracket = "[Tenants_history]",
                 DeletedTableBracket = "[Tenants_deleted]",
@@ -1149,6 +1151,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlExists ExistsDemos(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool not = false,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
             bool _using = true)
@@ -1156,6 +1159,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlExists
             {
                 TableType = tableType,
+                Not = not,
                 TableBracket = "[Demos]",
                 HistoryTableBracket = "[Demos_history]",
                 DeletedTableBracket = "[Demos_deleted]",
@@ -1167,6 +1171,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlExists ExistsSysLogs(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool not = false,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
             bool _using = true)
@@ -1174,6 +1179,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlExists
             {
                 TableType = tableType,
+                Not = not,
                 TableBracket = "[SysLogs]",
                 HistoryTableBracket = "[SysLogs_history]",
                 DeletedTableBracket = "[SysLogs_deleted]",
@@ -1185,6 +1191,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlExists ExistsDepts(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool not = false,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
             bool _using = true)
@@ -1192,6 +1199,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlExists
             {
                 TableType = tableType,
+                Not = not,
                 TableBracket = "[Depts]",
                 HistoryTableBracket = "[Depts_history]",
                 DeletedTableBracket = "[Depts_deleted]",
@@ -1203,6 +1211,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlExists ExistsUsers(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool not = false,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
             bool _using = true)
@@ -1210,6 +1219,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlExists
             {
                 TableType = tableType,
+                Not = not,
                 TableBracket = "[Users]",
                 HistoryTableBracket = "[Users_history]",
                 DeletedTableBracket = "[Users_deleted]",
@@ -1221,6 +1231,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlExists ExistsMailAddresses(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool not = false,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
             bool _using = true)
@@ -1228,6 +1239,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlExists
             {
                 TableType = tableType,
+                Not = not,
                 TableBracket = "[MailAddresses]",
                 HistoryTableBracket = "[MailAddresses_history]",
                 DeletedTableBracket = "[MailAddresses_deleted]",
@@ -1239,6 +1251,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlExists ExistsPermissions(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool not = false,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
             bool _using = true)
@@ -1246,6 +1259,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlExists
             {
                 TableType = tableType,
+                Not = not,
                 TableBracket = "[Permissions]",
                 HistoryTableBracket = "[Permissions_history]",
                 DeletedTableBracket = "[Permissions_deleted]",
@@ -1257,6 +1271,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlExists ExistsOutgoingMails(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool not = false,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
             bool _using = true)
@@ -1264,6 +1279,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlExists
             {
                 TableType = tableType,
+                Not = not,
                 TableBracket = "[OutgoingMails]",
                 HistoryTableBracket = "[OutgoingMails_history]",
                 DeletedTableBracket = "[OutgoingMails_deleted]",
@@ -1275,6 +1291,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlExists ExistsSearchIndexes(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool not = false,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
             bool _using = true)
@@ -1282,6 +1299,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlExists
             {
                 TableType = tableType,
+                Not = not,
                 TableBracket = "[SearchIndexes]",
                 HistoryTableBracket = "[SearchIndexes_history]",
                 DeletedTableBracket = "[SearchIndexes_deleted]",
@@ -1293,6 +1311,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlExists ExistsItems(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool not = false,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
             bool _using = true)
@@ -1300,6 +1319,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlExists
             {
                 TableType = tableType,
+                Not = not,
                 TableBracket = "[Items]",
                 HistoryTableBracket = "[Items_history]",
                 DeletedTableBracket = "[Items_deleted]",
@@ -1311,6 +1331,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlExists ExistsSites(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool not = false,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
             bool _using = true)
@@ -1318,6 +1339,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlExists
             {
                 TableType = tableType,
+                Not = not,
                 TableBracket = "[Sites]",
                 HistoryTableBracket = "[Sites_history]",
                 DeletedTableBracket = "[Sites_deleted]",
@@ -1329,6 +1351,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlExists ExistsOrders(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool not = false,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
             bool _using = true)
@@ -1336,6 +1359,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlExists
             {
                 TableType = tableType,
+                Not = not,
                 TableBracket = "[Orders]",
                 HistoryTableBracket = "[Orders_history]",
                 DeletedTableBracket = "[Orders_deleted]",
@@ -1347,6 +1371,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlExists ExistsExportSettings(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool not = false,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
             bool _using = true)
@@ -1354,6 +1379,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlExists
             {
                 TableType = tableType,
+                Not = not,
                 TableBracket = "[ExportSettings]",
                 HistoryTableBracket = "[ExportSettings_history]",
                 DeletedTableBracket = "[ExportSettings_deleted]",
@@ -1365,6 +1391,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlExists ExistsLinks(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool not = false,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
             bool _using = true)
@@ -1372,6 +1399,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlExists
             {
                 TableType = tableType,
+                Not = not,
                 TableBracket = "[Links]",
                 HistoryTableBracket = "[Links_history]",
                 DeletedTableBracket = "[Links_deleted]",
@@ -1383,6 +1411,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlExists ExistsBinaries(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool not = false,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
             bool _using = true)
@@ -1390,6 +1419,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlExists
             {
                 TableType = tableType,
+                Not = not,
                 TableBracket = "[Binaries]",
                 HistoryTableBracket = "[Binaries_history]",
                 DeletedTableBracket = "[Binaries_deleted]",
@@ -1401,6 +1431,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlExists ExistsIssues(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool not = false,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
             bool _using = true)
@@ -1408,6 +1439,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlExists
             {
                 TableType = tableType,
+                Not = not,
                 TableBracket = "[Issues]",
                 HistoryTableBracket = "[Issues_history]",
                 DeletedTableBracket = "[Issues_deleted]",
@@ -1419,6 +1451,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlExists ExistsResults(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool not = false,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
             bool _using = true)
@@ -1426,6 +1459,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlExists
             {
                 TableType = tableType,
+                Not = not,
                 TableBracket = "[Results]",
                 HistoryTableBracket = "[Results_history]",
                 DeletedTableBracket = "[Results_deleted]",
@@ -1437,6 +1471,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static SqlExists ExistsWikis(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool not = false,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
             bool _using = true)
@@ -1444,6 +1479,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return new SqlExists
             {
                 TableType = tableType,
+                Not = not,
                 TableBracket = "[Wikis]",
                 HistoryTableBracket = "[Wikis_history]",
                 DeletedTableBracket = "[Wikis_deleted]",
