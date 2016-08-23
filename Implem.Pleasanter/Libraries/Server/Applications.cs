@@ -6,6 +6,7 @@ namespace Implem.Pleasanter.Libraries.Server
     public static class Applications
     {
         public static DateTime SysLogsMaintenanceDate;
+        public static DateTime SearchIndexesMaintenanceDate;
 
         public static double ApplicationAge()
         {

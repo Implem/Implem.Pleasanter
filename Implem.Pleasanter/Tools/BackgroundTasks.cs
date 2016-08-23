@@ -17,6 +17,7 @@ namespace Implem.Pleasanter.Tools
             {
                 SysLogUtilities.Maintain();
                 ItemUtilities.Maintain();
+                SearchIndexUtilities.Maintain();
                 Thread.Sleep(Parameters.BackgroundTask.Interval);
                 LatestTime = DateTime.Now;
             }
