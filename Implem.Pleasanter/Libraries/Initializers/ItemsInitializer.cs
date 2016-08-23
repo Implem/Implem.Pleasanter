@@ -13,8 +13,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
     {
         public static void Initialize()
         {
-            if (Rds.ExecuteScalar_int(statements: 
-                Rds.SelectItems(column: Rds.ItemsColumn().ItemsCount())) == 0)
+            if (ItemsIsEmpty())
             {
                 new SiteCollection().ForEach(siteModel =>
                 {
@@ -297,6 +296,19 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         }
                     });
             }
+        }
+
+        private static bool ItemsIsEmpty()
+        {
+            return 
+                Rds.ExecuteScalar_int(statements:
+                    Rds.SelectItems(
+                        tableType: Sqls.TableTypes.NormalAndHistory,
+                        column: Rds.ItemsColumn().ItemsCount())) == 0 &&
+                Rds.ExecuteScalar_int(statements:
+                    Rds.SelectItems(
+                        tableType: Sqls.TableTypes.Deleted,
+                        column: Rds.ItemsColumn().ItemsCount())) == 0;
         }
     }
 }
