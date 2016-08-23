@@ -16,6 +16,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             int? commandCount = null)
         {
             if (!Using) return;
+            if (Not) commandText.Append("not ");
             commandText.Append("exists(select * from ", TableBracket, " ");
             SqlJoinCollection?.BuildCommandText(commandText);
             SqlWhereCollection?.BuildCommandText(

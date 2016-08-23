@@ -24,6 +24,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         public bool SelectIdentity;
         public bool CountRecord;
         public string If;
+        public bool Not = false;
         public bool Terminate = true;
         public bool Using = true;
         public Sqls.UnionTypes UnionType;
