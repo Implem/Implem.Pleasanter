@@ -53,6 +53,25 @@ namespace Implem.Pleasanter.Libraries.Server
             }
         }
 
+        public IEnumerable<SiteMenuElement> Children(
+            long siteId, List<SiteMenuElement> data = null, bool withParent = false)
+        {
+            if (data == null)
+            {
+                data = new List<SiteMenuElement>();
+                if (withParent) data.Add(Get(siteId));
+            }
+            this.Select(o => o.Value)
+                .Where(o => o.TenantId == Sessions.TenantId())
+                .Where(o => o.ParentId == siteId)
+                .ForEach(element =>
+                {
+                    data.Add(element);
+                    Children(element.SiteId, data);
+                });
+            return data;
+        }
+
         public IEnumerable<SiteMenuElement> Breadcrumb(long siteId)
         {
             var ret = new List<SiteMenuElement>();
