@@ -363,10 +363,6 @@ namespace Implem.Pleasanter.Models
                 {
                     Rds.DeleteItems(
                         where: Rds.ItemsWhere().SiteId_In(siteMenu.Select(o => o.SiteId))),
-                    Rds.DeleteSites(
-                        where: Rds.SitesWhere().SiteId_In(siteMenu
-                            .Where(o => o.ReferenceType == "Sites")
-                            .Select(o => o.SiteId))),
                     Rds.DeleteIssues(
                         where: Rds.IssuesWhere().SiteId_In(siteMenu
                             .Where(o => o.ReferenceType == "Issues")
