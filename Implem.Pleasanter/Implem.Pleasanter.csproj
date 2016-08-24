@@ -410,6 +410,7 @@
     <Content Include="Scripts\LegendEvents.js" />
     <Content Include="Scripts\MarkDownEvents.js" />
     <Content Include="Scripts\OutgoingMailEvents.js" />
+    <Content Include="Scripts\Plugins\marked.min.js" />
     <Content Include="Scripts\PositionEvents.js" />
     <Content Include="Scripts\ScrollEvents.js" />
     <Content Include="Scripts\Security.js" />
