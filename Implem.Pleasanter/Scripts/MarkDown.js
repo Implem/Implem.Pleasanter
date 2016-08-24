@@ -29,34 +29,12 @@ $p.resizeEditor = function ($control, $viewer) {
 }
 
 $p.markup = function (markdownValue, encoded) {
-    var title_regex = /\[[^\]]+\]/i;
-    var url_regex_t = /(\[[^\]]+\]\(\b(https?|ftp):\/\/((?!\*|"|<|>|\||&gt;|&lt;).)+)/gi;
-    var url_regex = /(\b(https?|ftp):\/\/((?!\*|"|<|>|\||&gt;|&lt;).)+"?)/gi;
-    var unc_regex_t = /(\[[^\]]+\]\(\B\\\\((?!:|\*|"|<|>|\||&gt;|&lt;).)+\\((?!:|\*|"|<|>|\||&gt;|&lt;).)+\))/gi;
-    var unc_regex = /(\B\\\\((?!:|\*|"|<|>|\||&gt;|&lt;).)+\\((?!:|\*|"|<|>|\||&gt;|&lt;).)+"?)/gi;
     var text = markdownValue;
     if (!encoded) text = getEncordedHtml(text);
-    return getMarkedUpHtml(text)
-        .replace(url_regex_t, function ($1) {
-            return '<a href="' + cutBrackets($1.match(url_regex)[0], 0) + '" target="_blank">' +
-                cutBrackets($1.match(title_regex)[0], 1) +
-                '</a>';
-        })
-        .replace(url_regex, function ($1) {
-            return $1.slice(-1) != '"'
-                ? '<a href="' + $1 + '" target="_blank">' + $1 + '</a>'
-                : $1;
-        })
-        .replace(unc_regex_t, function ($1) {
-            return '<a href="file://' + cutBrackets($1.match(unc_regex)[0], 0) + '">' +
-                cutBrackets($1.match(title_regex)[0], 1) +
-                '</a>';
-        })
-        .replace(unc_regex, function ($1) {
-            return $1.slice(-1) != '"'
-                ? '<a href="file://' + $1 + '">' + $1 + '</a>'
-                : $1;
-        });
+    text = replaceUnc(text);
+    return text.indexOf('[md]') === 0
+        ? marked(text.substring(4))
+        : replaceUrl(getMarkedUpHtml(text));
 
     function cutBrackets(str, start) {
         return str.substring(start, str.length - 1);
@@ -105,6 +83,40 @@ $p.markup = function (markdownValue, encoded) {
             }
         });
         return $elements[0].outerHTML;
+    }
+
+    var title_regex = /\[[^\]]+\]/i;
+
+    function replaceUrl(text) {
+        var regex_t = /(\[[^\]]+\]\(\b(https?|ftp):\/\/((?!\*|"|<|>|\||&gt;|&lt;).)+)/gi;
+        var regex = /(\b(https?|ftp):\/\/((?!\*|"|<|>|\||&gt;|&lt;).)+"?)/gi;
+        return text
+            .replace(regex_t, function ($1) {
+                return '<a href="' + cutBrackets($1.match(regex)[0], 0) + '" target="_blank">' +
+                    cutBrackets($1.match(title_regex)[0], 1) +
+                    '</a>';
+            })
+            .replace(regex, function ($1) {
+                return $1.slice(-1) != '"'
+                    ? '<a href="' + $1 + '" target="_blank">' + $1 + '</a>'
+                    : $1;
+            });
+    }
+
+    function replaceUnc(text) {
+        var regex_t = /(\[[^\]]+\]\(\B\\\\((?!:|\*|"|<|>|\||&gt;|&lt;).)+\\((?!:|\*|"|<|>|\||&gt;|&lt;).)+\))/gi;
+        var regex = /(\B\\\\((?!:|\*|"|<|>|\||&gt;|&lt;).)+\\((?!:|\*|"|<|>|\||&gt;|&lt;).)+"?)/gi;
+        return text
+            .replace(regex_t, function ($1) {
+                return '<a href="file://' + cutBrackets($1.match(regex)[0], 0) + '">' +
+                    cutBrackets($1.match(title_regex)[0], 1) +
+                    '</a>';
+            })
+            .replace(regex, function ($1) {
+                return $1.slice(-1) != '"'
+                    ? '<a href="file://' + $1 + '">' + $1 + '</a>'
+                    : $1;
+            });
     }
 
     function getEncordedHtml(value) {
