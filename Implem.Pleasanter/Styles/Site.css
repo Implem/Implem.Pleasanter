@@ -949,6 +949,10 @@ pre{
     border-radius:5px;
 }
 
+.control-markup p{
+    margin:0px 0px 10px 0px;
+}
+
 .control-markup ul{
     margin:0px 10px 10px 32px;
     list-style-type:disc;
