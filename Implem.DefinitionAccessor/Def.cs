@@ -1777,6 +1777,8 @@ namespace Implem.DefinitionAccessor
                     case "_dot_control_textbox": Css._dot_control_textbox = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_textbox, definitionRow, CssXls); break;
                     case "_dot_control_textarea": Css._dot_control_textarea = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_textarea, definitionRow, CssXls); break;
                     case "_dot_control_markup": Css._dot_control_markup = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_markup, definitionRow, CssXls); break;
+                    case "_dot_md_space_p": Css._dot_md_space_p = definitionRow[1].ToString(); SetCssTable(CssTable._dot_md_space_p, definitionRow, CssXls); break;
+                    case "_dot_md_space_ul": Css._dot_md_space_ul = definitionRow[1].ToString(); SetCssTable(CssTable._dot_md_space_ul, definitionRow, CssXls); break;
                     case "_dot_control_markdown": Css._dot_control_markdown = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_markdown, definitionRow, CssXls); break;
                     case "_dot_control_dropdown": Css._dot_control_dropdown = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_dropdown, definitionRow, CssXls); break;
                     case "_dot_control_spinner": Css._dot_control_spinner = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_spinner, definitionRow, CssXls); break;
@@ -6494,6 +6496,8 @@ namespace Implem.DefinitionAccessor
         public string _dot_control_textbox;
         public string _dot_control_textarea;
         public string _dot_control_markup;
+        public string _dot_md_space_p;
+        public string _dot_md_space_ul;
         public string _dot_control_markdown;
         public string _dot_control_dropdown;
         public string _dot_control_spinner;
@@ -6848,6 +6852,8 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_control_textbox = new CssDefinition();
         public CssDefinition _dot_control_textarea = new CssDefinition();
         public CssDefinition _dot_control_markup = new CssDefinition();
+        public CssDefinition _dot_md_space_p = new CssDefinition();
+        public CssDefinition _dot_md_space_ul = new CssDefinition();
         public CssDefinition _dot_control_markdown = new CssDefinition();
         public CssDefinition _dot_control_dropdown = new CssDefinition();
         public CssDefinition _dot_control_spinner = new CssDefinition();

@@ -33,7 +33,7 @@ $p.markup = function (markdownValue, encoded) {
     if (!encoded) text = getEncordedHtml(text);
     text = replaceUnc(text);
     return text.indexOf('[md]') === 0
-        ? marked(text.substring(4))
+        ? '<div class="md">' + marked(text.substring(4)) + '</div>'
         : replaceUrl(getMarkedUpHtml(text));
 
     function cutBrackets(str, start) {
