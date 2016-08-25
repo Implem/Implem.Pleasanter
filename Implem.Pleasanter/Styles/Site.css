@@ -949,8 +949,58 @@ pre{
     border-radius:5px;
 }
 
+.md h1{
+    margin:0px 0px 10px 0px;
+    font-weight:bold;
+}
+
+.md h2{
+    margin:0px 0px 8px 0px;
+    font-weight:bold;
+}
+
+.md h3{
+    margin:0px 0px 6px 0px;
+    font-weight:bold;
+}
+
+.md h4{
+    margin:0px 0px 4px 0px;
+    font-weight:bold;
+}
+
+.md h5{
+    margin:0px 0px 2px 0px;
+    font-weight:bold;
+}
+
+.md h6{
+    font-weight:bold;
+}
+
 .md p{
     margin:0px 0px 10px 0px;
+}
+
+.md table{
+    width:auto;
+    margin:0px 0px 10px 0px;
+    background-color:white;
+}
+
+.md td{
+    padding:5px 10px;
+    border:solid 1px silver;
+}
+
+.md th{
+    padding:5px 10px;
+    font-weight:bold;
+    border:solid 1px silver;
+}
+
+.md tbody tr:nth-child(odd){
+    background-color:whitesmoke;
 }
 
 .md ul{
