@@ -212,32 +212,33 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false)
         {
             var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
-            if (addHeader)
-            {
-                hb.GridHeader(
-                    columnCollection: siteSettings.GridColumnCollection(), 
-                    formData: formData,
-                    checkAll: checkAll);
-            }
-            outgoingMailCollection.ForEach(outgoingMailModel => hb
-                .Tr(
-                    attributes: new HtmlAttributes()
-                        .Class("grid-row")
-                        .DataId(outgoingMailModel.OutgoingMailId.ToString()),
-                    action: () =>
-                    {
-                        hb.Td(action: () => hb
-                            .CheckBox(
-                                controlCss: "grid-check",
-                                _checked: checkAll,
-                                dataId: outgoingMailModel.OutgoingMailId.ToString()));
-                        siteSettings.GridColumnCollection()
-                            .ForEach(column => hb
-                                .TdValue(
-                                    column: column,
-                                    outgoingMailModel: outgoingMailModel));
-                    }));
-            return hb;
+            return hb
+                .THead(
+                    _using: addHeader,
+                    action: () => hb
+                        .GridHeader(
+                            columnCollection: siteSettings.GridColumnCollection(), 
+                            formData: formData,
+                            checkAll: checkAll))
+                .TBody(action: () => outgoingMailCollection
+                    .ForEach(outgoingMailModel => hb
+                        .Tr(
+                            attributes: new HtmlAttributes()
+                                .Class("grid-row")
+                                .DataId(outgoingMailModel.OutgoingMailId.ToString()),
+                            action: () =>
+                            {
+                                hb.Td(action: () => hb
+                                    .CheckBox(
+                                        controlCss: "grid-check",
+                                        _checked: checkAll,
+                                        dataId: outgoingMailModel.OutgoingMailId.ToString()));
+                                siteSettings.GridColumnCollection()
+                                    .ForEach(column => hb
+                                        .TdValue(
+                                            column: column,
+                                            outgoingMailModel: outgoingMailModel));
+                            })));
         }
 
         private static SqlColumnCollection GridSqlColumnCollection(SiteSettings siteSettings)

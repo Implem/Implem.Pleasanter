@@ -104,11 +104,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .Join(" > "),
                                         Displays.Quantity(),
                                         siteLinkCollection.Count()))
-                                    .IssuesLinkHeader(siteModel: siteModel, type: type)
-                                    .IssuesRows(
-                                        linkCollection: siteLinkCollection,
-                                        siteSettings: siteModel.IssuesSiteSettings(),
-                                        type: type);
+                                    .THead(action: () => hb
+                                        .IssuesLinkHeader(siteModel: siteModel, type: type))
+                                    .TBody(action: () => hb
+                                        .IssuesRows(
+                                            linkCollection: siteLinkCollection,
+                                            siteSettings: siteModel.IssuesSiteSettings(),
+                                            type: type));
                                 break;
                             case "Results":
                                 hb
@@ -119,11 +121,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .Join(" > "),
                                         Displays.Quantity(),
                                         siteLinkCollection.Count()))
-                                    .ResultsLinkHeader(siteModel: siteModel, type: type)
-                                    .ResultsRows(
-                                        linkCollection: siteLinkCollection,
-                                        siteSettings: siteModel.ResultsSiteSettings(),
-                                        type: type);
+                                    .THead(action: () => hb
+                                        .ResultsLinkHeader(siteModel: siteModel, type: type))
+                                    .TBody(action: () => hb
+                                        .ResultsRows(
+                                            linkCollection: siteLinkCollection,
+                                            siteSettings: siteModel.ResultsSiteSettings(),
+                                            type: type));
                                 break;
                             case "Wikis":
                                 hb
@@ -134,28 +138,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .Join(" > "),
                                         Displays.Quantity(),
                                         siteLinkCollection.Count()))
-                                    .WikisLinkHeader(siteModel: siteModel, type: type)
-                                    .WikisRows(
-                                        linkCollection: siteLinkCollection,
-                                        siteSettings: siteModel.WikisSiteSettings(),
-                                        type: type);
+                                    .THead(action: () => hb
+                                        .WikisLinkHeader(siteModel: siteModel, type: type))
+                                    .TBody(action: () => hb
+                                        .WikisRows(
+                                            linkCollection: siteLinkCollection,
+                                            siteSettings: siteModel.WikisSiteSettings(),
+                                            type: type));
                                 break;
                         }
                     }));
             }
             return hb;
-        }
-
-        private static HtmlBuilder LinkHeader(
-            this HtmlBuilder hb, SiteModel siteModel, Types type)
-        {
-            switch (siteModel.ReferenceType)
-            {
-                case "Issues": return hb.IssuesLinkHeader(siteModel: siteModel, type: type);
-                case "Results": return hb.ResultsLinkHeader(siteModel: siteModel, type: type);
-                case "Wikis": return hb.WikisLinkHeader(siteModel: siteModel, type: type);
-                default: return hb;
-            }
         }
 
         private static HtmlBuilder IssuesLinkHeader(

@@ -460,29 +460,31 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             hb.Table(
                 attributes: new HtmlAttributes().Class("grid"),
-                action: () =>
-                {
-                    hb.GridHeader(
-                        columnCollection: SiteSettings.HistoryColumnCollection(),
-                        sort: false,
-                        checkRow: false);
-                    new ExportSettingCollection(
-                        siteSettings: SiteSettings,
-                        permissionType: PermissionType,
-                        where: Rds.ExportSettingsWhere().ExportSettingId(ExportSettingId),
-                        orderBy: Rds.ExportSettingsOrderBy().Ver(SqlOrderBy.Types.desc),
-                        tableType: Sqls.TableTypes.NormalAndHistory).ForEach(exportSettingModel => hb
-                            .Tr(
-                                attributes: new HtmlAttributes()
-                                    .Class("grid-row history not-link")
-                                    .DataAction("History")
-                                    .DataMethod("post")
-                                    .Add("data-ver", exportSettingModel.Ver)
-                                    .Add("data-latest", 1, _using: exportSettingModel.Ver == Ver),
-                                action: () =>
-                                    SiteSettings.HistoryColumnCollection().ForEach(column =>
-                                        hb.TdValue(column, exportSettingModel))));
-                });
+                action: () => hb
+                    .THead(action: () => hb
+                        .GridHeader(
+                            columnCollection: SiteSettings.HistoryColumnCollection(),
+                            sort: false,
+                            checkRow: false))
+                    .TBody(action: () =>
+                        new ExportSettingCollection(
+                            siteSettings: SiteSettings,
+                            permissionType: PermissionType,
+                            where: Rds.ExportSettingsWhere().ExportSettingId(ExportSettingId),
+                            orderBy: Rds.ExportSettingsOrderBy().Ver(SqlOrderBy.Types.desc),
+                            tableType: Sqls.TableTypes.NormalAndHistory)
+                                .ForEach(exportSettingModel => hb
+                                    .Tr(
+                                        attributes: new HtmlAttributes()
+                                            .Class("grid-row history not-link")
+                                            .DataAction("History")
+                                            .DataMethod("post")
+                                            .DataVer(exportSettingModel.Ver)
+                                            .DataLatest(1, _using: exportSettingModel.Ver == Ver),
+                                        action: () =>
+                                            SiteSettings.HistoryColumnCollection()
+                                                .ForEach(column => hb
+                                                    .TdValue(column, exportSettingModel))))));
             return new ExportSettingsResponseCollection(this).Html("#FieldSetHistories", hb).ToJson();
         }
 

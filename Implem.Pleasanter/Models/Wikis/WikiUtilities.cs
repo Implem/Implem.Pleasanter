@@ -164,32 +164,33 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false)
         {
             var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
-            if (addHeader)
-            {
-                hb.GridHeader(
-                    columnCollection: siteSettings.GridColumnCollection(), 
-                    formData: formData,
-                    checkAll: checkAll);
-            }
-            wikiCollection.ForEach(wikiModel => hb
-                .Tr(
-                    attributes: new HtmlAttributes()
-                        .Class("grid-row")
-                        .DataId(wikiModel.WikiId.ToString()),
-                    action: () =>
-                    {
-                        hb.Td(action: () => hb
-                            .CheckBox(
-                                controlCss: "grid-check",
-                                _checked: checkAll,
-                                dataId: wikiModel.WikiId.ToString()));
-                        siteSettings.GridColumnCollection()
-                            .ForEach(column => hb
-                                .TdValue(
-                                    column: column,
-                                    wikiModel: wikiModel));
-                    }));
-            return hb;
+            return hb
+                .THead(
+                    _using: addHeader,
+                    action: () => hb
+                        .GridHeader(
+                            columnCollection: siteSettings.GridColumnCollection(), 
+                            formData: formData,
+                            checkAll: checkAll))
+                .TBody(action: () => wikiCollection
+                    .ForEach(wikiModel => hb
+                        .Tr(
+                            attributes: new HtmlAttributes()
+                                .Class("grid-row")
+                                .DataId(wikiModel.WikiId.ToString()),
+                            action: () =>
+                            {
+                                hb.Td(action: () => hb
+                                    .CheckBox(
+                                        controlCss: "grid-check",
+                                        _checked: checkAll,
+                                        dataId: wikiModel.WikiId.ToString()));
+                                siteSettings.GridColumnCollection()
+                                    .ForEach(column => hb
+                                        .TdValue(
+                                            column: column,
+                                            wikiModel: wikiModel));
+                            })));
         }
 
         private static SqlColumnCollection GridSqlColumnCollection(SiteSettings siteSettings)

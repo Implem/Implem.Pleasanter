@@ -209,32 +209,33 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false)
         {
             var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
-            if (addHeader)
-            {
-                hb.GridHeader(
-                    columnCollection: siteSettings.GridColumnCollection(), 
-                    formData: formData,
-                    checkAll: checkAll);
-            }
-            userCollection.ForEach(userModel => hb
-                .Tr(
-                    attributes: new HtmlAttributes()
-                        .Class("grid-row")
-                        .DataId(userModel.UserId.ToString()),
-                    action: () =>
-                    {
-                        hb.Td(action: () => hb
-                            .CheckBox(
-                                controlCss: "grid-check",
-                                _checked: checkAll,
-                                dataId: userModel.UserId.ToString()));
-                        siteSettings.GridColumnCollection()
-                            .ForEach(column => hb
-                                .TdValue(
-                                    column: column,
-                                    userModel: userModel));
-                    }));
-            return hb;
+            return hb
+                .THead(
+                    _using: addHeader,
+                    action: () => hb
+                        .GridHeader(
+                            columnCollection: siteSettings.GridColumnCollection(), 
+                            formData: formData,
+                            checkAll: checkAll))
+                .TBody(action: () => userCollection
+                    .ForEach(userModel => hb
+                        .Tr(
+                            attributes: new HtmlAttributes()
+                                .Class("grid-row")
+                                .DataId(userModel.UserId.ToString()),
+                            action: () =>
+                            {
+                                hb.Td(action: () => hb
+                                    .CheckBox(
+                                        controlCss: "grid-check",
+                                        _checked: checkAll,
+                                        dataId: userModel.UserId.ToString()));
+                                siteSettings.GridColumnCollection()
+                                    .ForEach(column => hb
+                                        .TdValue(
+                                            column: column,
+                                            userModel: userModel));
+                            })));
         }
 
         private static SqlColumnCollection GridSqlColumnCollection(SiteSettings siteSettings)

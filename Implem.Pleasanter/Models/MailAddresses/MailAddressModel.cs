@@ -373,29 +373,31 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             hb.Table(
                 attributes: new HtmlAttributes().Class("grid"),
-                action: () =>
-                {
-                    hb.GridHeader(
-                        columnCollection: SiteSettings.HistoryColumnCollection(),
-                        sort: false,
-                        checkRow: false);
-                    new MailAddressCollection(
-                        siteSettings: SiteSettings,
-                        permissionType: PermissionType,
-                        where: Rds.MailAddressesWhere().MailAddressId(MailAddressId),
-                        orderBy: Rds.MailAddressesOrderBy().Ver(SqlOrderBy.Types.desc),
-                        tableType: Sqls.TableTypes.NormalAndHistory).ForEach(mailAddressModel => hb
-                            .Tr(
-                                attributes: new HtmlAttributes()
-                                    .Class("grid-row history not-link")
-                                    .DataAction("History")
-                                    .DataMethod("post")
-                                    .Add("data-ver", mailAddressModel.Ver)
-                                    .Add("data-latest", 1, _using: mailAddressModel.Ver == Ver),
-                                action: () =>
-                                    SiteSettings.HistoryColumnCollection().ForEach(column =>
-                                        hb.TdValue(column, mailAddressModel))));
-                });
+                action: () => hb
+                    .THead(action: () => hb
+                        .GridHeader(
+                            columnCollection: SiteSettings.HistoryColumnCollection(),
+                            sort: false,
+                            checkRow: false))
+                    .TBody(action: () =>
+                        new MailAddressCollection(
+                            siteSettings: SiteSettings,
+                            permissionType: PermissionType,
+                            where: Rds.MailAddressesWhere().MailAddressId(MailAddressId),
+                            orderBy: Rds.MailAddressesOrderBy().Ver(SqlOrderBy.Types.desc),
+                            tableType: Sqls.TableTypes.NormalAndHistory)
+                                .ForEach(mailAddressModel => hb
+                                    .Tr(
+                                        attributes: new HtmlAttributes()
+                                            .Class("grid-row history not-link")
+                                            .DataAction("History")
+                                            .DataMethod("post")
+                                            .DataVer(mailAddressModel.Ver)
+                                            .DataLatest(1, _using: mailAddressModel.Ver == Ver),
+                                        action: () =>
+                                            SiteSettings.HistoryColumnCollection()
+                                                .ForEach(column => hb
+                                                    .TdValue(column, mailAddressModel))))));
             return new MailAddressesResponseCollection(this).Html("#FieldSetHistories", hb).ToJson();
         }
 

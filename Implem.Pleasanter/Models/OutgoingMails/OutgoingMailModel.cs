@@ -419,27 +419,29 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             hb.Table(
                 attributes: new HtmlAttributes().Class("grid"),
-                action: () =>
-                {
-                    hb.GridHeader(
-                        columnCollection: SiteSettings.HistoryColumnCollection(),
-                        sort: false,
-                        checkRow: false);
-                    new OutgoingMailCollection(
-                        where: Rds.OutgoingMailsWhere().OutgoingMailId(OutgoingMailId),
-                        orderBy: Rds.OutgoingMailsOrderBy().Ver(SqlOrderBy.Types.desc),
-                        tableType: Sqls.TableTypes.NormalAndHistory).ForEach(outgoingMailModel => hb
-                            .Tr(
-                                attributes: new HtmlAttributes()
-                                    .Class("grid-row history not-link")
-                                    .DataAction("History")
-                                    .DataMethod("post")
-                                    .Add("data-ver", outgoingMailModel.Ver)
-                                    .Add("data-latest", 1, _using: outgoingMailModel.Ver == Ver),
-                                action: () =>
-                                    SiteSettings.HistoryColumnCollection().ForEach(column =>
-                                        hb.TdValue(column, outgoingMailModel))));
-                });
+                action: () => hb
+                    .THead(action: () => hb
+                        .GridHeader(
+                            columnCollection: SiteSettings.HistoryColumnCollection(),
+                            sort: false,
+                            checkRow: false))
+                    .TBody(action: () =>
+                        new OutgoingMailCollection(
+                            where: Rds.OutgoingMailsWhere().OutgoingMailId(OutgoingMailId),
+                            orderBy: Rds.OutgoingMailsOrderBy().Ver(SqlOrderBy.Types.desc),
+                            tableType: Sqls.TableTypes.NormalAndHistory)
+                                .ForEach(outgoingMailModel => hb
+                                    .Tr(
+                                        attributes: new HtmlAttributes()
+                                            .Class("grid-row history not-link")
+                                            .DataAction("History")
+                                            .DataMethod("post")
+                                            .DataVer(outgoingMailModel.Ver)
+                                            .DataLatest(1, _using: outgoingMailModel.Ver == Ver),
+                                        action: () =>
+                                            SiteSettings.HistoryColumnCollection()
+                                                .ForEach(column => hb
+                                                    .TdValue(column, outgoingMailModel))))));
             return new OutgoingMailsResponseCollection(this).Html("#FieldSetHistories", hb).ToJson();
         }
 

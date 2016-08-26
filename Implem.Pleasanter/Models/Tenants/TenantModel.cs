@@ -370,29 +370,31 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             hb.Table(
                 attributes: new HtmlAttributes().Class("grid"),
-                action: () =>
-                {
-                    hb.GridHeader(
-                        columnCollection: SiteSettings.HistoryColumnCollection(),
-                        sort: false,
-                        checkRow: false);
-                    new TenantCollection(
-                        siteSettings: SiteSettings,
-                        permissionType: PermissionType,
-                        where: Rds.TenantsWhere().TenantId(TenantId),
-                        orderBy: Rds.TenantsOrderBy().Ver(SqlOrderBy.Types.desc),
-                        tableType: Sqls.TableTypes.NormalAndHistory).ForEach(tenantModel => hb
-                            .Tr(
-                                attributes: new HtmlAttributes()
-                                    .Class("grid-row history not-link")
-                                    .DataAction("History")
-                                    .DataMethod("post")
-                                    .Add("data-ver", tenantModel.Ver)
-                                    .Add("data-latest", 1, _using: tenantModel.Ver == Ver),
-                                action: () =>
-                                    SiteSettings.HistoryColumnCollection().ForEach(column =>
-                                        hb.TdValue(column, tenantModel))));
-                });
+                action: () => hb
+                    .THead(action: () => hb
+                        .GridHeader(
+                            columnCollection: SiteSettings.HistoryColumnCollection(),
+                            sort: false,
+                            checkRow: false))
+                    .TBody(action: () =>
+                        new TenantCollection(
+                            siteSettings: SiteSettings,
+                            permissionType: PermissionType,
+                            where: Rds.TenantsWhere().TenantId(TenantId),
+                            orderBy: Rds.TenantsOrderBy().Ver(SqlOrderBy.Types.desc),
+                            tableType: Sqls.TableTypes.NormalAndHistory)
+                                .ForEach(tenantModel => hb
+                                    .Tr(
+                                        attributes: new HtmlAttributes()
+                                            .Class("grid-row history not-link")
+                                            .DataAction("History")
+                                            .DataMethod("post")
+                                            .DataVer(tenantModel.Ver)
+                                            .DataLatest(1, _using: tenantModel.Ver == Ver),
+                                        action: () =>
+                                            SiteSettings.HistoryColumnCollection()
+                                                .ForEach(column => hb
+                                                    .TdValue(column, tenantModel))))));
             return new TenantsResponseCollection(this).Html("#FieldSetHistories", hb).ToJson();
         }
 

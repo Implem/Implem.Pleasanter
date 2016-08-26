@@ -558,29 +558,31 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             hb.Table(
                 attributes: new HtmlAttributes().Class("grid"),
-                action: () =>
-                {
-                    hb.GridHeader(
-                        columnCollection: SiteSettings.HistoryColumnCollection(),
-                        sort: false,
-                        checkRow: false);
-                    new WikiCollection(
-                        siteSettings: SiteSettings,
-                        permissionType: PermissionType,
-                        where: Rds.WikisWhere().WikiId(WikiId),
-                        orderBy: Rds.WikisOrderBy().Ver(SqlOrderBy.Types.desc),
-                        tableType: Sqls.TableTypes.NormalAndHistory).ForEach(wikiModel => hb
-                            .Tr(
-                                attributes: new HtmlAttributes()
-                                    .Class("grid-row history not-link")
-                                    .DataAction("History")
-                                    .DataMethod("post")
-                                    .Add("data-ver", wikiModel.Ver)
-                                    .Add("data-latest", 1, _using: wikiModel.Ver == Ver),
-                                action: () =>
-                                    SiteSettings.HistoryColumnCollection().ForEach(column =>
-                                        hb.TdValue(column, wikiModel))));
-                });
+                action: () => hb
+                    .THead(action: () => hb
+                        .GridHeader(
+                            columnCollection: SiteSettings.HistoryColumnCollection(),
+                            sort: false,
+                            checkRow: false))
+                    .TBody(action: () =>
+                        new WikiCollection(
+                            siteSettings: SiteSettings,
+                            permissionType: PermissionType,
+                            where: Rds.WikisWhere().WikiId(WikiId),
+                            orderBy: Rds.WikisOrderBy().Ver(SqlOrderBy.Types.desc),
+                            tableType: Sqls.TableTypes.NormalAndHistory)
+                                .ForEach(wikiModel => hb
+                                    .Tr(
+                                        attributes: new HtmlAttributes()
+                                            .Class("grid-row history not-link")
+                                            .DataAction("History")
+                                            .DataMethod("post")
+                                            .DataVer(wikiModel.Ver)
+                                            .DataLatest(1, _using: wikiModel.Ver == Ver),
+                                        action: () =>
+                                            SiteSettings.HistoryColumnCollection()
+                                                .ForEach(column => hb
+                                                    .TdValue(column, wikiModel))))));
             return new WikisResponseCollection(this).Html("#FieldSetHistories", hb).ToJson();
         }
 

@@ -573,7 +573,6 @@ namespace Implem.DefinitionAccessor
                     case "GridSorters_Cases": Code.GridSorters_Cases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.GridSorters_Cases, definitionRow, CodeXls); break;
                     case "HtmlLinks": Code.HtmlLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks, definitionRow, CodeXls); break;
                     case "HtmlLinks_TableCases": Code.HtmlLinks_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_TableCases, definitionRow, CodeXls); break;
-                    case "HtmlLinks_HeaderCases": Code.HtmlLinks_HeaderCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_HeaderCases, definitionRow, CodeXls); break;
                     case "HtmlLinks_Headers": Code.HtmlLinks_Headers = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_Headers, definitionRow, CodeXls); break;
                     case "HtmlLinks_Rows": Code.HtmlLinks_Rows = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_Rows, definitionRow, CodeXls); break;
                     case "HtmlLinks_RowColumns": Code.HtmlLinks_RowColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_RowColumns, definitionRow, CodeXls); break;
@@ -4032,7 +4031,6 @@ namespace Implem.DefinitionAccessor
         public string GridSorters_Cases;
         public string HtmlLinks;
         public string HtmlLinks_TableCases;
-        public string HtmlLinks_HeaderCases;
         public string HtmlLinks_Headers;
         public string HtmlLinks_Rows;
         public string HtmlLinks_RowColumns;
@@ -4411,7 +4409,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition GridSorters_Cases = new CodeDefinition();
         public CodeDefinition HtmlLinks = new CodeDefinition();
         public CodeDefinition HtmlLinks_TableCases = new CodeDefinition();
-        public CodeDefinition HtmlLinks_HeaderCases = new CodeDefinition();
         public CodeDefinition HtmlLinks_Headers = new CodeDefinition();
         public CodeDefinition HtmlLinks_Rows = new CodeDefinition();
         public CodeDefinition HtmlLinks_RowColumns = new CodeDefinition();

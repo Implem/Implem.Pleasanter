@@ -143,29 +143,31 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Table(
                 css: "grid fixed",
                 action: () => hb
-                    .Tr(css: "ui-widget-header", action: () => choices
-                        .ForEach(choice => hb
-                            .Th(action: () => hb
-                                .HeaderText(
-                                    siteSettings: siteSettings,
-                                    aggregateType: aggregateType,
-                                    valueColumn: valueColumn,
-                                    data: data,
-                                    choice: choice))))
-                    .Tr(css: "kamban-row", action: () => choices
-                        .ForEach(choice => hb
-                            .Td(
-                                attributes: new HtmlAttributes()
-                                    .Class("kamban-container")
-                                    .DataValue(HttpUtility.HtmlEncode(choice.Key)),
-                                action: () =>
-                                    data.Where(o => o.Group == choice.Key)
-                                        .ForEach(o => hb
-                                            .Element(
-                                                siteSettings: siteSettings,
-                                                valueColumn: valueColumn,
-                                                data: o,
-                                                changedItemId: changedItemId))))));
+                    .THead(action: () => hb
+                        .Tr(css: "ui-widget-header", action: () => choices
+                            .ForEach(choice => hb
+                                .Th(action: () => hb
+                                    .HeaderText(
+                                        siteSettings: siteSettings,
+                                        aggregateType: aggregateType,
+                                        valueColumn: valueColumn,
+                                        data: data,
+                                        choice: choice)))))
+                    .TBody(action: () => hb
+                        .Tr(css: "kamban-row", action: () => choices
+                            .ForEach(choice => hb
+                                .Td(
+                                    attributes: new HtmlAttributes()
+                                        .Class("kamban-container")
+                                        .DataValue(HttpUtility.HtmlEncode(choice.Key)),
+                                    action: () =>
+                                        data.Where(o => o.Group == choice.Key)
+                                            .ForEach(o => hb
+                                                .Element(
+                                                    siteSettings: siteSettings,
+                                                    valueColumn: valueColumn,
+                                                    data: o,
+                                                    changedItemId: changedItemId)))))));
         }
 
         private static HtmlBuilder HeaderText(

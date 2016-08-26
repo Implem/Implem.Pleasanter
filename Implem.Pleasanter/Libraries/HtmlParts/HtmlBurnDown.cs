@@ -74,34 +74,38 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 var count = Times.DateDiff(Times.Types.Days, minTime, updatedMaxTime);
                 hb.Table(css: "grid", action: () =>
                 {
-                    hb.DetailsHeader(
-                        burnDown: burnDown,
-                        updators: updators,
-                        ownerLabelText: ownerLabelText,
-                        column: column);
-                    for (var d = count; d >= 0; d--)
+                    hb.THead(action: () => hb
+                        .DetailsHeader(
+                            burnDown: burnDown,
+                            updators: updators,
+                            ownerLabelText: ownerLabelText,
+                            column: column));
+                    hb.TBody(action: () =>
                     {
-                        var currentTime = minTime.AddDays(d);
-                        if (burnDown.Any(o =>
-                            o.UpdatedTime == currentTime &&
-                            o.EarnedValueAdditions != 0))
+                        for (var d = count; d >= 0; d--)
                         {
-                            hb.DetailsRow(
-                                burnDown: burnDown, 
-                                updators: updators,
-                                currentTime: currentTime,
-                                column: column);
+                            var currentTime = minTime.AddDays(d);
+                            if (burnDown.Any(o =>
+                                o.UpdatedTime == currentTime &&
+                                o.EarnedValueAdditions != 0))
+                            {
+                                hb.DetailsRow(
+                                    burnDown: burnDown,
+                                    updators: updators,
+                                    currentTime: currentTime,
+                                    column: column);
+                            }
+                            if (d == count)
+                            {
+                                hb.BurnDownRecordDetails(
+                                    elements: burnDown
+                                        .Where(o => o.UpdatedTime == updatedMaxTime),
+                                    column: siteSettings.GetColumn("ProgressRate"),
+                                    colspan: updators.Count() + 5,
+                                    unit: column.Unit);
+                            }
                         }
-                        if (d == count)
-                        {
-                            hb.BurnDownRecordDetails(
-                                elements: burnDown
-                                    .Where(o => o.UpdatedTime == updatedMaxTime),
-                                column: siteSettings.GetColumn("ProgressRate"),
-                                colspan: updators.Count() + 5,
-                                unit: column.Unit);
-                        }
-                    }
+                    });
                 });
             }
             return hb;
