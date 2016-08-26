@@ -351,6 +351,26 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
+        public HtmlAttributes DataVer(int value, bool _using = true)
+        {
+            if (_using)
+            {
+                base.Add("data-ver");
+                base.Add(value.ToString());
+            }
+            return this;
+        }
+
+        public HtmlAttributes DataLatest(int value, bool _using = true)
+        {
+            if (_using)
+            {
+                base.Add("data-latest");
+                base.Add(value.ToString());
+            }
+            return this;
+        }
+
         public HtmlAttributes DataConfirm(string dataConfirm)
         {
             if (!dataConfirm.IsNullOrEmpty())
