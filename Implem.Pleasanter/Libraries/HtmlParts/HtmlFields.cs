@@ -419,7 +419,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 action: () => hb
                     .Append(
                         tag: tagControlContainer,
+                        id: null,
                         css: Css.Class("container-normal", controlContainerCss),
+                        attributes: null,
                         action: () =>
                             controlAction()));
         }

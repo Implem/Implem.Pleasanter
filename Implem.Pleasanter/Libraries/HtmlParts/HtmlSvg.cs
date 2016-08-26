@@ -7,17 +7,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder Svg(
             this HtmlBuilder hb,
+            string id = "",
             string css = "",
-            HtmlAttributes attributes = null,
             Action action = null)
         {
             return hb.Append(
                 tag: "svg",
-                attributes: (attributes != null
-                    ? attributes
-                    : new HtmlAttributes())
-                        .Class(css)
-                        .Add("xmlns", "http://www.w3.org/2000/svg"),
+                id: id,
+                css: css,
+                attributes: new HtmlAttributes()
+                    .Id_Css(id, css)
+                    .Add("xmlns", "http://www.w3.org/2000/svg"),
                 action: action);
         }
 
@@ -31,6 +31,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Append(
                 tag: "rect",
+                id: null,
+                css: null,
                 attributes: new HtmlAttributes()
                     .Add("x", x.ToInt(), _using: x != null)
                     .Add("y", y.ToInt(), _using: y != null)
@@ -48,6 +50,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Append(
                 tag: "text",
+                id: null,
+                css: null,
                 attributes: new HtmlAttributes()
                     .Add("x", x.ToInt(), _using: x != null)
                     .Add("y", y.ToInt(), _using: y != null),

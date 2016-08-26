@@ -55,35 +55,12 @@ namespace Implem.Pleasanter.Libraries.Html
                 });
         }
 
-        public HtmlBuilder Append(string tag, HtmlAttributes attributes, Action action)
+        public HtmlBuilder Append(
+            string tag, string id, string css, HtmlAttributes attributes, Action action)
         {
-            Append(tag: tag, attributes: attributes);
-            if (action != null) action();
-            AppendClose();
-            return this;
-        }
-
-        public HtmlBuilder Append(string tag, Action action)
-        {
-            Append(tag);
-            if (action != null) action();
-            AppendClose();
-            return this;
-        }
-
-        public HtmlBuilder Append(string tag, string id, string css, Action action)
-        {
-            Append(tag: tag, attributes: new HtmlAttributes()
+            Append(tag: tag, attributes: (attributes ?? new HtmlAttributes())
                 .Id(id)
                 .Class(css));
-            if (action != null) action();
-            AppendClose();
-            return this;
-        }
-
-        public HtmlBuilder Append(string tag, string css, Action action)
-        {
-            Append(tag: tag, attributes: new HtmlAttributes().Class(css));
             if (action != null) action();
             AppendClose();
             return this;

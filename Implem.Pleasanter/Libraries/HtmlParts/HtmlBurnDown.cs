@@ -43,7 +43,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Div(css: "burn-down-chart", action: () => hb
                 .Svg(
-                    attributes: new HtmlAttributes().Id_Css("BurnDown", "burn-down"),
+                    id: "BurnDown",
+                    css: "burn-down",
                     action: () => { })
                 .Hidden(
                     controlId: "BurnDownJson",

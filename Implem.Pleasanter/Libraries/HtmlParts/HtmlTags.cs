@@ -7,36 +7,45 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder Header(
             this HtmlBuilder hb,
-            string css = "",
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
         {
             return _using
                 ? hb.Append(
                     tag: "header",
+                    id: id,
                     css: css,
+                    attributes: attributes,
                     action: action)
                 : hb;
         }
 
         public static HtmlBuilder Footer(
             this HtmlBuilder hb,
-            string css = "",
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
         {
             return _using
                 ? hb.Append(
                     tag: "footer",
+                    id: id,
                     css: css,
+                    attributes: attributes,
                     action: action)
                 : hb;
         }
 
         public static HtmlBuilder Article(
             this HtmlBuilder hb,
-            string id = "",
-            string css = "",
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
         {
@@ -45,19 +54,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "article",
                     id: id,
                     css: css,
-                    action: action)
-                : hb;
-        }
-
-        public static HtmlBuilder Article(
-            this HtmlBuilder hb,
-            HtmlAttributes attributes,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "article",
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -65,8 +61,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Nav(
             this HtmlBuilder hb,
-            string id = "",
-            string css = "",
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
         {
@@ -75,19 +72,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "nav",
                     id: id,
                     css: css,
-                    action: action)
-                : hb;
-        }
-
-        public static HtmlBuilder Nav(
-            this HtmlBuilder hb,
-            HtmlAttributes attributes,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "nav",
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -95,8 +79,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Table(
             this HtmlBuilder hb,
-            string id = "",
-            string css = "",
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
         {
@@ -105,19 +90,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "table",
                     id: id,
                     css: css,
-                    action: action)
-                : hb;
-        }
-
-        public static HtmlBuilder Table(
-            this HtmlBuilder hb,
-            HtmlAttributes attributes,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "table",
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -126,11 +98,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Caption(
             this HtmlBuilder hb,
             string caption,
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
             bool _using = true)
         {
             return _using
                 ? hb.Append(
                     tag: "caption",
+                    id: id,
+                    css: css,
+                    attributes: attributes,
                     action: () => hb
                         .Text(text: caption))
                 : hb;
@@ -138,8 +116,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Th(
             this HtmlBuilder hb,
-            string id = "",
-            string css = "",
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
         {
@@ -148,19 +127,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "th",
                     id: id,
                     css: css,
-                    action: action)
-                : hb;
-        }
-
-        public static HtmlBuilder Th(
-            this HtmlBuilder hb,
-            HtmlAttributes attributes,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "th",
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -168,8 +134,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Tr(
             this HtmlBuilder hb,
-            string id = "",
-            string css = "",
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
         {
@@ -178,46 +145,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "tr",
                     id: id,
                     css: css,
-                    action: action)
-                : hb;
-        }
-       
-        public static HtmlBuilder Tr(
-            this HtmlBuilder hb,
-            HtmlAttributes attributes,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "tr",
                     attributes: attributes,
                     action: action)
                 : hb;
         }
 
         public static HtmlBuilder Td(
-                 this HtmlBuilder hb,
-                 string id = "",
-                 string css = "",
-                 Action action = null)
-        {
-            return hb.Append(
-                tag: "td",
-                id: id,
-                css: css,
-                action: action);
-        }
-
-        public static HtmlBuilder Td(
             this HtmlBuilder hb,
-            HtmlAttributes attributes,
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
         {
             return _using
                 ? hb.Append(
                     tag: "td",
+                    id: id,
+                    css: css,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -226,8 +171,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder H(
             this HtmlBuilder hb,
             int number,
-            string id = "",
-            string css = "",
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
         {
@@ -236,20 +182,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "h" + number,
                     id: id,
                     css: css,
-                    action: action)
-                : hb;
-        }
-
-        public static HtmlBuilder H(
-            this HtmlBuilder hb,
-            int number,
-            HtmlAttributes attributes,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "h" + number,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -257,8 +189,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Section(
             this HtmlBuilder hb,
-            string id = "",
-            string css = "",
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
         {
@@ -267,19 +200,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "section",
                     id: id,
                     css: css,
-                    action: action)
-                : hb;
-        }
-
-        public static HtmlBuilder Section(
-            this HtmlBuilder hb,
-            HtmlAttributes attributes,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "section",
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -287,8 +207,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Div(
             this HtmlBuilder hb,
-            string id = "",
-            string css = "",
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
         {
@@ -297,19 +218,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "div",
                     id: id,
                     css: css,
-                    action: action)
-                : hb;
-        }
-
-        public static HtmlBuilder Div(
-            this HtmlBuilder hb,
-            HtmlAttributes attributes,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "div",
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -317,8 +225,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder P(
             this HtmlBuilder hb,
-            string id = "",
-            string css = "",
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
         {
@@ -327,19 +236,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "p",
                     id: id,
                     css: css,
-                    action: action)
-                : hb;
-        }
-
-        public static HtmlBuilder P(
-            this HtmlBuilder hb,
-            HtmlAttributes attributes,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "p",
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -347,8 +243,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Label(
             this HtmlBuilder hb,
-            string id = "",
-            string css = "",
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
         {
@@ -357,19 +254,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "label",
                     id: id,
                     css: css,
-                    action: action)
-                : hb;
-        }
-
-        public static HtmlBuilder Label(
-            this HtmlBuilder hb,
-            HtmlAttributes attributes,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "label",
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -377,84 +261,45 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Input(
             this HtmlBuilder hb,
-            string id = "",
-            string css = "",
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
             bool _using = true)
         {
             return _using
                 ? hb.Append(
                     tag: "input",
                     closeLevel: 1,
-                    attributes: new HtmlAttributes().Id_Css(id, css))
-                : hb;
-        }
-
-        public static HtmlBuilder Input(
-            this HtmlBuilder hb,
-            HtmlAttributes attributes,
-            bool _using = true)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "input",
-                    closeLevel: 1,
-                    attributes: attributes)
+                    attributes: (attributes ?? new HtmlAttributes()).Id_Css(id, css))
                 : hb;
         }
 
         public static HtmlBuilder TextArea(
             this HtmlBuilder hb,
-            string id = "",
-            string css = "",
-            string placeholder = "",
+            string id = null,
+            string css = null,
+            string placeholder = null,
+            HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
         {
             return _using
                 ? hb.Append(
                     tag: "textarea",
-                    attributes: new HtmlAttributes()
+                    id: id,
+                    css: css,
+                    attributes: (attributes ?? new HtmlAttributes())
                         .Id_Css(id, css)
                         .Placeholder(placeholder),
                     action: action)
                 : hb;
         }
 
-        public static HtmlBuilder TextArea(
-            this HtmlBuilder hb,
-            HtmlAttributes attributes,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "textarea",
-                    attributes: attributes,
-                    action: action)
-                : hb;
-        }
-
-        public static HtmlBuilder TextArea(
-            this HtmlBuilder hb,
-            string id,
-            string text = "",
-            string controlCss = "",
-            string placeholder = "",
-            bool _using = true)
-        {
-            return _using
-                ? hb.TextArea(
-                    id: id,
-                    css: Css.Class("control-textarea", controlCss),
-                    placeholder: placeholder,
-                    action: () => hb.Text(text: text))
-                : hb;
-        }
-
         public static HtmlBuilder Button(
             this HtmlBuilder hb,
-            string id = "",
-            string css = "",
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
         {
@@ -463,19 +308,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "button",
                     id: id,
                     css: css,
-                    action: action)
-                : hb;
-        }
-
-        public static HtmlBuilder Button(
-            this HtmlBuilder hb,
-            HtmlAttributes attributes,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "button",
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -483,8 +315,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Select(
             this HtmlBuilder hb,
-            string id = "",
-            string css = "",
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
         {
@@ -493,19 +326,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "select",
                     id: id,
                     css: css,
-                    action: action)
-                : hb;
-        }
-
-        public static HtmlBuilder Select(
-            this HtmlBuilder hb,
-            HtmlAttributes attributes,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "select",
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -513,8 +333,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Option(
             this HtmlBuilder hb,
-            string id = "",
-            string css = "",
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
         {
@@ -523,19 +344,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "option",
                     id: id,
                     css: css,
-                    action: action)
-                : hb;
-        }
-
-        public static HtmlBuilder Option(
-            this HtmlBuilder hb,
-            HtmlAttributes attributes,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "option",
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -543,8 +351,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Span(
             this HtmlBuilder hb,
-            string id = "",
-            string css = "",
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
         {
@@ -553,19 +362,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "span",
                     id: id,
                     css: css,
-                    action: action)
-                : hb;
-        }
-
-        public static HtmlBuilder Span(
-            this HtmlBuilder hb,
-            HtmlAttributes attributes,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "span",
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -573,8 +369,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Em(
             this HtmlBuilder hb,
-            string id = "",
-            string css = "",
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
         {
@@ -583,19 +380,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "em",
                     id: id,
                     css: css,
-                    action: action)
-                : hb;
-        }
-
-        public static HtmlBuilder Em(
-            this HtmlBuilder hb,
-            HtmlAttributes attributes,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "em",
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -603,8 +387,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Ul(
             this HtmlBuilder hb,
-            string id = "",
-            string css = "",
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
         {
@@ -613,19 +398,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "ul",
                     id: id,
                     css: css,
-                    action: action)
-                : hb;
-        }
-
-        public static HtmlBuilder Ul(
-            this HtmlBuilder hb,
-            HtmlAttributes attributes,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "ul",
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -633,8 +405,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Ol(
             this HtmlBuilder hb,
-            string id = "",
-            string css = "",
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
         {
@@ -643,19 +416,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "ol",
                     id: id,
                     css: css,
-                    action: action)
-                : hb;
-        }
-
-        public static HtmlBuilder Ol(
-            this HtmlBuilder hb,
-            HtmlAttributes attributes,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "ol",
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -663,8 +423,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Li(
             this HtmlBuilder hb,
-            string id = "",
-            string css = "",
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
         {
@@ -673,19 +434,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "li",
                     id: id,
                     css: css,
-                    action: action)
-                : hb;
-        }
-
-        public static HtmlBuilder Li(
-            this HtmlBuilder hb,
-            HtmlAttributes attributes,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "li",
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -693,34 +441,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder A(
             this HtmlBuilder hb,
-            string id = "",
-            string css = "",
-            string href = "",
-            string text = "",
-            bool _using = true)
+            string id = null,
+            string css = null,
+            string href = null,
+            HtmlAttributes attributes = null,
+            string text = null,
+            bool _using = true,
+            Action action = null)
         {
             return _using
                 ? hb.Append(
                     tag: "a",
-                    attributes: new HtmlAttributes()
+                    id: id,
+                    css: css,
+                    attributes: (attributes ?? new HtmlAttributes())
                         .Id_Css(id, css)
                         .Href(href),
-                    action: () => hb
-                        .Text(text: text))
-                : hb;
-        }
-
-        public static HtmlBuilder A(
-            this HtmlBuilder hb,
-            HtmlAttributes attributes,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "a",
-                    attributes: attributes,
-                    action: action)
+                    action: action != null
+                        ? action
+                        : () => hb.Text(text))
                 : hb;
         }
 
@@ -738,6 +477,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return _using
                 ? hb.Append(
                     tag: "form",
+                    id: null,
+                    css: null,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -745,8 +486,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Time(
             this HtmlBuilder hb,
-            string id = "",
-            string css = "",
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
         {
@@ -755,19 +497,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "time",
                     id: id,
                     css: css,
-                    action: action)
-                : hb;
-        }
-
-        public static HtmlBuilder Time(
-            this HtmlBuilder hb,
-            HtmlAttributes attributes,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "time",
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -775,35 +504,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder FieldSet(
             this HtmlBuilder hb,
-            HtmlAttributes attributes,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "fieldset",
-                    attributes: attributes,
-                    action: action)
-                : hb;
-        }
-
-        public static HtmlBuilder FieldSet(
-            this HtmlBuilder hb,
-            bool _using = true,
-            Action action = null)
-        {
-            return _using
-                ? hb.Append(
-                    tag: "fieldset",
-                    action: action)
-                : hb;
-        }
-
-        public static HtmlBuilder FieldSet(
-            this HtmlBuilder hb,
-            string id = "",
-            string css = "",
-            string legendText = "",
+            string id = null,
+            string css = null,
+            string legendText = null,
+            HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
         {
@@ -812,13 +516,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "fieldset",
                     id: id,
                     css: Css.Class("fieldset cf", css),
+                    attributes: attributes,
                     action: () =>
                     {
                         if (legendText != string.Empty)
                         {
                             hb.Append(
                                 tag: "legend",
+                                id: null,
                                 css: "legend",
+                                attributes: null,
                                 action: () => hb.Text(legendText));
                         }
                         if (action != null) action();
@@ -828,8 +535,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Img(
             this HtmlBuilder hb,
-            string src = "",
-            string css = "",
+            string src = null,
+            string css = null,
             bool _using = true)
         {
             return _using
@@ -844,13 +551,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Style(
             this HtmlBuilder hb,
-            string type = "",
-            string style = "",
+            string type = null,
+            string style = null,
             bool _using = true)
         {
             return _using
                 ? hb.Append(
                     tag: "style",
+                    id: null,
+                    css: null,
                     attributes: new HtmlAttributes().Type(type),
                     action: () => hb
                         .Raw(text: style))
@@ -859,17 +568,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Script(
             this HtmlBuilder hb,
-            string id = "",
-            string src = "",
-            string script = "",
+            string id = null,
+            string src = null,
+            string script = null,
             bool _using = true)
         {
             return _using
                 ? hb.Append(
                     tag: "script",
-                    attributes: new HtmlAttributes()
-                        .Id(id)
-                        .Src(src),
+                    id: id,
+                    css: null,
+                    attributes: new HtmlAttributes().Src(src),
                     action: () => hb
                         .Raw(text: script))
                 : hb;

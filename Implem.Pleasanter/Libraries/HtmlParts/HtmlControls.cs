@@ -268,7 +268,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 optionCollection
                     .Select((o, i) => new { Option = o, Index = i })
                     .ForEach(data => hb
-                        .Input(new HtmlAttributes()
+                        .Input(attributes: new HtmlAttributes()
                             .Id(name, data.Index)
                             .Class(Css.Class("control-radio", controlCss))
                             .Type("radio")
@@ -297,7 +297,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool _using = true)
         {
             return _using
-                ? hb.Input(new HtmlAttributes()
+                ? hb.Input(attributes: new HtmlAttributes()
                     .Id_Css(controlId, Css.Class("control-spinner", controlCss))
                     .Type("number")
                     .Value(value != null

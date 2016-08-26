@@ -36,7 +36,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb.Div(css: "field-wide", action: () =>
                     hb.TextArea(
                         id: "Comments",
-                        controlCss: " upload-image",
+                        css: "control-textarea upload-image",
                         placeholder: Displays.Comments()))
                 : hb;
         }

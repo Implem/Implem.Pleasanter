@@ -90,7 +90,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     siteSettings, groupByColumn, aggregateType, valueColumn, dataRows);
                 return hb
                     .Svg(
-                        attributes: new HtmlAttributes().Id_Css("TimeSeries", "time-series"),
+                        id: "TimeSeries",
+                        css: "time-series",
                         action: () => { })
                     .Hidden(
                         controlId: "TimeSeriesJson",
