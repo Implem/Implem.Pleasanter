@@ -269,7 +269,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Select((o, i) => new { Option = o, Index = i })
                     .ForEach(data => hb
                         .Input(attributes: new HtmlAttributes()
-                            .Id(name, data.Index)
+                            .Id(name + data.Index)
                             .Class(Css.Class("control-radio", controlCss))
                             .Type("radio")
                             .Value(data.Option.Key)

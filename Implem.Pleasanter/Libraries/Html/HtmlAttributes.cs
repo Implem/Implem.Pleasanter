@@ -55,20 +55,12 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes Id(string id, int index = -1)
+        public HtmlAttributes Id(string id)
         {
             if (!id.IsNullOrEmpty())
             {
-                if (index == -1)
-                {
-                    base.Add("id");
-                    base.Add(id);
-                }
-                else
-                {
-                    base.Add("id");
-                    base.Add(id + index);
-                }
+                base.Add("id");
+                base.Add(id);
                 base.Add("name");
                 base.Add(id);
             }
