@@ -1783,6 +1783,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_md_space_h4": Css._dot_md_space_h4 = definitionRow[1].ToString(); SetCssTable(CssTable._dot_md_space_h4, definitionRow, CssXls); break;
                     case "_dot_md_space_h5": Css._dot_md_space_h5 = definitionRow[1].ToString(); SetCssTable(CssTable._dot_md_space_h5, definitionRow, CssXls); break;
                     case "_dot_md_space_h6": Css._dot_md_space_h6 = definitionRow[1].ToString(); SetCssTable(CssTable._dot_md_space_h6, definitionRow, CssXls); break;
+                    case "_dot_md_space_ol": Css._dot_md_space_ol = definitionRow[1].ToString(); SetCssTable(CssTable._dot_md_space_ol, definitionRow, CssXls); break;
                     case "_dot_md_space_p": Css._dot_md_space_p = definitionRow[1].ToString(); SetCssTable(CssTable._dot_md_space_p, definitionRow, CssXls); break;
                     case "_dot_md_space_table": Css._dot_md_space_table = definitionRow[1].ToString(); SetCssTable(CssTable._dot_md_space_table, definitionRow, CssXls); break;
                     case "_dot_md_space_td": Css._dot_md_space_td = definitionRow[1].ToString(); SetCssTable(CssTable._dot_md_space_td, definitionRow, CssXls); break;
@@ -6512,6 +6513,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_md_space_h4;
         public string _dot_md_space_h5;
         public string _dot_md_space_h6;
+        public string _dot_md_space_ol;
         public string _dot_md_space_p;
         public string _dot_md_space_table;
         public string _dot_md_space_td;
@@ -6878,6 +6880,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_md_space_h4 = new CssDefinition();
         public CssDefinition _dot_md_space_h5 = new CssDefinition();
         public CssDefinition _dot_md_space_h6 = new CssDefinition();
+        public CssDefinition _dot_md_space_ol = new CssDefinition();
         public CssDefinition _dot_md_space_p = new CssDefinition();
         public CssDefinition _dot_md_space_table = new CssDefinition();
         public CssDefinition _dot_md_space_td = new CssDefinition();
