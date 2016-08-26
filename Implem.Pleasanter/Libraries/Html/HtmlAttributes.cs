@@ -57,7 +57,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes Id(string id, int index = -1)
         {
-            if (id != string.Empty)
+            if (!id.IsNullOrEmpty())
             {
                 if (index == -1)
                 {
@@ -77,7 +77,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes Name(string name)
         {
-            if (name != string.Empty)
+            if (!name.IsNullOrEmpty())
             {
                 base.Add("name");
                 base.Add(name);
@@ -87,7 +87,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes Class(string css)
         {
-            if (css != string.Empty)
+            if (!css.IsNullOrEmpty())
             {
                 base.Add("class");
                 base.Add(css);
@@ -104,7 +104,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes Style(string style)
         {
-            if (style != string.Empty)
+            if (!style.IsNullOrEmpty())
             {
                 base.Add("style");
                 base.Add(style);
@@ -128,7 +128,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes Type(string type)
         {
-            if (type != string.Empty)
+            if (!type.IsNullOrEmpty())
             {
                 base.Add("type");
                 base.Add(type);
@@ -138,7 +138,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes Src(string src)
         {
-            if (src != string.Empty)
+            if (!src.IsNullOrEmpty())
             {
                 base.Add("src");
                 base.Add(src);
@@ -148,7 +148,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes Value(string value)
         {
-            if (value != string.Empty)
+            if (!value.IsNullOrEmpty())
             {
                 base.Add("value");
                 base.Add(HttpUtility.HtmlEncode(value));
@@ -197,7 +197,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes Action(string action)
         {
-            if (action != string.Empty)
+            if (!action.IsNullOrEmpty())
             {
                 base.Add("action");
                 base.Add(action);
@@ -207,7 +207,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes Enctype(string enctype)
         {
-            if (enctype != string.Empty)
+            if (!enctype.IsNullOrEmpty())
             {
                 base.Add("enctype");
                 base.Add(enctype);
@@ -217,7 +217,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes For(string _for)
         {
-            if (_for != string.Empty)
+            if (!_for.IsNullOrEmpty())
             {
                 base.Add("for");
                 base.Add(_for);
@@ -227,7 +227,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes Href(string href)
         {
-            if (href != string.Empty)
+            if (!href.IsNullOrEmpty())
             {
                 base.Add("href");
                 base.Add(href);
@@ -237,7 +237,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes Title(string title)
         {
-            if (title != string.Empty)
+            if (!title.IsNullOrEmpty())
             {
                 base.Add("title");
                 base.Add(title);
@@ -247,7 +247,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes Placeholder(string placeholder)
         {
-            if (placeholder != string.Empty)
+            if (!placeholder.IsNullOrEmpty())
             {
                 base.Add("placeholder");
                 base.Add(placeholder);
@@ -257,7 +257,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes AccessKey(string accessKey)
         {
-            if (accessKey != string.Empty)
+            if (!accessKey.IsNullOrEmpty())
             {
                 base.Add("accesskey");
                 base.Add(accessKey);
@@ -267,7 +267,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes OnClick(string onClick)
         {
-            if (onClick != string.Empty)
+            if (!onClick.IsNullOrEmpty())
             {
                 base.Add("onclick");
                 base.Add(onClick);
@@ -277,7 +277,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes OnDblClick(string onDblClick)
         {
-            if (onDblClick != string.Empty)
+            if (!onDblClick.IsNullOrEmpty())
             {
                 base.Add("ondblclick");
                 base.Add(onDblClick);
@@ -287,7 +287,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes OnChange(string onChange)
         {
-            if (onChange != string.Empty)
+            if (!onChange.IsNullOrEmpty())
             {
                 base.Add("onchange");
                 base.Add(onChange);
@@ -327,7 +327,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes DataId(string dataId)
         {
-            if (dataId != string.Empty)
+            if (!dataId.IsNullOrEmpty())
             {
                 base.Add("data-id");
                 base.Add(dataId);
@@ -337,7 +337,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes DataType(string dataType)
         {
-            if (dataType != string.Empty)
+            if (!dataType.IsNullOrEmpty())
             {
                 base.Add("data-type");
                 base.Add(dataType);
@@ -347,7 +347,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes DataMethod(string dataMethod)
         {
-            if (dataMethod != string.Empty)
+            if (!dataMethod.IsNullOrEmpty())
             {
                 base.Add("data-method");
                 base.Add(dataMethod);
@@ -357,7 +357,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes DataAction(string dataAction)
         {
-            if (dataAction != string.Empty)
+            if (!dataAction.IsNullOrEmpty())
             {
                 base.Add("data-action");
                 base.Add(dataAction);
@@ -367,7 +367,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes DataSelector(string dataSelector)
         {
-            if (dataSelector != string.Empty)
+            if (!dataSelector.IsNullOrEmpty())
             {
                 base.Add("data-selector");
                 base.Add(dataSelector);
@@ -377,7 +377,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes DataValue(string dataValue)
         {
-            if (dataValue != string.Empty)
+            if (!dataValue.IsNullOrEmpty())
             {
                 base.Add("data-value");
                 base.Add(dataValue);
@@ -387,7 +387,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes DataConfirm(string dataConfirm)
         {
-            if (dataConfirm != string.Empty)
+            if (!dataConfirm.IsNullOrEmpty())
             {
                 base.Add("data-confirm");
                 base.Add(dataConfirm);
@@ -397,7 +397,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes DataClass(string dataClass)
         {
-            if (dataClass != string.Empty)
+            if (!dataClass.IsNullOrEmpty())
             {
                 base.Add("data-class");
                 base.Add(dataClass);
@@ -407,7 +407,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes DataStyle(string dataStyle)
         {
-            if (dataStyle != string.Empty)
+            if (!dataStyle.IsNullOrEmpty())
             {
                 base.Add("data-style");
                 base.Add(dataStyle);
