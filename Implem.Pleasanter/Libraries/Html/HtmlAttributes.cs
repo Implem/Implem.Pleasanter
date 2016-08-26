@@ -181,16 +181,6 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes Enctype(string enctype)
-        {
-            if (!enctype.IsNullOrEmpty())
-            {
-                base.Add("enctype");
-                base.Add(enctype);
-            }
-            return this;
-        }
-
         public HtmlAttributes For(string _for)
         {
             if (!_for.IsNullOrEmpty())
