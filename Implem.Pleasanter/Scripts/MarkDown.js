@@ -85,7 +85,6 @@ $p.markup = function (markdownValue, encoded) {
         return $elements[0].outerHTML;
     }
 
-    var title_regex = /\[[^\]]+\]/i;
 
     function replaceUrl(text) {
         var regex_t = /(\[[^\]]+\]\(\b(https?|ftp):\/\/((?!\*|"|<|>|\||&gt;|&lt;).)+)/gi;
@@ -93,7 +92,7 @@ $p.markup = function (markdownValue, encoded) {
         return text
             .replace(regex_t, function ($1) {
                 return '<a href="' + cutBrackets($1.match(regex)[0], 0) + '" target="_blank">' +
-                    cutBrackets($1.match(title_regex)[0], 1) +
+                    cutBrackets($1.match(/\[[^\]]+\]/i)[0], 1) +
                     '</a>';
             })
             .replace(regex, function ($1) {
@@ -109,7 +108,7 @@ $p.markup = function (markdownValue, encoded) {
         return text
             .replace(regex_t, function ($1) {
                 return '<a href="file://' + cutBrackets($1.match(regex)[0], 0) + '">' +
-                    cutBrackets($1.match(title_regex)[0], 1) +
+                    cutBrackets($1.match(/\[[^\]]+\]/i)[0], 1) +
                     '</a>';
             })
             .replace(regex, function ($1) {
