@@ -75,16 +75,6 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes Name(string name)
-        {
-            if (!name.IsNullOrEmpty())
-            {
-                base.Add("name");
-                base.Add(name);
-            }
-            return this;
-        }
-
         public HtmlAttributes Class(string css)
         {
             if (!css.IsNullOrEmpty())
