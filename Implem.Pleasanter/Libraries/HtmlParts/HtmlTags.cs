@@ -114,6 +114,42 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
+        public static HtmlBuilder THead(
+            this HtmlBuilder hb,
+            string id = null,
+            string css = null,
+            HtmlAttributes attributes = null,
+            bool _using = true,
+            Action action = null)
+        {
+            return _using
+                ? hb.Append(
+                    tag: "thead",
+                    id: id,
+                    css: css,
+                    attributes: attributes,
+                    action: action)
+                : hb;
+        }
+
+        public static HtmlBuilder TBody(
+                    this HtmlBuilder hb,
+                    string id = null,
+                    string css = null,
+                    HtmlAttributes attributes = null,
+                    bool _using = true,
+                    Action action = null)
+        {
+            return _using
+                ? hb.Append(
+                    tag: "tbody",
+                    id: id,
+                    css: css,
+                    attributes: attributes,
+                    action: action)
+                : hb;
+        }
+
         public static HtmlBuilder Th(
             this HtmlBuilder hb,
             string id = null,
