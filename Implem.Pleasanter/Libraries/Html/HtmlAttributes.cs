@@ -55,24 +55,24 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes Id(string id)
+        public HtmlAttributes Id(string value)
         {
-            if (!id.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty())
             {
                 base.Add("id");
-                base.Add(id);
+                base.Add(value);
                 base.Add("name");
-                base.Add(id);
+                base.Add(value);
             }
             return this;
         }
 
-        public HtmlAttributes Class(string css)
+        public HtmlAttributes Class(string value)
         {
-            if (!css.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty())
             {
                 base.Add("class");
-                base.Add(css);
+                base.Add(value);
             }
             return this;
         }
@@ -84,32 +84,32 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes Style(string style)
+        public HtmlAttributes Style(string value)
         {
-            if (!style.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty())
             {
                 base.Add("style");
-                base.Add(style);
+                base.Add(value);
             }
             return this;
         }
 
-        public HtmlAttributes Type(string type)
+        public HtmlAttributes Type(string value)
         {
-            if (!type.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty())
             {
                 base.Add("type");
-                base.Add(type);
+                base.Add(value);
             }
             return this;
         }
 
-        public HtmlAttributes Src(string src)
+        public HtmlAttributes Src(string value)
         {
-            if (!src.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty())
             {
                 base.Add("src");
-                base.Add(src);
+                base.Add(value);
             }
             return this;
         }
@@ -124,138 +124,138 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes DataMax(decimal max)
+        public HtmlAttributes DataMax(decimal value)
         {
             base.Add("data-max");
-            base.Add(max.ToString());
+            base.Add(value.ToString());
             return this;
         }
 
-        public HtmlAttributes DataMin(decimal min)
+        public HtmlAttributes DataMin(decimal value)
         {
             base.Add("data-min");
-            base.Add(min.ToString());
+            base.Add(value.ToString());
             return this;
         }
 
-        public HtmlAttributes DataStep(decimal step)
+        public HtmlAttributes DataStep(decimal value)
         {
             base.Add("data-step");
-            base.Add(step.ToString());
+            base.Add(value.ToString());
             return this;
         }
 
-        public HtmlAttributes Checked(bool _checked)
+        public HtmlAttributes Checked(bool value)
         {
-            if (_checked)
+            if (value)
             {
                 base.Add("checked");
             }
             return this;
         }
 
-        public HtmlAttributes Selected(bool selected)
+        public HtmlAttributes Selected(bool value)
         {
-            if (selected)
+            if (value)
             {
                 base.Add("selected");
             }
             return this;
         }
 
-        public HtmlAttributes Action(string action)
+        public HtmlAttributes Action(string value)
         {
-            if (!action.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty())
             {
                 base.Add("action");
-                base.Add(action);
+                base.Add(value);
             }
             return this;
         }
 
-        public HtmlAttributes For(string _for)
+        public HtmlAttributes For(string value)
         {
-            if (!_for.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty())
             {
                 base.Add("for");
-                base.Add(_for);
+                base.Add(value);
             }
             return this;
         }
 
-        public HtmlAttributes Href(string href)
+        public HtmlAttributes Href(string value)
         {
-            if (!href.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty())
             {
                 base.Add("href");
-                base.Add(href);
+                base.Add(value);
             }
             return this;
         }
 
-        public HtmlAttributes Title(string title)
+        public HtmlAttributes Title(string value)
         {
-            if (!title.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty())
             {
                 base.Add("title");
-                base.Add(title);
+                base.Add(value);
             }
             return this;
         }
 
-        public HtmlAttributes Placeholder(string placeholder)
+        public HtmlAttributes Placeholder(string value)
         {
-            if (!placeholder.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty())
             {
                 base.Add("placeholder");
-                base.Add(placeholder);
+                base.Add(value);
             }
             return this;
         }
 
-        public HtmlAttributes AccessKey(string accessKey)
+        public HtmlAttributes AccessKey(string value)
         {
-            if (!accessKey.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty())
             {
                 base.Add("accesskey");
-                base.Add(accessKey);
+                base.Add(value);
             }
             return this;
         }
 
-        public HtmlAttributes OnClick(string onClick)
+        public HtmlAttributes OnClick(string value)
         {
-            if (!onClick.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty())
             {
                 base.Add("onclick");
-                base.Add(onClick);
+                base.Add(value);
             }
             return this;
         }
 
-        public HtmlAttributes OnDblClick(string onDblClick)
+        public HtmlAttributes OnDblClick(string value)
         {
-            if (!onDblClick.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty())
             {
                 base.Add("ondblclick");
-                base.Add(onDblClick);
+                base.Add(value);
             }
             return this;
         }
 
-        public HtmlAttributes OnChange(string onChange)
+        public HtmlAttributes OnChange(string value)
         {
-            if (!onChange.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty())
             {
                 base.Add("onchange");
-                base.Add(onChange);
+                base.Add(value);
             }
             return this;
         }
 
-        public HtmlAttributes Disabled(bool disabled = false)
+        public HtmlAttributes Disabled(bool value = false)
         {
-            if (disabled)
+            if (value)
             {
                 base.Add("disabled");
                 base.Add("disabled");
@@ -263,82 +263,82 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes Colspan(int colspan)
+        public HtmlAttributes Colspan(int value)
         {
-            if (colspan != 0)
+            if (value != 0)
             {
                 base.Add("colspan");
-                base.Add(colspan.ToString());
+                base.Add(value.ToString());
             }
             return this;
         }
 
-        public HtmlAttributes DateTime(DateTime dateTime)
+        public HtmlAttributes DateTime(DateTime value)
         {
-            if (dateTime != null && dateTime.NotZero())
+            if (value != null && value.NotZero())
             {
                 base.Add("datetime");
-                base.Add(dateTime.ToString("s"));
+                base.Add(value.ToString("s"));
             }
             return this;
         }
 
-        public HtmlAttributes DataId(string dataId)
+        public HtmlAttributes DataId(string value)
         {
-            if (!dataId.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty())
             {
                 base.Add("data-id");
-                base.Add(dataId);
+                base.Add(value);
             }
             return this;
         }
 
-        public HtmlAttributes DataType(string dataType)
+        public HtmlAttributes DataType(string value)
         {
-            if (!dataType.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty())
             {
                 base.Add("data-type");
-                base.Add(dataType);
+                base.Add(value);
             }
             return this;
         }
 
-        public HtmlAttributes DataMethod(string dataMethod)
+        public HtmlAttributes DataMethod(string value)
         {
-            if (!dataMethod.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty())
             {
                 base.Add("data-method");
-                base.Add(dataMethod);
+                base.Add(value);
             }
             return this;
         }
 
-        public HtmlAttributes DataAction(string dataAction)
+        public HtmlAttributes DataAction(string value)
         {
-            if (!dataAction.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty())
             {
                 base.Add("data-action");
-                base.Add(dataAction);
+                base.Add(value);
             }
             return this;
         }
 
-        public HtmlAttributes DataSelector(string dataSelector)
+        public HtmlAttributes DataSelector(string value)
         {
-            if (!dataSelector.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty())
             {
                 base.Add("data-selector");
-                base.Add(dataSelector);
+                base.Add(value);
             }
             return this;
         }
 
-        public HtmlAttributes DataValue(string dataValue)
+        public HtmlAttributes DataValue(string value)
         {
-            if (!dataValue.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty())
             {
                 base.Add("data-value");
-                base.Add(dataValue);
+                base.Add(value);
             }
             return this;
         }
@@ -363,40 +363,40 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes DataConfirm(string dataConfirm)
+        public HtmlAttributes DataConfirm(string value)
         {
-            if (!dataConfirm.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty())
             {
                 base.Add("data-confirm");
-                base.Add(dataConfirm);
+                base.Add(value);
             }
             return this;
         }
 
-        public HtmlAttributes DataClass(string dataClass)
+        public HtmlAttributes DataClass(string value)
         {
-            if (!dataClass.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty())
             {
                 base.Add("data-class");
-                base.Add(dataClass);
+                base.Add(value);
             }
             return this;
         }
 
-        public HtmlAttributes DataStyle(string dataStyle)
+        public HtmlAttributes DataStyle(string value)
         {
-            if (!dataStyle.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty())
             {
                 base.Add("data-style");
-                base.Add(dataStyle);
+                base.Add(value);
             }
             return this;
         }
 
-        public HtmlAttributes DataWidth(int dataWidth)
+        public HtmlAttributes DataWidth(int value)
         {
             base.Add("data-width");
-            base.Add(dataWidth.ToString());
+            base.Add(value.ToString());
             return this;
         }
     }
