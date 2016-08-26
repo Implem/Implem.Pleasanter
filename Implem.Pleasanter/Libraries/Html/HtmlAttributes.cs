@@ -102,20 +102,6 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes Width(int width)
-        {
-            base.Add("width");
-            base.Add(width.ToString());
-            return this;
-        }
-
-        public HtmlAttributes Height(int height)
-        {
-            base.Add("height");
-            base.Add(height.ToString());
-            return this;
-        }
-
         public HtmlAttributes Type(string type)
         {
             if (!type.IsNullOrEmpty())
