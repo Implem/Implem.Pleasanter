@@ -35,13 +35,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings siteSettings,
             Column column,
             BaseModel.MethodTypes methodType = BaseModel.MethodTypes.NotSet,
-            string value = "",
+            string value = null,
             Permissions.ColumnPermissionTypes columnPermissionType = 
                 Permissions.ColumnPermissionTypes.Update,
-            string fieldCss = "",
-            string labelCss = "",
-            string controlContainerCss = "",
-            string controlCss = "",
+            string fieldCss = null,
+            string labelCss = null,
+            string controlContainerCss = null,
+            string controlCss = null,
             bool _using = true)
         {
             if (column.UserColumn && value == User.UserTypes.Anonymous.ToInt().ToString())
@@ -324,12 +324,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Field(
             this HtmlBuilder hb,
-            string fieldId = "",
-            string controlId = "",
-            string fieldCss = "",
-            string labelCss = "",
-            string controlContainerCss = "",
-            string labelText = "",
+            string fieldId = null,
+            string controlId = null,
+            string fieldCss = null,
+            string labelCss = null,
+            string controlContainerCss = null,
+            string labelText = null,
             Action controlAction = null,
             Action actionOptions = null,
             string tagControlContainer = "div",
@@ -355,8 +355,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder FieldContainer(
             this HtmlBuilder hb,
-            string fieldId = "",
-            string fieldCss = "",
+            string fieldId = null,
+            string fieldCss = null,
             Action actionOptions = null,
             bool _using = true)
         {
@@ -372,8 +372,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Field(
             this HtmlBuilder hb,
-            string fieldId = "",
-            string fieldCss = "",
+            string fieldId = null,
+            string fieldCss = null,
             Action actionLabel = null,
             Action actionControl = null,
             Action actionOptions = null,
@@ -393,9 +393,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder Label(
             this HtmlBuilder hb,
-            string controlId = "",
-            string labelCss = "",
-            string labelText = "")
+            string controlId = null,
+            string labelCss = null,
+            string labelText = null)
         {
             return labelText != string.Empty
                 ? hb.P(css: "field-label", action: () => hb
@@ -428,15 +428,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder FieldText(
             this HtmlBuilder hb,
-            string fieldId = "",
-            string controlId = "",
-            string fieldCss = "",
-            string labelCss = "",
-            string controlContainerCss = "",
-            string controlCss = "",
-            string labelText = "",
-            string text = "",
-            string dataValue = "",
+            string fieldId = null,
+            string controlId = null,
+            string fieldCss = null,
+            string labelCss = null,
+            string controlContainerCss = null,
+            string controlCss = null,
+            string labelText = null,
+            string text = null,
+            string dataValue = null,
             bool _using = true)
         {
             return _using
@@ -461,17 +461,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder FieldTextBox(
             this HtmlBuilder hb,
             HtmlTypes.TextTypes textType = HtmlTypes.TextTypes.Normal,
-            string fieldId = "",
-            string controlId = "",
-            string fieldCss = "",
-            string labelCss = "",
-            string controlContainerCss = "",
-            string controlCss = "",
-            string labelText = "",
-            string text = "",
-            string onChange = "",
-            string action = "",
-            string method = "", 
+            string fieldId = null,
+            string controlId = null,
+            string fieldCss = null,
+            string labelCss = null,
+            string controlContainerCss = null,
+            string controlCss = null,
+            string labelText = null,
+            string text = null,
+            string onChange = null,
+            string action = null,
+            string method = null, 
             Dictionary<string, string> attributes = null,
             bool _using = true)
         {
@@ -499,15 +499,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder FieldMarkDown(
             this HtmlBuilder hb,
-            string fieldId = "",
-            string controlId = "",
-            string fieldCss = "",
-            string labelCss = "",
-            string controlContainerCss = "",
-            string controlCss = "",
-            string labelText = "",
-            string text = "",
-            string placeholder = "",
+            string fieldId = null,
+            string controlId = null,
+            string fieldCss = null,
+            string labelCss = null,
+            string controlContainerCss = null,
+            string controlCss = null,
+            string labelText = null,
+            string text = null,
+            string placeholder = null,
             bool readOnly = false,
             Dictionary<string, string> attributes = null,
             bool _using = true)
@@ -533,14 +533,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder FieldMarkUp(
             this HtmlBuilder hb,
-            string fieldId = "",
-            string controlId = "",
-            string fieldCss = "",
-            string labelCss = "",
-            string controlContainerCss = "",
-            string controlCss = "",
-            string labelText = "",
-            string text = "",
+            string fieldId = null,
+            string controlId = null,
+            string fieldCss = null,
+            string labelCss = null,
+            string controlContainerCss = null,
+            string controlCss = null,
+            string labelText = null,
+            string text = null,
             Dictionary<string, string> attributes = null,
             bool _using = true)
         {
@@ -563,20 +563,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder FieldDropDown(
             this HtmlBuilder hb,
-            string fieldId = "",
-            string controlId = "",
-            string fieldCss = "",
-            string labelCss = "",
-            string controlContainerCss = "",
-            string controlCss = "",
-            string labelText = "",
+            string fieldId = null,
+            string controlId = null,
+            string fieldCss = null,
+            string labelCss = null,
+            string controlContainerCss = null,
+            string controlCss = null,
+            string labelText = null,
             Dictionary<string, string> optionCollection = null,
-            string selectedValue = "",
+            string selectedValue = null,
             bool addSelectedValue = true,
             bool insertBlank = false,
-            string onChange = "",
-            string action = "",
-            string method = "",
+            string onChange = null,
+            string action = null,
+            string method = null,
             Column column = null,
             bool _using = true)
         {
@@ -606,20 +606,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder FieldDropDown(
             this HtmlBuilder hb,
-            string fieldId = "",
-            string controlId = "",
-            string fieldCss = "",
-            string labelCss = "",
-            string controlContainerCss = "",
-            string controlCss = "",
-            string labelText = "",
+            string fieldId = null,
+            string controlId = null,
+            string fieldCss = null,
+            string labelCss = null,
+            string controlContainerCss = null,
+            string controlCss = null,
+            string labelText = null,
             Dictionary<string, ControlData> optionCollection = null,
-            string selectedValue = "",
+            string selectedValue = null,
             bool addSelectedValue = true,
             bool insertBlank = false,
-            string onChange = "",
-            string action = "",
-            string method = "",
+            string onChange = null,
+            string action = null,
+            string method = null,
             Column column = null,
             bool _using = true)
         {
@@ -648,17 +648,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder FieldCheckBox(
             this HtmlBuilder hb,
-            string fieldId = "",
-            string controlId = "",
-            string fieldCss = "",
-            string labelCss = "",
-            string controlContainerCss = "",
-            string controlCss = "",
-            string labelText = "",
+            string fieldId = null,
+            string controlId = null,
+            string fieldCss = null,
+            string labelCss = null,
+            string controlContainerCss = null,
+            string controlCss = null,
+            string labelText = null,
             bool _checked = false,
             bool disabled = false,
-            string action = "",
-            string method = "",
+            string action = null,
+            string method = null,
             bool labelPositionIsRight = true,
             bool _using = true)
         {
@@ -704,17 +704,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder FieldRadio(
             this HtmlBuilder hb,
-            string fieldId = "",
-            string name = "",
-            string fieldCss = "",
-            string labelCss = "",
-            string controlContainerCss = "",
-            string controlCss = "",
-            string labelText = "",
+            string fieldId = null,
+            string name = null,
+            string fieldCss = null,
+            string labelCss = null,
+            string controlContainerCss = null,
+            string controlCss = null,
+            string labelText = null,
             Dictionary<string, ControlData> optionCollection = null,
-            string selectedValueText = "",
-            string action = "",
-            string method = "",
+            string selectedValueText = null,
+            string action = null,
+            string method = null,
             bool _using = true)
         {
             return _using
@@ -735,22 +735,22 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder FieldSpinner(
             this HtmlBuilder hb,
-            string fieldId = "",
-            string controlId = "",
-            string fieldCss = "",
-            string labelCss = "",
-            string controlContainerCss = "",
-            string controlCss = "",
-            string labelText = "",
+            string fieldId = null,
+            string controlId = null,
+            string fieldCss = null,
+            string labelCss = null,
+            string controlContainerCss = null,
+            string controlCss = null,
+            string labelText = null,
             decimal? value = 0,
             decimal min = -1,
             decimal max = -1,
             decimal step = -1,
             int width = 50,
-            string unit = "",
-            string onChange = "",
-            string action = "",
-            string method = "",
+            string unit = null,
+            string onChange = null,
+            string action = null,
+            string method = null,
             bool _using = true)
         {
             return _using
@@ -785,20 +785,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder FieldSlider(
             this HtmlBuilder hb,
-            string fieldId = "",
-            string controlId = "",
-            string fieldCss = "",
-            string labelCss = "",
-            string controlContainerCss = "",
-            string controlCss = "",
-            string labelText = "",
-            string value = "",
+            string fieldId = null,
+            string controlId = null,
+            string fieldCss = null,
+            string labelCss = null,
+            string controlContainerCss = null,
+            string controlCss = null,
+            string labelText = null,
+            string value = null,
             decimal min = -1,
             decimal max = -1,
             decimal step = -1,
-            string unit = "",
-            string action = "",
-            string method = "",
+            string unit = null,
+            string action = null,
+            string method = null,
             bool _using = true)
         {
             return _using
@@ -825,14 +825,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder FieldAnchor(
             this HtmlBuilder hb,
-            string fieldId = "",
-            string controlId = "",
+            string fieldId = null,
+            string controlId = null,
             string fieldCss = "field-auto",
-            string controlContainerCss = "",
-            string controlCss = "",
-            string iconCss = "",
-            string text = "",
-            string href = "",
+            string controlContainerCss = null,
+            string controlCss = null,
+            string iconCss = null,
+            string text = null,
+            string href = null,
             bool _using = true)
         {
             return _using
@@ -856,13 +856,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder FieldSelectable(
             this HtmlBuilder hb,
-            string fieldId = "",
-            string controlId = "",
-            string fieldCss = "",
-            string labelCss = "",
-            string controlContainerCss = "",
-            string controlCss = "",
-            string labelText = "",
+            string fieldId = null,
+            string controlId = null,
+            string fieldCss = null,
+            string labelCss = null,
+            string controlContainerCss = null,
+            string controlCss = null,
+            string labelText = null,
             Dictionary<string, string> listItemCollection = null,
             IEnumerable<string> selectedValueCollection = null,
             bool commandOptionPositionIsTop = false,
@@ -914,12 +914,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder FieldBasket(
             this HtmlBuilder hb,
-            string fieldId = "",
-            string controlId = "",
-            string fieldCss = "",
-            string labelCss = "",
-            string controlContainerCss = "",
-            string controlCss = "",
+            string fieldId = null,
+            string controlId = null,
+            string fieldCss = null,
+            string labelCss = null,
+            string controlContainerCss = null,
+            string controlCss = null,
             Action labelAction = null,
             Dictionary<string, string> listItemCollection = null,
             IEnumerable<string> selectedValueCollection = null,
