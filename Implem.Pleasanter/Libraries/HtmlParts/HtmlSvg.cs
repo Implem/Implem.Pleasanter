@@ -6,8 +6,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder Svg(
             this HtmlBuilder hb,
-            string id = "",
-            string css = "",
+            string id = null,
+            string css = null,
             Action action = null)
         {
             return hb.Append(
@@ -15,7 +15,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 id: id,
                 css: css,
                 attributes: new HtmlAttributes()
-                    .Id_Css(id, css)
+                    .Id(id)
+                    .Class(css)
                     .Add("xmlns", "http://www.w3.org/2000/svg"),
                 action: action);
         }

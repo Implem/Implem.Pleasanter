@@ -306,7 +306,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb.Append(
                     tag: "input",
                     closeLevel: 1,
-                    attributes: (attributes ?? new HtmlAttributes()).Id_Css(id, css))
+                    attributes: (attributes ?? new HtmlAttributes())
+                        .Id(id)
+                        .Class(css))
                 : hb;
         }
 
@@ -325,7 +327,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     id: id,
                     css: css,
                     attributes: (attributes ?? new HtmlAttributes())
-                        .Id_Css(id, css)
+                        .Id(id)
+                        .Class(css)
                         .Placeholder(placeholder),
                     action: action)
                 : hb;
@@ -491,7 +494,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     id: id,
                     css: css,
                     attributes: (attributes ?? new HtmlAttributes())
-                        .Id_Css(id, css)
+                        .Id(id)
+                        .Class(css)
                         .Href(href),
                     action: action != null
                         ? action

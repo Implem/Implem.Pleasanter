@@ -90,7 +90,8 @@ namespace Implem.Pleasanter.Models
             return hb
                 .Table(
                     attributes: new HtmlAttributes()
-                        .Id_Css("Grid", "grid")
+                        .Id("Grid")
+                        .Class("grid")
                         .DataAction("GridRows")
                         .DataMethod("post"),
                     action: () => hb
@@ -310,7 +311,8 @@ namespace Implem.Pleasanter.Models
             return hb.Div(css: "edit-form", action: () => hb
                 .Form(
                     attributes: new HtmlAttributes()
-                        .Id_Css("WikiForm", "main-form")
+                        .Id("WikiForm")
+                        .Class("main-form")
                         .Action(Navigations.ItemAction(wikiModel.WikiId != 0
                             ? wikiModel.WikiId
                             : siteModel.SiteId)),

@@ -47,7 +47,8 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
-                            .Id_Css("ResultsForm", "main-form")
+                            .Id("ResultsForm")
+                            .Class("main-form")
                             .Action(Navigations.ItemAction(siteSettings.SiteId)),
                         action: () => hb
                             .DataViewSelector(
@@ -81,7 +82,8 @@ namespace Implem.Pleasanter.Models
                 .MoveDialog("items", siteSettings.SiteId, bulk: true)
                     .ImportSettingsDialog()
                 .Div(attributes: new HtmlAttributes()
-                    .Id_Css("ExportSettingsDialog", "dialog")
+                    .Id("ExportSettingsDialog")
+                    .Class("dialog")
                     .Title(Displays.ExportSettings())))
                 .ToString();
         }
@@ -168,7 +170,8 @@ namespace Implem.Pleasanter.Models
             return hb
                 .Table(
                     attributes: new HtmlAttributes()
-                        .Id_Css("Grid", "grid")
+                        .Id("Grid")
+                        .Class("grid")
                         .DataAction("GridRows")
                         .DataMethod("post"),
                     action: () => hb
@@ -509,7 +512,8 @@ namespace Implem.Pleasanter.Models
             return hb.Div(css: "edit-form", action: () => hb
                 .Form(
                     attributes: new HtmlAttributes()
-                        .Id_Css("ResultForm", "main-form")
+                        .Id("ResultForm")
+                        .Class("main-form")
                         .Action(Navigations.ItemAction(resultModel.ResultId != 0 
                             ? resultModel.ResultId
                             : siteModel.SiteId)),

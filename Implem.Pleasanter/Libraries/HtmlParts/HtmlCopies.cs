@@ -10,7 +10,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
-                    .Id_Css("CopyDialog", "dialog")
+                    .Id("CopyDialog")
+                    .Class("dialog")
                     .Title(Displays.CopySettings()),
                 action: () => hb
                     .Form(

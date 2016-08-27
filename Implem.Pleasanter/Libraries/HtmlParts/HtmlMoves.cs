@@ -11,7 +11,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
-                    .Id_Css("MoveDialog", "dialog")
+                    .Id("MoveDialog")
+                    .Class("dialog")
                     .Title(Displays.MoveSettings()),
                 action: () => hb
                     .Form(

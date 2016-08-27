@@ -70,10 +70,12 @@ namespace Implem.Pleasanter.Models
                                     controlId: "GridOffset",
                                     value: Parameters.General.GridPageSize.ToString()))
                         .Div(attributes: new HtmlAttributes()
-                            .Id_Css("ImportSettingsDialog", "dialog")
+                            .Id("ImportSettingsDialog")
+                            .Class("dialog")
                             .Title(Displays.Import()))
                         .Div(attributes: new HtmlAttributes()
-                            .Id_Css("ExportSettingsDialog", "dialog")
+                            .Id("ExportSettingsDialog")
+                            .Class("dialog")
                             .Title(Displays.ExportSettings()));
                 }).ToString();
         }
@@ -137,7 +139,8 @@ namespace Implem.Pleasanter.Models
             return hb
                 .Table(
                     attributes: new HtmlAttributes()
-                        .Id_Css("Grid", "grid")
+                        .Id("Grid")
+                        .Class("grid")
                         .DataAction("GridRows")
                         .DataMethod("post"),
                     action: () => hb
@@ -345,7 +348,8 @@ namespace Implem.Pleasanter.Models
             return hb.Div(css: "edit-form", action: () => hb
                 .Form(
                     attributes: new HtmlAttributes()
-                        .Id_Css("UserForm", "main-form")
+                        .Id("UserForm")
+                        .Class("main-form")
                         .Action(userModel.UserId != 0
                             ? Navigations.Action("Users", userModel.UserId)
                             : Navigations.Action("Users")),
@@ -575,7 +579,8 @@ namespace Implem.Pleasanter.Models
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
-                    .Id_Css("ChangePasswordDialog", "dialog")
+                    .Id("ChangePasswordDialog")
+                    .Class("dialog")
                     .Title(Displays.ChangePassword()),
                 action: () => hb
                     .Form(
@@ -614,7 +619,8 @@ namespace Implem.Pleasanter.Models
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
-                    .Id_Css("ResetPasswordDialog", "dialog")
+                    .Id("ResetPasswordDialog")
+                    .Class("dialog")
                     .Title(Displays.ResetPassword()),
                 action: () => hb
                     .Form(
@@ -683,7 +689,8 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
-                            .Id_Css("UserForm", "main-form")
+                            .Id("UserForm")
+                            .Class("main-form")
                             .Action(Navigations.Get("users", "_action_?ReturnUrl="
                                 + Url.Encode(returnUrl))),
                         cancelDefaultButton: false,
@@ -746,7 +753,8 @@ namespace Implem.Pleasanter.Models
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
-                    .Id_Css("ChangePasswordDialog", "dialog")
+                    .Id("ChangePasswordDialog")
+                    .Class("dialog")
                     .Title(Displays.ChangePassword()),
                 action: () => hb
                     .Form(

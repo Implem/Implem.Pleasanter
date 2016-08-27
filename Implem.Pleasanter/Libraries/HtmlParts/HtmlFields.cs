@@ -449,7 +449,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlAction: () => hb
                         .Span(
                             attributes: new HtmlAttributes()
-                                .Id_Css(controlId, Css.Class("control-text", controlCss))
+                                .Id(controlId)
+                                .Class(Css.Class("control-text", controlCss))
                                 .DataValue(dataValue),
                             action: () => hb
                                 .Text(text: text)),

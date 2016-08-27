@@ -12,7 +12,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder SeparateSettingsDialog(this HtmlBuilder hb)
         {
             return hb.Div(attributes: new HtmlAttributes()
-                .Id_Css("SeparateSettingsDialog", "dialog")
+                .Id("SeparateSettingsDialog")
+                .Class("dialog")
                 .Title(Displays.SeparateSettings()));
         }
 

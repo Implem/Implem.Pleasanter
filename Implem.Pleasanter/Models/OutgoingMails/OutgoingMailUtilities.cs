@@ -45,7 +45,8 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()
-                            .Id_Css("OutgoingMailsForm", "main-form")
+                            .Id("OutgoingMailsForm")
+                            .Class("main-form")
                             .Action(Navigations.ItemAction(siteSettings.SiteId)),
                         action: () => hb
                             .DataViewSelector(
@@ -78,7 +79,8 @@ namespace Implem.Pleasanter.Models
                             .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
                 .MoveDialog("items", siteSettings.SiteId, bulk: true)
                 .Div(attributes: new HtmlAttributes()
-                    .Id_Css("ExportSettingsDialog", "dialog")
+                    .Id("ExportSettingsDialog")
+                    .Class("dialog")
                     .Title(Displays.ExportSettings())))
                 .ToString();
         }
@@ -140,7 +142,8 @@ namespace Implem.Pleasanter.Models
             return hb
                 .Table(
                     attributes: new HtmlAttributes()
-                        .Id_Css("Grid", "grid")
+                        .Id("Grid")
+                        .Class("grid")
                         .DataAction("GridRows")
                         .DataMethod("post"),
                     action: () => hb
@@ -326,7 +329,8 @@ namespace Implem.Pleasanter.Models
             return hb.Div(css: "edit-form", action: () => hb
                 .Form(
                     attributes: new HtmlAttributes()
-                        .Id_Css("OutgoingMailForm", "main-form")
+                        .Id("OutgoingMailForm")
+                        .Class("main-form")
                         .Action(outgoingMailModel.OutgoingMailId != 0
                             ? Navigations.Action("OutgoingMails", outgoingMailModel.OutgoingMailId)
                             : Navigations.Action("OutgoingMails")),
@@ -493,7 +497,8 @@ namespace Implem.Pleasanter.Models
         {
             return hb.Form(
                 attributes: new HtmlAttributes()
-                    .Id_Css("OutgoingMailsForm", "edit-form-mail-list")
+                    .Id("OutgoingMailsForm")
+                    .Class("edit-form-mail-list")
                     .Action(Navigations.ItemAction(referenceId, "OutgoingMails")),
                 action: () =>
                     new OutgoingMailCollection(
@@ -582,7 +587,8 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder OutgoingMailDialog(this HtmlBuilder hb)
         {
             return hb.Div(attributes: new HtmlAttributes()
-                .Id_Css("OutgoingMailDialog", "dialog"));
+                .Id("OutgoingMailDialog")
+                .Class("dialog"));
         }
 
         /// <summary>

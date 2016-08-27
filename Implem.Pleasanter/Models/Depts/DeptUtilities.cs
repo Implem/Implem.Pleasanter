@@ -67,10 +67,12 @@ namespace Implem.Pleasanter.Models
                                     controlId: "GridOffset",
                                     value: Parameters.General.GridPageSize.ToString()))
                         .Div(attributes: new HtmlAttributes()
-                            .Id_Css("ImportSettingsDialog", "dialog")
+                            .Id("ImportSettingsDialog")
+                            .Class("dialog")
                             .Title(Displays.Import()))
                         .Div(attributes: new HtmlAttributes()
-                            .Id_Css("ExportSettingsDialog", "dialog")
+                            .Id("ExportSettingsDialog")
+                            .Class("dialog")
                             .Title(Displays.ExportSettings()));
                 }).ToString();
         }
@@ -134,7 +136,8 @@ namespace Implem.Pleasanter.Models
             return hb
                 .Table(
                     attributes: new HtmlAttributes()
-                        .Id_Css("Grid", "grid")
+                        .Id("Grid")
+                        .Class("grid")
                         .DataAction("GridRows")
                         .DataMethod("post"),
                     action: () => hb
@@ -329,7 +332,8 @@ namespace Implem.Pleasanter.Models
             return hb.Div(css: "edit-form", action: () => hb
                 .Form(
                     attributes: new HtmlAttributes()
-                        .Id_Css("DeptForm", "main-form")
+                        .Id("DeptForm")
+                        .Class("main-form")
                         .Action(deptModel.DeptId != 0
                             ? Navigations.Action("Depts", deptModel.DeptId)
                             : Navigations.Action("Depts")),

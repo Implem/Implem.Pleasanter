@@ -10,7 +10,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
-                    .Id_Css("ImportSettingsDialog", "dialog")
+                    .Id("ImportSettingsDialog")
+                    .Class("dialog")
                     .Title(Displays.Import()),
                 action: () => hb
                     .FieldTextBox(

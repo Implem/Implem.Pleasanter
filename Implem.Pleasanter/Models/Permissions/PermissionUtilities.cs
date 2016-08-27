@@ -89,7 +89,8 @@ namespace Implem.Pleasanter.Models
             return hb.Div(css: "edit-form", action: () => hb
                 .Form(
                     attributes: new HtmlAttributes()
-                        .Id_Css("PermissionForm", "main-form")
+                        .Id("PermissionForm")
+                        .Class("main-form")
                         .Action(Navigations.ItemAction(siteModel.SiteId, "Permissions")),
                     action: () => hb
                         .Div(

@@ -73,7 +73,8 @@ namespace Implem.Pleasanter.Models
             return methodType == BaseModel.MethodTypes.New
                 ? hb.Select(
                     attributes: new HtmlAttributes()
-                        .Id_Css("Sites_ReferenceType", "control-dropdown"),
+                        .Id("Sites_ReferenceType")
+                        .Class("control-dropdown"),
                     action: () => hb
                         .OptionCollection(optionCollection: new Dictionary<string, string>
                         {
@@ -236,7 +237,8 @@ namespace Implem.Pleasanter.Models
                 {
                     hb.Form(
                         attributes: new HtmlAttributes()
-                            .Id_Css("SitesForm", "main-form")
+                            .Id("SitesForm")
+                            .Class("main-form")
                             .Action(Navigations.ItemAction(0)),
                         action: () => hb
                             .Nav(action: () => hb
@@ -280,7 +282,8 @@ namespace Implem.Pleasanter.Models
                 {
                     hb.Form(
                         attributes: new HtmlAttributes()
-                            .Id_Css("SitesForm", "main-form")
+                            .Id("SitesForm")
+                            .Class("main-form")
                             .Action(Navigations.ItemAction(siteSettings.SiteId)),
                         action: () => hb
                             .Nav(css: "cf", action: () => hb
@@ -563,7 +566,8 @@ namespace Implem.Pleasanter.Models
             return hb.Div(css: "edit-form", action: () => hb
                 .Form(
                     attributes: new HtmlAttributes()
-                        .Id_Css("SiteForm", "main-form")
+                        .Id("SiteForm")
+                        .Class("main-form")
                         .Action(Navigations.ItemAction(siteModel.SiteId)),
                     action: () => hb
                         .RecordHeader(
@@ -968,7 +972,8 @@ namespace Implem.Pleasanter.Models
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
-                    .Id_Css("AggregationDetailsDialog", "dialog")
+                    .Id("AggregationDetailsDialog")
+                    .Class("dialog")
                     .Title(Displays.AggregationDetails()),
                 action: () => hb
                     .FieldDropDown(
@@ -1087,7 +1092,8 @@ namespace Implem.Pleasanter.Models
                                     action: "SetSiteSettings",
                                     method: "put")))
                     .Div(attributes: new HtmlAttributes()
-                        .Id_Css("ColumnPropertiesDialog", "dialog")
+                        .Id("ColumnPropertiesDialog")
+                        .Class("dialog")
                         .Title(Displays.AdvancedSetting())));
         }
 
