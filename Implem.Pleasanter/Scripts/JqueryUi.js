@@ -72,7 +72,7 @@
                 return $(this).attr('data-width');
             });
         });
-        $('.legend').each(function (e) {
+        $('[class*="enclosed"] .legend').each(function (e) {
             if ($(this).find('[class^="ui-icon ui-icon-carat-1-"]').length === 0) {
                 $(this).prepend($('<span/>').addClass('ui-icon ui-icon-carat-1-s'));
             }

@@ -1,13 +1,14 @@
 ﻿$(function () {
-    $(document).on('click', '.legend', function () {
-        if ($(this).find('.ui-icon')[0]) {
+    $(document).on('click', '[class*="enclosed"] .legend', function () {
+        var icon = $(this).find('.ui-icon');
+        if (icon.length === 1) {
             if ($(this).find('.ui-icon-carat-1-s')[0]) {
-                $(this).find('.ui-icon').addClass('ui-icon-carat-1-e');
-                $(this).find('.ui-icon').removeClass('ui-icon-carat-1-s');
+                icon.removeClass('ui-icon-carat-1-s');
+                icon.addClass('ui-icon-carat-1-e');
             }
             else {
-                $(this).find('.ui-icon').addClass('ui-icon-carat-1-s');
-                $(this).find('.ui-icon').removeClass('ui-icon-carat-1-e');
+                icon.removeClass('ui-icon-carat-1-e');
+                icon.addClass('ui-icon-carat-1-s');
             }
             $(this).parent().children('div').toggle();
         }
