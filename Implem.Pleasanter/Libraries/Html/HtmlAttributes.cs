@@ -11,33 +11,12 @@ namespace Implem.Pleasanter.Libraries.Html
         {
         }
 
-        public new HtmlAttributes Add(string name)
-        {
-            return Add(name, null);
-        }
-
         public HtmlAttributes Add(string name, string value, bool _using = true)
         {
-            if (_using)
+            if (value != null && _using)
             {
                 base.Add(name);
-                if (value != null)
-                {
-                    base.Add(value);
-                }
-            }
-            return this;
-        }
-
-        public HtmlAttributes Add(string name, int value, bool _using = true)
-        {
-            if (_using)
-            {
-                base.Add(name);
-                if (value != -1)
-                {
-                    base.Add(value.ToString());
-                }
+                base.Add(value);
             }
             return this;
         }

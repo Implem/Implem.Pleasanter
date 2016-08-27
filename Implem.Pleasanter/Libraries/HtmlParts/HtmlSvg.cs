@@ -1,5 +1,4 @@
-﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.Pleasanter.Libraries.Html;
 using System;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -34,10 +33,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 id: null,
                 css: null,
                 attributes: new HtmlAttributes()
-                    .Add("x", x.ToInt(), _using: x != null)
-                    .Add("y", y.ToInt(), _using: y != null)
-                    .Add("width", width.ToInt(), _using: width != null)
-                    .Add("height", height.ToInt(), _using: height != null)
+                    .Add("x", x.ToString(), _using: x != null)
+                    .Add("y", y.ToString(), _using: y != null)
+                    .Add("width", width.ToString(), _using: width != null)
+                    .Add("height", height.ToString(), _using: height != null)
                     .Add("fill", fill, _using: fill != null),
                 action: () => { });
         }
@@ -53,8 +52,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 id: null,
                 css: null,
                 attributes: new HtmlAttributes()
-                    .Add("x", x.ToInt(), _using: x != null)
-                    .Add("y", y.ToInt(), _using: y != null),
+                    .Add("x", x.ToString(), _using: x != null)
+                    .Add("y", y.ToString(), _using: y != null),
                 action: () => hb
                     .Text(text: text));
         }
