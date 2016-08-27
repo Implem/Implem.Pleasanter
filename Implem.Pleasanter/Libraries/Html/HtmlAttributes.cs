@@ -21,9 +21,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes Add(Dictionary<string, string> attributes)
+        public HtmlAttributes Add(Dictionary<string, string> attributes, bool _using = true)
         {
-            if (attributes != null)
+            if (attributes != null && _using)
             {
                 attributes.ForEach(attribute =>
                 {
@@ -34,9 +34,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes Id(string value)
+        public HtmlAttributes Id(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty() && _using)
             {
                 base.Add("id");
                 base.Add(value);
@@ -46,9 +46,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes Class(string value)
+        public HtmlAttributes Class(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty() && _using)
             {
                 base.Add("class");
                 base.Add(value);
@@ -56,16 +56,19 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes Id_Css(string id, string css)
+        public HtmlAttributes Id_Css(string id, string css, bool _using = true)
         {
-            Id(id);
-            Class(css);
+            if (_using)
+            {
+                Id(id);
+                Class(css);
+            }
             return this;
         }
 
-        public HtmlAttributes Style(string value)
+        public HtmlAttributes Style(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty() && _using)
             {
                 base.Add("style");
                 base.Add(value);
@@ -73,9 +76,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes Type(string value)
+        public HtmlAttributes Type(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty() && _using)
             {
                 base.Add("type");
                 base.Add(value);
@@ -83,9 +86,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes Src(string value)
+        public HtmlAttributes Src(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty() && _using)
             {
                 base.Add("src");
                 base.Add(value);
@@ -93,9 +96,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes Value(string value)
+        public HtmlAttributes Value(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty() && _using)
             {
                 base.Add("value");
                 base.Add(HttpUtility.HtmlEncode(value));
@@ -103,48 +106,57 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes DataMax(decimal value)
+        public HtmlAttributes DataMax(decimal value, bool _using = true)
         {
-            base.Add("data-max");
-            base.Add(value.ToString());
+            if (_using)
+            {
+                base.Add("data-max");
+                base.Add(value.ToString());
+            }
             return this;
         }
 
-        public HtmlAttributes DataMin(decimal value)
+        public HtmlAttributes DataMin(decimal value, bool _using = true)
         {
-            base.Add("data-min");
-            base.Add(value.ToString());
+            if (_using)
+            {
+                base.Add("data-min");
+                base.Add(value.ToString());
+            }
             return this;
         }
 
-        public HtmlAttributes DataStep(decimal value)
+        public HtmlAttributes DataStep(decimal value, bool _using = true)
         {
-            base.Add("data-step");
-            base.Add(value.ToString());
+            if (_using)
+            {
+                base.Add("data-step");
+                base.Add(value.ToString());
+            }
             return this;
         }
 
-        public HtmlAttributes Checked(bool value)
+        public HtmlAttributes Checked(bool value, bool _using = true)
         {
-            if (value)
+            if (value && _using)
             {
                 base.Add("checked");
             }
             return this;
         }
 
-        public HtmlAttributes Selected(bool value)
+        public HtmlAttributes Selected(bool value, bool _using = true)
         {
-            if (value)
+            if (value && _using)
             {
                 base.Add("selected");
             }
             return this;
         }
 
-        public HtmlAttributes Action(string value)
+        public HtmlAttributes Action(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty() && _using)
             {
                 base.Add("action");
                 base.Add(value);
@@ -152,9 +164,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes For(string value)
+        public HtmlAttributes For(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty() && _using)
             {
                 base.Add("for");
                 base.Add(value);
@@ -162,9 +174,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes Href(string value)
+        public HtmlAttributes Href(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty() && _using)
             {
                 base.Add("href");
                 base.Add(value);
@@ -172,9 +184,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes Title(string value)
+        public HtmlAttributes Title(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty() && _using)
             {
                 base.Add("title");
                 base.Add(value);
@@ -182,9 +194,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes Placeholder(string value)
+        public HtmlAttributes Placeholder(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty() && _using)
             {
                 base.Add("placeholder");
                 base.Add(value);
@@ -192,9 +204,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes AccessKey(string value)
+        public HtmlAttributes AccessKey(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty() && _using)
             {
                 base.Add("accesskey");
                 base.Add(value);
@@ -202,9 +214,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes OnClick(string value)
+        public HtmlAttributes OnClick(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty() && _using)
             {
                 base.Add("onclick");
                 base.Add(value);
@@ -212,9 +224,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes OnDblClick(string value)
+        public HtmlAttributes OnDblClick(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty() && _using)
             {
                 base.Add("ondblclick");
                 base.Add(value);
@@ -222,9 +234,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes OnChange(string value)
+        public HtmlAttributes OnChange(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty() && _using)
             {
                 base.Add("onchange");
                 base.Add(value);
@@ -232,9 +244,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes Disabled(bool value = false)
+        public HtmlAttributes Disabled(bool value = false, bool _using = true)
         {
-            if (value)
+            if (value && _using)
             {
                 base.Add("disabled");
                 base.Add("disabled");
@@ -242,9 +254,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes Colspan(int value)
+        public HtmlAttributes Colspan(int value, bool _using = true)
         {
-            if (value != 0)
+            if (value != 0 && _using)
             {
                 base.Add("colspan");
                 base.Add(value.ToString());
@@ -252,9 +264,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes DateTime(DateTime value)
+        public HtmlAttributes DateTime(DateTime value, bool _using = true)
         {
-            if (value != null && value.NotZero())
+            if (value.NotZero() && _using)
             {
                 base.Add("datetime");
                 base.Add(value.ToString("s"));
@@ -262,9 +274,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes DataId(string value)
+        public HtmlAttributes DataId(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty() && _using)
             {
                 base.Add("data-id");
                 base.Add(value);
@@ -272,9 +284,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes DataType(string value)
+        public HtmlAttributes DataType(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty() && _using)
             {
                 base.Add("data-type");
                 base.Add(value);
@@ -282,9 +294,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes DataMethod(string value)
+        public HtmlAttributes DataMethod(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty() && _using)
             {
                 base.Add("data-method");
                 base.Add(value);
@@ -292,9 +304,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes DataAction(string value)
+        public HtmlAttributes DataAction(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty() && _using)
             {
                 base.Add("data-action");
                 base.Add(value);
@@ -302,9 +314,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes DataSelector(string value)
+        public HtmlAttributes DataSelector(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty() && _using)
             {
                 base.Add("data-selector");
                 base.Add(value);
@@ -312,9 +324,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes DataValue(string value)
+        public HtmlAttributes DataValue(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty() && _using)
             {
                 base.Add("data-value");
                 base.Add(value);
@@ -342,9 +354,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes DataConfirm(string value)
+        public HtmlAttributes DataConfirm(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty() && _using)
             {
                 base.Add("data-confirm");
                 base.Add(value);
@@ -352,9 +364,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes DataClass(string value)
+        public HtmlAttributes DataClass(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty() && _using)
             {
                 base.Add("data-class");
                 base.Add(value);
@@ -362,9 +374,9 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes DataStyle(string value)
+        public HtmlAttributes DataStyle(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty())
+            if (!value.IsNullOrEmpty() && _using)
             {
                 base.Add("data-style");
                 base.Add(value);
@@ -372,10 +384,13 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes DataWidth(int value)
+        public HtmlAttributes DataWidth(int value, bool _using = true)
         {
-            base.Add("data-width");
-            base.Add(value.ToString());
+            if (_using)
+            {
+                base.Add("data-width");
+                base.Add(value.ToString());
+            }
             return this;
         }
     }
