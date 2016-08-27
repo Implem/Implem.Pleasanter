@@ -1289,11 +1289,11 @@ pre{
     table-layout:fixed;
 }
 
-.grid caption{
+.grid > thead > tr > caption{
     margin:0px 0px 5px 0px;
 }
 
-.grid th{
+.grid > thead > tr > th{
     padding:6px;
     vertical-align:middle;
     border-top:solid 1px transparent;
@@ -1302,38 +1302,45 @@ pre{
     border-right:solid 1px white;
 }
 
-.grid th > div{
+.grid > thead > tr > th > div{
     width:100%;
     float:left;
     text-align:center;
     z-index:2;
 }
 
-.grid th span{
+.grid > thead > tr > th span{
     display:block;
     float:left;
 }
 
-.grid th:first-child{
+.grid > thead > tr > th:first-child{
     border-radius:10px 0px 0px 0px / 10px 0px 0px 0px;
 }
 
-.grid th:last-child{
+.grid > thead > tr > th:last-child{
     border-right:solid 1px transparent;
     border-radius:0px 10px 0px 0px / 0px 10px 0px 0px;
 }
 
-.grid th.sortable:hover{
+.grid > thead > tr > th.sortable:hover{
     background-color:dimgray;
     cursor:pointer;
 }
 
-.grid td{
+.grid > tbody > tr > td{
     max-width:300px;
     padding:2px;
     border-left:dotted 1px silver;
     border-right:dotted 1px silver;
     word-wrap:break-word;
+}
+
+.grid > tbody > tr > [class*="status-"]{
+    padding:0px 5px;
+    font-weight:bold;
+    border:solid 1px silver;
+    border-radius:3px;
 }
 
 .grid-row{
@@ -1745,13 +1752,6 @@ label.error{
 
 .button-right-justified{
     float:right;
-}
-
-.grid [class*="status-"]{
-    padding:0px 5px;
-    font-weight:bold;
-    border:solid 1px silver;
-    border-radius:3px;
 }
 
 .status-new{
