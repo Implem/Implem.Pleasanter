@@ -13,13 +13,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder TextBox(
             this HtmlBuilder hb,
             HtmlTypes.TextTypes textType = HtmlTypes.TextTypes.Normal,
-            string controlId = "",
-            string controlCss = "",
-            string text = "",
-            string placeholder = "",
-            string onChange = "",
-            string action = "",
-            string method = "",
+            string controlId = null,
+            string controlCss = null,
+            string text = null,
+            string placeholder = null,
+            string onChange = null,
+            string action = null,
+            string method = null,
             Dictionary<string, string> attributes = null,
             bool _using = true)
         {
@@ -76,10 +76,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder MarkDown(
             this HtmlBuilder hb,
-            string controlId = "",
-            string controlCss = "",
-            string text = "",
-            string placeholder = "",
+            string controlId = null,
+            string controlCss = null,
+            string text = null,
+            string placeholder = null,
             bool readOnly = false,
             Dictionary<string, string> attributes = null,
             bool _using = true)
@@ -109,9 +109,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder MarkUp(
             this HtmlBuilder hb,
-            string controlId = "",
-            string controlCss = "",
-            string text = "",
+            string controlId = null,
+            string controlCss = null,
+            string text = null,
             Dictionary<string, string> attributes = null,
             bool _using = true)
         {
@@ -127,15 +127,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder DropDown(
             this HtmlBuilder hb,
-            string controlId = "",
-            string controlCss = "",
+            string controlId = null,
+            string controlCss = null,
             Dictionary<string, ControlData> optionCollection = null,
-            string selectedValue = "",
+            string selectedValue = null,
             bool addSelectedValue = true,
             bool insertBlank = false,
-            string onChange = "",
-            string action = "",
-            string method = "",
+            string onChange = null,
+            string action = null,
+            string method = null,
             Column column = null,
             bool _using = true)
         {
@@ -160,7 +160,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder OptionCollection(
             this HtmlBuilder hb,
             Dictionary<string, string> optionCollection = null,
-            string selectedValue = "",
+            string selectedValue = null,
             bool addSelectedValue = true,
             bool insertBlank = false,
             Column column = null,
@@ -191,7 +191,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder OptionCollection(
             this HtmlBuilder hb,
             Dictionary<string, ControlData> optionCollection = null,
-            string selectedValue = "",
+            string selectedValue = null,
             bool addSelectedValue = true,
             bool insertBlank = false,
             Column column = null,
@@ -220,7 +220,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static Dictionary<string, ControlData> OptionCollection(
             Dictionary<string, ControlData> optionCollection = null,
-            string selectedValue = "",
+            string selectedValue = null,
             bool addSelectedValue = true,
             bool insertBlank = false,
             Column column = null)
@@ -259,10 +259,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder RadioButtons(
             this HtmlBuilder hb,
-            string name = "",
-            string controlCss = "",
+            string name = null,
+            string controlCss = null,
             Dictionary<string, ControlData> optionCollection = null,
-            string selectedValue = "",
+            string selectedValue = null,
             bool _using = true)
         {
             if (_using)
@@ -286,16 +286,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Spinner(
             this HtmlBuilder hb,
-            string controlId = "",
-            string controlCss = "",
+            string controlId = null,
+            string controlCss = null,
             decimal? value = 0,
             decimal min = -1,
             decimal max = -1,
             decimal step = -1,
             int width = -1,
-            string onChange = "",
-            string action = "",
-            string method = "",
+            string onChange = null,
+            string action = null,
+            string method = null,
             bool _using = true)
         {
             return _using
@@ -306,10 +306,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Value(value != null
                         ? value.ToString()
                         : string.Empty)
-                    .DataMin(min)
-                    .DataMax(max)
-                    .DataStep(step)
-                    .DataWidth(width)
+                    .DataMin(min, _using: min != -1)
+                    .DataMax(max, _using: max != -1)
+                    .DataStep(step, _using: step != -1)
+                    .DataWidth(width, _using: width != -1)
                     .OnChange(onChange)
                     .DataAction(action)
                     .DataMethod(method))
@@ -318,14 +318,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder CheckBox(
             this HtmlBuilder hb,
-            string controlId = "",
-            string controlCss = "",
-            string labelText = "",
+            string controlId = null,
+            string controlCss = null,
+            string labelText = null,
             bool _checked = false,
             bool disabled = false,
-            string dataId = "",
-            string action = "",
-            string method = "",
+            string dataId = null,
+            string action = null,
+            string method = null,
             bool _using = true)
         {
             if (_using)
@@ -352,15 +352,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Slider(
             this HtmlBuilder hb,
-            string controlId = "",
-            string controlCss = "",
-            string value = "",
+            string controlId = null,
+            string controlCss = null,
+            string value = null,
             decimal min = -1,
             decimal max = -1,
             decimal step = -1,
-            string unit = "",
-            string action = "",
-            string method = "",
+            string unit = null,
+            string action = null,
+            string method = null,
             bool _using = true)
         {
             return _using
@@ -368,9 +368,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Div(attributes: new HtmlAttributes()
                         .Id(controlId + ",ui")
                         .Class("control-slider-ui")
-                        .DataMin(min)
-                        .DataMax(max)
-                        .DataStep(step))
+                        .DataMin(min, _using: min != -1)
+                        .DataMax(max, _using: max != -1)
+                        .DataStep(step, _using: step != -1))
                     .P(
                         attributes: new HtmlAttributes()
                             .Class(Css.Class("control-slider", controlCss)),
@@ -389,17 +389,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Button(
             this HtmlBuilder hb,
-            string controlId = "",
-            string text = "",
-            string controlCss = "",
-            string accessKey = "",
-            string onClick = "",
-            string href = "",
-            string dataId = "",
-            string selector = "",
-            string action = "",
-            string method = "",
-            string confirm = "",
+            string controlId = null,
+            string text = null,
+            string controlCss = null,
+            string accessKey = null,
+            string onClick = null,
+            string href = null,
+            string dataId = null,
+            string selector = null,
+            string action = null,
+            string method = null,
+            string confirm = null,
             string type = "button",
             bool _using = true)
         {
@@ -423,10 +423,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Anchor(
             this HtmlBuilder hb,
-            string controlId = "",
-            string controlCss = "",
-            string text = "",
-            string href = "",
+            string controlId = null,
+            string controlCss = null,
+            string text = null,
+            string href = null,
             bool _using = true)
         {
             return _using
@@ -440,9 +440,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Icon(
             this HtmlBuilder hb,
-            string iconCss = "",
-            string cssText = "",
-            string text = "",
+            string iconCss = null,
+            string cssText = null,
+            string text = null,
             bool _using = true)
         {
             return _using
@@ -455,9 +455,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Hidden(
             this HtmlBuilder hb,
-            string controlId = "",
-            string css = "",
-            string value = "",
+            string controlId = null,
+            string css = null,
+            string value = null,
             bool _using = true)
         {
             return _using
@@ -482,7 +482,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Selectable(
             this HtmlBuilder hb,
             string controlId,
-            string controlCss = "",
+            string controlCss = null,
             Dictionary<string, string> listItemCollection = null,
             IEnumerable<string> selectedValueCollection = null,
             bool _using = true)
@@ -505,7 +505,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Basket(
             this HtmlBuilder hb,
             string controlId,
-            string controlCss = "",
+            string controlCss = null,
             Dictionary<string, string> listItemCollection = null,
             IEnumerable<string> selectedValueCollection = null,
             bool _using = true)
