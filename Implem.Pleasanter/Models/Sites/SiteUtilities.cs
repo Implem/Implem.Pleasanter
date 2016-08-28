@@ -1854,8 +1854,8 @@ namespace Implem.Pleasanter.Models
                 case "Count": return Displays.Count();
                 case "Total": return Displays.Total();
                 case "Average": return Displays.Average();
-                case "Max": return Displays.Max();
                 case "Min": return Displays.Min();
+                case "Max": return Displays.Max();
                 default: return string.Empty;
             }
         }
