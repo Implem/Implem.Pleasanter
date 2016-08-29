@@ -1,6 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
