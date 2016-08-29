@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Implem.Pleasanter.Libraries.DataSources;
+using System;
 namespace Implem.Pleasanter.Libraries.Server
 {
     public class SiteMenuElement
@@ -7,6 +8,7 @@ namespace Implem.Pleasanter.Libraries.Server
         public long SiteId;
         public string ReferenceType;
         public long ParentId;
+        public long OnlyOneChildId;
         public string Title;
         public DateTime CreatedTime;
 
@@ -23,6 +25,22 @@ namespace Implem.Pleasanter.Libraries.Server
             ParentId = parentId;
             Title = title;
             CreatedTime = DateTime.Now;
+            if (HasOnlyOneChild())
+            {
+                OnlyOneChildId = Rds.ExecuteScalar_long(statements:
+                    Rds.SelectWikis(
+                        column: Rds.WikisColumn().WikiId(),
+                        where: Rds.WikisWhere().SiteId(siteId)));
+            }
+        }
+
+        public bool HasOnlyOneChild()
+        {
+            switch (ReferenceType)
+            {
+                case "Wikis": return true;
+                default: return false;
+            }
         }
     }
 }

@@ -48,7 +48,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Breadcrumb(SiteInfo.SiteMenu.Breadcrumb(siteId)
                 .ToDictionary(
-                    o => Navigations.ItemIndex(o.SiteId),
+                    o => !o.HasOnlyOneChild()
+                        ? Navigations.ItemIndex(o.SiteId)
+                        : Navigations.ItemEdit(o.OnlyOneChildId),
                     o => o.Title));
         }
 
