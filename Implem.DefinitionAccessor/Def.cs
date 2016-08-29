@@ -1842,7 +1842,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_grid_space___space_thead_space___space_tr_space___space_th_colon_last_child": Css._dot_grid_space___space_thead_space___space_tr_space___space_th_colon_last_child = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_space___space_thead_space___space_tr_space___space_th_colon_last_child, definitionRow, CssXls); break;
                     case "_dot_grid_space___space_thead_space___space_tr_space___space_th_dot_sortable_colon_hover": Css._dot_grid_space___space_thead_space___space_tr_space___space_th_dot_sortable_colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_space___space_thead_space___space_tr_space___space_th_dot_sortable_colon_hover, definitionRow, CssXls); break;
                     case "_dot_grid_space___space_tbody_space___space_tr_space___space_td": Css._dot_grid_space___space_tbody_space___space_tr_space___space_td = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_space___space_tbody_space___space_tr_space___space_td, definitionRow, CssXls); break;
-                    case "_dot_grid_space___space_tbody_space___space_tr_space___space__class_asterisk__equal__yen_status__yen__": Css._dot_grid_space___space_tbody_space___space_tr_space___space__class_asterisk__equal__yen_status__yen__ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_space___space_tbody_space___space_tr_space___space__class_asterisk__equal__yen_status__yen__, definitionRow, CssXls); break;
+                    case "_dot_grid_space___space_tbody_space___space_tr_space__class_asterisk__equal__yen_status__yen__": Css._dot_grid_space___space_tbody_space___space_tr_space__class_asterisk__equal__yen_status__yen__ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_space___space_tbody_space___space_tr_space__class_asterisk__equal__yen_status__yen__, definitionRow, CssXls); break;
                     case "_dot_grid_row": Css._dot_grid_row = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row, definitionRow, CssXls); break;
                     case "_dot_grid_row_space__dot_comment": Css._dot_grid_row_space__dot_comment = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row_space__dot_comment, definitionRow, CssXls); break;
                     case "_dot_grid_row_colon_hover": Css._dot_grid_row_colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_row_colon_hover, definitionRow, CssXls); break;
@@ -6570,7 +6570,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_grid_space___space_thead_space___space_tr_space___space_th_colon_last_child;
         public string _dot_grid_space___space_thead_space___space_tr_space___space_th_dot_sortable_colon_hover;
         public string _dot_grid_space___space_tbody_space___space_tr_space___space_td;
-        public string _dot_grid_space___space_tbody_space___space_tr_space___space__class_asterisk__equal__yen_status__yen__;
+        public string _dot_grid_space___space_tbody_space___space_tr_space__class_asterisk__equal__yen_status__yen__;
         public string _dot_grid_row;
         public string _dot_grid_row_space__dot_comment;
         public string _dot_grid_row_colon_hover;
@@ -6937,7 +6937,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_grid_space___space_thead_space___space_tr_space___space_th_colon_last_child = new CssDefinition();
         public CssDefinition _dot_grid_space___space_thead_space___space_tr_space___space_th_dot_sortable_colon_hover = new CssDefinition();
         public CssDefinition _dot_grid_space___space_tbody_space___space_tr_space___space_td = new CssDefinition();
-        public CssDefinition _dot_grid_space___space_tbody_space___space_tr_space___space__class_asterisk__equal__yen_status__yen__ = new CssDefinition();
+        public CssDefinition _dot_grid_space___space_tbody_space___space_tr_space__class_asterisk__equal__yen_status__yen__ = new CssDefinition();
         public CssDefinition _dot_grid_row = new CssDefinition();
         public CssDefinition _dot_grid_row_space__dot_comment = new CssDefinition();
         public CssDefinition _dot_grid_row_colon_hover = new CssDefinition();

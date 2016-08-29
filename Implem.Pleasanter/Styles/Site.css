@@ -1336,7 +1336,7 @@ pre{
     word-wrap:break-word;
 }
 
-.grid > tbody > tr > [class*="status-"]{
+.grid > tbody > tr [class*="status-"]{
     padding:0px 5px;
     font-weight:bold;
     border:solid 1px silver;
