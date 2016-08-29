@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
@@ -155,9 +156,12 @@ namespace Implem.Pleasanter.Libraries.Server
                 .FirstOrDefault();
         }
 
-        public static string UserFullName(int userId)
+        public static string UserFullName(int userId, bool notSet = true)
         {
-            return SiteInfo.User(userId).FullName();
+            var fullName = SiteInfo.User(userId).FullName();
+            return notSet || fullName != Displays.NotSet()
+                ? fullName
+                : string.Empty;
         }
 
         public static string IndexReferenceType(string referenceType, long referenceId)
