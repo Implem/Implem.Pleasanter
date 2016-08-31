@@ -3,6 +3,10 @@
 軽くて高機能、.NETで動くチケット管理ツール。マネジメントとコミュニケーションに必要となる情報を一元管理することで、情報共有のストレスを軽減し、ビジネスを快適化。商用、非商用を問わず無料で使えるオープンソース・ソフトウェア。  
 http://pleasanter.org
 
+## 利用ガイド
+プリザンターのセットアップ手順及び、操作手順をキャプチャー画像や動画を使用して説明します。  
+https://github.com/Implem/Implem.Pleasanter/wiki
+
 ## 具体的な使い方
 プロジェクトマネジメントにおける実践的なデータ活用例  
 http://qiita.com/Implem/items/112bfd38433f7f5d7bb8
@@ -33,10 +37,6 @@ http://qiita.com/Implem/items/112bfd38433f7f5d7bb8
 |Web Deploy v3.5|◯|◯|-|
 |Microsoft Azure Web App|-|-|◯|
 |Microsoft Azure SQL Database|-|-|◯|
-
-## 利用ガイド
-プリザンターのセットアップ手順及び、操作手順をキャプチャー画像や動画を使用して説明します。  
-https://github.com/Implem/Implem.Pleasanter/wiki
 
 ## 機能概要
 - チケット管理
