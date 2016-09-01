@@ -92,6 +92,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     {
                         case ControlTypes.CheckBox:
                             return hb.FieldCheckBox(
+                                fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
                                 labelCss: labelCss,
@@ -102,6 +103,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 disabled: true);
                         default:
                             return hb.FieldText(
+                                fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
                                 labelCss: labelCss,
@@ -117,6 +119,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     {
                         case ControlTypes.DropDown:
                             return hb.FieldDropDown(
+                                fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
                                 labelCss: labelCss,
@@ -129,6 +132,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 column: column);
                         case ControlTypes.Text:
                             return hb.FieldText(
+                                fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
                                 labelCss: labelCss,
@@ -139,6 +143,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         case ControlTypes.TextBoxMultiLine:
                             return hb.FieldTextBox(
                                 textType: HtmlTypes.TextTypes.MultiLine,
+                                fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
                                 labelCss: labelCss,
@@ -149,6 +154,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 attributes: attributes);
                         case ControlTypes.MarkDown:
                             return hb.FieldMarkDown(
+                                fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
                                 labelCss: labelCss,
@@ -164,6 +170,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 textType: column.Hash
                                     ? HtmlTypes.TextTypes.Password
                                     : HtmlTypes.TextTypes.Normal,
+                                fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
                                 labelCss: labelCss,
@@ -175,6 +182,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         case ControlTypes.TextBoxNumeric:
                             return hb.FieldTextBox(
                                 textType: HtmlTypes.TextTypes.Normal,
+                                fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
                                 labelCss: labelCss,
@@ -186,6 +194,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         case ControlTypes.TextBoxDateTime:
                             return hb.FieldTextBox(
                                 textType: HtmlTypes.TextTypes.Normal,
+                                fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
                                 labelCss: labelCss,
@@ -196,6 +205,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 attributes: attributes);
                         case ControlTypes.CheckBox:
                             return hb.FieldCheckBox(
+                                fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
                                 labelCss: labelCss,
@@ -206,6 +216,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 disabled: column.EditorReadOnly.ToBool());
                         case ControlTypes.Slider:
                             return hb.FieldSlider(
+                                fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
                                 labelCss: labelCss,
@@ -219,6 +230,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 unit: column.Unit);
                         case ControlTypes.Spinner:
                             return hb.FieldSpinner(
+                                fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,
                                 labelCss: labelCss,
