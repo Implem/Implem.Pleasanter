@@ -79,7 +79,7 @@ namespace Implem.Pleasanter.Libraries.DataViews
                 .LastOrDefault();
         }
 
-        public string ChartJson()
+        public string Json()
         {
             var elements = new List<Element>();
             if (this.Count > 0)

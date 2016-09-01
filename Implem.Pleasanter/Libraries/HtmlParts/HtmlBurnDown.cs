@@ -24,7 +24,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             var burnDown = new BurnDown(siteSettings, dataRows);
             return hb
-                .Chart(burnDown: burnDown)
+                .Body(burnDown: burnDown)
                 .Details(
                     burnDown: burnDown,
                     siteSettings: siteSettings,
@@ -39,16 +39,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     exportButton: true);
         }
 
-        private static HtmlBuilder Chart(this HtmlBuilder hb, BurnDown burnDown)
+        private static HtmlBuilder Body(this HtmlBuilder hb, BurnDown burnDown)
         {
-            return hb.Div(css: "burn-down-chart", action: () => hb
+            return hb.Div(css: "burn-down-body", action: () => hb
                 .Svg(
                     id: "BurnDown",
                     css: "burn-down",
                     action: () => { })
                 .Hidden(
                     controlId: "BurnDownJson",
-                    value: burnDown.ChartJson()));
+                    value: burnDown.Json()));
         }
 
         private static HtmlBuilder Details(

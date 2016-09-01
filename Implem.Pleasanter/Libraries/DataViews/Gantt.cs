@@ -116,7 +116,7 @@ namespace Implem.Pleasanter.Libraries.DataViews
                 summary: true));
         }
 
-        public string ChartJson()
+        public string Json()
         {
             var choices = GroupByColumn?
                 .EditChoices(SiteSettings.InheritPermission, insertBlank: true)

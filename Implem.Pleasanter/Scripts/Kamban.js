@@ -17,7 +17,7 @@
                 $(this).attr('data-value') !== undefined
                     ? $(this).attr('data-value')
                     : '';
-            $p.send($('#KambanGrid'));
+            $p.send($('#KambanBody'));
         }
     });
 }

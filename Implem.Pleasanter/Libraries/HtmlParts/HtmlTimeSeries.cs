@@ -60,8 +60,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     selectedValue: valueColumn,
                     action: "DataView",
                     method: "post")
-                .Div(id: "TimeSeriesChart", action: () => hb
-                    .TimeSeriesChart(
+                .Div(id: "TimeSeriesBody", action: () => hb
+                    .TimeSeriesBody(
                         siteSettings: siteSettings,
                         groupByColumn: groupByColumn,
                         aggregateType: aggregateType,
@@ -76,7 +76,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     exportButton: true));
         }
 
-        public static HtmlBuilder TimeSeriesChart(
+        public static HtmlBuilder TimeSeriesBody(
             this HtmlBuilder hb,
             SiteSettings siteSettings,
             string groupByColumn,
@@ -95,7 +95,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => { })
                     .Hidden(
                         controlId: "TimeSeriesJson",
-                        value: timeSeries.ChartJson());
+                        value: timeSeries.Json());
             }
             else
             {

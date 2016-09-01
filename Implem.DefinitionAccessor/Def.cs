@@ -1854,7 +1854,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_grid_title_body_space___space__dot_title_space__plus__space__dot_body": Css._dot_grid_title_body_space___space__dot_title_space__plus__space__dot_body = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid_title_body_space___space__dot_title_space__plus__space__dot_body, definitionRow, CssXls); break;
                     case "_dot_links": Css._dot_links = definitionRow[1].ToString(); SetCssTable(CssTable._dot_links, definitionRow, CssXls); break;
                     case "_dot_link_creations_space_button": Css._dot_link_creations_space_button = definitionRow[1].ToString(); SetCssTable(CssTable._dot_link_creations_space_button, definitionRow, CssXls); break;
-                    case "_dot_gantt_chart": Css._dot_gantt_chart = definitionRow[1].ToString(); SetCssTable(CssTable._dot_gantt_chart, definitionRow, CssXls); break;
+                    case "_dot_gantt_body": Css._dot_gantt_body = definitionRow[1].ToString(); SetCssTable(CssTable._dot_gantt_body, definitionRow, CssXls); break;
                     case "_dot_gantt": Css._dot_gantt = definitionRow[1].ToString(); SetCssTable(CssTable._dot_gantt, definitionRow, CssXls); break;
                     case "_dot_gantt_space__dot_date": Css._dot_gantt_space__dot_date = definitionRow[1].ToString(); SetCssTable(CssTable._dot_gantt_space__dot_date, definitionRow, CssXls); break;
                     case "_dot_gantt_space__dot_now": Css._dot_gantt_space__dot_now = definitionRow[1].ToString(); SetCssTable(CssTable._dot_gantt_space__dot_now, definitionRow, CssXls); break;
@@ -6582,7 +6582,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_grid_title_body_space___space__dot_title_space__plus__space__dot_body;
         public string _dot_links;
         public string _dot_link_creations_space_button;
-        public string _dot_gantt_chart;
+        public string _dot_gantt_body;
         public string _dot_gantt;
         public string _dot_gantt_space__dot_date;
         public string _dot_gantt_space__dot_now;
@@ -6949,7 +6949,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_grid_title_body_space___space__dot_title_space__plus__space__dot_body = new CssDefinition();
         public CssDefinition _dot_links = new CssDefinition();
         public CssDefinition _dot_link_creations_space_button = new CssDefinition();
-        public CssDefinition _dot_gantt_chart = new CssDefinition();
+        public CssDefinition _dot_gantt_body = new CssDefinition();
         public CssDefinition _dot_gantt = new CssDefinition();
         public CssDefinition _dot_gantt_space__dot_date = new CssDefinition();
         public CssDefinition _dot_gantt_space__dot_now = new CssDefinition();

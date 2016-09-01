@@ -83,7 +83,7 @@ namespace Implem.Pleasanter.Libraries.DataViews
             });
         }
 
-        public string ChartJson()
+        public string Json()
         {
             var elements = new List<Element>();
             var column = SiteSettings.GetColumn(GroupByColumn);

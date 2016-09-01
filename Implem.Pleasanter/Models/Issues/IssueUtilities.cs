@@ -1742,7 +1742,7 @@ namespace Implem.Pleasanter.Models
             var bodyOnly = Forms.Data("ControlId").StartsWith("Gantt");
             return new ResponseCollection()
                 .Html(
-                    !bodyOnly ? "#DataViewContainer" : "#GanttChart",
+                    !bodyOnly ? "#DataViewContainer" : "#GanttBody",
                     new HtmlBuilder().Gantt(
                         siteSettings: siteSettings,
                         permissionType: permissionType,
@@ -1777,7 +1777,7 @@ namespace Implem.Pleasanter.Models
                     groupByColumn: groupByColumn,
                     permissionType: permissionType,
                     dataRows: dataRows)
-                : hb.GanttChart(
+                : hb.GanttBody(
                     siteSettings: siteSettings,
                     groupByColumn: groupByColumn,
                     dataRows: dataRows);
@@ -1919,7 +1919,7 @@ namespace Implem.Pleasanter.Models
             var bodyOnly = Forms.Data("ControlId").StartsWith("TimeSeries");
             return new ResponseCollection()
                 .Html(
-                    !bodyOnly ? "#DataViewContainer" : "#TimeSeriesChart",
+                    !bodyOnly ? "#DataViewContainer" : "#TimeSeriesBody",
                     new HtmlBuilder().TimeSeries(
                         siteSettings: siteSettings,
                         permissionType: permissionType,
@@ -1966,7 +1966,7 @@ namespace Implem.Pleasanter.Models
                     valueColumn: valueColumn,
                     permissionType: permissionType,
                     dataRows: dataRows)
-                : hb.TimeSeriesChart(
+                : hb.TimeSeriesBody(
                     siteSettings: siteSettings,
                     groupByColumn: groupByColumn,
                     aggregateType: aggregateType,
@@ -2010,7 +2010,7 @@ namespace Implem.Pleasanter.Models
             var bodyOnly = Forms.Data("ControlId").StartsWith("Kamban");
             return new ResponseCollection()
                 .Html(
-                    !bodyOnly ? "#DataViewContainer" : "#KambanChart",
+                    !bodyOnly ? "#DataViewContainer" : "#KambanBody",
                     new HtmlBuilder().Kamban(
                         siteSettings: siteSettings,
                         permissionType: permissionType,
@@ -2092,7 +2092,7 @@ namespace Implem.Pleasanter.Models
                     valueColumn: valueColumn,
                     permissionType: permissionType,
                     data: data)
-                : hb.KambanGrid(
+                : hb.KambanBody(
                     siteSettings: siteSettings,
                     groupByColumn: siteSettings.GetColumn(groupByColumn),
                     aggregateType: aggregateType,

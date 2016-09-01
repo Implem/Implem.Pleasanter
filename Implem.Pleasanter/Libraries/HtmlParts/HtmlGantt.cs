@@ -31,8 +31,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     insertBlank: true,
                     action: "DataView",
                     method: "post")
-                .Div(id: "GanttChart", action: () => hb
-                    .GanttChart(
+                .Div(id: "GanttBody", action: () => hb
+                    .GanttBody(
                         siteSettings: siteSettings,
                         groupByColumn: groupByColumn,
                         dataRows: dataRows))
@@ -45,7 +45,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     exportButton: true));
         }
 
-        public static HtmlBuilder GanttChart(
+        public static HtmlBuilder GanttBody(
             this HtmlBuilder hb,
             SiteSettings siteSettings,
             string groupByColumn,
@@ -57,7 +57,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Svg(id: "GanttAxis", css: "gantt-axis")
                 .Hidden(
                     controlId: "GanttJson",
-                    value: gantt.ChartJson());
+                    value: gantt.Json());
         }
     }
 }

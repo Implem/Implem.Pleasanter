@@ -61,13 +61,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         selectedValue: valueColumn,
                         action: "DataView",
                         method: "post")
-                    .Div(id: "KambanChart", action: () => hb
-                        .KambanGrid(
-                            siteSettings: siteSettings,
-                            groupByColumn: siteSettings.GetColumn(groupByColumn),
-                            aggregateType: aggregateType,
-                            valueColumn: siteSettings.GetColumn(valueColumn),
-                            data: data))
+                    .KambanBody(
+                        siteSettings: siteSettings,
+                        groupByColumn: siteSettings.GetColumn(groupByColumn),
+                        aggregateType: aggregateType,
+                        valueColumn: siteSettings.GetColumn(valueColumn),
+                        data: data)
                     .MainCommands(
                         siteId: siteSettings.SiteId,
                         permissionType: permissionType,
@@ -92,7 +91,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .ToDictionary(o => o.Key, o => o.Value);
         }
 
-        public static HtmlBuilder KambanGrid(
+        public static HtmlBuilder KambanBody(
             this HtmlBuilder hb,
             SiteSettings siteSettings,
             Column groupByColumn,
@@ -103,7 +102,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
-                    .Id("KambanGrid")
+                    .Id("KambanBody")
                     .DataAction("UpdateByKamban")
                     .DataMethod("post"),
                 action: () => groupByColumn.EditChoices(
