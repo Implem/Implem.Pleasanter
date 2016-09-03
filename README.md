@@ -1,15 +1,26 @@
 # Implem.Pleasanter
 ## 概要
 軽くて高機能、.NETで動くチケット管理ツール。マネジメントとコミュニケーションに必要となる情報を一元管理することで、情報共有のストレスを軽減し、ビジネスを快適化。商用、非商用を問わず無料で使えるオープンソース・ソフトウェア。  
-http://pleasanter.org
 
 ## 利用ガイド
 プリザンターのセットアップ手順及び、操作手順をキャプチャー画像や動画を使用して説明します。  
 https://github.com/Implem/Implem.Pleasanter/wiki
 
 ## 具体的な使い方
-プロジェクトマネジメントにおける実践的なデータ活用例  
+プロジェクトマネジメントにおける実践的なデータ活用例を説明します。  
 http://qiita.com/Implem/items/112bfd38433f7f5d7bb8
+
+## デモサイト
+下記のサイトでe-mailアドレスを登録するとプリザンターを試行することが出来ます。  
+https://pleasanter.azurewebsites.net
+
+## ハンズオン手順
+デモサイトで使用できるハンズオンの手順です。  
+http://www.slideshare.net/TaijiUchida/001-65529592
+
+## Web site
+セットアップモジュールのダウンロードサイトです。  
+http://pleasanter.org
 
 ## 画面イメージ
 * チケット一覧
@@ -51,13 +62,6 @@ http://qiita.com/Implem/items/112bfd38433f7f5d7bb8
 - エクスポート
 - Wiki
 - マルチ言語
-
-## Demo site
-下記のサイトでe-mailアドレスを登録するとプリザンターを試行することが出来ます。  
-https://pleasanter.azurewebsites.net
-
-## Web site
-http://pleasanter.org
 
 ## Auther
 Taiji Uchida  
