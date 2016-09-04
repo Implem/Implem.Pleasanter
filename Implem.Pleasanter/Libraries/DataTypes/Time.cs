@@ -85,7 +85,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public string ToExport(Column column)
         {
-            return ToViewText();
+            return column.DisplayExport(DisplayValue);
         }
     }
 }

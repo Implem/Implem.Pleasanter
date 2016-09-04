@@ -163,6 +163,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     if (column.DefaultInput == columnDefinition.DefaultInput) column.DefaultInput = null;
                     if (column.GridFormat == columnDefinition.GridFormat) column.GridFormat = null;
                     if (column.ControlFormat == columnDefinition.ControlFormat) column.ControlFormat = null;
+                    if (column.ExportFormat == columnDefinition.ExportFormat) column.ExportFormat = null;
                     if (column.ControlType == columnDefinition.ControlType) column.ControlType = null;
                     if (column.Format?.Trim() == string.Empty) column.Format = null;
                     if (column.DecimalPlaces == columnDefinition.DecimalPlaces) column.DecimalPlaces = null;
@@ -380,6 +381,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.DefaultInput = column.DefaultInput ?? columnDefinition.DefaultInput;
                 column.GridFormat = column.GridFormat ?? columnDefinition.GridFormat;
                 column.ControlFormat = column.ControlFormat ?? columnDefinition.ControlFormat;
+                column.ExportFormat = column.ExportFormat ?? columnDefinition.ExportFormat;
                 column.ControlType = column.ControlType ?? columnDefinition.ControlType;
                 column.DecimalPlaces = column.DecimalPlaces ?? columnDefinition.DecimalPlaces;
                 column.Min = column.Min ?? columnDefinition.Min;
@@ -991,6 +993,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "DefaultInput": column.DefaultInput = value; break;
                 case "GridFormat": column.GridFormat = value; break;
                 case "ControlFormat": column.ControlFormat = value; break;
+                case "ExportFormat": column.ExportFormat = value; break;
                 case "Unit": column.Unit = value; break;
             }
         }

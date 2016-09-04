@@ -1495,6 +1495,7 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("ControlType")) { newColumnDefinition.ControlType = definitionRow["ControlType"].ToString(); newColumnDefinition.SavedControlType = newColumnDefinition.ControlType; }
                 if (definitionRow.ContainsKey("GridFormat")) { newColumnDefinition.GridFormat = definitionRow["GridFormat"].ToString(); newColumnDefinition.SavedGridFormat = newColumnDefinition.GridFormat; }
                 if (definitionRow.ContainsKey("ControlFormat")) { newColumnDefinition.ControlFormat = definitionRow["ControlFormat"].ToString(); newColumnDefinition.SavedControlFormat = newColumnDefinition.ControlFormat; }
+                if (definitionRow.ContainsKey("ExportFormat")) { newColumnDefinition.ExportFormat = definitionRow["ExportFormat"].ToString(); newColumnDefinition.SavedExportFormat = newColumnDefinition.ExportFormat; }
                 if (definitionRow.ContainsKey("Aggregatable")) { newColumnDefinition.Aggregatable = definitionRow["Aggregatable"].ToBool(); newColumnDefinition.SavedAggregatable = newColumnDefinition.Aggregatable; }
                 if (definitionRow.ContainsKey("Computable")) { newColumnDefinition.Computable = definitionRow["Computable"].ToBool(); newColumnDefinition.SavedComputable = newColumnDefinition.Computable; }
                 if (definitionRow.ContainsKey("ChoicesText")) { newColumnDefinition.ChoicesText = definitionRow["ChoicesText"].ToString(); newColumnDefinition.SavedChoicesText = newColumnDefinition.ChoicesText; }
@@ -1595,6 +1596,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("ControlType")) { definition.ControlType = definitionRow["ControlType"].ToString(); definition.SavedControlType = definition.ControlType; }
             if (definitionRow.ContainsKey("GridFormat")) { definition.GridFormat = definitionRow["GridFormat"].ToString(); definition.SavedGridFormat = definition.GridFormat; }
             if (definitionRow.ContainsKey("ControlFormat")) { definition.ControlFormat = definitionRow["ControlFormat"].ToString(); definition.SavedControlFormat = definition.ControlFormat; }
+            if (definitionRow.ContainsKey("ExportFormat")) { definition.ExportFormat = definitionRow["ExportFormat"].ToString(); definition.SavedExportFormat = definition.ExportFormat; }
             if (definitionRow.ContainsKey("Aggregatable")) { definition.Aggregatable = definitionRow["Aggregatable"].ToBool(); definition.SavedAggregatable = definition.Aggregatable; }
             if (definitionRow.ContainsKey("Computable")) { definition.Computable = definitionRow["Computable"].ToBool(); definition.SavedComputable = definition.Computable; }
             if (definitionRow.ContainsKey("ChoicesText")) { definition.ChoicesText = definitionRow["ChoicesText"].ToString(); definition.SavedChoicesText = definition.ChoicesText; }
@@ -2521,6 +2523,8 @@ namespace Implem.DefinitionAccessor
                     case "SettingGridFormat_ja": Display.SettingGridFormat_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingGridFormat_ja, definitionRow, DisplayXls); break;
                     case "SettingControlFormat": Display.SettingControlFormat = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingControlFormat, definitionRow, DisplayXls); break;
                     case "SettingControlFormat_ja": Display.SettingControlFormat_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingControlFormat_ja, definitionRow, DisplayXls); break;
+                    case "SettingExportFormat": Display.SettingExportFormat = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingExportFormat, definitionRow, DisplayXls); break;
+                    case "SettingExportFormat_ja": Display.SettingExportFormat_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingExportFormat_ja, definitionRow, DisplayXls); break;
                     case "SettingSelectionList": Display.SettingSelectionList = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingSelectionList, definitionRow, DisplayXls); break;
                     case "SettingSelectionList_ja": Display.SettingSelectionList_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingSelectionList_ja, definitionRow, DisplayXls); break;
                     case "SettingChoicesVisible": Display.SettingChoicesVisible = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingChoicesVisible, definitionRow, DisplayXls); break;
@@ -3229,6 +3233,7 @@ namespace Implem.DefinitionAccessor
                         case "ControlType": columnDefinition.ControlType = optionValue.ToString(); break;
                         case "GridFormat": columnDefinition.GridFormat = optionValue.ToString(); break;
                         case "ControlFormat": columnDefinition.ControlFormat = optionValue.ToString(); break;
+                        case "ExportFormat": columnDefinition.ExportFormat = optionValue.ToString(); break;
                         case "Aggregatable": columnDefinition.Aggregatable = optionValue.ToBool(); break;
                         case "Computable": columnDefinition.Computable = optionValue.ToBool(); break;
                         case "ChoicesText": columnDefinition.ChoicesText = optionValue.ToString(); break;
@@ -4536,6 +4541,7 @@ namespace Implem.DefinitionAccessor
         public string ControlType; public string SavedControlType;
         public string GridFormat; public string SavedGridFormat;
         public string ControlFormat; public string SavedControlFormat;
+        public string ExportFormat; public string SavedExportFormat;
         public bool Aggregatable; public bool SavedAggregatable;
         public bool Computable; public bool SavedComputable;
         public string ChoicesText; public string SavedChoicesText;
@@ -4637,6 +4643,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("ControlType")) ControlType = propertyCollection["ControlType"].ToString(); else ControlType = string.Empty;
             if (propertyCollection.ContainsKey("GridFormat")) GridFormat = propertyCollection["GridFormat"].ToString(); else GridFormat = string.Empty;
             if (propertyCollection.ContainsKey("ControlFormat")) ControlFormat = propertyCollection["ControlFormat"].ToString(); else ControlFormat = string.Empty;
+            if (propertyCollection.ContainsKey("ExportFormat")) ExportFormat = propertyCollection["ExportFormat"].ToString(); else ExportFormat = string.Empty;
             if (propertyCollection.ContainsKey("Aggregatable")) Aggregatable = propertyCollection["Aggregatable"].ToBool(); else Aggregatable = false;
             if (propertyCollection.ContainsKey("Computable")) Computable = propertyCollection["Computable"].ToBool(); else Computable = false;
             if (propertyCollection.ContainsKey("ChoicesText")) ChoicesText = propertyCollection["ChoicesText"].ToString(); else ChoicesText = string.Empty;
@@ -4738,6 +4745,7 @@ namespace Implem.DefinitionAccessor
                     case "ControlType": return ControlType;
                     case "GridFormat": return GridFormat;
                     case "ControlFormat": return ControlFormat;
+                    case "ExportFormat": return ExportFormat;
                     case "Aggregatable": return Aggregatable;
                     case "Computable": return Computable;
                     case "ChoicesText": return ChoicesText;
@@ -4839,6 +4847,7 @@ namespace Implem.DefinitionAccessor
             ControlType = SavedControlType;
             GridFormat = SavedGridFormat;
             ControlFormat = SavedControlFormat;
+            ExportFormat = SavedExportFormat;
             Aggregatable = SavedAggregatable;
             Computable = SavedComputable;
             ChoicesText = SavedChoicesText;
@@ -7642,6 +7651,8 @@ namespace Implem.DefinitionAccessor
         public string SettingGridFormat_ja;
         public string SettingControlFormat;
         public string SettingControlFormat_ja;
+        public string SettingExportFormat;
+        public string SettingExportFormat_ja;
         public string SettingSelectionList;
         public string SettingSelectionList_ja;
         public string SettingChoicesVisible;
@@ -8278,6 +8289,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition SettingGridFormat_ja = new DisplayDefinition();
         public DisplayDefinition SettingControlFormat = new DisplayDefinition();
         public DisplayDefinition SettingControlFormat_ja = new DisplayDefinition();
+        public DisplayDefinition SettingExportFormat = new DisplayDefinition();
+        public DisplayDefinition SettingExportFormat_ja = new DisplayDefinition();
         public DisplayDefinition SettingSelectionList = new DisplayDefinition();
         public DisplayDefinition SettingSelectionList_ja = new DisplayDefinition();
         public DisplayDefinition SettingChoicesVisible = new DisplayDefinition();

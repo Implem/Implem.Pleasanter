@@ -315,14 +315,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : string.Empty);
         }
 
+        public string DisplayGrid(DateTime value)
+        {
+            return Display(value, GridFormat);
+        }
+
         public string DisplayControl(DateTime value)
         {
             return Display(value, ControlFormat);
         }
 
-        public string DisplayGrid(DateTime value)
+        public string DisplayExport(DateTime value)
         {
-            return Display(value, GridFormat);
+            return Display(value, ExportFormat);
         }
 
         private string Display(DateTime value, string format)

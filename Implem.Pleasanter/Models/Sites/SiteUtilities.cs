@@ -1266,7 +1266,12 @@ namespace Implem.Pleasanter.Models
                                 controlId: "ColumnProperty,ControlFormat",
                                 labelText: Displays.SettingControlFormat(),
                                 optionCollection: DateTimeOptions(),
-                                selectedValue: column.ControlFormat);
+                                selectedValue: column.ControlFormat)
+                            .FieldDropDown(
+                                controlId: "ColumnProperty,ExportFormat",
+                                labelText: Displays.SettingExportFormat(),
+                                optionCollection: DateTimeOptions(),
+                                selectedValue: column.ExportFormat);
                     }
                     switch (column.TypeName.CsTypeSummary())
                     {

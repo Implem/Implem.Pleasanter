@@ -225,6 +225,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SettingGridFormat(params string[] data) { return Get("SettingGridFormat", data); }
         public static HtmlBuilder Displays_SettingControlFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingControlFormat", data)); }
         public static string SettingControlFormat(params string[] data) { return Get("SettingControlFormat", data); }
+        public static HtmlBuilder Displays_SettingExportFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingExportFormat", data)); }
+        public static string SettingExportFormat(params string[] data) { return Get("SettingExportFormat", data); }
         public static HtmlBuilder Displays_SettingSelectionList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingSelectionList", data)); }
         public static string SettingSelectionList(params string[] data) { return Get("SettingSelectionList", data); }
         public static HtmlBuilder Displays_SettingChoicesVisible(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingChoicesVisible", data)); }
