@@ -236,26 +236,29 @@ namespace Implem.Pleasanter.Models
                         where: Rds.WikisWhereDefault(this)
                             .UpdatedTime(timestamp, _using: timestamp.InRange()),
                         param: param ?? Rds.WikisParamDefault(this, paramAll: paramAll),
-                        countRecord: true),
-                    Rds.If("@@rowcount = 1"),
+                        countRecord: true)
+                });
+            if (count == 0) return ResponseConflicts();
+            SynchronizeSummary();
+            Get();
+            Rds.ExecuteNonQuery(
+                transactional: true,
+                statements: new SqlStatement[]
+                {
                     Rds.UpdateItems(
-                        where: Rds.ItemsWhere().ReferenceId(WikiId),
-                        param: Rds.ItemsParam()
-                            .SiteId(SiteId)
-                            .Title(WikiUtilities.TitleDisplayValue(SiteSettings, this))
-                            .Subset(Jsons.ToJson(new WikiSubset(this, SiteSettings)))
-                            .MaintenanceTarget(true)),
+                    where: Rds.ItemsWhere().ReferenceId(WikiId),
+                    param: Rds.ItemsParam()
+                        .SiteId(SiteId)
+                        .Title(WikiUtilities.TitleDisplayValue(SiteSettings, this))
+                        .Subset(Jsons.ToJson(new WikiSubset(this, SiteSettings)))
+                        .MaintenanceTarget(true)),
                     Rds.PhysicalDeleteLinks(
                         where: Rds.LinksWhere().SourceId(WikiId)),
                     InsertLinks(SiteSettings),
                     Rds.UpdateSites(
                         where: Rds.ItemsWhere().SiteId(SiteId),
-                        param: Rds.ItemsParam().Title(Title.Value)),
-                    Rds.End()
+                        param: Rds.ItemsParam().Title(Title.Value))
                 });
-            if (count == 0) return ResponseConflicts();
-            SynchronizeSummary();
-            Get();
             var responseCollection = new WikisResponseCollection(this);
             OnUpdated(ref responseCollection);
             return ResponseByUpdate(responseCollection)

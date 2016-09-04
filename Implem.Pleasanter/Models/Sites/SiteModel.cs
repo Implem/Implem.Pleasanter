@@ -213,25 +213,28 @@ namespace Implem.Pleasanter.Models
                         where: Rds.SitesWhereDefault(this)
                             .UpdatedTime(timestamp, _using: timestamp.InRange()),
                         param: param ?? Rds.SitesParamDefault(this, paramAll: paramAll),
-                        countRecord: true),
-                    Rds.If("@@rowcount = 1"),
+                        countRecord: true)
+                });
+            if (count == 0) return ResponseConflicts();
+            Get();
+            Rds.ExecuteNonQuery(
+                transactional: true,
+                statements: new SqlStatement[]
+                {
                     Rds.UpdateItems(
-                        where: Rds.ItemsWhere().ReferenceId(SiteId),
-                        param: Rds.ItemsParam()
-                            .SiteId(SiteId)
-                            .Title(SiteUtilities.TitleDisplayValue(SiteSettings, this))
-                            .Subset(Jsons.ToJson(new SiteSubset(this, SiteSettings)))
-                            .MaintenanceTarget(true)),
+                    where: Rds.ItemsWhere().ReferenceId(SiteId),
+                    param: Rds.ItemsParam()
+                        .SiteId(SiteId)
+                        .Title(SiteUtilities.TitleDisplayValue(SiteSettings, this))
+                        .Subset(Jsons.ToJson(new SiteSubset(this, SiteSettings)))
+                        .MaintenanceTarget(true)),
                     Rds.PhysicalDeleteLinks(
                         where: Rds.LinksWhere().SourceId(SiteId)),
                     LinkUtilities.Insert(SiteSettings.LinkColumnSiteIdHash
                         .Select(o => o.Value)
                         .Distinct()
-                        .ToDictionary(o => o, o => SiteId)),
-                    Rds.End()
+                        .ToDictionary(o => o, o => SiteId))
                 });
-            if (count == 0) return ResponseConflicts();
-            Get();
             var responseCollection = new SitesResponseCollection(this);
             OnUpdated(ref responseCollection);
             return ResponseByUpdate(responseCollection)

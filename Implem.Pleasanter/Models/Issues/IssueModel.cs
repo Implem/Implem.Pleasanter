@@ -927,23 +927,26 @@ namespace Implem.Pleasanter.Models
                         where: Rds.IssuesWhereDefault(this)
                             .UpdatedTime(timestamp, _using: timestamp.InRange()),
                         param: param ?? Rds.IssuesParamDefault(this, paramAll: paramAll),
-                        countRecord: true),
-                    Rds.If("@@rowcount = 1"),
-                    Rds.UpdateItems(
-                        where: Rds.ItemsWhere().ReferenceId(IssueId),
-                        param: Rds.ItemsParam()
-                            .SiteId(SiteId)
-                            .Title(IssueUtilities.TitleDisplayValue(SiteSettings, this))
-                            .Subset(Jsons.ToJson(new IssueSubset(this, SiteSettings)))
-                            .MaintenanceTarget(true)),
-                    Rds.PhysicalDeleteLinks(
-                        where: Rds.LinksWhere().SourceId(IssueId)),
-                    InsertLinks(SiteSettings),
-                    Rds.End()
+                        countRecord: true)
                 });
             if (count == 0) return ResponseConflicts();
             SynchronizeSummary();
             Get();
+            Rds.ExecuteNonQuery(
+                transactional: true,
+                statements: new SqlStatement[]
+                {
+                    Rds.UpdateItems(
+                    where: Rds.ItemsWhere().ReferenceId(IssueId),
+                    param: Rds.ItemsParam()
+                        .SiteId(SiteId)
+                        .Title(IssueUtilities.TitleDisplayValue(SiteSettings, this))
+                        .Subset(Jsons.ToJson(new IssueSubset(this, SiteSettings)))
+                        .MaintenanceTarget(true)),
+                    Rds.PhysicalDeleteLinks(
+                        where: Rds.LinksWhere().SourceId(IssueId)),
+                    InsertLinks(SiteSettings)
+                });
             var responseCollection = new IssuesResponseCollection(this);
             OnUpdated(ref responseCollection);
             return ResponseByUpdate(responseCollection)
