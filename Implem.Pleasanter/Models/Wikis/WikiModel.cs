@@ -758,38 +758,5 @@ namespace Implem.Pleasanter.Models
                 ? Messages.ResponseUpdateConflicts(Updator.FullName()).ToJson()
                 : Messages.ResponseDeleteConflicts().ToJson();
         }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public string Delete(Permissions.Types permissionType, bool redirect = true)
-        {
-            if (!permissionType.CanDelete())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            OnDeleting();
-            var parentId = new SiteModel(SiteId).ParentId;
-            Rds.ExecuteNonQuery(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.DeleteItems(
-                        where: Rds.ItemsWhere().ReferenceId(SiteId)),
-                    Rds.DeleteItems(
-                        where: Rds.ItemsWhere().ReferenceId(WikiId)),
-                    Rds.DeleteSites(
-                        where: Rds.SitesWhere().SiteId(SiteId)),
-                    Rds.DeleteWikis(
-                        where: Rds.WikisWhere().SiteId(SiteId).WikiId(WikiId))
-                });
-            var responseCollection = new WikisResponseCollection(this);
-            OnDeleted(ref responseCollection);
-            if (redirect)
-            {
-                responseCollection.Href(Navigations.ItemIndex(parentId));
-            }
-            return responseCollection.ToJson();
-        }
     }
 }
