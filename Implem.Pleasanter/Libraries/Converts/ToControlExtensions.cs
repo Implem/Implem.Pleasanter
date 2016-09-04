@@ -29,20 +29,7 @@ namespace Implem.Pleasanter.Libraries.Converts
         public static string ToControl(
             this DateTime self, Column column, Permissions.Types permissionType)
         {
-            return self.InRange()
-                ? self.Formatted(column)
-                : string.Empty;
-        }
-
-        private static string Formatted(this DateTime self, Column column)
-        {
-            return column.ControlDateTime != string.Empty
-                ? self.ToString(
-                    Displays.Get(column.ControlDateTime + "Format"),
-                    Sessions.CultureInfo())
-                : self.ToString(
-                    Displays.YmdahmsFormat(),
-                    Sessions.CultureInfo());
+            return column.DisplayControl(self.ToLocal());
         }
 
         public static string ToControl(
