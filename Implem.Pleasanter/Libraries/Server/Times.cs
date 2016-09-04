@@ -24,7 +24,6 @@ namespace Implem.Pleasanter.Libraries.Server
                 : value;
         }
 
-
         public static string ToLocal(this DateTime value, string format)
         {
             return value.ToLocal().ToString(format, Sessions.CultureInfo());
