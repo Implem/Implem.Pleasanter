@@ -38,7 +38,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         [OnDeserialized]
         private void OnDeserialized(StreamingContext streamingContext)
         {
-            DisplayValue = Value.ToUniversal();
+            DisplayValue = Value.ToLocal();
         }
 
         public virtual string ToControl(Column column, Permissions.Types permissionType)
