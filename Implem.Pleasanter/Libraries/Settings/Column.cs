@@ -311,12 +311,22 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : string.Empty);
         }
 
+        public string DisplayControl(DateTime value)
+        {
+            return Display(value, ControlDateTime);
+        }
+
         public string DisplayGrid(DateTime value)
         {
+            return Display(value, GridDateTime);
+        }
+
+        private string Display(DateTime value, string format)
+        {
             return value.InRange()
-                ? !GridDateTime.IsNullOrEmpty()
+                ? !format.IsNullOrEmpty()
                     ? value.ToString(
-                        Displays.Get(GridDateTime + "Format"),
+                        Displays.Get(format + "Format"),
                         Sessions.CultureInfo())
                     : value.ToString(Sessions.CultureInfo())
                 : string.Empty;
