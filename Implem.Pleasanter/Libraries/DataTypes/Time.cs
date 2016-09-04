@@ -65,7 +65,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public virtual string ToViewText(string format = "")
         {
             return Value.InRange() 
-                ? DisplayValue.ToString(format)
+                ? DisplayValue.ToString(format, Sessions.CultureInfo())
                 : string.Empty;
         }
 
