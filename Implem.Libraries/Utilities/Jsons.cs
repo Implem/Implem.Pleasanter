@@ -19,7 +19,14 @@ namespace Implem.Libraries.Utilities
 
         public static T Deserialize<T>(this string str)
         {
-            return JsonConvert.DeserializeObject<T>(str);
+            try
+            {
+                return JsonConvert.DeserializeObject<T>(str);
+            }
+            catch
+            {
+                return default(T);
+            }
         }
     }
 }
