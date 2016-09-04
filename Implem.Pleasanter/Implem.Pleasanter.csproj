@@ -270,6 +270,7 @@
     <Compile Include="Libraries\Mails\Addresses.cs" />
     <Compile Include="Libraries\Migrators\SiteSettingsMigrator.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_001.cs" />
+    <Compile Include="Libraries\Migrators\SiteSettings\Version1_002.cs" />
     <Compile Include="Libraries\Models\Aggregation.cs" />
     <Compile Include="Libraries\Models\Aggregations.cs" />
     <Compile Include="Libraries\Models\Formula.cs" />

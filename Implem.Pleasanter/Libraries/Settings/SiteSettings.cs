@@ -161,8 +161,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     if (column.LabelText == Displays.Get(columnDefinition.Id)) column.LabelText = null;
                     if (column.ChoicesText == columnDefinition.ChoicesText) column.ChoicesText = null;
                     if (column.DefaultInput == columnDefinition.DefaultInput) column.DefaultInput = null;
-                    if (column.GridDateTime == columnDefinition.GridDateTime) column.GridDateTime = null;
-                    if (column.ControlDateTime == columnDefinition.ControlDateTime) column.ControlDateTime = null;
+                    if (column.GridFormat == columnDefinition.GridFormat) column.GridFormat = null;
+                    if (column.ControlFormat == columnDefinition.ControlFormat) column.ControlFormat = null;
                     if (column.ControlType == columnDefinition.ControlType) column.ControlType = null;
                     if (column.Format?.Trim() == string.Empty) column.Format = null;
                     if (column.DecimalPlaces == columnDefinition.DecimalPlaces) column.DecimalPlaces = null;
@@ -378,7 +378,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.LabelText = column.LabelText ?? Displays.Get(columnDefinition.Id);
                 column.ChoicesText = column.ChoicesText ?? columnDefinition.ChoicesText;
                 column.DefaultInput = column.DefaultInput ?? columnDefinition.DefaultInput;
-                column.GridDateTime = column.GridDateTime ?? columnDefinition.GridDateTime;
+                column.GridFormat = column.GridFormat ?? columnDefinition.GridFormat;
+                column.ControlFormat = column.ControlFormat ?? columnDefinition.ControlFormat;
                 column.ControlType = column.ControlType ?? columnDefinition.ControlType;
                 column.DecimalPlaces = column.DecimalPlaces ?? columnDefinition.DecimalPlaces;
                 column.Min = column.Min ?? columnDefinition.Min;
@@ -386,7 +387,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.Step = column.Step ?? DefaultStep(columnDefinition);
                 column.EditorReadOnly = column.EditorReadOnly ?? false;
                 column.FieldCss = column.FieldCss ?? columnDefinition.FieldCss;
-                column.ControlDateTime = column.ControlDateTime ?? columnDefinition.ControlDateTime;
                 column.Unit = column.Unit ?? columnDefinition.Unit;
                 column.Size = columnDefinition.Size;
                 column.Nullable = columnDefinition.Nullable;
@@ -989,8 +989,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "FieldCss": column.FieldCss = value; break;
                 case "ChoicesText": SetChoices(column, value); break;
                 case "DefaultInput": column.DefaultInput = value; break;
-                case "GridDateTime": column.GridDateTime = value; break;
-                case "ControlDateTime": column.ControlDateTime = value; break;
+                case "GridFormat": column.GridFormat = value; break;
+                case "ControlFormat": column.ControlFormat = value; break;
                 case "Unit": column.Unit = value; break;
             }
         }

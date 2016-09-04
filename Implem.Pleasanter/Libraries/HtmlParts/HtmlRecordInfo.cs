@@ -17,7 +17,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Displays_Create())
                     .HtmlUser(baseModel.Creator.Id)
                     .RecordTime(
-                        controlDateTime: Def.ColumnTable._Bases_CreatedTime.ControlDateTime,
+                        controlDateTime: Def.ColumnTable._Bases_CreatedTime.ControlFormat,
                         controlId: tableName + "_CreatedTime",
                         time: baseModel.CreatedTime))
                 .Div(action: () => hb
@@ -25,7 +25,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Displays_Update())
                     .HtmlUser(baseModel.Updator.Id)
                     .RecordTime(
-                        controlDateTime: Def.ColumnTable._Bases_UpdatedTime.ControlDateTime,
+                        controlDateTime: Def.ColumnTable._Bases_UpdatedTime.ControlFormat,
                         controlId: tableName + "_UpdatedTime",
                         time: baseModel.UpdatedTime));
         }

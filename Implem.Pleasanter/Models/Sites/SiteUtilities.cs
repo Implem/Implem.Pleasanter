@@ -1258,15 +1258,15 @@ namespace Implem.Pleasanter.Models
                     {
                         hb
                             .FieldDropDown(
-                                controlId: "ColumnProperty,GridDateTime",
-                                labelText: Displays.SettingGridDateTime(),
+                                controlId: "ColumnProperty,GridFormat",
+                                labelText: Displays.SettingGridFormat(),
                                 optionCollection: DateTimeOptions(),
-                                selectedValue: column.GridDateTime)
+                                selectedValue: column.GridFormat)
                             .FieldDropDown(
-                                controlId: "ColumnProperty,ControlDateTime",
-                                labelText: Displays.SettingControlDateTime(),
+                                controlId: "ColumnProperty,ControlFormat",
+                                labelText: Displays.SettingControlFormat(),
                                 optionCollection: DateTimeOptions(),
-                                selectedValue: column.ControlDateTime);
+                                selectedValue: column.ControlFormat);
                     }
                     switch (column.TypeName.CsTypeSummary())
                     {

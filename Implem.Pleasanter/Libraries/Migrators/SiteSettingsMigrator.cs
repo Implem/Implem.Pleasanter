@@ -10,6 +10,7 @@ namespace Implem.Pleasanter.Libraries.Migrators
         public static void Migrate(SiteSettings siteSettings)
         {
             if (siteSettings.Version < 1.001M) siteSettings.Migrate1_001();
+            if (siteSettings.Version < 1.002M) siteSettings.Migrate1_002();
         }
 
         public static void Migrate()
