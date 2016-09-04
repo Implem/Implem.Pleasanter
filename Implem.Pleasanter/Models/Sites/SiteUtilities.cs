@@ -1769,19 +1769,20 @@ namespace Implem.Pleasanter.Models
             {
                 hb.Table(css: "grid", action: () =>
                 {
-                    hb.Tr(css: "ui-widget-header", action: () => hb
-                        .Th(action: () => hb
-                            .Text(Displays.SummarySiteId()))
-                        .Th(action: () => hb
-                            .Text(Displays.SummaryDestinationColumn()))
-                        .Th(action: () => hb
-                            .Text(Displays.SummaryLinkColumn()))
-                        .Th(action: () => hb
-                            .Text(Displays.SummaryType()))
-                        .Th(action: () => hb
-                            .Text(Displays.SummarySourceColumn()))
-                        .Th(action: () => hb
-                            .Text(Displays.Operations())));
+                    hb.THead(action: () => hb
+                        .Tr(css: "ui-widget-header", action: () => hb
+                            .Th(action: () => hb
+                                .Text(Displays.SummarySiteId()))
+                            .Th(action: () => hb
+                                .Text(Displays.SummaryDestinationColumn()))
+                            .Th(action: () => hb
+                                .Text(Displays.SummaryLinkColumn()))
+                            .Th(action: () => hb
+                                .Text(Displays.SummaryType()))
+                            .Th(action: () => hb
+                                .Text(Displays.SummarySourceColumn()))
+                            .Th(action: () => hb
+                                .Text(Displays.Operations()))));
                     if (sourceSiteSettings.SummaryCollection.Count > 0)
                     {
                         var dataRows = Rds.ExecuteTable(statements:
@@ -1795,49 +1796,52 @@ namespace Implem.Pleasanter.Models
                                     .TenantId(Sessions.TenantId())
                                     .SiteId_In(sourceSiteSettings.SummaryCollection
                                         .Select(o => o.SiteId)))).AsEnumerable();
-                        sourceSiteSettings.SummaryCollection.ForEach(summary =>
+                        hb.TBody(action: () =>
                         {
-                            var dataRow = dataRows.FirstOrDefault(o =>
-                                o["SiteId"].ToLong() == summary.SiteId);
-                            var destinationSiteSettings = dataRow["SiteSettings"]
-                                .ToString()
-                                .Deserialize<SiteSettings>() ??
-                                    SiteSettingsUtility.Get(
-                                        dataRow["SiteId"].ToLong(),
-                                        dataRow["ReferenceType"].ToString());
-                            if (destinationSiteSettings != null)
+                            sourceSiteSettings.SummaryCollection.ForEach(summary =>
                             {
-                                hb.Tr(css: "grid-row not-link", action: () => hb
-                                    .Td(action: () => hb
-                                        .Text(dataRow["Title"].ToString()))
-                                    .Td(action: () => hb
-                                        .Text(destinationSiteSettings.GetColumn(
-                                            summary.DestinationColumn)?.LabelText))
-                                    .Td(action: () => hb
-                                        .Text(sourceSiteSettings.GetColumn(
-                                            summary.LinkColumn)?.LabelText))
-                                    .Td(action: () => hb
-                                        .Text(SummaryType(summary.Type)))
-                                    .Td(action: () => hb
-                                        .Text(sourceSiteSettings.GetColumn(
-                                            summary.SourceColumn)?.LabelText))
-                                    .Td(action: () => hb
-                                        .Button(
-                                            controlId: "SynchronizeSummary," + summary.Id,
-                                            controlCss: "button-synchronize",
-                                            text: Displays.Synchronize(),
-                                            onClick: "$p.send($(this));",
-                                            action: "SynchronizeSummary",
-                                            method: "put",
-                                            confirm: Displays.ConfirmSynchronize())
-                                        .Button(
-                                            controlId: "DeleteSummary," + summary.Id,
-                                            controlCss: "button-delete",
-                                            text: Displays.Delete(),
-                                            onClick: "$p.send($(this));",
-                                            action: "SetSiteSettings",
-                                            method: "delete")));
-                            }
+                                var dataRow = dataRows.FirstOrDefault(o =>
+                                    o["SiteId"].ToLong() == summary.SiteId);
+                                var destinationSiteSettings = dataRow["SiteSettings"]
+                                    .ToString()
+                                    .Deserialize<SiteSettings>() ??
+                                        SiteSettingsUtility.Get(
+                                            dataRow["SiteId"].ToLong(),
+                                            dataRow["ReferenceType"].ToString());
+                                if (destinationSiteSettings != null)
+                                {
+                                    hb.Tr(css: "grid-row not-link", action: () => hb
+                                        .Td(action: () => hb
+                                            .Text(dataRow["Title"].ToString()))
+                                        .Td(action: () => hb
+                                            .Text(destinationSiteSettings.GetColumn(
+                                                summary.DestinationColumn)?.LabelText))
+                                        .Td(action: () => hb
+                                            .Text(sourceSiteSettings.GetColumn(
+                                                summary.LinkColumn)?.LabelText))
+                                        .Td(action: () => hb
+                                            .Text(SummaryType(summary.Type)))
+                                        .Td(action: () => hb
+                                            .Text(sourceSiteSettings.GetColumn(
+                                                summary.SourceColumn)?.LabelText))
+                                        .Td(action: () => hb
+                                            .Button(
+                                                controlId: "SynchronizeSummary," + summary.Id,
+                                                controlCss: "button-synchronize",
+                                                text: Displays.Synchronize(),
+                                                onClick: "$p.send($(this));",
+                                                action: "SynchronizeSummary",
+                                                method: "put",
+                                                confirm: Displays.ConfirmSynchronize())
+                                            .Button(
+                                                controlId: "DeleteSummary," + summary.Id,
+                                                controlCss: "button-delete",
+                                                text: Displays.Delete(),
+                                                onClick: "$p.send($(this));",
+                                                action: "SetSiteSettings",
+                                                method: "delete")));
+                                }
+                            });
                         });
                     }
                 });
