@@ -191,7 +191,7 @@ namespace Implem.Pleasanter.Models
                     Rds.UpdateTenants(
                         verUp: VerUp,
                         where: Rds.TenantsWhereDefault(this)
-                            .UpdatedTime(timestamp, _using: timestamp.NotZero()),
+                            .UpdatedTime(timestamp, _using: timestamp.InRange()),
                         param: param ?? Rds.TenantsParamDefault(this, paramAll: paramAll),
                         countRecord: true)
                 });

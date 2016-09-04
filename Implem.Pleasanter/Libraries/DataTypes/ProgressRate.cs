@@ -111,7 +111,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         private DateTime Start()
         {
-            return StartTime.NotZero()
+            return StartTime.InRange()
                 ? StartTime
                 : CreatedTime;
         }

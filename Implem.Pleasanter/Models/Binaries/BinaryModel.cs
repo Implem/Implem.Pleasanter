@@ -241,7 +241,7 @@ namespace Implem.Pleasanter.Models
                     Rds.UpdateBinaries(
                         verUp: VerUp,
                         where: Rds.BinariesWhereDefault(this)
-                            .UpdatedTime(timestamp, _using: timestamp.NotZero()),
+                            .UpdatedTime(timestamp, _using: timestamp.InRange()),
                         param: param ?? Rds.BinariesParamDefault(this, paramAll: paramAll),
                         countRecord: true)
                 });

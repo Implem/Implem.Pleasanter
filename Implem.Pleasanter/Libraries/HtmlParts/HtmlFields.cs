@@ -267,7 +267,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     case Types.CsNumeric:
                         return column.DefaultInput.ToLong().ToString();
                     case Types.CsDateTime:
-                        return !self.ToDateTime().NotZero()
+                        return !self.ToDateTime().InRange()
                             ? DateTime.Now
                                 .ToLocal()
                                 .AddDays(column.DefaultInput.ToInt())

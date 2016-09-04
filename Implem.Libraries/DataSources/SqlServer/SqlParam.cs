@@ -45,7 +45,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             return !(self is DateTime)
                 ? self
-                : self.ToDateTime().NotZero()
+                : self.ToDateTime().InRange()
                     ? self
                     : DBNull.Value;
         }

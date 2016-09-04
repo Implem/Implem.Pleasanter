@@ -5,10 +5,12 @@ namespace Implem.Libraries.Utilities
     {
         public static int FirstDayOfWeek;
         public static int FirstMonth;
+        public static DateTime MinTime;
+        public static DateTime MaxTime;
 
-        public static bool NotZero(this DateTime self)
+        public static bool InRange(this DateTime self)
         {
-            return self.ToOADate() != 0;
+            return self >= MinTime && self <= MaxTime;
         }
 
         public static string Full()

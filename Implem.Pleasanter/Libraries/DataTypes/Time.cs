@@ -48,28 +48,28 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public virtual string ToControl(Column column, Permissions.Types permissionType)
         {
-            return Value.NotZero()
+            return Value.InRange()
                 ? DisplayValue.ToControl(column, permissionType)
                 : string.Empty;
         }
 
         public virtual string ToResponse()
         {
-            return Value.NotZero()
+            return Value.InRange()
                 ? DisplayValue.ToString()
                 : string.Empty;
         }
 
         public override string ToString()
         {
-            return Value.NotZero() 
+            return Value.InRange() 
                 ? Value.ToString() 
                 : string.Empty;
         }
 
         public virtual string ToViewText(string format = "")
         {
-            return Value.NotZero() 
+            return Value.InRange() 
                 ? DisplayValue.ToString(format)
                 : string.Empty;
         }

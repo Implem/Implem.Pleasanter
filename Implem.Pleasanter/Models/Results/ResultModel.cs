@@ -901,7 +901,7 @@ namespace Implem.Pleasanter.Models
                     Rds.UpdateResults(
                         verUp: VerUp,
                         where: Rds.ResultsWhereDefault(this)
-                            .UpdatedTime(timestamp, _using: timestamp.NotZero()),
+                            .UpdatedTime(timestamp, _using: timestamp.InRange()),
                         param: param ?? Rds.ResultsParamDefault(this, paramAll: paramAll),
                         countRecord: true),
                     Rds.If("@@rowcount = 1"),

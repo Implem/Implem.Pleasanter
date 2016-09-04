@@ -41,7 +41,7 @@ namespace Implem.Pleasanter.Libraries.DataViews
             Ver = ver;
             Title = title;
             WorkValue = workValue;
-            StartTime = startTime.NotZero()
+            StartTime = startTime.InRange()
                 ? startTime.ToLocal().Date
                 : createdTime.ToLocal().Date;
             CompletionTime = completionTime.ToLocal().Date;

@@ -193,7 +193,7 @@ namespace Implem.Pleasanter.Models
                     Rds.UpdateMailAddresses(
                         verUp: VerUp,
                         where: Rds.MailAddressesWhereDefault(this)
-                            .UpdatedTime(timestamp, _using: timestamp.NotZero()),
+                            .UpdatedTime(timestamp, _using: timestamp.InRange()),
                         param: param ?? Rds.MailAddressesParamDefault(this, paramAll: paramAll),
                         countRecord: true)
                 });

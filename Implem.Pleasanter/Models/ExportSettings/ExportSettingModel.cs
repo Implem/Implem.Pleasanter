@@ -239,7 +239,7 @@ namespace Implem.Pleasanter.Models
                     Rds.UpdateExportSettings(
                         verUp: VerUp,
                         where: Rds.ExportSettingsWhereDefault(this)
-                            .UpdatedTime(timestamp, _using: timestamp.NotZero()),
+                            .UpdatedTime(timestamp, _using: timestamp.InRange()),
                         param: param ?? Rds.ExportSettingsParamDefault(this, paramAll: paramAll),
                         countRecord: true)
                 });

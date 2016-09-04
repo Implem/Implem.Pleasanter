@@ -222,7 +222,7 @@ namespace Implem.Pleasanter.Models
                     Rds.UpdateOutgoingMails(
                         verUp: VerUp,
                         where: Rds.OutgoingMailsWhereDefault(this)
-                            .UpdatedTime(timestamp, _using: timestamp.NotZero()),
+                            .UpdatedTime(timestamp, _using: timestamp.InRange()),
                         param: param ?? Rds.OutgoingMailsParamDefault(this, paramAll: paramAll),
                         countRecord: true),
                     Rds.If("@@rowcount = 1"),

@@ -205,7 +205,7 @@ namespace Implem.Pleasanter.Models
                     Rds.UpdateDemos(
                         verUp: VerUp,
                         where: Rds.DemosWhereDefault(this)
-                            .UpdatedTime(timestamp, _using: timestamp.NotZero()),
+                            .UpdatedTime(timestamp, _using: timestamp.InRange()),
                         param: param ?? Rds.DemosParamDefault(this, paramAll: paramAll),
                         countRecord: true)
                 });

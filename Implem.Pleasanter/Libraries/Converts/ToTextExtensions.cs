@@ -9,7 +9,7 @@ namespace Implem.Pleasanter.Libraries.Converts
     {
         public static string ToText(this DateTime self, Column column)
         {
-            return self.NotZero()
+            return self.InRange()
                 ? self.Formatted(column)
                 : string.Empty;
         }

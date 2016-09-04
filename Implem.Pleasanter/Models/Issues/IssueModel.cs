@@ -925,7 +925,7 @@ namespace Implem.Pleasanter.Models
                     Rds.UpdateIssues(
                         verUp: VerUp,
                         where: Rds.IssuesWhereDefault(this)
-                            .UpdatedTime(timestamp, _using: timestamp.NotZero()),
+                            .UpdatedTime(timestamp, _using: timestamp.InRange()),
                         param: param ?? Rds.IssuesParamDefault(this, paramAll: paramAll),
                         countRecord: true),
                     Rds.If("@@rowcount = 1"),

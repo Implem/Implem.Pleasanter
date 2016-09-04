@@ -234,7 +234,7 @@ namespace Implem.Pleasanter.Models
                     Rds.UpdateWikis(
                         verUp: VerUp,
                         where: Rds.WikisWhereDefault(this)
-                            .UpdatedTime(timestamp, _using: timestamp.NotZero()),
+                            .UpdatedTime(timestamp, _using: timestamp.InRange()),
                         param: param ?? Rds.WikisParamDefault(this, paramAll: paramAll),
                         countRecord: true),
                     Rds.If("@@rowcount = 1"),

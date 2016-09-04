@@ -34,6 +34,8 @@ namespace Implem.DefinitionAccessor
             SetSqls();
             DateTimes.FirstDayOfWeek = Parameters.General.FirstDayOfWeek;
             DateTimes.FirstMonth = Parameters.General.FirstMonth;
+            DateTimes.MinTime = Parameters.General.MinTime;
+            DateTimes.MaxTime = Parameters.General.MaxTime;
         }
 
         private static void SetRdsPassword(bool setRdsPassword, bool setRandomPassword)

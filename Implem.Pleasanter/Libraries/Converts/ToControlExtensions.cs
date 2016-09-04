@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Libraries.Converts
         public static string ToControl(
             this DateTime self, Column column, Permissions.Types permissionType)
         {
-            return self.NotZero()
+            return self.InRange()
                 ? self.Formatted(column)
                 : string.Empty;
         }

@@ -36,7 +36,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlId,
             Time time)
         {
-            if (time != null && time.Value.NotZero())
+            if (time != null && time.Value.InRange())
             {
                 return hb
                     .P(action: () => hb

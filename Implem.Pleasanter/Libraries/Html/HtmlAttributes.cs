@@ -256,7 +256,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes DateTime(DateTime value, bool _using = true)
         {
-            if (value.NotZero() && _using)
+            if (value.InRange() && _using)
             {
                 base.Add("datetime");
                 base.Add(value.ToString("s"));

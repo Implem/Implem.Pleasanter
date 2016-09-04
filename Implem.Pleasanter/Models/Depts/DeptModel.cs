@@ -209,7 +209,7 @@ namespace Implem.Pleasanter.Models
                     Rds.UpdateDepts(
                         verUp: VerUp,
                         where: Rds.DeptsWhereDefault(this)
-                            .UpdatedTime(timestamp, _using: timestamp.NotZero()),
+                            .UpdatedTime(timestamp, _using: timestamp.InRange()),
                         param: param ?? Rds.DeptsParamDefault(this, paramAll: paramAll),
                         countRecord: true)
                 });

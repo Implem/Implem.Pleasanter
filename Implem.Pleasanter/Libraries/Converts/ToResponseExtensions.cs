@@ -17,7 +17,7 @@ namespace Implem.Pleasanter.Libraries.Converts
 
         public static string ToResponse(this DateTime self)
         {
-            return self.NotZero()
+            return self.InRange()
                 ? self.ToString()
                 : string.Empty;
         }

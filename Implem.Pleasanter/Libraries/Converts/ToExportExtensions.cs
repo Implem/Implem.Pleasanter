@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Libraries.Converts
 
         public static string ToExport(this DateTime value, Column column)
         {
-            return value.NotZero()
+            return value.InRange()
                 ? value.ToString()
                 : string.Empty;
         }

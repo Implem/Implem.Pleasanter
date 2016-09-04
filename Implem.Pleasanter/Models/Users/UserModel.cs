@@ -328,7 +328,7 @@ namespace Implem.Pleasanter.Models
                     Rds.UpdateUsers(
                         verUp: VerUp,
                         where: Rds.UsersWhereDefault(this)
-                            .UpdatedTime(timestamp, _using: timestamp.NotZero()),
+                            .UpdatedTime(timestamp, _using: timestamp.InRange()),
                         param: param ?? Rds.UsersParamDefault(this, paramAll: paramAll),
                         countRecord: true)
                 });
@@ -982,7 +982,7 @@ namespace Implem.Pleasanter.Models
         private bool PasswordExpired()
         {
             return
-                PasswordExpirationTime.Value.NotZero() &&
+                PasswordExpirationTime.Value.InRange() &&
                 PasswordExpirationTime.Value <= DateTime.Now;
         }
 
