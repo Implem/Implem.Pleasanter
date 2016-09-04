@@ -41,11 +41,6 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             DisplayValue = Value.ToUniversal();
         }
 
-        public virtual string ToView(Column column)
-        {
-            return Value.ToText(column);
-        }
-
         public virtual string ToControl(Column column, Permissions.Types permissionType)
         {
             return Value.InRange()
@@ -85,7 +80,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             return hb.Td(action: () => hb
                 .P(css: "time", action: () => hb
-                    .Text(DisplayValue.ToText(column))));
+                    .Text(column.DisplayGrid(DisplayValue))));
         }
 
         public string ToExport(Column column)

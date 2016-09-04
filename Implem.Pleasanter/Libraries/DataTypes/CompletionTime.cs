@@ -57,7 +57,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return hb.Td(action: () =>
             {
                 hb.P(css: "time", action: () => hb
-                    .Text(DisplayValue.ToText(column)));
+                    .Text(column.DisplayGrid(DisplayValue)));
                 if (Status?.Value < Parameters.General.CompletionCode)
                 {
                     LimitText(hb);

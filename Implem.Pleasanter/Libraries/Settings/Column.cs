@@ -311,6 +311,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : string.Empty);
         }
 
+        public string DisplayGrid(DateTime value)
+        {
+            return value.InRange()
+                ? !GridDateTime.IsNullOrEmpty()
+                    ? value.ToString(
+                        Displays.Get(GridDateTime + "Format"),
+                        Sessions.CultureInfo())
+                    : value.ToString(Sessions.CultureInfo())
+                : string.Empty;
+        }
+
         public decimal Round(decimal value)
         {
              return Math.Round(value, DecimalPlaces.ToInt(), MidpointRounding.AwayFromZero);

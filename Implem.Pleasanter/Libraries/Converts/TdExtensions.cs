@@ -2,6 +2,7 @@
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 namespace Implem.Pleasanter.Libraries.Converts
@@ -65,7 +66,7 @@ namespace Implem.Pleasanter.Libraries.Converts
             this HtmlBuilder hb, Column column, DateTime value)
         {
             return hb.Td(action: () => hb
-                .Text(text: value.ToText(column)));
+                .Text(text: column.DisplayGrid(value.ToLocal())));
         }
 
         public static HtmlBuilder Td(
