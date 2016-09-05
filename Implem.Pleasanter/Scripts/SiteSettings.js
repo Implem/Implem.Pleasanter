@@ -4,10 +4,9 @@
         $('#ColumnPropertiesDialog').dialog({
             modal: true,
             width: '90%',
-            height: '500',
+            height: 'auto',
             appendTo: '.main-form'
         });
-        $('#ColumnPropertiesDialog').css('height', 'auto');
     }
 }
 
