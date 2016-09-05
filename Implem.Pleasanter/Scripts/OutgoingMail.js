@@ -16,7 +16,7 @@
 }
 
 $p.openOutgoingMailReplyDialog = function ($control) {
-    $p.getData().OutgoingMails_OutgoingMailId = $control.attr('data-id');
+    $p.getData('OutgoingMailsForm').OutgoingMails_OutgoingMailId = $control.attr('data-id');
     $p.send($control, 'OutgoingMailsForm');
     $('#OutgoingMailDialog').dialog({
         modal: true,
