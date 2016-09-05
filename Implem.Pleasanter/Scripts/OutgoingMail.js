@@ -1,30 +1,24 @@
 ﻿$p.openOutgoingMailDialog = function ($control) {
     if ($('#OutgoingMails_Title').length === 0) {
-        $p.ajax(
-            $control.attr('data-action'),
-            $control.attr('data-method'),
-            $p.getData('OutgoingMailForm'),
-            false);
+        $p.send($control, 'OutgoingMailsForm', false);
     }
     $('#OutgoingMailDialog').dialog({
         modal: true,
         width: '90%',
-        height: '650',
+        height: 'auto',
         dialogClass: 'outgoing-mail'
     });
-    $('#OutgoingMailDialog').css('height', 'auto');
 }
 
 $p.openOutgoingMailReplyDialog = function ($control) {
     $p.getData('OutgoingMailsForm').OutgoingMails_OutgoingMailId = $control.attr('data-id');
-    $p.send($control, 'OutgoingMailsForm');
+    $p.send($control, 'OutgoingMailsForm', false);
     $('#OutgoingMailDialog').dialog({
         modal: true,
         width: '90%',
-        height: '650',
+        height: 'auto',
         dialogClass: 'outgoing-mail'
     });
-    $('#OutgoingMailDialog').css('height', 'auto');
 }
 
 $p.sendMail = function ($control) {

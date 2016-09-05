@@ -92,10 +92,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     text: Displays.Mail(),
                                     controlCss: "button-send-mail",
                                     onClick: "$p.openOutgoingMailDialog($(this));",
-                                    action: Navigations.Edit(
-                                        referenceType,
-                                        referenceId,
-                                        "OutgoingMails"),
+                                    action: "Edit",
                                     method: "put",
                                     accessKey: "m",
                                     _using: mailButton && permissionType.CanUpdate())
