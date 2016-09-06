@@ -528,7 +528,8 @@ namespace Implem.Pleasanter.Models
                         .FieldText(
                             controlId: string.Empty,
                             labelText: Displays.OutgoingMails_SentTime(),
-                            text: outgoingMailModel.SentTime.ToString(),
+                            text: outgoingMailModel.SentTime.Value
+                                .ToLocal(Displays.Get("YmdahmFormat")),
                             fieldCss: "field-auto")
                         .FieldText(
                             controlId: string.Empty,
