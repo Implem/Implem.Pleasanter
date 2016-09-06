@@ -32,8 +32,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     if (action != null) action();
                     hb
                         .P(css: "time", action: () => hb
-                            .Text(text: new Time(CreatedTime).ToViewText(
-                                Displays.Get("YmdahmFormat"))))
+                            .Text(text: CreatedTime.ToLocal(Displays.Get("YmdahmFormat"))))
                         .HtmlUser(Creator)
                         .P(css: "body markup", action: () => hb
                             .Text(text: Body));
