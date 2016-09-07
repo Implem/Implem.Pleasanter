@@ -55,6 +55,10 @@ $p.addMailAddress = function ($control, defaultMailAddresses) {
             }
         });
     }
+    $p.setMailAddressData($control);
+}
+
+$p.setMailAddressData = function ($control) {
     $p.getData('OutgoingMailForm')[$control.attr('id')] =
         $control.find('li').map(function () {
             return unescape($(this).text());

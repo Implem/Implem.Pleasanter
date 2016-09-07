@@ -14,7 +14,7 @@
     $(document).on('click', '.button-delete-address', function () {
         var $control = $(this).closest('ol');
         $(this).parent().remove();
-        $p.setData($control);
+        $p.setMailAddressData($control);
     });
 
     function showMailEditor() {
