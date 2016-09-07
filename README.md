@@ -18,7 +18,7 @@ https://pleasanter.azurewebsites.net
 デモサイトで使用できるハンズオンの手順です。  
 http://www.slideshare.net/TaijiUchida/001-65529592
 
-## Web site
+## ダウンロード
 セットアップモジュールのダウンロードサイトです。  
 http://pleasanter.org
 
