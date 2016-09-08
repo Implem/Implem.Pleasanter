@@ -1,5 +1,4 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
 using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.HtmlParts
