@@ -80,10 +80,12 @@
         $('.status').each(function () {
             $(this).addClass($(this).find('option:selected').attr('data-class'));
         });
-        $('.control-markdown').each(function () {
+        $('.control-markdown:not(.applied)').each(function () {
+            $control = $(this);
             var $viewer = $('[id="' + this.id + '.viewer"]');
-            $viewer.html($p.markup($(this).val()));
-            $p.resizeEditor($(this), $viewer);
+            $viewer.html($p.markup($control.val()));
+            $p.resizeEditor($control, $viewer);
+            $control.addClass('applied');
         });
         $('.markup').each(function () {
             $(this).html($p.markup($(this).html(), true));
