@@ -20,7 +20,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         public bool Using = true;
 
         public SqlWhere(
-            string[] columnBrackets,
+            string[] columnBrackets = null,
             string name = "",
             object value = null,
             string _operator = "=",
@@ -45,21 +45,28 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         public string Sql(SqlContainer sqlContainer, SqlCommand sqlCommand, int? commandCount)
         {
-            if (!Raw.IsNullOrEmpty())
+            if (Using)
             {
-                return Sql_Raw(sqlContainer, commandCount);
-            }
-            else if (Sub != null)
-            {
-                return Sql_Sub(sqlContainer, sqlCommand, commandCount);
-            }
-            else if (Or != null)
-            {
-                return Sql_Or(sqlContainer, sqlCommand, commandCount);
+                if (!Raw.IsNullOrEmpty())
+                {
+                    return Sql_Raw(sqlContainer, commandCount);
+                }
+                else if (Sub != null)
+                {
+                    return Sql_Sub(sqlContainer, sqlCommand, commandCount);
+                }
+                else if (Or != null)
+                {
+                    return Sql_Or(sqlContainer, sqlCommand, commandCount);
+                }
+                else
+                {
+                    return Sql_General(commandCount);
+                }
             }
             else
             {
-                return Sql_General(commandCount);
+                return string.Empty;
             }
         }
 
@@ -214,6 +221,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 multiParamOperator: multiParamOperator,
                 sub: sub,
                 raw: raw,
+                or: or,
                 _using: _using));
             return this;
         }
@@ -236,12 +244,13 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             if (!select)
             {
-                this.Where(o => o.ColumnBrackets != null)
+                this.Where(o => o?.ColumnBrackets != null)
                     .ForEach(where => where.ColumnBrackets =
                         where.ColumnBrackets.Select(o => o.Split('.').Last()).ToArray());
             }
-            return this.Any(o => o.Using)
+            return this.Where(o => o != null).Any(o => o.Using)
                 ? Clause + this
+                    .Where(o => o != null)
                     .Where(o => o.Using)
                     .Select(o => o.Sql(sqlContainer, sqlCommand, commandCount))
                     .Join(MultiClauseOperator) + " "

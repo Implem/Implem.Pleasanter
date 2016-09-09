@@ -90,29 +90,33 @@ namespace Implem.Libraries.DataSources.SqlServer
             SqlCommand sqlCommand, SqlWhereCollection sqlWhereCollection, int? commandCount)
         {
             sqlWhereCollection?
+                .Where(o => o != null)
                 .Where(o => o.Using)
-                .Where(o => o.Value != null)
                 .ForEach(sqlWhere =>
                 {
-                    if (sqlWhere.Value.IsCollection())
+                    if (sqlWhere.Value != null)
                     {
-                        (sqlWhere.Value.ToObjectEnumerable())
-                            .Select((o, i) => new { Value = o, Index = i })
-                            .ForEach(data =>
-                                AddParam(
-                                    sqlCommand,
-                                    sqlWhere.Name + data.Index + "_",
-                                    data.Value,
-                                    commandCount));
+                        if (sqlWhere.Value.IsCollection())
+                        {
+                            (sqlWhere.Value.ToObjectEnumerable())
+                                .Select((o, i) => new { Value = o, Index = i })
+                                .ForEach(data =>
+                                    AddParam(
+                                        sqlCommand,
+                                        sqlWhere.Name + data.Index + "_",
+                                        data.Value,
+                                        commandCount));
+                        }
+                        else
+                        {
+                            AddParam(
+                                sqlCommand,
+                                sqlWhere.Name,
+                                sqlWhere.Value,
+                                commandCount);
+                        }
                     }
-                    else
-                    {
-                        AddParam(
-                            sqlCommand,
-                            sqlWhere.Name,
-                            sqlWhere.Value,
-                            commandCount);
-                    }
+                    AddParams_Where(sqlCommand, sqlWhere.Or, commandCount);
                 });
         }
 
