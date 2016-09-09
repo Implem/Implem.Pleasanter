@@ -138,6 +138,7 @@
     <Compile Include="DataSources\SqlServer\SqlGroupBy.cs" />
     <Compile Include="DataSources\SqlServer\SqlExists.cs" />
     <Compile Include="DataSources\SqlServer\SqlHaving.cs" />
+    <Compile Include="DataSources\SqlServer\SqlWhereCollection.cs" />
     <Compile Include="Plugins\kanaxs_ex-1.0.2.cs" />
     <Compile Include="Utilities\Bools.cs" />
     <Compile Include="Classes\ListEx.cs" />
