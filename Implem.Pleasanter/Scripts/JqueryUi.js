@@ -102,9 +102,10 @@
             $p.resizeEditor($control, $viewer);
             $control.addClass('applied');
         });
-        $('.markup').each(function () {
-            $(this).html($p.markup($(this).html(), true));
-            $(this).removeClass('markup');
+        $('.markup:not(.applied)').each(function () {
+            $control = $(this);
+            $control.html($p.markup($control.html(), true));
+            $control.addClass('applied');
         });
     }
     $p.apply();
