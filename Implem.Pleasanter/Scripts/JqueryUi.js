@@ -96,14 +96,14 @@
             $(this).addClass($(this).find('option:selected').attr('data-class'));
         });
         $('.control-markdown:not(.applied)').each(function () {
-            $control = $(this);
+            var $control = $(this);
             var $viewer = $('[id="' + this.id + '.viewer"]');
             $viewer.html($p.markup($control.val()));
             $p.resizeEditor($control, $viewer);
             $control.addClass('applied');
         });
         $('.markup:not(.applied)').each(function () {
-            $control = $(this);
+            var $control = $(this);
             $control.html($p.markup($control.html(), true));
             $control.addClass('applied');
         });
