@@ -134,6 +134,7 @@
     <Compile Include="Classes\TextData.cs" />
     <Compile Include="Classes\Csv.cs" />
     <Compile Include="DataSources\SqlServer\SqlDebugs.cs" />
+    <Compile Include="DataSources\SqlServer\SqlOrderByCollection.cs" />
     <Compile Include="DataSources\SqlServer\SqlRestore.cs" />
     <Compile Include="DataSources\SqlServer\SqlGroupBy.cs" />
     <Compile Include="DataSources\SqlServer\SqlExists.cs" />
