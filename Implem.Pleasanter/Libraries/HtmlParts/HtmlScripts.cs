@@ -20,6 +20,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb
                     .Script(src: Navigations.Get("Scripts/Plugins/jquery-3.1.0.min.js"))
                     .Script(src: Navigations.Get("Scripts/Plugins/jquery-ui.min.js"))
+                    .Script(src: Navigations.Get("Scripts/Plugins/jquery.multiselect.min.js"))
+                    .Script(src: Navigations.Get("Scripts/Plugins/jquery.multiselect.filter.min.js"))
                     .Script(src: Navigations.Get("Scripts/Plugins/jquery.validate.min.js"))
                     .Script(src: Navigations.Get("Scripts/Plugins/d3.min.js"))
                     .Script(src: Navigations.Get("Scripts/Plugins/marked.min.js"))
