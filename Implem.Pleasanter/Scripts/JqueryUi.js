@@ -78,14 +78,16 @@
                 }
             });
         });
-        $('.control-spinner').each(function () {
-            $(this).spinner({
-                min: $(this).attr('data-min'),
-                max: $(this).attr('data-max'),
-                step: $(this).attr('data-step')
+        $('.control-spinner:not(.applied)').each(function () {
+            var $control = $(this);
+            $control.spinner({
+                min: $control.attr('data-min'),
+                max: $control.attr('data-max'),
+                step: $control.attr('data-step')
             }).css('width', function () {
-                return $(this).attr('data-width');
+                return $control.attr('data-width');
             });
+            $control.addClass('applied');
         });
         $('[class*="enclosed"] .legend').each(function (e) {
             if ($(this).find('[class^="ui-icon ui-icon-carat-1-"]').length === 0) {
