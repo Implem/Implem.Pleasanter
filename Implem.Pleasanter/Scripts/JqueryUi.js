@@ -1,13 +1,13 @@
 ﻿$(function () {
     $p.apply = function () {
-        $('.edit-form-tabs').tabs({
+        $('.edit-form-tabs:not(.applied)').tabs({
             beforeActivate: function (event, ui) {
                 if (ui.newPanel.attr('data-action')) {
                     $p.send(ui.newPanel);
                 }
             }
-        });
-        $('.edit-form-tabs-max').tabs();
+        }).addClass('applied');
+        $('.edit-form-tabs-max:not(.applied)').tabs().addClass('applied');
         $('.button-goback').button({ icons: { primary: 'ui-icon-circle-arrow-w' } });
         $('.button-create').button({ icons: { primary: 'ui-icon-plus' } });
         $('.button-save').button({ icons: { primary: 'ui-icon-disk' } });
