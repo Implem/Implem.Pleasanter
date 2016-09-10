@@ -131,6 +131,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlCss = null,
             Dictionary<string, ControlData> optionCollection = null,
             string selectedValue = null,
+            bool multiple = false,
             bool addSelectedValue = true,
             bool insertBlank = false,
             string onChange = null,
@@ -144,6 +145,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     attributes: new HtmlAttributes()
                         .Id(controlId)
                         .Class(Css.Class("control-dropdown", controlCss))
+                        .Multiple(multiple)
                         .OnChange(onChange)
                         .DataAction(action)
                         .DataMethod(method),
@@ -151,6 +153,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .OptionCollection(
                             optionCollection: optionCollection,
                             selectedValue: selectedValue,
+                            multiple: multiple,
                             addSelectedValue: addSelectedValue,
                             insertBlank: insertBlank,
                             column: column))
@@ -192,6 +195,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Dictionary<string, ControlData> optionCollection = null,
             string selectedValue = null,
+            bool multiple = false,
             bool addSelectedValue = true,
             bool insertBlank = false,
             Column column = null,
@@ -199,9 +203,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (_using)
             {
+                var selectedValues = multiple
+                    ? selectedValue.Deserialize<List<string>>()
+                    : null;
                 OptionCollection(
                     optionCollection: optionCollection,
                     selectedValue: selectedValue,
+                    multiple: multiple,
                     addSelectedValue: addSelectedValue,
                     insertBlank: insertBlank,
                     column: column)?
@@ -210,7 +218,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Value(htmlData.Key)
                                 .DataClass(htmlData.Value.Css)
                                 .DataStyle(htmlData.Value.Style)
-                                .Selected(selectedValue == htmlData.Key),
+                                .Selected(Selected(
+                                    selectedValue, selectedValues, htmlData.Key, multiple)),
                             action: () => hb
                                 .Text(text: Strings.CoalesceEmpty(
                                     htmlData.Value.Text, htmlData.Key))));
@@ -221,6 +230,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static Dictionary<string, ControlData> OptionCollection(
             Dictionary<string, ControlData> optionCollection = null,
             string selectedValue = null,
+            bool multiple = false,
             bool addSelectedValue = true,
             bool insertBlank = false,
             Column column = null)
@@ -255,6 +265,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 { string.Empty, new ControlData(string.Empty) }
             }.AddRange(optionCollection);
+        }
+
+        private static bool Selected(
+            string selectedValue, List<string> selectedValues, string controlValue, bool multiple)
+        {
+            return multiple
+                ? selectedValues != null
+                    ? selectedValues.Contains(controlValue)
+                    : false
+                : selectedValue == controlValue;
         }
 
         public static HtmlBuilder RadioButtons(
