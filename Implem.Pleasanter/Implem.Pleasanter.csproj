@@ -390,6 +390,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Content Include="Global.asax" />
     <Content Include="Images\logo-corp.png" />
+    <Content Include="Scripts\AggregationEvents.js" />
     <Content Include="Scripts\AnchorEvents.js" />
     <Content Include="Scripts\BurnDown.js" />
     <Content Include="Scripts\BurnDownEvents.js" />

@@ -27,6 +27,7 @@ namespace Implem.Pleasanter
                 "~/Scripts/_DefaultButton.js",
                 "~/Scripts/_Form.js",
                 "~/Scripts/_Time.js",
+                "~/Scripts/AggregationEvents.js",
                 "~/Scripts/AnchorEvents.js",
                 "~/Scripts/BurnDown.js",
                 "~/Scripts/BurnDownEvents.js",
