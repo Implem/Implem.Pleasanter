@@ -57,14 +57,14 @@
             }
         });
         $('.radio').buttonset();
-        $('.control-selectable').selectable({
+        $('.control-selectable:not(.applied)').selectable({
             stop: function () {
                 $p.getDataByInnerElement($(this))[this.id] = $('.ui-selected', this)
                     .map(function () { return $(this).attr('value'); })
                     .get()
                     .join(';');
             }
-        });
+        }).addClass('applied');
         $('.control-slider-ui').each(function () {
             var $control = $('#' + $(this).attr('id').split(',')[0]);
             $(this).slider({
