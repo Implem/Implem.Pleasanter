@@ -28,21 +28,6 @@
             $control.trigger('click');
         }
     });
-    $(document).on('click', '#DataViewFilters_Reset', function () {
-        $('[id^="DataViewFilters_"]').each(function () {
-            switch ($(this).prop('tagName')) {
-                case 'INPUT':
-                    switch ($(this).prop('type')) {
-                        case 'checkbox': $(this).prop('checked', false); break;
-                        case 'text': $(this).val(''); break;
-                    }
-                    break;
-                case 'SELECT': $(this).val(''); break;
-            }
-            $p.setData($(this));
-        });
-        $p.send($(this));
-    });
     $(document).on('change', '#AggregationType', function () {
         if ($(this).val() === 'Count') {
             $('#AggregationTarget').closest('.togglable').hide();
@@ -53,12 +38,13 @@
     $(document).on('click', '#Aggregations .data.link', function () {
         var $control = $($(this).attr('data-selector'));
         if ($control.length === 1) {
-            if ($control.val() === '') {
-                $control.val($(this).attr('data-value'));
-            } else {
-                $control.val('');
-            }
-            $control.trigger('change');
+            var value = $(this).attr('data-value');
+            $control.multiselect('widget').find(':checkbox').each(function () {
+                if ($(this).val() === value) {
+                    $(this).click();
+                    return;
+                }
+            });
         }
     });
     $(document).on('click', '#Aggregations .overdue', function () {

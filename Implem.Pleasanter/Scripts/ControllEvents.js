@@ -1,5 +1,5 @@
 ﻿$(function () {
-    $(document).on('change', '[class^="control-"]', function (e) {
+    $(document).on('change', '[class^="control-"]:not(select[multiple])', function (e) {
         if ($(this).hasClass('control-spinner')) {
             if ($(this).val() === '' && $(this).hasClass('allow-blank')) {
                 $(this).val('');
@@ -29,7 +29,7 @@
             }
         }
     });
-    $(document).on('change', '.auto-postback:not([type="text"])', function () {
+    $(document).on('change', '.auto-postback:not([type="text"], select[multiple])', function () {
         $p.send($(this), $p.getIdByInnerElement($(this)));
         if (!$(this).hasClass('keep-form-data')) {
             delete $p.getDataByInnerElement($(this))[this.id];

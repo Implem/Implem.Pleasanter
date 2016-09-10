@@ -130,63 +130,149 @@ namespace Implem.Pleasanter.Libraries.Requests
                     switch (data.Column.TypeName.CsTypeSummary())
                     {
                         case Types.CsBool:
-                            if (data.Value.ToBool())
-                            {
-                                where.Add(raw: "[t0].[{0}] = 1".Params(data.ColumnName));
-                            }
+                            CsBoolColumns(data.ColumnName, data.Value, where);
                             break;
                         case Types.CsNumeric:
-                            if (data.Value == "\t")
-                            {
-                                if (data.Column.UserColumn)
-                                {
-                                    where.Add(raw: "([t0].[{0}] is null or [t0].[{0}]={1})"
-                                        .Params(
-                                            data.ColumnName,
-                                            User.UserTypes.Anonymous.ToInt()));
-                                }
-                                else
-                                {
-                                    where.Add(raw: "([t0].[{0}] is null or [t0].[{0}]=0)"
-                                        .Params(data.ColumnName));
-                                }
-                            }
-                            else
-                            {
-                                where.Add(
-                                    columnBrackets: new string[] { "[t0].[{0}]"
-                                        .Params(data.ColumnName) },
-                                    name: data.ColumnName,
-                                    value: data.Value.ToLong());
-                            }
+                            CsNumericColumns(data.Column, data.ColumnName, data.Value, where);
                             break;
                         case Types.CsDateTime:
-                            where.Add(raw: "[t0].[{0}] between '{1}' and '{2}'"
-                                .Params(
-                                    data.ColumnName,
-                                    data.Value.Split_1st().ToDateTime().ToUniversal()
-                                        .ToString("yyyy/M/d H:m:s"),
-                                    data.Value.Split_2nd().ToDateTime().ToUniversal()
-                                        .ToString("yyyy/M/d H:m:s.fff")));
+                            CsDateTimeColumns(data.Column, data.ColumnName, data.Value, where);
                             break;
                         case Types.CsString:
-                            if (data.Value == "\t")
-                            {
-                                where.Add(raw: "([t0].[{0}] is null or [t0].[{0}]='')"
-                                    .Params(data.ColumnName));
-                            }
-                            else
-                            {
-                                where.Add(
-                                    columnBrackets: new string[] { "[t0].[{0}]"
-                                        .Params(data.ColumnName) },
-                                    name: data.ColumnName,
-                                    value: data.Value);
-                            }
+                            CsStringColumns(data.ColumnName, data.Value, where);
                             break;
                     }
                 });
             return where;
+        }
+
+        private static void CsBoolColumns(
+            string columnName, string value, SqlWhereCollection where)
+        {
+            if (value.ToBool())
+            {
+                where.Add(raw: "[t0].[{0}] = 1".Params(columnName));
+            }
+        }
+
+        private static void CsNumericColumns(
+            Column column, string columnName, string value, SqlWhereCollection where)
+        {
+            var param = value.Deserialize<List<string>>();
+            if (param.Any())
+            {
+                where.Add(or: new SqlWhereCollection(
+                    CsNumericColumnsWhere(columnName, param),
+                    CsNumericColumnsWhereNull(column, columnName, param)));
+            }
+        }
+
+        private static SqlWhere CsNumericColumnsWhere(string columnName, List<string> param)
+        {
+            return param.Where(o => o != "\t").Any()
+                ? new SqlWhere(
+                    columnBrackets: new string[] { "[t0].[{0}]".Params(columnName) },
+                    name: columnName,
+                    _operator: " in ({0})".Params(param
+                        .Where(o => o != "\t")
+                        .Select(o => o.ToLong())
+                        .Join()))
+                : null;
+        }
+
+        private static SqlWhere CsNumericColumnsWhereNull(
+            Column column, string columnName, List<string> param)
+        {
+            return param.Any(o => o == "\t")
+                ? new SqlWhere(or: new SqlWhereCollection(
+                    new SqlWhere(
+                        columnBrackets: new string[] { "[t0].[{0}]".Params(columnName) },
+                        _operator: " is null"),
+                    new SqlWhere(
+                        columnBrackets: new string[] { "[t0].[{0}]".Params(columnName) },
+                        _operator: "={0}".Params(column.UserColumn
+                            ? User.UserTypes.Anonymous.ToInt()
+                            : 0))))
+                : null;
+        }
+
+        private static void CsDateTimeColumns(
+            Column column, string columnName, string value, SqlWhereCollection where)
+        {
+            var param = value.Deserialize<List<string>>();
+            if (param.Any())
+            {
+                where.Add(or: new SqlWhereCollection(
+                    CsDateTimeColumnsWhere(columnName, param),
+                    CsDateTimeColumnsWhereNull(column, columnName, param)));
+            }
+        }
+
+        private static SqlWhere CsDateTimeColumnsWhere(string columnName, List<string> param)
+        {
+            return param.Where(o => o != "\t").Any()
+                ? new SqlWhere(raw: param.Select(range =>
+                    "[t0].[{0}] is null or [t0].[{0}] between '{1}' and '{2}'".Params(
+                        columnName,
+                        range.Split_1st().ToDateTime().ToUniversal()
+                            .ToString("yyyy/M/d H:m:s"),
+                        range.Split_2nd().ToDateTime().ToUniversal()
+                            .ToString("yyyy/M/d H:m:s.fff"))).Join(" or "))
+                : null;
+        }
+
+        private static SqlWhere CsDateTimeColumnsWhereNull(
+            Column column, string columnName, List<string> param)
+        {
+            return param.Any(o => o == "\t")
+                ? new SqlWhere(or: new SqlWhereCollection(
+                    new SqlWhere(
+                        columnBrackets: new string[] { "[t0].[{0}]".Params(columnName) },
+                        _operator: " is null"),
+                    new SqlWhere(
+                        columnBrackets: new string[] { "[t0].[{0}]".Params(columnName) },
+                        _operator: " not between '{1}' and '{2}'".Params(
+                            Parameters.General.MinTime.ToUniversal()
+                                .ToString("yyyy/M/d H:m:s"),
+                            Parameters.General.MaxTime.ToUniversal()
+                                .ToString("yyyy/M/d H:m:s")))))
+                : null;
+        }
+
+        private static void CsStringColumns(
+            string columnName, string value, SqlWhereCollection where)
+        {
+            var param = value.Deserialize<List<string>>();
+            if (param.Any())
+            {
+                where.Add(or: new SqlWhereCollection(
+                    CsStringColumnsWhere(columnName, param),
+                    CsStringColumnsWhereNull(columnName, param)));
+            }
+        }
+
+        private static SqlWhere CsStringColumnsWhere(string columnName, List<string> param)
+        {
+            return param.Where(o => o != "\t").Any()
+                ? new SqlWhere(
+                    columnBrackets: new string[] { "[t0].[{0}]".Params(columnName) },
+                    name: columnName,
+                    value: param.Where(o => o != "\t"),
+                    multiParamOperator: " or ")
+                : null;
+        }
+
+        private static SqlWhere CsStringColumnsWhereNull(string columnName, List<string> param)
+        {
+            return param.Any(o => o == "\t")
+                ? new SqlWhere(or: new SqlWhereCollection(
+                    new SqlWhere(
+                        columnBrackets: new string[] { "[t0].[{0}]".Params(columnName) },
+                        _operator: " is null"),
+                    new SqlWhere(
+                        columnBrackets: new string[] { "[t0].[{0}]".Params(columnName) },
+                        _operator: "=''")))
+                : null;
         }
 
         private static SqlWhereCollection Search(

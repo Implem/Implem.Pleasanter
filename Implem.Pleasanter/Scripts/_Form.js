@@ -39,6 +39,13 @@ $p.setData = function ($control) {
                     case 'SPAN':
                         data[controlId] = $control.text();
                         break;
+                    case 'SELECT':
+                        if ($control.attr('multiple')){
+                            $p.setMultiSelectData($control);
+                        }else{
+                            data[controlId] = $control.val();
+                        }
+                        break;
                     default:
                         data[controlId] = $control.val();
                         break;

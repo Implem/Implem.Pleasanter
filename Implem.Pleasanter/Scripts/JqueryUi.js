@@ -35,6 +35,21 @@
         $('.button-visible').button({ icons: { primary: 'ui-icon-image' } });
         $('.button-hide, .button-reset').button({ icons: { primary: 'ui-icon-close' } });
         $('#ui-datepicker-div').remove();
+        $('select[multiple]:not(.applied)').multiselect({
+            selectedList: 100,
+            checkAllText: $p.display('Displays_CheckAll'),
+            uncheckAllText: $p.display('Displays_UncheckAll'),
+            noneSelectedText: '',
+            click: function () {
+                $p.changeMultiSelect($(this))
+            },
+            checkAll: function () {
+                $p.changeMultiSelect($(this))
+            },
+            uncheckAll: function () {
+                $p.changeMultiSelect($(this))
+            }
+        }).addClass('applied');
         $('.datepicker').datepicker({
             showButtonPanel: true,
             onSelect: function (date) {

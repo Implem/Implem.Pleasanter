@@ -2062,6 +2062,27 @@ h3.title-header{
     float:left;
 }
 
+.ui-multiselect{
+    width:140px !important;
+    height:30px;
+    background:none;
+    border:solid 1px silver;
+    overflow:hidden;
+    border-radius:5px;
+}
+
+.ui-multiselect-checkboxes{
+    min-height:300px;
+}
+
+.ui-multiselect-checkboxes input{
+    margin:0px 5px;
+}
+
+.ui-corner-all.ui-state-hover{
+    border-radius:2px;
+}
+
 .margin-bottom{
     height:100px;
 }

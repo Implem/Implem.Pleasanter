@@ -397,6 +397,7 @@
     <Content Include="Scripts\DialogEvents.js" />
     <Content Include="Scripts\DropDownEvents.js" />
     <Content Include="Scripts\Export.js" />
+    <Content Include="Scripts\FilterEvents.js" />
     <Content Include="Scripts\Focus.js" />
     <Content Include="Scripts\FocusEvents.js" />
     <Content Include="Scripts\Gantt.js" />
@@ -409,7 +410,10 @@
     <Content Include="Scripts\KambanEvents.js" />
     <Content Include="Scripts\LegendEvents.js" />
     <Content Include="Scripts\MarkDownEvents.js" />
+    <Content Include="Scripts\MultiSelect.js" />
     <Content Include="Scripts\OutgoingMailEvents.js" />
+    <Content Include="Scripts\Plugins\jquery.multiselect.filter.min.js" />
+    <Content Include="Scripts\Plugins\jquery.multiselect.min.js" />
     <Content Include="Scripts\Plugins\marked.min.js" />
     <Content Include="Scripts\PositionEvents.js" />
     <Content Include="Scripts\ScrollEvents.js" />
@@ -468,6 +472,8 @@
     <Content Include="Scripts\_Form.js" />
     <Content Include="Scripts\_Init.js" />
     <Content Include="Scripts\_Show.js" />
+    <Content Include="Styles\Plugins\jquery.multiselect.css" />
+    <Content Include="Styles\Plugins\jquery.multiselect.filter.css" />
     <Content Include="Styles\Plugins\Normalize.css" />
     <Content Include="Styles\Site.css" />
     <Content Include="Web.config">

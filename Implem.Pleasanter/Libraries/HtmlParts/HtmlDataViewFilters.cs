@@ -195,8 +195,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 labelText: Displays.Get(column.LabelText),
                 optionCollection: optionCollection,
                 selectedValue: formData.Get("DataViewFilters_" + column.Id),
+                multiple: true,
                 addSelectedValue: false,
-                insertBlank: true,
                 action: "DataView",
                 method: "post",
                 _using:

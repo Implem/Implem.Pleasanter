@@ -1990,6 +1990,9 @@ namespace Implem.DefinitionAccessor
                     case "_dot_ui_dialog": Css._dot_ui_dialog = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_dialog, definitionRow, CssXls); break;
                     case "_dot_ui_icon_dot_a": Css._dot_ui_icon_dot_a = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_icon_dot_a, definitionRow, CssXls); break;
                     case "_dot_ui_spinner": Css._dot_ui_spinner = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_spinner, definitionRow, CssXls); break;
+                    case "_dot_ui_multiselect": Css._dot_ui_multiselect = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_multiselect, definitionRow, CssXls); break;
+                    case "_dot_ui_multiselect_checkboxes_space_input": Css._dot_ui_multiselect_checkboxes_space_input = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_multiselect_checkboxes_space_input, definitionRow, CssXls); break;
+                    case "_dot_ui_corner_all_dot_ui_state_hover": Css._dot_ui_corner_all_dot_ui_state_hover = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_corner_all_dot_ui_state_hover, definitionRow, CssXls); break;
                     case "_dot_margin_bottom": Css._dot_margin_bottom = definitionRow[1].ToString(); SetCssTable(CssTable._dot_margin_bottom, definitionRow, CssXls); break;
                     case "_dot_height_auto": Css._dot_height_auto = definitionRow[1].ToString(); SetCssTable(CssTable._dot_height_auto, definitionRow, CssXls); break;
                     case "_dot_focus_inform": Css._dot_focus_inform = definitionRow[1].ToString(); SetCssTable(CssTable._dot_focus_inform, definitionRow, CssXls); break;
@@ -2678,6 +2681,10 @@ namespace Implem.DefinitionAccessor
                     case "OrderRelease_ja": Display.OrderRelease_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.OrderRelease_ja, definitionRow, DisplayXls); break;
                     case "ResetOrder": Display.ResetOrder = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ResetOrder, definitionRow, DisplayXls); break;
                     case "ResetOrder_ja": Display.ResetOrder_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ResetOrder_ja, definitionRow, DisplayXls); break;
+                    case "CheckAll": Display.CheckAll = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CheckAll, definitionRow, DisplayXls); break;
+                    case "CheckAll_ja": Display.CheckAll_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CheckAll_ja, definitionRow, DisplayXls); break;
+                    case "UncheckAll": Display.UncheckAll = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.UncheckAll, definitionRow, DisplayXls); break;
+                    case "UncheckAll_ja": Display.UncheckAll_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.UncheckAll_ja, definitionRow, DisplayXls); break;
                     case "Csv": Display.Csv = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Csv, definitionRow, DisplayXls); break;
                     case "Csv_ja": Display.Csv_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Csv_ja, definitionRow, DisplayXls); break;
                     case "CsvFile": Display.CsvFile = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CsvFile, definitionRow, DisplayXls); break;
@@ -6725,6 +6732,9 @@ namespace Implem.DefinitionAccessor
         public string _dot_ui_dialog;
         public string _dot_ui_icon_dot_a;
         public string _dot_ui_spinner;
+        public string _dot_ui_multiselect;
+        public string _dot_ui_multiselect_checkboxes_space_input;
+        public string _dot_ui_corner_all_dot_ui_state_hover;
         public string _dot_margin_bottom;
         public string _dot_height_auto;
         public string _dot_focus_inform;
@@ -7092,6 +7102,9 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_ui_dialog = new CssDefinition();
         public CssDefinition _dot_ui_icon_dot_a = new CssDefinition();
         public CssDefinition _dot_ui_spinner = new CssDefinition();
+        public CssDefinition _dot_ui_multiselect = new CssDefinition();
+        public CssDefinition _dot_ui_multiselect_checkboxes_space_input = new CssDefinition();
+        public CssDefinition _dot_ui_corner_all_dot_ui_state_hover = new CssDefinition();
         public CssDefinition _dot_margin_bottom = new CssDefinition();
         public CssDefinition _dot_height_auto = new CssDefinition();
         public CssDefinition _dot_focus_inform = new CssDefinition();
@@ -7806,6 +7819,10 @@ namespace Implem.DefinitionAccessor
         public string OrderRelease_ja;
         public string ResetOrder;
         public string ResetOrder_ja;
+        public string CheckAll;
+        public string CheckAll_ja;
+        public string UncheckAll;
+        public string UncheckAll_ja;
         public string Csv;
         public string Csv_ja;
         public string CsvFile;
@@ -8444,6 +8461,10 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition OrderRelease_ja = new DisplayDefinition();
         public DisplayDefinition ResetOrder = new DisplayDefinition();
         public DisplayDefinition ResetOrder_ja = new DisplayDefinition();
+        public DisplayDefinition CheckAll = new DisplayDefinition();
+        public DisplayDefinition CheckAll_ja = new DisplayDefinition();
+        public DisplayDefinition UncheckAll = new DisplayDefinition();
+        public DisplayDefinition UncheckAll_ja = new DisplayDefinition();
         public DisplayDefinition Csv = new DisplayDefinition();
         public DisplayDefinition Csv_ja = new DisplayDefinition();
         public DisplayDefinition CsvFile = new DisplayDefinition();

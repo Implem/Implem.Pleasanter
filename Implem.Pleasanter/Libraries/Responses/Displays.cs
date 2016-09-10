@@ -381,6 +381,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string OrderRelease(params string[] data) { return Get("OrderRelease", data); }
         public static HtmlBuilder Displays_ResetOrder(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ResetOrder", data)); }
         public static string ResetOrder(params string[] data) { return Get("ResetOrder", data); }
+        public static HtmlBuilder Displays_CheckAll(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CheckAll", data)); }
+        public static string CheckAll(params string[] data) { return Get("CheckAll", data); }
+        public static HtmlBuilder Displays_UncheckAll(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("UncheckAll", data)); }
+        public static string UncheckAll(params string[] data) { return Get("UncheckAll", data); }
         public static HtmlBuilder Displays_Csv(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Csv", data)); }
         public static string Csv(params string[] data) { return Get("Csv", data); }
         public static HtmlBuilder Displays_CsvFile(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CsvFile", data)); }
