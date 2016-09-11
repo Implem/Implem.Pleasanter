@@ -8,11 +8,11 @@
             }
         }).addClass('applied');
         $('.edit-form-tabs-max:not(.applied)').tabs().addClass('applied');
-        $('.button-icon').each(function () {
+        $('.button-icon:not(.applied)').each(function () {
             var $control = $(this);
             var icon = $control.attr('data-icon');
             $control.button({ icon: icon });
-        });
+        }).addClass('applied');
         $('#ui-datepicker-div').remove();
         $('select[multiple]:not(.applied)').multiselect({
             selectedList: 100,
