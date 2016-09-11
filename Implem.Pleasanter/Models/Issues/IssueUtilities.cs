@@ -792,8 +792,9 @@ namespace Implem.Pleasanter.Models
                 issueModel.VerType == Versions.VerTypes.Latest
                     ? hb.Button(
                         text: Displays.Separate(),
-                        controlCss: "button-separate",
+                        controlCss: "button-icon",
                         onClick: "$p.openSeparateSettingsDialog($(this));",
+                        icon: "ui-icon-extlink",
                         action: "EditSeparateSettings",
                         method: "post")
                     : hb;

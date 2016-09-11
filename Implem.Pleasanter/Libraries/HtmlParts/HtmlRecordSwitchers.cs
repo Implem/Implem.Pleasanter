@@ -14,8 +14,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Switcher(id: id, switchTargets: switchTargets, switcher: switcher)
                 .Button(
                     text: Displays.Reload(),
-                    controlCss: "button-reload",
+                    controlCss: "button-icon",
                     onClick: "$p.send($(this));",
+                    icon: "ui-icon-refresh",
                     action: "Reload",
                     method: "post");
         }
@@ -27,17 +28,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb
                     .Button(
                         text: Displays.Previous(),
-                        controlCss: "button-previous",
-                        onClick: "$p.send($(this));",
+                        controlCss: "button-icon",
                         accessKey: "b",
+                        onClick: "$p.send($(this));",
+                        icon: "ui-icon-seek-prev",
                         action: "Previous",
                         method: "post")
                     .Current(id: id, switchTargets: switchTargets)
                     .Button(
                         text: Displays.Next(),
-                        controlCss: "button-next",
+                        controlCss: "button-icon",
                         accessKey: "n",
                         onClick: "$p.send($(this));",
+                        icon: "ui-icon-seek-next",
                         action: "Next",
                         method: "post")
                 : hb;

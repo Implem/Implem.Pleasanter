@@ -314,6 +314,16 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
+        public HtmlAttributes DataIcon(string value, bool _using = true)
+        {
+            if (!value.IsNullOrEmpty() && _using)
+            {
+                base.Add("data-icon");
+                base.Add(value);
+            }
+            return this;
+        }
+
         public HtmlAttributes DataSelector(string value, bool _using = true)
         {
             if (!value.IsNullOrEmpty() && _using)

@@ -228,37 +228,42 @@ namespace Implem.Pleasanter.Models
                     .Div(css: "command-left", action: () => hb
                         .Button(
                             controlId: "ReadOnly",
-                            controlCss: "button-person post",
+                            controlCss: "button-icon post",
                             text: Displays.ReadOnly(),
                             onClick: "$p.send($(this));",
+                            icon: "ui-icon-person",
                             action: "Set",
                             method: "put")
                         .Button(
                             controlId: "ReadWrite",
-                            controlCss: "button-person post",
+                            controlCss: "button-icon post",
                             text: Displays.ReadWrite(),
                             onClick: "$p.send($(this));",
+                            icon: "ui-icon-person",
                             action: "Set",
                             method: "put")
                         .Button(
                             controlId: "Leader",
-                            controlCss: "button-person post",
+                            controlCss: "button-icon post",
                             text: Displays.Leader(),
                             onClick: "$p.send($(this));",
+                            icon: "ui-icon-person",
                             action: "Set",
                             method: "put")
                         .Button(
                             controlId: "Manager",
-                            controlCss: "button-person post",
+                            controlCss: "button-icon post",
                             text: Displays.Manager(),
                             onClick: "$p.send($(this));",
+                            icon: "ui-icon-person",
                             action: "Set",
                             method: "put")
                         .Button(
                             controlId: "Delete",
-                            controlCss: "button-to-right post",
+                            controlCss: "button-icon post",
                             text: Displays.DeletePermission(),
                             onClick: "$p.send($(this));",
+                            icon: "ui-icon-circle-triangle-e",
                             action: "Set",
                             method: "delete")));
         }
@@ -284,9 +289,10 @@ namespace Implem.Pleasanter.Models
                     .Div(css: "command-left", action: () => hb
                         .Button(
                             controlId: "Add",
-                            controlCss: "button-to-left post",
+                            controlCss: "button-icon post",
                             text: Displays.AddPermission(),
                             onClick: "$p.send($(this));",
+                            icon: "ui-icon-circle-triangle-w",
                             action: "Set",
                             method: "post")
                         .Span(css: "ui-icon ui-icon-search")

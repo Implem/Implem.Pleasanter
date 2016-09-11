@@ -416,6 +416,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string onClick = null,
             string href = null,
             string dataId = null,
+            string icon = null,
             string selector = null,
             string action = null,
             string method = null,
@@ -432,6 +433,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .AccessKey(accessKey)
                         .OnClick(onClick + href.IsNotEmpty("location.href='" + href + "';"))
                         .DataId(dataId)
+                        .DataIcon(icon)
                         .DataSelector(selector)
                         .DataAction(action)
                         .DataMethod(method)

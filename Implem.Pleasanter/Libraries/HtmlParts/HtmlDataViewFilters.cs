@@ -37,7 +37,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Button(
                 controlId: "DataViewFilters_Reset",
                 text: Displays.Reset(),
-                controlCss: "button-reset",
+                controlCss: "button-icon",
+                icon: "ui-icon-close",
                 action: "DataView",
                 method: "post");
         }

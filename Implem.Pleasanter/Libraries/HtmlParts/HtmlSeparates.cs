@@ -69,15 +69,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Button(
                         controlId: "Separate",
                         text: Displays.Separate(),
-                        controlCss: "button-separate",
+                        controlCss: "button-icon",
                         onClick: "$p.send($(this));",
+                        icon: "ui-icon-extlink",
                         action: "Separate",
                         method: "put",
                         confirm: "Displays_ConfirmSeparate")
                     .Button(
                         text: Displays.Cancel(),
-                        controlCss: "button-cancel",
-                        onClick: "$p.closeDialog($(this));")));
+                        controlCss: "button-icon",
+                        onClick: "$p.closeDialog($(this));",
+                        icon: "ui-icon-cancel")));
         }
 
         private static HtmlBuilder Items(

@@ -54,9 +54,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Button(
                 attributes: new HtmlAttributes()
-                    .Class("button button-create")
+                    .Class("button button-icon")
                     .OnClick("$p.newByLink($(this));")
                     .DataId(linkId.ToString())
+                    .DataIcon("ui-icon-plus")
                     .Add("data-from-site-id", siteId.ToString())
                     .Add("data-to-site-id", sourceId.ToString()),
                 action: () => hb

@@ -27,14 +27,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Div(css: "command-center", action: () => hb
                                 .Button(
                                     text: Displays.Move(),
-                                    controlCss: "button-copy",
+                                    controlCss: "button-icon",
                                     onClick: "$p.move($(this));",
+                                    icon: "ui-icon-copy",
                                     action: bulk ? "BulkMove" : "Move",
                                     method: "put")
                                 .Button(
                                     text: Displays.Cancel(),
-                                    controlCss: "button-cancel",
-                                    onClick: "$p.closeDialog($(this));"))));
+                                    controlCss: "button-icon",
+                                    onClick: "$p.closeDialog($(this));",
+                                    icon: "ui-icon-cancel"))));
         }
     }
 }

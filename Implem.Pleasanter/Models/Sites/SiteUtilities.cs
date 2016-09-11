@@ -729,9 +729,10 @@ namespace Implem.Pleasanter.Models
                                 labelText: Displays.File())
                             .Button(
                                 controlId: "SetSiteImage",
-                                controlCss: "button-save",
+                                controlCss: "button-icon",
                                 text: Displays.Setting(),
                                 onClick: "$p.uploadSiteImage($(this));",
+                                icon: "ui-icon-disk",
                                 action: "binaries/updatesiteimage",
                                 method: "post")));
         }
@@ -800,23 +801,26 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-center", action: () => hb
                                 .Button(
                                     controlId: "MoveUpGridColumns",
-                                    controlCss: "button-up",
+                                    controlCss: "button-icon",
                                     text: Displays.MoveUp(),
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-n",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "MoveDownGridColumns",
-                                    controlCss: "button-down",
+                                    controlCss: "button-icon",
                                     text: Displays.MoveDown(),
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-s",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "HideGridColumns",
-                                    controlCss: "button-hide",
+                                    controlCss: "button-icon",
                                     text: Displays.Hide(),
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-close",
                                     action: "SetSiteSettings",
                                     method: "put")))
                     .FieldSelectable(
@@ -832,8 +836,9 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     controlId: "ShowGridColumns",
                                     text: Displays.Show(),
-                                    controlCss: "button-visible",
+                                    controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-image",
                                     action: "SetSiteSettings",
                                     method: "put"))));
         }
@@ -860,23 +865,26 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-center", action: () => hb
                                 .Button(
                                     controlId: "MoveUpFilterColumns",
-                                    controlCss: "button-up",
+                                    controlCss: "button-icon",
                                     text: Displays.MoveUp(),
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-n",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "MoveDownFilterColumns",
-                                    controlCss: "button-down",
+                                    controlCss: "button-icon",
                                     text: Displays.MoveDown(),
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-s",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "HideFilterColumns",
-                                    controlCss: "button-hide",
+                                    controlCss: "button-icon",
                                     text: Displays.Hide(),
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-close",
                                     action: "SetSiteSettings",
                                     method: "put")))
                     .FieldSelectable(
@@ -892,8 +900,9 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     controlId: "ShowFilterColumns",
                                     text: Displays.Show(),
-                                    controlCss: "button-visible",
+                                    controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-image",
                                     action: "SetSiteSettings",
                                     method: "put"))));
         }
@@ -920,28 +929,32 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-center", action: () => hb
                                 .Button(
                                     controlId: "MoveUpAggregations",
-                                    controlCss: "button-up",
+                                    controlCss: "button-icon",
                                     text: Displays.MoveUp(),
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-n",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "MoveDownAggregations",
-                                    controlCss: "button-down",
+                                    controlCss: "button-icon",
                                     text: Displays.MoveDown(),
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-s",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     text: Displays.AdvancedSetting(),
-                                    controlCss: "button-setting open-dialog",
+                                    controlCss: "button-icon open-dialog",
                                     onClick: "$p.openDialog($(this));",
+                                    icon: "ui-icon-gear",
                                     selector: "#AggregationDetailsDialog")
                                 .Button(
                                     controlId: "DeleteAggregations",
-                                    controlCss: "button-to-right",
+                                    controlCss: "button-icon",
                                     text: Displays.Delete(),
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-e",
                                     action: "SetSiteSettings",
                                     method: "put")))
                     .FieldSelectable(
@@ -957,9 +970,10 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-center", action: () => hb
                                 .Button(
                                     controlId: "AddAggregations",
-                                    controlCss: "button-to-left",
+                                    controlCss: "button-icon",
                                     text: Displays.Add(),
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-w",
                                     action: "SetSiteSettings",
                                     method: "post"))));
         }
@@ -1001,14 +1015,16 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "SetAggregationDetails",
                             text: Displays.Setting(),
-                            controlCss: "button-setting",
+                            controlCss: "button-icon",
                             onClick: "$p.setAggregationDetails($(this));",
+                            icon: "ui-icon-gear",
                             action: "SetSiteSettings",
                             method: "post")
                         .Button(
                             text: Displays.Cancel(),
-                            controlCss: "button-cancel",
-                            onClick: "$p.closeDialog($(this));")));
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
         }
 
         /// <summary>
@@ -1049,29 +1065,33 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     controlId: "MoveUpEditorColumns",
                                     text: Displays.MoveUp(),
-                                    controlCss: "button-up",
+                                    controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-n",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "MoveDownEditorColumns",
                                     text: Displays.MoveDown(),
-                                    controlCss: "button-down",
+                                    controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-s",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "HideEditorColumns",
                                     text: Displays.Hide(),
-                                    controlCss: "button-hide",
+                                    controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-close",
                                     action: "SetSiteSettings",
                                     method: "put")
                                 .Button(
                                     controlId: "OpenColumnPropertiesDialog",
                                     text: Displays.AdvancedSetting(),
-                                    controlCss: "button-setting",
+                                    controlCss: "button-icon",
                                     onClick: "$p.openColumnPropertiesDialog($(this));",
+                                    icon: "ui-icon-gear",
                                     action: "SetSiteSettings",
                                     method: "put")))
                     .FieldSelectable(
@@ -1087,8 +1107,9 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     controlId: "ShowEditorColumns",
                                     text: Displays.Show(),
-                                    controlCss: "button-visible",
+                                    controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-image",
                                     action: "SetSiteSettings",
                                     method: "put")))
                     .Div(attributes: new HtmlAttributes()
@@ -1120,22 +1141,25 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     controlId: "MoveUpLinkColumns",
                                     text: Displays.MoveUp(),
-                                    controlCss: "button-up",
+                                    controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-n",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "MoveDownLinkColumns",
                                     text: Displays.MoveDown(),
-                                    controlCss: "button-down",
+                                    controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-s",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "HideLinkColumns",
                                     text: Displays.Hide(),
-                                    controlCss: "button-hide",
+                                    controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-close",
                                     action: "SetSiteSettings",
                                     method: "put")))
                     .FieldSelectable(
@@ -1151,8 +1175,9 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     controlId: "ShowLinkColumns",
                                     text: Displays.Show(),
-                                    controlCss: "button-visible",
+                                    controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-image",
                                     action: "SetSiteSettings",
                                     method: "put"))));
         }
@@ -1180,22 +1205,25 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     controlId: "MoveUpHistoryColumns",
                                     text: Displays.MoveUp(),
-                                    controlCss: "button-up",
+                                    controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-n",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "MoveDownHistoryColumns",
                                     text: Displays.MoveDown(),
-                                    controlCss: "button-down",
+                                    controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-s",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "HideHistoryColumns",
                                     text: Displays.Hide(),
-                                    controlCss: "button-hide",
+                                    controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-close",
                                     action: "SetSiteSettings",
                                     method: "put")))
                     .FieldSelectable(
@@ -1211,8 +1239,9 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     controlId: "ShowHistoryColumns",
                                     text: Displays.Show(),
-                                    controlCss: "button-visible",
+                                    controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-image",
                                     action: "SetSiteSettings",
                                     method: "put"))));
         }
@@ -1396,14 +1425,16 @@ namespace Implem.Pleasanter.Models
                     .Button(
                         controlId: "SetColumnProperties",
                         text: Displays.Setting(),
-                        controlCss: "button-setting",
+                        controlCss: "button-icon",
                         onClick: "$p.sendByDialog($(this));",
+                        icon: "ui-icon-gear",
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
                         text: Displays.Cancel(),
-                        controlCss: "button-cancel",
-                        onClick: "$p.closeDialog($(this));"));
+                        controlCss: "button-icon",
+                        onClick: "$p.closeDialog($(this));",
+                        icon: "ui-icon-cancel"));
         }
 
         /// <summary>
@@ -1458,22 +1489,25 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "MoveUpTitleColumns",
                             text: Displays.MoveUp(),
-                            controlCss: "button-up",
+                            controlCss: "button-icon",
                             onClick: "$p.send($(this));",
+                            icon: "ui-icon-circle-triangle-n",
                             action: "SetSiteSettings",
                             method: "post")
                         .Button(
                             controlId: "MoveDownTitleColumns",
                             text: Displays.MoveDown(),
-                            controlCss: "button-down",
+                            controlCss: "button-icon",
                             onClick: "$p.send($(this));",
+                            icon: "ui-icon-circle-triangle-s",
                             action: "SetSiteSettings",
                             method: "post")
                         .Button(
                             controlId: "HideTitleColumns",
                             text: Displays.Hide(),
-                            controlCss: "button-hide",
+                            controlCss: "button-icon",
                             onClick: "$p.send($(this));",
+                            icon: "ui-icon-close",
                             action: "SetSiteSettings",
                             method: "put")))
             .FieldSelectable(
@@ -1489,8 +1523,9 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "ShowTitleColumns",
                             text: Displays.Show(),
-                            controlCss: "button-visible",
+                            controlCss: "button-icon",
                             onClick: "$p.send($(this));",
+                            icon: "ui-icon-image",
                             action: "SetSiteSettings",
                             method: "put")))
             .FieldTextBox(
@@ -1543,37 +1578,42 @@ namespace Implem.Pleasanter.Models
                                     controlCss: " w250")
                                 .Button(
                                     controlId: "AddFormula",
-                                    controlCss: "button-create",
+                                    controlCss: "button-icon",
                                     text: Displays.Add(),
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-plus",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "MoveUpFormulas",
-                                    controlCss: "button-up",
+                                    controlCss: "button-icon",
                                     text: Displays.MoveUp(),
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-n",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "MoveDownFormulas",
-                                    controlCss: "button-down",
+                                    controlCss: "button-icon",
                                     text: Displays.MoveDown(),
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-s",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "DeleteFormulas",
-                                    controlCss: "button-delete",
+                                    controlCss: "button-icon",
                                     text: Displays.Delete(),
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-trash",
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
                                     controlId: "SynchronizeFormulas",
-                                    controlCss: "button-synchronize",
+                                    controlCss: "button-icon",
                                     text: Displays.Synchronize(),
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-refresh",
                                     action: "SynchronizeFormulas",
                                     method: "put",
                                     confirm: Displays.ConfirmSynchronize()))));
@@ -1627,8 +1667,9 @@ namespace Implem.Pleasanter.Models
                                         .Button(
                                             controlId: "AddSummary",
                                             text: Displays.Add(),
-                                            controlCss: "button-create",
+                                            controlCss: "button-icon",
                                             onClick: "$p.addSummary($(this));",
+                                            icon: "ui-icon-plus",
                                             action: "SetSiteSettings",
                                             method: "put")))
                                 .SummarySettings(sourceSiteSettings: siteSettings)))
@@ -1832,17 +1873,19 @@ namespace Implem.Pleasanter.Models
                                         .Td(action: () => hb
                                             .Button(
                                                 controlId: "SynchronizeSummary," + summary.Id,
-                                                controlCss: "button-synchronize",
+                                                controlCss: "button-icon",
                                                 text: Displays.Synchronize(),
                                                 onClick: "$p.send($(this));",
+                                                icon: "ui-icon-refresh",
                                                 action: "SynchronizeSummary",
                                                 method: "put",
                                                 confirm: Displays.ConfirmSynchronize())
                                             .Button(
                                                 controlId: "DeleteSummary," + summary.Id,
-                                                controlCss: "button-delete",
+                                                controlCss: "button-icon",
                                                 text: Displays.Delete(),
                                                 onClick: "$p.send($(this));",
+                                                icon: "ui-icon-trash",
                                                 action: "SetSiteSettings",
                                                 method: "delete")));
                                 }

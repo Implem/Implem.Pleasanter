@@ -123,11 +123,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => hb
                             .Button(
                                 text: Displays.New(),
-                                controlCss: "button-create",
+                                controlCss: "button-icon",
                                 accessKey: "i",
                                 href: SiteInfo.IsItem()
                                     ? Navigations.ItemNew(siteId)
-                                    : Navigations.New(Url.RouteData("controller"))))
+                                    : Navigations.New(Url.RouteData("controller")),
+                                icon: "ui-icon-plus"))
                     .Li(
                         css: "nav-function",
                         _using: 
@@ -136,18 +137,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => hb
                             .Button(
                                 text: Displays.List(),
-                                controlCss: "button-list",
+                                controlCss: "button-icon",
                                 accessKey: "k",
-                                href: Navigations.ItemIndex(siteId)))
+                                href: Navigations.ItemIndex(siteId),
+                                icon: "ui-icon-document"))
                     .Li(
                         css: "nav-function",
                         _using: permissionType.CanEditSite() && siteId != 0,
                         action: () => hb
                             .Button(
                                 text: Displays.EditSettings(),
-                                controlCss: "button-setting",
+                                controlCss: "button-icon",
                                 accessKey: "g",
-                                href: Navigations.ItemEdit(siteId)))
+                                href: Navigations.ItemEdit(siteId),
+                                icon: "ui-icon-gear"))
                 : hb;
         }
     }

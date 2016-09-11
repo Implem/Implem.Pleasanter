@@ -568,30 +568,34 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-center", action: () => hb
                                 .Button(
                                     controlId: "ColumnToUp",
-                                    controlCss: "button-up",
+                                    controlCss: "button-icon",
                                     text: Displays.MoveUp(),
                                     onClick: "$p.send($(this), 'ExportSettingsForm');",
+                                    icon: "ui-icon-circle-triangle-n",
                                     action: "Set",
                                     method: "post")
                                 .Button(
                                     controlId: "ColumnToDown",
-                                    controlCss: "button-down",
+                                    controlCss: "button-icon",
                                     text: Displays.MoveDown(),
                                     onClick: "$p.send($(this), 'ExportSettingsForm');",
+                                    icon: "ui-icon-circle-triangle-s",
                                     action: "Set",
                                     method: "post")
                                 .Button(
                                     controlId: "ColumnToVisible",
-                                    controlCss: "button-visible",
+                                    controlCss: "button-icon",
                                     text: Displays.Output(),
                                     onClick: "$p.send($(this), 'ExportSettingsForm');",
+                                    icon: "ui-icon-image",
                                     action: "Set",
                                     method: "put")
                                 .Button(
                                     controlId: "ColumnToHide",
-                                    controlCss: "button-hide",
+                                    controlCss: "button-icon",
                                     text: Displays.NotOutput(),
                                     onClick: "$p.send($(this), 'ExportSettingsForm');",
+                                    icon: "ui-icon-close",
                                     action: "Set",
                                     method: "put"))));
         }
@@ -641,16 +645,18 @@ namespace Implem.Pleasanter.Models
                             action: () => hb
                             .Button(
                                 controlId: "UpdateExportSettings",
-                                controlCss: "button-save",
+                                controlCss: "button-icon",
                                 text: Displays.Save(),
                                 onClick: "$p.send($(this), 'ExportSettingsForm');",
+                                icon: "ui-icon-disk",
                                 action: "UpdateOrCreate",
                                 method: "put")
                             .Button(
                                 controlId: "DeleteExportSettings",
-                                controlCss: "button-delete",
+                                controlCss: "button-icon",
                                 text: Displays.Delete(),
                                 onClick: "$p.send($(this), 'ExportSettingsForm');",
+                                icon: "ui-icon-trash",
                                 action: "Delete",
                                 method: "delete",
                                 confirm: "Displays_ConfirmDelete")));
@@ -667,16 +673,18 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .Button(
                         controlId: "Export",
-                        controlCss: "button-export",
+                        controlCss: "button-icon",
                         text: Displays.Export(),
                         onClick: "$p.export($(this));",
+                        icon: "ui-icon-arrowreturnthick-1-w",
                         action: "Set",
                         method: "put")
                     .Button(
                         controlId: "CancelExport",
-                        controlCss: "button-cancel",
+                        controlCss: "button-icon",
                         text: Displays.Cancel(),
-                        onClick: "$p.closeDialog($(this));"));
+                        onClick: "$p.closeDialog($(this));",
+                        icon: "ui-icon-cancel"));
         }
 
         /// <summary>

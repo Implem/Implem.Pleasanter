@@ -492,16 +492,18 @@ namespace Implem.Pleasanter.Models
                 {
                     hb.Button(
                         text: Displays.ChangePassword(),
-                        controlCss: "button-person",
+                        controlCss: "button-icon",
                         onClick: "$p.openDialog($(this));",
+                        icon: "ui-icon-person",
                         selector: "#ChangePasswordDialog");
                 }
                 if (Sessions.User().TenantAdmin)
                 {
                     hb.Button(
                         text: Displays.ResetPassword(),
-                        controlCss: "button-person",
+                        controlCss: "button-iocn",
                         onClick: "$p.openDialog($(this));",
+                        icon: "ui-icon-person",
                         selector: "#ResetPasswordDialog");
                 }
             }
@@ -601,14 +603,16 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-center", action: () => hb
                                 .Button(
                                     text: Displays.Change(),
-                                    controlCss: "button-save validate",
+                                    controlCss: "button-icon validate",
                                     onClick: "$p.send($(this), 'ChangePasswordForm');",
+                                    icon: "ui-icon-disk",
                                     action: "ChangePassword",
                                     method: "post")
                                 .Button(
                                     text: Displays.Cancel(),
-                                    controlCss: "button-cancel",
-                                    onClick: "$p.closeDialog($(this));"))));
+                                    controlCss: "button-icon",
+                                    onClick: "$p.closeDialog($(this));",
+                                    icon: "ui-icon-cancel"))));
         }
 
         /// <summary>
@@ -642,14 +646,16 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-center", action: () => hb
                                 .Button(
                                     text: Displays.Reset(),
-                                    controlCss: "button-save validate",
+                                    controlCss: "button-icon validate",
                                     onClick: "$p.send($(this), 'ResetPasswordForm');",
+                                    icon: "ui-icon-disk",
                                     action: "ResetPassword",
                                     method: "post")
                                 .Button(
                                     text: Displays.Cancel(),
-                                    controlCss: "button-cancel",
-                                    onClick: "$p.closeDialog($(this));"))));
+                                    controlCss: "button-icon",
+                                    onClick: "$p.closeDialog($(this));",
+                                    icon: "ui-icon-cancel"))));
         }
 
         /// <summary>
@@ -711,9 +717,10 @@ namespace Implem.Pleasanter.Models
                                         column: siteSettings.GetColumn("RememberMe")))
                                 .Div(css: "login-commands cf", action: () => hb
                                     .Button(
-                                        controlCss: "button-authenticate button-right-justified validate",
+                                        controlCss: "button-icon button-right-justified validate",
                                         text: Displays.Login(),
                                         onClick: "$p.send($(this));",
+                                        icon: "ui-icon-unlocked",
                                         action: "Authenticate",
                                         method: "post",
                                         type: "submit"))))
@@ -735,8 +742,9 @@ namespace Implem.Pleasanter.Models
                                                 column: siteSettings.GetColumn("DemoMailAddress"))
                                             .Button(
                                                 text: Displays.Register(),
-                                                controlCss: "button-send-mail validate",
+                                                controlCss: "button-icon validate",
                                                 onClick: "$p.send($(this), 'DemoForm');",
+                                                icon: "ui-icon-mail-closed",
                                                 action: "Register",
                                                 method: "post")))))
                     .P(id: "Message", css: "message-form-bottom")
@@ -772,14 +780,16 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "command-center", action: () => hb
                                 .Button(
                                     text: Displays.Change(),
-                                    controlCss: "button-save validate",
+                                    controlCss: "button-icon validate",
                                     onClick: "$p.send($(this));",
+                                    icon: "ui-icon-disk",
                                     action: "ChangePasswordAtLogin",
                                     method: "post")
                                 .Button(
                                     text: Displays.Cancel(),
-                                    controlCss: "button-cancel",
-                                    onClick: "$p.closeDialog($(this));"))));
+                                    controlCss: "button-icon",
+                                    onClick: "$p.closeDialog($(this));",
+                                    icon: "ui-icon-cancel"))));
         }
 
         /// <summary>
@@ -816,15 +826,17 @@ namespace Implem.Pleasanter.Models
                                 controlCss: " w200")
                             .Button(
                                 text: Displays.Add(),
-                                controlCss: "button-save",
+                                controlCss: "button-icon",
                                 onClick: "$p.send($(this));",
+                                icon: "ui-icon-disk",
                                 action: "AddMailAddress",
                                 method: "post")
                             .Button(
                                 controlId: "DeleteMailAddresses",
-                                controlCss: "button-visible",
+                                controlCss: "button-icon",
                                 text: Displays.Delete(),
                                 onClick: "$p.send($(this));",
+                                icon: "ui-icon-image",
                                 action: "DeleteMailAddresses",
                                 method: "put"))));
         }

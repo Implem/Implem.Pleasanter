@@ -1,5 +1,5 @@
 ﻿$(function () {
-    $(document).on('go', '.button-to-left', function () {
+    $(document).on('go', '#PreviousDataView', function () {
         var $dropdown = $($(this).attr('data-selector'));
         if ($dropdown.length === 1) {
             var $prev = $dropdown.find('option:selected').prev();
@@ -11,7 +11,7 @@
             $dropdown.trigger('change');
         }
     });
-    $(document).on('go', '.button-to-right', function () {
+    $(document).on('go', '#NextDataView', function () {
         var $dropdown = $($(this).attr('data-selector'));
         if ($dropdown.length === 1) {
             var $prev = $dropdown.find('option:selected').next();

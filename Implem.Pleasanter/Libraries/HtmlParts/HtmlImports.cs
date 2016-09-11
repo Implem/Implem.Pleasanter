@@ -31,14 +31,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => hb
                             .Button(
                                 text: Displays.Import(),
-                                controlCss: "button-import",
+                                controlCss: "button-icon",
                                 onClick: "$p.import($(this));",
+                                icon: "ui-icon-arrowreturnthick-1-e",
                                 action: "Import",
                                 method: "post")
                             .Button(
                                 text: Displays.Cancel(),
-                                controlCss: "button-cancel",
-                                onClick: "$p.closeDialog($(this));")));
+                                controlCss: "button-icon",
+                                onClick: "$p.closeDialog($(this));",
+                                icon: "ui-icon-cancel")));
         }
     }
 }

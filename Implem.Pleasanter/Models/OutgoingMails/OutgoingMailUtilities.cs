@@ -555,9 +555,10 @@ namespace Implem.Pleasanter.Models
                         .Div(css: "command-right", action: () => hb
                             .Button(
                                 text: Displays.Reply(),
-                                controlCss: "button-send-mail",
+                                controlCss: "button-icon",
                                 onClick: "$p.openOutgoingMailReplyDialog($(this));",
                                 dataId: outgoingMailModel.OutgoingMailId.ToString(),
+                                icon: "ui-icon-mail-closed",
                                 action: "Reply",
                                 method: "put"))));
         }
@@ -697,17 +698,19 @@ namespace Implem.Pleasanter.Models
                 .Div(css: "command-center", action: () => hb
                     .Button(
                         controlId: "OutgoingMails_Send",
-                        controlCss: "button-send-mail validate",
+                        controlCss: "button-icon validate",
                         text: Displays.SendMail(),
                         onClick: "$p.sendMail($(this));",
+                        icon: "ui-icon-mail-closed",
                         action: "Send",
                         method: "post",
                         confirm: "Displays_ConfirmSendMail")
                     .Button(
                         controlId: "OutgoingMails_Cancel",
-                        controlCss: "button-cancel",
+                        controlCss: "button-icon",
                         text: Displays.Cancel(),
-                        onClick: "$p.closeDialog($(this));"))
+                        onClick: "$p.closeDialog($(this));",
+                        icon: "ui-icon-cancel"))
             .Hidden(controlId: "OutgoingMails_Location", value: Location())
             .Hidden(
                 controlId: "OutgoingMails_Reply",
@@ -835,15 +838,18 @@ namespace Implem.Pleasanter.Models
                             .Button(
                                 controlId: "OutgoingMails_AddTo",
                                 text: Displays.OutgoingMails_To(),
-                                controlCss: "button-person")
+                                controlCss: "button-icon",
+                                icon: "ui-icon-person")
                             .Button(
                                 controlId: "OutgoingMails_AddCc",
                                 text: Displays.OutgoingMails_Cc(),
-                                controlCss: "button-person")
+                                controlCss: "button-icon",
+                                icon: "ui-icon-person")
                             .Button(
                                 controlId: "OutgoingMails_AddBcc",
                                 text: Displays.OutgoingMails_Bcc(),
-                                controlCss: "button-person"))));
+                                controlCss: "button-icon",
+                                icon: "ui-icon-person"))));
         }
 
         /// <summary>

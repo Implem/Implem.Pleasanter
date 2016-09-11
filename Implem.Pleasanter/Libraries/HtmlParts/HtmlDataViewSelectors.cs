@@ -32,17 +32,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         method: "post")
                     .Button(
                         attributes: new HtmlAttributes()
-                            .Class("button button-to-left")
-                            .OnClick("$(this).trigger('go');")
+                            .Id("PreviousDataView")
+                            .Class("button button-icon")
                             .AccessKey("b")
+                            .OnClick("$(this).trigger('go');")
+                            .DataIcon("ui-icon-circle-triangle-w")
                             .DataSelector("#DataViewSelector"),
                         action: () => hb
                             .Displays_Previous())
                     .Button(
                         attributes: new HtmlAttributes()
-                            .Class("button button-to-right")
-                            .OnClick("$(this).trigger('go');")
+                            .Id("NextDataView")
+                            .Class("button button-icon")
                             .AccessKey("n")
+                            .OnClick("$(this).trigger('go');")
+                            .DataIcon("ui-icon-circle-triangle-e")
                             .DataSelector("#DataViewSelector"),
                         action: () => hb
                             .Displays_Next()))
