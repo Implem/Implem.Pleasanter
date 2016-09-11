@@ -501,7 +501,7 @@ namespace Implem.Pleasanter.Models
                 {
                     hb.Button(
                         text: Displays.ResetPassword(),
-                        controlCss: "button-iocn",
+                        controlCss: "button-icon",
                         onClick: "$p.openDialog($(this));",
                         icon: "ui-icon-person",
                         selector: "#ResetPasswordDialog");
