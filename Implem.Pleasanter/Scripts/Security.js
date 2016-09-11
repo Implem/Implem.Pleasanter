@@ -8,3 +8,10 @@
         width: '420px'
     });
 }
+
+$p.changePasswordAtLogin = function ($control) {
+    var data = $p.getData('ChangePasswordForm');
+    data.Users_LoginId = $('#Users_LoginId').val();
+    data.Users_Password = $('#Users_Password').val();
+    $p.send($control, 'ChangePasswordForm');
+}

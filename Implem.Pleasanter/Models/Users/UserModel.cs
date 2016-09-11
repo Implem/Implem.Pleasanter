@@ -1058,7 +1058,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string ChangePasswordAtLogin()
         {
-            if (OldPassword == ChangedPassword)
+            if (Password == ChangedPassword)
             {
                 return Messages.ResponsePasswordNotChanged().ToJson();
             }

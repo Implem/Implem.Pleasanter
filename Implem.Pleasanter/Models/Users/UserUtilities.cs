@@ -781,7 +781,7 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     text: Displays.Change(),
                                     controlCss: "button-icon validate",
-                                    onClick: "$p.send($(this));",
+                                    onClick: "$p.changePasswordAtLogin($(this));",
                                     icon: "ui-icon-disk",
                                     action: "ChangePasswordAtLogin",
                                     method: "post")
