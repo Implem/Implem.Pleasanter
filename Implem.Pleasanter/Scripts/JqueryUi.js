@@ -34,7 +34,7 @@
                 $p.getDataByInnerElement($(this))[this.id] = date;
             }
         }).addClass('applied');
-        $('.radio').buttonset();
+        $('.radio:not(.applied)').buttonset().addClass('applied');
         $('.control-selectable:not(.applied)').selectable({
             stop: function () {
                 $p.onSelectableSelected($(this));
