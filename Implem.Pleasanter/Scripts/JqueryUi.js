@@ -64,10 +64,12 @@
             });
             $control.addClass('applied');
         });
-        $('[class*="enclosed"] .legend').each(function (e) {
-            if ($(this).find('[class^="ui-icon ui-icon-carat-1-"]').length === 0) {
-                $(this).prepend($('<span/>').addClass('ui-icon ui-icon-carat-1-s'));
+        $('[class*="enclosed"] .legend:not(.applied)').each(function (e) {
+            var $control = $(this);
+            if ($control.find('[class^="ui-icon ui-icon-carat-1-"]').length === 0) {
+                $control.prepend($('<span/>').addClass('ui-icon ui-icon-carat-1-s'));
             }
+            $control.addClass('applied');
         });
         $('.status').each(function () {
             $(this).addClass($(this).find('option:selected').attr('data-class'));
