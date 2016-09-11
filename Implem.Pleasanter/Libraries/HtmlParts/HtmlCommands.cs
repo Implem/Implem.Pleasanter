@@ -145,7 +145,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     _using: exportButton && permissionType.CanExport());
                         }
                     }
-                    if (extensions != null) extensions();
+                    extensions?.Invoke();
                 }));
         }
     }
