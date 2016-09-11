@@ -71,8 +71,11 @@
             }
             $control.addClass('applied');
         });
-        $('.status').each(function () {
-            $(this).addClass($(this).find('option:selected').attr('data-class'));
+        $('.status:not(.applied)').each(function () {
+            var $control = $(this);
+            $control
+                .addClass($control.find('option:selected').attr('data-class'))
+                .addClass('applied');
         });
         $('.control-markdown:not(.applied)').each(function () {
             var $control = $(this);
