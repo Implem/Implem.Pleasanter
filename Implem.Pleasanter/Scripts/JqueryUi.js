@@ -13,7 +13,6 @@
             var icon = $control.attr('data-icon');
             $control.button({ icon: icon });
         }).addClass('applied');
-        $('#ui-datepicker-div').remove();
         $('select[multiple]:not(.applied)').multiselect({
             selectedList: 100,
             checkAllText: $p.display('Displays_CheckAll'),
@@ -29,12 +28,12 @@
                 $p.changeMultiSelect($(this))
             }
         }).addClass('applied');
-        $('.datepicker').datepicker({
+        $('.datepicker:not(.applied)').datepicker({
             showButtonPanel: true,
             onSelect: function (date) {
                 $p.getDataByInnerElement($(this))[this.id] = date;
             }
-        });
+        }).addClass('applied');
         $('.radio').buttonset();
         $('.control-selectable:not(.applied)').selectable({
             stop: function () {
