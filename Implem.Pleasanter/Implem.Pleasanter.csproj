@@ -563,7 +563,6 @@
     <Content Include="App_Data\Parameters\SysLog.json" />
     <Content Include="App_Data\Parameters\Formats.json" />
     <Content Include="App_Data\Parameters\Asset.json" />
-    <None Include="Properties\PublishProfiles\pleasanter配布.pubxml" />
     <Content Include="Tools\BackgroundTasks.ps1" />
   </ItemGroup>
   <PropertyGroup>
