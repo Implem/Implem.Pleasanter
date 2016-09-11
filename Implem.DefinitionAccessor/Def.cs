@@ -1991,6 +1991,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_ui_icon_dot_a": Css._dot_ui_icon_dot_a = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_icon_dot_a, definitionRow, CssXls); break;
                     case "_dot_ui_spinner": Css._dot_ui_spinner = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_spinner, definitionRow, CssXls); break;
                     case "_dot_ui_multiselect": Css._dot_ui_multiselect = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_multiselect, definitionRow, CssXls); break;
+                    case "_dot_ui_multiselect_checkboxes": Css._dot_ui_multiselect_checkboxes = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_multiselect_checkboxes, definitionRow, CssXls); break;
                     case "_dot_ui_multiselect_checkboxes_space_input": Css._dot_ui_multiselect_checkboxes_space_input = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_multiselect_checkboxes_space_input, definitionRow, CssXls); break;
                     case "_dot_ui_corner_all_dot_ui_state_hover": Css._dot_ui_corner_all_dot_ui_state_hover = definitionRow[1].ToString(); SetCssTable(CssTable._dot_ui_corner_all_dot_ui_state_hover, definitionRow, CssXls); break;
                     case "_dot_margin_bottom": Css._dot_margin_bottom = definitionRow[1].ToString(); SetCssTable(CssTable._dot_margin_bottom, definitionRow, CssXls); break;
@@ -6733,6 +6734,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_ui_icon_dot_a;
         public string _dot_ui_spinner;
         public string _dot_ui_multiselect;
+        public string _dot_ui_multiselect_checkboxes;
         public string _dot_ui_multiselect_checkboxes_space_input;
         public string _dot_ui_corner_all_dot_ui_state_hover;
         public string _dot_margin_bottom;
@@ -7103,6 +7105,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_ui_icon_dot_a = new CssDefinition();
         public CssDefinition _dot_ui_spinner = new CssDefinition();
         public CssDefinition _dot_ui_multiselect = new CssDefinition();
+        public CssDefinition _dot_ui_multiselect_checkboxes = new CssDefinition();
         public CssDefinition _dot_ui_multiselect_checkboxes_space_input = new CssDefinition();
         public CssDefinition _dot_ui_corner_all_dot_ui_state_hover = new CssDefinition();
         public CssDefinition _dot_margin_bottom = new CssDefinition();
