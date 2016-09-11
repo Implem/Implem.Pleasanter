@@ -48,6 +48,6 @@
     "FirstMonth": 4,
     "FilterMinSpan": -1,
     "FilterMaxSpan": 1,
-    "MinTime": "2000/1/1",
-    "MaxTime": "2050/1/1"
+    "MinTime": "1900/1/1",
+    "MaxTime": "2100/1/1"
 }
