@@ -428,6 +428,7 @@
     <Content Include="Scripts\Plugins\jquery-3.1.0.min.js" />
     <Content Include="Scripts\Plugins\jquery-ui\i18n\datepicker-ja.js" />
     <Content Include="Scripts\SearchEvents.js" />
+    <Content Include="Scripts\Selectable.js" />
     <Content Include="Scripts\Separate.js" />
     <Content Include="Scripts\SiteSettings.js" />
     <Content Include="Scripts\SiteSettingsEvents.js" />

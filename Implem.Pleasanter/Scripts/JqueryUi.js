@@ -59,10 +59,7 @@
         $('.radio').buttonset();
         $('.control-selectable:not(.applied)').selectable({
             stop: function () {
-                $p.getDataByInnerElement($(this))[this.id] = $('.ui-selected', this)
-                    .map(function () { return $(this).attr('value'); })
-                    .get()
-                    .join(';');
+                $p.onSelectableSelected($(this));
             }
         }).addClass('applied');
         $('.control-slider-ui').each(function () {

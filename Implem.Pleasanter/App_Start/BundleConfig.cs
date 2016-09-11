@@ -63,6 +63,7 @@ namespace Implem.Pleasanter
                 "~/Scripts/ScrollEvents.js",
                 "~/Scripts/SearchEvents.js",
                 "~/Scripts/Security.js",
+                "~/Scripts/Selectable.js",
                 "~/Scripts/Separate.js",
                 "~/Scripts/SiteInfo.js",
                 "~/Scripts/SiteMenuEvents.js",
