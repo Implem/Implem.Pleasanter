@@ -1,10 +1,5 @@
 ﻿$p.getFormId = function ($control) {
-    if ($control.prop('tagName') === 'FORM') {
-        return $control.attr('id');
-    }
-    else {
-        return $control.closest('form').attr('id');
-    }
+    return $control.closest('form').attr('id');
 }
 
 $p.getData = function (formId) {
