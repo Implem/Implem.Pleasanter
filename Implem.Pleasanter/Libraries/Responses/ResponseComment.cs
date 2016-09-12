@@ -18,7 +18,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                     .Focus("#Comments")
                     .Prepend("#CommentList", new HtmlBuilder()
                         .Comment(comment: comments[0], verType: verType))
-                    .Markup()
                 : responseCollection;
         }
 

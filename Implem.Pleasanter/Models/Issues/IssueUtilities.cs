@@ -249,7 +249,6 @@ namespace Implem.Pleasanter.Models
                     aggregations: issueCollection.Aggregations,
                     container: false))
                 .Val("#GridOffset", siteSettings.NextPageOffset(offset, issueCollection.Count()))
-                .Markup()
                 .ToJson();
         }
 

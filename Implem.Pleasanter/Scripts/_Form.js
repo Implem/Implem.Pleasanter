@@ -224,12 +224,6 @@ $p.setByJsonElement = function (jsonElement, data, $eventSender) {
         case 'SetValue':
             $p.setValue($(target), value);
             break;
-        case 'Markup':
-            $('.markup').each(function () {
-                $(this).html('' + $p.markup($(this).html(), true) + '');
-                $(this).removeClass('markup');
-            });
-            break;
         case 'ClearFormData':
             $p.clearData(target, data, value);
             break;

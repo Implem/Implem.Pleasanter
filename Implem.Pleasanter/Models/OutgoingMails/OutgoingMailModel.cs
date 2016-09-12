@@ -783,7 +783,6 @@ namespace Implem.Pleasanter.Models
                 .Val("#OutgoingMails_Body", string.Empty)
                 .Prepend("#OutgoingMailsForm", new HtmlBuilder().OutgoingMailListItem(
                     this, selector: "#ImmediatelyAfterSending" + OutgoingMailId))
-                .Markup()
                 .Message(Messages.MailTransmissionCompletion())
                 .ToJson();
         }

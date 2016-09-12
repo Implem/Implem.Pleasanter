@@ -152,7 +152,6 @@ namespace Implem.Pleasanter.Models
                     aggregations: wikiCollection.Aggregations,
                     container: false))
                 .Val("#GridOffset", siteSettings.NextPageOffset(offset, wikiCollection.Count()))
-                .Markup()
                 .ToJson();
         }
 

@@ -120,11 +120,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Add("SetValueAndFormData", target, value);
         }
 
-        public ResponseCollection Markup()
-        {
-            return Add("Markup", string.Empty, string.Empty);
-        }
-
         public ResponseCollection ClearFormData(
             string target = "", string type = "", bool _using = true)
         {

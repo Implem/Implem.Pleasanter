@@ -204,7 +204,6 @@ namespace Implem.Pleasanter.Models
                     aggregations: mailAddressCollection.Aggregations,
                     container: false))
                 .Val("#GridOffset", siteSettings.NextPageOffset(offset, mailAddressCollection.Count()))
-                .Markup()
                 .ToJson();
         }
 
