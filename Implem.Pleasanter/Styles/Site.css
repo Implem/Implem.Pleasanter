@@ -949,6 +949,13 @@ pre{
     border-radius:5px;
 }
 
+.md{
+    line-height:1.2em;
+    font-family:Terminal;
+    word-wrap:break-word;
+    word-break:break-all;
+}
+
 .md h1{
     margin:0px 0px 10px 0px;
     font-weight:bold;

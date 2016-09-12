@@ -1778,6 +1778,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_control_textbox": Css._dot_control_textbox = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_textbox, definitionRow, CssXls); break;
                     case "_dot_control_textarea": Css._dot_control_textarea = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_textarea, definitionRow, CssXls); break;
                     case "_dot_control_markup": Css._dot_control_markup = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_markup, definitionRow, CssXls); break;
+                    case "_dot_md": Css._dot_md = definitionRow[1].ToString(); SetCssTable(CssTable._dot_md, definitionRow, CssXls); break;
                     case "_dot_md_space_h1": Css._dot_md_space_h1 = definitionRow[1].ToString(); SetCssTable(CssTable._dot_md_space_h1, definitionRow, CssXls); break;
                     case "_dot_md_space_h2": Css._dot_md_space_h2 = definitionRow[1].ToString(); SetCssTable(CssTable._dot_md_space_h2, definitionRow, CssXls); break;
                     case "_dot_md_space_h3": Css._dot_md_space_h3 = definitionRow[1].ToString(); SetCssTable(CssTable._dot_md_space_h3, definitionRow, CssXls); break;
@@ -6521,6 +6522,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_control_textbox;
         public string _dot_control_textarea;
         public string _dot_control_markup;
+        public string _dot_md;
         public string _dot_md_space_h1;
         public string _dot_md_space_h2;
         public string _dot_md_space_h3;
@@ -6892,6 +6894,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_control_textbox = new CssDefinition();
         public CssDefinition _dot_control_textarea = new CssDefinition();
         public CssDefinition _dot_control_markup = new CssDefinition();
+        public CssDefinition _dot_md = new CssDefinition();
         public CssDefinition _dot_md_space_h1 = new CssDefinition();
         public CssDefinition _dot_md_space_h2 = new CssDefinition();
         public CssDefinition _dot_md_space_h3 = new CssDefinition();
