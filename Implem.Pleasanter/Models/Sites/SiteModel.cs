@@ -1068,28 +1068,31 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetColumnProperties(ResponseCollection responseCollection)
         {
-            var selectedColumns = Forms.Data("EditorColumns").Split(';').
-                Where(o => o != string.Empty);
-            if (selectedColumns.Count() == 1)
+            if (Forms.Data("ControlId") == "SetColumnProperties")
             {
-                var column = SiteSettings.EditorColumn(selectedColumns.FirstOrDefault());
-                if (column == null)
+                var selectedColumns = Forms.Data("EditorColumns").Split(';').
+                    Where(o => o != string.Empty);
+                if (selectedColumns.Count() == 1)
                 {
-                    responseCollection.Message(Messages.InvalidRequest());
-                }
-                else
-                {
-                    Forms.All()
-                        .Where(o => o.Key.StartsWith("ColumnProperty,"))
-                        .ForEach(data =>
-                            SiteSettings.SetColumnProperty(
-                                column,
-                                data.Key.Split_2nd(),
-                                data.Value));
-                    responseCollection.Html("#EditorColumns",
-                        new HtmlBuilder().SelectableItems(
-                            listItemCollection: SiteSettings.EditorSelectableItems(),
-                            selectedValueTextCollection: selectedColumns));
+                    var column = SiteSettings.EditorColumn(selectedColumns.FirstOrDefault());
+                    if (column == null)
+                    {
+                        responseCollection.Message(Messages.InvalidRequest());
+                    }
+                    else
+                    {
+                        Forms.All()
+                            .Where(o => o.Key.StartsWith("ColumnProperty,"))
+                            .ForEach(data =>
+                                SiteSettings.SetColumnProperty(
+                                    column,
+                                    data.Key.Split_2nd(),
+                                    data.Value));
+                        responseCollection.Html("#EditorColumns",
+                            new HtmlBuilder().SelectableItems(
+                                listItemCollection: SiteSettings.EditorSelectableItems(),
+                                selectedValueTextCollection: selectedColumns));
+                    }
                 }
             }
         }
