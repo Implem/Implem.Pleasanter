@@ -11,7 +11,9 @@
                     break;
                 case 'SELECT':
                     if ($control.attr('multiple')) {
-                        $control.multiselect('uncheckAll');
+                        $control
+                            .addClass('no-postback')
+                            .multiselect('uncheckAll');
                     } else {
                         $control.val('');
                     }
