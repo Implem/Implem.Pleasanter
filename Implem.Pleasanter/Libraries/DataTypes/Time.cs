@@ -71,9 +71,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public bool DifferentDate()
         {
-            return 
-                DisplayValue.ToShortDateString() !=
-                DateTime.Now.ToLocal(Displays.YmdFormat());
+            return DisplayValue.Date != DateTime.Now.ToLocal().Date;
         }
 
         public virtual HtmlBuilder Td(HtmlBuilder hb, Column column)
