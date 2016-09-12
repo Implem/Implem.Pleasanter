@@ -1,4 +1,4 @@
-﻿$p.getIdByInnerElement = function ($control) {
+﻿$p.getFormId = function ($control) {
     if ($control.prop('tagName') === 'FORM') {
         return $control.attr('id');
     }
@@ -18,7 +18,7 @@ $p.getData = function (formId) {
 }
 
 $p.getDataByInnerElement = function ($control) {
-    return $p.getData($p.getIdByInnerElement($control));
+    return $p.getData($p.getFormId($control));
 }
 
 $p.setData = function ($control) {

@@ -30,7 +30,7 @@
         }
     });
     $(document).on('change', '.auto-postback:not([type="text"], select[multiple])', function () {
-        $p.send($(this), $p.getIdByInnerElement($(this)));
+        $p.send($(this), $p.getFormId($(this)));
         if (!$(this).hasClass('keep-form-data')) {
             delete $p.getDataByInnerElement($(this))[this.id];
         }
@@ -38,12 +38,12 @@
     $(document).on('keyup', '.auto-postback[type="text"]', function (e) {
         $p.setData($(this));
         if (e.keyCode === 13) {
-            $p.send($(this), $p.getIdByInnerElement($(this)));
+            $p.send($(this), $p.getFormId($(this)));
             delete $p.getDataByInnerElement($(this))[this.id];
         } else {
             var timer = setTimeout(function ($control) {
                 $p.setData($control);
-                $p.send($control, $p.getIdByInnerElement($control));
+                $p.send($control, $p.getFormId($control));
                 delete $p.getDataByInnerElement($control)[$control.attr('id')];
             }, 700, $(this));
             $(document).on('keydown', '.auto-postback', function () {
