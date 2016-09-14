@@ -150,7 +150,7 @@ namespace Implem.Pleasanter.Models
             DemoId = newId != 0 ? newId : DemoId;
             Get();
             OnCreated();
-            return RecordResponse(this, Messages.Created(Title.ToString()));
+            return EditorJson(this, Messages.Created(Title.ToString()));
         }
 
         private void OnCreating()
@@ -429,36 +429,12 @@ namespace Implem.Pleasanter.Models
             return Editor();
         }
 
-        public string Previous()
+        public string EditorJson()
         {
-            var switchTargets = DemoUtilities.GetSwitchTargets(SiteSettings);
-            var demoModel = new DemoModel(
-                siteSettings: SiteSettings,
-                permissionType: PermissionType,
-                demoId: switchTargets.Previous(DemoId),
-                switchTargets: switchTargets);
-            return RecordResponse(demoModel);
+            return EditorJson(this);
         }
 
-        public string Next()
-        {
-            var switchTargets = DemoUtilities.GetSwitchTargets(SiteSettings);
-            var demoModel = new DemoModel(
-                siteSettings: SiteSettings,
-                permissionType: PermissionType,
-                demoId: switchTargets.Next(DemoId),
-                switchTargets: switchTargets);
-            return RecordResponse(demoModel);
-        }
-
-        public string Reload()
-        {
-            SwitchTargets = DemoUtilities.GetSwitchTargets(SiteSettings);
-            return RecordResponse(this, pushState: false);
-        }
-
-        private string RecordResponse(
-            DemoModel demoModel, Message message = null, bool pushState = true)
+        private string EditorJson(DemoModel demoModel, Message message = null)
         {
             demoModel.MethodType = BaseModel.MethodTypes.Edit;
             return new DemosResponseCollection(this)
@@ -468,12 +444,9 @@ namespace Implem.Pleasanter.Models
                     demoModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? DemoUtilities.Editor(demoModel, byRest: true)
                         : DemoUtilities.Editor(this, byRest: true))
+                .Invoke("setCurrentIndex")
                 .Invoke("validateDemos")
                 .Message(message)
-                .PushState(
-                    "Edit",
-                    Navigations.Edit("Demos", demoModel.DemoId),
-                    _using: pushState)
                 .ClearFormData()
                 .ToJson();
         }

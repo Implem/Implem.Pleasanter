@@ -159,7 +159,7 @@ namespace Implem.Pleasanter.Models
             OutgoingMailId = newId != 0 ? newId : OutgoingMailId;
             Get();
             OnCreated();
-            return RecordResponse(this, Messages.Created(Title.ToString()));
+            return EditorJson(this, Messages.Created(Title.ToString()));
         }
 
         private void OnCreating()
@@ -459,32 +459,12 @@ namespace Implem.Pleasanter.Models
             return Editor();
         }
 
-        public string Previous()
+        public string EditorJson()
         {
-            var switchTargets = OutgoingMailUtilities.GetSwitchTargets(SiteSettings);
-            var outgoingMailModel = new OutgoingMailModel(
-                outgoingMailId: switchTargets.Previous(OutgoingMailId),
-                switchTargets: switchTargets);
-            return RecordResponse(outgoingMailModel);
+            return EditorJson(this);
         }
 
-        public string Next()
-        {
-            var switchTargets = OutgoingMailUtilities.GetSwitchTargets(SiteSettings);
-            var outgoingMailModel = new OutgoingMailModel(
-                outgoingMailId: switchTargets.Next(OutgoingMailId),
-                switchTargets: switchTargets);
-            return RecordResponse(outgoingMailModel);
-        }
-
-        public string Reload()
-        {
-            SwitchTargets = OutgoingMailUtilities.GetSwitchTargets(SiteSettings);
-            return RecordResponse(this, pushState: false);
-        }
-
-        private string RecordResponse(
-            OutgoingMailModel outgoingMailModel, Message message = null, bool pushState = true)
+        private string EditorJson(OutgoingMailModel outgoingMailModel, Message message = null)
         {
             outgoingMailModel.MethodType = BaseModel.MethodTypes.Edit;
             return new OutgoingMailsResponseCollection(this)
@@ -494,12 +474,9 @@ namespace Implem.Pleasanter.Models
                     outgoingMailModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? OutgoingMailUtilities.Editor(outgoingMailModel, byRest: true)
                         : OutgoingMailUtilities.Editor(this, byRest: true))
+                .Invoke("setCurrentIndex")
                 .Invoke("validateOutgoingMails")
                 .Message(message)
-                .PushState(
-                    "Edit",
-                    Navigations.Edit("OutgoingMails", outgoingMailModel.OutgoingMailId),
-                    _using: pushState)
                 .ClearFormData()
                 .ToJson();
         }

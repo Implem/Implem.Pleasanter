@@ -317,10 +317,8 @@ namespace Implem.Pleasanter.Models
                             : siteModel.SiteId)),
                     action: () => hb
                         .RecordHeader(
-                            id: wikiModel.WikiId,
                             baseModel: wikiModel,
-                            tableName: "Wikis",
-                            switchTargets: wikiModel.SwitchTargets)
+                            tableName: "Wikis")
                         .Div(css: "edit-form-comments", action: () => hb
                             .Comments(
                                 comments: wikiModel.Comments,
@@ -358,7 +356,8 @@ namespace Implem.Pleasanter.Models
                         .Hidden(
                             controlId: "SwitchTargets",
                             css: "must-transport",
-                            value: wikiModel.SwitchTargets?.Join()))
+                            value: wikiModel.SwitchTargets?.Join(),
+                            _using: !Request.IsAjax()))
                 .OutgoingMailsForm("Wikis", wikiModel.WikiId, wikiModel.Ver)
                 .CopyDialog("items", wikiModel.WikiId)
                 .MoveDialog("items", wikiModel.WikiId)

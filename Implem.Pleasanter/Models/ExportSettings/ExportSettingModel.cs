@@ -185,7 +185,7 @@ namespace Implem.Pleasanter.Models
             ExportSettingId = newId != 0 ? newId : ExportSettingId;
             Get();
             OnCreated();
-            return RecordResponse(this, Messages.Created(Title.ToString()));
+            return EditorJson(this, Messages.Created(Title.ToString()));
         }
 
         private void OnCreating()
@@ -502,36 +502,12 @@ namespace Implem.Pleasanter.Models
             return Editor();
         }
 
-        public string Previous()
+        public string EditorJson()
         {
-            var switchTargets = ExportSettingUtilities.GetSwitchTargets(SiteSettings);
-            var exportSettingModel = new ExportSettingModel(
-                siteSettings: SiteSettings,
-                permissionType: PermissionType,
-                exportSettingId: switchTargets.Previous(ExportSettingId),
-                switchTargets: switchTargets);
-            return RecordResponse(exportSettingModel);
+            return EditorJson(this);
         }
 
-        public string Next()
-        {
-            var switchTargets = ExportSettingUtilities.GetSwitchTargets(SiteSettings);
-            var exportSettingModel = new ExportSettingModel(
-                siteSettings: SiteSettings,
-                permissionType: PermissionType,
-                exportSettingId: switchTargets.Next(ExportSettingId),
-                switchTargets: switchTargets);
-            return RecordResponse(exportSettingModel);
-        }
-
-        public string Reload()
-        {
-            SwitchTargets = ExportSettingUtilities.GetSwitchTargets(SiteSettings);
-            return RecordResponse(this, pushState: false);
-        }
-
-        private string RecordResponse(
-            ExportSettingModel exportSettingModel, Message message = null, bool pushState = true)
+        private string EditorJson(ExportSettingModel exportSettingModel, Message message = null)
         {
             exportSettingModel.MethodType = BaseModel.MethodTypes.Edit;
             return new ExportSettingsResponseCollection(this)
@@ -541,12 +517,9 @@ namespace Implem.Pleasanter.Models
                     exportSettingModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? ExportSettingUtilities.Editor(exportSettingModel, byRest: true)
                         : ExportSettingUtilities.Editor(this, byRest: true))
+                .Invoke("setCurrentIndex")
                 .Invoke("validateExportSettings")
                 .Message(message)
-                .PushState(
-                    "Edit",
-                    Navigations.Edit("ExportSettings", exportSettingModel.ExportSettingId),
-                    _using: pushState)
                 .ClearFormData()
                 .ToJson();
         }

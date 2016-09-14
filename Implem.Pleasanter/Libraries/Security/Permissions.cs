@@ -162,7 +162,6 @@ namespace Implem.Pleasanter.Libraries.Security
             switch(Url.RouteData("action").ToLower())
             {
                 case "new":
-                case "newbylink":
                     return
                         self.CanCreate(permissionType)
                             ? ColumnPermissionTypes.Update

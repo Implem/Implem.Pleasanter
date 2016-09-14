@@ -1,58 +1,46 @@
-﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
-using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlRecordSwitchers
     {
-        public static HtmlBuilder RecordSwitchers(
-            this HtmlBuilder hb, long id, List<long> switchTargets, bool switcher = true)
+        public static HtmlBuilder RecordSwitchers(this HtmlBuilder hb, bool switcher = true)
         {
             return hb
-                .Switcher(id: id, switchTargets: switchTargets, switcher: switcher)
+                .Switcher(switcher: switcher)
                 .Button(
+                    controlId: "Reload",
                     text: Displays.Reload(),
                     controlCss: "button-icon",
-                    onClick: "$p.send($(this));",
+                    onClick: "$p.get($(this));",
                     icon: "ui-icon-refresh",
-                    action: "Reload",
+                    action: "Edit",
                     method: "post");
         }
 
-        private static HtmlBuilder Switcher(
-            this HtmlBuilder hb, long id, List<long> switchTargets, bool switcher)
+        private static HtmlBuilder Switcher(this HtmlBuilder hb, bool switcher)
         {
-            return switchTargets?.Count >= 2 && switcher
+            return switcher
                 ? hb
                     .Button(
+                        controlId: "Previous",
                         text: Displays.Previous(),
                         controlCss: "button-icon",
                         accessKey: "b",
-                        onClick: "$p.send($(this));",
+                        onClick: "$p.get($(this));",
                         icon: "ui-icon-seek-prev",
-                        action: "Previous",
+                        action: "Edit",
                         method: "post")
-                    .Current(id: id, switchTargets: switchTargets)
+                    .Div(id: "CurrentIndex", css: "current ui-widget-header")
                     .Button(
+                        controlId: "Next",
                         text: Displays.Next(),
                         controlCss: "button-icon",
                         accessKey: "n",
-                        onClick: "$p.send($(this));",
+                        onClick: "$p.get($(this));",
                         icon: "ui-icon-seek-next",
-                        action: "Next",
+                        action: "Edit",
                         method: "post")
-                : hb;
-        }
-
-        private static HtmlBuilder Current(
-            this HtmlBuilder hb, long id, List<long> switchTargets)
-        {
-            return switchTargets != null
-                ? hb.Div(css: "current ui-widget-header", action: () => hb
-                    .Text(text: "{0}/{1}".Params(
-                        switchTargets.IndexOf(id) + 1,
-                        switchTargets.Count)))
                 : hb;
         }
     }

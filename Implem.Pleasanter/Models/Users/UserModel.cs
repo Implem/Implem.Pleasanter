@@ -234,7 +234,7 @@ namespace Implem.Pleasanter.Models
             UserId = newId != 0 ? newId : UserId;
             Get();
             OnCreated();
-            return RecordResponse(this, Messages.Created(Title.ToString()));
+            return EditorJson(this, Messages.Created(Title.ToString()));
         }
 
         /// <summary>
@@ -597,36 +597,12 @@ namespace Implem.Pleasanter.Models
             return Editor();
         }
 
-        public string Previous()
+        public string EditorJson()
         {
-            var switchTargets = UserUtilities.GetSwitchTargets(SiteSettings);
-            var userModel = new UserModel(
-                siteSettings: SiteSettings,
-                permissionType: PermissionType,
-                userId: switchTargets.Previous(UserId),
-                switchTargets: switchTargets);
-            return RecordResponse(userModel);
+            return EditorJson(this);
         }
 
-        public string Next()
-        {
-            var switchTargets = UserUtilities.GetSwitchTargets(SiteSettings);
-            var userModel = new UserModel(
-                siteSettings: SiteSettings,
-                permissionType: PermissionType,
-                userId: switchTargets.Next(UserId),
-                switchTargets: switchTargets);
-            return RecordResponse(userModel);
-        }
-
-        public string Reload()
-        {
-            SwitchTargets = UserUtilities.GetSwitchTargets(SiteSettings);
-            return RecordResponse(this, pushState: false);
-        }
-
-        private string RecordResponse(
-            UserModel userModel, Message message = null, bool pushState = true)
+        private string EditorJson(UserModel userModel, Message message = null)
         {
             userModel.MethodType = BaseModel.MethodTypes.Edit;
             return new UsersResponseCollection(this)
@@ -636,12 +612,9 @@ namespace Implem.Pleasanter.Models
                     userModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? UserUtilities.Editor(userModel, byRest: true)
                         : UserUtilities.Editor(this, byRest: true))
+                .Invoke("setCurrentIndex")
                 .Invoke("validateUsers")
                 .Message(message)
-                .PushState(
-                    "Edit",
-                    Navigations.Edit("Users", userModel.UserId),
-                    _using: pushState)
                 .ClearFormData()
                 .ToJson();
         }

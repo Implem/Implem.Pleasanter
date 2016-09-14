@@ -540,10 +540,8 @@ namespace Implem.Pleasanter.Models
                             : siteModel.SiteId)),
                     action: () => hb
                         .RecordHeader(
-                            id: issueModel.IssueId,
                             baseModel: issueModel,
-                            tableName: "Issues",
-                            switchTargets: issueModel.SwitchTargets)
+                            tableName: "Issues")
                         .Div(css: "edit-form-comments", action: () => hb
                             .Comments(
                                 comments: issueModel.Comments,
@@ -587,7 +585,8 @@ namespace Implem.Pleasanter.Models
                         .Hidden(
                             controlId: "SwitchTargets",
                             css: "must-transport",
-                            value: issueModel.SwitchTargets?.Join()))
+                            value: issueModel.SwitchTargets?.Join(),
+                            _using: !Request.IsAjax()))
                 .OutgoingMailsForm("Issues", issueModel.IssueId, issueModel.Ver)
                 .CopyDialog("items", issueModel.IssueId)
                 .MoveDialog("items", issueModel.IssueId)

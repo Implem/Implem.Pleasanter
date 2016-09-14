@@ -571,7 +571,6 @@ namespace Implem.Pleasanter.Models
                         .Action(Navigations.ItemAction(siteModel.SiteId)),
                     action: () => hb
                         .RecordHeader(
-                            id: siteModel.SiteId,
                             baseModel: siteModel,
                             tableName: "Sites",
                             switcher: false)

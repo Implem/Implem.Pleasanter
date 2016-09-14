@@ -341,11 +341,8 @@ namespace Implem.Pleasanter.Models
                             : Navigations.Action("Binaries")),
                     action: () => hb
                         .RecordHeader(
-                            id: binaryModel.BinaryId,
                             baseModel: binaryModel,
-                            tableName: "Binaries",
-                            switchTargets: binaryModel.SwitchTargets?
-                                .Select(o => o.ToLong()).ToList())
+                            tableName: "Binaries")
                         .Div(css: "edit-form-comments", action: () => hb
                             .Comments(
                                 comments: binaryModel.Comments,
@@ -376,6 +373,7 @@ namespace Implem.Pleasanter.Models
                                     .MainCommandExtensions(
                                         binaryModel: binaryModel,
                                         siteSettings: siteSettings)))
+                        .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl())
                         .Hidden(
                             controlId: "MethodType",
                             value: binaryModel.MethodType.ToString().ToLower())
@@ -386,7 +384,8 @@ namespace Implem.Pleasanter.Models
                         .Hidden(
                             controlId: "SwitchTargets",
                             css: "must-transport",
-                            value: binaryModel.SwitchTargets?.Join()))
+                            value: binaryModel.SwitchTargets?.Join(),
+                            _using: !Request.IsAjax()))
                 .OutgoingMailsForm("Binaries", binaryModel.BinaryId, binaryModel.Ver)
                 .CopyDialog("Binaries", binaryModel.BinaryId)
                 .OutgoingMailDialog()

@@ -367,7 +367,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_RedirectAfterDeleteItem": Code.Model_RedirectAfterDeleteItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_RedirectAfterDeleteItem, definitionRow, CodeXls); break;
                     case "Model_RedirectAfterDeleteSite": Code.Model_RedirectAfterDeleteSite = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_RedirectAfterDeleteSite, definitionRow, CodeXls); break;
                     case "Model_Histories": Code.Model_Histories = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Histories, definitionRow, CodeXls); break;
-                    case "Model_SwitchRecord": Code.Model_SwitchRecord = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchRecord, definitionRow, CodeXls); break;
+                    case "Model_EditorJson": Code.Model_EditorJson = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_EditorJson, definitionRow, CodeXls); break;
                     case "Model_SiteModel": Code.Model_SiteModel = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteModel, definitionRow, CodeXls); break;
                     case "Model_PushState": Code.Model_PushState = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PushState, definitionRow, CodeXls); break;
                     case "Model_PushState_Item": Code.Model_PushState_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PushState_Item, definitionRow, CodeXls); break;
@@ -395,9 +395,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_SeparateCases": Code.Model_SeparateCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SeparateCases, definitionRow, CodeXls); break;
                     case "Model_HistoriesCases": Code.Model_HistoriesCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_HistoriesCases, definitionRow, CodeXls); break;
                     case "Model_HistoryCases": Code.Model_HistoryCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_HistoryCases, definitionRow, CodeXls); break;
-                    case "Model_PreviousCases": Code.Model_PreviousCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PreviousCases, definitionRow, CodeXls); break;
-                    case "Model_NextCases": Code.Model_NextCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_NextCases, definitionRow, CodeXls); break;
-                    case "Model_ReloadCases": Code.Model_ReloadCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ReloadCases, definitionRow, CodeXls); break;
+                    case "Model_EditorJsonCases": Code.Model_EditorJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_EditorJsonCases, definitionRow, CodeXls); break;
                     case "Model_GetCases": Code.Model_GetCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetCases, definitionRow, CodeXls); break;
                     case "Model_BurnDownRecordDetailsCases": Code.Model_BurnDownRecordDetailsCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BurnDownRecordDetailsCases, definitionRow, CodeXls); break;
                     case "Model_UpdateByKambanCases": Code.Model_UpdateByKambanCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateByKambanCases, definitionRow, CodeXls); break;
@@ -3839,7 +3837,7 @@ namespace Implem.DefinitionAccessor
         public string Model_RedirectAfterDeleteItem;
         public string Model_RedirectAfterDeleteSite;
         public string Model_Histories;
-        public string Model_SwitchRecord;
+        public string Model_EditorJson;
         public string Model_SiteModel;
         public string Model_PushState;
         public string Model_PushState_Item;
@@ -3867,9 +3865,7 @@ namespace Implem.DefinitionAccessor
         public string Model_SeparateCases;
         public string Model_HistoriesCases;
         public string Model_HistoryCases;
-        public string Model_PreviousCases;
-        public string Model_NextCases;
-        public string Model_ReloadCases;
+        public string Model_EditorJsonCases;
         public string Model_GetCases;
         public string Model_BurnDownRecordDetailsCases;
         public string Model_UpdateByKambanCases;
@@ -4217,7 +4213,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_RedirectAfterDeleteItem = new CodeDefinition();
         public CodeDefinition Model_RedirectAfterDeleteSite = new CodeDefinition();
         public CodeDefinition Model_Histories = new CodeDefinition();
-        public CodeDefinition Model_SwitchRecord = new CodeDefinition();
+        public CodeDefinition Model_EditorJson = new CodeDefinition();
         public CodeDefinition Model_SiteModel = new CodeDefinition();
         public CodeDefinition Model_PushState = new CodeDefinition();
         public CodeDefinition Model_PushState_Item = new CodeDefinition();
@@ -4245,9 +4241,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SeparateCases = new CodeDefinition();
         public CodeDefinition Model_HistoriesCases = new CodeDefinition();
         public CodeDefinition Model_HistoryCases = new CodeDefinition();
-        public CodeDefinition Model_PreviousCases = new CodeDefinition();
-        public CodeDefinition Model_NextCases = new CodeDefinition();
-        public CodeDefinition Model_ReloadCases = new CodeDefinition();
+        public CodeDefinition Model_EditorJsonCases = new CodeDefinition();
         public CodeDefinition Model_GetCases = new CodeDefinition();
         public CodeDefinition Model_BurnDownRecordDetailsCases = new CodeDefinition();
         public CodeDefinition Model_UpdateByKambanCases = new CodeDefinition();

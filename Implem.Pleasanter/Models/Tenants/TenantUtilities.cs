@@ -344,11 +344,8 @@ namespace Implem.Pleasanter.Models
                             : Navigations.Action("Tenants")),
                     action: () => hb
                         .RecordHeader(
-                            id: tenantModel.TenantId,
                             baseModel: tenantModel,
-                            tableName: "Tenants",
-                            switchTargets: tenantModel.SwitchTargets?
-                                .Select(o => o.ToLong()).ToList())
+                            tableName: "Tenants")
                         .Div(css: "edit-form-comments", action: () => hb
                             .Comments(
                                 comments: tenantModel.Comments,
@@ -379,6 +376,7 @@ namespace Implem.Pleasanter.Models
                                     .MainCommandExtensions(
                                         tenantModel: tenantModel,
                                         siteSettings: siteSettings)))
+                        .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl())
                         .Hidden(
                             controlId: "MethodType",
                             value: tenantModel.MethodType.ToString().ToLower())
@@ -389,7 +387,8 @@ namespace Implem.Pleasanter.Models
                         .Hidden(
                             controlId: "SwitchTargets",
                             css: "must-transport",
-                            value: tenantModel.SwitchTargets?.Join()))
+                            value: tenantModel.SwitchTargets?.Join(),
+                            _using: !Request.IsAjax()))
                 .OutgoingMailsForm("Tenants", tenantModel.TenantId, tenantModel.Ver)
                 .CopyDialog("Tenants", tenantModel.TenantId)
                 .OutgoingMailDialog()

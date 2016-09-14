@@ -120,7 +120,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public string NewByLink()
+        public string NewJson()
         {
             return new ResponseCollection()
                 .ReplaceAll("#MainContainer", New(byRest: true))
@@ -568,80 +568,28 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public string Previous()
+        public string EditorJson()
         {
             SetSite();
             switch (ReferenceType)
             {
                 case "Sites": return new SiteModel(ReferenceId)
-                    .Previous();
+                    .EditorJson();
                 case "Issues": return new IssueModel(
                     Site.IssuesSiteSettings(),
                     Site.PermissionType,
                     ReferenceId)
-                        .Previous();
+                        .EditorJson();
                 case "Results": return new ResultModel(
                     Site.ResultsSiteSettings(),
                     Site.PermissionType,
                     ReferenceId)
-                        .Previous();
+                        .EditorJson();
                 case "Wikis": return new WikiModel(
                     Site.WikisSiteSettings(),
                     Site.PermissionType,
                     ReferenceId)
-                        .Previous();
-                default: return Messages.ResponseNotFound().ToJson();
-            }
-        }
-
-        public string Next()
-        {
-            SetSite();
-            switch (ReferenceType)
-            {
-                case "Sites": return new SiteModel(ReferenceId)
-                    .Next();
-                case "Issues": return new IssueModel(
-                    Site.IssuesSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId)
-                        .Next();
-                case "Results": return new ResultModel(
-                    Site.ResultsSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId)
-                        .Next();
-                case "Wikis": return new WikiModel(
-                    Site.WikisSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId)
-                        .Next();
-                default: return Messages.ResponseNotFound().ToJson();
-            }
-        }
-
-        public string Reload()
-        {
-            SetSite();
-            switch (ReferenceType)
-            {
-                case "Sites": return new SiteModel(ReferenceId)
-                    .Reload();
-                case "Issues": return new IssueModel(
-                    Site.IssuesSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId)
-                        .Reload();
-                case "Results": return new ResultModel(
-                    Site.ResultsSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId)
-                        .Reload();
-                case "Wikis": return new WikiModel(
-                    Site.WikisSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId)
-                        .Reload();
+                        .EditorJson();
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }

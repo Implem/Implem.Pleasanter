@@ -341,11 +341,8 @@ namespace Implem.Pleasanter.Models
                             : Navigations.Action("MailAddresses")),
                     action: () => hb
                         .RecordHeader(
-                            id: mailAddressModel.MailAddressId,
                             baseModel: mailAddressModel,
-                            tableName: "MailAddresses",
-                            switchTargets: mailAddressModel.SwitchTargets?
-                                .Select(o => o.ToLong()).ToList())
+                            tableName: "MailAddresses")
                         .Div(css: "edit-form-comments", action: () => hb
                             .Comments(
                                 comments: mailAddressModel.Comments,
@@ -376,6 +373,7 @@ namespace Implem.Pleasanter.Models
                                     .MainCommandExtensions(
                                         mailAddressModel: mailAddressModel,
                                         siteSettings: siteSettings)))
+                        .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl())
                         .Hidden(
                             controlId: "MethodType",
                             value: mailAddressModel.MethodType.ToString().ToLower())
@@ -386,7 +384,8 @@ namespace Implem.Pleasanter.Models
                         .Hidden(
                             controlId: "SwitchTargets",
                             css: "must-transport",
-                            value: mailAddressModel.SwitchTargets?.Join()))
+                            value: mailAddressModel.SwitchTargets?.Join(),
+                            _using: !Request.IsAjax()))
                 .OutgoingMailsForm("MailAddresses", mailAddressModel.MailAddressId, mailAddressModel.Ver)
                 .CopyDialog("MailAddresses", mailAddressModel.MailAddressId)
                 .OutgoingMailDialog()

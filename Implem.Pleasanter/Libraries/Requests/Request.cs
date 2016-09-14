@@ -1,6 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 namespace Implem.Pleasanter.Libraries.Requests
 {
     public class Request
@@ -12,6 +13,11 @@ namespace Implem.Pleasanter.Libraries.Requests
             HttpRequest = httpContext != null && httpContext.User != null
                 ? httpContext.Request
                 : null;
+        }
+
+        public static bool IsAjax()
+        {
+            return new HttpRequestWrapper(HttpContext.Current.Request).IsAjaxRequest();
         }
 
         public string ProcessedRequestData()

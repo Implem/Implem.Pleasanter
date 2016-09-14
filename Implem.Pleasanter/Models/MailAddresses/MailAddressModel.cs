@@ -140,7 +140,7 @@ namespace Implem.Pleasanter.Models
             MailAddressId = newId != 0 ? newId : MailAddressId;
             Get();
             OnCreated();
-            return RecordResponse(this, Messages.Created(Title.ToString()));
+            return EditorJson(this, Messages.Created(Title.ToString()));
         }
 
         private void OnCreating()
@@ -415,36 +415,12 @@ namespace Implem.Pleasanter.Models
             return Editor();
         }
 
-        public string Previous()
+        public string EditorJson()
         {
-            var switchTargets = MailAddressUtilities.GetSwitchTargets(SiteSettings);
-            var mailAddressModel = new MailAddressModel(
-                siteSettings: SiteSettings,
-                permissionType: PermissionType,
-                mailAddressId: switchTargets.Previous(MailAddressId),
-                switchTargets: switchTargets);
-            return RecordResponse(mailAddressModel);
+            return EditorJson(this);
         }
 
-        public string Next()
-        {
-            var switchTargets = MailAddressUtilities.GetSwitchTargets(SiteSettings);
-            var mailAddressModel = new MailAddressModel(
-                siteSettings: SiteSettings,
-                permissionType: PermissionType,
-                mailAddressId: switchTargets.Next(MailAddressId),
-                switchTargets: switchTargets);
-            return RecordResponse(mailAddressModel);
-        }
-
-        public string Reload()
-        {
-            SwitchTargets = MailAddressUtilities.GetSwitchTargets(SiteSettings);
-            return RecordResponse(this, pushState: false);
-        }
-
-        private string RecordResponse(
-            MailAddressModel mailAddressModel, Message message = null, bool pushState = true)
+        private string EditorJson(MailAddressModel mailAddressModel, Message message = null)
         {
             mailAddressModel.MethodType = BaseModel.MethodTypes.Edit;
             return new MailAddressesResponseCollection(this)
@@ -454,12 +430,9 @@ namespace Implem.Pleasanter.Models
                     mailAddressModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? MailAddressUtilities.Editor(mailAddressModel, byRest: true)
                         : MailAddressUtilities.Editor(this, byRest: true))
+                .Invoke("setCurrentIndex")
                 .Invoke("validateMailAddresses")
                 .Message(message)
-                .PushState(
-                    "Edit",
-                    Navigations.Edit("MailAddresses", mailAddressModel.MailAddressId),
-                    _using: pushState)
                 .ClearFormData()
                 .ToJson();
         }

@@ -139,7 +139,7 @@ namespace Implem.Pleasanter.Models
             TenantId = newId != 0 ? newId : TenantId;
             Get();
             OnCreated();
-            return RecordResponse(this, Messages.Created(Title.ToString()));
+            return EditorJson(this, Messages.Created(Title.ToString()));
         }
 
         private void OnCreating()
@@ -412,36 +412,12 @@ namespace Implem.Pleasanter.Models
             return Editor();
         }
 
-        public string Previous()
+        public string EditorJson()
         {
-            var switchTargets = TenantUtilities.GetSwitchTargets(SiteSettings);
-            var tenantModel = new TenantModel(
-                siteSettings: SiteSettings,
-                permissionType: PermissionType,
-                tenantId: switchTargets.Previous(TenantId),
-                switchTargets: switchTargets);
-            return RecordResponse(tenantModel);
+            return EditorJson(this);
         }
 
-        public string Next()
-        {
-            var switchTargets = TenantUtilities.GetSwitchTargets(SiteSettings);
-            var tenantModel = new TenantModel(
-                siteSettings: SiteSettings,
-                permissionType: PermissionType,
-                tenantId: switchTargets.Next(TenantId),
-                switchTargets: switchTargets);
-            return RecordResponse(tenantModel);
-        }
-
-        public string Reload()
-        {
-            SwitchTargets = TenantUtilities.GetSwitchTargets(SiteSettings);
-            return RecordResponse(this, pushState: false);
-        }
-
-        private string RecordResponse(
-            TenantModel tenantModel, Message message = null, bool pushState = true)
+        private string EditorJson(TenantModel tenantModel, Message message = null)
         {
             tenantModel.MethodType = BaseModel.MethodTypes.Edit;
             return new TenantsResponseCollection(this)
@@ -451,12 +427,9 @@ namespace Implem.Pleasanter.Models
                     tenantModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? TenantUtilities.Editor(tenantModel, byRest: true)
                         : TenantUtilities.Editor(this, byRest: true))
+                .Invoke("setCurrentIndex")
                 .Invoke("validateTenants")
                 .Message(message)
-                .PushState(
-                    "Edit",
-                    Navigations.Edit("Tenants", tenantModel.TenantId),
-                    _using: pushState)
                 .ClearFormData()
                 .ToJson();
         }

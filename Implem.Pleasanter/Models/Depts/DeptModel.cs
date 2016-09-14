@@ -148,7 +148,7 @@ namespace Implem.Pleasanter.Models
             DeptId = newId != 0 ? newId : DeptId;
             Get();
             OnCreated();
-            return RecordResponse(this, Messages.Created(Title.ToString()));
+            return EditorJson(this, Messages.Created(Title.ToString()));
         }
 
         private void OnCreating()
@@ -447,36 +447,12 @@ namespace Implem.Pleasanter.Models
             return Editor();
         }
 
-        public string Previous()
+        public string EditorJson()
         {
-            var switchTargets = DeptUtilities.GetSwitchTargets(SiteSettings);
-            var deptModel = new DeptModel(
-                siteSettings: SiteSettings,
-                permissionType: PermissionType,
-                deptId: switchTargets.Previous(DeptId),
-                switchTargets: switchTargets);
-            return RecordResponse(deptModel);
+            return EditorJson(this);
         }
 
-        public string Next()
-        {
-            var switchTargets = DeptUtilities.GetSwitchTargets(SiteSettings);
-            var deptModel = new DeptModel(
-                siteSettings: SiteSettings,
-                permissionType: PermissionType,
-                deptId: switchTargets.Next(DeptId),
-                switchTargets: switchTargets);
-            return RecordResponse(deptModel);
-        }
-
-        public string Reload()
-        {
-            SwitchTargets = DeptUtilities.GetSwitchTargets(SiteSettings);
-            return RecordResponse(this, pushState: false);
-        }
-
-        private string RecordResponse(
-            DeptModel deptModel, Message message = null, bool pushState = true)
+        private string EditorJson(DeptModel deptModel, Message message = null)
         {
             deptModel.MethodType = BaseModel.MethodTypes.Edit;
             return new DeptsResponseCollection(this)
@@ -486,12 +462,9 @@ namespace Implem.Pleasanter.Models
                     deptModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? DeptUtilities.Editor(deptModel, byRest: true)
                         : DeptUtilities.Editor(this, byRest: true))
+                .Invoke("setCurrentIndex")
                 .Invoke("validateDepts")
                 .Message(message)
-                .PushState(
-                    "Edit",
-                    Navigations.Edit("Depts", deptModel.DeptId),
-                    _using: pushState)
                 .ClearFormData()
                 .ToJson();
         }

@@ -335,11 +335,8 @@ namespace Implem.Pleasanter.Models
                             : Navigations.Action("OutgoingMails")),
                     action: () => hb
                         .RecordHeader(
-                            id: outgoingMailModel.OutgoingMailId,
                             baseModel: outgoingMailModel,
-                            tableName: "OutgoingMails",
-                            switchTargets: outgoingMailModel.SwitchTargets?
-                                .Select(o => o.ToLong()).ToList())
+                            tableName: "OutgoingMails")
                         .Div(css: "edit-form-comments", action: () => hb
                             .Comments(
                                 comments: outgoingMailModel.Comments,
@@ -370,6 +367,7 @@ namespace Implem.Pleasanter.Models
                                     .MainCommandExtensions(
                                         outgoingMailModel: outgoingMailModel,
                                         siteSettings: siteSettings)))
+                        .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl())
                         .Hidden(
                             controlId: "MethodType",
                             value: outgoingMailModel.MethodType.ToString().ToLower())
@@ -380,7 +378,8 @@ namespace Implem.Pleasanter.Models
                         .Hidden(
                             controlId: "SwitchTargets",
                             css: "must-transport",
-                            value: outgoingMailModel.SwitchTargets?.Join()))
+                            value: outgoingMailModel.SwitchTargets?.Join(),
+                            _using: !Request.IsAjax()))
                 .OutgoingMailsForm("OutgoingMails", outgoingMailModel.OutgoingMailId, outgoingMailModel.Ver)
                 .CopyDialog("OutgoingMails", outgoingMailModel.OutgoingMailId)
                 .OutgoingMailDialog()

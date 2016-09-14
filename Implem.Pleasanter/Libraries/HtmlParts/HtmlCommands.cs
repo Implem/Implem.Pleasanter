@@ -42,13 +42,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     if (permissionType.CanRead() && 
                         verType == Versions.VerTypes.Latest)
                     {
-                        if (routesAction == "new" || routesAction == "newbylink")
+                        if (routesAction == "new")
                         {
                             hb.Button(
                                 text: Displays.Create(),
                                 controlCss: "button-icon validate",
                                 accessKey: "s",
-                                onClick: "$p.send($(this));",
+                                onClick: "$p.create($(this));",
                                 icon: "ui-icon-disk",
                                 action: "Create",
                                 method: "post");

@@ -715,7 +715,7 @@ namespace Implem.Pleasanter.Models
                         .Subset(Jsons.ToJson(new ResultSubset(this, SiteSettings))),
                     where: Rds.ItemsWhere().ReferenceId(ResultId)));
             OnCreated();
-            return RecordResponse(this, Messages.Created(Title.ToString()));
+            return EditorJson(this, Messages.Created(Title.ToString()));
         }
 
         private void OnCreating()
@@ -1472,36 +1472,12 @@ namespace Implem.Pleasanter.Models
             return Editor();
         }
 
-        public string Previous()
+        public string EditorJson()
         {
-            var switchTargets = ResultUtilities.GetSwitchTargets(SiteSettings, SiteId);
-            var resultModel = new ResultModel(
-                siteSettings: SiteSettings,
-                permissionType: PermissionType,
-                resultId: switchTargets.Previous(ResultId),
-                switchTargets: switchTargets);
-            return RecordResponse(resultModel);
+            return EditorJson(this);
         }
 
-        public string Next()
-        {
-            var switchTargets = ResultUtilities.GetSwitchTargets(SiteSettings, SiteId);
-            var resultModel = new ResultModel(
-                siteSettings: SiteSettings,
-                permissionType: PermissionType,
-                resultId: switchTargets.Next(ResultId),
-                switchTargets: switchTargets);
-            return RecordResponse(resultModel);
-        }
-
-        public string Reload()
-        {
-            SwitchTargets = ResultUtilities.GetSwitchTargets(SiteSettings, SiteId);
-            return RecordResponse(this, pushState: false);
-        }
-
-        private string RecordResponse(
-            ResultModel resultModel, Message message = null, bool pushState = true)
+        private string EditorJson(ResultModel resultModel, Message message = null)
         {
             var siteModel = new SiteModel(SiteId);
             resultModel.MethodType = BaseModel.MethodTypes.Edit;
@@ -1512,12 +1488,9 @@ namespace Implem.Pleasanter.Models
                     resultModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? ResultUtilities.Editor(siteModel, resultModel, byRest: true)
                         : ResultUtilities.Editor(siteModel, this, byRest: true))
+                .Invoke("setCurrentIndex")
                 .Invoke("validateResults")
                 .Message(message)
-                .PushState(
-                    "Edit",
-                    Navigations.ItemEdit(resultModel.ResultId),
-                    _using: pushState)
                 .ClearFormData()
                 .ToJson();
         }

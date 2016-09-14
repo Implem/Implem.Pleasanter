@@ -181,7 +181,7 @@ namespace Implem.Pleasanter.Models
                         .Subset(Jsons.ToJson(new WikiSubset(this, SiteSettings))),
                     where: Rds.ItemsWhere().ReferenceId(WikiId)));
             OnCreated();
-            return RecordResponse(this, Messages.Created(Title.ToString()));
+            return EditorJson(this, Messages.Created(Title.ToString()));
         }
 
         private void OnCreating()
@@ -603,36 +603,12 @@ namespace Implem.Pleasanter.Models
             return Editor();
         }
 
-        public string Previous()
+        public string EditorJson()
         {
-            var switchTargets = WikiUtilities.GetSwitchTargets(SiteSettings, SiteId);
-            var wikiModel = new WikiModel(
-                siteSettings: SiteSettings,
-                permissionType: PermissionType,
-                wikiId: switchTargets.Previous(WikiId),
-                switchTargets: switchTargets);
-            return RecordResponse(wikiModel);
+            return EditorJson(this);
         }
 
-        public string Next()
-        {
-            var switchTargets = WikiUtilities.GetSwitchTargets(SiteSettings, SiteId);
-            var wikiModel = new WikiModel(
-                siteSettings: SiteSettings,
-                permissionType: PermissionType,
-                wikiId: switchTargets.Next(WikiId),
-                switchTargets: switchTargets);
-            return RecordResponse(wikiModel);
-        }
-
-        public string Reload()
-        {
-            SwitchTargets = WikiUtilities.GetSwitchTargets(SiteSettings, SiteId);
-            return RecordResponse(this, pushState: false);
-        }
-
-        private string RecordResponse(
-            WikiModel wikiModel, Message message = null, bool pushState = true)
+        private string EditorJson(WikiModel wikiModel, Message message = null)
         {
             var siteModel = new SiteModel(SiteId);
             wikiModel.MethodType = BaseModel.MethodTypes.Edit;
@@ -643,12 +619,9 @@ namespace Implem.Pleasanter.Models
                     wikiModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? WikiUtilities.Editor(siteModel, wikiModel, byRest: true)
                         : WikiUtilities.Editor(siteModel, this, byRest: true))
+                .Invoke("setCurrentIndex")
                 .Invoke("validateWikis")
                 .Message(message)
-                .PushState(
-                    "Edit",
-                    Navigations.ItemEdit(wikiModel.WikiId),
-                    _using: pushState)
                 .ClearFormData()
                 .ToJson();
         }

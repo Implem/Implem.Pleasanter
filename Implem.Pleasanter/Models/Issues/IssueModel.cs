@@ -734,7 +734,7 @@ namespace Implem.Pleasanter.Models
                         .Subset(Jsons.ToJson(new IssueSubset(this, SiteSettings))),
                     where: Rds.ItemsWhere().ReferenceId(IssueId)));
             OnCreated();
-            return RecordResponse(this, Messages.Created(Title.ToString()));
+            return EditorJson(this, Messages.Created(Title.ToString()));
         }
 
         private void OnCreating()
@@ -1524,7 +1524,7 @@ namespace Implem.Pleasanter.Models
                     Comments.Prepend(addComment);
                     Update(paramAll: true);
                 }
-                return RecordResponse(this, Messages.Separated());
+                return EditorJson(this, Messages.Separated());
             }
             else
             {
@@ -1579,36 +1579,12 @@ namespace Implem.Pleasanter.Models
             return Editor();
         }
 
-        public string Previous()
+        public string EditorJson()
         {
-            var switchTargets = IssueUtilities.GetSwitchTargets(SiteSettings, SiteId);
-            var issueModel = new IssueModel(
-                siteSettings: SiteSettings,
-                permissionType: PermissionType,
-                issueId: switchTargets.Previous(IssueId),
-                switchTargets: switchTargets);
-            return RecordResponse(issueModel);
+            return EditorJson(this);
         }
 
-        public string Next()
-        {
-            var switchTargets = IssueUtilities.GetSwitchTargets(SiteSettings, SiteId);
-            var issueModel = new IssueModel(
-                siteSettings: SiteSettings,
-                permissionType: PermissionType,
-                issueId: switchTargets.Next(IssueId),
-                switchTargets: switchTargets);
-            return RecordResponse(issueModel);
-        }
-
-        public string Reload()
-        {
-            SwitchTargets = IssueUtilities.GetSwitchTargets(SiteSettings, SiteId);
-            return RecordResponse(this, pushState: false);
-        }
-
-        private string RecordResponse(
-            IssueModel issueModel, Message message = null, bool pushState = true)
+        private string EditorJson(IssueModel issueModel, Message message = null)
         {
             var siteModel = new SiteModel(SiteId);
             issueModel.MethodType = BaseModel.MethodTypes.Edit;
@@ -1619,12 +1595,9 @@ namespace Implem.Pleasanter.Models
                     issueModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? IssueUtilities.Editor(siteModel, issueModel, byRest: true)
                         : IssueUtilities.Editor(siteModel, this, byRest: true))
+                .Invoke("setCurrentIndex")
                 .Invoke("validateIssues")
                 .Message(message)
-                .PushState(
-                    "Edit",
-                    Navigations.ItemEdit(issueModel.IssueId),
-                    _using: pushState)
                 .ClearFormData()
                 .ToJson();
         }

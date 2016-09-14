@@ -70,7 +70,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string AjaxSearch()
+        public static string SearchJson()
         {
             var offset = QueryStrings.Int("offset");
             var text = QueryStrings.Data("text");
@@ -83,10 +83,6 @@ namespace Implem.Pleasanter.Models
             if (offset == 0)
             {
                 responseCollection
-                    .PushState(
-                        "Search",
-                        Navigations.Get("Items", "Search?text=" + Url.Encode(text)),
-                        _using: !QueryStrings.Bool("reload"))
                     .ReplaceAll(
                         "#MainContainer",
                         MainContainer(

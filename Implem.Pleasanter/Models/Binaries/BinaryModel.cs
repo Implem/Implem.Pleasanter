@@ -177,7 +177,7 @@ namespace Implem.Pleasanter.Models
             BinaryId = newId != 0 ? newId : BinaryId;
             Get();
             OnCreated();
-            return RecordResponse(this, Messages.Created(Title.ToString()));
+            return EditorJson(this, Messages.Created(Title.ToString()));
         }
 
         /// <summary>
@@ -470,36 +470,12 @@ namespace Implem.Pleasanter.Models
             return Editor();
         }
 
-        public string Previous()
+        public string EditorJson()
         {
-            var switchTargets = BinaryUtilities.GetSwitchTargets(SiteSettings);
-            var binaryModel = new BinaryModel(
-                siteSettings: SiteSettings,
-                permissionType: PermissionType,
-                binaryId: switchTargets.Previous(BinaryId),
-                switchTargets: switchTargets);
-            return RecordResponse(binaryModel);
+            return EditorJson(this);
         }
 
-        public string Next()
-        {
-            var switchTargets = BinaryUtilities.GetSwitchTargets(SiteSettings);
-            var binaryModel = new BinaryModel(
-                siteSettings: SiteSettings,
-                permissionType: PermissionType,
-                binaryId: switchTargets.Next(BinaryId),
-                switchTargets: switchTargets);
-            return RecordResponse(binaryModel);
-        }
-
-        public string Reload()
-        {
-            SwitchTargets = BinaryUtilities.GetSwitchTargets(SiteSettings);
-            return RecordResponse(this, pushState: false);
-        }
-
-        private string RecordResponse(
-            BinaryModel binaryModel, Message message = null, bool pushState = true)
+        private string EditorJson(BinaryModel binaryModel, Message message = null)
         {
             binaryModel.MethodType = BaseModel.MethodTypes.Edit;
             return new BinariesResponseCollection(this)
@@ -509,12 +485,9 @@ namespace Implem.Pleasanter.Models
                     binaryModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? BinaryUtilities.Editor(binaryModel, byRest: true)
                         : BinaryUtilities.Editor(this, byRest: true))
+                .Invoke("setCurrentIndex")
                 .Invoke("validateBinaries")
                 .Message(message)
-                .PushState(
-                    "Edit",
-                    Navigations.Edit("Binaries", binaryModel.BinaryId),
-                    _using: pushState)
                 .ClearFormData()
                 .ToJson();
         }

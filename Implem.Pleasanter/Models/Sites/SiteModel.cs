@@ -483,32 +483,12 @@ namespace Implem.Pleasanter.Models
             return Editor();
         }
 
-        public string Previous()
+        public string EditorJson()
         {
-            var switchTargets = SiteUtilities.GetSwitchTargets(SiteSettings, SiteId);
-            var siteModel = new SiteModel(
-                siteId: switchTargets.Previous(SiteId),
-                switchTargets: switchTargets);
-            return RecordResponse(siteModel);
+            return EditorJson(this);
         }
 
-        public string Next()
-        {
-            var switchTargets = SiteUtilities.GetSwitchTargets(SiteSettings, SiteId);
-            var siteModel = new SiteModel(
-                siteId: switchTargets.Next(SiteId),
-                switchTargets: switchTargets);
-            return RecordResponse(siteModel);
-        }
-
-        public string Reload()
-        {
-            SwitchTargets = SiteUtilities.GetSwitchTargets(SiteSettings, SiteId);
-            return RecordResponse(this, pushState: false);
-        }
-
-        private string RecordResponse(
-            SiteModel siteModel, Message message = null, bool pushState = true)
+        private string EditorJson(SiteModel siteModel, Message message = null)
         {
             siteModel.MethodType = BaseModel.MethodTypes.Edit;
             return new SitesResponseCollection(this)
@@ -518,12 +498,9 @@ namespace Implem.Pleasanter.Models
                     siteModel.AccessStatus == Databases.AccessStatuses.Selected
                         ? SiteUtilities.Editor(siteModel, byRest: true)
                         : SiteUtilities.Editor(this, byRest: true))
+                .Invoke("setCurrentIndex")
                 .Invoke("validateSites")
                 .Message(message)
-                .PushState(
-                    "Edit",
-                    Navigations.ItemEdit(siteModel.SiteId),
-                    _using: pushState)
                 .ClearFormData()
                 .ToJson();
         }
@@ -705,7 +682,7 @@ namespace Implem.Pleasanter.Models
                         Navigations.ItemEdit(wikiModel.WikiId)).ToJson();
                 default:
                     return PermissionType.CanEditSite()
-                        ? RecordResponse(this, Messages.Created(Title.ToString()))
+                        ? EditorJson(this, Messages.Created(Title.ToString()))
                         : new ResponseCollection().Href(Navigations.ItemIndex(SiteId)).ToJson();
             }
         }

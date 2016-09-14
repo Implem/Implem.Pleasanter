@@ -412,6 +412,7 @@
     <Content Include="Scripts\LegendEvents.js" />
     <Content Include="Scripts\MarkDownEvents.js" />
     <Content Include="Scripts\MultiSelect.js" />
+    <Content Include="Scripts\Navigation.js" />
     <Content Include="Scripts\OutgoingMailEvents.js" />
     <Content Include="Scripts\Plugins\jquery.multiselect.filter.min.js" />
     <Content Include="Scripts\Plugins\jquery.multiselect.min.js" />

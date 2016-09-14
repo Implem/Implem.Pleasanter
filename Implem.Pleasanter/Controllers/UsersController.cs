@@ -33,14 +33,28 @@ namespace Implem.Pleasanter.Controllers
             return View();
         }
 
-        [HttpGet]
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult Edit(int id)
         {
-            var log = new SysLogModel();
-            var html = UserUtilities.Editor(id, clearSessions: true);
-            ViewBag.HtmlBody = html;
-            log.Finish(html.Length);
-            return View();
+            if (!Request.IsAjaxRequest())
+            {
+                var log = new SysLogModel();
+                var html = UserUtilities.Editor(id, clearSessions: true);
+                ViewBag.HtmlBody = html;
+                log.Finish(html.Length);
+                return View();
+            }
+            else
+            {
+                var log = new SysLogModel();
+                var json = new UserModel(
+                    SiteSettingsUtility.UsersSiteSettings(),
+                    Permissions.Admins(),
+                    id)
+                        .EditorJson();
+                log.Finish(json.Length);
+                return Content(json);
+            }
         }
 
         [HttpGet]
@@ -147,45 +161,6 @@ namespace Implem.Pleasanter.Controllers
                 Permissions.Admins(),
                 id)
                     .History();
-            log.Finish(json.Length);
-            return json;
-        }
-
-        [HttpPost]
-        public string Previous(int id)
-        {
-            var log = new SysLogModel();
-            var json = new UserModel(
-                SiteSettingsUtility.UsersSiteSettings(),
-                Permissions.Admins(),
-                id)
-                    .Previous();
-            log.Finish(json.Length);
-            return json;
-        }
-
-        [HttpPost]
-        public string Next(int id)
-        {
-            var log = new SysLogModel();
-            var json = new UserModel(
-                SiteSettingsUtility.UsersSiteSettings(),
-                Permissions.Admins(),
-                id)
-                    .Next();
-            log.Finish(json.Length);
-            return json;
-        }
-
-        [HttpPost]
-        public string Reload(int id)
-        {
-            var log = new SysLogModel();
-            var json = new UserModel(
-                SiteSettingsUtility.UsersSiteSettings(),
-                Permissions.Admins(),
-                id)
-                    .Reload();
             log.Finish(json.Length);
             return json;
         }

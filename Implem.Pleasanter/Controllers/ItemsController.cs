@@ -17,36 +17,44 @@ namespace Implem.Pleasanter.Controllers
             return View();
         }
 
-        [HttpGet]
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult New(long id = 0)
         {
-            var log = new SysLogModel();
-            var itemModel = new ItemModel(id);
-            var html = itemModel.New(byRest: false);
-            ViewBag.HtmlBody = html;
-            log.Finish(html.Length);
-            return View();
+            if (!Request.IsAjaxRequest())
+            {
+                var log = new SysLogModel();
+                var html = new ItemModel(id).New(byRest: false);
+                ViewBag.HtmlBody = html;
+                log.Finish(html.Length);
+                return View();
+            }
+            else
+            {
+                var log = new SysLogModel();
+                var json = new ItemModel(id).NewJson();
+                log.Finish(json.Length);
+                return Content(json);
+            }
         }
 
-        [HttpPost]
-        public string NewByLink(long id = 0)
-        {
-            var log = new SysLogModel();
-            var itemModel = new ItemModel(id);
-            var json = itemModel.NewByLink();
-            log.Finish(json.Length);
-            return json;
-        }
-
-        [HttpGet]
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult Edit(long id)
         {
-            var log = new SysLogModel();
-            var itemModel = new ItemModel(id);
-            var html = itemModel.Editor();
-            ViewBag.HtmlBody = html;
-            log.Finish(html.Length);
-            return View();
+            if (!Request.IsAjaxRequest())
+            {
+                var log = new SysLogModel();
+                var html = new ItemModel(id).Editor();
+                ViewBag.HtmlBody = html;
+                log.Finish(html.Length);
+                return View();
+            }
+            else
+            {
+                var log = new SysLogModel();
+                var json = new ItemModel(id).EditorJson();
+                log.Finish(json.Length);
+                return Content(json);
+            }
         }
 
         [HttpPost]
@@ -67,23 +75,24 @@ namespace Implem.Pleasanter.Controllers
             return responseFile.ToFile();
         }
 
-        [HttpGet]
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult Search()
         {
-            var log = new SysLogModel();
-            var html = SearchIndexUtilities.Search();
-            ViewBag.HtmlBody = html;
-            log.Finish(html.Length);
-            return View();
-        }
-
-        [HttpGet]
-        public string AjaxSearch()
-        {
-            var log = new SysLogModel();
-            var json = SearchIndexUtilities.AjaxSearch();
-            log.Finish(json.Length);
-            return json;
+            if (!Request.IsAjaxRequest())
+            {
+                var log = new SysLogModel();
+                var html = SearchIndexUtilities.Search();
+                ViewBag.HtmlBody = html;
+                log.Finish(html.Length);
+                return View();
+            }
+            else
+            {
+                var log = new SysLogModel();
+                var json = SearchIndexUtilities.SearchJson();
+                log.Finish(json.Length);
+                return Content(json);
+            }
         }
 
         [HttpPost]
@@ -253,33 +262,6 @@ namespace Implem.Pleasanter.Controllers
         {
             var log = new SysLogModel();
             var json = new ItemModel(id).History();
-            log.Finish(json.Length);
-            return json;
-        }
-
-        [HttpPost]
-        public string Previous(long id)
-        {
-            var log = new SysLogModel();
-            var json = new ItemModel(id).Previous();
-            log.Finish(json.Length);
-            return json;
-        }
-
-        [HttpPost]
-        public string Next(long id)
-        {
-            var log = new SysLogModel();
-            var json = new ItemModel(id).Next();
-            log.Finish(json.Length);
-            return json;
-        }
-
-        [HttpPost]
-        public string Reload(long id)
-        {
-            var log = new SysLogModel();
-            var json = new ItemModel(id).Reload();
             log.Finish(json.Length);
             return json;
         }
