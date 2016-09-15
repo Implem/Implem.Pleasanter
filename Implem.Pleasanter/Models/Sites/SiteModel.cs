@@ -253,8 +253,14 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void OnUpdated(ref SitesResponseCollection responseCollection)
         {
+            SiteInfo.SiteMenu.Set(SiteId);
+            responseCollection.ReplaceAll("#Breadcrumb", new HtmlBuilder()
+                .Breadcrumb(SiteId));
         }
 
         private string ValidateBeforeUpdate()

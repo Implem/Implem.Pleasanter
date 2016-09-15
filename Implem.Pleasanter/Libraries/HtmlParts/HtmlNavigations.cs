@@ -57,7 +57,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder Breadcrumb(
             this HtmlBuilder hb, Dictionary<string, string> breadcrumb)
         {
-            return hb.Ul(css: "nav-breadcrumb", action: () =>
+            return hb.Ul(id: "Breadcrumb", css: "nav-breadcrumb", action: () =>
             {
                 hb.BreadcrumbItem(Navigations.Top(), Displays.Top());
                 breadcrumb.ForEach(item => hb
