@@ -153,7 +153,7 @@ namespace Implem.Pleasanter.Models
             return hb.Div(css: "command-center", action: () => hb
                 .TextBox(
                     controlId: "Search",
-                    controlCss: " w600",
+                    controlCss: " w600 focus",
                     text: text,
                     placeholder: Displays.Search()));
         }
