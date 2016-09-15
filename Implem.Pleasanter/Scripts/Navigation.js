@@ -3,7 +3,10 @@
 }
 
 $p.switchTargets = function () {
-    return $('#SwitchTargets').val().split(',')
+    var $control = $('#SwitchTargets');
+    return $control.length === 1
+        ? $control.val().split(',')
+        : [];
 }
 
 $p.setCurrentIndex = function () {
