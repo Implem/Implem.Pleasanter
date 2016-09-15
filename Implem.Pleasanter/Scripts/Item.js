@@ -12,7 +12,7 @@
         if (index != -1 && target >= 0 && target < array.length) {
             var url = $('#BaseUrl').val() + array[target];
             $p.ajax(url, 'post', null, null, false);
-            history.pushState(null, null, url);
+            if (additional !== 0) history.pushState(null, null, url);
         }
     }
 }
