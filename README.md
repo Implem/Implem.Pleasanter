@@ -14,8 +14,8 @@ http://qiita.com/Implem/items/112bfd38433f7f5d7bb8
 下記のサイトでe-mailアドレスを登録するとプリザンターを試行することが出来ます。  
 https://pleasanter.azurewebsites.net
 
-## ハンズオン手順
-デモサイトで使用できるハンズオンの手順です。  
+## チュートリアル
+デモサイトで使用できるチュートリアルの手順です。  
 http://www.slideshare.net/TaijiUchida/001-65529592
 
 ## ダウンロード
