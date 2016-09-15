@@ -477,7 +477,7 @@ namespace Implem.Pleasanter.Models
 
         private string EditorJson(BinaryModel binaryModel, Message message = null)
         {
-            binaryModel.MethodType = BaseModel.MethodTypes.Edit;
+            binaryModel.MethodType = MethodTypes.Edit;
             return new BinariesResponseCollection(this)
                 .Invoke("clearDialogs")
                 .ReplaceAll(

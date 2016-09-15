@@ -422,7 +422,7 @@ namespace Implem.Pleasanter.Models
 
         private string EditorJson(MailAddressModel mailAddressModel, Message message = null)
         {
-            mailAddressModel.MethodType = BaseModel.MethodTypes.Edit;
+            mailAddressModel.MethodType = MethodTypes.Edit;
             return new MailAddressesResponseCollection(this)
                 .Invoke("clearDialogs")
                 .ReplaceAll(

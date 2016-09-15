@@ -509,7 +509,7 @@ namespace Implem.Pleasanter.Models
 
         private string EditorJson(ExportSettingModel exportSettingModel, Message message = null)
         {
-            exportSettingModel.MethodType = BaseModel.MethodTypes.Edit;
+            exportSettingModel.MethodType = MethodTypes.Edit;
             return new ExportSettingsResponseCollection(this)
                 .Invoke("clearDialogs")
                 .ReplaceAll(

@@ -496,7 +496,7 @@ namespace Implem.Pleasanter.Models
 
         private string EditorJson(SiteModel siteModel, Message message = null)
         {
-            siteModel.MethodType = BaseModel.MethodTypes.Edit;
+            siteModel.MethodType = MethodTypes.Edit;
             return new SitesResponseCollection(this)
                 .Invoke("clearDialogs")
                 .ReplaceAll(

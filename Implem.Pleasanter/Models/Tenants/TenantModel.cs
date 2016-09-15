@@ -419,7 +419,7 @@ namespace Implem.Pleasanter.Models
 
         private string EditorJson(TenantModel tenantModel, Message message = null)
         {
-            tenantModel.MethodType = BaseModel.MethodTypes.Edit;
+            tenantModel.MethodType = MethodTypes.Edit;
             return new TenantsResponseCollection(this)
                 .Invoke("clearDialogs")
                 .ReplaceAll(

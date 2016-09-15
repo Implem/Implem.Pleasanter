@@ -604,7 +604,7 @@ namespace Implem.Pleasanter.Models
 
         private string EditorJson(UserModel userModel, Message message = null)
         {
-            userModel.MethodType = BaseModel.MethodTypes.Edit;
+            userModel.MethodType = MethodTypes.Edit;
             return new UsersResponseCollection(this)
                 .Invoke("clearDialogs")
                 .ReplaceAll(

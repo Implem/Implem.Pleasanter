@@ -617,7 +617,7 @@ namespace Implem.Pleasanter.Models
         private string EditorJson(WikiModel wikiModel, Message message = null)
         {
             var siteModel = new SiteModel(SiteId);
-            wikiModel.MethodType = BaseModel.MethodTypes.Edit;
+            wikiModel.MethodType = MethodTypes.Edit;
             return new WikisResponseCollection(this)
                 .Invoke("clearDialogs")
                 .ReplaceAll(
