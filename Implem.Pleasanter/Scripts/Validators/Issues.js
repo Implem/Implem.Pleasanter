@@ -1,5 +1,6 @@
 ﻿$p.validateIssues = function () {
     $('#IssueForm').validate({
+        ignore: '',
         rules: {
             Issues_CompletionTime: { required:true,date:true },
             Issues_NumA: { c_num:true },

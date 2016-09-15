@@ -1,5 +1,6 @@
 ﻿$p.validateWikis = function () {
     $('#WikiForm').validate({
+        ignore: '',
         rules: {
             Wikis_Title: { required:true }
         },

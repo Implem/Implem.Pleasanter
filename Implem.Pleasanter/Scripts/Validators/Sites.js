@@ -1,5 +1,6 @@
 ﻿$p.validateSites = function () {
     $('#SiteForm').validate({
+        ignore: '',
         rules: {
             Sites_Title: { required:true }
         },

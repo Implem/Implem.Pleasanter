@@ -128,7 +128,7 @@ $p.send = function ($eventSender, formId, async) {
     if ($eventSender.hasClass('validate')) {
         $form.validate();
         if (!$form.valid()) {
-            $form.find(':input.error:first').focus();
+            $p.setValidationError($form);
             return false;
         }
     }

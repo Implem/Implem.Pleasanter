@@ -1,5 +1,6 @@
 ﻿$p.validateDepts = function () {
     $('#DeptForm').validate({
+        ignore: '',
         rules: {
             Depts_DeptName: { required:true }
         },

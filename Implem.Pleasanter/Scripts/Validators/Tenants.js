@@ -1,5 +1,6 @@
 ﻿$p.validateTenants = function () {
     $('#TenantForm').validate({
+        ignore: '',
         rules: {
             Tenants_TenantName: { required:true },
             Tenants_Title: { required:true }

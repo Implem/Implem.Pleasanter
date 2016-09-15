@@ -1,5 +1,6 @@
 ﻿$p.validateUsers = function () {
     $('#UserForm').validate({
+        ignore: '',
         rules: {
             Users_LoginId: { required:true },
             Users_Password: { required:true },
@@ -16,6 +17,7 @@
         }
     });
     $('#ChangePasswordForm').validate({
+        ignore: '',
         rules: {
             Users_OldPassword: { required:true },
             Users_ChangedPassword: { required:true },
@@ -28,6 +30,7 @@
         }
     });
     $('#ResetPasswordForm').validate({
+        ignore: '',
         rules: {
             Users_AfterResetPassword: { required:true },
             Users_AfterResetPasswordValidator: { required:true,equalTo:'#Users_AfterResetPassword' }
@@ -38,6 +41,7 @@
         }
     });
     $('#DemoForm').validate({
+        ignore: '',
         rules: {
             Users_DemoMailAddress: { required:true,email:true }
         },

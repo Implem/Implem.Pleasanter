@@ -1,5 +1,6 @@
 ﻿$p.validateResults = function () {
     $('#ResultForm').validate({
+        ignore: '',
         rules: {
             Results_Title: { required:true },
             Results_NumA: { c_num:true },

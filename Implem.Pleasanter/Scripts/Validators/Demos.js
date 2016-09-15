@@ -1,5 +1,6 @@
 ﻿$p.validateDemos = function () {
     $('#DemoForm').validate({
+        ignore: '',
         rules: {
             Demos_Title: { required:true }
         },

@@ -1,5 +1,6 @@
 ﻿$p.validateOutgoingMails = function () {
     $('#OutgoingMailForm').validate({
+        ignore: '',
         rules: {
             OutgoingMails_Title: { required:true },
             OutgoingMails_Body: { required:true }

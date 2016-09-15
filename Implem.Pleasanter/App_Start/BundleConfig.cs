@@ -74,6 +74,7 @@ namespace Implem.Pleasanter
                 "~/Scripts/SubmitEvents.js",
                 "~/Scripts/TimeSeries.js",
                 "~/Scripts/_Show.js",
+                "~/Scripts/Validators/_Shared.js",
                 "~/Scripts/Validators/Custom.js"
             };
         }
