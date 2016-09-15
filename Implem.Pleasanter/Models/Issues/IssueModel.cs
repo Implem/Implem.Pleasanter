@@ -1593,8 +1593,8 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     issueModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? IssueUtilities.Editor(siteModel, issueModel, byRest: true)
-                        : IssueUtilities.Editor(siteModel, this, byRest: true))
+                        ? IssueUtilities.Editor(siteModel, issueModel)
+                        : IssueUtilities.Editor(siteModel, this))
                 .Invoke("setCurrentIndex")
                 .Invoke("validateIssues")
                 .Message(message)
@@ -2025,7 +2025,7 @@ namespace Implem.Pleasanter.Models
             return new IssuesResponseCollection(this)
                 .ReplaceAll(
                     "#MainContainer",
-                    IssueUtilities.Editor(siteModel, this, byRest: true))
+                    IssueUtilities.Editor(siteModel, this))
                 .Invoke("validateIssues")
                 .ToJson();
         }

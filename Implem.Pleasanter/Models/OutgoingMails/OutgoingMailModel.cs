@@ -472,8 +472,8 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     outgoingMailModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? OutgoingMailUtilities.Editor(outgoingMailModel, byRest: true)
-                        : OutgoingMailUtilities.Editor(this, byRest: true))
+                        ? OutgoingMailUtilities.Editor(outgoingMailModel)
+                        : OutgoingMailUtilities.Editor(this))
                 .Invoke("setCurrentIndex")
                 .Invoke("validateOutgoingMails")
                 .Message(message)
@@ -566,7 +566,7 @@ namespace Implem.Pleasanter.Models
             return new OutgoingMailsResponseCollection(this)
                 .ReplaceAll(
                     "#MainContainer",
-                    OutgoingMailUtilities.Editor(this, byRest: true))
+                    OutgoingMailUtilities.Editor(this))
                 .Invoke("validateOutgoingMails")
                 .ToJson();
         }

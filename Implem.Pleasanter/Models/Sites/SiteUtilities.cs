@@ -139,8 +139,7 @@ namespace Implem.Pleasanter.Models
         {
             return Editor(
                 new SiteModel(
-                    siteId, clearSessions, methodType: BaseModel.MethodTypes.Edit),
-                byRest: true);
+                    siteId, clearSessions, methodType: BaseModel.MethodTypes.Edit));
         }
 
         /// <summary>
@@ -514,14 +513,13 @@ namespace Implem.Pleasanter.Models
                     MethodType = BaseModel.MethodTypes.New,
                     SiteId = siteId,
                     PermissionType = permissionType
-                },
-                byRest: false);
+                });
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string Editor(SiteModel siteModel, bool byRest)
+        public static string Editor(SiteModel siteModel)
         {
             var hb = new HtmlBuilder();
             return hb.Template(

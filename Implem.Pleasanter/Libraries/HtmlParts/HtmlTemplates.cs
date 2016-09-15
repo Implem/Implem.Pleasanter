@@ -29,7 +29,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string script = "",
             string userScript = "",
             string userStyle = "",
-            bool byRest = false,
             Action action = null)
         {
             return hb
@@ -50,8 +49,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Scripts(
                     script: script,
                     userScript: userScript,
-                    referenceType: referenceType,
-                    byRest: byRest);
+                    referenceType: referenceType);
         }
 
         public static HtmlBuilder MainContainer(

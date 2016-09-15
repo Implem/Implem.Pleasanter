@@ -63,8 +63,7 @@ namespace Implem.Pleasanter.Models
                 text: QueryStrings.Data("text"),
                 offset: 0,
                 results: dataSet?.Tables["Main"].AsEnumerable(),
-                count: Rds.Count(dataSet),
-                byRest: false).ToString();
+                count: Rds.Count(dataSet)).ToString();
         }
 
         /// <summary>
@@ -89,8 +88,7 @@ namespace Implem.Pleasanter.Models
                             text: text,
                             offset: 0,
                             results: results,
-                            count: Rds.Count(dataSet),
-                            byRest: true))
+                            count: Rds.Count(dataSet)))
                     .Focus("#Search");
             }
             else
@@ -117,8 +115,7 @@ namespace Implem.Pleasanter.Models
             string text,
             int offset,
             EnumerableRowCollection<DataRow> results,
-            int count,
-            bool byRest)
+            int count)
         {
             var hb = new HtmlBuilder();
             var searchIndexes = text.SearchIndexes();
@@ -134,7 +131,6 @@ namespace Implem.Pleasanter.Models
                 useTitle: false,
                 useSearch: false,
                 useBreadcrumb: false,
-                byRest: byRest,
                 action: () => hb
                     .Div(id: "SearchResults", css: "search-results", action: () => hb
                         .Command(text: text)

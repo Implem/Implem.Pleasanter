@@ -1486,8 +1486,8 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     resultModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? ResultUtilities.Editor(siteModel, resultModel, byRest: true)
-                        : ResultUtilities.Editor(siteModel, this, byRest: true))
+                        ? ResultUtilities.Editor(siteModel, resultModel)
+                        : ResultUtilities.Editor(siteModel, this))
                 .Invoke("setCurrentIndex")
                 .Invoke("validateResults")
                 .Message(message)
@@ -1906,7 +1906,7 @@ namespace Implem.Pleasanter.Models
             return new ResultsResponseCollection(this)
                 .ReplaceAll(
                     "#MainContainer",
-                    ResultUtilities.Editor(siteModel, this, byRest: true))
+                    ResultUtilities.Editor(siteModel, this))
                 .Invoke("validateResults")
                 .ToJson();
         }

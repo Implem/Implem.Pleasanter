@@ -428,8 +428,8 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     mailAddressModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? MailAddressUtilities.Editor(mailAddressModel, byRest: true)
-                        : MailAddressUtilities.Editor(this, byRest: true))
+                        ? MailAddressUtilities.Editor(mailAddressModel)
+                        : MailAddressUtilities.Editor(this))
                 .Invoke("setCurrentIndex")
                 .Invoke("validateMailAddresses")
                 .Message(message)
@@ -508,7 +508,7 @@ namespace Implem.Pleasanter.Models
             return new MailAddressesResponseCollection(this)
                 .ReplaceAll(
                     "#MainContainer",
-                    MailAddressUtilities.Editor(this, byRest: true))
+                    MailAddressUtilities.Editor(this))
                 .Invoke("validateMailAddresses")
                 .ToJson();
         }

@@ -438,7 +438,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string EditorNew(SiteModel siteModel, long siteId, bool byRest)
+        public static string EditorNew(SiteModel siteModel, long siteId)
         {
             return Editor(
                 siteModel,
@@ -448,8 +448,7 @@ namespace Implem.Pleasanter.Models
                     methodType: BaseModel.MethodTypes.New)
                 {
                     SiteId = siteId
-                },
-                byRest: byRest);
+                });
         }
 
         public static string Editor(SiteModel siteModel, long resultId, bool clearSessions)
@@ -463,10 +462,10 @@ namespace Implem.Pleasanter.Models
                 methodType: BaseModel.MethodTypes.Edit);
             resultModel.SwitchTargets = ResultUtilities.GetSwitchTargets(
                 siteSettings, resultModel.SiteId);
-            return Editor(siteModel, resultModel, byRest: false);
+            return Editor(siteModel, resultModel);
         }
 
-        public static string Editor(SiteModel siteModel, ResultModel resultModel, bool byRest)
+        public static string Editor(SiteModel siteModel, ResultModel resultModel)
         {
             var hb = new HtmlBuilder();
             resultModel.SiteSettings.SetChoicesByLinks();
@@ -489,7 +488,6 @@ namespace Implem.Pleasanter.Models
                 userStyle: resultModel.MethodType == BaseModel.MethodTypes.New
                     ? resultModel.SiteSettings.NewStyle
                     : resultModel.SiteSettings.EditStyle,
-                byRest: byRest,
                 action: () =>
                 {
                     hb

@@ -23,7 +23,7 @@ namespace Implem.Pleasanter.Controllers
             if (!Request.IsAjaxRequest())
             {
                 var log = new SysLogModel();
-                var html = new ItemModel(id).New(byRest: false);
+                var html = new ItemModel(id).New();
                 ViewBag.HtmlBody = html;
                 log.Finish(html.Length);
                 return View();

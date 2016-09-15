@@ -483,8 +483,8 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     binaryModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? BinaryUtilities.Editor(binaryModel, byRest: true)
-                        : BinaryUtilities.Editor(this, byRest: true))
+                        ? BinaryUtilities.Editor(binaryModel)
+                        : BinaryUtilities.Editor(this))
                 .Invoke("setCurrentIndex")
                 .Invoke("validateBinaries")
                 .Message(message)
@@ -578,7 +578,7 @@ namespace Implem.Pleasanter.Models
             return new BinariesResponseCollection(this)
                 .ReplaceAll(
                     "#MainContainer",
-                    BinaryUtilities.Editor(this, byRest: true))
+                    BinaryUtilities.Editor(this))
                 .Invoke("validateBinaries")
                 .ToJson();
         }

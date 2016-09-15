@@ -425,8 +425,8 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     tenantModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? TenantUtilities.Editor(tenantModel, byRest: true)
-                        : TenantUtilities.Editor(this, byRest: true))
+                        ? TenantUtilities.Editor(tenantModel)
+                        : TenantUtilities.Editor(this))
                 .Invoke("setCurrentIndex")
                 .Invoke("validateTenants")
                 .Message(message)
@@ -505,7 +505,7 @@ namespace Implem.Pleasanter.Models
             return new TenantsResponseCollection(this)
                 .ReplaceAll(
                     "#MainContainer",
-                    TenantUtilities.Editor(this, byRest: true))
+                    TenantUtilities.Editor(this))
                 .Invoke("validateTenants")
                 .ToJson();
         }

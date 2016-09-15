@@ -225,29 +225,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string EditorNew(SiteModel siteModel, long siteId, bool byRest)
-        {
-            var wikiId = Rds.ExecuteScalar_long(statements:
-                Rds.SelectWikis(
-                    column: Rds.WikisColumn().WikiId(),
-                    where: Rds.WikisWhere().SiteId(siteId)));
-            return wikiId == 0
-                ? Editor(
-                    siteModel,
-                    new WikiModel(
-                        siteModel.WikisSiteSettings(),
-                        siteModel.PermissionType,
-                        methodType: BaseModel.MethodTypes.New)
-                    {
-                        SiteId = siteId
-                    },
-                    byRest: byRest)
-                : new HtmlBuilder().NotFoundTemplate().ToString();
-        }
-
         public static string Editor(SiteModel siteModel, long wikiId, bool clearSessions)
         {
             var siteSettings = siteModel.WikisSiteSettings();
@@ -259,10 +236,10 @@ namespace Implem.Pleasanter.Models
                 methodType: BaseModel.MethodTypes.Edit);
             wikiModel.SwitchTargets = WikiUtilities.GetSwitchTargets(
                 siteSettings, wikiModel.SiteId);
-            return Editor(siteModel, wikiModel, byRest: false);
+            return Editor(siteModel, wikiModel);
         }
 
-        public static string Editor(SiteModel siteModel, WikiModel wikiModel, bool byRest)
+        public static string Editor(SiteModel siteModel, WikiModel wikiModel)
         {
             var hb = new HtmlBuilder();
             wikiModel.SiteSettings.SetChoicesByLinks();
@@ -285,7 +262,6 @@ namespace Implem.Pleasanter.Models
                 userStyle: wikiModel.MethodType == BaseModel.MethodTypes.New
                     ? wikiModel.SiteSettings.NewStyle
                     : wikiModel.SiteSettings.EditStyle,
-                byRest: byRest,
                 action: () =>
                 {
                     hb
@@ -820,6 +796,28 @@ namespace Implem.Pleasanter.Models
                     : dataRow["Title"].ToString();
                 default: return string.Empty;
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string EditorNew(SiteModel siteModel, long siteId)
+        {
+            var wikiId = Rds.ExecuteScalar_long(statements:
+                Rds.SelectWikis(
+                    column: Rds.WikisColumn().WikiId(),
+                    where: Rds.WikisWhere().SiteId(siteId)));
+            return wikiId == 0
+                ? Editor(
+                    siteModel,
+                    new WikiModel(
+                        siteModel.WikisSiteSettings(),
+                        siteModel.PermissionType,
+                        methodType: BaseModel.MethodTypes.New)
+                    {
+                        SiteId = siteId
+                    })
+                : new HtmlBuilder().NotFoundTemplate().ToString();
         }
 
         /// <summary>

@@ -515,8 +515,8 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     exportSettingModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? ExportSettingUtilities.Editor(exportSettingModel, byRest: true)
-                        : ExportSettingUtilities.Editor(this, byRest: true))
+                        ? ExportSettingUtilities.Editor(exportSettingModel)
+                        : ExportSettingUtilities.Editor(this))
                 .Invoke("setCurrentIndex")
                 .Invoke("validateExportSettings")
                 .Message(message)
@@ -601,7 +601,7 @@ namespace Implem.Pleasanter.Models
             return new ExportSettingsResponseCollection(this)
                 .ReplaceAll(
                     "#MainContainer",
-                    ExportSettingUtilities.Editor(this, byRest: true))
+                    ExportSettingUtilities.Editor(this))
                 .Invoke("validateExportSettings")
                 .ToJson();
         }

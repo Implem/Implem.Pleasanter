@@ -280,8 +280,7 @@ namespace Implem.Pleasanter.Models
                 new TenantModel(
                     SiteSettingsUtility.TenantsSiteSettings(),
                     Permissions.Admins(),
-                    methodType: BaseModel.MethodTypes.New),
-                byRest: false);
+                    methodType: BaseModel.MethodTypes.New));
         }
 
         public static string Editor(int tenantId, bool clearSessions)
@@ -294,10 +293,10 @@ namespace Implem.Pleasanter.Models
                 methodType: BaseModel.MethodTypes.Edit);
             tenantModel.SwitchTargets = TenantUtilities.GetSwitchTargets(
                 SiteSettingsUtility.TenantsSiteSettings());
-            return Editor(tenantModel, byRest: false);
+            return Editor(tenantModel);
         }
 
-        public static string Editor(TenantModel tenantModel, bool byRest)
+        public static string Editor(TenantModel tenantModel)
         {
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
@@ -314,7 +313,6 @@ namespace Implem.Pleasanter.Models
                 allowAccess:
                     permissionType.CanEditTenant() &&
                     tenantModel.AccessStatus != Databases.AccessStatuses.NotFound,
-                byRest: byRest,
                 action: () =>
                 {
                     permissionType = Permissions.Types.Manager;

@@ -623,8 +623,8 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     wikiModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? WikiUtilities.Editor(siteModel, wikiModel, byRest: true)
-                        : WikiUtilities.Editor(siteModel, this, byRest: true))
+                        ? WikiUtilities.Editor(siteModel, wikiModel)
+                        : WikiUtilities.Editor(siteModel, this))
                 .Invoke("setCurrentIndex")
                 .Invoke("validateWikis")
                 .Message(message)
@@ -725,7 +725,7 @@ namespace Implem.Pleasanter.Models
             return new WikisResponseCollection(this)
                 .ReplaceAll(
                     "#MainContainer",
-                    WikiUtilities.Editor(siteModel, this, byRest: true))
+                    WikiUtilities.Editor(siteModel, this))
                 .Invoke("validateWikis")
                 .ToJson();
         }

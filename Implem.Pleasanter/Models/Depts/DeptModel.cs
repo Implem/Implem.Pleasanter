@@ -460,8 +460,8 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll(
                     "#MainContainer",
                     deptModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? DeptUtilities.Editor(deptModel, byRest: true)
-                        : DeptUtilities.Editor(this, byRest: true))
+                        ? DeptUtilities.Editor(deptModel)
+                        : DeptUtilities.Editor(this))
                 .Invoke("setCurrentIndex")
                 .Invoke("validateDepts")
                 .Message(message)
@@ -543,7 +543,7 @@ namespace Implem.Pleasanter.Models
             return new DeptsResponseCollection(this)
                 .ReplaceAll(
                     "#MainContainer",
-                    DeptUtilities.Editor(this, byRest: true))
+                    DeptUtilities.Editor(this))
                 .Invoke("validateDepts")
                 .ToJson();
         }

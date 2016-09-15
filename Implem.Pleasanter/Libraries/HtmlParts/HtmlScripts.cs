@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using System.Linq;
@@ -13,10 +14,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string script,
             string userScript,
-            string referenceType,
-            bool byRest)
+            string referenceType)
         {
-            return !byRest
+            return !Request.IsAjax()
                 ? hb
                     .Script(src: Navigations.Get("Scripts/Plugins/jquery-3.1.0.min.js"))
                     .Script(src: Navigations.Get("Scripts/Plugins/jquery-ui.min.js"))

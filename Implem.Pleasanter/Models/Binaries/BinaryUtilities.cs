@@ -277,8 +277,7 @@ namespace Implem.Pleasanter.Models
                 new BinaryModel(
                     SiteSettingsUtility.BinariesSiteSettings(),
                     Permissions.Admins(),
-                    methodType: BaseModel.MethodTypes.New),
-                byRest: false);
+                    methodType: BaseModel.MethodTypes.New));
         }
 
         public static string Editor(long binaryId, bool clearSessions)
@@ -291,10 +290,10 @@ namespace Implem.Pleasanter.Models
                 methodType: BaseModel.MethodTypes.Edit);
             binaryModel.SwitchTargets = BinaryUtilities.GetSwitchTargets(
                 SiteSettingsUtility.BinariesSiteSettings());
-            return Editor(binaryModel, byRest: false);
+            return Editor(binaryModel);
         }
 
-        public static string Editor(BinaryModel binaryModel, bool byRest)
+        public static string Editor(BinaryModel binaryModel)
         {
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
@@ -311,7 +310,6 @@ namespace Implem.Pleasanter.Models
                 allowAccess:
                     permissionType.CanEditTenant() &&
                     binaryModel.AccessStatus != Databases.AccessStatuses.NotFound,
-                byRest: byRest,
                 action: () =>
                 {
                     permissionType = Permissions.Types.Manager;
