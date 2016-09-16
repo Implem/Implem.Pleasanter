@@ -67,7 +67,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Where(p => p.Updator == o)
                         .Select(p => p.EarnedValueAdditions)
                         .Sum())
-                    .Distinct();
+                    .Distinct()
+                    .ToList();
                 var colspan = updators.Count() + 1;
                 var minTime = burnDown.MinTime;
                 var updatedMaxTime = burnDown.LatestUpdatedTime;
