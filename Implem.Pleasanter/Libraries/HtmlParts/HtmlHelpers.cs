@@ -14,7 +14,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder HtmlDept(this HtmlBuilder hb, int id)
         {
             return hb.P(css: "dept", action: () => hb
-                .Icon(iconCss: "ui-icon-contact", text: SiteInfo.DeptModel(id).DeptName));
+                .Icon(iconCss: "ui-icon-contact", text: SiteInfo.Dept(id).Name));
         }
 
         public static HtmlBuilder HtmlStatus(
@@ -23,10 +23,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var choice = column.Choice(selectedValue);
             return hb.P(
                 attributes: new HtmlAttributes()
-                    .Class(choice.CssClass())
-                    .Style(choice.Style()),
+                    .Class(choice.CssClass)
+                    .Style(choice.Style),
                 action: () => hb
-                    .Text(choice.TextMini()));
+                    .Text(choice.TextMini));
         }
 
         public static HtmlBuilder LabelValue(

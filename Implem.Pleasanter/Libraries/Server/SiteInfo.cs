@@ -19,8 +19,8 @@ namespace Implem.Pleasanter.Libraries.Server
         public static SiteMenu SiteMenu = new SiteMenu();
         public static Dictionary<long, List<int>> SiteUserIdCollection =
             new Dictionary<long, List<int>>();
-        public static Dictionary<int, DeptModel> Depts;
-        public static Dictionary<int, User> Users;
+        public static Dictionary<int, Dept> DeptHash;
+        public static Dictionary<int, User> UserHash;
 
         public static IEnumerable<int> UserIdCollection(long siteId)
         {
@@ -62,30 +62,40 @@ namespace Implem.Pleasanter.Libraries.Server
                     .ReferenceId(siteId)));
         }
 
-        public static Dictionary<int, DeptModel> GetDepts()
+        public static Dictionary<int, Dept> GetDepts()
         {
-            if (Depts == null) RefreshDepts();
-            return Depts;
+            if (DeptHash == null) RefreshDepts();
+            return DeptHash;
         }
 
         public static void SetDept(DeptModel deptModel)
         {
             if (DeptExists(deptModel.DeptId))
             {
-                Depts[deptModel.DeptId] = deptModel;
+                DeptHash[deptModel.DeptId] = new Dept(
+                    deptModel.TenantId, deptModel.DeptId, deptModel.DeptName);
             }
             else
             {
-                Depts.Add(deptModel.DeptId, deptModel);
+                DeptHash.Add(deptModel.DeptId, new Dept(
+                    deptModel.TenantId, deptModel.DeptId, deptModel.DeptName));
             }
         }
 
         public static void RefreshDepts()
         {
-            Depts = new DeptCollection(
-                SiteSettingsUtility.DeptsSiteSettings(),
-                Permissions.Types.TenantAdmin)
-                    .ToDictionary(o => o.DeptId, o => o);
+            DeptHash = Rds.ExecuteTable(statements:
+                Rds.SelectDepts(
+                    column: Rds.DeptsColumn()
+                        .TenantId()
+                        .DeptId()
+                        .DeptName()))
+                            .AsEnumerable()
+                            .Select(o => new Dept(
+                                o["TenantId"].ToInt(),
+                                o["DeptId"].ToInt(),
+                                o["DeptName"].ToString()))
+                            .ToDictionary(o => o.Id, o => o);
         }
 
         public static bool DeptExists(int deptId)
@@ -93,38 +103,35 @@ namespace Implem.Pleasanter.Libraries.Server
             return GetDepts().ContainsKey(deptId);
         }
 
-        public static DeptModel DeptModel(int deptId)
+        public static Dept Dept(int deptId)
         {
             return GetDepts()
                 .Where(o => o.Key == deptId)
                 .Select(o => o.Value)
-                .FirstOrDefault() ?? new DeptModel(
-                    SiteSettingsUtility.DeptsSiteSettings(),
-                    Permissions.Types.TenantAdmin,
-                    deptId);
+                .FirstOrDefault();
         }
 
         public static Dictionary<int, User> GetUsers()
         {
-            if (Users == null) RefreshUsers();
-            return Users;
+            if (UserHash == null) RefreshUsers();
+            return UserHash;
         }
 
         public static void SetUser(User user)
         {
             if (UserExists(user.Id))
             {
-                Users[user.Id] = user;
+                UserHash[user.Id] = user;
             }
             else
             {
-                Users.Add(user.Id, user);
+                UserHash.Add(user.Id, user);
             }
         }
 
         public static void RefreshUsers()
         {
-            Users = Rds.ExecuteTable(statements:
+            UserHash = Rds.ExecuteTable(statements:
                 Rds.SelectUsers(
                     column: Rds.UsersColumn()
                         .TenantId()
@@ -148,7 +155,7 @@ namespace Implem.Pleasanter.Libraries.Server
             if (!UserExists(userId))
             {
                 var user = new User(userId);
-                Users.Add(userId, user);
+                UserHash.Add(userId, user);
             }
             return GetUsers()
                 .Where(o => o.Key == userId)

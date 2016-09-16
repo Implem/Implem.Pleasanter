@@ -31,7 +31,7 @@ namespace Implem.Pleasanter.Libraries.Converts
         {
             return column.HasChoices()
                 ? hb.Td(action: () => hb
-                    .Text(text: column.Choice(value).TextMini()))
+                    .Text(text: column.Choice(value).TextMini))
                 : column.MarkDown
                     ? hb.Td(action: () => hb
                         .Div(css: "grid-title-body", action: () => hb

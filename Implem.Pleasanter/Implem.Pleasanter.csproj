@@ -211,6 +211,7 @@
     <Compile Include="Libraries\DataSources\Rds.cs" />
     <Compile Include="Libraries\DataTypes\Comments.cs" />
     <Compile Include="Libraries\DataTypes\CompletionTime.cs" />
+    <Compile Include="Libraries\DataTypes\Dept.cs" />
     <Compile Include="Libraries\DataTypes\ExportColumns.cs" />
     <Compile Include="Libraries\DataTypes\ImageSettings.cs" />
     <Compile Include="Libraries\DataTypes\ProgressRate.cs" />

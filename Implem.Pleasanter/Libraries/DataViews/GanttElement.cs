@@ -45,7 +45,7 @@ namespace Implem.Pleasanter.Libraries.DataViews
                 progressRateColumn.Display(progressRate),
                 progressRateColumn.Unit,
                 SiteInfo.UserFullName(owner, notSet: false),
-                statusColumn.Choice(status.ToString()).Text());
+                statusColumn.Choice(status.ToString()).Text);
             StartTime = startTime.InRange()
                 ? startTime.ToLocal(Displays.YmdFormat())
                 : createdTime.ToLocal(Displays.YmdFormat());

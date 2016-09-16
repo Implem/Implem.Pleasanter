@@ -72,8 +72,6 @@ namespace Implem.Pleasanter.Models
         public static string DataView(
             SiteSettings siteSettings, Permissions.Types permissionType)
         {
-            siteSettings.SetChoicesByLinks();
-            siteSettings.SetChoicesByPlaceholders();
             switch (DataViewSelectors.Get(siteSettings.SiteId))
             {
                 default: return Grid(siteSettings: siteSettings, permissionType: permissionType);
@@ -131,8 +129,6 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false,
             Message message = null)
         {
-            siteSettings.SetChoicesByLinks();
-            siteSettings.SetChoicesByPlaceholders();
             var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
             var wikiCollection = WikiCollection(siteSettings, permissionType, formData, offset);
             return (responseCollection ?? new ResponseCollection())
@@ -225,6 +221,28 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string EditorNew(SiteModel siteModel, long siteId)
+        {
+            var wikiId = Rds.ExecuteScalar_long(statements:
+                Rds.SelectWikis(
+                    column: Rds.WikisColumn().WikiId(),
+                    where: Rds.WikisWhere().SiteId(siteId)));
+            return wikiId == 0
+                ? Editor(
+                    siteModel,
+                    new WikiModel(
+                        siteModel.WikisSiteSettings(),
+                        siteModel.PermissionType,
+                        methodType: BaseModel.MethodTypes.New)
+                    {
+                        SiteId = siteId
+                    })
+                : new HtmlBuilder().NotFoundTemplate().ToString();
+        }
+
         public static string Editor(SiteModel siteModel, long wikiId, bool clearSessions)
         {
             var siteSettings = siteModel.WikisSiteSettings();
@@ -242,8 +260,6 @@ namespace Implem.Pleasanter.Models
         public static string Editor(SiteModel siteModel, WikiModel wikiModel)
         {
             var hb = new HtmlBuilder();
-            wikiModel.SiteSettings.SetChoicesByLinks();
-            wikiModel.SiteSettings.SetChoicesByPlaceholders();
             return hb.Template(
                 siteId: siteModel.SiteId,
                 referenceType: "Wikis",
@@ -688,8 +704,6 @@ namespace Implem.Pleasanter.Models
             Permissions.Types permissionType,
             SiteModel siteModel)
         {
-            siteModel.SiteSettings.SetChoicesByLinks();
-            siteModel.SiteSettings.SetChoicesByPlaceholders();
             var formData = DataViewFilters.SessionFormData(siteModel.SiteId);
             var wikiCollection = new WikiCollection(
                 siteSettings: siteSettings,
@@ -770,7 +784,7 @@ namespace Implem.Pleasanter.Models
             switch (column.ColumnName)
             {
                 case "Title": return column.HasChoices()
-                    ? column.Choice(wikiModel.Title.Value).Text()
+                    ? column.Choice(wikiModel.Title.Value).Text
                     : wikiModel.Title.Value;
                 default: return string.Empty;
             }
@@ -792,32 +806,10 @@ namespace Implem.Pleasanter.Models
             switch (column.ColumnName)
             {
                 case "Title": return column.HasChoices()
-                    ? column.Choice(dataRow["Title"].ToString()).Text()
+                    ? column.Choice(dataRow["Title"].ToString()).Text
                     : dataRow["Title"].ToString();
                 default: return string.Empty;
             }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string EditorNew(SiteModel siteModel, long siteId)
-        {
-            var wikiId = Rds.ExecuteScalar_long(statements:
-                Rds.SelectWikis(
-                    column: Rds.WikisColumn().WikiId(),
-                    where: Rds.WikisWhere().SiteId(siteId)));
-            return wikiId == 0
-                ? Editor(
-                    siteModel,
-                    new WikiModel(
-                        siteModel.WikisSiteSettings(),
-                        siteModel.PermissionType,
-                        methodType: BaseModel.MethodTypes.New)
-                    {
-                        SiteId = siteId
-                    })
-                : new HtmlBuilder().NotFoundTemplate().ToString();
         }
 
         /// <summary>
@@ -830,8 +822,6 @@ namespace Implem.Pleasanter.Models
             WikiModel wikiModel)
         {
             var hb = new HtmlBuilder();
-            siteSettings.SetChoicesByLinks();
-            siteSettings.SetChoicesByPlaceholders();
             return hb.Template(
                 siteId: siteModel.SiteId,
                 referenceType: "Wikis",

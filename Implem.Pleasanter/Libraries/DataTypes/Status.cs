@@ -52,7 +52,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public string ToExport(Column column)
         {
-            return column.Choice(ToString()).Text();
+            return column.Choice(ToString()).Text;
         }
     }
 }

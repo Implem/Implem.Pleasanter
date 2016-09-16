@@ -104,7 +104,7 @@ namespace Implem.Pleasanter.Models
             switch (column.ColumnName)
             {
                 case "Title": return column.HasChoices()
-                    ? column.Choice(siteModel.Title.Value).Text()
+                    ? column.Choice(siteModel.Title.Value).Text
                     : siteModel.Title.Value;
                 default: return string.Empty;
             }
@@ -126,7 +126,7 @@ namespace Implem.Pleasanter.Models
             switch (column.ColumnName)
             {
                 case "Title": return column.HasChoices()
-                    ? column.Choice(dataRow["Title"].ToString()).Text()
+                    ? column.Choice(dataRow["Title"].ToString()).Text
                     : dataRow["Title"].ToString();
                 default: return string.Empty;
             }

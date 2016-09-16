@@ -423,7 +423,6 @@ namespace Implem.DefinitionAccessor
                     case "Collection_ItemAggregation": Code.Collection_ItemAggregation = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_ItemAggregation, definitionRow, CodeXls); break;
                     case "Model_Utility": Code.Model_Utility = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility, definitionRow, CodeXls); break;
                     case "Model_Utility_Index": Code.Model_Utility_Index = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_Index, definitionRow, CodeXls); break;
-                    case "Model_Utility_SetSiteSettings": Code.Model_Utility_SetSiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_SetSiteSettings, definitionRow, CodeXls); break;
                     case "Model_Utility_ImportSettings": Code.Model_Utility_ImportSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_ImportSettings, definitionRow, CodeXls); break;
                     case "Model_Utility_GridRows_BackUrl": Code.Model_Utility_GridRows_BackUrl = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_GridRows_BackUrl, definitionRow, CodeXls); break;
                     case "Model_Utility_GridRows_BackUrlItem": Code.Model_Utility_GridRows_BackUrlItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_GridRows_BackUrlItem, definitionRow, CodeXls); break;
@@ -562,7 +561,9 @@ namespace Implem.DefinitionAccessor
                     case "SiteSettings_Get": Code.SiteSettings_Get = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_Get, definitionRow, CodeXls); break;
                     case "SiteSettings_GetCases": Code.SiteSettings_GetCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetCases, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels": Code.SiteSettings_GetModels = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels, definitionRow, CodeXls); break;
+                    case "SiteSettings_GetModels_Choices": Code.SiteSettings_GetModels_Choices = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Choices, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Items": Code.SiteSettings_GetModels_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items, definitionRow, CodeXls); break;
+                    case "SiteSettings_GetModels_Items_Choices": Code.SiteSettings_GetModels_Items_Choices = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items_Choices, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Includes": Code.SiteSettings_GetModels_Includes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Includes, definitionRow, CodeXls); break;
                     case "DataViewFilters": Code.DataViewFilters = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.DataViewFilters, definitionRow, CodeXls); break;
                     case "DataViewFilters_Search_TableCases": Code.DataViewFilters_Search_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.DataViewFilters_Search_TableCases, definitionRow, CodeXls); break;
@@ -3893,7 +3894,6 @@ namespace Implem.DefinitionAccessor
         public string Collection_ItemAggregation;
         public string Model_Utility;
         public string Model_Utility_Index;
-        public string Model_Utility_SetSiteSettings;
         public string Model_Utility_ImportSettings;
         public string Model_Utility_GridRows_BackUrl;
         public string Model_Utility_GridRows_BackUrlItem;
@@ -4032,7 +4032,9 @@ namespace Implem.DefinitionAccessor
         public string SiteSettings_Get;
         public string SiteSettings_GetCases;
         public string SiteSettings_GetModels;
+        public string SiteSettings_GetModels_Choices;
         public string SiteSettings_GetModels_Items;
+        public string SiteSettings_GetModels_Items_Choices;
         public string SiteSettings_GetModels_Includes;
         public string DataViewFilters;
         public string DataViewFilters_Search_TableCases;
@@ -4269,7 +4271,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Collection_ItemAggregation = new CodeDefinition();
         public CodeDefinition Model_Utility = new CodeDefinition();
         public CodeDefinition Model_Utility_Index = new CodeDefinition();
-        public CodeDefinition Model_Utility_SetSiteSettings = new CodeDefinition();
         public CodeDefinition Model_Utility_ImportSettings = new CodeDefinition();
         public CodeDefinition Model_Utility_GridRows_BackUrl = new CodeDefinition();
         public CodeDefinition Model_Utility_GridRows_BackUrlItem = new CodeDefinition();
@@ -4408,7 +4409,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition SiteSettings_Get = new CodeDefinition();
         public CodeDefinition SiteSettings_GetCases = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels = new CodeDefinition();
+        public CodeDefinition SiteSettings_GetModels_Choices = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Items = new CodeDefinition();
+        public CodeDefinition SiteSettings_GetModels_Items_Choices = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Includes = new CodeDefinition();
         public CodeDefinition DataViewFilters = new CodeDefinition();
         public CodeDefinition DataViewFilters_Search_TableCases = new CodeDefinition();

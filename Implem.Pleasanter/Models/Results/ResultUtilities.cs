@@ -23,8 +23,6 @@ namespace Implem.Pleasanter.Models
     {
         public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
         {
-            siteSettings.SetChoicesByLinks();
-            siteSettings.SetChoicesByPlaceholders();
             var hb = new HtmlBuilder();
             var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
             var resultCollection = ResultCollection(siteSettings, permissionType, formData);
@@ -150,8 +148,6 @@ namespace Implem.Pleasanter.Models
         public static string DataView(
             SiteSettings siteSettings, Permissions.Types permissionType)
         {
-            siteSettings.SetChoicesByLinks();
-            siteSettings.SetChoicesByPlaceholders();
             switch (DataViewSelectors.Get(siteSettings.SiteId))
             {
                 case "TimeSeries": return TimeSeriesResponse(siteSettings, permissionType);
@@ -211,8 +207,6 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false,
             Message message = null)
         {
-            siteSettings.SetChoicesByLinks();
-            siteSettings.SetChoicesByPlaceholders();
             var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
             var resultCollection = ResultCollection(siteSettings, permissionType, formData, offset);
             return (responseCollection ?? new ResponseCollection())
@@ -468,8 +462,6 @@ namespace Implem.Pleasanter.Models
         public static string Editor(SiteModel siteModel, ResultModel resultModel)
         {
             var hb = new HtmlBuilder();
-            resultModel.SiteSettings.SetChoicesByLinks();
-            resultModel.SiteSettings.SetChoicesByPlaceholders();
             return hb.Template(
                 siteId: siteModel.SiteId,
                 referenceType: "Results",
@@ -1241,8 +1233,6 @@ namespace Implem.Pleasanter.Models
             Permissions.Types permissionType,
             SiteModel siteModel)
         {
-            siteModel.SiteSettings.SetChoicesByLinks();
-            siteModel.SiteSettings.SetChoicesByPlaceholders();
             var formData = DataViewFilters.SessionFormData(siteModel.SiteId);
             var resultCollection = new ResultCollection(
                 siteSettings: siteSettings,
@@ -1456,85 +1446,85 @@ namespace Implem.Pleasanter.Models
             switch (column.ColumnName)
             {
                 case "Title": return column.HasChoices()
-                    ? column.Choice(resultModel.Title.Value).Text()
+                    ? column.Choice(resultModel.Title.Value).Text
                     : resultModel.Title.Value;
                 case "ClassA": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassA).Text()
+                    ? column.Choice(resultModel.ClassA).Text
                     : resultModel.ClassA;
                 case "ClassB": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassB).Text()
+                    ? column.Choice(resultModel.ClassB).Text
                     : resultModel.ClassB;
                 case "ClassC": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassC).Text()
+                    ? column.Choice(resultModel.ClassC).Text
                     : resultModel.ClassC;
                 case "ClassD": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassD).Text()
+                    ? column.Choice(resultModel.ClassD).Text
                     : resultModel.ClassD;
                 case "ClassE": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassE).Text()
+                    ? column.Choice(resultModel.ClassE).Text
                     : resultModel.ClassE;
                 case "ClassF": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassF).Text()
+                    ? column.Choice(resultModel.ClassF).Text
                     : resultModel.ClassF;
                 case "ClassG": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassG).Text()
+                    ? column.Choice(resultModel.ClassG).Text
                     : resultModel.ClassG;
                 case "ClassH": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassH).Text()
+                    ? column.Choice(resultModel.ClassH).Text
                     : resultModel.ClassH;
                 case "ClassI": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassI).Text()
+                    ? column.Choice(resultModel.ClassI).Text
                     : resultModel.ClassI;
                 case "ClassJ": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassJ).Text()
+                    ? column.Choice(resultModel.ClassJ).Text
                     : resultModel.ClassJ;
                 case "ClassK": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassK).Text()
+                    ? column.Choice(resultModel.ClassK).Text
                     : resultModel.ClassK;
                 case "ClassL": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassL).Text()
+                    ? column.Choice(resultModel.ClassL).Text
                     : resultModel.ClassL;
                 case "ClassM": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassM).Text()
+                    ? column.Choice(resultModel.ClassM).Text
                     : resultModel.ClassM;
                 case "ClassN": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassN).Text()
+                    ? column.Choice(resultModel.ClassN).Text
                     : resultModel.ClassN;
                 case "ClassO": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassO).Text()
+                    ? column.Choice(resultModel.ClassO).Text
                     : resultModel.ClassO;
                 case "ClassP": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassP).Text()
+                    ? column.Choice(resultModel.ClassP).Text
                     : resultModel.ClassP;
                 case "ClassQ": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassQ).Text()
+                    ? column.Choice(resultModel.ClassQ).Text
                     : resultModel.ClassQ;
                 case "ClassR": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassR).Text()
+                    ? column.Choice(resultModel.ClassR).Text
                     : resultModel.ClassR;
                 case "ClassS": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassS).Text()
+                    ? column.Choice(resultModel.ClassS).Text
                     : resultModel.ClassS;
                 case "ClassT": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassT).Text()
+                    ? column.Choice(resultModel.ClassT).Text
                     : resultModel.ClassT;
                 case "ClassU": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassU).Text()
+                    ? column.Choice(resultModel.ClassU).Text
                     : resultModel.ClassU;
                 case "ClassV": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassV).Text()
+                    ? column.Choice(resultModel.ClassV).Text
                     : resultModel.ClassV;
                 case "ClassW": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassW).Text()
+                    ? column.Choice(resultModel.ClassW).Text
                     : resultModel.ClassW;
                 case "ClassX": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassX).Text()
+                    ? column.Choice(resultModel.ClassX).Text
                     : resultModel.ClassX;
                 case "ClassY": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassY).Text()
+                    ? column.Choice(resultModel.ClassY).Text
                     : resultModel.ClassY;
                 case "ClassZ": return column.HasChoices()
-                    ? column.Choice(resultModel.ClassZ).Text()
+                    ? column.Choice(resultModel.ClassZ).Text
                     : resultModel.ClassZ;
                 default: return string.Empty;
             }
@@ -1556,85 +1546,85 @@ namespace Implem.Pleasanter.Models
             switch (column.ColumnName)
             {
                 case "Title": return column.HasChoices()
-                    ? column.Choice(dataRow["Title"].ToString()).Text()
+                    ? column.Choice(dataRow["Title"].ToString()).Text
                     : dataRow["Title"].ToString();
                 case "ClassA": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassA"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassA"].ToString()).Text
                     : dataRow["ClassA"].ToString();
                 case "ClassB": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassB"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassB"].ToString()).Text
                     : dataRow["ClassB"].ToString();
                 case "ClassC": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassC"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassC"].ToString()).Text
                     : dataRow["ClassC"].ToString();
                 case "ClassD": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassD"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassD"].ToString()).Text
                     : dataRow["ClassD"].ToString();
                 case "ClassE": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassE"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassE"].ToString()).Text
                     : dataRow["ClassE"].ToString();
                 case "ClassF": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassF"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassF"].ToString()).Text
                     : dataRow["ClassF"].ToString();
                 case "ClassG": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassG"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassG"].ToString()).Text
                     : dataRow["ClassG"].ToString();
                 case "ClassH": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassH"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassH"].ToString()).Text
                     : dataRow["ClassH"].ToString();
                 case "ClassI": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassI"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassI"].ToString()).Text
                     : dataRow["ClassI"].ToString();
                 case "ClassJ": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassJ"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassJ"].ToString()).Text
                     : dataRow["ClassJ"].ToString();
                 case "ClassK": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassK"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassK"].ToString()).Text
                     : dataRow["ClassK"].ToString();
                 case "ClassL": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassL"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassL"].ToString()).Text
                     : dataRow["ClassL"].ToString();
                 case "ClassM": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassM"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassM"].ToString()).Text
                     : dataRow["ClassM"].ToString();
                 case "ClassN": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassN"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassN"].ToString()).Text
                     : dataRow["ClassN"].ToString();
                 case "ClassO": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassO"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassO"].ToString()).Text
                     : dataRow["ClassO"].ToString();
                 case "ClassP": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassP"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassP"].ToString()).Text
                     : dataRow["ClassP"].ToString();
                 case "ClassQ": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassQ"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassQ"].ToString()).Text
                     : dataRow["ClassQ"].ToString();
                 case "ClassR": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassR"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassR"].ToString()).Text
                     : dataRow["ClassR"].ToString();
                 case "ClassS": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassS"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassS"].ToString()).Text
                     : dataRow["ClassS"].ToString();
                 case "ClassT": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassT"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassT"].ToString()).Text
                     : dataRow["ClassT"].ToString();
                 case "ClassU": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassU"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassU"].ToString()).Text
                     : dataRow["ClassU"].ToString();
                 case "ClassV": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassV"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassV"].ToString()).Text
                     : dataRow["ClassV"].ToString();
                 case "ClassW": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassW"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassW"].ToString()).Text
                     : dataRow["ClassW"].ToString();
                 case "ClassX": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassX"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassX"].ToString()).Text
                     : dataRow["ClassX"].ToString();
                 case "ClassY": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassY"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassY"].ToString()).Text
                     : dataRow["ClassY"].ToString();
                 case "ClassZ": return column.HasChoices()
-                    ? column.Choice(dataRow["ClassZ"].ToString()).Text()
+                    ? column.Choice(dataRow["ClassZ"].ToString()).Text
                     : dataRow["ClassZ"].ToString();
                 default: return string.Empty;
             }
@@ -1643,8 +1633,6 @@ namespace Implem.Pleasanter.Models
         public static string UpdateByKamban(SiteModel siteModel)
         {
             var siteSettings = siteModel.ResultsSiteSettings();
-            siteSettings.SetChoicesByLinks();
-            siteSettings.SetChoicesByPlaceholders();
             var resultModel = new ResultModel(
                 siteSettings,
                 siteModel.PermissionType,

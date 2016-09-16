@@ -97,6 +97,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Validators;
         [NonSerialized]
         public bool? FloatClear;
+        [NonSerialized]
+        public Dictionary<string, Choice> ChoiceHash;
         // compatibility
         public bool? GridVisible;
         public bool? FilterVisible;
@@ -125,71 +127,68 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void SetChoicesByPlaceholders(long siteId)
         {
             var tenantId = Sessions.TenantId();
-            var choicesHash = new Dictionary<string, string>();
+            ChoiceHash = new Dictionary<string, Settings.Choice>();
             ChoicesText.SplitReturn()
-                .Select((o, i) => new { KeyValue = KeyValue(o), Index = i })
+                .Where(o => o.Trim() != string.Empty)
+                .Select((o, i) => new { Line = o.Trim(), Index = i })
                 .ForEach(data =>
                 {
-                    switch (data.KeyValue.Key)
+                    switch (data.Line)
                     {
                         case "[[Depts]]":
                             SiteInfo.GetDepts()
                                 .Where(o => o.Value.TenantId == tenantId)
-                                .ForEach(o => Add(
-                                    choicesHash,
+                                .ForEach(o => AddToChoiceHash(
                                     o.Key.ToString(),
-                                    SiteInfo.DeptModel(o.Key).DeptName));
+                                    SiteInfo.Dept(o.Key).Name));
                             break;
                         case "[[Users]]":
                             SiteInfo.UserIdCollection(siteId)
-                                .ForEach(o => Add(
-                                    choicesHash,
+                                .ForEach(o => AddToChoiceHash(
                                     o.ToString(),
                                     SiteInfo.UserFullName(o)));
                             break;
                         case "[[Users*]]":
-                            SiteInfo.Users
+                            SiteInfo.UserHash
                                 .Where(o => o.Value.TenantId == tenantId)
-                                .ForEach(o => Add(
-                                    choicesHash,
+                                .ForEach(o => AddToChoiceHash(
                                     o.Key.ToString(),
                                     o.Value.FullName()));
                             break;
                         case "[[TimeZones]]":
                             TimeZoneInfo.GetSystemTimeZones()
-                                .ForEach(o => Add(
-                                    choicesHash,
+                                .ForEach(o => AddToChoiceHash(
                                     o.Id,
                                     o.StandardName));
                             break;
                         default:
-                            var key = TypeName != "bit"
-                                ? data.KeyValue.Key
-                                : (data.Index == 0).ToOneOrZeroString();
-                            Add(choicesHash, key, data.KeyValue.Value);
+                            if (TypeName != "bit")
+                            {
+                                AddToChoiceHash(data.Line);
+                            }
+                            else
+                            {
+                                AddToChoiceHash((data.Index == 0).ToOneOrZeroString(), data.Line);
+                            }
                             break;
                     }
                 });
-            ChoicesText = choicesHash.Select(o => 
-                o.Key + (o.Value != string.Empty 
-                    ? "," + o.Value
-                    : string.Empty)).Join("\r\n");
         }
 
-        private KeyValuePair<string, string> KeyValue(string choice)
+        private void AddToChoiceHash(string value, string text)
         {
-            return choice.Contains(',')
-                ? new KeyValuePair<string, string>(
-                    choice.Substring(0, choice.IndexOf(',')),
-                    choice.Substring(choice.IndexOf(',') + 1))
-                : new KeyValuePair<string, string>(choice, string.Empty);
-        }
-
-        private void Add(Dictionary<string, string> choicesHash, string key, string value)
-        {
-            if (!choicesHash.Keys.Contains(key))
+            if (!ChoiceHash.Keys.Contains(value))
             {
-                choicesHash.Add(key, value);
+                ChoiceHash.Add(value, new Choice(value, text));
+            }
+        }
+
+        private void AddToChoiceHash(string line)
+        {
+            var value = line.Split(',')._1st();
+            if (!ChoiceHash.Keys.Contains(value))
+            {
+                ChoiceHash.Add(value, new Choice(line));
             }
         }
 
@@ -201,6 +200,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var tenantId = Sessions.TenantId();
             var editChoices = new Dictionary<string, ControlData>();
+            if (!HasChoices()) return editChoices;
             if (insertBlank)
             {
                 editChoices.Add(
@@ -209,16 +209,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                         : string.Empty,
                     new ControlData(string.Empty));
             }
-            Choices().Select((o, i) => new { Choice = o, Index = i }).ForEach(data =>
+            ChoiceHash.Values.ForEach(choice =>
             {
-                if (!editChoices.ContainsKey(data.Choice.SelectedValue))
+                if (!editChoices.ContainsKey(choice.Value))
                 {
                     editChoices.Add(
-                        data.Choice.SelectedValue,
+                        choice.Value,
                         new ControlData(
-                            text: data.Choice.Text(),
-                            css: data.Choice.CssClass(),
-                            style: data.Choice.Style()));
+                            text: choice.Text,
+                            css: choice.CssClass,
+                            style: choice.Style));
                 }
             });
             if (addNotSet && Nullable)
@@ -228,21 +228,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             return editChoices;
         }
 
-        private IEnumerable<Choice> Choices()
-        {
-            foreach (var selectedValue in ChoicesText.SplitReturn()
-                .Where(o => o.Trim() != string.Empty)
-                .Select(o => o.Trim().Split_1st()))
-            {
-                yield return Choice(selectedValue);
-            }
-        }
-
         public Choice Choice(string selectedValue)
         {
-            return new Choice(
-                ChoicesText.SplitReturn().FirstOrDefault(o => o.Split_1st(',') == selectedValue),
-                selectedValue);
+            return ChoiceHash.ContainsKey(selectedValue)
+                ? ChoiceHash[selectedValue]
+                : new Choice(string.Empty);
         }
 
         public object RecordingData(string value, long siteId)
@@ -250,7 +240,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             object recordingData = value;
             if (UserColumn)
             {
-                recordingData = SiteInfo.Users
+                recordingData = SiteInfo.UserHash
                     .Where(o => o.Value.FullName() == value)
                     .Select(o => o.Value.Id)
                     .FirstOrDefault(o => SiteInfo.UserIdCollection(siteId).Any(p => p == o));
@@ -261,8 +251,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             else if (HasChoices())
             {
-                recordingData = Choices().Where(o => o.Text() == value)
-                    .Select(o => o.Value())
+                recordingData = ChoiceHash.Where(o => o.Value.Text == value)
+                    .Select(o => o.Value.Value)
                     .FirstOrDefault();
             }
             if (recordingData == null) return null;

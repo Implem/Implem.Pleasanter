@@ -17,106 +17,108 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public static SiteSettings TenantsSiteSettings()
         {
-            var tenantsSiteSettings = new SiteSettings();
-            tenantsSiteSettings.ReferenceType = "Tenants";
-            tenantsSiteSettings.Init();
-            return tenantsSiteSettings;
+            var siteSettings = new SiteSettings();
+            siteSettings.ReferenceType = "Tenants";
+            siteSettings.Init();
+            return siteSettings;
         }
 
         public static SiteSettings DemosSiteSettings()
         {
-            var demosSiteSettings = new SiteSettings();
-            demosSiteSettings.ReferenceType = "Demos";
-            demosSiteSettings.Init();
-            return demosSiteSettings;
+            var siteSettings = new SiteSettings();
+            siteSettings.ReferenceType = "Demos";
+            siteSettings.Init();
+            return siteSettings;
         }
 
         public static SiteSettings SysLogsSiteSettings()
         {
-            var sysLogsSiteSettings = new SiteSettings();
-            sysLogsSiteSettings.ReferenceType = "SysLogs";
-            sysLogsSiteSettings.Init();
-            return sysLogsSiteSettings;
+            var siteSettings = new SiteSettings();
+            siteSettings.ReferenceType = "SysLogs";
+            siteSettings.Init();
+            return siteSettings;
         }
 
         public static SiteSettings DeptsSiteSettings()
         {
-            var deptsSiteSettings = new SiteSettings();
-            deptsSiteSettings.ReferenceType = "Depts";
-            deptsSiteSettings.Init();
-            return deptsSiteSettings;
+            var siteSettings = new SiteSettings();
+            siteSettings.ReferenceType = "Depts";
+            siteSettings.Init();
+            siteSettings.SetChoicesByPlaceholders();
+            return siteSettings;
         }
 
         public static SiteSettings UsersSiteSettings()
         {
-            var usersSiteSettings = new SiteSettings();
-            usersSiteSettings.ReferenceType = "Users";
-            usersSiteSettings.Init();
-            return usersSiteSettings;
+            var siteSettings = new SiteSettings();
+            siteSettings.ReferenceType = "Users";
+            siteSettings.Init();
+            siteSettings.SetChoicesByPlaceholders();
+            return siteSettings;
         }
 
         public static SiteSettings MailAddressesSiteSettings()
         {
-            var mailAddressesSiteSettings = new SiteSettings();
-            mailAddressesSiteSettings.ReferenceType = "MailAddresses";
-            mailAddressesSiteSettings.Init();
-            return mailAddressesSiteSettings;
+            var siteSettings = new SiteSettings();
+            siteSettings.ReferenceType = "MailAddresses";
+            siteSettings.Init();
+            return siteSettings;
         }
 
         public static SiteSettings OutgoingMailsSiteSettings()
         {
-            var outgoingMailsSiteSettings = new SiteSettings();
-            outgoingMailsSiteSettings.ReferenceType = "OutgoingMails";
-            outgoingMailsSiteSettings.Init();
-            return outgoingMailsSiteSettings;
+            var siteSettings = new SiteSettings();
+            siteSettings.ReferenceType = "OutgoingMails";
+            siteSettings.Init();
+            return siteSettings;
         }
 
         public static SiteSettings SearchIndexesSiteSettings()
         {
-            var searchIndexesSiteSettings = new SiteSettings();
-            searchIndexesSiteSettings.ReferenceType = "SearchIndexes";
-            searchIndexesSiteSettings.Init();
-            return searchIndexesSiteSettings;
+            var siteSettings = new SiteSettings();
+            siteSettings.ReferenceType = "SearchIndexes";
+            siteSettings.Init();
+            return siteSettings;
         }
 
         public static SiteSettings ItemsSiteSettings()
         {
-            var itemsSiteSettings = new SiteSettings();
-            itemsSiteSettings.ReferenceType = "Items";
-            itemsSiteSettings.Init();
-            return itemsSiteSettings;
+            var siteSettings = new SiteSettings();
+            siteSettings.ReferenceType = "Items";
+            siteSettings.Init();
+            return siteSettings;
         }
 
         public static SiteSettings OrdersSiteSettings()
         {
-            var ordersSiteSettings = new SiteSettings();
-            ordersSiteSettings.ReferenceType = "Orders";
-            ordersSiteSettings.Init();
-            return ordersSiteSettings;
+            var siteSettings = new SiteSettings();
+            siteSettings.ReferenceType = "Orders";
+            siteSettings.Init();
+            return siteSettings;
         }
 
         public static SiteSettings ExportSettingsSiteSettings()
         {
-            var exportSettingsSiteSettings = new SiteSettings();
-            exportSettingsSiteSettings.ReferenceType = "ExportSettings";
-            exportSettingsSiteSettings.Init();
-            return exportSettingsSiteSettings;
+            var siteSettings = new SiteSettings();
+            siteSettings.ReferenceType = "ExportSettings";
+            siteSettings.Init();
+            return siteSettings;
         }
 
         public static SiteSettings LinksSiteSettings()
         {
-            var linksSiteSettings = new SiteSettings();
-            linksSiteSettings.ReferenceType = "Links";
-            linksSiteSettings.Init();
-            return linksSiteSettings;
+            var siteSettings = new SiteSettings();
+            siteSettings.ReferenceType = "Links";
+            siteSettings.Init();
+            return siteSettings;
         }
 
         public static SiteSettings BinariesSiteSettings()
         {
-            var binariesSiteSettings = new SiteSettings();
-            binariesSiteSettings.ReferenceType = "Binaries";
-            binariesSiteSettings.Init();
-            return binariesSiteSettings;
+            var siteSettings = new SiteSettings();
+            siteSettings.ReferenceType = "Binaries";
+            siteSettings.Init();
+            return siteSettings;
         }
 
         public static SiteSettings SitesSiteSettings(this SiteModel siteModel)
@@ -151,6 +153,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             siteSettings.Title = siteModel.Title.Value;
             siteSettings.AccessStatus = siteModel.AccessStatus;
             siteSettings.Init();
+            siteSettings.SetChoicesByLinks();
+            siteSettings.SetChoicesByPlaceholders();
             return siteSettings;
         }
 
@@ -160,6 +164,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             siteSettings.ReferenceType = "Issues";
             siteSettings.SiteId = siteId;
             siteSettings.Init();
+            siteSettings.SetChoicesByLinks();
+            siteSettings.SetChoicesByPlaceholders();
             return siteSettings;
         }
 
@@ -173,6 +179,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             siteSettings.Title = siteModel.Title.Value;
             siteSettings.AccessStatus = siteModel.AccessStatus;
             siteSettings.Init();
+            siteSettings.SetChoicesByLinks();
+            siteSettings.SetChoicesByPlaceholders();
             return siteSettings;
         }
 
@@ -182,6 +190,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             siteSettings.ReferenceType = "Results";
             siteSettings.SiteId = siteId;
             siteSettings.Init();
+            siteSettings.SetChoicesByLinks();
+            siteSettings.SetChoicesByPlaceholders();
             return siteSettings;
         }
 
@@ -195,6 +205,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             siteSettings.Title = siteModel.Title.Value;
             siteSettings.AccessStatus = siteModel.AccessStatus;
             siteSettings.Init();
+            siteSettings.SetChoicesByLinks();
+            siteSettings.SetChoicesByPlaceholders();
             return siteSettings;
         }
 
@@ -204,20 +216,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             siteSettings.ReferenceType = "Wikis";
             siteSettings.SiteId = siteId;
             siteSettings.Init();
+            siteSettings.SetChoicesByLinks();
+            siteSettings.SetChoicesByPlaceholders();
             return siteSettings;
         }
 
         public static SiteSettings PermissionsSiteSettings(this SiteModel siteModel)
         {
-            var permissionsSiteSettings = new SiteSettings();
-            permissionsSiteSettings.ReferenceType = "Permissions";
-            permissionsSiteSettings.SiteId = siteModel.SiteId;
-            permissionsSiteSettings.InheritPermission = siteModel.InheritPermission;
-            permissionsSiteSettings.ParentId = siteModel.ParentId;
-            permissionsSiteSettings.Title = siteModel.Title.Value;
-            permissionsSiteSettings.AccessStatus = siteModel.AccessStatus;
-            permissionsSiteSettings.Init();
-            return permissionsSiteSettings;
+            var siteSettings = new SiteSettings();
+            siteSettings.ReferenceType = "Permissions";
+            siteSettings.SiteId = siteModel.SiteId;
+            siteSettings.InheritPermission = siteModel.InheritPermission;
+            siteSettings.ParentId = siteModel.ParentId;
+            siteSettings.Title = siteModel.Title.Value;
+            siteSettings.AccessStatus = siteModel.AccessStatus;
+            siteSettings.Init();
+            return siteSettings;
         }
     }
 }

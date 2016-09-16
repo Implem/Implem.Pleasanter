@@ -9,7 +9,7 @@ namespace Implem.Pleasanter.Libraries.Converts
         public static string ToExport(this string value, Column column)
         {
             return column.HasChoices()
-                ? column.Choice(value).Text()
+                ? column.Choice(value).Text
                 : value;
         }
 

@@ -291,7 +291,6 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
-            outgoingMailModel.SiteSettings.SetChoicesByPlaceholders();
             return hb.Template(
                 siteId: 0,
                 referenceType: "OutgoingMails",

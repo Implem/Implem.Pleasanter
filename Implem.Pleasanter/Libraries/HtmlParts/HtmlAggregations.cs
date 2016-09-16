@@ -124,7 +124,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
             else if (groupByColumn.HasChoices())
             {
-                var label = groupByColumn.Choice(selectedValue).TextMini();
+                var label = groupByColumn.Choice(selectedValue).TextMini;
                 if (groupByColumn.TypeName.CsTypeSummary() == Types.CsNumeric && label == "0")
                 {
                     return Displays.NotSet();

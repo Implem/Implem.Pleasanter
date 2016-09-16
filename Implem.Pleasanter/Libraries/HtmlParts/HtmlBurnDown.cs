@@ -263,7 +263,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     column.Display(element.EarnedValueAdditions),
                                     element.Title,
                                     column.Choice(element.Status.ToString())
-                                        .Text()))));
+                                        .Text))));
             }
             return hb;
         }

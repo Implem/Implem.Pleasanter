@@ -56,7 +56,7 @@ namespace Implem.Pleasanter.Models
         public string FullName1 { get { return FirstName + " " + LastName; } }
         public string FullName2 { get { return LastName + " " + FirstName; } }
         public TimeZoneInfo TimeZoneInfo { get { return TimeZoneInfo.GetSystemTimeZones().FirstOrDefault(o => o.Id == TimeZone); } }
-        public DeptModel Dept { get { return SiteInfo.DeptModel(DeptId); } }
+        public Dept Dept { get { return SiteInfo.Dept(DeptId); } }
         public Title Title { get { return new Title(UserId, FullName()); } }
         public int SavedTenantId = Sessions.TenantId();
         public int SavedUserId = 0;
@@ -499,9 +499,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void OnDeleted(ref UsersResponseCollection responseCollection)
         {
-            if (SiteInfo.Users.Keys.Contains(UserId))
+            if (SiteInfo.UserHash.Keys.Contains(UserId))
             {
-                SiteInfo.Users.Remove(UserId);
+                SiteInfo.UserHash.Remove(UserId);
                 SiteInfo.SiteUserIdCollection.ForEach(data =>
                     data.Value.RemoveAll(o => o == UserId));
             }

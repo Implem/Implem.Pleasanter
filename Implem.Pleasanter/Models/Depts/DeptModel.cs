@@ -26,8 +26,8 @@ namespace Implem.Pleasanter.Models
         public string DeptCode = string.Empty;
         public string DeptName = string.Empty;
         public string Body = string.Empty;
-        public DeptModel ParentDept { get { return SiteInfo.DeptModel(ParentDeptId); } }
-        public DeptModel Dept { get { return SiteInfo.DeptModel(DeptId); } }
+        public Dept ParentDept { get { return SiteInfo.Dept(ParentDeptId); } }
+        public Dept Dept { get { return SiteInfo.Dept(DeptId); } }
         public Title Title { get { return new Title(DeptId, DeptName); } }
         public int SavedTenantId = Sessions.TenantId();
         public int SavedDeptId = 0;
@@ -351,9 +351,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void OnDeleted(ref DeptsResponseCollection responseCollection)
         {
-            if (SiteInfo.Depts.Keys.Contains(DeptId))
+            if (SiteInfo.DeptHash.Keys.Contains(DeptId))
             {
-                SiteInfo.Depts.Remove(DeptId);
+                SiteInfo.DeptHash.Remove(DeptId);
             }
         }
 
