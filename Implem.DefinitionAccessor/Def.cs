@@ -1723,6 +1723,9 @@ namespace Implem.DefinitionAccessor
                     case "_dot_record_switchers": Css._dot_record_switchers = definitionRow[1].ToString(); SetCssTable(CssTable._dot_record_switchers, definitionRow, CssXls); break;
                     case "_dot_record_switchers_space___space__asterisk_": Css._dot_record_switchers_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_record_switchers_space___space__asterisk_, definitionRow, CssXls); break;
                     case "_dot_record_switchers_space__dot_current": Css._dot_record_switchers_space__dot_current = definitionRow[1].ToString(); SetCssTable(CssTable._dot_record_switchers_space__dot_current, definitionRow, CssXls); break;
+                    case "_dot_notes": Css._dot_notes = definitionRow[1].ToString(); SetCssTable(CssTable._dot_notes, definitionRow, CssXls); break;
+                    case "_dot_notes_space__dot_history": Css._dot_notes_space__dot_history = definitionRow[1].ToString(); SetCssTable(CssTable._dot_notes_space__dot_history, definitionRow, CssXls); break;
+                    case "_dot_notes_space__dot_readonly": Css._dot_notes_space__dot_readonly = definitionRow[1].ToString(); SetCssTable(CssTable._dot_notes_space__dot_readonly, definitionRow, CssXls); break;
                     case "_dot_edit_form": Css._dot_edit_form = definitionRow[1].ToString(); SetCssTable(CssTable._dot_edit_form, definitionRow, CssXls); break;
                     case "_dot_edit_form_tabs": Css._dot_edit_form_tabs = definitionRow[1].ToString(); SetCssTable(CssTable._dot_edit_form_tabs, definitionRow, CssXls); break;
                     case "_dot_edit_form_tabs_max": Css._dot_edit_form_tabs_max = definitionRow[1].ToString(); SetCssTable(CssTable._dot_edit_form_tabs_max, definitionRow, CssXls); break;
@@ -1894,6 +1897,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_time_series_space__dot_surface": Css._dot_time_series_space__dot_surface = definitionRow[1].ToString(); SetCssTable(CssTable._dot_time_series_space__dot_surface, definitionRow, CssXls); break;
                     case "_dot_time_series_space__dot_index": Css._dot_time_series_space__dot_index = definitionRow[1].ToString(); SetCssTable(CssTable._dot_time_series_space__dot_index, definitionRow, CssXls); break;
                     case "_dot_kamban_row": Css._dot_kamban_row = definitionRow[1].ToString(); SetCssTable(CssTable._dot_kamban_row, definitionRow, CssXls); break;
+                    case "_dot_kamban_container_space___space_div": Css._dot_kamban_container_space___space_div = definitionRow[1].ToString(); SetCssTable(CssTable._dot_kamban_container_space___space_div, definitionRow, CssXls); break;
                     case "_dot_kamban_container_dot_hover": Css._dot_kamban_container_dot_hover = definitionRow[1].ToString(); SetCssTable(CssTable._dot_kamban_container_dot_hover, definitionRow, CssXls); break;
                     case "_dot_kamban_container_space__dot_kamban_item_colon_last_child": Css._dot_kamban_container_space__dot_kamban_item_colon_last_child = definitionRow[1].ToString(); SetCssTable(CssTable._dot_kamban_container_space__dot_kamban_item_colon_last_child, definitionRow, CssXls); break;
                     case "_dot_kamban_item": Css._dot_kamban_item = definitionRow[1].ToString(); SetCssTable(CssTable._dot_kamban_item, definitionRow, CssXls); break;
@@ -6469,6 +6473,9 @@ namespace Implem.DefinitionAccessor
         public string _dot_record_switchers;
         public string _dot_record_switchers_space___space__asterisk_;
         public string _dot_record_switchers_space__dot_current;
+        public string _dot_notes;
+        public string _dot_notes_space__dot_history;
+        public string _dot_notes_space__dot_readonly;
         public string _dot_edit_form;
         public string _dot_edit_form_tabs;
         public string _dot_edit_form_tabs_max;
@@ -6640,6 +6647,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_time_series_space__dot_surface;
         public string _dot_time_series_space__dot_index;
         public string _dot_kamban_row;
+        public string _dot_kamban_container_space___space_div;
         public string _dot_kamban_container_dot_hover;
         public string _dot_kamban_container_space__dot_kamban_item_colon_last_child;
         public string _dot_kamban_item;
@@ -6841,6 +6849,9 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_record_switchers = new CssDefinition();
         public CssDefinition _dot_record_switchers_space___space__asterisk_ = new CssDefinition();
         public CssDefinition _dot_record_switchers_space__dot_current = new CssDefinition();
+        public CssDefinition _dot_notes = new CssDefinition();
+        public CssDefinition _dot_notes_space__dot_history = new CssDefinition();
+        public CssDefinition _dot_notes_space__dot_readonly = new CssDefinition();
         public CssDefinition _dot_edit_form = new CssDefinition();
         public CssDefinition _dot_edit_form_tabs = new CssDefinition();
         public CssDefinition _dot_edit_form_tabs_max = new CssDefinition();
@@ -7012,6 +7023,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_time_series_space__dot_surface = new CssDefinition();
         public CssDefinition _dot_time_series_space__dot_index = new CssDefinition();
         public CssDefinition _dot_kamban_row = new CssDefinition();
+        public CssDefinition _dot_kamban_container_space___space_div = new CssDefinition();
         public CssDefinition _dot_kamban_container_dot_hover = new CssDefinition();
         public CssDefinition _dot_kamban_container_space__dot_kamban_item_colon_last_child = new CssDefinition();
         public CssDefinition _dot_kamban_item = new CssDefinition();
