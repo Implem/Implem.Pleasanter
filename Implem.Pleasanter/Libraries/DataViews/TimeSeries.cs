@@ -88,7 +88,7 @@ namespace Implem.Pleasanter.Libraries.DataViews
             var elements = new List<Element>();
             var column = SiteSettings.GetColumn(GroupByColumn);
             var choices = column
-                .EditChoices(SiteSettings.InheritPermission)
+                .EditChoices()
                 .Reverse()
                 .Where(o => this.Select(p => p.Index).Contains(o.Key))
                 .ToDictionary(o => o.Key, o => o.Value);

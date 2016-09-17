@@ -45,7 +45,7 @@ namespace Implem.Pleasanter.Libraries.DataViews
                     progressRateColumn)));
             if (GroupByColumn != null)
             {
-                GroupByColumn.EditChoices(SiteSettings.SiteId, insertBlank: true).ForEach(choice =>
+                GroupByColumn.EditChoices(insertBlank: true).ForEach(choice =>
                 {
                     var groupBy = dataRows.Where(o => o["GroupBy"].ToString() == choice.Key);
                     if (groupBy.Any())
@@ -119,7 +119,7 @@ namespace Implem.Pleasanter.Libraries.DataViews
         public string Json()
         {
             var choices = GroupByColumn?
-                .EditChoices(SiteSettings.InheritPermission, insertBlank: true)
+                .EditChoices(insertBlank: true)
                 .Select(o => o.Key)
                 .ToList();
             return Jsons.ToJson(this

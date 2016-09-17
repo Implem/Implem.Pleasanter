@@ -62,7 +62,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     value: methodType == BaseModel.MethodTypes.New
                         ? value.ToDefault(siteSettings, column)
                         : value,
-                    optionCollection: column.EditChoices(siteSettings.InheritPermission),
+                    optionCollection: column.EditChoices(),
                     attributes: column.ValidationMessages());
             }
             else

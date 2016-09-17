@@ -193,7 +193,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public Dictionary<string, ControlData> EditChoices(
-            long siteId,
             bool insertBlank = false,
             bool shorten = false,
             bool addNotSet = false)

@@ -154,9 +154,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             siteSettings: siteSettings,
                                 column: column,
                                 formData: formData,
-                                optionCollection: column.EditChoices(
-                                    siteId: siteSettings.InheritPermission,
-                                    addNotSet: true));
+                                optionCollection: column.EditChoices(addNotSet: true));
                         }
                         break;
                     default:
