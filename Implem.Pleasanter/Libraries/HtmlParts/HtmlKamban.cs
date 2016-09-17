@@ -106,7 +106,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .DataAction("UpdateByKamban")
                     .DataMethod("post"),
                 action: () => groupByColumn.EditChoices(
-                    siteSettings.InheritPermission,
                     insertBlank: groupByColumn.Nullable)
                         .Chunk(Parameters.General.KambanChunk)
                         .ForEach(choices => hb
@@ -155,18 +154,36 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .TBody(action: () => hb
                         .Tr(css: "kamban-row", action: () => choices
                             .ForEach(choice => hb
-                                .Td(
-                                    attributes: new HtmlAttributes()
-                                        .Class("kamban-container")
-                                        .DataValue(HttpUtility.HtmlEncode(choice.Key)),
-                                    action: () =>
-                                        data.Where(o => o.Group == choice.Key)
-                                            .ForEach(o => hb
-                                                .Element(
-                                                    siteSettings: siteSettings,
-                                                    valueColumn: valueColumn,
-                                                    data: o,
-                                                    changedItemId: changedItemId)))))));
+                                .TBody(
+                                    siteSettings: siteSettings,
+                                    choice: choice,
+                                    valueColumn: valueColumn,
+                                    data: data,
+                                    changedItemId: changedItemId)))));
+
+        }
+
+        private static HtmlBuilder TBody(
+            this HtmlBuilder hb,
+            SiteSettings siteSettings,
+            KeyValuePair<string, ControlData> choice,
+            Column valueColumn,
+            IEnumerable<KambanElement> data,
+            long changedItemId)
+        {
+            return hb.Td(
+                attributes: new HtmlAttributes()
+                    .Class("kamban-container")
+                    .DataValue(HttpUtility.HtmlEncode(choice.Key)),
+                action: () => hb
+                    .Div(action: () => 
+                        data.Where(o => o.Group == choice.Key)
+                            .ForEach(o => hb
+                                .Element(
+                                    siteSettings: siteSettings,
+                                    valueColumn: valueColumn,
+                                    data: o,
+                                    changedItemId: changedItemId))));
         }
 
         private static HtmlBuilder HeaderText(

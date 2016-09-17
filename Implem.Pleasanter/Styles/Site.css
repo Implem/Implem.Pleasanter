@@ -612,6 +612,32 @@ pre{
     border-radius:5px;
 }
 
+.notes{
+    width:100%;
+    float:left;
+    margin:0px 10px 5px 0px;
+}
+
+.notes .history{
+    width:100%;
+    display:block;
+    float:left;
+    padding:5px 10px;
+    color:white;
+    background-color:blue;
+    border-radius:7px;
+}
+
+.notes .readonly{
+    width:100%;
+    display:block;
+    float:left;
+    padding:5px 10px;
+    color:white;
+    background-color:orange;
+    border-radius:7px;
+}
+
 .edit-form{
     width:100%;
     float:left;
@@ -1587,6 +1613,10 @@ pre{
 
 .kamban-row{
     min-height:30px;
+}
+
+.kamban-container > div{
+    min-height:300px;
 }
 
 .kamban-container.hover{
