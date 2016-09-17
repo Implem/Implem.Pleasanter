@@ -11,6 +11,12 @@ $p.switchTargets = function () {
 
 $p.setCurrentIndex = function () {
     var array = $p.switchTargets();
-    var index = $p.currentIndex(array);
-    $('#CurrentIndex').text(index + 1 + '/' + array.length);
+    if (array.length > 1) {
+        var index = $p.currentIndex(array);
+        $('#CurrentIndex').text(index + 1 + '/' + array.length);
+    } else {
+        $('#Previous').hide();
+        $('#CurrentIndex').hide();
+        $('#Next').hide();
+    }
 }
