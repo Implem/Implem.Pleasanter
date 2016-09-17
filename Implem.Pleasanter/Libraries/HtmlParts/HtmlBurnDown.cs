@@ -113,8 +113,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         if (first)
                         {
                             hb.BurnDownRecordDetails(
-                                elements: burnDown
-                                    .Where(o => o.UpdatedTime == currentTime),
+                                elements: burnDown.Where(o => o.UpdatedTime == currentTime),
                                 progressRateColumn: siteSettings.GetColumn("ProgressRate"),
                                 statusColumn: siteSettings.GetColumn("Status"),
                                 colspan: updators.Count() + 5,
