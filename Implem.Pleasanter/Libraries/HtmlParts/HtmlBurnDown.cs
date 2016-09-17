@@ -146,13 +146,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Text(text: Displays.Difference()))
                     .Th(action: () => hb
                         .Text(text: ownerLabelText + " " + Displays.Total()));
-                    updators.ForEach(updatorId => hb
-                        .Th(action: () => hb
-                            .Text(text: SiteInfo.User(updatorId).FullName() +
-                                " ({0})".Params(column.Display(burnDown
-                                    .Where(p => p.Updator == updatorId)
-                                    .Select(p => p.EarnedValueAdditions)
-                                    .Sum()) + column.Unit))));
+                updators.ForEach(updatorId => hb
+                    .Th(action: () => hb
+                        .Text(text: SiteInfo.User(updatorId).FullName() +
+                            " ({0})".Params(column.Display(burnDown
+                                .Where(p => p.Updator == updatorId)
+                                .Select(p => p.EarnedValueAdditions)
+                                .Sum()) + column.Unit))));
             });
         }
 
