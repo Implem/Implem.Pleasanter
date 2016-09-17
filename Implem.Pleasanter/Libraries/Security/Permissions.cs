@@ -101,7 +101,16 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanUpdate(this Types self)
         {
-            return (self & Types.Update) != 0;
+            switch (Routes.Controller().ToLower())
+            {
+                case "depts":
+                    return self.CanEditTenant();
+                case "users":
+                    return self.CanEditTenant() ||
+                        Sessions.UserId() == Routes.Id();
+                default:
+                    return (self & Types.Update) != 0;
+            }
         }
 
         public static bool CanMove(long sourceId, long destinationId)
