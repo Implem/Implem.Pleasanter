@@ -69,48 +69,61 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Sum())
                     .Distinct()
                     .ToList();
-                var colspan = updators.Count() + 1;
-                var minTime = burnDown.MinTime;
-                var updatedMaxTime = burnDown.LatestUpdatedTime;
-                var count = Times.DateDiff(Times.Types.Days, minTime, updatedMaxTime);
-                hb.Table(css: "grid", action: () =>
-                {
-                    hb.THead(action: () => hb
-                        .DetailsHeader(
-                            burnDown: burnDown,
-                            updators: updators,
-                            ownerLabelText: ownerLabelText,
-                            column: column));
-                    hb.TBody(action: () =>
-                    {
-                        for (var d = count; d >= 0; d--)
-                        {
-                            var currentTime = minTime.AddDays(d);
-                            if (burnDown.Any(o =>
-                                o.UpdatedTime == currentTime &&
-                                o.EarnedValueAdditions != 0))
-                            {
-                                hb.DetailsRow(
-                                    burnDown: burnDown,
-                                    updators: updators,
-                                    currentTime: currentTime,
-                                    column: column);
-                            }
-                            if (d == count)
-                            {
-                                hb.BurnDownRecordDetails(
-                                    elements: burnDown
-                                        .Where(o => o.UpdatedTime == updatedMaxTime),
-                                    progressRateColumn: siteSettings.GetColumn("ProgressRate"),
-                                    statusColumn: siteSettings.GetColumn("Status"),
-                                    colspan: updators.Count() + 5,
-                                    unit: column.Unit);
-                            }
-                        }
-                    });
-                });
+                hb.Table(css: "grid", action: () => hb
+                    .THead(action: () => hb.DetailsHeader(
+                        burnDown: burnDown,
+                        updators: updators,
+                        ownerLabelText: ownerLabelText,
+                        column: column))
+                    .DetailsBody(
+                        burnDown: burnDown,
+                        siteSettings: siteSettings,
+                        updators: updators,
+                        column: column));
             }
             return hb;
+        }
+
+        private static HtmlBuilder DetailsBody(
+            this HtmlBuilder hb,
+            BurnDown burnDown,
+            SiteSettings siteSettings,
+            IEnumerable<int> updators,
+            Column column)
+        {
+            var colspan = updators.Count() + 1;
+            var minTime = burnDown.MinTime;
+            var updatedMaxTime = burnDown.LatestUpdatedTime;
+            var count = Times.DateDiff(Times.Types.Days, minTime, updatedMaxTime);
+            var first = true;
+            return hb.TBody(action: () =>
+            {
+                for (var d = count; d >= 0; d--)
+                {
+                    var currentTime = minTime.AddDays(d);
+                    if (burnDown.Any(o =>
+                        o.UpdatedTime == currentTime &&
+                        o.EarnedValueAdditions != 0))
+                    {
+                        hb.DetailsRow(
+                            burnDown: burnDown,
+                            updators: updators,
+                            currentTime: currentTime,
+                            column: column);
+                        if (first)
+                        {
+                            hb.BurnDownRecordDetails(
+                                elements: burnDown
+                                    .Where(o => o.UpdatedTime == currentTime),
+                                progressRateColumn: siteSettings.GetColumn("ProgressRate"),
+                                statusColumn: siteSettings.GetColumn("Status"),
+                                colspan: updators.Count() + 5,
+                                unit: column.Unit);
+                            first = false;
+                        }
+                    }
+                }
+            });
         }
 
         private static HtmlBuilder DetailsHeader(
