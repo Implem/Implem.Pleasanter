@@ -90,17 +90,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             hb.Title(permissionType: permissionType, siteId: siteId, text: title);
                         }
                         action();
-                        if (verType == Versions.VerTypes.History)
-                        {
-                            hb.P(id: "Message", css: "message", action: () => hb
-                                .Span(css: "alert-information", action: () => hb
-                                    .Displays_ReadOnlyBecausePreviousVer()));
-                        }
-                        else
-                        {
-                            hb.P(id: "Message", css: "message", action: () => hb
-                                .Raw(text: SessionMessage()));
-                        }
+                        hb.P(id: "Message", css: "message", action: () => hb
+                            .Raw(text: SessionMessage()));
                     }
                     else
                     {
