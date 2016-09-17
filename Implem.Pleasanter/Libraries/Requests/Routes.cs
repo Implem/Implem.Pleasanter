@@ -23,5 +23,10 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             return HttpContext.Current.Request.HttpMethod.ToLower();
         }
+
+        public static long Id()
+        {
+            return Url.RouteData("id").ToLong();
+        }
     }
 }
