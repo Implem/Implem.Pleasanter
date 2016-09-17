@@ -1835,7 +1835,8 @@ namespace Implem.Pleasanter.Models
                         siteSettings: siteSettings,
                         formData: DataViewFilters.SessionFormData(siteSettings.SiteId)))
                             .Where(o => o.UpdatedTime == date),
-                    column: siteSettings.GetColumn("ProgressRate"),
+                    progressRateColumn: siteSettings.GetColumn("ProgressRate"),
+                    statusColumn: siteSettings.GetColumn("Status"),
                     colspan: Forms.Int("BurnDownColspan"),
                     unit: siteSettings.GetColumn("WorkValue").Unit)).ToJson();
         }

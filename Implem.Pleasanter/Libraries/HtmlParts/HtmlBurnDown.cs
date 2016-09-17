@@ -101,7 +101,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 hb.BurnDownRecordDetails(
                                     elements: burnDown
                                         .Where(o => o.UpdatedTime == updatedMaxTime),
-                                    column: siteSettings.GetColumn("ProgressRate"),
+                                    progressRateColumn: siteSettings.GetColumn("ProgressRate"),
+                                    statusColumn: siteSettings.GetColumn("Status"),
                                     colspan: updators.Count() + 5,
                                     unit: column.Unit);
                             }
@@ -208,7 +209,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder BurnDownRecordDetails(
             this HtmlBuilder hb,
             IEnumerable<BurnDownElement> elements,
-            Column column,
+            Column progressRateColumn,
+            Column statusColumn,
             int colspan,
             string unit)
         {
@@ -229,7 +231,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         .Select(o => o.EarnedValueAdditions)
                                         .Sum(),
                                     elements: elements,
-                                    column: column,
+                                    progressRateColumn: progressRateColumn,
+                                    statusColumn: statusColumn,
                                     unit: unit))));
         }
 
@@ -239,7 +242,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string fullName,
             decimal earndValue,
             IEnumerable<BurnDownElement> elements,
-            Column column,
+            Column progressRateColumn,
+            Column statusColumn,
             string unit)
         {
             if (earndValue != 0)
@@ -247,7 +251,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 hb.Div(css: "user-info", action: () => hb
                     .Text("{0} ({1}{2})".Params(
                         fullName,
-                        column.Display(earndValue),
+                        progressRateColumn.Display(earndValue),
                         unit)));
                 elements
                     .Where(o => o.Updator == updatorId)
@@ -255,18 +259,32 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .OrderByDescending(o => o.EarnedValueAdditions)
                     .ForEach(element => hb
                         .Div(css: "items", action: () => hb
-                            .A(
-                                href: Navigations.ItemEdit(element.Id),
-                                text: "{0}{1} * {2}% = {3}{1} : {4} - {5}".Params(
-                                    column.Display(element.WorkValue),
-                                    unit,
-                                    column.Display(element.ProgressRateAdditions),
-                                    column.Display(element.EarnedValueAdditions),
-                                    element.Title,
-                                    column.Choice(element.Status.ToString())
-                                        .Text))));
+                            .BurnDownRecordDetailAnchor(
+                                element: element,
+                                progressRateColumn: progressRateColumn,
+                                statusColumn: statusColumn,
+                                unit: unit)));
             }
             return hb;
+        }
+
+        private static HtmlBuilder BurnDownRecordDetailAnchor(
+            this HtmlBuilder hb,
+            BurnDownElement element,
+            Column progressRateColumn,
+            Column statusColumn,
+            string unit)
+        {
+            return hb.A(
+                href: Navigations.ItemEdit(element.Id),
+                text: "{0}{1} * {2}% = {3}{1} : {4} - {5}".Params(
+                    progressRateColumn.Display(element.WorkValue),
+                    unit,
+                    progressRateColumn.Display(element.ProgressRateAdditions),
+                    progressRateColumn.Display(element.EarnedValueAdditions),
+                    element.Title,
+                    statusColumn.Choice(element.Status.ToString())
+                        .Text));
         }
     }
 }
