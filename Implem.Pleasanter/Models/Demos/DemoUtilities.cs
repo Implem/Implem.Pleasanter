@@ -759,15 +759,16 @@ namespace Implem.Pleasanter.Models
                     });
                     idHash.Add(demoDefinition.Id, issueId);
                     var siteModel = new SiteModel(idHash[demoDefinition.ParentId]);
+                    var siteSettings = siteModel.IssuesSiteSettings();
                     var issueModel = new IssueModel(
-                        siteModel.SiteSettings, Permissions.Types.Manager, issueId);
+                        siteSettings, Permissions.Types.Manager, issueId);
                     Rds.ExecuteNonQuery(statements:
                         Rds.UpdateItems(
                             param: Rds.ItemsParam()
                                 .SiteId(issueModel.SiteId)
                                 .Title(issueModel.Title.DisplayValue)
                                 .Subset(Jsons.ToJson(new IssueSubset(
-                                    issueModel, issueModel.SiteSettings))),
+                                    issueModel, siteSettings))),
                             where: Rds.ItemsWhere().ReferenceId(issueModel.IssueId),
                             addUpdatorParam: false,
                             addUpdatedTimeParam: false));
@@ -880,15 +881,16 @@ namespace Implem.Pleasanter.Models
                     });
                     idHash.Add(demoDefinition.Id, resultId);
                     var siteModel = new SiteModel(idHash[demoDefinition.ParentId]);
+                    var siteSettings = siteModel.ResultsSiteSettings();
                     var resultModel = new ResultModel(
-                        siteModel.SiteSettings, Permissions.Types.Manager, resultId);
+                        siteSettings, Permissions.Types.Manager, resultId);
                     Rds.ExecuteNonQuery(statements:
                         Rds.UpdateItems(
                             param: Rds.ItemsParam()
                                 .SiteId(resultModel.SiteId)
                                 .Title(resultModel.Title.DisplayValue)
                                 .Subset(Jsons.ToJson(new ResultSubset(
-                                    resultModel, resultModel.SiteSettings))),
+                                    resultModel, siteSettings))),
                             where: Rds.ItemsWhere().ReferenceId(resultModel.ResultId),
                             addUpdatorParam: false,
                             addUpdatedTimeParam: false));
