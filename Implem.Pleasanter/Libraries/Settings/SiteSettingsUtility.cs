@@ -15,6 +15,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        public static SiteSettings Get(SiteModel siteModel)
+        {
+            switch (siteModel.ReferenceType)
+            {
+                case "Sites": return SitesSiteSettings(siteModel);
+                case "Issues": return IssuesSiteSettings(siteModel);
+                case "Results": return ResultsSiteSettings(siteModel);
+                case "Wikis": return WikisSiteSettings(siteModel);
+                default: return new SiteSettings() { SiteId = siteModel.SiteId };
+            }
+        }
+
         public static SiteSettings TenantsSiteSettings()
         {
             var siteSettings = new SiteSettings();

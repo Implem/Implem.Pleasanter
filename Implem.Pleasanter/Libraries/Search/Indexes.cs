@@ -18,7 +18,7 @@ namespace Implem.Pleasanter.Libraries.Search
             var itemModel = new ItemModel(id);
             var siteModel = new SiteModel().Get(where: Rds.SitesWhere().SiteId(itemModel.SiteId));
             if (Exclude(itemModel, siteModel)) return;
-            SearchIndexHash(siteModel.SiteSettings, id, itemModel.ReferenceType)
+            SearchIndexHash(siteModel, id, itemModel.ReferenceType)
                 .Buffer(2000)
                 .Select((o, i) => new { SearchIndexCollection = o, First = (i == 0) })
                 .ForEach(data =>
@@ -65,8 +65,9 @@ namespace Implem.Pleasanter.Libraries.Search
         }
 
         private static Dictionary<string, int> SearchIndexHash(
-            SiteSettings siteSettings, long id, string referenceType)
+            SiteModel siteModel, long id, string referenceType)
         {
+            var siteSettings = SiteSettingsUtility.Get(siteModel);
             switch (referenceType)
             {
                 case "Sites": return new SiteSubset(
