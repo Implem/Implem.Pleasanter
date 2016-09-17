@@ -379,7 +379,7 @@ namespace Implem.Pleasanter.Models
                                 referenceId: userModel.UserId,
                                 updateButton: true,
                                 mailButton: true,
-                                deleteButton: true,
+                                deleteButton: Permissions.Admins().CanEditTenant(),
                                 extensions: () => hb
                                     .MainCommandExtensions(
                                         userModel: userModel,
