@@ -138,7 +138,6 @@ namespace Implem.Pleasanter.Libraries.Requests
                     case "GridSorters_Users_LoginId": orderBy.Users_LoginId(type); break;
                     case "GridSorters_Users_Disabled": orderBy.Users_Disabled(type); break;
                     case "GridSorters_Users_UserCode": orderBy.Users_UserCode(type); break;
-                    case "GridSorters_Users_Password": orderBy.Users_Password(type); break;
                     case "GridSorters_Users_LastName": orderBy.Users_LastName(type); break;
                     case "GridSorters_Users_FirstName": orderBy.Users_FirstName(type); break;
                     case "GridSorters_Users_Birthday": orderBy.Users_Birthday(type); break;

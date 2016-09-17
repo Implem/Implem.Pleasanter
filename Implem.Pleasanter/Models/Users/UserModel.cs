@@ -96,7 +96,6 @@ namespace Implem.Pleasanter.Models
         public bool LoginId_Updated { get { return LoginId != SavedLoginId && LoginId != null; } }
         public bool Disabled_Updated { get { return Disabled != SavedDisabled; } }
         public bool UserCode_Updated { get { return UserCode != SavedUserCode && UserCode != null; } }
-        public bool Password_Updated { get { return Password != SavedPassword && Password != null; } }
         public bool LastName_Updated { get { return LastName != SavedLastName && LastName != null; } }
         public bool FirstName_Updated { get { return FirstName != SavedFirstName && FirstName != null; } }
         public bool Birthday_Updated { get { return Birthday.Value != SavedBirthday && Birthday.Value != null; } }
@@ -702,7 +701,6 @@ namespace Implem.Pleasanter.Models
                     case "LoginId": LoginId = dataRow[name].ToString(); SavedLoginId = LoginId; break;
                     case "Disabled": Disabled = dataRow[name].ToBool(); SavedDisabled = Disabled; break;
                     case "UserCode": UserCode = dataRow[name].ToString(); SavedUserCode = UserCode; break;
-                    case "Password": Password = dataRow[name].ToString(); SavedPassword = Password; break;
                     case "LastName": LastName = dataRow[name].ToString(); SavedLastName = LastName; break;
                     case "FirstName": FirstName = dataRow[name].ToString(); SavedFirstName = FirstName; break;
                     case "Birthday": Birthday = new Time(dataRow, "Birthday"); SavedBirthday = Birthday.Value; break;
@@ -889,7 +887,7 @@ namespace Implem.Pleasanter.Models
                     if (ret) Get(where: Rds.UsersWhere().LoginId(LoginId));
                     break;
                 default:
-                    ret = GetByCredentials();
+                    ret = GetByCredentials(LoginId, Password);
                     break;
             }
             return ret;
@@ -898,11 +896,11 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private bool GetByCredentials()
+        private bool GetByCredentials(string loginId, string password)
         {
             Get(where: Rds.UsersWhere()
-                .LoginId(LoginId)
-                .Password(Password)
+                .LoginId(loginId)
+                .Password(password)
                 .Disabled(0));
             return AccessStatus == Databases.AccessStatuses.Selected;
         }
@@ -994,7 +992,7 @@ namespace Implem.Pleasanter.Models
                 {
                     return Messages.ResponsePasswordNotChanged().ToJson();
                 }
-                if (GetByCredentials())
+                if (GetByCredentials(LoginId, OldPassword))
                 {
                     PasswordExpirationPeriod();
                     Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
@@ -1035,7 +1033,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponsePasswordNotChanged().ToJson();
             }
-            if (GetByCredentials())
+            if (GetByCredentials(LoginId, Password))
             {
                 PasswordExpirationPeriod();
                 Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
