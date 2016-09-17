@@ -63,7 +63,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             switch (Url.RouteData("action").ToLower())
             {
-                case "gethistories":
+                case "histories":
                     hb.Text(text: DisplayValue);
                     break;
                 default:
