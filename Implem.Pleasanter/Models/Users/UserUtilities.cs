@@ -374,7 +374,9 @@ namespace Implem.Pleasanter.Models
                                 siteId: 0,
                                 permissionType: permissionType,
                                 verType: userModel.VerType,
-                                backUrl: Permissions.Admins().CanEditTenant() ? Navigations.Index("Users") : Navigations.Top(),
+                                backUrl: Permissions.Admins().CanEditTenant()
+                                    ? Navigations.Index("Users")
+                                    : Navigations.Top(),
                                 referenceType: "Users",
                                 referenceId: userModel.UserId,
                                 updateButton: true,
