@@ -15,7 +15,8 @@ namespace Implem.Pleasanter.Libraries.Initializers
                 Create(
                     1,
                     "Administrator",
-                    "System Admin",
+                    "System",
+                    "Admin",
                     password: Passwords.Default().Sha512Cng(),
                     passwordExpirationTime: new Time(DateTime.Now),
                     tenantAdmin: true);
@@ -23,6 +24,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                     0,
                     "Anonymouse",
                     "Anonymouse",
+                    string.Empty,
                     disabled: true);
             }
         }
@@ -30,7 +32,8 @@ namespace Implem.Pleasanter.Libraries.Initializers
         private static void Create(
             int tenantId,
             string loginId,
-            string name,
+            string lastName,
+            string firstName,
             bool disabled = false,
             string password = "",
             Time passwordExpirationTime = null,
@@ -43,8 +46,8 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .LoginId(loginId)
                         .Disabled(disabled)
                         .Password(password)
-                        .LastName(string.Empty)
-                        .FirstName(name)
+                        .LastName(lastName)
+                        .FirstName(firstName)
                         .DeptId(0)
                         .FirstAndLastNameOrder(1)
                         .PasswordExpirationTime(
