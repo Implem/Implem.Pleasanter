@@ -21,12 +21,15 @@ namespace Implem.Pleasanter.Models
 {
     public static class ResultUtilities
     {
-        public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
+        private static string DataViewTemplate(
+            this HtmlBuilder hb,
+            SiteSettings siteSettings,
+            Permissions.Types permissionType,
+            ResultCollection resultCollection,
+            FormData formData,
+            string dataViewName,
+            Action dataViewBody)
         {
-            var hb = new HtmlBuilder();
-            var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
-            var resultCollection = ResultCollection(siteSettings, permissionType, formData);
-            var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
             return hb.Template(
                 siteId: siteSettings.SiteId,
                 referenceType: "Results",
@@ -58,13 +61,7 @@ namespace Implem.Pleasanter.Models
                             .Aggregations(
                                 siteSettings: siteSettings,
                                 aggregations: resultCollection.Aggregations)
-                            .Div(id: "DataViewContainer", action: () => hb
-                                .DataView(
-                                    resultCollection: resultCollection,
-                                    siteSettings: siteSettings,
-                                    permissionType: permissionType,
-                                    formData: formData,
-                                    dataViewName: dataViewName))
+                            .Div(id: "DataViewContainer", action: () => dataViewBody())
                             .MainCommands(
                                 siteId: siteSettings.SiteId,
                                 permissionType: permissionType,
@@ -84,6 +81,42 @@ namespace Implem.Pleasanter.Models
                     .Class("dialog")
                     .Title(Displays.ExportSettings())))
                 .ToString();
+        }
+
+        public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
+        {
+            var hb = new HtmlBuilder();
+            var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
+            var resultCollection = ResultCollection(siteSettings, permissionType, formData);
+            var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
+            return hb.DataViewTemplate(
+                siteSettings: siteSettings,
+                permissionType: permissionType,
+                resultCollection: resultCollection,
+                formData: formData,
+                dataViewName: dataViewName,
+                dataViewBody: () => hb.Grid(
+                   resultCollection: resultCollection,
+                   siteSettings: siteSettings,
+                   permissionType: permissionType,
+                   formData: formData));
+        }
+
+        public static string IndexJson(SiteSettings siteSettings, Permissions.Types permissionType)
+        {
+            var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
+            var resultCollection = ResultCollection(siteSettings, permissionType, formData);
+            return new ResponseCollection()
+                .Html("#DataViewContainer", new HtmlBuilder().Grid(
+                    siteSettings: siteSettings,
+                    resultCollection: resultCollection,
+                    permissionType: permissionType,
+                    formData: formData))
+                .Html("#Aggregations", new HtmlBuilder().Aggregations(
+                    siteSettings: siteSettings,
+                    aggregations: resultCollection.Aggregations,
+                    container: false))
+                .WindowScrollTop().ToJson();
         }
 
         private static ResultCollection ResultCollection(
@@ -108,9 +141,6 @@ namespace Implem.Pleasanter.Models
                 aggregationCollection: siteSettings.AggregationCollection);
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public static HtmlBuilder DataView(
             this HtmlBuilder hb,
             ResultCollection resultCollection,
@@ -121,38 +151,11 @@ namespace Implem.Pleasanter.Models
         {
             switch (dataViewName)
             {
-                case "TimeSeries":
-                    return hb.TimeSeries(
-                        siteSettings: siteSettings,
-                        permissionType: permissionType,
-                        formData: formData,
-                        bodyOnly: false);
-                case "Kamban":
-                    return hb.Kamban(
-                        siteSettings: siteSettings,
-                        permissionType: permissionType,
-                        formData: formData,
-                        bodyOnly: false);
-                default:
-                    return hb.Grid(
-               resultCollection: resultCollection,
-               siteSettings: siteSettings,
-               permissionType: permissionType,
-               formData: formData);
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string DataView(
-            SiteSettings siteSettings, Permissions.Types permissionType)
-        {
-            switch (DataViewSelectors.Get(siteSettings.SiteId))
-            {
-                case "TimeSeries": return TimeSeriesResponse(siteSettings, permissionType);
-                case "Kamban": return KambanResponse(siteSettings, permissionType);
-                default: return Grid(siteSettings: siteSettings, permissionType: permissionType);
+                default: return hb.Grid(
+                    resultCollection: resultCollection,
+                    siteSettings: siteSettings,
+                    permissionType: permissionType,
+                    formData: formData);
             }
         }
 
@@ -180,23 +183,6 @@ namespace Implem.Pleasanter.Models
                     value: siteSettings.GridPageSize == resultCollection.Count()
                         ? siteSettings.GridPageSize.ToString()
                         : "-1");
-        }
-
-        private static string Grid(SiteSettings siteSettings, Permissions.Types permissionType)
-        {
-            var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
-            var resultCollection = ResultCollection(siteSettings, permissionType, formData);
-            return new ResponseCollection()
-                .Html("#DataViewContainer", new HtmlBuilder().Grid(
-                    siteSettings: siteSettings,
-                    resultCollection: resultCollection,
-                    permissionType: permissionType,
-                    formData: formData))
-                .Html("#Aggregations", new HtmlBuilder().Aggregations(
-                    siteSettings: siteSettings,
-                    aggregations: resultCollection.Aggregations,
-                    container: false))
-                .WindowScrollTop().ToJson();
         }
 
         public static string GridRows(
@@ -1640,13 +1626,35 @@ namespace Implem.Pleasanter.Models
                 setByForm: true);
             resultModel.VerUp = Versions.MustVerUp(resultModel);
             resultModel.Update();
-            return KambanResponse(siteSettings, siteModel.PermissionType);
+            return KambanJson(siteSettings, siteModel.PermissionType);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string TimeSeriesResponse(
+        public static string TimeSeries(SiteSettings siteSettings, Permissions.Types permissionType)
+        {
+            var hb = new HtmlBuilder();
+            var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
+            var resultCollection = ResultCollection(siteSettings, permissionType, formData);
+            var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
+            return hb.DataViewTemplate(
+                siteSettings: siteSettings,
+                permissionType: permissionType,
+                resultCollection: resultCollection,
+                formData: formData,
+                dataViewName: dataViewName,
+                dataViewBody: () => hb.TimeSeries(
+                    siteSettings: siteSettings,
+                    permissionType: permissionType,
+                    formData: formData,
+                    bodyOnly: false));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string TimeSeriesJson(
             SiteSettings siteSettings, Permissions.Types permissionType)
         {
             var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
@@ -1737,7 +1745,29 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string KambanResponse(
+        public static string Kamban(SiteSettings siteSettings, Permissions.Types permissionType)
+        {
+            var hb = new HtmlBuilder();
+            var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
+            var resultCollection = ResultCollection(siteSettings, permissionType, formData);
+            var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
+            return hb.DataViewTemplate(
+                siteSettings: siteSettings,
+                permissionType: permissionType,
+                resultCollection: resultCollection,
+                formData: formData,
+                dataViewName: dataViewName,
+                dataViewBody: () => hb.Kamban(
+                    siteSettings: siteSettings,
+                    permissionType: permissionType,
+                    formData: formData,
+                    bodyOnly: false));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string KambanJson(
             SiteSettings siteSettings, Permissions.Types permissionType)
         {
             var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);

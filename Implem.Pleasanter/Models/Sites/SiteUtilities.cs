@@ -373,89 +373,15 @@ namespace Implem.Pleasanter.Models
                     .A(
                         attributes: new HtmlAttributes()
                             .Href(SiteHref(siteSettings, siteId, referenceType)),
-                        action: () =>
-                        {
-                            if (toParent)
-                            {
-                                if (hasImage)
-                                {
-                                    hb
-                                        .Img(
-                                            src: Navigations.Get(
-                                                "Items",
-                                                siteId.ToString(),
-                                                "Binaries",
-                                                "SiteImageIcon",
-                                                binaryModel.SiteImagePrefix(
-                                                    Libraries.Images.ImageData.SizeTypes.Thumbnail)),
-                                            css: "site-image-icon")
-                                        .Span(css: "title", action: () => hb
-                                            .Text(title));
-                                }
-                                else
-                                {
-                                    hb.Icon(
-                                        iconCss: "ui-icon-circle-arrow-n",
-                                        cssText: "title",
-                                        text: title);
-                                }
-                            }
-                            else
-                            {
-                                if (hasImage)
-                                {
-                                    hb.Img(
-                                        src: Navigations.Get(
-                                            "Items",
-                                            siteId.ToString(),
-                                            "Binaries",
-                                            "SiteImageThumbnail",
-                                            binaryModel.SiteImagePrefix(
-                                                Libraries.Images.ImageData.SizeTypes.Thumbnail)),
-                                        css: "site-image-thumbnail");
-                                }
-                                hb.Span(css: "title", action: () => hb
-                                    .Text(title));
-                            }
-                            if (referenceType == "Sites")
-                            {
-                                hb.Div(css: "heading");
-                            }
-                            else
-                            {
-                                switch (referenceType)
-                                {
-                                    case "Wikis": break;
-                                    default:
-                                        hb.Div(css: "stacking1").Div(css: "stacking2");
-                                        break;
-                                }
-                            }
-                            if (siteConditions != null &&
-                                siteConditions.Any(o => o.SiteId == siteId))
-                            {
-                                var condition = siteConditions
-                                    .FirstOrDefault(o => o.SiteId == siteId);
-                                hb.Div(
-                                    css: "conditions",
-                                    _using: condition.ItemCount > 0,
-                                    action: () => hb
-                                        .ElapsedTime(condition.UpdatedTime.ToLocal())
-                                        .Span(
-                                            attributes: new HtmlAttributes()
-                                                .Class("count")
-                                                .Title(Displays.Quantity()),
-                                            action: () => hb
-                                                .Text(condition.ItemCount.ToString()))
-                                        .Span(
-                                            attributes: new HtmlAttributes()
-                                                .Class("overdue")
-                                                .Title(Displays.Overdue()),
-                                            _using: condition.OverdueCount > 0,
-                                            action: () => hb
-                                                .Text("({0})".Params(condition.OverdueCount))));
-                            }
-                        }));
+                        action: () => hb
+                            .SiteMenuInnerElements(
+                                siteId: siteId,
+                                referenceType: referenceType,
+                                title: title,
+                                toParent: toParent,
+                                binaryModel: binaryModel,
+                                hasImage: hasImage,
+                                siteConditions: siteConditions)));
         }
 
         /// <summary>
@@ -472,8 +398,161 @@ namespace Implem.Pleasanter.Models
                             column: Rds.WikisColumn().WikiId(),
                             where: Rds.WikisWhere().SiteId(siteId))));
                 default:
-                    return Navigations.ItemIndex(siteId);
+                    return Navigations.Get(
+                        "Items",
+                        siteId.ToString(),
+                        DataViewSelectors.Get(siteId));
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder SiteMenuInnerElements(
+            this HtmlBuilder hb,
+            long siteId,
+            string referenceType,
+            string title,
+            bool toParent,
+            BinaryModel binaryModel,
+            bool hasImage,
+            IEnumerable<SiteCondition> siteConditions)
+        {
+            if (toParent)
+            {
+                hb.SiteMenuParent(
+                    siteId: siteId,
+                    title: title,
+                    hasImage: hasImage,
+                    binaryModel: binaryModel);
+            }
+            else
+            {
+                hb.SiteMenuChild(
+                    siteId: siteId,
+                    title: title,
+                    hasImage: hasImage,
+                    binaryModel: binaryModel);
+            }
+            return hb
+                .SiteMenuStyle(referenceType)
+                .SiteMenuConditions(siteId, siteConditions);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder SiteMenuParent(
+            this HtmlBuilder hb,
+            long siteId,
+            string title,
+            bool hasImage,
+            BinaryModel binaryModel)
+        {
+            if (hasImage)
+            {
+                return hb
+                    .Img(
+                        src: Navigations.Get(
+                            "Items",
+                            siteId.ToString(),
+                            "Binaries",
+                            "SiteImageIcon",
+                            binaryModel.SiteImagePrefix(
+                                Libraries.Images.ImageData.SizeTypes.Thumbnail)),
+                        css: "site-image-icon")
+                    .Span(css: "title", action: () => hb
+                        .Text(title));
+            }
+            else
+            {
+                return hb.Icon(
+                    iconCss: "ui-icon-circle-arrow-n",
+                    cssText: "title",
+                    text: title);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder SiteMenuChild(
+            this HtmlBuilder hb,
+            long siteId,
+            string title,
+            bool hasImage,
+            BinaryModel binaryModel)
+        {
+            if (hasImage)
+            {
+                hb.Img(
+                    src: Navigations.Get(
+                        "Items",
+                        siteId.ToString(),
+                        "Binaries",
+                        "SiteImageThumbnail",
+                        binaryModel.SiteImagePrefix(
+                            Libraries.Images.ImageData.SizeTypes.Thumbnail)),
+                    css: "site-image-thumbnail");
+            }
+            return hb.Span(css: "title", action: () => hb
+                .Text(title));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder SiteMenuStyle(
+            this HtmlBuilder hb,
+            string referenceType)
+        {
+            if (referenceType == "Sites")
+            {
+                return hb.Div(css: "heading");
+            }
+            else
+            {
+                switch (referenceType)
+                {
+                    case "Wikis": return hb;
+                    default: return hb.Div(css: "stacking1").Div(css: "stacking2");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder SiteMenuConditions(
+            this HtmlBuilder hb,
+            long siteId,
+            IEnumerable<SiteCondition> siteConditions)
+        {
+            if (siteConditions != null &&
+                siteConditions.Any(o => o.SiteId == siteId))
+            {
+                var condition = siteConditions
+                    .FirstOrDefault(o => o.SiteId == siteId);
+                hb.Div(
+                    css: "conditions",
+                    _using: condition.ItemCount > 0,
+                    action: () => hb
+                        .ElapsedTime(condition.UpdatedTime.ToLocal())
+                        .Span(
+                            attributes: new HtmlAttributes()
+                                .Class("count")
+                                .Title(Displays.Quantity()),
+                            action: () => hb
+                                .Text(condition.ItemCount.ToString()))
+                        .Span(
+                            attributes: new HtmlAttributes()
+                                .Class("overdue")
+                                .Title(Displays.Overdue()),
+                            _using: condition.OverdueCount > 0,
+                            action: () => hb
+                                .Text("({0})".Params(condition.OverdueCount))));
+            }
+            return hb;
         }
 
         /// <summary>

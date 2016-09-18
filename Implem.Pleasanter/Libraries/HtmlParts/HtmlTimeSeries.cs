@@ -29,7 +29,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     optionCollection: siteSettings.ColumnCollection.Where(o => o.HasChoices())
                         .ToDictionary(o => o.ColumnName, o => o.LabelText),
                     selectedValue: groupByColumn,
-                    action: "DataView",
                     method: "post")
                 .FieldDropDown(
                     controlId: "TimeSeriesAggregateType",
@@ -45,7 +44,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         { "Min", Displays.Min() }
                     },
                     selectedValue: aggregateType,
-                    action: "DataView",
                     method: "post")
                 .FieldDropDown(
                     fieldId: "TimeSeriesValueColumnField",
@@ -58,7 +56,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Where(o => o.TypeName != "datetime")
                         .ToDictionary(o => o.ColumnName, o => o.LabelText),
                     selectedValue: valueColumn,
-                    action: "DataView",
                     method: "post")
                 .Div(id: "TimeSeriesBody", action: () => hb
                     .TimeSeriesBody(

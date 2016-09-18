@@ -1,5 +1,4 @@
-﻿using Implem.Pleasanter.Libraries.Models;
-using Implem.Pleasanter.Libraries.Responses;
+﻿using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -11,16 +10,28 @@ namespace Implem.Pleasanter.Controllers
     [ValidateInput(false)]
     public class DeptsController : Controller
     {
-        [HttpGet]
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult Index()
         {
-            var log = new SysLogModel();
-            var html = DeptUtilities.Index(
-                SiteSettingsUtility.DeptsSiteSettings(),
-                Permissions.Admins());
-            ViewBag.HtmlBody = html;
-            log.Finish(html.Length);
-            return View();
+            if (!Request.IsAjaxRequest())
+            {
+                var log = new SysLogModel();
+                var html = DeptUtilities.Index(
+                    SiteSettingsUtility.DeptsSiteSettings(),
+                    Permissions.Admins());
+                ViewBag.HtmlBody = html;
+                log.Finish(html.Length);
+                return View();
+            }
+            else
+            {
+                var log = new SysLogModel();
+                var json = DeptUtilities.IndexJson(
+                    SiteSettingsUtility.DeptsSiteSettings(),
+                    Permissions.Admins());
+                log.Finish(json.Length);
+                return Content(json);
+            }
         }
 
         [HttpGet]
@@ -64,17 +75,6 @@ namespace Implem.Pleasanter.Controllers
             var responseFile = new ItemModel(id).Export();
             log.Finish(responseFile.Length);
             return responseFile.ToFile();
-        }
-
-        [HttpPost]
-        public string DataView()
-        {
-            var log = new SysLogModel();
-            var json = DeptUtilities.DataView(
-                SiteSettingsUtility.DeptsSiteSettings(),
-                Permissions.Admins());
-            log.Finish(json.Length);
-            return json;
         }
 
         [HttpPost]

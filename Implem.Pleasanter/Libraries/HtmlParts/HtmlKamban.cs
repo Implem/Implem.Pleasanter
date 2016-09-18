@@ -34,7 +34,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         optionCollection: siteSettings.ColumnCollection.Where(o => o.HasChoices())
                             .ToDictionary(o => o.ColumnName, o => o.LabelText),
                         selectedValue: groupByColumn,
-                        action: "DataView",
                         method: "post")
                     .FieldDropDown(
                         controlId: "KambanAggregateType",
@@ -49,7 +48,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             { "Min", Displays.Min() }
                         },
                         selectedValue: aggregateType,
-                        action: "DataView",
                         method: "post")
                     .FieldDropDown(
                         fieldId: "KambanValueColumnField",
@@ -59,7 +57,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         labelText: Displays.SettingAggregationTarget(),
                         optionCollection: KambanValueColumnOptionCollection(siteSettings),
                         selectedValue: valueColumn,
-                        action: "DataView",
                         method: "post")
                     .KambanBody(
                         siteSettings: siteSettings,

@@ -12,24 +12,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             var optionCollection = new Dictionary<string, ControlData>
             {
-                { "Grid", new ControlData(Displays.Grid()) }
+                { "index", new ControlData(Displays.Grid()) }
             };
             Def.DataViewDefinitionCollection
                 .Where(o => o.ReferenceType == referenceType)
                 .Select(o => o.Name)
                 .ForEach(name =>
-                    optionCollection.Add(name, new ControlData(Displays.Get(name))));
+                    optionCollection.Add(
+                        name.ToLower(),
+                        new ControlData(Displays.Get(name))));
             return optionCollection.Count > 1
                 ? hb.Div(css: "dataview-selector", action: () => hb
                     .FieldDropDown(
                         controlId: "DataViewSelector",
                         fieldCss: "field-auto-thin",
-                        controlCss: " auto-postback",
                         labelText: Displays.DataViewSelector(),
                         optionCollection: optionCollection,
                         selectedValue: dataViewName,
-                        action: "DataView",
-                        method: "post")
+                        onChange: "$p.dataView($(this));")
                     .Button(
                         attributes: new HtmlAttributes()
                             .Id("PreviousDataView")

@@ -396,9 +396,10 @@
     <Content Include="Scripts\AnchorEvents.js" />
     <Content Include="Scripts\BurnDown.js" />
     <Content Include="Scripts\BurnDownEvents.js" />
+    <Content Include="Scripts\DataView.js" />
     <Content Include="Scripts\Dialog.js" />
     <Content Include="Scripts\DialogEvents.js" />
-    <Content Include="Scripts\DropDownEvents.js" />
+    <Content Include="Scripts\DataViewEvents.js" />
     <Content Include="Scripts\Export.js" />
     <Content Include="Scripts\FilterEvents.js" />
     <Content Include="Scripts\Focus.js" />
@@ -426,7 +427,7 @@
     <Content Include="Scripts\NavigationEvents.js" />
     <Content Include="Scripts\OutgoingMail.js" />
     <Content Include="Scripts\MarkDown.js" />
-    <Content Include="Scripts\ControllEvents.js" />
+    <Content Include="Scripts\_ControllEvents.js" />
     <Content Include="Scripts\Plugins\d3.min.js" />
     <Content Include="Scripts\Plugins\jquery-3.1.0.min.js" />
     <Content Include="Scripts\Plugins\jquery-ui\i18n\datepicker-ja.js" />
@@ -568,6 +569,10 @@
     <Content Include="App_Data\Parameters\Formats.json" />
     <Content Include="App_Data\Parameters\Asset.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
+    <Content Include="Views\Items\Gantt.cshtml" />
+    <Content Include="Views\Items\BurnDown.cshtml" />
+    <Content Include="Views\Items\TimeSeries.cshtml" />
+    <Content Include="Views\Items\Kamban.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

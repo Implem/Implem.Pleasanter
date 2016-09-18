@@ -29,7 +29,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .ToDictionary(o => o.ColumnName, o => o.LabelText),
                     selectedValue: groupByColumn,
                     insertBlank: true,
-                    action: "DataView",
                     method: "post")
                 .Div(id: "GanttBody", action: () => hb
                     .GanttBody(

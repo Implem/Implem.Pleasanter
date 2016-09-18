@@ -7,16 +7,12 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             return HttpContext.Current.Session["DataViewSelector" + siteId] != null
                 ? HttpContext.Current.Session["DataViewSelector" + siteId].ToString()
-                : string.Empty;
+                : "index";
         }
 
         public static void Set(long siteId)
         {
-            if (Forms.Data("ControlId") == "DataViewSelector")
-            {
-                HttpContext.Current.Session["DataViewSelector" + siteId] =
-                    Forms.Data("DataViewSelector");
-            }
+            HttpContext.Current.Session["DataViewSelector" + siteId] = Routes.Action().ToLower();
         }
     }
 }

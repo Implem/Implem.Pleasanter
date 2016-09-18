@@ -21,12 +21,15 @@ namespace Implem.Pleasanter.Models
 {
     public static class TenantUtilities
     {
-        public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
+        private static string DataViewTemplate(
+            this HtmlBuilder hb,
+            SiteSettings siteSettings,
+            Permissions.Types permissionType,
+            TenantCollection tenantCollection,
+            FormData formData,
+            string dataViewName,
+            Action dataViewBody)
         {
-            var hb = new HtmlBuilder();
-            var formData = DataViewFilters.SessionFormData();
-            var tenantCollection = TenantCollection(siteSettings, permissionType, formData);
-            var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
             return hb.Template(
                 siteId: siteSettings.SiteId,
                 referenceType: "Tenants",
@@ -58,13 +61,7 @@ namespace Implem.Pleasanter.Models
                             .Aggregations(
                                 siteSettings: siteSettings,
                                 aggregations: tenantCollection.Aggregations)
-                            .Div(id: "DataViewContainer", action: () => hb
-                                .DataView(
-                                    tenantCollection: tenantCollection,
-                                    siteSettings: siteSettings,
-                                    permissionType: permissionType,
-                                    formData: formData,
-                                    dataViewName: dataViewName))
+                            .Div(id: "DataViewContainer", action: () => dataViewBody())
                             .MainCommands(
                                 siteId: siteSettings.SiteId,
                                 permissionType: permissionType,
@@ -83,6 +80,42 @@ namespace Implem.Pleasanter.Models
                     .Class("dialog")
                     .Title(Displays.ExportSettings())))
                 .ToString();
+        }
+
+        public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
+        {
+            var hb = new HtmlBuilder();
+            var formData = DataViewFilters.SessionFormData();
+            var tenantCollection = TenantCollection(siteSettings, permissionType, formData);
+            var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
+            return hb.DataViewTemplate(
+                siteSettings: siteSettings,
+                permissionType: permissionType,
+                tenantCollection: tenantCollection,
+                formData: formData,
+                dataViewName: dataViewName,
+                dataViewBody: () => hb.Grid(
+                   tenantCollection: tenantCollection,
+                   siteSettings: siteSettings,
+                   permissionType: permissionType,
+                   formData: formData));
+        }
+
+        public static string IndexJson(SiteSettings siteSettings, Permissions.Types permissionType)
+        {
+            var formData = DataViewFilters.SessionFormData();
+            var tenantCollection = TenantCollection(siteSettings, permissionType, formData);
+            return new ResponseCollection()
+                .Html("#DataViewContainer", new HtmlBuilder().Grid(
+                    siteSettings: siteSettings,
+                    tenantCollection: tenantCollection,
+                    permissionType: permissionType,
+                    formData: formData))
+                .Html("#Aggregations", new HtmlBuilder().Aggregations(
+                    siteSettings: siteSettings,
+                    aggregations: tenantCollection.Aggregations,
+                    container: false))
+                .WindowScrollTop().ToJson();
         }
 
         private static TenantCollection TenantCollection(
@@ -125,15 +158,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string DataView(
-            SiteSettings siteSettings, Permissions.Types permissionType)
-        {
-            switch (DataViewSelectors.Get(siteSettings.SiteId))
-            {
-                default: return Grid(siteSettings: siteSettings, permissionType: permissionType);
-            }
-        }
-
         private static HtmlBuilder Grid(
             this HtmlBuilder hb,
             SiteSettings siteSettings,
@@ -158,23 +182,6 @@ namespace Implem.Pleasanter.Models
                     value: siteSettings.GridPageSize == tenantCollection.Count()
                         ? siteSettings.GridPageSize.ToString()
                         : "-1");
-        }
-
-        private static string Grid(SiteSettings siteSettings, Permissions.Types permissionType)
-        {
-            var formData = DataViewFilters.SessionFormData();
-            var tenantCollection = TenantCollection(siteSettings, permissionType, formData);
-            return new ResponseCollection()
-                .Html("#DataViewContainer", new HtmlBuilder().Grid(
-                    siteSettings: siteSettings,
-                    tenantCollection: tenantCollection,
-                    permissionType: permissionType,
-                    formData: formData))
-                .Html("#Aggregations", new HtmlBuilder().Aggregations(
-                    siteSettings: siteSettings,
-                    aggregations: tenantCollection.Aggregations,
-                    container: false))
-                .WindowScrollTop().ToJson();
         }
 
         public static string GridRows(

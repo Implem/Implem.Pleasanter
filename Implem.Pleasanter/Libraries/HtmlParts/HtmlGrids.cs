@@ -37,7 +37,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         .Id("GridSorters_" + column.Id)
                                         .Add("data-order-type", GridSorters
                                             .TypeString(formData, "GridSorters_" + column.Id))
-                                        .DataAction("DataView")
                                         .DataMethod("post"),
                                     action: () => hb
                                         .Span(action: () => hb

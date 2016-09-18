@@ -90,15 +90,166 @@ namespace Implem.Pleasanter.Models
         {
             if (ReferenceId == 0)
             {
-                return SiteUtilities.SiteTop(SiteSettingsUtility.SitesSiteSettings(0));
+                return SiteUtilities.SiteTop(
+                    siteSettings: SiteSettingsUtility.SitesSiteSettings(0));
             }
             SetSite();
+            DataViewSelectors.Set(Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Sites": return SiteUtilities.SiteMenu(Site);
-                case "Issues": return IssueUtilities.Index(Site.IssuesSiteSettings(), Site.PermissionType);
-                case "Results": return ResultUtilities.Index(Site.ResultsSiteSettings(), Site.PermissionType);
-                case "Wikis": return WikiUtilities.Index(Site.WikisSiteSettings(), Site.PermissionType);
+                case "Issues": return IssueUtilities.Index(
+                    siteSettings: Site.IssuesSiteSettings(),
+                    permissionType: Site.PermissionType);
+                case "Results": return ResultUtilities.Index(
+                    siteSettings: Site.ResultsSiteSettings(),
+                    permissionType: Site.PermissionType);
+                case "Wikis": return WikiUtilities.Index(
+                    siteSettings: Site.WikisSiteSettings(),
+                    permissionType: Site.PermissionType);
+                default: return new HtmlBuilder().NotFoundTemplate().ToString();
+            }
+        }
+
+        public string IndexJson()
+        {
+            SetSite();
+            DataViewSelectors.Set(Site.SiteId);
+            switch (Site.ReferenceType)
+            {
+                case "Issues": return IssueUtilities.IndexJson(
+                    siteSettings: Site.IssuesSiteSettings(),
+                    permissionType: Site.PermissionType);
+                case "Results": return ResultUtilities.IndexJson(
+                    siteSettings: Site.ResultsSiteSettings(),
+                    permissionType: Site.PermissionType);
+                default: return new HtmlBuilder().NotFoundTemplate().ToString();
+            }
+        }
+
+        public string Gantt()
+        {
+            SetSite();
+            DataViewSelectors.Set(Site.SiteId);
+            switch (Site.ReferenceType)
+            {
+                case "Issues": return IssueUtilities.Gantt(
+                    siteSettings: Site.IssuesSiteSettings(),
+                    permissionType: Site.PermissionType);
+                default: return new HtmlBuilder().NotFoundTemplate().ToString();
+            }
+        }
+
+        public string GanttJson()
+        {
+            SetSite();
+            DataViewSelectors.Set(Site.SiteId);
+            switch (Site.ReferenceType)
+            {
+                case "Issues": return IssueUtilities.GanttJson(
+                    siteSettings: Site.IssuesSiteSettings(),
+                    permissionType: Site.PermissionType);
+                default: return new HtmlBuilder().NotFoundTemplate().ToString();
+            }
+        }
+
+        public string BurnDown()
+        {
+            SetSite();
+            DataViewSelectors.Set(Site.SiteId);
+            switch (Site.ReferenceType)
+            {
+                case "Issues": return IssueUtilities.BurnDown(
+                    siteSettings: Site.IssuesSiteSettings(),
+                    permissionType: Site.PermissionType);
+                default: return new HtmlBuilder().NotFoundTemplate().ToString();
+            }
+        }
+
+        public string BurnDownJson()
+        {
+            SetSite();
+            DataViewSelectors.Set(Site.SiteId);
+            switch (Site.ReferenceType)
+            {
+                case "Issues": return IssueUtilities.BurnDownJson(
+                    siteSettings: Site.IssuesSiteSettings(),
+                    permissionType: Site.PermissionType);
+                default: return new HtmlBuilder().NotFoundTemplate().ToString();
+            }
+        }
+
+        public string BurnDownRecordDetailsJson()
+        {
+            SetSite();
+            switch (Site.ReferenceType)
+            {
+                case "Issues": return IssueUtilities
+                    .BurnDownRecordDetails(Site.IssuesSiteSettings());
+                default: return Messages.ResponseNotFound().ToJson();
+            }
+        }
+
+        public string TimeSeries()
+        {
+            SetSite();
+            DataViewSelectors.Set(Site.SiteId);
+            switch (Site.ReferenceType)
+            {
+                case "Issues": return IssueUtilities.TimeSeries(
+                    siteSettings: Site.IssuesSiteSettings(),
+                    permissionType: Site.PermissionType);
+                case "Results": return ResultUtilities.TimeSeries(
+                    siteSettings: Site.ResultsSiteSettings(),
+                    permissionType: Site.PermissionType);
+                default: return new HtmlBuilder().NotFoundTemplate().ToString();
+            }
+        }
+
+        public string TimeSeriesJson()
+        {
+            SetSite();
+            DataViewSelectors.Set(Site.SiteId);
+            switch (Site.ReferenceType)
+            {
+                case "Issues": return IssueUtilities.TimeSeriesJson(
+                    siteSettings: Site.IssuesSiteSettings(),
+                    permissionType: Site.PermissionType);
+                case "Results": return ResultUtilities.TimeSeriesJson(
+                    siteSettings: Site.ResultsSiteSettings(),
+                    permissionType: Site.PermissionType);
+                default: return new HtmlBuilder().NotFoundTemplate().ToString();
+            }
+        }
+
+        public string Kamban()
+        {
+            SetSite();
+            DataViewSelectors.Set(Site.SiteId);
+            switch (Site.ReferenceType)
+            {
+                case "Issues": return IssueUtilities.Kamban(
+                    siteSettings: Site.IssuesSiteSettings(),
+                    permissionType: Site.PermissionType);
+                case "Results": return ResultUtilities.Kamban(
+                    siteSettings: Site.ResultsSiteSettings(),
+                    permissionType: Site.PermissionType);
+                default: return new HtmlBuilder().NotFoundTemplate().ToString();
+            }
+        }
+
+        public string KambanJson()
+        {
+            SetSite();
+            DataViewSelectors.Set(Site.SiteId);
+            switch (Site.ReferenceType)
+            {
+                case "Issues": return IssueUtilities.KambanJson(
+                    siteSettings: Site.IssuesSiteSettings(),
+                    permissionType: Site.PermissionType);
+                case "Results": return ResultUtilities.KambanJson(
+                    siteSettings: Site.ResultsSiteSettings(),
+                    permissionType: Site.PermissionType);
                 default: return new HtmlBuilder().NotFoundTemplate().ToString();
             }
         }
@@ -176,22 +327,6 @@ namespace Implem.Pleasanter.Models
                     Site.PermissionType,
                     siteModel: Site);
                 default: return null;
-            }
-        }
-
-        public string DataView()
-        {
-            SetSite();
-            DataViewSelectors.Set(Site.SiteId);
-            switch (Site.ReferenceType)
-            {
-                case "Issues": return IssueUtilities.DataView(
-                    siteSettings: Site.IssuesSiteSettings(), permissionType: Site.PermissionType);
-                case "Results": return ResultUtilities.DataView(
-                    siteSettings: Site.ResultsSiteSettings(), permissionType: Site.PermissionType);
-                case "Wikis": return WikiUtilities.DataView(
-                    siteSettings: Site.WikisSiteSettings(), permissionType: Site.PermissionType);
-                default: return Messages.ResponseNotFound().ToJson();
             }
         }
 
@@ -590,17 +725,6 @@ namespace Implem.Pleasanter.Models
                     Site.PermissionType,
                     ReferenceId)
                         .EditorJson();
-                default: return Messages.ResponseNotFound().ToJson();
-            }
-        }
-
-        public string BurnDownRecordDetails()
-        {
-            SetSite();
-            switch (Site.ReferenceType)
-            {
-                case "Issues": return IssueUtilities
-                    .BurnDownRecordDetails(Site.IssuesSiteSettings());
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }

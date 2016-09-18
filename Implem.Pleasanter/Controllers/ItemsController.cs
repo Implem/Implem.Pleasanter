@@ -7,14 +7,104 @@ namespace Implem.Pleasanter.Controllers
     [ValidateInput(false)]
     public class ItemsController : Controller
     {
-        [HttpGet]
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult Index(long id = 0)
         {
-            var log = new SysLogModel();
-            var html = new ItemModel(id).Index();
-            ViewBag.HtmlBody = html;
-            log.Finish(html.Length);
-            return View();
+            if (!Request.IsAjaxRequest())
+            {
+                var log = new SysLogModel();
+                var html = new ItemModel(id).Index();
+                ViewBag.HtmlBody = html;
+                log.Finish(html.Length);
+                return View();
+            }
+            else
+            {
+                var log = new SysLogModel();
+                var json = new ItemModel(id).IndexJson();
+                log.Finish(json.Length);
+                return Content(json);
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
+        public ActionResult Gantt(long id = 0)
+        {
+            if (!Request.IsAjaxRequest())
+            {
+                var log = new SysLogModel();
+                var html = new ItemModel(id).Gantt();
+                ViewBag.HtmlBody = html;
+                log.Finish(html.Length);
+                return View();
+            }
+            else
+            {
+                var log = new SysLogModel();
+                var json = new ItemModel(id).GanttJson();
+                log.Finish(json.Length);
+                return Content(json);
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
+        public ActionResult BurnDown(long id = 0)
+        {
+            if (!Request.IsAjaxRequest())
+            {
+                var log = new SysLogModel();
+                var html = new ItemModel(id).BurnDown();
+                ViewBag.HtmlBody = html;
+                log.Finish(html.Length);
+                return View();
+            }
+            else
+            {
+                var log = new SysLogModel();
+                var json = new ItemModel(id).BurnDownJson();
+                log.Finish(json.Length);
+                return Content(json);
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
+        public ActionResult TimeSeries(long id = 0)
+        {
+            if (!Request.IsAjaxRequest())
+            {
+                var log = new SysLogModel();
+                var html = new ItemModel(id).TimeSeries();
+                ViewBag.HtmlBody = html;
+                log.Finish(html.Length);
+                return View();
+            }
+            else
+            {
+                var log = new SysLogModel();
+                var json = new ItemModel(id).TimeSeriesJson();
+                log.Finish(json.Length);
+                return Content(json);
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
+        public ActionResult Kamban(long id = 0)
+        {
+            if (!Request.IsAjaxRequest())
+            {
+                var log = new SysLogModel();
+                var html = new ItemModel(id).Kamban();
+                ViewBag.HtmlBody = html;
+                log.Finish(html.Length);
+                return View();
+            }
+            else
+            {
+                var log = new SysLogModel();
+                var json = new ItemModel(id).KambanJson();
+                log.Finish(json.Length);
+                return Content(json);
+            }
         }
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
@@ -93,15 +183,6 @@ namespace Implem.Pleasanter.Controllers
                 log.Finish(json.Length);
                 return Content(json);
             }
-        }
-
-        [HttpPost]
-        public string DataView(long id)
-        {
-            var log = new SysLogModel();
-            var json = new ItemModel(id).DataView();
-            log.Finish(json.Length);
-            return json;
         }
 
         [HttpPost]
@@ -270,7 +351,7 @@ namespace Implem.Pleasanter.Controllers
         public string BurnDownRecordDetails(long id)
         {
             var log = new SysLogModel();
-            var json = new ItemModel(id).BurnDownRecordDetails();
+            var json = new ItemModel(id).BurnDownRecordDetailsJson();
             log.Finish(json.Length);
             return json;
         }

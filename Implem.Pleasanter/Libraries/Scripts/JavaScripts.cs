@@ -11,15 +11,12 @@ namespace Implem.Pleasanter.Libraries.Scripts
             FormData formData,
             string dataViewName)
         {
-            if (Routes.Method() == "get")
+            switch (dataViewName)
             {
-                switch (dataViewName)
-                {
-                    case "BurnDown": return "$p.drawBurnDown();";
-                    case "Gantt": return "$p.drawGantt();";
-                    case "TimeSeries": return "$p.drawTimeSeries();";
-                    case "Kamban": return "$p.setKamban();";
-                }
+                case "burndown": return "$p.drawBurnDown();";
+                case "gantt": return "$p.drawGantt();";
+                case "timeseries": return "$p.drawTimeSeries();";
+                case "kamban": return "$p.setKamban();";
             }
             return string.Empty;
         }

@@ -21,12 +21,91 @@ namespace Implem.Pleasanter.Models
 {
     public static class WikiUtilities
     {
+        private static string DataViewTemplate(
+            this HtmlBuilder hb,
+            SiteSettings siteSettings,
+            Permissions.Types permissionType,
+            WikiCollection wikiCollection,
+            FormData formData,
+            string dataViewName,
+            Action dataViewBody)
+        {
+            return hb.Template(
+                siteId: siteSettings.SiteId,
+                referenceType: "Wikis",
+                title: siteSettings.Title + " - " + Displays.List(),
+                permissionType: permissionType,
+                verType: Versions.VerTypes.Latest,
+                methodType: BaseModel.MethodTypes.Index,
+                allowAccess: permissionType.CanRead(),
+                script: Libraries.Scripts.JavaScripts.DataView(
+                    siteSettings: siteSettings,
+                    permissionType: permissionType,
+                    formData: formData,
+                    dataViewName: dataViewName),
+                userScript: siteSettings.GridScript,
+                userStyle: siteSettings.GridStyle,
+                action: () => hb
+                    .Form(
+                        attributes: new HtmlAttributes()
+                            .Id("WikisForm")
+                            .Class("main-form")
+                            .Action(Navigations.ItemAction(siteSettings.SiteId)),
+                        action: () => hb
+                            .DataViewSelector(
+                                referenceType: "Wikis",
+                                dataViewName: dataViewName)
+                            .DataViewFilters(
+                                siteSettings: siteSettings,
+                                siteId: siteSettings.SiteId)
+                            .Aggregations(
+                                siteSettings: siteSettings,
+                                aggregations: wikiCollection.Aggregations)
+                            .Div(id: "DataViewContainer", action: () => dataViewBody())
+                            .MainCommands(
+                                siteId: siteSettings.SiteId,
+                                permissionType: permissionType,
+                                verType: Versions.VerTypes.Latest,
+                                backUrl: Navigations.ItemIndex(siteSettings.ParentId),
+                                bulkMoveButton: true,
+                                bulkDeleteButton: true,
+                                importButton: true,
+                                exportButton: true)
+                            .Div(css: "margin-bottom")
+                            .Hidden(controlId: "TableName", value: "Wikis")
+                            .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
+                .MoveDialog("items", siteSettings.SiteId, bulk: true)
+                    .ImportSettingsDialog()
+                .Div(attributes: new HtmlAttributes()
+                    .Id("ExportSettingsDialog")
+                    .Class("dialog")
+                    .Title(Displays.ExportSettings())))
+                .ToString();
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>
         public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
         {
             return new HtmlBuilder().NotFoundTemplate().ToString();
+        }
+
+        public static string IndexJson(SiteSettings siteSettings, Permissions.Types permissionType)
+        {
+            var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
+            var wikiCollection = WikiCollection(siteSettings, permissionType, formData);
+            return new ResponseCollection()
+                .Html("#DataViewContainer", new HtmlBuilder().Grid(
+                    siteSettings: siteSettings,
+                    wikiCollection: wikiCollection,
+                    permissionType: permissionType,
+                    formData: formData))
+                .Html("#Aggregations", new HtmlBuilder().Aggregations(
+                    siteSettings: siteSettings,
+                    aggregations: wikiCollection.Aggregations,
+                    container: false))
+                .WindowScrollTop().ToJson();
         }
 
         private static WikiCollection WikiCollection(
@@ -69,15 +148,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string DataView(
-            SiteSettings siteSettings, Permissions.Types permissionType)
-        {
-            switch (DataViewSelectors.Get(siteSettings.SiteId))
-            {
-                default: return Grid(siteSettings: siteSettings, permissionType: permissionType);
-            }
-        }
-
         private static HtmlBuilder Grid(
             this HtmlBuilder hb,
             SiteSettings siteSettings,
@@ -102,23 +172,6 @@ namespace Implem.Pleasanter.Models
                     value: siteSettings.GridPageSize == wikiCollection.Count()
                         ? siteSettings.GridPageSize.ToString()
                         : "-1");
-        }
-
-        private static string Grid(SiteSettings siteSettings, Permissions.Types permissionType)
-        {
-            var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
-            var wikiCollection = WikiCollection(siteSettings, permissionType, formData);
-            return new ResponseCollection()
-                .Html("#DataViewContainer", new HtmlBuilder().Grid(
-                    siteSettings: siteSettings,
-                    wikiCollection: wikiCollection,
-                    permissionType: permissionType,
-                    formData: formData))
-                .Html("#Aggregations", new HtmlBuilder().Aggregations(
-                    siteSettings: siteSettings,
-                    aggregations: wikiCollection.Aggregations,
-                    container: false))
-                .WindowScrollTop().ToJson();
         }
 
         public static string GridRows(

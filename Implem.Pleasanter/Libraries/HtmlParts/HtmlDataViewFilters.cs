@@ -39,7 +39,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 text: Displays.Reset(),
                 controlCss: "button-icon",
                 icon: "ui-icon-close",
-                action: "DataView",
                 method: "post");
         }
 
@@ -52,7 +51,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 controlCss: " auto-postback",
                 labelText: Displays.Incomplete(),
                 _checked: formData.Checked("DataViewFilters_Incomplete"),
-                action: "DataView",
                 method: "post",
                 labelPositionIsRight: true,
                 _using: Visible(siteSettings, "Status"));
@@ -67,7 +65,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 controlCss: " auto-postback",
                 labelText: Displays.Own(),
                 _checked: formData.Checked("DataViewFilters_Own"),
-                action: "DataView",
                 method: "post",
                 labelPositionIsRight: true,
                 _using: Visible(siteSettings, "Owner"));
@@ -82,7 +79,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 controlCss: " auto-postback",
                 labelText: Displays.NearCompletionTime(),
                 _checked: formData.Checked("DataViewFilters_NearCompletionTime"),
-                action: "DataView",
                 method: "post",
                 labelPositionIsRight: true,
                 _using: Visible(siteSettings, "CompletionTime"));
@@ -97,7 +93,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 controlCss: " auto-postback",
                 labelText: Displays.Delay(),
                 _checked: formData.Checked("DataViewFilters_Delay"),
-                action: "DataView",
                 method: "post",
                 labelPositionIsRight: true,
                 _using: Visible(siteSettings, "ProgressRate"));
@@ -112,7 +107,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 controlCss: " auto-postback",
                 labelText: Displays.Overdue(),
                 _checked: formData.Checked("DataViewFilters_Overdue"),
-                action: "DataView",
                 method: "post",
                 labelPositionIsRight: true,
                 _using: Visible(siteSettings, "CompletionTime"));
@@ -173,7 +167,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 controlCss: " auto-postback",
                 labelText: Displays.Get(column.LabelText),
                 _checked: formData.Get("DataViewFilters_" + column.Id).ToBool(),
-                action: "DataView",
                 method: "post",
                 _using:
                     siteSettings.GridColumnsOrder.Contains(column.ColumnName) ||
@@ -196,7 +189,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 selectedValue: formData.Get("DataViewFilters_" + column.Id),
                 multiple: true,
                 addSelectedValue: false,
-                action: "DataView",
                 method: "post",
                 _using:
                     siteSettings.GridColumnsOrder.Contains(column.ColumnName) ||
@@ -213,7 +205,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 controlCss: " auto-postback",
                 labelText: Displays.Search(),
                 text: formData.Get("DataViewFilters_Search"),
-                action: "DataView",
                 method: "post",
                 _using: Routes.Controller().ToLower() == "items");
         }
