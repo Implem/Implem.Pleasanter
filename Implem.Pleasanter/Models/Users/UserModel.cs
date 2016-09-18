@@ -355,6 +355,13 @@ namespace Implem.Pleasanter.Models
 
         private string ValidateBeforeUpdate()
         {
+            if (Forms.Exists("Users_TenantAdmin") && Self())
+            {
+                return Messages.ResponsePermissionNotSelfChange()
+                    .Val("#Users_TenantAdmin", SavedTenantAdmin)
+                    .ClearFormData("Users_TenantAdmin")
+                    .ToJson();
+            }
             if (!PermissionType.CanEditTenant() && !Self())
             {
                 return Messages.ResponseHasNotPermission().ToJson();
