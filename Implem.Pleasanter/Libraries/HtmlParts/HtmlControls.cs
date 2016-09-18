@@ -344,6 +344,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool _checked = false,
             bool disabled = false,
             string dataId = null,
+            string onChange = null,
             string action = null,
             string method = null,
             bool _using = true)
@@ -356,6 +357,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Type("checkbox")
                     .Disabled(disabled)
                     .DataId(dataId)
+                    .OnChange(onChange)
                     .DataAction(action)
                     .DataMethod(method)
                     .Checked(_checked));

@@ -673,6 +673,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelText = null,
             bool _checked = false,
             bool disabled = false,
+            string onChange = null,
             string action = null,
             string method = null,
             bool labelPositionIsRight = true,
@@ -694,6 +695,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlCss: controlCss,
                             _checked: _checked,
                             disabled: disabled,
+                            onChange: onChange,
                             action: action,
                             method: method));
             }
@@ -713,6 +715,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             labelText: labelText,
                             _checked: _checked,
                             disabled: disabled,
+                            onChange: onChange,
                             action: action,
                             method: method));
             }
