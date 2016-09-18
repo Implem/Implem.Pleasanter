@@ -321,7 +321,6 @@ namespace Implem.Pleasanter.Models
                     userModel.AccessStatus != Databases.AccessStatuses.NotFound,
                 action: () =>
                 {
-                    permissionType = Permissions.Types.Manager | Permissions.Types.EditProfile;
                     hb
                         .Editor(
                             userModel: userModel,
@@ -381,9 +380,7 @@ namespace Implem.Pleasanter.Models
                                 referenceId: userModel.UserId,
                                 updateButton: true,
                                 mailButton: true,
-                                deleteButton:
-                                    Permissions.Admins().CanEditTenant() &&
-                                    !userModel.Self(),
+                                deleteButton: true,
                                 extensions: () => hb
                                     .MainCommandExtensions(
                                         userModel: userModel,

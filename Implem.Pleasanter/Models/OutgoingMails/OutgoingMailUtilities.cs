@@ -305,7 +305,6 @@ namespace Implem.Pleasanter.Models
                     outgoingMailModel.AccessStatus != Databases.AccessStatuses.NotFound,
                 action: () =>
                 {
-                    permissionType = Permissions.Types.Manager;
                     hb
                         .Editor(
                             outgoingMailModel: outgoingMailModel,

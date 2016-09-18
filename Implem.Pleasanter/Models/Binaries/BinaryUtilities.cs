@@ -311,7 +311,6 @@ namespace Implem.Pleasanter.Models
                     binaryModel.AccessStatus != Databases.AccessStatuses.NotFound,
                 action: () =>
                 {
-                    permissionType = Permissions.Types.Manager;
                     hb
                         .Editor(
                             binaryModel: binaryModel,

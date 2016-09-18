@@ -438,7 +438,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utility_PermissionTypesAdmins": Code.Model_Utility_PermissionTypesAdmins = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_PermissionTypesAdmins, definitionRow, CodeXls); break;
                     case "Model_Utility_UserSelf": Code.Model_Utility_UserSelf = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_UserSelf, definitionRow, CodeXls); break;
                     case "Model_Utility_EditorItem": Code.Model_Utility_EditorItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_EditorItem, definitionRow, CodeXls); break;
-                    case "Model_Utility_EditorProfilePermission": Code.Model_Utility_EditorProfilePermission = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_EditorProfilePermission, definitionRow, CodeXls); break;
                     case "Model_Utility_EditorBackUrl": Code.Model_Utility_EditorBackUrl = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_EditorBackUrl, definitionRow, CodeXls); break;
                     case "Model_Utility_EditorBackUrl_Users": Code.Model_Utility_EditorBackUrl_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_EditorBackUrl_Users, definitionRow, CodeXls); break;
                     case "Model_Utility_FieldCases": Code.Model_Utility_FieldCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_FieldCases, definitionRow, CodeXls); break;
@@ -3915,7 +3914,6 @@ namespace Implem.DefinitionAccessor
         public string Model_Utility_PermissionTypesAdmins;
         public string Model_Utility_UserSelf;
         public string Model_Utility_EditorItem;
-        public string Model_Utility_EditorProfilePermission;
         public string Model_Utility_EditorBackUrl;
         public string Model_Utility_EditorBackUrl_Users;
         public string Model_Utility_FieldCases;
@@ -4294,7 +4292,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utility_PermissionTypesAdmins = new CodeDefinition();
         public CodeDefinition Model_Utility_UserSelf = new CodeDefinition();
         public CodeDefinition Model_Utility_EditorItem = new CodeDefinition();
-        public CodeDefinition Model_Utility_EditorProfilePermission = new CodeDefinition();
         public CodeDefinition Model_Utility_EditorBackUrl = new CodeDefinition();
         public CodeDefinition Model_Utility_EditorBackUrl_Users = new CodeDefinition();
         public CodeDefinition Model_Utility_FieldCases = new CodeDefinition();

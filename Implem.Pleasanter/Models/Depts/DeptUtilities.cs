@@ -308,7 +308,6 @@ namespace Implem.Pleasanter.Models
                     deptModel.AccessStatus != Databases.AccessStatuses.NotFound,
                 action: () =>
                 {
-                    permissionType = Permissions.Types.Manager;
                     hb
                         .Editor(
                             deptModel: deptModel,

@@ -91,12 +91,28 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanRead(this Types self)
         {
-            return (self & Types.Read) != 0;
+            switch (Routes.Controller().ToLower())
+            {
+                case "depts":
+                    return self.CanEditTenant();
+                case "users":
+                    return self.CanEditTenant() ||
+                        Sessions.UserId() == Routes.Id();
+                default:
+                    return (self & Types.Read) != 0;
+            }
         }
 
         public static bool CanCreate(this Types self)
         {
-            return (self & Types.Create) != 0;
+            switch (Routes.Controller().ToLower())
+            {
+                case "depts":
+                case "users":
+                    return self.CanEditTenant();
+                default:
+                    return (self & Types.Create) != 0;
+            }
         }
 
         public static bool CanUpdate(this Types self)
@@ -122,7 +138,16 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanDelete(this Types self)
         {
-            return (self & Types.Delete) != 0;
+            switch (Routes.Controller().ToLower())
+            {
+                case "depts":
+                    return self.CanEditTenant();
+                case "users":
+                    return self.CanEditTenant() &&
+                        Sessions.UserId() != Routes.Id();
+                default:
+                    return (self & Types.Delete) != 0;
+            }
         }
 
         public static bool CanDownloadFile(this Types self)

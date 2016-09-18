@@ -311,7 +311,6 @@ namespace Implem.Pleasanter.Models
                     mailAddressModel.AccessStatus != Databases.AccessStatuses.NotFound,
                 action: () =>
                 {
-                    permissionType = Permissions.Types.Manager;
                     hb
                         .Editor(
                             mailAddressModel: mailAddressModel,
