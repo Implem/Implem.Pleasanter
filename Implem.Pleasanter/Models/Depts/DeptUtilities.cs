@@ -104,6 +104,7 @@ namespace Implem.Pleasanter.Models
                         .Form(
                             attributes: new HtmlAttributes()
                                 .Id("DeptForm")
+                                .Class("main-form")
                                 .Action(Navigations.Action("Depts")),
                             action: () => hb
                                 .Aggregations(
@@ -540,7 +541,7 @@ namespace Implem.Pleasanter.Models
                 Permissions.Admins(),
                 offset:
                     Forms.Data("ControlId").StartsWith("DataViewFilters_") ||
-                    Forms.Data("ControlId").StartsWith("GridSorters_")
+                    Forms.Keys().Any(o => o.StartsWith("GridSorters_"))
                         ? 0
                         : Forms.Int("GridOffset"));
         }

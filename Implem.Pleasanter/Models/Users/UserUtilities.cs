@@ -107,6 +107,7 @@ namespace Implem.Pleasanter.Models
                         .Form(
                             attributes: new HtmlAttributes()
                                 .Id("UserForm")
+                                .Class("main-form")
                                 .Action(Navigations.Action("Users")),
                             action: () => hb
                                 .DataViewFilters(siteSettings)
@@ -716,7 +717,7 @@ namespace Implem.Pleasanter.Models
                 Permissions.Admins(),
                 offset:
                     Forms.Data("ControlId").StartsWith("DataViewFilters_") ||
-                    Forms.Data("ControlId").StartsWith("GridSorters_")
+                    Forms.Keys().Any(o => o.StartsWith("GridSorters_"))
                         ? 0
                         : Forms.Int("GridOffset"));
         }
