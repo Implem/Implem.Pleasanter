@@ -336,7 +336,7 @@ namespace Implem.Pleasanter.Models
                 deptId: deptId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
-            deptModel.SwitchTargets = DeptUtilities.GetSwitchTargets(
+            deptModel.SwitchTargets = GetSwitchTargets(
                 SiteSettingsUtility.DeptsSiteSettings());
             return Editor(deptModel);
         }

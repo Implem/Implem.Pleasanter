@@ -295,7 +295,7 @@ namespace Implem.Pleasanter.Models
                 binaryId: binaryId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
-            binaryModel.SwitchTargets = BinaryUtilities.GetSwitchTargets(
+            binaryModel.SwitchTargets = GetSwitchTargets(
                 SiteSettingsUtility.BinariesSiteSettings());
             return Editor(binaryModel);
         }

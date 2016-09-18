@@ -305,7 +305,7 @@ namespace Implem.Pleasanter.Models
                 wikiId: wikiId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
-            wikiModel.SwitchTargets = WikiUtilities.GetSwitchTargets(
+            wikiModel.SwitchTargets = GetSwitchTargets(
                 siteSettings, wikiModel.SiteId);
             return Editor(siteModel, wikiModel);
         }

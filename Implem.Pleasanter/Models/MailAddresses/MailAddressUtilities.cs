@@ -295,7 +295,7 @@ namespace Implem.Pleasanter.Models
                 mailAddressId: mailAddressId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
-            mailAddressModel.SwitchTargets = MailAddressUtilities.GetSwitchTargets(
+            mailAddressModel.SwitchTargets = GetSwitchTargets(
                 SiteSettingsUtility.MailAddressesSiteSettings());
             return Editor(mailAddressModel);
         }

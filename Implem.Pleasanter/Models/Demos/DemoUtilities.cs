@@ -295,7 +295,7 @@ namespace Implem.Pleasanter.Models
                 demoId: demoId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
-            demoModel.SwitchTargets = DemoUtilities.GetSwitchTargets(
+            demoModel.SwitchTargets = GetSwitchTargets(
                 SiteSettingsUtility.DemosSiteSettings());
             return Editor(demoModel);
         }

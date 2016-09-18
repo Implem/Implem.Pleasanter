@@ -289,7 +289,7 @@ namespace Implem.Pleasanter.Models
                 outgoingMailId: outgoingMailId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
-            outgoingMailModel.SwitchTargets = OutgoingMailUtilities.GetSwitchTargets(
+            outgoingMailModel.SwitchTargets = GetSwitchTargets(
                 SiteSettingsUtility.OutgoingMailsSiteSettings());
             return Editor(outgoingMailModel);
         }

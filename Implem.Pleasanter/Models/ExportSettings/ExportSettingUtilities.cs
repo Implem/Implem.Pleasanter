@@ -295,7 +295,7 @@ namespace Implem.Pleasanter.Models
                 exportSettingId: exportSettingId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
-            exportSettingModel.SwitchTargets = ExportSettingUtilities.GetSwitchTargets(
+            exportSettingModel.SwitchTargets = GetSwitchTargets(
                 SiteSettingsUtility.ExportSettingsSiteSettings());
             return Editor(exportSettingModel);
         }

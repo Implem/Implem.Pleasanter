@@ -440,7 +440,7 @@ namespace Implem.Pleasanter.Models
                 resultId: resultId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
-            resultModel.SwitchTargets = ResultUtilities.GetSwitchTargets(
+            resultModel.SwitchTargets = GetSwitchTargets(
                 siteSettings, resultModel.SiteId);
             return Editor(siteModel, resultModel);
         }

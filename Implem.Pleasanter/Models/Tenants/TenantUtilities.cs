@@ -298,7 +298,7 @@ namespace Implem.Pleasanter.Models
                 tenantId: tenantId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
-            tenantModel.SwitchTargets = TenantUtilities.GetSwitchTargets(
+            tenantModel.SwitchTargets = GetSwitchTargets(
                 SiteSettingsUtility.TenantsSiteSettings());
             return Editor(tenantModel);
         }
