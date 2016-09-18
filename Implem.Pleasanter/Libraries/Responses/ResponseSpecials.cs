@@ -408,10 +408,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static DeptsResponseCollection Ver(this DeptsResponseCollection responseCollection, string value) { return responseCollection.Val("#Depts_Ver", value); }
         public static DeptsResponseCollection Ver_FormData(this DeptsResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Depts_Ver", responseCollection.DeptModel.Ver.ToResponse()); }
         public static DeptsResponseCollection Ver_FormData(this DeptsResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Depts_Ver", value); }
-        public static DeptsResponseCollection ParentDeptId(this DeptsResponseCollection responseCollection) { return responseCollection.Val("#Depts_ParentDeptId", responseCollection.DeptModel.ParentDeptId.ToResponse()); }
-        public static DeptsResponseCollection ParentDeptId(this DeptsResponseCollection responseCollection, string value) { return responseCollection.Val("#Depts_ParentDeptId", value); }
-        public static DeptsResponseCollection ParentDeptId_FormData(this DeptsResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Depts_ParentDeptId", responseCollection.DeptModel.ParentDeptId.ToResponse()); }
-        public static DeptsResponseCollection ParentDeptId_FormData(this DeptsResponseCollection responseCollection, string value) { return responseCollection.ValAndFormData("#Depts_ParentDeptId", value); }
         public static DeptsResponseCollection DeptCode(this DeptsResponseCollection responseCollection) { return responseCollection.Val("#Depts_DeptCode", responseCollection.DeptModel.DeptCode.ToResponse()); }
         public static DeptsResponseCollection DeptCode(this DeptsResponseCollection responseCollection, string value) { return responseCollection.Val("#Depts_DeptCode", value); }
         public static DeptsResponseCollection DeptCode_FormData(this DeptsResponseCollection responseCollection) { return responseCollection.ValAndFormData("#Depts_DeptCode", responseCollection.DeptModel.DeptCode.ToResponse()); }

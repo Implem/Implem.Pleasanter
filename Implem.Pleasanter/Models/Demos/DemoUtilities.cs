@@ -589,9 +589,6 @@ namespace Implem.Pleasanter.Models
                             selectIdentity: true,
                             param: Rds.DeptsParam()
                                 .TenantId(demoModel.TenantId)
-                                .ParentDeptId(idHash.ContainsKey(demoDefinition.ParentId)
-                                    ? idHash[demoDefinition.ParentId].ToInt()
-                                    : 0)
                                 .DeptCode(demoDefinition.ClassA)
                                 .DeptName(demoDefinition.Title)
                                 .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))

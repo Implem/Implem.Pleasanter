@@ -121,8 +121,6 @@ namespace Implem.Pleasanter.Libraries.Requests
                     case "GridSorters_Depts_TenantId": orderBy.Depts_TenantId(type); break;
                     case "GridSorters_Depts_DeptId": orderBy.Depts_DeptId(type); break;
                     case "GridSorters_Depts_Ver": orderBy.Depts_Ver(type); break;
-                    case "GridSorters_Depts_ParentDeptId": orderBy.Depts_ParentDeptId(type); break;
-                    case "GridSorters_Depts_ParentDept": orderBy.Depts_ParentDept(type); break;
                     case "GridSorters_Depts_DeptCode": orderBy.Depts_DeptCode(type); break;
                     case "GridSorters_Depts_Dept": orderBy.Depts_Dept(type); break;
                     case "GridSorters_Depts_DeptName": orderBy.Depts_DeptName(type); break;

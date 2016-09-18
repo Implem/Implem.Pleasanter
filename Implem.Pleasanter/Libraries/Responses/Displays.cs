@@ -771,10 +771,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Depts_TenantId(params string[] data) { return Get("Depts_TenantId", data); }
         public static HtmlBuilder Displays_Depts_DeptId(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Depts_DeptId", data)); }
         public static string Depts_DeptId(params string[] data) { return Get("Depts_DeptId", data); }
-        public static HtmlBuilder Displays_Depts_ParentDeptId(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Depts_ParentDeptId", data)); }
-        public static string Depts_ParentDeptId(params string[] data) { return Get("Depts_ParentDeptId", data); }
-        public static HtmlBuilder Displays_Depts_ParentDept(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Depts_ParentDept", data)); }
-        public static string Depts_ParentDept(params string[] data) { return Get("Depts_ParentDept", data); }
         public static HtmlBuilder Displays_Depts_DeptCode(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Depts_DeptCode", data)); }
         public static string Depts_DeptCode(params string[] data) { return Get("Depts_DeptCode", data); }
         public static HtmlBuilder Displays_Depts_Dept(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Depts_Dept", data)); }

@@ -45,7 +45,6 @@ namespace Implem.Pleasanter.Models
                                 .Id("DeptForm")
                                 .Action(Navigations.Action("Depts")),
                             action: () => hb
-                                .DataViewFilters(siteSettings)
                                 .Aggregations(
                                     siteSettings: siteSettings,
                                     aggregations: deptCollection.Aggregations)
@@ -255,7 +254,6 @@ namespace Implem.Pleasanter.Models
             {
                 case "DeptId": return hb.Td(column: column, value: deptModel.DeptId);
                 case "Ver": return hb.Td(column: column, value: deptModel.Ver);
-                case "ParentDept": return hb.Td(column: column, value: deptModel.ParentDept);
                 case "DeptCode": return hb.Td(column: column, value: deptModel.DeptCode);
                 case "Dept": return hb.Td(column: column, value: deptModel.Dept);
                 case "Body": return hb.Td(column: column, value: deptModel.Body);
@@ -415,7 +413,6 @@ namespace Implem.Pleasanter.Models
                         case "TenantId": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.TenantId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
                         case "DeptId": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.DeptId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
                         case "Ver": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.Ver.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                        case "ParentDeptId": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.ParentDeptId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
                         case "DeptCode": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.DeptCode.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
                         case "DeptName": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.DeptName.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
                         case "Body": hb.Field(siteSettings, column, deptModel.MethodType, deptModel.Body.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;

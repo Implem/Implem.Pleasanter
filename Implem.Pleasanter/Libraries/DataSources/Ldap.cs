@@ -46,7 +46,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     Rds.UpdateOrInsertDepts(
                         param: Rds.DeptsParam()
                             .TenantId(Parameters.Authentication.LdapTenantId)
-                            .ParentDeptId(0)
                             .DeptCode(deptCode)
                             .DeptName(deptName),
                         where: Rds.DeptsWhere().DeptCode(deptCode)),

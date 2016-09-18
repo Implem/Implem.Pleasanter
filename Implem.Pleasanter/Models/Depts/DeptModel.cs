@@ -22,22 +22,18 @@ namespace Implem.Pleasanter.Models
     {
         public int TenantId = Sessions.TenantId();
         public int DeptId = 0;
-        public int ParentDeptId = 0;
         public string DeptCode = string.Empty;
         public string DeptName = string.Empty;
         public string Body = string.Empty;
-        public Dept ParentDept { get { return SiteInfo.Dept(ParentDeptId); } }
         public Dept Dept { get { return SiteInfo.Dept(DeptId); } }
         public Title Title { get { return new Title(DeptId, DeptName); } }
         public int SavedTenantId = Sessions.TenantId();
         public int SavedDeptId = 0;
-        public int SavedParentDeptId = 0;
         public string SavedDeptCode = string.Empty;
         public string SavedDeptName = string.Empty;
         public string SavedBody = string.Empty;
         public bool TenantId_Updated { get { return TenantId != SavedTenantId; } }
         public bool DeptId_Updated { get { return DeptId != SavedDeptId; } }
-        public bool ParentDeptId_Updated { get { return ParentDeptId != SavedParentDeptId; } }
         public bool DeptCode_Updated { get { return DeptCode != SavedDeptCode && DeptCode != null; } }
         public bool DeptName_Updated { get { return DeptName != SavedDeptName && DeptName != null; } }
         public bool Body_Updated { get { return Body != SavedBody && Body != null; } }
@@ -176,8 +172,6 @@ namespace Implem.Pleasanter.Models
                     case "Depts_TenantId": if (!SiteSettings.GetColumn("TenantId").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Depts_DeptId": if (!SiteSettings.GetColumn("DeptId").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Depts_Ver": if (!SiteSettings.GetColumn("Ver").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Depts_ParentDeptId": if (!SiteSettings.GetColumn("ParentDeptId").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Depts_ParentDept": if (!SiteSettings.GetColumn("ParentDept").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Depts_DeptCode": if (!SiteSettings.GetColumn("DeptCode").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Depts_Dept": if (!SiteSettings.GetColumn("Dept").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Depts_DeptName": if (!SiteSettings.GetColumn("DeptName").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
@@ -248,8 +242,6 @@ namespace Implem.Pleasanter.Models
                     case "Depts_TenantId": if (!SiteSettings.GetColumn("TenantId").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Depts_DeptId": if (!SiteSettings.GetColumn("DeptId").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Depts_Ver": if (!SiteSettings.GetColumn("Ver").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Depts_ParentDeptId": if (!SiteSettings.GetColumn("ParentDeptId").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Depts_ParentDept": if (!SiteSettings.GetColumn("ParentDept").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Depts_DeptCode": if (!SiteSettings.GetColumn("DeptCode").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Depts_Dept": if (!SiteSettings.GetColumn("Dept").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
                     case "Depts_DeptName": if (!SiteSettings.GetColumn("DeptName").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
@@ -475,7 +467,6 @@ namespace Implem.Pleasanter.Models
             {
                 switch (controlId)
                 {
-                    case "Depts_ParentDeptId": ParentDeptId = Forms.Data(controlId).ToInt(); break;
                     case "Depts_DeptCode": DeptCode = Forms.Data(controlId).ToString(); break;
                     case "Depts_DeptName": DeptName = Forms.Data(controlId).ToString(); break;
                     case "Depts_Body": Body = Forms.Data(controlId).ToString(); break;
@@ -524,7 +515,6 @@ namespace Implem.Pleasanter.Models
                     case "TenantId": if (dataRow[name] != DBNull.Value) { TenantId = dataRow[name].ToInt(); SavedTenantId = TenantId; } break;
                     case "DeptId": if (dataRow[name] != DBNull.Value) { DeptId = dataRow[name].ToInt(); SavedDeptId = DeptId; } break;
                     case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
-                    case "ParentDeptId": ParentDeptId = dataRow[name].ToInt(); SavedParentDeptId = ParentDeptId; break;
                     case "DeptCode": DeptCode = dataRow[name].ToString(); SavedDeptCode = DeptCode; break;
                     case "DeptName": DeptName = dataRow[name].ToString(); SavedDeptName = DeptName; break;
                     case "Body": Body = dataRow[name].ToString(); SavedBody = Body; break;

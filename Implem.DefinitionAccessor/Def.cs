@@ -850,8 +850,6 @@ namespace Implem.DefinitionAccessor
                     case "SysLogs_AssemblyVersion": Column.SysLogs_AssemblyVersion = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_AssemblyVersion, definitionRow, ColumnXls); break;
                     case "Depts_TenantId": Column.Depts_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_TenantId, definitionRow, ColumnXls); break;
                     case "Depts_DeptId": Column.Depts_DeptId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_DeptId, definitionRow, ColumnXls); break;
-                    case "Depts_ParentDeptId": Column.Depts_ParentDeptId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_ParentDeptId, definitionRow, ColumnXls); break;
-                    case "Depts_ParentDept": Column.Depts_ParentDept = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_ParentDept, definitionRow, ColumnXls); break;
                     case "Depts_DeptCode": Column.Depts_DeptCode = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_DeptCode, definitionRow, ColumnXls); break;
                     case "Depts_Dept": Column.Depts_Dept = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_Dept, definitionRow, ColumnXls); break;
                     case "Depts_DeptName": Column.Depts_DeptName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Depts_DeptName, definitionRow, ColumnXls); break;
@@ -4945,8 +4943,6 @@ namespace Implem.DefinitionAccessor
         public string SysLogs_AssemblyVersion;
         public string Depts_TenantId;
         public string Depts_DeptId;
-        public string Depts_ParentDeptId;
-        public string Depts_ParentDept;
         public string Depts_DeptCode;
         public string Depts_Dept;
         public string Depts_DeptName;
@@ -5573,8 +5569,6 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition SysLogs_AssemblyVersion = new ColumnDefinition();
         public ColumnDefinition Depts_TenantId = new ColumnDefinition();
         public ColumnDefinition Depts_DeptId = new ColumnDefinition();
-        public ColumnDefinition Depts_ParentDeptId = new ColumnDefinition();
-        public ColumnDefinition Depts_ParentDept = new ColumnDefinition();
         public ColumnDefinition Depts_DeptCode = new ColumnDefinition();
         public ColumnDefinition Depts_Dept = new ColumnDefinition();
         public ColumnDefinition Depts_DeptName = new ColumnDefinition();
