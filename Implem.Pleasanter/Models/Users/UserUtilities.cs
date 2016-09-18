@@ -715,11 +715,7 @@ namespace Implem.Pleasanter.Models
             return GridRows(
                 SiteSettingsUtility.UsersSiteSettings(),
                 Permissions.Admins(),
-                offset:
-                    Forms.Data("ControlId").StartsWith("DataViewFilters_") ||
-                    Forms.Keys().Any(o => o.StartsWith("GridSorters_"))
-                        ? 0
-                        : Forms.Int("GridOffset"));
+                offset: DataViewGrid.Offset());
         }
 
         /// <summary>

@@ -338,26 +338,17 @@ namespace Implem.Pleasanter.Models
                 case "Issues": return IssueUtilities.GridRows(
                     siteSettings: Site.IssuesSiteSettings(),
                     permissionType: Site.PermissionType,
-                    offset: Offset());
+                    offset: DataViewGrid.Offset());
                 case "Results": return ResultUtilities.GridRows(
                     siteSettings: Site.ResultsSiteSettings(),
                     permissionType: Site.PermissionType,
-                    offset: Offset());
+                    offset: DataViewGrid.Offset());
                 case "Wikis": return WikiUtilities.GridRows(
                     siteSettings: Site.WikisSiteSettings(),
                     permissionType: Site.PermissionType,
-                    offset: Offset());
+                    offset: DataViewGrid.Offset());
                 default: return Messages.ResponseNotFound().ToJson();
             }
-        }
-
-        private int Offset()
-        {
-            return
-                Forms.Data("ControlId").StartsWith("DataViewFilters_") ||
-                Forms.Keys().Any(o => o.StartsWith("GridSorters_"))
-                    ? 0
-                    : Forms.Int("GridOffset");
         }
 
         public string Create()
