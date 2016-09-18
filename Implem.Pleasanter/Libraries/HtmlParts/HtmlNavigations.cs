@@ -28,11 +28,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         { Navigations.Index("Admins"), Displays.Admin() }
                     });
                 case "users":
-                    return hb.Breadcrumb(new Dictionary<string, string>
-                    {
-                        { Navigations.Index("Admins"), Displays.Admin() },
-                        { Navigations.Index(controller), Displays.Users() }
-                    });
+                    return permissionType.CanEditTenant()
+                        ? hb.Breadcrumb(new Dictionary<string, string>
+                        {
+                            { Navigations.Index("Admins"), Displays.Admin() },
+                            { Navigations.Index(controller), Displays.Users() }
+                        })
+                        : hb.Breadcrumb();
                 case "depts":
                     return hb.Breadcrumb(new Dictionary<string, string>
                     {
@@ -55,12 +57,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder Breadcrumb(
-            this HtmlBuilder hb, Dictionary<string, string> breadcrumb)
+            this HtmlBuilder hb, Dictionary<string, string> breadcrumb = null)
         {
             return hb.Ul(id: "Breadcrumb", css: "nav-breadcrumb", action: () =>
             {
                 hb.BreadcrumbItem(Navigations.Top(), Displays.Top());
-                breadcrumb.ForEach(item => hb
+                breadcrumb?.ForEach(item => hb
                     .BreadcrumbItem(
                         href: item.Key,
                         text: item.Value));
