@@ -32,7 +32,7 @@ namespace Implem.Pleasanter.Models
         public string LastName = string.Empty;
         public string FirstName = string.Empty;
         public Time Birthday = null;
-        public string Sex = "1";
+        public string Sex = string.Empty;
         public string Language = "ja";
         public string TimeZone = "Tokyo Standard Time";
         public int DeptId = 0;
@@ -70,7 +70,7 @@ namespace Implem.Pleasanter.Models
         public string SavedLastName = string.Empty;
         public string SavedFirstName = string.Empty;
         public DateTime SavedBirthday = 0.ToDateTime();
-        public string SavedSex = "1";
+        public string SavedSex = string.Empty;
         public string SavedLanguage = "ja";
         public string SavedTimeZone = "Tokyo Standard Time";
         public int SavedDeptId = 0;
