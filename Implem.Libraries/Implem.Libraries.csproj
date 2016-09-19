@@ -136,6 +136,7 @@
     <Compile Include="DataSources\SqlServer\SqlColumnCollection.cs" />
     <Compile Include="DataSources\SqlServer\SqlDebugs.cs" />
     <Compile Include="DataSources\SqlServer\SqlGroupByCollection.cs" />
+    <Compile Include="DataSources\SqlServer\SqlHavingCollection.cs" />
     <Compile Include="DataSources\SqlServer\SqlOrderByCollection.cs" />
     <Compile Include="DataSources\SqlServer\SqlRestore.cs" />
     <Compile Include="DataSources\SqlServer\SqlGroupBy.cs" />
