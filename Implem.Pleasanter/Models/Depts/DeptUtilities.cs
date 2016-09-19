@@ -52,9 +52,6 @@ namespace Implem.Pleasanter.Models
                             .Class("main-form")
                             .Action(Navigations.ItemAction(siteSettings.SiteId)),
                         action: () => hb
-                            .DataViewSelector(
-                                referenceType: "Depts",
-                                dataViewName: dataViewName)
                             .DataViewFilters(
                                 siteSettings: siteSettings,
                                 siteId: siteSettings.SiteId)

@@ -221,7 +221,7 @@ namespace Implem.Pleasanter.Models
         public static string SiteTop(SiteSettings siteSettings)
         {
             var hb = new HtmlBuilder();
-            var permissionType = Permissions.Types.Manager;
+            var permissionType = Permissions.Admins() | Permissions.Types.Manager;
             var verType = Versions.VerTypes.Latest;
             var siteConditions = SiteInfo.SiteMenu.SiteConditions(0);
             return hb.Template(

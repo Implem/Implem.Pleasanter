@@ -74,7 +74,7 @@ namespace Implem.Pleasanter.Models
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Edit,
                 allowAccess: siteModel.PermissionType.CanEditPermission(),
-                useNavigationButtons: false,
+                useNavigationMenu: false,
                 action: () => hb
                     .Editor(siteModel: siteModel, siteSettings: siteSettings));
             return hb.ToString();

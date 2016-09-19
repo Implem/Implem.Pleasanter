@@ -228,6 +228,7 @@
     <Compile Include="Libraries\DataViews\KambanElement.cs" />
     <Compile Include="Libraries\DataViews\TimeSeries.cs" />
     <Compile Include="Libraries\DataViews\TimeSeriesElement.cs" />
+    <Compile Include="Libraries\HtmlParts\HtmlBreadcrumb.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlNotes.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlTimes.cs" />
     <Compile Include="Libraries\Html\HtmlAttributes.cs" />
@@ -241,7 +242,6 @@
     <Compile Include="Libraries\HtmlParts\HtmlControls.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlCopies.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlDataViewFilters.cs" />
-    <Compile Include="Libraries\HtmlParts\HtmlDataViewSelectors.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlErrors.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlFields.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlGantt.cs" />
@@ -253,7 +253,7 @@
     <Compile Include="Libraries\HtmlParts\HtmlLinkCreations.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlLinks.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlMoves.cs" />
-    <Compile Include="Libraries\HtmlParts\HtmlNavigations.cs" />
+    <Compile Include="Libraries\HtmlParts\HtmlNavigationMenu.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlRecordHeader.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlRecordInfo.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlRecordSwitchers.cs" />
@@ -400,7 +400,6 @@
     <Content Include="Scripts\DataView.js" />
     <Content Include="Scripts\Dialog.js" />
     <Content Include="Scripts\DialogEvents.js" />
-    <Content Include="Scripts\DataViewEvents.js" />
     <Content Include="Scripts\Export.js" />
     <Content Include="Scripts\FilterEvents.js" />
     <Content Include="Scripts\Focus.js" />
@@ -415,6 +414,7 @@
     <Content Include="Scripts\KambanEvents.js" />
     <Content Include="Scripts\LegendEvents.js" />
     <Content Include="Scripts\MarkDownEvents.js" />
+    <Content Include="Scripts\MenuEvents.js" />
     <Content Include="Scripts\MultiSelect.js" />
     <Content Include="Scripts\Navigation.js" />
     <Content Include="Scripts\OutgoingMailEvents.js" />

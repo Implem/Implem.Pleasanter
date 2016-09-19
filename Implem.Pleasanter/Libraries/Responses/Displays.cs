@@ -471,8 +471,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Quantity(params string[] data) { return Get("Quantity", data); }
         public static HtmlBuilder Displays_SuffixCopy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SuffixCopy", data)); }
         public static string SuffixCopy(params string[] data) { return Get("SuffixCopy", data); }
-        public static HtmlBuilder Displays_DataViewSelector(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DataViewSelector", data)); }
-        public static string DataViewSelector(params string[] data) { return Get("DataViewSelector", data); }
+        public static HtmlBuilder Displays_View(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("View", data)); }
+        public static string View(params string[] data) { return Get("View", data); }
         public static HtmlBuilder Displays_Grid(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Grid", data)); }
         public static string Grid(params string[] data) { return Get("Grid", data); }
         public static HtmlBuilder Displays_Style(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Style", data)); }

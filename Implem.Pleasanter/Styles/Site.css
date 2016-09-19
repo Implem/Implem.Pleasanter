@@ -87,6 +87,11 @@ input[type="number"] {
 }
 
 .header{
+    width:100%;
+    height:42px;
+    float:left;
+    padding:0px 6px;
+    border:none;
     position:relative;
     clear:both;
 }
@@ -115,7 +120,6 @@ html{
 
 body{
     min-width:1024px;
-    margin:3px 10px;
     font-size:0.75em;
     font-family:Hiragino Kaku Gothic Pro, "Meiryo UI", sans-serif;
     clear:both;
@@ -184,38 +188,23 @@ pre{
 }
 
 .logo{
-
+    padding:3px 0px;
 }
 
 .logo-corp{
     display:block;
     float:left;
+    margin:3px 0px 0px 0px;
 }
 
 .logo-product{
     display:block;
     float:left;
     padding:0px 0px 0px 5px;
-    font-size:24px;
+    font-size:26px;
     font-weight:bold;
     color:dimgray;
     text-decoration:none;
-}
-
-.login-user{
-    position:absolute;
-    top:4px;
-    right:0px;
-}
-
-.login-user > p{
-    float:left;
-    margin:0px 5px;
-}
-
-.login-user > p > span{
-    display:block;
-    float:left;
 }
 
 .head{
@@ -240,26 +229,6 @@ pre{
 
 .nav-breadcrumb-separator{
     margin:8px;
-}
-
-.nav-functions{
-    position:absolute;
-    top:-10px;
-    right:0px;
-}
-
-.nav-function{
-    float:left;
-}
-
-.nav-function > *{
-    display:block;
-    float:left;
-    margin:0px 4px;
-}
-
-.nav-function > .ui-icon{
-    margin:4px 4px 0px 0px;
 }
 
 .nav-sites{
@@ -399,6 +368,85 @@ pre{
     color:silver;
 }
 
+#NavigationMenu{
+    height:42px;
+    padding:5px;
+    border:none;
+    position:absolute;
+    top:0px;
+    right:20px;
+    border-radius:0px 0px 10px 10px;
+}
+
+#NavigationMenu > li{
+    width:180px;
+    height:32px;
+    display:block;
+    float:left;
+    margin-left:10px;
+    position:relative;
+}
+
+#NavigationMenu > li > div{
+    height:32px;
+    padding:8px 0px 0px 0px;
+    text-align:center;
+    background-color:whitesmoke;
+    cursor:pointer;
+    border-radius:5px;
+}
+
+#NavigationMenu > li > div:hover{
+    color:white;
+    background-color:#817865;
+}
+
+#NavigationMenu > li.sub-menu > div.hover{
+    color:white;
+    background-color:#817865;
+    border-radius:5px 5px 0px 0px;
+}
+
+#NavigationMenu > li > div > a{
+    display:block;
+    color:black;
+    text-decoration:none;
+}
+
+#NavigationMenu > li > div > a:hover{
+    color:white;
+}
+
+.menu{
+    width:180px;
+    display:none;
+    position:absolute;
+    top:32px;
+    right:0px;
+    border-radius:0px 0px 5px 5px;
+    z-index:3;
+}
+
+.menu > li{
+
+}
+
+.menu > li > div{
+
+}
+
+.menu > li > div.ui-state-active{
+    font-weight:normal;
+    border:solid 1px #d19405;
+    text-decoration:underline;
+}
+
+.menu > li > div > a{
+    display:block;
+    text-decoration:none;
+    z-index:4;
+}
+
 .login{
     width:500px;
     margin:150px auto 20px auto;
@@ -423,7 +471,7 @@ pre{
 
 .search{
     float:left;
-    margin:1px 20px;
+    margin:0px 0px 0px 40px;
 }
 
 .search-results{
@@ -535,16 +583,16 @@ pre{
     background-color:whitesmoke;
 }
 
-#application{
+#Application{
     width:100%;
     float:left;
     margin:10px 0px 0px 0px;
-    padding:0px 0px 120px 0px;
+    padding:0px 10px 120px 10px;
     position:relative;
     clear:both;
 }
 
-#application > .site-image-icon{
+#Application > .site-image-icon{
     display:block;
     float:left;
     margin:10px 10px 0px 0px;
@@ -1266,16 +1314,6 @@ pre{
     display:block;
     float:left;
     margin:0px 20px 0px 0px;
-}
-
-.dataview-selector{
-    float:right;
-    position:relative;
-    top:15px;
-}
-
-.dataview-selector > button{
-    margin:0px 4px;
 }
 
 .aggregations{

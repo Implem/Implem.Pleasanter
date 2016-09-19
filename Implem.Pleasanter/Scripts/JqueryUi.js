@@ -1,5 +1,6 @@
 ﻿$(function () {
     $p.apply = function () {
+        $('.menu').menu();
         $('.edit-form-tabs:not(.applied)').tabs({
             beforeActivate: function (event, ui) {
                 if (ui.newPanel.attr('data-action')) {

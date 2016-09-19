@@ -52,9 +52,6 @@ namespace Implem.Pleasanter.Models
                             .Class("main-form")
                             .Action(Navigations.ItemAction(siteSettings.SiteId)),
                         action: () => hb
-                            .DataViewSelector(
-                                referenceType: "Wikis",
-                                dataViewName: dataViewName)
                             .DataViewFilters(
                                 siteSettings: siteSettings,
                                 siteId: siteSettings.SiteId)
@@ -887,7 +884,7 @@ namespace Implem.Pleasanter.Models
                 allowAccess:
                     siteModel.PermissionType.CanRead() &&
                     wikiModel.AccessStatus != Databases.AccessStatuses.NotFound,
-                useNavigationButtons: false,
+                useNavigationMenu: false,
                 action: () =>
                 {
                     hb

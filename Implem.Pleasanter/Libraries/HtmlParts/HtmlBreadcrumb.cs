@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
-    public static class HtmlNavigations
+    public static class HtmlBreadcrumb
     {
         public static HtmlBuilder Breadcrumb(
             this HtmlBuilder hb, long siteId, Permissions.Types permissionType, bool _using)
@@ -76,68 +76,5 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Span(css: "nav-breadcrumb-separator", action: () => hb
                     .Text(text: ">")));
         }
-
-        public static HtmlBuilder NavigationFunctions(
-            this HtmlBuilder hb,
-            long siteId,
-            string referenceId,
-            Permissions.Types permissionType,
-            bool useNavigationButtons)
-        {
-            return hb.Ul(css: "nav-functions", action: () => hb
-                .NavigationButtons(
-                    siteId: siteId,
-                    referenceId: referenceId,
-                    permissionType: permissionType,
-                    _using: useNavigationButtons));
-        }
-
-        private static HtmlBuilder NavigationButtons(
-            this HtmlBuilder hb,
-            long siteId,
-            string referenceId,
-            Permissions.Types permissionType,
-            bool _using)
-        {
-            return _using
-                ? hb
-                    .Li(
-                        css: "nav-function",
-                        _using: 
-                            (permissionType.CanCreate() || siteId == 0) &&
-                            referenceId != "Wikis",
-                        action: () => hb
-                            .Button(
-                                text: Displays.New(),
-                                controlCss: "button-icon",
-                                accessKey: "i",
-                                href: SiteInfo.IsItem()
-                                    ? Navigations.ItemNew(siteId)
-                                    : Navigations.New(Url.RouteData("controller")),
-                                icon: "ui-icon-plus"))
-                    .Li(
-                        css: "nav-function",
-                        _using: 
-                            permissionType.CanEditSite() && siteId != 0 &&
-                            referenceId != "Wikis",
-                        action: () => hb
-                            .Button(
-                                text: Displays.List(),
-                                controlCss: "button-icon",
-                                accessKey: "k",
-                                href: Navigations.ItemIndex(siteId),
-                                icon: "ui-icon-document"))
-                    .Li(
-                        css: "nav-function",
-                        _using: permissionType.CanEditSite() && siteId != 0,
-                        action: () => hb
-                            .Button(
-                                text: Displays.EditSettings(),
-                                controlCss: "button-icon",
-                                accessKey: "g",
-                                href: Navigations.ItemEdit(siteId),
-                                icon: "ui-icon-gear"))
-                : hb;
-        }
-    }
+   }
 }

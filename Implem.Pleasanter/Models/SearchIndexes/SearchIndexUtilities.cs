@@ -127,7 +127,7 @@ namespace Implem.Pleasanter.Models
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.NotSet,
                 allowAccess: true,
-                useNavigationButtons: false,
+                useNavigationMenu: false,
                 useTitle: false,
                 useSearch: false,
                 useBreadcrumb: false,

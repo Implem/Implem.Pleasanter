@@ -52,9 +52,6 @@ namespace Implem.Pleasanter.Models
                             .Class("main-form")
                             .Action(Navigations.ItemAction(siteSettings.SiteId)),
                         action: () => hb
-                            .DataViewSelector(
-                                referenceType: "Users",
-                                dataViewName: dataViewName)
                             .DataViewFilters(
                                 siteSettings: siteSettings,
                                 siteId: siteSettings.SiteId)
@@ -734,7 +731,7 @@ namespace Implem.Pleasanter.Models
                 useBreadcrumb: false,
                 useTitle: false,
                 useSearch: false,
-                useNavigationButtons: false,
+                useNavigationMenu: false,
                 methodType: BaseModel.MethodTypes.Edit,
                 allowAccess: true,
                 action: () => hb

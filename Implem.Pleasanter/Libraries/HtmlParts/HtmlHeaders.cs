@@ -1,11 +1,18 @@
 ﻿using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.Security;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlHeaders
     {
-        public static HtmlBuilder PageHeader(this HtmlBuilder hb, bool useSearch)
+        public static HtmlBuilder PageHeader(
+            this HtmlBuilder hb,
+            Permissions.Types permissionType,
+            long siteId,
+            string referenceType,
+            bool useSearch,
+            bool allowAccess,
+            bool useNavigationMenu)
         {
             return hb.Header(css: "header", action: () => hb
                 .H(number: 2, css: "logo", action: () => hb
@@ -18,7 +25,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Span(css: "logo-product", action: () => hb
                                 .Displays_ProductName())))
                 .Search(_using: useSearch)
-                .LoginUser());
+                .NavigationMenu(
+                    permissionType: permissionType,
+                    siteId: siteId,
+                    referenceType: referenceType,
+                    allowAccess: allowAccess,
+                    useNavigationMenu: useNavigationMenu));
         }
 
         private static HtmlBuilder Search(this HtmlBuilder hb, bool _using)
@@ -31,39 +43,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlId: "Search",
                             controlCss: " w200 redirect",
                             placeholder: Displays.Search()))
-                : hb;
-        }
-
-        private static HtmlBuilder LoginUser(this HtmlBuilder hb)
-        {
-            return Sessions.LoggedIn()
-                ? hb.Div(css: "login-user", action: () => hb
-                    .P(action: () => hb
-                        .Displays_Login())
-                    .HtmlUser(Sessions.UserId())
-                    .Admin()
-                    .P(action: () => hb
-                        .Icon(iconCss: "ui-icon-wrench")
-                        .A(
-                            href: Navigations.Edit("Users", Sessions.UserId()),
-                            text: Displays.EditProfile()))
-                    .P(action: () => hb
-                        .Icon(iconCss: "ui-icon-locked")
-                        .A(
-                            href: Navigations.Logout(),
-                            text: Displays.Logout())))
-                    .Hidden(controlId: "Language", value: "_" + Sessions.Language())
-                : hb;
-        }
-
-        private static HtmlBuilder Admin(this HtmlBuilder hb)
-        {
-            return Sessions.User().TenantAdmin
-                ? hb.P(action: () => hb
-                    .Icon(iconCss: "ui-icon-wrench")
-                    .A(
-                        href: Navigations.Index("Admins"),
-                        text: Displays.Admin()))
                 : hb;
         }
     }

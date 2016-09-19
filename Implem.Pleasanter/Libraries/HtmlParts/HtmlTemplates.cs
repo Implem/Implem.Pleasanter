@@ -25,7 +25,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool useBreadcrumb = true,
             bool useTitle = true,
             bool useSearch = true,
-            bool useNavigationButtons = true,
+            bool useNavigationMenu = true,
             string script = "",
             string userScript = "",
             string userStyle = "",
@@ -34,7 +34,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb
                 .MainContainer(
                     siteId: siteId,
-                    referenceId: referenceType,
+                    referenceType: referenceType,
                     title: title,
                     permissionType: permissionType,
                     verType: verType,
@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     useBreadcrumb: useBreadcrumb,
                     useTitle: useTitle,
                     useSearch: useSearch,
-                    useNavigationButtons: useNavigationButtons,
+                    useNavigationMenu: useNavigationMenu,
                     userStyle: userStyle,
                     action: action)
                 .Scripts(
@@ -55,7 +55,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder MainContainer(
             this HtmlBuilder hb,
             long siteId,
-            string referenceId,
+            string referenceType,
             string title,
             Permissions.Types permissionType,
             Versions.VerTypes verType,
@@ -64,13 +64,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool useBreadcrumb = true,
             bool useTitle = true,
             bool useSearch = true,
-            bool useNavigationButtons = true,
+            bool useNavigationMenu = true,
             string userStyle = "",
             Action action = null)
         {
             return hb.Div(id: "MainContainer", action: () => hb
-                .PageHeader(useSearch: useSearch)
-                .Article(id: "application", action: () =>
+                .PageHeader(
+                    permissionType: permissionType,
+                    siteId: siteId,
+                    referenceType: referenceType,
+                    useSearch: useSearch,
+                    allowAccess: allowAccess,
+                    useNavigationMenu: useNavigationMenu)
+                .Article(id: "Application", action: () =>
                 {
                     if (allowAccess)
                     {
@@ -78,12 +84,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Breadcrumb(
                                 siteId: siteId,
                                 permissionType: permissionType,
-                                _using: useBreadcrumb)
-                            .NavigationFunctions(
-                                siteId: siteId,
-                                referenceId: referenceId,
-                                permissionType: permissionType,
-                                useNavigationButtons: useNavigationButtons));
+                                _using: useBreadcrumb));
                         if (useTitle)
                         {
                             hb.Title(permissionType: permissionType, siteId: siteId, text: title);
@@ -166,7 +167,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 allowAccess: false,
                 useBreadcrumb: false,
                 useTitle: false,
-                useNavigationButtons: false);
+                useNavigationMenu: false);
         }
 
         private static string BackUrl()

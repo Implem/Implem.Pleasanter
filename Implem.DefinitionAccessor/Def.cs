@@ -1661,18 +1661,11 @@ namespace Implem.DefinitionAccessor
                     case "_dot_logo": Css._dot_logo = definitionRow[1].ToString(); SetCssTable(CssTable._dot_logo, definitionRow, CssXls); break;
                     case "_dot_logo_corp": Css._dot_logo_corp = definitionRow[1].ToString(); SetCssTable(CssTable._dot_logo_corp, definitionRow, CssXls); break;
                     case "_dot_logo_product": Css._dot_logo_product = definitionRow[1].ToString(); SetCssTable(CssTable._dot_logo_product, definitionRow, CssXls); break;
-                    case "_dot_login_user": Css._dot_login_user = definitionRow[1].ToString(); SetCssTable(CssTable._dot_login_user, definitionRow, CssXls); break;
-                    case "_dot_login_user_space___space_p": Css._dot_login_user_space___space_p = definitionRow[1].ToString(); SetCssTable(CssTable._dot_login_user_space___space_p, definitionRow, CssXls); break;
-                    case "_dot_login_user_space___space_p_space___space_span": Css._dot_login_user_space___space_p_space___space_span = definitionRow[1].ToString(); SetCssTable(CssTable._dot_login_user_space___space_p_space___space_span, definitionRow, CssXls); break;
                     case "_dot_head": Css._dot_head = definitionRow[1].ToString(); SetCssTable(CssTable._dot_head, definitionRow, CssXls); break;
                     case "_dot_main_form_space___space_nav_colon_first_child": Css._dot_main_form_space___space_nav_colon_first_child = definitionRow[1].ToString(); SetCssTable(CssTable._dot_main_form_space___space_nav_colon_first_child, definitionRow, CssXls); break;
                     case "_dot_nav_breadcrumb": Css._dot_nav_breadcrumb = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_breadcrumb, definitionRow, CssXls); break;
                     case "_dot_nav_breadcrumb_item": Css._dot_nav_breadcrumb_item = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_breadcrumb_item, definitionRow, CssXls); break;
                     case "_dot_nav_breadcrumb_separator": Css._dot_nav_breadcrumb_separator = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_breadcrumb_separator, definitionRow, CssXls); break;
-                    case "_dot_nav_functions": Css._dot_nav_functions = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_functions, definitionRow, CssXls); break;
-                    case "_dot_nav_function": Css._dot_nav_function = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_function, definitionRow, CssXls); break;
-                    case "_dot_nav_function_space___space__asterisk_": Css._dot_nav_function_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_function_space___space__asterisk_, definitionRow, CssXls); break;
-                    case "_dot_nav_function_space___space__dot_ui_icon": Css._dot_nav_function_space___space__dot_ui_icon = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_function_space___space__dot_ui_icon, definitionRow, CssXls); break;
                     case "_dot_nav_sites": Css._dot_nav_sites = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_sites, definitionRow, CssXls); break;
                     case "_dot_nav_site": Css._dot_nav_site = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site, definitionRow, CssXls); break;
                     case "_dot_nav_site_dot_sites": Css._dot_nav_site_dot_sites = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_dot_sites, definitionRow, CssXls); break;
@@ -1693,10 +1686,23 @@ namespace Implem.DefinitionAccessor
                     case "_dot_nav_site_space__dot_conditions_space_span": Css._dot_nav_site_space__dot_conditions_space_span = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_space__dot_conditions_space_span, definitionRow, CssXls); break;
                     case "_dot_nav_site_space__dot_conditions_space_span_dot_overdue": Css._dot_nav_site_space__dot_conditions_space_span_dot_overdue = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_space__dot_conditions_space_span_dot_overdue, definitionRow, CssXls); break;
                     case "_dot_nav_site_space__dot_conditions_space_span_dot_elapsed_time_dot_old": Css._dot_nav_site_space__dot_conditions_space_span_dot_elapsed_time_dot_old = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_site_space__dot_conditions_space_span_dot_elapsed_time_dot_old, definitionRow, CssXls); break;
+                    case "_sharp_NavigationMenu": Css._sharp_NavigationMenu = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_NavigationMenu, definitionRow, CssXls); break;
+                    case "_sharp_NavigationMenu_space___space_li": Css._sharp_NavigationMenu_space___space_li = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_NavigationMenu_space___space_li, definitionRow, CssXls); break;
+                    case "_sharp_NavigationMenu_space___space_li_space___space_div": Css._sharp_NavigationMenu_space___space_li_space___space_div = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_NavigationMenu_space___space_li_space___space_div, definitionRow, CssXls); break;
+                    case "_sharp_NavigationMenu_space___space_li_space___space_div_colon_hover": Css._sharp_NavigationMenu_space___space_li_space___space_div_colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_NavigationMenu_space___space_li_space___space_div_colon_hover, definitionRow, CssXls); break;
+                    case "_sharp_NavigationMenu_space___space_li_dot_sub_menu_space___space_div_dot_hover": Css._sharp_NavigationMenu_space___space_li_dot_sub_menu_space___space_div_dot_hover = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_NavigationMenu_space___space_li_dot_sub_menu_space___space_div_dot_hover, definitionRow, CssXls); break;
+                    case "_sharp_NavigationMenu_space___space_li_space___space_div_space___space_a": Css._sharp_NavigationMenu_space___space_li_space___space_div_space___space_a = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_NavigationMenu_space___space_li_space___space_div_space___space_a, definitionRow, CssXls); break;
+                    case "_sharp_NavigationMenu_space___space_li_space___space_div_space___space_a_colon_hover": Css._sharp_NavigationMenu_space___space_li_space___space_div_space___space_a_colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_NavigationMenu_space___space_li_space___space_div_space___space_a_colon_hover, definitionRow, CssXls); break;
+                    case "_dot_menu": Css._dot_menu = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu, definitionRow, CssXls); break;
+                    case "_dot_menu_space___space_li": Css._dot_menu_space___space_li = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_space___space_li, definitionRow, CssXls); break;
+                    case "_dot_menu_space___space_li_space___space_div": Css._dot_menu_space___space_li_space___space_div = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_space___space_li_space___space_div, definitionRow, CssXls); break;
+                    case "_dot_menu_space___space_li_space___space_div_dot_ui_state_active": Css._dot_menu_space___space_li_space___space_div_dot_ui_state_active = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_space___space_li_space___space_div_dot_ui_state_active, definitionRow, CssXls); break;
+                    case "_dot_menu_space___space_li_space___space_div_space___space_a": Css._dot_menu_space___space_li_space___space_div_space___space_a = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_space___space_li_space___space_div_space___space_a, definitionRow, CssXls); break;
                     case "_dot_login": Css._dot_login = definitionRow[1].ToString(); SetCssTable(CssTable._dot_login, definitionRow, CssXls); break;
                     case "_dot_login_commands": Css._dot_login_commands = definitionRow[1].ToString(); SetCssTable(CssTable._dot_login_commands, definitionRow, CssXls); break;
                     case "_dot_demo": Css._dot_demo = definitionRow[1].ToString(); SetCssTable(CssTable._dot_demo, definitionRow, CssXls); break;
                     case "_dot_demo_space___space_fieldset_space___space_div": Css._dot_demo_space___space_fieldset_space___space_div = definitionRow[1].ToString(); SetCssTable(CssTable._dot_demo_space___space_fieldset_space___space_div, definitionRow, CssXls); break;
+                    case "_dot_search": Css._dot_search = definitionRow[1].ToString(); SetCssTable(CssTable._dot_search, definitionRow, CssXls); break;
                     case "_dot_search_results": Css._dot_search_results = definitionRow[1].ToString(); SetCssTable(CssTable._dot_search_results, definitionRow, CssXls); break;
                     case "_dot_search_results_space__dot_count": Css._dot_search_results_space__dot_count = definitionRow[1].ToString(); SetCssTable(CssTable._dot_search_results_space__dot_count, definitionRow, CssXls); break;
                     case "_dot_search_results_space__dot_count_space__dot_label": Css._dot_search_results_space__dot_count_space__dot_label = definitionRow[1].ToString(); SetCssTable(CssTable._dot_search_results_space__dot_count_space__dot_label, definitionRow, CssXls); break;
@@ -1714,8 +1720,8 @@ namespace Implem.DefinitionAccessor
                     case "_dot_error_page_action": Css._dot_error_page_action = definitionRow[1].ToString(); SetCssTable(CssTable._dot_error_page_action, definitionRow, CssXls); break;
                     case "_dot_error_page_action_space_em": Css._dot_error_page_action_space_em = definitionRow[1].ToString(); SetCssTable(CssTable._dot_error_page_action_space_em, definitionRow, CssXls); break;
                     case "_dot_error_page_stacktrace": Css._dot_error_page_stacktrace = definitionRow[1].ToString(); SetCssTable(CssTable._dot_error_page_stacktrace, definitionRow, CssXls); break;
-                    case "_sharp_application": Css._sharp_application = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_application, definitionRow, CssXls); break;
-                    case "_sharp_application_space___space__dot_site_image_icon": Css._sharp_application_space___space__dot_site_image_icon = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_application_space___space__dot_site_image_icon, definitionRow, CssXls); break;
+                    case "_sharp_Application": Css._sharp_Application = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Application, definitionRow, CssXls); break;
+                    case "_sharp_Application_space___space__dot_site_image_icon": Css._sharp_Application_space___space__dot_site_image_icon = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Application_space___space__dot_site_image_icon, definitionRow, CssXls); break;
                     case "_dot_application_title": Css._dot_application_title = definitionRow[1].ToString(); SetCssTable(CssTable._dot_application_title, definitionRow, CssXls); break;
                     case "_dot_application_title_space___space__asterisk_": Css._dot_application_title_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_application_title_space___space__asterisk_, definitionRow, CssXls); break;
                     case "_dot_record_header": Css._dot_record_header = definitionRow[1].ToString(); SetCssTable(CssTable._dot_record_header, definitionRow, CssXls); break;
@@ -1836,8 +1842,6 @@ namespace Implem.DefinitionAccessor
                     case "_dot_dataview_filters": Css._dot_dataview_filters = definitionRow[1].ToString(); SetCssTable(CssTable._dot_dataview_filters, definitionRow, CssXls); break;
                     case "_dot_dataview_filters_space___space_div_space___space_div": Css._dot_dataview_filters_space___space_div_space___space_div = definitionRow[1].ToString(); SetCssTable(CssTable._dot_dataview_filters_space___space_div_space___space_div, definitionRow, CssXls); break;
                     case "_dot_dataview_filters_space___space_div_space___space_button": Css._dot_dataview_filters_space___space_div_space___space_button = definitionRow[1].ToString(); SetCssTable(CssTable._dot_dataview_filters_space___space_div_space___space_button, definitionRow, CssXls); break;
-                    case "_dot_dataview_selector": Css._dot_dataview_selector = definitionRow[1].ToString(); SetCssTable(CssTable._dot_dataview_selector, definitionRow, CssXls); break;
-                    case "_dot_dataview_selector_space___space_button": Css._dot_dataview_selector_space___space_button = definitionRow[1].ToString(); SetCssTable(CssTable._dot_dataview_selector_space___space_button, definitionRow, CssXls); break;
                     case "_dot_aggregations": Css._dot_aggregations = definitionRow[1].ToString(); SetCssTable(CssTable._dot_aggregations, definitionRow, CssXls); break;
                     case "_dot_aggregations_space__dot_label": Css._dot_aggregations_space__dot_label = definitionRow[1].ToString(); SetCssTable(CssTable._dot_aggregations_space__dot_label, definitionRow, CssXls); break;
                     case "_dot_aggregations_space__dot_label_dot_overdue": Css._dot_aggregations_space__dot_label_dot_overdue = definitionRow[1].ToString(); SetCssTable(CssTable._dot_aggregations_space__dot_label_dot_overdue, definitionRow, CssXls); break;
@@ -2158,10 +2162,12 @@ namespace Implem.DefinitionAccessor
             {
                 switch (definitionRow[0].ToString())
                 {
+                    case "Issues_Index": DataView.Issues_Index = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_Index, definitionRow, DataViewXls); break;
                     case "Issues_Gantt": DataView.Issues_Gantt = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_Gantt, definitionRow, DataViewXls); break;
                     case "Issues_BurnDown": DataView.Issues_BurnDown = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_BurnDown, definitionRow, DataViewXls); break;
                     case "Issues_TimeSeries": DataView.Issues_TimeSeries = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_TimeSeries, definitionRow, DataViewXls); break;
                     case "Issues_Kamban": DataView.Issues_Kamban = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_Kamban, definitionRow, DataViewXls); break;
+                    case "Results_Index": DataView.Results_Index = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Results_Index, definitionRow, DataViewXls); break;
                     case "Results_TimeSeries": DataView.Results_TimeSeries = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Results_TimeSeries, definitionRow, DataViewXls); break;
                     case "Results_Kamban": DataView.Results_Kamban = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Results_Kamban, definitionRow, DataViewXls); break;
                     default: break;
@@ -2783,8 +2789,8 @@ namespace Implem.DefinitionAccessor
                     case "Quantity_ja": Display.Quantity_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Quantity_ja, definitionRow, DisplayXls); break;
                     case "SuffixCopy": Display.SuffixCopy = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SuffixCopy, definitionRow, DisplayXls); break;
                     case "SuffixCopy_ja": Display.SuffixCopy_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SuffixCopy_ja, definitionRow, DisplayXls); break;
-                    case "DataViewSelector": Display.DataViewSelector = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DataViewSelector, definitionRow, DisplayXls); break;
-                    case "DataViewSelector_ja": Display.DataViewSelector_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DataViewSelector_ja, definitionRow, DisplayXls); break;
+                    case "View": Display.View = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.View, definitionRow, DisplayXls); break;
+                    case "View_ja": Display.View_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.View_ja, definitionRow, DisplayXls); break;
                     case "Grid": Display.Grid = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Grid, definitionRow, DisplayXls); break;
                     case "Grid_ja": Display.Grid_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Grid_ja, definitionRow, DisplayXls); break;
                     case "Style": Display.Style = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Style, definitionRow, DisplayXls); break;
@@ -6423,18 +6429,11 @@ namespace Implem.DefinitionAccessor
         public string _dot_logo;
         public string _dot_logo_corp;
         public string _dot_logo_product;
-        public string _dot_login_user;
-        public string _dot_login_user_space___space_p;
-        public string _dot_login_user_space___space_p_space___space_span;
         public string _dot_head;
         public string _dot_main_form_space___space_nav_colon_first_child;
         public string _dot_nav_breadcrumb;
         public string _dot_nav_breadcrumb_item;
         public string _dot_nav_breadcrumb_separator;
-        public string _dot_nav_functions;
-        public string _dot_nav_function;
-        public string _dot_nav_function_space___space__asterisk_;
-        public string _dot_nav_function_space___space__dot_ui_icon;
         public string _dot_nav_sites;
         public string _dot_nav_site;
         public string _dot_nav_site_dot_sites;
@@ -6455,10 +6454,23 @@ namespace Implem.DefinitionAccessor
         public string _dot_nav_site_space__dot_conditions_space_span;
         public string _dot_nav_site_space__dot_conditions_space_span_dot_overdue;
         public string _dot_nav_site_space__dot_conditions_space_span_dot_elapsed_time_dot_old;
+        public string _sharp_NavigationMenu;
+        public string _sharp_NavigationMenu_space___space_li;
+        public string _sharp_NavigationMenu_space___space_li_space___space_div;
+        public string _sharp_NavigationMenu_space___space_li_space___space_div_colon_hover;
+        public string _sharp_NavigationMenu_space___space_li_dot_sub_menu_space___space_div_dot_hover;
+        public string _sharp_NavigationMenu_space___space_li_space___space_div_space___space_a;
+        public string _sharp_NavigationMenu_space___space_li_space___space_div_space___space_a_colon_hover;
+        public string _dot_menu;
+        public string _dot_menu_space___space_li;
+        public string _dot_menu_space___space_li_space___space_div;
+        public string _dot_menu_space___space_li_space___space_div_dot_ui_state_active;
+        public string _dot_menu_space___space_li_space___space_div_space___space_a;
         public string _dot_login;
         public string _dot_login_commands;
         public string _dot_demo;
         public string _dot_demo_space___space_fieldset_space___space_div;
+        public string _dot_search;
         public string _dot_search_results;
         public string _dot_search_results_space__dot_count;
         public string _dot_search_results_space__dot_count_space__dot_label;
@@ -6476,8 +6488,8 @@ namespace Implem.DefinitionAccessor
         public string _dot_error_page_action;
         public string _dot_error_page_action_space_em;
         public string _dot_error_page_stacktrace;
-        public string _sharp_application;
-        public string _sharp_application_space___space__dot_site_image_icon;
+        public string _sharp_Application;
+        public string _sharp_Application_space___space__dot_site_image_icon;
         public string _dot_application_title;
         public string _dot_application_title_space___space__asterisk_;
         public string _dot_record_header;
@@ -6598,8 +6610,6 @@ namespace Implem.DefinitionAccessor
         public string _dot_dataview_filters;
         public string _dot_dataview_filters_space___space_div_space___space_div;
         public string _dot_dataview_filters_space___space_div_space___space_button;
-        public string _dot_dataview_selector;
-        public string _dot_dataview_selector_space___space_button;
         public string _dot_aggregations;
         public string _dot_aggregations_space__dot_label;
         public string _dot_aggregations_space__dot_label_dot_overdue;
@@ -6799,18 +6809,11 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_logo = new CssDefinition();
         public CssDefinition _dot_logo_corp = new CssDefinition();
         public CssDefinition _dot_logo_product = new CssDefinition();
-        public CssDefinition _dot_login_user = new CssDefinition();
-        public CssDefinition _dot_login_user_space___space_p = new CssDefinition();
-        public CssDefinition _dot_login_user_space___space_p_space___space_span = new CssDefinition();
         public CssDefinition _dot_head = new CssDefinition();
         public CssDefinition _dot_main_form_space___space_nav_colon_first_child = new CssDefinition();
         public CssDefinition _dot_nav_breadcrumb = new CssDefinition();
         public CssDefinition _dot_nav_breadcrumb_item = new CssDefinition();
         public CssDefinition _dot_nav_breadcrumb_separator = new CssDefinition();
-        public CssDefinition _dot_nav_functions = new CssDefinition();
-        public CssDefinition _dot_nav_function = new CssDefinition();
-        public CssDefinition _dot_nav_function_space___space__asterisk_ = new CssDefinition();
-        public CssDefinition _dot_nav_function_space___space__dot_ui_icon = new CssDefinition();
         public CssDefinition _dot_nav_sites = new CssDefinition();
         public CssDefinition _dot_nav_site = new CssDefinition();
         public CssDefinition _dot_nav_site_dot_sites = new CssDefinition();
@@ -6831,10 +6834,23 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_nav_site_space__dot_conditions_space_span = new CssDefinition();
         public CssDefinition _dot_nav_site_space__dot_conditions_space_span_dot_overdue = new CssDefinition();
         public CssDefinition _dot_nav_site_space__dot_conditions_space_span_dot_elapsed_time_dot_old = new CssDefinition();
+        public CssDefinition _sharp_NavigationMenu = new CssDefinition();
+        public CssDefinition _sharp_NavigationMenu_space___space_li = new CssDefinition();
+        public CssDefinition _sharp_NavigationMenu_space___space_li_space___space_div = new CssDefinition();
+        public CssDefinition _sharp_NavigationMenu_space___space_li_space___space_div_colon_hover = new CssDefinition();
+        public CssDefinition _sharp_NavigationMenu_space___space_li_dot_sub_menu_space___space_div_dot_hover = new CssDefinition();
+        public CssDefinition _sharp_NavigationMenu_space___space_li_space___space_div_space___space_a = new CssDefinition();
+        public CssDefinition _sharp_NavigationMenu_space___space_li_space___space_div_space___space_a_colon_hover = new CssDefinition();
+        public CssDefinition _dot_menu = new CssDefinition();
+        public CssDefinition _dot_menu_space___space_li = new CssDefinition();
+        public CssDefinition _dot_menu_space___space_li_space___space_div = new CssDefinition();
+        public CssDefinition _dot_menu_space___space_li_space___space_div_dot_ui_state_active = new CssDefinition();
+        public CssDefinition _dot_menu_space___space_li_space___space_div_space___space_a = new CssDefinition();
         public CssDefinition _dot_login = new CssDefinition();
         public CssDefinition _dot_login_commands = new CssDefinition();
         public CssDefinition _dot_demo = new CssDefinition();
         public CssDefinition _dot_demo_space___space_fieldset_space___space_div = new CssDefinition();
+        public CssDefinition _dot_search = new CssDefinition();
         public CssDefinition _dot_search_results = new CssDefinition();
         public CssDefinition _dot_search_results_space__dot_count = new CssDefinition();
         public CssDefinition _dot_search_results_space__dot_count_space__dot_label = new CssDefinition();
@@ -6852,8 +6868,8 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_error_page_action = new CssDefinition();
         public CssDefinition _dot_error_page_action_space_em = new CssDefinition();
         public CssDefinition _dot_error_page_stacktrace = new CssDefinition();
-        public CssDefinition _sharp_application = new CssDefinition();
-        public CssDefinition _sharp_application_space___space__dot_site_image_icon = new CssDefinition();
+        public CssDefinition _sharp_Application = new CssDefinition();
+        public CssDefinition _sharp_Application_space___space__dot_site_image_icon = new CssDefinition();
         public CssDefinition _dot_application_title = new CssDefinition();
         public CssDefinition _dot_application_title_space___space__asterisk_ = new CssDefinition();
         public CssDefinition _dot_record_header = new CssDefinition();
@@ -6974,8 +6990,6 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_dataview_filters = new CssDefinition();
         public CssDefinition _dot_dataview_filters_space___space_div_space___space_div = new CssDefinition();
         public CssDefinition _dot_dataview_filters_space___space_div_space___space_button = new CssDefinition();
-        public CssDefinition _dot_dataview_selector = new CssDefinition();
-        public CssDefinition _dot_dataview_selector_space___space_button = new CssDefinition();
         public CssDefinition _dot_aggregations = new CssDefinition();
         public CssDefinition _dot_aggregations_space__dot_label = new CssDefinition();
         public CssDefinition _dot_aggregations_space__dot_label_dot_overdue = new CssDefinition();
@@ -7193,20 +7207,24 @@ namespace Implem.DefinitionAccessor
 
     public class DataViewColumn2nd
     {
+        public string Issues_Index;
         public string Issues_Gantt;
         public string Issues_BurnDown;
         public string Issues_TimeSeries;
         public string Issues_Kamban;
+        public string Results_Index;
         public string Results_TimeSeries;
         public string Results_Kamban;
     }
 
     public class DataViewTable
     {
+        public DataViewDefinition Issues_Index = new DataViewDefinition();
         public DataViewDefinition Issues_Gantt = new DataViewDefinition();
         public DataViewDefinition Issues_BurnDown = new DataViewDefinition();
         public DataViewDefinition Issues_TimeSeries = new DataViewDefinition();
         public DataViewDefinition Issues_Kamban = new DataViewDefinition();
+        public DataViewDefinition Results_Index = new DataViewDefinition();
         public DataViewDefinition Results_TimeSeries = new DataViewDefinition();
         public DataViewDefinition Results_Kamban = new DataViewDefinition();
     }
@@ -7947,8 +7965,8 @@ namespace Implem.DefinitionAccessor
         public string Quantity_ja;
         public string SuffixCopy;
         public string SuffixCopy_ja;
-        public string DataViewSelector;
-        public string DataViewSelector_ja;
+        public string View;
+        public string View_ja;
         public string Grid;
         public string Grid_ja;
         public string Style;
@@ -8591,8 +8609,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition Quantity_ja = new DisplayDefinition();
         public DisplayDefinition SuffixCopy = new DisplayDefinition();
         public DisplayDefinition SuffixCopy_ja = new DisplayDefinition();
-        public DisplayDefinition DataViewSelector = new DisplayDefinition();
-        public DisplayDefinition DataViewSelector_ja = new DisplayDefinition();
+        public DisplayDefinition View = new DisplayDefinition();
+        public DisplayDefinition View_ja = new DisplayDefinition();
         public DisplayDefinition Grid = new DisplayDefinition();
         public DisplayDefinition Grid_ja = new DisplayDefinition();
         public DisplayDefinition Style = new DisplayDefinition();

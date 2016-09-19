@@ -65,6 +65,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get("Items", id.ToString(), controller, "Edit");
         }
 
+        public static string ItemView(long id, string action)
+        {
+            return Get("Items", id.ToString(), action);
+        }
+
         public static string Export(string controller, long id)
         {
             return Get(controller, id.ToString(), "Export");

@@ -18,7 +18,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 methodType: Pleasanter.Models.BaseModel.MethodTypes.NotSet,
                 allowAccess: Sessions.User().TenantAdmin,
                 verType: Versions.VerTypes.Latest,
-                useNavigationButtons: false,
+                useNavigationMenu: false,
                 action: () => hb
                     .Nav(css: "cf", action: () => hb
                         .Ul(css: "nav-sites", action: () => hb
