@@ -2343,6 +2343,8 @@ namespace Implem.DefinitionAccessor
             {
                 switch (definitionRow[0].ToString())
                 {
+                    case "ProductName": Display.ProductName = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ProductName, definitionRow, DisplayXls); break;
+                    case "ProductName_ja": Display.ProductName_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ProductName_ja, definitionRow, DisplayXls); break;
                     case "Login": Display.Login = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Login, definitionRow, DisplayXls); break;
                     case "Login_ja": Display.Login_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Login_ja, definitionRow, DisplayXls); break;
                     case "Top": Display.Top = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Top, definitionRow, DisplayXls); break;
@@ -7505,6 +7507,8 @@ namespace Implem.DefinitionAccessor
 
     public class DisplayColumn2nd
     {
+        public string ProductName;
+        public string ProductName_ja;
         public string Login;
         public string Login_ja;
         public string Top;
@@ -8147,6 +8151,8 @@ namespace Implem.DefinitionAccessor
 
     public class DisplayTable
     {
+        public DisplayDefinition ProductName = new DisplayDefinition();
+        public DisplayDefinition ProductName_ja = new DisplayDefinition();
         public DisplayDefinition Login = new DisplayDefinition();
         public DisplayDefinition Login_ja = new DisplayDefinition();
         public DisplayDefinition Top = new DisplayDefinition();

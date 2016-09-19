@@ -29,6 +29,8 @@ namespace Implem.Pleasanter.Libraries.Responses
              }
         }
 
+        public static HtmlBuilder Displays_ProductName(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ProductName", data)); }
+        public static string ProductName(params string[] data) { return Get("ProductName", data); }
         public static HtmlBuilder Displays_Login(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Login", data)); }
         public static string Login(params string[] data) { return Get("Login", data); }
         public static HtmlBuilder Displays_Top(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Top", data)); }
