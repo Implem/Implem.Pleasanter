@@ -69,7 +69,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Action action = null)
         {
             return hb.Div(id: "MainContainer", action: () => hb
-                .PageHeader()
+                .PageHeader(useSearch: useSearch)
                 .Article(id: "application", action: () =>
                 {
                     if (allowAccess)
@@ -83,7 +83,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 siteId: siteId,
                                 referenceId: referenceId,
                                 permissionType: permissionType,
-                                useSearch: useSearch,
                                 useNavigationButtons: useNavigationButtons));
                         if (useTitle)
                         {

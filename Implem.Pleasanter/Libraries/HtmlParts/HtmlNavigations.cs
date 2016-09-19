@@ -82,30 +82,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long siteId,
             string referenceId,
             Permissions.Types permissionType,
-            bool useSearch,
             bool useNavigationButtons)
         {
             return hb.Ul(css: "nav-functions", action: () => hb
-                .Search(siteId: siteId, permissionType: permissionType, _using: useSearch)
                 .NavigationButtons(
                     siteId: siteId,
                     referenceId: referenceId,
                     permissionType: permissionType,
                     _using: useNavigationButtons));
-        }
-
-        private static HtmlBuilder Search(
-            this HtmlBuilder hb, long siteId, Permissions.Types permissionType, bool _using)
-        {
-            return _using
-                ? hb
-                    .Li(css: "nav-function", action: () => hb
-                        .Div(css: "ui-icon ui-icon-search")
-                        .TextBox(
-                            controlId: "Search",
-                            controlCss: " w200 redirect",
-                            placeholder: Displays.Search()))
-                : hb;
         }
 
         private static HtmlBuilder NavigationButtons(

@@ -1,12 +1,11 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlHeaders
     {
-        public static HtmlBuilder PageHeader(this HtmlBuilder hb)
+        public static HtmlBuilder PageHeader(this HtmlBuilder hb, bool useSearch)
         {
             return hb.Header(css: "header", action: () => hb
                 .H(number: 2, css: "logo", action: () => hb
@@ -18,7 +17,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 css: "logo-corp")
                             .Span(css: "logo-product", action: () => hb
                                 .Displays_ProductName())))
+                .Search(_using: useSearch)
                 .LoginUser());
+        }
+
+        private static HtmlBuilder Search(this HtmlBuilder hb, bool _using)
+        {
+            return _using
+                ? hb
+                    .Div(css: "search", action: () => hb
+                        .Div(css: "ui-icon ui-icon-search")
+                        .TextBox(
+                            controlId: "Search",
+                            controlCss: " w200 redirect",
+                            placeholder: Displays.Search()))
+                : hb;
         }
 
         private static HtmlBuilder LoginUser(this HtmlBuilder hb)

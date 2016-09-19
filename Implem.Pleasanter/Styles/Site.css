@@ -421,6 +421,11 @@ pre{
     padding:20px 10px 10px 10px;
 }
 
+.search{
+    float:left;
+    margin:1px 20px;
+}
+
 .search-results{
     width:80%;
     float:left;
