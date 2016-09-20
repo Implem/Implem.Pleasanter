@@ -379,7 +379,7 @@ pre{
 }
 
 #NavigationMenu > li{
-    width:180px;
+    width:160px;
     height:32px;
     display:block;
     float:left;
@@ -418,7 +418,7 @@ pre{
 }
 
 .menu{
-    width:180px;
+    width:160px;
     display:none;
     position:absolute;
     top:32px;
