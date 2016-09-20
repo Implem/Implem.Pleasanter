@@ -63,7 +63,6 @@ namespace Implem.Pleasanter.Models
                                 siteId: siteSettings.SiteId,
                                 permissionType: permissionType,
                                 verType: Versions.VerTypes.Latest,
-                                backUrl: Navigations.Index("Admins"),
                                 bulkMoveButton: true,
                                 bulkDeleteButton: true,
                                 importButton: true,
@@ -116,8 +115,7 @@ namespace Implem.Pleasanter.Models
                                 .MainCommands(
                                     siteId: siteSettings.SiteId,
                                     permissionType: permissionType,
-                                    verType: Versions.VerTypes.Latest,
-                                    backUrl: Navigations.Index("Admins"))
+                                    verType: Versions.VerTypes.Latest)
                                 .Div(css: "margin-bottom")
                                 .Hidden(controlId: "TableName", value: "Depts")
                                 .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl())
@@ -404,7 +402,6 @@ namespace Implem.Pleasanter.Models
                                 siteId: 0,
                                 permissionType: permissionType,
                                 verType: deptModel.VerType,
-                                backUrl: Navigations.Index("Depts"),
                                 referenceType: "Depts",
                                 referenceId: deptModel.DeptId,
                                 updateButton: true,

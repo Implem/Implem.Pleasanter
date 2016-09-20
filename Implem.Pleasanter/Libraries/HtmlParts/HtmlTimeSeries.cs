@@ -68,7 +68,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     siteId: siteSettings.SiteId,
                     permissionType: permissionType,
                     verType: Versions.VerTypes.Latest,
-                    backUrl: Navigations.ItemIndex(siteSettings.ParentId),
                     importButton: true,
                     exportButton: true));
         }

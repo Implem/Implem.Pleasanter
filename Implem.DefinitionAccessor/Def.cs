@@ -432,8 +432,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utility": Code.Model_Utility = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility, definitionRow, CodeXls); break;
                     case "Model_Utility_Index": Code.Model_Utility_Index = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_Index, definitionRow, CodeXls); break;
                     case "Model_Utility_ImportSettings": Code.Model_Utility_ImportSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_ImportSettings, definitionRow, CodeXls); break;
-                    case "Model_Utility_GridRows_BackUrl": Code.Model_Utility_GridRows_BackUrl = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_GridRows_BackUrl, definitionRow, CodeXls); break;
-                    case "Model_Utility_GridRows_BackUrlItem": Code.Model_Utility_GridRows_BackUrlItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_GridRows_BackUrlItem, definitionRow, CodeXls); break;
                     case "Model_Utility_GridRows_OnClick": Code.Model_Utility_GridRows_OnClick = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_GridRows_OnClick, definitionRow, CodeXls); break;
                     case "Model_Utility_GridRows_OnClickItem": Code.Model_Utility_GridRows_OnClickItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_GridRows_OnClickItem, definitionRow, CodeXls); break;
                     case "Model_Utility_Td": Code.Model_Utility_Td = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_Td, definitionRow, CodeXls); break;
@@ -3920,8 +3918,6 @@ namespace Implem.DefinitionAccessor
         public string Model_Utility;
         public string Model_Utility_Index;
         public string Model_Utility_ImportSettings;
-        public string Model_Utility_GridRows_BackUrl;
-        public string Model_Utility_GridRows_BackUrlItem;
         public string Model_Utility_GridRows_OnClick;
         public string Model_Utility_GridRows_OnClickItem;
         public string Model_Utility_Td;
@@ -4306,8 +4302,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utility = new CodeDefinition();
         public CodeDefinition Model_Utility_Index = new CodeDefinition();
         public CodeDefinition Model_Utility_ImportSettings = new CodeDefinition();
-        public CodeDefinition Model_Utility_GridRows_BackUrl = new CodeDefinition();
-        public CodeDefinition Model_Utility_GridRows_BackUrlItem = new CodeDefinition();
         public CodeDefinition Model_Utility_GridRows_OnClick = new CodeDefinition();
         public CodeDefinition Model_Utility_GridRows_OnClickItem = new CodeDefinition();
         public CodeDefinition Model_Utility_Td = new CodeDefinition();

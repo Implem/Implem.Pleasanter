@@ -13,7 +13,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long siteId,
             Permissions.Types permissionType,
             Versions.VerTypes verType,
-            string backUrl,
             string referenceType = "",
             long referenceId = 0,
             bool updateButton = false,
@@ -35,9 +34,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         text: Displays.GoBack(),
                         controlCss: "button-icon",
                         accessKey: "q",
-                        href: backUrl,
-                        icon: "ui-icon-circle-arrow-w",
-                        _using: backUrl != string.Empty);
+                        onClick: "history.back();",
+                        icon: "ui-icon-circle-arrow-w");
                     var routesAction = Routes.Action();
                     if (permissionType.CanRead() && 
                         verType == Versions.VerTypes.Latest)

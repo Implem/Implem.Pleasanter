@@ -102,8 +102,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .MainCommands(
                                 siteId: siteId,
                                 permissionType: permissionType,
-                                verType: Versions.VerTypes.Latest,
-                                backUrl: BackUrl());
+                                verType: Versions.VerTypes.Latest);
                     }
                 })
                 .Div(css: "margin-bottom both")

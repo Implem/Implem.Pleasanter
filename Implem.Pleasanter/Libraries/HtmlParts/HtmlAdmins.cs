@@ -43,8 +43,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .MainCommands(
                         siteId: 0,
                         permissionType: permissionType,
-                        verType: Versions.VerTypes.Latest,
-                        backUrl: Navigations.Top())).ToString();
+                        verType: Versions.VerTypes.Latest))
+                            .ToString();
         }
     }
 }

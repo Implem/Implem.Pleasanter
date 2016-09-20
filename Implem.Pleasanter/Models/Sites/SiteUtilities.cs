@@ -254,8 +254,7 @@ namespace Implem.Pleasanter.Models
                     hb.MainCommands(
                         siteId: 0,
                         permissionType: permissionType,
-                        verType: verType,
-                        backUrl: string.Empty);
+                        verType: verType);
                 }).ToString();
         }
 
@@ -304,8 +303,7 @@ namespace Implem.Pleasanter.Models
                         hb.MainCommands(
                             siteId: siteModel.SiteId,
                             permissionType: siteModel.PermissionType,
-                            verType: Versions.VerTypes.Latest,
-                            backUrl: Navigations.ItemIndex(siteSettings.ParentId));
+                            verType: Versions.VerTypes.Latest);
                     }
                 }).ToString();
         }
@@ -668,7 +666,6 @@ namespace Implem.Pleasanter.Models
                                 siteId: siteModel.SiteId,
                                 permissionType: siteModel.PermissionType,
                                 verType: siteModel.VerType,
-                                backUrl: EditorBackUrl(siteModel),
                                 referenceType: "items",
                                 referenceId: siteModel.SiteId,
                                 updateButton: true,

@@ -130,7 +130,6 @@ namespace Implem.Pleasanter.Models
                         siteId: siteModel.SiteId,
                         permissionType: siteModel.PermissionType,
                         verType: Versions.VerTypes.Latest,
-                        backUrl: Navigations.ItemEdit(siteModel.SiteId),
                         updateButton: true));
         }
 
