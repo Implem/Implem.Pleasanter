@@ -49,7 +49,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Scripts(
                     script: script,
                     userScript: userScript,
-                    referenceType: referenceType);
+                    referenceType: referenceType)
+                .Hidden(controlId: "Language", value: Sessions.Language());
         }
 
         public static HtmlBuilder MainContainer(

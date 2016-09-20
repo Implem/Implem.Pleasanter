@@ -21,7 +21,7 @@
         Displays_ConfirmSynchronize: 'Are you sure you want to synchronize the data ?',
         Displays_ConfirmSynchronize_ja: 'データを同期してもよろしいですか？'
     };
-    var localId = defaultId + $('#Language').val();
+    var localId = defaultId + '_' + $('#Language').val();
     if (displays[localId]) {
         return displays[localId];
     } else if (displays[defaultId]) {
