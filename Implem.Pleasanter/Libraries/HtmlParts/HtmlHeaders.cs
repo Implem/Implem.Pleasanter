@@ -24,21 +24,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 css: "logo-corp")
                             .Span(css: "logo-product", action: () => hb
                                 .Displays_ProductName())))
-                .Search(_using: useSearch)
-                .NavigationMenu(
-                    permissionType: permissionType,
-                    siteId: siteId,
-                    referenceType: referenceType,
-                    allowAccess: allowAccess,
-                    useNavigationMenu: useNavigationMenu));
+                .Nav(id: "Navigations", action: () => hb
+                    .NavigationMenu(
+                        permissionType: permissionType,
+                        siteId: siteId,
+                        referenceType: referenceType,
+                        allowAccess: allowAccess,
+                        useNavigationMenu: useNavigationMenu)
+                    .Search(_using: useSearch)));
         }
 
         private static HtmlBuilder Search(this HtmlBuilder hb, bool _using)
         {
             return _using
                 ? hb
-                    .Div(css: "search", action: () => hb
-                        .Div(css: "ui-icon ui-icon-search")
+                    .Div(id: "SearchField", action: () => hb
                         .TextBox(
                             controlId: "Search",
                             controlCss: " w150 redirect",

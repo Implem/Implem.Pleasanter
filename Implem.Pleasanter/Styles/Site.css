@@ -368,7 +368,7 @@ pre{
     color:silver;
 }
 
-#NavigationMenu{
+#Navigations{
     height:42px;
     padding:5px;
     border:none;
@@ -378,50 +378,55 @@ pre{
     border-radius:0px 0px 10px 10px;
 }
 
+#NavigationMenu{
+    float:left;
+}
+
 #NavigationMenu > li{
     width:160px;
-    height:32px;
+    height:30px;
     display:block;
     float:left;
-    margin-left:3px;
+    margin-right:5px;
     position:relative;
 }
 
 #NavigationMenu > li > div{
-    height:32px;
+    height:30px;
     padding:8px 0px 0px 0px;
     text-align:center;
-    background-color:whitesmoke;
+    color:white;
+    background-color:#817865;
     cursor:pointer;
     border-radius:5px;
 }
 
 #NavigationMenu > li > div:hover{
-    color:white;
-    background-color:#817865;
+    color:black;
+    background-color:#ffdd57;
 }
 
 #NavigationMenu > li.sub-menu > div.hover{
-    color:white;
-    background-color:#817865;
+    color:black;
+    background-color:#ffdd57;
     border-radius:5px 5px 0px 0px;
 }
 
 #NavigationMenu > li > div > a{
     display:block;
-    color:black;
+    color:white;
     text-decoration:none;
 }
 
 #NavigationMenu > li > div:hover > a{
-    color:white;
+    color:black;
 }
 
 .menu{
     width:160px;
     display:none;
     position:absolute;
-    top:32px;
+    top:30px;
     right:0px;
     border-radius:0px 0px 5px 5px;
     z-index:3;
@@ -437,6 +442,10 @@ pre{
     font-weight:normal;
     border:solid 1px #d19405;
     text-decoration:underline;
+}
+
+#SearchField{
+    float:left;
 }
 
 .login{
@@ -459,11 +468,6 @@ pre{
 
 .demo > fieldset > div{
     padding:20px 10px 10px 10px;
-}
-
-.search{
-    float:left;
-    margin:0px 0px 0px 15px;
 }
 
 .search-results{
