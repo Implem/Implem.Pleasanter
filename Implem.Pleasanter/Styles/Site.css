@@ -413,7 +413,7 @@ pre{
     text-decoration:none;
 }
 
-#NavigationMenu > li > div > a:hover{
+#NavigationMenu > li > div:hover > a{
     color:white;
 }
 

@@ -1692,7 +1692,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_NavigationMenu_space___space_li_space___space_div_colon_hover": Css._sharp_NavigationMenu_space___space_li_space___space_div_colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_NavigationMenu_space___space_li_space___space_div_colon_hover, definitionRow, CssXls); break;
                     case "_sharp_NavigationMenu_space___space_li_dot_sub_menu_space___space_div_dot_hover": Css._sharp_NavigationMenu_space___space_li_dot_sub_menu_space___space_div_dot_hover = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_NavigationMenu_space___space_li_dot_sub_menu_space___space_div_dot_hover, definitionRow, CssXls); break;
                     case "_sharp_NavigationMenu_space___space_li_space___space_div_space___space_a": Css._sharp_NavigationMenu_space___space_li_space___space_div_space___space_a = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_NavigationMenu_space___space_li_space___space_div_space___space_a, definitionRow, CssXls); break;
-                    case "_sharp_NavigationMenu_space___space_li_space___space_div_space___space_a_colon_hover": Css._sharp_NavigationMenu_space___space_li_space___space_div_space___space_a_colon_hover = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_NavigationMenu_space___space_li_space___space_div_space___space_a_colon_hover, definitionRow, CssXls); break;
+                    case "_sharp_NavigationMenu_space___space_li_space___space_div_colon_hover_space___space_a": Css._sharp_NavigationMenu_space___space_li_space___space_div_colon_hover_space___space_a = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_NavigationMenu_space___space_li_space___space_div_colon_hover_space___space_a, definitionRow, CssXls); break;
                     case "_dot_menu": Css._dot_menu = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu, definitionRow, CssXls); break;
                     case "_dot_menu_space___space_li_space___space_a": Css._dot_menu_space___space_li_space___space_a = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_space___space_li_space___space_a, definitionRow, CssXls); break;
                     case "_dot_menu_space___space_li_space___space_a_dot_ui_state_active": Css._dot_menu_space___space_li_space___space_a_dot_ui_state_active = definitionRow[1].ToString(); SetCssTable(CssTable._dot_menu_space___space_li_space___space_a_dot_ui_state_active, definitionRow, CssXls); break;
@@ -6458,7 +6458,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_NavigationMenu_space___space_li_space___space_div_colon_hover;
         public string _sharp_NavigationMenu_space___space_li_dot_sub_menu_space___space_div_dot_hover;
         public string _sharp_NavigationMenu_space___space_li_space___space_div_space___space_a;
-        public string _sharp_NavigationMenu_space___space_li_space___space_div_space___space_a_colon_hover;
+        public string _sharp_NavigationMenu_space___space_li_space___space_div_colon_hover_space___space_a;
         public string _dot_menu;
         public string _dot_menu_space___space_li_space___space_a;
         public string _dot_menu_space___space_li_space___space_a_dot_ui_state_active;
@@ -6836,7 +6836,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_NavigationMenu_space___space_li_space___space_div_colon_hover = new CssDefinition();
         public CssDefinition _sharp_NavigationMenu_space___space_li_dot_sub_menu_space___space_div_dot_hover = new CssDefinition();
         public CssDefinition _sharp_NavigationMenu_space___space_li_space___space_div_space___space_a = new CssDefinition();
-        public CssDefinition _sharp_NavigationMenu_space___space_li_space___space_div_space___space_a_colon_hover = new CssDefinition();
+        public CssDefinition _sharp_NavigationMenu_space___space_li_space___space_div_colon_hover_space___space_a = new CssDefinition();
         public CssDefinition _dot_menu = new CssDefinition();
         public CssDefinition _dot_menu_space___space_li_space___space_a = new CssDefinition();
         public CssDefinition _dot_menu_space___space_li_space___space_a_dot_ui_state_active = new CssDefinition();
