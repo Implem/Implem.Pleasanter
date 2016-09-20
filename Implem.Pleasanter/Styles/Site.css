@@ -427,24 +427,16 @@ pre{
     z-index:3;
 }
 
-.menu > li{
-
-}
-
-.menu > li > div{
-
-}
-
-.menu > li > div.ui-state-active{
-    font-weight:normal;
-    border:solid 1px #d19405;
-    text-decoration:underline;
-}
-
-.menu > li > div > a{
+.menu > li > a{
     display:block;
     text-decoration:none;
     z-index:4;
+}
+
+.menu > li > a.ui-state-active{
+    font-weight:normal;
+    border:solid 1px #d19405;
+    text-decoration:underline;
 }
 
 .login{

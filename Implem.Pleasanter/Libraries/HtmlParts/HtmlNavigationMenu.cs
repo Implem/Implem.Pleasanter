@@ -101,12 +101,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb, long siteId, string referenceType, string name)
         {
             return hb.Li(action: () => hb
-                .Div(action: () => hb
-                    .A(
-                        href: Navigations.ItemView(siteId, name),
-                        action: () => hb
-                            .Span(css: "ui-icon ui-icon-triangle-1-e")
-                            .Text(text: Displays.Get(name)))));
+                .A(
+                    href: Navigations.ItemView(siteId, name),
+                    action: () => hb
+                        .Span(css: "ui-icon ui-icon-triangle-1-e")
+                        .Text(text: Displays.Get(name))));
         }
 
         private static HtmlBuilder SettingsMenu(
@@ -115,30 +114,27 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Ul(id: "SettingsMenu", css: "menu", action: () => hb
                 .Li(
                     action: () => hb
-                        .Div(action: () => hb
-                            .A(
-                                href: Navigations.ItemEdit(siteId),
-                                action: () => hb
-                                    .Span(css: "ui-icon ui-icon-gear")
-                                    .Displays_Sites_SiteSettings())),
+                        .A(
+                            href: Navigations.ItemEdit(siteId),
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-gear")
+                                .Displays_Sites_SiteSettings()),
                     _using: siteId != 0 && permissionType.CanEditSite())
                 .Li(
                     action: () => hb
-                        .Div(action: () => hb
-                            .A(
-                                href: Navigations.ItemEdit(siteId, "Permissions"),
-                                action: () => hb
-                                    .Span(css: "ui-icon ui-icon-locked")
-                                    .Displays_EditPermissions())),
+                        .A(
+                            href: Navigations.ItemEdit(siteId, "Permissions"),
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-locked")
+                                .Displays_EditPermissions()),
                     _using: siteId != 0 && permissionType.CanEditPermission())
                 .Li(
                     action: () => hb
-                        .Div(action: () => hb
-                            .A(
-                                href: Navigations.Index("Admins"),
-                                action: () => hb
-                                    .Span(css: "ui-icon ui-icon-gear")
-                                    .Displays_Admin())),
+                        .A(
+                            href: Navigations.Index("Admins"),
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-gear")
+                                .Displays_Admin()),
                     _using: permissionType.CanEditTenant()));
         }
 
@@ -146,19 +142,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Ul(id: "AccountMenu", css: "menu", action: () => hb
                 .Li(action: () => hb
-                    .Div(action: () => hb
-                        .A(
-                            href: Navigations.Edit("Users", Sessions.UserId()),
-                            action: () => hb
-                                .Span(css: "ui-icon ui-icon-wrench")
-                                .Displays_EditProfile())))
+                    .A(
+                        href: Navigations.Edit("Users", Sessions.UserId()),
+                        action: () => hb
+                            .Span(css: "ui-icon ui-icon-wrench")
+                            .Displays_EditProfile()))
                 .Li(action: () => hb
-                    .Div(action: () => hb
-                        .A(
-                            href: Navigations.Logout(),
-                            action: () => hb
-                                .Span(css: "ui-icon ui-icon-locked")
-                                .Displays_Logout()))));
+                    .A(
+                        href: Navigations.Logout(),
+                        action: () => hb
+                            .Span(css: "ui-icon ui-icon-locked")
+                            .Displays_Logout())));
         }
     }
 }
