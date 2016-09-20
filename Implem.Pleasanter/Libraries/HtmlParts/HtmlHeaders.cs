@@ -41,7 +41,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Div(css: "ui-icon ui-icon-search")
                         .TextBox(
                             controlId: "Search",
-                            controlCss: " w200 redirect",
+                            controlCss: " w150 redirect",
                             placeholder: Displays.Search()))
                 : hb;
         }
