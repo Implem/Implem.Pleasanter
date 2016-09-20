@@ -1,6 +1,6 @@
 ﻿$p.dataView = function ($control) {
-    var formId = $p.getFormId($control);
-    var url = $('#' + formId).attr('action').replace('_action_', $('#DataViewSelector').val());
+    var url = $('.main-form').attr('action')
+        .replace('_action_', $control.attr('data-action').toLowerCase());
     $p.ajax(url, 'post', $p.getData(), $control);
     history.pushState(null, null, url);
 }

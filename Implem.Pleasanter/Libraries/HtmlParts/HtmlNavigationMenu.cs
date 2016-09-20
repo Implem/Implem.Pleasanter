@@ -89,23 +89,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 Def.DataViewDefinitionCollection
                     .Where(o => o.ReferenceType == referenceType)
                     .Select(o => o.Name)
-                    .ForEach(name => hb
+                    .ForEach(action => hb
                         .DataViewMenu(
                             siteId: siteId,
                             referenceType: referenceType,
-                            name: name));
+                            action: action));
             });
         }
 
         private static HtmlBuilder DataViewMenu(
-            this HtmlBuilder hb, long siteId, string referenceType, string name)
+            this HtmlBuilder hb, long siteId, string referenceType, string action)
         {
             return hb.Li(action: () => hb
                 .A(
-                    href: Navigations.ItemView(siteId, name),
+                    attributes: new HtmlAttributes()
+                        .OnClick("$p.dataView($(this));")
+                        .DataAction(action),
                     action: () => hb
                         .Span(css: "ui-icon ui-icon-triangle-1-e")
-                        .Text(text: Displays.Get(name))));
+                        .Text(text: Displays.Get(action))));
         }
 
         private static HtmlBuilder SettingsMenu(
