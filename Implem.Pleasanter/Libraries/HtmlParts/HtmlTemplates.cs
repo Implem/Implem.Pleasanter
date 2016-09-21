@@ -70,7 +70,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Action action = null)
         {
             return hb.Div(id: "MainContainer", action: () => hb
-                .PageHeader(
+                .Header(
                     permissionType: permissionType,
                     siteId: siteId,
                     referenceType: referenceType,

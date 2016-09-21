@@ -5,7 +5,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlHeaders
     {
-        public static HtmlBuilder PageHeader(
+        public static HtmlBuilder Header(
             this HtmlBuilder hb,
             Permissions.Types permissionType,
             long siteId,
