@@ -369,9 +369,8 @@ pre{
 }
 
 #Navigations{
-    height:42px;
+    height:30px;
     padding:5px;
-    border:none;
     position:absolute;
     top:0px;
     right:5px;
@@ -380,6 +379,10 @@ pre{
 
 #NavigationMenu{
     float:left;
+    margin-right:5px;
+    padding:0px 15px;
+    border:none;
+    border-radius:20px;
 }
 
 #NavigationMenu > li{
@@ -387,7 +390,6 @@ pre{
     height:30px;
     display:block;
     float:left;
-    margin-right:5px;
     position:relative;
 }
 
@@ -396,20 +398,15 @@ pre{
     padding:8px 0px 0px 0px;
     text-align:center;
     color:white;
-    background-color:#817865;
     cursor:pointer;
-    border-radius:5px;
 }
 
 #NavigationMenu > li > div:hover{
-    color:black;
-    background-color:#ffdd57;
+    background-color:#817865;
 }
 
 #NavigationMenu > li.sub-menu > div.hover{
-    color:black;
-    background-color:#ffdd57;
-    border-radius:5px 5px 0px 0px;
+    background-color:#817865;
 }
 
 #NavigationMenu > li > div > a{
@@ -419,12 +416,13 @@ pre{
 }
 
 #NavigationMenu > li > div:hover > a{
-    color:black;
+
 }
 
 .menu{
     width:160px;
     display:none;
+    border-top:none !important;
     position:absolute;
     top:30px;
     right:0px;
@@ -434,8 +432,8 @@ pre{
 
 .menu > li > a{
     display:block;
+    color:black;
     text-decoration:none;
-    z-index:4;
 }
 
 .menu > li > a.ui-state-active{
