@@ -94,18 +94,26 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .DataViewMenu(
                             siteId: siteId,
                             referenceType: referenceType,
-                            action: action));
+                            action: action,
+                            edit: Routes.Action() == "edit"));
             });
         }
 
         private static HtmlBuilder DataViewMenu(
-            this HtmlBuilder hb, long siteId, string referenceType, string action)
+            this HtmlBuilder hb,
+            long siteId,
+            string referenceType,
+            string action,
+            bool edit)
         {
             return hb.Li(action: () => hb
                 .A(
-                    attributes: new HtmlAttributes()
-                        .OnClick("$p.dataView($(this));")
-                        .DataAction(action),
+                    attributes: edit
+                        ? new HtmlAttributes().OnClick(
+                            "location.href='" + Navigations.ItemView(siteId, action) + "'")
+                        : new HtmlAttributes()
+                            .OnClick("$p.dataView($(this));")
+                            .DataAction(action),
                     action: () => hb
                         .Span(css: "ui-icon ui-icon-triangle-1-e")
                         .Text(text: Displays.Get(action))));
