@@ -40,11 +40,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             onClick: "$p.back();",
                             icon: "ui-icon-circle-arrow-w");
                     }
-                    var routesAction = Routes.Action();
-                    if (permissionType.CanRead() && 
-                        verType == Versions.VerTypes.Latest)
+                    if (permissionType.CanRead() && verType == Versions.VerTypes.Latest)
                     {
-                        if (routesAction == "new")
+                        if (Routes.Action() == "new")
                         {
                             hb.Button(
                                 text: Displays.Create(),
