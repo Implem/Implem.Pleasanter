@@ -15,6 +15,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Versions.VerTypes verType,
             string referenceType = "",
             long referenceId = 0,
+            bool backButton = true,
             bool updateButton = false,
             bool copyButton = false,
             bool moveButton = false,
@@ -29,13 +30,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Div(css: "command-main-container", action: () => hb
                 .Div(css: "command-main", action: () =>
                 {
-                    hb.Button(
-                        controlId: "GoBack",
-                        text: Displays.GoBack(),
-                        controlCss: "button-icon",
-                        accessKey: "q",
-                        onClick: "$p.back();",
-                        icon: "ui-icon-circle-arrow-w");
+                    if (backButton)
+                    {
+                        hb.Button(
+                            controlId: "GoBack",
+                            text: Displays.GoBack(),
+                            controlCss: "button-icon",
+                            accessKey: "q",
+                            onClick: "$p.back();",
+                            icon: "ui-icon-circle-arrow-w");
+                    }
                     var routesAction = Routes.Action();
                     if (permissionType.CanRead() && 
                         verType == Versions.VerTypes.Latest)

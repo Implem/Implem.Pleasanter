@@ -253,7 +253,8 @@ namespace Implem.Pleasanter.Models
                     hb.MainCommands(
                         siteId: 0,
                         permissionType: permissionType,
-                        verType: verType);
+                        verType: verType,
+                        backButton: false);
                 }).ToString();
         }
 
