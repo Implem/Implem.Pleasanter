@@ -1340,16 +1340,19 @@ namespace Implem.Pleasanter.Models
                         case Types.CsBool:
                             break;
                         default:
-                            hb.FieldDropDown(
-                                controlId: "ColumnProperty,FieldCss",
-                                labelText: Displays.Style(),
-                                optionCollection: new Dictionary<string, string>
-                                {
-                                    { "field-normal", Displays.Normal() },
-                                    { "field-wide", Displays.Wide() },
-                                    { "field-auto", Displays.Auto() }
-                                },
-                                selectedValue: column.FieldCss);
+                            if (column.Max != -1)
+                            {
+                                hb.FieldDropDown(
+                                    controlId: "ColumnProperty,FieldCss",
+                                    labelText: Displays.Style(),
+                                    optionCollection: new Dictionary<string, string>
+                                    {
+                                        { "field-normal", Displays.Normal() },
+                                        { "field-wide", Displays.Wide() },
+                                        { "field-auto", Displays.Auto() }
+                                    },
+                                    selectedValue: column.FieldCss);
+                            }
                             break;
                     }
                     hb.FieldCheckBox(
