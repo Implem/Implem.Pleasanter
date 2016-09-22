@@ -199,9 +199,6 @@ namespace Implem.Pleasanter.Models
                     formData: formData,
                     addHeader: offset == 0,
                     clearCheck: clearCheck))
-                .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
-                    siteSettings: siteSettings,
-                    aggregations: outgoingMailCollection.Aggregations))
                 .Val("#GridOffset", siteSettings.NextPageOffset(offset, outgoingMailCollection.Count()))
                 .ToJson();
         }
