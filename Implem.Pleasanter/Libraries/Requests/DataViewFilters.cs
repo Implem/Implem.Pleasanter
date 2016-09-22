@@ -89,11 +89,11 @@ namespace Implem.Pleasanter.Libraries.Requests
             return sqlWhereCollection;
         }
 
-        public static FormData SessionFormData(long? siteId = null)
+        public static FormData SessionFormData(long siteId = 0)
         {
-            var key = siteId == null
-                 ? "DataView_" + Pages.Key()
-                 : "DataView_" + siteId;
+            var key = "DataView_" + (siteId == 0
+                ? Pages.Key()
+                : siteId.ToString());
             if (HttpContext.Current.Session[key] != null)
             {
                 return (HttpContext.Current.Session[key] as FormData)

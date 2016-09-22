@@ -361,6 +361,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string YearsAgo(params string[] data) { return Get("YearsAgo", data); }
         public static HtmlBuilder Displays_WriteComment(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("WriteComment", data)); }
         public static string WriteComment(params string[] data) { return Get("WriteComment", data); }
+        public static HtmlBuilder Displays_Aggregations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Aggregations", data)); }
+        public static string Aggregations(params string[] data) { return Get("Aggregations", data); }
         public static HtmlBuilder Displays_Filters(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Filters", data)); }
         public static string Filters(params string[] data) { return Get("Filters", data); }
         public static HtmlBuilder Displays_Incomplete(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Incomplete", data)); }

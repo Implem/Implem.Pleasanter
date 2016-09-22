@@ -2,37 +2,73 @@
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Linq;
+using System.Web;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlAggregations
     {
         public static HtmlBuilder Aggregations(
-            this HtmlBuilder hb,
-            SiteSettings siteSettings,
-            Aggregations aggregations,
-            bool container = true)
+            this HtmlBuilder hb, SiteSettings siteSettings, Aggregations aggregations)
         {
-            return container
+            return !Reduced(siteSettings.SiteId)
                 ? hb.Div(
                     id: "Aggregations",
-                    css: "aggregations",
                     action: () => hb
-                        .Content(siteSettings, aggregations))
-                : hb.Content(siteSettings, aggregations);
+                        .DisplayControl(
+                            id: "ReduceAggregations",
+                            icon: "ui-icon-close")
+                        .Contents(siteSettings, aggregations))
+                : hb.Div(
+                    id: "Aggregations",
+                    css: "reduced",
+                    action: () => hb
+                        .DisplayControl(
+                            id: "ExpandAggregations",
+                            icon: "ui-icon-folder-open"));
         }
 
-        private static HtmlBuilder Content(
+        private static bool Reduced(long siteId)
+        {
+            var key = "ReduceAggregations_" + (siteId == 0
+                ? Pages.Key()
+                : siteId.ToString());
+            if (Forms.Data("ControlId") == "ReduceAggregations")
+            {
+                HttpContext.Current.Session[key] = true;
+            }
+            else if (Forms.Data("ControlId") == "ExpandAggregations")
+            {
+                HttpContext.Current.Session.Remove(key);
+            }
+            return HttpContext.Current.Session[key].ToBool();
+        }
+
+        private static HtmlBuilder DisplayControl(this HtmlBuilder hb, string id, string icon)
+        {
+            return hb.Div(
+                attributes: new HtmlAttributes()
+                    .Id(id)
+                    .Class("display-control")
+                    .OnClick("$p.send($(this));")
+                    .DataMethod("post"),
+                action: () => hb
+                    .Span(css: "ui-icon " + icon)
+                    .Text(text: Displays.Aggregations() + ":"));
+        }
+
+        private static HtmlBuilder Contents(
             this HtmlBuilder hb, SiteSettings siteSettings, Aggregations aggregations)
         {
             return aggregations.TotalCount != 0
                 ? hb
                     .Total(aggregations)
                     .Overdue(aggregations)
-                    .Aggregations(siteSettings, aggregations)
+                    .Parts(siteSettings, aggregations)
                 : hb.Span(css: "label", action: () => hb
                     .Text(text: Displays.NoData()));
         }
@@ -57,7 +93,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
-        private static HtmlBuilder Aggregations(
+        private static HtmlBuilder Parts(
            this HtmlBuilder hb, SiteSettings siteSettings, Aggregations aggregations)
         {
             aggregations.AggregationCollection

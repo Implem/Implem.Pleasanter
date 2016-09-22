@@ -9,19 +9,33 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlDataViewFilters
     {
-        public static HtmlBuilder DataViewFilters(
-            this HtmlBuilder hb, SiteSettings siteSettings, long? siteId = null)
+        public static ResponseCollection DataViewFilters(
+            this ResponseCollection responseCollection, SiteSettings siteSettings)
         {
-            var formData = Requests.DataViewFilters.SessionFormData(siteId);
-            return hb.FieldSet(
-                css: " enclosed-thin dataview-filters",
-                legendText: Displays.Filters(),
-                action: () => hb
-                    .Div(action: () => hb
+            return
+                Forms.Data("ControlId") == "ReduceDataViewFilters" ||
+                Forms.Data("ControlId") == "ExpandDataViewFilters"
+                    ? responseCollection.ReplaceAll(
+                        "#DataViewFilters", new HtmlBuilder().DataViewFilters(siteSettings))
+                    : responseCollection;
+        }
+
+        public static HtmlBuilder DataViewFilters(
+            this HtmlBuilder hb, SiteSettings siteSettings)
+        {
+            var formData = Requests.DataViewFilters.SessionFormData(siteSettings.SiteId);
+            return !Reduced(siteSettings.SiteId)
+                ? hb.Div(
+                    id: "DataViewFilters",
+                    action: () => hb
+                        .DisplayControl(
+                            id: "ReduceDataViewFilters",
+                            icon: "ui-icon-close")
                         .Reset()
                         .Incomplete(siteSettings: siteSettings, formData: formData)
                         .Own(siteSettings: siteSettings, formData: formData)
@@ -29,7 +43,43 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Delay(siteSettings: siteSettings, formData: formData)
                         .Limit(siteSettings: siteSettings, formData: formData)
                         .Columns(siteSettings: siteSettings, formData: formData)
-                        .Search(siteSettings: siteSettings, formData: formData)));
+                        .Search(siteSettings: siteSettings, formData: formData))
+                : hb.Div(
+                    id: "DataViewFilters",
+                    css: "reduced",
+                    action: () => hb
+                        .DisplayControl(
+                            id: "ExpandDataViewFilters",
+                            icon: "ui-icon-folder-open"));
+        }
+
+        private static bool Reduced(long? siteId)
+        {
+            var key = "ReduceDataViewFilters_" + (siteId != null
+                ? Pages.Key()
+                : siteId.ToString());
+            if (Forms.Data("ControlId") == "ReduceDataViewFilters")
+            {
+                HttpContext.Current.Session[key] = true;
+            }
+            else if (Forms.Data("ControlId") == "ExpandDataViewFilters")
+            {
+                HttpContext.Current.Session.Remove(key);
+            }
+            return HttpContext.Current.Session[key].ToBool();
+        }
+
+        private static HtmlBuilder DisplayControl(this HtmlBuilder hb, string id, string icon)
+        {
+            return hb.Div(
+                attributes: new HtmlAttributes()
+                    .Id(id)
+                    .Class("display-control")
+                    .OnClick("$p.send($(this));")
+                    .DataMethod("post"),
+                action: () => hb
+                    .Span(css: "ui-icon " + icon)
+                    .Text(text: Displays.Filters() + ":"));
         }
 
         private static HtmlBuilder Reset(this HtmlBuilder hb)

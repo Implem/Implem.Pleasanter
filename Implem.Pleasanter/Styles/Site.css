@@ -212,6 +212,10 @@ pre{
     background-color:beige;
 }
 
+.main-form{
+    clear:both;
+}
+
 .main-form > nav:first-child{
     float:left;
     margin:20px 0px 0px 0px;
@@ -1296,60 +1300,99 @@ pre{
     border-radius:0px 0px 10px 10px / 0px 0px 10px 10px;
 }
 
-.dataview-filters{
+#DataViewFilters{
+    width:100%;
     float:left;
+    margin:0px 0px 5px 0px;
+    padding:5px 5px 2px 5px;
+    border:solid 1px silver;
+    border-radius:5px;
 }
 
-.dataview-filters > div > div{
-    float:left;
+#DataViewFilters.reduced{
+    width:auto;
+    padding:0px;
+    border:none;
 }
 
-.dataview-filters > div > button{
+#DataViewFilters > .field-auto-thin{
+    height:32px;
+    float:left;
+    padding:0px;
+}
+
+#DataViewFilters_Reset{
     display:block;
     float:left;
     margin:0px 20px 0px 0px;
 }
 
-.aggregations{
+#DataViewFilters > .display-control{
     float:left;
-    clear:both;
+    margin:0px 5px 0px 0px;
+    padding:5px 10px 5px 0px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.aggregations .label{
+#Aggregations{
+    width:100%;
+    float:left;
+    margin:0px 0px 5px 0px;
+    padding:5px;
+    border:solid 1px silver;
+    border-radius:5px;
+}
+
+#Aggregations.reduced{
+    width:auto;
+    padding:0px;
+    border:none;
+}
+
+#Aggregations .label{
     height:26px;
     display:block;
     float:left;
-    margin:0px 5px 5px 0px;
+    margin:0px 5px 0px 0px;
     padding:5px 10px;
     background:gainsboro;
     border-radius:5px;
 }
 
-.aggregations .label.overdue{
+#Aggregations .label.overdue{
     font-weight:bold;
     color:white;
     background-color:red;
     cursor:pointer;
 }
 
-.aggregations .data{
+#Aggregations .data{
     height:26px;
     display:block;
     float:left;
-    margin:0px 5px 5px 0px;
+    margin:0px 5px 0px 0px;
     padding:5px;
 }
 
-.aggregations .data.overdue{
+#Aggregations .data.overdue{
     color:red;
     cursor:pointer;
 }
 
-.aggregations em{
+#Aggregations em{
     display:block;
     float:left;
     margin-right:5px;
     font-weight:bold;
+}
+
+#Aggregations > .display-control{
+    float:left;
+    margin:0px 5px 0px 0px;
+    padding:5px 10px 5px 0px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
 .grid{

@@ -53,9 +53,7 @@ namespace Implem.Pleasanter.Models
                             .Class("main-form")
                             .Action(Navigations.ItemAction(siteSettings.SiteId)),
                         action: () => hb
-                            .DataViewFilters(
-                                siteSettings: siteSettings,
-                                siteId: siteSettings.SiteId)
+                            .DataViewFilters(siteSettings: siteSettings)
                             .Aggregations(
                                 siteSettings: siteSettings,
                                 aggregations: binaryCollection.Aggregations)
@@ -108,10 +106,10 @@ namespace Implem.Pleasanter.Models
                     binaryCollection: binaryCollection,
                     permissionType: permissionType,
                     formData: formData))
-                .Html("#Aggregations", new HtmlBuilder().Aggregations(
+                .DataViewFilters(siteSettings: siteSettings)
+                .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
-                    aggregations: binaryCollection.Aggregations,
-                    container: false))
+                    aggregations: binaryCollection.Aggregations))
                 .WindowScrollTop().ToJson();
         }
 
@@ -203,10 +201,9 @@ namespace Implem.Pleasanter.Models
                     formData: formData,
                     addHeader: offset == 0,
                     clearCheck: clearCheck))
-                .Html("#Aggregations", new HtmlBuilder().Aggregations(
+                .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
-                    aggregations: binaryCollection.Aggregations,
-                    container: false))
+                    aggregations: binaryCollection.Aggregations))
                 .Val("#GridOffset", siteSettings.NextPageOffset(offset, binaryCollection.Count()))
                 .ToJson();
         }

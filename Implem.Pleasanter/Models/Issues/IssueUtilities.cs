@@ -53,9 +53,7 @@ namespace Implem.Pleasanter.Models
                             .Class("main-form")
                             .Action(Navigations.ItemAction(siteSettings.SiteId)),
                         action: () => hb
-                            .DataViewFilters(
-                                siteSettings: siteSettings,
-                                siteId: siteSettings.SiteId)
+                            .DataViewFilters(siteSettings: siteSettings)
                             .Aggregations(
                                 siteSettings: siteSettings,
                                 aggregations: issueCollection.Aggregations)
@@ -109,10 +107,10 @@ namespace Implem.Pleasanter.Models
                     issueCollection: issueCollection,
                     permissionType: permissionType,
                     formData: formData))
-                .Html("#Aggregations", new HtmlBuilder().Aggregations(
+                .DataViewFilters(siteSettings: siteSettings)
+                .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
-                    aggregations: issueCollection.Aggregations,
-                    container: false))
+                    aggregations: issueCollection.Aggregations))
                 .WindowScrollTop().ToJson();
         }
 
@@ -204,10 +202,9 @@ namespace Implem.Pleasanter.Models
                     formData: formData,
                     addHeader: offset == 0,
                     clearCheck: clearCheck))
-                .Html("#Aggregations", new HtmlBuilder().Aggregations(
+                .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
-                    aggregations: issueCollection.Aggregations,
-                    container: false))
+                    aggregations: issueCollection.Aggregations))
                 .Val("#GridOffset", siteSettings.NextPageOffset(offset, issueCollection.Count()))
                 .ToJson();
         }
@@ -1720,11 +1717,11 @@ namespace Implem.Pleasanter.Models
                         permissionType: permissionType,
                         formData: formData,
                         bodyOnly: bodyOnly))
-                .Html(
+                .DataViewFilters(siteSettings: siteSettings)
+                .ReplaceAll(
                     "#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
-                    aggregations: issueCollection.Aggregations,
-                    container: false))
+                    aggregations: issueCollection.Aggregations))
                 .Invoke("drawGantt")
                 .WindowScrollTop().ToJson();
         }
@@ -1826,11 +1823,11 @@ namespace Implem.Pleasanter.Models
                         dataRows: BurnDownDataRows(siteSettings, formData),
                         ownerLabelText: siteSettings.GetColumn("Owner").LabelText,
                         column: siteSettings.GetColumn("WorkValue")))
-                .Html(
+                .DataViewFilters(siteSettings: siteSettings)
+                .ReplaceAll(
                     "#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
-                    aggregations: issueCollection.Aggregations,
-                    container: false))
+                    aggregations: issueCollection.Aggregations))
                 .Invoke("drawBurnDown")
                 .WindowScrollTop().ToJson();
         }
@@ -1945,11 +1942,11 @@ namespace Implem.Pleasanter.Models
                         permissionType: permissionType,
                         formData: formData,
                         bodyOnly: bodyOnly))
-                .Html(
+                .DataViewFilters(siteSettings: siteSettings)
+                .ReplaceAll(
                     "#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
-                    aggregations: issueCollection.Aggregations,
-                    container: false))
+                    aggregations: issueCollection.Aggregations))
                 .Invoke("drawTimeSeries")
                 .WindowScrollTop().ToJson();
         }
@@ -2059,11 +2056,11 @@ namespace Implem.Pleasanter.Models
                         formData: formData,
                         bodyOnly: bodyOnly,
                         changedItemId: Forms.Long("KambanId")))
-                .Html(
+                .DataViewFilters(siteSettings: siteSettings)
+                .ReplaceAll(
                     "#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
-                    aggregations: issueCollection.Aggregations,
-                    container: false))
+                    aggregations: issueCollection.Aggregations))
                 .ClearFormData()
                 .Invoke("setKamban").ToJson();
         }

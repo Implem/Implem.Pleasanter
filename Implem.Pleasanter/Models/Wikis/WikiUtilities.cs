@@ -53,9 +53,7 @@ namespace Implem.Pleasanter.Models
                             .Class("main-form")
                             .Action(Navigations.ItemAction(siteSettings.SiteId)),
                         action: () => hb
-                            .DataViewFilters(
-                                siteSettings: siteSettings,
-                                siteId: siteSettings.SiteId)
+                            .DataViewFilters(siteSettings: siteSettings)
                             .Aggregations(
                                 siteSettings: siteSettings,
                                 aggregations: wikiCollection.Aggregations)
@@ -98,10 +96,10 @@ namespace Implem.Pleasanter.Models
                     wikiCollection: wikiCollection,
                     permissionType: permissionType,
                     formData: formData))
-                .Html("#Aggregations", new HtmlBuilder().Aggregations(
+                .DataViewFilters(siteSettings: siteSettings)
+                .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
-                    aggregations: wikiCollection.Aggregations,
-                    container: false))
+                    aggregations: wikiCollection.Aggregations))
                 .WindowScrollTop().ToJson();
         }
 
@@ -193,10 +191,9 @@ namespace Implem.Pleasanter.Models
                     formData: formData,
                     addHeader: offset == 0,
                     clearCheck: clearCheck))
-                .Html("#Aggregations", new HtmlBuilder().Aggregations(
+                .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
-                    aggregations: wikiCollection.Aggregations,
-                    container: false))
+                    aggregations: wikiCollection.Aggregations))
                 .Val("#GridOffset", siteSettings.NextPageOffset(offset, wikiCollection.Count()))
                 .ToJson();
         }
