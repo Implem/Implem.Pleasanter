@@ -56,7 +56,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string UrlReferrer()
         {
             return HttpRequest.UrlReferrer != null
-                ? HttpRequest.UrlReferrer.ToStr()
+                ? HttpRequest.UrlReferrer.ToString()
                 : null;
         }
 
