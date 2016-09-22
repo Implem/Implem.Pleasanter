@@ -482,6 +482,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlId = null,
             string css = null,
             string value = null,
+            string rawValue = null,
             bool _using = true)
         {
             return _using
@@ -489,7 +490,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Id(controlId)
                     .Class(css)
                     .Type("hidden")
-                    .Value(value))
+                    .Value(value)
+                    .RawValue(rawValue))
                 : hb;
         }
 
