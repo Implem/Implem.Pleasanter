@@ -31,13 +31,14 @@ namespace Implem.Pleasanter.Models
             Action dataViewBody)
         {
             return hb.Template(
-                siteId: siteSettings.SiteId,
-                referenceType: "Depts",
-                title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: permissionType.CanRead(),
+                siteId: siteSettings.SiteId,
+                parentId: siteSettings.ParentId,
+                referenceType: "Depts",
+                title: siteSettings.Title + " - " + Displays.List(),
                 script: Libraries.Scripts.JavaScripts.DataView(
                     siteSettings: siteSettings,
                     permissionType: permissionType,
@@ -87,13 +88,12 @@ namespace Implem.Pleasanter.Models
             var formData = DataViewFilters.SessionFormData();
             var deptCollection = DeptCollection(siteSettings, permissionType, formData);
             return hb.Template(
-                siteId: 0,
-                referenceType: "Depts",
-                title: Displays.Depts() + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: Sessions.User().TenantAdmin,
+                referenceType: "Depts",
+                title: Displays.Depts() + " - " + Displays.List(),
                 action: () =>
                 {
                     hb
@@ -341,17 +341,16 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
             return hb.Template(
-                siteId: 0,
-                referenceType: "Depts",
-                title: deptModel.MethodType == BaseModel.MethodTypes.New
-                    ? Displays.Depts() + " - " + Displays.New()
-                    : deptModel.Title.Value,
                 permissionType: permissionType,
                 verType: deptModel.VerType,
                 methodType: deptModel.MethodType,
                 allowAccess:
                     permissionType.CanEditTenant() &&
                     deptModel.AccessStatus != Databases.AccessStatuses.NotFound,
+                referenceType: "Depts",
+                title: deptModel.MethodType == BaseModel.MethodTypes.New
+                    ? Displays.Depts() + " - " + Displays.New()
+                    : deptModel.Title.Value,
                 action: () =>
                 {
                     hb

@@ -6,4 +6,8 @@
         $('#SwitchTargets').appendTo('body');
         $p.setCurrentIndex();
     }
+    var $control = $('#BackUrl');
+    if ($control.length === 1) {
+        $control.appendTo('body');
+    }
 });

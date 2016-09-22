@@ -31,13 +31,14 @@ namespace Implem.Pleasanter.Models
             Action dataViewBody)
         {
             return hb.Template(
-                siteId: siteSettings.SiteId,
-                referenceType: "OutgoingMails",
-                title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: permissionType.CanRead(),
+                siteId: siteSettings.SiteId,
+                parentId: siteSettings.ParentId,
+                referenceType: "OutgoingMails",
+                title: siteSettings.Title + " - " + Displays.List(),
                 script: Libraries.Scripts.JavaScripts.DataView(
                     siteSettings: siteSettings,
                     permissionType: permissionType,
@@ -295,17 +296,16 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
             return hb.Template(
-                siteId: 0,
-                referenceType: "OutgoingMails",
-                title: outgoingMailModel.MethodType == BaseModel.MethodTypes.New
-                    ? Displays.OutgoingMails() + " - " + Displays.New()
-                    : outgoingMailModel.Title.Value,
                 permissionType: permissionType,
                 verType: outgoingMailModel.VerType,
                 methodType: outgoingMailModel.MethodType,
                 allowAccess:
                     permissionType.CanEditTenant() &&
                     outgoingMailModel.AccessStatus != Databases.AccessStatuses.NotFound,
+                referenceType: "OutgoingMails",
+                title: outgoingMailModel.MethodType == BaseModel.MethodTypes.New
+                    ? Displays.OutgoingMails() + " - " + Displays.New()
+                    : outgoingMailModel.Title.Value,
                 action: () =>
                 {
                     hb

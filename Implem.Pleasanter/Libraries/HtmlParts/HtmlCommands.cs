@@ -34,7 +34,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         text: Displays.GoBack(),
                         controlCss: "button-icon",
                         accessKey: "q",
-                        onClick: "history.back();",
+                        onClick: "$p.back();",
                         icon: "ui-icon-circle-arrow-w");
                     var routesAction = Routes.Action();
                     if (permissionType.CanRead() && 

@@ -31,13 +31,14 @@ namespace Implem.Pleasanter.Models
             Action dataViewBody)
         {
             return hb.Template(
-                siteId: siteSettings.SiteId,
-                referenceType: "Issues",
-                title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: permissionType.CanRead(),
+                siteId: siteSettings.SiteId,
+                parentId: siteSettings.ParentId,
+                referenceType: "Issues",
+                title: siteSettings.Title + " - " + Displays.List(),
                 script: Libraries.Scripts.JavaScripts.DataView(
                     siteSettings: siteSettings,
                     permissionType: permissionType,
@@ -450,17 +451,17 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             return hb.Template(
-                siteId: siteModel.SiteId,
-                referenceType: "Issues",
-                title: issueModel.MethodType == BaseModel.MethodTypes.New
-                    ? siteModel.Title.DisplayValue + " - " + Displays.New()
-                    : issueModel.Title.DisplayValue,
                 permissionType: issueModel.PermissionType,
                 verType: issueModel.VerType,
                 methodType: issueModel.MethodType,
                 allowAccess:
                     issueModel.PermissionType.CanRead() &&
                     issueModel.AccessStatus != Databases.AccessStatuses.NotFound,
+                siteId: siteModel.SiteId,
+                referenceType: "Issues",
+                title: issueModel.MethodType == BaseModel.MethodTypes.New
+                    ? siteModel.Title.DisplayValue + " - " + Displays.New()
+                    : issueModel.Title.DisplayValue,
                 userScript: issueModel.MethodType == BaseModel.MethodTypes.New
                     ? issueModel.SiteSettings.NewScript
                     : issueModel.SiteSettings.EditScript,

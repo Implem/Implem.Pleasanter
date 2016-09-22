@@ -31,13 +31,14 @@ namespace Implem.Pleasanter.Models
             Action dataViewBody)
         {
             return hb.Template(
-                siteId: siteSettings.SiteId,
-                referenceType: "Results",
-                title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: permissionType.CanRead(),
+                siteId: siteSettings.SiteId,
+                parentId: siteSettings.ParentId,
+                referenceType: "Results",
+                title: siteSettings.Title + " - " + Displays.List(),
                 script: Libraries.Scripts.JavaScripts.DataView(
                     siteSettings: siteSettings,
                     permissionType: permissionType,
@@ -445,17 +446,17 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             return hb.Template(
-                siteId: siteModel.SiteId,
-                referenceType: "Results",
-                title: resultModel.MethodType == BaseModel.MethodTypes.New
-                    ? siteModel.Title.DisplayValue + " - " + Displays.New()
-                    : resultModel.Title.DisplayValue,
                 permissionType: resultModel.PermissionType,
                 verType: resultModel.VerType,
                 methodType: resultModel.MethodType,
                 allowAccess:
                     resultModel.PermissionType.CanRead() &&
                     resultModel.AccessStatus != Databases.AccessStatuses.NotFound,
+                siteId: siteModel.SiteId,
+                referenceType: "Results",
+                title: resultModel.MethodType == BaseModel.MethodTypes.New
+                    ? siteModel.Title.DisplayValue + " - " + Displays.New()
+                    : resultModel.Title.DisplayValue,
                 userScript: resultModel.MethodType == BaseModel.MethodTypes.New
                     ? resultModel.SiteSettings.NewScript
                     : resultModel.SiteSettings.EditScript,

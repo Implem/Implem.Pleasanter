@@ -225,13 +225,12 @@ namespace Implem.Pleasanter.Models
             var verType = Versions.VerTypes.Latest;
             var siteConditions = SiteInfo.SiteMenu.SiteConditions(0);
             return hb.Template(
-                siteId: 0,
-                referenceType: "Sites",
-                title: Displays.Top(),
                 permissionType: permissionType,
                 verType: verType,
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: true,
+                referenceType: "Sites",
+                title: Displays.Top(),
                 action: () =>
                 {
                     hb.Form(
@@ -267,15 +266,16 @@ namespace Implem.Pleasanter.Models
             var siteSettings = siteModel.SitesSiteSettings();
             var siteConditions = SiteInfo.SiteMenu.SiteConditions(siteModel.SiteId);
             return hb.Template(
-                siteId: siteModel.SiteId,
-                referenceType: "Sites",
-                title: siteModel.Title.Value,
                 permissionType: siteModel.PermissionType,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess:
                     siteModel.PermissionType.CanRead() &&
                     siteModel.AccessStatus != Databases.AccessStatuses.NotFound,
+                siteId: siteModel.SiteId,
+                parentId: siteModel.ParentId,
+                referenceType: "Sites",
+                title: siteModel.Title.Value,
                 action: () =>
                 {
                     hb.Form(
@@ -600,15 +600,15 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             return hb.Template(
+                permissionType: siteModel.PermissionType,
+                verType: siteModel.VerType,
+                methodType: siteModel.MethodType,
+                allowAccess: AllowAccess(siteModel),
                 siteId: siteModel.SiteId,
                 referenceType: "Sites",
                 title: siteModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Sites() + " - " + Displays.New()
                     : siteModel.Title + " - " + Displays.EditSettings(),
-                permissionType: siteModel.PermissionType,
-                verType: siteModel.VerType,
-                methodType: siteModel.MethodType,
-                allowAccess: AllowAccess(siteModel),
                 action: () => hb
                     .Editor(siteModel: siteModel)
                     .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl())

@@ -31,13 +31,14 @@ namespace Implem.Pleasanter.Models
             Action dataViewBody)
         {
             return hb.Template(
-                siteId: siteSettings.SiteId,
-                referenceType: "Wikis",
-                title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: permissionType.CanRead(),
+                siteId: siteSettings.SiteId,
+                parentId: siteSettings.ParentId,
+                referenceType: "Wikis",
+                title: siteSettings.Title + " - " + Displays.List(),
                 script: Libraries.Scripts.JavaScripts.DataView(
                     siteSettings: siteSettings,
                     permissionType: permissionType,
@@ -310,17 +311,17 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             return hb.Template(
-                siteId: siteModel.SiteId,
-                referenceType: "Wikis",
-                title: wikiModel.MethodType == BaseModel.MethodTypes.New
-                    ? siteModel.Title.DisplayValue + " - " + Displays.New()
-                    : wikiModel.Title.DisplayValue,
                 permissionType: wikiModel.PermissionType,
                 verType: wikiModel.VerType,
                 methodType: wikiModel.MethodType,
                 allowAccess:
                     wikiModel.PermissionType.CanRead() &&
                     wikiModel.AccessStatus != Databases.AccessStatuses.NotFound,
+                siteId: siteModel.SiteId,
+                referenceType: "Wikis",
+                title: wikiModel.MethodType == BaseModel.MethodTypes.New
+                    ? siteModel.Title.DisplayValue + " - " + Displays.New()
+                    : wikiModel.Title.DisplayValue,
                 userScript: wikiModel.MethodType == BaseModel.MethodTypes.New
                     ? wikiModel.SiteSettings.NewScript
                     : wikiModel.SiteSettings.EditScript,
@@ -871,17 +872,17 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             return hb.Template(
-                siteId: siteModel.SiteId,
-                referenceType: "Wikis",
-                title: wikiModel.MethodType != BaseModel.MethodTypes.New
-                    ? wikiModel.Title.DisplayValue + " - " + Displays.Edit()
-                    : siteModel.Title.DisplayValue + " - " + Displays.New(),
                 permissionType: siteModel.PermissionType,
                 verType: wikiModel.VerType,
                 methodType: wikiModel.MethodType,
                 allowAccess:
                     siteModel.PermissionType.CanRead() &&
                     wikiModel.AccessStatus != Databases.AccessStatuses.NotFound,
+                siteId: siteModel.SiteId,
+                referenceType: "Wikis",
+                title: wikiModel.MethodType != BaseModel.MethodTypes.New
+                    ? wikiModel.Title.DisplayValue + " - " + Displays.Edit()
+                    : siteModel.Title.DisplayValue + " - " + Displays.New(),
                 useNavigationMenu: false,
                 action: () =>
                 {

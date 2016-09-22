@@ -31,13 +31,14 @@ namespace Implem.Pleasanter.Models
             Action dataViewBody)
         {
             return hb.Template(
-                siteId: siteSettings.SiteId,
-                referenceType: "Binaries",
-                title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: permissionType.CanRead(),
+                siteId: siteSettings.SiteId,
+                parentId: siteSettings.ParentId,
+                referenceType: "Binaries",
+                title: siteSettings.Title + " - " + Displays.List(),
                 script: Libraries.Scripts.JavaScripts.DataView(
                     siteSettings: siteSettings,
                     permissionType: permissionType,
@@ -301,17 +302,16 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
             return hb.Template(
-                siteId: 0,
-                referenceType: "Binaries",
-                title: binaryModel.MethodType == BaseModel.MethodTypes.New
-                    ? Displays.Binaries() + " - " + Displays.New()
-                    : binaryModel.Title.Value,
                 permissionType: permissionType,
                 verType: binaryModel.VerType,
                 methodType: binaryModel.MethodType,
                 allowAccess:
                     permissionType.CanEditTenant() &&
                     binaryModel.AccessStatus != Databases.AccessStatuses.NotFound,
+                referenceType: "Binaries",
+                title: binaryModel.MethodType == BaseModel.MethodTypes.New
+                    ? Displays.Binaries() + " - " + Displays.New()
+                    : binaryModel.Title.Value,
                 action: () =>
                 {
                     hb

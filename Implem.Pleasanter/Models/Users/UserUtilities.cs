@@ -31,13 +31,14 @@ namespace Implem.Pleasanter.Models
             Action dataViewBody)
         {
             return hb.Template(
-                siteId: siteSettings.SiteId,
-                referenceType: "Users",
-                title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: permissionType.CanRead(),
+                siteId: siteSettings.SiteId,
+                parentId: siteSettings.ParentId,
+                referenceType: "Users",
+                title: siteSettings.Title + " - " + Displays.List(),
                 script: Libraries.Scripts.JavaScripts.DataView(
                     siteSettings: siteSettings,
                     permissionType: permissionType,
@@ -90,13 +91,12 @@ namespace Implem.Pleasanter.Models
                 Permissions.Admins(),
                 formData);
             return hb.Template(
-                siteId: 0,
-                referenceType: "Users",
-                title: Displays.Users() + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: Sessions.User().TenantAdmin,
+                referenceType: "Users",
+                title: Displays.Users() + " - " + Displays.List(),
                 action: () =>
                 {
                     hb
@@ -356,17 +356,16 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
             return hb.Template(
-                siteId: 0,
-                referenceType: "Users",
-                title: userModel.MethodType == BaseModel.MethodTypes.New
-                    ? Displays.Users() + " - " + Displays.New()
-                    : userModel.Title.Value,
                 permissionType: permissionType,
                 verType: userModel.VerType,
                 methodType: userModel.MethodType,
                 allowAccess:
                     permissionType.CanEditTenant() || userModel.Self() &&
                     userModel.AccessStatus != Databases.AccessStatuses.NotFound,
+                referenceType: "Users",
+                title: userModel.MethodType == BaseModel.MethodTypes.New
+                    ? Displays.Users() + " - " + Displays.New()
+                    : userModel.Title.Value,
                 action: () =>
                 {
                     hb
@@ -718,9 +717,6 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var siteSettings = SiteSettingsUtility.UsersSiteSettings();
             return hb.Template(
-                siteId: 0,
-                referenceType: "Users",
-                title: string.Empty,
                 permissionType: Permissions.Admins(),
                 verType: Versions.VerTypes.Latest,
                 useBreadcrumb: false,
@@ -729,6 +725,8 @@ namespace Implem.Pleasanter.Models
                 useNavigationMenu: false,
                 methodType: BaseModel.MethodTypes.Edit,
                 allowAccess: true,
+                referenceType: "Users",
+                title: string.Empty,
                 action: () => hb
                     .Form(
                         attributes: new HtmlAttributes()

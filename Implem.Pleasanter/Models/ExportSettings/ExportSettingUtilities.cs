@@ -31,13 +31,14 @@ namespace Implem.Pleasanter.Models
             Action dataViewBody)
         {
             return hb.Template(
-                siteId: siteSettings.SiteId,
-                referenceType: "ExportSettings",
-                title: siteSettings.Title + " - " + Displays.List(),
                 permissionType: permissionType,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: permissionType.CanRead(),
+                siteId: siteSettings.SiteId,
+                parentId: siteSettings.ParentId,
+                referenceType: "ExportSettings",
+                title: siteSettings.Title + " - " + Displays.List(),
                 script: Libraries.Scripts.JavaScripts.DataView(
                     siteSettings: siteSettings,
                     permissionType: permissionType,
@@ -301,17 +302,16 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var permissionType = Permissions.Admins();
             return hb.Template(
-                siteId: 0,
-                referenceType: "ExportSettings",
-                title: exportSettingModel.MethodType == BaseModel.MethodTypes.New
-                    ? Displays.ExportSettings() + " - " + Displays.New()
-                    : exportSettingModel.Title.Value,
                 permissionType: permissionType,
                 verType: exportSettingModel.VerType,
                 methodType: exportSettingModel.MethodType,
                 allowAccess:
                     permissionType.CanEditTenant() &&
                     exportSettingModel.AccessStatus != Databases.AccessStatuses.NotFound,
+                referenceType: "ExportSettings",
+                title: exportSettingModel.MethodType == BaseModel.MethodTypes.New
+                    ? Displays.ExportSettings() + " - " + Displays.New()
+                    : exportSettingModel.Title.Value,
                 action: () =>
                 {
                     hb

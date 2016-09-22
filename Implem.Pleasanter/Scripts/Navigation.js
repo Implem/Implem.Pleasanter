@@ -20,3 +20,12 @@ $p.setCurrentIndex = function () {
         $('#Next').hide();
     }
 }
+
+$p.back = function () {
+    var $control = $('#BackUrl');
+    if ($control.length === 1) {
+        location.href = $control.val();
+    } else {
+        alert('none');
+    }
+}

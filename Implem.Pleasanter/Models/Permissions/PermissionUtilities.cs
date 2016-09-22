@@ -67,13 +67,13 @@ namespace Implem.Pleasanter.Models
             var siteSettings = siteModel.PermissionsSiteSettings();
             var hb = new HtmlBuilder();
             hb.Template(
-                siteId: siteModel.SiteId,
-                referenceType: "Permissions",
-                title: siteModel.Title.Value + " - " + Displays.EditPermissions(),
                 permissionType: siteModel.PermissionType,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Edit,
                 allowAccess: siteModel.PermissionType.CanEditPermission(),
+                siteId: siteModel.SiteId,
+                referenceType: "Permissions",
+                title: siteModel.Title.Value + " - " + Displays.EditPermissions(),
                 useNavigationMenu: false,
                 action: () => hb
                     .Editor(siteModel: siteModel, siteSettings: siteSettings));

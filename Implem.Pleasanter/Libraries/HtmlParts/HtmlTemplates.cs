@@ -9,19 +9,21 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
 using System;
+using System.Web;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlTemplates
     {
         public static HtmlBuilder Template(
             this HtmlBuilder hb,
-            long siteId,
-            string referenceType,
-            string title,
             Permissions.Types permissionType,
             Versions.VerTypes verType,
             BaseModel.MethodTypes methodType,
             bool allowAccess,
+            long siteId = 0,
+            long parentId = 0,
+            string referenceType = "",
+            string title = "",
             bool useBreadcrumb = true,
             bool useTitle = true,
             bool useSearch = true,
@@ -33,13 +35,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb
                 .MainContainer(
-                    siteId: siteId,
-                    referenceType: referenceType,
-                    title: title,
                     permissionType: permissionType,
                     verType: verType,
                     methodType: methodType,
                     allowAccess: allowAccess,
+                    siteId: siteId,
+                    parentId: parentId,
+                    referenceType: referenceType,
+                    title: title,
                     useBreadcrumb: useBreadcrumb,
                     useTitle: useTitle,
                     useSearch: useSearch,
@@ -55,13 +58,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder MainContainer(
             this HtmlBuilder hb,
-            long siteId,
-            string referenceType,
-            string title,
             Permissions.Types permissionType,
             Versions.VerTypes verType,
             BaseModel.MethodTypes methodType,
             bool allowAccess,
+            long siteId,
+            long parentId,
+            string referenceType,
+            string title,
             bool useBreadcrumb = true,
             bool useTitle = true,
             bool useSearch = true,
@@ -113,6 +117,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: () => hb
                                 .Raw(Parameters.General.HtmlCopyright.Params(DateTime.Now.Year)))))
                 .Hidden(controlId: "ApplicationPath", value: Navigations.Get())
+                .BackUrl(siteId: siteId, parentId: parentId)
                 .Styles(style: userStyle));
         }
 
@@ -158,9 +163,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder NotFoundTemplate(this HtmlBuilder hb)
         {
             return hb.Template(
-                siteId: 0,
-                referenceType: string.Empty,
-                title: string.Empty,
                 permissionType: Permissions.Types.NotSet,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.NotSet,
@@ -170,11 +172,34 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 useNavigationMenu: false);
         }
 
-        private static string BackUrl()
+        private static HtmlBuilder BackUrl(this HtmlBuilder hb, long siteId, long parentId)
         {
-            return Url.UrlReferrer().StartsWith(Url.Server())
-                ? Url.UrlReferrer()
-                : Navigations.Top();
+            return !Request.IsAjax()
+                ? hb.Hidden(controlId: "BackUrl", rawValue: BackUrl(siteId, parentId))
+                : hb;
+        }
+
+        private static string BackUrl(long siteId, long parentId)
+        {
+            var controller = Routes.Controller();
+            switch (controller)
+            {
+                case "admins":
+                    return Navigations.Top();
+                case "depts":
+                case "users":
+                    return Routes.Action() == "edit"
+                        ? Strings.CoalesceEmpty(
+                            HttpUtility.UrlDecode(new Request(HttpContext.Current).UrlReferrer()),
+                            Navigations.Get(controller))
+                        : Navigations.Get("Admins");
+                default:
+                    return Routes.Action() == "edit"
+                        ? Strings.CoalesceEmpty(
+                            HttpUtility.UrlDecode(new Request(HttpContext.Current).UrlReferrer()),
+                            Navigations.ItemIndex(siteId))
+                        : Navigations.ItemIndex(parentId);
+            }
         }
     }
 }
