@@ -222,8 +222,9 @@ pre{
     clear:both;
 }
 
-.nav-breadcrumb{
-
+#Breadcrumb{
+    float:left;
+    margin:0px 0px 10px 0px;
 }
 
 .nav-breadcrumb-item{
@@ -599,7 +600,6 @@ pre{
 .application-title{
     height:30px;
     float:left;
-    margin:10px 0px 0px 0px;
 }
 
 .application-title > *{

@@ -127,23 +127,28 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long siteId,
             string text)
         {
-            var binaryModel = new BinaryModel(permissionType, siteId);
-            if (binaryModel.ExistsSiteImage(ImageData.SizeTypes.Icon))
+            if (text != string.Empty)
             {
-                hb.Img(
-                    src: Navigations.Get(
-                        "Items",
-                        siteId.ToString(),
-                        "Binaries",
-                        "SiteImageIcon",
-                        binaryModel.SiteImagePrefix(ImageData.SizeTypes.Icon)),
-                    css: "site-image-icon");
-            }
-            return text != string.Empty
-                ? hb.Header(css: "application-title", action: () => hb
+                var binaryModel = new BinaryModel(permissionType, siteId);
+                if (binaryModel.ExistsSiteImage(ImageData.SizeTypes.Icon))
+                {
+                    hb.Img(
+                        src: Navigations.Get(
+                            "Items",
+                            siteId.ToString(),
+                            "Binaries",
+                            "SiteImageIcon",
+                            binaryModel.SiteImagePrefix(ImageData.SizeTypes.Icon)),
+                        css: "site-image-icon");
+                }
+                return hb.Header(css: "application-title", action: () => hb
                     .H(number: 1, id: "HeaderTitle", action: () => hb
-                        .Text(text: text)))
-                : hb;
+                        .Text(text: text)));
+            }
+            else
+            {
+                return hb;
+            }
         }
 
         private static string SessionMessage()

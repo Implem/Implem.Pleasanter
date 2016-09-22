@@ -230,7 +230,6 @@ namespace Implem.Pleasanter.Models
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: true,
                 referenceType: "Sites",
-                title: Displays.Top(),
                 action: () =>
                 {
                     hb.Form(
@@ -276,7 +275,6 @@ namespace Implem.Pleasanter.Models
                 siteId: siteModel.SiteId,
                 parentId: siteModel.ParentId,
                 referenceType: "Sites",
-                title: siteModel.Title.Value,
                 action: () =>
                 {
                     hb.Form(

@@ -38,7 +38,6 @@ namespace Implem.Pleasanter.Models
                 siteId: siteSettings.SiteId,
                 parentId: siteSettings.ParentId,
                 referenceType: "MailAddresses",
-                title: siteSettings.Title + " - " + Displays.List(),
                 script: Libraries.Scripts.JavaScripts.DataView(
                     siteSettings: siteSettings,
                     permissionType: permissionType,
