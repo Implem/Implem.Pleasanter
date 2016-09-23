@@ -31,7 +31,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Button(
                                     text: Displays.Copy(),
                                     controlCss: "button-icon",
-                                    onClick: "$p.sendByDialog($(this));",
+                                    onClick: "$p.copy($(this));",
                                     icon: "ui-icon-copy",
                                     action: "Copy",
                                     method: "post")

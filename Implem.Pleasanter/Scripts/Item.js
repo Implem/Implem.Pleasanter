@@ -29,6 +29,12 @@ $p.create = function ($control) {
     history.replaceState(null, null, $('#BaseUrl').val() + $('#Id').val());
 }
 
+$p.copy = function ($control) {
+    $p.closeDialog($control);
+    $p.send($control, $p.getFormId($control), false);
+    history.pushState(null, null, $('#BaseUrl').val() + $('#Id').val());
+}
+
 $p.search = function (searchWord, redirect, offset) {
     offset = offset !== undefined ? offset : 0;
     if ($p.searchWord !== searchWord + offset) {
