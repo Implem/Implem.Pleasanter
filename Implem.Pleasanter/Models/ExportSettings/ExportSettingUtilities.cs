@@ -115,7 +115,8 @@ namespace Implem.Pleasanter.Models
         private static ExportSettingCollection ExportSettingCollection(
             SiteSettings siteSettings,
             Permissions.Types permissionType,
-            FormData formData, int offset = 0)
+            FormData formData,
+            int offset = 0)
         {
             return new ExportSettingCollection(
                 siteSettings: siteSettings,

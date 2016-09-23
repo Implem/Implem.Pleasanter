@@ -116,7 +116,8 @@ namespace Implem.Pleasanter.Models
         private static ResultCollection ResultCollection(
             SiteSettings siteSettings,
             Permissions.Types permissionType,
-            FormData formData, int offset = 0)
+            FormData formData,
+            int offset = 0)
         {
             return new ResultCollection(
                 siteSettings: siteSettings,

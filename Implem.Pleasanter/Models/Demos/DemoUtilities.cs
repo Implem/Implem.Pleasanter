@@ -115,7 +115,8 @@ namespace Implem.Pleasanter.Models
         private static DemoCollection DemoCollection(
             SiteSettings siteSettings,
             Permissions.Types permissionType,
-            FormData formData, int offset = 0)
+            FormData formData,
+            int offset = 0)
         {
             return new DemoCollection(
                 siteSettings: siteSettings,

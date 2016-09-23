@@ -115,7 +115,8 @@ namespace Implem.Pleasanter.Models
         private static TenantCollection TenantCollection(
             SiteSettings siteSettings,
             Permissions.Types permissionType,
-            FormData formData, int offset = 0)
+            FormData formData,
+            int offset = 0)
         {
             return new TenantCollection(
                 siteSettings: siteSettings,
