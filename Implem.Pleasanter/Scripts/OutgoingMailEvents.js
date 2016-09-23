@@ -18,6 +18,6 @@
     });
 
     function showMailEditor() {
-        $('#OutgoingMailDialog').find('.edit-form-tabs-max').tabs('option', 'active', 0);
+        $('#MailEditorTabsContainer').tabs('option', 'active', 0);
     }
 });
