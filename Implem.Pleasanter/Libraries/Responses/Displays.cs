@@ -8,7 +8,7 @@ namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class Displays
     {
-        public static Dictionary<string, string> DisplayHash = 
+        public static Dictionary<string, string> DisplayHash =
             Def.DisplayDefinitionCollection.ToDictionary(o => o.Id, o => o.Content);
 
         public static string Get(string id, params string[] data)
