@@ -1,32 +1,31 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
-using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Server;
+using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class Displays
     {
+        public static Dictionary<string, string> DisplayHash = 
+            Def.DisplayDefinitionCollection.ToDictionary(o => o.Id, o => o.Content);
+
         public static string Get(string id, params string[] data)
         {
-            var language = "_" + Sessions.Language();
-            var screen =
-                Def.DisplayDefinitionCollection
-                    .Where(o => o.Id == id + language)
-                    .Select(o => o.Content).FirstOrDefault() ??
-                Def.DisplayDefinitionCollection
-                    .Where(o => o.Id == id)
-                    .Select(o => o.Content).FirstOrDefault() ??
-                id;
-             if (data.Count() == 0)
-             {
-                 return screen;
-             }
-             else
-             {
-                 return screen.Params(data);
-             }
+            var screen = id;
+            var kay = id + "_" + Sessions.Language();
+            if (DisplayHash.ContainsKey(kay))
+            {
+                screen = DisplayHash[kay];
+            }
+            else if (DisplayHash.ContainsKey(id))
+            {
+                screen = DisplayHash[id];
+            }
+            return data.Count() == 0
+                ? screen
+                : screen.Params(data);
         }
 
         public static HtmlBuilder Displays_ProductName(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ProductName", data)); }
