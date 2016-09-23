@@ -381,7 +381,7 @@ namespace Implem.Pleasanter.Models
             Permissions.Types permissionType,
             SiteSettings siteSettings)
         {
-            return hb.Div(css: "edit-form", action: () => hb
+            return hb.Div(id: "Editor", action: () => hb
                 .Form(
                     attributes: new HtmlAttributes()
                         .Id("UserForm")
@@ -393,12 +393,12 @@ namespace Implem.Pleasanter.Models
                         .RecordHeader(
                             baseModel: userModel,
                             tableName: "Users")
-                        .Div(css: "edit-form-comments", action: () => hb
+                        .Div(id: "EditorComments", action: () => hb
                             .Comments(
                                 comments: userModel.Comments,
                                 verType: userModel.VerType))
-                        .Div(css: "edit-form-tabs", action: () => hb
-                            .FieldTabs(userModel: userModel)
+                        .Div(id: "EditorTabsContainer", action: () => hb
+                            .EditorTabs(userModel: userModel)
                             .FieldSetGeneral(
                                 siteSettings: siteSettings,
                                 permissionType: permissionType,
@@ -445,9 +445,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder FieldTabs(this HtmlBuilder hb, UserModel userModel)
+        private static HtmlBuilder EditorTabs(this HtmlBuilder hb, UserModel userModel)
         {
-            return hb.Ul(css: "field-tab", action: () => hb
+            return hb.Ul(id: "EditorTabs", action: () => hb
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral",
@@ -730,7 +730,7 @@ namespace Implem.Pleasanter.Models
                                 + Url.Encode(returnUrl))),
                         cancelDefaultButton: false,
                         action: () => hb
-                            .FieldSet(css: "login", action: () => hb
+                            .FieldSet(id: "Login", action: () => hb
                                 .Div(action: () => hb
                                     .Field(
                                         siteSettings: siteSettings,
@@ -744,7 +744,7 @@ namespace Implem.Pleasanter.Models
                                     .Field(
                                         siteSettings: siteSettings,
                                         column: siteSettings.GetColumn("RememberMe")))
-                                .Div(css: "login-commands cf", action: () => hb
+                                .Div(id: "LoginCommands cf", action: () => hb
                                     .Button(
                                         controlCss: "button-icon button-right-justified validate",
                                         text: Displays.Login(),
@@ -760,12 +760,12 @@ namespace Implem.Pleasanter.Models
                         cancelDefaultButton: false,
                         _using: Parameters.Service.Demo,
                         action: () => hb
-                            .Div(css: "demo", action: () => hb
+                            .Div(id: "Demo", action: () => hb
                                 .FieldSet(
                                     legendText: Displays.ViewDemoEnvironment(),
                                     css: " enclosed-thin",
                                     action: () => hb
-                                        .Div(action: () => hb
+                                        .Div(id: "DemoFields", action: () => hb
                                             .Field(
                                                 siteSettings: siteSettings,
                                                 column: siteSettings.GetColumn("DemoMailAddress"))

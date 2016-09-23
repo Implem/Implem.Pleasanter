@@ -131,7 +131,7 @@ namespace Implem.Pleasanter.Models
                 useSearch: false,
                 useBreadcrumb: false,
                 action: () => hb
-                    .Div(id: "SearchResults", css: "search-results", action: () => hb
+                    .Div(id: "SearchResults", action: () => hb
                         .Command(text: text)
                         .Count(count: count)
                         .Results(text: text, offset: offset, results: results))

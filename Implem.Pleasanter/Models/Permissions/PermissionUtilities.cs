@@ -86,7 +86,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder Editor(
             this HtmlBuilder hb, SiteModel siteModel, SiteSettings siteSettings)
         {
-            return hb.Div(css: "edit-form", action: () => hb
+            return hb.Div(id: "Editor", action: () => hb
                 .Form(
                     attributes: new HtmlAttributes()
                         .Id("PermissionForm")
@@ -94,9 +94,10 @@ namespace Implem.Pleasanter.Models
                         .Action(Navigations.ItemAction(siteModel.SiteId, "Permissions")),
                     action: () => hb
                         .Div(
-                            css: "edit-form-tabs-max",
+                            id: "EditorTabsContainer",
+                            css: "max",
                             action: () => hb
-                                .FieldTabs()
+                                .EditorTabs()
                                 .Fields(siteModel: siteModel, siteSettings: siteSettings))
                         .Hidden(controlId: "MethodType", value: "edit")));
         }
@@ -104,9 +105,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder FieldTabs(this HtmlBuilder hb)
+        private static HtmlBuilder EditorTabs(this HtmlBuilder hb)
         {
-            return hb.Ul(css: "field-tab", action: () => hb
+            return hb.Ul(id: "EditorTabs", action: () => hb
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetPermissionEditor",

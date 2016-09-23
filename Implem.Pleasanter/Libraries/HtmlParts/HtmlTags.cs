@@ -575,16 +575,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Img(
             this HtmlBuilder hb,
-            string src = null,
+            string id = null,
             string css = null,
+            string src = null,
             bool _using = true)
         {
             return _using
                 ? hb.Append(
                     tag: "img",
                     attributes: new HtmlAttributes()
-                        .Src(src)
-                        .Class(css),
+                        .Id(id)
+                        .Class(css)
+                        .Src(src),
                     closeLevel: 1)
                 : hb;
         }

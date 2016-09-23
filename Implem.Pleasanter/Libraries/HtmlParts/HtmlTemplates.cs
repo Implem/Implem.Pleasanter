@@ -109,8 +109,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 verType: Versions.VerTypes.Latest);
                     }
                 })
-                .Div(css: "margin-bottom both")
-                .Footer(css: "footer", action: () => hb
+                .Div(id: "BottomMargin both")
+                .Footer(id: "Footer", action: () => hb
                     .P(action: () => hb
                         .A(
                             attributes: new HtmlAttributes().Href(Parameters.General.HtmlCopyrightUrl),
@@ -141,7 +141,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             binaryModel.SiteImagePrefix(ImageData.SizeTypes.Icon)),
                         css: "site-image-icon");
                 }
-                return hb.Header(css: "application-title", action: () => hb
+                return hb.Header(id: "HeaderTitleContainer", action: () => hb
                     .H(number: 1, id: "HeaderTitle", action: () => hb
                         .Text(text: text)));
             }

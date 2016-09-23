@@ -14,15 +14,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool allowAccess,
             bool useNavigationMenu)
         {
-            return hb.Header(css: "header", action: () => hb
-                .H(number: 2, css: "logo", action: () => hb
+            return hb.Header(id: "Header", action: () => hb
+                .H(number: 2, id: "Logo", action: () => hb
                     .A(
                         attributes: new HtmlAttributes().Href(Navigations.Top()),
                         action: () => hb
                             .Img(
-                                src: Navigations.Images("logo-corp.png"),
-                                css: "logo-corp")
-                            .Span(css: "logo-product", action: () => hb
+                                id: "CorpLogo",
+                                src: Navigations.Images("logo-corp.png"))
+                            .Span(id: "ProductLogo", action: () => hb
                                 .Displays_ProductName())))
                 .Nav(id: "Navigations", action: () => hb
                     .NavigationMenu(

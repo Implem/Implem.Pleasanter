@@ -1,14 +1,13 @@
 ﻿$(function () {
     $p.apply = function () {
         $('.menu').menu();
-        $('.edit-form-tabs:not(.applied)').tabs({
+        $('#EditorTabsContainer:not(.applied),#MailEditorTabsContainer:not(.applied)').tabs({
             beforeActivate: function (event, ui) {
                 if (ui.newPanel.attr('data-action')) {
                     $p.send(ui.newPanel);
                 }
             }
         }).addClass('applied');
-        $('.edit-form-tabs-max:not(.applied)').tabs().addClass('applied');
         $('.button-icon:not(.applied)').each(function () {
             var $control = $(this);
             var icon = $control.attr('data-icon');

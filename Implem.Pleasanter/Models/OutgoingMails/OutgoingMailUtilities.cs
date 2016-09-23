@@ -318,7 +318,7 @@ namespace Implem.Pleasanter.Models
             Permissions.Types permissionType,
             SiteSettings siteSettings)
         {
-            return hb.Div(css: "edit-form", action: () => hb
+            return hb.Div(id: "Editor", action: () => hb
                 .Form(
                     attributes: new HtmlAttributes()
                         .Id("OutgoingMailForm")
@@ -330,12 +330,12 @@ namespace Implem.Pleasanter.Models
                         .RecordHeader(
                             baseModel: outgoingMailModel,
                             tableName: "OutgoingMails")
-                        .Div(css: "edit-form-comments", action: () => hb
+                        .Div(id: "EditorComments", action: () => hb
                             .Comments(
                                 comments: outgoingMailModel.Comments,
                                 verType: outgoingMailModel.VerType))
-                        .Div(css: "edit-form-tabs", action: () => hb
-                            .FieldTabs(outgoingMailModel: outgoingMailModel)
+                        .Div(id: "EditorTabsContainer", action: () => hb
+                            .EditorTabs(outgoingMailModel: outgoingMailModel)
                             .FieldSetGeneral(
                                 siteSettings: siteSettings,
                                 permissionType: permissionType,
@@ -378,9 +378,9 @@ namespace Implem.Pleasanter.Models
                 .EditorExtensions(outgoingMailModel: outgoingMailModel, siteSettings: siteSettings));
         }
 
-        private static HtmlBuilder FieldTabs(this HtmlBuilder hb, OutgoingMailModel outgoingMailModel)
+        private static HtmlBuilder EditorTabs(this HtmlBuilder hb, OutgoingMailModel outgoingMailModel)
         {
-            return hb.Ul(css: "field-tab", action: () => hb
+            return hb.Ul(id: "EditorTabs", action: () => hb
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral", 
@@ -488,7 +488,6 @@ namespace Implem.Pleasanter.Models
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("OutgoingMailsForm")
-                    .Class("edit-form-mail-list")
                     .Action(Navigations.ItemAction(referenceId, "OutgoingMails")),
                 action: () =>
                     new OutgoingMailCollection(
@@ -510,11 +509,11 @@ namespace Implem.Pleasanter.Models
         {
             return hb.Div(
                 id: selector,
-                css: "mail-list",
+                css: "item",
                 action: () => hb
                     .H(number: 3, css: "title-header", action: () => hb
                         .Displays_SentMail())
-                    .Div(css: "mail-content", action: () => hb
+                    .Div(css: "content", action: () => hb
                         .FieldText(
                             controlId: string.Empty,
                             labelText: Displays.OutgoingMails_SentTime(),
@@ -603,8 +602,8 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             return new ResponseCollection()
                 .Html("#OutgoingMailDialog", hb
-                    .Div(css: "edit-form-tabs-max no-border", action: () => hb
-                        .Ul(css: "field-tab", action: () => hb
+                    .Div(id: "MailEditorTabsContainer", action: () => hb
+                        .Ul(id: "MailEditorTabs", action: () => hb
                             .Li(action: () => hb
                                 .A(
                                     href: "#FieldSetMailEditor",

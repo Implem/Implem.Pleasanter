@@ -85,10 +85,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 var timeSeries = new TimeSeries(
                     siteSettings, groupByColumn, aggregateType, valueColumn, dataRows);
                 return hb
-                    .Svg(
-                        id: "TimeSeries",
-                        css: "time-series",
-                        action: () => { })
+                    .Svg(id: "TimeSeries")
                     .Hidden(
                         controlId: "TimeSeriesJson",
                         value: timeSeries.Json());

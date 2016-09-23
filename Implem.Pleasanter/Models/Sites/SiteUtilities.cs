@@ -145,9 +145,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder FieldTabs(this HtmlBuilder hb, SiteModel siteModel)
+        private static HtmlBuilder EditorTabs(this HtmlBuilder hb, SiteModel siteModel)
         {
-            return hb.Ul(css: "tabmenu", action: () =>
+            return hb.Ul(id: "EditorTabs", action: () =>
             {
                 hb.Li(action: () => hb
                     .A(
@@ -637,7 +637,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder Editor(this HtmlBuilder hb, SiteModel siteModel)
         {
-            return hb.Div(css: "edit-form", action: () => hb
+            return hb.Div(id: "Editor", action: () => hb
                 .Form(
                     attributes: new HtmlAttributes()
                         .Id("SiteForm")
@@ -648,12 +648,12 @@ namespace Implem.Pleasanter.Models
                             baseModel: siteModel,
                             tableName: "Sites",
                             switcher: false)
-                        .Div(css: "edit-form-comments", action: () => hb
+                        .Div(id: "EditorComments", action: () => hb
                             .Comments(
                                 comments: siteModel.Comments,
                                 verType: siteModel.VerType))
-                        .Div(css: "edit-form-tabs", action: () => hb
-                            .FieldTabs(siteModel: siteModel)
+                        .Div(id: "EditorTabsContainer", action: () => hb
+                            .EditorTabs(siteModel: siteModel)
                             .FieldSetGeneral(siteModel: siteModel)
                             .FieldSet(
                                 attributes: new HtmlAttributes()

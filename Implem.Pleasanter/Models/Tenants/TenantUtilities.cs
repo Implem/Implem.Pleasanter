@@ -327,7 +327,7 @@ namespace Implem.Pleasanter.Models
             Permissions.Types permissionType,
             SiteSettings siteSettings)
         {
-            return hb.Div(css: "edit-form", action: () => hb
+            return hb.Div(id: "Editor", action: () => hb
                 .Form(
                     attributes: new HtmlAttributes()
                         .Id("TenantForm")
@@ -339,12 +339,12 @@ namespace Implem.Pleasanter.Models
                         .RecordHeader(
                             baseModel: tenantModel,
                             tableName: "Tenants")
-                        .Div(css: "edit-form-comments", action: () => hb
+                        .Div(id: "EditorComments", action: () => hb
                             .Comments(
                                 comments: tenantModel.Comments,
                                 verType: tenantModel.VerType))
-                        .Div(css: "edit-form-tabs", action: () => hb
-                            .FieldTabs(tenantModel: tenantModel)
+                        .Div(id: "EditorTabsContainer", action: () => hb
+                            .EditorTabs(tenantModel: tenantModel)
                             .FieldSetGeneral(
                                 siteSettings: siteSettings,
                                 permissionType: permissionType,
@@ -387,9 +387,9 @@ namespace Implem.Pleasanter.Models
                 .EditorExtensions(tenantModel: tenantModel, siteSettings: siteSettings));
         }
 
-        private static HtmlBuilder FieldTabs(this HtmlBuilder hb, TenantModel tenantModel)
+        private static HtmlBuilder EditorTabs(this HtmlBuilder hb, TenantModel tenantModel)
         {
-            return hb.Ul(css: "field-tab", action: () => hb
+            return hb.Ul(id: "EditorTabs", action: () => hb
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral", 

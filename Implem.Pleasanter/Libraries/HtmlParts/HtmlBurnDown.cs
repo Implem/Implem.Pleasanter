@@ -40,11 +40,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder Body(this HtmlBuilder hb, BurnDown burnDown)
         {
-            return hb.Div(css: "burn-down-body", action: () => hb
-                .Svg(
-                    id: "BurnDown",
-                    css: "burn-down",
-                    action: () => { })
+            return hb.Div(action: () => hb
+                .Svg(id: "BurnDown")
                 .Hidden(
                     controlId: "BurnDownJson",
                     value: burnDown.Json()));
@@ -68,7 +65,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Sum())
                     .Distinct()
                     .ToList();
-                hb.Table(css: "grid", action: () => hb
+                hb.Table(id: "BurnDownDetails", css: "grid", action: () => hb
                     .THead(action: () => hb.DetailsHeader(
                         burnDown: burnDown,
                         updators: updators,
@@ -163,7 +160,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Tr(
                 attributes: new HtmlAttributes()
-                    .Class("grid-row not-link burn-down-details-row")
+                    .Class("grid-row not-link")
                     .Add("data-date", currentTime.ToShortDateString())
                     .DataAction("BurnDownRecordDetails")
                     .DataMethod("post"),
@@ -227,7 +224,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Tr(
                 attributes: new HtmlAttributes()
-                    .Class("grid-row not-link burn-down-record-details"),
+                    .Class("grid-row not-link items"),
                 action: () => hb
                     .Td(attributes: new HtmlAttributes().Colspan(colspan),
                         action: () => elements

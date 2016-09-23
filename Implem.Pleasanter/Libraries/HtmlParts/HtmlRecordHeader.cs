@@ -12,10 +12,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool switcher = true)
         {
             return baseModel.AccessStatus == Databases.AccessStatuses.Selected
-                ? hb.Div(css: "record-header", action: () => hb
-                    .Div(id: "RecordInfo", css: "record-info", action: () => hb
+                ? hb.Div(id: "RecordHeader", action: () => hb
+                    .Div(id: "RecordInfo", action: () => hb
                         .RecordInfo(baseModel: baseModel, tableName: tableName))
-                    .Div(css: "record-switchers", action: () => hb
+                    .Div(id: "RecordSwitchers", action: () => hb
                         .RecordSwitchers(switcher: switcher)))
                     .Notes(baseModel: baseModel)
                 : hb;

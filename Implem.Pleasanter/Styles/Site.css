@@ -86,34 +86,6 @@ input[type="number"] {
     -moz-appearance:textfield;
 }
 
-.header{
-    width:100%;
-    height:42px;
-    float:left;
-    padding:0px 6px;
-    border:none;
-    position:relative;
-    clear:both;
-}
-
-.footer{
-    width:100%;
-    height:30px;
-    display:block;
-    padding:5px 10px;
-    text-align:right;
-    background-color:black;
-    position:fixed;
-    left:0px;
-    bottom:0px;
-    z-index:10;
-}
-
-.footer a{
-    color:white;
-    text-decoration:none;
-}
-
 html{
 
 }
@@ -135,10 +107,6 @@ h2{
 
 h3{
     clear:both;
-}
-
-form{
-
 }
 
 legend{
@@ -187,17 +155,17 @@ pre{
     white-space:pre-wrap;
 }
 
-.logo{
+#Logo{
     padding:3px 0px;
 }
 
-.logo-corp{
+#CorpLogo{
     display:block;
     float:left;
     margin:3px 0px 0px 0px;
 }
 
-.logo-product{
+#ProductLogo{
     display:block;
     float:left;
     padding:0px 0px 0px 5px;
@@ -207,19 +175,26 @@ pre{
     text-decoration:none;
 }
 
-.head{
-    color:olive;
-    background-color:beige;
+#Login{
+    width:500px;
+    margin:150px auto 20px auto;
+    padding:50px;
+    background-color:whitesmoke;
+    border-radius:10px;
 }
 
-.main-form{
+#LoginCommands{
+    text-align:right;
     clear:both;
 }
 
-.main-form > nav:first-child{
-    float:left;
-    margin:20px 0px 0px 0px;
-    clear:both;
+#Demo{
+    width:500px;
+    margin:0px auto;
+}
+
+#DemoFields{
+    padding:20px 10px 10px 10px;
 }
 
 #Breadcrumb{
@@ -227,13 +202,673 @@ pre{
     margin:0px 0px 10px 0px;
 }
 
-.nav-breadcrumb-item{
+#Breadcrumb .item{
     display:block;
     float:left;
 }
 
-.nav-breadcrumb-separator{
+#Breadcrumb .separator{
     margin:8px;
+}
+
+#Header{
+    width:100%;
+    height:42px;
+    float:left;
+    padding:0px 6px;
+    border:none;
+    position:relative;
+    clear:both;
+}
+
+#Navigations{
+    height:30px;
+    padding:5px;
+    position:absolute;
+    top:0px;
+    right:5px;
+    border-radius:0px 0px 10px 10px;
+}
+
+#NavigationMenu{
+    float:left;
+    margin-right:5px;
+    padding:0px 15px;
+    border:none;
+    border-radius:20px;
+}
+
+#NavigationMenu > li{
+    width:160px;
+    height:30px;
+    display:block;
+    float:left;
+    position:relative;
+}
+
+#NavigationMenu > li > div{
+    height:30px;
+    padding:8px 0px 0px 0px;
+    text-align:center;
+    color:white;
+    cursor:pointer;
+}
+
+#NavigationMenu > li > div:hover{
+    background-color:#817865;
+}
+
+#NavigationMenu > li.sub-menu > div.hover{
+    background-color:#817865;
+}
+
+#NavigationMenu > li > div > a{
+    display:block;
+    color:white;
+    text-decoration:none;
+}
+
+#NavigationMenu > li > div:hover > a{
+
+}
+
+#NavigationMenu .menu{
+    width:160px;
+    display:none;
+    border-top:none !important;
+    position:absolute;
+    top:30px;
+    right:0px;
+    border-radius:0px 0px 5px 5px;
+    z-index:3;
+}
+
+#NavigationMenu .menu > li > a{
+    display:block;
+    color:black;
+    text-decoration:none;
+}
+
+#NavigationMenu .menu > li > a.ui-state-active{
+    font-weight:normal;
+    border:solid 1px #d19405;
+    text-decoration:underline;
+}
+
+#Application{
+    width:100%;
+    float:left;
+    margin:10px 0px 0px 0px;
+    padding:0px 10px 120px 10px;
+    position:relative;
+    clear:both;
+}
+
+#Application > .site-image-icon{
+    display:block;
+    float:left;
+    margin:10px 10px 0px 0px;
+}
+
+#HeaderTitleContainer{
+    height:30px;
+    float:left;
+}
+
+#HeaderTitle{
+    font-size:20px;
+    font-weight:bold;
+    color:chocolate;
+}
+
+#Notes > *{
+    width:100%;
+    float:left;
+    margin:0px 10px 5px 0px;
+}
+
+#Notes > .history{
+    width:100%;
+    display:block;
+    float:left;
+    padding:5px 10px;
+    color:white;
+    background-color:blue;
+    border-radius:7px;
+}
+
+#Notes > .readonly{
+    width:100%;
+    display:block;
+    float:left;
+    padding:5px 10px;
+    color:white;
+    background-color:orange;
+    border-radius:7px;
+}
+
+#DataViewFilters{
+    width:100%;
+    float:left;
+    margin:0px 0px 5px 0px;
+    padding:5px 5px 2px 5px;
+    border:solid 1px silver;
+    border-radius:5px;
+}
+
+#DataViewFilters.reduced{
+    width:auto;
+    padding:0px;
+    border:none;
+}
+
+#DataViewFilters > .field-auto-thin{
+    height:32px;
+    float:left;
+    padding:0px;
+}
+
+#DataViewFilters_Reset{
+    display:block;
+    float:left;
+    margin:0px 20px 0px 0px;
+}
+
+#DataViewFilters > .display-control{
+    float:left;
+    margin:0px 5px 0px 0px;
+    padding:5px 10px 5px 0px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+#Aggregations{
+    width:100%;
+    float:left;
+    margin:0px 0px 5px 0px;
+    padding:5px;
+    border:solid 1px silver;
+    border-radius:5px;
+}
+
+#Aggregations.reduced{
+    width:auto;
+    padding:0px;
+    border:none;
+}
+
+#Aggregations .label{
+    height:26px;
+    display:block;
+    float:left;
+    margin:0px 5px 0px 0px;
+    padding:5px 10px;
+    background:gainsboro;
+    border-radius:5px;
+}
+
+#Aggregations .label.overdue{
+    font-weight:bold;
+    color:white;
+    background-color:red;
+    cursor:pointer;
+}
+
+#Aggregations .data{
+    height:26px;
+    display:block;
+    float:left;
+    margin:0px 5px 0px 0px;
+    padding:5px;
+}
+
+#Aggregations .data.overdue{
+    color:red;
+    cursor:pointer;
+}
+
+#Aggregations em{
+    display:block;
+    float:left;
+    margin-right:5px;
+    font-weight:bold;
+}
+
+#Aggregations > .display-control{
+    float:left;
+    margin:0px 5px 0px 0px;
+    padding:5px 10px 5px 0px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+#Gantt{
+    width:100%;
+    background-color:whitesmoke;
+    border-radius:20px;
+}
+
+#Gantt .date{
+    stroke:white;
+}
+
+#Gantt .now{
+    stroke:red;
+}
+
+#Gantt .planned rect{
+    cursor:pointer;
+    fill:gainsboro;
+}
+
+#Gantt .planned rect.summary{
+    cursor:auto;
+}
+
+#Gantt .earned rect{
+    cursor:pointer;
+    fill:darkseagreen;
+}
+
+#Gantt .earned rect.summary{
+    cursor:auto;
+}
+
+#Gantt rect.delay{
+    fill:#ffccd5;
+}
+
+#Gantt rect.delay.summary{
+
+}
+
+#Gantt rect.completed{
+    fill:lightsteelblue;
+}
+
+#Gantt .title text{
+    cursor:pointer;
+}
+
+#Gantt .title text.delay{
+    fill:red;
+}
+
+#Gantt .title text.summary{
+    font-size:1.2em;
+    font-weight:bold;
+    cursor:auto;
+}
+
+#GanttAxis{
+    width:100%;
+    height:50px;
+    background-color:rgba(255,255,255,0.5);
+    position:fixed;
+    left:0px;
+    bottom:75px;
+}
+
+#GanttAxis text{
+
+}
+
+#BurnDown{
+    width:100%;
+    height:350px;
+    background-color:whitesmoke;
+    border-radius:20px;
+}
+
+#BurnDown .now{
+    stroke:red;
+}
+
+#BurnDown .total{
+    fill:none;
+    stroke:green;
+}
+
+#BurnDown .planned{
+    fill:none;
+    stroke:gray;
+}
+
+#BurnDown .earned{
+    fill:none;
+    stroke:orange;
+}
+
+#BurnDown .total circle{
+    fill:green;
+}
+
+#BurnDown .planned circle{
+    fill:gray;
+}
+
+#BurnDown .earned circle{
+    fill:orange;
+}
+
+#BurnDownDetails > tbody > tr > td{
+    padding:6px;
+}
+
+#BurnDownDetails > tbody > tr > td.warning{
+    font-weight:bold;
+    color:red;
+}
+
+#BurnDownDetails > tbody > tr > td.difference{
+    font-size:1.3em;
+    font-weight:bold;
+    color:blue;
+    background-color:lightcyan;
+}
+
+#BurnDownDetails > tbody > tr > td.difference.warning{
+    color:red;
+    background-color:#ffccd5;
+}
+
+#BurnDownDetails .user-info{
+    margin:5px;
+    padding:8px;
+    font-weight:bold;
+    background-color:palegoldenrod;
+}
+
+#BurnDownDetails .items{
+    padding:5px 0px 5px 20px;
+}
+
+#BurnDownDetails .items a{
+    color:black;
+    text-decoration:none;
+}
+
+#BurnDownDetails .items a:hover{
+    color:blue;
+    text-decoration:underline;
+}
+
+#TimeSeries{
+    width:100%;
+    height:450px;
+    background-color:whitesmoke;
+    border-radius:20px;
+}
+
+#TimeSeries .surface{
+    stroke:white;
+}
+
+#TimeSeries .index{
+    fill:black;
+}
+
+#KambanBody .kamban-row{
+    min-height:30px;
+}
+
+#KambanBody .kamban-container > div{
+    min-height:300px;
+}
+
+#KambanBody .kamban-container.hover{
+    background-color:whitesmoke;
+}
+
+#KambanBody .kamban-container .kamban-item:last-child{
+    margin:3px 3px 30px 3px;
+}
+
+#KambanBody .kamban-item{
+    margin:3px;
+    padding:15px 8px 8px 8px;
+    background-color:lightgoldenrodyellow;
+    border:solid 1px silver;
+    position:relative;
+    cursor:pointer;
+    border-radius:5px;
+}
+
+#KambanBody .kamban-item:hover{
+    background-color:white;
+    border:solid 1px orange;
+}
+
+#KambanBody .kamban-item.changed{
+    font-weight:bold;
+    background-color:yellow;
+    border:solid 1px orange;
+}
+
+#KambanBody .kamban-item .ui-icon{
+    position:absolute;
+    top:0px;
+    right:0px;
+}
+
+#RecordHeader{
+    width:100%;
+    float:left;
+    margin:0px 0px 5px 0px;
+}
+
+#RecordInfo{
+    float:left;
+    padding:6px 0px 0px 0px;
+}
+
+#RecordInfo div{
+    float:left;
+    margin-right:50px;
+}
+
+#RecordInfo div p{
+    float:left;
+    margin-right:5px;
+}
+
+#RecordInfo div p .elapsed-time{
+    float:left;
+    padding:0px 5px;
+    font-weight:bold;
+    background-color:#eee;
+    border-radius:2px;
+}
+
+#RecordSwitchers{
+    float:right;
+}
+
+#RecordSwitchers > *{
+    float:left;
+}
+
+#RecordSwitchers .current{
+    height:26px;
+    display:block;
+    float:left;
+    margin:0px 1px 0px 0px;
+    padding:5px;
+    border-radius:5px;
+}
+
+#Editor{
+    width:100%;
+    float:left;
+    clear:both;
+}
+
+#EditorTabsContainer{
+    width:73%;
+    float:left;
+    margin:0px 0px 20px 0px;
+}
+
+#EditorTabsContainer.max{
+    width:100%;
+}
+
+#MailEditorTabsContainer{
+    width:100%;
+    float:left;
+    margin:0px 0px 20px 0px;
+    border:none;
+}
+
+#EditorComments{
+    width:27%;
+    float:right;
+    margin:0px 0px 15px 0px;
+    padding:0px 0px 0px 5px;
+}
+
+#EditorComments .title-header{
+    margin:3px 10px 8px 0px;
+}
+
+#OutgoingMailsForm{
+    width:73%;
+    float:left;
+}
+
+#OutgoingMailsForm > .item{
+    width:100%;
+    float:left;
+    position:relative;
+    border-radius:10px;
+}
+
+#OutgoingMailsForm .content{
+    width:100%;
+    float:left;
+    margin:5px 0px 20px 0px;
+    padding:10px 0px 0px 0px;
+    border:solid 1px silver;
+    border-top:none;
+    border-radius:0px 0px 10px 10px / 0px 0px 10px 10px;
+}
+
+#SearchField{
+    float:left;
+}
+
+#SearchResults{
+    width:80%;
+    float:left;
+    margin:0px 100px;
+}
+
+#SearchResults .count{
+    float:left;
+    margin:0px 0px 10px 0px;
+}
+
+#SearchResults .count .label{
+    height:26px;
+    display:block;
+    float:left;
+    margin:0px 5px 5px 0px;
+    padding:5px 10px;
+    background:gainsboro;
+    border-radius:5px;
+}
+
+#SearchResults .count .data{
+    height:26px;
+    display:block;
+    float:left;
+    margin:0px 5px 5px 0px;
+    padding:5px;
+}
+
+#SearchResults .result{
+    width:100%;
+    float:left;
+    padding:15px;
+    border:solid 1px white;
+    clear:both;
+}
+
+#SearchResults .result > ul{
+    display:block;
+    float:left;
+    clear:both;
+}
+
+#SearchResults .result > h3{
+    display:block;
+    float:left;
+    margin:5px 0px;
+    clear:both;
+}
+
+#SearchResults .result > h3 > a{
+    font-size:1.3em;
+    font-weight:bold;
+}
+
+#SearchResults .result > p{
+    display:block;
+    float:left;
+    clear:both;
+}
+
+#SearchResults .result:hover{
+    border:solid 1px orange;
+    cursor:pointer;
+}
+
+#MainCommandsContainer{
+    width:100%;
+    height:47px;
+    padding:7px 0px 0px 0px;
+    background-color:rgba(0,0,0,0.65);
+    position:fixed;
+    left:0px;
+    bottom:30px;
+    z-index:11;
+}
+
+#MainCommands{
+    text-align:center;
+}
+
+#MainCommands > button{
+    display:inline;
+    float:none;
+    margin:2px 4px;
+}
+
+#BottomMargin{
+    height:100px;
+    clear:both;
+}
+
+#Footer{
+    width:100%;
+    height:30px;
+    display:block;
+    padding:5px 10px;
+    text-align:right;
+    background-color:black;
+    position:fixed;
+    left:0px;
+    bottom:0px;
+    z-index:10;
+}
+
+#Footer a{
+    color:white;
+    text-decoration:none;
+}
+
+.main-form{
+    clear:both;
 }
 
 .nav-sites{
@@ -373,172 +1008,6 @@ pre{
     color:silver;
 }
 
-#Navigations{
-    height:30px;
-    padding:5px;
-    position:absolute;
-    top:0px;
-    right:5px;
-    border-radius:0px 0px 10px 10px;
-}
-
-#NavigationMenu{
-    float:left;
-    margin-right:5px;
-    padding:0px 15px;
-    border:none;
-    border-radius:20px;
-}
-
-#NavigationMenu > li{
-    width:160px;
-    height:30px;
-    display:block;
-    float:left;
-    position:relative;
-}
-
-#NavigationMenu > li > div{
-    height:30px;
-    padding:8px 0px 0px 0px;
-    text-align:center;
-    color:white;
-    cursor:pointer;
-}
-
-#NavigationMenu > li > div:hover{
-    background-color:#817865;
-}
-
-#NavigationMenu > li.sub-menu > div.hover{
-    background-color:#817865;
-}
-
-#NavigationMenu > li > div > a{
-    display:block;
-    color:white;
-    text-decoration:none;
-}
-
-#NavigationMenu > li > div:hover > a{
-
-}
-
-.menu{
-    width:160px;
-    display:none;
-    border-top:none !important;
-    position:absolute;
-    top:30px;
-    right:0px;
-    border-radius:0px 0px 5px 5px;
-    z-index:3;
-}
-
-.menu > li > a{
-    display:block;
-    color:black;
-    text-decoration:none;
-}
-
-.menu > li > a.ui-state-active{
-    font-weight:normal;
-    border:solid 1px #d19405;
-    text-decoration:underline;
-}
-
-#SearchField{
-    float:left;
-}
-
-.login{
-    width:500px;
-    margin:150px auto 20px auto;
-    padding:50px;
-    background-color:whitesmoke;
-    border-radius:10px;
-}
-
-.login-commands{
-    text-align:right;
-    clear:both;
-}
-
-.demo{
-    width:500px;
-    margin:0px auto;
-}
-
-.demo > fieldset > div{
-    padding:20px 10px 10px 10px;
-}
-
-.search-results{
-    width:80%;
-    float:left;
-    margin:0px 100px;
-}
-
-.search-results .count{
-    float:left;
-    margin:0px 0px 10px 0px;
-}
-
-.search-results .count .label{
-    height:26px;
-    display:block;
-    float:left;
-    margin:0px 5px 5px 0px;
-    padding:5px 10px;
-    background:gainsboro;
-    border-radius:5px;
-}
-
-.search-results .count .data{
-    height:26px;
-    display:block;
-    float:left;
-    margin:0px 5px 5px 0px;
-    padding:5px;
-}
-
-.search-results .result{
-    width:100%;
-    float:left;
-    padding:15px;
-    border:solid 1px white;
-    clear:both;
-}
-
-.search-results .result > ul{
-    display:block;
-    float:left;
-    clear:both;
-}
-
-.search-results .result > h3{
-    display:block;
-    float:left;
-    margin:5px 0px;
-    clear:both;
-}
-
-.search-results .result > h3 > a{
-    font-size:1.3em;
-    font-weight:bold;
-}
-
-.search-results .result > p{
-    display:block;
-    float:left;
-    clear:both;
-}
-
-.search-results .result:hover{
-    border:solid 1px orange;
-    cursor:pointer;
-}
-
 .error-page{
     padding:30px 50px;
     border-top:dotted 1px gray;
@@ -582,149 +1051,6 @@ pre{
     background-color:whitesmoke;
 }
 
-#Application{
-    width:100%;
-    float:left;
-    margin:10px 0px 0px 0px;
-    padding:0px 10px 120px 10px;
-    position:relative;
-    clear:both;
-}
-
-#Application > .site-image-icon{
-    display:block;
-    float:left;
-    margin:10px 10px 0px 0px;
-}
-
-.application-title{
-    height:30px;
-    float:left;
-}
-
-.application-title > *{
-    font-size:20px;
-    font-weight:bold;
-    color:chocolate;
-}
-
-.record-header{
-    width:100%;
-    float:left;
-    margin:0px 0px 5px 0px;
-}
-
-.record-header > div{
-
-}
-
-.record-info{
-    float:left;
-    padding:6px 0px 0px 0px;
-}
-
-.record-info div{
-    float:left;
-    margin-right:50px;
-}
-
-.record-info div p{
-    float:left;
-    margin-right:5px;
-}
-
-.record-info div p .elapsed-time{
-    float:left;
-    padding:0px 5px;
-    font-weight:bold;
-    background-color:#eee;
-    border-radius:2px;
-}
-
-.record-histories{
-    float:right;
-    margin-right:20px;
-}
-
-.record-switchers{
-    float:right;
-}
-
-.record-switchers > *{
-    float:left;
-}
-
-.record-switchers .current{
-    height:26px;
-    display:block;
-    float:left;
-    margin:0px 1px 0px 0px;
-    padding:5px;
-    border-radius:5px;
-}
-
-.notes{
-    width:100%;
-    float:left;
-    margin:0px 10px 5px 0px;
-}
-
-.notes .history{
-    width:100%;
-    display:block;
-    float:left;
-    padding:5px 10px;
-    color:white;
-    background-color:blue;
-    border-radius:7px;
-}
-
-.notes .readonly{
-    width:100%;
-    display:block;
-    float:left;
-    padding:5px 10px;
-    color:white;
-    background-color:orange;
-    border-radius:7px;
-}
-
-.edit-form{
-    width:100%;
-    float:left;
-    clear:both;
-}
-
-.edit-form-tabs{
-    width:73%;
-    float:left;
-    margin:0px 0px 20px 0px;
-}
-
-.edit-form-tabs-max{
-
-}
-
-.edit-form-comments{
-    width:27%;
-    float:right;
-    margin:0px 0px 15px 0px;
-    padding:0px 0px 0px 5px;
-}
-
-.edit-form-comments .title-header{
-    margin:3px 10px 8px 0px;
-}
-
-.edit-form-mail-list{
-    width:73%;
-    float:left;
-}
-
-.field-tab{
-
-}
-
 .fieldset{
 
 }
@@ -757,27 +1083,6 @@ pre{
 .fieldset[class^="enclosed"] > legend{
     margin:0px 0px 0px 10px;
     font-weight:bold;
-}
-
-.command-main-container{
-    width:100%;
-    height:47px;
-    padding:7px 0px 0px 0px;
-    background-color:rgba(0,0,0,0.65);
-    position:fixed;
-    left:0px;
-    bottom:30px;
-    z-index:11;
-}
-
-.command-main{
-    text-align:center;
-}
-
-.command-main > button{
-    display:inline;
-    float:none;
-    margin:2px 4px;
 }
 
 .command-field{
@@ -1283,118 +1588,6 @@ pre{
     border:none;
 }
 
-.mail-list{
-    width:100%;
-    float:left;
-    position:relative;
-    border-radius:10px;
-}
-
-.mail-list > .mail-content{
-    width:100%;
-    float:left;
-    margin:5px 0px 20px 0px;
-    padding:10px 0px 0px 0px;
-    border:solid 1px silver;
-    border-top:none;
-    border-radius:0px 0px 10px 10px / 0px 0px 10px 10px;
-}
-
-#DataViewFilters{
-    width:100%;
-    float:left;
-    margin:0px 0px 5px 0px;
-    padding:5px 5px 2px 5px;
-    border:solid 1px silver;
-    border-radius:5px;
-}
-
-#DataViewFilters.reduced{
-    width:auto;
-    padding:0px;
-    border:none;
-}
-
-#DataViewFilters > .field-auto-thin{
-    height:32px;
-    float:left;
-    padding:0px;
-}
-
-#DataViewFilters_Reset{
-    display:block;
-    float:left;
-    margin:0px 20px 0px 0px;
-}
-
-#DataViewFilters > .display-control{
-    float:left;
-    margin:0px 5px 0px 0px;
-    padding:5px 10px 5px 0px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-#Aggregations{
-    width:100%;
-    float:left;
-    margin:0px 0px 5px 0px;
-    padding:5px;
-    border:solid 1px silver;
-    border-radius:5px;
-}
-
-#Aggregations.reduced{
-    width:auto;
-    padding:0px;
-    border:none;
-}
-
-#Aggregations .label{
-    height:26px;
-    display:block;
-    float:left;
-    margin:0px 5px 0px 0px;
-    padding:5px 10px;
-    background:gainsboro;
-    border-radius:5px;
-}
-
-#Aggregations .label.overdue{
-    font-weight:bold;
-    color:white;
-    background-color:red;
-    cursor:pointer;
-}
-
-#Aggregations .data{
-    height:26px;
-    display:block;
-    float:left;
-    margin:0px 5px 0px 0px;
-    padding:5px;
-}
-
-#Aggregations .data.overdue{
-    color:red;
-    cursor:pointer;
-}
-
-#Aggregations em{
-    display:block;
-    float:left;
-    margin-right:5px;
-    font-weight:bold;
-}
-
-#Aggregations > .display-control{
-    float:left;
-    margin:0px 5px 0px 0px;
-    padding:5px 10px 5px 0px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
 .grid{
     margin:0px 0px 10px 0px;
 }
@@ -1518,220 +1711,6 @@ pre{
     display:block;
     float:left;
     margin:0px 10px 0px 0px;
-}
-
-.gantt-body{
-    width:100%;
-    float:left;
-}
-
-.gantt{
-    width:100%;
-    background-color:whitesmoke;
-    border-radius:20px;
-}
-
-.gantt .date{
-    stroke:white;
-}
-
-.gantt .now{
-    stroke:red;
-}
-
-.gantt .planned rect{
-    cursor:pointer;
-    fill:gainsboro;
-}
-
-.gantt .planned rect.summary{
-    cursor:auto;
-}
-
-.gantt .earned rect{
-    cursor:pointer;
-    fill:darkseagreen;
-}
-
-.gantt .earned rect.summary{
-    cursor:auto;
-}
-
-.gantt rect.delay{
-    fill:#ffccd5;
-}
-
-.gantt rect.delay.summary{
-
-}
-
-.gantt rect.completed{
-    fill:lightsteelblue;
-}
-
-.gantt .title text{
-    cursor:pointer;
-}
-
-.gantt .title text.delay{
-    fill:red;
-}
-
-.gantt .title text.summary{
-    font-size:1.2em;
-    font-weight:bold;
-    cursor:auto;
-}
-
-.gantt-axis{
-    width:100%;
-    height:50px;
-    background-color:rgba(255,255,255,0.5);
-    position:fixed;
-    left:0px;
-    bottom:75px;
-}
-
-.gantt-axis text{
-
-}
-
-.burn-down{
-    width:100%;
-    height:350px;
-    background-color:whitesmoke;
-    border-radius:20px;
-}
-
-.burn-down .now{
-    stroke:red;
-}
-
-.burn-down .total{
-    fill:none;
-    stroke:green;
-}
-
-.burn-down .planned{
-    fill:none;
-    stroke:gray;
-}
-
-.burn-down .earned{
-    fill:none;
-    stroke:orange;
-}
-
-.burn-down .total circle{
-    fill:green;
-}
-
-.burn-down .planned circle{
-    fill:gray;
-}
-
-.burn-down .earned circle{
-    fill:orange;
-}
-
-.burn-down-details-row td{
-    padding:6px;
-}
-
-.burn-down-details-row td.warning{
-    font-weight:bold;
-    color:red;
-}
-
-.burn-down-details-row td.difference{
-    font-size:1.3em;
-    font-weight:bold;
-    color:blue;
-    background-color:lightcyan;
-}
-
-.burn-down-details-row td.difference.warning{
-    color:red;
-    background-color:#ffccd5;
-}
-
-.burn-down-record-details .user-info{
-    margin:5px;
-    padding:8px;
-    font-weight:bold;
-    background-color:palegoldenrod;
-}
-
-.burn-down-record-details .items{
-    padding:5px 0px 5px 20px;
-}
-
-.burn-down-record-details .items a{
-    color:black;
-    text-decoration:none;
-}
-
-.burn-down-record-details .items a:hover{
-    color:blue;
-    text-decoration:underline;
-}
-
-.time-series{
-    width:100%;
-    height:450px;
-    background-color:whitesmoke;
-    border-radius:20px;
-}
-
-.time-series .surface{
-    stroke:white;
-}
-
-.time-series .index{
-    fill:black;
-}
-
-.kamban-row{
-    min-height:30px;
-}
-
-.kamban-container > div{
-    min-height:300px;
-}
-
-.kamban-container.hover{
-    background-color:whitesmoke;
-}
-
-.kamban-container .kamban-item:last-child{
-    margin:3px 3px 30px 3px;
-}
-
-.kamban-item{
-    margin:3px;
-    padding:15px 8px 8px 8px;
-    background-color:lightgoldenrodyellow;
-    border:solid 1px silver;
-    position:relative;
-    cursor:pointer;
-    border-radius:5px;
-}
-
-.kamban-item:hover{
-    background-color:white;
-    border:solid 1px orange;
-}
-
-.kamban-item.changed{
-    font-weight:bold;
-    background-color:yellow;
-    border:solid 1px orange;
-}
-
-.kamban-item .ui-icon{
-    position:absolute;
-    top:0px;
-    right:0px;
 }
 
 .text{
@@ -2199,10 +2178,6 @@ h3.title-header{
 
 .ui-corner-all.ui-state-hover{
     border-radius:2px;
-}
-
-.margin-bottom{
-    height:100px;
 }
 
 .height-auto{

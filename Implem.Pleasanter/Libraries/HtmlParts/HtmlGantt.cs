@@ -51,8 +51,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             var gantt = new Gantt(siteSettings, dataRows, groupByColumn);
             return hb
-                .Svg(id: "Gantt", css: "gantt")
-                .Svg(id: "GanttAxis", css: "gantt-axis")
+                .Svg(id: "Gantt")
+                .Svg(id: "GanttAxis")
                 .Hidden(
                     controlId: "GanttJson",
                     value: gantt.Json());

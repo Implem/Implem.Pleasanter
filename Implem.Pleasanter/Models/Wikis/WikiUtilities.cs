@@ -343,7 +343,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings siteSettings,
             WikiModel wikiModel)
         {
-            return hb.Div(css: "edit-form", action: () => hb
+            return hb.Div(id: "Editor", action: () => hb
                 .Form(
                     attributes: new HtmlAttributes()
                         .Id("WikiForm")
@@ -355,12 +355,12 @@ namespace Implem.Pleasanter.Models
                         .RecordHeader(
                             baseModel: wikiModel,
                             tableName: "Wikis")
-                        .Div(css: "edit-form-comments", action: () => hb
+                        .Div(id: "EditorComments", action: () => hb
                             .Comments(
                                 comments: wikiModel.Comments,
                                 verType: wikiModel.VerType))
-                        .Div(css: "edit-form-tabs", action: () => hb
-                            .FieldTabs(wikiModel: wikiModel)
+                        .Div(id: "EditorTabsContainer", action: () => hb
+                            .EditorTabs(wikiModel: wikiModel)
                             .FieldSetGeneral(
                                 wikiModel: wikiModel,
                                 permissionType: siteModel.PermissionType,
@@ -399,9 +399,9 @@ namespace Implem.Pleasanter.Models
                 .OutgoingMailDialog());
         }
 
-        private static HtmlBuilder FieldTabs(this HtmlBuilder hb, WikiModel wikiModel)
+        private static HtmlBuilder EditorTabs(this HtmlBuilder hb, WikiModel wikiModel)
         {
-            return hb.Ul(css: "field-tab", action: () => hb
+            return hb.Ul(id: "EditorTabs", action: () => hb
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral", 

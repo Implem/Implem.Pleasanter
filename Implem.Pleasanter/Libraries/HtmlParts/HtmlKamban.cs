@@ -23,7 +23,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Permissions.Types permissionType,
             IEnumerable<KambanElement> data)
         {
-            return hb.Div(css: "both", action: () =>
+            return hb.Div(id: "Kamban", css: "both", action: () =>
             {
                 hb
                     .FieldDropDown(

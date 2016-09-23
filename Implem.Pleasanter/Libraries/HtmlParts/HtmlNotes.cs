@@ -3,35 +3,31 @@ using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Models;
+using System.Collections.Generic;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlNotes
     {
         public static HtmlBuilder Notes(this HtmlBuilder hb, BaseModel baseModel)
         {
+            var notes = new Dictionary<string, string>();
             if (!baseModel.PermissionType.CanUpdate())
             {
-                hb.Notes(
-                    baseModel,
-                    Displays.CanNotUpdate(),
-                    "readonly");
+                notes.Add("readonly", Displays.CanNotUpdate());
             }
             if (baseModel.VerType == Versions.VerTypes.History)
             {
-                hb.Notes(
-                    baseModel,
-                    Displays.ReadOnlyBecausePreviousVer(),
-                    "history");
+                notes.Add("history", Displays.ReadOnlyBecausePreviousVer());
+            }
+            if (notes.Any())
+            {
+                hb.Div(id: "Notes", action: () =>
+                    notes.ForEach(part => hb
+                        .P(css: part.Key, action: () => hb
+                            .Text(text: part.Value))));
             }
             return hb;
         }
-
-        private static HtmlBuilder Notes(
-            this HtmlBuilder hb, BaseModel baseModel, string text, string css)
-        {
-            return hb.P(id: "Notes", css: "notes", action: () => hb
-                .Span(css: css, action: () => hb
-                    .Text(text: text)));
-        }
     }
-}   
+}

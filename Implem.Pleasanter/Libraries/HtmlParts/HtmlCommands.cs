@@ -27,8 +27,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool exportButton = false,
             Action extensions = null)
         {
-            return hb.Div(css: "command-main-container", action: () => hb
-                .Div(css: "command-main", action: () =>
+            return hb.Div(id: "MainCommandsContainer", action: () => hb
+                .Div(id: "MainCommands", action: () =>
                 {
                     if (backButton)
                     {
