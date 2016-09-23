@@ -1660,7 +1660,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_head": Css._dot_head = definitionRow[1].ToString(); SetCssTable(CssTable._dot_head, definitionRow, CssXls); break;
                     case "_dot_main_form": Css._dot_main_form = definitionRow[1].ToString(); SetCssTable(CssTable._dot_main_form, definitionRow, CssXls); break;
                     case "_dot_main_form_space___space_nav_colon_first_child": Css._dot_main_form_space___space_nav_colon_first_child = definitionRow[1].ToString(); SetCssTable(CssTable._dot_main_form_space___space_nav_colon_first_child, definitionRow, CssXls); break;
-                    case "_dot_nav_breadcrumb": Css._dot_nav_breadcrumb = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_breadcrumb, definitionRow, CssXls); break;
+                    case "_sharp_Breadcrumb": Css._sharp_Breadcrumb = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Breadcrumb, definitionRow, CssXls); break;
                     case "_dot_nav_breadcrumb_item": Css._dot_nav_breadcrumb_item = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_breadcrumb_item, definitionRow, CssXls); break;
                     case "_dot_nav_breadcrumb_separator": Css._dot_nav_breadcrumb_separator = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_breadcrumb_separator, definitionRow, CssXls); break;
                     case "_dot_nav_sites": Css._dot_nav_sites = definitionRow[1].ToString(); SetCssTable(CssTable._dot_nav_sites, definitionRow, CssXls); break;
@@ -6426,7 +6426,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_head;
         public string _dot_main_form;
         public string _dot_main_form_space___space_nav_colon_first_child;
-        public string _dot_nav_breadcrumb;
+        public string _sharp_Breadcrumb;
         public string _dot_nav_breadcrumb_item;
         public string _dot_nav_breadcrumb_separator;
         public string _dot_nav_sites;
@@ -6810,7 +6810,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_head = new CssDefinition();
         public CssDefinition _dot_main_form = new CssDefinition();
         public CssDefinition _dot_main_form_space___space_nav_colon_first_child = new CssDefinition();
-        public CssDefinition _dot_nav_breadcrumb = new CssDefinition();
+        public CssDefinition _sharp_Breadcrumb = new CssDefinition();
         public CssDefinition _dot_nav_breadcrumb_item = new CssDefinition();
         public CssDefinition _dot_nav_breadcrumb_separator = new CssDefinition();
         public CssDefinition _dot_nav_sites = new CssDefinition();
