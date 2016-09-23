@@ -33,6 +33,7 @@ namespace Implem.Pleasanter
                 "~/Scripts/BurnDownEvents.js",
                 "~/Scripts/DataView.js",
                 "~/Scripts/Dialog.js",
+                "~/Scripts/DialogEvents.js",
                 "~/Scripts/Display.js",
                 "~/Scripts/Export.js",
                 "~/Scripts/FilterEvents.js",
