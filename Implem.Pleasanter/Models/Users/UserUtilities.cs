@@ -728,7 +728,6 @@ namespace Implem.Pleasanter.Models
                             .Class("main-form")
                             .Action(Navigations.Get("users", "_action_?ReturnUrl="
                                 + Url.Encode(returnUrl))),
-                        cancelDefaultButton: false,
                         action: () => hb
                             .FieldSet(id: "Login", action: () => hb
                                 .Div(action: () => hb
@@ -757,7 +756,6 @@ namespace Implem.Pleasanter.Models
                         attributes: new HtmlAttributes()
                             .Id("DemoForm")
                             .Action(Navigations.Get("demos", "_action_")),
-                        cancelDefaultButton: false,
                         _using: Parameters.Service.Demo,
                         action: () => hb
                             .Div(id: "Demo", action: () => hb

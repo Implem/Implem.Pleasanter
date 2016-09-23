@@ -506,14 +506,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Form(
             this HtmlBuilder hb,
             HtmlAttributes attributes,
-            bool cancelDefaultButton = true,
             bool _using = true,
             Action action = null)
         {
-            attributes.Add(
-                name: "onkeydown",
-                value: "return $p.cancelDefaultButton(event);",
-                _using: cancelDefaultButton);
             return _using
                 ? hb.Append(
                     tag: "form",
