@@ -248,8 +248,8 @@ pre{
 
 #NavigationMenu > li > div{
     height:30px;
-    padding:8px 0px 0px 0px;
     text-align:center;
+    line-height:30px;
     color:white;
     cursor:pointer;
 }
@@ -263,6 +263,7 @@ pre{
 }
 
 #NavigationMenu > li > div > a{
+    height:30px;
     display:block;
     color:white;
     text-decoration:none;
