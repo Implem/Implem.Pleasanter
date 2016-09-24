@@ -684,8 +684,12 @@ namespace Implem.Pleasanter.Models
                         Comments = Comments
                     };
                     wikiModel.Create();
-                    return new ResponseCollection().Href(
-                        Navigations.ItemEdit(wikiModel.WikiId)).ToJson();
+                    return new ResponseCollection()
+                        .ReplaceAll("#MainContainer", WikiUtilities.Editor(this, wikiModel))
+                        .ReplaceAll(
+                            "#ItemValidator",
+                            new HtmlBuilder().ItemValidator(referenceType: "Wikis"))
+                        .Val("#BackUrl", Navigations.ItemIndex(ParentId)).ToJson();
                 default:
                     return PermissionType.CanEditSite()
                         ? EditorJson(this, Messages.Created(Title.ToString()))

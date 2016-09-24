@@ -677,7 +677,8 @@ namespace Implem.Pleasanter.Models
                         .Hidden(
                             controlId: "Sites_Timestamp",
                             css: "control-hidden must-transport",
-                            value: siteModel.Timestamp))
+                            value: siteModel.Timestamp)
+                        .Hidden(controlId: "Id", value: siteModel.SiteId.ToString()))
                 .OutgoingMailsForm("Sites", siteModel.SiteId, siteModel.Ver)
                 .CopyDialog("items", siteModel.SiteId)
                 .OutgoingMailDialog());
