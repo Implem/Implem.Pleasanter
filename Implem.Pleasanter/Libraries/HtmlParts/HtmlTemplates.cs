@@ -194,9 +194,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     return Navigations.Top();
                 case "depts":
                 case "users":
-                    return Routes.Action() == "edit"
-                        ? Strings.CoalesceEmpty(referer, Navigations.Get(controller))
-                        : Navigations.Get("Admins");
+                    switch (Routes.Action())
+                    {
+                        case "new":
+                        case "edit":
+                            return Strings.CoalesceEmpty(referer, Navigations.Get(controller));
+                        default:
+                            return Navigations.Get("Admins");
+                    }
                 default:
                     switch (Routes.Action())
                     {
