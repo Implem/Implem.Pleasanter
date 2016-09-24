@@ -187,6 +187,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static string BackUrl(long siteId, long parentId)
         {
             var controller = Routes.Controller();
+            var referer = HttpUtility.UrlDecode(new Request(HttpContext.Current).UrlReferrer());
             switch (controller)
             {
                 case "admins":
@@ -194,16 +195,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "depts":
                 case "users":
                     return Routes.Action() == "edit"
-                        ? Strings.CoalesceEmpty(
-                            HttpUtility.UrlDecode(new Request(HttpContext.Current).UrlReferrer()),
-                            Navigations.Get(controller))
+                        ? Strings.CoalesceEmpty(referer, Navigations.Get(controller))
                         : Navigations.Get("Admins");
                 default:
-                    return Routes.Action() == "edit"
-                        ? Strings.CoalesceEmpty(
-                            HttpUtility.UrlDecode(new Request(HttpContext.Current).UrlReferrer()),
-                            Navigations.ItemIndex(siteId))
-                        : Navigations.ItemIndex(parentId);
+                    switch (Routes.Action())
+                    {
+                        case "new":
+                        case "edit":
+                            return Strings.CoalesceEmpty(referer, Navigations.ItemIndex(siteId));
+                        default:
+                            return Navigations.ItemIndex(parentId);
+                    }
             }
         }
     }
