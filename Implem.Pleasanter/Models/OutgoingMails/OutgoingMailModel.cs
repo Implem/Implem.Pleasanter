@@ -694,19 +694,16 @@ namespace Implem.Pleasanter.Models
         {
             Host = Parameters.Mail.SmtpHost;
             Port = Parameters.Mail.SmtpPort;
-            var mailMessage = new System.Net.Mail.MailMessage();
-            mailMessage.From = From;
-            Libraries.Mails.Addresses.GetEnumerable(To).ForEach(to => mailMessage.To.Add(to));
-            Libraries.Mails.Addresses.GetEnumerable(Cc).ForEach(cc => mailMessage.CC.Add(cc));
-            Libraries.Mails.Addresses.GetEnumerable(Bcc).ForEach(bcc => mailMessage.Bcc.Add(bcc));
-            mailMessage.Subject = Title.Value;
-            mailMessage.Body = Body;
-            var smtpClient = new System.Net.Mail.SmtpClient();
-            smtpClient.Host = Host;
-            smtpClient.Port = Port;
-            smtpClient.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
-            smtpClient.Send(mailMessage);
-            smtpClient.Dispose();
+            new Smtp(
+                Host,
+                Port,
+                From,
+                To,
+                Cc,
+                Bcc,
+                Title.Value,
+                Body)
+                    .Send();
         }
 
         /// <summary>
@@ -715,16 +712,15 @@ namespace Implem.Pleasanter.Models
         private void SendBySendGrid()
         {
             Host = "smtp.sendgrid.net";
-            var sendGridMessage = new SendGrid.SendGridMessage();
-            sendGridMessage.From = From;
-            Libraries.Mails.Addresses.GetEnumerable(To).ForEach(to => sendGridMessage.AddTo(to));
-            Libraries.Mails.Addresses.GetEnumerable(Cc).ForEach(cc => sendGridMessage.AddCc(cc));
-            Libraries.Mails.Addresses.GetEnumerable(Bcc).ForEach(bcc => sendGridMessage.AddBcc(bcc));
-            sendGridMessage.Subject = Title.Value;
-            sendGridMessage.Text = Body;
-            new SendGrid.Web(new System.Net.NetworkCredential(
-                Parameters.Mail.SendGridSmtpUser,
-                Parameters.Mail.SendGridSmtpPassword)).DeliverAsync(sendGridMessage);
+            new SendGridMail(
+                Host,
+                From,
+                To,
+                Cc,
+                Bcc,
+                Title.Value,
+                Body)
+                    .Send();
         }
 
         /// <summary>

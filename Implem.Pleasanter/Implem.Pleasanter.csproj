@@ -209,6 +209,9 @@
     <Compile Include="Libraries\Converts\ToResponseExtensions.cs" />
     <Compile Include="Libraries\DataSources\Ldap.cs" />
     <Compile Include="Libraries\DataSources\Rds.cs" />
+    <Compile Include="Libraries\DataSources\SendGridMail.cs" />
+    <Compile Include="Libraries\DataSources\Slack.cs" />
+    <Compile Include="Libraries\DataSources\Smtp.cs" />
     <Compile Include="Libraries\DataTypes\Comments.cs" />
     <Compile Include="Libraries\DataTypes\CompletionTime.cs" />
     <Compile Include="Libraries\DataTypes\Dept.cs" />
@@ -320,6 +323,7 @@
     <Compile Include="Libraries\Settings\BinarySettings.cs" />
     <Compile Include="Libraries\Settings\Choice.cs" />
     <Compile Include="Libraries\Settings\Column.cs" />
+    <Compile Include="Libraries\Settings\Notification.cs" />
     <Compile Include="Libraries\Settings\SiteSettings.cs" />
     <Compile Include="Libraries\Settings\SiteSettingsUtility.cs" />
     <Compile Include="Libraries\Settings\Summary.cs" />
