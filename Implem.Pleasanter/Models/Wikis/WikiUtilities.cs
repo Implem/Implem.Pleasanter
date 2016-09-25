@@ -854,39 +854,5 @@ namespace Implem.Pleasanter.Models
                 default: return string.Empty;
             }
         }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        /// <returns></returns>
-        public static string Editor(
-            SiteModel siteModel,
-            SiteSettings siteSettings,
-            WikiModel wikiModel)
-        {
-            var hb = new HtmlBuilder();
-            return hb.Template(
-                permissionType: siteModel.PermissionType,
-                verType: wikiModel.VerType,
-                methodType: wikiModel.MethodType,
-                allowAccess:
-                    siteModel.PermissionType.CanRead() &&
-                    wikiModel.AccessStatus != Databases.AccessStatuses.NotFound,
-                siteId: siteModel.SiteId,
-                referenceType: "Wikis",
-                title: wikiModel.MethodType != BaseModel.MethodTypes.New
-                    ? wikiModel.Title.DisplayValue + " - " + Displays.Edit()
-                    : siteModel.Title.DisplayValue + " - " + Displays.New(),
-                useNavigationMenu: false,
-                action: () =>
-                {
-                    hb
-                        .Editor(
-                            siteSettings: siteSettings,
-                            wikiModel: wikiModel,
-                            siteModel: siteModel)
-                        .Hidden(controlId: "TableName", value: "Wikis");
-                }).ToString();
-        }
     }
 }
