@@ -134,6 +134,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool multiple = false,
             bool addSelectedValue = true,
             bool insertBlank = false,
+            bool disabled = false,
             string onChange = null,
             string action = null,
             string method = null,
@@ -146,6 +147,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Id(controlId)
                         .Class(Css.Class("control-dropdown", controlCss))
                         .Multiple(multiple)
+                        .Disabled(disabled)
                         .OnChange(onChange)
                         .DataAction(action)
                         .DataMethod(method),
