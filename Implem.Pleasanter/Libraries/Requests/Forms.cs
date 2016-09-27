@@ -17,6 +17,11 @@ namespace Implem.Pleasanter.Libraries.Requests
             return hash;
         }
 
+        public static string ControlId()
+        {
+            return Data("ControlId");
+        }
+
         public static bool Bool(string key)
         {
             return Data(key).ToBool();
@@ -48,6 +53,14 @@ namespace Implem.Pleasanter.Libraries.Requests
                 .Split(',')
                 .Select(o => o.ToLong())
                 .Distinct();
+        }
+
+        public static List<string> List(string name, char separator = ';')
+        {
+            return Data(name)
+                .Split(separator)
+                .Where(o => o != string.Empty)
+                .ToList();
         }
 
         public static IEnumerable<string> Keys()
