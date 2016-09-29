@@ -139,6 +139,7 @@
     <Compile Include="DataSources\SqlServer\SqlHavingCollection.cs" />
     <Compile Include="DataSources\SqlServer\SqlJoinCollection.cs" />
     <Compile Include="DataSources\SqlServer\SqlOrderByCollection.cs" />
+    <Compile Include="DataSources\SqlServer\SqlParamCollection.cs" />
     <Compile Include="DataSources\SqlServer\SqlRestore.cs" />
     <Compile Include="DataSources\SqlServer\SqlGroupBy.cs" />
     <Compile Include="DataSources\SqlServer\SqlExists.cs" />
