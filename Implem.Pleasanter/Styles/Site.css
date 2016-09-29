@@ -387,7 +387,7 @@ pre{
     width:100%;
     float:left;
     margin:0px 0px 5px 0px;
-    padding:5px;
+    padding:3px 5px 5px 5px;
     border:solid 1px silver;
     border-radius:5px;
 }
@@ -402,7 +402,7 @@ pre{
     height:26px;
     display:block;
     float:left;
-    margin:0px 5px 0px 0px;
+    margin:2px 5px 0px 0px;
     padding:5px 10px;
     background:gainsboro;
     border-radius:5px;
@@ -419,7 +419,7 @@ pre{
     height:26px;
     display:block;
     float:left;
-    margin:0px 5px 0px 0px;
+    margin:2px 5px 0px 0px;
     padding:5px;
 }
 
