@@ -133,9 +133,9 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.FailedReadFile(data), "alert-error");
         }
 
-        public static Message CanNotHide(params string[] data)
+        public static Message CanNotDisabled(params string[] data)
         {
-            return Get(Displays.CanNotHide(data), "alert-error");
+            return Get(Displays.CanNotDisabled(data), "alert-error");
         }
 
         public static Message AlreadyAdded(params string[] data)
@@ -423,9 +423,9 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(Messages.FailedReadFile(data));
         }
 
-        public static ResponseCollection ResponseCanNotHide(params string[] data)
+        public static ResponseCollection ResponseCanNotDisabled(params string[] data)
         {
-            return ResponseMessage(Messages.CanNotHide(data));
+            return ResponseMessage(Messages.CanNotDisabled(data));
         }
 
         public static ResponseCollection ResponseAlreadyAdded(params string[] data)

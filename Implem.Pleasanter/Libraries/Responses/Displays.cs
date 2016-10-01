@@ -616,8 +616,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string InvalidCsvData(params string[] data) { return Get("InvalidCsvData", data); }
         public static HtmlBuilder Displays_FailedReadFile(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("FailedReadFile", data)); }
         public static string FailedReadFile(params string[] data) { return Get("FailedReadFile", data); }
-        public static HtmlBuilder Displays_CanNotHide(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CanNotHide", data)); }
-        public static string CanNotHide(params string[] data) { return Get("CanNotHide", data); }
+        public static HtmlBuilder Displays_CanNotDisabled(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CanNotDisabled", data)); }
+        public static string CanNotDisabled(params string[] data) { return Get("CanNotDisabled", data); }
         public static HtmlBuilder Displays_AlreadyAdded(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("AlreadyAdded", data)); }
         public static string AlreadyAdded(params string[] data) { return Get("AlreadyAdded", data); }
         public static HtmlBuilder Displays_InvalidFormula(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("InvalidFormula", data)); }

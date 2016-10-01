@@ -1212,7 +1212,7 @@ namespace Implem.Pleasanter.Models
                 if (controlId == "ToDisableEditorColumns" &&
                     selectedColumns.Any(o => !SiteSettings.EditorColumn(o).Nullable))
                 {
-                    responseCollection.Message(Messages.CanNotHide(
+                    responseCollection.Message(Messages.CanNotDisabled(
                         SiteSettings.EditorColumn(selectedColumns.FirstOrDefault(o =>
                             !SiteSettings.EditorColumn(o).Nullable)).LabelText));
                 }

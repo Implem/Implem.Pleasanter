@@ -2929,8 +2929,8 @@ namespace Implem.DefinitionAccessor
                     case "InvalidCsvData_ja": Display.InvalidCsvData_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.InvalidCsvData_ja, definitionRow, DisplayXls); break;
                     case "FailedReadFile": Display.FailedReadFile = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.FailedReadFile, definitionRow, DisplayXls); break;
                     case "FailedReadFile_ja": Display.FailedReadFile_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.FailedReadFile_ja, definitionRow, DisplayXls); break;
-                    case "CanNotHide": Display.CanNotHide = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CanNotHide, definitionRow, DisplayXls); break;
-                    case "CanNotHide_ja": Display.CanNotHide_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CanNotHide_ja, definitionRow, DisplayXls); break;
+                    case "CanNotDisabled": Display.CanNotDisabled = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CanNotDisabled, definitionRow, DisplayXls); break;
+                    case "CanNotDisabled_ja": Display.CanNotDisabled_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CanNotDisabled_ja, definitionRow, DisplayXls); break;
                     case "AlreadyAdded": Display.AlreadyAdded = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.AlreadyAdded, definitionRow, DisplayXls); break;
                     case "AlreadyAdded_ja": Display.AlreadyAdded_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.AlreadyAdded_ja, definitionRow, DisplayXls); break;
                     case "InvalidFormula": Display.InvalidFormula = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.InvalidFormula, definitionRow, DisplayXls); break;
@@ -8121,8 +8121,8 @@ namespace Implem.DefinitionAccessor
         public string InvalidCsvData_ja;
         public string FailedReadFile;
         public string FailedReadFile_ja;
-        public string CanNotHide;
-        public string CanNotHide_ja;
+        public string CanNotDisabled;
+        public string CanNotDisabled_ja;
         public string AlreadyAdded;
         public string AlreadyAdded_ja;
         public string InvalidFormula;
@@ -8789,8 +8789,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition InvalidCsvData_ja = new DisplayDefinition();
         public DisplayDefinition FailedReadFile = new DisplayDefinition();
         public DisplayDefinition FailedReadFile_ja = new DisplayDefinition();
-        public DisplayDefinition CanNotHide = new DisplayDefinition();
-        public DisplayDefinition CanNotHide_ja = new DisplayDefinition();
+        public DisplayDefinition CanNotDisabled = new DisplayDefinition();
+        public DisplayDefinition CanNotDisabled_ja = new DisplayDefinition();
         public DisplayDefinition AlreadyAdded = new DisplayDefinition();
         public DisplayDefinition AlreadyAdded_ja = new DisplayDefinition();
         public DisplayDefinition InvalidFormula = new DisplayDefinition();
