@@ -521,82 +521,82 @@ namespace Implem.Pleasanter.Libraries.Settings
                 EditorColumnsOrder.Contains(o.ColumnName));
         }
 
-        public Dictionary<string, string> GridSelectableOptions(bool visible = true)
+        public Dictionary<string, string> GridSelectableOptions(bool enabled = true)
         {
-            return visible
+            return enabled
                 ? ColumnUtilities.SelectableOptions(
-                    this, GridColumnsOrder, visible)
+                    this, GridColumnsOrder, enabled)
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnUtilities.GridDefinitions(ReferenceType)
                         .Where(o => !GridColumnsOrder.Contains(o.ColumnName))
-                        .Select(o => o.ColumnName), visible);
+                        .Select(o => o.ColumnName), enabled);
         }
 
-        public Dictionary<string, string> FilterSelectableOptions(bool visible = true)
+        public Dictionary<string, string> FilterSelectableOptions(bool enabled = true)
         {
-            return visible
+            return enabled
                 ? ColumnUtilities.SelectableOptions(
-                    this, FilterColumnsOrder, visible)
+                    this, FilterColumnsOrder, enabled)
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnUtilities.FilterDefinitions(ReferenceType)
                         .Where(o => !FilterColumnsOrder.Contains(o.ColumnName))
-                        .Select(o => o.ColumnName), visible);
+                        .Select(o => o.ColumnName), enabled);
         }
 
-        public Dictionary<string, string> EditorSelectableOptions(bool visible = true)
+        public Dictionary<string, string> EditorSelectableOptions(bool enabled = true)
         {
-            return visible
+            return enabled
                 ? ColumnUtilities.SelectableOptions(
-                    this, EditorColumnsOrder, visible)
+                    this, EditorColumnsOrder, enabled)
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnUtilities.EditorDefinitions(ReferenceType)
                         .Where(o => !EditorColumnsOrder.Contains(o.ColumnName))
-                        .Select(o => o.ColumnName), visible);
+                        .Select(o => o.ColumnName), enabled);
         }
 
-        public Dictionary<string, string> TitleSelectableOptions(bool visible = true)
+        public Dictionary<string, string> TitleSelectableOptions(bool enabled = true)
         {
-            return visible
+            return enabled
                 ? ColumnUtilities.SelectableOptions(
-                    this, TitleColumnsOrder, visible)
+                    this, TitleColumnsOrder, enabled)
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnUtilities.TitleDefinitions(ReferenceType)
                         .Where(o => !TitleColumnsOrder.Contains(o.ColumnName))
-                        .Select(o => o.ColumnName), visible);
+                        .Select(o => o.ColumnName), enabled);
         }
 
-        public Dictionary<string, string> LinkSelectableOptions(bool visible = true)
+        public Dictionary<string, string> LinkSelectableOptions(bool enabled = true)
         {
-            return visible
+            return enabled
                 ? ColumnUtilities.SelectableOptions(
-                    this, LinkColumnsOrder, visible)
+                    this, LinkColumnsOrder, enabled)
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnUtilities.LinkDefinitions(ReferenceType)
                         .Where(o => !LinkColumnsOrder.Contains(o.ColumnName))
-                        .Select(o => o.ColumnName), visible);
+                        .Select(o => o.ColumnName), enabled);
         }
 
-        public Dictionary<string, string> HistorySelectableOptions(bool visible = true)
+        public Dictionary<string, string> HistorySelectableOptions(bool enabled = true)
         {
-            return visible
+            return enabled
                 ? ColumnUtilities.SelectableOptions(
-                    this, HistoryColumnsOrder, visible)
+                    this, HistoryColumnsOrder, enabled)
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnUtilities.HistoryDefinitions(ReferenceType)
                         .Where(o => !HistoryColumnsOrder.Contains(o.ColumnName))
-                        .Select(o => o.ColumnName), visible);
+                        .Select(o => o.ColumnName), enabled);
         }
 
         public Dictionary<string, string> MonitorChangesSelectableOptions(
-            IEnumerable<string> monitorChangesColumns, bool visible = true)
+            IEnumerable<string> monitorChangesColumns, bool enabled = true)
         {
-            return visible
+            return enabled
                 ? ColumnUtilities.SelectableOptions(
-                    this, monitorChangesColumns, visible)
+                    this, monitorChangesColumns, enabled)
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnUtilities.MonitorChangesDefinitions(ReferenceType)
                         .Where(o => !monitorChangesColumns.Contains(o.ColumnName))
-                        .Select(o => o.ColumnName), visible);
+                        .Select(o => o.ColumnName), enabled);
         }
 
         public Dictionary<string, string> AggregationDestination()

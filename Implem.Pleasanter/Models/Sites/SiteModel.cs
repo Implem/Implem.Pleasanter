@@ -988,7 +988,7 @@ namespace Implem.Pleasanter.Models
                     "Grid",
                     SiteSettings.GridSelectableOptions(),
                     selectedColumns,
-                    SiteSettings.GridSelectableOptions(visible: false),
+                    SiteSettings.GridSelectableOptions(enabled: false),
                     selectedSourceColumns);
             }
         }
@@ -1012,7 +1012,7 @@ namespace Implem.Pleasanter.Models
                     "Filter",
                     SiteSettings.FilterSelectableOptions(),
                     selectedColumns,
-                    SiteSettings.FilterSelectableOptions(visible: false),
+                    SiteSettings.FilterSelectableOptions(enabled: false),
                     selectedSourceColumns);
             }
         }
@@ -1123,7 +1123,7 @@ namespace Implem.Pleasanter.Models
                         MonitorChangesColumns),
                     selectedColumns,
                     SiteSettings.MonitorChangesSelectableOptions(
-                        MonitorChangesColumns, visible: false),
+                        MonitorChangesColumns, enabled: false),
                     selectedSourceColumns);
                 Session_MonitorChangesColumns(MonitorChangesColumns);
             }
@@ -1227,7 +1227,7 @@ namespace Implem.Pleasanter.Models
                     "Editor",
                     SiteSettings.EditorSelectableOptions(),
                     selectedColumns,
-                    SiteSettings.EditorSelectableOptions(visible: false),
+                    SiteSettings.EditorSelectableOptions(enabled: false),
                     selectedSourceColumns);
             }
         }
@@ -1303,7 +1303,7 @@ namespace Implem.Pleasanter.Models
                     "Title",
                     SiteSettings.TitleSelectableOptions(),
                     selectedColumns,
-                    SiteSettings.TitleSelectableOptions(visible: false),
+                    SiteSettings.TitleSelectableOptions(enabled: false),
                     selectedSourceColumns);
             }
         }
@@ -1327,7 +1327,7 @@ namespace Implem.Pleasanter.Models
                     "Link",
                     SiteSettings.LinkSelectableOptions(),
                     selectedColumns,
-                    SiteSettings.LinkSelectableOptions(visible: false),
+                    SiteSettings.LinkSelectableOptions(enabled: false),
                     selectedSourceColumns);
             }
         }
@@ -1351,7 +1351,7 @@ namespace Implem.Pleasanter.Models
                     "History",
                     SiteSettings.HistorySelectableOptions(),
                     selectedColumns,
-                    SiteSettings.HistorySelectableOptions(visible: false),
+                    SiteSettings.HistorySelectableOptions(enabled: false),
                     selectedSourceColumns);
             }
         }

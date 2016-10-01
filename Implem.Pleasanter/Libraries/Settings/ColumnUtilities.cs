@@ -83,11 +83,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public static Dictionary<string, string> SelectableOptions(
-            SiteSettings siteSettings, IEnumerable<string> columns, bool visible = true)
+            SiteSettings siteSettings, IEnumerable<string> columns, bool enabled = true)
         {
             return columns.ToDictionary(
                 o => o,
-                o => visible
+                o => enabled
                     ? Displays.Get(siteSettings.GetColumn(o).LabelText)
                     : Displays.Get(siteSettings.GetColumn(o).LabelText) +
                         " (" + Displays.Disabled() + ")");

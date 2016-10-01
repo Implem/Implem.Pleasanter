@@ -921,7 +921,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.DisabledList(),
-                        listItemCollection: siteSettings.GridSelectableOptions(visible: false),
+                        listItemCollection: siteSettings.GridSelectableOptions(enabled: false),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
@@ -985,7 +985,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.DisabledList(),
-                        listItemCollection: siteSettings.FilterSelectableOptions(visible: false),
+                        listItemCollection: siteSettings.FilterSelectableOptions(enabled: false),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
@@ -1192,7 +1192,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.DisabledList(),
-                        listItemCollection: siteSettings.EditorSelectableOptions(visible: false),
+                        listItemCollection: siteSettings.EditorSelectableOptions(enabled: false),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
@@ -1260,7 +1260,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.DisabledList(),
-                        listItemCollection: siteSettings.LinkSelectableOptions(visible: false),
+                        listItemCollection: siteSettings.LinkSelectableOptions(enabled: false),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
@@ -1324,7 +1324,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.DisabledList(),
-                        listItemCollection: siteSettings.HistorySelectableOptions(visible: false),
+                        listItemCollection: siteSettings.HistorySelectableOptions(enabled: false),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
@@ -1611,7 +1611,7 @@ namespace Implem.Pleasanter.Models
                 controlContainerCss: "container-selectable",
                 controlCss: " h350",
                 labelText: Displays.DisabledList(),
-                listItemCollection: siteSettings.TitleSelectableOptions(visible: false),
+                listItemCollection: siteSettings.TitleSelectableOptions(enabled: false),
                 commandOptionPositionIsTop: true,
                 commandOptionAction: () => hb
                     .Div(css: "command-center", action: () => hb
@@ -1823,7 +1823,7 @@ namespace Implem.Pleasanter.Models
                                     listItemCollection: siteSettings
                                         .MonitorChangesSelectableOptions(
                                             notification.MonitorChangesColumns,
-                                            visible: false),
+                                            enabled: false),
                                     commandOptionPositionIsTop: true,
                                     commandOptionAction: () => hb
                                         .Div(css: "command-center", action: () => hb
