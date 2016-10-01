@@ -1,22 +1,32 @@
-﻿$p.openColumnPropertiesDialog = function ($control) {
-    var error = $p.send($control, undefined, false);
-    if (error === 0) {
-        $('#ColumnPropertiesDialog').dialog({
-            modal: true,
-            width: '90%',
-            height: 'auto',
-            appendTo: '.main-form'
-        });
-    }
-}
-
-$p.uploadSiteImage = function ($control) {
+﻿$p.uploadSiteImage = function ($control) {
     var data = new FormData();
     data.append('SiteImage', $('[id=\'SiteSettings,SiteImage\']').prop('files')[0]);
     $p.upload(
         $('.main-form').attr('action').replace('_action_', $control.attr('data-action')),
         $control.attr('data-method'),
         data);
+}
+
+$p.openSiteSettingsDialog = function ($control, selector, appendTo) {
+    var error = $p.send($control, undefined, false);
+    if (error === 0) {
+        $(selector).dialog({
+            modal: true,
+            width: '90%',
+            height: 'auto',
+            appendTo: appendTo !== undefined
+                ? appendTo
+                : '.main-form'
+        });
+    }
+}
+
+$p.openColumnPropertiesDialog = function ($control) {
+    $p.openSiteSettingsDialog($control, '#ColumnPropertiesDialog')
+}
+
+$p.openNotificationDialog = function ($control) {
+    $p.openSiteSettingsDialog($control, '#NotificationDialog', 'body')
 }
 
 $p.setAggregationDetails = function ($control) {

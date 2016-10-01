@@ -617,6 +617,7 @@ namespace Implem.DefinitionAccessor
                     case "ClientValidators_Form": Code.ClientValidators_Form = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientValidators_Form, definitionRow, CodeXls); break;
                     case "ClientValidators_Rules": Code.ClientValidators_Rules = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientValidators_Rules, definitionRow, CodeXls); break;
                     case "ClientValidators_Messages": Code.ClientValidators_Messages = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientValidators_Messages, definitionRow, CodeXls); break;
+                    case "ClientValidators_Sites": Code.ClientValidators_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientValidators_Sites, definitionRow, CodeXls); break;
                     case "Css": Code.Css = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Css, definitionRow, CodeXls); break;
                     case "ClientDisplays": Code.ClientDisplays = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientDisplays, definitionRow, CodeXls); break;
                     case "ClientDisplays_Parts": Code.ClientDisplays_Parts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientDisplays_Parts, definitionRow, CodeXls); break;
@@ -951,6 +952,7 @@ namespace Implem.DefinitionAccessor
                     case "Sites_PermissionSourceCollection": Column.Sites_PermissionSourceCollection = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_PermissionSourceCollection, definitionRow, ColumnXls); break;
                     case "Sites_PermissionDestinationCollection": Column.Sites_PermissionDestinationCollection = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_PermissionDestinationCollection, definitionRow, ColumnXls); break;
                     case "Sites_SiteMenu": Column.Sites_SiteMenu = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_SiteMenu, definitionRow, ColumnXls); break;
+                    case "Sites_MonitorChangesColumns": Column.Sites_MonitorChangesColumns = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_MonitorChangesColumns, definitionRow, ColumnXls); break;
                     case "Orders_ReferenceId": Column.Orders_ReferenceId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Orders_ReferenceId, definitionRow, ColumnXls); break;
                     case "Orders_ReferenceType": Column.Orders_ReferenceType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Orders_ReferenceType, definitionRow, ColumnXls); break;
                     case "Orders_OwnerId": Column.Orders_OwnerId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Orders_OwnerId, definitionRow, ColumnXls); break;
@@ -2395,6 +2397,8 @@ namespace Implem.DefinitionAccessor
                     case "Cancel_ja": Display.Cancel_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Cancel_ja, definitionRow, DisplayXls); break;
                     case "GoBack": Display.GoBack = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.GoBack, definitionRow, DisplayXls); break;
                     case "GoBack_ja": Display.GoBack_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.GoBack_ja, definitionRow, DisplayXls); break;
+                    case "Address": Display.Address = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Address, definitionRow, DisplayXls); break;
+                    case "Address_ja": Display.Address_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Address_ja, definitionRow, DisplayXls); break;
                     case "Synchronize": Display.Synchronize = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Synchronize, definitionRow, DisplayXls); break;
                     case "Synchronize_ja": Display.Synchronize_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Synchronize_ja, definitionRow, DisplayXls); break;
                     case "Operations": Display.Operations = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Operations, definitionRow, DisplayXls); break;
@@ -2583,6 +2587,8 @@ namespace Implem.DefinitionAccessor
                     case "CopyWithComments": Display.CopyWithComments = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CopyWithComments, definitionRow, DisplayXls); break;
                     case "CopyWithComments_ja": Display.CopyWithComments_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CopyWithComments_ja, definitionRow, DisplayXls); break;
                     case "Hyphen": Display.Hyphen = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Hyphen, definitionRow, DisplayXls); break;
+                    case "Slack": Display.Slack = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Slack, definitionRow, DisplayXls); break;
+                    case "WebHookUrl": Display.WebHookUrl = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.WebHookUrl, definitionRow, DisplayXls); break;
                     case "Search": Display.Search = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Search, definitionRow, DisplayXls); break;
                     case "Search_ja": Display.Search_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Search_ja, definitionRow, DisplayXls); break;
                     case "Admin": Display.Admin = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Admin, definitionRow, DisplayXls); break;
@@ -2723,6 +2729,8 @@ namespace Implem.DefinitionAccessor
                     case "Auto_ja": Display.Auto_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Auto_ja, definitionRow, DisplayXls); break;
                     case "ControlType": Display.ControlType = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ControlType, definitionRow, DisplayXls); break;
                     case "ControlType_ja": Display.ControlType_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ControlType_ja, definitionRow, DisplayXls); break;
+                    case "NotificationType": Display.NotificationType = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.NotificationType, definitionRow, DisplayXls); break;
+                    case "NotificationType_ja": Display.NotificationType_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.NotificationType_ja, definitionRow, DisplayXls); break;
                     case "Spinner": Display.Spinner = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Spinner, definitionRow, DisplayXls); break;
                     case "Spinner_ja": Display.Spinner_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Spinner_ja, definitionRow, DisplayXls); break;
                     case "SiteImageSettingsEditor": Display.SiteImageSettingsEditor = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SiteImageSettingsEditor, definitionRow, DisplayXls); break;
@@ -2731,6 +2739,8 @@ namespace Implem.DefinitionAccessor
                     case "GridSettingsEditor_ja": Display.GridSettingsEditor_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.GridSettingsEditor_ja, definitionRow, DisplayXls); break;
                     case "EditorSettingsEditor": Display.EditorSettingsEditor = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.EditorSettingsEditor, definitionRow, DisplayXls); break;
                     case "EditorSettingsEditor_ja": Display.EditorSettingsEditor_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.EditorSettingsEditor_ja, definitionRow, DisplayXls); break;
+                    case "NotificationSettingsEditor": Display.NotificationSettingsEditor = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.NotificationSettingsEditor, definitionRow, DisplayXls); break;
+                    case "NotificationSettingsEditor_ja": Display.NotificationSettingsEditor_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.NotificationSettingsEditor_ja, definitionRow, DisplayXls); break;
                     case "MailerSettingsEditor": Display.MailerSettingsEditor = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.MailerSettingsEditor, definitionRow, DisplayXls); break;
                     case "MailerSettingsEditor_ja": Display.MailerSettingsEditor_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.MailerSettingsEditor_ja, definitionRow, DisplayXls); break;
                     case "StyleSettingsEditor": Display.StyleSettingsEditor = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.StyleSettingsEditor, definitionRow, DisplayXls); break;
@@ -2763,6 +2773,16 @@ namespace Implem.DefinitionAccessor
                     case "SummaryType_ja": Display.SummaryType_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SummaryType_ja, definitionRow, DisplayXls); break;
                     case "SummarySourceColumn": Display.SummarySourceColumn = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SummarySourceColumn, definitionRow, DisplayXls); break;
                     case "SummarySourceColumn_ja": Display.SummarySourceColumn_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SummarySourceColumn_ja, definitionRow, DisplayXls); break;
+                    case "MonitorChangesColumns": Display.MonitorChangesColumns = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.MonitorChangesColumns, definitionRow, DisplayXls); break;
+                    case "MonitorChangesColumns_ja": Display.MonitorChangesColumns_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.MonitorChangesColumns_ja, definitionRow, DisplayXls); break;
+                    case "ToEnable": Display.ToEnable = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ToEnable, definitionRow, DisplayXls); break;
+                    case "ToEnable_ja": Display.ToEnable_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ToEnable_ja, definitionRow, DisplayXls); break;
+                    case "ToDisable": Display.ToDisable = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ToDisable, definitionRow, DisplayXls); break;
+                    case "ToDisable_ja": Display.ToDisable_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ToDisable_ja, definitionRow, DisplayXls); break;
+                    case "EnabledList": Display.EnabledList = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.EnabledList, definitionRow, DisplayXls); break;
+                    case "EnabledList_ja": Display.EnabledList_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.EnabledList_ja, definitionRow, DisplayXls); break;
+                    case "DisabledList": Display.DisabledList = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DisabledList, definitionRow, DisplayXls); break;
+                    case "DisabledList_ja": Display.DisabledList_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DisabledList_ja, definitionRow, DisplayXls); break;
                     case "Title": Display.Title = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Title, definitionRow, DisplayXls); break;
                     case "Title_ja": Display.Title_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Title_ja, definitionRow, DisplayXls); break;
                     case "WorkValue": Display.WorkValue = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.WorkValue, definitionRow, DisplayXls); break;
@@ -4103,6 +4123,7 @@ namespace Implem.DefinitionAccessor
         public string ClientValidators_Form;
         public string ClientValidators_Rules;
         public string ClientValidators_Messages;
+        public string ClientValidators_Sites;
         public string Css;
         public string ClientDisplays;
         public string ClientDisplays_Parts;
@@ -4485,6 +4506,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition ClientValidators_Form = new CodeDefinition();
         public CodeDefinition ClientValidators_Rules = new CodeDefinition();
         public CodeDefinition ClientValidators_Messages = new CodeDefinition();
+        public CodeDefinition ClientValidators_Sites = new CodeDefinition();
         public CodeDefinition Css = new CodeDefinition();
         public CodeDefinition ClientDisplays = new CodeDefinition();
         public CodeDefinition ClientDisplays_Parts = new CodeDefinition();
@@ -5060,6 +5082,7 @@ namespace Implem.DefinitionAccessor
         public string Sites_PermissionSourceCollection;
         public string Sites_PermissionDestinationCollection;
         public string Sites_SiteMenu;
+        public string Sites_MonitorChangesColumns;
         public string Orders_ReferenceId;
         public string Orders_ReferenceType;
         public string Orders_OwnerId;
@@ -5686,6 +5709,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Sites_PermissionSourceCollection = new ColumnDefinition();
         public ColumnDefinition Sites_PermissionDestinationCollection = new ColumnDefinition();
         public ColumnDefinition Sites_SiteMenu = new ColumnDefinition();
+        public ColumnDefinition Sites_MonitorChangesColumns = new ColumnDefinition();
         public ColumnDefinition Orders_ReferenceId = new ColumnDefinition();
         public ColumnDefinition Orders_ReferenceType = new ColumnDefinition();
         public ColumnDefinition Orders_OwnerId = new ColumnDefinition();
@@ -7561,6 +7585,8 @@ namespace Implem.DefinitionAccessor
         public string Cancel_ja;
         public string GoBack;
         public string GoBack_ja;
+        public string Address;
+        public string Address_ja;
         public string Synchronize;
         public string Synchronize_ja;
         public string Operations;
@@ -7749,6 +7775,8 @@ namespace Implem.DefinitionAccessor
         public string CopyWithComments;
         public string CopyWithComments_ja;
         public string Hyphen;
+        public string Slack;
+        public string WebHookUrl;
         public string Search;
         public string Search_ja;
         public string Admin;
@@ -7889,6 +7917,8 @@ namespace Implem.DefinitionAccessor
         public string Auto_ja;
         public string ControlType;
         public string ControlType_ja;
+        public string NotificationType;
+        public string NotificationType_ja;
         public string Spinner;
         public string Spinner_ja;
         public string SiteImageSettingsEditor;
@@ -7897,6 +7927,8 @@ namespace Implem.DefinitionAccessor
         public string GridSettingsEditor_ja;
         public string EditorSettingsEditor;
         public string EditorSettingsEditor_ja;
+        public string NotificationSettingsEditor;
+        public string NotificationSettingsEditor_ja;
         public string MailerSettingsEditor;
         public string MailerSettingsEditor_ja;
         public string StyleSettingsEditor;
@@ -7929,6 +7961,16 @@ namespace Implem.DefinitionAccessor
         public string SummaryType_ja;
         public string SummarySourceColumn;
         public string SummarySourceColumn_ja;
+        public string MonitorChangesColumns;
+        public string MonitorChangesColumns_ja;
+        public string ToEnable;
+        public string ToEnable_ja;
+        public string ToDisable;
+        public string ToDisable_ja;
+        public string EnabledList;
+        public string EnabledList_ja;
+        public string DisabledList;
+        public string DisabledList_ja;
         public string Title;
         public string Title_ja;
         public string WorkValue;
@@ -8207,6 +8249,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition Cancel_ja = new DisplayDefinition();
         public DisplayDefinition GoBack = new DisplayDefinition();
         public DisplayDefinition GoBack_ja = new DisplayDefinition();
+        public DisplayDefinition Address = new DisplayDefinition();
+        public DisplayDefinition Address_ja = new DisplayDefinition();
         public DisplayDefinition Synchronize = new DisplayDefinition();
         public DisplayDefinition Synchronize_ja = new DisplayDefinition();
         public DisplayDefinition Operations = new DisplayDefinition();
@@ -8395,6 +8439,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition CopyWithComments = new DisplayDefinition();
         public DisplayDefinition CopyWithComments_ja = new DisplayDefinition();
         public DisplayDefinition Hyphen = new DisplayDefinition();
+        public DisplayDefinition Slack = new DisplayDefinition();
+        public DisplayDefinition WebHookUrl = new DisplayDefinition();
         public DisplayDefinition Search = new DisplayDefinition();
         public DisplayDefinition Search_ja = new DisplayDefinition();
         public DisplayDefinition Admin = new DisplayDefinition();
@@ -8535,6 +8581,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition Auto_ja = new DisplayDefinition();
         public DisplayDefinition ControlType = new DisplayDefinition();
         public DisplayDefinition ControlType_ja = new DisplayDefinition();
+        public DisplayDefinition NotificationType = new DisplayDefinition();
+        public DisplayDefinition NotificationType_ja = new DisplayDefinition();
         public DisplayDefinition Spinner = new DisplayDefinition();
         public DisplayDefinition Spinner_ja = new DisplayDefinition();
         public DisplayDefinition SiteImageSettingsEditor = new DisplayDefinition();
@@ -8543,6 +8591,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition GridSettingsEditor_ja = new DisplayDefinition();
         public DisplayDefinition EditorSettingsEditor = new DisplayDefinition();
         public DisplayDefinition EditorSettingsEditor_ja = new DisplayDefinition();
+        public DisplayDefinition NotificationSettingsEditor = new DisplayDefinition();
+        public DisplayDefinition NotificationSettingsEditor_ja = new DisplayDefinition();
         public DisplayDefinition MailerSettingsEditor = new DisplayDefinition();
         public DisplayDefinition MailerSettingsEditor_ja = new DisplayDefinition();
         public DisplayDefinition StyleSettingsEditor = new DisplayDefinition();
@@ -8575,6 +8625,16 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition SummaryType_ja = new DisplayDefinition();
         public DisplayDefinition SummarySourceColumn = new DisplayDefinition();
         public DisplayDefinition SummarySourceColumn_ja = new DisplayDefinition();
+        public DisplayDefinition MonitorChangesColumns = new DisplayDefinition();
+        public DisplayDefinition MonitorChangesColumns_ja = new DisplayDefinition();
+        public DisplayDefinition ToEnable = new DisplayDefinition();
+        public DisplayDefinition ToEnable_ja = new DisplayDefinition();
+        public DisplayDefinition ToDisable = new DisplayDefinition();
+        public DisplayDefinition ToDisable_ja = new DisplayDefinition();
+        public DisplayDefinition EnabledList = new DisplayDefinition();
+        public DisplayDefinition EnabledList_ja = new DisplayDefinition();
+        public DisplayDefinition DisabledList = new DisplayDefinition();
+        public DisplayDefinition DisabledList_ja = new DisplayDefinition();
         public DisplayDefinition Title = new DisplayDefinition();
         public DisplayDefinition Title_ja = new DisplayDefinition();
         public DisplayDefinition WorkValue = new DisplayDefinition();

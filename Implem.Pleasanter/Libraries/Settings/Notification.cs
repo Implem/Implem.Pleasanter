@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 namespace Implem.Pleasanter.Libraries.Settings
 {
+    [Serializable()]
     public class Notification
     {
         public Types Type;
         public string Address;
-        public List<string> Columns;
+        public List<string> MonitorChangesColumns;
 
         public enum Types : int
         {
@@ -13,17 +16,28 @@ namespace Implem.Pleasanter.Libraries.Settings
             Slack = 2
         }
 
-        public Notification(int type, string address, List<string> columns)
+        public Notification(Types type, string address, List<string> monitorChangesColumns)
         {
-            Type = (Types)type;
+            Type = type;
             Address = address;
-            Columns = columns;
+            MonitorChangesColumns = monitorChangesColumns;
+            MonitorChangesColumns = monitorChangesColumns;
+        }
+
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext streamingContext)
+        {
+        }
+
+        [OnSerializing]
+        private void OnSerializing(StreamingContext streamingContext)
+        {
         }
 
         public void Update(string address, List<string> columns)
         {
             Address = address;
-            Columns = columns;
+            MonitorChangesColumns = columns;
         }
     }
 }

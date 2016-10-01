@@ -8,5 +8,14 @@
             Sites_Title: { required: $('#Sites_Title').attr('data-validate-required') }
         }
     });
+    $('#NotificationForm').validate({
+        rules: {
+            NotificationAddress: { required: true }
+        },
+        messages: {
+            NotificationAddress: { required: $p.display('Displays_ValidateRequired') }
+        }
+    });
+
 }
 $p.validateSites();

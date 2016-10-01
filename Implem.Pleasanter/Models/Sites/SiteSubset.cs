@@ -41,6 +41,8 @@ namespace Implem.Pleasanter.Models
         public string PermissionDestinationCollection_LabelText;
         public int SiteMenu;
         public string SiteMenu_LabelText;
+        public List<string> MonitorChangesColumns;
+        public string MonitorChangesColumns_LabelText;
         public Comments Comments;
         public string Comments_LabelText;
         public User Creator;
@@ -92,6 +94,8 @@ namespace Implem.Pleasanter.Models
             PermissionDestinationCollection_LabelText = siteSettings.EditorColumn("PermissionDestinationCollection")?.LabelText;
             SiteMenu = siteModel.SiteMenu;
             SiteMenu_LabelText = siteSettings.EditorColumn("SiteMenu")?.LabelText;
+            MonitorChangesColumns = siteModel.MonitorChangesColumns;
+            MonitorChangesColumns_LabelText = siteSettings.EditorColumn("MonitorChangesColumns")?.LabelText;
             Comments = siteModel.Comments;
             Comments_LabelText = siteSettings.EditorColumn("Comments")?.LabelText;
             Creator = siteModel.Creator;

@@ -19,7 +19,17 @@
         Displays_ConfirmSendMail: 'Are you sure you want to send an email ?',
         Displays_ConfirmSendMail_ja: 'メールを送信してもよろしいですか？',
         Displays_ConfirmSynchronize: 'Are you sure you want to synchronize the data ?',
-        Displays_ConfirmSynchronize_ja: 'データを同期してもよろしいですか？'
+        Displays_ConfirmSynchronize_ja: 'データを同期してもよろしいですか？',
+        Displays_ValidateRequired: 'This information is required.',
+        Displays_ValidateRequired_ja: '入力必須項目です。',
+        Displays_ValidateNumber: 'You can not enter a non-numeric.',
+        Displays_ValidateNumber_ja: '数値以外入力不可です。',
+        Displays_ValidateDate: 'This is an invalid date.',
+        Displays_ValidateDate_ja: '日付または時刻が不正です。',
+        Displays_ValidateMail: 'Doesn’t look like a valid email.',
+        Displays_ValidateMail_ja: 'メールアドレスの形式が不正です。',
+        Displays_ValidateEqualTo: 'Please enter the same value again.',
+        Displays_ValidateEqualTo_ja: '入力した文字列が一致しません。'
     };
     var localId = defaultId + '_' + $('#Language').val();
     if (displays[localId]) {

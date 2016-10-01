@@ -162,6 +162,10 @@ namespace Implem.Pleasanter.Models
                     switch (siteModel.ReferenceType)
                     {
                         case "Sites":
+                            hb.Li(action: () => hb
+                                .A(
+                                    href: "#NotificationSettingsEditor",
+                                    text: Displays.NotificationSettingsEditor()));
                             break;
                         case "Wikis":
                             hb
@@ -169,6 +173,10 @@ namespace Implem.Pleasanter.Models
                                     .A(
                                         href: "#MailerSettingsEditor",
                                         text: Displays.MailerSettingsEditor()))
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#NotificationSettingsEditor",
+                                        text: Displays.NotificationSettingsEditor()))
                                 .Li(action: () => hb
                                     .A(
                                         href: "#StyleSettingsEditor",
@@ -192,6 +200,10 @@ namespace Implem.Pleasanter.Models
                                     .A(
                                         href: "#SummarySettingsEditor",
                                         text: Displays.SummarySettingsEditor()))
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#NotificationSettingsEditor",
+                                        text: Displays.NotificationSettingsEditor()))
                                 .Li(action: () => hb
                                     .A(
                                         href: "#MailerSettingsEditor",
@@ -681,7 +693,11 @@ namespace Implem.Pleasanter.Models
                         .Hidden(controlId: "Id", value: siteModel.SiteId.ToString()))
                 .OutgoingMailsForm("Sites", siteModel.SiteId, siteModel.Ver)
                 .CopyDialog("items", siteModel.SiteId)
-                .OutgoingMailDialog());
+                .OutgoingMailDialog()
+                .Div(attributes: new HtmlAttributes()
+                    .Id("NotificationDialog")
+                    .Class("dialog")
+                    .Title(Displays.NotificationSettingsEditor())));
         }
 
         /// <summary>
@@ -760,9 +776,11 @@ namespace Implem.Pleasanter.Models
                 switch (siteModel.ReferenceType)
                 {
                     case "Sites":
+                        hb.NotificationSettingsEditor(siteModel.SiteSettings);
                         break;
                     case "Wikis":
                         hb
+                            .NotificationSettingsEditor(siteModel.SiteSettings)
                             .MailerSettingsEditor(siteModel.SiteSettings)
                             .StyleSettingsEditor(siteModel.SiteSettings)
                             .ScriptSettingsEditor(siteModel.SiteSettings);
@@ -771,6 +789,7 @@ namespace Implem.Pleasanter.Models
                         hb
                             .GridSettingsEditor(siteModel.SiteSettings)
                             .EditorSettingsEditor(siteModel.SiteSettings)
+                            .NotificationSettingsEditor(siteModel.SiteSettings)
                             .SummarySettingsEditor(siteModel.SiteSettings)
                             .MailerSettingsEditor(siteModel.SiteSettings)
                             .StyleSettingsEditor(siteModel.SiteSettings)
@@ -867,7 +886,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.ShowList(),
-                        listItemCollection: siteSettings.GridSelectableItems(),
+                        listItemCollection: siteSettings.GridSelectableOptions(),
                         selectedValueCollection: new List<string>(),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
@@ -902,7 +921,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.HideList(),
-                        listItemCollection: siteSettings.GridSelectableItems(visible: false),
+                        listItemCollection: siteSettings.GridSelectableOptions(visible: false),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
@@ -931,7 +950,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.ShowList(),
-                        listItemCollection: siteSettings.FilterSelectableItems(),
+                        listItemCollection: siteSettings.FilterSelectableOptions(),
                         selectedValueCollection: new List<string>(),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
@@ -966,7 +985,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.HideList(),
-                        listItemCollection: siteSettings.FilterSelectableItems(visible: false),
+                        listItemCollection: siteSettings.FilterSelectableOptions(visible: false),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
@@ -1131,7 +1150,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.ShowList(),
-                        listItemCollection: siteSettings.EditorSelectableItems(),
+                        listItemCollection: siteSettings.EditorSelectableOptions(),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
@@ -1173,7 +1192,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.HideList(),
-                        listItemCollection: siteSettings.EditorSelectableItems(visible: false),
+                        listItemCollection: siteSettings.EditorSelectableOptions(visible: false),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
@@ -1207,7 +1226,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.ShowList(),
-                        listItemCollection: siteSettings.LinkSelectableItems(),
+                        listItemCollection: siteSettings.LinkSelectableOptions(),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
@@ -1241,7 +1260,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.HideList(),
-                        listItemCollection: siteSettings.LinkSelectableItems(visible: false),
+                        listItemCollection: siteSettings.LinkSelectableOptions(visible: false),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
@@ -1271,7 +1290,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.ShowList(),
-                        listItemCollection: siteSettings.HistorySelectableItems(),
+                        listItemCollection: siteSettings.HistorySelectableOptions(),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
@@ -1305,7 +1324,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
                         labelText: Displays.HideList(),
-                        listItemCollection: siteSettings.HistorySelectableItems(visible: false),
+                        listItemCollection: siteSettings.HistorySelectableOptions(visible: false),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
@@ -1558,7 +1577,7 @@ namespace Implem.Pleasanter.Models
                 controlContainerCss: "container-selectable",
                 controlCss: " h350",
                 labelText: Displays.ShowList(),
-                listItemCollection: siteSettings.TitleSelectableItems(),
+                listItemCollection: siteSettings.TitleSelectableOptions(),
                 commandOptionPositionIsTop: true,
                 commandOptionAction: () => hb
                     .Div(css: "command-center", action: () => hb
@@ -1592,7 +1611,7 @@ namespace Implem.Pleasanter.Models
                 controlContainerCss: "container-selectable",
                 controlCss: " h350",
                 labelText: Displays.HideList(),
-                listItemCollection: siteSettings.TitleSelectableItems(visible: false),
+                listItemCollection: siteSettings.TitleSelectableOptions(visible: false),
                 commandOptionPositionIsTop: true,
                 commandOptionAction: () => hb
                     .Div(css: "command-center", action: () => hb
@@ -1693,6 +1712,206 @@ namespace Implem.Pleasanter.Models
                                     action: "SynchronizeFormulas",
                                     method: "put",
                                     confirm: Displays.ConfirmSynchronize()))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder NotificationSettingsEditor(
+            this HtmlBuilder hb, SiteSettings siteSettings)
+        {
+            return hb.FieldSet(
+                id: "NotificationSettingsEditor",
+                action: () => hb
+                    .NotificationSettings(siteSettings)
+                    .Button(
+                        controlId: "NewNotification",
+                        text: Displays.New(),
+                        controlCss: "button-icon",
+                        onClick: "$p.openNotificationDialog($(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "put")
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("EditNotification")
+                        .DataAction("SetSiteSettings")
+                        .DataMethod("post"))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("DeleteNotification")
+                        .DataAction("SetSiteSettings")
+                        .DataMethod("post")
+                        .DataConfirm("Displays_ConfirmDelete")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder NotificationDialog(
+            SiteSettings siteSettings, string controlId, Notification notification)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("NotificationForm")
+                    .Action(Navigations.ItemAction(siteSettings.SiteId)),
+                action: () => hb
+                    .FieldDropDown(
+                        controlId: "NotificationType",
+                        controlCss: " must-transport",
+                        labelText: Displays.NotificationType(),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            { Notification.Types.Mail.ToInt().ToString(), Displays.Mail() },
+                            { Notification.Types.Slack.ToInt().ToString(), Displays.Slack() }
+                        },
+                        selectedValue: notification.Type.ToInt().ToString(),
+                        disabled: controlId == "EditNotification")
+                    .FieldTextBox(
+                        controlId: "NotificationAddress",
+                        fieldCss: "field-wide",
+                        controlCss: " must-transport",
+                        labelText: Displays.Address(),
+                        text: notification.Address)
+                    .FieldSet(
+                        css: " enclosed",
+                        legendText: Displays.MonitorChangesColumns(),
+                        action: () =>
+                        {
+                            hb
+                                .FieldSelectable(
+                                    controlId: "MonitorChangesColumns",
+                                    fieldCss: "field-vertical",
+                                    controlContainerCss: "container-selectable",
+                                    controlCss: " h350",
+                                    labelText: Displays.EnabledList(),
+                                    listItemCollection: siteSettings
+                                        .MonitorChangesSelectableOptions(
+                                            notification.MonitorChangesColumns),
+                                    commandOptionPositionIsTop: true,
+                                    commandOptionAction: () => hb
+                                        .Div(css: "command-center", action: () => hb
+                                            .Button(
+                                                controlId: "MoveUpMonitorChangesColumns",
+                                                text: Displays.MoveUp(),
+                                                controlCss: "button-icon",
+                                                onClick: "$p.send($(this), $p.getFormId($(this)));",
+                                                icon: "ui-icon-circle-triangle-n",
+                                                action: "SetSiteSettings",
+                                                method: "post")
+                                            .Button(
+                                                controlId: "MoveDownMonitorChangesColumns",
+                                                text: Displays.MoveDown(),
+                                                controlCss: "button-icon",
+                                                onClick: "$p.send($(this), $p.getFormId($(this)));",
+                                                icon: "ui-icon-circle-triangle-s",
+                                                action: "SetSiteSettings",
+                                                method: "post")
+                                            .Button(
+                                                controlId: "HideMonitorChangesColumns",
+                                                text: Displays.ToDisable(),
+                                                controlCss: "button-icon",
+                                                onClick: "$p.send($(this), $p.getFormId($(this)));",
+                                                icon: "ui-icon-circle-triangle-e",
+                                                action: "SetSiteSettings",
+                                                method: "put")))
+                                .FieldSelectable(
+                                    controlId: "MonitorChangesSourceColumns",
+                                    fieldCss: "field-vertical",
+                                    controlContainerCss: "container-selectable",
+                                    controlCss: " h350",
+                                    labelText: Displays.DisabledList(),
+                                    listItemCollection: siteSettings
+                                        .MonitorChangesSelectableOptions(
+                                            notification.MonitorChangesColumns,
+                                            visible: false),
+                                    commandOptionPositionIsTop: true,
+                                    commandOptionAction: () => hb
+                                        .Div(css: "command-center", action: () => hb
+                                            .Button(
+                                                controlId: "ShowMonitorChangesColumns",
+                                                text: Displays.ToEnable(),
+                                                controlCss: "button-icon",
+                                                onClick: "$p.send($(this), $p.getFormId($(this)));",
+                                                icon: "ui-icon-circle-triangle-w",
+                                                action: "SetSiteSettings",
+                                                method: "put")));
+                        })
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "CreateNotification",
+                            text: Displays.Setting(),
+                            controlCss: "button-icon validate",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "NewNotification")
+                        .Button(
+                            controlId: "UpdateNotification",
+                            text: Displays.Setting(),
+                            controlCss: "button-icon validate",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "EditNotification")
+                        .Button(
+                            text: Displays.Cancel(),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder NotificationSettings(
+            this HtmlBuilder hb, SiteSettings siteSettings)
+        {
+            return hb.Table(id: "NotificationSettings", css: "grid", action: () => hb
+                .THead(action: () => hb
+                    .Tr(css: "ui-widget-header", action: () => hb
+                        .Th(action: () => hb
+                            .Text(text: Displays.NotificationType()))
+                        .Th(action: () => hb
+                            .Text(text: Displays.Address()))
+                        .Th(action: () => hb
+                            .Text(text: Displays.NotificationSettingsEditor()))
+                        .Th(action: () => hb
+                            .Text(text: Displays.Operations()))))
+                .NotificationSettingsTBody(siteSettings: siteSettings));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder NotificationSettingsTBody(
+            this HtmlBuilder hb, SiteSettings siteSettings)
+        {
+            return hb.TBody(action: () =>
+            {
+                siteSettings.Notifications.ForEach(notification =>
+                {
+                    hb.Tr(
+                        attributes: new HtmlAttributes()
+                            .Class("grid-row not-link")
+                            .DataId(notification.Type.ToInt().ToString()),
+                        action: () => hb
+                            .Td(action: () => hb
+                                .Text(text: Displays.Get(notification.Type.ToString())))
+                            .Td(action: () => hb
+                                .Text(text: notification.Address))
+                            .Td(action: () => hb
+                                .Text(text: notification.MonitorChangesColumns
+                                    .Select(o => siteSettings.GetColumn(o).LabelText)
+                                    .Join(", ")))
+                            .Td(action: () => hb
+                                .Button(
+                                    controlCss: "button-icon delete",
+                                    text: Displays.Delete(),
+                                    dataId: notification.Type.ToInt().ToString(),
+                                    icon: "ui-icon-trash")));
+                });
+            });
         }
 
         /// <summary>

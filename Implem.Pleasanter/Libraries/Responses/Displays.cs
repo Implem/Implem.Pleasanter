@@ -80,6 +80,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Cancel(params string[] data) { return Get("Cancel", data); }
         public static HtmlBuilder Displays_GoBack(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("GoBack", data)); }
         public static string GoBack(params string[] data) { return Get("GoBack", data); }
+        public static HtmlBuilder Displays_Address(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Address", data)); }
+        public static string Address(params string[] data) { return Get("Address", data); }
         public static HtmlBuilder Displays_Synchronize(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Synchronize", data)); }
         public static string Synchronize(params string[] data) { return Get("Synchronize", data); }
         public static HtmlBuilder Displays_Operations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Operations", data)); }
@@ -270,6 +272,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string CopyWithComments(params string[] data) { return Get("CopyWithComments", data); }
         public static HtmlBuilder Displays_Hyphen(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Hyphen", data)); }
         public static string Hyphen(params string[] data) { return Get("Hyphen", data); }
+        public static HtmlBuilder Displays_Slack(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Slack", data)); }
+        public static string Slack(params string[] data) { return Get("Slack", data); }
+        public static HtmlBuilder Displays_WebHookUrl(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("WebHookUrl", data)); }
+        public static string WebHookUrl(params string[] data) { return Get("WebHookUrl", data); }
         public static HtmlBuilder Displays_Search(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Search", data)); }
         public static string Search(params string[] data) { return Get("Search", data); }
         public static HtmlBuilder Displays_Admin(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Admin", data)); }
@@ -410,6 +416,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Auto(params string[] data) { return Get("Auto", data); }
         public static HtmlBuilder Displays_ControlType(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ControlType", data)); }
         public static string ControlType(params string[] data) { return Get("ControlType", data); }
+        public static HtmlBuilder Displays_NotificationType(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NotificationType", data)); }
+        public static string NotificationType(params string[] data) { return Get("NotificationType", data); }
         public static HtmlBuilder Displays_Spinner(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Spinner", data)); }
         public static string Spinner(params string[] data) { return Get("Spinner", data); }
         public static HtmlBuilder Displays_SiteImageSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SiteImageSettingsEditor", data)); }
@@ -418,6 +426,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string GridSettingsEditor(params string[] data) { return Get("GridSettingsEditor", data); }
         public static HtmlBuilder Displays_EditorSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EditorSettingsEditor", data)); }
         public static string EditorSettingsEditor(params string[] data) { return Get("EditorSettingsEditor", data); }
+        public static HtmlBuilder Displays_NotificationSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NotificationSettingsEditor", data)); }
+        public static string NotificationSettingsEditor(params string[] data) { return Get("NotificationSettingsEditor", data); }
         public static HtmlBuilder Displays_MailerSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MailerSettingsEditor", data)); }
         public static string MailerSettingsEditor(params string[] data) { return Get("MailerSettingsEditor", data); }
         public static HtmlBuilder Displays_StyleSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("StyleSettingsEditor", data)); }
@@ -450,6 +460,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SummaryType(params string[] data) { return Get("SummaryType", data); }
         public static HtmlBuilder Displays_SummarySourceColumn(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SummarySourceColumn", data)); }
         public static string SummarySourceColumn(params string[] data) { return Get("SummarySourceColumn", data); }
+        public static HtmlBuilder Displays_MonitorChangesColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MonitorChangesColumns", data)); }
+        public static string MonitorChangesColumns(params string[] data) { return Get("MonitorChangesColumns", data); }
+        public static HtmlBuilder Displays_ToEnable(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ToEnable", data)); }
+        public static string ToEnable(params string[] data) { return Get("ToEnable", data); }
+        public static HtmlBuilder Displays_ToDisable(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ToDisable", data)); }
+        public static string ToDisable(params string[] data) { return Get("ToDisable", data); }
+        public static HtmlBuilder Displays_EnabledList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EnabledList", data)); }
+        public static string EnabledList(params string[] data) { return Get("EnabledList", data); }
+        public static HtmlBuilder Displays_DisabledList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DisabledList", data)); }
+        public static string DisabledList(params string[] data) { return Get("DisabledList", data); }
         public static HtmlBuilder Displays_Title(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Title", data)); }
         public static string Title(params string[] data) { return Get("Title", data); }
         public static HtmlBuilder Displays_WorkValue(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("WorkValue", data)); }
@@ -968,6 +988,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Sites_PermissionDestinationCollection(params string[] data) { return Get("Sites_PermissionDestinationCollection", data); }
         public static HtmlBuilder Displays_Sites_SiteMenu(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Sites_SiteMenu", data)); }
         public static string Sites_SiteMenu(params string[] data) { return Get("Sites_SiteMenu", data); }
+        public static HtmlBuilder Displays_Sites_MonitorChangesColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Sites_MonitorChangesColumns", data)); }
+        public static string Sites_MonitorChangesColumns(params string[] data) { return Get("Sites_MonitorChangesColumns", data); }
         public static HtmlBuilder Displays_Orders_ReferenceId(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Orders_ReferenceId", data)); }
         public static string Orders_ReferenceId(params string[] data) { return Get("Orders_ReferenceId", data); }
         public static HtmlBuilder Displays_Orders_ReferenceType(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Orders_ReferenceType", data)); }

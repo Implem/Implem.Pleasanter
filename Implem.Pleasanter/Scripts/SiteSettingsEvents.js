@@ -21,4 +21,17 @@
         }
         $p.getData().ColumnProperty, Format = $('[id="ColumnProperty,Format"]').val();
     });
+    $(document).on('click', '#CreateNotification,#UpdateNotification', function () {
+        $p.getData().NotificationType = $('#NotificationType').val();
+        $p.send($(this), $p.getFormId($(this)));
+    });
+    $(document).on('click', '#NotificationSettings .grid-row', function () {
+        $p.getData().NotificationType = $(this).attr('data-id');
+        $p.openNotificationDialog($('#EditNotification'), '#NotificationDialog');
+    });
+    $(document).on('click', '#NotificationSettings .delete', function (e) {
+        e.stopPropagation();
+        $p.getData().NotificationType = $(this).attr('data-id');
+        $p.send($('#DeleteNotification'));
+    });
 });
