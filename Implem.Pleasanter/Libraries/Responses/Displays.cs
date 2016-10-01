@@ -462,6 +462,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SummarySourceColumn(params string[] data) { return Get("SummarySourceColumn", data); }
         public static HtmlBuilder Displays_MonitorChangesColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MonitorChangesColumns", data)); }
         public static string MonitorChangesColumns(params string[] data) { return Get("MonitorChangesColumns", data); }
+        public static HtmlBuilder Displays_Enabled(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Enabled", data)); }
+        public static string Enabled(params string[] data) { return Get("Enabled", data); }
+        public static HtmlBuilder Displays_Disabled(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Disabled", data)); }
+        public static string Disabled(params string[] data) { return Get("Disabled", data); }
         public static HtmlBuilder Displays_ToEnable(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ToEnable", data)); }
         public static string ToEnable(params string[] data) { return Get("ToEnable", data); }
         public static HtmlBuilder Displays_ToDisable(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ToDisable", data)); }

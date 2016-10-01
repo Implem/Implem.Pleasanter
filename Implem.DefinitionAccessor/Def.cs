@@ -2775,6 +2775,10 @@ namespace Implem.DefinitionAccessor
                     case "SummarySourceColumn_ja": Display.SummarySourceColumn_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SummarySourceColumn_ja, definitionRow, DisplayXls); break;
                     case "MonitorChangesColumns": Display.MonitorChangesColumns = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.MonitorChangesColumns, definitionRow, DisplayXls); break;
                     case "MonitorChangesColumns_ja": Display.MonitorChangesColumns_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.MonitorChangesColumns_ja, definitionRow, DisplayXls); break;
+                    case "Enabled": Display.Enabled = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Enabled, definitionRow, DisplayXls); break;
+                    case "Enabled_ja": Display.Enabled_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Enabled_ja, definitionRow, DisplayXls); break;
+                    case "Disabled": Display.Disabled = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Disabled, definitionRow, DisplayXls); break;
+                    case "Disabled_ja": Display.Disabled_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Disabled_ja, definitionRow, DisplayXls); break;
                     case "ToEnable": Display.ToEnable = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ToEnable, definitionRow, DisplayXls); break;
                     case "ToEnable_ja": Display.ToEnable_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ToEnable_ja, definitionRow, DisplayXls); break;
                     case "ToDisable": Display.ToDisable = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ToDisable, definitionRow, DisplayXls); break;
@@ -7963,6 +7967,10 @@ namespace Implem.DefinitionAccessor
         public string SummarySourceColumn_ja;
         public string MonitorChangesColumns;
         public string MonitorChangesColumns_ja;
+        public string Enabled;
+        public string Enabled_ja;
+        public string Disabled;
+        public string Disabled_ja;
         public string ToEnable;
         public string ToEnable_ja;
         public string ToDisable;
@@ -8627,6 +8635,10 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition SummarySourceColumn_ja = new DisplayDefinition();
         public DisplayDefinition MonitorChangesColumns = new DisplayDefinition();
         public DisplayDefinition MonitorChangesColumns_ja = new DisplayDefinition();
+        public DisplayDefinition Enabled = new DisplayDefinition();
+        public DisplayDefinition Enabled_ja = new DisplayDefinition();
+        public DisplayDefinition Disabled = new DisplayDefinition();
+        public DisplayDefinition Disabled_ja = new DisplayDefinition();
         public DisplayDefinition ToEnable = new DisplayDefinition();
         public DisplayDefinition ToEnable_ja = new DisplayDefinition();
         public DisplayDefinition ToDisable = new DisplayDefinition();

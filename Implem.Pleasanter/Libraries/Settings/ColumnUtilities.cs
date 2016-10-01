@@ -90,7 +90,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 o => visible
                     ? Displays.Get(siteSettings.GetColumn(o).LabelText)
                     : Displays.Get(siteSettings.GetColumn(o).LabelText) +
-                        " (" + Displays.Hidden() + ")");
+                        " (" + Displays.Disabled() + ")");
         }
 
         public static string ChangeCommand(string controlId)
