@@ -8,8 +8,8 @@ namespace Implem.Pleasanter.Libraries.Validators
     {
         public static Dictionary<string, string> MessageCollection(string validators)
         {
-            return validators.Split(',').Select(o => o.Trim()).ToDictionary(o =>
-                "data-validate-" + o.Split(':')._1st(),
+            return validators.Split(',').Select(o => o.Trim()).ToDictionary(
+                o => "data-validate-" + o.Split(':')._1st(),
                 o => Message(o.Split(':')._1st()));
         }
 
