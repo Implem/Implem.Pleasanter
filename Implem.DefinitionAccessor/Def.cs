@@ -1433,16 +1433,16 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("Import")) { newColumnDefinition.Import = definitionRow["Import"].ToInt(); newColumnDefinition.SavedImport = newColumnDefinition.Import; }
                 if (definitionRow.ContainsKey("Export")) { newColumnDefinition.Export = definitionRow["Export"].ToInt(); newColumnDefinition.SavedExport = newColumnDefinition.Export; }
                 if (definitionRow.ContainsKey("GridColumn")) { newColumnDefinition.GridColumn = definitionRow["GridColumn"].ToInt(); newColumnDefinition.SavedGridColumn = newColumnDefinition.GridColumn; }
-                if (definitionRow.ContainsKey("GridVisible")) { newColumnDefinition.GridVisible = definitionRow["GridVisible"].ToBool(); newColumnDefinition.SavedGridVisible = newColumnDefinition.GridVisible; }
+                if (definitionRow.ContainsKey("GridEnabled")) { newColumnDefinition.GridEnabled = definitionRow["GridEnabled"].ToBool(); newColumnDefinition.SavedGridEnabled = newColumnDefinition.GridEnabled; }
                 if (definitionRow.ContainsKey("FilterColumn")) { newColumnDefinition.FilterColumn = definitionRow["FilterColumn"].ToInt(); newColumnDefinition.SavedFilterColumn = newColumnDefinition.FilterColumn; }
-                if (definitionRow.ContainsKey("FilterVisible")) { newColumnDefinition.FilterVisible = definitionRow["FilterVisible"].ToBool(); newColumnDefinition.SavedFilterVisible = newColumnDefinition.FilterVisible; }
+                if (definitionRow.ContainsKey("FilterEnabled")) { newColumnDefinition.FilterEnabled = definitionRow["FilterEnabled"].ToBool(); newColumnDefinition.SavedFilterEnabled = newColumnDefinition.FilterEnabled; }
                 if (definitionRow.ContainsKey("EditorColumn")) { newColumnDefinition.EditorColumn = definitionRow["EditorColumn"].ToBool(); newColumnDefinition.SavedEditorColumn = newColumnDefinition.EditorColumn; }
-                if (definitionRow.ContainsKey("EditorVisible")) { newColumnDefinition.EditorVisible = definitionRow["EditorVisible"].ToBool(); newColumnDefinition.SavedEditorVisible = newColumnDefinition.EditorVisible; }
+                if (definitionRow.ContainsKey("EditorEnabled")) { newColumnDefinition.EditorEnabled = definitionRow["EditorEnabled"].ToBool(); newColumnDefinition.SavedEditorEnabled = newColumnDefinition.EditorEnabled; }
                 if (definitionRow.ContainsKey("TitleColumn")) { newColumnDefinition.TitleColumn = definitionRow["TitleColumn"].ToInt(); newColumnDefinition.SavedTitleColumn = newColumnDefinition.TitleColumn; }
                 if (definitionRow.ContainsKey("LinkColumn")) { newColumnDefinition.LinkColumn = definitionRow["LinkColumn"].ToInt(); newColumnDefinition.SavedLinkColumn = newColumnDefinition.LinkColumn; }
-                if (definitionRow.ContainsKey("LinkVisible")) { newColumnDefinition.LinkVisible = definitionRow["LinkVisible"].ToBool(); newColumnDefinition.SavedLinkVisible = newColumnDefinition.LinkVisible; }
+                if (definitionRow.ContainsKey("LinkEnabled")) { newColumnDefinition.LinkEnabled = definitionRow["LinkEnabled"].ToBool(); newColumnDefinition.SavedLinkEnabled = newColumnDefinition.LinkEnabled; }
                 if (definitionRow.ContainsKey("HistoryColumn")) { newColumnDefinition.HistoryColumn = definitionRow["HistoryColumn"].ToInt(); newColumnDefinition.SavedHistoryColumn = newColumnDefinition.HistoryColumn; }
-                if (definitionRow.ContainsKey("HistoryVisible")) { newColumnDefinition.HistoryVisible = definitionRow["HistoryVisible"].ToBool(); newColumnDefinition.SavedHistoryVisible = newColumnDefinition.HistoryVisible; }
+                if (definitionRow.ContainsKey("HistoryEnabled")) { newColumnDefinition.HistoryEnabled = definitionRow["HistoryEnabled"].ToBool(); newColumnDefinition.SavedHistoryEnabled = newColumnDefinition.HistoryEnabled; }
                 if (definitionRow.ContainsKey("TypeName")) { newColumnDefinition.TypeName = definitionRow["TypeName"].ToString(); newColumnDefinition.SavedTypeName = newColumnDefinition.TypeName; }
                 if (definitionRow.ContainsKey("TypeCs")) { newColumnDefinition.TypeCs = definitionRow["TypeCs"].ToString(); newColumnDefinition.SavedTypeCs = newColumnDefinition.TypeCs; }
                 if (definitionRow.ContainsKey("RecordingData")) { newColumnDefinition.RecordingData = definitionRow["RecordingData"].ToString(); newColumnDefinition.SavedRecordingData = newColumnDefinition.RecordingData; }
@@ -1534,16 +1534,16 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("Import")) { definition.Import = definitionRow["Import"].ToInt(); definition.SavedImport = definition.Import; }
             if (definitionRow.ContainsKey("Export")) { definition.Export = definitionRow["Export"].ToInt(); definition.SavedExport = definition.Export; }
             if (definitionRow.ContainsKey("GridColumn")) { definition.GridColumn = definitionRow["GridColumn"].ToInt(); definition.SavedGridColumn = definition.GridColumn; }
-            if (definitionRow.ContainsKey("GridVisible")) { definition.GridVisible = definitionRow["GridVisible"].ToBool(); definition.SavedGridVisible = definition.GridVisible; }
+            if (definitionRow.ContainsKey("GridEnabled")) { definition.GridEnabled = definitionRow["GridEnabled"].ToBool(); definition.SavedGridEnabled = definition.GridEnabled; }
             if (definitionRow.ContainsKey("FilterColumn")) { definition.FilterColumn = definitionRow["FilterColumn"].ToInt(); definition.SavedFilterColumn = definition.FilterColumn; }
-            if (definitionRow.ContainsKey("FilterVisible")) { definition.FilterVisible = definitionRow["FilterVisible"].ToBool(); definition.SavedFilterVisible = definition.FilterVisible; }
+            if (definitionRow.ContainsKey("FilterEnabled")) { definition.FilterEnabled = definitionRow["FilterEnabled"].ToBool(); definition.SavedFilterEnabled = definition.FilterEnabled; }
             if (definitionRow.ContainsKey("EditorColumn")) { definition.EditorColumn = definitionRow["EditorColumn"].ToBool(); definition.SavedEditorColumn = definition.EditorColumn; }
-            if (definitionRow.ContainsKey("EditorVisible")) { definition.EditorVisible = definitionRow["EditorVisible"].ToBool(); definition.SavedEditorVisible = definition.EditorVisible; }
+            if (definitionRow.ContainsKey("EditorEnabled")) { definition.EditorEnabled = definitionRow["EditorEnabled"].ToBool(); definition.SavedEditorEnabled = definition.EditorEnabled; }
             if (definitionRow.ContainsKey("TitleColumn")) { definition.TitleColumn = definitionRow["TitleColumn"].ToInt(); definition.SavedTitleColumn = definition.TitleColumn; }
             if (definitionRow.ContainsKey("LinkColumn")) { definition.LinkColumn = definitionRow["LinkColumn"].ToInt(); definition.SavedLinkColumn = definition.LinkColumn; }
-            if (definitionRow.ContainsKey("LinkVisible")) { definition.LinkVisible = definitionRow["LinkVisible"].ToBool(); definition.SavedLinkVisible = definition.LinkVisible; }
+            if (definitionRow.ContainsKey("LinkEnabled")) { definition.LinkEnabled = definitionRow["LinkEnabled"].ToBool(); definition.SavedLinkEnabled = definition.LinkEnabled; }
             if (definitionRow.ContainsKey("HistoryColumn")) { definition.HistoryColumn = definitionRow["HistoryColumn"].ToInt(); definition.SavedHistoryColumn = definition.HistoryColumn; }
-            if (definitionRow.ContainsKey("HistoryVisible")) { definition.HistoryVisible = definitionRow["HistoryVisible"].ToBool(); definition.SavedHistoryVisible = definition.HistoryVisible; }
+            if (definitionRow.ContainsKey("HistoryEnabled")) { definition.HistoryEnabled = definitionRow["HistoryEnabled"].ToBool(); definition.SavedHistoryEnabled = definition.HistoryEnabled; }
             if (definitionRow.ContainsKey("TypeName")) { definition.TypeName = definitionRow["TypeName"].ToString(); definition.SavedTypeName = definition.TypeName; }
             if (definitionRow.ContainsKey("TypeCs")) { definition.TypeCs = definitionRow["TypeCs"].ToString(); definition.SavedTypeCs = definition.TypeCs; }
             if (definitionRow.ContainsKey("RecordingData")) { definition.RecordingData = definitionRow["RecordingData"].ToString(); definition.SavedRecordingData = definition.RecordingData; }
@@ -3214,16 +3214,16 @@ namespace Implem.DefinitionAccessor
                         case "Import": columnDefinition.Import = optionValue.ToInt(); break;
                         case "Export": columnDefinition.Export = optionValue.ToInt(); break;
                         case "GridColumn": columnDefinition.GridColumn = optionValue.ToInt(); break;
-                        case "GridVisible": columnDefinition.GridVisible = optionValue.ToBool(); break;
+                        case "GridEnabled": columnDefinition.GridEnabled = optionValue.ToBool(); break;
                         case "FilterColumn": columnDefinition.FilterColumn = optionValue.ToInt(); break;
-                        case "FilterVisible": columnDefinition.FilterVisible = optionValue.ToBool(); break;
+                        case "FilterEnabled": columnDefinition.FilterEnabled = optionValue.ToBool(); break;
                         case "EditorColumn": columnDefinition.EditorColumn = optionValue.ToBool(); break;
-                        case "EditorVisible": columnDefinition.EditorVisible = optionValue.ToBool(); break;
+                        case "EditorEnabled": columnDefinition.EditorEnabled = optionValue.ToBool(); break;
                         case "TitleColumn": columnDefinition.TitleColumn = optionValue.ToInt(); break;
                         case "LinkColumn": columnDefinition.LinkColumn = optionValue.ToInt(); break;
-                        case "LinkVisible": columnDefinition.LinkVisible = optionValue.ToBool(); break;
+                        case "LinkEnabled": columnDefinition.LinkEnabled = optionValue.ToBool(); break;
                         case "HistoryColumn": columnDefinition.HistoryColumn = optionValue.ToInt(); break;
-                        case "HistoryVisible": columnDefinition.HistoryVisible = optionValue.ToBool(); break;
+                        case "HistoryEnabled": columnDefinition.HistoryEnabled = optionValue.ToBool(); break;
                         case "TypeName": columnDefinition.TypeName = optionValue.ToString(); break;
                         case "TypeCs": columnDefinition.TypeCs = optionValue.ToString(); break;
                         case "RecordingData": columnDefinition.RecordingData = optionValue.ToString(); break;
@@ -4532,16 +4532,16 @@ namespace Implem.DefinitionAccessor
         public int Import; public int SavedImport;
         public int Export; public int SavedExport;
         public int GridColumn; public int SavedGridColumn;
-        public bool GridVisible; public bool SavedGridVisible;
+        public bool GridEnabled; public bool SavedGridEnabled;
         public int FilterColumn; public int SavedFilterColumn;
-        public bool FilterVisible; public bool SavedFilterVisible;
+        public bool FilterEnabled; public bool SavedFilterEnabled;
         public bool EditorColumn; public bool SavedEditorColumn;
-        public bool EditorVisible; public bool SavedEditorVisible;
+        public bool EditorEnabled; public bool SavedEditorEnabled;
         public int TitleColumn; public int SavedTitleColumn;
         public int LinkColumn; public int SavedLinkColumn;
-        public bool LinkVisible; public bool SavedLinkVisible;
+        public bool LinkEnabled; public bool SavedLinkEnabled;
         public int HistoryColumn; public int SavedHistoryColumn;
-        public bool HistoryVisible; public bool SavedHistoryVisible;
+        public bool HistoryEnabled; public bool SavedHistoryEnabled;
         public string TypeName; public string SavedTypeName;
         public string TypeCs; public string SavedTypeCs;
         public string RecordingData; public string SavedRecordingData;
@@ -4634,16 +4634,16 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("Import")) Import = propertyCollection["Import"].ToInt(); else Import = 0;
             if (propertyCollection.ContainsKey("Export")) Export = propertyCollection["Export"].ToInt(); else Export = 0;
             if (propertyCollection.ContainsKey("GridColumn")) GridColumn = propertyCollection["GridColumn"].ToInt(); else GridColumn = 0;
-            if (propertyCollection.ContainsKey("GridVisible")) GridVisible = propertyCollection["GridVisible"].ToBool(); else GridVisible = false;
+            if (propertyCollection.ContainsKey("GridEnabled")) GridEnabled = propertyCollection["GridEnabled"].ToBool(); else GridEnabled = false;
             if (propertyCollection.ContainsKey("FilterColumn")) FilterColumn = propertyCollection["FilterColumn"].ToInt(); else FilterColumn = 0;
-            if (propertyCollection.ContainsKey("FilterVisible")) FilterVisible = propertyCollection["FilterVisible"].ToBool(); else FilterVisible = false;
+            if (propertyCollection.ContainsKey("FilterEnabled")) FilterEnabled = propertyCollection["FilterEnabled"].ToBool(); else FilterEnabled = false;
             if (propertyCollection.ContainsKey("EditorColumn")) EditorColumn = propertyCollection["EditorColumn"].ToBool(); else EditorColumn = false;
-            if (propertyCollection.ContainsKey("EditorVisible")) EditorVisible = propertyCollection["EditorVisible"].ToBool(); else EditorVisible = false;
+            if (propertyCollection.ContainsKey("EditorEnabled")) EditorEnabled = propertyCollection["EditorEnabled"].ToBool(); else EditorEnabled = false;
             if (propertyCollection.ContainsKey("TitleColumn")) TitleColumn = propertyCollection["TitleColumn"].ToInt(); else TitleColumn = 0;
             if (propertyCollection.ContainsKey("LinkColumn")) LinkColumn = propertyCollection["LinkColumn"].ToInt(); else LinkColumn = 0;
-            if (propertyCollection.ContainsKey("LinkVisible")) LinkVisible = propertyCollection["LinkVisible"].ToBool(); else LinkVisible = false;
+            if (propertyCollection.ContainsKey("LinkEnabled")) LinkEnabled = propertyCollection["LinkEnabled"].ToBool(); else LinkEnabled = false;
             if (propertyCollection.ContainsKey("HistoryColumn")) HistoryColumn = propertyCollection["HistoryColumn"].ToInt(); else HistoryColumn = 0;
-            if (propertyCollection.ContainsKey("HistoryVisible")) HistoryVisible = propertyCollection["HistoryVisible"].ToBool(); else HistoryVisible = false;
+            if (propertyCollection.ContainsKey("HistoryEnabled")) HistoryEnabled = propertyCollection["HistoryEnabled"].ToBool(); else HistoryEnabled = false;
             if (propertyCollection.ContainsKey("TypeName")) TypeName = propertyCollection["TypeName"].ToString(); else TypeName = string.Empty;
             if (propertyCollection.ContainsKey("TypeCs")) TypeCs = propertyCollection["TypeCs"].ToString(); else TypeCs = string.Empty;
             if (propertyCollection.ContainsKey("RecordingData")) RecordingData = propertyCollection["RecordingData"].ToString(); else RecordingData = string.Empty;
@@ -4736,16 +4736,16 @@ namespace Implem.DefinitionAccessor
                     case "Import": return Import;
                     case "Export": return Export;
                     case "GridColumn": return GridColumn;
-                    case "GridVisible": return GridVisible;
+                    case "GridEnabled": return GridEnabled;
                     case "FilterColumn": return FilterColumn;
-                    case "FilterVisible": return FilterVisible;
+                    case "FilterEnabled": return FilterEnabled;
                     case "EditorColumn": return EditorColumn;
-                    case "EditorVisible": return EditorVisible;
+                    case "EditorEnabled": return EditorEnabled;
                     case "TitleColumn": return TitleColumn;
                     case "LinkColumn": return LinkColumn;
-                    case "LinkVisible": return LinkVisible;
+                    case "LinkEnabled": return LinkEnabled;
                     case "HistoryColumn": return HistoryColumn;
-                    case "HistoryVisible": return HistoryVisible;
+                    case "HistoryEnabled": return HistoryEnabled;
                     case "TypeName": return TypeName;
                     case "TypeCs": return TypeCs;
                     case "RecordingData": return RecordingData;
@@ -4838,16 +4838,16 @@ namespace Implem.DefinitionAccessor
             Import = SavedImport;
             Export = SavedExport;
             GridColumn = SavedGridColumn;
-            GridVisible = SavedGridVisible;
+            GridEnabled = SavedGridEnabled;
             FilterColumn = SavedFilterColumn;
-            FilterVisible = SavedFilterVisible;
+            FilterEnabled = SavedFilterEnabled;
             EditorColumn = SavedEditorColumn;
-            EditorVisible = SavedEditorVisible;
+            EditorEnabled = SavedEditorEnabled;
             TitleColumn = SavedTitleColumn;
             LinkColumn = SavedLinkColumn;
-            LinkVisible = SavedLinkVisible;
+            LinkEnabled = SavedLinkEnabled;
             HistoryColumn = SavedHistoryColumn;
-            HistoryVisible = SavedHistoryVisible;
+            HistoryEnabled = SavedHistoryEnabled;
             TypeName = SavedTypeName;
             TypeCs = SavedTypeCs;
             RecordingData = SavedRecordingData;

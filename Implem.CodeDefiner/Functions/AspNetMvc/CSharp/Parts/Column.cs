@@ -232,7 +232,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                         code = code.Replace("#ColumnCount#", columnCount.ToString());
                         break;
                     case "GridEnable":
-                        code = code.Replace("#GridEnable#", columnDefinition.GridVisible
+                        code = code.Replace("#GridEnable#", columnDefinition.GridEnabled
                             .ToOneOrZeroString());
                         break;
                     default:

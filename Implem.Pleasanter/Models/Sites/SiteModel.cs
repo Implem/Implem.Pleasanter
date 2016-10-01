@@ -948,7 +948,7 @@ namespace Implem.Pleasanter.Models
                 : new Notification(
                     Notification.Types.Mail,
                     string.Empty,
-                    ColumnUtilities.MonitorChangesDefinitions(ReferenceType, visibleOnly: true)
+                    ColumnUtilities.MonitorChangesDefinitions(ReferenceType, enableOnly: true)
                         .Select(o => o.ColumnName)
                         .ToList());
             Session_MonitorChangesColumns(notification.MonitorChangesColumns);

@@ -188,7 +188,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (GridColumnsOrder == null)
             {
                 GridColumnsOrder = ColumnUtilities.GridDefinitions(
-                    ReferenceType, visibleOnly: true)
+                    ReferenceType, enableOnly: true)
                         .Select(o => o.ColumnName)
                         .ToList();
             }
@@ -207,7 +207,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (FilterColumnsOrder == null)
             {
                 FilterColumnsOrder = ColumnUtilities.FilterDefinitions(
-                    ReferenceType, visibleOnly: true)
+                    ReferenceType, enableOnly: true)
                         .Select(o => o.ColumnName)
                         .ToList();
             }
@@ -226,7 +226,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (EditorColumnsOrder == null)
             {
                 EditorColumnsOrder = ColumnUtilities.EditorDefinitions(
-                    ReferenceType, visibleOnly: true)
+                    ReferenceType, enableOnly: true)
                         .Select(o => o.ColumnName)
                         .ToList();
             }
@@ -246,7 +246,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (TitleColumnsOrder == null)
             {
                 TitleColumnsOrder = ColumnUtilities.TitleDefinitions(
-                    ReferenceType, visibleOnly: true)
+                    ReferenceType, enableOnly: true)
                         .Select(o => o.ColumnName)
                         .ToList();
             }
@@ -266,7 +266,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (LinkColumnsOrder == null)
             {
                 LinkColumnsOrder = ColumnUtilities.LinkDefinitions(
-                    ReferenceType, visibleOnly: true)
+                    ReferenceType, enableOnly: true)
                         .Select(o => o.ColumnName)
                         .ToList();
             }
@@ -285,7 +285,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (HistoryColumnsOrder == null)
             {
                 HistoryColumnsOrder = ColumnUtilities.HistoryDefinitions(
-                    ReferenceType, visibleOnly: true)
+                    ReferenceType, enableOnly: true)
                         .Select(o => o.ColumnName)
                         .ToList();
             }

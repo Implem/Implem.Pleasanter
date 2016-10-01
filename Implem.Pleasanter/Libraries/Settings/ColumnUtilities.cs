@@ -9,73 +9,73 @@ namespace Implem.Pleasanter.Libraries.Settings
     public static class ColumnUtilities
     {
         public static IEnumerable<ColumnDefinition> GridDefinitions(
-            string referenceType, bool visibleOnly = false)
+            string referenceType, bool enableOnly = false)
         {
             return Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == referenceType)
                 .Where(o => o.GridColumn > 0)
-                .Where(o => o.GridVisible || !visibleOnly)
+                .Where(o => o.GridEnabled || !enableOnly)
                 .OrderBy(o => o.GridColumn);
         }
 
         public static IEnumerable<ColumnDefinition> FilterDefinitions(
-            string referenceType, bool visibleOnly = false)
+            string referenceType, bool enableOnly = false)
         {
             return Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == referenceType)
                 .Where(o => o.FilterColumn > 0)
-                .Where(o => o.FilterVisible || !visibleOnly)
+                .Where(o => o.FilterEnabled || !enableOnly)
                 .OrderBy(o => o.FilterColumn);
         }
 
         public static IEnumerable<ColumnDefinition> EditorDefinitions(
-            string referenceType, bool visibleOnly = false)
+            string referenceType, bool enableOnly = false)
         {
             return Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == referenceType)
                 .Where(o => o.EditorColumn)
-                .Where(o => o.EditorVisible || !visibleOnly)
+                .Where(o => o.EditorEnabled || !enableOnly)
                 .Where(o => !o.NotEditorSettings)
                 .OrderBy(o => o.No);
         }
 
         public static IEnumerable<ColumnDefinition> TitleDefinitions(
-            string referenceType, bool visibleOnly = false)
+            string referenceType, bool enableOnly = false)
         {
             return Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == referenceType)
                 .Where(o => o.TitleColumn > 0)
-                .Where(o => o.ColumnName == "Title" || !visibleOnly)
+                .Where(o => o.ColumnName == "Title" || !enableOnly)
                 .OrderBy(o => o.TitleColumn);
         }
 
         public static IEnumerable<ColumnDefinition> LinkDefinitions(
-            string referenceType, bool visibleOnly = false)
+            string referenceType, bool enableOnly = false)
         {
             return Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == referenceType)
                 .Where(o => o.LinkColumn > 0)
-                .Where(o => o.LinkVisible || !visibleOnly)
+                .Where(o => o.LinkEnabled || !enableOnly)
                 .OrderBy(o => o.LinkColumn);
         }
 
         public static IEnumerable<ColumnDefinition> HistoryDefinitions(
-            string referenceType, bool visibleOnly = false)
+            string referenceType, bool enableOnly = false)
         {
             return Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == referenceType)
                 .Where(o => o.HistoryColumn > 0)
-                .Where(o => o.HistoryVisible || !visibleOnly)
+                .Where(o => o.HistoryEnabled || !enableOnly)
                 .OrderBy(o => o.HistoryColumn);
         }
 
         public static IEnumerable<ColumnDefinition> MonitorChangesDefinitions(
-            string referenceType, bool visibleOnly = false)
+            string referenceType, bool enableOnly = false)
         {
             return Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == referenceType)
                 .Where(o => o.EditorColumn)
-                .Where(o => o.EditorVisible || !visibleOnly)
+                .Where(o => o.EditorEnabled || !enableOnly)
                 .Where(o => !o.NotEditorSettings)
                 .Where(o => !o.Unique)
                 .Where(o => o.ColumnName != "Ver")
