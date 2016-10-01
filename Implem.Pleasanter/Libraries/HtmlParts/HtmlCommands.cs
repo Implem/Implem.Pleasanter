@@ -111,7 +111,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     icon: "ui-icon-trash",
                                     action: "Delete",
                                     method: "delete",
-                                    confirm: "Displays_ConfirmDelete",
+                                    confirm: "ConfirmDelete",
                                     _using: deleteButton && permissionType.CanDelete())
                                 .Button(
                                     text: Displays.BulkDelete(),
@@ -121,7 +121,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     icon: "ui-icon-trash",
                                     action: "BulkDelete",
                                     method: "delete",
-                                    confirm: "Displays_ConfirmDelete",
+                                    confirm: "ConfirmDelete",
                                     _using: bulkDeleteButton && permissionType.CanDelete())
                                 .Button(
                                     controlId: "EditImportSettings",

@@ -649,7 +649,7 @@ namespace Implem.Pleasanter.Models
                                 icon: "ui-icon-trash",
                                 action: "Delete",
                                 method: "delete",
-                                confirm: "Displays_ConfirmDelete")));
+                                confirm: "ConfirmDelete")));
         }
 
         /// <summary>

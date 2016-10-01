@@ -13,7 +13,7 @@
             NotificationAddress: { required: true }
         },
         messages: {
-            NotificationAddress: { required: $p.display('Displays_ValidateRequired') }
+            NotificationAddress: { required: $p.display('ValidateRequired') }
         }
     });
 

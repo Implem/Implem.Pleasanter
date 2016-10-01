@@ -74,7 +74,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         icon: "ui-icon-extlink",
                         action: "Separate",
                         method: "put",
-                        confirm: "Displays_ConfirmSeparate")
+                        confirm: "ConfirmSeparate")
                     .Button(
                         text: Displays.Cancel(),
                         controlCss: "button-icon",

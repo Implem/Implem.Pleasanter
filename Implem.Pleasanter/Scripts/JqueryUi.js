@@ -15,8 +15,8 @@
         }).addClass('applied');
         $('select[multiple]:not(.applied)').multiselect({
             selectedList: 100,
-            checkAllText: $p.display('Displays_CheckAll'),
-            uncheckAllText: $p.display('Displays_UncheckAll'),
+            checkAllText: $p.display('CheckAll'),
+            uncheckAllText: $p.display('UncheckAll'),
             noneSelectedText: '',
             click: function () {
                 $p.changeMultiSelect($(this))

@@ -1740,7 +1740,7 @@ namespace Implem.Pleasanter.Models
                         .Id("DeleteNotification")
                         .DataAction("SetSiteSettings")
                         .DataMethod("post")
-                        .DataConfirm("Displays_ConfirmDelete")));
+                        .DataConfirm("ConfirmDelete")));
         }
 
         /// <summary>

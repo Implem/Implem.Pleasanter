@@ -58,7 +58,7 @@ $(function () {
                 .attr('data-action', 'GridRows')
                 .attr('data-method', 'post')
                 .append($('<span/>').addClass('ui-icon ' + iconCss))
-                .append($('<span/>').text($p.display('Displays_Order' + orderType))));
+                .append($('<span/>').text($p.display('Order' + orderType))));
             return $(this);
         },
         addMenuReset: function () {
@@ -67,7 +67,7 @@ $(function () {
                 .attr('data-action', 'GridRows')
                 .attr('data-method', 'post')
                 .append($('<span/>').addClass('ui-icon ui-icon-power'))
-                .append($('<span/>').text($p.display('Displays_ResetOrder'))));
+                .append($('<span/>').text($p.display('ResetOrder'))));
             return $(this);
         }
     });

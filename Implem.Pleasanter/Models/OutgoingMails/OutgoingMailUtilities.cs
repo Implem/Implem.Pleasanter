@@ -693,7 +693,7 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-mail-closed",
                         action: "Send",
                         method: "post",
-                        confirm: "Displays_ConfirmSendMail")
+                        confirm: "ConfirmSendMail")
                     .Button(
                         controlId: "OutgoingMails_Cancel",
                         controlCss: "button-icon",

@@ -51,7 +51,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .OnClick("$p.send($(this));")
                         .DataAction("DeleteComment")
                         .DataMethod("delete")
-                        .DataConfirm("Displays_ConfirmDelete"),
+                        .DataConfirm("ConfirmDelete"),
                     action: () => hb
                         .Icon(iconCss: "ui-icon ui-icon-closethick"))
                 : hb;
