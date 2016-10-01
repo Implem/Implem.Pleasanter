@@ -97,8 +97,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             if (controlId.StartsWith("MoveUp")) return "MoveUp";
             if (controlId.StartsWith("MoveDown")) return "MoveDown";
-            if (controlId.StartsWith("Hide")) return "Hide";
-            if (controlId.StartsWith("Show")) return "Show";
+            if (controlId.StartsWith("ToDisable")) return "ToDisable";
+            if (controlId.StartsWith("ToEnable")) return "ToEnable";
             return null;
         }
 
@@ -114,10 +114,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "MoveDown":
                     order = Sort(order.ToArray(), command, selectedColumns);
                     break;
-                case "Hide":
+                case "ToDisable":
                     order.RemoveAll(o => selectedColumns.Contains(o));
                     break;
-                case "Show":
+                case "ToEnable":
                     order.AddRange(selectedSourceColumns);
                     break;
             }

@@ -792,8 +792,8 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "MoveUpMonitorChangesColumns":
                 case "MoveDownMonitorChangesColumns":
-                case "ShowMonitorChangesColumns":
-                case "HideMonitorChangesColumns":
+                case "ToDisableMonitorChangesColumns":
+                case "ToEnableMonitorChangesColumns":
                     SetMonitorChangesColumns(responseCollection, controlId);
                     break;
                 default:
@@ -1209,7 +1209,7 @@ namespace Implem.Pleasanter.Models
                 var command = ColumnUtilities.ChangeCommand(controlId);
                 var selectedColumns = Forms.List("EditorColumns");
                 var selectedSourceColumns = Forms.List("EditorSourceColumns");
-                if (controlId == "HideEditorColumns" &&
+                if (controlId == "ToDisableEditorColumns" &&
                     selectedColumns.Any(o => !SiteSettings.EditorColumn(o).Nullable))
                 {
                     responseCollection.Message(Messages.CanNotHide(
@@ -1402,10 +1402,10 @@ namespace Implem.Pleasanter.Models
         {
             switch (command)
             {
-                case "Hide":
+                case "ToDisable":
                     Move(selectedColumns, selectedSourceColumns);
                     break;
-                case "Show":
+                case "ToEnable":
                     Move(selectedSourceColumns, selectedColumns);
                     break;
             }

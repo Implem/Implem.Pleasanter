@@ -885,7 +885,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-vertical",
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
-                        labelText: Displays.ShowList(),
+                        labelText: Displays.EnabledList(),
                         listItemCollection: siteSettings.GridSelectableOptions(),
                         selectedValueCollection: new List<string>(),
                         commandOptionPositionIsTop: true,
@@ -908,11 +908,11 @@ namespace Implem.Pleasanter.Models
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
-                                    controlId: "HideGridColumns",
+                                    controlId: "ToDisableGridColumns",
                                     controlCss: "button-icon",
-                                    text: Displays.Hide(),
+                                    text: Displays.ToDisable(),
                                     onClick: "$p.send($(this));",
-                                    icon: "ui-icon-close",
+                                    icon: "ui-icon-circle-triangle-e",
                                     action: "SetSiteSettings",
                                     method: "put")))
                     .FieldSelectable(
@@ -920,17 +920,17 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-vertical",
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
-                        labelText: Displays.HideList(),
+                        labelText: Displays.DisabledList(),
                         listItemCollection: siteSettings.GridSelectableOptions(visible: false),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
                                 .Button(
-                                    controlId: "ShowGridColumns",
-                                    text: Displays.Show(),
+                                    controlId: "ToEnableGridColumns",
+                                    text: Displays.ToEnable(),
                                     controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
-                                    icon: "ui-icon-image",
+                                    icon: "ui-icon-circle-triangle-w",
                                     action: "SetSiteSettings",
                                     method: "put"))));
         }
@@ -949,7 +949,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-vertical",
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
-                        labelText: Displays.ShowList(),
+                        labelText: Displays.EnabledList(),
                         listItemCollection: siteSettings.FilterSelectableOptions(),
                         selectedValueCollection: new List<string>(),
                         commandOptionPositionIsTop: true,
@@ -972,11 +972,11 @@ namespace Implem.Pleasanter.Models
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
-                                    controlId: "HideFilterColumns",
+                                    controlId: "ToDisableFilterColumns",
                                     controlCss: "button-icon",
-                                    text: Displays.Hide(),
+                                    text: Displays.ToDisable(),
                                     onClick: "$p.send($(this));",
-                                    icon: "ui-icon-close",
+                                    icon: "ui-icon-circle-triangle-e",
                                     action: "SetSiteSettings",
                                     method: "put")))
                     .FieldSelectable(
@@ -984,17 +984,17 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-vertical",
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
-                        labelText: Displays.HideList(),
+                        labelText: Displays.DisabledList(),
                         listItemCollection: siteSettings.FilterSelectableOptions(visible: false),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
                                 .Button(
-                                    controlId: "ShowFilterColumns",
-                                    text: Displays.Show(),
+                                    controlId: "ToEnableFilterColumns",
+                                    text: Displays.ToEnable(),
                                     controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
-                                    icon: "ui-icon-image",
+                                    icon: "ui-icon-circle-triangle-w",
                                     action: "SetSiteSettings",
                                     method: "put"))));
         }
@@ -1149,7 +1149,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-vertical",
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
-                        labelText: Displays.ShowList(),
+                        labelText: Displays.EnabledList(),
                         listItemCollection: siteSettings.EditorSelectableOptions(),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
@@ -1171,11 +1171,11 @@ namespace Implem.Pleasanter.Models
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
-                                    controlId: "HideEditorColumns",
-                                    text: Displays.Hide(),
+                                    controlId: "ToDisableEditorColumns",
+                                    text: Displays.ToDisable(),
                                     controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
-                                    icon: "ui-icon-close",
+                                    icon: "ui-icon-circle-triangle-e",
                                     action: "SetSiteSettings",
                                     method: "put")
                                 .Button(
@@ -1191,17 +1191,17 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-vertical",
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
-                        labelText: Displays.HideList(),
+                        labelText: Displays.DisabledList(),
                         listItemCollection: siteSettings.EditorSelectableOptions(visible: false),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
                                 .Button(
-                                    controlId: "ShowEditorColumns",
-                                    text: Displays.Show(),
+                                    controlId: "ToEnableEditorColumns",
+                                    text: Displays.ToEnable(),
                                     controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
-                                    icon: "ui-icon-image",
+                                    icon: "ui-icon-circle-triangle-w",
                                     action: "SetSiteSettings",
                                     method: "put")))
                     .Div(attributes: new HtmlAttributes()
@@ -1225,7 +1225,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-vertical",
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
-                        labelText: Displays.ShowList(),
+                        labelText: Displays.EnabledList(),
                         listItemCollection: siteSettings.LinkSelectableOptions(),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
@@ -1247,11 +1247,11 @@ namespace Implem.Pleasanter.Models
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
-                                    controlId: "HideLinkColumns",
-                                    text: Displays.Hide(),
+                                    controlId: "ToDisableLinkColumns",
+                                    text: Displays.ToDisable(),
                                     controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
-                                    icon: "ui-icon-close",
+                                    icon: "ui-icon-circle-triangle-e",
                                     action: "SetSiteSettings",
                                     method: "put")))
                     .FieldSelectable(
@@ -1259,17 +1259,17 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-vertical",
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
-                        labelText: Displays.HideList(),
+                        labelText: Displays.DisabledList(),
                         listItemCollection: siteSettings.LinkSelectableOptions(visible: false),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
                                 .Button(
-                                    controlId: "ShowLinkColumns",
-                                    text: Displays.Show(),
+                                    controlId: "ToEnableLinkColumns",
+                                    text: Displays.ToEnable(),
                                     controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
-                                    icon: "ui-icon-image",
+                                    icon: "ui-icon-circle-triangle-w",
                                     action: "SetSiteSettings",
                                     method: "put"))));
         }
@@ -1289,7 +1289,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-vertical",
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
-                        labelText: Displays.ShowList(),
+                        labelText: Displays.EnabledList(),
                         listItemCollection: siteSettings.HistorySelectableOptions(),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
@@ -1311,11 +1311,11 @@ namespace Implem.Pleasanter.Models
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
-                                    controlId: "HideHistoryColumns",
-                                    text: Displays.Hide(),
+                                    controlId: "ToDisableHistoryColumns",
+                                    text: Displays.ToDisable(),
                                     controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
-                                    icon: "ui-icon-close",
+                                    icon: "ui-icon-circle-triangle-e",
                                     action: "SetSiteSettings",
                                     method: "put")))
                     .FieldSelectable(
@@ -1323,17 +1323,17 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-vertical",
                         controlContainerCss: "container-selectable",
                         controlCss: " h350",
-                        labelText: Displays.HideList(),
+                        labelText: Displays.DisabledList(),
                         listItemCollection: siteSettings.HistorySelectableOptions(visible: false),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
                                 .Button(
-                                    controlId: "ShowHistoryColumns",
-                                    text: Displays.Show(),
+                                    controlId: "ToEnableHistoryColumns",
+                                    text: Displays.ToEnable(),
                                     controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
-                                    icon: "ui-icon-image",
+                                    icon: "ui-icon-circle-triangle-w",
                                     action: "SetSiteSettings",
                                     method: "put"))));
         }
@@ -1576,7 +1576,7 @@ namespace Implem.Pleasanter.Models
                 fieldCss: "field-vertical",
                 controlContainerCss: "container-selectable",
                 controlCss: " h350",
-                labelText: Displays.ShowList(),
+                labelText: Displays.EnabledList(),
                 listItemCollection: siteSettings.TitleSelectableOptions(),
                 commandOptionPositionIsTop: true,
                 commandOptionAction: () => hb
@@ -1598,11 +1598,11 @@ namespace Implem.Pleasanter.Models
                             action: "SetSiteSettings",
                             method: "post")
                         .Button(
-                            controlId: "HideTitleColumns",
-                            text: Displays.Hide(),
+                            controlId: "ToDisableTitleColumns",
+                            text: Displays.ToDisable(),
                             controlCss: "button-icon",
                             onClick: "$p.send($(this));",
-                            icon: "ui-icon-close",
+                            icon: "ui-icon-circle-triangle-e",
                             action: "SetSiteSettings",
                             method: "put")))
             .FieldSelectable(
@@ -1610,17 +1610,17 @@ namespace Implem.Pleasanter.Models
                 fieldCss: "field-vertical",
                 controlContainerCss: "container-selectable",
                 controlCss: " h350",
-                labelText: Displays.HideList(),
+                labelText: Displays.DisabledList(),
                 listItemCollection: siteSettings.TitleSelectableOptions(visible: false),
                 commandOptionPositionIsTop: true,
                 commandOptionAction: () => hb
                     .Div(css: "command-center", action: () => hb
                         .Button(
-                            controlId: "ShowTitleColumns",
-                            text: Displays.Show(),
+                            controlId: "ToEnableTitleColumns",
+                            text: Displays.ToEnable(),
                             controlCss: "button-icon",
                             onClick: "$p.send($(this));",
-                            icon: "ui-icon-image",
+                            icon: "ui-icon-circle-triangle-w",
                             action: "SetSiteSettings",
                             method: "put")))
             .FieldTextBox(
@@ -1807,7 +1807,7 @@ namespace Implem.Pleasanter.Models
                                                 action: "SetSiteSettings",
                                                 method: "post")
                                             .Button(
-                                                controlId: "HideMonitorChangesColumns",
+                                                controlId: "ToDisableMonitorChangesColumns",
                                                 text: Displays.ToDisable(),
                                                 controlCss: "button-icon",
                                                 onClick: "$p.send($(this), $p.getFormId($(this)));",
@@ -1828,7 +1828,7 @@ namespace Implem.Pleasanter.Models
                                     commandOptionAction: () => hb
                                         .Div(css: "command-center", action: () => hb
                                             .Button(
-                                                controlId: "ShowMonitorChangesColumns",
+                                                controlId: "ToEnableMonitorChangesColumns",
                                                 text: Displays.ToEnable(),
                                                 controlCss: "button-icon",
                                                 onClick: "$p.send($(this), $p.getFormId($(this)));",
