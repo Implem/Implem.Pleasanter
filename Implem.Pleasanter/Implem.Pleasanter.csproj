@@ -406,6 +406,7 @@
     <Content Include="Scripts\DataView.js" />
     <Content Include="Scripts\Dialog.js" />
     <Content Include="Scripts\DialogEvents.js" />
+    <Content Include="Scripts\_Dispatch.js" />
     <Content Include="Scripts\Export.js" />
     <Content Include="Scripts\FilterEvents.js" />
     <Content Include="Scripts\Focus.js" />
