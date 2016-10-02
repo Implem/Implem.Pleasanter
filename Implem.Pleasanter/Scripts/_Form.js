@@ -38,30 +38,30 @@ $p.clearMessage = function () {
     $('[class*="message"]').html('');
 }
 
-$p.send = function ($eventSender, formId, async) {
+$p.send = function ($control, formId, async) {
     $form = formId !== undefined
         ? $('#' + formId)
-        : $eventSender.closest('form');
+        : $control.closest('form');
     async = async !== undefined ? async : true;
-    if ($eventSender.hasClass('validate')) {
+    if ($control.hasClass('validate')) {
         $form.validate();
         if (!$form.valid()) {
             $p.setValidationError($form);
             return false;
         }
     }
-    var _confirm = $eventSender.attr('data-confirm');
+    var _confirm = $control.attr('data-confirm');
     if (_confirm !== undefined) {
         if (!confirm($p.display(_confirm))) {
             return false;
         }
     }
-    var action = $eventSender.attr('data-action');
-    var method = $eventSender.attr('data-method');
+    var action = $control.attr('data-action');
+    var method = $control.attr('data-method');
     if (method !== undefined) {
         var data = $p.getData($form.attr('id'));
         if (method !== 'get') {
-            data.ControlId = $eventSender.attr('id');
+            data.ControlId = $control.attr('id');
             $p.setMustData($form, action);
         }
         return $p.ajax(
@@ -70,15 +70,15 @@ $p.send = function ($eventSender, formId, async) {
                 : location.href,
             method,
             method !== 'get' ? data : null,
-            $eventSender,
+            $control,
             async);
     }
 }
 
-$p.setByJson = function (json, data, $eventSender) {
+$p.setByJson = function (json, data, $control) {
     if (json) {
         $.each(json, function () {
-            $p.setByJsonElement(this, data, $eventSender);
+            $p.setByJsonElement(this, data, $control);
         });
     }
     if (json.filter(function (d) {
@@ -88,7 +88,7 @@ $p.setByJson = function (json, data, $eventSender) {
     }
 }
 
-$p.setByJsonElement = function (jsonElement, data, $eventSender) {
+$p.setByJsonElement = function (jsonElement, data, $control) {
     var method = jsonElement.Method;
     var target = jsonElement.Target;
     var value = jsonElement.Value;
@@ -121,14 +121,14 @@ $p.setByJsonElement = function (jsonElement, data, $eventSender) {
             if ($(target).length !== 0) {
                 $(target).after(value);
             } else {
-                $eventSender.after(value);
+                $control.after(value);
             }
             break;
         case 'Before':
             if ($(target).length !== 0) {
                 $(target).before(value);
             } else {
-                $eventSender.before(value);
+                $control.before(value);
             }
             break;
         case 'Remove':
