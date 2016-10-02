@@ -39,7 +39,7 @@ $p.clearMessage = function () {
 }
 
 $p.syncSend = function ($control, formId) {
-    $p.send($control, formId, false);
+    return $p.send($control, formId, false);
 }
 
 $p.send = function ($control, formId, async) {
