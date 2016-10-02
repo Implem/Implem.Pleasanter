@@ -66,8 +66,8 @@
         });
         $('[class*="enclosed"] .legend:not(.applied)').each(function (e) {
             var $control = $(this);
-            if ($control.find('[class^="ui-icon ui-icon-carat-1-"]').length === 0) {
-                $control.prepend($('<span/>').addClass('ui-icon ui-icon-carat-1-s'));
+            if ($control.find('[class^="ui-icon ui-icon-triangle-1-"]').length === 0) {
+                $control.prepend($('<span/>').addClass('ui-icon ui-icon-triangle-1-s'));
             }
             $control.addClass('applied');
         });
