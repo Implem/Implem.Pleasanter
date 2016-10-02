@@ -11,12 +11,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb
                 .TextArea(verType: verType)
-                .Div(
-                    id: "CommentList",
-                    css: "field-wide",
-                    action: () =>
-                        comments.ForEach(comment => hb
-                            .Comment(comment, verType)));
+                .Div(id: "CommentList", action: () => comments
+                    .ForEach(comment => hb
+                        .Comment(comment, verType)));
         }
 
         public static HtmlBuilder Comment(
@@ -32,7 +29,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder TextArea(this HtmlBuilder hb, Versions.VerTypes verType)
         {
             return verType == Versions.VerTypes.Latest
-                ? hb.Div(css: "field-wide", action: () =>
+                ? hb.Div(action: () =>
                     hb.TextArea(
                         id: "Comments",
                         css: "control-textarea upload-image",
