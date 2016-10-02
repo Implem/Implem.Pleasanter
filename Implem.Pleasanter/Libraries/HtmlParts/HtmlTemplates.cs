@@ -3,6 +3,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Images;
 using Implem.Pleasanter.Libraries.Models;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
@@ -47,7 +48,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     useNavigationMenu: useNavigationMenu,
                     userStyle: userStyle,
                     action: action)
-                .Hidden(controlId: "Language", value: Sessions.Language())
+                .HiddenData()
                 .Scripts(
                     script: script,
                     userScript: userScript,
@@ -94,7 +95,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             attributes: new HtmlAttributes().Href(Parameters.General.HtmlCopyrightUrl),
                             action: () => hb
                                 .Raw(Parameters.General.HtmlCopyright.Params(DateTime.Now.Year)))))
-                .Hidden(controlId: "ApplicationPath", value: Navigations.Get())
                 .BackUrl(siteId: siteId, parentId: parentId, referenceType: referenceType)
                 .Styles(style: userStyle));
         }
@@ -181,6 +181,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 return string.Empty;
             }
+        }
+
+        private static HtmlBuilder HiddenData(this HtmlBuilder hb)
+        {
+            return !Request.IsAjax()
+                ? hb
+                    .Hidden(controlId: "ApplicationPath", value: Navigations.Get())
+                    .Hidden(controlId: "Language", value: Sessions.Language())
+                : hb;
         }
 
         public static HtmlBuilder NotFoundTemplate(this HtmlBuilder hb)
