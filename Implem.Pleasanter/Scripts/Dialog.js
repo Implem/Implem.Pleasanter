@@ -8,7 +8,7 @@
 
 $p.sendByDialog = function ($control) {
     $p.closeDialog($control);
-    $p.send($control, $p.getFormId($control));
+    $p.send($control);
 }
 
 $p.closeDialog = function ($control) {
