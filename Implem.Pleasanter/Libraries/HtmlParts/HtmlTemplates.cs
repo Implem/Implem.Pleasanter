@@ -79,34 +79,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     useSearch: useSearch,
                     allowAccess: allowAccess,
                     useNavigationMenu: useNavigationMenu)
-                .Article(id: "Application", action: () =>
-                {
-                    if (allowAccess)
-                    {
-                        hb.Nav(css: "both cf", action: () => hb
-                            .Breadcrumb(
-                                siteId: siteId,
-                                permissionType: permissionType,
-                                _using: useBreadcrumb));
-                        if (useTitle)
-                        {
-                            hb.Title(permissionType: permissionType, siteId: siteId, text: title);
-                        }
-                        action();
-                        hb.P(id: "Message", css: "message", action: () => hb
-                            .Raw(text: SessionMessage()));
-                    }
-                    else
-                    {
-                        hb
-                            .P(id: "Message", css: "message", action: () => hb
-                                .Raw(text: Messages.NotFound().Html))
-                            .MainCommands(
-                                siteId: siteId,
-                                permissionType: permissionType,
-                                verType: Versions.VerTypes.Latest);
-                    }
-                })
+                .Content(
+                    permissionType: permissionType,
+                    allowAccess: allowAccess,
+                    siteId: siteId,
+                    title: title,
+                    useBreadcrumb: useBreadcrumb,
+                    useTitle: useTitle,
+                    action: action)
                 .Div(id: "BottomMargin both")
                 .Footer(id: "Footer", action: () => hb
                     .P(action: () => hb
@@ -117,6 +97,46 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Hidden(controlId: "ApplicationPath", value: Navigations.Get())
                 .BackUrl(siteId: siteId, parentId: parentId, referenceType: referenceType)
                 .Styles(style: userStyle));
+        }
+
+        private static HtmlBuilder Content(
+            this HtmlBuilder hb,
+            Permissions.Types permissionType,
+            bool allowAccess,
+            long siteId = 0,
+            string title = "",
+            bool useBreadcrumb = true,
+            bool useTitle = true,
+            Action action = null)
+        {
+            return hb.Article(id: "Application", action: () =>
+            {
+                if (allowAccess)
+                {
+                    hb.Nav(css: "both cf", action: () => hb
+                        .Breadcrumb(
+                            siteId: siteId,
+                            permissionType: permissionType,
+                            _using: useBreadcrumb));
+                    if (useTitle)
+                    {
+                        hb.Title(permissionType: permissionType, siteId: siteId, text: title);
+                    }
+                    action();
+                    hb.P(id: "Message", css: "message", action: () => hb
+                        .Raw(text: SessionMessage()));
+                }
+                else
+                {
+                    hb
+                        .P(id: "Message", css: "message", action: () => hb
+                            .Raw(text: Messages.NotFound().Html))
+                        .MainCommands(
+                            siteId: siteId,
+                            permissionType: permissionType,
+                            verType: Versions.VerTypes.Latest);
+                }
+            });
         }
 
         private static HtmlBuilder Title(
