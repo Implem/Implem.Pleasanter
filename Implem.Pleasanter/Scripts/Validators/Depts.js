@@ -5,7 +5,7 @@
             Depts_DeptName: { required:true }
         },
         messages: {
-            Depts_DeptName: { required: $('#Depts_DeptName').attr('data-validate-required') }
+            Depts_DeptName: { required:$p.display('ValidateRequired') }
         }
     });
 }

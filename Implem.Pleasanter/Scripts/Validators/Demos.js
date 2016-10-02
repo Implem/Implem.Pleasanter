@@ -5,7 +5,7 @@
             Demos_Title: { required:true }
         },
         messages: {
-            Demos_Title: { required: $('#Demos_Title').attr('data-validate-required') }
+            Demos_Title: { required:$p.display('ValidateRequired') }
         }
     });
 }

@@ -9,11 +9,11 @@
             Users_FirstName: { required:true }
         },
         messages: {
-            Users_LoginId: { required: $('#Users_LoginId').attr('data-validate-required') },
-            Users_Password: { required: $('#Users_Password').attr('data-validate-required') },
-            Users_PasswordValidate: { required: $('#Users_PasswordValidate').attr('data-validate-required'),equalTo: $('#Users_PasswordValidate').attr('data-validate-equalTo') },
-            Users_LastName: { required: $('#Users_LastName').attr('data-validate-required') },
-            Users_FirstName: { required: $('#Users_FirstName').attr('data-validate-required') }
+            Users_LoginId: { required:$p.display('ValidateRequired') },
+            Users_Password: { required:$p.display('ValidateRequired') },
+            Users_PasswordValidate: { required:$p.display('ValidateRequired'),equalTo:$p.display('ValidateEqualTo') },
+            Users_LastName: { required:$p.display('ValidateRequired') },
+            Users_FirstName: { required:$p.display('ValidateRequired') }
         }
     });
     $('#ChangePasswordForm').validate({
@@ -24,9 +24,9 @@
             Users_ChangedPasswordValidator: { required:true,equalTo:'#Users_ChangedPassword' }
         },
         messages: {
-            Users_OldPassword: { required: $('#Users_OldPassword').attr('data-validate-required') },
-            Users_ChangedPassword: { required: $('#Users_ChangedPassword').attr('data-validate-required') },
-            Users_ChangedPasswordValidator: { required: $('#Users_ChangedPasswordValidator').attr('data-validate-required'),equalTo: $('#Users_ChangedPasswordValidator').attr('data-validate-equalTo') }
+            Users_OldPassword: { required:$p.display('ValidateRequired') },
+            Users_ChangedPassword: { required:$p.display('ValidateRequired') },
+            Users_ChangedPasswordValidator: { required:$p.display('ValidateRequired'),equalTo:$p.display('ValidateEqualTo') }
         }
     });
     $('#ResetPasswordForm').validate({
@@ -36,8 +36,8 @@
             Users_AfterResetPasswordValidator: { required:true,equalTo:'#Users_AfterResetPassword' }
         },
         messages: {
-            Users_AfterResetPassword: { required: $('#Users_AfterResetPassword').attr('data-validate-required') },
-            Users_AfterResetPasswordValidator: { required: $('#Users_AfterResetPasswordValidator').attr('data-validate-required'),equalTo: $('#Users_AfterResetPasswordValidator').attr('data-validate-equalTo') }
+            Users_AfterResetPassword: { required:$p.display('ValidateRequired') },
+            Users_AfterResetPasswordValidator: { required:$p.display('ValidateRequired'),equalTo:$p.display('ValidateEqualTo') }
         }
     });
     $('#DemoForm').validate({
@@ -46,7 +46,7 @@
             Users_DemoMailAddress: { required:true,email:true }
         },
         messages: {
-            Users_DemoMailAddress: { required: $('#Users_DemoMailAddress').attr('data-validate-required'),email: $('#Users_DemoMailAddress').attr('data-validate-email') }
+            Users_DemoMailAddress: { required:$p.display('ValidateRequired'),email:$p.display('ValidateMail') }
         }
     });
 }

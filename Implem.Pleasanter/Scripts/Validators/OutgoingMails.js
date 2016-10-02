@@ -6,8 +6,8 @@
             OutgoingMails_Body: { required:true }
         },
         messages: {
-            OutgoingMails_Title: { required: $('#OutgoingMails_Title').attr('data-validate-required') },
-            OutgoingMails_Body: { required: $('#OutgoingMails_Body').attr('data-validate-required') }
+            OutgoingMails_Title: { required:$p.display('ValidateRequired') },
+            OutgoingMails_Body: { required:$p.display('ValidateRequired') }
         }
     });
 }

@@ -329,7 +329,6 @@
     <Compile Include="Libraries\Settings\SiteSettingsUtility.cs" />
     <Compile Include="Libraries\Settings\Summary.cs" />
     <Compile Include="Libraries\Styles\Css.cs" />
-    <Compile Include="Libraries\Validators\ClientValidators.cs" />
     <Compile Include="Libraries\Web\Mime.cs" />
     <Compile Include="Models\Binaries\BinaryUtilities.cs" />
     <Compile Include="Models\Binaries\BinaryCollection.cs" />

@@ -62,8 +62,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     value: methodType == BaseModel.MethodTypes.New
                         ? value.ToDefault(siteSettings, column)
                         : value,
-                    optionCollection: column.EditChoices(),
-                    attributes: column.ValidationMessages());
+                    optionCollection: column.EditChoices());
             }
             else
             {
@@ -82,8 +81,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlCss,
             ControlTypes controlType,
             string value,
-            Dictionary<string, ControlData> optionCollection,
-            Dictionary<string, string> attributes)
+            Dictionary<string, ControlData> optionCollection)
         {
             switch (columnPermissionType)
             {
@@ -150,8 +148,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: column.LabelText,
-                                text: value,
-                                attributes: attributes);
+                                text: value);
                         case ControlTypes.MarkDown:
                             return hb.FieldMarkDown(
                                 fieldId: controlId + "Field",
@@ -163,8 +160,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelText: column.LabelText,
                                 text: value,
                                 placeholder: column.LabelText,
-                                readOnly: column.EditorReadOnly.ToBool(),
-                                attributes: attributes);
+                                readOnly: column.EditorReadOnly.ToBool());
                         case ControlTypes.TextBox:
                             return hb.FieldTextBox(
                                 textType: column.Hash
@@ -177,8 +173,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: column.LabelText,
-                                text: value,
-                                attributes: attributes);
+                                text: value);
                         case ControlTypes.TextBoxNumeric:
                             return hb.FieldTextBox(
                                 textType: HtmlTypes.TextTypes.Normal,
@@ -189,8 +184,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: column.LabelText,
-                                text: value,
-                                attributes: attributes);
+                                text: value);
                         case ControlTypes.TextBoxDateTime:
                             return hb.FieldTextBox(
                                 textType: HtmlTypes.TextTypes.Normal,
@@ -201,8 +195,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: column.LabelText,
-                                text: value,
-                                attributes: attributes);
+                                text: value);
                         case ControlTypes.CheckBox:
                             return hb.FieldCheckBox(
                                 fieldId: controlId + "Field",

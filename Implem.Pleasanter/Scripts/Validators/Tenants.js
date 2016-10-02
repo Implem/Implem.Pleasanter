@@ -6,8 +6,8 @@
             Tenants_Title: { required:true }
         },
         messages: {
-            Tenants_TenantName: { required: $('#Tenants_TenantName').attr('data-validate-required') },
-            Tenants_Title: { required: $('#Tenants_Title').attr('data-validate-required') }
+            Tenants_TenantName: { required:$p.display('ValidateRequired') },
+            Tenants_Title: { required:$p.display('ValidateRequired') }
         }
     });
 }

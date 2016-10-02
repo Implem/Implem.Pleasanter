@@ -671,18 +671,14 @@ namespace Implem.Pleasanter.Models
                     fieldCss: "field-wide",
                     controlCss: " must-transport",
                     labelText: Displays.OutgoingMails_Title(),
-                    text: ReplyTitle(outgoingMailModel),
-                    attributes: outgoingMailModel.SiteSettings.GetColumn("Title")
-                        .ValidationMessages())
+                    text: ReplyTitle(outgoingMailModel))
                 .FieldTextBox(
                     textType: HtmlTypes.TextTypes.MultiLine,
                     controlId: "OutgoingMails_Body",
                     fieldCss: "field-wide",
                     controlCss: " must-transport h300",
                     labelText: Displays.OutgoingMails_Body(),
-                    text: ReplyBody(outgoingMailModel),
-                    attributes: outgoingMailModel.SiteSettings.GetColumn("Body")
-                        .ValidationMessages())
+                    text: ReplyBody(outgoingMailModel))
                 .P(css: "message-dialog")
                 .Div(css: "command-center", action: () => hb
                     .Button(

@@ -56,8 +56,22 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
         {
             return columnDefinition.Validators
                 .Split(',')
-                .Select(o => o.Split(':')._1st() + ": $('#" + columnDefinition.Id + "').attr('data-validate-" + o.Split(':')._1st() + "')")
+                .Select(o => o.Split(':')._1st())
+                .Select(o => o + ":$p.display('" + ValidatorMessage(o) + "')")
                 .Join(",");
+        }
+
+        private static string ValidatorMessage(string type)
+        {
+            switch (type)
+            {
+                case "required": return "ValidateRequired";
+                case "c_num": return "ValidateNumber";
+                case "date": return "ValidateDate";
+                case "email": return "ValidateMail";
+                case "equalTo": return "ValidateEqualTo";
+                default: return null;
+            }
         }
     }
 }

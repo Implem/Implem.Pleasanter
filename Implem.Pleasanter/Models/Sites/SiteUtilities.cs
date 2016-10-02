@@ -744,7 +744,6 @@ namespace Implem.Pleasanter.Models
                         controlCss: " focus",
                         labelText: Displays.Sites_Title(),
                         text: siteModel.Title.Value.ToString(),
-                        attributes: siteModel.SiteSettings.GetColumn("Title").ValidationMessages(),
                         _using: siteModel.ReferenceType != "Wikis")
                     .FieldMarkDown(
                         controlId: "Sites_Body",
