@@ -23,7 +23,7 @@ $p.openOutgoingMailReplyDialog = function ($control) {
 
 $p.sendMail = function ($control) {
     $p.getData('OutgoingMailForm').Ver = $('._Ver')[0].innerHTML;
-    $p.send($control, 'OutgoingMailForm');
+    $p.send($control);
 }
 
 $p.initOutgoingMailDialog = function () {
