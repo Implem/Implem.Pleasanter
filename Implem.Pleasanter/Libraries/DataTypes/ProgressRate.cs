@@ -118,9 +118,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         private float PlannedValue(DateTime now, DateTime start, int range)
         {
-            return start < now && range != 0
-                ? (float)(Elapsed(now, start)) / 
-                  (float)range
+            return start < now && range > 0
+                ? (float)(Elapsed(now, start)) / (float)range
                 : 0;
         }
 
