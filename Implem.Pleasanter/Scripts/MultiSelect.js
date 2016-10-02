@@ -1,7 +1,7 @@
 ﻿$p.changeMultiSelect = function ($control) {
     $p.setData($control);
     if ($control.hasClass('auto-postback') && !$control.hasClass('no-postback')) {
-        $p.send($control, $p.getFormId($control));
+        $p.send($control);
     }
     $control.removeClass('no-postback');
 }
