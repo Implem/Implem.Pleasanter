@@ -128,6 +128,20 @@ namespace Implem.Pleasanter.Libraries.Server
             return HttpContext.Current.Session?["SessionGuid"].ToString();
         }
 
+        public static string Message()
+        {
+            var html = Data("Message");
+            if (html != string.Empty)
+            {
+                Clear("Message");
+                return html;
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
         public static object PageSession(long id, string name = "")
         {
             return HttpContext.Current.Session[Pages.Key() + name.ExistsTo("/{0}")];

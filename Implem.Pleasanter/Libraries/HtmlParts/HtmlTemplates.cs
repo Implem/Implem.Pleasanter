@@ -117,7 +117,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     }
                     action();
                     hb.P(id: "Message", css: "message", action: () => hb
-                        .Raw(text: SessionMessage()));
+                        .Raw(text: Sessions.Message()));
                 }
                 else
                 {
@@ -159,20 +159,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             else
             {
                 return hb;
-            }
-        }
-
-        private static string SessionMessage()
-        {
-            var html = Sessions.Data("Message");
-            if (html != string.Empty)
-            {
-                Sessions.Clear("Message");
-                return html;
-            }
-            else
-            {
-                return string.Empty;
             }
         }
 
