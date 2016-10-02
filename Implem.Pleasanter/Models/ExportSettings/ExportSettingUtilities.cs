@@ -560,7 +560,7 @@ namespace Implem.Pleasanter.Models
                                     controlId: "ColumnToUp",
                                     controlCss: "button-icon",
                                     text: Displays.MoveUp(),
-                                    onClick: "$p.send($(this), 'ExportSettingsForm');",
+                                    onClick: "$p.send($(this));",
                                     icon: "ui-icon-circle-triangle-n",
                                     action: "Set",
                                     method: "post")
@@ -568,7 +568,7 @@ namespace Implem.Pleasanter.Models
                                     controlId: "ColumnToDown",
                                     controlCss: "button-icon",
                                     text: Displays.MoveDown(),
-                                    onClick: "$p.send($(this), 'ExportSettingsForm');",
+                                    onClick: "$p.send($(this));",
                                     icon: "ui-icon-circle-triangle-s",
                                     action: "Set",
                                     method: "post")
@@ -576,7 +576,7 @@ namespace Implem.Pleasanter.Models
                                     controlId: "ColumnToVisible",
                                     controlCss: "button-icon",
                                     text: Displays.Output(),
-                                    onClick: "$p.send($(this), 'ExportSettingsForm');",
+                                    onClick: "$p.send($(this));",
                                     icon: "ui-icon-image",
                                     action: "Set",
                                     method: "put")
@@ -584,7 +584,7 @@ namespace Implem.Pleasanter.Models
                                     controlId: "ColumnToHide",
                                     controlCss: "button-icon",
                                     text: Displays.NotOutput(),
-                                    onClick: "$p.send($(this), 'ExportSettingsForm');",
+                                    onClick: "$p.send($(this));",
                                     icon: "ui-icon-close",
                                     action: "Set",
                                     method: "put"))));
@@ -637,7 +637,7 @@ namespace Implem.Pleasanter.Models
                                 controlId: "UpdateExportSettings",
                                 controlCss: "button-icon",
                                 text: Displays.Save(),
-                                onClick: "$p.send($(this), 'ExportSettingsForm');",
+                                onClick: "$p.send($(this));",
                                 icon: "ui-icon-disk",
                                 action: "UpdateOrCreate",
                                 method: "put")
@@ -645,7 +645,7 @@ namespace Implem.Pleasanter.Models
                                 controlId: "DeleteExportSettings",
                                 controlCss: "button-icon",
                                 text: Displays.Delete(),
-                                onClick: "$p.send($(this), 'ExportSettingsForm');",
+                                onClick: "$p.send($(this));",
                                 icon: "ui-icon-trash",
                                 action: "Delete",
                                 method: "delete",
