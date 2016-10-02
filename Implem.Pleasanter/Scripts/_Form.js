@@ -38,6 +38,10 @@ $p.clearMessage = function () {
     $('[class*="message"]').html('');
 }
 
+$p.syncSend = function ($control, formId) {
+    $p.send($control, formId, false);
+}
+
 $p.send = function ($control, formId, async) {
     $form = formId !== undefined
         ? $('#' + formId)

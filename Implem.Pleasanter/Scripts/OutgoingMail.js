@@ -1,6 +1,6 @@
 ﻿$p.openOutgoingMailDialog = function ($control) {
     if ($('#OutgoingMails_Title').length === 0) {
-        $p.send($control, 'OutgoingMailsForm', false);
+        $p.syncSend($control, 'OutgoingMailsForm');
     }
     $('#OutgoingMailDialog').dialog({
         modal: true,
@@ -12,7 +12,7 @@
 
 $p.openOutgoingMailReplyDialog = function ($control) {
     $p.getData('OutgoingMailsForm').OutgoingMails_OutgoingMailId = $control.attr('data-id');
-    $p.send($control, 'OutgoingMailsForm', false);
+    $p.syncSend($control, 'OutgoingMailsForm');
     $('#OutgoingMailDialog').dialog({
         modal: true,
         width: '90%',

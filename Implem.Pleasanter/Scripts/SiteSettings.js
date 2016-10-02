@@ -8,7 +8,7 @@
 }
 
 $p.openSiteSettingsDialog = function ($control, selector, appendTo) {
-    var error = $p.send($control, undefined, false);
+    var error = $p.syncSend($control);
     if (error === 0) {
         $(selector).dialog({
             modal: true,

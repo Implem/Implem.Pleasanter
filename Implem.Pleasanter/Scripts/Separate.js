@@ -1,5 +1,5 @@
 ﻿$p.openSeparateSettingsDialog = function ($control) {
-    $p.send($control, undefined, false);
+    $p.syncSend($control);
     $('#SeparateSettingsDialog').dialog({
         modal: true,
         width: '700px',

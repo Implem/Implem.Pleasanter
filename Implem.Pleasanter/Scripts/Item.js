@@ -25,13 +25,13 @@ $p.new = function ($control) {
 }
 
 $p.create = function ($control) {
-    $p.send($control, undefined, false);
+    $p.syncSend($control);
     history.replaceState(null, null, $('#BaseUrl').val() + $('#Id').val());
 }
 
 $p.copy = function ($control) {
     $p.closeDialog($control);
-    $p.send($control, undefined, false);
+    $p.syncSend($control);
     history.pushState(null, null, $('#BaseUrl').val() + $('#Id').val());
 }
 

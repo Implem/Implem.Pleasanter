@@ -1,5 +1,5 @@
 ﻿$p.openImportSettingsDialog = function ($control) {
-    $p.send($control, undefined, false);
+    $p.syncSend($control);
     $('#ImportSettingsDialog').dialog({
         modal: true,
         width: '420px'
