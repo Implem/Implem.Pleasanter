@@ -638,7 +638,7 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     text: Displays.Change(),
                                     controlCss: "button-icon validate",
-                                    onClick: "$p.send($(this), 'ChangePasswordForm');",
+                                    onClick: "$p.send($(this));",
                                     icon: "ui-icon-disk",
                                     action: "ChangePassword",
                                     method: "post")
@@ -681,7 +681,7 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     text: Displays.Reset(),
                                     controlCss: "button-icon validate",
-                                    onClick: "$p.send($(this), 'ResetPasswordForm');",
+                                    onClick: "$p.send($(this));",
                                     icon: "ui-icon-disk",
                                     action: "ResetPassword",
                                     method: "post")
@@ -770,7 +770,7 @@ namespace Implem.Pleasanter.Models
                                             .Button(
                                                 text: Displays.Register(),
                                                 controlCss: "button-icon validate",
-                                                onClick: "$p.send($(this), 'DemoForm');",
+                                                onClick: "$p.send($(this));",
                                                 icon: "ui-icon-mail-closed",
                                                 action: "Register",
                                                 method: "post")))))
