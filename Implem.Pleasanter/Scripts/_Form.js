@@ -123,7 +123,9 @@ $p.clearMessage = function () {
 }
 
 $p.send = function ($eventSender, formId, async) {
-    $form = formId !== undefined ? $('#' + formId) : $('.main-form');
+    $form = formId !== undefined
+        ? $('#' + formId)
+        : $eventSender.closest('form');
     async = async !== undefined ? async : true;
     if ($eventSender.hasClass('validate')) {
         $form.validate();

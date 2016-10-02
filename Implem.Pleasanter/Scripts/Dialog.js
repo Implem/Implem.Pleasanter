@@ -1,7 +1,8 @@
-﻿$p.openDialog = function ($control) {
+﻿$p.openDialog = function ($control, appendTo) {
     $($control.attr('data-selector')).dialog({
         modal: true,
-        width: '420px'
+        width: '420px',
+        appendTo: appendTo
     });
 }
 

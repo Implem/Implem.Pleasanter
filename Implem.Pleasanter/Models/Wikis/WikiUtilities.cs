@@ -68,7 +68,7 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "Wikis")
                             .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
-                .MoveDialog("items", siteSettings.SiteId, bulk: true)
+                .MoveDialog(bulk: true)
                     .ImportSettingsDialog()
                 .Div(attributes: new HtmlAttributes()
                     .Id("ExportSettingsDialog")
@@ -395,7 +395,7 @@ namespace Implem.Pleasanter.Models
                             _using: !Request.IsAjax()))
                 .OutgoingMailsForm("Wikis", wikiModel.WikiId, wikiModel.Ver)
                 .CopyDialog("items", wikiModel.WikiId)
-                .MoveDialog("items", wikiModel.WikiId)
+                .MoveDialog()
                 .OutgoingMailDialog());
         }
 

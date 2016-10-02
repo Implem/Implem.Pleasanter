@@ -68,7 +68,7 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "Issues")
                             .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
-                .MoveDialog("items", siteSettings.SiteId, bulk: true)
+                .MoveDialog(bulk: true)
                     .ImportSettingsDialog()
                 .Div(attributes: new HtmlAttributes()
                     .Id("ExportSettingsDialog")
@@ -538,7 +538,7 @@ namespace Implem.Pleasanter.Models
                             _using: !Request.IsAjax()))
                 .OutgoingMailsForm("Issues", issueModel.IssueId, issueModel.Ver)
                 .CopyDialog("items", issueModel.IssueId)
-                .MoveDialog("items", issueModel.IssueId)
+                .MoveDialog()
                 .OutgoingMailDialog()
                 .EditorExtensions(issueModel: issueModel, siteSettings: siteSettings));
         }

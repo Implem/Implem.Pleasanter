@@ -68,7 +68,7 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "Depts")
                             .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
-                .MoveDialog("items", siteSettings.SiteId, bulk: true)
+                .MoveDialog(bulk: true)
                 .Div(attributes: new HtmlAttributes()
                     .Id("ExportSettingsDialog")
                     .Class("dialog")
