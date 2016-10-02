@@ -67,15 +67,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         private HtmlBuilder LimitText(HtmlBuilder hb)
         {
-            if (!Times.InRange(Value))
+            var value = Value.ToLocal();
+            if (!Times.InRange(value))
             {
                 return hb;
             }
             var now = VerType == Versions.VerTypes.Latest
                 ? DateTime.Now.ToLocal()
                 : UpdatedTime.ToLocal();
-            var css = LimitCss(now, Value);
-            var years = Times.DateDiff(Times.Types.Years, now, Value);
+            var css = LimitCss(now, value);
+            var years = Times.DateDiff(Times.Types.Years, now, value);
             if (Math.Abs(years) >= 2)
             {
                 return years > 0
@@ -84,7 +85,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     : hb.P(css: css, action: () => hb
                         .Displays_LimitBeforeYears((years * -1).ToString()));
             }
-            var months = Times.DateDiff(Times.Types.Months, now, Value);
+            var months = Times.DateDiff(Times.Types.Months, now, value);
             if (Math.Abs(months) >= 2)
             {
                 return months > 0
@@ -93,7 +94,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     : hb.P(css: css, action: () => hb
                         .Displays_LimitBeforeMonths((months * -1).ToString()));
             }
-            var days = Times.DateDiff(Times.Types.Days, now, Value);
+            var days = Times.DateDiff(Times.Types.Days, now, value);
             if ((days >= 0 && days >= 2) || (days < 0))
             {
                 return days > 0
@@ -102,7 +103,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     : hb.P(css: css, action: () => hb
                         .Displays_LimitBeforeDays(((days * -1) + 1).ToString()));
             }
-            var hours = Times.DateDiff(Times.Types.Hours, now, Value);
+            var hours = Times.DateDiff(Times.Types.Hours, now, value);
             if (Math.Abs(hours) >= 3)
             {
                 return hours > 0
@@ -111,7 +112,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     : hb.P(css: css, action: () => hb
                         .Displays_LimitBeforeHours((hours * -1).ToString()));
             }
-            var minutes = Times.DateDiff(Times.Types.Minutes, now, Value);
+            var minutes = Times.DateDiff(Times.Types.Minutes, now, value);
             if (Math.Abs(minutes) >= 3)
             {
                 return minutes > 0
@@ -120,7 +121,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     : hb.P(css: css, action: () => hb
                         .Displays_LimitBeforeMinutes((minutes * -1).ToString()));
             }
-            var seconds = Times.DateDiff(Times.Types.Seconds, now, Value);
+            var seconds = Times.DateDiff(Times.Types.Seconds, now, value);
             if (Math.Abs(seconds) >= 1)
             {
                 return seconds > 0
