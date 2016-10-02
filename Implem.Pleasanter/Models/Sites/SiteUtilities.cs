@@ -2017,6 +2017,7 @@ namespace Implem.Pleasanter.Models
                     SiteSettingsUtility.Get(siteId, referenceType)).ColumnCollection)
                 .FirstOrDefault()?
                 .Where(o => o.Computable)
+                .Where(o => o.TypeName != "datetime")
                 .Where(o => !o.NotUpdate)
                 .OrderBy(o => o.No)
                 .ToDictionary(
