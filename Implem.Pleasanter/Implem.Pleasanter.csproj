@@ -231,6 +231,7 @@
     <Compile Include="Libraries\DataViews\KambanElement.cs" />
     <Compile Include="Libraries\DataViews\TimeSeries.cs" />
     <Compile Include="Libraries\DataViews\TimeSeriesElement.cs" />
+    <Compile Include="Libraries\HtmlParts\HtmlBack.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlBreadcrumb.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlNotes.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlTimes.cs" />
