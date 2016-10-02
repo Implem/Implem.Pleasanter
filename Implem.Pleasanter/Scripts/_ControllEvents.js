@@ -30,22 +30,23 @@
         }
     });
     $(document).on('change', '.auto-postback:not([type="text"], select[multiple])', function () {
-        $p.send($(this), $p.getFormId($(this)));
+        $p.send($(this));
         if (!$(this).hasClass('keep-form-data')) {
             delete $p.getDataByInnerElement($(this))[this.id];
         }
     });
     $(document).on('keyup', '.auto-postback[type="text"]', function (e) {
-        $p.setData($(this));
+        var $control = $(this);
+        $p.setData($control);
         if (e.keyCode === 13) {
-            $p.send($(this), $p.getFormId($(this)));
+            $p.send($control);
             delete $p.getDataByInnerElement($(this))[this.id];
         } else {
-            var timer = setTimeout(function ($control) {
+            var timer = setTimeout(function () {
                 $p.setData($control);
-                $p.send($control, $p.getFormId($control));
+                $p.send($control);
                 delete $p.getDataByInnerElement($control)[$control.attr('id')];
-            }, 700, $(this));
+            }, 700);
             $(document).on('keydown', '.auto-postback', function () {
                 clearTimeout(timer);
             });
