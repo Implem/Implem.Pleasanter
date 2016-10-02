@@ -23,7 +23,7 @@
     });
     $(document).on('click', '#CreateNotification,#UpdateNotification', function () {
         $p.getData().NotificationType = $('#NotificationType').val();
-        $p.send($(this), $p.getFormId($(this)));
+        $p.send($(this));
     });
     $(document).on('click', '#NotificationSettings .grid-row', function () {
         $p.getData().NotificationType = $(this).attr('data-id');
