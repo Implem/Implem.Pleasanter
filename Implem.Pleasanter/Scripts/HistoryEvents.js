@@ -4,6 +4,6 @@
     data.Ver = $control.attr('data-ver');
     data.Latest = $control.attr('data-latest');
     data.SwitchTargets = $('#SwitchTargets').val();
-    $p.send($control, $p.getFormId($control), false);
+    $p.send($control, undefined, false);
     $p.setCurrentIndex();
 });
