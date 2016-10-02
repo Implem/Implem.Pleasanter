@@ -1794,7 +1794,7 @@ namespace Implem.Pleasanter.Models
                                                 controlId: "MoveUpMonitorChangesColumns",
                                                 text: Displays.MoveUp(),
                                                 controlCss: "button-icon",
-                                                onClick: "$p.send($(this), $p.getFormId($(this)));",
+                                                onClick: "$p.send($(this));",
                                                 icon: "ui-icon-circle-triangle-n",
                                                 action: "SetSiteSettings",
                                                 method: "post")
@@ -1802,7 +1802,7 @@ namespace Implem.Pleasanter.Models
                                                 controlId: "MoveDownMonitorChangesColumns",
                                                 text: Displays.MoveDown(),
                                                 controlCss: "button-icon",
-                                                onClick: "$p.send($(this), $p.getFormId($(this)));",
+                                                onClick: "$p.send($(this));",
                                                 icon: "ui-icon-circle-triangle-s",
                                                 action: "SetSiteSettings",
                                                 method: "post")
@@ -1810,7 +1810,7 @@ namespace Implem.Pleasanter.Models
                                                 controlId: "ToDisableMonitorChangesColumns",
                                                 text: Displays.ToDisable(),
                                                 controlCss: "button-icon",
-                                                onClick: "$p.send($(this), $p.getFormId($(this)));",
+                                                onClick: "$p.send($(this));",
                                                 icon: "ui-icon-circle-triangle-e",
                                                 action: "SetSiteSettings",
                                                 method: "put")))
@@ -1831,7 +1831,7 @@ namespace Implem.Pleasanter.Models
                                                 controlId: "ToEnableMonitorChangesColumns",
                                                 text: Displays.ToEnable(),
                                                 controlCss: "button-icon",
-                                                onClick: "$p.send($(this), $p.getFormId($(this)));",
+                                                onClick: "$p.send($(this));",
                                                 icon: "ui-icon-circle-triangle-w",
                                                 action: "SetSiteSettings",
                                                 method: "put")));
