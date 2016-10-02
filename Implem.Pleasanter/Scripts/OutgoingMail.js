@@ -11,7 +11,7 @@
 }
 
 $p.openOutgoingMailReplyDialog = function ($control) {
-    $p.getData('OutgoingMailsForm').OutgoingMails_OutgoingMailId = $control.attr('data-id');
+    $p.getData($('#OutgoingMailsForm')).OutgoingMails_OutgoingMailId = $control.attr('data-id');
     $p.syncSend($control, 'OutgoingMailsForm');
     $('#OutgoingMailDialog').dialog({
         modal: true,
@@ -22,7 +22,7 @@ $p.openOutgoingMailReplyDialog = function ($control) {
 }
 
 $p.sendMail = function ($control) {
-    $p.getData('OutgoingMailForm').Ver = $('._Ver')[0].innerHTML;
+    $p.getData($('#OutgoingMailForm')).Ver = $('._Ver')[0].innerHTML;
     $p.send($control);
 }
 
@@ -59,7 +59,7 @@ $p.addMailAddress = function ($control, defaultMailAddresses) {
 }
 
 $p.setMailAddressData = function ($control) {
-    $p.getData('OutgoingMailForm')[$control.attr('id')] =
+    $p.getData($('#OutgoingMailForm'))[$control.attr('id')] =
         $control.find('li').map(function () {
             return unescape($(this).text());
         }).get().join(';');

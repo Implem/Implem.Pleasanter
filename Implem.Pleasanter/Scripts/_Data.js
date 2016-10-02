@@ -1,21 +1,15 @@
-﻿$p.getData = function (formId) {
-    formId = formId !== undefined
-        ? formId
-        : $('.main-form').attr('id');
+﻿$p.getData = function ($control) {
+    formId = $p.getFormId($control);
     if (!(formId in $p.data)) {
         $p.data[formId] = {};
     }
     return $p.data[formId];
 }
 
-$p.getDataByInnerElement = function ($control) {
-    return $p.getData($p.getFormId($control));
-}
-
 $p.setData = function ($control) {
     var controlId = $control.attr('id');
     if (!$control.hasClass('not-transport')) {
-        var data = $p.getDataByInnerElement($control);
+        var data = $p.getData($control);
         switch ($control.prop('type')) {
             case 'checkbox':
                 data[controlId] = $control.prop('checked');

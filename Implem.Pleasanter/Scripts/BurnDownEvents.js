@@ -1,11 +1,12 @@
 ﻿$(document).on('click', '#BurnDownDetails > tbody > tr', function () {
-    if (!$(this).next().hasClass('items')) {
-        var data = $p.getData();
-        data.BurnDownDate = $(this).attr('data-date');
-        data.BurnDownColspan = $(this).find('td').length;
-        $p.send($(this));
+    var $control = $(this);
+    if (!$control.next().hasClass('items')) {
+        var data = $p.getData($control);
+        data.BurnDownDate = $control.attr('data-date');
+        data.BurnDownColspan = $control.find('td').length;
+        $p.send($control);
     } else {
-        $(this).next().remove();
+        $control.next().remove();
     }
 });
 $(document).on('click', '#BurnDownDetails .items', function () {

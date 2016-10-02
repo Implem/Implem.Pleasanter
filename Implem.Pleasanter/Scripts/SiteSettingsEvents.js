@@ -1,6 +1,6 @@
 ﻿$(function () {
     $(document).on('selectableselected', '#EditorColumns', function () {
-        $p.clearData('ColumnProperty,', $p.getData(), 'startsWith');
+        $p.clearData('ColumnProperty,', $p.getData($(this)), 'startsWith');
     });
     $(document).on('change', '[id="ColumnProperty,ControlType"]', function () {
         var visibility = $(this).val() === 'Spinner';
@@ -9,29 +9,33 @@
         $('[id="ColumnPropertyField,Step"]').toggle(visibility);
     });
     $(document).on('change', '[id="ColumnProperty,FormatSelector"]', function () {
-        switch ($(this).val()) {
+        var $control = $(this);
+        switch ($control.val()) {
             case '\t':
                 $('[id="ColumnPropertyField,Format"]').toggle(true);
                 $('[id="ColumnProperty,Format"]').val('');
                 break;
             default:
                 $('[id="ColumnPropertyField,Format"]').toggle(false);
-                $('[id="ColumnProperty,Format"]').val($(this).val());
+                $('[id="ColumnProperty,Format"]').val($control.val());
                 break;
         }
-        $p.getData().ColumnProperty, Format = $('[id="ColumnProperty,Format"]').val();
+        $p.getData($control).ColumnProperty, Format = $('[id="ColumnProperty,Format"]').val();
     });
     $(document).on('click', '#CreateNotification,#UpdateNotification', function () {
-        $p.getData().NotificationType = $('#NotificationType').val();
-        $p.send($(this));
+        var $control = $(this);
+        $p.getData($control).NotificationType = $('#NotificationType').val();
+        $p.send($control);
     });
     $(document).on('click', '#NotificationSettings .grid-row', function () {
-        $p.getData().NotificationType = $(this).attr('data-id');
+        var $control = $(this);
+        $p.getData($control).NotificationType = $control.attr('data-id');
         $p.openNotificationDialog($('#EditNotification'), '#NotificationDialog');
     });
     $(document).on('click', '#NotificationSettings .delete', function (e) {
+        var $control = $(this);
         e.stopPropagation();
-        $p.getData().NotificationType = $(this).attr('data-id');
+        $p.getData($control).NotificationType = $control.attr('data-id');
         $p.send($('#DeleteNotification'));
     });
 });

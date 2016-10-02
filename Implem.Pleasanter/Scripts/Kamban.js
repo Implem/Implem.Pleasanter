@@ -11,7 +11,7 @@
         hoverClass: 'hover',
         tolerance: 'pointer',
         drop: function (e, ui) {
-            var data = $p.getData();
+            var data = $p.getData($('.main-form'));
             data["KambanId"] = $(ui.draggable).attr('data-id');
             data[$('#TableName').val() + '_' + $('#KambanGroupByColumn').val()] =
                 $(this).attr('data-value') !== undefined

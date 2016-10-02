@@ -3,7 +3,7 @@
     $p.ajax(
         $control.attr('data-action'),
         $control.attr('data-method'),
-        $p.getData('ExportSettingsForm'),
+        $p.getData($('#ExportSettingsForm')),
         $control,
         false);
     $('#ExportSettingsDialog').dialog({

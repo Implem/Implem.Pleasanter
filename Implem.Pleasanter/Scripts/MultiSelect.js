@@ -7,7 +7,7 @@
 }
 
 $p.setMultiSelectData = function ($control) {
-    $p.getDataByInnerElement($control)[$control.attr('id')] = JSON.stringify(
+    $p.getData($control)[$control.attr('id')] = JSON.stringify(
         $('[name="multiselect_' + $control.attr('id') + '"]')
             .filter(function () { return $(this).prop('checked'); })
             .map(function () { return $(this).val() })

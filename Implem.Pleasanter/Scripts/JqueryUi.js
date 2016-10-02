@@ -31,7 +31,7 @@
         $('.datepicker:not(.applied)').datepicker({
             showButtonPanel: true,
             onSelect: function (date) {
-                $p.getDataByInnerElement($(this))[this.id] = date;
+                $p.getData($(this))[this.id] = date;
             }
         }).addClass('applied');
         $('.radio:not(.applied)').buttonset().addClass('applied');

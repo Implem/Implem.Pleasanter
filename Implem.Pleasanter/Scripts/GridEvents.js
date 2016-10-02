@@ -1,19 +1,20 @@
 ﻿$(function () {
     $(document).on('click', '#GridCheckAll', function () {
         $('.grid-check').prop('checked', $('#GridCheckAll').prop('checked'));
-        var data = $p.getData();
+        var data = $p.getData($(this));
         data.GridUnCheckedItems = '';
         data.GridCheckedItems = '';
     });
     $(document).on('change', '.grid-check', function () {
+        var $control = $(this);
         if ($('#GridCheckAll').prop('checked')) {
-            $p.getData().GridUnCheckedItems =
+            $p.getData($control).GridUnCheckedItems =
                 $('.grid-check').filter(':not(:checked)')
                     .map(function () { return $(this).attr('data-id'); })
                     .get()
                     .join(',');
         } else {
-            $p.getData().GridCheckedItems =
+            $p.getData($control).GridCheckedItems =
                 $('.grid-check').filter(':checked')
                     .map(function () { return $(this).attr('data-id'); })
                     .get()
@@ -73,14 +74,14 @@ $(function () {
     });
     $(document).on('click', '.menu-sort > li.sort', function (e) {
         var $control = $($(this).parent().attr('data-target'));
-        var data = $p.getData();
+        var data = $p.getData($control);
         data[$control.attr('id')] = $(this).attr('data-order-type');
         $p.send($(this));
         delete data[$control.attr('id')];
         e.stopPropagation();
     });
     $(document).on('click', '.menu-sort > li.reset', function (e) {
-        var data = $p.getData();
+        var data = $p.getData($(this));
         $('[id^="GridSorters_"]').each(function () {
             data[this.id] = '';
         });
@@ -92,7 +93,7 @@ $(function () {
     });
     $(document).on('click', 'th.sortable', function () {
         var $control = $(this).find('div');
-        var data = $p.getData();
+        var data = $p.getData($control);
         data[$control.attr('id')] = $control.attr('data-order-type');
         $p.send($control);
         delete data[$control.attr('id')];

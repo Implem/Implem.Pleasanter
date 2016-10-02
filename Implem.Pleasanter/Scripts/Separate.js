@@ -51,7 +51,7 @@ $p.separateSettings = function () {
             source = 0;
         }
         $source.text(source + $('#WorkValueUnit').val());
-        $p.getData().SourceWorkValue = source;
+        $p.getData($sender).SourceWorkValue = source;
         return ret;
     }
 

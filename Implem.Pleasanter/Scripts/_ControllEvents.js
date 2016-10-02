@@ -15,7 +15,7 @@
         e.preventDefault();
     });
     $(document).on('spin', '.control-spinner', function (event, ui) {
-        $p.getDataByInnerElement($(this))[this.id] = ui.value;
+        $p.getData($(this))[this.id] = ui.value;
     });
     $(document).on('change', '.control-checkbox.visible', function () {
         show(this.id.substring(7, this.id.length), $(this).prop('checked'));
@@ -30,9 +30,10 @@
         }
     });
     $(document).on('change', '.auto-postback:not([type="text"], select[multiple])', function () {
-        $p.send($(this));
-        if (!$(this).hasClass('keep-form-data')) {
-            delete $p.getDataByInnerElement($(this))[this.id];
+        var $control = $(this);
+        $p.send($control);
+        if (!$control.hasClass('keep-form-data')) {
+            delete $p.getData($control)[$control.attr('id')];
         }
     });
     $(document).on('keyup', '.auto-postback[type="text"]', function (e) {
@@ -40,12 +41,12 @@
         $p.setData($control);
         if (e.keyCode === 13) {
             $p.send($control);
-            delete $p.getDataByInnerElement($(this))[this.id];
+            delete $p.getData($control)[$control.attr('id')];
         } else {
             var timer = setTimeout(function () {
                 $p.setData($control);
                 $p.send($control);
-                delete $p.getDataByInnerElement($control)[$control.attr('id')];
+                delete $p.getData($control)[$control.attr('id')];
             }, 700);
             $(document).on('keydown', '.auto-postback', function () {
                 clearTimeout(timer);

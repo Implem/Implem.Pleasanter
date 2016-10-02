@@ -30,7 +30,7 @@ $p.openNotificationDialog = function ($control) {
 }
 
 $p.setAggregationDetails = function ($control) {
-    var data = $p.getData();
+    var data = $p.getData($control);
     data.AggregationType = $('#AggregationType').val();
     data.AggregationTarget = $('#AggregationTarget').val();
     $('.ui-dialog-content').dialog('close');

@@ -6,14 +6,14 @@
             var $element = $p.hoverd($('.nav-site:not([data-id="' + siteId + '"])'));
             if ($element && $element.attr('data-type') === 'Sites') {
                 ui.item.hide();
-                var data = $p.getData();
+                var data = $p.getData($('.main-form'));
                 data.SiteId = siteId;
                 data.DestinationId = $element.attr('data-id');
                 $p.send($('#MoveSiteMenu'));
             }
         },
         update: function () {
-            $p.getData().Data = $('.nav-sites.sortable li')
+            $p.getData($('.main-form')).Data = $('.nav-sites.sortable li')
                 .map(function () { return $(this).attr('data-id'); })
                 .get()
                 .join(',');
