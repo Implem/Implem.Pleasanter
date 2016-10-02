@@ -117,7 +117,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: () => hb
                                 .Raw(Parameters.General.HtmlCopyright.Params(DateTime.Now.Year)))))
                 .Hidden(controlId: "ApplicationPath", value: Navigations.Get())
-                .BackUrl(siteId: siteId, parentId: parentId)
+                .BackUrl(siteId: siteId, parentId: parentId, referenceType: referenceType)
                 .Styles(style: userStyle));
         }
 
@@ -177,14 +177,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 useNavigationMenu: false);
         }
 
-        private static HtmlBuilder BackUrl(this HtmlBuilder hb, long siteId, long parentId)
+        private static HtmlBuilder BackUrl(
+            this HtmlBuilder hb, long siteId, long parentId, string referenceType)
         {
             return !Request.IsAjax()
-                ? hb.Hidden(controlId: "BackUrl", rawValue: BackUrl(siteId, parentId))
+                ? hb.Hidden(
+                    controlId: "BackUrl",
+                    rawValue: BackUrl(siteId, parentId, referenceType))
                 : hb;
         }
 
-        private static string BackUrl(long siteId, long parentId)
+        private static string BackUrl(long siteId, long parentId, string referenceType)
         {
             var controller = Routes.Controller();
             var referer = HttpUtility.UrlDecode(new Request(HttpContext.Current).UrlReferrer());
@@ -198,18 +201,33 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     {
                         case "new":
                         case "edit":
-                            return Strings.CoalesceEmpty(referer, Navigations.Get(controller));
+                            return Strings.CoalesceEmpty(
+                                referer, Navigations.Get(controller));
                         default:
                             return Navigations.Get("Admins");
                     }
                 default:
-                    switch (Routes.Action())
+                    switch (referenceType)
                     {
-                        case "new":
-                        case "edit":
-                            return Strings.CoalesceEmpty(referer, Navigations.ItemIndex(siteId));
+                        case "Sites":
+                            switch (Routes.Action())
+                            {
+                                case "new":
+                                case "edit":
+                                    return Navigations.ItemIndex(siteId);
+                                default:
+                                    return Navigations.ItemIndex(parentId);
+                            }
                         default:
-                            return Navigations.ItemIndex(parentId);
+                            switch (Routes.Action())
+                            {
+                                case "new":
+                                case "edit":
+                                    return Strings.CoalesceEmpty(
+                                        referer, Navigations.ItemIndex(siteId));
+                                default:
+                                    return Navigations.ItemIndex(parentId);
+                            }
                     }
             }
         }

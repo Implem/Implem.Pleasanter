@@ -616,6 +616,7 @@ namespace Implem.Pleasanter.Models
                 methodType: siteModel.MethodType,
                 allowAccess: AllowAccess(siteModel),
                 siteId: siteModel.SiteId,
+                parentId: siteModel.ParentId,
                 referenceType: "Sites",
                 title: siteModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Sites() + " - " + Displays.New()
