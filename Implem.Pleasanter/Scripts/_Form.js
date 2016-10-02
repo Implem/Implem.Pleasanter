@@ -86,10 +86,11 @@ $p.setByJson = function (json, data, $control) {
         });
     }
     if (json.filter(function (d) {
-        return d.Method === 'Html' || d.Method === 'ReplaceAll'
-    }).length > 0) {
-        $p.apply();
-    }
+        return d.Method === 'Html' ||
+            d.Method === 'ReplaceAll' ||
+            d.Method === 'Append' ||
+            d.Method === 'Prepend';
+    }).length > 0) { $p.apply(); }
 }
 
 $p.setByJsonElement = function (jsonElement, data, $control) {
