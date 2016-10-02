@@ -49,11 +49,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     useNavigationMenu: useNavigationMenu,
                     userStyle: userStyle,
                     action: action)
+                .Hidden(controlId: "Language", value: Sessions.Language())
                 .Scripts(
                     script: script,
                     userScript: userScript,
-                    referenceType: referenceType)
-                .Hidden(controlId: "Language", value: Sessions.Language());
+                    referenceType: referenceType);
         }
 
         public static HtmlBuilder MainContainer(
