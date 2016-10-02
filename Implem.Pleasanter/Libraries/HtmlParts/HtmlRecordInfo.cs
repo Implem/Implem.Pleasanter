@@ -49,7 +49,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .Text(time.ToViewText(
                                     Displays.Get(controlDateTime + "Format")))))
                     .P(action: () => hb
-                        .ElapsedTime(time.Value));
+                        .ElapsedTime(time.DisplayValue));
             }
             else
             {
