@@ -13,6 +13,6 @@
 }
 
 $p.export = function ($control) {
-    $p.send($control, 'ExportSettingsForm');
+    $p.send($control);
     location.href = $('.main-form').attr('action').replace('_action_', 'export');
 }
