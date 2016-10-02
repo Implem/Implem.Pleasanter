@@ -1,6 +1,4 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Images;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -89,12 +87,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     useTitle: useTitle,
                     action: action)
                 .Div(id: "BottomMargin both")
-                .Footer(id: "Footer", action: () => hb
-                    .P(action: () => hb
-                        .A(
-                            attributes: new HtmlAttributes().Href(Parameters.General.HtmlCopyrightUrl),
-                            action: () => hb
-                                .Raw(Parameters.General.HtmlCopyright.Params(DateTime.Now.Year)))))
+                .Footer()
                 .BackUrl(siteId: siteId, parentId: parentId, referenceType: referenceType)
                 .Styles(style: userStyle));
         }

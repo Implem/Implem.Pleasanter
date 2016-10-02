@@ -233,6 +233,7 @@
     <Compile Include="Libraries\DataViews\TimeSeriesElement.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlBack.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlBreadcrumb.cs" />
+    <Compile Include="Libraries\HtmlParts\HtmlFooter.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlNotes.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlTimes.cs" />
     <Compile Include="Libraries\Html\HtmlAttributes.cs" />
