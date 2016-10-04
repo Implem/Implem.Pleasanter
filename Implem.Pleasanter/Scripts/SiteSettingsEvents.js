@@ -22,6 +22,11 @@
         }
         $p.getData($control).ColumnProperty, Format = $('[id="ColumnProperty,Format"]').val();
     });
+    $(document).on('click', '#SummarySettings button.delete-summary', function () {
+        var $control = $(this);
+        $p.getData($control).DeleteSummaryId = $control.attr('data-id');
+        $p.send($("#DeleteSummary"));
+    });
     $(document).on('click', '#CreateNotification,#UpdateNotification', function () {
         var $control = $(this);
         $p.getData($control).NotificationType = $('#NotificationType').val();

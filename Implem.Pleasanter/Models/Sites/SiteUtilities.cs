@@ -2107,9 +2107,8 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder SummarySettings(
             this HtmlBuilder hb, SiteSettings sourceSiteSettings)
         {
-            return hb.Div(id: "SummarySettings", action: () =>
-            {
-                hb.Table(css: "grid", action: () =>
+            return hb.Div(id: "SummarySettings", action: () => hb
+                .Table(css: "grid", action: () =>
                 {
                     hb.THead(action: () => hb
                         .Tr(css: "ui-widget-header", action: () => hb
@@ -2177,19 +2176,20 @@ namespace Implem.Pleasanter.Models
                                                 method: "put",
                                                 confirm: Displays.ConfirmSynchronize())
                                             .Button(
-                                                controlId: "DeleteSummary," + summary.Id,
-                                                controlCss: "button-icon",
+                                                controlCss: "button-icon delete-summary",
                                                 text: Displays.Delete(),
-                                                onClick: "$p.send($(this));",
-                                                icon: "ui-icon-trash",
-                                                action: "SetSiteSettings",
-                                                method: "delete")));
+                                                dataId: summary.Id.ToString(),
+                                                icon: "ui-icon-trash")));
                                 }
                             });
                         });
                     }
-                });
-            });
+                })
+                .Hidden(attributes: new HtmlAttributes()
+                    .Id("DeleteSummary")
+                    .DataAction("SetSiteSettings")
+                    .DataMethod("delete")
+                    .DataConfirm(Displays.ConfirmDelete())));
         }
 
         /// <summary>
