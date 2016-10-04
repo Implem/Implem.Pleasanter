@@ -613,6 +613,8 @@ namespace Implem.DefinitionAccessor
                     case "Displays_Parts": Code.Displays_Parts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Displays_Parts, definitionRow, CodeXls); break;
                     case "HtmlScripts": Code.HtmlScripts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlScripts, definitionRow, CodeXls); break;
                     case "HtmlScripts_ValidatorCases": Code.HtmlScripts_ValidatorCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlScripts_ValidatorCases, definitionRow, CodeXls); break;
+                    case "Error": Code.Error = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Error, definitionRow, CodeXls); break;
+                    case "Error_Types": Code.Error_Types = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Error_Types, definitionRow, CodeXls); break;
                     case "ClientValidators": Code.ClientValidators = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientValidators, definitionRow, CodeXls); break;
                     case "ClientValidators_Form": Code.ClientValidators_Form = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientValidators_Form, definitionRow, CodeXls); break;
                     case "ClientValidators_Rules": Code.ClientValidators_Rules = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientValidators_Rules, definitionRow, CodeXls); break;
@@ -4123,6 +4125,8 @@ namespace Implem.DefinitionAccessor
         public string Displays_Parts;
         public string HtmlScripts;
         public string HtmlScripts_ValidatorCases;
+        public string Error;
+        public string Error_Types;
         public string ClientValidators;
         public string ClientValidators_Form;
         public string ClientValidators_Rules;
@@ -4506,6 +4510,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Displays_Parts = new CodeDefinition();
         public CodeDefinition HtmlScripts = new CodeDefinition();
         public CodeDefinition HtmlScripts_ValidatorCases = new CodeDefinition();
+        public CodeDefinition Error = new CodeDefinition();
+        public CodeDefinition Error_Types = new CodeDefinition();
         public CodeDefinition ClientValidators = new CodeDefinition();
         public CodeDefinition ClientValidators_Form = new CodeDefinition();
         public CodeDefinition ClientValidators_Rules = new CodeDefinition();
