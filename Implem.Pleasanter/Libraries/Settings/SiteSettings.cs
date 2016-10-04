@@ -956,7 +956,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     AddFormula(responseCollection);
                     break;
                 case "DeleteFormulas":
-                    DeleteFormulas(responseCollection);
+                    DeleteFormulas();
                     break;
             }
         }
@@ -1078,7 +1078,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             responseCollection.Val("#Formula", string.Empty);
         }
 
-        private void DeleteFormulas(ResponseCollection responseCollection)
+        private void DeleteFormulas()
         {
             var selected = Forms.Data("Formulas").Split(';');
             FormulaHash.RemoveAll((key, value) => selected.Contains(key));
