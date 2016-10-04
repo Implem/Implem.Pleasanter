@@ -884,7 +884,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string ValidateBeforeSetSiteSettings()
+        private string ValidateBeforeSetSiteSettings()
         {
             foreach(var data in Forms.All())
             {
@@ -1199,6 +1199,9 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void SetAggregationDetails(ResponseCollection responseCollection)
         {
             Aggregation.Types type;
