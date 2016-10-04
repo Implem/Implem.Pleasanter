@@ -774,6 +774,42 @@ namespace Implem.Pleasanter.Models
             var controlId = Forms.Data("ControlId");
             switch (controlId)
             {
+                case "MoveUpGridColumns":
+                case "MoveDownGridColumns":
+                case "ToDisableGridColumns":
+                case "ToEnableGridColumns":
+                    SetGridColumns(responseCollection, controlId);
+                    break;
+                case "MoveUpFilterColumns":
+                case "MoveDownFilterColumns":
+                case "ToDisableFilterColumns":
+                case "ToEnableFilterColumns":
+                    SetFilterColumns(responseCollection, controlId);
+                    break;
+                case "MoveUpEditorColumns":
+                case "MoveDownEditorColumns":
+                case "ToDisableEditorColumns":
+                case "ToEnableEditorColumns":
+                    SetEditorColumns(responseCollection, controlId);
+                    break;
+                case "MoveUpTitleColumns":
+                case "MoveDownTitleColumns":
+                case "ToDisableTitleColumns":
+                case "ToEnableTitleColumns":
+                    SetTitleColumns(responseCollection, controlId);
+                    break;
+                case "MoveUpLinkColumns":
+                case "MoveDownLinkColumns":
+                case "ToDisableLinkColumns":
+                case "ToEnableLinkColumns":
+                    SetLinkColumns(responseCollection, controlId);
+                    break;
+                case "MoveUpHistoryColumns":
+                case "MoveDownHistoryColumns":
+                case "ToDisableHistoryColumns":
+                case "ToEnableHistoryColumns":
+                    SetHistoryColumns(responseCollection, controlId);
+                    break;
                 case "OpenColumnPropertiesDialog":
                     OpenColumnPropertiesDialog(responseCollection);
                     break;
@@ -798,13 +834,7 @@ namespace Implem.Pleasanter.Models
                     break;
                 default:
                     SetSiteSettings(responseCollection);
-                    SetGridColumns(responseCollection);
-                    SetFilterColumns(responseCollection);
-                    SetEditorColumns(responseCollection);
                     SetColumnProperties(responseCollection);
-                    SetTitleColumns(responseCollection);
-                    SetLinkColumns(responseCollection);
-                    SetHistoryColumns(responseCollection);
                     SetFormulas(responseCollection);
                     SetAggregations(responseCollection);
                     SetSummaries(responseCollection);
@@ -972,49 +1002,39 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetGridColumns(ResponseCollection responseCollection)
+        private void SetGridColumns(ResponseCollection responseCollection, string controlId)
         {
-            var controlId = Forms.Data("ControlId");
-            if (CheckBeforeSetColumns(controlId, "Grid"))
-            {
-                var command = ColumnUtilities.ChangeCommand(controlId);
-                var selectedColumns = Forms.List("GridColumns");
-                var selectedSourceColumns = Forms.List("GridSourceColumns");
-                SiteSettings.SetGridColumns(
-                    controlId, command, selectedColumns, selectedSourceColumns);
-                SetResponseAfterChangeColumns(
-                    responseCollection,
-                    command,
-                    "Grid",
-                    SiteSettings.GridSelectableOptions(),
-                    selectedColumns,
-                    SiteSettings.GridSelectableOptions(enabled: false),
-                    selectedSourceColumns);
-            }
+            var command = ColumnUtilities.ChangeCommand(controlId);
+            var selectedColumns = Forms.List("GridColumns");
+            var selectedSourceColumns = Forms.List("GridSourceColumns");
+            SiteSettings.SetGridColumns(command, selectedColumns, selectedSourceColumns);
+            SetResponseAfterChangeColumns(
+                responseCollection,
+                command,
+                "Grid",
+                SiteSettings.GridSelectableOptions(),
+                selectedColumns,
+                SiteSettings.GridSelectableOptions(enabled: false),
+                selectedSourceColumns);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetFilterColumns(ResponseCollection responseCollection)
+        private void SetFilterColumns(ResponseCollection responseCollection, string controlId)
         {
-            var controlId = Forms.Data("ControlId");
-            if (CheckBeforeSetColumns(controlId, "Filter"))
-            {
-                var command = ColumnUtilities.ChangeCommand(controlId);
-                var selectedColumns = Forms.List("FilterColumns");
-                var selectedSourceColumns = Forms.List("FilterSourceColumns");
-                SiteSettings.SetFilterColumns(
-                    controlId, command, selectedColumns, selectedSourceColumns);
-                SetResponseAfterChangeColumns(
-                    responseCollection,
-                    command,
-                    "Filter",
-                    SiteSettings.FilterSelectableOptions(),
-                    selectedColumns,
-                    SiteSettings.FilterSelectableOptions(enabled: false),
-                    selectedSourceColumns);
-            }
+            var command = ColumnUtilities.ChangeCommand(controlId);
+            var selectedColumns = Forms.List("FilterColumns");
+            var selectedSourceColumns = Forms.List("FilterSourceColumns");
+            SiteSettings.SetFilterColumns(command, selectedColumns, selectedSourceColumns);
+            SetResponseAfterChangeColumns(
+                responseCollection,
+                command,
+                "Filter",
+                SiteSettings.FilterSelectableOptions(),
+                selectedColumns,
+                SiteSettings.FilterSelectableOptions(enabled: false),
+                selectedSourceColumns);
         }
 
         /// <summary>
@@ -1201,26 +1221,21 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetEditorColumns(ResponseCollection responseCollection)
+        private void SetEditorColumns(ResponseCollection responseCollection, string controlId)
         {
-            var controlId = Forms.Data("ControlId");
-            if (CheckBeforeSetColumns(controlId, "Editor"))
+            var command = ColumnUtilities.ChangeCommand(controlId);
+            var selectedColumns = Forms.List("EditorColumns");
+            var selectedSourceColumns = Forms.List("EditorSourceColumns");
+            if (controlId == "ToDisableEditorColumns" &&
+                selectedColumns.Any(o => !SiteSettings.EditorColumn(o).Nullable))
             {
-                var command = ColumnUtilities.ChangeCommand(controlId);
-                var selectedColumns = Forms.List("EditorColumns");
-                var selectedSourceColumns = Forms.List("EditorSourceColumns");
-                if (controlId == "ToDisableEditorColumns" &&
-                    selectedColumns.Any(o => !SiteSettings.EditorColumn(o).Nullable))
-                {
-                    responseCollection.Message(Messages.CanNotDisabled(
-                        SiteSettings.EditorColumn(selectedColumns.FirstOrDefault(o =>
-                            !SiteSettings.EditorColumn(o).Nullable)).LabelText));
-                }
-                else
-                {
-                    SiteSettings.SetEditorColumns(
-                        controlId, command, selectedColumns, selectedSourceColumns);
-                }
+                responseCollection.Message(Messages.CanNotDisabled(
+                    SiteSettings.EditorColumn(selectedColumns.FirstOrDefault(o =>
+                        !SiteSettings.EditorColumn(o).Nullable)).LabelText));
+            }
+            else
+            {
+                SiteSettings.SetEditorColumns(command, selectedColumns, selectedSourceColumns);
                 SetResponseAfterChangeColumns(
                     responseCollection,
                     command,
@@ -1287,83 +1302,58 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetTitleColumns(ResponseCollection responseCollection)
+        private void SetTitleColumns(ResponseCollection responseCollection, string controlId)
         {
-            var controlId = Forms.Data("ControlId");
-            if (CheckBeforeSetColumns(controlId, "Title"))
-            {
-                var command = ColumnUtilities.ChangeCommand(controlId);
-                var selectedColumns = Forms.List("TitleColumns");
-                var selectedSourceColumns = Forms.List("TitleSourceColumns");
-                SiteSettings.SetTitleColumns(
-                    controlId, command, selectedColumns, selectedSourceColumns);
-                SetResponseAfterChangeColumns(
-                    responseCollection,
-                    command,
-                    "Title",
-                    SiteSettings.TitleSelectableOptions(),
-                    selectedColumns,
-                    SiteSettings.TitleSelectableOptions(enabled: false),
-                    selectedSourceColumns);
-            }
+            var command = ColumnUtilities.ChangeCommand(controlId);
+            var selectedColumns = Forms.List("TitleColumns");
+            var selectedSourceColumns = Forms.List("TitleSourceColumns");
+            SiteSettings.SetTitleColumns(command, selectedColumns, selectedSourceColumns);
+            SetResponseAfterChangeColumns(
+                responseCollection,
+                command,
+                "Title",
+                SiteSettings.TitleSelectableOptions(),
+                selectedColumns,
+                SiteSettings.TitleSelectableOptions(enabled: false),
+                selectedSourceColumns);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetLinkColumns(ResponseCollection responseCollection)
+        private void SetLinkColumns(ResponseCollection responseCollection, string controlId)
         {
-            var controlId = Forms.Data("ControlId");
-            if (CheckBeforeSetColumns(controlId, "Link"))
-            {
-                var command = ColumnUtilities.ChangeCommand(controlId);
-                var selectedColumns = Forms.List("LinkColumns");
-                var selectedSourceColumns = Forms.List("LinkSourceColumns");
-                SiteSettings.SetLinkColumns(
-                    controlId, command, selectedColumns, selectedSourceColumns);
-                SetResponseAfterChangeColumns(
-                    responseCollection,
-                    command,
-                    "Link",
-                    SiteSettings.LinkSelectableOptions(),
-                    selectedColumns,
-                    SiteSettings.LinkSelectableOptions(enabled: false),
-                    selectedSourceColumns);
-            }
+            var command = ColumnUtilities.ChangeCommand(controlId);
+            var selectedColumns = Forms.List("LinkColumns");
+            var selectedSourceColumns = Forms.List("LinkSourceColumns");
+            SiteSettings.SetLinkColumns(command, selectedColumns, selectedSourceColumns);
+            SetResponseAfterChangeColumns(
+                responseCollection,
+                command,
+                "Link",
+                SiteSettings.LinkSelectableOptions(),
+                selectedColumns,
+                SiteSettings.LinkSelectableOptions(enabled: false),
+                selectedSourceColumns);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetHistoryColumns(ResponseCollection responseCollection)
+        private void SetHistoryColumns(ResponseCollection responseCollection, string controlId)
         {
-            var controlId = Forms.Data("ControlId");
-            if (CheckBeforeSetColumns(controlId, "History"))
-            {
-                var command = ColumnUtilities.ChangeCommand(controlId);
-                var selectedColumns = Forms.List("HistoryColumns");
-                var selectedSourceColumns = Forms.List("HistorySourceColumns");
-                SiteSettings.SetHistoryColumns(
-                    controlId, command, selectedColumns, selectedSourceColumns);
-                SetResponseAfterChangeColumns(
-                    responseCollection,
-                    command,
-                    "History",
-                    SiteSettings.HistorySelectableOptions(),
-                    selectedColumns,
-                    SiteSettings.HistorySelectableOptions(enabled: false),
-                    selectedSourceColumns);
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private bool CheckBeforeSetColumns(string controlId, string targetName)
-        {
-            return controlId.EndsWith(targetName + "Columns") &&
-                (Forms.Data(targetName + "Columns") +
-                Forms.Data(targetName + "SourceColumns") != string.Empty);
+            var command = ColumnUtilities.ChangeCommand(controlId);
+            var selectedColumns = Forms.List("HistoryColumns");
+            var selectedSourceColumns = Forms.List("HistorySourceColumns");
+            SiteSettings.SetHistoryColumns(command, selectedColumns, selectedSourceColumns);
+            SetResponseAfterChangeColumns(
+                responseCollection,
+                command,
+                "History",
+                SiteSettings.HistorySelectableOptions(),
+                selectedColumns,
+                SiteSettings.HistorySelectableOptions(enabled: false),
+                selectedSourceColumns);
         }
 
         /// <summary>

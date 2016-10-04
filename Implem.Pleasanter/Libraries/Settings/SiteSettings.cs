@@ -727,81 +727,45 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public void SetGridColumns(
-            string controlId,
-            string command,
-            List<string> selectedColumns,
-            List<string> selectedSourceColumns)
+            string command, List<string> selectedColumns, List<string> selectedSourceColumns)
         {
-            if (controlId.EndsWith("GridColumns"))
-            {
-                GridColumnsOrder = ColumnUtilities.GetChanged(
-                    GridColumnsOrder, command, selectedColumns, selectedSourceColumns);
-            }
+            GridColumnsOrder = ColumnUtilities.GetChanged(
+                GridColumnsOrder, command, selectedColumns, selectedSourceColumns);
         }
 
         public void SetFilterColumns(
-            string controlId,
-            string command,
-            List<string> selectedColumns,
-            List<string> selectedSourceColumns)
+            string command, List<string> selectedColumns, List<string> selectedSourceColumns)
         {
-            if (controlId.EndsWith("FilterColumns"))
-            {
-                FilterColumnsOrder = ColumnUtilities.GetChanged(
-                    FilterColumnsOrder, command, selectedColumns, selectedSourceColumns);
-            }
+            FilterColumnsOrder = ColumnUtilities.GetChanged(
+                FilterColumnsOrder, command, selectedColumns, selectedSourceColumns);
         }
 
         public void SetEditorColumns(
-            string controlId,
-            string command,
-            List<string> selectedColumns,
-            List<string> selectedSourceColumns)
+            string command, List<string> selectedColumns, List<string> selectedSourceColumns)
         {
-            if (controlId.EndsWith("EditorColumns"))
-            {
-                EditorColumnsOrder = ColumnUtilities.GetChanged(
-                    EditorColumnsOrder, command, selectedColumns, selectedSourceColumns);
-            }
+            EditorColumnsOrder = ColumnUtilities.GetChanged(
+                EditorColumnsOrder, command, selectedColumns, selectedSourceColumns);
         }
 
         public void SetTitleColumns(
-            string controlId,
-            string command,
-            List<string> selectedColumns,
-            List<string> selectedSourceColumns)
+            string command, List<string> selectedColumns, List<string> selectedSourceColumns)
         {
-            if (controlId.EndsWith("TitleColumns"))
-            {
-                TitleColumnsOrder = ColumnUtilities.GetChanged(
-                    TitleColumnsOrder, command, selectedColumns, selectedSourceColumns);
-            }
+            TitleColumnsOrder = ColumnUtilities.GetChanged(
+                TitleColumnsOrder, command, selectedColumns, selectedSourceColumns);
         }
 
         public void SetLinkColumns(
-            string controlId,
-            string command,
-            List<string> selectedColumns,
-            List<string> selectedSourceColumns)
+            string command, List<string> selectedColumns, List<string> selectedSourceColumns)
         {
-            if (controlId.EndsWith("LinkColumns"))
-            {
-                LinkColumnsOrder = ColumnUtilities.GetChanged(
-                    LinkColumnsOrder, command, selectedColumns, selectedSourceColumns);
-            }
+            LinkColumnsOrder = ColumnUtilities.GetChanged(
+                LinkColumnsOrder, command, selectedColumns, selectedSourceColumns);
         }
 
         public void SetHistoryColumns(
-            string controlId,
-            string command,
-            List<string> selectedColumns,
-            List<string> selectedSourceColumns)
+            string command, List<string> selectedColumns, List<string> selectedSourceColumns)
         {
-            if (controlId.EndsWith("HistoryColumns"))
-            {
-                HistoryColumnsOrder = ColumnUtilities.GetChanged(
-                    HistoryColumnsOrder, command, selectedColumns, selectedSourceColumns);
-            }
+            HistoryColumnsOrder = ColumnUtilities.GetChanged(
+                HistoryColumnsOrder, command, selectedColumns, selectedSourceColumns);
         }
 
         public void SetColumnProperty(Column column, string propertyName, string value)
