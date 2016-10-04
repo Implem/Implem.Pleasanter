@@ -3,7 +3,6 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
-using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
@@ -948,15 +947,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Where(o => FormulaHash.Keys.Contains(o))
                         .ToDictionary(o => o, o => FormulaHash[o]);
                     break;
-                case "DeleteFormulas":
-                    DeleteFormulas();
-                    break;
             }
         }
 
-        private void DeleteFormulas()
+        public void DeleteFormulas(IEnumerable<string> selected)
         {
-            var selected = Forms.Data("Formulas").Split(';');
             FormulaHash.RemoveAll((key, value) => selected.Contains(key));
         }
 

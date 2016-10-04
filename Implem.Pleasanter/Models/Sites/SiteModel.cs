@@ -757,11 +757,13 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "MoveUpFormulas":
                 case "MoveDownFormulas":
-                case "DeleteFormulas":
                     SetFormulas(responseCollection, controlId);
                     break;
                 case "AddFormula":
                     AddFormula(responseCollection);
+                    break;
+                case "DeleteFormulas":
+                    DeleteFormulas(responseCollection);
                     break;
                 case "OpenColumnPropertiesDialog":
                     OpenColumnPropertiesDialog(responseCollection);
@@ -1364,6 +1366,18 @@ namespace Implem.Pleasanter.Models
                         .SelectableItems(listItemCollection: SiteSettings.FormulaItemCollection()))
                     .Val("#Formula", string.Empty);
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void DeleteFormulas(ResponseCollection responseCollection)
+        {
+            SiteSettings.DeleteFormulas(Forms.Data("Formulas").Split(';'));
+            responseCollection
+                .Html("#Formulas", new HtmlBuilder()
+                    .SelectableItems(listItemCollection: SiteSettings.FormulaItemCollection()))
+                .ClearFormData("Formulas");
         }
 
         /// <summary>
