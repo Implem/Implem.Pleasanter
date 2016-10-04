@@ -813,6 +813,12 @@ namespace Implem.Pleasanter.Models
                 case "ToEnableHistoryColumns":
                     SetHistoryColumns(responseCollection, controlId);
                     break;
+                case "MoveUpFormulas":
+                case "MoveDownFormulas":
+                case "AddFormula":
+                case "DeleteFormulas":
+                    SetFormulas(responseCollection, controlId);
+                    break;
                 case "OpenColumnPropertiesDialog":
                     OpenColumnPropertiesDialog(responseCollection);
                     break;
@@ -837,7 +843,6 @@ namespace Implem.Pleasanter.Models
                     break;
                 default:
                     SetSiteSettings(responseCollection);
-                    SetFormulas(responseCollection);
                     SetAggregations(responseCollection);
                     SetSummaries(responseCollection);
                     break;
@@ -1294,6 +1299,7 @@ namespace Implem.Pleasanter.Models
         public string SynchronizeFormulas()
         {
             SetSiteSettingsPropertiesBySession();
+            SiteSettings.SetChoicesByLinks();
             Formulas.Synchronize(this);
             return Messages.ResponseSynchronizationCompleted().ToJson();
         }
@@ -1358,15 +1364,15 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetFormulas(ResponseCollection responseCollection)
+        private void SetFormulas(ResponseCollection responseCollection, string controlId)
         {
             var selectedColumns = Forms.List("Formulas");
-            var controlId = Forms.Data("ControlId");
-            if (selectedColumns.Count() != 0 || controlId == "AddFormula")
-            {
-                SiteSettings.SetFormulas(
-                    responseCollection, controlId, selectedColumns);
-            }
+            SiteSettings.SetFormulas(
+                responseCollection, controlId, selectedColumns);
+            responseCollection.Html("#Formulas", new HtmlBuilder()
+                .SelectableItems(
+                    listItemCollection: SiteSettings.FormulaItemCollection(),
+                    selectedValueTextCollection: selectedColumns));
         }
 
         /// <summary>

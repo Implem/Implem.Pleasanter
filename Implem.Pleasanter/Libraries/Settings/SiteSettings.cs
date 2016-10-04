@@ -965,12 +965,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "DeleteFormulas":
                     DeleteFormulas(responseCollection);
                     break;
-
             }
-            responseCollection.Html("#Formulas", new HtmlBuilder()
-                .SelectableItems(
-                    listItemCollection: FormulaItemCollection(),
-                    selectedValueTextCollection: selectedColumns));
         }
 
         private void AddFormula(ResponseCollection responseCollection)
