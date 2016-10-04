@@ -18,8 +18,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this ResponseCollection responseCollection, SiteSettings siteSettings)
         {
             return
-                Forms.Data("ControlId") == "ReduceDataViewFilters" ||
-                Forms.Data("ControlId") == "ExpandDataViewFilters"
+                Forms.ControlId() == "ReduceDataViewFilters" ||
+                Forms.ControlId() == "ExpandDataViewFilters"
                     ? responseCollection.ReplaceAll(
                         "#DataViewFilters", new HtmlBuilder().DataViewFilters(siteSettings))
                     : responseCollection;
@@ -58,11 +58,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var key = "ReduceDataViewFilters_" + (siteId != null
                 ? Pages.Key()
                 : siteId.ToString());
-            if (Forms.Data("ControlId") == "ReduceDataViewFilters")
+            if (Forms.ControlId() == "ReduceDataViewFilters")
             {
                 HttpContext.Current.Session[key] = true;
             }
-            else if (Forms.Data("ControlId") == "ExpandDataViewFilters")
+            else if (Forms.ControlId() == "ExpandDataViewFilters")
             {
                 HttpContext.Current.Session.Remove(key);
             }

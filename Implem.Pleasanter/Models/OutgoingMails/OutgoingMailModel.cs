@@ -503,7 +503,7 @@ namespace Implem.Pleasanter.Models
             });
             if (Routes.Action() == "deletecomment")
             {
-                DeleteCommentId = Forms.Data("ControlId").Split(',')._2nd().ToInt();
+                DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
                 Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
             }
             Forms.FileKeys().ForEach(controlId =>

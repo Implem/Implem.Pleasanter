@@ -37,11 +37,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var key = "ReduceAggregations_" + (siteId == 0
                 ? Pages.Key()
                 : siteId.ToString());
-            if (Forms.Data("ControlId") == "ReduceAggregations")
+            if (Forms.ControlId() == "ReduceAggregations")
             {
                 HttpContext.Current.Session[key] = true;
             }
-            else if (Forms.Data("ControlId") == "ExpandAggregations")
+            else if (Forms.ControlId() == "ExpandAggregations")
             {
                 HttpContext.Current.Session.Remove(key);
             }

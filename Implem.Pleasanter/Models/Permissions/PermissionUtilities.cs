@@ -506,7 +506,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                switch (Forms.Data("ControlId"))
+                switch (Forms.ControlId())
                 {
                     case "ReadOnly":
                         responseCollection.SetPermissionType(

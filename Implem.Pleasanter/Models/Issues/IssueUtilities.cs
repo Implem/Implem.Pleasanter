@@ -1705,7 +1705,7 @@ namespace Implem.Pleasanter.Models
         {
             var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
             var issueCollection = IssueCollection(siteSettings, permissionType, formData);
-            var bodyOnly = Forms.Data("ControlId").StartsWith("Gantt");
+            var bodyOnly = Forms.ControlId().StartsWith("Gantt");
             return new ResponseCollection()
                 .Html(
                     !bodyOnly ? "#DataViewContainer" : "#GanttBody",
@@ -1930,7 +1930,7 @@ namespace Implem.Pleasanter.Models
         {
             var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
             var issueCollection = IssueCollection(siteSettings, permissionType, formData);
-            var bodyOnly = Forms.Data("ControlId").StartsWith("TimeSeries");
+            var bodyOnly = Forms.ControlId().StartsWith("TimeSeries");
             return new ResponseCollection()
                 .Html(
                     !bodyOnly ? "#DataViewContainer" : "#TimeSeriesBody",
@@ -2043,7 +2043,7 @@ namespace Implem.Pleasanter.Models
         {
             var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
             var issueCollection = IssueCollection(siteSettings, permissionType, formData);
-            var bodyOnly = Forms.Data("ControlId").StartsWith("Kamban");
+            var bodyOnly = Forms.ControlId().StartsWith("Kamban");
             return new ResponseCollection()
                 .Html(
                     !bodyOnly ? "#DataViewContainer" : "#KambanBody",

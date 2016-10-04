@@ -542,7 +542,7 @@ namespace Implem.Pleasanter.Models
             });
             if (Routes.Action() == "deletecomment")
             {
-                DeleteCommentId = Forms.Data("ControlId").Split(',')._2nd().ToInt();
+                DeleteCommentId = Forms.ControlId().Split(',')._2nd().ToInt();
                 Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
             }
             Forms.FileKeys().ForEach(controlId =>
@@ -670,7 +670,7 @@ namespace Implem.Pleasanter.Models
             ExportColumns = Session_ExportColumns();
             ExportColumns.SetExport(
                 responseCollection,
-                Forms.Data("ControlId"),
+                Forms.ControlId(),
                 Forms.Data("ExportSettings_Columns")?.Split(';'),
                 GetSiteSettings());
             ExportSettingUtilities.SetSessions(this);
