@@ -781,7 +781,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetSiteSettings(ResponseCollection responseCollection)
         {
-            var controlId = Forms.Data("ControlId");
+            var controlId = Forms.ControlId();
             switch (controlId)
             {
                 case "MoveUpGridColumns":
