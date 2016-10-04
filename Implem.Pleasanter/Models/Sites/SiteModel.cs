@@ -792,6 +792,9 @@ namespace Implem.Pleasanter.Models
                 case "ToEnableEditorColumns":
                     SetEditorColumns(responseCollection, controlId);
                     break;
+                case "SetColumnProperties":
+                    SetColumnProperties(responseCollection);
+                    break;
                 case "MoveUpTitleColumns":
                 case "MoveDownTitleColumns":
                 case "ToDisableTitleColumns":
@@ -834,7 +837,6 @@ namespace Implem.Pleasanter.Models
                     break;
                 default:
                     SetSiteSettings(responseCollection);
-                    SetColumnProperties(responseCollection);
                     SetFormulas(responseCollection);
                     SetAggregations(responseCollection);
                     SetSummaries(responseCollection);
@@ -1252,30 +1254,27 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetColumnProperties(ResponseCollection responseCollection)
         {
-            if (Forms.Data("ControlId") == "SetColumnProperties")
+            var selectedColumns = Forms.List("EditorColumns");
+            if (selectedColumns.Count() == 1)
             {
-                var selectedColumns = Forms.List("EditorColumns");
-                if (selectedColumns.Count() == 1)
+                var column = SiteSettings.EditorColumn(selectedColumns.FirstOrDefault());
+                if (column == null)
                 {
-                    var column = SiteSettings.EditorColumn(selectedColumns.FirstOrDefault());
-                    if (column == null)
-                    {
-                        responseCollection.Message(Messages.InvalidRequest());
-                    }
-                    else
-                    {
-                        Forms.All()
-                            .Where(o => o.Key.StartsWith("ColumnProperty,"))
-                            .ForEach(data =>
-                                SiteSettings.SetColumnProperty(
-                                    column,
-                                    data.Key.Split_2nd(),
-                                    data.Value));
-                        responseCollection.Html("#EditorColumns",
-                            new HtmlBuilder().SelectableItems(
-                                listItemCollection: SiteSettings.EditorSelectableOptions(),
-                                selectedValueTextCollection: selectedColumns));
-                    }
+                    responseCollection.Message(Messages.InvalidRequest());
+                }
+                else
+                {
+                    Forms.All()
+                        .Where(o => o.Key.StartsWith("ColumnProperty,"))
+                        .ForEach(data =>
+                            SiteSettings.SetColumnProperty(
+                                column,
+                                data.Key.Split_2nd(),
+                                data.Value));
+                    responseCollection.Html("#EditorColumns",
+                        new HtmlBuilder().SelectableItems(
+                            listItemCollection: SiteSettings.EditorSelectableOptions(),
+                            selectedValueTextCollection: selectedColumns));
                 }
             }
         }
