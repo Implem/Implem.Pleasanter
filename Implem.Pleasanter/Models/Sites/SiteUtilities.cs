@@ -1921,7 +1921,8 @@ namespace Implem.Pleasanter.Models
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-trash",
                                     action: "SetSiteSettings",
-                                    method: "post")
+                                    method: "post",
+                                    confirm: Displays.ConfirmDelete())
                                 .Button(
                                     controlId: "SynchronizeFormulas",
                                     controlCss: "button-icon",
