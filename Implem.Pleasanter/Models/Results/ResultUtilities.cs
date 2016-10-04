@@ -5,6 +5,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
@@ -836,6 +837,950 @@ namespace Implem.Pleasanter.Models
                 }
             });
             return responseCollection;
+        }
+
+        public static string Update(
+            SiteSettings siteSettings, Permissions.Types permissionType, long resultId)
+        {
+            var resultModel = new ResultModel(
+                siteSettings, permissionType, resultId, setByForm: true);
+            var invalid = ValidateBeforeUpdate(siteSettings, permissionType, resultModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default:
+                    return new ResponseCollection().Message(invalid.Message()).ToJson();
+            }
+            if (resultModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return Messages.ResponseDeleteConflicts().ToJson();
+            }
+            var error = resultModel.Update();
+            if (error.Has())
+            {
+                return error == Error.Types.UpdateConflicts
+                    ? Messages.ResponseUpdateConflicts(resultModel.Updator.FullName()).ToJson()
+                    : new ResponseCollection().Message(error.Message()).ToJson();
+            }
+            else
+            {
+                var responseCollection = new ResultsResponseCollection(resultModel);
+                return ResponseByUpdate(resultModel, responseCollection)
+                    .PrependComment(resultModel.Comments, resultModel.VerType)
+                    .ToJson();
+            }
+        }
+
+        private static Error.Types ValidateBeforeUpdate(
+            SiteSettings siteSettings, Permissions.Types permissionType, ResultModel resultModel)
+        {
+            if (!permissionType.CanUpdate())
+            {
+                return Error.Types.HasNotPermission;
+            }
+            foreach(var controlId in Forms.Keys())
+            {
+                switch (controlId)
+                {
+                    case "Results_SiteId":
+                        if (!siteSettings.GetColumn("SiteId").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_UpdatedTime":
+                        if (!siteSettings.GetColumn("UpdatedTime").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ResultId":
+                        if (!siteSettings.GetColumn("ResultId").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_Ver":
+                        if (!siteSettings.GetColumn("Ver").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_Title":
+                        if (!siteSettings.GetColumn("Title").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_Body":
+                        if (!siteSettings.GetColumn("Body").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_TitleBody":
+                        if (!siteSettings.GetColumn("TitleBody").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_Status":
+                        if (!siteSettings.GetColumn("Status").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_Manager":
+                        if (!siteSettings.GetColumn("Manager").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_Owner":
+                        if (!siteSettings.GetColumn("Owner").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassA":
+                        if (!siteSettings.GetColumn("ClassA").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassB":
+                        if (!siteSettings.GetColumn("ClassB").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassC":
+                        if (!siteSettings.GetColumn("ClassC").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassD":
+                        if (!siteSettings.GetColumn("ClassD").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassE":
+                        if (!siteSettings.GetColumn("ClassE").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassF":
+                        if (!siteSettings.GetColumn("ClassF").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassG":
+                        if (!siteSettings.GetColumn("ClassG").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassH":
+                        if (!siteSettings.GetColumn("ClassH").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassI":
+                        if (!siteSettings.GetColumn("ClassI").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassJ":
+                        if (!siteSettings.GetColumn("ClassJ").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassK":
+                        if (!siteSettings.GetColumn("ClassK").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassL":
+                        if (!siteSettings.GetColumn("ClassL").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassM":
+                        if (!siteSettings.GetColumn("ClassM").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassN":
+                        if (!siteSettings.GetColumn("ClassN").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassO":
+                        if (!siteSettings.GetColumn("ClassO").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassP":
+                        if (!siteSettings.GetColumn("ClassP").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassQ":
+                        if (!siteSettings.GetColumn("ClassQ").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassR":
+                        if (!siteSettings.GetColumn("ClassR").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassS":
+                        if (!siteSettings.GetColumn("ClassS").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassT":
+                        if (!siteSettings.GetColumn("ClassT").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassU":
+                        if (!siteSettings.GetColumn("ClassU").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassV":
+                        if (!siteSettings.GetColumn("ClassV").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassW":
+                        if (!siteSettings.GetColumn("ClassW").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassX":
+                        if (!siteSettings.GetColumn("ClassX").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassY":
+                        if (!siteSettings.GetColumn("ClassY").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_ClassZ":
+                        if (!siteSettings.GetColumn("ClassZ").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumA":
+                        if (!siteSettings.GetColumn("NumA").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumB":
+                        if (!siteSettings.GetColumn("NumB").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumC":
+                        if (!siteSettings.GetColumn("NumC").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumD":
+                        if (!siteSettings.GetColumn("NumD").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumE":
+                        if (!siteSettings.GetColumn("NumE").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumF":
+                        if (!siteSettings.GetColumn("NumF").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumG":
+                        if (!siteSettings.GetColumn("NumG").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumH":
+                        if (!siteSettings.GetColumn("NumH").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumI":
+                        if (!siteSettings.GetColumn("NumI").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumJ":
+                        if (!siteSettings.GetColumn("NumJ").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumK":
+                        if (!siteSettings.GetColumn("NumK").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumL":
+                        if (!siteSettings.GetColumn("NumL").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumM":
+                        if (!siteSettings.GetColumn("NumM").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumN":
+                        if (!siteSettings.GetColumn("NumN").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumO":
+                        if (!siteSettings.GetColumn("NumO").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumP":
+                        if (!siteSettings.GetColumn("NumP").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumQ":
+                        if (!siteSettings.GetColumn("NumQ").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumR":
+                        if (!siteSettings.GetColumn("NumR").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumS":
+                        if (!siteSettings.GetColumn("NumS").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumT":
+                        if (!siteSettings.GetColumn("NumT").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumU":
+                        if (!siteSettings.GetColumn("NumU").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumV":
+                        if (!siteSettings.GetColumn("NumV").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumW":
+                        if (!siteSettings.GetColumn("NumW").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumX":
+                        if (!siteSettings.GetColumn("NumX").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumY":
+                        if (!siteSettings.GetColumn("NumY").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_NumZ":
+                        if (!siteSettings.GetColumn("NumZ").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateA":
+                        if (!siteSettings.GetColumn("DateA").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateB":
+                        if (!siteSettings.GetColumn("DateB").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateC":
+                        if (!siteSettings.GetColumn("DateC").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateD":
+                        if (!siteSettings.GetColumn("DateD").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateE":
+                        if (!siteSettings.GetColumn("DateE").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateF":
+                        if (!siteSettings.GetColumn("DateF").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateG":
+                        if (!siteSettings.GetColumn("DateG").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateH":
+                        if (!siteSettings.GetColumn("DateH").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateI":
+                        if (!siteSettings.GetColumn("DateI").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateJ":
+                        if (!siteSettings.GetColumn("DateJ").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateK":
+                        if (!siteSettings.GetColumn("DateK").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateL":
+                        if (!siteSettings.GetColumn("DateL").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateM":
+                        if (!siteSettings.GetColumn("DateM").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateN":
+                        if (!siteSettings.GetColumn("DateN").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateO":
+                        if (!siteSettings.GetColumn("DateO").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateP":
+                        if (!siteSettings.GetColumn("DateP").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateQ":
+                        if (!siteSettings.GetColumn("DateQ").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateR":
+                        if (!siteSettings.GetColumn("DateR").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateS":
+                        if (!siteSettings.GetColumn("DateS").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateT":
+                        if (!siteSettings.GetColumn("DateT").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateU":
+                        if (!siteSettings.GetColumn("DateU").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateV":
+                        if (!siteSettings.GetColumn("DateV").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateW":
+                        if (!siteSettings.GetColumn("DateW").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateX":
+                        if (!siteSettings.GetColumn("DateX").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateY":
+                        if (!siteSettings.GetColumn("DateY").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DateZ":
+                        if (!siteSettings.GetColumn("DateZ").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionA":
+                        if (!siteSettings.GetColumn("DescriptionA").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionB":
+                        if (!siteSettings.GetColumn("DescriptionB").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionC":
+                        if (!siteSettings.GetColumn("DescriptionC").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionD":
+                        if (!siteSettings.GetColumn("DescriptionD").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionE":
+                        if (!siteSettings.GetColumn("DescriptionE").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionF":
+                        if (!siteSettings.GetColumn("DescriptionF").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionG":
+                        if (!siteSettings.GetColumn("DescriptionG").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionH":
+                        if (!siteSettings.GetColumn("DescriptionH").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionI":
+                        if (!siteSettings.GetColumn("DescriptionI").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionJ":
+                        if (!siteSettings.GetColumn("DescriptionJ").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionK":
+                        if (!siteSettings.GetColumn("DescriptionK").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionL":
+                        if (!siteSettings.GetColumn("DescriptionL").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionM":
+                        if (!siteSettings.GetColumn("DescriptionM").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionN":
+                        if (!siteSettings.GetColumn("DescriptionN").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionO":
+                        if (!siteSettings.GetColumn("DescriptionO").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionP":
+                        if (!siteSettings.GetColumn("DescriptionP").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionQ":
+                        if (!siteSettings.GetColumn("DescriptionQ").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionR":
+                        if (!siteSettings.GetColumn("DescriptionR").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionS":
+                        if (!siteSettings.GetColumn("DescriptionS").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionT":
+                        if (!siteSettings.GetColumn("DescriptionT").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionU":
+                        if (!siteSettings.GetColumn("DescriptionU").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionV":
+                        if (!siteSettings.GetColumn("DescriptionV").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionW":
+                        if (!siteSettings.GetColumn("DescriptionW").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionX":
+                        if (!siteSettings.GetColumn("DescriptionX").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionY":
+                        if (!siteSettings.GetColumn("DescriptionY").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_DescriptionZ":
+                        if (!siteSettings.GetColumn("DescriptionZ").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckA":
+                        if (!siteSettings.GetColumn("CheckA").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckB":
+                        if (!siteSettings.GetColumn("CheckB").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckC":
+                        if (!siteSettings.GetColumn("CheckC").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckD":
+                        if (!siteSettings.GetColumn("CheckD").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckE":
+                        if (!siteSettings.GetColumn("CheckE").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckF":
+                        if (!siteSettings.GetColumn("CheckF").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckG":
+                        if (!siteSettings.GetColumn("CheckG").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckH":
+                        if (!siteSettings.GetColumn("CheckH").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckI":
+                        if (!siteSettings.GetColumn("CheckI").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckJ":
+                        if (!siteSettings.GetColumn("CheckJ").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckK":
+                        if (!siteSettings.GetColumn("CheckK").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckL":
+                        if (!siteSettings.GetColumn("CheckL").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckM":
+                        if (!siteSettings.GetColumn("CheckM").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckN":
+                        if (!siteSettings.GetColumn("CheckN").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckO":
+                        if (!siteSettings.GetColumn("CheckO").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckP":
+                        if (!siteSettings.GetColumn("CheckP").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckQ":
+                        if (!siteSettings.GetColumn("CheckQ").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckR":
+                        if (!siteSettings.GetColumn("CheckR").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckS":
+                        if (!siteSettings.GetColumn("CheckS").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckT":
+                        if (!siteSettings.GetColumn("CheckT").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckU":
+                        if (!siteSettings.GetColumn("CheckU").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckV":
+                        if (!siteSettings.GetColumn("CheckV").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckW":
+                        if (!siteSettings.GetColumn("CheckW").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckX":
+                        if (!siteSettings.GetColumn("CheckX").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckY":
+                        if (!siteSettings.GetColumn("CheckY").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CheckZ":
+                        if (!siteSettings.GetColumn("CheckZ").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_Comments":
+                        if (!siteSettings.GetColumn("Comments").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_Creator":
+                        if (!siteSettings.GetColumn("Creator").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_Updator":
+                        if (!siteSettings.GetColumn("Updator").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_CreatedTime":
+                        if (!siteSettings.GetColumn("CreatedTime").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_VerUp":
+                        if (!siteSettings.GetColumn("VerUp").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Results_Timestamp":
+                        if (!siteSettings.GetColumn("Timestamp").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                }
+            }
+            return Error.Types.None;
+        }
+
+        private static ResponseCollection ResponseByUpdate(
+            ResultModel resultModel,
+            ResultsResponseCollection responseCollection)
+        {
+            return responseCollection
+                .Ver()
+                .Timestamp()
+                .Val("#VerUp", false)
+                .FormResponse(resultModel)
+                .Formula(resultModel)
+                .Disabled("#VerUp", false)
+                .Html("#HeaderTitle", resultModel.Title.DisplayValue)
+                .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+                    baseModel: resultModel, tableName: "Results"))
+                .Html("#Links", new HtmlBuilder().Links(resultModel.ResultId))
+                .Message(Messages.Updated(resultModel.Title.ToString()))
+                .RemoveComment(resultModel.DeleteCommentId, _using: resultModel.DeleteCommentId != 0)
+                .ClearFormData();
         }
 
         public static string BulkMove(SiteSettings siteSettings, Permissions.Types permissionType)

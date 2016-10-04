@@ -192,12 +192,9 @@ namespace Implem.Pleasanter.Models
             return null;
         }
 
-        public string Update(SqlParamCollection param = null, bool paramAll = false)
+        public Error.Types Update(SqlParamCollection param = null, bool paramAll = false)
         {
-            var error = ValidateBeforeUpdate();
-            if (error != null) return error;
             SetBySession();
-            OnUpdating(ref param);
             var timestamp = Timestamp.ToDateTime();
             var count = Rds.ExecuteScalar_int(
                 transactional: true,
@@ -210,66 +207,9 @@ namespace Implem.Pleasanter.Models
                         param: param ?? Rds.DemosParamDefault(this, paramAll: paramAll),
                         countRecord: true)
                 });
-            if (count == 0) return ResponseConflicts();
+            if (count == 0) return Error.Types.UpdateConflicts;
             Get();
-            var responseCollection = new DemosResponseCollection(this);
-            OnUpdated(ref responseCollection);
-            return ResponseByUpdate(responseCollection)
-                .PrependComment(Comments, VerType)
-                .ToJson();
-        }
-
-        private void OnUpdating(ref SqlParamCollection param)
-        {
-        }
-
-        private void OnUpdated(ref DemosResponseCollection responseCollection)
-        {
-        }
-
-        private string ValidateBeforeUpdate()
-        {
-            if (!PermissionType.CanEditSys())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            foreach(var controlId in Forms.Keys())
-            {
-                switch (controlId)
-                {
-                    case "Demos_DemoId": if (!SiteSettings.GetColumn("DemoId").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Demos_Ver": if (!SiteSettings.GetColumn("Ver").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Demos_TenantId": if (!SiteSettings.GetColumn("TenantId").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Demos_Title": if (!SiteSettings.GetColumn("Title").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Demos_Passphrase": if (!SiteSettings.GetColumn("Passphrase").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Demos_MailAddress": if (!SiteSettings.GetColumn("MailAddress").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Demos_Initialized": if (!SiteSettings.GetColumn("Initialized").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Demos_TimeLag": if (!SiteSettings.GetColumn("TimeLag").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Demos_Comments": if (!SiteSettings.GetColumn("Comments").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Demos_Creator": if (!SiteSettings.GetColumn("Creator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Demos_Updator": if (!SiteSettings.GetColumn("Updator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Demos_CreatedTime": if (!SiteSettings.GetColumn("CreatedTime").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Demos_UpdatedTime": if (!SiteSettings.GetColumn("UpdatedTime").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Demos_VerUp": if (!SiteSettings.GetColumn("VerUp").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Demos_Timestamp": if (!SiteSettings.GetColumn("Timestamp").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                }
-            }
-            return null;
-        }
-
-        private ResponseCollection ResponseByUpdate(DemosResponseCollection responseCollection)
-        {
-            return responseCollection
-                .Ver()
-                .Timestamp()
-                .Val("#VerUp", false)
-                .FormResponse(this)
-                .Disabled("#VerUp", false)
-                .Html("#HeaderTitle", Title.Value)
-                .Html("#RecordInfo", new HtmlBuilder().RecordInfo(baseModel: this, tableName: "Demos"))
-                .Message(Messages.Updated(Title.ToString()))
-                .RemoveComment(DeleteCommentId, _using: DeleteCommentId != 0)
-                .ClearFormData();
+            return Error.Types.None;
         }
 
         public string UpdateOrCreate(
@@ -531,14 +471,6 @@ namespace Implem.Pleasanter.Models
                     DemoUtilities.Editor(this))
                 .Invoke("validateDemos")
                 .ToJson();
-        }
-
-        private string ResponseConflicts()
-        {
-            Get();
-            return AccessStatus == Databases.AccessStatuses.Selected
-                ? Messages.ResponseUpdateConflicts(Updator.FullName()).ToJson()
-                : Messages.ResponseDeleteConflicts().ToJson();
         }
 
         /// <summary>

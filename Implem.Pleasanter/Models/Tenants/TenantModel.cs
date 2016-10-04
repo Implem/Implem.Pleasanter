@@ -178,12 +178,9 @@ namespace Implem.Pleasanter.Models
             return null;
         }
 
-        public string Update(SqlParamCollection param = null, bool paramAll = false)
+        public Error.Types Update(SqlParamCollection param = null, bool paramAll = false)
         {
-            var error = ValidateBeforeUpdate();
-            if (error != null) return error;
             SetBySession();
-            OnUpdating(ref param);
             var timestamp = Timestamp.ToDateTime();
             var count = Rds.ExecuteScalar_int(
                 transactional: true,
@@ -196,63 +193,9 @@ namespace Implem.Pleasanter.Models
                         param: param ?? Rds.TenantsParamDefault(this, paramAll: paramAll),
                         countRecord: true)
                 });
-            if (count == 0) return ResponseConflicts();
+            if (count == 0) return Error.Types.UpdateConflicts;
             Get();
-            var responseCollection = new TenantsResponseCollection(this);
-            OnUpdated(ref responseCollection);
-            return ResponseByUpdate(responseCollection)
-                .PrependComment(Comments, VerType)
-                .ToJson();
-        }
-
-        private void OnUpdating(ref SqlParamCollection param)
-        {
-        }
-
-        private void OnUpdated(ref TenantsResponseCollection responseCollection)
-        {
-        }
-
-        private string ValidateBeforeUpdate()
-        {
-            if (!PermissionType.CanEditSys())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            foreach(var controlId in Forms.Keys())
-            {
-                switch (controlId)
-                {
-                    case "Tenants_TenantId": if (!SiteSettings.GetColumn("TenantId").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Tenants_Ver": if (!SiteSettings.GetColumn("Ver").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Tenants_TenantName": if (!SiteSettings.GetColumn("TenantName").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Tenants_Title": if (!SiteSettings.GetColumn("Title").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Tenants_Body": if (!SiteSettings.GetColumn("Body").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Tenants_Comments": if (!SiteSettings.GetColumn("Comments").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Tenants_Creator": if (!SiteSettings.GetColumn("Creator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Tenants_Updator": if (!SiteSettings.GetColumn("Updator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Tenants_CreatedTime": if (!SiteSettings.GetColumn("CreatedTime").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Tenants_UpdatedTime": if (!SiteSettings.GetColumn("UpdatedTime").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Tenants_VerUp": if (!SiteSettings.GetColumn("VerUp").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Tenants_Timestamp": if (!SiteSettings.GetColumn("Timestamp").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                }
-            }
-            return null;
-        }
-
-        private ResponseCollection ResponseByUpdate(TenantsResponseCollection responseCollection)
-        {
-            return responseCollection
-                .Ver()
-                .Timestamp()
-                .Val("#VerUp", false)
-                .FormResponse(this)
-                .Disabled("#VerUp", false)
-                .Html("#HeaderTitle", Title.Value)
-                .Html("#RecordInfo", new HtmlBuilder().RecordInfo(baseModel: this, tableName: "Tenants"))
-                .Message(Messages.Updated(Title.ToString()))
-                .RemoveComment(DeleteCommentId, _using: DeleteCommentId != 0)
-                .ClearFormData();
+            return Error.Types.None;
         }
 
         public string UpdateOrCreate(
@@ -509,14 +452,6 @@ namespace Implem.Pleasanter.Models
                     TenantUtilities.Editor(this))
                 .Invoke("validateTenants")
                 .ToJson();
-        }
-
-        private string ResponseConflicts()
-        {
-            Get();
-            return AccessStatus == Databases.AccessStatuses.Selected
-                ? Messages.ResponseUpdateConflicts(Updator.FullName()).ToJson()
-                : Messages.ResponseDeleteConflicts().ToJson();
         }
     }
 }

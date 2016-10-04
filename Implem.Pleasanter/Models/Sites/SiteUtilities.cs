@@ -5,6 +5,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
@@ -67,6 +68,19 @@ namespace Implem.Pleasanter.Models
             return switchTargets;
         }
 
+        public static ResponseCollection FormResponse(
+            this ResponseCollection responseCollection, SiteModel siteModel)
+        {
+            Forms.All().Keys.ForEach(key =>
+            {
+                switch (key)
+                {
+                    default: break;
+                }
+            });
+            return responseCollection;
+        }
+
         private static HtmlBuilder ReferenceType(
             this HtmlBuilder hb, string selectedValue, BaseModel.MethodTypes methodType)
         {
@@ -86,6 +100,211 @@ namespace Implem.Pleasanter.Models
                         selectedValue: selectedValue))
                 : hb.Span(css: "control-text", action: () => hb
                     .Text(text: Displays.Get(selectedValue)));
+        }
+
+        public static string Update(
+            SiteSettings siteSettings, Permissions.Types permissionType, long siteId)
+        {
+            var siteModel = new SiteModel(siteId, setByForm: true);
+            var invalid = ValidateBeforeUpdate(siteSettings, permissionType, siteModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default:
+                    return new ResponseCollection().Message(invalid.Message()).ToJson();
+            }
+            if (siteModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return Messages.ResponseDeleteConflicts().ToJson();
+            }
+            var error = siteModel.Update();
+            if (error.Has())
+            {
+                return error == Error.Types.UpdateConflicts
+                    ? Messages.ResponseUpdateConflicts(siteModel.Updator.FullName()).ToJson()
+                    : new ResponseCollection().Message(error.Message()).ToJson();
+            }
+            else
+            {
+                var responseCollection = new SitesResponseCollection(siteModel);
+                responseCollection.ReplaceAll("#Breadcrumb", new HtmlBuilder()
+                    .Breadcrumb(siteSettings.SiteId));
+                return ResponseByUpdate(siteModel, responseCollection)
+                    .PrependComment(siteModel.Comments, siteModel.VerType)
+                    .ToJson();
+            }
+        }
+
+        private static Error.Types ValidateBeforeUpdate(
+            SiteSettings siteSettings, Permissions.Types permissionType, SiteModel siteModel)
+        {
+            if (!permissionType.CanEditSite())
+            {
+                return Error.Types.HasNotPermission;
+            }
+            foreach(var controlId in Forms.Keys())
+            {
+                switch (controlId)
+                {
+                    case "Sites_TenantId":
+                        if (!siteSettings.GetColumn("TenantId").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_SiteId":
+                        if (!siteSettings.GetColumn("SiteId").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_UpdatedTime":
+                        if (!siteSettings.GetColumn("UpdatedTime").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_Ver":
+                        if (!siteSettings.GetColumn("Ver").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_Title":
+                        if (!siteSettings.GetColumn("Title").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_Body":
+                        if (!siteSettings.GetColumn("Body").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_TitleBody":
+                        if (!siteSettings.GetColumn("TitleBody").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_ReferenceType":
+                        if (!siteSettings.GetColumn("ReferenceType").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_ParentId":
+                        if (!siteSettings.GetColumn("ParentId").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_InheritPermission":
+                        if (!siteSettings.GetColumn("InheritPermission").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_PermissionType":
+                        if (!siteSettings.GetColumn("PermissionType").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_SiteSettings":
+                        if (!siteSettings.GetColumn("SiteSettings").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_Ancestors":
+                        if (!siteSettings.GetColumn("Ancestors").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_PermissionSourceCollection":
+                        if (!siteSettings.GetColumn("PermissionSourceCollection").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_PermissionDestinationCollection":
+                        if (!siteSettings.GetColumn("PermissionDestinationCollection").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_SiteMenu":
+                        if (!siteSettings.GetColumn("SiteMenu").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_MonitorChangesColumns":
+                        if (!siteSettings.GetColumn("MonitorChangesColumns").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_Comments":
+                        if (!siteSettings.GetColumn("Comments").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_Creator":
+                        if (!siteSettings.GetColumn("Creator").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_Updator":
+                        if (!siteSettings.GetColumn("Updator").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_CreatedTime":
+                        if (!siteSettings.GetColumn("CreatedTime").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_VerUp":
+                        if (!siteSettings.GetColumn("VerUp").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_Timestamp":
+                        if (!siteSettings.GetColumn("Timestamp").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                }
+            }
+            return Error.Types.None;
+        }
+
+        private static ResponseCollection ResponseByUpdate(
+            SiteModel siteModel,
+            SitesResponseCollection responseCollection)
+        {
+            return responseCollection
+                .Ver()
+                .Timestamp()
+                .Val("#VerUp", false)
+                .FormResponse(siteModel)
+                .Disabled("#VerUp", false)
+                .Html("#HeaderTitle", siteModel.Title.DisplayValue)
+                .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+                    baseModel: siteModel, tableName: "Sites"))
+                .Message(Messages.Updated(siteModel.Title.ToString()))
+                .RemoveComment(siteModel.DeleteCommentId, _using: siteModel.DeleteCommentId != 0)
+                .ClearFormData();
         }
 
         public static string TitleDisplayValue(SiteSettings siteSettings, SiteModel siteModel)

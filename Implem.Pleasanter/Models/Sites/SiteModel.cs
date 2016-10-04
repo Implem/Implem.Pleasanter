@@ -214,12 +214,9 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public string Update(SqlParamCollection param = null, bool paramAll = false)
+        public Error.Types Update(SqlParamCollection param = null, bool paramAll = false)
         {
-            var error = ValidateBeforeUpdate();
-            if (error != null) return error;
             SetBySession();
-            OnUpdating(ref param);
             var timestamp = Timestamp.ToDateTime();
             var count = Rds.ExecuteScalar_int(
                 transactional: true,
@@ -232,7 +229,7 @@ namespace Implem.Pleasanter.Models
                         param: param ?? Rds.SitesParamDefault(this, paramAll: paramAll),
                         countRecord: true)
                 });
-            if (count == 0) return ResponseConflicts();
+            if (count == 0) return Error.Types.UpdateConflicts;
             Get();
             Rds.ExecuteNonQuery(
                 transactional: true,
@@ -252,87 +249,8 @@ namespace Implem.Pleasanter.Models
                         .Distinct()
                         .ToDictionary(o => o, o => SiteId))
                 });
-            var responseCollection = new SitesResponseCollection(this);
-            OnUpdated(ref responseCollection);
-            return ResponseByUpdate(responseCollection)
-                .PrependComment(Comments, VerType)
-                .ToJson();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void OnUpdating(ref SqlParamCollection param)
-        {
-            if (ReferenceType_Updated)
-            {
-                SiteSettings = new SiteSettings(ReferenceType);
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void OnUpdated(ref SitesResponseCollection responseCollection)
-        {
             SiteInfo.SiteMenu.Set(SiteId);
-            responseCollection.ReplaceAll("#Breadcrumb", new HtmlBuilder()
-                .Breadcrumb(SiteId));
-        }
-
-        private string ValidateBeforeUpdate()
-        {
-            if (!PermissionType.CanEditSite())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            foreach(var controlId in Forms.Keys())
-            {
-                switch (controlId)
-                {
-                    case "Sites_TenantId": if (!SiteSettings.GetColumn("TenantId").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Sites_SiteId": if (!SiteSettings.GetColumn("SiteId").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Sites_UpdatedTime": if (!SiteSettings.GetColumn("UpdatedTime").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Sites_Ver": if (!SiteSettings.GetColumn("Ver").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Sites_Title": if (!SiteSettings.GetColumn("Title").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Sites_Body": if (!SiteSettings.GetColumn("Body").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Sites_TitleBody": if (!SiteSettings.GetColumn("TitleBody").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Sites_ReferenceType": if (!SiteSettings.GetColumn("ReferenceType").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Sites_ParentId": if (!SiteSettings.GetColumn("ParentId").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Sites_InheritPermission": if (!SiteSettings.GetColumn("InheritPermission").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Sites_PermissionType": if (!SiteSettings.GetColumn("PermissionType").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Sites_SiteSettings": if (!SiteSettings.GetColumn("SiteSettings").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Sites_Ancestors": if (!SiteSettings.GetColumn("Ancestors").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Sites_PermissionSourceCollection": if (!SiteSettings.GetColumn("PermissionSourceCollection").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Sites_PermissionDestinationCollection": if (!SiteSettings.GetColumn("PermissionDestinationCollection").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Sites_SiteMenu": if (!SiteSettings.GetColumn("SiteMenu").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Sites_MonitorChangesColumns": if (!SiteSettings.GetColumn("MonitorChangesColumns").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Sites_Comments": if (!SiteSettings.GetColumn("Comments").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Sites_Creator": if (!SiteSettings.GetColumn("Creator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Sites_Updator": if (!SiteSettings.GetColumn("Updator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Sites_CreatedTime": if (!SiteSettings.GetColumn("CreatedTime").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Sites_VerUp": if (!SiteSettings.GetColumn("VerUp").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Sites_Timestamp": if (!SiteSettings.GetColumn("Timestamp").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                }
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private ResponseCollection ResponseByUpdate(SitesResponseCollection responseCollection)
-        {
-            return responseCollection
-                .Ver()
-                .Timestamp()
-                .Val("#VerUp", false)
-                .Disabled("#VerUp", false)
-                .Html("#HeaderTitle", Title.DisplayValue + " - " + Displays.EditSettings())
-                .Html("#RecordInfo", new HtmlBuilder().RecordInfo(baseModel: this, tableName: "Sites"))
-                .Message(Messages.Updated(Title.ToString()))
-                .RemoveComment(DeleteCommentId, _using: DeleteCommentId != 0)
-                .ClearFormData();
+            return Error.Types.None;
         }
 
         public string UpdateOrCreate(
@@ -618,14 +536,6 @@ namespace Implem.Pleasanter.Models
                     SiteUtilities.Editor(this))
                 .Invoke("validateSites")
                 .ToJson();
-        }
-
-        private string ResponseConflicts()
-        {
-            Get();
-            return AccessStatus == Databases.AccessStatuses.Selected
-                ? Messages.ResponseUpdateConflicts(Updator.FullName()).ToJson()
-                : Messages.ResponseDeleteConflicts().ToJson();
         }
 
         /// <summary>

@@ -102,12 +102,10 @@ namespace Implem.Pleasanter.Controllers
         public string Update(int id)
         {
             var log = new SysLogModel();
-            var json = new UserModel(
+            var json = UserUtilities.Update(
                 SiteSettingsUtility.UsersSiteSettings(),
                 Permissions.Admins(),
-                id,
-                setByForm: true)
-                    .Update();
+                id);
             log.Finish(json.Length);
             return json;
         }
@@ -119,7 +117,8 @@ namespace Implem.Pleasanter.Controllers
             var json = new UserModel(
                 SiteSettingsUtility.UsersSiteSettings(),
                 Permissions.Admins(),
-                id)
+                id,
+                setByForm: true)
                     .Delete();
             log.Finish(json.Length);
             return json;
@@ -129,12 +128,10 @@ namespace Implem.Pleasanter.Controllers
         public string DeleteComment(int id)
         {
             var log = new SysLogModel();
-            var json = new UserModel(
+            var json = UserUtilities.Update(
                 SiteSettingsUtility.UsersSiteSettings(),
                 Permissions.Admins(),
-                id,
-                setByForm: true)
-                    .Update();
+                id);
             log.Finish(json.Length);
             return json;
         }

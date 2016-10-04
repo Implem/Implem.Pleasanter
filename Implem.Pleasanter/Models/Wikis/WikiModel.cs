@@ -221,12 +221,9 @@ namespace Implem.Pleasanter.Models
             return null;
         }
 
-        public string Update(SqlParamCollection param = null, bool paramAll = false)
+        public Error.Types Update(SqlParamCollection param = null, bool paramAll = false)
         {
-            var error = ValidateBeforeUpdate();
-            if (error != null) return error;
             SetBySession();
-            OnUpdating(ref param);
             var timestamp = Timestamp.ToDateTime();
             var count = Rds.ExecuteScalar_int(
                 transactional: true,
@@ -239,7 +236,7 @@ namespace Implem.Pleasanter.Models
                         param: param ?? Rds.WikisParamDefault(this, paramAll: paramAll),
                         countRecord: true)
                 });
-            if (count == 0) return ResponseConflicts();
+            if (count == 0) return Error.Types.UpdateConflicts;
             SynchronizeSummary();
             Get();
             Rds.ExecuteNonQuery(
@@ -260,11 +257,8 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ItemsWhere().SiteId(SiteId),
                         param: Rds.ItemsParam().Title(Title.Value))
                 });
-            var responseCollection = new WikisResponseCollection(this);
-            OnUpdated(ref responseCollection);
-            return ResponseByUpdate(responseCollection)
-                .PrependComment(Comments, VerType)
-                .ToJson();
+            SiteInfo.SiteMenu.Set(SiteId);
+            return Error.Types.None;
         }
 
         private SqlInsert InsertLinks(
@@ -279,65 +273,6 @@ namespace Implem.Pleasanter.Models
                 }
             });
             return LinkUtilities.Insert(link, selectIdentity);
-        }
-
-        private void OnUpdating(ref SqlParamCollection param)
-        {
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void OnUpdated(ref WikisResponseCollection responseCollection)
-        {
-            SiteInfo.SiteMenu.Set(SiteId);
-            responseCollection.ReplaceAll("#Breadcrumb", new HtmlBuilder()
-                .Breadcrumb(SiteId));
-        }
-
-        private string ValidateBeforeUpdate()
-        {
-            if (!PermissionType.CanUpdate())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            foreach(var controlId in Forms.Keys())
-            {
-                switch (controlId)
-                {
-                    case "Wikis_SiteId": if (!SiteSettings.GetColumn("SiteId").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Wikis_UpdatedTime": if (!SiteSettings.GetColumn("UpdatedTime").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Wikis_WikiId": if (!SiteSettings.GetColumn("WikiId").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Wikis_Ver": if (!SiteSettings.GetColumn("Ver").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Wikis_Title": if (!SiteSettings.GetColumn("Title").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Wikis_Body": if (!SiteSettings.GetColumn("Body").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Wikis_TitleBody": if (!SiteSettings.GetColumn("TitleBody").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Wikis_Comments": if (!SiteSettings.GetColumn("Comments").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Wikis_Creator": if (!SiteSettings.GetColumn("Creator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Wikis_Updator": if (!SiteSettings.GetColumn("Updator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Wikis_CreatedTime": if (!SiteSettings.GetColumn("CreatedTime").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Wikis_VerUp": if (!SiteSettings.GetColumn("VerUp").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Wikis_Timestamp": if (!SiteSettings.GetColumn("Timestamp").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                }
-            }
-            return null;
-        }
-
-        private ResponseCollection ResponseByUpdate(WikisResponseCollection responseCollection)
-        {
-            return responseCollection
-                .Ver()
-                .Timestamp()
-                .Val("#VerUp", false)
-                .FormResponse(this)
-                .Formula(this)
-                .Disabled("#VerUp", false)
-                .Html("#HeaderTitle", Title.DisplayValue)
-                .Html("#RecordInfo", new HtmlBuilder().RecordInfo(baseModel: this, tableName: "Wikis"))
-                .Html("#Links", new HtmlBuilder().Links(WikiId))
-                .Message(Messages.Updated(Title.ToString()))
-                .RemoveComment(DeleteCommentId, _using: DeleteCommentId != 0)
-                .ClearFormData();
         }
 
         public string UpdateOrCreate(
@@ -729,14 +664,6 @@ namespace Implem.Pleasanter.Models
                     WikiUtilities.Editor(siteModel, this))
                 .Invoke("validateWikis")
                 .ToJson();
-        }
-
-        private string ResponseConflicts()
-        {
-            Get();
-            return AccessStatus == Databases.AccessStatuses.Selected
-                ? Messages.ResponseUpdateConflicts(Updator.FullName()).ToJson()
-                : Messages.ResponseDeleteConflicts().ToJson();
         }
     }
 }

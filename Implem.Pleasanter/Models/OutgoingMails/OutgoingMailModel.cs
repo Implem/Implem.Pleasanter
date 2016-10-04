@@ -209,12 +209,9 @@ namespace Implem.Pleasanter.Models
             return null;
         }
 
-        public string Update(SqlParamCollection param = null, bool paramAll = false)
+        public Error.Types Update(SqlParamCollection param = null, bool paramAll = false)
         {
-            var error = ValidateBeforeUpdate();
-            if (error != null) return error;
             SetBySession();
-            OnUpdating(ref param);
             var timestamp = Timestamp.ToDateTime();
             var count = Rds.ExecuteScalar_int(
                 transactional: true,
@@ -234,74 +231,9 @@ namespace Implem.Pleasanter.Models
                         param: Rds.ItemsParam().MaintenanceTarget(true)),
                     Rds.End()
                 });
-            if (count == 0) return ResponseConflicts();
+            if (count == 0) return Error.Types.UpdateConflicts;
             Get();
-            var responseCollection = new OutgoingMailsResponseCollection(this);
-            OnUpdated(ref responseCollection);
-            return ResponseByUpdate(responseCollection)
-                .PrependComment(Comments, VerType)
-                .ToJson();
-        }
-
-        private void OnUpdating(ref SqlParamCollection param)
-        {
-        }
-
-        private void OnUpdated(ref OutgoingMailsResponseCollection responseCollection)
-        {
-        }
-
-        private string ValidateBeforeUpdate()
-        {
-            if (!PermissionType.CanUpdate())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            foreach(var controlId in Forms.Keys())
-            {
-                switch (controlId)
-                {
-                    case "OutgoingMails_ReferenceType": if (!SiteSettings.GetColumn("ReferenceType").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_ReferenceId": if (!SiteSettings.GetColumn("ReferenceId").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_ReferenceVer": if (!SiteSettings.GetColumn("ReferenceVer").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_OutgoingMailId": if (!SiteSettings.GetColumn("OutgoingMailId").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_Ver": if (!SiteSettings.GetColumn("Ver").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_Host": if (!SiteSettings.GetColumn("Host").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_Port": if (!SiteSettings.GetColumn("Port").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_From": if (!SiteSettings.GetColumn("From").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_To": if (!SiteSettings.GetColumn("To").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_Cc": if (!SiteSettings.GetColumn("Cc").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_Bcc": if (!SiteSettings.GetColumn("Bcc").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_Title": if (!SiteSettings.GetColumn("Title").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_Body": if (!SiteSettings.GetColumn("Body").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_SentTime": if (!SiteSettings.GetColumn("SentTime").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_DestinationSearchRange": if (!SiteSettings.GetColumn("DestinationSearchRange").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_DestinationSearchText": if (!SiteSettings.GetColumn("DestinationSearchText").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_Comments": if (!SiteSettings.GetColumn("Comments").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_Creator": if (!SiteSettings.GetColumn("Creator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_Updator": if (!SiteSettings.GetColumn("Updator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_CreatedTime": if (!SiteSettings.GetColumn("CreatedTime").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_UpdatedTime": if (!SiteSettings.GetColumn("UpdatedTime").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_VerUp": if (!SiteSettings.GetColumn("VerUp").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_Timestamp": if (!SiteSettings.GetColumn("Timestamp").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                }
-            }
-            return null;
-        }
-
-        private ResponseCollection ResponseByUpdate(OutgoingMailsResponseCollection responseCollection)
-        {
-            return responseCollection
-                .Ver()
-                .Timestamp()
-                .Val("#VerUp", false)
-                .FormResponse(this)
-                .Disabled("#VerUp", false)
-                .Html("#HeaderTitle", Title.Value)
-                .Html("#RecordInfo", new HtmlBuilder().RecordInfo(baseModel: this, tableName: "OutgoingMails"))
-                .Message(Messages.Updated(Title.ToString()))
-                .RemoveComment(DeleteCommentId, _using: DeleteCommentId != 0)
-                .ClearFormData();
+            return Error.Types.None;
         }
 
         public string UpdateOrCreate(
@@ -570,14 +502,6 @@ namespace Implem.Pleasanter.Models
                     OutgoingMailUtilities.Editor(this))
                 .Invoke("validateOutgoingMails")
                 .ToJson();
-        }
-
-        private string ResponseConflicts()
-        {
-            Get();
-            return AccessStatus == Databases.AccessStatuses.Selected
-                ? Messages.ResponseUpdateConflicts(Updator.FullName()).ToJson()
-                : Messages.ResponseDeleteConflicts().ToJson();
         }
 
         /// <summary>

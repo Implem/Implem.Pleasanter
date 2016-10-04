@@ -912,12 +912,9 @@ namespace Implem.Pleasanter.Models
             return null;
         }
 
-        public string Update(SqlParamCollection param = null, bool paramAll = false)
+        public Error.Types Update(SqlParamCollection param = null, bool paramAll = false)
         {
-            var error = ValidateBeforeUpdate();
-            if (error != null) return error;
             SetBySession();
-            OnUpdating(ref param);
             var timestamp = Timestamp.ToDateTime();
             var count = Rds.ExecuteScalar_int(
                 transactional: true,
@@ -930,7 +927,7 @@ namespace Implem.Pleasanter.Models
                         param: param ?? Rds.IssuesParamDefault(this, paramAll: paramAll),
                         countRecord: true)
                 });
-            if (count == 0) return ResponseConflicts();
+            if (count == 0) return Error.Types.UpdateConflicts;
             SynchronizeSummary();
             Get();
             Rds.ExecuteNonQuery(
@@ -948,11 +945,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.LinksWhere().SourceId(IssueId)),
                     InsertLinks(SiteSettings)
                 });
-            var responseCollection = new IssuesResponseCollection(this);
-            OnUpdated(ref responseCollection);
-            return ResponseByUpdate(responseCollection)
-                .PrependComment(Comments, VerType)
-                .ToJson();
+            return Error.Types.None;
         }
 
         private SqlInsert InsertLinks(
@@ -993,204 +986,6 @@ namespace Implem.Pleasanter.Models
                 }
             });
             return LinkUtilities.Insert(link, selectIdentity);
-        }
-
-        private void OnUpdating(ref SqlParamCollection param)
-        {
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void OnUpdated(ref IssuesResponseCollection responseCollection)
-        {
-            var column = SiteSettings.GetColumn("RemainingWorkValue");
-            responseCollection.Val(
-                "#Issues_RemainingWorkValue",
-                column.Display(RemainingWorkValue, PermissionType));
-        }
-
-        private string ValidateBeforeUpdate()
-        {
-            if (!PermissionType.CanUpdate())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            foreach(var controlId in Forms.Keys())
-            {
-                switch (controlId)
-                {
-                    case "Issues_SiteId": if (!SiteSettings.GetColumn("SiteId").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_UpdatedTime": if (!SiteSettings.GetColumn("UpdatedTime").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_IssueId": if (!SiteSettings.GetColumn("IssueId").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_Ver": if (!SiteSettings.GetColumn("Ver").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_Title": if (!SiteSettings.GetColumn("Title").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_Body": if (!SiteSettings.GetColumn("Body").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_TitleBody": if (!SiteSettings.GetColumn("TitleBody").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_StartTime": if (!SiteSettings.GetColumn("StartTime").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CompletionTime": if (!SiteSettings.GetColumn("CompletionTime").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_WorkValue": if (!SiteSettings.GetColumn("WorkValue").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ProgressRate": if (!SiteSettings.GetColumn("ProgressRate").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_RemainingWorkValue": if (!SiteSettings.GetColumn("RemainingWorkValue").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_Status": if (!SiteSettings.GetColumn("Status").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_Manager": if (!SiteSettings.GetColumn("Manager").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_Owner": if (!SiteSettings.GetColumn("Owner").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassA": if (!SiteSettings.GetColumn("ClassA").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassB": if (!SiteSettings.GetColumn("ClassB").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassC": if (!SiteSettings.GetColumn("ClassC").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassD": if (!SiteSettings.GetColumn("ClassD").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassE": if (!SiteSettings.GetColumn("ClassE").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassF": if (!SiteSettings.GetColumn("ClassF").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassG": if (!SiteSettings.GetColumn("ClassG").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassH": if (!SiteSettings.GetColumn("ClassH").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassI": if (!SiteSettings.GetColumn("ClassI").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassJ": if (!SiteSettings.GetColumn("ClassJ").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassK": if (!SiteSettings.GetColumn("ClassK").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassL": if (!SiteSettings.GetColumn("ClassL").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassM": if (!SiteSettings.GetColumn("ClassM").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassN": if (!SiteSettings.GetColumn("ClassN").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassO": if (!SiteSettings.GetColumn("ClassO").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassP": if (!SiteSettings.GetColumn("ClassP").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassQ": if (!SiteSettings.GetColumn("ClassQ").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassR": if (!SiteSettings.GetColumn("ClassR").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassS": if (!SiteSettings.GetColumn("ClassS").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassT": if (!SiteSettings.GetColumn("ClassT").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassU": if (!SiteSettings.GetColumn("ClassU").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassV": if (!SiteSettings.GetColumn("ClassV").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassW": if (!SiteSettings.GetColumn("ClassW").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassX": if (!SiteSettings.GetColumn("ClassX").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassY": if (!SiteSettings.GetColumn("ClassY").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_ClassZ": if (!SiteSettings.GetColumn("ClassZ").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumA": if (!SiteSettings.GetColumn("NumA").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumB": if (!SiteSettings.GetColumn("NumB").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumC": if (!SiteSettings.GetColumn("NumC").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumD": if (!SiteSettings.GetColumn("NumD").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumE": if (!SiteSettings.GetColumn("NumE").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumF": if (!SiteSettings.GetColumn("NumF").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumG": if (!SiteSettings.GetColumn("NumG").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumH": if (!SiteSettings.GetColumn("NumH").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumI": if (!SiteSettings.GetColumn("NumI").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumJ": if (!SiteSettings.GetColumn("NumJ").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumK": if (!SiteSettings.GetColumn("NumK").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumL": if (!SiteSettings.GetColumn("NumL").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumM": if (!SiteSettings.GetColumn("NumM").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumN": if (!SiteSettings.GetColumn("NumN").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumO": if (!SiteSettings.GetColumn("NumO").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumP": if (!SiteSettings.GetColumn("NumP").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumQ": if (!SiteSettings.GetColumn("NumQ").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumR": if (!SiteSettings.GetColumn("NumR").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumS": if (!SiteSettings.GetColumn("NumS").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumT": if (!SiteSettings.GetColumn("NumT").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumU": if (!SiteSettings.GetColumn("NumU").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumV": if (!SiteSettings.GetColumn("NumV").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumW": if (!SiteSettings.GetColumn("NumW").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumX": if (!SiteSettings.GetColumn("NumX").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumY": if (!SiteSettings.GetColumn("NumY").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_NumZ": if (!SiteSettings.GetColumn("NumZ").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateA": if (!SiteSettings.GetColumn("DateA").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateB": if (!SiteSettings.GetColumn("DateB").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateC": if (!SiteSettings.GetColumn("DateC").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateD": if (!SiteSettings.GetColumn("DateD").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateE": if (!SiteSettings.GetColumn("DateE").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateF": if (!SiteSettings.GetColumn("DateF").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateG": if (!SiteSettings.GetColumn("DateG").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateH": if (!SiteSettings.GetColumn("DateH").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateI": if (!SiteSettings.GetColumn("DateI").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateJ": if (!SiteSettings.GetColumn("DateJ").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateK": if (!SiteSettings.GetColumn("DateK").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateL": if (!SiteSettings.GetColumn("DateL").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateM": if (!SiteSettings.GetColumn("DateM").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateN": if (!SiteSettings.GetColumn("DateN").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateO": if (!SiteSettings.GetColumn("DateO").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateP": if (!SiteSettings.GetColumn("DateP").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateQ": if (!SiteSettings.GetColumn("DateQ").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateR": if (!SiteSettings.GetColumn("DateR").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateS": if (!SiteSettings.GetColumn("DateS").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateT": if (!SiteSettings.GetColumn("DateT").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateU": if (!SiteSettings.GetColumn("DateU").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateV": if (!SiteSettings.GetColumn("DateV").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateW": if (!SiteSettings.GetColumn("DateW").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateX": if (!SiteSettings.GetColumn("DateX").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateY": if (!SiteSettings.GetColumn("DateY").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DateZ": if (!SiteSettings.GetColumn("DateZ").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionA": if (!SiteSettings.GetColumn("DescriptionA").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionB": if (!SiteSettings.GetColumn("DescriptionB").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionC": if (!SiteSettings.GetColumn("DescriptionC").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionD": if (!SiteSettings.GetColumn("DescriptionD").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionE": if (!SiteSettings.GetColumn("DescriptionE").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionF": if (!SiteSettings.GetColumn("DescriptionF").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionG": if (!SiteSettings.GetColumn("DescriptionG").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionH": if (!SiteSettings.GetColumn("DescriptionH").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionI": if (!SiteSettings.GetColumn("DescriptionI").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionJ": if (!SiteSettings.GetColumn("DescriptionJ").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionK": if (!SiteSettings.GetColumn("DescriptionK").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionL": if (!SiteSettings.GetColumn("DescriptionL").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionM": if (!SiteSettings.GetColumn("DescriptionM").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionN": if (!SiteSettings.GetColumn("DescriptionN").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionO": if (!SiteSettings.GetColumn("DescriptionO").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionP": if (!SiteSettings.GetColumn("DescriptionP").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionQ": if (!SiteSettings.GetColumn("DescriptionQ").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionR": if (!SiteSettings.GetColumn("DescriptionR").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionS": if (!SiteSettings.GetColumn("DescriptionS").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionT": if (!SiteSettings.GetColumn("DescriptionT").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionU": if (!SiteSettings.GetColumn("DescriptionU").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionV": if (!SiteSettings.GetColumn("DescriptionV").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionW": if (!SiteSettings.GetColumn("DescriptionW").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionX": if (!SiteSettings.GetColumn("DescriptionX").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionY": if (!SiteSettings.GetColumn("DescriptionY").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_DescriptionZ": if (!SiteSettings.GetColumn("DescriptionZ").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckA": if (!SiteSettings.GetColumn("CheckA").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckB": if (!SiteSettings.GetColumn("CheckB").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckC": if (!SiteSettings.GetColumn("CheckC").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckD": if (!SiteSettings.GetColumn("CheckD").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckE": if (!SiteSettings.GetColumn("CheckE").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckF": if (!SiteSettings.GetColumn("CheckF").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckG": if (!SiteSettings.GetColumn("CheckG").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckH": if (!SiteSettings.GetColumn("CheckH").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckI": if (!SiteSettings.GetColumn("CheckI").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckJ": if (!SiteSettings.GetColumn("CheckJ").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckK": if (!SiteSettings.GetColumn("CheckK").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckL": if (!SiteSettings.GetColumn("CheckL").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckM": if (!SiteSettings.GetColumn("CheckM").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckN": if (!SiteSettings.GetColumn("CheckN").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckO": if (!SiteSettings.GetColumn("CheckO").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckP": if (!SiteSettings.GetColumn("CheckP").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckQ": if (!SiteSettings.GetColumn("CheckQ").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckR": if (!SiteSettings.GetColumn("CheckR").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckS": if (!SiteSettings.GetColumn("CheckS").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckT": if (!SiteSettings.GetColumn("CheckT").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckU": if (!SiteSettings.GetColumn("CheckU").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckV": if (!SiteSettings.GetColumn("CheckV").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckW": if (!SiteSettings.GetColumn("CheckW").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckX": if (!SiteSettings.GetColumn("CheckX").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckY": if (!SiteSettings.GetColumn("CheckY").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CheckZ": if (!SiteSettings.GetColumn("CheckZ").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_Comments": if (!SiteSettings.GetColumn("Comments").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_Creator": if (!SiteSettings.GetColumn("Creator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_Updator": if (!SiteSettings.GetColumn("Updator").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_CreatedTime": if (!SiteSettings.GetColumn("CreatedTime").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_VerUp": if (!SiteSettings.GetColumn("VerUp").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Issues_Timestamp": if (!SiteSettings.GetColumn("Timestamp").CanUpdate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                }
-            }
-            return null;
-        }
-
-        private ResponseCollection ResponseByUpdate(IssuesResponseCollection responseCollection)
-        {
-            return responseCollection
-                .Ver()
-                .Timestamp()
-                .Val("#VerUp", false)
-                .FormResponse(this)
-                .Formula(this)
-                .Disabled("#VerUp", false)
-                .Html("#HeaderTitle", Title.DisplayValue)
-                .Html("#RecordInfo", new HtmlBuilder().RecordInfo(baseModel: this, tableName: "Issues"))
-                .Html("#Links", new HtmlBuilder().Links(IssueId))
-                .Message(Messages.Updated(Title.ToString()))
-                .RemoveComment(DeleteCommentId, _using: DeleteCommentId != 0)
-                .ClearFormData();
         }
 
         public string UpdateOrCreate(
@@ -2029,14 +1824,6 @@ namespace Implem.Pleasanter.Models
                     IssueUtilities.Editor(siteModel, this))
                 .Invoke("validateIssues")
                 .ToJson();
-        }
-
-        private string ResponseConflicts()
-        {
-            Get();
-            return AccessStatus == Databases.AccessStatuses.Selected
-                ? Messages.ResponseUpdateConflicts(Updator.FullName()).ToJson()
-                : Messages.ResponseDeleteConflicts().ToJson();
         }
     }
 }

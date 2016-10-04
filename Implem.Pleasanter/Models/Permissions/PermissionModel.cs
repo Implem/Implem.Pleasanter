@@ -128,14 +128,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private string ResponseConflicts()
-        {
-            Get();
-            return AccessStatus == Databases.AccessStatuses.Selected
-                ? Messages.ResponseUpdateConflicts(Updator.FullName()).ToJson()
-                : Messages.ResponseDeleteConflicts().ToJson();
-        }
-
         /// <summary>
         /// Fixed:
         /// </summary>

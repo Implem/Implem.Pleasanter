@@ -5,6 +5,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
@@ -516,6 +517,162 @@ namespace Implem.Pleasanter.Models
                 }
             });
             return responseCollection;
+        }
+
+        public static string Update(
+            SiteSettings siteSettings, Permissions.Types permissionType, int deptId)
+        {
+            var deptModel = new DeptModel(
+                siteSettings, permissionType, deptId, setByForm: true);
+            var invalid = ValidateBeforeUpdate(siteSettings, permissionType, deptModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default:
+                    return new ResponseCollection().Message(invalid.Message()).ToJson();
+            }
+            if (deptModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return Messages.ResponseDeleteConflicts().ToJson();
+            }
+            var error = deptModel.Update();
+            if (error.Has())
+            {
+                return error == Error.Types.UpdateConflicts
+                    ? Messages.ResponseUpdateConflicts(deptModel.Updator.FullName()).ToJson()
+                    : new ResponseCollection().Message(error.Message()).ToJson();
+            }
+            else
+            {
+                var responseCollection = new DeptsResponseCollection(deptModel);
+                return ResponseByUpdate(deptModel, responseCollection)
+                    .PrependComment(deptModel.Comments, deptModel.VerType)
+                    .ToJson();
+            }
+        }
+
+        private static Error.Types ValidateBeforeUpdate(
+            SiteSettings siteSettings, Permissions.Types permissionType, DeptModel deptModel)
+        {
+            if (!permissionType.CanEditTenant())
+            {
+                return Error.Types.HasNotPermission;
+            }
+            foreach(var controlId in Forms.Keys())
+            {
+                switch (controlId)
+                {
+                    case "Depts_TenantId":
+                        if (!siteSettings.GetColumn("TenantId").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Depts_DeptId":
+                        if (!siteSettings.GetColumn("DeptId").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Depts_Ver":
+                        if (!siteSettings.GetColumn("Ver").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Depts_DeptCode":
+                        if (!siteSettings.GetColumn("DeptCode").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Depts_Dept":
+                        if (!siteSettings.GetColumn("Dept").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Depts_DeptName":
+                        if (!siteSettings.GetColumn("DeptName").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Depts_Body":
+                        if (!siteSettings.GetColumn("Body").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Depts_Title":
+                        if (!siteSettings.GetColumn("Title").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Depts_Comments":
+                        if (!siteSettings.GetColumn("Comments").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Depts_Creator":
+                        if (!siteSettings.GetColumn("Creator").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Depts_Updator":
+                        if (!siteSettings.GetColumn("Updator").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Depts_CreatedTime":
+                        if (!siteSettings.GetColumn("CreatedTime").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Depts_UpdatedTime":
+                        if (!siteSettings.GetColumn("UpdatedTime").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Depts_VerUp":
+                        if (!siteSettings.GetColumn("VerUp").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Depts_Timestamp":
+                        if (!siteSettings.GetColumn("Timestamp").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                }
+            }
+            return Error.Types.None;
+        }
+
+        private static ResponseCollection ResponseByUpdate(
+            DeptModel deptModel,
+            DeptsResponseCollection responseCollection)
+        {
+            return responseCollection
+                .Ver()
+                .Timestamp()
+                .Val("#VerUp", false)
+                .FormResponse(deptModel)
+                .Disabled("#VerUp", false)
+                .Html("#HeaderTitle", deptModel.Title.Value)
+                .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+                    baseModel: deptModel, tableName: "Depts"))
+                .Message(Messages.Updated(deptModel.Title.ToString()))
+                .RemoveComment(deptModel.DeleteCommentId, _using: deptModel.DeleteCommentId != 0)
+                .ClearFormData();
         }
 
         /// <summary>

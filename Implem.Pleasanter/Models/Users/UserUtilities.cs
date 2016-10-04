@@ -5,6 +5,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
@@ -605,6 +606,365 @@ namespace Implem.Pleasanter.Models
                 }
             });
             return responseCollection;
+        }
+
+        public static string Update(
+            SiteSettings siteSettings, Permissions.Types permissionType, int userId)
+        {
+            var userModel = new UserModel(
+                siteSettings, permissionType, userId, setByForm: true);
+            var invalid = ValidateBeforeUpdate(siteSettings, permissionType, userModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                case Error.Types.PermissionNotSelfChange:
+                    return Messages.ResponsePermissionNotSelfChange()
+                        .Val("#Users_TenantAdmin", userModel.SavedTenantAdmin)
+                        .ClearFormData("Users_TenantAdmin")
+                        .ToJson();
+                default:
+                    return new ResponseCollection().Message(invalid.Message()).ToJson();
+            }
+            if (userModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return Messages.ResponseDeleteConflicts().ToJson();
+            }
+            var error = userModel.Update();
+            if (error.Has())
+            {
+                return error == Error.Types.UpdateConflicts
+                    ? Messages.ResponseUpdateConflicts(userModel.Updator.FullName()).ToJson()
+                    : new ResponseCollection().Message(error.Message()).ToJson();
+            }
+            else
+            {
+                var responseCollection = new UsersResponseCollection(userModel);
+                return ResponseByUpdate(userModel, responseCollection)
+                    .PrependComment(userModel.Comments, userModel.VerType)
+                    .ToJson();
+            }
+        }
+
+        private static Error.Types ValidateBeforeUpdate(
+            SiteSettings siteSettings, Permissions.Types permissionType, UserModel userModel)
+        {
+            if (Forms.Exists("Users_TenantAdmin") && userModel.Self())
+            {
+                return Error.Types.PermissionNotSelfChange;
+            }
+            if (!permissionType.CanEditTenant() && !userModel.Self())
+            {
+                return Error.Types.HasNotPermission;
+            }
+            foreach(var controlId in Forms.Keys())
+            {
+                switch (controlId)
+                {
+                    case "Users_TenantId":
+                        if (!siteSettings.GetColumn("TenantId").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_UserId":
+                        if (!siteSettings.GetColumn("UserId").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_Ver":
+                        if (!siteSettings.GetColumn("Ver").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_LoginId":
+                        if (!siteSettings.GetColumn("LoginId").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_Disabled":
+                        if (!siteSettings.GetColumn("Disabled").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_UserCode":
+                        if (!siteSettings.GetColumn("UserCode").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_Password":
+                        if (!siteSettings.GetColumn("Password").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_PasswordValidate":
+                        if (!siteSettings.GetColumn("PasswordValidate").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_PasswordDummy":
+                        if (!siteSettings.GetColumn("PasswordDummy").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_RememberMe":
+                        if (!siteSettings.GetColumn("RememberMe").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_LastName":
+                        if (!siteSettings.GetColumn("LastName").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_FirstName":
+                        if (!siteSettings.GetColumn("FirstName").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_FullName1":
+                        if (!siteSettings.GetColumn("FullName1").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_FullName2":
+                        if (!siteSettings.GetColumn("FullName2").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_Birthday":
+                        if (!siteSettings.GetColumn("Birthday").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_Sex":
+                        if (!siteSettings.GetColumn("Sex").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_Language":
+                        if (!siteSettings.GetColumn("Language").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_TimeZone":
+                        if (!siteSettings.GetColumn("TimeZone").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_TimeZoneInfo":
+                        if (!siteSettings.GetColumn("TimeZoneInfo").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_DeptId":
+                        if (!siteSettings.GetColumn("DeptId").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_Dept":
+                        if (!siteSettings.GetColumn("Dept").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_FirstAndLastNameOrder":
+                        if (!siteSettings.GetColumn("FirstAndLastNameOrder").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_Title":
+                        if (!siteSettings.GetColumn("Title").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_LastLoginTime":
+                        if (!siteSettings.GetColumn("LastLoginTime").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_PasswordExpirationTime":
+                        if (!siteSettings.GetColumn("PasswordExpirationTime").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_PasswordChangeTime":
+                        if (!siteSettings.GetColumn("PasswordChangeTime").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_NumberOfLogins":
+                        if (!siteSettings.GetColumn("NumberOfLogins").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_NumberOfDenial":
+                        if (!siteSettings.GetColumn("NumberOfDenial").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_TenantAdmin":
+                        if (!siteSettings.GetColumn("TenantAdmin").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_ServiceAdmin":
+                        if (!siteSettings.GetColumn("ServiceAdmin").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_Developer":
+                        if (!siteSettings.GetColumn("Developer").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_OldPassword":
+                        if (!siteSettings.GetColumn("OldPassword").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_ChangedPassword":
+                        if (!siteSettings.GetColumn("ChangedPassword").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_ChangedPasswordValidator":
+                        if (!siteSettings.GetColumn("ChangedPasswordValidator").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_AfterResetPassword":
+                        if (!siteSettings.GetColumn("AfterResetPassword").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_AfterResetPasswordValidator":
+                        if (!siteSettings.GetColumn("AfterResetPasswordValidator").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_MailAddresses":
+                        if (!siteSettings.GetColumn("MailAddresses").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_DemoMailAddress":
+                        if (!siteSettings.GetColumn("DemoMailAddress").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_SessionGuid":
+                        if (!siteSettings.GetColumn("SessionGuid").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_Comments":
+                        if (!siteSettings.GetColumn("Comments").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_Creator":
+                        if (!siteSettings.GetColumn("Creator").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_Updator":
+                        if (!siteSettings.GetColumn("Updator").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_CreatedTime":
+                        if (!siteSettings.GetColumn("CreatedTime").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_UpdatedTime":
+                        if (!siteSettings.GetColumn("UpdatedTime").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_VerUp":
+                        if (!siteSettings.GetColumn("VerUp").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_Timestamp":
+                        if (!siteSettings.GetColumn("Timestamp").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                }
+            }
+            return Error.Types.None;
+        }
+
+        private static ResponseCollection ResponseByUpdate(
+            UserModel userModel,
+            UsersResponseCollection responseCollection)
+        {
+            return responseCollection
+                .Ver()
+                .Timestamp()
+                .Val("#VerUp", false)
+                .FormResponse(userModel)
+                .Disabled("#VerUp", false)
+                .Html("#HeaderTitle", userModel.Title.Value)
+                .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+                    baseModel: userModel, tableName: "Users"))
+                .Message(Messages.Updated(userModel.Title.ToString()))
+                .RemoveComment(userModel.DeleteCommentId, _using: userModel.DeleteCommentId != 0)
+                .ClearFormData();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static bool Self(int userId)
+        {
+            return Sessions.UserId() == userId;
         }
 
         /// <summary>
