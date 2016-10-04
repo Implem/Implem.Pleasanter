@@ -814,7 +814,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public void DeleteSummary(ResponseCollection responseCollection, long id)
+        public void DeleteSummary(long id)
         {
             SummaryCollection.Remove(SummaryCollection.FirstOrDefault(o => o.Id == id));
         }

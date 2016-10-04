@@ -1195,7 +1195,7 @@ namespace Implem.Pleasanter.Models
         {
             var summary = SiteSettings.SummaryCollection.FirstOrDefault(
                 o => o.Id == Forms.Long("DeleteSummaryId"));
-            SiteSettings.DeleteSummary(responseCollection, summary.Id);
+            SiteSettings.DeleteSummary(summary.Id);
             responseCollection.ReplaceAll("#SummarySettings", new HtmlBuilder()
                 .SummarySettings(sourceSiteSettings: SiteSettings));
         }
