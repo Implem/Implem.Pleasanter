@@ -281,6 +281,7 @@
     <Compile Include="Libraries\Models\Aggregation.cs" />
     <Compile Include="Libraries\Models\Aggregations.cs" />
     <Compile Include="Libraries\Models\Formula.cs" />
+    <Compile Include="Libraries\Models\FormulaBuilder.cs" />
     <Compile Include="Libraries\Models\FormulaUtilities.cs" />
     <Compile Include="Libraries\Models\Imports.cs" />
     <Compile Include="Libraries\Models\Summaries.cs" />

@@ -4,6 +4,7 @@ using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
@@ -846,9 +847,11 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "MoveUpFormulas":
                 case "MoveDownFormulas":
-                case "AddFormula":
                 case "DeleteFormulas":
                     SetFormulas(responseCollection, controlId);
+                    break;
+                case "AddFormula":
+                    AddFormula(responseCollection);
                     break;
                 case "OpenColumnPropertiesDialog":
                     OpenColumnPropertiesDialog(responseCollection);
@@ -1427,12 +1430,30 @@ namespace Implem.Pleasanter.Models
         private void SetFormulas(ResponseCollection responseCollection, string controlId)
         {
             var selectedColumns = Forms.List("Formulas");
-            SiteSettings.SetFormulas(
-                responseCollection, controlId, selectedColumns);
+            SiteSettings.SetFormulas(controlId, selectedColumns);
             responseCollection.Html("#Formulas", new HtmlBuilder()
                 .SelectableItems(
                     listItemCollection: SiteSettings.FormulaItemCollection(),
                     selectedValueTextCollection: selectedColumns));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AddFormula(ResponseCollection responseCollection)
+        {
+            var error = SiteSettings.AddFormula(Forms.Data("Formula"));
+            if (error.Has())
+            {
+                responseCollection.Message(error.Message());
+            }
+            else
+            {
+                responseCollection
+                    .Html("#Formulas", new HtmlBuilder()
+                        .SelectableItems(listItemCollection: SiteSettings.FormulaItemCollection()))
+                    .Val("#Formula", string.Empty);
+            }
         }
 
         /// <summary>
