@@ -843,7 +843,7 @@ namespace Implem.Pleasanter.Models
                     controlId: "MailAddresses",
                     fieldCss: "field-vertical w500",
                     controlContainerCss: "container-selectable",
-                    controlCss: " h350",
+                    controlWrapperCss: " h350",
                     labelText: Displays.MailAddresses(),
                     listItemCollection: listItemCollection,
                     commandOptionAction: () => hb

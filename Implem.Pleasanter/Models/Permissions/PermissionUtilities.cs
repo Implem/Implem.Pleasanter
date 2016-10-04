@@ -278,7 +278,7 @@ namespace Implem.Pleasanter.Models
                 controlId: "PermissionSource",
                 fieldCss: "field-vertical",
                 controlContainerCss: "container-selectable",
-                controlCss: " h550",
+                controlWrapperCss: " h550",
                 labelText: Displays.PermissionSource(),
                 listItemCollection: permissionCollection
                     .OrderBy(o => o.PermissionId)

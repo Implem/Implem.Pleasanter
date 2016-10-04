@@ -877,6 +877,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string fieldCss = null,
             string labelCss = null,
             string controlContainerCss = null,
+            string controlWrapperCss = null,
             string controlCss = null,
             string labelText = null,
             Dictionary<string, string> listItemCollection = null,
@@ -898,6 +899,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlAction: () => hb
                         .Selectable(
                             controlId: controlId,
+                            controlWrapperCss: controlWrapperCss,
                             controlCss: controlCss,
                             listItemCollection: 
                                 listItemCollection ?? new Dictionary<string, string>(),
@@ -919,6 +921,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         commandOptionAction();
                         hb.Selectable(
                             controlId: controlId,
+                            controlWrapperCss: controlWrapperCss,
                             controlCss: controlCss,
                             listItemCollection: 
                                 listItemCollection ?? new Dictionary<string, string>(),

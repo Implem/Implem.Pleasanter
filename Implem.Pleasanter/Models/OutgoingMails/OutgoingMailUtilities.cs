@@ -813,7 +813,7 @@ namespace Implem.Pleasanter.Models
                             controlId: "OutgoingMails_MailAddresses",
                             fieldCss: "field-vertical both",
                             controlContainerCss: "container-selectable",
-                            controlCss: " h500",
+                            controlWrapperCss: " h500",
                             listItemCollection: Destinations(
                                 referenceId: referenceId,
                                 addressBook: addressBook,

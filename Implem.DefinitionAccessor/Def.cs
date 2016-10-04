@@ -1868,7 +1868,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_control_slider": Css._dot_control_slider = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_slider, definitionRow, CssXls); break;
                     case "_dot_control_slider_ui": Css._dot_control_slider_ui = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_slider_ui, definitionRow, CssXls); break;
                     case "_dot_control_anchor": Css._dot_control_anchor = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_anchor, definitionRow, CssXls); break;
-                    case "_dot_container_selectable_space__dot_control": Css._dot_container_selectable_space__dot_control = definitionRow[1].ToString(); SetCssTable(CssTable._dot_container_selectable_space__dot_control, definitionRow, CssXls); break;
+                    case "_dot_container_selectable_space__dot_wrapper": Css._dot_container_selectable_space__dot_wrapper = definitionRow[1].ToString(); SetCssTable(CssTable._dot_container_selectable_space__dot_wrapper, definitionRow, CssXls); break;
                     case "_dot_control_selectable": Css._dot_control_selectable = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_selectable, definitionRow, CssXls); break;
                     case "_dot_control_selectable_space_li": Css._dot_control_selectable_space_li = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_selectable_space_li, definitionRow, CssXls); break;
                     case "_dot_control_selectable_space__dot_ui_selecting": Css._dot_control_selectable_space__dot_ui_selecting = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_selectable_space__dot_ui_selecting, definitionRow, CssXls); break;
@@ -6654,7 +6654,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_control_slider;
         public string _dot_control_slider_ui;
         public string _dot_control_anchor;
-        public string _dot_container_selectable_space__dot_control;
+        public string _dot_container_selectable_space__dot_wrapper;
         public string _dot_control_selectable;
         public string _dot_control_selectable_space_li;
         public string _dot_control_selectable_space__dot_ui_selecting;
@@ -7032,7 +7032,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_control_slider = new CssDefinition();
         public CssDefinition _dot_control_slider_ui = new CssDefinition();
         public CssDefinition _dot_control_anchor = new CssDefinition();
-        public CssDefinition _dot_container_selectable_space__dot_control = new CssDefinition();
+        public CssDefinition _dot_container_selectable_space__dot_wrapper = new CssDefinition();
         public CssDefinition _dot_control_selectable = new CssDefinition();
         public CssDefinition _dot_control_selectable_space_li = new CssDefinition();
         public CssDefinition _dot_control_selectable_space__dot_ui_selecting = new CssDefinition();

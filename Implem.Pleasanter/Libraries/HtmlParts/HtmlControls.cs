@@ -510,6 +510,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Selectable(
             this HtmlBuilder hb,
             string controlId,
+            string controlWrapperCss = null,
             string controlCss = null,
             Dictionary<string, string> listItemCollection = null,
             IEnumerable<string> selectedValueCollection = null,
@@ -517,12 +518,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return _using
                 ? hb.Div(
-                    css: Css.Class("control", controlCss),
+                    css: Css.Class("wrapper", controlWrapperCss),
                     action: () => hb
                         .Ol(
                             attributes: new HtmlAttributes()
                                 .Id(controlId)
-                                .Class("control-selectable"),
+                                .Class(Css.Class("control-selectable", controlCss)),
                             action: () => hb
                                 .SelectableItems(
                                     listItemCollection: listItemCollection,

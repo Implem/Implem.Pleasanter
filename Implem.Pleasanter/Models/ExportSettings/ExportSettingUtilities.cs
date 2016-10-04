@@ -551,7 +551,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "ExportSettings_Columns",
                         fieldCss: "field-vertical w500",
                         controlContainerCss: "container-selectable",
-                        controlCss: " h300",
+                        controlWrapperCss: " h300",
                         listItemCollection: exportSettings.ExportColumnHash(siteSettings),
                         selectedValueCollection: new List<string>(),
                         commandOptionAction: () => hb

@@ -1470,7 +1470,7 @@ pre{
     margin:4px;
 }
 
-.container-selectable .control{
+.container-selectable .wrapper{
     width:100%;
     display:block;
     float:left;
