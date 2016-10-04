@@ -2,7 +2,7 @@
 using Implem.Pleasanter.Models;
 namespace Implem.Pleasanter.Libraries.Models
 {
-    public static class Formulas
+    public static class FormulaUtilities
     {
         public static void Synchronize(SiteModel siteModel)
         {

@@ -24,7 +24,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 summary.LinkColumn,
                 summary.Type,
                 summary.SourceColumn);
-            Formulas.Synchronize(destinationSiteModel);
+            FormulaUtilities.Synchronize(destinationSiteModel);
             return json;
         }
 

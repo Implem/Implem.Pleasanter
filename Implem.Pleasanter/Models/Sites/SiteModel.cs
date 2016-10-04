@@ -1360,7 +1360,7 @@ namespace Implem.Pleasanter.Models
         {
             SetSiteSettingsPropertiesBySession();
             SiteSettings.SetChoicesByLinks();
-            Formulas.Synchronize(this);
+            FormulaUtilities.Synchronize(this);
             return Messages.ResponseSynchronizationCompleted().ToJson();
         }
 

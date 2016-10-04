@@ -1343,7 +1343,7 @@ namespace Implem.Pleasanter.Models
                 summary.Type,
                 summary.SourceColumn,
                 id);
-            Formulas.Update(id);
+            FormulaUtilities.Update(id);
         }
 
         private long SynchronizeSummaryDestinationId(string linkColumn, bool saved = false)
