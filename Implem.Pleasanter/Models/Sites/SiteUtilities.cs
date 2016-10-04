@@ -1038,7 +1038,7 @@ namespace Implem.Pleasanter.Models
                                 .Button(
                                     text: Displays.AdvancedSetting(),
                                     controlCss: "button-icon open-dialog",
-                                    onClick: "$p.openDialog($(this));",
+                                    onClick: "$p.openDialog($(this), '.main-form');",
                                     icon: "ui-icon-gear",
                                     selector: "#AggregationDetailsDialog")
                                 .Button(
