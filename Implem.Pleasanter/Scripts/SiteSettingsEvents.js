@@ -22,10 +22,10 @@
         }
         $p.getData($control).ColumnProperty, Format = $('[id="ColumnProperty,Format"]').val();
     });
-    $(document).on('click', '#SummarySettings button.delete-summary', function () {
-        var $control = $(this);
-        $p.getData($control).DeleteSummaryId = $control.attr('data-id');
-        $p.send($("#DeleteSummary"));
+    $(document).on('click', '#SummarySettings .grid-row button', function () {
+        var $control = $($(this).attr('data-selector'))
+        $p.getData($control)[$control.attr('id') + "Id"] = $(this).attr('data-id');
+        $p.send($control);
     });
     $(document).on('click', '#CreateNotification,#UpdateNotification', function () {
         var $control = $(this);

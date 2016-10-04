@@ -2167,24 +2167,27 @@ namespace Implem.Pleasanter.Models
                                                 summary.SourceColumn)?.LabelText))
                                         .Td(action: () => hb
                                             .Button(
-                                                controlId: "SynchronizeSummary," + summary.Id,
-                                                controlCss: "button-icon",
+                                                controlCss: "button-icon synchronize-summary",
                                                 text: Displays.Synchronize(),
-                                                onClick: "$p.send($(this));",
+                                                dataId: summary.Id.ToString(),
                                                 icon: "ui-icon-refresh",
-                                                action: "SynchronizeSummary",
-                                                method: "put",
-                                                confirm: Displays.ConfirmSynchronize())
+                                                selector: "#SynchronizeSummary")
                                             .Button(
                                                 controlCss: "button-icon delete-summary",
                                                 text: Displays.Delete(),
                                                 dataId: summary.Id.ToString(),
-                                                icon: "ui-icon-trash")));
+                                                icon: "ui-icon-trash",
+                                                selector: "#DeleteSummary")));
                                 }
                             });
                         });
                     }
                 })
+                .Hidden(attributes: new HtmlAttributes()
+                    .Id("SynchronizeSummary")
+                    .DataAction("SynchronizeSummary")
+                    .DataMethod("put")
+                    .DataConfirm(Displays.ConfirmSynchronize()))
                 .Hidden(attributes: new HtmlAttributes()
                     .Id("DeleteSummary")
                     .DataAction("SetSiteSettings")
