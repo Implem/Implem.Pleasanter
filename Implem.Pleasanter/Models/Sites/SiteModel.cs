@@ -772,7 +772,7 @@ namespace Implem.Pleasanter.Models
             var responseCollection = new SitesResponseCollection(this);
             SetSiteSettingsPropertiesBySession();
             SetSiteSettings(responseCollection);
-            Session_SiteSettings(Jsons.ToJson(SiteSettings));
+            Session_SiteSettings(SiteSettings.ToJson());
             return responseCollection.ToJson();
         }
 
