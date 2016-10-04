@@ -771,6 +771,16 @@ namespace Implem.Pleasanter.Models
             if (error != null) return error;
             var responseCollection = new SitesResponseCollection(this);
             SetSiteSettingsPropertiesBySession();
+            SetSiteSettings(responseCollection);
+            Session_SiteSettings(Jsons.ToJson(SiteSettings));
+            return responseCollection.ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetSiteSettings(ResponseCollection responseCollection)
+        {
             var controlId = Forms.Data("ControlId");
             switch (controlId)
             {
@@ -863,11 +873,12 @@ namespace Implem.Pleasanter.Models
                     SetMonitorChangesColumns(responseCollection, controlId);
                     break;
                 default:
-                    SetSiteSettings(responseCollection);
+                    Forms.All()
+                        .Where(o => o.Key.StartsWith("SiteSettings,"))
+                        .ForEach(data =>
+                            SiteSettings.Set(data.Key.Split_2nd(), data.Value));
                     break;
             }
-            Session_SiteSettings(Jsons.ToJson(SiteSettings));
-            return responseCollection.ToJson();
         }
 
         /// <summary>
@@ -1014,15 +1025,6 @@ namespace Implem.Pleasanter.Models
                     controlId: Forms.ControlId(),
                     notification: notification))
                 .Invoke("validateSites");
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void SetSiteSettings(ResponseCollection responseCollection)
-        {
-            Forms.All().Where(o => o.Key.StartsWith("SiteSettings,")).ForEach(data =>
-                SiteSettings.Set(data.Key.Split_2nd(), data.Value));
         }
 
         /// <summary>
