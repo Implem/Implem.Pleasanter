@@ -786,6 +786,15 @@ namespace Implem.Pleasanter.Models
                 case "ToEnableFilterColumns":
                     SetFilterColumns(responseCollection, controlId);
                     break;
+                case "AddAggregations":
+                case "DeleteAggregations":
+                case "MoveUpAggregations":
+                case "MoveDownAggregations":
+                    SetAggregations(responseCollection, controlId);
+                    break;
+                case "SetAggregationDetails":
+                    SetAggregationDetails(responseCollection);
+                    break;
                 case "MoveUpEditorColumns":
                 case "MoveDownEditorColumns":
                 case "ToDisableEditorColumns":
@@ -843,7 +852,6 @@ namespace Implem.Pleasanter.Models
                     break;
                 default:
                     SetSiteSettings(responseCollection);
-                    SetAggregations(responseCollection);
                     SetSummaries(responseCollection);
                     break;
             }
@@ -1159,17 +1167,47 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetAggregations(ResponseCollection responseCollection)
+        private void SetAggregations(ResponseCollection responseCollection, string controlId)
         {
             var selectedColumns = Forms.List("AggregationDestination");
             var selectedSourceColumns = Forms.List("AggregationSource");
             if (selectedColumns.Any() || selectedSourceColumns.Any())
             {
                 SiteSettings.SetAggregations(
-                    responseCollection,
-                    Forms.Data("ControlId"),
+                    controlId,
                     selectedColumns,
                     selectedSourceColumns);
+                responseCollection
+                    .Html("#AggregationDestination", new HtmlBuilder()
+                        .SelectableItems(
+                            listItemCollection: SiteSettings.AggregationDestination(),
+                            selectedValueTextCollection: selectedColumns))
+                    .SetFormData("AggregationDestination", selectedColumns?.Join(";"));
+            }
+        }
+
+        private void SetAggregationDetails(ResponseCollection responseCollection)
+        {
+            Aggregation.Types type;
+            Enum.TryParse(Forms.Data("AggregationType"), out type);
+            var target = type != Aggregation.Types.Count
+                ? Forms.Data("AggregationTarget")
+                : string.Empty;
+            var selectedColumns = Forms.List("AggregationDestination");
+            var selectedSourceColumns = Forms.List("AggregationSource");
+            if (selectedColumns.Any() || selectedSourceColumns.Any())
+            {
+                SiteSettings.SetAggregationDetails(
+                    type,
+                    target,
+                    selectedColumns,
+                    selectedSourceColumns);
+                responseCollection
+                    .Html("#AggregationDestination", new HtmlBuilder()
+                        .SelectableItems(
+                            listItemCollection: SiteSettings.AggregationDestination(),
+                            selectedValueTextCollection: selectedColumns))
+                    .SetFormData("AggregationDestination", selectedColumns?.Join(";"));
             }
         }
 

@@ -659,16 +659,15 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public void SetAggregations(
-            ResponseCollection responseCollection,
             string controlId,
-            IEnumerable<string> selectedDestination,
-            IEnumerable<string> selectedSource)
+            IEnumerable<string> selectedColumns,
+            IEnumerable<string> selectedSourceColumns)
         {
             switch (controlId)
             {
                 case "AddAggregations":
                     var idCollection = new List<string>();
-                    selectedSource.ForEach(groupBy =>
+                    selectedSourceColumns.ForEach(groupBy =>
                     {
                         var id = AggregationCollection.Count > 0
                             ? AggregationCollection.Max(o => o.Id) + 1
@@ -676,14 +675,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                         idCollection.Add(id.ToString());
                         AggregationCollection.Add(new Aggregation(id, groupBy));
                     });
-                    selectedDestination = idCollection;
-                    selectedSource = null;
+                    selectedColumns = idCollection;
+                    selectedSourceColumns = null;
                     break;
                 case "DeleteAggregations":
                     AggregationCollection
-                        .RemoveAll(o => selectedDestination.Contains(o.Id.ToString()));
-                    selectedSource = selectedDestination;
-                    selectedDestination = null;
+                        .RemoveAll(o => selectedColumns.Contains(o.Id.ToString()));
+                    selectedSourceColumns = selectedColumns;
+                    selectedColumns = null;
                     break;
                 case "MoveUpAggregations":
                 case "MoveDownAggregations":
@@ -691,9 +690,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     if (controlId == "MoveDownAggregations") Array.Reverse(order);
                     order.Select((o, i) => new { Id = o, Index = i }).ForEach(data =>
                     {
-                        if (selectedDestination.Contains(data.Id) &&
+                        if (selectedColumns.Contains(data.Id) &&
                             data.Index > 0 &&
-                            !selectedDestination.Contains(order[data.Index - 1]))
+                            !selectedColumns.Contains(order[data.Index - 1]))
                         {
                             order = Arrays.Swap(order, data.Index, data.Index - 1);
                         }
@@ -702,28 +701,22 @@ namespace Implem.Pleasanter.Libraries.Settings
                     AggregationCollection = order.ToList().Select(id => AggregationCollection
                         .FirstOrDefault(o => o.Id.ToString() == id)).ToList();
                     break;
-                case "SetAggregationDetails":
-                    Aggregation.Types type;
-                    Enum.TryParse<Aggregation.Types>(
-                        Forms.Data("AggregationType"), out type);
-                    var aggregationTarget = type != Aggregation.Types.Count
-                        ? Forms.Data("AggregationTarget")
-                        : string.Empty;
-                    AggregationCollection
-                        .Where(o => selectedDestination.Contains(o.Id.ToString()))
-                        .ForEach(aggregation =>
-                        {
-                            aggregation.Type = type;
-                            aggregation.Target = aggregationTarget;
-                        });
-                    break;
             }
-            responseCollection
-                .Html("#AggregationDestination", new HtmlBuilder()
-                    .SelectableItems(
-                        listItemCollection: AggregationDestination(),
-                        selectedValueTextCollection: selectedDestination))
-                .SetFormData("AggregationDestination", selectedDestination?.Join(";"));
+        }
+
+        public void SetAggregationDetails(
+            Aggregation.Types type,
+            string target,
+            IEnumerable<string> selectedColumns,
+            IEnumerable<string> selectedSourceColumns)
+        {
+            AggregationCollection
+                .Where(o => selectedColumns.Contains(o.Id.ToString()))
+                .ForEach(aggregation =>
+                {
+                    aggregation.Type = type;
+                    aggregation.Target = target;
+                });
         }
 
         public void SetGridColumns(
