@@ -228,7 +228,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Choice Choice(string selectedValue)
         {
-            return ChoiceHash.ContainsKey(selectedValue)
+            return ChoiceHash != null && ChoiceHash.ContainsKey(selectedValue)
                 ? ChoiceHash[selectedValue]
                 : new Choice(string.Empty);
         }
