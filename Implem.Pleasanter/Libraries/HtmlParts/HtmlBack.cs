@@ -8,16 +8,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     public static class HtmlBack
     {
         public static HtmlBuilder BackUrl(
-            this HtmlBuilder hb, long siteId, long parentId, string referenceType)
+            this HtmlBuilder hb,
+            long siteId,
+            long parentId,
+            string referenceType,
+            string siteReferenceType)
         {
             return !Request.IsAjax()
                 ? hb.Hidden(
                     controlId: "BackUrl",
-                    rawValue: BackUrl(siteId, parentId, referenceType))
+                    rawValue: BackUrl(siteId, parentId, referenceType, siteReferenceType))
                 : hb;
         }
 
-        private static string BackUrl(long siteId, long parentId, string referenceType)
+        private static string BackUrl(
+            long siteId, long parentId, string referenceType, string siteReferenceType)
         {
             var controller = Routes.Controller();
             var referer = HttpUtility.UrlDecode(new Request(HttpContext.Current).UrlReferrer());
@@ -43,8 +48,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             switch (Routes.Action())
                             {
                                 case "new":
-                                case "edit":
                                     return Navigations.ItemIndex(siteId);
+                                case "edit":
+                                    switch (siteReferenceType)
+                                    {
+                                        case "Wikis":
+                                            return Navigations.ItemIndex(parentId);
+                                        default:
+                                            return Navigations.ItemIndex(siteId);
+                                    }
                                 default:
                                     return Navigations.ItemIndex(parentId);
                             }

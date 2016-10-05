@@ -837,6 +837,7 @@ namespace Implem.Pleasanter.Models
                 siteId: siteModel.SiteId,
                 parentId: siteModel.ParentId,
                 referenceType: "Sites",
+                siteReferenceType: siteModel.ReferenceType,
                 title: siteModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Sites() + " - " + Displays.New()
                     : siteModel.Title + " - " + Displays.EditSettings(),

@@ -20,6 +20,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long siteId = 0,
             long parentId = 0,
             string referenceType = "",
+            string siteReferenceType = "",
             string title = "",
             bool useBreadcrumb = true,
             bool useTitle = true,
@@ -39,6 +40,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     siteId: siteId,
                     parentId: parentId,
                     referenceType: referenceType,
+                    siteReferenceType: siteReferenceType,
                     title: title,
                     useBreadcrumb: useBreadcrumb,
                     useTitle: useTitle,
@@ -62,6 +64,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long siteId,
             long parentId,
             string referenceType,
+            string siteReferenceType,
             string title,
             bool useBreadcrumb = true,
             bool useTitle = true,
@@ -88,7 +91,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     action: action)
                 .Div(id: "BottomMargin both")
                 .Footer()
-                .BackUrl(siteId: siteId, parentId: parentId, referenceType: referenceType)
+                .BackUrl(
+                    siteId: siteId,
+                    parentId: parentId,
+                    referenceType: referenceType,
+                    siteReferenceType: siteReferenceType)
                 .Styles(style: userStyle));
         }
 
