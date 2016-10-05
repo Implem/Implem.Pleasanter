@@ -1176,16 +1176,22 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void AddSummary(ResponseCollection responseCollection)
         {
-            SiteSettings.AddSummary(
-                responseCollection,
+            var error = SiteSettings.AddSummary(
                 Forms.Long("SummarySiteId"),
                 new SiteModel(Forms.Long("SummarySiteId")).ReferenceType,
                 Forms.Data("SummaryDestinationColumn"),
                 Forms.Data("SummaryLinkColumn"),
                 Forms.Data("SummaryType"),
                 Forms.Data("SummarySourceColumn"));
-            responseCollection.ReplaceAll("#SummarySettings", new HtmlBuilder()
-                .SummarySettings(sourceSiteSettings: SiteSettings));
+            if (error.Has())
+            {
+                responseCollection.Message(error.Message());
+            }
+            else
+            {
+                responseCollection.ReplaceAll("#SummarySettings", new HtmlBuilder()
+                    .SummarySettings(sourceSiteSettings: SiteSettings));
+            }
         }
 
         /// <summary>

@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
@@ -782,8 +783,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public void AddSummary(
-            ResponseCollection responseCollection,
+        public Error.Types AddSummary(
             long siteId,
             string destinationReferenceType,
             string destinationColumn,
@@ -807,10 +807,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     linkColumn,
                     type,
                     sourceColumn));
+                return Error.Types.None;
             }
             else
             {
-                responseCollection.Message(Messages.AlreadyAdded());
+                return Error.Types.AlreadyAdded;
             }
         }
 
