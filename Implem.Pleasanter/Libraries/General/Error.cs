@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Responses;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Responses;
 namespace Implem.Pleasanter.Libraries.General
 {
     public static class Error
@@ -67,6 +68,11 @@ namespace Implem.Pleasanter.Libraries.General
                 case Types.InvalidFormula: return Messages.InvalidFormula();
                 default: return null;
             }
+        }
+
+        public static string MessageJson(this Types type)
+        {
+            return new ResponseCollection().Message(type.Message()).ToJson();
         }
     }
 }
