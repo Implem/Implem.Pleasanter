@@ -707,6 +707,7 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("NotTypeCs")) { newCodeDefinition.NotTypeCs = definitionRow["NotTypeCs"].ToBool(); newCodeDefinition.SavedNotTypeCs = newCodeDefinition.NotTypeCs; }
                 if (definitionRow.ContainsKey("ItemOnly")) { newCodeDefinition.ItemOnly = definitionRow["ItemOnly"].ToBool(); newCodeDefinition.SavedItemOnly = newCodeDefinition.ItemOnly; }
                 if (definitionRow.ContainsKey("NotItem")) { newCodeDefinition.NotItem = definitionRow["NotItem"].ToBool(); newCodeDefinition.SavedNotItem = newCodeDefinition.NotItem; }
+                if (definitionRow.ContainsKey("GenericUi")) { newCodeDefinition.GenericUi = definitionRow["GenericUi"].ToBool(); newCodeDefinition.SavedGenericUi = newCodeDefinition.GenericUi; }
                 if (definitionRow.ContainsKey("Session")) { newCodeDefinition.Session = definitionRow["Session"].ToBool(); newCodeDefinition.SavedSession = newCodeDefinition.Session; }
                 if (definitionRow.ContainsKey("GridColumn")) { newCodeDefinition.GridColumn = definitionRow["GridColumn"].ToBool(); newCodeDefinition.SavedGridColumn = newCodeDefinition.GridColumn; }
                 if (definitionRow.ContainsKey("EditorColumn")) { newCodeDefinition.EditorColumn = definitionRow["EditorColumn"].ToBool(); newCodeDefinition.SavedEditorColumn = newCodeDefinition.EditorColumn; }
@@ -780,6 +781,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("NotTypeCs")) { definition.NotTypeCs = definitionRow["NotTypeCs"].ToBool(); definition.SavedNotTypeCs = definition.NotTypeCs; }
             if (definitionRow.ContainsKey("ItemOnly")) { definition.ItemOnly = definitionRow["ItemOnly"].ToBool(); definition.SavedItemOnly = definition.ItemOnly; }
             if (definitionRow.ContainsKey("NotItem")) { definition.NotItem = definitionRow["NotItem"].ToBool(); definition.SavedNotItem = definition.NotItem; }
+            if (definitionRow.ContainsKey("GenericUi")) { definition.GenericUi = definitionRow["GenericUi"].ToBool(); definition.SavedGenericUi = definition.GenericUi; }
             if (definitionRow.ContainsKey("Session")) { definition.Session = definitionRow["Session"].ToBool(); definition.SavedSession = definition.Session; }
             if (definitionRow.ContainsKey("GridColumn")) { definition.GridColumn = definitionRow["GridColumn"].ToBool(); definition.SavedGridColumn = definition.GridColumn; }
             if (definitionRow.ContainsKey("EditorColumn")) { definition.EditorColumn = definitionRow["EditorColumn"].ToBool(); definition.SavedEditorColumn = definition.EditorColumn; }
@@ -1523,6 +1525,7 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("ComputeColumn")) { newColumnDefinition.ComputeColumn = definitionRow["ComputeColumn"].ToString(); newColumnDefinition.SavedComputeColumn = newColumnDefinition.ComputeColumn; }
                 if (definitionRow.ContainsKey("OrderByColumns")) { newColumnDefinition.OrderByColumns = definitionRow["OrderByColumns"].ToString(); newColumnDefinition.SavedOrderByColumns = newColumnDefinition.OrderByColumns; }
                 if (definitionRow.ContainsKey("ItemId")) { newColumnDefinition.ItemId = definitionRow["ItemId"].ToInt(); newColumnDefinition.SavedItemId = newColumnDefinition.ItemId; }
+                if (definitionRow.ContainsKey("GenericUi")) { newColumnDefinition.GenericUi = definitionRow["GenericUi"].ToBool(); newColumnDefinition.SavedGenericUi = newColumnDefinition.GenericUi; }
                 if (definitionRow.ContainsKey("FieldCss")) { newColumnDefinition.FieldCss = definitionRow["FieldCss"].ToString(); newColumnDefinition.SavedFieldCss = newColumnDefinition.FieldCss; }
                 if (definitionRow.ContainsKey("ControlCss")) { newColumnDefinition.ControlCss = definitionRow["ControlCss"].ToString(); newColumnDefinition.SavedControlCss = newColumnDefinition.ControlCss; }
                 if (definitionRow.ContainsKey("MarkDown")) { newColumnDefinition.MarkDown = definitionRow["MarkDown"].ToBool(); newColumnDefinition.SavedMarkDown = newColumnDefinition.MarkDown; }
@@ -1624,6 +1627,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("ComputeColumn")) { definition.ComputeColumn = definitionRow["ComputeColumn"].ToString(); definition.SavedComputeColumn = definition.ComputeColumn; }
             if (definitionRow.ContainsKey("OrderByColumns")) { definition.OrderByColumns = definitionRow["OrderByColumns"].ToString(); definition.SavedOrderByColumns = definition.OrderByColumns; }
             if (definitionRow.ContainsKey("ItemId")) { definition.ItemId = definitionRow["ItemId"].ToInt(); definition.SavedItemId = definition.ItemId; }
+            if (definitionRow.ContainsKey("GenericUi")) { definition.GenericUi = definitionRow["GenericUi"].ToBool(); definition.SavedGenericUi = definition.GenericUi; }
             if (definitionRow.ContainsKey("FieldCss")) { definition.FieldCss = definitionRow["FieldCss"].ToString(); definition.SavedFieldCss = definition.FieldCss; }
             if (definitionRow.ContainsKey("ControlCss")) { definition.ControlCss = definitionRow["ControlCss"].ToString(); definition.SavedControlCss = definition.ControlCss; }
             if (definitionRow.ContainsKey("MarkDown")) { definition.MarkDown = definitionRow["MarkDown"].ToBool(); definition.SavedMarkDown = definition.MarkDown; }
@@ -3199,6 +3203,7 @@ namespace Implem.DefinitionAccessor
                         case "NotTypeCs": codeDefinition.NotTypeCs = optionValue.ToBool(); break;
                         case "ItemOnly": codeDefinition.ItemOnly = optionValue.ToBool(); break;
                         case "NotItem": codeDefinition.NotItem = optionValue.ToBool(); break;
+                        case "GenericUi": codeDefinition.GenericUi = optionValue.ToBool(); break;
                         case "Session": codeDefinition.Session = optionValue.ToBool(); break;
                         case "GridColumn": codeDefinition.GridColumn = optionValue.ToBool(); break;
                         case "EditorColumn": codeDefinition.EditorColumn = optionValue.ToBool(); break;
@@ -3304,6 +3309,7 @@ namespace Implem.DefinitionAccessor
                         case "ComputeColumn": columnDefinition.ComputeColumn = optionValue.ToString(); break;
                         case "OrderByColumns": columnDefinition.OrderByColumns = optionValue.ToString(); break;
                         case "ItemId": columnDefinition.ItemId = optionValue.ToInt(); break;
+                        case "GenericUi": columnDefinition.GenericUi = optionValue.ToBool(); break;
                         case "FieldCss": columnDefinition.FieldCss = optionValue.ToString(); break;
                         case "ControlCss": columnDefinition.ControlCss = optionValue.ToString(); break;
                         case "MarkDown": columnDefinition.MarkDown = optionValue.ToBool(); break;
@@ -3538,6 +3544,7 @@ namespace Implem.DefinitionAccessor
         public bool NotTypeCs; public bool SavedNotTypeCs;
         public bool ItemOnly; public bool SavedItemOnly;
         public bool NotItem; public bool SavedNotItem;
+        public bool GenericUi; public bool SavedGenericUi;
         public bool Session; public bool SavedSession;
         public bool GridColumn; public bool SavedGridColumn;
         public bool EditorColumn; public bool SavedEditorColumn;
@@ -3612,6 +3619,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("NotTypeCs")) NotTypeCs = propertyCollection["NotTypeCs"].ToBool(); else NotTypeCs = false;
             if (propertyCollection.ContainsKey("ItemOnly")) ItemOnly = propertyCollection["ItemOnly"].ToBool(); else ItemOnly = false;
             if (propertyCollection.ContainsKey("NotItem")) NotItem = propertyCollection["NotItem"].ToBool(); else NotItem = false;
+            if (propertyCollection.ContainsKey("GenericUi")) GenericUi = propertyCollection["GenericUi"].ToBool(); else GenericUi = false;
             if (propertyCollection.ContainsKey("Session")) Session = propertyCollection["Session"].ToBool(); else Session = false;
             if (propertyCollection.ContainsKey("GridColumn")) GridColumn = propertyCollection["GridColumn"].ToBool(); else GridColumn = false;
             if (propertyCollection.ContainsKey("EditorColumn")) EditorColumn = propertyCollection["EditorColumn"].ToBool(); else EditorColumn = false;
@@ -3686,6 +3694,7 @@ namespace Implem.DefinitionAccessor
                     case "NotTypeCs": return NotTypeCs;
                     case "ItemOnly": return ItemOnly;
                     case "NotItem": return NotItem;
+                    case "GenericUi": return GenericUi;
                     case "Session": return Session;
                     case "GridColumn": return GridColumn;
                     case "EditorColumn": return EditorColumn;
@@ -3760,6 +3769,7 @@ namespace Implem.DefinitionAccessor
             NotTypeCs = SavedNotTypeCs;
             ItemOnly = SavedItemOnly;
             NotItem = SavedNotItem;
+            GenericUi = SavedGenericUi;
             Session = SavedSession;
             GridColumn = SavedGridColumn;
             EditorColumn = SavedEditorColumn;
@@ -4696,6 +4706,7 @@ namespace Implem.DefinitionAccessor
         public string ComputeColumn; public string SavedComputeColumn;
         public string OrderByColumns; public string SavedOrderByColumns;
         public int ItemId; public int SavedItemId;
+        public bool GenericUi; public bool SavedGenericUi;
         public string FieldCss; public string SavedFieldCss;
         public string ControlCss; public string SavedControlCss;
         public bool MarkDown; public bool SavedMarkDown;
@@ -4798,6 +4809,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("ComputeColumn")) ComputeColumn = propertyCollection["ComputeColumn"].ToString(); else ComputeColumn = string.Empty;
             if (propertyCollection.ContainsKey("OrderByColumns")) OrderByColumns = propertyCollection["OrderByColumns"].ToString(); else OrderByColumns = string.Empty;
             if (propertyCollection.ContainsKey("ItemId")) ItemId = propertyCollection["ItemId"].ToInt(); else ItemId = 0;
+            if (propertyCollection.ContainsKey("GenericUi")) GenericUi = propertyCollection["GenericUi"].ToBool(); else GenericUi = false;
             if (propertyCollection.ContainsKey("FieldCss")) FieldCss = propertyCollection["FieldCss"].ToString(); else FieldCss = string.Empty;
             if (propertyCollection.ContainsKey("ControlCss")) ControlCss = propertyCollection["ControlCss"].ToString(); else ControlCss = string.Empty;
             if (propertyCollection.ContainsKey("MarkDown")) MarkDown = propertyCollection["MarkDown"].ToBool(); else MarkDown = false;
@@ -4900,6 +4912,7 @@ namespace Implem.DefinitionAccessor
                     case "ComputeColumn": return ComputeColumn;
                     case "OrderByColumns": return OrderByColumns;
                     case "ItemId": return ItemId;
+                    case "GenericUi": return GenericUi;
                     case "FieldCss": return FieldCss;
                     case "ControlCss": return ControlCss;
                     case "MarkDown": return MarkDown;
@@ -5002,6 +5015,7 @@ namespace Implem.DefinitionAccessor
             ComputeColumn = SavedComputeColumn;
             OrderByColumns = SavedOrderByColumns;
             ItemId = SavedItemId;
+            GenericUi = SavedGenericUi;
             FieldCss = SavedFieldCss;
             ControlCss = SavedControlCss;
             MarkDown = SavedMarkDown;

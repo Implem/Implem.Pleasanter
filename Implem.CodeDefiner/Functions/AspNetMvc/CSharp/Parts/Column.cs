@@ -114,6 +114,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             if (codeDefinition.Exclude.Split(',').Contains(columnDefinition.ColumnName)) return true;
             if (codeDefinition.NotItem && Def.ExistsTable(columnDefinition.TableName, o => o.ItemId > 0)) return true;
             if (codeDefinition.ItemOnly && !Def.ExistsTable(columnDefinition.TableName, o => o.ItemId > 0)) return true;
+            if (codeDefinition.GenericUi && !Def.ExistsTable(columnDefinition.TableName, o => o.GenericUi)) return true;
             if (codeDefinition.ControlType != string.Empty && codeDefinition.ControlType != columnDefinition.ControlType) return true;
             if (codeDefinition.NotNull && columnDefinition.Nullable) return true;
             if (codeDefinition.Validators && columnDefinition.Validators == string.Empty) return true;
