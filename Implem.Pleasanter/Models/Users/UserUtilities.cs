@@ -175,24 +175,6 @@ namespace Implem.Pleasanter.Models
                 aggregationCollection: siteSettings.AggregationCollection);
         }
 
-        public static HtmlBuilder DataView(
-            this HtmlBuilder hb,
-            UserCollection userCollection,
-            SiteSettings siteSettings,
-            Permissions.Types permissionType,
-            FormData formData,
-            string dataViewName)
-        {
-            switch (dataViewName)
-            {
-                default: return hb.Grid(
-                    userCollection: userCollection,
-                    siteSettings: siteSettings,
-                    permissionType: permissionType,
-                    formData: formData);
-            }
-        }
-
         private static HtmlBuilder Grid(
             this HtmlBuilder hb,
             SiteSettings siteSettings,
