@@ -343,6 +343,7 @@
     <Compile Include="Models\Depts\DeptCollection.cs" />
     <Compile Include="Models\Depts\DeptModel.cs" />
     <Compile Include="Models\Depts\DeptUtilities.cs" />
+    <Compile Include="Models\Depts\DeptValidators.cs" />
     <Compile Include="Models\ExportSettings\ExportSettingCollection.cs" />
     <Compile Include="Models\ExportSettings\ExportSettingModel.cs" />
     <Compile Include="Models\ExportSettings\ExportSettingUtilities.cs" />
@@ -350,6 +351,7 @@
     <Compile Include="Models\Issues\IssueModel.cs" />
     <Compile Include="Models\Issues\IssueSubset.cs" />
     <Compile Include="Models\Issues\IssueUtilities.cs" />
+    <Compile Include="Models\Issues\IssueValidators.cs" />
     <Compile Include="Models\Items\ItemCollection.cs" />
     <Compile Include="Models\Items\ItemModel.cs" />
     <Compile Include="Models\Items\ItemUtilities.cs" />
@@ -372,6 +374,7 @@
     <Compile Include="Models\Results\ResultModel.cs" />
     <Compile Include="Models\Results\ResultSubset.cs" />
     <Compile Include="Models\Results\ResultUtilities.cs" />
+    <Compile Include="Models\Results\ResultValidators.cs" />
     <Compile Include="Models\SearchIndexes\SearchIndexCollection.cs" />
     <Compile Include="Models\SearchIndexes\SearchIndexUtilities.cs" />
     <Compile Include="Models\SearchIndexes\SearchIndexModel.cs" />
@@ -379,6 +382,7 @@
     <Compile Include="Models\Sites\SiteModel.cs" />
     <Compile Include="Models\Sites\SiteSubset.cs" />
     <Compile Include="Models\Sites\SiteUtilities.cs" />
+    <Compile Include="Models\Sites\SiteValidators.cs" />
     <Compile Include="Models\SysLogs\SysLogCollection.cs" />
     <Compile Include="Models\SysLogs\SysLogModel.cs" />
     <Compile Include="Models\SysLogs\SysLogUtilities.cs" />
@@ -388,11 +392,13 @@
     <Compile Include="Models\Users\UserCollection.cs" />
     <Compile Include="Models\Users\UserModel.cs" />
     <Compile Include="Models\Users\UserUtilities.cs" />
+    <Compile Include="Models\Users\UserValidators.cs" />
     <Compile Include="Models\Wikis\WikiCollection.cs" />
     <Compile Include="Models\Wikis\WikiModel.cs" />
     <Compile Include="Models\Wikis\WikiSubset.cs" />
     <Compile Include="Models\Wikis\WikiUtilities.cs" />
     <Compile Include="Models\Shared\_BaseModel.cs" />
+    <Compile Include="Models\Wikis\WikiValidators.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\BackgroundTasks.cs" />
   </ItemGroup>
