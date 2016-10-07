@@ -443,6 +443,9 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utility_FieldCases": Code.Model_Utility_FieldCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_FieldCases, definitionRow, CodeXls); break;
                     case "Model_Utility_FieldCases_Item": Code.Model_Utility_FieldCases_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_FieldCases_Item, definitionRow, CodeXls); break;
                     case "Model_Utility_Links": Code.Model_Utility_Links = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_Links, definitionRow, CodeXls); break;
+                    case "Model_Utility_EditorJson": Code.Model_Utility_EditorJson = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_EditorJson, definitionRow, CodeXls); break;
+                    case "Model_Utility_EditorJson_Sites": Code.Model_Utility_EditorJson_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_EditorJson_Sites, definitionRow, CodeXls); break;
+                    case "Model_Utility_EditorResponse": Code.Model_Utility_EditorResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_EditorResponse, definitionRow, CodeXls); break;
                     case "Model_Utility_GetSwitchTargets": Code.Model_Utility_GetSwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_GetSwitchTargets, definitionRow, CodeXls); break;
                     case "Model_Utility_SqlWhereTenantId": Code.Model_Utility_SqlWhereTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_SqlWhereTenantId, definitionRow, CodeXls); break;
                     case "Model_Utility_SqlWhereSiteId": Code.Model_Utility_SqlWhereSiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_SqlWhereSiteId, definitionRow, CodeXls); break;
@@ -470,7 +473,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utility_Copy_Sites": Code.Model_Utility_Copy_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_Copy_Sites, definitionRow, CodeXls); break;
                     case "Model_Utility_TitleDisplay": Code.Model_Utility_TitleDisplay = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_TitleDisplay, definitionRow, CodeXls); break;
                     case "Model_Utility_ResponseLinks": Code.Model_Utility_ResponseLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_ResponseLinks, definitionRow, CodeXls); break;
-                    case "Model_Utility_EditorResponse": Code.Model_Utility_EditorResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_EditorResponse, definitionRow, CodeXls); break;
                     case "Model_Utility_SiteModel": Code.Model_Utility_SiteModel = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_SiteModel, definitionRow, CodeXls); break;
                     case "Model_Utility_Title": Code.Model_Utility_Title = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_Title, definitionRow, CodeXls); break;
                     case "Model_Utility_BulkMove": Code.Model_Utility_BulkMove = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_BulkMove, definitionRow, CodeXls); break;
@@ -3988,6 +3990,9 @@ namespace Implem.DefinitionAccessor
         public string Model_Utility_FieldCases;
         public string Model_Utility_FieldCases_Item;
         public string Model_Utility_Links;
+        public string Model_Utility_EditorJson;
+        public string Model_Utility_EditorJson_Sites;
+        public string Model_Utility_EditorResponse;
         public string Model_Utility_GetSwitchTargets;
         public string Model_Utility_SqlWhereTenantId;
         public string Model_Utility_SqlWhereSiteId;
@@ -4015,7 +4020,6 @@ namespace Implem.DefinitionAccessor
         public string Model_Utility_Copy_Sites;
         public string Model_Utility_TitleDisplay;
         public string Model_Utility_ResponseLinks;
-        public string Model_Utility_EditorResponse;
         public string Model_Utility_SiteModel;
         public string Model_Utility_Title;
         public string Model_Utility_BulkMove;
@@ -4406,6 +4410,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utility_FieldCases = new CodeDefinition();
         public CodeDefinition Model_Utility_FieldCases_Item = new CodeDefinition();
         public CodeDefinition Model_Utility_Links = new CodeDefinition();
+        public CodeDefinition Model_Utility_EditorJson = new CodeDefinition();
+        public CodeDefinition Model_Utility_EditorJson_Sites = new CodeDefinition();
+        public CodeDefinition Model_Utility_EditorResponse = new CodeDefinition();
         public CodeDefinition Model_Utility_GetSwitchTargets = new CodeDefinition();
         public CodeDefinition Model_Utility_SqlWhereTenantId = new CodeDefinition();
         public CodeDefinition Model_Utility_SqlWhereSiteId = new CodeDefinition();
@@ -4433,7 +4440,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utility_Copy_Sites = new CodeDefinition();
         public CodeDefinition Model_Utility_TitleDisplay = new CodeDefinition();
         public CodeDefinition Model_Utility_ResponseLinks = new CodeDefinition();
-        public CodeDefinition Model_Utility_EditorResponse = new CodeDefinition();
         public CodeDefinition Model_Utility_SiteModel = new CodeDefinition();
         public CodeDefinition Model_Utility_Title = new CodeDefinition();
         public CodeDefinition Model_Utility_BulkMove = new CodeDefinition();

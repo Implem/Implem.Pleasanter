@@ -715,6 +715,27 @@ namespace Implem.Pleasanter.Models
             return hb;
         }
 
+        public static string EditorJson(
+            SiteSettings siteSettings, Permissions.Types permissionType, long resultId)
+        {
+            return EditorResponse(new ResultModel(siteSettings, permissionType, resultId))
+                .ToJson();
+        }
+
+        private static ResponseCollection EditorResponse(
+            ResultModel resultModel, Message message = null)
+        {
+            var siteModel = new SiteModel(resultModel.SiteId);
+            resultModel.MethodType = BaseModel.MethodTypes.Edit;
+            return new ResultsResponseCollection(resultModel)
+                .Invoke("clearDialogs")
+                .ReplaceAll("#MainContainer", Editor(siteModel, resultModel))
+                .Invoke("setCurrentIndex")
+                .Invoke("validateResults")
+                .Message(message)
+                .ClearFormData();
+        }
+
         public static List<long> GetSwitchTargets(SiteSettings siteSettings, long siteId)
         {
             var switchTargets = Forms.Data("SwitchTargets").Split(',')
@@ -917,19 +938,6 @@ namespace Implem.Pleasanter.Models
             {
                 return EditorResponse(resultModel).ToJson();
             }
-        }
-
-        private static ResponseCollection EditorResponse(ResultModel resultModel, Message message = null)
-        {
-            var siteModel = new SiteModel(resultModel.SiteId);
-            resultModel.MethodType = BaseModel.MethodTypes.Edit;
-            return new ResultsResponseCollection(resultModel)
-                .Invoke("clearDialogs")
-                .ReplaceAll("#MainContainer", Editor(siteModel, resultModel))
-                .Invoke("setCurrentIndex")
-                .Invoke("validateResults")
-                .Message(message)
-                .ClearFormData();
         }
 
         public static string BulkMove(SiteSettings siteSettings, Permissions.Types permissionType)

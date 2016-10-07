@@ -342,11 +342,6 @@ namespace Implem.Pleasanter.Models
             return Editor();
         }
 
-        public string EditorJson()
-        {
-            return EditorJson(this);
-        }
-
         private string EditorJson(OutgoingMailModel outgoingMailModel, Message message = null)
         {
             outgoingMailModel.MethodType = MethodTypes.Edit;

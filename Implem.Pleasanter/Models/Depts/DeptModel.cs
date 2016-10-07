@@ -330,11 +330,6 @@ namespace Implem.Pleasanter.Models
             return Editor();
         }
 
-        public string EditorJson()
-        {
-            return EditorJson(this);
-        }
-
         private string EditorJson(DeptModel deptModel, Message message = null)
         {
             deptModel.MethodType = MethodTypes.Edit;

@@ -317,11 +317,6 @@ namespace Implem.Pleasanter.Models
             return Editor();
         }
 
-        public string EditorJson()
-        {
-            return EditorJson(this);
-        }
-
         private string EditorJson(TenantModel tenantModel, Message message = null)
         {
             tenantModel.MethodType = MethodTypes.Edit;

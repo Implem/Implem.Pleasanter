@@ -491,11 +491,6 @@ namespace Implem.Pleasanter.Models
             return Editor();
         }
 
-        public string EditorJson()
-        {
-            return EditorJson(this);
-        }
-
         private string EditorJson(WikiModel wikiModel, Message message = null)
         {
             var siteModel = new SiteModel(SiteId);

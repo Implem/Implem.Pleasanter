@@ -1093,11 +1093,6 @@ namespace Implem.Pleasanter.Models
             return Editor();
         }
 
-        public string EditorJson()
-        {
-            return EditorJson(this);
-        }
-
         private string EditorJson(ResultModel resultModel, Message message = null)
         {
             var siteModel = new SiteModel(SiteId);

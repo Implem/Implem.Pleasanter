@@ -540,6 +540,26 @@ namespace Implem.Pleasanter.Models
                 .ResetPasswordDialog(userId: userModel.UserId, siteSettings: siteSettings);
         }
 
+        public static string EditorJson(
+            SiteSettings siteSettings, Permissions.Types permissionType, int userId)
+        {
+            return EditorResponse(new UserModel(siteSettings, permissionType, userId))
+                .ToJson();
+        }
+
+        private static ResponseCollection EditorResponse(
+            UserModel userModel, Message message = null)
+        {
+            userModel.MethodType = BaseModel.MethodTypes.Edit;
+            return new UsersResponseCollection(userModel)
+                .Invoke("clearDialogs")
+                .ReplaceAll("#MainContainer", Editor(userModel))
+                .Invoke("setCurrentIndex")
+                .Invoke("validateUsers")
+                .Message(message)
+                .ClearFormData();
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>

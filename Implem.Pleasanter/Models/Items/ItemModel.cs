@@ -653,23 +653,19 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (ReferenceType)
             {
-                case "Sites": return new SiteModel(ReferenceId)
-                    .EditorJson();
-                case "Issues": return new IssueModel(
+                case "Sites": return SiteUtilities.EditorJson(ReferenceId);
+                case "Issues": return IssueUtilities.EditorJson(
                     Site.IssuesSiteSettings(),
                     Site.PermissionType,
-                    ReferenceId)
-                        .EditorJson();
-                case "Results": return new ResultModel(
+                    ReferenceId);
+                case "Results": return ResultUtilities.EditorJson(
                     Site.ResultsSiteSettings(),
                     Site.PermissionType,
-                    ReferenceId)
-                        .EditorJson();
-                case "Wikis": return new WikiModel(
+                    ReferenceId);
+                case "Wikis": return WikiUtilities.EditorJson(
                     Site.WikisSiteSettings(),
                     Site.PermissionType,
-                    ReferenceId)
-                        .EditorJson();
+                    ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }

@@ -403,11 +403,6 @@ namespace Implem.Pleasanter.Models
             return Editor();
         }
 
-        public string EditorJson()
-        {
-            return EditorJson(this);
-        }
-
         private string EditorJson(ExportSettingModel exportSettingModel, Message message = null)
         {
             exportSettingModel.MethodType = MethodTypes.Edit;

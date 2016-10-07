@@ -41,6 +41,24 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string EditorJson(long siteId)
+        {
+            return EditorResponse(new SiteModel(siteId)).ToJson();
+        }
+
+        private static ResponseCollection EditorResponse(
+            SiteModel siteModel, Message message = null)
+        {
+            siteModel.MethodType = BaseModel.MethodTypes.Edit;
+            return new SitesResponseCollection(siteModel)
+                .Invoke("clearDialogs")
+                .ReplaceAll("#MainContainer", Editor(siteModel))
+                .Invoke("setCurrentIndex")
+                .Invoke("validateSites")
+                .Message(message)
+                .ClearFormData();
+        }
+
         public static List<long> GetSwitchTargets(SiteSettings siteSettings, long siteId)
         {
             var switchTargets = Forms.Data("SwitchTargets").Split(',')
@@ -217,18 +235,6 @@ namespace Implem.Pleasanter.Models
             {
                 return EditorResponse(siteModel).ToJson();
             }
-        }
-
-        private static ResponseCollection EditorResponse(SiteModel siteModel, Message message = null)
-        {
-            siteModel.MethodType = BaseModel.MethodTypes.Edit;
-            return new SitesResponseCollection(siteModel)
-                .Invoke("clearDialogs")
-                .ReplaceAll("#MainContainer", Editor(siteModel))
-                .Invoke("setCurrentIndex")
-                .Invoke("validateSites")
-                .Message(message)
-                .ClearFormData();
         }
 
         public static string TitleDisplayValue(SiteSettings siteSettings, SiteModel siteModel)

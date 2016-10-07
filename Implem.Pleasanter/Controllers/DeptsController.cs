@@ -58,11 +58,10 @@ namespace Implem.Pleasanter.Controllers
             else
             {
                 var log = new SysLogModel();
-                var json = new DeptModel(
+                var json = DeptUtilities.EditorJson(
                     SiteSettingsUtility.DeptsSiteSettings(),
                     Permissions.Admins(),
-                    id)
-                        .EditorJson();
+                    id);
                 log.Finish(json.Length);
                 return Content(json);
             }

@@ -461,6 +461,26 @@ namespace Implem.Pleasanter.Models
             return hb;
         }
 
+        public static string EditorJson(
+            SiteSettings siteSettings, Permissions.Types permissionType, int deptId)
+        {
+            return EditorResponse(new DeptModel(siteSettings, permissionType, deptId))
+                .ToJson();
+        }
+
+        private static ResponseCollection EditorResponse(
+            DeptModel deptModel, Message message = null)
+        {
+            deptModel.MethodType = BaseModel.MethodTypes.Edit;
+            return new DeptsResponseCollection(deptModel)
+                .Invoke("clearDialogs")
+                .ReplaceAll("#MainContainer", Editor(deptModel))
+                .Invoke("setCurrentIndex")
+                .Invoke("validateDepts")
+                .Message(message)
+                .ClearFormData();
+        }
+
         public static List<int> GetSwitchTargets(SiteSettings siteSettings)
         {
             var switchTargets = Forms.Data("SwitchTargets").Split(',')

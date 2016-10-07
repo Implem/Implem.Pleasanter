@@ -435,6 +435,27 @@ namespace Implem.Pleasanter.Models
             return hb;
         }
 
+        public static string EditorJson(
+            SiteSettings siteSettings, Permissions.Types permissionType, long wikiId)
+        {
+            return EditorResponse(new WikiModel(siteSettings, permissionType, wikiId))
+                .ToJson();
+        }
+
+        private static ResponseCollection EditorResponse(
+            WikiModel wikiModel, Message message = null)
+        {
+            var siteModel = new SiteModel(wikiModel.SiteId);
+            wikiModel.MethodType = BaseModel.MethodTypes.Edit;
+            return new WikisResponseCollection(wikiModel)
+                .Invoke("clearDialogs")
+                .ReplaceAll("#MainContainer", Editor(siteModel, wikiModel))
+                .Invoke("setCurrentIndex")
+                .Invoke("validateWikis")
+                .Message(message)
+                .ClearFormData();
+        }
+
         public static List<long> GetSwitchTargets(SiteSettings siteSettings, long siteId)
         {
             var switchTargets = Forms.Data("SwitchTargets").Split(',')
@@ -589,19 +610,6 @@ namespace Implem.Pleasanter.Models
             {
                 return EditorResponse(wikiModel).ToJson();
             }
-        }
-
-        private static ResponseCollection EditorResponse(WikiModel wikiModel, Message message = null)
-        {
-            var siteModel = new SiteModel(wikiModel.SiteId);
-            wikiModel.MethodType = BaseModel.MethodTypes.Edit;
-            return new WikisResponseCollection(wikiModel)
-                .Invoke("clearDialogs")
-                .ReplaceAll("#MainContainer", Editor(siteModel, wikiModel))
-                .Invoke("setCurrentIndex")
-                .Invoke("validateWikis")
-                .Message(message)
-                .ClearFormData();
         }
 
         public static string BulkMove(SiteSettings siteSettings, Permissions.Types permissionType)
