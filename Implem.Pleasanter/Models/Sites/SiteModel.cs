@@ -136,11 +136,15 @@ namespace Implem.Pleasanter.Models
         }
 
         public SiteModel(
+            long parentId,
+            long inheritPermission,
             bool setByForm = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
             SiteSettings = this.SitesSiteSettings();
+            ParentId = parentId;
+            InheritPermission = inheritPermission;
             if (setByForm) SetByForm();
             MethodType = methodType;
             OnConstructed();
@@ -555,15 +559,8 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string Create(
-            Permissions.Types permissionType,
-            long parentId,
-            long inheritPermission,
-            bool paramAll = false)
+        public Error.Types Create(bool paramAll = false)
         {
-            SiteId = 0;
-            ParentId = parentId;
-            InheritPermission = inheritPermission;
             if (!paramAll) SiteSettings = new SiteSettings(ReferenceType);
             var newId = Rds.ExecuteScalar_long(
                 transactional: true,
@@ -580,9 +577,9 @@ namespace Implem.Pleasanter.Models
                             .Body(Body)
                             .ReferenceType(ReferenceType.MaxLength(32))
                             .ParentId(ParentId)
-                            .InheritPermission(raw: inheritPermission == 0
+                            .InheritPermission(raw: InheritPermission == 0
                                 ? Def.Sql.Identity
-                                : inheritPermission.ToString())
+                                : InheritPermission.ToString())
                             .SiteSettings(SiteSettings.RecordingJson())
                             .Comments(Comments.ToJson())),
                     Rds.UpdateItems(
@@ -605,7 +602,7 @@ namespace Implem.Pleasanter.Models
             switch (ReferenceType)
             {
                 case "Wikis":
-                    var wikiModel = new WikiModel(SiteSettings, permissionType)
+                    var wikiModel = new WikiModel(SiteSettings, PermissionType)
                     {
                         SiteId = SiteId,
                         Title = Title,
@@ -613,34 +610,9 @@ namespace Implem.Pleasanter.Models
                         Comments = Comments
                     };
                     wikiModel.Create();
-                    return new ResponseCollection()
-                        .ReplaceAll("#MainContainer", WikiUtilities.Editor(this, wikiModel))
-                        .ReplaceAll(
-                            "#ItemValidator",
-                            new HtmlBuilder().ItemValidator(referenceType: "Wikis"))
-                        .Val("#BackUrl", Navigations.ItemIndex(ParentId)).ToJson();
-                default:
-                    return PermissionType.CanEditSite()
-                        ? EditorJson(this, Messages.Created(Title.ToString()))
-                        : new ResponseCollection().Href(Navigations.ItemIndex(SiteId)).ToJson();
+                    break;
             }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public string Copy()
-        {
-            Title.Value += Displays.SuffixCopy();
-            if (!Forms.Data("CopyWithComments").ToBool())
-            {
-                Comments.Clear();
-            }
-            return Create(
-                permissionType: PermissionType,
-                parentId: ParentId,
-                inheritPermission: InheritPermission,
-                paramAll: true);
+            return Error.Types.None;
         }
 
         /// <summary>

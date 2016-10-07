@@ -102,6 +102,209 @@ namespace Implem.Pleasanter.Models
                     .Text(text: Displays.Get(selectedValue)));
         }
 
+        public static string Create(
+            Permissions.Types permissionType,
+            long parentId,
+            long inheritPermission)
+        {
+            var siteModel = new SiteModel(parentId, inheritPermission, setByForm: true);
+            var siteSettings = siteModel.SiteSettings;
+            var invalid = ValidateBeforeCreate(siteSettings, permissionType, siteModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var error = siteModel.Create();
+            if (error.Has())
+            {
+                return error.MessageJson();
+            }
+            else
+            {
+                switch (siteModel.ReferenceType)
+                {
+                    case "Wikis":
+                        var wikiModel = new WikiModel(siteSettings, permissionType)
+                        {
+                            SiteId = siteModel.SiteId,
+                            Title = siteModel.Title,
+                            Body = siteModel.Body,
+                            Comments = siteModel.Comments
+                        };
+                        wikiModel.Create();
+                        return new ResponseCollection()
+                            .ReplaceAll(
+                                "#MainContainer",
+                                WikiUtilities.Editor(siteModel, wikiModel))
+                            .ReplaceAll(
+                                "#ItemValidator",
+                                new HtmlBuilder().ItemValidator(referenceType: "Wikis"))
+                            .Val("#BackUrl", Navigations.ItemIndex(siteModel.ParentId)).ToJson();
+                    default:
+                        return permissionType.CanEditSite()
+                            ? EditorResponse(
+                                siteModel, Messages.Created(siteModel.Title.ToString())).ToJson()
+                            : new ResponseCollection().Href(
+                                Navigations.ItemIndex(siteModel.SiteId)).ToJson();
+                }
+            }
+        }
+
+        private static Error.Types ValidateBeforeCreate(
+            SiteSettings siteSettings, Permissions.Types permissionType, SiteModel siteModel)
+        {
+            if (!permissionType.CanEditSite())
+            {
+                return Error.Types.HasNotPermission;
+            }
+            foreach(var controlId in Forms.Keys())
+            {
+                switch (controlId)
+                {
+                    case "Sites_TenantId":
+                        if (!siteSettings.GetColumn("TenantId").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_SiteId":
+                        if (!siteSettings.GetColumn("SiteId").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_UpdatedTime":
+                        if (!siteSettings.GetColumn("UpdatedTime").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_Ver":
+                        if (!siteSettings.GetColumn("Ver").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_Title":
+                        if (!siteSettings.GetColumn("Title").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_Body":
+                        if (!siteSettings.GetColumn("Body").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_TitleBody":
+                        if (!siteSettings.GetColumn("TitleBody").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_ReferenceType":
+                        if (!siteSettings.GetColumn("ReferenceType").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_ParentId":
+                        if (!siteSettings.GetColumn("ParentId").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_InheritPermission":
+                        if (!siteSettings.GetColumn("InheritPermission").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_PermissionType":
+                        if (!siteSettings.GetColumn("PermissionType").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_SiteSettings":
+                        if (!siteSettings.GetColumn("SiteSettings").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_Ancestors":
+                        if (!siteSettings.GetColumn("Ancestors").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_PermissionSourceCollection":
+                        if (!siteSettings.GetColumn("PermissionSourceCollection").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_PermissionDestinationCollection":
+                        if (!siteSettings.GetColumn("PermissionDestinationCollection").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_SiteMenu":
+                        if (!siteSettings.GetColumn("SiteMenu").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_MonitorChangesColumns":
+                        if (!siteSettings.GetColumn("MonitorChangesColumns").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_Comments":
+                        if (!siteSettings.GetColumn("Comments").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_Creator":
+                        if (!siteSettings.GetColumn("Creator").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_Updator":
+                        if (!siteSettings.GetColumn("Updator").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_CreatedTime":
+                        if (!siteSettings.GetColumn("CreatedTime").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_VerUp":
+                        if (!siteSettings.GetColumn("VerUp").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_Timestamp":
+                        if (!siteSettings.GetColumn("Timestamp").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                }
+            }
+            return Error.Types.None;
+        }
+
         public static string Update(
             SiteSettings siteSettings, Permissions.Types permissionType, long siteId)
         {
@@ -110,8 +313,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default:
-                    return new ResponseCollection().Message(invalid.Message()).ToJson();
+                default: return new ResponseCollection().Message(invalid.Message()).ToJson();
             }
             if (siteModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
@@ -304,6 +506,36 @@ namespace Implem.Pleasanter.Models
                     baseModel: siteModel, tableName: "Sites"))
                 .Message(Messages.Updated(siteModel.Title.ToString()))
                 .RemoveComment(siteModel.DeleteCommentId, _using: siteModel.DeleteCommentId != 0)
+                .ClearFormData();
+        }
+
+        public static string Copy(SiteModel siteModel)
+        {
+            siteModel.Title.Value += Displays.SuffixCopy();
+            if (!Forms.Data("CopyWithComments").ToBool())
+            {
+                siteModel.Comments.Clear();
+            }
+            var error = siteModel.Create(paramAll: true);
+            if (error.Has())
+            {
+                return error.MessageJson();
+            }
+            else
+            {
+                return EditorResponse(siteModel).ToJson();
+            }
+        }
+
+        private static ResponseCollection EditorResponse(SiteModel siteModel, Message message = null)
+        {
+            siteModel.MethodType = BaseModel.MethodTypes.Edit;
+            return new SitesResponseCollection(siteModel)
+                .Invoke("clearDialogs")
+                .ReplaceAll("#MainContainer", Editor(siteModel))
+                .Invoke("setCurrentIndex")
+                .Invoke("validateSites")
+                .Message(message)
                 .ClearFormData();
         }
 

@@ -139,14 +139,11 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public string Create(
+        public Error.Types Create(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool paramAll = false)
         {
-            var error = ValidateBeforeCreate();
-            if (error != null) return error;
-            OnCreating();
             var newId = Rds.ExecuteScalar_long(
                 transactional: true,
                 statements: new SqlStatement[]
@@ -159,54 +156,7 @@ namespace Implem.Pleasanter.Models
                 });
             OutgoingMailId = newId != 0 ? newId : OutgoingMailId;
             Get();
-            OnCreated();
-            return EditorJson(this, Messages.Created(Title.ToString()));
-        }
-
-        private void OnCreating()
-        {
-        }
-
-        private void OnCreated()
-        {
-        }
-
-        private string ValidateBeforeCreate()
-        {
-            if (!PermissionType.CanCreate())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            foreach(var controlId in Forms.Keys())
-            {
-                switch (controlId)
-                {
-                    case "OutgoingMails_ReferenceType": if (!SiteSettings.GetColumn("ReferenceType").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_ReferenceId": if (!SiteSettings.GetColumn("ReferenceId").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_ReferenceVer": if (!SiteSettings.GetColumn("ReferenceVer").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_OutgoingMailId": if (!SiteSettings.GetColumn("OutgoingMailId").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_Ver": if (!SiteSettings.GetColumn("Ver").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_Host": if (!SiteSettings.GetColumn("Host").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_Port": if (!SiteSettings.GetColumn("Port").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_From": if (!SiteSettings.GetColumn("From").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_To": if (!SiteSettings.GetColumn("To").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_Cc": if (!SiteSettings.GetColumn("Cc").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_Bcc": if (!SiteSettings.GetColumn("Bcc").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_Title": if (!SiteSettings.GetColumn("Title").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_Body": if (!SiteSettings.GetColumn("Body").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_SentTime": if (!SiteSettings.GetColumn("SentTime").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_DestinationSearchRange": if (!SiteSettings.GetColumn("DestinationSearchRange").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_DestinationSearchText": if (!SiteSettings.GetColumn("DestinationSearchText").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_Comments": if (!SiteSettings.GetColumn("Comments").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_Creator": if (!SiteSettings.GetColumn("Creator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_Updator": if (!SiteSettings.GetColumn("Updator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_CreatedTime": if (!SiteSettings.GetColumn("CreatedTime").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_UpdatedTime": if (!SiteSettings.GetColumn("UpdatedTime").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_VerUp": if (!SiteSettings.GetColumn("VerUp").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "OutgoingMails_Timestamp": if (!SiteSettings.GetColumn("Timestamp").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                }
-            }
-            return null;
+            return Error.Types.None;
         }
 
         public Error.Types Update(SqlParamCollection param = null, bool paramAll = false)

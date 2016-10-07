@@ -357,31 +357,21 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (Site.ReferenceType)
             {
-                case "Sites": return new SiteModel(setByForm: true) { ParentId = Site.SiteId }
-                    .Create(
-                        permissionType: ReferenceId != 0
-                            ? Site.PermissionType
-                            : Permissions.Types.Manager,
-                        parentId: ReferenceId,
-                        inheritPermission: Site.InheritPermission);
-                case "Issues": return new IssueModel(
+                case "Sites": return SiteUtilities.Create(
+                    permissionType: Site.SiteId != 0
+                        ? Site.PermissionType
+                        : Permissions.Types.Manager,
+                    parentId: Site.SiteId,
+                    inheritPermission: Site.InheritPermission);
+                case "Issues": return IssueUtilities.Create(
                     siteSettings: Site.IssuesSiteSettings(),
-                    permissionType: Site.PermissionType,
-                    issueId: 0,
-                    setByForm: true)
-                        .Create();
-                case "Results": return new ResultModel(
+                    permissionType: Site.PermissionType);
+                case "Results": return ResultUtilities.Create(
                     siteSettings: Site.ResultsSiteSettings(),
-                    permissionType: Site.PermissionType,
-                    resultId: 0,
-                    setByForm: true)
-                        .Create();
-                case "Wikis": return new WikiModel(
+                    permissionType: Site.PermissionType);
+                case "Wikis": return WikiUtilities.Create(
                     siteSettings: Site.WikisSiteSettings(),
-                    permissionType: Site.PermissionType,
-                    wikiId: 0,
-                    setByForm: true)
-                        .Create();
+                    permissionType: Site.PermissionType);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -425,26 +415,13 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (ReferenceType)
             {
-                case "Sites": return new SiteModel(ReferenceId, setByForm: true)
-                    .Copy();
-                case "Issues": return new IssueModel(
-                    Site.IssuesSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId,
-                    setByForm: true)
-                        .Copy();
-                case "Results": return new ResultModel(
-                    Site.ResultsSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId,
-                    setByForm: true)
-                        .Copy();
-                case "Wikis": return new WikiModel(
-                    Site.WikisSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId,
-                    setByForm: true)
-                        .Copy();
+                case "Sites": return SiteUtilities.Copy(Site);
+                case "Issues": return IssueUtilities.Copy(
+                    Site.SiteSettings, PermissionType, ReferenceId);
+                case "Results": return ResultUtilities.Copy(
+                    Site.SiteSettings, PermissionType, ReferenceId);
+                case "Wikis": return WikiUtilities.Copy(
+                    Site.SiteSettings, PermissionType, ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }

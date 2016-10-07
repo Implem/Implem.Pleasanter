@@ -157,14 +157,11 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public string Create(
+        public Error.Types Create(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool paramAll = false)
         {
-            var error = ValidateBeforeCreate();
-            if (error != null) return error;
-            OnCreating();
             var newId = Rds.ExecuteScalar_long(
                 transactional: true,
                 statements: new SqlStatement[]
@@ -177,55 +174,7 @@ namespace Implem.Pleasanter.Models
                 });
             BinaryId = newId != 0 ? newId : BinaryId;
             Get();
-            OnCreated();
-            return EditorJson(this, Messages.Created(Title.ToString()));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void OnCreating()
-        {
-            Size = Bin.Length;
-        }
-
-        private void OnCreated()
-        {
-        }
-
-        private string ValidateBeforeCreate()
-        {
-            if (!PermissionType.CanCreate())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            foreach(var controlId in Forms.Keys())
-            {
-                switch (controlId)
-                {
-                    case "Binaries_ReferenceId": if (!SiteSettings.GetColumn("ReferenceId").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Binaries_BinaryId": if (!SiteSettings.GetColumn("BinaryId").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Binaries_Ver": if (!SiteSettings.GetColumn("Ver").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Binaries_BinaryType": if (!SiteSettings.GetColumn("BinaryType").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Binaries_Title": if (!SiteSettings.GetColumn("Title").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Binaries_Body": if (!SiteSettings.GetColumn("Body").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Binaries_Bin": if (!SiteSettings.GetColumn("Bin").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Binaries_Thumbnail": if (!SiteSettings.GetColumn("Thumbnail").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Binaries_Icon": if (!SiteSettings.GetColumn("Icon").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Binaries_FileName": if (!SiteSettings.GetColumn("FileName").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Binaries_Extension": if (!SiteSettings.GetColumn("Extension").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Binaries_Size": if (!SiteSettings.GetColumn("Size").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Binaries_BinarySettings": if (!SiteSettings.GetColumn("BinarySettings").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Binaries_Comments": if (!SiteSettings.GetColumn("Comments").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Binaries_Creator": if (!SiteSettings.GetColumn("Creator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Binaries_Updator": if (!SiteSettings.GetColumn("Updator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Binaries_CreatedTime": if (!SiteSettings.GetColumn("CreatedTime").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Binaries_UpdatedTime": if (!SiteSettings.GetColumn("UpdatedTime").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Binaries_VerUp": if (!SiteSettings.GetColumn("VerUp").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Binaries_Timestamp": if (!SiteSettings.GetColumn("Timestamp").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                }
-            }
-            return null;
+            return Error.Types.None;
         }
 
         public Error.Types Update(SqlParamCollection param = null, bool paramAll = false)
@@ -517,6 +466,14 @@ namespace Implem.Pleasanter.Models
                     BinaryUtilities.Editor(this))
                 .Invoke("validateBinaries")
                 .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OnCreating()
+        {
+            Size = Bin.Length;
         }
 
         /// <summary>

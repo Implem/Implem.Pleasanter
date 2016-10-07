@@ -213,14 +213,11 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public string Create(
+        public Error.Types Create(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool paramAll = false)
         {
-            var error = ValidateBeforeCreate();
-            if (error != null) return error;
-            OnCreating();
             var newId = Rds.ExecuteScalar_int(
                 transactional: true,
                 statements: new SqlStatement[]
@@ -233,85 +230,7 @@ namespace Implem.Pleasanter.Models
                 });
             UserId = newId != 0 ? newId : UserId;
             Get();
-            OnCreated();
-            return EditorJson(this, Messages.Created(Title.ToString()));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void OnCreating()
-        {
-            PasswordExpirationPeriod();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void OnCreated()
-        {
-            SetSiteInfo();
-        }
-
-        private string ValidateBeforeCreate()
-        {
-            if (!PermissionType.CanEditTenant() && !Self())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            foreach(var controlId in Forms.Keys())
-            {
-                switch (controlId)
-                {
-                    case "Users_TenantId": if (!SiteSettings.GetColumn("TenantId").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_UserId": if (!SiteSettings.GetColumn("UserId").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_Ver": if (!SiteSettings.GetColumn("Ver").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_LoginId": if (!SiteSettings.GetColumn("LoginId").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_Disabled": if (!SiteSettings.GetColumn("Disabled").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_UserCode": if (!SiteSettings.GetColumn("UserCode").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_Password": if (!SiteSettings.GetColumn("Password").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_PasswordValidate": if (!SiteSettings.GetColumn("PasswordValidate").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_PasswordDummy": if (!SiteSettings.GetColumn("PasswordDummy").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_RememberMe": if (!SiteSettings.GetColumn("RememberMe").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_LastName": if (!SiteSettings.GetColumn("LastName").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_FirstName": if (!SiteSettings.GetColumn("FirstName").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_FullName1": if (!SiteSettings.GetColumn("FullName1").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_FullName2": if (!SiteSettings.GetColumn("FullName2").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_Birthday": if (!SiteSettings.GetColumn("Birthday").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_Sex": if (!SiteSettings.GetColumn("Sex").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_Language": if (!SiteSettings.GetColumn("Language").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_TimeZone": if (!SiteSettings.GetColumn("TimeZone").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_TimeZoneInfo": if (!SiteSettings.GetColumn("TimeZoneInfo").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_DeptId": if (!SiteSettings.GetColumn("DeptId").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_Dept": if (!SiteSettings.GetColumn("Dept").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_FirstAndLastNameOrder": if (!SiteSettings.GetColumn("FirstAndLastNameOrder").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_Title": if (!SiteSettings.GetColumn("Title").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_LastLoginTime": if (!SiteSettings.GetColumn("LastLoginTime").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_PasswordExpirationTime": if (!SiteSettings.GetColumn("PasswordExpirationTime").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_PasswordChangeTime": if (!SiteSettings.GetColumn("PasswordChangeTime").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_NumberOfLogins": if (!SiteSettings.GetColumn("NumberOfLogins").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_NumberOfDenial": if (!SiteSettings.GetColumn("NumberOfDenial").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_TenantAdmin": if (!SiteSettings.GetColumn("TenantAdmin").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_ServiceAdmin": if (!SiteSettings.GetColumn("ServiceAdmin").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_Developer": if (!SiteSettings.GetColumn("Developer").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_OldPassword": if (!SiteSettings.GetColumn("OldPassword").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_ChangedPassword": if (!SiteSettings.GetColumn("ChangedPassword").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_ChangedPasswordValidator": if (!SiteSettings.GetColumn("ChangedPasswordValidator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_AfterResetPassword": if (!SiteSettings.GetColumn("AfterResetPassword").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_AfterResetPasswordValidator": if (!SiteSettings.GetColumn("AfterResetPasswordValidator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_MailAddresses": if (!SiteSettings.GetColumn("MailAddresses").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_DemoMailAddress": if (!SiteSettings.GetColumn("DemoMailAddress").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_SessionGuid": if (!SiteSettings.GetColumn("SessionGuid").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_Comments": if (!SiteSettings.GetColumn("Comments").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_Creator": if (!SiteSettings.GetColumn("Creator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_Updator": if (!SiteSettings.GetColumn("Updator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_CreatedTime": if (!SiteSettings.GetColumn("CreatedTime").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_UpdatedTime": if (!SiteSettings.GetColumn("UpdatedTime").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_VerUp": if (!SiteSettings.GetColumn("VerUp").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Users_Timestamp": if (!SiteSettings.GetColumn("Timestamp").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                }
-            }
-            return null;
+            return Error.Types.None;
         }
 
         public Error.Types Update(SqlParamCollection param = null, bool paramAll = false)
@@ -642,6 +561,22 @@ namespace Implem.Pleasanter.Models
                     UserUtilities.Editor(this))
                 .Invoke("validateUsers")
                 .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OnCreating()
+        {
+            PasswordExpirationPeriod();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OnCreated()
+        {
+            SetSiteInfo();
         }
 
         /// <summary>

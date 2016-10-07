@@ -148,14 +148,11 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public string Create(
+        public Error.Types Create(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
             bool paramAll = false)
         {
-            var error = ValidateBeforeCreate();
-            if (error != null) return error;
-            OnCreating();
             var newId = Rds.ExecuteScalar_long(
                 transactional: true,
                 statements: new SqlStatement[]
@@ -181,44 +178,7 @@ namespace Implem.Pleasanter.Models
                         .Title(WikiUtilities.TitleDisplayValue(SiteSettings, this))
                         .Subset(Jsons.ToJson(new WikiSubset(this, SiteSettings))),
                     where: Rds.ItemsWhere().ReferenceId(WikiId)));
-            OnCreated();
-            return EditorJson(this, Messages.Created(Title.ToString()));
-        }
-
-        private void OnCreating()
-        {
-        }
-
-        private void OnCreated()
-        {
-        }
-
-        private string ValidateBeforeCreate()
-        {
-            if (!PermissionType.CanCreate())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            foreach(var controlId in Forms.Keys())
-            {
-                switch (controlId)
-                {
-                    case "Wikis_SiteId": if (!SiteSettings.GetColumn("SiteId").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Wikis_UpdatedTime": if (!SiteSettings.GetColumn("UpdatedTime").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Wikis_WikiId": if (!SiteSettings.GetColumn("WikiId").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Wikis_Ver": if (!SiteSettings.GetColumn("Ver").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Wikis_Title": if (!SiteSettings.GetColumn("Title").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Wikis_Body": if (!SiteSettings.GetColumn("Body").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Wikis_TitleBody": if (!SiteSettings.GetColumn("TitleBody").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Wikis_Comments": if (!SiteSettings.GetColumn("Comments").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Wikis_Creator": if (!SiteSettings.GetColumn("Creator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Wikis_Updator": if (!SiteSettings.GetColumn("Updator").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Wikis_CreatedTime": if (!SiteSettings.GetColumn("CreatedTime").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Wikis_VerUp": if (!SiteSettings.GetColumn("VerUp").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                    case "Wikis_Timestamp": if (!SiteSettings.GetColumn("Timestamp").CanCreate(PermissionType)) return Messages.ResponseInvalidRequest().ToJson(); break;
-                }
-            }
-            return null;
+            return Error.Types.None;
         }
 
         public Error.Types Update(SqlParamCollection param = null, bool paramAll = false)
@@ -315,20 +275,6 @@ namespace Implem.Pleasanter.Models
 
         private void OnUpdatedOrCreated(ref WikisResponseCollection responseCollection)
         {
-        }
-
-        public string Copy()
-        {
-            WikiId = 0;
-            if (SiteSettings.EditorColumnsOrder.Contains("Title"))
-            {
-                Title.Value += Displays.SuffixCopy();
-            }
-            if (!Forms.Data("CopyWithComments").ToBool())
-            {
-                Comments.Clear();
-            }
-            return Create(paramAll: true);
         }
 
         public string Move()

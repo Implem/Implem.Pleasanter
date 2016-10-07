@@ -90,10 +90,9 @@ namespace Implem.Pleasanter.Controllers
         public string Create()
         {
             var log = new SysLogModel();
-            var json = new UserModel(
+            var json = UserUtilities.Create(
                 SiteSettingsUtility.UsersSiteSettings(),
-                Permissions.Admins(),
-                setByForm: true).Create();
+                Permissions.Admins());
             log.Finish(json.Length);
             return json;
         }

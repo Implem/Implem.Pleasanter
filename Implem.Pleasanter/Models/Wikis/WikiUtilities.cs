@@ -507,6 +507,125 @@ namespace Implem.Pleasanter.Models
             return responseCollection;
         }
 
+        public static string Create(SiteSettings siteSettings, Permissions.Types permissionType)
+        {
+            var wikiModel = new WikiModel(siteSettings, permissionType, 0, setByForm: true);
+            var invalid = ValidateBeforeCreate(siteSettings, permissionType, wikiModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var error = wikiModel.Create();
+            if (error.Has())
+            {
+                return error.MessageJson();
+            }
+            else
+            {
+                var responseCollection = new WikisResponseCollection(wikiModel);
+                responseCollection.ReplaceAll("#Breadcrumb", new HtmlBuilder()
+                    .Breadcrumb(siteSettings.SiteId));
+                return ResponseByUpdate(wikiModel, responseCollection)
+                    .PrependComment(wikiModel.Comments, wikiModel.VerType)
+                    .ToJson();
+            }
+        }
+
+        private static Error.Types ValidateBeforeCreate(
+            SiteSettings siteSettings, Permissions.Types permissionType, WikiModel wikiModel)
+        {
+            if (!permissionType.CanCreate())
+            {
+                return Error.Types.HasNotPermission;
+            }
+            foreach(var controlId in Forms.Keys())
+            {
+                switch (controlId)
+                {
+                    case "Wikis_SiteId":
+                        if (!siteSettings.GetColumn("SiteId").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Wikis_UpdatedTime":
+                        if (!siteSettings.GetColumn("UpdatedTime").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Wikis_WikiId":
+                        if (!siteSettings.GetColumn("WikiId").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Wikis_Ver":
+                        if (!siteSettings.GetColumn("Ver").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Wikis_Title":
+                        if (!siteSettings.GetColumn("Title").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Wikis_Body":
+                        if (!siteSettings.GetColumn("Body").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Wikis_TitleBody":
+                        if (!siteSettings.GetColumn("TitleBody").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Wikis_Comments":
+                        if (!siteSettings.GetColumn("Comments").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Wikis_Creator":
+                        if (!siteSettings.GetColumn("Creator").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Wikis_Updator":
+                        if (!siteSettings.GetColumn("Updator").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Wikis_CreatedTime":
+                        if (!siteSettings.GetColumn("CreatedTime").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Wikis_VerUp":
+                        if (!siteSettings.GetColumn("VerUp").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Wikis_Timestamp":
+                        if (!siteSettings.GetColumn("Timestamp").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                }
+            }
+            return Error.Types.None;
+        }
+
         public static string Update(
             SiteSettings siteSettings, Permissions.Types permissionType, long wikiId)
         {
@@ -516,8 +635,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default:
-                    return new ResponseCollection().Message(invalid.Message()).ToJson();
+                default: return new ResponseCollection().Message(invalid.Message()).ToJson();
             }
             if (wikiModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
@@ -652,6 +770,43 @@ namespace Implem.Pleasanter.Models
                 .Html("#Links", new HtmlBuilder().Links(wikiModel.WikiId))
                 .Message(Messages.Updated(wikiModel.Title.ToString()))
                 .RemoveComment(wikiModel.DeleteCommentId, _using: wikiModel.DeleteCommentId != 0)
+                .ClearFormData();
+        }
+
+        public static string Copy(SiteSettings siteSettings, Permissions.Types permissionType, long wikiId)
+        {
+            var wikiModel = new WikiModel(
+                siteSettings, permissionType, wikiId, setByForm: true);
+            wikiModel.WikiId = 0;
+            if (siteSettings.EditorColumnsOrder.Contains("Title"))
+            {
+                wikiModel.Title.Value += Displays.SuffixCopy();
+            }
+            if (!Forms.Data("CopyWithComments").ToBool())
+            {
+                wikiModel.Comments.Clear();
+            }
+            var error = wikiModel.Create(paramAll: true);
+            if (error.Has())
+            {
+                return error.MessageJson();
+            }
+            else
+            {
+                return EditorResponse(wikiModel).ToJson();
+            }
+        }
+
+        private static ResponseCollection EditorResponse(WikiModel wikiModel, Message message = null)
+        {
+            var siteModel = new SiteModel(wikiModel.SiteId);
+            wikiModel.MethodType = BaseModel.MethodTypes.Edit;
+            return new WikisResponseCollection(wikiModel)
+                .Invoke("clearDialogs")
+                .ReplaceAll("#MainContainer", Editor(siteModel, wikiModel))
+                .Invoke("setCurrentIndex")
+                .Invoke("validateWikis")
+                .Message(message)
                 .ClearFormData();
         }
 
