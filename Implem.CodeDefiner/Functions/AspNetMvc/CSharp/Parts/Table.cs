@@ -37,6 +37,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
         {
             if (codeDefinition.ItemOnly && !Def.ExistsTable(tableName, o => o.ItemId > 0)) return true;
             if (codeDefinition.NotItem && Def.ExistsTable(tableName, o => o.ItemId > 0)) return true;
+            if (codeDefinition.GenericUi && !Def.ExistsTable(tableName, o => o.GenericUi)) return true;
             if (codeDefinition.HasIdentity && !Def.ExistsTable(tableName, o => o.Identity)) return true;
             if (codeDefinition.HasNotIdentity && Def.ExistsTable(tableName, o => o.Identity)) return true;
             if (codeDefinition.HasTableNameId && tableName.CsTypeIdColumn() == string.Empty) return true;
