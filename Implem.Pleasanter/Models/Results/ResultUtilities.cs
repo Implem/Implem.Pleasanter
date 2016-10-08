@@ -964,6 +964,27 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string Restore(long resultId)
+        {
+            var resultModel = new ResultModel();
+            var invalid = ResultValidator.OnRestoring();
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var error = resultModel.Restore(resultId);
+            if (error.Has())
+            {
+                return error.MessageJson();
+            }
+            else
+            {
+                var responseCollection = new ResultsResponseCollection(resultModel);
+                return responseCollection.ToJson();
+            }
+        }
+
         public static string BulkMove(SiteSettings siteSettings, Permissions.Types permissionType)
         {
             var siteId = Forms.Long("MoveTargets");

@@ -637,6 +637,27 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string Restore(long wikiId)
+        {
+            var wikiModel = new WikiModel();
+            var invalid = WikiValidator.OnRestoring();
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var error = wikiModel.Restore(wikiId);
+            if (error.Has())
+            {
+                return error.MessageJson();
+            }
+            else
+            {
+                var responseCollection = new WikisResponseCollection(wikiModel);
+                return responseCollection.ToJson();
+            }
+        }
+
         public static string BulkMove(SiteSettings siteSettings, Permissions.Types permissionType)
         {
             var siteId = Forms.Long("MoveTargets");

@@ -296,6 +296,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetTenantId": Code.Model_SetTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTenantId, definitionRow, CodeXls); break;
                     case "Model_SetSiteId": Code.Model_SetSiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSiteId, definitionRow, CodeXls); break;
                     case "Model_Create": Code.Model_Create = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Create, definitionRow, CodeXls); break;
+                    case "Model_OnCreating_Users": Code.Model_OnCreating_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnCreating_Users, definitionRow, CodeXls); break;
                     case "Model_InsertItems": Code.Model_InsertItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertItems, definitionRow, CodeXls); break;
                     case "Model_InsertItemsAfter": Code.Model_InsertItemsAfter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertItemsAfter, definitionRow, CodeXls); break;
                     case "Model_SelectIdentity": Code.Model_SelectIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SelectIdentity, definitionRow, CodeXls); break;
@@ -474,6 +475,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utility_RedirectAfterDeleteItem": Code.Model_Utility_RedirectAfterDeleteItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_RedirectAfterDeleteItem, definitionRow, CodeXls); break;
                     case "Model_Utility_RedirectAfterDelete_Sites": Code.Model_Utility_RedirectAfterDelete_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_RedirectAfterDelete_Sites, definitionRow, CodeXls); break;
                     case "Model_Utility_RedirectAfterDelete_Wikis": Code.Model_Utility_RedirectAfterDelete_Wikis = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_RedirectAfterDelete_Wikis, definitionRow, CodeXls); break;
+                    case "Model_Utility_Restore": Code.Model_Utility_Restore = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_Restore, definitionRow, CodeXls); break;
                     case "Model_Utility_TitleDisplay": Code.Model_Utility_TitleDisplay = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_TitleDisplay, definitionRow, CodeXls); break;
                     case "Model_Utility_ResponseLinks": Code.Model_Utility_ResponseLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_ResponseLinks, definitionRow, CodeXls); break;
                     case "Model_Utility_SiteModel": Code.Model_Utility_SiteModel = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_SiteModel, definitionRow, CodeXls); break;
@@ -3856,6 +3858,7 @@ namespace Implem.DefinitionAccessor
         public string Model_SetTenantId;
         public string Model_SetSiteId;
         public string Model_Create;
+        public string Model_OnCreating_Users;
         public string Model_InsertItems;
         public string Model_InsertItemsAfter;
         public string Model_SelectIdentity;
@@ -4034,6 +4037,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utility_RedirectAfterDeleteItem;
         public string Model_Utility_RedirectAfterDelete_Sites;
         public string Model_Utility_RedirectAfterDelete_Wikis;
+        public string Model_Utility_Restore;
         public string Model_Utility_TitleDisplay;
         public string Model_Utility_ResponseLinks;
         public string Model_Utility_SiteModel;
@@ -4279,6 +4283,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetTenantId = new CodeDefinition();
         public CodeDefinition Model_SetSiteId = new CodeDefinition();
         public CodeDefinition Model_Create = new CodeDefinition();
+        public CodeDefinition Model_OnCreating_Users = new CodeDefinition();
         public CodeDefinition Model_InsertItems = new CodeDefinition();
         public CodeDefinition Model_InsertItemsAfter = new CodeDefinition();
         public CodeDefinition Model_SelectIdentity = new CodeDefinition();
@@ -4457,6 +4462,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utility_RedirectAfterDeleteItem = new CodeDefinition();
         public CodeDefinition Model_Utility_RedirectAfterDelete_Sites = new CodeDefinition();
         public CodeDefinition Model_Utility_RedirectAfterDelete_Wikis = new CodeDefinition();
+        public CodeDefinition Model_Utility_Restore = new CodeDefinition();
         public CodeDefinition Model_Utility_TitleDisplay = new CodeDefinition();
         public CodeDefinition Model_Utility_ResponseLinks = new CodeDefinition();
         public CodeDefinition Model_Utility_SiteModel = new CodeDefinition();

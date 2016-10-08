@@ -245,12 +245,8 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public string Restore(long binaryId)
+        public Error.Types Restore(long binaryId)
         {
-            if (!Permissions.Admins().CanEditTenant())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
             BinaryId = binaryId;
             Rds.ExecuteNonQuery(
                 connectionString: Parameters.Rds.OwnerConnectionString,
@@ -260,7 +256,7 @@ namespace Implem.Pleasanter.Models
                     Rds.RestoreBinaries(
                         where: Rds.BinariesWhere().BinaryId(BinaryId))
                 });
-            return new ResponseCollection().ToJson();
+            return Error.Types.None;
         }
 
         public string PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)

@@ -889,12 +889,8 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public string Restore(long issueId)
+        public Error.Types Restore(long issueId)
         {
-            if (!Permissions.Admins().CanEditTenant())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
             IssueId = issueId;
             Rds.ExecuteNonQuery(
                 connectionString: Parameters.Rds.OwnerConnectionString,
@@ -906,7 +902,7 @@ namespace Implem.Pleasanter.Models
                     Rds.RestoreIssues(
                         where: Rds.IssuesWhere().IssueId(IssueId))
                 });
-            return new ResponseCollection().ToJson();
+            return Error.Types.None;
         }
 
         public string PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)

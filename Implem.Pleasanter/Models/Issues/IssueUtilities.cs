@@ -1004,6 +1004,27 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string Restore(long issueId)
+        {
+            var issueModel = new IssueModel();
+            var invalid = IssueValidator.OnRestoring();
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var error = issueModel.Restore(issueId);
+            if (error.Has())
+            {
+                return error.MessageJson();
+            }
+            else
+            {
+                var responseCollection = new IssuesResponseCollection(issueModel);
+                return responseCollection.ToJson();
+            }
+        }
+
         public static string EditSeparateSettings(
             SiteSettings siteSettings, Permissions.Types permissionType, long issueId)
         {

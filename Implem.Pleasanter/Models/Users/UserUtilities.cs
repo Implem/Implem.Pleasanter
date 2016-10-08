@@ -711,6 +711,27 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string Restore(int userId)
+        {
+            var userModel = new UserModel();
+            var invalid = UserValidator.OnRestoring();
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var error = userModel.Restore(userId);
+            if (error.Has())
+            {
+                return error.MessageJson();
+            }
+            else
+            {
+                var responseCollection = new UsersResponseCollection(userModel);
+                return responseCollection.ToJson();
+            }
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>

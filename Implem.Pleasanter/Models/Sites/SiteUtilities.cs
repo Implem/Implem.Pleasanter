@@ -262,6 +262,27 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string Restore(long siteId)
+        {
+            var siteModel = new SiteModel();
+            var invalid = SiteValidator.OnRestoring();
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var error = siteModel.Restore(siteId);
+            if (error.Has())
+            {
+                return error.MessageJson();
+            }
+            else
+            {
+                var responseCollection = new SitesResponseCollection(siteModel);
+                return responseCollection.ToJson();
+            }
+        }
+
         public static string TitleDisplayValue(SiteSettings siteSettings, SiteModel siteModel)
         {
             var displayValue = siteSettings.TitleColumnCollection()

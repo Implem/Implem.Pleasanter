@@ -323,5 +323,14 @@ namespace Implem.Pleasanter.Models
             }
             return Error.Types.None;
         }
+
+        public static Error.Types OnRestoring()
+        {
+            if (!Permissions.Admins().CanEditTenant())
+            {
+                return Error.Types.HasNotPermission;
+            }
+            return Error.Types.None;
+        }
     }
 }

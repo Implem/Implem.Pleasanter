@@ -617,6 +617,27 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string Restore(int deptId)
+        {
+            var deptModel = new DeptModel();
+            var invalid = DeptValidator.OnRestoring();
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var error = deptModel.Restore(deptId);
+            if (error.Has())
+            {
+                return error.MessageJson();
+            }
+            else
+            {
+                var responseCollection = new DeptsResponseCollection(deptModel);
+                return responseCollection.ToJson();
+            }
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>

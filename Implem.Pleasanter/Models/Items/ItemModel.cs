@@ -552,10 +552,10 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (ReferenceType)
             {
-                case "Sites": return new SiteModel().Restore(ReferenceId);
-                case "Issues": return new IssueModel().Restore(ReferenceId);
-                case "Results": return new ResultModel().Restore(ReferenceId);
-                case "Wikis": return new WikiModel().Restore(ReferenceId);
+                case "Sites": return SiteUtilities.Restore(siteId: ReferenceId);
+                case "Issues": return IssueUtilities.Restore(issueId: ReferenceId);
+                case "Results": return ResultUtilities.Restore(resultId: ReferenceId);
+                case "Wikis": return WikiUtilities.Restore(wikiId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }

@@ -217,12 +217,8 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public string Restore(int deptId)
+        public Error.Types Restore(int deptId)
         {
-            if (!Permissions.Admins().CanEditTenant())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
             DeptId = deptId;
             Rds.ExecuteNonQuery(
                 connectionString: Parameters.Rds.OwnerConnectionString,
@@ -232,7 +228,7 @@ namespace Implem.Pleasanter.Models
                     Rds.RestoreDepts(
                         where: Rds.DeptsWhere().DeptId(DeptId))
                 });
-            return new ResponseCollection().ToJson();
+            return Error.Types.None;
         }
 
         public string PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)

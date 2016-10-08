@@ -320,12 +320,8 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public string Restore(long wikiId)
+        public Error.Types Restore(long wikiId)
         {
-            if (!Permissions.Admins().CanEditTenant())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
             WikiId = wikiId;
             Rds.ExecuteNonQuery(
                 connectionString: Parameters.Rds.OwnerConnectionString,
@@ -337,7 +333,7 @@ namespace Implem.Pleasanter.Models
                     Rds.RestoreWikis(
                         where: Rds.WikisWhere().WikiId(WikiId))
                 });
-            return new ResponseCollection().ToJson();
+            return Error.Types.None;
         }
 
         public string PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
