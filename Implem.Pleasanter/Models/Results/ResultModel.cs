@@ -791,16 +791,11 @@ namespace Implem.Pleasanter.Models
             return LinkUtilities.Insert(link, selectIdentity);
         }
 
-        public string UpdateOrCreate(
+        public Error.Types UpdateOrCreate(
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
-            if (!PermissionType.CanUpdate())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
             SetBySession();
-            OnUpdatingOrCreating(ref where, ref param);
             var newId = Rds.ExecuteScalar_long(
                 transactional: true,
                 statements: new SqlStatement[]
@@ -818,19 +813,7 @@ namespace Implem.Pleasanter.Models
                 });
             ResultId = newId != 0 ? newId : ResultId;
             Get();
-            var responseCollection = new ResultsResponseCollection(this);
-            OnUpdatedOrCreated(ref responseCollection);
-            return responseCollection.ToJson();
-        }
-
-        private void OnUpdatingOrCreating(
-            ref SqlWhereCollection where,
-            ref SqlParamCollection param)
-        {
-        }
-
-        private void OnUpdatedOrCreated(ref ResultsResponseCollection responseCollection)
-        {
+            return Error.Types.None;
         }
 
         public string Move()

@@ -170,16 +170,11 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public string UpdateOrCreate(
+        public Error.Types UpdateOrCreate(
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
-            if (!PermissionType.CanEditSys())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
             SetBySession();
-            OnUpdatingOrCreating(ref where, ref param);
             var newId = Rds.ExecuteScalar_int(
                 transactional: true,
                 statements: new SqlStatement[]
@@ -191,19 +186,7 @@ namespace Implem.Pleasanter.Models
                 });
             DemoId = newId != 0 ? newId : DemoId;
             Get();
-            var responseCollection = new DemosResponseCollection(this);
-            OnUpdatedOrCreated(ref responseCollection);
-            return responseCollection.ToJson();
-        }
-
-        private void OnUpdatingOrCreating(
-            ref SqlWhereCollection where,
-            ref SqlParamCollection param)
-        {
-        }
-
-        private void OnUpdatedOrCreated(ref DemosResponseCollection responseCollection)
-        {
+            return Error.Types.None;
         }
 
         public Error.Types Delete()

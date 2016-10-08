@@ -347,6 +347,7 @@
     <Compile Include="Models\ExportSettings\ExportSettingCollection.cs" />
     <Compile Include="Models\ExportSettings\ExportSettingModel.cs" />
     <Compile Include="Models\ExportSettings\ExportSettingUtilities.cs" />
+    <Compile Include="Models\ExportSettings\ExportSettingValidator.cs" />
     <Compile Include="Models\Issues\IssueCollection.cs" />
     <Compile Include="Models\Issues\IssueModel.cs" />
     <Compile Include="Models\Issues\IssueSubset.cs" />

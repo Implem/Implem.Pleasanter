@@ -222,6 +222,59 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string UpdateOrCreate(
+            Permissions.Types permissionType, string referenceType, long referenceId)
+        {
+            var exportSettingModel = new ExportSettingModel(
+                permissionType, referenceType, referenceId, withTitle: true);
+            var invalid = ExportSettingValidator.OnUpdatingOrCreating(permissionType);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            if (exportSettingModel.ExportColumns.ReferenceType.IsNullOrEmpty())
+            {
+                exportSettingModel.ExportColumns.ReferenceType = exportSettingModel.ReferenceType;
+            }
+            if (Forms.Data("ExportSettings_Title") == string.Empty)
+            {
+                exportSettingModel.Title = new Title(0, Unique.New(
+                    new ExportSettingCollection(
+                        SiteSettingsUtility.ExportSettingsSiteSettings(),
+                        Permissions.Types.NotSet,
+                        where: Rds.ExportSettingsWhere()
+                            .ReferenceId(exportSettingModel.ReferenceId))
+                                .Select(o => o.Title?.Value),
+                    Displays.Setting()));
+            }
+            var error = exportSettingModel.UpdateOrCreate(where:
+                Rds.ExportSettingsWhere()
+                    .ReferenceId(exportSettingModel.ReferenceId)
+                    .Title(exportSettingModel.Title.Value));
+            if (error.Has())
+            {
+                return error.MessageJson();
+            }
+            else
+            {
+                return new ResponseCollection()
+                    .Html(
+                        "#ExportSettings_ExportSettingId",
+                        new HtmlBuilder().OptionCollection(
+                        optionCollection: Collection(referenceType, referenceId).ToDictionary(
+                            o => o.ExportSettingId.ToString(),
+                            o => new ControlData(o.Title.Value)),
+                        selectedValue: exportSettingModel.ExportSettingId.ToString(),
+                        addSelectedValue: false))
+                    .Val("#ExportSettings_Title", exportSettingModel.Title.Value)
+                    .ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string Delete(string referenceType, long referenceId)
         {
             var exportSettingModel = new ExportSettingModel(

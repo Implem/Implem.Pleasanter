@@ -43,10 +43,10 @@ namespace Implem.Pleasanter.Controllers
         public string UpdateOrCreate(string reference, long id)
         {
             var log = new SysLogModel();
-            var json = new ExportSettingModel(
-                Permissions.GetBySiteId(id),
-                SiteInfo.IndexReferenceType(reference, id), id, withTitle: true)
-                    .UpdateOrCreate();
+            var json = ExportSettingUtilities.UpdateOrCreate(
+                permissionType: Permissions.GetBySiteId(id),
+                referenceType: SiteInfo.IndexReferenceType(reference, id),
+                referenceId: id);
             log.Finish(json.Length);
             return json;
         }

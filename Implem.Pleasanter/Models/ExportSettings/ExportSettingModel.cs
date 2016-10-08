@@ -205,16 +205,11 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public string UpdateOrCreate(
+        public Error.Types UpdateOrCreate(
             SqlWhereCollection where = null,
             SqlParamCollection param = null)
         {
-            if (!PermissionType.CanExport())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
             SetBySession();
-            OnUpdatingOrCreating(ref where, ref param);
             var newId = Rds.ExecuteScalar_long(
                 transactional: true,
                 statements: new SqlStatement[]
@@ -226,55 +221,7 @@ namespace Implem.Pleasanter.Models
                 });
             ExportSettingId = newId != 0 ? newId : ExportSettingId;
             Get();
-            var responseCollection = new ExportSettingsResponseCollection(this);
-            OnUpdatedOrCreated(ref responseCollection);
-            return responseCollection.ToJson();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void OnUpdatingOrCreating(
-            ref SqlWhereCollection where,
-            ref SqlParamCollection param)
-        {
-            if (ExportColumns.ReferenceType.IsNullOrEmpty())
-            {
-                ExportColumns.ReferenceType = ReferenceType;
-            }
-            if (Forms.Data("ExportSettings_Title") == string.Empty)
-            {
-                Title = new Title(0, Unique.New(
-                    new ExportSettingCollection(
-                        SiteSettingsUtility.ExportSettingsSiteSettings(),
-                        Permissions.Types.NotSet,
-                        where: Rds.ExportSettingsWhere()
-                            .ReferenceId(ReferenceId))
-                                .Select(o => o.Title?.Value),
-                    Displays.Setting()));
-            }
-            where = Rds.ExportSettingsWhere()
-                .ReferenceId(ReferenceId)
-                .Title(Title.Value);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void OnUpdatedOrCreated(ref ExportSettingsResponseCollection responseCollection)
-        {
-            var exportSettingsCollection = ExportSettingUtilities
-                .Collection(ReferenceType, ReferenceId);
-            responseCollection
-                .Html(
-                    "#ExportSettings_ExportSettingId",
-                    new HtmlBuilder().OptionCollection(
-                    optionCollection: exportSettingsCollection.ToDictionary(
-                        o => o.ExportSettingId.ToString(),
-                        o => new ControlData(o.Title.Value)),
-                    selectedValue: ExportSettingId.ToString(),
-                    addSelectedValue: false))
-                .Val("#ExportSettings_Title", Title.Value);
+            return Error.Types.None;
         }
 
         public Error.Types Delete()
@@ -400,7 +347,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public ExportSettingModel(
             Permissions.Types permissionType,
-            string referenceType, long referenceId,
+            string referenceType,
+            long referenceId,
             bool withTitle = false)
         {
             OnConstructing();
