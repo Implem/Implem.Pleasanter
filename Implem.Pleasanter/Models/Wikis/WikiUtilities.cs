@@ -658,6 +658,58 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string Histories(
+            SiteSettings siteSettings, Permissions.Types permissionType, long wikiId)
+        {
+            var wikiModel = new WikiModel(siteSettings, permissionType, wikiId);
+            var hb = new HtmlBuilder();
+            hb.Table(
+                attributes: new HtmlAttributes().Class("grid"),
+                action: () => hb
+                    .THead(action: () => hb
+                        .GridHeader(
+                            columnCollection: siteSettings.HistoryColumnCollection(),
+                            sort: false,
+                            checkRow: false))
+                    .TBody(action: () =>
+                        new WikiCollection(
+                            siteSettings: siteSettings,
+                            permissionType: permissionType,
+                            where: Rds.WikisWhere().WikiId(wikiModel.WikiId),
+                            orderBy: Rds.WikisOrderBy().Ver(SqlOrderBy.Types.desc),
+                            tableType: Sqls.TableTypes.NormalAndHistory)
+                                .ForEach(wikiModelHistory => hb
+                                    .Tr(
+                                        attributes: new HtmlAttributes()
+                                            .Class("grid-row history not-link")
+                                            .DataAction("History")
+                                            .DataMethod("post")
+                                            .DataVer(wikiModelHistory.Ver)
+                                            .DataLatest(1, _using:
+                                                wikiModelHistory.Ver == wikiModel.Ver),
+                                        action: () =>
+                                            siteSettings.HistoryColumnCollection()
+                                                .ForEach(column => hb
+                                                    .TdValue(column, wikiModelHistory))))));
+            return new WikisResponseCollection(wikiModel)
+                .Html("#FieldSetHistories", hb).ToJson();
+        }
+
+        public static string History(
+            SiteSettings siteSettings, Permissions.Types permissionType, long wikiId)
+        {
+            var wikiModel = new WikiModel(siteSettings, permissionType, wikiId);
+            wikiModel.Get(
+                where: Rds.WikisWhere()
+                    .WikiId(wikiModel.WikiId)
+                    .Ver(Forms.Int("Ver")),
+                tableType: Sqls.TableTypes.NormalAndHistory);
+            wikiModel.VerType =  Forms.Bool("Latest")
+                ? Versions.VerTypes.Latest
+                : Versions.VerTypes.History;
+            return EditorResponse(wikiModel).ToJson();
+        }
+
         public static string BulkMove(SiteSettings siteSettings, Permissions.Types permissionType)
         {
             var siteId = Forms.Long("MoveTargets");

@@ -591,25 +591,19 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (ReferenceType)
             {
-                case "Sites": return new SiteModel(
-                    new SiteSettings("Sites"),
-                    ReferenceId)
-                        .Histories();
-                case "Issues": return new IssueModel(
-                    Site.IssuesSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId)
-                        .Histories();
-                case "Results": return new ResultModel(
-                    Site.ResultsSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId)
-                        .Histories();
-                case "Wikis": return new WikiModel(
-                    Site.WikisSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId)
-                        .Histories();
+                case "Sites": return SiteUtilities.Histories(siteModel: Site);
+                case "Issues": return IssueUtilities.Histories(
+                    siteSettings: Site.IssuesSiteSettings(),
+                    permissionType: Site.PermissionType,
+                    issueId: ReferenceId);
+                case "Results": return ResultUtilities.Histories(
+                    siteSettings: Site.ResultsSiteSettings(),
+                    permissionType: Site.PermissionType,
+                    resultId: ReferenceId);
+                case "Wikis": return WikiUtilities.Histories(
+                    siteSettings: Site.WikisSiteSettings(),
+                    permissionType: Site.PermissionType,
+                    wikiId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -619,22 +613,19 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (ReferenceType)
             {
-                case "Sites": return Site.History();
-                case "Issues": return new IssueModel(
-                    Site.IssuesSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId)
-                        .History();
-                case "Results": return new ResultModel(
-                    Site.ResultsSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId)
-                        .History();
-                case "Wikis": return new WikiModel(
-                    Site.WikisSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId)
-                        .History();
+                case "Sites": return SiteUtilities.History(siteModel: Site);
+                case "Issues": return IssueUtilities.History(
+                    siteSettings: Site.IssuesSiteSettings(),
+                    permissionType: Site.PermissionType,
+                    issueId: ReferenceId);
+                case "Results": return ResultUtilities.History(
+                    siteSettings: Site.ResultsSiteSettings(),
+                    permissionType: Site.PermissionType,
+                    resultId: ReferenceId);
+                case "Wikis": return WikiUtilities.History(
+                    siteSettings: Site.WikisSiteSettings(),
+                    permissionType: Site.PermissionType,
+                    wikiId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }

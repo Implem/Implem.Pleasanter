@@ -1025,6 +1025,58 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string Histories(
+            SiteSettings siteSettings, Permissions.Types permissionType, long issueId)
+        {
+            var issueModel = new IssueModel(siteSettings, permissionType, issueId);
+            var hb = new HtmlBuilder();
+            hb.Table(
+                attributes: new HtmlAttributes().Class("grid"),
+                action: () => hb
+                    .THead(action: () => hb
+                        .GridHeader(
+                            columnCollection: siteSettings.HistoryColumnCollection(),
+                            sort: false,
+                            checkRow: false))
+                    .TBody(action: () =>
+                        new IssueCollection(
+                            siteSettings: siteSettings,
+                            permissionType: permissionType,
+                            where: Rds.IssuesWhere().IssueId(issueModel.IssueId),
+                            orderBy: Rds.IssuesOrderBy().Ver(SqlOrderBy.Types.desc),
+                            tableType: Sqls.TableTypes.NormalAndHistory)
+                                .ForEach(issueModelHistory => hb
+                                    .Tr(
+                                        attributes: new HtmlAttributes()
+                                            .Class("grid-row history not-link")
+                                            .DataAction("History")
+                                            .DataMethod("post")
+                                            .DataVer(issueModelHistory.Ver)
+                                            .DataLatest(1, _using:
+                                                issueModelHistory.Ver == issueModel.Ver),
+                                        action: () =>
+                                            siteSettings.HistoryColumnCollection()
+                                                .ForEach(column => hb
+                                                    .TdValue(column, issueModelHistory))))));
+            return new IssuesResponseCollection(issueModel)
+                .Html("#FieldSetHistories", hb).ToJson();
+        }
+
+        public static string History(
+            SiteSettings siteSettings, Permissions.Types permissionType, long issueId)
+        {
+            var issueModel = new IssueModel(siteSettings, permissionType, issueId);
+            issueModel.Get(
+                where: Rds.IssuesWhere()
+                    .IssueId(issueModel.IssueId)
+                    .Ver(Forms.Int("Ver")),
+                tableType: Sqls.TableTypes.NormalAndHistory);
+            issueModel.VerType =  Forms.Bool("Latest")
+                ? Versions.VerTypes.Latest
+                : Versions.VerTypes.History;
+            return EditorResponse(issueModel).ToJson();
+        }
+
         public static string EditSeparateSettings(
             SiteSettings siteSettings, Permissions.Types permissionType, long issueId)
         {

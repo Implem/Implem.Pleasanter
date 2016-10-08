@@ -1027,53 +1027,6 @@ namespace Implem.Pleasanter.Models
                     addUpdatorParam: false));
         }
 
-        public string Histories()
-        {
-            var hb = new HtmlBuilder();
-            hb.Table(
-                attributes: new HtmlAttributes().Class("grid"),
-                action: () => hb
-                    .THead(action: () => hb
-                        .GridHeader(
-                            columnCollection: SiteSettings.HistoryColumnCollection(),
-                            sort: false,
-                            checkRow: false))
-                    .TBody(action: () =>
-                        new IssueCollection(
-                            siteSettings: SiteSettings,
-                            permissionType: PermissionType,
-                            where: Rds.IssuesWhere().IssueId(IssueId),
-                            orderBy: Rds.IssuesOrderBy().Ver(SqlOrderBy.Types.desc),
-                            tableType: Sqls.TableTypes.NormalAndHistory)
-                                .ForEach(issueModel => hb
-                                    .Tr(
-                                        attributes: new HtmlAttributes()
-                                            .Class("grid-row history not-link")
-                                            .DataAction("History")
-                                            .DataMethod("post")
-                                            .DataVer(issueModel.Ver)
-                                            .DataLatest(1, _using: issueModel.Ver == Ver),
-                                        action: () =>
-                                            SiteSettings.HistoryColumnCollection()
-                                                .ForEach(column => hb
-                                                    .TdValue(column, issueModel))))));
-            return new IssuesResponseCollection(this).Html("#FieldSetHistories", hb).ToJson();
-        }
-
-        public string History()
-        {
-            Get(
-                where: Rds.IssuesWhere()
-                    .IssueId(IssueId)
-                    .Ver(Forms.Int("Ver")),
-                tableType: Sqls.TableTypes.NormalAndHistory);
-            VerType =  Forms.Bool("Latest")
-                ? Versions.VerTypes.Latest
-                : Versions.VerTypes.History;
-            SwitchTargets = IssueUtilities.GetSwitchTargets(SiteSettings, SiteId);
-            return Editor();
-        }
-
         private void SetByForm()
         {
             Forms.Keys().ForEach(controlId =>

@@ -405,53 +405,6 @@ namespace Implem.Pleasanter.Models
                     addUpdatorParam: false));
         }
 
-        public string Histories()
-        {
-            var hb = new HtmlBuilder();
-            hb.Table(
-                attributes: new HtmlAttributes().Class("grid"),
-                action: () => hb
-                    .THead(action: () => hb
-                        .GridHeader(
-                            columnCollection: SiteSettings.HistoryColumnCollection(),
-                            sort: false,
-                            checkRow: false))
-                    .TBody(action: () =>
-                        new WikiCollection(
-                            siteSettings: SiteSettings,
-                            permissionType: PermissionType,
-                            where: Rds.WikisWhere().WikiId(WikiId),
-                            orderBy: Rds.WikisOrderBy().Ver(SqlOrderBy.Types.desc),
-                            tableType: Sqls.TableTypes.NormalAndHistory)
-                                .ForEach(wikiModel => hb
-                                    .Tr(
-                                        attributes: new HtmlAttributes()
-                                            .Class("grid-row history not-link")
-                                            .DataAction("History")
-                                            .DataMethod("post")
-                                            .DataVer(wikiModel.Ver)
-                                            .DataLatest(1, _using: wikiModel.Ver == Ver),
-                                        action: () =>
-                                            SiteSettings.HistoryColumnCollection()
-                                                .ForEach(column => hb
-                                                    .TdValue(column, wikiModel))))));
-            return new WikisResponseCollection(this).Html("#FieldSetHistories", hb).ToJson();
-        }
-
-        public string History()
-        {
-            Get(
-                where: Rds.WikisWhere()
-                    .WikiId(WikiId)
-                    .Ver(Forms.Int("Ver")),
-                tableType: Sqls.TableTypes.NormalAndHistory);
-            VerType =  Forms.Bool("Latest")
-                ? Versions.VerTypes.Latest
-                : Versions.VerTypes.History;
-            SwitchTargets = WikiUtilities.GetSwitchTargets(SiteSettings, SiteId);
-            return Editor();
-        }
-
         private void SetByForm()
         {
             Forms.Keys().ForEach(controlId =>

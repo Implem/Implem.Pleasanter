@@ -356,7 +356,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetBySession": Code.Model_SetBySession = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetBySession, definitionRow, CodeXls); break;
                     case "Model_SetPk": Code.Model_SetPk = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetPk, definitionRow, CodeXls); break;
                     case "Model_Set": Code.Model_Set = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Set, definitionRow, CodeXls); break;
-                    case "Model_Histories": Code.Model_Histories = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Histories, definitionRow, CodeXls); break;
                     case "Model_PushState": Code.Model_PushState = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PushState, definitionRow, CodeXls); break;
                     case "Model_PushState_Item": Code.Model_PushState_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PushState_Item, definitionRow, CodeXls); break;
                     case "Model_SiteId": Code.Model_SiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteId, definitionRow, CodeXls); break;
@@ -476,6 +475,11 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utility_RedirectAfterDelete_Sites": Code.Model_Utility_RedirectAfterDelete_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_RedirectAfterDelete_Sites, definitionRow, CodeXls); break;
                     case "Model_Utility_RedirectAfterDelete_Wikis": Code.Model_Utility_RedirectAfterDelete_Wikis = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_RedirectAfterDelete_Wikis, definitionRow, CodeXls); break;
                     case "Model_Utility_Restore": Code.Model_Utility_Restore = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_Restore, definitionRow, CodeXls); break;
+                    case "Model_Utility_Histories": Code.Model_Utility_Histories = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_Histories, definitionRow, CodeXls); break;
+                    case "Model_Utility_HistoriesParams": Code.Model_Utility_HistoriesParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_HistoriesParams, definitionRow, CodeXls); break;
+                    case "Model_Utility_HistoriesParams_Sites": Code.Model_Utility_HistoriesParams_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_HistoriesParams_Sites, definitionRow, CodeXls); break;
+                    case "Model_Utility_HistoryParams": Code.Model_Utility_HistoryParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_HistoryParams, definitionRow, CodeXls); break;
+                    case "Model_Utility_HistoryParams_Sites": Code.Model_Utility_HistoryParams_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_HistoryParams_Sites, definitionRow, CodeXls); break;
                     case "Model_Utility_TitleDisplay": Code.Model_Utility_TitleDisplay = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_TitleDisplay, definitionRow, CodeXls); break;
                     case "Model_Utility_ResponseLinks": Code.Model_Utility_ResponseLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_ResponseLinks, definitionRow, CodeXls); break;
                     case "Model_Utility_SiteModel": Code.Model_Utility_SiteModel = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_SiteModel, definitionRow, CodeXls); break;
@@ -3918,7 +3922,6 @@ namespace Implem.DefinitionAccessor
         public string Model_SetBySession;
         public string Model_SetPk;
         public string Model_Set;
-        public string Model_Histories;
         public string Model_PushState;
         public string Model_PushState_Item;
         public string Model_SiteId;
@@ -4038,6 +4041,11 @@ namespace Implem.DefinitionAccessor
         public string Model_Utility_RedirectAfterDelete_Sites;
         public string Model_Utility_RedirectAfterDelete_Wikis;
         public string Model_Utility_Restore;
+        public string Model_Utility_Histories;
+        public string Model_Utility_HistoriesParams;
+        public string Model_Utility_HistoriesParams_Sites;
+        public string Model_Utility_HistoryParams;
+        public string Model_Utility_HistoryParams_Sites;
         public string Model_Utility_TitleDisplay;
         public string Model_Utility_ResponseLinks;
         public string Model_Utility_SiteModel;
@@ -4343,7 +4351,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetBySession = new CodeDefinition();
         public CodeDefinition Model_SetPk = new CodeDefinition();
         public CodeDefinition Model_Set = new CodeDefinition();
-        public CodeDefinition Model_Histories = new CodeDefinition();
         public CodeDefinition Model_PushState = new CodeDefinition();
         public CodeDefinition Model_PushState_Item = new CodeDefinition();
         public CodeDefinition Model_SiteId = new CodeDefinition();
@@ -4463,6 +4470,11 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utility_RedirectAfterDelete_Sites = new CodeDefinition();
         public CodeDefinition Model_Utility_RedirectAfterDelete_Wikis = new CodeDefinition();
         public CodeDefinition Model_Utility_Restore = new CodeDefinition();
+        public CodeDefinition Model_Utility_Histories = new CodeDefinition();
+        public CodeDefinition Model_Utility_HistoriesParams = new CodeDefinition();
+        public CodeDefinition Model_Utility_HistoriesParams_Sites = new CodeDefinition();
+        public CodeDefinition Model_Utility_HistoryParams = new CodeDefinition();
+        public CodeDefinition Model_Utility_HistoryParams_Sites = new CodeDefinition();
         public CodeDefinition Model_Utility_TitleDisplay = new CodeDefinition();
         public CodeDefinition Model_Utility_ResponseLinks = new CodeDefinition();
         public CodeDefinition Model_Utility_SiteModel = new CodeDefinition();

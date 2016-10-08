@@ -732,6 +732,58 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string Histories(
+            SiteSettings siteSettings, Permissions.Types permissionType, int userId)
+        {
+            var userModel = new UserModel(siteSettings, permissionType, userId);
+            var hb = new HtmlBuilder();
+            hb.Table(
+                attributes: new HtmlAttributes().Class("grid"),
+                action: () => hb
+                    .THead(action: () => hb
+                        .GridHeader(
+                            columnCollection: siteSettings.HistoryColumnCollection(),
+                            sort: false,
+                            checkRow: false))
+                    .TBody(action: () =>
+                        new UserCollection(
+                            siteSettings: siteSettings,
+                            permissionType: permissionType,
+                            where: Rds.UsersWhere().UserId(userModel.UserId),
+                            orderBy: Rds.UsersOrderBy().Ver(SqlOrderBy.Types.desc),
+                            tableType: Sqls.TableTypes.NormalAndHistory)
+                                .ForEach(userModelHistory => hb
+                                    .Tr(
+                                        attributes: new HtmlAttributes()
+                                            .Class("grid-row history not-link")
+                                            .DataAction("History")
+                                            .DataMethod("post")
+                                            .DataVer(userModelHistory.Ver)
+                                            .DataLatest(1, _using:
+                                                userModelHistory.Ver == userModel.Ver),
+                                        action: () =>
+                                            siteSettings.HistoryColumnCollection()
+                                                .ForEach(column => hb
+                                                    .TdValue(column, userModelHistory))))));
+            return new UsersResponseCollection(userModel)
+                .Html("#FieldSetHistories", hb).ToJson();
+        }
+
+        public static string History(
+            SiteSettings siteSettings, Permissions.Types permissionType, int userId)
+        {
+            var userModel = new UserModel(siteSettings, permissionType, userId);
+            userModel.Get(
+                where: Rds.UsersWhere()
+                    .UserId(userModel.UserId)
+                    .Ver(Forms.Int("Ver")),
+                tableType: Sqls.TableTypes.NormalAndHistory);
+            userModel.VerType =  Forms.Bool("Latest")
+                ? Versions.VerTypes.Latest
+                : Versions.VerTypes.History;
+            return EditorResponse(userModel).ToJson();
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>

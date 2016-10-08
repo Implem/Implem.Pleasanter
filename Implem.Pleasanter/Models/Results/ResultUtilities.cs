@@ -985,6 +985,58 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string Histories(
+            SiteSettings siteSettings, Permissions.Types permissionType, long resultId)
+        {
+            var resultModel = new ResultModel(siteSettings, permissionType, resultId);
+            var hb = new HtmlBuilder();
+            hb.Table(
+                attributes: new HtmlAttributes().Class("grid"),
+                action: () => hb
+                    .THead(action: () => hb
+                        .GridHeader(
+                            columnCollection: siteSettings.HistoryColumnCollection(),
+                            sort: false,
+                            checkRow: false))
+                    .TBody(action: () =>
+                        new ResultCollection(
+                            siteSettings: siteSettings,
+                            permissionType: permissionType,
+                            where: Rds.ResultsWhere().ResultId(resultModel.ResultId),
+                            orderBy: Rds.ResultsOrderBy().Ver(SqlOrderBy.Types.desc),
+                            tableType: Sqls.TableTypes.NormalAndHistory)
+                                .ForEach(resultModelHistory => hb
+                                    .Tr(
+                                        attributes: new HtmlAttributes()
+                                            .Class("grid-row history not-link")
+                                            .DataAction("History")
+                                            .DataMethod("post")
+                                            .DataVer(resultModelHistory.Ver)
+                                            .DataLatest(1, _using:
+                                                resultModelHistory.Ver == resultModel.Ver),
+                                        action: () =>
+                                            siteSettings.HistoryColumnCollection()
+                                                .ForEach(column => hb
+                                                    .TdValue(column, resultModelHistory))))));
+            return new ResultsResponseCollection(resultModel)
+                .Html("#FieldSetHistories", hb).ToJson();
+        }
+
+        public static string History(
+            SiteSettings siteSettings, Permissions.Types permissionType, long resultId)
+        {
+            var resultModel = new ResultModel(siteSettings, permissionType, resultId);
+            resultModel.Get(
+                where: Rds.ResultsWhere()
+                    .ResultId(resultModel.ResultId)
+                    .Ver(Forms.Int("Ver")),
+                tableType: Sqls.TableTypes.NormalAndHistory);
+            resultModel.VerType =  Forms.Bool("Latest")
+                ? Versions.VerTypes.Latest
+                : Versions.VerTypes.History;
+            return EditorResponse(resultModel).ToJson();
+        }
+
         public static string BulkMove(SiteSettings siteSettings, Permissions.Types permissionType)
         {
             var siteId = Forms.Long("MoveTargets");

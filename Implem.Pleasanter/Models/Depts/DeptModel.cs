@@ -241,53 +241,6 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public string Histories()
-        {
-            var hb = new HtmlBuilder();
-            hb.Table(
-                attributes: new HtmlAttributes().Class("grid"),
-                action: () => hb
-                    .THead(action: () => hb
-                        .GridHeader(
-                            columnCollection: SiteSettings.HistoryColumnCollection(),
-                            sort: false,
-                            checkRow: false))
-                    .TBody(action: () =>
-                        new DeptCollection(
-                            siteSettings: SiteSettings,
-                            permissionType: PermissionType,
-                            where: Rds.DeptsWhere().DeptId(DeptId),
-                            orderBy: Rds.DeptsOrderBy().Ver(SqlOrderBy.Types.desc),
-                            tableType: Sqls.TableTypes.NormalAndHistory)
-                                .ForEach(deptModel => hb
-                                    .Tr(
-                                        attributes: new HtmlAttributes()
-                                            .Class("grid-row history not-link")
-                                            .DataAction("History")
-                                            .DataMethod("post")
-                                            .DataVer(deptModel.Ver)
-                                            .DataLatest(1, _using: deptModel.Ver == Ver),
-                                        action: () =>
-                                            SiteSettings.HistoryColumnCollection()
-                                                .ForEach(column => hb
-                                                    .TdValue(column, deptModel))))));
-            return new DeptsResponseCollection(this).Html("#FieldSetHistories", hb).ToJson();
-        }
-
-        public string History()
-        {
-            Get(
-                where: Rds.DeptsWhere()
-                    .DeptId(DeptId)
-                    .Ver(Forms.Int("Ver")),
-                tableType: Sqls.TableTypes.NormalAndHistory);
-            VerType =  Forms.Bool("Latest")
-                ? Versions.VerTypes.Latest
-                : Versions.VerTypes.History;
-            SwitchTargets = DeptUtilities.GetSwitchTargets(SiteSettings);
-            return Editor();
-        }
-
         private void SetByForm()
         {
             Forms.Keys().ForEach(controlId =>

@@ -283,6 +283,56 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string Histories(SiteModel siteModel)
+        {
+            var siteSettings = siteModel.SitesSiteSettings();
+            var permissionType = siteModel.PermissionType;
+            var hb = new HtmlBuilder();
+            hb.Table(
+                attributes: new HtmlAttributes().Class("grid"),
+                action: () => hb
+                    .THead(action: () => hb
+                        .GridHeader(
+                            columnCollection: siteSettings.HistoryColumnCollection(),
+                            sort: false,
+                            checkRow: false))
+                    .TBody(action: () =>
+                        new SiteCollection(
+                            where: Rds.SitesWhere().SiteId(siteModel.SiteId),
+                            orderBy: Rds.SitesOrderBy().Ver(SqlOrderBy.Types.desc),
+                            tableType: Sqls.TableTypes.NormalAndHistory)
+                                .ForEach(siteModelHistory => hb
+                                    .Tr(
+                                        attributes: new HtmlAttributes()
+                                            .Class("grid-row history not-link")
+                                            .DataAction("History")
+                                            .DataMethod("post")
+                                            .DataVer(siteModelHistory.Ver)
+                                            .DataLatest(1, _using:
+                                                siteModelHistory.Ver == siteModel.Ver),
+                                        action: () =>
+                                            siteSettings.HistoryColumnCollection()
+                                                .ForEach(column => hb
+                                                    .TdValue(column, siteModelHistory))))));
+            return new SitesResponseCollection(siteModel)
+                .Html("#FieldSetHistories", hb).ToJson();
+        }
+
+        public static string History(SiteModel siteModel)
+        {
+            var siteSettings = siteModel.SitesSiteSettings();
+            var permissionType = siteModel.PermissionType;
+            siteModel.Get(
+                where: Rds.SitesWhere()
+                    .SiteId(siteModel.SiteId)
+                    .Ver(Forms.Int("Ver")),
+                tableType: Sqls.TableTypes.NormalAndHistory);
+            siteModel.VerType =  Forms.Bool("Latest")
+                ? Versions.VerTypes.Latest
+                : Versions.VerTypes.History;
+            return EditorResponse(siteModel).ToJson();
+        }
+
         public static string TitleDisplayValue(SiteSettings siteSettings, SiteModel siteModel)
         {
             var displayValue = siteSettings.TitleColumnCollection()

@@ -1007,53 +1007,6 @@ namespace Implem.Pleasanter.Models
                     addUpdatorParam: false));
         }
 
-        public string Histories()
-        {
-            var hb = new HtmlBuilder();
-            hb.Table(
-                attributes: new HtmlAttributes().Class("grid"),
-                action: () => hb
-                    .THead(action: () => hb
-                        .GridHeader(
-                            columnCollection: SiteSettings.HistoryColumnCollection(),
-                            sort: false,
-                            checkRow: false))
-                    .TBody(action: () =>
-                        new ResultCollection(
-                            siteSettings: SiteSettings,
-                            permissionType: PermissionType,
-                            where: Rds.ResultsWhere().ResultId(ResultId),
-                            orderBy: Rds.ResultsOrderBy().Ver(SqlOrderBy.Types.desc),
-                            tableType: Sqls.TableTypes.NormalAndHistory)
-                                .ForEach(resultModel => hb
-                                    .Tr(
-                                        attributes: new HtmlAttributes()
-                                            .Class("grid-row history not-link")
-                                            .DataAction("History")
-                                            .DataMethod("post")
-                                            .DataVer(resultModel.Ver)
-                                            .DataLatest(1, _using: resultModel.Ver == Ver),
-                                        action: () =>
-                                            SiteSettings.HistoryColumnCollection()
-                                                .ForEach(column => hb
-                                                    .TdValue(column, resultModel))))));
-            return new ResultsResponseCollection(this).Html("#FieldSetHistories", hb).ToJson();
-        }
-
-        public string History()
-        {
-            Get(
-                where: Rds.ResultsWhere()
-                    .ResultId(ResultId)
-                    .Ver(Forms.Int("Ver")),
-                tableType: Sqls.TableTypes.NormalAndHistory);
-            VerType =  Forms.Bool("Latest")
-                ? Versions.VerTypes.Latest
-                : Versions.VerTypes.History;
-            SwitchTargets = ResultUtilities.GetSwitchTargets(SiteSettings, SiteId);
-            return Editor();
-        }
-
         private void SetByForm()
         {
             Forms.Keys().ForEach(controlId =>

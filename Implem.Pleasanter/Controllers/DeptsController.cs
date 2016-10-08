@@ -136,11 +136,10 @@ namespace Implem.Pleasanter.Controllers
         public string Histories(int id)
         {
             var log = new SysLogModel();
-            var json = new DeptModel(
-                SiteSettingsUtility.DeptsSiteSettings(),
-                Permissions.Admins(),
-                id)
-                    .Histories();
+            var json = DeptUtilities.Histories(
+                siteSettings: SiteSettingsUtility.DeptsSiteSettings(),
+                permissionType: Permissions.Admins(),
+                deptId: id);
             log.Finish(json.Length);
             return json;
         }
@@ -149,11 +148,10 @@ namespace Implem.Pleasanter.Controllers
         public string History(int id)
         {
             var log = new SysLogModel();
-            var json = new DeptModel(
-                SiteSettingsUtility.DeptsSiteSettings(),
-                Permissions.Admins(),
-                id)
-                    .History();
+            var json = DeptUtilities.History(
+                siteSettings: SiteSettingsUtility.DeptsSiteSettings(),
+                permissionType: Permissions.Admins(),
+                deptId: id);
             log.Finish(json.Length);
             return json;
         }

@@ -638,6 +638,58 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string Histories(
+            SiteSettings siteSettings, Permissions.Types permissionType, int deptId)
+        {
+            var deptModel = new DeptModel(siteSettings, permissionType, deptId);
+            var hb = new HtmlBuilder();
+            hb.Table(
+                attributes: new HtmlAttributes().Class("grid"),
+                action: () => hb
+                    .THead(action: () => hb
+                        .GridHeader(
+                            columnCollection: siteSettings.HistoryColumnCollection(),
+                            sort: false,
+                            checkRow: false))
+                    .TBody(action: () =>
+                        new DeptCollection(
+                            siteSettings: siteSettings,
+                            permissionType: permissionType,
+                            where: Rds.DeptsWhere().DeptId(deptModel.DeptId),
+                            orderBy: Rds.DeptsOrderBy().Ver(SqlOrderBy.Types.desc),
+                            tableType: Sqls.TableTypes.NormalAndHistory)
+                                .ForEach(deptModelHistory => hb
+                                    .Tr(
+                                        attributes: new HtmlAttributes()
+                                            .Class("grid-row history not-link")
+                                            .DataAction("History")
+                                            .DataMethod("post")
+                                            .DataVer(deptModelHistory.Ver)
+                                            .DataLatest(1, _using:
+                                                deptModelHistory.Ver == deptModel.Ver),
+                                        action: () =>
+                                            siteSettings.HistoryColumnCollection()
+                                                .ForEach(column => hb
+                                                    .TdValue(column, deptModelHistory))))));
+            return new DeptsResponseCollection(deptModel)
+                .Html("#FieldSetHistories", hb).ToJson();
+        }
+
+        public static string History(
+            SiteSettings siteSettings, Permissions.Types permissionType, int deptId)
+        {
+            var deptModel = new DeptModel(siteSettings, permissionType, deptId);
+            deptModel.Get(
+                where: Rds.DeptsWhere()
+                    .DeptId(deptModel.DeptId)
+                    .Ver(Forms.Int("Ver")),
+                tableType: Sqls.TableTypes.NormalAndHistory);
+            deptModel.VerType =  Forms.Bool("Latest")
+                ? Versions.VerTypes.Latest
+                : Versions.VerTypes.History;
+            return EditorResponse(deptModel).ToJson();
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>
