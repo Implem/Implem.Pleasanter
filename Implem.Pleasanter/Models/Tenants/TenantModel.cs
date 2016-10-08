@@ -221,29 +221,14 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public string PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+        public Error.Types PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
-            if (!PermissionType.CanEditSys())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            OnPhysicalDeleting();
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: Rds.PhysicalDeleteTenants(
                     tableType: tableType,
                     param: Rds.TenantsParam().TenantId(TenantId)));
-            var responseCollection = new TenantsResponseCollection(this);
-            OnPhysicalDeleted(ref responseCollection);
-            return responseCollection.ToJson();
-        }
-
-        private void OnPhysicalDeleting()
-        {
-        }
-
-        private void OnPhysicalDeleted(ref TenantsResponseCollection responseCollection)
-        {
+            return Error.Types.None;
         }
 
         private void SetByForm()

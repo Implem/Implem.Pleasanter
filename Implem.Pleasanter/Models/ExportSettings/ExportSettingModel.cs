@@ -303,29 +303,14 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public string PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+        public Error.Types PhysicalDelete(Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
-            if (!PermissionType.CanExport())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            OnPhysicalDeleting();
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: Rds.PhysicalDeleteExportSettings(
                     tableType: tableType,
                     param: Rds.ExportSettingsParam().ExportSettingId(ExportSettingId)));
-            var responseCollection = new ExportSettingsResponseCollection(this);
-            OnPhysicalDeleted(ref responseCollection);
-            return responseCollection.ToJson();
-        }
-
-        private void OnPhysicalDeleting()
-        {
-        }
-
-        private void OnPhysicalDeleted(ref ExportSettingsResponseCollection responseCollection)
-        {
+            return Error.Types.None;
         }
 
         private void SetByForm()
