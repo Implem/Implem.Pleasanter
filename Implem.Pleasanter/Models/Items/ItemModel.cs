@@ -572,11 +572,10 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (Site.ReferenceType)
             {
-                case "Issues": return new IssueModel(
-                    Site.IssuesSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId)
-                        .EditSeparateSettings();
+                case "Issues": return IssueUtilities.EditSeparateSettings(
+                    siteSettings: Site.IssuesSiteSettings(),
+                    permissionType: Site.PermissionType,
+                    issueId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -586,11 +585,10 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (Site.ReferenceType)
             {
-                case "Issues": return new IssueModel(
-                    Site.IssuesSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId)
-                        .Separate();
+                case "Issues": return IssueUtilities.Separate(
+                    siteSettings: Site.IssuesSiteSettings(),
+                    permissionType: Site.PermissionType,
+                    issueId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }

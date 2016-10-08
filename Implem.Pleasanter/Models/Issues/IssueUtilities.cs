@@ -980,6 +980,74 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string EditSeparateSettings(
+            SiteSettings siteSettings, Permissions.Types permissionType, long issueId)
+        {
+            var issueModel = new IssueModel(siteSettings, permissionType, issueId);
+            return new ResponseCollection()
+                .Html(
+                    "#SeparateSettingsDialog",
+                    new HtmlBuilder().SeparateSettings(
+                        issueModel.Title.Value,
+                        issueModel.WorkValue.Value,
+                        issueModel.SiteSettings.GetColumn("WorkValue"),
+                        issueModel.PermissionType))
+                .Invoke("separateSettings")
+                .ToJson();
+        }
+
+        public static string Separate(
+            SiteSettings siteSettings, Permissions.Types permissionType, long issueId)
+        {
+            var issueModel = new IssueModel(siteSettings, permissionType, issueId);
+            var number = Forms.Int("SeparateNumber");
+            if (number >= 2)
+            {
+                var idHash = new Dictionary<int, long> { { 1, issueModel.IssueId } };
+                var ver = issueModel.Ver;
+                var timestampHash = new Dictionary<int, string> { { 1, issueModel.Timestamp } };
+                var comments = issueModel.Comments.ToJson();
+                for (var index = 2; index <= number; index++)
+                {
+                    issueModel.IssueId = 0;
+                    issueModel.Create(paramAll: true);
+                    idHash.Add(index, issueModel.IssueId);
+                    timestampHash.Add(index, issueModel.Timestamp);
+                }
+                var addCommentCollection = new List<string> { Displays.Separated() };
+                addCommentCollection.AddRange(idHash.Select(o => "[{0}]({1}{2})".Params(
+                    Forms.Data("SeparateTitle_" + o.Key),
+                    Url.Server(),
+                    Navigations.ItemEdit(o.Value))));
+                var addComment = addCommentCollection.Join("\n");
+                for (var index = number; index >= 1; index--)
+                {
+                    var source = index == 1;
+                    issueModel.IssueId = idHash[index];
+                    issueModel.Ver = source
+                        ? ver
+                        : 1;
+                    issueModel.Timestamp = timestampHash[index];
+                    issueModel.Title.Value = Forms.Data("SeparateTitle_" + index);
+                    issueModel.WorkValue.Value = source
+                        ? Forms.Decimal("SourceWorkValue")
+                        : Forms.Decimal("SeparateWorkValue_" + index);
+                    issueModel.Comments.Clear();
+                    if (source || Forms.Bool("SeparateCopyWithComments"))
+                    {
+                        issueModel.Comments = comments.Deserialize<Comments>();
+                    }
+                    issueModel.Comments.Prepend(addComment);
+                    issueModel.Update(paramAll: true);
+                }
+                return EditorResponse(issueModel, Messages.Separated()).ToJson();
+            }
+            else
+            {
+                return Messages.ResponseInvalidRequest().ToJson();
+            }
+        }
+
         public static string BulkMove(SiteSettings siteSettings, Permissions.Types permissionType)
         {
             var siteId = Forms.Long("MoveTargets");
