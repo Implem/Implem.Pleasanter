@@ -22,6 +22,14 @@ namespace Implem.Pleasanter.Models
 {
     public static class WikiUtilities
     {
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
+        {
+            return new HtmlBuilder().NotFoundTemplate().ToString();
+        }
+
         private static string DataViewTemplate(
             this HtmlBuilder hb,
             SiteSettings siteSettings,
@@ -76,14 +84,6 @@ namespace Implem.Pleasanter.Models
                     .Class("dialog")
                     .Title(Displays.ExportSettings())))
                 .ToString();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
-        {
-            return new HtmlBuilder().NotFoundTemplate().ToString();
         }
 
         public static string IndexJson(SiteSettings siteSettings, Permissions.Types permissionType)

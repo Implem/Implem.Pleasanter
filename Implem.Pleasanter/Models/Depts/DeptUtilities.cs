@@ -22,6 +22,60 @@ namespace Implem.Pleasanter.Models
 {
     public static class DeptUtilities
     {
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
+        {
+            var hb = new HtmlBuilder();
+            var formData = DataViewFilters.SessionFormData();
+            var deptCollection = DeptCollection(siteSettings, permissionType, formData);
+            return hb.Template(
+                permissionType: permissionType,
+                verType: Versions.VerTypes.Latest,
+                methodType: BaseModel.MethodTypes.Index,
+                allowAccess: Sessions.User().TenantAdmin,
+                referenceType: "Depts",
+                title: Displays.Depts() + " - " + Displays.List(),
+                action: () =>
+                {
+                    hb
+                        .Form(
+                            attributes: new HtmlAttributes()
+                                .Id("DeptForm")
+                                .Class("main-form")
+                                .Action(Navigations.Action("Depts")),
+                            action: () => hb
+                                .Aggregations(
+                                    siteSettings: siteSettings,
+                                    aggregations: deptCollection.Aggregations)
+                                .Div(id: "DataViewContainer", action: () => hb
+                                    .Grid(
+                                        deptCollection: deptCollection,
+                                        permissionType: permissionType,
+                                        siteSettings: siteSettings,
+                                        formData: formData))
+                                .MainCommands(
+                                    siteId: siteSettings.SiteId,
+                                    permissionType: permissionType,
+                                    verType: Versions.VerTypes.Latest)
+                                .Div(css: "margin-bottom")
+                                .Hidden(controlId: "TableName", value: "Depts")
+                                .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl())
+                                .Hidden(
+                                    controlId: "GridOffset",
+                                    value: Parameters.General.GridPageSize.ToString()))
+                        .Div(attributes: new HtmlAttributes()
+                            .Id("ImportSettingsDialog")
+                            .Class("dialog")
+                            .Title(Displays.Import()))
+                        .Div(attributes: new HtmlAttributes()
+                            .Id("ExportSettingsDialog")
+                            .Class("dialog")
+                            .Title(Displays.ExportSettings()));
+                }).ToString();
+        }
+
         private static string DataViewTemplate(
             this HtmlBuilder hb,
             SiteSettings siteSettings,
@@ -75,60 +129,6 @@ namespace Implem.Pleasanter.Models
                     .Class("dialog")
                     .Title(Displays.ExportSettings())))
                 .ToString();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
-        {
-            var hb = new HtmlBuilder();
-            var formData = DataViewFilters.SessionFormData();
-            var deptCollection = DeptCollection(siteSettings, permissionType, formData);
-            return hb.Template(
-                permissionType: permissionType,
-                verType: Versions.VerTypes.Latest,
-                methodType: BaseModel.MethodTypes.Index,
-                allowAccess: Sessions.User().TenantAdmin,
-                referenceType: "Depts",
-                title: Displays.Depts() + " - " + Displays.List(),
-                action: () =>
-                {
-                    hb
-                        .Form(
-                            attributes: new HtmlAttributes()
-                                .Id("DeptForm")
-                                .Class("main-form")
-                                .Action(Navigations.Action("Depts")),
-                            action: () => hb
-                                .Aggregations(
-                                    siteSettings: siteSettings,
-                                    aggregations: deptCollection.Aggregations)
-                                .Div(id: "DataViewContainer", action: () => hb
-                                    .Grid(
-                                        deptCollection: deptCollection,
-                                        permissionType: permissionType,
-                                        siteSettings: siteSettings,
-                                        formData: formData))
-                                .MainCommands(
-                                    siteId: siteSettings.SiteId,
-                                    permissionType: permissionType,
-                                    verType: Versions.VerTypes.Latest)
-                                .Div(css: "margin-bottom")
-                                .Hidden(controlId: "TableName", value: "Depts")
-                                .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl())
-                                .Hidden(
-                                    controlId: "GridOffset",
-                                    value: Parameters.General.GridPageSize.ToString()))
-                        .Div(attributes: new HtmlAttributes()
-                            .Id("ImportSettingsDialog")
-                            .Class("dialog")
-                            .Title(Displays.Import()))
-                        .Div(attributes: new HtmlAttributes()
-                            .Id("ExportSettingsDialog")
-                            .Class("dialog")
-                            .Title(Displays.ExportSettings()));
-                }).ToString();
         }
 
         public static string IndexJson(SiteSettings siteSettings, Permissions.Types permissionType)

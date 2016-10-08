@@ -22,6 +22,25 @@ namespace Implem.Pleasanter.Models
 {
     public static class IssueUtilities
     {
+        public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
+        {
+            var hb = new HtmlBuilder();
+            var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
+            var issueCollection = IssueCollection(siteSettings, permissionType, formData);
+            var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
+            return hb.DataViewTemplate(
+                siteSettings: siteSettings,
+                permissionType: permissionType,
+                issueCollection: issueCollection,
+                formData: formData,
+                dataViewName: dataViewName,
+                dataViewBody: () => hb.Grid(
+                   issueCollection: issueCollection,
+                   siteSettings: siteSettings,
+                   permissionType: permissionType,
+                   formData: formData));
+        }
+
         private static string DataViewTemplate(
             this HtmlBuilder hb,
             SiteSettings siteSettings,
@@ -76,25 +95,6 @@ namespace Implem.Pleasanter.Models
                     .Class("dialog")
                     .Title(Displays.ExportSettings())))
                 .ToString();
-        }
-
-        public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
-        {
-            var hb = new HtmlBuilder();
-            var formData = DataViewFilters.SessionFormData(siteSettings.SiteId);
-            var issueCollection = IssueCollection(siteSettings, permissionType, formData);
-            var dataViewName = DataViewSelectors.Get(siteSettings.SiteId);
-            return hb.DataViewTemplate(
-                siteSettings: siteSettings,
-                permissionType: permissionType,
-                issueCollection: issueCollection,
-                formData: formData,
-                dataViewName: dataViewName,
-                dataViewBody: () => hb.Grid(
-                   issueCollection: issueCollection,
-                   siteSettings: siteSettings,
-                   permissionType: permissionType,
-                   formData: formData));
         }
 
         public static string IndexJson(SiteSettings siteSettings, Permissions.Types permissionType)

@@ -22,61 +22,6 @@ namespace Implem.Pleasanter.Models
 {
     public static class UserUtilities
     {
-        private static string DataViewTemplate(
-            this HtmlBuilder hb,
-            SiteSettings siteSettings,
-            Permissions.Types permissionType,
-            UserCollection userCollection,
-            FormData formData,
-            string dataViewName,
-            Action dataViewBody)
-        {
-            return hb.Template(
-                permissionType: permissionType,
-                verType: Versions.VerTypes.Latest,
-                methodType: BaseModel.MethodTypes.Index,
-                allowAccess: permissionType.CanRead(),
-                siteId: siteSettings.SiteId,
-                parentId: siteSettings.ParentId,
-                referenceType: "Users",
-                script: Libraries.Scripts.JavaScripts.DataView(
-                    siteSettings: siteSettings,
-                    permissionType: permissionType,
-                    formData: formData,
-                    dataViewName: dataViewName),
-                userScript: siteSettings.GridScript,
-                userStyle: siteSettings.GridStyle,
-                action: () => hb
-                    .Form(
-                        attributes: new HtmlAttributes()
-                            .Id("UsersForm")
-                            .Class("main-form")
-                            .Action(Navigations.ItemAction(siteSettings.SiteId)),
-                        action: () => hb
-                            .DataViewFilters(siteSettings: siteSettings)
-                            .Aggregations(
-                                siteSettings: siteSettings,
-                                aggregations: userCollection.Aggregations)
-                            .Div(id: "DataViewContainer", action: () => dataViewBody())
-                            .MainCommands(
-                                siteId: siteSettings.SiteId,
-                                permissionType: permissionType,
-                                verType: Versions.VerTypes.Latest,
-                                bulkMoveButton: true,
-                                bulkDeleteButton: true,
-                                importButton: true,
-                                exportButton: true)
-                            .Div(css: "margin-bottom")
-                            .Hidden(controlId: "TableName", value: "Users")
-                            .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
-                .MoveDialog(bulk: true)
-                .Div(attributes: new HtmlAttributes()
-                    .Id("ExportSettingsDialog")
-                    .Class("dialog")
-                    .Title(Displays.ExportSettings())))
-                .ToString();
-        }
-
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -133,6 +78,61 @@ namespace Implem.Pleasanter.Models
                             .Class("dialog")
                             .Title(Displays.ExportSettings()));
                 }).ToString();
+        }
+
+        private static string DataViewTemplate(
+            this HtmlBuilder hb,
+            SiteSettings siteSettings,
+            Permissions.Types permissionType,
+            UserCollection userCollection,
+            FormData formData,
+            string dataViewName,
+            Action dataViewBody)
+        {
+            return hb.Template(
+                permissionType: permissionType,
+                verType: Versions.VerTypes.Latest,
+                methodType: BaseModel.MethodTypes.Index,
+                allowAccess: permissionType.CanRead(),
+                siteId: siteSettings.SiteId,
+                parentId: siteSettings.ParentId,
+                referenceType: "Users",
+                script: Libraries.Scripts.JavaScripts.DataView(
+                    siteSettings: siteSettings,
+                    permissionType: permissionType,
+                    formData: formData,
+                    dataViewName: dataViewName),
+                userScript: siteSettings.GridScript,
+                userStyle: siteSettings.GridStyle,
+                action: () => hb
+                    .Form(
+                        attributes: new HtmlAttributes()
+                            .Id("UsersForm")
+                            .Class("main-form")
+                            .Action(Navigations.ItemAction(siteSettings.SiteId)),
+                        action: () => hb
+                            .DataViewFilters(siteSettings: siteSettings)
+                            .Aggregations(
+                                siteSettings: siteSettings,
+                                aggregations: userCollection.Aggregations)
+                            .Div(id: "DataViewContainer", action: () => dataViewBody())
+                            .MainCommands(
+                                siteId: siteSettings.SiteId,
+                                permissionType: permissionType,
+                                verType: Versions.VerTypes.Latest,
+                                bulkMoveButton: true,
+                                bulkDeleteButton: true,
+                                importButton: true,
+                                exportButton: true)
+                            .Div(css: "margin-bottom")
+                            .Hidden(controlId: "TableName", value: "Users")
+                            .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
+                .MoveDialog(bulk: true)
+                .Div(attributes: new HtmlAttributes()
+                    .Id("ExportSettingsDialog")
+                    .Class("dialog")
+                    .Title(Displays.ExportSettings())))
+                .ToString();
         }
 
         public static string IndexJson(SiteSettings siteSettings, Permissions.Types permissionType)
