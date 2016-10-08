@@ -835,13 +835,8 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public string Move()
+        public Error.Types Move(long siteId)
         {
-            var siteId = Forms.Long("MoveTargets");
-            if (siteId == 0 || !Permissions.CanMove(SiteId, siteId))
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
             SiteId = siteId;
             Rds.ExecuteNonQuery(statements: new SqlStatement[]
             {
@@ -853,8 +848,7 @@ namespace Implem.Pleasanter.Models
                     param: Rds.IssuesParam().SiteId(SiteId))
             });
             Get();
-            Sessions.Set("Message", Messages.Moved(Title.Value).Html);
-            return Editor();
+            return Error.Types.None;
         }
 
         public Error.Types Delete()

@@ -1850,6 +1850,15 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
+        public static Error.Types OnMoving(long siteId, long targetSiteId)
+        {
+            if (targetSiteId == 0 || !Permissions.CanMove(siteId, targetSiteId))
+            {
+                return Error.Types.HasNotPermission;
+            }
+            return Error.Types.None;
+        }
+
         public static Error.Types OnDeleting(
             SiteSettings siteSettings, Permissions.Types permissionType, IssueModel issueModel)
         {

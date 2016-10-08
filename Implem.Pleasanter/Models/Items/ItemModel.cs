@@ -471,24 +471,14 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (ReferenceType)
             {
-                case "Issues": return new IssueModel(
-                    Site.IssuesSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId,
-                    setByForm: true)
-                        .Move();
-                case "Results": return new ResultModel(
-                    Site.ResultsSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId,
-                    setByForm: true)
-                        .Move();
-                case "Wikis": return new WikiModel(
-                    Site.WikisSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId,
-                    setByForm: true)
-                        .Move();
+                case "Issues": return IssueUtilities.Move(
+                    siteSettings: Site.IssuesSiteSettings(),
+                    permissionType: Site.PermissionType,
+                    issueId: ReferenceId);
+                case "Results": return ResultUtilities.Move(
+                    siteSettings: Site.ResultsSiteSettings(),
+                    permissionType: Site.PermissionType,
+                    resultId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }

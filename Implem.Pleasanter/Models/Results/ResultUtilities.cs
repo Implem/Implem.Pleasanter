@@ -940,6 +940,29 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string Move(
+            SiteSettings siteSettings, Permissions.Types permissionType, long resultId)
+        {
+            var targetSiteId = Forms.Long("MoveTargets");
+            var resultModel = new ResultModel(siteSettings, permissionType, resultId);
+            var invalid = ResultValidator.OnMoving(resultModel.SiteId, targetSiteId);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var error = resultModel.Move(targetSiteId);
+            if (error.Has())
+            {
+                return error.MessageJson();
+            }
+            else
+            {
+                Sessions.Set("Message", Messages.Moved(resultModel.Title.Value).Html);
+                return EditorResponse(resultModel).ToJson();
+            }
+        }
+
         public static string Delete(
             SiteSettings siteSettings, Permissions.Types permissionType, long resultId)
         {

@@ -260,28 +260,6 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public string Move()
-        {
-            var siteId = Forms.Long("MoveTargets");
-            if (siteId == 0 || !Permissions.CanMove(SiteId, siteId))
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            SiteId = siteId;
-            Rds.ExecuteNonQuery(statements: new SqlStatement[]
-            {
-                Rds.UpdateItems(
-                    where: Rds.ItemsWhere().ReferenceId(WikiId),
-                    param: Rds.ItemsParam().SiteId(SiteId)),
-                Rds.UpdateWikis(
-                    where: Rds.WikisWhere().WikiId(WikiId),
-                    param: Rds.WikisParam().SiteId(SiteId))
-            });
-            Get();
-            Sessions.Set("Message", Messages.Moved(Title.Value).Html);
-            return Editor();
-        }
-
         /// <summary>
         /// Fixed:
         /// </summary>
