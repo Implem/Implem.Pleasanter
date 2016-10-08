@@ -297,23 +297,6 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        private string EditorJson(OutgoingMailModel outgoingMailModel, Message message = null)
-        {
-            outgoingMailModel.MethodType = MethodTypes.Edit;
-            return new OutgoingMailsResponseCollection(this)
-                .Invoke("clearDialogs")
-                .ReplaceAll(
-                    "#MainContainer",
-                    outgoingMailModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? OutgoingMailUtilities.Editor(outgoingMailModel)
-                        : OutgoingMailUtilities.Editor(this))
-                .Invoke("setCurrentIndex")
-                .Invoke("validateOutgoingMails")
-                .Message(message)
-                .ClearFormData()
-                .ToJson();
-        }
-
         private void SetByForm()
         {
             Forms.Keys().ForEach(controlId =>

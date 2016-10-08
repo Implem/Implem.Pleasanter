@@ -422,23 +422,6 @@ namespace Implem.Pleasanter.Models
             return Editor();
         }
 
-        private string EditorJson(UserModel userModel, Message message = null)
-        {
-            userModel.MethodType = MethodTypes.Edit;
-            return new UsersResponseCollection(this)
-                .Invoke("clearDialogs")
-                .ReplaceAll(
-                    "#MainContainer",
-                    userModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? UserUtilities.Editor(userModel)
-                        : UserUtilities.Editor(this))
-                .Invoke("setCurrentIndex")
-                .Invoke("validateUsers")
-                .Message(message)
-                .ClearFormData()
-                .ToJson();
-        }
-
         private void SetByForm()
         {
             Forms.Keys().ForEach(controlId =>

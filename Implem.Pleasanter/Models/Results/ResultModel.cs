@@ -1093,24 +1093,6 @@ namespace Implem.Pleasanter.Models
             return Editor();
         }
 
-        private string EditorJson(ResultModel resultModel, Message message = null)
-        {
-            var siteModel = new SiteModel(SiteId);
-            resultModel.MethodType = MethodTypes.Edit;
-            return new ResultsResponseCollection(this)
-                .Invoke("clearDialogs")
-                .ReplaceAll(
-                    "#MainContainer",
-                    resultModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? ResultUtilities.Editor(siteModel, resultModel)
-                        : ResultUtilities.Editor(siteModel, this))
-                .Invoke("setCurrentIndex")
-                .Invoke("validateResults")
-                .Message(message)
-                .ClearFormData()
-                .ToJson();
-        }
-
         private void SetByForm()
         {
             Forms.Keys().ForEach(controlId =>

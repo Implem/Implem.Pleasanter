@@ -281,23 +281,6 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        private string EditorJson(DemoModel demoModel, Message message = null)
-        {
-            demoModel.MethodType = MethodTypes.Edit;
-            return new DemosResponseCollection(this)
-                .Invoke("clearDialogs")
-                .ReplaceAll(
-                    "#MainContainer",
-                    demoModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? DemoUtilities.Editor(demoModel)
-                        : DemoUtilities.Editor(this))
-                .Invoke("setCurrentIndex")
-                .Invoke("validateDemos")
-                .Message(message)
-                .ClearFormData()
-                .ToJson();
-        }
-
         private void SetByForm()
         {
             Forms.Keys().ForEach(controlId =>

@@ -270,23 +270,6 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        private string EditorJson(TenantModel tenantModel, Message message = null)
-        {
-            tenantModel.MethodType = MethodTypes.Edit;
-            return new TenantsResponseCollection(this)
-                .Invoke("clearDialogs")
-                .ReplaceAll(
-                    "#MainContainer",
-                    tenantModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? TenantUtilities.Editor(tenantModel)
-                        : TenantUtilities.Editor(this))
-                .Invoke("setCurrentIndex")
-                .Invoke("validateTenants")
-                .Message(message)
-                .ClearFormData()
-                .ToJson();
-        }
-
         private void SetByForm()
         {
             Forms.Keys().ForEach(controlId =>

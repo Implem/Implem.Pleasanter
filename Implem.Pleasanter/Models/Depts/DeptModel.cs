@@ -330,23 +330,6 @@ namespace Implem.Pleasanter.Models
             return Editor();
         }
 
-        private string EditorJson(DeptModel deptModel, Message message = null)
-        {
-            deptModel.MethodType = MethodTypes.Edit;
-            return new DeptsResponseCollection(this)
-                .Invoke("clearDialogs")
-                .ReplaceAll(
-                    "#MainContainer",
-                    deptModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? DeptUtilities.Editor(deptModel)
-                        : DeptUtilities.Editor(this))
-                .Invoke("setCurrentIndex")
-                .Invoke("validateDepts")
-                .Message(message)
-                .ClearFormData()
-                .ToJson();
-        }
-
         private void SetByForm()
         {
             Forms.Keys().ForEach(controlId =>

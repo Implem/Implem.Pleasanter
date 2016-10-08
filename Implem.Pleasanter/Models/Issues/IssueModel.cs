@@ -1066,76 +1066,6 @@ namespace Implem.Pleasanter.Models
                     addUpdatorParam: false));
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public string EditSeparateSettings()
-        {
-            return new ResponseCollection()
-                .Html(
-                    "#SeparateSettingsDialog",
-                    new HtmlBuilder().SeparateSettings(
-                        Title.Value,
-                        WorkValue.Value,
-                        SiteSettings.GetColumn("WorkValue"),
-                        PermissionType))
-                .Invoke("separateSettings")
-                .ToJson();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public string Separate()
-        {
-            var number = Forms.Int("SeparateNumber");
-            if (number >= 2)
-            {
-                var idHash = new Dictionary<int, long> { { 1, IssueId } };
-                var ver = Ver;
-                var timestampHash = new Dictionary<int, string> { { 1, Timestamp } };
-                var comments = Comments.ToJson();
-                for (var index = 2; index <= number; index++)
-                {
-                    IssueId = 0;
-                    Create(paramAll: true);
-                    idHash.Add(index, IssueId);
-                    timestampHash.Add(index, Timestamp);
-                }
-                var addCommentCollection = new List<string> { Displays.Separated() };
-                addCommentCollection.AddRange(idHash.Select(o => "[{0}]({1}{2})".Params(
-                    Forms.Data("SeparateTitle_" + o.Key),
-                    Url.Server(),
-                    Navigations.ItemEdit(o.Value))));
-                var addComment = addCommentCollection.Join("\n");
-                for (var index = number; index >= 1; index--)
-                {
-                    var source = index == 1;
-                    IssueId = idHash[index];
-                    Ver = source
-                        ? ver
-                        : 1;
-                    Timestamp = timestampHash[index];
-                    Title.Value = Forms.Data("SeparateTitle_" + index);
-                    WorkValue.Value = source
-                        ? Forms.Decimal("SourceWorkValue")
-                        : Forms.Decimal("SeparateWorkValue_" + index);
-                    Comments.Clear();
-                    if (source || Forms.Bool("SeparateCopyWithComments"))
-                    {
-                        Comments = comments.Deserialize<Comments>();
-                    }
-                    Comments.Prepend(addComment);
-                    Update(paramAll: true);
-                }
-                return EditorJson(this, Messages.Separated());
-            }
-            else
-            {
-                return Messages.ResponseInvalidRequest().ToJson();
-            }
-        }
-
         public string Histories()
         {
             var hb = new HtmlBuilder();
@@ -1181,24 +1111,6 @@ namespace Implem.Pleasanter.Models
                 : Versions.VerTypes.History;
             SwitchTargets = IssueUtilities.GetSwitchTargets(SiteSettings, SiteId);
             return Editor();
-        }
-
-        private string EditorJson(IssueModel issueModel, Message message = null)
-        {
-            var siteModel = new SiteModel(SiteId);
-            issueModel.MethodType = MethodTypes.Edit;
-            return new IssuesResponseCollection(this)
-                .Invoke("clearDialogs")
-                .ReplaceAll(
-                    "#MainContainer",
-                    issueModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? IssueUtilities.Editor(siteModel, issueModel)
-                        : IssueUtilities.Editor(siteModel, this))
-                .Invoke("setCurrentIndex")
-                .Invoke("validateIssues")
-                .Message(message)
-                .ClearFormData()
-                .ToJson();
         }
 
         private void SetByForm()

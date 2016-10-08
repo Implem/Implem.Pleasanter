@@ -308,23 +308,6 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        private string EditorJson(BinaryModel binaryModel, Message message = null)
-        {
-            binaryModel.MethodType = MethodTypes.Edit;
-            return new BinariesResponseCollection(this)
-                .Invoke("clearDialogs")
-                .ReplaceAll(
-                    "#MainContainer",
-                    binaryModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? BinaryUtilities.Editor(binaryModel)
-                        : BinaryUtilities.Editor(this))
-                .Invoke("setCurrentIndex")
-                .Invoke("validateBinaries")
-                .Message(message)
-                .ClearFormData()
-                .ToJson();
-        }
-
         private void SetByForm()
         {
             Forms.Keys().ForEach(controlId =>

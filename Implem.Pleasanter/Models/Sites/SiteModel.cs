@@ -429,23 +429,6 @@ namespace Implem.Pleasanter.Models
             return Editor();
         }
 
-        private string EditorJson(SiteModel siteModel, Message message = null)
-        {
-            siteModel.MethodType = MethodTypes.Edit;
-            return new SitesResponseCollection(this)
-                .Invoke("clearDialogs")
-                .ReplaceAll(
-                    "#MainContainer",
-                    siteModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? SiteUtilities.Editor(siteModel)
-                        : SiteUtilities.Editor(this))
-                .Invoke("setCurrentIndex")
-                .Invoke("validateSites")
-                .Message(message)
-                .ClearFormData()
-                .ToJson();
-        }
-
         private void SetByForm()
         {
             Forms.Keys().ForEach(controlId =>

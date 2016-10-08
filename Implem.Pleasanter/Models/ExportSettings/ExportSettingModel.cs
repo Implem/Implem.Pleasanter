@@ -356,23 +356,6 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        private string EditorJson(ExportSettingModel exportSettingModel, Message message = null)
-        {
-            exportSettingModel.MethodType = MethodTypes.Edit;
-            return new ExportSettingsResponseCollection(this)
-                .Invoke("clearDialogs")
-                .ReplaceAll(
-                    "#MainContainer",
-                    exportSettingModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? ExportSettingUtilities.Editor(exportSettingModel)
-                        : ExportSettingUtilities.Editor(this))
-                .Invoke("setCurrentIndex")
-                .Invoke("validateExportSettings")
-                .Message(message)
-                .ClearFormData()
-                .ToJson();
-        }
-
         private void SetByForm()
         {
             Forms.Keys().ForEach(controlId =>

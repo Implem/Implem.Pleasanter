@@ -271,23 +271,6 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        private string EditorJson(MailAddressModel mailAddressModel, Message message = null)
-        {
-            mailAddressModel.MethodType = MethodTypes.Edit;
-            return new MailAddressesResponseCollection(this)
-                .Invoke("clearDialogs")
-                .ReplaceAll(
-                    "#MainContainer",
-                    mailAddressModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? MailAddressUtilities.Editor(mailAddressModel)
-                        : MailAddressUtilities.Editor(this))
-                .Invoke("setCurrentIndex")
-                .Invoke("validateMailAddresses")
-                .Message(message)
-                .ClearFormData()
-                .ToJson();
-        }
-
         private void SetByForm()
         {
             Forms.Keys().ForEach(controlId =>

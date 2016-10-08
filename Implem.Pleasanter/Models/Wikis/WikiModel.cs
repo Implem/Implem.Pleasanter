@@ -491,24 +491,6 @@ namespace Implem.Pleasanter.Models
             return Editor();
         }
 
-        private string EditorJson(WikiModel wikiModel, Message message = null)
-        {
-            var siteModel = new SiteModel(SiteId);
-            wikiModel.MethodType = MethodTypes.Edit;
-            return new WikisResponseCollection(this)
-                .Invoke("clearDialogs")
-                .ReplaceAll(
-                    "#MainContainer",
-                    wikiModel.AccessStatus == Databases.AccessStatuses.Selected
-                        ? WikiUtilities.Editor(siteModel, wikiModel)
-                        : WikiUtilities.Editor(siteModel, this))
-                .Invoke("setCurrentIndex")
-                .Invoke("validateWikis")
-                .Message(message)
-                .ClearFormData()
-                .ToJson();
-        }
-
         private void SetByForm()
         {
             Forms.Keys().ForEach(controlId =>
