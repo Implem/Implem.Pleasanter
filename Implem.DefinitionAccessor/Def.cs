@@ -325,6 +325,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Delete_Item": Code.Model_Delete_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_Item, definitionRow, CodeXls); break;
                     case "Model_Delete_Sites": Code.Model_Delete_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_Sites, definitionRow, CodeXls); break;
                     case "Model_Delete_SitesItems": Code.Model_Delete_SitesItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_SitesItems, definitionRow, CodeXls); break;
+                    case "Model_OnDeleted_SetSiteInfo": Code.Model_OnDeleted_SetSiteInfo = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnDeleted_SetSiteInfo, definitionRow, CodeXls); break;
                     case "Model_Restore": Code.Model_Restore = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Restore, definitionRow, CodeXls); break;
                     case "Model_Restore_Item": Code.Model_Restore_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Restore_Item, definitionRow, CodeXls); break;
                     case "Model_PhysicalDelete": Code.Model_PhysicalDelete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PhysicalDelete, definitionRow, CodeXls); break;
@@ -354,10 +355,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetBySession": Code.Model_SetBySession = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetBySession, definitionRow, CodeXls); break;
                     case "Model_SetPk": Code.Model_SetPk = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetPk, definitionRow, CodeXls); break;
                     case "Model_Set": Code.Model_Set = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Set, definitionRow, CodeXls); break;
-                    case "Model_RedirectAfterDelete": Code.Model_RedirectAfterDelete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_RedirectAfterDelete, definitionRow, CodeXls); break;
-                    case "Model_RedirectAfterDeleteNotItem": Code.Model_RedirectAfterDeleteNotItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_RedirectAfterDeleteNotItem, definitionRow, CodeXls); break;
-                    case "Model_RedirectAfterDeleteItem": Code.Model_RedirectAfterDeleteItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_RedirectAfterDeleteItem, definitionRow, CodeXls); break;
-                    case "Model_RedirectAfterDeleteSite": Code.Model_RedirectAfterDeleteSite = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_RedirectAfterDeleteSite, definitionRow, CodeXls); break;
                     case "Model_Histories": Code.Model_Histories = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Histories, definitionRow, CodeXls); break;
                     case "Model_PushState": Code.Model_PushState = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PushState, definitionRow, CodeXls); break;
                     case "Model_PushState_Item": Code.Model_PushState_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PushState_Item, definitionRow, CodeXls); break;
@@ -469,6 +466,14 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utility_ResponseByUpdate_FormulaResponse": Code.Model_Utility_ResponseByUpdate_FormulaResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_ResponseByUpdate_FormulaResponse, definitionRow, CodeXls); break;
                     case "Model_Utility_Copy": Code.Model_Utility_Copy = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_Copy, definitionRow, CodeXls); break;
                     case "Model_Utility_Copy_Sites": Code.Model_Utility_Copy_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_Copy_Sites, definitionRow, CodeXls); break;
+                    case "Model_Utility_Delete": Code.Model_Utility_Delete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_Delete, definitionRow, CodeXls); break;
+                    case "Model_Utility_DeleteParams": Code.Model_Utility_DeleteParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_DeleteParams, definitionRow, CodeXls); break;
+                    case "Model_Utility_DeleteParams_Sites": Code.Model_Utility_DeleteParams_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_DeleteParams_Sites, definitionRow, CodeXls); break;
+                    case "Model_Utility_RedirectAfterDelete": Code.Model_Utility_RedirectAfterDelete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_RedirectAfterDelete, definitionRow, CodeXls); break;
+                    case "Model_Utility_RedirectAfterDeleteNotItem": Code.Model_Utility_RedirectAfterDeleteNotItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_RedirectAfterDeleteNotItem, definitionRow, CodeXls); break;
+                    case "Model_Utility_RedirectAfterDeleteItem": Code.Model_Utility_RedirectAfterDeleteItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_RedirectAfterDeleteItem, definitionRow, CodeXls); break;
+                    case "Model_Utility_RedirectAfterDelete_Sites": Code.Model_Utility_RedirectAfterDelete_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_RedirectAfterDelete_Sites, definitionRow, CodeXls); break;
+                    case "Model_Utility_RedirectAfterDelete_Wikis": Code.Model_Utility_RedirectAfterDelete_Wikis = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_RedirectAfterDelete_Wikis, definitionRow, CodeXls); break;
                     case "Model_Utility_TitleDisplay": Code.Model_Utility_TitleDisplay = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_TitleDisplay, definitionRow, CodeXls); break;
                     case "Model_Utility_ResponseLinks": Code.Model_Utility_ResponseLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_ResponseLinks, definitionRow, CodeXls); break;
                     case "Model_Utility_SiteModel": Code.Model_Utility_SiteModel = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_SiteModel, definitionRow, CodeXls); break;
@@ -499,7 +504,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utility_CanEditTenant": Code.Model_Utility_CanEditTenant = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_CanEditTenant, definitionRow, CodeXls); break;
                     case "Model_Utility_CanEditSys": Code.Model_Utility_CanEditSys = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utility_CanEditSys, definitionRow, CodeXls); break;
                     case "Model_Validator": Code.Model_Validator = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator, definitionRow, CodeXls); break;
-                    case "Model_ValidatorItems": Code.Model_ValidatorItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidatorItems, definitionRow, CodeXls); break;
                     case "Model_ValidatorMethods": Code.Model_ValidatorMethods = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidatorMethods, definitionRow, CodeXls); break;
                     case "Model_Validate_OnCreatingCases": Code.Model_Validate_OnCreatingCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validate_OnCreatingCases, definitionRow, CodeXls); break;
                     case "Model_Validate_OnUpdating_Users": Code.Model_Validate_OnUpdating_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validate_OnUpdating_Users, definitionRow, CodeXls); break;
@@ -3881,6 +3885,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Delete_Item;
         public string Model_Delete_Sites;
         public string Model_Delete_SitesItems;
+        public string Model_OnDeleted_SetSiteInfo;
         public string Model_Restore;
         public string Model_Restore_Item;
         public string Model_PhysicalDelete;
@@ -3910,10 +3915,6 @@ namespace Implem.DefinitionAccessor
         public string Model_SetBySession;
         public string Model_SetPk;
         public string Model_Set;
-        public string Model_RedirectAfterDelete;
-        public string Model_RedirectAfterDeleteNotItem;
-        public string Model_RedirectAfterDeleteItem;
-        public string Model_RedirectAfterDeleteSite;
         public string Model_Histories;
         public string Model_PushState;
         public string Model_PushState_Item;
@@ -4025,6 +4026,14 @@ namespace Implem.DefinitionAccessor
         public string Model_Utility_ResponseByUpdate_FormulaResponse;
         public string Model_Utility_Copy;
         public string Model_Utility_Copy_Sites;
+        public string Model_Utility_Delete;
+        public string Model_Utility_DeleteParams;
+        public string Model_Utility_DeleteParams_Sites;
+        public string Model_Utility_RedirectAfterDelete;
+        public string Model_Utility_RedirectAfterDeleteNotItem;
+        public string Model_Utility_RedirectAfterDeleteItem;
+        public string Model_Utility_RedirectAfterDelete_Sites;
+        public string Model_Utility_RedirectAfterDelete_Wikis;
         public string Model_Utility_TitleDisplay;
         public string Model_Utility_ResponseLinks;
         public string Model_Utility_SiteModel;
@@ -4055,7 +4064,6 @@ namespace Implem.DefinitionAccessor
         public string Model_Utility_CanEditTenant;
         public string Model_Utility_CanEditSys;
         public string Model_Validator;
-        public string Model_ValidatorItems;
         public string Model_ValidatorMethods;
         public string Model_Validate_OnCreatingCases;
         public string Model_Validate_OnUpdating_Users;
@@ -4300,6 +4308,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Delete_Item = new CodeDefinition();
         public CodeDefinition Model_Delete_Sites = new CodeDefinition();
         public CodeDefinition Model_Delete_SitesItems = new CodeDefinition();
+        public CodeDefinition Model_OnDeleted_SetSiteInfo = new CodeDefinition();
         public CodeDefinition Model_Restore = new CodeDefinition();
         public CodeDefinition Model_Restore_Item = new CodeDefinition();
         public CodeDefinition Model_PhysicalDelete = new CodeDefinition();
@@ -4329,10 +4338,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetBySession = new CodeDefinition();
         public CodeDefinition Model_SetPk = new CodeDefinition();
         public CodeDefinition Model_Set = new CodeDefinition();
-        public CodeDefinition Model_RedirectAfterDelete = new CodeDefinition();
-        public CodeDefinition Model_RedirectAfterDeleteNotItem = new CodeDefinition();
-        public CodeDefinition Model_RedirectAfterDeleteItem = new CodeDefinition();
-        public CodeDefinition Model_RedirectAfterDeleteSite = new CodeDefinition();
         public CodeDefinition Model_Histories = new CodeDefinition();
         public CodeDefinition Model_PushState = new CodeDefinition();
         public CodeDefinition Model_PushState_Item = new CodeDefinition();
@@ -4444,6 +4449,14 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utility_ResponseByUpdate_FormulaResponse = new CodeDefinition();
         public CodeDefinition Model_Utility_Copy = new CodeDefinition();
         public CodeDefinition Model_Utility_Copy_Sites = new CodeDefinition();
+        public CodeDefinition Model_Utility_Delete = new CodeDefinition();
+        public CodeDefinition Model_Utility_DeleteParams = new CodeDefinition();
+        public CodeDefinition Model_Utility_DeleteParams_Sites = new CodeDefinition();
+        public CodeDefinition Model_Utility_RedirectAfterDelete = new CodeDefinition();
+        public CodeDefinition Model_Utility_RedirectAfterDeleteNotItem = new CodeDefinition();
+        public CodeDefinition Model_Utility_RedirectAfterDeleteItem = new CodeDefinition();
+        public CodeDefinition Model_Utility_RedirectAfterDelete_Sites = new CodeDefinition();
+        public CodeDefinition Model_Utility_RedirectAfterDelete_Wikis = new CodeDefinition();
         public CodeDefinition Model_Utility_TitleDisplay = new CodeDefinition();
         public CodeDefinition Model_Utility_ResponseLinks = new CodeDefinition();
         public CodeDefinition Model_Utility_SiteModel = new CodeDefinition();
@@ -4474,7 +4487,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utility_CanEditTenant = new CodeDefinition();
         public CodeDefinition Model_Utility_CanEditSys = new CodeDefinition();
         public CodeDefinition Model_Validator = new CodeDefinition();
-        public CodeDefinition Model_ValidatorItems = new CodeDefinition();
         public CodeDefinition Model_ValidatorMethods = new CodeDefinition();
         public CodeDefinition Model_Validate_OnCreatingCases = new CodeDefinition();
         public CodeDefinition Model_Validate_OnUpdating_Users = new CodeDefinition();

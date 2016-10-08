@@ -195,13 +195,8 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        public string Delete(bool redirect = true)
+        public Error.Types Delete()
         {
-            if (!PermissionType.CanEditSys())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            OnDeleting();
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: new SqlStatement[]
@@ -209,22 +204,7 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteTenants(
                         where: Rds.TenantsWhere().TenantId(TenantId))
                 });
-            Sessions.Set("Message", Messages.Deleted(Title.Value).Html);
-            var responseCollection = new TenantsResponseCollection(this);
-            OnDeleted(ref responseCollection);
-            if (redirect)
-            {
-                responseCollection.Href(Navigations.Index("Tenants"));
-            }
-            return responseCollection.ToJson();
-        }
-
-        private void OnDeleting()
-        {
-        }
-
-        private void OnDeleted(ref TenantsResponseCollection responseCollection)
-        {
+            return Error.Types.None;
         }
 
         public string Restore(int tenantId)

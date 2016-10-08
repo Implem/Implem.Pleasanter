@@ -112,12 +112,10 @@ namespace Implem.Pleasanter.Controllers
         public string Delete(int id)
         {
             var log = new SysLogModel();
-            var json = new UserModel(
-                SiteSettingsUtility.UsersSiteSettings(),
-                Permissions.Admins(),
-                id,
-                setByForm: true)
-                    .Delete();
+            var json = UserUtilities.Delete(
+                siteSettings: SiteSettingsUtility.UsersSiteSettings(),
+                permissionType: Permissions.Admins(),
+                userId: id);
             log.Finish(json.Length);
             return json;
         }

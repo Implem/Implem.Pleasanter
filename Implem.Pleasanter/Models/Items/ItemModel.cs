@@ -513,26 +513,19 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (ReferenceType)
             {
-                case "Sites": return new SiteModel(ReferenceId, setByForm: true)
-                    .Delete();
-                case "Issues": return new IssueModel(
-                    Site.IssuesSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId,
-                    setByForm: true)
-                        .Delete();
-                case "Results": return new ResultModel(
-                    Site.ResultsSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId,
-                    setByForm: true)
-                        .Delete();
-                case "Wikis": return new WikiModel(
-                    Site.WikisSiteSettings(),
-                    Site.PermissionType,
-                    ReferenceId,
-                    setByForm: true)
-                        .Delete();
+                case "Sites": return SiteUtilities.Delete(siteId: ReferenceId);
+                case "Issues": return IssueUtilities.Delete(
+                    siteSettings: Site.IssuesSiteSettings(),
+                    permissionType: Site.PermissionType,
+                    issueId: ReferenceId);
+                case "Results": return ResultUtilities.Delete(
+                    siteSettings: Site.ResultsSiteSettings(),
+                    permissionType: Site.PermissionType,
+                    resultId: ReferenceId);
+                case "Wikis": return WikiUtilities.Delete(
+                    siteSettings: Site.WikisSiteSettings(),
+                    permissionType: Site.PermissionType,
+                    wikiId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }

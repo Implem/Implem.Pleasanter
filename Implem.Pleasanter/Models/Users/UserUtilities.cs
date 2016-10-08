@@ -687,6 +687,30 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData();
         }
 
+        public static string Delete(
+            SiteSettings siteSettings, Permissions.Types permissionType, int userId)
+        {
+            var userModel = new UserModel(siteSettings, permissionType, userId);
+            var invalid = UserValidator.OnDeleting(siteSettings, permissionType, userModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var error = userModel.Delete();
+            if (error.Has())
+            {
+                return error.MessageJson();
+            }
+            else
+            {
+                Sessions.Set("Message", Messages.Deleted(userModel.Title.Value).Html);
+                var responseCollection = new UsersResponseCollection(userModel);
+                responseCollection.Href(Navigations.Index("Users"));
+                return responseCollection.ToJson();
+            }
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>

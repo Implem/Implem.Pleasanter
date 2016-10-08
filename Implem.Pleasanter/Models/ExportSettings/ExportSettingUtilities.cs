@@ -222,19 +222,40 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string Edit(string referenceType, long referenceId)
+        public static string Delete(string referenceType, long referenceId)
         {
-            return Edit(new ResponseCollection(), referenceType, referenceId).ToJson();
+            var exportSettingModel = new ExportSettingModel(
+                Permissions.GetBySiteId(referenceId),
+                referenceType,
+                referenceId,
+                withTitle: true);
+            var error = exportSettingModel.Delete();
+            if (error.Has())
+            {
+                return error.MessageJson();
+            }
+            else
+            {
+                return EditorJson(referenceType, referenceId);
+            }
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static ResponseCollection Edit(
+        public static string EditorJson(string referenceType, long referenceId)
+        {
+            return EditorResponse(new ResponseCollection(), referenceType, referenceId).ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ResponseCollection EditorResponse(
             this ResponseCollection responseCollection, string referenceType, long referenceId)
         {
             var exportSettingModel = ExportSetting(referenceType, referenceId);
-            ExportSettingUtilities.SetSessions(exportSettingModel);
+            SetSessions(exportSettingModel);
             var hb = new HtmlBuilder();
             return responseCollection
                 .Html("#ExportSettingsDialog", hb

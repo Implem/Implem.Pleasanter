@@ -299,12 +299,8 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        public string Delete(bool redirect = true)
+        public Error.Types Delete()
         {
-            if (!PermissionType.CanEditSite())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
             var siteMenu = SiteInfo.SiteMenu.Children(SiteId, withParent: true);
             Rds.ExecuteNonQuery(
                 transactional: true,
@@ -329,14 +325,7 @@ namespace Implem.Pleasanter.Models
                             .TenantId(TenantId)
                             .SiteId_In(siteMenu.Select(o => o.SiteId)))
                 });
-            Sessions.Set("Message", Messages.Deleted(Title.Value).Html);
-            var responseCollection = new SitesResponseCollection(this);
-            SiteInfo.SiteMenu.RemoveAll((key, value) => key == SiteId);
-            if (redirect)
-            {
-                responseCollection.Href(Navigations.ItemIndex(ParentId));
-            }
-            return responseCollection.ToJson();
+            return Error.Types.None;
         }
 
         public string Restore(long siteId)

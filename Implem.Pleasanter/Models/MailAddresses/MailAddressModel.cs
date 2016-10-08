@@ -196,13 +196,8 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        public string Delete(bool redirect = true)
+        public Error.Types Delete()
         {
-            if (!PermissionType.CanDelete())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            OnDeleting();
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: new SqlStatement[]
@@ -210,22 +205,7 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteMailAddresses(
                         where: Rds.MailAddressesWhere().MailAddressId(MailAddressId))
                 });
-            Sessions.Set("Message", Messages.Deleted(Title.Value).Html);
-            var responseCollection = new MailAddressesResponseCollection(this);
-            OnDeleted(ref responseCollection);
-            if (redirect)
-            {
-                responseCollection.Href(Navigations.Index("MailAddresses"));
-            }
-            return responseCollection.ToJson();
-        }
-
-        private void OnDeleting()
-        {
-        }
-
-        private void OnDeleted(ref MailAddressesResponseCollection responseCollection)
-        {
+            return Error.Types.None;
         }
 
         public string Restore(long mailAddressId)

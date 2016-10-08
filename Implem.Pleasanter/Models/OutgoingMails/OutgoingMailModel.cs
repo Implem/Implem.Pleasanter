@@ -222,13 +222,8 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        public string Delete(bool redirect = true)
+        public Error.Types Delete()
         {
-            if (!PermissionType.CanDelete())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            OnDeleting();
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: new SqlStatement[]
@@ -236,22 +231,7 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteOutgoingMails(
                         where: Rds.OutgoingMailsWhere().OutgoingMailId(OutgoingMailId))
                 });
-            Sessions.Set("Message", Messages.Deleted(Title.Value).Html);
-            var responseCollection = new OutgoingMailsResponseCollection(this);
-            OnDeleted(ref responseCollection);
-            if (redirect)
-            {
-                responseCollection.Href(Navigations.Index("OutgoingMails"));
-            }
-            return responseCollection.ToJson();
-        }
-
-        private void OnDeleting()
-        {
-        }
-
-        private void OnDeleted(ref OutgoingMailsResponseCollection responseCollection)
-        {
+            return Error.Types.None;
         }
 
         public string Restore(long outgoingMailId)

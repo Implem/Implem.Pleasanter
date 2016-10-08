@@ -1849,5 +1849,15 @@ namespace Implem.Pleasanter.Models
             }
             return Error.Types.None;
         }
+
+        public static Error.Types OnDeleting(
+            SiteSettings siteSettings, Permissions.Types permissionType, IssueModel issueModel)
+        {
+            if (!permissionType.CanDelete())
+            {
+                return Error.Types.HasNotPermission;
+            }
+            return Error.Types.None;
+        }
     }
 }

@@ -593,6 +593,30 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData();
         }
 
+        public static string Delete(
+            SiteSettings siteSettings, Permissions.Types permissionType, int deptId)
+        {
+            var deptModel = new DeptModel(siteSettings, permissionType, deptId);
+            var invalid = DeptValidator.OnDeleting(siteSettings, permissionType, deptModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var error = deptModel.Delete();
+            if (error.Has())
+            {
+                return error.MessageJson();
+            }
+            else
+            {
+                Sessions.Set("Message", Messages.Deleted(deptModel.Title.Value).Html);
+                var responseCollection = new DeptsResponseCollection(deptModel);
+                responseCollection.Href(Navigations.Index("Depts"));
+                return responseCollection.ToJson();
+            }
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>

@@ -302,14 +302,8 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string Delete(bool redirect = true)
+        public Error.Types Delete()
         {
-            if (!PermissionType.CanDelete())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            var redirectUrl = Navigations.ItemIndex(new SiteModel(SiteId).ParentId);
-            OnDeleting();
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: new SqlStatement[]
@@ -323,21 +317,7 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteSites(
                         where: Rds.SitesWhere().SiteId(SiteId))
                 });
-            var responseCollection = new WikisResponseCollection(this);
-            OnDeleted(ref responseCollection);
-            if (redirect)
-            {
-                responseCollection.Href(redirectUrl);
-            }
-            return responseCollection.ToJson();
-        }
-
-        private void OnDeleting()
-        {
-        }
-
-        private void OnDeleted(ref WikisResponseCollection responseCollection)
-        {
+            return Error.Types.None;
         }
 
         public string Restore(long wikiId)

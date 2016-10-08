@@ -291,13 +291,8 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        public string Delete(bool redirect = true)
+        public Error.Types Delete()
         {
-            if (!PermissionType.CanEditTenant())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            OnDeleting();
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: new SqlStatement[]
@@ -305,31 +300,11 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteUsers(
                         where: Rds.UsersWhere().UserId(UserId))
                 });
-            Sessions.Set("Message", Messages.Deleted(Title.Value).Html);
-            var responseCollection = new UsersResponseCollection(this);
-            OnDeleted(ref responseCollection);
-            if (redirect)
-            {
-                responseCollection.Href(Navigations.Index("Users"));
-            }
-            return responseCollection.ToJson();
-        }
-
-        private void OnDeleting()
-        {
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void OnDeleted(ref UsersResponseCollection responseCollection)
-        {
             if (SiteInfo.UserHash.Keys.Contains(UserId))
             {
                 SiteInfo.UserHash.Remove(UserId);
-                SiteInfo.SiteUserIdCollection.ForEach(data =>
-                    data.Value.RemoveAll(o => o == UserId));
             }
+            return Error.Types.None;
         }
 
         public string Restore(int userId)

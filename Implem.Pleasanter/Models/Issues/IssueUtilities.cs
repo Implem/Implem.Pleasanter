@@ -980,6 +980,30 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string Delete(
+            SiteSettings siteSettings, Permissions.Types permissionType, long issueId)
+        {
+            var issueModel = new IssueModel(siteSettings, permissionType, issueId);
+            var invalid = IssueValidator.OnDeleting(siteSettings, permissionType, issueModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var error = issueModel.Delete();
+            if (error.Has())
+            {
+                return error.MessageJson();
+            }
+            else
+            {
+                Sessions.Set("Message", Messages.Deleted(issueModel.Title.Value).Html);
+                var responseCollection = new IssuesResponseCollection(issueModel);
+                responseCollection.Href(Navigations.ItemIndex(issueModel.SiteId));
+                return responseCollection.ToJson();
+            }
+        }
+
         public static string EditSeparateSettings(
             SiteSettings siteSettings, Permissions.Types permissionType, long issueId)
         {

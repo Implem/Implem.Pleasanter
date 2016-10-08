@@ -237,6 +237,31 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string Delete(long siteId)
+        {
+            var siteModel = new SiteModel(siteId);
+            var siteSettings = siteModel.SiteSettings;
+            var permissionType = siteModel.PermissionType;
+            var invalid = SiteValidator.OnDeleting(siteSettings, permissionType, siteModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var error = siteModel.Delete();
+            if (error.Has())
+            {
+                return error.MessageJson();
+            }
+            else
+            {
+                Sessions.Set("Message", Messages.Deleted(siteModel.Title.Value).Html);
+                var responseCollection = new SitesResponseCollection(siteModel);
+                responseCollection.Href(Navigations.ItemIndex(siteModel.ParentId));
+                return responseCollection.ToJson();
+            }
+        }
+
         public static string TitleDisplayValue(SiteSettings siteSettings, SiteModel siteModel)
         {
             var displayValue = siteSettings.TitleColumnCollection()

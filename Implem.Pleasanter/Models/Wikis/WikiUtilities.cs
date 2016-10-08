@@ -612,6 +612,31 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string Delete(
+            SiteSettings siteSettings, Permissions.Types permissionType, long wikiId)
+        {
+            var wikiModel = new WikiModel(siteSettings, permissionType, wikiId);
+            var invalid = WikiValidator.OnDeleting(siteSettings, permissionType, wikiModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var error = wikiModel.Delete();
+            if (error.Has())
+            {
+                return error.MessageJson();
+            }
+            else
+            {
+                Sessions.Set("Message", Messages.Deleted(wikiModel.Title.Value).Html);
+                var responseCollection = new WikisResponseCollection(wikiModel);
+                responseCollection.Href(Navigations.ItemIndex(
+                    new SiteModel(wikiModel.SiteId).ParentId));
+                return responseCollection.ToJson();
+            }
+        }
+
         public static string BulkMove(SiteSettings siteSettings, Permissions.Types permissionType)
         {
             var siteId = Forms.Long("MoveTargets");

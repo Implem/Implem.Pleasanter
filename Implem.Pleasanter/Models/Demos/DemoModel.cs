@@ -206,13 +206,8 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        public string Delete(bool redirect = true)
+        public Error.Types Delete()
         {
-            if (!PermissionType.CanEditSys())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            OnDeleting();
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: new SqlStatement[]
@@ -220,22 +215,7 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteDemos(
                         where: Rds.DemosWhere().DemoId(DemoId))
                 });
-            Sessions.Set("Message", Messages.Deleted(Title.Value).Html);
-            var responseCollection = new DemosResponseCollection(this);
-            OnDeleted(ref responseCollection);
-            if (redirect)
-            {
-                responseCollection.Href(Navigations.Index("Demos"));
-            }
-            return responseCollection.ToJson();
-        }
-
-        private void OnDeleting()
-        {
-        }
-
-        private void OnDeleted(ref DemosResponseCollection responseCollection)
-        {
+            return Error.Types.None;
         }
 
         public string Restore(int demoId)

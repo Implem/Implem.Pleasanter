@@ -277,13 +277,8 @@ namespace Implem.Pleasanter.Models
                 .Val("#ExportSettings_Title", Title.Value);
         }
 
-        public string Delete(bool redirect = true)
+        public Error.Types Delete()
         {
-            if (!PermissionType.CanExport())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            OnDeleting();
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: new SqlStatement[]
@@ -291,26 +286,7 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteExportSettings(
                         where: Rds.ExportSettingsWhere().ExportSettingId(ExportSettingId))
                 });
-            Sessions.Set("Message", Messages.Deleted(Title.Value).Html);
-            var responseCollection = new ExportSettingsResponseCollection(this);
-            OnDeleted(ref responseCollection);
-            if (redirect)
-            {
-                responseCollection.Href(Navigations.Index("ExportSettings"));
-            }
-            return responseCollection.ToJson();
-        }
-
-        private void OnDeleting()
-        {
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void OnDeleted(ref ExportSettingsResponseCollection responseCollection)
-        {
-            responseCollection.Edit(ReferenceType, ReferenceId);
+            return Error.Types.None;
         }
 
         public string Restore(long exportSettingId)
