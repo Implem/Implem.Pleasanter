@@ -387,14 +387,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void OnCreated()
-        {
-            SiteInfo.SetDept(this);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public string ToControl(Column column, Permissions.Types permissionType)
         {
             return string.Empty;
