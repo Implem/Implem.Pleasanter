@@ -44,7 +44,7 @@ namespace Implem.Pleasanter.Models
             if (get)
             {
                 Set(siteSettings, permissionType, Get(
-                siteSettings: siteSettings,
+                    siteSettings: siteSettings,
                     column: column,
                     join: join,
                     where: where,
