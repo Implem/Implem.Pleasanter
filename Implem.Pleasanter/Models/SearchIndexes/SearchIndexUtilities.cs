@@ -22,20 +22,6 @@ namespace Implem.Pleasanter.Models
 {
     public static class SearchIndexUtilities
     {
-        public static ResponseCollection FormResponse(
-            this ResponseCollection responseCollection, SearchIndexModel searchIndexModel)
-        {
-            Forms.All().Keys.ForEach(key =>
-            {
-                switch (key)
-                {
-                    case "SearchIndexes_Priority": responseCollection.Val("#" + key, searchIndexModel.Priority.ToControl(searchIndexModel.SiteSettings.GetColumn("Priority"), searchIndexModel.PermissionType)); break;
-                    default: break;
-                }
-            });
-            return responseCollection;
-        }
-
         /// <summary>
         /// Fixed:
         /// </summary>

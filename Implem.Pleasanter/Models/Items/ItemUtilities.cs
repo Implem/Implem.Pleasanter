@@ -22,19 +22,6 @@ namespace Implem.Pleasanter.Models
 {
     public static class ItemUtilities
     {
-        public static ResponseCollection FormResponse(
-            this ResponseCollection responseCollection, ItemModel itemModel)
-        {
-            Forms.All().Keys.ForEach(key =>
-            {
-                switch (key)
-                {
-                    default: break;
-                }
-            });
-            return responseCollection;
-        }
-
         /// <summary>
         /// Fixed:
         /// </summary>

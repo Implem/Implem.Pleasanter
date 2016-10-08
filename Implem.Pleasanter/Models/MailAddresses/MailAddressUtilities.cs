@@ -218,18 +218,5 @@ namespace Implem.Pleasanter.Models
             }
             return switchTargets;
         }
-
-        public static ResponseCollection FormResponse(
-            this ResponseCollection responseCollection, MailAddressModel mailAddressModel)
-        {
-            Forms.All().Keys.ForEach(key =>
-            {
-                switch (key)
-                {
-                    default: break;
-                }
-            });
-            return responseCollection;
-        }
     }
 }

@@ -215,18 +215,5 @@ namespace Implem.Pleasanter.Models
             }
             return switchTargets;
         }
-
-        public static ResponseCollection FormResponse(
-            this ResponseCollection responseCollection, TenantModel tenantModel)
-        {
-            Forms.All().Keys.ForEach(key =>
-            {
-                switch (key)
-                {
-                    default: break;
-                }
-            });
-            return responseCollection;
-        }
     }
 }
