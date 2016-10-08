@@ -218,6 +218,7 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             bool paramAll = false)
         {
+            PasswordExpirationPeriod();
             var newId = Rds.ExecuteScalar_int(
                 transactional: true,
                 statements: new SqlStatement[]
