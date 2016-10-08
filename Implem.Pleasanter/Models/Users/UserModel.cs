@@ -520,22 +520,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void OnCreating()
-        {
-            PasswordExpirationPeriod();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void OnCreated()
-        {
-            SetSiteInfo();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         private void UpdateMailAddresses()
         {
             var statements = new List<SqlStatement>
