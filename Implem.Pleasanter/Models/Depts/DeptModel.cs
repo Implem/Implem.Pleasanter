@@ -161,7 +161,7 @@ namespace Implem.Pleasanter.Models
                 });
             if (count == 0) return Error.Types.UpdateConflicts;
             Get();
-                SiteInfo.SetDept(this);
+            SiteInfo.SetDept(this);
             return Error.Types.None;
         }
 
