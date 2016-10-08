@@ -22,21 +22,6 @@ namespace Implem.Pleasanter.Models
 {
     public static class MailAddressUtilities
     {
-        public static HtmlBuilder TdValue(
-            this HtmlBuilder hb, Column column, MailAddressModel mailAddressModel)
-        {
-            switch (column.ColumnName)
-            {
-                case "Ver": return hb.Td(column: column, value: mailAddressModel.Ver);
-                case "Comments": return hb.Td(column: column, value: mailAddressModel.Comments);
-                case "Creator": return hb.Td(column: column, value: mailAddressModel.Creator);
-                case "Updator": return hb.Td(column: column, value: mailAddressModel.Updator);
-                case "CreatedTime": return hb.Td(column: column, value: mailAddressModel.CreatedTime);
-                case "UpdatedTime": return hb.Td(column: column, value: mailAddressModel.UpdatedTime);
-                default: return hb;
-            }
-        }
-
         public static string EditorNew()
         {
             return Editor(

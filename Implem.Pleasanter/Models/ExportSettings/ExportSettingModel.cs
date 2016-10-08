@@ -356,53 +356,6 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        public string Histories()
-        {
-            var hb = new HtmlBuilder();
-            hb.Table(
-                attributes: new HtmlAttributes().Class("grid"),
-                action: () => hb
-                    .THead(action: () => hb
-                        .GridHeader(
-                            columnCollection: SiteSettings.HistoryColumnCollection(),
-                            sort: false,
-                            checkRow: false))
-                    .TBody(action: () =>
-                        new ExportSettingCollection(
-                            siteSettings: SiteSettings,
-                            permissionType: PermissionType,
-                            where: Rds.ExportSettingsWhere().ExportSettingId(ExportSettingId),
-                            orderBy: Rds.ExportSettingsOrderBy().Ver(SqlOrderBy.Types.desc),
-                            tableType: Sqls.TableTypes.NormalAndHistory)
-                                .ForEach(exportSettingModel => hb
-                                    .Tr(
-                                        attributes: new HtmlAttributes()
-                                            .Class("grid-row history not-link")
-                                            .DataAction("History")
-                                            .DataMethod("post")
-                                            .DataVer(exportSettingModel.Ver)
-                                            .DataLatest(1, _using: exportSettingModel.Ver == Ver),
-                                        action: () =>
-                                            SiteSettings.HistoryColumnCollection()
-                                                .ForEach(column => hb
-                                                    .TdValue(column, exportSettingModel))))));
-            return new ExportSettingsResponseCollection(this).Html("#FieldSetHistories", hb).ToJson();
-        }
-
-        public string History()
-        {
-            Get(
-                where: Rds.ExportSettingsWhere()
-                    .ExportSettingId(ExportSettingId)
-                    .Ver(Forms.Int("Ver")),
-                tableType: Sqls.TableTypes.NormalAndHistory);
-            VerType =  Forms.Bool("Latest")
-                ? Versions.VerTypes.Latest
-                : Versions.VerTypes.History;
-            SwitchTargets = ExportSettingUtilities.GetSwitchTargets(SiteSettings);
-            return Editor();
-        }
-
         private string EditorJson(ExportSettingModel exportSettingModel, Message message = null)
         {
             exportSettingModel.MethodType = MethodTypes.Edit;

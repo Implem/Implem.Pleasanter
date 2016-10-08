@@ -22,21 +22,6 @@ namespace Implem.Pleasanter.Models
 {
     public static class SearchIndexUtilities
     {
-        public static HtmlBuilder TdValue(
-            this HtmlBuilder hb, Column column, SearchIndexModel searchIndexModel)
-        {
-            switch (column.ColumnName)
-            {
-                case "Ver": return hb.Td(column: column, value: searchIndexModel.Ver);
-                case "Comments": return hb.Td(column: column, value: searchIndexModel.Comments);
-                case "Creator": return hb.Td(column: column, value: searchIndexModel.Creator);
-                case "Updator": return hb.Td(column: column, value: searchIndexModel.Updator);
-                case "CreatedTime": return hb.Td(column: column, value: searchIndexModel.CreatedTime);
-                case "UpdatedTime": return hb.Td(column: column, value: searchIndexModel.UpdatedTime);
-                default: return hb;
-            }
-        }
-
         public static ResponseCollection FormResponse(
             this ResponseCollection responseCollection, SearchIndexModel searchIndexModel)
         {

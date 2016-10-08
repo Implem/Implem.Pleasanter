@@ -22,21 +22,6 @@ namespace Implem.Pleasanter.Models
 {
     public static class PermissionUtilities
     {
-        public static HtmlBuilder TdValue(
-            this HtmlBuilder hb, Column column, PermissionModel permissionModel)
-        {
-            switch (column.ColumnName)
-            {
-                case "Ver": return hb.Td(column: column, value: permissionModel.Ver);
-                case "Comments": return hb.Td(column: column, value: permissionModel.Comments);
-                case "Creator": return hb.Td(column: column, value: permissionModel.Creator);
-                case "Updator": return hb.Td(column: column, value: permissionModel.Updator);
-                case "CreatedTime": return hb.Td(column: column, value: permissionModel.CreatedTime);
-                case "UpdatedTime": return hb.Td(column: column, value: permissionModel.UpdatedTime);
-                default: return hb;
-            }
-        }
-
         public static ResponseCollection FormResponse(
             this ResponseCollection responseCollection, PermissionModel permissionModel)
         {

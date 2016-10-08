@@ -297,51 +297,6 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        public string Histories()
-        {
-            var hb = new HtmlBuilder();
-            hb.Table(
-                attributes: new HtmlAttributes().Class("grid"),
-                action: () => hb
-                    .THead(action: () => hb
-                        .GridHeader(
-                            columnCollection: SiteSettings.HistoryColumnCollection(),
-                            sort: false,
-                            checkRow: false))
-                    .TBody(action: () =>
-                        new OutgoingMailCollection(
-                            where: Rds.OutgoingMailsWhere().OutgoingMailId(OutgoingMailId),
-                            orderBy: Rds.OutgoingMailsOrderBy().Ver(SqlOrderBy.Types.desc),
-                            tableType: Sqls.TableTypes.NormalAndHistory)
-                                .ForEach(outgoingMailModel => hb
-                                    .Tr(
-                                        attributes: new HtmlAttributes()
-                                            .Class("grid-row history not-link")
-                                            .DataAction("History")
-                                            .DataMethod("post")
-                                            .DataVer(outgoingMailModel.Ver)
-                                            .DataLatest(1, _using: outgoingMailModel.Ver == Ver),
-                                        action: () =>
-                                            SiteSettings.HistoryColumnCollection()
-                                                .ForEach(column => hb
-                                                    .TdValue(column, outgoingMailModel))))));
-            return new OutgoingMailsResponseCollection(this).Html("#FieldSetHistories", hb).ToJson();
-        }
-
-        public string History()
-        {
-            Get(
-                where: Rds.OutgoingMailsWhere()
-                    .OutgoingMailId(OutgoingMailId)
-                    .Ver(Forms.Int("Ver")),
-                tableType: Sqls.TableTypes.NormalAndHistory);
-            VerType =  Forms.Bool("Latest")
-                ? Versions.VerTypes.Latest
-                : Versions.VerTypes.History;
-            SwitchTargets = OutgoingMailUtilities.GetSwitchTargets(SiteSettings);
-            return Editor();
-        }
-
         private string EditorJson(OutgoingMailModel outgoingMailModel, Message message = null)
         {
             outgoingMailModel.MethodType = MethodTypes.Edit;

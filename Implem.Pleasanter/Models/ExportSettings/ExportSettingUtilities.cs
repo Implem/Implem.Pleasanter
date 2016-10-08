@@ -22,21 +22,6 @@ namespace Implem.Pleasanter.Models
 {
     public static class ExportSettingUtilities
     {
-        public static HtmlBuilder TdValue(
-            this HtmlBuilder hb, Column column, ExportSettingModel exportSettingModel)
-        {
-            switch (column.ColumnName)
-            {
-                case "Ver": return hb.Td(column: column, value: exportSettingModel.Ver);
-                case "Comments": return hb.Td(column: column, value: exportSettingModel.Comments);
-                case "Creator": return hb.Td(column: column, value: exportSettingModel.Creator);
-                case "Updator": return hb.Td(column: column, value: exportSettingModel.Updator);
-                case "CreatedTime": return hb.Td(column: column, value: exportSettingModel.CreatedTime);
-                case "UpdatedTime": return hb.Td(column: column, value: exportSettingModel.UpdatedTime);
-                default: return hb;
-            }
-        }
-
         public static string EditorNew()
         {
             return Editor(

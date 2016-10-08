@@ -271,53 +271,6 @@ namespace Implem.Pleasanter.Models
         {
         }
 
-        public string Histories()
-        {
-            var hb = new HtmlBuilder();
-            hb.Table(
-                attributes: new HtmlAttributes().Class("grid"),
-                action: () => hb
-                    .THead(action: () => hb
-                        .GridHeader(
-                            columnCollection: SiteSettings.HistoryColumnCollection(),
-                            sort: false,
-                            checkRow: false))
-                    .TBody(action: () =>
-                        new MailAddressCollection(
-                            siteSettings: SiteSettings,
-                            permissionType: PermissionType,
-                            where: Rds.MailAddressesWhere().MailAddressId(MailAddressId),
-                            orderBy: Rds.MailAddressesOrderBy().Ver(SqlOrderBy.Types.desc),
-                            tableType: Sqls.TableTypes.NormalAndHistory)
-                                .ForEach(mailAddressModel => hb
-                                    .Tr(
-                                        attributes: new HtmlAttributes()
-                                            .Class("grid-row history not-link")
-                                            .DataAction("History")
-                                            .DataMethod("post")
-                                            .DataVer(mailAddressModel.Ver)
-                                            .DataLatest(1, _using: mailAddressModel.Ver == Ver),
-                                        action: () =>
-                                            SiteSettings.HistoryColumnCollection()
-                                                .ForEach(column => hb
-                                                    .TdValue(column, mailAddressModel))))));
-            return new MailAddressesResponseCollection(this).Html("#FieldSetHistories", hb).ToJson();
-        }
-
-        public string History()
-        {
-            Get(
-                where: Rds.MailAddressesWhere()
-                    .MailAddressId(MailAddressId)
-                    .Ver(Forms.Int("Ver")),
-                tableType: Sqls.TableTypes.NormalAndHistory);
-            VerType =  Forms.Bool("Latest")
-                ? Versions.VerTypes.Latest
-                : Versions.VerTypes.History;
-            SwitchTargets = MailAddressUtilities.GetSwitchTargets(SiteSettings);
-            return Editor();
-        }
-
         private string EditorJson(MailAddressModel mailAddressModel, Message message = null)
         {
             mailAddressModel.MethodType = MethodTypes.Edit;

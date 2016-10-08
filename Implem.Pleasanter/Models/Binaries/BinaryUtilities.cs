@@ -22,21 +22,6 @@ namespace Implem.Pleasanter.Models
 {
     public static class BinaryUtilities
     {
-        public static HtmlBuilder TdValue(
-            this HtmlBuilder hb, Column column, BinaryModel binaryModel)
-        {
-            switch (column.ColumnName)
-            {
-                case "Ver": return hb.Td(column: column, value: binaryModel.Ver);
-                case "Comments": return hb.Td(column: column, value: binaryModel.Comments);
-                case "Creator": return hb.Td(column: column, value: binaryModel.Creator);
-                case "Updator": return hb.Td(column: column, value: binaryModel.Updator);
-                case "CreatedTime": return hb.Td(column: column, value: binaryModel.CreatedTime);
-                case "UpdatedTime": return hb.Td(column: column, value: binaryModel.UpdatedTime);
-                default: return hb;
-            }
-        }
-
         public static string EditorNew()
         {
             return Editor(

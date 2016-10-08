@@ -22,21 +22,6 @@ namespace Implem.Pleasanter.Models
 {
     public static class OrderUtilities
     {
-        public static HtmlBuilder TdValue(
-            this HtmlBuilder hb, Column column, OrderModel orderModel)
-        {
-            switch (column.ColumnName)
-            {
-                case "Ver": return hb.Td(column: column, value: orderModel.Ver);
-                case "Comments": return hb.Td(column: column, value: orderModel.Comments);
-                case "Creator": return hb.Td(column: column, value: orderModel.Creator);
-                case "Updator": return hb.Td(column: column, value: orderModel.Updator);
-                case "CreatedTime": return hb.Td(column: column, value: orderModel.CreatedTime);
-                case "UpdatedTime": return hb.Td(column: column, value: orderModel.UpdatedTime);
-                default: return hb;
-            }
-        }
-
         public static ResponseCollection FormResponse(
             this ResponseCollection responseCollection, OrderModel orderModel)
         {

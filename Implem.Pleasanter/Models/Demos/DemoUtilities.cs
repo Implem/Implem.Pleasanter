@@ -22,21 +22,6 @@ namespace Implem.Pleasanter.Models
 {
     public static class DemoUtilities
     {
-        public static HtmlBuilder TdValue(
-            this HtmlBuilder hb, Column column, DemoModel demoModel)
-        {
-            switch (column.ColumnName)
-            {
-                case "Ver": return hb.Td(column: column, value: demoModel.Ver);
-                case "Comments": return hb.Td(column: column, value: demoModel.Comments);
-                case "Creator": return hb.Td(column: column, value: demoModel.Creator);
-                case "Updator": return hb.Td(column: column, value: demoModel.Updator);
-                case "CreatedTime": return hb.Td(column: column, value: demoModel.CreatedTime);
-                case "UpdatedTime": return hb.Td(column: column, value: demoModel.UpdatedTime);
-                default: return hb;
-            }
-        }
-
         public static string EditorNew()
         {
             return Editor(

@@ -22,21 +22,6 @@ namespace Implem.Pleasanter.Models
 {
     public static class LinkUtilities
     {
-        public static HtmlBuilder TdValue(
-            this HtmlBuilder hb, Column column, LinkModel linkModel)
-        {
-            switch (column.ColumnName)
-            {
-                case "Ver": return hb.Td(column: column, value: linkModel.Ver);
-                case "Comments": return hb.Td(column: column, value: linkModel.Comments);
-                case "Creator": return hb.Td(column: column, value: linkModel.Creator);
-                case "Updator": return hb.Td(column: column, value: linkModel.Updator);
-                case "CreatedTime": return hb.Td(column: column, value: linkModel.CreatedTime);
-                case "UpdatedTime": return hb.Td(column: column, value: linkModel.UpdatedTime);
-                default: return hb;
-            }
-        }
-
         public static ResponseCollection FormResponse(
             this ResponseCollection responseCollection, LinkModel linkModel)
         {

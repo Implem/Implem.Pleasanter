@@ -22,24 +22,6 @@ namespace Implem.Pleasanter.Models
 {
     public static class TenantUtilities
     {
-        public static HtmlBuilder TdValue(
-            this HtmlBuilder hb, Column column, TenantModel tenantModel)
-        {
-            switch (column.ColumnName)
-            {
-                case "Ver": return hb.Td(column: column, value: tenantModel.Ver);
-                case "TenantName": return hb.Td(column: column, value: tenantModel.TenantName);
-                case "Title": return hb.Td(column: column, value: tenantModel.Title);
-                case "Body": return hb.Td(column: column, value: tenantModel.Body);
-                case "Comments": return hb.Td(column: column, value: tenantModel.Comments);
-                case "Creator": return hb.Td(column: column, value: tenantModel.Creator);
-                case "Updator": return hb.Td(column: column, value: tenantModel.Updator);
-                case "CreatedTime": return hb.Td(column: column, value: tenantModel.CreatedTime);
-                case "UpdatedTime": return hb.Td(column: column, value: tenantModel.UpdatedTime);
-                default: return hb;
-            }
-        }
-
         public static string EditorNew()
         {
             return Editor(
