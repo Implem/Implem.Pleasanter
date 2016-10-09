@@ -408,46 +408,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public BinaryModel(SiteModel siteModel)
-        {
-            SiteSettings = siteModel.SiteSettings;
-            ReferenceId = siteModel.SiteId;
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public BinaryModel(long referenceId)
         {
             ReferenceId = referenceId;
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public BinaryModel(
-            long imageId,
-            bool clearSessions = false,
-            bool setByForm = false,
-            List<long> switchTargets = null,
-            MethodTypes methodType = MethodTypes.NotSet)
-        {
-            OnConstructing();
-            BinaryId = imageId;
-            Get();
-            if (clearSessions) ClearSessions();
-            if (setByForm) SetByForm();
-            SwitchTargets = switchTargets;
-            MethodType = methodType;
-            OnConstructed();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public byte[] Show()
-        {
-            return Bin;
         }
     }
 }
