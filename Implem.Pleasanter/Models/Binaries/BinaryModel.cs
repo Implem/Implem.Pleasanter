@@ -78,13 +78,11 @@ namespace Implem.Pleasanter.Models
 
         public BinaryModel(
             SiteSettings siteSettings, 
-            Permissions.Types permissionType,
             bool setByForm = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
             SiteSettings = siteSettings;
-            PermissionType = permissionType;
             if (setByForm) SetByForm();
             MethodType = methodType;
             OnConstructed();
@@ -92,7 +90,6 @@ namespace Implem.Pleasanter.Models
 
         public BinaryModel(
             SiteSettings siteSettings, 
-            Permissions.Types permissionType,
             long binaryId,
             bool clearSessions = false,
             bool setByForm = false,
@@ -102,7 +99,6 @@ namespace Implem.Pleasanter.Models
             OnConstructing();
             SiteSettings = siteSettings;
             BinaryId = binaryId;
-            PermissionType = permissionType;
             Get();
             if (clearSessions) ClearSessions();
             if (setByForm) SetByForm();
@@ -344,35 +340,8 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public bool ExistsSiteImage(Libraries.Images.ImageData.SizeTypes sizeType)
-        {
-            if (!PermissionType.CanRead())
-            {
-                return false;
-            }
-            switch (Parameters.BinaryStorage.Provider)
-            {
-                case "Local":
-                    return new Libraries.Images.ImageData(
-                        ReferenceId, Libraries.Images.ImageData.Types.SiteImage)
-                            .Exists(sizeType);
-                default:
-                    return Rds.ExecuteScalar_int(statements:
-                        Rds.SelectBinaries(
-                            column: Rds.BinariesColumn().BinariesCount(),
-                            where: Rds.BinariesWhere().ReferenceId(ReferenceId))) == 1;
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public string SiteImagePrefix(Libraries.Images.ImageData.SizeTypes sizeType)
         {
-            if (!PermissionType.CanRead())
-            {
-                return string.Empty;
-            }
             switch (Parameters.BinaryStorage.Provider)
             {
                 case "Local":
@@ -391,33 +360,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public byte[] SiteImageThumbnail()
-        {
-            return SiteImage(
-                Libraries.Images.ImageData.SizeTypes.Thumbnail, Rds.BinariesColumn()
-                    .Thumbnail());
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public byte[] SiteImageIcon()
-        {
-            return SiteImage(
-                Libraries.Images.ImageData.SizeTypes.Icon, Rds.BinariesColumn()
-                    .Icon());
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private byte[] SiteImage(
+        public byte[] SiteImage(
             Libraries.Images.ImageData.SizeTypes sizeType, SqlColumnCollection column)
         {
-            if (!PermissionType.CanRead())
-            {
-                return null;
-            }
             switch (Parameters.BinaryStorage.Provider)
             {
                 case "Local":
@@ -435,15 +380,11 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string UpdateSiteImage()
+        public Error.Types UpdateSiteImage(byte[] data)
         {
-            if (!PermissionType.CanEditSite())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
             BinaryType = "SiteImage";
             var imageData = new Libraries.Images.ImageData(
-                Forms.File(Libraries.Images.ImageData.Types.SiteImage.ToString()),
+                data,
                 ReferenceId,
                 Libraries.Images.ImageData.Types.SiteImage);
             switch (Parameters.BinaryStorage.Provider)
@@ -461,7 +402,7 @@ namespace Implem.Pleasanter.Models
                             param: Rds.BinariesParamDefault(this, setDefault: true)));
                     break;
             }
-            return Messages.ResponseFileUpdateCompleted().ToJson();
+            return Error.Types.None;
         }
 
         /// <summary>
@@ -470,16 +411,14 @@ namespace Implem.Pleasanter.Models
         public BinaryModel(SiteModel siteModel)
         {
             SiteSettings = siteModel.SiteSettings;
-            PermissionType = siteModel.PermissionType;
             ReferenceId = siteModel.SiteId;
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public BinaryModel(Permissions.Types permissionType, long referenceId)
+        public BinaryModel(long referenceId)
         {
-            PermissionType = permissionType;
             ReferenceId = referenceId;
         }
 

@@ -620,7 +620,6 @@ namespace Implem.Pleasanter.Models
 
         public IssueModel(
             SiteSettings siteSettings, 
-            Permissions.Types permissionType,
             bool setByForm = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
@@ -628,7 +627,6 @@ namespace Implem.Pleasanter.Models
             Manager = SiteInfo.User(Sessions.UserId());
             Owner = SiteInfo.User(Sessions.UserId());
             SiteSettings = siteSettings;
-            PermissionType = permissionType;
             if (setByForm) SetByForm();
             MethodType = methodType;
             OnConstructed();
@@ -636,7 +634,6 @@ namespace Implem.Pleasanter.Models
 
         public IssueModel(
             SiteSettings siteSettings, 
-            Permissions.Types permissionType,
             long issueId,
             bool clearSessions = false,
             bool setByForm = false,
@@ -646,7 +643,6 @@ namespace Implem.Pleasanter.Models
             OnConstructing();
             SiteSettings = siteSettings;
             IssueId = issueId;
-            PermissionType = permissionType;
             SiteId = SiteSettings.SiteId;
             Get();
             if (clearSessions) ClearSessions();

@@ -87,7 +87,9 @@ namespace Implem.Pleasanter.Models
         }
 
         public static ResponseCollection FormResponse(
-            this ResponseCollection responseCollection, SiteModel siteModel)
+            this ResponseCollection responseCollection,
+            Permissions.Types permissionType,
+            SiteModel siteModel)
         {
             Forms.All().Keys.ForEach(key =>
             {
@@ -143,7 +145,7 @@ namespace Implem.Pleasanter.Models
                 switch (siteModel.ReferenceType)
                 {
                     case "Wikis":
-                        var wikiModel = new WikiModel(siteSettings, permissionType)
+                        var wikiModel = new WikiModel(siteSettings)
                         {
                             SiteId = siteModel.SiteId,
                             Title = siteModel.Title,
@@ -195,13 +197,14 @@ namespace Implem.Pleasanter.Models
                 var responseCollection = new SitesResponseCollection(siteModel);
                 responseCollection.ReplaceAll("#Breadcrumb", new HtmlBuilder()
                     .Breadcrumb(siteSettings.SiteId));
-                return ResponseByUpdate(siteModel, responseCollection)
+                return ResponseByUpdate(permissionType, siteModel, responseCollection)
                     .PrependComment(siteModel.Comments, siteModel.VerType)
                     .ToJson();
             }
         }
 
         private static ResponseCollection ResponseByUpdate(
+            Permissions.Types permissionType,
             SiteModel siteModel,
             SitesResponseCollection responseCollection)
         {
@@ -209,7 +212,7 @@ namespace Implem.Pleasanter.Models
                 .Ver()
                 .Timestamp()
                 .Val("#VerUp", false)
-                .FormResponse(siteModel)
+                .FormResponse(permissionType, siteModel)
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", siteModel.Title.DisplayValue)
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
@@ -609,9 +612,10 @@ namespace Implem.Pleasanter.Models
             bool toParent = false,
             IEnumerable<SiteCondition> siteConditions = null)
         {
-            var binaryModel = new BinaryModel(permissionType, siteId);
-            var hasImage = binaryModel.ExistsSiteImage(
-                Libraries.Images.ImageData.SizeTypes.Thumbnail);
+            var hasImage = BinaryUtilities.ExistsSiteImage(
+                permissionType, siteId, Libraries.Images.ImageData.SizeTypes.Thumbnail);
+            var siteImagePrefix = BinaryUtilities.SiteImagePrefix(
+                permissionType, siteId, Libraries.Images.ImageData.SizeTypes.Thumbnail);
             return hb.Li(
                 attributes: new HtmlAttributes()
                     .Class(Libraries.Styles.Css.Class("nav-site " + referenceType.ToLower() +
@@ -633,8 +637,8 @@ namespace Implem.Pleasanter.Models
                                 referenceType: referenceType,
                                 title: title,
                                 toParent: toParent,
-                                binaryModel: binaryModel,
                                 hasImage: hasImage,
+                                siteImagePrefix: siteImagePrefix,
                                 siteConditions: siteConditions)));
         }
 
@@ -668,8 +672,8 @@ namespace Implem.Pleasanter.Models
             string referenceType,
             string title,
             bool toParent,
-            BinaryModel binaryModel,
             bool hasImage,
+            string siteImagePrefix,
             IEnumerable<SiteCondition> siteConditions)
         {
             if (toParent)
@@ -678,7 +682,7 @@ namespace Implem.Pleasanter.Models
                     siteId: siteId,
                     title: title,
                     hasImage: hasImage,
-                    binaryModel: binaryModel);
+                    siteImagePrefix: siteImagePrefix);
             }
             else
             {
@@ -686,7 +690,7 @@ namespace Implem.Pleasanter.Models
                     siteId: siteId,
                     title: title,
                     hasImage: hasImage,
-                    binaryModel: binaryModel);
+                    siteImagePrefix: siteImagePrefix);
             }
             return hb
                 .SiteMenuStyle(referenceType)
@@ -701,7 +705,7 @@ namespace Implem.Pleasanter.Models
             long siteId,
             string title,
             bool hasImage,
-            BinaryModel binaryModel)
+            string siteImagePrefix)
         {
             if (hasImage)
             {
@@ -712,8 +716,7 @@ namespace Implem.Pleasanter.Models
                             siteId.ToString(),
                             "Binaries",
                             "SiteImageIcon",
-                            binaryModel.SiteImagePrefix(
-                                Libraries.Images.ImageData.SizeTypes.Thumbnail)),
+                            siteImagePrefix),
                         css: "site-image-icon")
                     .Span(css: "title", action: () => hb
                         .Text(title));
@@ -735,7 +738,7 @@ namespace Implem.Pleasanter.Models
             long siteId,
             string title,
             bool hasImage,
-            BinaryModel binaryModel)
+            string siteImagePrefix)
         {
             if (hasImage)
             {
@@ -745,8 +748,7 @@ namespace Implem.Pleasanter.Models
                         siteId.ToString(),
                         "Binaries",
                         "SiteImageThumbnail",
-                        binaryModel.SiteImagePrefix(
-                            Libraries.Images.ImageData.SizeTypes.Thumbnail)),
+                        siteImagePrefix),
                     css: "site-image-thumbnail");
             }
             return hb.Span(css: "title", action: () => hb
@@ -904,6 +906,7 @@ namespace Implem.Pleasanter.Models
                         .Action(Navigations.ItemAction(siteModel.SiteId)),
                     action: () => hb
                         .RecordHeader(
+                            permissionType: siteModel.PermissionType,
                             baseModel: siteModel,
                             tableName: "Sites",
                             switcher: false)

@@ -337,6 +337,7 @@
     <Compile Include="Models\Binaries\BinaryUtilities.cs" />
     <Compile Include="Models\Binaries\BinaryCollection.cs" />
     <Compile Include="Models\Binaries\BinaryModel.cs" />
+    <Compile Include="Models\Binaries\BinaryValidators.cs" />
     <Compile Include="Models\Demos\DemoCollection.cs" />
     <Compile Include="Models\Demos\DemoModel.cs" />
     <Compile Include="Models\Demos\DemoUtilities.cs" />

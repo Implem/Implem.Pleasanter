@@ -14,7 +14,7 @@ namespace Implem.Pleasanter.Controllers
         {
             if (reference.ToLower() == "items")
             {
-                var bytes = new BinaryModel(new SiteModel(id)).SiteImageThumbnail();
+                var bytes = BinaryUtilities.SiteImageThumbnail(new SiteModel(id));
                 return new FileContentResult(bytes, "image/png");
             }
             else
@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Controllers
         {
             if (reference.ToLower() == "items")
             {
-                var bytes = new BinaryModel(new SiteModel(id)).SiteImageIcon();
+                var bytes = BinaryUtilities.SiteImageIcon(new SiteModel(id));
                 return new FileContentResult(bytes, "image/png");
             }
             else
@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var log = new SysLogModel();
             var json = reference.ToLower() == "items"
-                ? new BinaryModel(new SiteModel(id)).UpdateSiteImage()
+                ? BinaryUtilities.UpdateSiteImage(new SiteModel(id))
                 : new ResponseCollection().ToJson();
             log.Finish(0);
             return json;

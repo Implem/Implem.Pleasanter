@@ -24,18 +24,15 @@ namespace Implem.Pleasanter.Models
     {
         public static string EditorNew()
         {
-            return Editor(
-                new MailAddressModel(
-                    SiteSettingsUtility.MailAddressesSiteSettings(),
-                    Permissions.Admins(),
-                    methodType: BaseModel.MethodTypes.New));
+            return Editor(new MailAddressModel(
+                SiteSettingsUtility.MailAddressesSiteSettings(),
+                methodType: BaseModel.MethodTypes.New));
         }
 
         public static string Editor(long mailAddressId, bool clearSessions)
         {
             var mailAddressModel = new MailAddressModel(
-                    SiteSettingsUtility.MailAddressesSiteSettings(),
-                    Permissions.Admins(),
+                SiteSettingsUtility.MailAddressesSiteSettings(),
                 mailAddressId: mailAddressId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
@@ -87,6 +84,7 @@ namespace Implem.Pleasanter.Models
                             : Navigations.Action("MailAddresses")),
                     action: () => hb
                         .RecordHeader(
+                            permissionType: permissionType,
                             baseModel: mailAddressModel,
                             tableName: "MailAddresses")
                         .Div(id: "EditorComments", action: () => hb

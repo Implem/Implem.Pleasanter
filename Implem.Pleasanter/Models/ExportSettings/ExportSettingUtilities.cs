@@ -24,18 +24,15 @@ namespace Implem.Pleasanter.Models
     {
         public static string EditorNew()
         {
-            return Editor(
-                new ExportSettingModel(
-                    SiteSettingsUtility.ExportSettingsSiteSettings(),
-                    Permissions.Admins(),
-                    methodType: BaseModel.MethodTypes.New));
+            return Editor(new ExportSettingModel(
+                SiteSettingsUtility.ExportSettingsSiteSettings(),
+                methodType: BaseModel.MethodTypes.New));
         }
 
         public static string Editor(long exportSettingId, bool clearSessions)
         {
             var exportSettingModel = new ExportSettingModel(
-                    SiteSettingsUtility.ExportSettingsSiteSettings(),
-                    Permissions.Admins(),
+                SiteSettingsUtility.ExportSettingsSiteSettings(),
                 exportSettingId: exportSettingId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
@@ -87,6 +84,7 @@ namespace Implem.Pleasanter.Models
                             : Navigations.Action("ExportSettings")),
                     action: () => hb
                         .RecordHeader(
+                            permissionType: permissionType,
                             baseModel: exportSettingModel,
                             tableName: "ExportSettings")
                         .Div(id: "EditorComments", action: () => hb
@@ -226,7 +224,7 @@ namespace Implem.Pleasanter.Models
             Permissions.Types permissionType, string referenceType, long referenceId)
         {
             var exportSettingModel = new ExportSettingModel(
-                permissionType, referenceType, referenceId, withTitle: true);
+                referenceType, referenceId, withTitle: true);
             var invalid = ExportSettingValidator.OnUpdatingOrCreating(permissionType);
             switch (invalid)
             {
@@ -278,7 +276,6 @@ namespace Implem.Pleasanter.Models
         public static string Delete(string referenceType, long referenceId)
         {
             var exportSettingModel = new ExportSettingModel(
-                Permissions.GetBySiteId(referenceId),
                 referenceType,
                 referenceId,
                 withTitle: true);
@@ -333,7 +330,7 @@ namespace Implem.Pleasanter.Models
             var exportSettingCollection = Collection(referenceType, referenceId);
             return exportSettingCollection.Count > 0
                 ? exportSettingCollection.FirstOrDefault()
-                : new ExportSettingModel(Permissions.Types.NotSet, referenceType, referenceId);
+                : new ExportSettingModel(referenceType, referenceId);
         }
 
         /// <summary>
@@ -497,9 +494,8 @@ namespace Implem.Pleasanter.Models
         public static string Change()
         {
             var exportSettingModel = new ExportSettingModel(
-                SiteSettingsUtility.ExportSettingsSiteSettings(),
-                Permissions.Types.NotSet).Get(
-                    where: Rds.ExportSettingsWhere()
+                SiteSettingsUtility.ExportSettingsSiteSettings())
+                    .Get(where: Rds.ExportSettingsWhere()
                         .ExportSettingId(Forms.Long("ExportSettings_ExportSettingId")));
             SetSessions(exportSettingModel);
             exportSettingModel.Session_ExportColumns(Jsons.ToJson(exportSettingModel.ExportColumns));

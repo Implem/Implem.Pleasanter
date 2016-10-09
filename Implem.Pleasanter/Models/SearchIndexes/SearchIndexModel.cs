@@ -27,6 +27,7 @@ namespace Implem.Pleasanter.Models
         public string ReferenceType = string.Empty;
         public string Title = string.Empty;
         public string Subset = string.Empty;
+        public Permissions.Types PermissionType = (Permissions.Types)31;
         public string SavedWord = string.Empty;
         public long SavedReferenceId = 0;
         public int SavedPriority = 0;

@@ -293,18 +293,15 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorNew()
         {
-            return Editor(
-                new DeptModel(
-                    SiteSettingsUtility.DeptsSiteSettings(),
-                    Permissions.Admins(),
-                    methodType: BaseModel.MethodTypes.New));
+            return Editor(new DeptModel(
+                SiteSettingsUtility.DeptsSiteSettings(),
+                methodType: BaseModel.MethodTypes.New));
         }
 
         public static string Editor(int deptId, bool clearSessions)
         {
             var deptModel = new DeptModel(
-                    SiteSettingsUtility.DeptsSiteSettings(),
-                    Permissions.Admins(),
+                SiteSettingsUtility.DeptsSiteSettings(),
                 deptId: deptId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
@@ -356,6 +353,7 @@ namespace Implem.Pleasanter.Models
                             : Navigations.Action("Depts")),
                     action: () => hb
                         .RecordHeader(
+                            permissionType: permissionType,
                             baseModel: deptModel,
                             tableName: "Depts")
                         .Div(id: "EditorComments", action: () => hb
@@ -464,7 +462,7 @@ namespace Implem.Pleasanter.Models
         public static string EditorJson(
             SiteSettings siteSettings, Permissions.Types permissionType, int deptId)
         {
-            return EditorResponse(new DeptModel(siteSettings, permissionType, deptId))
+            return EditorResponse(new DeptModel(siteSettings, deptId))
                 .ToJson();
         }
 
@@ -509,7 +507,9 @@ namespace Implem.Pleasanter.Models
         }
 
         public static ResponseCollection FormResponse(
-            this ResponseCollection responseCollection, DeptModel deptModel)
+            this ResponseCollection responseCollection,
+            Permissions.Types permissionType,
+            DeptModel deptModel)
         {
             Forms.All().Keys.ForEach(key =>
             {
@@ -523,7 +523,7 @@ namespace Implem.Pleasanter.Models
 
         public static string Create(SiteSettings siteSettings, Permissions.Types permissionType)
         {
-            var deptModel = new DeptModel(siteSettings, permissionType, 0, setByForm: true);
+            var deptModel = new DeptModel(siteSettings, 0, setByForm: true);
             var invalid = DeptValidator.OnCreating(siteSettings, permissionType, deptModel);
             switch (invalid)
             {
@@ -538,7 +538,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var responseCollection = new DeptsResponseCollection(deptModel);
-                return ResponseByUpdate(deptModel, responseCollection)
+                return ResponseByUpdate(permissionType, deptModel, responseCollection)
                     .PrependComment(deptModel.Comments, deptModel.VerType)
                     .ToJson();
             }
@@ -547,8 +547,7 @@ namespace Implem.Pleasanter.Models
         public static string Update(
             SiteSettings siteSettings, Permissions.Types permissionType, int deptId)
         {
-            var deptModel = new DeptModel(
-                siteSettings, permissionType, deptId, setByForm: true);
+            var deptModel = new DeptModel(siteSettings, deptId, setByForm: true);
             var invalid = DeptValidator.OnUpdating(siteSettings, permissionType, deptModel);
             switch (invalid)
             {
@@ -569,13 +568,14 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var responseCollection = new DeptsResponseCollection(deptModel);
-                return ResponseByUpdate(deptModel, responseCollection)
+                return ResponseByUpdate(permissionType, deptModel, responseCollection)
                     .PrependComment(deptModel.Comments, deptModel.VerType)
                     .ToJson();
             }
         }
 
         private static ResponseCollection ResponseByUpdate(
+            Permissions.Types permissionType,
             DeptModel deptModel,
             DeptsResponseCollection responseCollection)
         {
@@ -583,7 +583,7 @@ namespace Implem.Pleasanter.Models
                 .Ver()
                 .Timestamp()
                 .Val("#VerUp", false)
-                .FormResponse(deptModel)
+                .FormResponse(permissionType, deptModel)
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", deptModel.Title.Value)
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
@@ -596,7 +596,7 @@ namespace Implem.Pleasanter.Models
         public static string Delete(
             SiteSettings siteSettings, Permissions.Types permissionType, int deptId)
         {
-            var deptModel = new DeptModel(siteSettings, permissionType, deptId);
+            var deptModel = new DeptModel(siteSettings, deptId);
             var invalid = DeptValidator.OnDeleting(siteSettings, permissionType, deptModel);
             switch (invalid)
             {
@@ -641,7 +641,7 @@ namespace Implem.Pleasanter.Models
         public static string Histories(
             SiteSettings siteSettings, Permissions.Types permissionType, int deptId)
         {
-            var deptModel = new DeptModel(siteSettings, permissionType, deptId);
+            var deptModel = new DeptModel(siteSettings, deptId);
             var hb = new HtmlBuilder();
             hb.Table(
                 attributes: new HtmlAttributes().Class("grid"),
@@ -678,7 +678,7 @@ namespace Implem.Pleasanter.Models
         public static string History(
             SiteSettings siteSettings, Permissions.Types permissionType, int deptId)
         {
-            var deptModel = new DeptModel(siteSettings, permissionType, deptId);
+            var deptModel = new DeptModel(siteSettings, deptId);
             deptModel.Get(
                 where: Rds.DeptsWhere()
                     .DeptId(deptModel.DeptId)

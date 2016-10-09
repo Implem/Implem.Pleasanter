@@ -24,18 +24,15 @@ namespace Implem.Pleasanter.Models
     {
         public static string EditorNew()
         {
-            return Editor(
-                new TenantModel(
-                    SiteSettingsUtility.TenantsSiteSettings(),
-                    Permissions.Admins(),
-                    methodType: BaseModel.MethodTypes.New));
+            return Editor(new TenantModel(
+                SiteSettingsUtility.TenantsSiteSettings(),
+                methodType: BaseModel.MethodTypes.New));
         }
 
         public static string Editor(int tenantId, bool clearSessions)
         {
             var tenantModel = new TenantModel(
-                    SiteSettingsUtility.TenantsSiteSettings(),
-                    Permissions.Admins(),
+                SiteSettingsUtility.TenantsSiteSettings(),
                 tenantId: tenantId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
@@ -87,6 +84,7 @@ namespace Implem.Pleasanter.Models
                             : Navigations.Action("Tenants")),
                     action: () => hb
                         .RecordHeader(
+                            permissionType: permissionType,
                             baseModel: tenantModel,
                             tableName: "Tenants")
                         .Div(id: "EditorComments", action: () => hb

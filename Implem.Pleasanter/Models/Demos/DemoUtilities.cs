@@ -24,18 +24,15 @@ namespace Implem.Pleasanter.Models
     {
         public static string EditorNew()
         {
-            return Editor(
-                new DemoModel(
-                    SiteSettingsUtility.DemosSiteSettings(),
-                    Permissions.Admins(),
-                    methodType: BaseModel.MethodTypes.New));
+            return Editor(new DemoModel(
+                SiteSettingsUtility.DemosSiteSettings(),
+                methodType: BaseModel.MethodTypes.New));
         }
 
         public static string Editor(int demoId, bool clearSessions)
         {
             var demoModel = new DemoModel(
-                    SiteSettingsUtility.DemosSiteSettings(),
-                    Permissions.Admins(),
+                SiteSettingsUtility.DemosSiteSettings(),
                 demoId: demoId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
@@ -87,6 +84,7 @@ namespace Implem.Pleasanter.Models
                             : Navigations.Action("Demos")),
                     action: () => hb
                         .RecordHeader(
+                            permissionType: permissionType,
                             baseModel: demoModel,
                             tableName: "Demos")
                         .Div(id: "EditorComments", action: () => hb
@@ -224,14 +222,12 @@ namespace Implem.Pleasanter.Models
             var tenantModel = new TenantModel()
             {
                 SiteSettings = SiteSettingsUtility.TenantsSiteSettings(),
-                PermissionType = Permissions.Types.ServiceAdmin,
                 TenantName = mailAddress
             };
             tenantModel.Create();
             var demoModel = new DemoModel()
             {
                 SiteSettings = SiteSettingsUtility.DemosSiteSettings(),
-                PermissionType = Permissions.Types.ServiceAdmin,
                 TenantId = tenantModel.TenantId,
                 Passphrase = passphrase,
                 MailAddress = mailAddress
@@ -240,7 +236,6 @@ namespace Implem.Pleasanter.Models
             var outgoingMailModel = new OutgoingMailModel()
             {
                 SiteSettings = SiteSettingsUtility.OutgoingMailsSiteSettings(),
-                PermissionType = Permissions.Types.Manager,
                 Title = new Title(Displays.DemoMailTitle()),
                 Body = Displays.DemoMailBody(Url.Server(), passphrase),
                 From = new System.Net.Mail.MailAddress(Parameters.Mail.SupportFrom),
@@ -492,8 +487,7 @@ namespace Implem.Pleasanter.Models
                     idHash.Add(demoDefinition.Id, issueId);
                     var siteModel = new SiteModel(idHash[demoDefinition.ParentId]);
                     var siteSettings = siteModel.IssuesSiteSettings();
-                    var issueModel = new IssueModel(
-                        siteSettings, Permissions.Types.Manager, issueId);
+                    var issueModel = new IssueModel(siteSettings, issueId);
                     Rds.ExecuteNonQuery(statements:
                         Rds.UpdateItems(
                             param: Rds.ItemsParam()
@@ -614,8 +608,7 @@ namespace Implem.Pleasanter.Models
                     idHash.Add(demoDefinition.Id, resultId);
                     var siteModel = new SiteModel(idHash[demoDefinition.ParentId]);
                     var siteSettings = siteModel.ResultsSiteSettings();
-                    var resultModel = new ResultModel(
-                        siteSettings, Permissions.Types.Manager, resultId);
+                    var resultModel = new ResultModel(siteSettings, resultId);
                     Rds.ExecuteNonQuery(statements:
                         Rds.UpdateItems(
                             param: Rds.ItemsParam()

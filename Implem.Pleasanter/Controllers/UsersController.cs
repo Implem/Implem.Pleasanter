@@ -250,7 +250,6 @@ namespace Implem.Pleasanter.Controllers
             var log = new SysLogModel();
             var json = new UserModel(
                 SiteSettingsUtility.UsersSiteSettings(),
-                Permissions.Admins(),
                 id)
                     .AddMailAddress();
             log.Finish(json.Length);
@@ -265,7 +264,6 @@ namespace Implem.Pleasanter.Controllers
             var log = new SysLogModel();
             var json = new UserModel(
                 SiteSettingsUtility.UsersSiteSettings(),
-                Permissions.Admins(),
                 id)
                     .DeleteMailAddresses();
             log.Finish(json.Length);

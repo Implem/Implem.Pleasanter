@@ -89,7 +89,6 @@ namespace Implem.Pleasanter
                         where: Rds.UsersWhere().UserId(userId)));
                 var userModel = new UserModel(
                     SiteSettingsUtility.UsersSiteSettings(),
-                    Permissions.Admins(),
                     userId);
                 if (userModel.AccessStatus == Databases.AccessStatuses.Selected &&
                     !userModel.Disabled)
@@ -121,7 +120,6 @@ namespace Implem.Pleasanter
         {
             var userModel = new UserModel(
                 SiteSettingsUtility.UsersSiteSettings(),
-                Permissions.Admins(),
                 HttpContext.Current.User?.Identity.Name.ToInt() ?? 0);
             Session["Language"] = userModel.Language;
             Session["RdsUser"] = userModel.RdsUser();

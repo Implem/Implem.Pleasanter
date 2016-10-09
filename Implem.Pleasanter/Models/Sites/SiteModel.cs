@@ -27,6 +27,7 @@ namespace Implem.Pleasanter.Models
         public string ReferenceType = "Sites";
         public long ParentId = 0;
         public long InheritPermission = 0;
+        public Permissions.Types PermissionType = (Permissions.Types)31;
         public SiteCollection Ancestors = null;
         public PermissionCollection PermissionSourceCollection = null;
         public PermissionCollection PermissionDestinationCollection = null;
@@ -478,7 +479,7 @@ namespace Implem.Pleasanter.Models
             switch (ReferenceType)
             {
                 case "Wikis":
-                    var wikiModel = new WikiModel(SiteSettings, PermissionType)
+                    var wikiModel = new WikiModel(SiteSettings)
                     {
                         SiteId = SiteId,
                         Title = Title,

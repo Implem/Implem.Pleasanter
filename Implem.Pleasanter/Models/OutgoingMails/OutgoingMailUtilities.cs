@@ -24,9 +24,8 @@ namespace Implem.Pleasanter.Models
     {
         public static string EditorNew()
         {
-            return Editor(
-                new OutgoingMailModel(
-                    methodType: BaseModel.MethodTypes.New));
+            return Editor(new OutgoingMailModel(
+                methodType: BaseModel.MethodTypes.New));
         }
 
         public static string Editor(long outgoingMailId, bool clearSessions)
@@ -83,6 +82,7 @@ namespace Implem.Pleasanter.Models
                             : Navigations.Action("OutgoingMails")),
                     action: () => hb
                         .RecordHeader(
+                            permissionType: permissionType,
                             baseModel: outgoingMailModel,
                             tableName: "OutgoingMails")
                         .Div(id: "EditorComments", action: () => hb

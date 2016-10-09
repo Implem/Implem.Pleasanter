@@ -308,18 +308,15 @@ namespace Implem.Pleasanter.Models
 
         public static string EditorNew()
         {
-            return Editor(
-                new UserModel(
-                    SiteSettingsUtility.UsersSiteSettings(),
-                    Permissions.Admins(),
-                    methodType: BaseModel.MethodTypes.New));
+            return Editor(new UserModel(
+                SiteSettingsUtility.UsersSiteSettings(),
+                methodType: BaseModel.MethodTypes.New));
         }
 
         public static string Editor(int userId, bool clearSessions)
         {
             var userModel = new UserModel(
-                    SiteSettingsUtility.UsersSiteSettings(),
-                    Permissions.Admins(),
+                SiteSettingsUtility.UsersSiteSettings(),
                 userId: userId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
@@ -374,6 +371,7 @@ namespace Implem.Pleasanter.Models
                             : Navigations.Action("Users")),
                     action: () => hb
                         .RecordHeader(
+                            permissionType: permissionType,
                             baseModel: userModel,
                             tableName: "Users")
                         .Div(id: "EditorComments", action: () => hb
@@ -543,7 +541,7 @@ namespace Implem.Pleasanter.Models
         public static string EditorJson(
             SiteSettings siteSettings, Permissions.Types permissionType, int userId)
         {
-            return EditorResponse(new UserModel(siteSettings, permissionType, userId))
+            return EditorResponse(new UserModel(siteSettings, userId))
                 .ToJson();
         }
 
@@ -598,7 +596,9 @@ namespace Implem.Pleasanter.Models
         }
 
         public static ResponseCollection FormResponse(
-            this ResponseCollection responseCollection, UserModel userModel)
+            this ResponseCollection responseCollection,
+            Permissions.Types permissionType,
+            UserModel userModel)
         {
             Forms.All().Keys.ForEach(key =>
             {
@@ -612,7 +612,7 @@ namespace Implem.Pleasanter.Models
 
         public static string Create(SiteSettings siteSettings, Permissions.Types permissionType)
         {
-            var userModel = new UserModel(siteSettings, permissionType, 0, setByForm: true);
+            var userModel = new UserModel(siteSettings, 0, setByForm: true);
             var invalid = UserValidator.OnCreating(siteSettings, permissionType, userModel);
             switch (invalid)
             {
@@ -627,7 +627,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var responseCollection = new UsersResponseCollection(userModel);
-                return ResponseByUpdate(userModel, responseCollection)
+                return ResponseByUpdate(permissionType, userModel, responseCollection)
                     .PrependComment(userModel.Comments, userModel.VerType)
                     .ToJson();
             }
@@ -636,8 +636,7 @@ namespace Implem.Pleasanter.Models
         public static string Update(
             SiteSettings siteSettings, Permissions.Types permissionType, int userId)
         {
-            var userModel = new UserModel(
-                siteSettings, permissionType, userId, setByForm: true);
+            var userModel = new UserModel(siteSettings, userId, setByForm: true);
             var invalid = UserValidator.OnUpdating(siteSettings, permissionType, userModel);
             switch (invalid)
             {
@@ -663,13 +662,14 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var responseCollection = new UsersResponseCollection(userModel);
-                return ResponseByUpdate(userModel, responseCollection)
+                return ResponseByUpdate(permissionType, userModel, responseCollection)
                     .PrependComment(userModel.Comments, userModel.VerType)
                     .ToJson();
             }
         }
 
         private static ResponseCollection ResponseByUpdate(
+            Permissions.Types permissionType,
             UserModel userModel,
             UsersResponseCollection responseCollection)
         {
@@ -677,7 +677,7 @@ namespace Implem.Pleasanter.Models
                 .Ver()
                 .Timestamp()
                 .Val("#VerUp", false)
-                .FormResponse(userModel)
+                .FormResponse(permissionType, userModel)
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", userModel.Title.Value)
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
@@ -690,7 +690,7 @@ namespace Implem.Pleasanter.Models
         public static string Delete(
             SiteSettings siteSettings, Permissions.Types permissionType, int userId)
         {
-            var userModel = new UserModel(siteSettings, permissionType, userId);
+            var userModel = new UserModel(siteSettings, userId);
             var invalid = UserValidator.OnDeleting(siteSettings, permissionType, userModel);
             switch (invalid)
             {
@@ -735,7 +735,7 @@ namespace Implem.Pleasanter.Models
         public static string Histories(
             SiteSettings siteSettings, Permissions.Types permissionType, int userId)
         {
-            var userModel = new UserModel(siteSettings, permissionType, userId);
+            var userModel = new UserModel(siteSettings, userId);
             var hb = new HtmlBuilder();
             hb.Table(
                 attributes: new HtmlAttributes().Class("grid"),
@@ -772,7 +772,7 @@ namespace Implem.Pleasanter.Models
         public static string History(
             SiteSettings siteSettings, Permissions.Types permissionType, int userId)
         {
-            var userModel = new UserModel(siteSettings, permissionType, userId);
+            var userModel = new UserModel(siteSettings, userId);
             userModel.Get(
                 where: Rds.UsersWhere()
                     .UserId(userModel.UserId)

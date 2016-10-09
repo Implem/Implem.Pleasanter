@@ -417,11 +417,17 @@ namespace Implem.Pleasanter.Models
             {
                 case "Sites": return SiteUtilities.Copy(Site);
                 case "Issues": return IssueUtilities.Copy(
-                    Site.SiteSettings, PermissionType, ReferenceId);
+                    siteSettings: Site.SiteSettings,
+                    permissionType: Site.PermissionType,
+                    issueId: ReferenceId);
                 case "Results": return ResultUtilities.Copy(
-                    Site.SiteSettings, PermissionType, ReferenceId);
+                    siteSettings: Site.SiteSettings,
+                    permissionType: Site.PermissionType,
+                    resultId: ReferenceId);
                 case "Wikis": return WikiUtilities.Copy(
-                    Site.SiteSettings, PermissionType, ReferenceId);
+                    siteSettings: Site.SiteSettings,
+                    permissionType: Site.PermissionType,
+                    wikiId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }

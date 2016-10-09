@@ -24,18 +24,15 @@ namespace Implem.Pleasanter.Models
     {
         public static string EditorNew()
         {
-            return Editor(
-                new BinaryModel(
-                    SiteSettingsUtility.BinariesSiteSettings(),
-                    Permissions.Admins(),
-                    methodType: BaseModel.MethodTypes.New));
+            return Editor(new BinaryModel(
+                SiteSettingsUtility.BinariesSiteSettings(),
+                methodType: BaseModel.MethodTypes.New));
         }
 
         public static string Editor(long binaryId, bool clearSessions)
         {
             var binaryModel = new BinaryModel(
-                    SiteSettingsUtility.BinariesSiteSettings(),
-                    Permissions.Admins(),
+                SiteSettingsUtility.BinariesSiteSettings(),
                 binaryId: binaryId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
@@ -87,6 +84,7 @@ namespace Implem.Pleasanter.Models
                             : Navigations.Action("Binaries")),
                     action: () => hb
                         .RecordHeader(
+                            permissionType: permissionType,
                             baseModel: binaryModel,
                             tableName: "Binaries")
                         .Div(id: "EditorComments", action: () => hb
@@ -220,6 +218,106 @@ namespace Implem.Pleasanter.Models
                                 .ToList();    
             }
             return switchTargets;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static bool ExistsSiteImage(
+            Permissions.Types permissionType,
+            long referenceId,
+            Libraries.Images.ImageData.SizeTypes sizeType)
+        {
+            var invalid = BinaryValidators.OnGetting(permissionType);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return false;
+            }
+            switch (Parameters.BinaryStorage.Provider)
+            {
+                case "Local":
+                    return new Libraries.Images.ImageData(
+                        referenceId, Libraries.Images.ImageData.Types.SiteImage)
+                            .Exists(sizeType);
+                default:
+                    return Rds.ExecuteScalar_int(statements:
+                        Rds.SelectBinaries(
+                            column: Rds.BinariesColumn().BinariesCount(),
+                            where: Rds.BinariesWhere().ReferenceId(referenceId))) == 1;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string SiteImagePrefix(
+            Permissions.Types permissionType,
+            long referenceId,
+            Libraries.Images.ImageData.SizeTypes sizeType)
+        {
+            var invalid = BinaryValidators.OnGetting(permissionType);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return string.Empty;
+            }
+            return new BinaryModel(referenceId).SiteImagePrefix(sizeType);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static byte[] SiteImageThumbnail(SiteModel siteModel)
+        {
+            var invalid = BinaryValidators.OnGetting(siteModel.PermissionType);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return null;
+            }
+            return new BinaryModel(siteModel.SiteId).SiteImage(
+                Libraries.Images.ImageData.SizeTypes.Thumbnail,
+                Rds.BinariesColumn().Thumbnail());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static byte[] SiteImageIcon(SiteModel siteModel)
+        {
+            var invalid = BinaryValidators.OnGetting(siteModel.PermissionType);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return null;
+            }
+            return new BinaryModel(siteModel.SiteId).SiteImage(
+                Libraries.Images.ImageData.SizeTypes.Thumbnail,
+                Rds.BinariesColumn().Icon());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string UpdateSiteImage(SiteModel siteModel)
+        {
+            var invalid = BinaryValidators.OnUpdating(siteModel.PermissionType);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return null;
+            }
+            var error = new BinaryModel(siteModel.SiteId).UpdateSiteImage(
+                Forms.File(Libraries.Images.ImageData.Types.SiteImage.ToString()));
+            if (error.Has())
+            {
+                return error.MessageJson();
+            }
+            else
+            {
+                return Messages.ResponseFileUpdateCompleted().ToJson();
+            }
         }
     }
 }

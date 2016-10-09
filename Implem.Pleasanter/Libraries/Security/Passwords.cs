@@ -9,7 +9,6 @@ namespace Implem.Pleasanter.Libraries.Security
         {
             return new UserModel(
                 SiteSettingsUtility.UsersSiteSettings(),
-                Permissions.Types.NotSet,
                 id,
                 setByForm: true)
                     .ChangePassword();
@@ -24,7 +23,6 @@ namespace Implem.Pleasanter.Libraries.Security
         {
             return new UserModel(
                 SiteSettingsUtility.UsersSiteSettings(),
-                Permissions.Types.NotSet,
                 id,
                 setByForm: true)
                     .ResetPassword();

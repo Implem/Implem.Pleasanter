@@ -84,13 +84,11 @@ namespace Implem.Pleasanter.Models
 
         public ExportSettingModel(
             SiteSettings siteSettings, 
-            Permissions.Types permissionType,
             bool setByForm = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
             SiteSettings = siteSettings;
-            PermissionType = permissionType;
             if (setByForm) SetByForm();
             MethodType = methodType;
             OnConstructed();
@@ -98,7 +96,6 @@ namespace Implem.Pleasanter.Models
 
         public ExportSettingModel(
             SiteSettings siteSettings, 
-            Permissions.Types permissionType,
             long exportSettingId,
             bool clearSessions = false,
             bool setByForm = false,
@@ -108,7 +105,6 @@ namespace Implem.Pleasanter.Models
             OnConstructing();
             SiteSettings = siteSettings;
             ExportSettingId = exportSettingId;
-            PermissionType = permissionType;
             Get();
             if (clearSessions) ClearSessions();
             if (setByForm) SetByForm();
@@ -336,13 +332,11 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public ExportSettingModel(
-            Permissions.Types permissionType,
             string referenceType,
             long referenceId,
             bool withTitle = false)
         {
             OnConstructing();
-            PermissionType = permissionType;
             ReferenceType = referenceType;
             ReferenceId = referenceId;
             if (withTitle)

@@ -330,14 +330,10 @@ namespace Implem.Pleasanter.Models
             if (reference.ToLower() == "items")
             {
                 var itemModel = new ItemModel(referenceId);
-                PermissionType = itemModel.GetSite().PermissionType;
                 ReferenceType = itemModel.ReferenceType;
             }
             else
             {
-                PermissionType = Permissions.Admins().CanEditTenant()
-                    ? Permissions.Types.Create | Permissions.Types.Update
-                    : Permissions.Types.NotSet;
                 ReferenceType = reference.ToLower();
             }
             ReferenceId = referenceId;

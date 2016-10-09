@@ -41,13 +41,11 @@ namespace Implem.Pleasanter.Models
 
         public TenantModel(
             SiteSettings siteSettings, 
-            Permissions.Types permissionType,
             bool setByForm = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
             SiteSettings = siteSettings;
-            PermissionType = permissionType;
             if (setByForm) SetByForm();
             MethodType = methodType;
             OnConstructed();
@@ -55,7 +53,6 @@ namespace Implem.Pleasanter.Models
 
         public TenantModel(
             SiteSettings siteSettings, 
-            Permissions.Types permissionType,
             int tenantId,
             bool clearSessions = false,
             bool setByForm = false,
@@ -65,7 +62,6 @@ namespace Implem.Pleasanter.Models
             OnConstructing();
             SiteSettings = siteSettings;
             TenantId = tenantId;
-            PermissionType = permissionType;
             Get();
             if (clearSessions) ClearSessions();
             if (setByForm) SetByForm();

@@ -75,15 +75,15 @@ namespace Implem.Pleasanter.Libraries.Search
                     siteSettings)
                         .SearchIndexCollection();
                 case "Issues": return new IssueSubset(
-                    new IssueModel(siteSettings, Permissions.Admins(), id),
+                    new IssueModel(siteSettings, id),
                     siteSettings)
                         .SearchIndexCollection();
                 case "Results": return new ResultSubset(
-                    new ResultModel(siteSettings, Permissions.Admins(), id),
+                    new ResultModel(siteSettings, id),
                     siteSettings)
                         .SearchIndexCollection();
                 case "Wikis": return new WikiSubset(
-                    new WikiModel(siteSettings, Permissions.Admins(), id),
+                    new WikiModel(siteSettings, id),
                     siteSettings)
                         .SearchIndexCollection();
                 default: return null;

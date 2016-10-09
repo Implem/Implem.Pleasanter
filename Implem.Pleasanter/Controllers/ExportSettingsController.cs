@@ -32,7 +32,6 @@ namespace Implem.Pleasanter.Controllers
         {
             var log = new SysLogModel();
             var json = new ExportSettingModel(
-                Permissions.GetBySiteId(id),
                 SiteInfo.IndexReferenceType(reference, id), id)
                     .Set();
             log.Finish(json.Length);

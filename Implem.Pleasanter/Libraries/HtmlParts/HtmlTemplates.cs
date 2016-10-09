@@ -147,8 +147,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (text != string.Empty)
             {
-                var binaryModel = new BinaryModel(permissionType, siteId);
-                if (binaryModel.ExistsSiteImage(ImageData.SizeTypes.Icon))
+                if (BinaryUtilities.ExistsSiteImage(
+                    permissionType, siteId, ImageData.SizeTypes.Icon))
                 {
                     hb.Img(
                         src: Navigations.Get(
@@ -156,7 +156,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             siteId.ToString(),
                             "Binaries",
                             "SiteImageIcon",
-                            binaryModel.SiteImagePrefix(ImageData.SizeTypes.Icon)),
+                            BinaryUtilities.SiteImagePrefix(
+                                permissionType, siteId, ImageData.SizeTypes.Icon)),
                         css: "site-image-icon");
                 }
                 return hb.Header(id: "HeaderTitleContainer", action: () => hb

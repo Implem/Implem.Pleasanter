@@ -29,6 +29,7 @@ namespace Implem.Pleasanter.Models
         public string FullName1 = string.Empty;
         public string FullName2 = string.Empty;
         public Names.FirstAndLastNameOrders FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)1;
+        public Permissions.Types PermissionType = (Permissions.Types)31;
         public string SavedReferenceType = "Sites";
         public long SavedReferenceId = 0;
         public int SavedDeptId = 0;
