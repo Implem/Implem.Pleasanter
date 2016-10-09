@@ -73,6 +73,7 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
+            SiteId = siteSettings.SiteId;
             SiteSettings = siteSettings;
             if (setByForm) SetByForm();
             MethodType = methodType;
@@ -90,7 +91,7 @@ namespace Implem.Pleasanter.Models
             OnConstructing();
             SiteSettings = siteSettings;
             WikiId = wikiId;
-            SiteId = SiteSettings.SiteId;
+            SiteId = siteSettings.SiteId;
             Get();
             if (clearSessions) ClearSessions();
             if (setByForm) SetByForm();

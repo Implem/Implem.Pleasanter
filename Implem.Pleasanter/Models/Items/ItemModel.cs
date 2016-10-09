@@ -265,9 +265,9 @@ namespace Implem.Pleasanter.Models
                         ? Site.PermissionType
                         : Permissions.Types.Manager,
                     ReferenceId);
-                case "Issues": return IssueUtilities.EditorNew(Site, ReferenceId);
-                case "Results": return ResultUtilities.EditorNew(Site, ReferenceId);
-                case "Wikis": return WikiUtilities.EditorNew(Site, ReferenceId);
+                case "Issues": return IssueUtilities.EditorNew(Site);
+                case "Results": return ResultUtilities.EditorNew(Site);
+                case "Wikis": return WikiUtilities.EditorNew(Site);
                 default: return new HtmlBuilder().NotFoundTemplate().ToString();
             }
         }

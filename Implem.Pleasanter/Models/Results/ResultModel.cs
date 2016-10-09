@@ -605,6 +605,7 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
+            SiteId = siteSettings.SiteId;
             Manager = SiteInfo.User(Sessions.UserId());
             Owner = SiteInfo.User(Sessions.UserId());
             SiteSettings = siteSettings;
@@ -624,7 +625,7 @@ namespace Implem.Pleasanter.Models
             OnConstructing();
             SiteSettings = siteSettings;
             ResultId = resultId;
-            SiteId = SiteSettings.SiteId;
+            SiteId = siteSettings.SiteId;
             Get();
             if (clearSessions) ClearSessions();
             if (setByForm) SetByForm();

@@ -294,7 +294,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_GetItemsDefaultColumns": Code.Model_GetItemsDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetItemsDefaultColumns, definitionRow, CodeXls); break;
                     case "Model_SetSiteSettingsProperties": Code.Model_SetSiteSettingsProperties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSiteSettingsProperties, definitionRow, CodeXls); break;
                     case "Model_SetTenantId": Code.Model_SetTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTenantId, definitionRow, CodeXls); break;
-                    case "Model_SetSiteId": Code.Model_SetSiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSiteId, definitionRow, CodeXls); break;
                     case "Model_Create": Code.Model_Create = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Create, definitionRow, CodeXls); break;
                     case "Model_OnCreating_Binaries": Code.Model_OnCreating_Binaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnCreating_Binaries, definitionRow, CodeXls); break;
                     case "Model_OnCreating_Users": Code.Model_OnCreating_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnCreating_Users, definitionRow, CodeXls); break;
@@ -388,6 +387,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_PermissionTypeParameter": Code.Model_PermissionTypeParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PermissionTypeParameter, definitionRow, CodeXls); break;
                     case "Model_ParentIdParameter": Code.Model_ParentIdParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ParentIdParameter, definitionRow, CodeXls); break;
                     case "Model_InheritPermissionParameter": Code.Model_InheritPermissionParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InheritPermissionParameter, definitionRow, CodeXls); break;
+                    case "Model_SetSiteId": Code.Model_SetSiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSiteId, definitionRow, CodeXls); break;
                     case "Model_SetSiteSettings": Code.Model_SetSiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSiteSettings, definitionRow, CodeXls); break;
                     case "Model_SetPermissionType": Code.Model_SetPermissionType = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetPermissionType, definitionRow, CodeXls); break;
                     case "Model_SetParentId": Code.Model_SetParentId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetParentId, definitionRow, CodeXls); break;
@@ -3851,7 +3851,6 @@ namespace Implem.DefinitionAccessor
         public string Model_GetItemsDefaultColumns;
         public string Model_SetSiteSettingsProperties;
         public string Model_SetTenantId;
-        public string Model_SetSiteId;
         public string Model_Create;
         public string Model_OnCreating_Binaries;
         public string Model_OnCreating_Users;
@@ -3945,6 +3944,7 @@ namespace Implem.DefinitionAccessor
         public string Model_PermissionTypeParameter;
         public string Model_ParentIdParameter;
         public string Model_InheritPermissionParameter;
+        public string Model_SetSiteId;
         public string Model_SetSiteSettings;
         public string Model_SetPermissionType;
         public string Model_SetParentId;
@@ -4271,7 +4271,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_GetItemsDefaultColumns = new CodeDefinition();
         public CodeDefinition Model_SetSiteSettingsProperties = new CodeDefinition();
         public CodeDefinition Model_SetTenantId = new CodeDefinition();
-        public CodeDefinition Model_SetSiteId = new CodeDefinition();
         public CodeDefinition Model_Create = new CodeDefinition();
         public CodeDefinition Model_OnCreating_Binaries = new CodeDefinition();
         public CodeDefinition Model_OnCreating_Users = new CodeDefinition();
@@ -4365,6 +4364,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_PermissionTypeParameter = new CodeDefinition();
         public CodeDefinition Model_ParentIdParameter = new CodeDefinition();
         public CodeDefinition Model_InheritPermissionParameter = new CodeDefinition();
+        public CodeDefinition Model_SetSiteId = new CodeDefinition();
         public CodeDefinition Model_SetSiteSettings = new CodeDefinition();
         public CodeDefinition Model_SetPermissionType = new CodeDefinition();
         public CodeDefinition Model_SetParentId = new CodeDefinition();

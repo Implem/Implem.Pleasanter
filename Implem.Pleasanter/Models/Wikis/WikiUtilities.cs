@@ -251,21 +251,15 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string EditorNew(SiteModel siteModel, long siteId)
+        public static string EditorNew(SiteModel siteModel)
         {
             var wikiId = Rds.ExecuteScalar_long(statements:
                 Rds.SelectWikis(
                     column: Rds.WikisColumn().WikiId(),
-                    where: Rds.WikisWhere().SiteId(siteId)));
+                    where: Rds.WikisWhere().SiteId(siteModel.SiteId)));
             return wikiId == 0
-                ? Editor(
-                    siteModel,
-                    new WikiModel(
-                        siteModel.WikisSiteSettings(),
-                        methodType: BaseModel.MethodTypes.New)
-                    {
-                        SiteId = siteId
-                    })
+                ? Editor(siteModel, new WikiModel(
+                    siteModel.WikisSiteSettings(), methodType: BaseModel.MethodTypes.New))
                 : new HtmlBuilder().NotFoundTemplate().ToString();
         }
 

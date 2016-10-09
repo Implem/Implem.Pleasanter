@@ -397,16 +397,10 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string EditorNew(SiteModel siteModel, long siteId)
+        public static string EditorNew(SiteModel siteModel)
         {
-            return Editor(
-                siteModel,
-                new IssueModel(
-                    siteModel.IssuesSiteSettings(),
-                    methodType: BaseModel.MethodTypes.New)
-                {
-                    SiteId = siteId
-                });
+            return Editor(siteModel, new IssueModel(
+                siteModel.IssuesSiteSettings(), methodType: BaseModel.MethodTypes.New));
         }
 
         public static string Editor(SiteModel siteModel, long issueId, bool clearSessions)
