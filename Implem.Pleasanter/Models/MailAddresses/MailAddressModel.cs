@@ -281,16 +281,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private string Editor()
-        {
-            return new MailAddressesResponseCollection(this)
-                .ReplaceAll(
-                    "#MainContainer",
-                    MailAddressUtilities.Editor(this))
-                .Invoke("validateMailAddresses")
-                .ToJson();
-        }
-
         /// <summary>
         /// Fixed:
         /// </summary>

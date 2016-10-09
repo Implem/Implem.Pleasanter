@@ -296,16 +296,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private string Editor()
-        {
-            return new DemosResponseCollection(this)
-                .ReplaceAll(
-                    "#MainContainer",
-                    DemoUtilities.Editor(this))
-                .Invoke("validateDemos")
-                .ToJson();
-        }
-
         /// <summary>
         /// Fixed:
         /// </summary>

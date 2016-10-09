@@ -291,16 +291,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private string Editor()
-        {
-            return new DeptsResponseCollection(this)
-                .ReplaceAll(
-                    "#MainContainer",
-                    DeptUtilities.Editor(this))
-                .Invoke("validateDepts")
-                .ToJson();
-        }
-
         /// <summary>
         /// Fixed:
         /// </summary>

@@ -332,16 +332,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private string Editor()
-        {
-            return new ExportSettingsResponseCollection(this)
-                .ReplaceAll(
-                    "#MainContainer",
-                    ExportSettingUtilities.Editor(this))
-                .Invoke("validateExportSettings")
-                .ToJson();
-        }
-
         /// <summary>
         /// Fixed:
         /// </summary>

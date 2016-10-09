@@ -424,16 +424,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private string Editor()
-        {
-            return new UsersResponseCollection(this)
-                .ReplaceAll(
-                    "#MainContainer",
-                    UserUtilities.Editor(this))
-                .Invoke("validateUsers")
-                .ToJson();
-        }
-
         /// <summary>
         /// Fixed:
         /// </summary>

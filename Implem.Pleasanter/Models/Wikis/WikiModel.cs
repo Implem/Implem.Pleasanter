@@ -452,16 +452,5 @@ namespace Implem.Pleasanter.Models
                 Title.DisplayValue = WikiUtilities.TitleDisplayValue(SiteSettings, this);
             }
         }
-
-        private string Editor()
-        {
-            var siteModel = new SiteModel(SiteId);
-            return new WikisResponseCollection(this)
-                .ReplaceAll(
-                    "#MainContainer",
-                    WikiUtilities.Editor(siteModel, this))
-                .Invoke("validateWikis")
-                .ToJson();
-        }
     }
 }

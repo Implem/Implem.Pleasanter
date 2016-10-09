@@ -393,8 +393,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_EditorJsonCases": Code.Model_EditorJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_EditorJsonCases, definitionRow, CodeXls); break;
                     case "Model_GetCases": Code.Model_GetCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetCases, definitionRow, CodeXls); break;
                     case "Model_UpdateByKambanCases": Code.Model_UpdateByKambanCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateByKambanCases, definitionRow, CodeXls); break;
-                    case "Model_Editor": Code.Model_Editor = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Editor, definitionRow, CodeXls); break;
-                    case "Model_SiteModel": Code.Model_SiteModel = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteModel, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsParameter": Code.Model_SiteSettingsParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsParameter, definitionRow, CodeXls); break;
                     case "Model_PermissionTypeParameter": Code.Model_PermissionTypeParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PermissionTypeParameter, definitionRow, CodeXls); break;
                     case "Model_ParentIdParameter": Code.Model_ParentIdParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ParentIdParameter, definitionRow, CodeXls); break;
@@ -3961,8 +3959,6 @@ namespace Implem.DefinitionAccessor
         public string Model_EditorJsonCases;
         public string Model_GetCases;
         public string Model_UpdateByKambanCases;
-        public string Model_Editor;
-        public string Model_SiteModel;
         public string Model_SiteSettingsParameter;
         public string Model_PermissionTypeParameter;
         public string Model_ParentIdParameter;
@@ -4392,8 +4388,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_EditorJsonCases = new CodeDefinition();
         public CodeDefinition Model_GetCases = new CodeDefinition();
         public CodeDefinition Model_UpdateByKambanCases = new CodeDefinition();
-        public CodeDefinition Model_Editor = new CodeDefinition();
-        public CodeDefinition Model_SiteModel = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsParameter = new CodeDefinition();
         public CodeDefinition Model_PermissionTypeParameter = new CodeDefinition();
         public CodeDefinition Model_ParentIdParameter = new CodeDefinition();

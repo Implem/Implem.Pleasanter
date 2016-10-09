@@ -279,15 +279,5 @@ namespace Implem.Pleasanter.Models
                 }
             }
         }
-
-        private string Editor()
-        {
-            return new TenantsResponseCollection(this)
-                .ReplaceAll(
-                    "#MainContainer",
-                    TenantUtilities.Editor(this))
-                .Invoke("validateTenants")
-                .ToJson();
-        }
     }
 }

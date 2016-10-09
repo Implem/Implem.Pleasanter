@@ -1420,16 +1420,5 @@ namespace Implem.Pleasanter.Models
                 Title.DisplayValue = IssueUtilities.TitleDisplayValue(SiteSettings, this);
             }
         }
-
-        private string Editor()
-        {
-            var siteModel = new SiteModel(SiteId);
-            return new IssuesResponseCollection(this)
-                .ReplaceAll(
-                    "#MainContainer",
-                    IssueUtilities.Editor(siteModel, this))
-                .Invoke("validateIssues")
-                .ToJson();
-        }
     }
 }

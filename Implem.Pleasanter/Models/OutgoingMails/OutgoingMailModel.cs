@@ -321,16 +321,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private string Editor()
-        {
-            return new OutgoingMailsResponseCollection(this)
-                .ReplaceAll(
-                    "#MainContainer",
-                    OutgoingMailUtilities.Editor(this))
-                .Invoke("validateOutgoingMails")
-                .ToJson();
-        }
-
         /// <summary>
         /// Fixed:
         /// </summary>

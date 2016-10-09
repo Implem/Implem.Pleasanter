@@ -333,16 +333,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private string Editor()
-        {
-            return new BinariesResponseCollection(this)
-                .ReplaceAll(
-                    "#MainContainer",
-                    BinaryUtilities.Editor(this))
-                .Invoke("validateBinaries")
-                .ToJson();
-        }
-
         /// <summary>
         /// Fixed:
         /// </summary>

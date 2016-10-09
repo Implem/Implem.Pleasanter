@@ -418,16 +418,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private string Editor()
-        {
-            return new SitesResponseCollection(this)
-                .ReplaceAll(
-                    "#MainContainer",
-                    SiteUtilities.Editor(this))
-                .Invoke("validateSites")
-                .ToJson();
-        }
-
         /// <summary>
         /// Fixed:
         /// </summary>
