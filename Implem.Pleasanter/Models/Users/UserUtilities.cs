@@ -591,7 +591,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                return new List<int>();
+                return new List<int> { Sessions.UserId() };
             }
         }
 
