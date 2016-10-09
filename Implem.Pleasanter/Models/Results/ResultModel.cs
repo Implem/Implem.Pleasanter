@@ -825,6 +825,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.ResultsWhere().ResultId(ResultId),
                     param: Rds.ResultsParam().SiteId(SiteId))
             });
+            SiteSettings = new SiteModel(siteId).ResultsSiteSettings();
             Get();
             return Error.Types.None;
         }
