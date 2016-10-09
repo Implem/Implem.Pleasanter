@@ -292,7 +292,7 @@ namespace Implem.Libraries.Utilities
         public static DateTime ToDateTime(this object obj)
         {
             DateTime data;
-            var str = obj.ToString();
+            var str = obj.ToStr();
             return obj != null && DateTime.TryParse(str, out data)
                 ? data
                 : obj.ToDecimal() > 0
