@@ -422,20 +422,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public SiteModel(
-            SiteSettings siteSettings,
-            long siteId)
-        {
-            OnConstructing();
-            SiteId = siteId;
-            Get();
-            SiteSettings = siteSettings;
-            OnConstructed();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public Error.Types Create(bool paramAll = false)
         {
             if (!paramAll) SiteSettings = new SiteSettings(ReferenceType);
