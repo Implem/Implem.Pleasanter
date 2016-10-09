@@ -975,7 +975,8 @@ namespace Implem.Pleasanter.Models
         {
             var targetSiteId = Forms.Long("MoveTargets");
             var issueModel = new IssueModel(siteSettings, issueId);
-            var invalid = IssueValidator.OnMoving(issueModel.SiteId, targetSiteId);
+            var invalid = IssueValidator.OnMoving(
+                permissionType, Permissions.GetBySiteId(targetSiteId));
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -1161,7 +1162,7 @@ namespace Implem.Pleasanter.Models
         public static string BulkMove(SiteSettings siteSettings, Permissions.Types permissionType)
         {
             var siteId = Forms.Long("MoveTargets");
-            if (Permissions.CanMove(siteSettings.SiteId, siteId))
+            if (Permissions.CanMove(permissionType, Permissions.GetBySiteId(siteId)))
             {
                 var count = 0;
                 if (Forms.Bool("GridCheckAll"))

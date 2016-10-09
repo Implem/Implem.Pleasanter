@@ -129,11 +129,9 @@ namespace Implem.Pleasanter.Libraries.Security
             }
         }
 
-        public static bool CanMove(long sourceId, long destinationId)
+        public static bool CanMove(Types source, Types destination)
         {
-            var source = new SiteModel(sourceId);
-            var destination = new SiteModel(destinationId);
-            return source.PermissionType.CanUpdate() && destination.PermissionType.CanUpdate();
+            return source.CanUpdate() && destination.CanUpdate();
         }
 
         public static bool CanDelete(this Types self)

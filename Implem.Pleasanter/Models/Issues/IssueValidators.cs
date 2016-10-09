@@ -1850,9 +1850,9 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public static Error.Types OnMoving(long siteId, long targetSiteId)
+        public static Error.Types OnMoving(Permissions.Types source, Permissions.Types destination)
         {
-            if (targetSiteId == 0 || !Permissions.CanMove(siteId, targetSiteId))
+            if (!Permissions.CanMove(source, destination))
             {
                 return Error.Types.HasNotPermission;
             }
