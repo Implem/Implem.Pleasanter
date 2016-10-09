@@ -158,6 +158,7 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             bool paramAll = false)
         {
+            Size = Bin.Length;
             var newId = Rds.ExecuteScalar_long(
                 transactional: true,
                 statements: new SqlStatement[]
@@ -327,14 +328,6 @@ namespace Implem.Pleasanter.Models
                     case "IsHistory": VerType = dataRow[name].ToBool() ? Versions.VerTypes.History : Versions.VerTypes.Latest; break;
                 }
             }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void OnCreating()
-        {
-            Size = Bin.Length;
         }
 
         /// <summary>
