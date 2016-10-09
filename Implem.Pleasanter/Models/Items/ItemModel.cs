@@ -498,8 +498,6 @@ namespace Implem.Pleasanter.Models
                     Site.IssuesSiteSettings(), Site.PermissionType);
                 case "Results": return ResultUtilities.BulkMove(
                     Site.ResultsSiteSettings(), Site.PermissionType);
-                case "Wikis": return WikiUtilities.BulkMove(
-                    Site.WikisSiteSettings(), Site.PermissionType);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
