@@ -626,10 +626,8 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var responseCollection = new UsersResponseCollection(userModel);
-                return ResponseByUpdate(permissionType, userModel, responseCollection)
-                    .PrependComment(userModel.Comments, userModel.VerType)
-                    .ToJson();
+                return EditorResponse(
+                    userModel, Messages.Created(userModel.Title.Value)).ToJson();
             }
         }
 

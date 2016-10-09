@@ -887,14 +887,8 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var responseCollection = new IssuesResponseCollection(issueModel);
-                responseCollection.Val(
-                    "#Issues_RemainingWorkValue",
-                    siteSettings.GetColumn("RemainingWorkValue")
-                        .Display(issueModel.RemainingWorkValue, permissionType));
-                return ResponseByUpdate(permissionType, issueModel, responseCollection)
-                    .PrependComment(issueModel.Comments, issueModel.VerType)
-                    .ToJson();
+                return EditorResponse(
+                    issueModel, Messages.Created(issueModel.Title.Value)).ToJson();
             }
         }
 

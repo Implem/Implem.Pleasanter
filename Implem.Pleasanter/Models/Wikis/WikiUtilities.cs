@@ -523,12 +523,8 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var responseCollection = new WikisResponseCollection(wikiModel);
-                responseCollection.ReplaceAll("#Breadcrumb", new HtmlBuilder()
-                    .Breadcrumb(siteSettings.SiteId));
-                return ResponseByUpdate(permissionType, wikiModel, responseCollection)
-                    .PrependComment(wikiModel.Comments, wikiModel.VerType)
-                    .ToJson();
+                return EditorResponse(
+                    wikiModel, Messages.Created(wikiModel.Title.Value)).ToJson();
             }
         }
 

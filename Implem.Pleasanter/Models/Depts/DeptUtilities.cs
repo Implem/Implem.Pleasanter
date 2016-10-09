@@ -537,10 +537,8 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var responseCollection = new DeptsResponseCollection(deptModel);
-                return ResponseByUpdate(permissionType, deptModel, responseCollection)
-                    .PrependComment(deptModel.Comments, deptModel.VerType)
-                    .ToJson();
+                return EditorResponse(
+                    deptModel, Messages.Created(deptModel.Title.Value)).ToJson();
             }
         }
 
