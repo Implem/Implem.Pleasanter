@@ -990,7 +990,9 @@ namespace Implem.Pleasanter.Models
             else
             {
                 Sessions.Set("Message", Messages.Moved(issueModel.Title.Value).Html);
-                return EditorResponse(issueModel).ToJson();
+                return EditorResponse(issueModel)
+                    .Val("#BackUrl", Navigations.ItemIndex(targetSiteId))
+                    .ToJson();
             }
         }
 

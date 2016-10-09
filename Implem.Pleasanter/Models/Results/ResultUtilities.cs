@@ -954,7 +954,9 @@ namespace Implem.Pleasanter.Models
             else
             {
                 Sessions.Set("Message", Messages.Moved(resultModel.Title.Value).Html);
-                return EditorResponse(resultModel).ToJson();
+                return EditorResponse(resultModel)
+                    .Val("#BackUrl", Navigations.ItemIndex(targetSiteId))
+                    .ToJson();
             }
         }
 
