@@ -145,14 +145,8 @@ namespace Implem.Pleasanter.Models
                 switch (siteModel.ReferenceType)
                 {
                     case "Wikis":
-                        var wikiModel = new WikiModel(siteSettings)
-                        {
-                            SiteId = siteModel.SiteId,
-                            Title = siteModel.Title,
-                            Body = siteModel.Body,
-                            Comments = siteModel.Comments
-                        };
-                        wikiModel.Create();
+                        var wikiModel = new WikiModel(siteModel.WikisSiteSettings())
+                            .Get(where: Rds.WikisWhere().SiteId(siteModel.SiteId));
                         return new ResponseCollection()
                             .ReplaceAll(
                                 "#MainContainer",
