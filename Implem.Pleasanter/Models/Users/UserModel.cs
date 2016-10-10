@@ -728,34 +728,16 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string ResetPassword()
+        public Error.Types ResetPassword()
         {
-            var responseCollection = new UsersResponseCollection(this);
-            var siteSettings = SiteSettingsUtility.UsersSiteSettings();
-            if (Permissions.Admins().CanEditTenant())
-            {
-                PasswordExpirationPeriod();
-                Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
-                    where: Rds.UsersWhereDefault(this),
-                    param: Rds.UsersParam()
-                        .Password(AfterResetPassword)
-                        .PasswordExpirationTime(PasswordExpirationTime.Value)
-                        .PasswordChangeTime(raw: "getdate()")));
-                responseCollection
-                    .PasswordExpirationTime(PasswordExpirationTime.ToString())
-                    .PasswordChangeTime(PasswordChangeTime.ToString())
-                    .UpdatedTime(UpdatedTime.ToString())
-                    .AfterResetPassword(string.Empty)
-                    .AfterResetPasswordValidator(string.Empty)
-                    .ClearFormData()
-                    .CloseDialog()
-                    .Message(Messages.PasswordResetCompleted());
-            }
-            else
-            {
-                responseCollection.Message(Messages.HasNotPermission());
-            }
-            return responseCollection.ToJson();
+            PasswordExpirationPeriod();
+            Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
+                where: Rds.UsersWhereDefault(this),
+                param: Rds.UsersParam()
+                    .Password(AfterResetPassword)
+                    .PasswordExpirationTime(PasswordExpirationTime.Value)
+                    .PasswordChangeTime(raw: "getdate()")));
+            return Error.Types.None;
         }
 
         /// <summary>
