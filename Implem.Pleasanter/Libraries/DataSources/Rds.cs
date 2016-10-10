@@ -4775,12 +4775,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         case Aggregation.Types.Total:
                             switch (data.Aggregation.Target)
                             {
+                                case "PermissionType": column.PermissionTypeTotal(); break;
                                 default: break;
                             }
                             break;
                         case Aggregation.Types.Average:
                             switch (data.Aggregation.Target)
                             {
+                                case "PermissionType": column.PermissionTypeAverage(); break;
                                 default: break;
                             }
                             break;
@@ -9819,21 +9821,25 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 case "Total":
                     switch (columnName)
                     {
+                        case "PermissionType": return self.PermissionTypeTotal(duplicate, _as);
                         default: return self;
                     }
                 case "Average":
                     switch (columnName)
                     {
+                        case "PermissionType": return self.PermissionTypeAverage(duplicate, _as);
                         default: return self;
                     }
                 case "Max":
                     switch (columnName)
                     {
+                        case "PermissionType": return self.PermissionTypeMax(duplicate, _as);
                         default: return self;
                     }
                 case "Min":
                     switch (columnName)
                     {
+                        case "PermissionType": return self.PermissionTypeMin(duplicate, _as);
                         default: return self;
                     }
                 default: return self;
@@ -9871,6 +9877,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static PermissionsColumnCollection FullName2(this PermissionsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t2].[LastName] + ' ' + [t2].[FirstName]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [FullName2]")); }
         public static SqlColumnCollection Permissions_FullName2(this SqlColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t2].[LastName] + ' ' + [t2].[FirstName]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [FullName2]")); }
         public static PermissionsColumnCollection PermissionsCount(this PermissionsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "count(*)" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as PermissionsCount")); }
+        public static PermissionsColumnCollection PermissionTypeTotal(this PermissionsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "sum([t0].[PermissionType])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [PermissionTypeTotal]")); }
+        public static SqlColumnCollection Permissions_PermissionTypeTotal(this SqlColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "sum([t0].[PermissionType])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [PermissionTypeTotal]")); }
+        public static PermissionsColumnCollection PermissionTypeAverage(this PermissionsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "avg([t0].[PermissionType])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [PermissionTypeAverage]")); }
+        public static SqlColumnCollection Permissions_PermissionTypeAverage(this SqlColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "avg([t0].[PermissionType])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [PermissionTypeAverage]")); }
+        public static PermissionsColumnCollection PermissionTypeMax(this PermissionsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "max([t0].[PermissionType])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [PermissionTypeMax]")); }
+        public static SqlColumnCollection Permissions_PermissionTypeMax(this SqlColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "max([t0].[PermissionType])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [PermissionTypeMax]")); }
+        public static PermissionsColumnCollection PermissionTypeMin(this PermissionsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "min([t0].[PermissionType])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [PermissionTypeMin]")); }
+        public static SqlColumnCollection Permissions_PermissionTypeMin(this SqlColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "min([t0].[PermissionType])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [PermissionTypeMin]")); }
         public static PermissionsColumnCollection CreatedTimeMax(this PermissionsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "max([t0].[CreatedTime])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [CreatedTimeMax]")); }
         public static SqlColumnCollection Permissions_CreatedTimeMax(this SqlColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "max([t0].[CreatedTime])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [CreatedTimeMax]")); }
         public static PermissionsColumnCollection CreatedTimeMin(this PermissionsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "min([t0].[CreatedTime])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [CreatedTimeMin]")); }
@@ -10256,6 +10270,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static PermissionsGroupByCollection UpdatedTime(this PermissionsGroupByCollection self) { return self.Add("[t0].[UpdatedTime]"); }
         public static SqlGroupByCollection Permissions_UpdatedTime(this SqlGroupByCollection self) { return self.Add("[t0].[UpdatedTime]"); }
         public static PermissionsHavingCollection PermissionsCount(this PermissionsHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "count(*)", name: !_as.IsNullOrEmpty() ?_as : "PermissionsCount", value: value, _operator: _operator); }
+        public static PermissionsHavingCollection PermissionTypeTotal(this PermissionsHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "sum([t0].[PermissionType])", name: !_as.IsNullOrEmpty() ?_as : "PermissionTypeTotal", value: value, _operator: _operator); }
+        public static SqlHavingCollection Permissions_PermissionTypeTotal(this SqlHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "sum([t0].[PermissionType])", name: !_as.IsNullOrEmpty() ?_as : "PermissionTypeTotal", value: value, _operator: _operator); }
+        public static PermissionsHavingCollection PermissionTypeAverage(this PermissionsHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "avg([t0].[PermissionType])", name: !_as.IsNullOrEmpty() ?_as : "PermissionTypeAverage", value: value, _operator: _operator); }
+        public static SqlHavingCollection Permissions_PermissionTypeAverage(this SqlHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "avg([t0].[PermissionType])", name: !_as.IsNullOrEmpty() ?_as : "PermissionTypeAverage", value: value, _operator: _operator); }
+        public static PermissionsHavingCollection PermissionTypeMax(this PermissionsHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "max([t0].[PermissionType])", name: !_as.IsNullOrEmpty() ?_as : "PermissionTypeMax", value: value, _operator: _operator); }
+        public static SqlHavingCollection Permissions_PermissionTypeMax(this SqlHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "max([t0].[PermissionType])", name: !_as.IsNullOrEmpty() ?_as : "PermissionTypeMax", value: value, _operator: _operator); }
+        public static PermissionsHavingCollection PermissionTypeMin(this PermissionsHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "min([t0].[PermissionType])", name: !_as.IsNullOrEmpty() ?_as : "PermissionTypeMin", value: value, _operator: _operator); }
+        public static SqlHavingCollection Permissions_PermissionTypeMin(this SqlHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "min([t0].[PermissionType])", name: !_as.IsNullOrEmpty() ?_as : "PermissionTypeMin", value: value, _operator: _operator); }
         public static PermissionsHavingCollection CreatedTimeMax(this PermissionsHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "max([t0].[CreatedTime])", name: !_as.IsNullOrEmpty() ?_as : "CreatedTimeMax", value: value, _operator: _operator); }
         public static SqlHavingCollection Permissions_CreatedTimeMax(this SqlHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "max([t0].[CreatedTime])", name: !_as.IsNullOrEmpty() ?_as : "CreatedTimeMax", value: value, _operator: _operator); }
         public static PermissionsHavingCollection CreatedTimeMin(this PermissionsHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "min([t0].[CreatedTime])", name: !_as.IsNullOrEmpty() ?_as : "CreatedTimeMin", value: value, _operator: _operator); }
@@ -10295,6 +10317,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SqlOrderByCollection Permissions_CreatedTime(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[CreatedTime]"); }
         public static SqlOrderByCollection Permissions_UpdatedTime(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[UpdatedTime]"); }
         public static PermissionsOrderByCollection PermissionsCount(this PermissionsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "count(*)"); }
+        public static PermissionsOrderByCollection PermissionTypeTotal(this PermissionsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "sum([t0].[PermissionType])"); }
+        public static SqlOrderByCollection Permissions_PermissionTypeTotal(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "sum([t0].[PermissionType])"); }
+        public static PermissionsOrderByCollection PermissionTypeAverage(this PermissionsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "avg([t0].[PermissionType])"); }
+        public static SqlOrderByCollection Permissions_PermissionTypeAverage(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "avg([t0].[PermissionType])"); }
+        public static PermissionsOrderByCollection PermissionTypeMax(this PermissionsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[PermissionType])"); }
+        public static SqlOrderByCollection Permissions_PermissionTypeMax(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[PermissionType])"); }
+        public static PermissionsOrderByCollection PermissionTypeMin(this PermissionsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[PermissionType])"); }
+        public static SqlOrderByCollection Permissions_PermissionTypeMin(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[PermissionType])"); }
         public static PermissionsOrderByCollection CreatedTimeMax(this PermissionsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[CreatedTime])"); }
         public static SqlOrderByCollection Permissions_CreatedTimeMax(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[CreatedTime])"); }
         public static PermissionsOrderByCollection CreatedTimeMin(this PermissionsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[CreatedTime])"); }
