@@ -232,12 +232,13 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false)
         {
             var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
+            var columns = siteSettings.GridColumnCollection();
             return hb
                 .THead(
                     _using: addHeader,
                     action: () => hb
                         .GridHeader(
-                            columnCollection: siteSettings.GridColumnCollection(), 
+                            columnCollection: columns, 
                             formData: formData,
                             checkAll: checkAll))
                 .TBody(action: () => deptCollection
@@ -253,7 +254,7 @@ namespace Implem.Pleasanter.Models
                                         controlCss: "grid-check",
                                         _checked: checkAll,
                                         dataId: deptModel.DeptId.ToString()));
-                                siteSettings.GridColumnCollection()
+                                columns
                                     .ForEach(column => hb
                                         .TdValue(
                                             column: column,
