@@ -76,6 +76,22 @@ namespace Implem.Pleasanter.Libraries.Security
             return permissionType;
         }
 
+        public static Types GetById(long id)
+        {
+            var user = Sessions.User();
+            return ((Types)Rds.ExecuteScalar_long(statements:
+                Rds.SelectPermissions(
+                    column: Rds.PermissionsColumn()
+                        .PermissionTypeMax(),
+                    where: Rds.PermissionsWhere()
+                        .ReferenceType("Sites")
+                        .ReferenceId(sub: Rds.SelectItems(
+                            column: Rds.ItemsColumn().SiteId(),
+                            where: Rds.ItemsWhere().ReferenceId(id)))
+                        .Add(raw: "([t0].[DeptId]={0} or [t0].[UserId]={1})".Params(
+                            user.DeptId, user.Id))))).Admins();
+        }
+
         public static Types GetBySiteId(long siteId)
         {
             var user = Sessions.User();
