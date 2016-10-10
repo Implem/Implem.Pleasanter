@@ -439,77 +439,52 @@ namespace Implem.Pleasanter.Libraries.Settings
                 o.ColumnName == columnName && o.HistoryColumn);
         }
 
-        public IEnumerable<Column> GridColumnCollection(bool withTitle = false)
+        public IEnumerable<Column> GridColumnCollection()
         {
-            foreach (var columnName in GridColumnsOrder)
-            {
-                var column = GridColumn(columnName);
-                if (column != null &&
-                    (!withTitle || withTitle && GridColumnsOrder.Contains(columnName)))
-                {
-                    yield return column; 
-                }
-            }
+            return GridColumnsOrder
+                .Select(o => GetColumn(o))
+                .Where(o => o != null)
+                .ToList();
         }
 
         public IEnumerable<Column> FilterColumnCollection()
         {
-            foreach (var columnName in FilterColumnsOrder)
-            {
-                var column = FilterColumn(columnName);
-                if (column != null)
-                {
-                    yield return column;
-                }
-            }
+            return FilterColumnsOrder
+                .Select(o => GetColumn(o))
+                .Where(o => o != null)
+                .ToList();
         }
 
         public IEnumerable<Column> EditorColumnCollection()
         {
-            foreach (var columnName in EditorColumnsOrder)
-            {
-                var column = EditorColumn(columnName);
-                if (column != null)
-                {
-                    yield return column;
-                }
-            }
+            return EditorColumnsOrder
+                .Select(o => GetColumn(o))
+                .Where(o => o != null)
+                .ToList();
         }
 
         public IEnumerable<Column> TitleColumnCollection()
         {
-            foreach (var columnName in TitleColumnsOrder)
-            {
-                var column = TitleColumn(columnName);
-                if (column != null)
-                {
-                    yield return column;
-                }
-            }
+            return TitleColumnsOrder
+                .Select(o => GetColumn(o))
+                .Where(o => o != null)
+                .ToList();
         }
 
         public IEnumerable<Column> LinkColumnCollection()
         {
-            foreach (var columnName in LinkColumnsOrder)
-            {
-                var column = LinkColumn(columnName);
-                if (column != null)
-                {
-                    yield return column;
-                }
-            }
+            return LinkColumnsOrder
+                .Select(o => GetColumn(o))
+                .Where(o => o != null)
+                .ToList();
         }
 
         public IEnumerable<Column> HistoryColumnCollection()
         {
-            foreach (var columnName in HistoryColumnsOrder)
-            {
-                var column = HistoryColumn(columnName);
-                if (column != null)
-                {
-                    yield return column;
-                }
-            }
+            return HistoryColumnsOrder
+                .Select(o => GetColumn(o))
+                .Where(o => o != null)
+                .ToList();
         }
 
         public IEnumerable<Column> SelectColumnCollection()
