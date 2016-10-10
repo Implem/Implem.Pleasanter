@@ -154,7 +154,9 @@ namespace Implem.Pleasanter.Models
                             .ReplaceAll(
                                 "#ItemValidator",
                                 new HtmlBuilder().ItemValidator(referenceType: "Wikis"))
-                            .Val("#BackUrl", Navigations.ItemIndex(siteModel.ParentId)).ToJson();
+                            .Val("#BackUrl", Navigations.ItemIndex(siteModel.ParentId))
+                            .Invoke("setSwitchTargets")
+                            .ToJson();
                     default:
                         return permissionType.CanEditSite()
                             ? EditorResponse(

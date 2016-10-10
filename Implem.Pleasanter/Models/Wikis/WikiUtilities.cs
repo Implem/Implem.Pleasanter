@@ -161,8 +161,8 @@ namespace Implem.Pleasanter.Models
                         .Hidden(
                             controlId: "SwitchTargets",
                             css: "must-transport",
-                            value: wikiModel.SwitchTargets?.Join(),
-                            _using: !Request.IsAjax()))
+                            value: wikiModel.WikiId.ToString(),
+                            _using: !Request.IsAjax() || Routes.Action() == "create"))
                 .OutgoingMailsForm("Wikis", wikiModel.WikiId, wikiModel.Ver)
                 .CopyDialog("items", wikiModel.WikiId)
                 .MoveDialog()
