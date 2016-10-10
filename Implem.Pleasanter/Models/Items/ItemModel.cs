@@ -105,9 +105,6 @@ namespace Implem.Pleasanter.Models
                 case "Results": return ResultUtilities.Index(
                     siteSettings: Site.ResultsSiteSettings(),
                     permissionType: Site.PermissionType);
-                case "Wikis": return WikiUtilities.Index(
-                    siteSettings: Site.WikisSiteSettings(),
-                    permissionType: Site.PermissionType);
                 default: return new HtmlBuilder().NotFoundTemplate().ToString();
             }
         }

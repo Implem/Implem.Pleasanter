@@ -489,13 +489,5 @@ namespace Implem.Pleasanter.Models
                 default: return string.Empty;
             }
         }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string Index(SiteSettings siteSettings, Permissions.Types permissionType)
-        {
-            return new HtmlBuilder().NotFoundTemplate().ToString();
-        }
     }
 }
