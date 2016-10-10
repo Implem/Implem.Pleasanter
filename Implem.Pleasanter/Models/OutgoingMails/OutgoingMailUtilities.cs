@@ -545,7 +545,8 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.BadMailAddress:
                 case Error.Types.ExternalMailAddress:
                     return invalid.MessageJson(invalidMailAddress);
-                default: return invalid.MessageJson();
+                default:
+                    return invalid.MessageJson();
             }
             var error = outgoingMailModel.Send();
             return error.Has()
