@@ -727,5 +727,39 @@ namespace Implem.Pleasanter.Models
                         .OwnerType("Users"),
                     orderBy: Rds.MailAddressesOrderBy().MailAddressId()));
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string Send(string reference, long id)
+        {
+            var outgoingMailModel = new OutgoingMailModel(reference, id);
+            var invalidMailAddress = string.Empty;
+            var invalid = OutgoingMailValidators.OnSending(
+                Permissions.GetById(id), outgoingMailModel, out invalidMailAddress);
+            switch (invalid)
+            {
+                case Error.Types.None:
+                    break;
+                case Error.Types.BadMailAddress:
+                case Error.Types.ExternalMailAddress:
+                    return invalid.MessageJson(invalidMailAddress);
+                default: return invalid.MessageJson();
+            }
+            var error = outgoingMailModel.Send();
+            return error.Has()
+                ? error.MessageJson()
+                : new OutgoingMailsResponseCollection(outgoingMailModel)
+                    .CloseDialog()
+                    .ClearFormData()
+                    .Html("#OutgoingMailDialog", string.Empty)
+                    .Val("#OutgoingMails_Title", string.Empty)
+                    .Val("#OutgoingMails_Body", string.Empty)
+                    .Prepend("#OutgoingMailsForm", new HtmlBuilder().OutgoingMailListItem(
+                        outgoingMailModel,
+                        selector: "#ImmediatelyAfterSending" + outgoingMailModel.OutgoingMailId))
+                    .Message(Messages.MailTransmissionCompletion())
+                    .ToJson();
+        }
     }
 }

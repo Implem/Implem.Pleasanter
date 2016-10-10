@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Controllers
         public string Send(string reference, long id)
         {
             var log = new SysLogModel();
-            var json = new OutgoingMailModel(reference, id).Send();
+            var json = OutgoingMailUtilities.Send(reference, id);
             log.Finish(json.Length);
             return json;
         }

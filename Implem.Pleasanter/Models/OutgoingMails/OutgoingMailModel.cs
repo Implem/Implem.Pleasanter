@@ -365,64 +365,20 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string Send()
+        public Error.Types Send()
         {
-            var error = VerifyBeforeSending();
-            if (error != null) return error;
-            var permissionType = new ItemModel(ReferenceId).GetSite().PermissionType;
-            Create();
+            var error = Create();
+            if (error.Has()) return error;
             switch (Parameters.Mail.SmtpProvider)
             {
                 case "SendGrid": SendBySendGrid(); break;
                 default: SendBySmtp(); break;
             }
             SentTime = new Time(DateTime.Now);
-            Update();
-            return Response();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private string VerifyBeforeSending()
-        {
-            if ((To + Cc + Bcc).Trim() == string.Empty)
-            {
-                return Messages.ResponseRequireMailAddresses().ToJson();
-            }
-            var badTo = VerifyBadMailAddress(To); if (badTo != null) return badTo;
-            var badCc = VerifyBadMailAddress(Cc); if (badCc != null) return badCc;
-            var badBcc = VerifyBadMailAddress(Bcc); if (badBcc != null) return badBcc;
-            var externalTo = VerifyExternalMailAddress(To); if (externalTo != null) return externalTo;
-            var externalCc = VerifyExternalMailAddress(Cc); if (externalCc != null) return externalCc;
-            var externalBcc = VerifyExternalMailAddress(Bcc); if (externalBcc != null) return externalBcc;
-            return null;
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private string VerifyBadMailAddress(string mailAddresses)
-        {
-            var badMailAddress = Libraries.Mails.Addresses.BadAddress(mailAddresses);
-            if (badMailAddress != string.Empty)
-            {
-                return Messages.ResponseBadMailAddress(badMailAddress).ToJson();
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private string VerifyExternalMailAddress(string mailAddresses)
-        {
-            var externalMailAddress = ExternalMailAddress(mailAddresses);
-            if (externalMailAddress != string.Empty)
-            {
-                return Messages.ResponseExternalMailAddress(externalMailAddress).ToJson();
-            }
-            return null;
+            error = Update();
+            return error.Has()
+                ? error
+                : Error.Types.None;
         }
 
         /// <summary>
@@ -459,43 +415,6 @@ namespace Implem.Pleasanter.Models
                 Title.Value,
                 Body)
                     .Send();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private string ExternalMailAddress(string mailAddresses)
-        {
-            var domains = Parameters.Mail.InternalDomains
-                .Split(',')
-                .Select(o => o.Trim())
-                .Where(o => o != string.Empty);
-            if (domains.Count() == 0) return string.Empty;
-            foreach (var mailAddress in Libraries.Mails.Addresses.GetEnumerable(mailAddresses))
-            {
-                if (!domains.Any(o => Libraries.Mails.Addresses.Get(mailAddress).EndsWith(o)))
-                {
-                    return mailAddress;
-                }
-            }
-            return string.Empty;
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private string Response()
-        {
-            return new OutgoingMailsResponseCollection(this)
-                .CloseDialog()
-                .ClearFormData()
-                .Html("#OutgoingMailDialog", string.Empty)
-                .Val("#OutgoingMails_Title", string.Empty)
-                .Val("#OutgoingMails_Body", string.Empty)
-                .Prepend("#OutgoingMailsForm", new HtmlBuilder().OutgoingMailListItem(
-                    this, selector: "#ImmediatelyAfterSending" + OutgoingMailId))
-                .Message(Messages.MailTransmissionCompletion())
-                .ToJson();
         }
     }
 }

@@ -6,5 +6,30 @@ namespace Implem.Pleasanter.Models
 {
     public static class MailAddressValidators
     {
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Error.Types BadMailAddress(string mailAddresses, out string data)
+        {
+            data = Libraries.Mails.Addresses.BadAddress(mailAddresses);
+            if (data != string.Empty)
+            {
+                return Error.Types.BadMailAddress;
+            }
+            return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Error.Types ExternalMailAddress(string mailAddresses, out string data)
+        {
+            data = Libraries.Mails.Addresses.ExternalMailAddress(mailAddresses);
+            if (data != string.Empty)
+            {
+                return Error.Types.ExternalMailAddress;
+            }
+            return Error.Types.None;
+        }
     }
 }
