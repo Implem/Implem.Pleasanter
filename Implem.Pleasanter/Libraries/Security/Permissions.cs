@@ -78,7 +78,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static Types GetBySiteId(long siteId)
         {
-            var userModel = Sessions.User();
+            var user = Sessions.User();
             return ((Types)Rds.ExecuteScalar_long(statements:
                 Rds.SelectPermissions(
                     column: Rds.PermissionsColumn()
@@ -87,7 +87,7 @@ namespace Implem.Pleasanter.Libraries.Security
                         .ReferenceType("Sites")
                         .ReferenceId(siteId)
                         .Add(raw: "[t0].[DeptId] = {0} or [t0].[UserId] = {1}".Params(
-                            userModel.DeptId, userModel.Id))))).Admins();
+                            user.DeptId, user.Id))))).Admins();
         }
 
         public static bool CanRead(this Types self)
