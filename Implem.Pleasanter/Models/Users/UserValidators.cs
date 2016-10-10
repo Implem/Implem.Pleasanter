@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.General;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
@@ -607,6 +608,27 @@ namespace Implem.Pleasanter.Models
         public static Error.Types OnRestoring()
         {
             if (!Permissions.Admins().CanEditTenant())
+            {
+                return Error.Types.HasNotPermission;
+            }
+            return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Error.Types OnAddingMailAddress(
+            Permissions.Types permissionType,
+            UserModel userModel,
+            string mailAddress,
+            out string data)
+        {
+            var error = MailAddressValidators.BadMailAddress(mailAddress, out data);
+            if (error.Has())
+            {
+                return error;
+            }
+            if (!permissionType.CanEditTenant() && !userModel.Self())
             {
                 return Error.Types.HasNotPermission;
             }

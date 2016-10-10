@@ -786,6 +786,70 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string AddMailAddresses(
+            SiteSettings siteSettings, Permissions.Types permissionType, int userId)
+        {
+            var userModel = new UserModel(SiteSettingsUtility.UsersSiteSettings(), userId);
+            var mailAddress = Forms.Data("MailAddress").Trim();
+            var selected = Forms.Data("MailAddresses").Split(';');
+            var badMailAddress = string.Empty;
+            var invalid = UserValidators.OnAddingMailAddress(
+                permissionType, userModel, mailAddress, out badMailAddress);
+            switch (invalid)
+            {
+                case Error.Types.None:
+                    break;
+                case Error.Types.BadMailAddress:
+                    return invalid.MessageJson(badMailAddress);
+                default:
+                    return invalid.MessageJson();
+            }
+            var error = userModel.AddMailAddress(mailAddress, selected);
+            return error.Has()
+                ? error.MessageJson()
+                : ResponseMailAddresses(userModel, selected);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string DeleteMailAddresses(
+            SiteSettings siteSettings, Permissions.Types permissionType, int userId)
+        {
+            var userModel = new UserModel(SiteSettingsUtility.UsersSiteSettings(), userId);
+            var invalid = UserValidators.OnUpdating(siteSettings, permissionType, userModel);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            var selected = Forms.Data("MailAddresses").Split(';');
+            var error = userModel.DeleteMailAddresses(selected);
+            return error.Has()
+                ? error.MessageJson()
+                : ResponseMailAddresses(userModel, selected);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string ResponseMailAddresses(
+            UserModel userModel, IEnumerable<string> selected)
+        {
+            return new ResponseCollection()
+                .Html(
+                    "#MailAddresses",
+                    new HtmlBuilder().SelectableItems(
+                        listItemCollection: userModel.MailAddresses.ToDictionary(o => o, o => o),
+                        selectedValueTextCollection: selected))
+                .Val("#MailAddress", string.Empty)
+                .Focus("#MailAddress")
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static HtmlBuilder ChangePasswordDialog(
             this HtmlBuilder hb, long userId, SiteSettings siteSettings)
         {

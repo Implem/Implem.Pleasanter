@@ -796,53 +796,30 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string AddMailAddress()
+        public Error.Types AddMailAddress(string mailAddress, IEnumerable<string> selected)
         {
-            var mailAddress = Forms.Data("MailAddress").Trim();
-            var selected = Forms.Data("MailAddresses").Split(';');
-            var mailAddresses = Session_MailAddresses();
-            var badMailAddress = Libraries.Mails.Addresses.BadAddress(mailAddress);
-            if (badMailAddress != string.Empty)
+            MailAddresses = Session_MailAddresses();
+            if (MailAddresses.Contains(mailAddress))
             {
-                return Messages
-                    .ResponseBadMailAddress(badMailAddress)
-                    .Focus("#MailAddress")
-                    .ToJson();
+                return Error.Types.AlreadyAdded;
             }
-            if (!mailAddresses.Contains(mailAddress))
-            {
-                mailAddresses.Add(mailAddress);
-                Session_MailAddresses(mailAddresses);
+            else
+            { 
+                MailAddresses.Add(mailAddress);
+                Session_MailAddresses(MailAddresses);
+                return Error.Types.None;
             }
-            return ResponseMailAddresses(selected, mailAddresses);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string DeleteMailAddresses()
+        public Error.Types DeleteMailAddresses(IEnumerable<string> selected)
         {
-            var selected = Forms.Data("MailAddresses").Split(';');
-            var mailAddresses = Session_MailAddresses();
-            mailAddresses.RemoveAll(o => selected.Contains(o));
-            Session_MailAddresses(mailAddresses);
-            return ResponseMailAddresses(selected, mailAddresses);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static string ResponseMailAddresses(string[] selected, List<string> mailAddresses)
-        {
-            return new ResponseCollection()
-                .Html(
-                    "#MailAddresses",
-                    new HtmlBuilder().SelectableItems(
-                        listItemCollection: mailAddresses.ToDictionary(o => o, o => o),
-                        selectedValueTextCollection: selected))
-                .Val("#MailAddress", string.Empty)
-                .Focus("#MailAddress")
-                .ToJson();
+            MailAddresses = Session_MailAddresses();
+            MailAddresses.RemoveAll(o => selected.Contains(o));
+            Session_MailAddresses(MailAddresses);
+            return Error.Types.None;
         }
     }
 }
