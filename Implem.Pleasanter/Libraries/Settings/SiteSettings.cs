@@ -528,14 +528,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(o => o.ColumnName), enabled);
         }
 
-        public Dictionary<string, string> TitleSelectableOptions(bool enabled = true)
+        public Dictionary<string, string> TitleSelectableOptions(
+            IEnumerable<string> titleColumns, bool enabled = true)
         {
             return enabled
                 ? ColumnUtilities.SelectableOptions(
-                    this, TitleColumnsOrder, enabled)
+                    this, titleColumns, enabled)
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnUtilities.TitleDefinitions(ReferenceType)
-                        .Where(o => !TitleColumnsOrder.Contains(o.ColumnName))
+                        .Where(o => !titleColumns.Contains(o.ColumnName))
                         .Select(o => o.ColumnName), enabled);
         }
 
@@ -712,13 +713,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             EditorColumnsOrder = ColumnUtilities.GetChanged(
                 EditorColumnsOrder, command, selectedColumns, selectedSourceColumns);
-        }
-
-        public void SetTitleColumns(
-            string command, List<string> selectedColumns, List<string> selectedSourceColumns)
-        {
-            TitleColumnsOrder = ColumnUtilities.GetChanged(
-                TitleColumnsOrder, command, selectedColumns, selectedSourceColumns);
         }
 
         public void SetLinkColumns(

@@ -43,6 +43,8 @@ namespace Implem.Pleasanter.Models
         public string SiteMenu_LabelText;
         public List<string> MonitorChangesColumns;
         public string MonitorChangesColumns_LabelText;
+        public List<string> TitleColumns;
+        public string TitleColumns_LabelText;
         public Comments Comments;
         public string Comments_LabelText;
         public User Creator;
@@ -96,6 +98,8 @@ namespace Implem.Pleasanter.Models
             SiteMenu_LabelText = siteSettings.EditorColumn("SiteMenu")?.LabelText;
             MonitorChangesColumns = siteModel.MonitorChangesColumns;
             MonitorChangesColumns_LabelText = siteSettings.EditorColumn("MonitorChangesColumns")?.LabelText;
+            TitleColumns = siteModel.TitleColumns;
+            TitleColumns_LabelText = siteSettings.EditorColumn("TitleColumns")?.LabelText;
             Comments = siteModel.Comments;
             Comments_LabelText = siteSettings.EditorColumn("Comments")?.LabelText;
             Creator = siteModel.Creator;

@@ -119,6 +119,12 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.InvalidRequest;
                         }
                         break;
+                    case "Sites_TitleColumns":
+                        if (!siteSettings.GetColumn("TitleColumns").CanCreate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
                     case "Sites_Comments":
                         if (!siteSettings.GetColumn("Comments").CanCreate(permissionType))
                         {
@@ -269,6 +275,12 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "Sites_MonitorChangesColumns":
                         if (!siteSettings.GetColumn("MonitorChangesColumns").CanUpdate(permissionType))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Sites_TitleColumns":
+                        if (!siteSettings.GetColumn("TitleColumns").CanUpdate(permissionType))
                         {
                             return Error.Types.InvalidRequest;
                         }

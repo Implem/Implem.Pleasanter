@@ -994,6 +994,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Sites_SiteMenu(params string[] data) { return Get("Sites_SiteMenu", data); }
         public static HtmlBuilder Displays_Sites_MonitorChangesColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Sites_MonitorChangesColumns", data)); }
         public static string Sites_MonitorChangesColumns(params string[] data) { return Get("Sites_MonitorChangesColumns", data); }
+        public static HtmlBuilder Displays_Sites_TitleColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Sites_TitleColumns", data)); }
+        public static string Sites_TitleColumns(params string[] data) { return Get("Sites_TitleColumns", data); }
         public static HtmlBuilder Displays_Orders_ReferenceId(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Orders_ReferenceId", data)); }
         public static string Orders_ReferenceId(params string[] data) { return Get("Orders_ReferenceId", data); }
         public static HtmlBuilder Displays_Orders_ReferenceType(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Orders_ReferenceType", data)); }

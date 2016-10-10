@@ -1586,7 +1586,8 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder ColumnProperties(SiteSettings siteSettings, Column column)
+        public static HtmlBuilder ColumnProperties(
+            SiteSettings siteSettings, Column column, IEnumerable<string> titleColumns)
         {
             var hb = new HtmlBuilder();
             hb.FieldSet(
@@ -1756,7 +1757,7 @@ namespace Implem.Pleasanter.Models
                     }
                     if (column.ColumnName == "Title")
                     {
-                        hb.TitleColumnProperty(siteSettings);
+                        hb.TitleColumnProperty(siteSettings, titleColumns);
                     }
                 });
             return hb
@@ -1814,7 +1815,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder TitleColumnProperty(
-            this HtmlBuilder hb, SiteSettings siteSettings)
+            this HtmlBuilder hb, SiteSettings siteSettings, IEnumerable<string> titleColumns)
         {
             return hb.FieldSelectable(
                 controlId: "TitleColumns",
@@ -1822,7 +1823,8 @@ namespace Implem.Pleasanter.Models
                 controlContainerCss: "container-selectable",
                 controlWrapperCss: " h350",
                 labelText: Displays.EnabledList(),
-                listItemCollection: siteSettings.TitleSelectableOptions(),
+                listItemCollection: siteSettings
+                    .TitleSelectableOptions(titleColumns),
                 commandOptionPositionIsTop: true,
                 commandOptionAction: () => hb
                     .Div(css: "command-center", action: () => hb
@@ -1856,7 +1858,8 @@ namespace Implem.Pleasanter.Models
                 controlContainerCss: "container-selectable",
                 controlWrapperCss: " h350",
                 labelText: Displays.DisabledList(),
-                listItemCollection: siteSettings.TitleSelectableOptions(enabled: false),
+                listItemCollection: siteSettings
+                    .TitleSelectableOptions(titleColumns, enabled: false),
                 commandOptionPositionIsTop: true,
                 commandOptionAction: () => hb
                     .Div(css: "command-center", action: () => hb

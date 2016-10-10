@@ -33,6 +33,7 @@ namespace Implem.Pleasanter.Models
         public PermissionCollection PermissionDestinationCollection = null;
         public int SiteMenu = 0;
         public List<string> MonitorChangesColumns = null;
+        public List<string> TitleColumns = null;
         public TitleBody TitleBody { get { return new TitleBody(SiteId, Title.Value, Title.DisplayValue, Body); } }
         public int SavedTenantId = Sessions.TenantId();
         public string SavedReferenceType = "Sites";
@@ -45,6 +46,7 @@ namespace Implem.Pleasanter.Models
         public PermissionCollection SavedPermissionDestinationCollection = null;
         public int SavedSiteMenu = 0;
         public List<string> SavedMonitorChangesColumns = null;
+        public List<string> SavedTitleColumns = null;
         public bool TenantId_Updated { get { return TenantId != SavedTenantId; } }
         public bool ReferenceType_Updated { get { return ReferenceType != SavedReferenceType && ReferenceType != null; } }
         public bool ParentId_Updated { get { return ParentId != SavedParentId; } }
@@ -99,6 +101,18 @@ namespace Implem.Pleasanter.Models
             this.PageSession("MonitorChangesColumns", value);
         }
 
+        public List<string> Session_TitleColumns()
+        {
+            return this.PageSession("TitleColumns") != null
+                ? this.PageSession("TitleColumns") as List<string> ?? new List<string>()
+                : TitleColumns;
+        }
+
+        public void  Session_TitleColumns(object value)
+        {
+            this.PageSession("TitleColumns", value);
+        }
+
         public string PropertyValue(string name)
         {
             switch (name)
@@ -120,6 +134,7 @@ namespace Implem.Pleasanter.Models
                 case "PermissionDestinationCollection": return PermissionDestinationCollection.ToString();
                 case "SiteMenu": return SiteMenu.ToString();
                 case "MonitorChangesColumns": return MonitorChangesColumns.ToString();
+                case "TitleColumns": return TitleColumns.ToString();
                 case "Comments": return Comments.ToJson();
                 case "Creator": return Creator.Id.ToString();
                 case "Updator": return Updator.Id.ToString();
@@ -194,6 +209,7 @@ namespace Implem.Pleasanter.Models
             Session_PermissionSourceCollection(null);
             Session_PermissionDestinationCollection(null);
             Session_MonitorChangesColumns(null);
+            Session_TitleColumns(null);
         }
 
         public SiteModel Get(
@@ -375,6 +391,7 @@ namespace Implem.Pleasanter.Models
             if (!Forms.HasData("Sites_PermissionSourceCollection")) PermissionSourceCollection = Session_PermissionSourceCollection();
             if (!Forms.HasData("Sites_PermissionDestinationCollection")) PermissionDestinationCollection = Session_PermissionDestinationCollection();
             if (!Forms.HasData("Sites_MonitorChangesColumns")) MonitorChangesColumns = Session_MonitorChangesColumns();
+            if (!Forms.HasData("Sites_TitleColumns")) TitleColumns = Session_TitleColumns();
         }
 
         private void Set(DataTable dataTable)
@@ -747,9 +764,17 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
+                    var titleColumns = SiteSettings.TitleColumnsOrder;
+                    if (column.ColumnName == "Title")
+                    {
+                        Session_TitleColumns(titleColumns);
+                    }
                     responseCollection.Html(
                         "#ColumnPropertiesDialog",
-                        SiteUtilities.ColumnProperties(SiteSettings, column));
+                        SiteUtilities.ColumnProperties(
+                            siteSettings: SiteSettings,
+                            column: column,
+                            titleColumns: titleColumns));
                 }
             }
         }
@@ -1085,6 +1110,10 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
+                    if (column.ColumnName == "Title")
+                    {
+                        SiteSettings.TitleColumnsOrder = Session_TitleColumns();
+                    }
                     Forms.All()
                         .Where(o => o.Key.StartsWith("ColumnProperty,"))
                         .ForEach(data =>
@@ -1125,18 +1154,24 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetTitleColumns(ResponseCollection responseCollection, string controlId)
         {
+            TitleColumns = Session_TitleColumns();
             var command = ColumnUtilities.ChangeCommand(controlId);
             var selectedColumns = Forms.List("TitleColumns");
             var selectedSourceColumns = Forms.List("TitleSourceColumns");
-            SiteSettings.SetTitleColumns(command, selectedColumns, selectedSourceColumns);
+            TitleColumns = ColumnUtilities.GetChanged(
+                TitleColumns,
+                ColumnUtilities.ChangeCommand(controlId),
+                selectedColumns,
+                selectedSourceColumns);
             SetResponseAfterChangeColumns(
                 responseCollection,
                 command,
                 "Title",
-                SiteSettings.TitleSelectableOptions(),
+                SiteSettings.TitleSelectableOptions(TitleColumns),
                 selectedColumns,
-                SiteSettings.TitleSelectableOptions(enabled: false),
+                SiteSettings.TitleSelectableOptions(TitleColumns, enabled: false),
                 selectedSourceColumns);
+            Session_TitleColumns(TitleColumns);
         }
 
         /// <summary>
