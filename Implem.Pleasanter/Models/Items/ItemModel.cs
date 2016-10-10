@@ -360,9 +360,6 @@ namespace Implem.Pleasanter.Models
                 case "Results": return ResultUtilities.Create(
                     siteSettings: Site.ResultsSiteSettings(),
                     permissionType: Site.PermissionType);
-                case "Wikis": return WikiUtilities.Create(
-                    siteSettings: Site.WikisSiteSettings(),
-                    permissionType: Site.PermissionType);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }

@@ -301,27 +301,6 @@ namespace Implem.Pleasanter.Models
             return responseCollection;
         }
 
-        public static string Create(SiteSettings siteSettings, Permissions.Types permissionType)
-        {
-            var wikiModel = new WikiModel(siteSettings, 0, setByForm: true);
-            var invalid = WikiValidators.OnCreating(siteSettings, permissionType, wikiModel);
-            switch (invalid)
-            {
-                case Error.Types.None: break;
-                default: return invalid.MessageJson();
-            }
-            var error = wikiModel.Create();
-            if (error.Has())
-            {
-                return error.MessageJson();
-            }
-            else
-            {
-                return EditorResponse(
-                    wikiModel, Messages.Created(wikiModel.Title.Value)).ToJson();
-            }
-        }
-
         public static string Update(
             SiteSettings siteSettings, Permissions.Types permissionType, long wikiId)
         {
