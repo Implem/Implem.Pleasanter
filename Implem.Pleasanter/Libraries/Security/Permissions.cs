@@ -98,11 +98,11 @@ namespace Implem.Pleasanter.Libraries.Security
             return ((Types)Rds.ExecuteScalar_long(statements:
                 Rds.SelectPermissions(
                     column: Rds.PermissionsColumn()
-                        .PermissionType(),
+                        .PermissionTypeMax(),
                     where: Rds.PermissionsWhere()
                         .ReferenceType("Sites")
                         .ReferenceId(siteId)
-                        .Add(raw: "[t0].[DeptId] = {0} or [t0].[UserId] = {1}".Params(
+                        .Add(raw: "([t0].[DeptId]={0} or [t0].[UserId]={1})".Params(
                             user.DeptId, user.Id))))).Admins();
         }
 
