@@ -76,8 +76,6 @@ namespace Implem.Pleasanter.Models
             this.PageSession("ExportColumns", value);
         }
 
-        public List<long> SwitchTargets;
-
         public ExportSettingModel()
         {
         }
@@ -99,7 +97,6 @@ namespace Implem.Pleasanter.Models
             long exportSettingId,
             bool clearSessions = false,
             bool setByForm = false,
-            List<long> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
@@ -108,7 +105,6 @@ namespace Implem.Pleasanter.Models
             Get();
             if (clearSessions) ClearSessions();
             if (setByForm) SetByForm();
-            SwitchTargets = switchTargets;
             MethodType = methodType;
             OnConstructed();
         }

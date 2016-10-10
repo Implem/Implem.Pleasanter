@@ -65,8 +65,6 @@ namespace Implem.Pleasanter.Models
                 wikiId: wikiId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
-            wikiModel.SwitchTargets = GetSwitchTargets(
-                siteSettings, wikiModel.SiteId);
             return Editor(siteModel, wikiModel);
         }
 
@@ -241,33 +239,6 @@ namespace Implem.Pleasanter.Models
                 .Invoke("validateWikis")
                 .Message(message)
                 .ClearFormData();
-        }
-
-        public static List<long> GetSwitchTargets(SiteSettings siteSettings, long siteId)
-        {
-            var switchTargets = Forms.Data("SwitchTargets").Split(',')
-                .Select(o => o.ToLong())
-                .Where(o => o != 0)
-                .ToList();
-            if (switchTargets.Count() == 0)
-            {
-                var formData = DataViewFilters.SessionFormData(siteId);
-                switchTargets = Rds.ExecuteTable(
-                    transactional: false,
-                    statements: Rds.SelectWikis(
-                        column: Rds.WikisColumn().WikiId(),
-                        where: DataViewFilters.Get(
-                            siteSettings: siteSettings,
-                            tableName: "Wikis",
-                            formData: formData,
-                            where: Rds.WikisWhere().SiteId(siteId)),
-                        orderBy: GridSorters.Get(
-                            formData, Rds.WikisOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
-                                .AsEnumerable()
-                                .Select(o => o["WikiId"].ToLong())
-                                .ToList();    
-            }
-            return switchTargets;
         }
 
         public static ResponseCollection FormResponse(

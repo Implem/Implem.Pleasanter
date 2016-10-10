@@ -41,7 +41,6 @@ namespace Implem.Pleasanter.Models
         public bool Passphrase_Updated { get { return Passphrase != SavedPassphrase && Passphrase != null; } }
         public bool MailAddress_Updated { get { return MailAddress != SavedMailAddress && MailAddress != null; } }
         public bool Initialized_Updated { get { return Initialized != SavedInitialized; } }
-        public List<int> SwitchTargets;
 
         /// <summary>
         /// Fixed:
@@ -67,7 +66,6 @@ namespace Implem.Pleasanter.Models
             int demoId,
             bool clearSessions = false,
             bool setByForm = false,
-            List<int> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
@@ -76,7 +74,6 @@ namespace Implem.Pleasanter.Models
             Get();
             if (clearSessions) ClearSessions();
             if (setByForm) SetByForm();
-            SwitchTargets = switchTargets;
             MethodType = methodType;
             OnConstructed();
         }

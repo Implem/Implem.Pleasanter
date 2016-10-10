@@ -64,7 +64,6 @@ namespace Implem.Pleasanter.Models
         public bool Title_Updated { get { return Title.Value != SavedTitle && Title.Value != null; } }
         public bool Body_Updated { get { return Body != SavedBody && Body != null; } }
         public bool SentTime_Updated { get { return SentTime.Value != SavedSentTime && SentTime.Value != null; } }
-        public List<long> SwitchTargets;
 
         public OutgoingMailModel()
         {
@@ -84,7 +83,6 @@ namespace Implem.Pleasanter.Models
             long outgoingMailId,
             bool clearSessions = false,
             bool setByForm = false,
-            List<long> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
@@ -92,7 +90,6 @@ namespace Implem.Pleasanter.Models
             Get();
             if (clearSessions) ClearSessions();
             if (setByForm) SetByForm();
-            SwitchTargets = switchTargets;
             MethodType = methodType;
             OnConstructed();
         }

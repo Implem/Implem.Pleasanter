@@ -33,7 +33,6 @@ namespace Implem.Pleasanter.Models
         public bool TenantName_Updated { get { return TenantName != SavedTenantName && TenantName != null; } }
         public bool Title_Updated { get { return Title.Value != SavedTitle && Title.Value != null; } }
         public bool Body_Updated { get { return Body != SavedBody && Body != null; } }
-        public List<int> SwitchTargets;
 
         public TenantModel()
         {
@@ -56,7 +55,6 @@ namespace Implem.Pleasanter.Models
             int tenantId,
             bool clearSessions = false,
             bool setByForm = false,
-            List<int> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
@@ -65,7 +63,6 @@ namespace Implem.Pleasanter.Models
             Get();
             if (clearSessions) ClearSessions();
             if (setByForm) SetByForm();
-            SwitchTargets = switchTargets;
             MethodType = methodType;
             OnConstructed();
         }

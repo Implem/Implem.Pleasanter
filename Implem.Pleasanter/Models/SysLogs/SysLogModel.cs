@@ -128,7 +128,6 @@ namespace Implem.Pleasanter.Models
         public bool ErrStackTrace_Updated { get { return ErrStackTrace != SavedErrStackTrace && ErrStackTrace != null; } }
         public bool InDebug_Updated { get { return InDebug != SavedInDebug; } }
         public bool AssemblyVersion_Updated { get { return AssemblyVersion != SavedAssemblyVersion && AssemblyVersion != null; } }
-        public List<long> SwitchTargets;
 
         public SysLogModel(
             SiteSettings siteSettings, 

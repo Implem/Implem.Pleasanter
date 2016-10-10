@@ -70,8 +70,6 @@ namespace Implem.Pleasanter.Models
             this.PageSession("BinarySettings", value);
         }
 
-        public List<long> SwitchTargets;
-
         public BinaryModel()
         {
         }
@@ -93,7 +91,6 @@ namespace Implem.Pleasanter.Models
             long binaryId,
             bool clearSessions = false,
             bool setByForm = false,
-            List<long> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
@@ -102,7 +99,6 @@ namespace Implem.Pleasanter.Models
             Get();
             if (clearSessions) ClearSessions();
             if (setByForm) SetByForm();
-            SwitchTargets = switchTargets;
             MethodType = methodType;
             OnConstructed();
         }
