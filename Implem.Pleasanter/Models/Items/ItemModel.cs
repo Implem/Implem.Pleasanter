@@ -305,7 +305,6 @@ namespace Implem.Pleasanter.Models
             {
                 case "Issues": return IssueUtilities.Import(siteModel: Site);
                 case "Results": return ResultUtilities.Import(siteModel: Site);
-                case "Wikis": return WikiUtilities.Import(siteModel: Site);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
@@ -323,10 +322,6 @@ namespace Implem.Pleasanter.Models
                     Site.ResultsSiteSettings(),
                     Site.PermissionType,
                     siteModel: Site);
-                case "Wikis": return WikiUtilities.Export(
-                    Site.WikisSiteSettings(),
-                    Site.PermissionType,
-                    siteModel: Site);
                 default: return null;
             }
         }
@@ -342,10 +337,6 @@ namespace Implem.Pleasanter.Models
                     offset: DataViewGrid.Offset());
                 case "Results": return ResultUtilities.GridRows(
                     siteSettings: Site.ResultsSiteSettings(),
-                    permissionType: Site.PermissionType,
-                    offset: DataViewGrid.Offset());
-                case "Wikis": return WikiUtilities.GridRows(
-                    siteSettings: Site.WikisSiteSettings(),
                     permissionType: Site.PermissionType,
                     offset: DataViewGrid.Offset());
                 default: return Messages.ResponseNotFound().ToJson();
@@ -533,8 +524,6 @@ namespace Implem.Pleasanter.Models
                     Site.PermissionType, Site.IssuesSiteSettings());
                 case "Results": return ResultUtilities.BulkDelete(
                     Site.PermissionType, Site.ResultsSiteSettings());
-                case "Wikis": return WikiUtilities.BulkDelete(
-                    Site.PermissionType, Site.WikisSiteSettings());
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }
