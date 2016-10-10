@@ -9,6 +9,14 @@ $p.switchTargets = function () {
         : [];
 }
 
+$p.setSwitchTargets = function () {
+    var $control = $('#SwitchTargets');
+    if ($control.length === 1) {
+        $control.appendTo('body');
+        $p.setCurrentIndex();
+    }
+}
+
 $p.setCurrentIndex = function () {
     var array = $p.switchTargets();
     if (array.length > 1) {
