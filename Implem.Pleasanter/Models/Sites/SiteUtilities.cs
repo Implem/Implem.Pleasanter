@@ -290,13 +290,14 @@ namespace Implem.Pleasanter.Models
         {
             var siteSettings = siteModel.SitesSiteSettings();
             var permissionType = siteModel.PermissionType;
+            var columns = siteSettings.HistoryColumnCollection();
             var hb = new HtmlBuilder();
             hb.Table(
                 attributes: new HtmlAttributes().Class("grid"),
                 action: () => hb
                     .THead(action: () => hb
                         .GridHeader(
-                            columnCollection: siteSettings.HistoryColumnCollection(),
+                            columnCollection: columns,
                             sort: false,
                             checkRow: false))
                     .TBody(action: () =>
@@ -313,10 +314,9 @@ namespace Implem.Pleasanter.Models
                                             .DataVer(siteModelHistory.Ver)
                                             .DataLatest(1, _using:
                                                 siteModelHistory.Ver == siteModel.Ver),
-                                        action: () =>
-                                            siteSettings.HistoryColumnCollection()
-                                                .ForEach(column => hb
-                                                    .TdValue(column, siteModelHistory))))));
+                                        action: () => columns
+                                            .ForEach(column => hb
+                                                .TdValue(column, siteModelHistory))))));
             return new SitesResponseCollection(siteModel)
                 .Html("#FieldSetHistories", hb).ToJson();
         }

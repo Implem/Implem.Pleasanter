@@ -1045,13 +1045,14 @@ namespace Implem.Pleasanter.Models
             SiteSettings siteSettings, Permissions.Types permissionType, long issueId)
         {
             var issueModel = new IssueModel(siteSettings, issueId);
+            var columns = siteSettings.HistoryColumnCollection();
             var hb = new HtmlBuilder();
             hb.Table(
                 attributes: new HtmlAttributes().Class("grid"),
                 action: () => hb
                     .THead(action: () => hb
                         .GridHeader(
-                            columnCollection: siteSettings.HistoryColumnCollection(),
+                            columnCollection: columns,
                             sort: false,
                             checkRow: false))
                     .TBody(action: () =>
@@ -1070,10 +1071,9 @@ namespace Implem.Pleasanter.Models
                                             .DataVer(issueModelHistory.Ver)
                                             .DataLatest(1, _using:
                                                 issueModelHistory.Ver == issueModel.Ver),
-                                        action: () =>
-                                            siteSettings.HistoryColumnCollection()
-                                                .ForEach(column => hb
-                                                    .TdValue(column, issueModelHistory))))));
+                                        action: () => columns
+                                            .ForEach(column => hb
+                                                .TdValue(column, issueModelHistory))))));
             return new IssuesResponseCollection(issueModel)
                 .Html("#FieldSetHistories", hb).ToJson();
         }
