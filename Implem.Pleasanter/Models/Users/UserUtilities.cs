@@ -786,14 +786,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static bool Self(int userId)
-        {
-            return Sessions.UserId() == userId;
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public static HtmlBuilder ChangePasswordDialog(
             this HtmlBuilder hb, long userId, SiteSettings siteSettings)
         {
