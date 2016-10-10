@@ -85,6 +85,7 @@ namespace Implem.Pleasanter.Libraries.Security
                         .PermissionType(),
                     where: Rds.PermissionsWhere()
                         .ReferenceType("Sites")
+                        .ReferenceId(siteId)
                         .Add(raw: "[t0].[DeptId] = {0} or [t0].[UserId] = {1}".Params(
                             userModel.DeptId, userModel.Id))))).Admins();
         }
