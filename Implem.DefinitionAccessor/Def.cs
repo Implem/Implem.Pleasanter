@@ -505,6 +505,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Validator_OnCreatingCases": Code.Model_Validator_OnCreatingCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnCreatingCases, definitionRow, CodeXls); break;
                     case "Model_Validator_OnUpdating_Users": Code.Model_Validator_OnUpdating_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnUpdating_Users, definitionRow, CodeXls); break;
                     case "Model_Validator_OnUpdatingCases": Code.Model_Validator_OnUpdatingCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnUpdatingCases, definitionRow, CodeXls); break;
+                    case "Model_ValidatorMethods_Binaries": Code.Model_ValidatorMethods_Binaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidatorMethods_Binaries, definitionRow, CodeXls); break;
                     case "Rds": Code.Rds = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds, definitionRow, CodeXls); break;
                     case "Rds_SqlStatement": Code.Rds_SqlStatement = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlStatement, definitionRow, CodeXls); break;
                     case "Rds_SqlSelect": Code.Rds_SqlSelect = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SqlSelect, definitionRow, CodeXls); break;
@@ -4062,6 +4063,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Validator_OnCreatingCases;
         public string Model_Validator_OnUpdating_Users;
         public string Model_Validator_OnUpdatingCases;
+        public string Model_ValidatorMethods_Binaries;
         public string Rds;
         public string Rds_SqlStatement;
         public string Rds_SqlSelect;
@@ -4482,6 +4484,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Validator_OnCreatingCases = new CodeDefinition();
         public CodeDefinition Model_Validator_OnUpdating_Users = new CodeDefinition();
         public CodeDefinition Model_Validator_OnUpdatingCases = new CodeDefinition();
+        public CodeDefinition Model_ValidatorMethods_Binaries = new CodeDefinition();
         public CodeDefinition Rds = new CodeDefinition();
         public CodeDefinition Rds_SqlStatement = new CodeDefinition();
         public CodeDefinition Rds_SqlSelect = new CodeDefinition();

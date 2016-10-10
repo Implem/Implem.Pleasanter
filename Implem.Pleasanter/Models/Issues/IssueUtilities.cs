@@ -873,7 +873,7 @@ namespace Implem.Pleasanter.Models
         public static string Create(SiteSettings siteSettings, Permissions.Types permissionType)
         {
             var issueModel = new IssueModel(siteSettings, 0, setByForm: true);
-            var invalid = IssueValidator.OnCreating(siteSettings, permissionType, issueModel);
+            var invalid = IssueValidators.OnCreating(siteSettings, permissionType, issueModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -895,7 +895,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings siteSettings, Permissions.Types permissionType, long issueId)
         {
             var issueModel = new IssueModel(siteSettings, issueId, setByForm: true);
-            var invalid = IssueValidator.OnUpdating(siteSettings, permissionType, issueModel);
+            var invalid = IssueValidators.OnUpdating(siteSettings, permissionType, issueModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -974,7 +974,7 @@ namespace Implem.Pleasanter.Models
         {
             var targetSiteId = Forms.Long("MoveTargets");
             var issueModel = new IssueModel(siteSettings, issueId);
-            var invalid = IssueValidator.OnMoving(
+            var invalid = IssueValidators.OnMoving(
                 permissionType, Permissions.GetBySiteId(targetSiteId));
             switch (invalid)
             {
@@ -999,7 +999,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings siteSettings, Permissions.Types permissionType, long issueId)
         {
             var issueModel = new IssueModel(siteSettings, issueId);
-            var invalid = IssueValidator.OnDeleting(siteSettings, permissionType, issueModel);
+            var invalid = IssueValidators.OnDeleting(siteSettings, permissionType, issueModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -1022,7 +1022,7 @@ namespace Implem.Pleasanter.Models
         public static string Restore(long issueId)
         {
             var issueModel = new IssueModel();
-            var invalid = IssueValidator.OnRestoring();
+            var invalid = IssueValidators.OnRestoring();
             switch (invalid)
             {
                 case Error.Types.None: break;

@@ -4,7 +4,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 namespace Implem.Pleasanter.Models
 {
-    public static class IssueValidator
+    public static class IssueValidators
     {
         public static Error.Types OnCreating(
             SiteSettings siteSettings, Permissions.Types permissionType, IssueModel issueModel)

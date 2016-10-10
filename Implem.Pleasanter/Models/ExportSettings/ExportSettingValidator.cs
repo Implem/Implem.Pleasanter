@@ -4,6 +4,9 @@ namespace Implem.Pleasanter.Models
 {
     public static class ExportSettingValidator
     {
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static Error.Types OnUpdatingOrCreating(Permissions.Types permissionType)
         {
             if (!permissionType.CanCreate() || !permissionType.CanUpdate())

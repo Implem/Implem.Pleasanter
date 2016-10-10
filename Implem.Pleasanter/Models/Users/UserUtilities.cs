@@ -613,7 +613,7 @@ namespace Implem.Pleasanter.Models
         public static string Create(SiteSettings siteSettings, Permissions.Types permissionType)
         {
             var userModel = new UserModel(siteSettings, 0, setByForm: true);
-            var invalid = UserValidator.OnCreating(siteSettings, permissionType, userModel);
+            var invalid = UserValidators.OnCreating(siteSettings, permissionType, userModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -635,7 +635,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings siteSettings, Permissions.Types permissionType, int userId)
         {
             var userModel = new UserModel(siteSettings, userId, setByForm: true);
-            var invalid = UserValidator.OnUpdating(siteSettings, permissionType, userModel);
+            var invalid = UserValidators.OnUpdating(siteSettings, permissionType, userModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -689,7 +689,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings siteSettings, Permissions.Types permissionType, int userId)
         {
             var userModel = new UserModel(siteSettings, userId);
-            var invalid = UserValidator.OnDeleting(siteSettings, permissionType, userModel);
+            var invalid = UserValidators.OnDeleting(siteSettings, permissionType, userModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -712,7 +712,7 @@ namespace Implem.Pleasanter.Models
         public static string Restore(int userId)
         {
             var userModel = new UserModel();
-            var invalid = UserValidator.OnRestoring();
+            var invalid = UserValidators.OnRestoring();
             switch (invalid)
             {
                 case Error.Types.None: break;

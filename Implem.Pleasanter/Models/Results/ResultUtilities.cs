@@ -841,7 +841,7 @@ namespace Implem.Pleasanter.Models
         public static string Create(SiteSettings siteSettings, Permissions.Types permissionType)
         {
             var resultModel = new ResultModel(siteSettings, 0, setByForm: true);
-            var invalid = ResultValidator.OnCreating(siteSettings, permissionType, resultModel);
+            var invalid = ResultValidators.OnCreating(siteSettings, permissionType, resultModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -863,7 +863,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings siteSettings, Permissions.Types permissionType, long resultId)
         {
             var resultModel = new ResultModel(siteSettings, resultId, setByForm: true);
-            var invalid = ResultValidator.OnUpdating(siteSettings, permissionType, resultModel);
+            var invalid = ResultValidators.OnUpdating(siteSettings, permissionType, resultModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -938,7 +938,7 @@ namespace Implem.Pleasanter.Models
         {
             var targetSiteId = Forms.Long("MoveTargets");
             var resultModel = new ResultModel(siteSettings, resultId);
-            var invalid = ResultValidator.OnMoving(
+            var invalid = ResultValidators.OnMoving(
                 permissionType, Permissions.GetBySiteId(targetSiteId));
             switch (invalid)
             {
@@ -963,7 +963,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings siteSettings, Permissions.Types permissionType, long resultId)
         {
             var resultModel = new ResultModel(siteSettings, resultId);
-            var invalid = ResultValidator.OnDeleting(siteSettings, permissionType, resultModel);
+            var invalid = ResultValidators.OnDeleting(siteSettings, permissionType, resultModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -986,7 +986,7 @@ namespace Implem.Pleasanter.Models
         public static string Restore(long resultId)
         {
             var resultModel = new ResultModel();
-            var invalid = ResultValidator.OnRestoring();
+            var invalid = ResultValidators.OnRestoring();
             switch (invalid)
             {
                 case Error.Types.None: break;

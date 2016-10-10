@@ -129,7 +129,7 @@ namespace Implem.Pleasanter.Models
         {
             var siteModel = new SiteModel(parentId, inheritPermission, setByForm: true);
             var siteSettings = siteModel.SiteSettings;
-            var invalid = SiteValidator.OnCreating(siteSettings, permissionType, siteModel);
+            var invalid = SiteValidators.OnCreating(siteSettings, permissionType, siteModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -175,7 +175,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings siteSettings, Permissions.Types permissionType, long siteId)
         {
             var siteModel = new SiteModel(siteId, setByForm: true);
-            var invalid = SiteValidator.OnUpdating(siteSettings, permissionType, siteModel);
+            var invalid = SiteValidators.OnUpdating(siteSettings, permissionType, siteModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -245,7 +245,7 @@ namespace Implem.Pleasanter.Models
             var siteModel = new SiteModel(siteId);
             var siteSettings = siteModel.SiteSettings;
             var permissionType = siteModel.PermissionType;
-            var invalid = SiteValidator.OnDeleting(siteSettings, permissionType, siteModel);
+            var invalid = SiteValidators.OnDeleting(siteSettings, permissionType, siteModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -268,7 +268,7 @@ namespace Implem.Pleasanter.Models
         public static string Restore(long siteId)
         {
             var siteModel = new SiteModel();
-            var invalid = SiteValidator.OnRestoring();
+            var invalid = SiteValidators.OnRestoring();
             switch (invalid)
             {
                 case Error.Types.None: break;

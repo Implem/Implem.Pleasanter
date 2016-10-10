@@ -524,7 +524,7 @@ namespace Implem.Pleasanter.Models
         public static string Create(SiteSettings siteSettings, Permissions.Types permissionType)
         {
             var deptModel = new DeptModel(siteSettings, 0, setByForm: true);
-            var invalid = DeptValidator.OnCreating(siteSettings, permissionType, deptModel);
+            var invalid = DeptValidators.OnCreating(siteSettings, permissionType, deptModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -546,7 +546,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings siteSettings, Permissions.Types permissionType, int deptId)
         {
             var deptModel = new DeptModel(siteSettings, deptId, setByForm: true);
-            var invalid = DeptValidator.OnUpdating(siteSettings, permissionType, deptModel);
+            var invalid = DeptValidators.OnUpdating(siteSettings, permissionType, deptModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -595,7 +595,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings siteSettings, Permissions.Types permissionType, int deptId)
         {
             var deptModel = new DeptModel(siteSettings, deptId);
-            var invalid = DeptValidator.OnDeleting(siteSettings, permissionType, deptModel);
+            var invalid = DeptValidators.OnDeleting(siteSettings, permissionType, deptModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -618,7 +618,7 @@ namespace Implem.Pleasanter.Models
         public static string Restore(int deptId)
         {
             var deptModel = new DeptModel();
-            var invalid = DeptValidator.OnRestoring();
+            var invalid = DeptValidators.OnRestoring();
             switch (invalid)
             {
                 case Error.Types.None: break;

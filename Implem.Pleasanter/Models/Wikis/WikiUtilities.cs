@@ -509,7 +509,7 @@ namespace Implem.Pleasanter.Models
         public static string Create(SiteSettings siteSettings, Permissions.Types permissionType)
         {
             var wikiModel = new WikiModel(siteSettings, 0, setByForm: true);
-            var invalid = WikiValidator.OnCreating(siteSettings, permissionType, wikiModel);
+            var invalid = WikiValidators.OnCreating(siteSettings, permissionType, wikiModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -531,7 +531,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings siteSettings, Permissions.Types permissionType, long wikiId)
         {
             var wikiModel = new WikiModel(siteSettings, wikiId, setByForm: true);
-            var invalid = WikiValidator.OnUpdating(siteSettings, permissionType, wikiModel);
+            var invalid = WikiValidators.OnUpdating(siteSettings, permissionType, wikiModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -607,7 +607,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings siteSettings, Permissions.Types permissionType, long wikiId)
         {
             var wikiModel = new WikiModel(siteSettings, wikiId);
-            var invalid = WikiValidator.OnDeleting(siteSettings, permissionType, wikiModel);
+            var invalid = WikiValidators.OnDeleting(siteSettings, permissionType, wikiModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -631,7 +631,7 @@ namespace Implem.Pleasanter.Models
         public static string Restore(long wikiId)
         {
             var wikiModel = new WikiModel();
-            var invalid = WikiValidator.OnRestoring();
+            var invalid = WikiValidators.OnRestoring();
             switch (invalid)
             {
                 case Error.Types.None: break;
