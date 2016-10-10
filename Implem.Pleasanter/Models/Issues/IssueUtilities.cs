@@ -229,14 +229,13 @@ namespace Implem.Pleasanter.Models
 
         private static SqlColumnCollection GridSqlColumnCollection(SiteSettings siteSettings)
         {
-            var gridSqlColumn = Rds.IssuesColumn()
-                .SiteId()
-                .IssueId()
-                .Creator()
-                .Updator();
-            siteSettings.GridColumnCollection(withTitle: true).ForEach(column =>
-                Rds.IssuesColumn(gridSqlColumn, column.ColumnName));
-            return gridSqlColumn;
+            var sqlColumnCollection = Rds.IssuesColumn();
+            new List<string> { "SiteId", "IssueId", "Creator", "Updator" }
+                .Concat(siteSettings.GridColumnsOrder)
+                .Concat(siteSettings.TitleColumnsOrder)
+                    .Distinct().ForEach(column =>
+                        sqlColumnCollection.IssuesColumn(column));
+            return sqlColumnCollection;
         }
 
         public static HtmlBuilder TdValue(

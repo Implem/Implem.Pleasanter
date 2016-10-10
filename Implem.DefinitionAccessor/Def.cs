@@ -416,7 +416,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_GridRows_OnClickItem": Code.Model_Utilities_GridRows_OnClickItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridRows_OnClickItem, definitionRow, CodeXls); break;
                     case "Model_Utilities_Td": Code.Model_Utilities_Td = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Td, definitionRow, CodeXls); break;
                     case "Model_Utilities_TdCases": Code.Model_Utilities_TdCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TdCases, definitionRow, CodeXls); break;
-                    case "Model_Utilities_AddSqlColumnSiteId": Code.Model_Utilities_AddSqlColumnSiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_AddSqlColumnSiteId, definitionRow, CodeXls); break;
+                    case "Model_Utilities_SqlColumn_SiteId": Code.Model_Utilities_SqlColumn_SiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SqlColumn_SiteId, definitionRow, CodeXls); break;
                     case "Model_Utilities_GridSqlWhereTenantId": Code.Model_Utilities_GridSqlWhereTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridSqlWhereTenantId, definitionRow, CodeXls); break;
                     case "Model_Utilities_GridSqlWhereSiteId": Code.Model_Utilities_GridSqlWhereSiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridSqlWhereSiteId, definitionRow, CodeXls); break;
                     case "Model_Utilities_Editor": Code.Model_Utilities_Editor = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Editor, definitionRow, CodeXls); break;
@@ -3973,7 +3973,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_GridRows_OnClickItem;
         public string Model_Utilities_Td;
         public string Model_Utilities_TdCases;
-        public string Model_Utilities_AddSqlColumnSiteId;
+        public string Model_Utilities_SqlColumn_SiteId;
         public string Model_Utilities_GridSqlWhereTenantId;
         public string Model_Utilities_GridSqlWhereSiteId;
         public string Model_Utilities_Editor;
@@ -4393,7 +4393,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_GridRows_OnClickItem = new CodeDefinition();
         public CodeDefinition Model_Utilities_Td = new CodeDefinition();
         public CodeDefinition Model_Utilities_TdCases = new CodeDefinition();
-        public CodeDefinition Model_Utilities_AddSqlColumnSiteId = new CodeDefinition();
+        public CodeDefinition Model_Utilities_SqlColumn_SiteId = new CodeDefinition();
         public CodeDefinition Model_Utilities_GridSqlWhereTenantId = new CodeDefinition();
         public CodeDefinition Model_Utilities_GridSqlWhereSiteId = new CodeDefinition();
         public CodeDefinition Model_Utilities_Editor = new CodeDefinition();

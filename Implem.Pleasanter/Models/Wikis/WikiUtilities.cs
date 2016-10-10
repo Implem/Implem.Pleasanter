@@ -218,14 +218,13 @@ namespace Implem.Pleasanter.Models
 
         private static SqlColumnCollection GridSqlColumnCollection(SiteSettings siteSettings)
         {
-            var gridSqlColumn = Rds.WikisColumn()
-                .SiteId()
-                .WikiId()
-                .Creator()
-                .Updator();
-            siteSettings.GridColumnCollection(withTitle: true).ForEach(column =>
-                Rds.WikisColumn(gridSqlColumn, column.ColumnName));
-            return gridSqlColumn;
+            var sqlColumnCollection = Rds.WikisColumn();
+            new List<string> { "SiteId", "WikiId", "Creator", "Updator" }
+                .Concat(siteSettings.GridColumnsOrder)
+                .Concat(siteSettings.TitleColumnsOrder)
+                    .Distinct().ForEach(column =>
+                        sqlColumnCollection.WikisColumn(column));
+            return sqlColumnCollection;
         }
 
         public static HtmlBuilder TdValue(
