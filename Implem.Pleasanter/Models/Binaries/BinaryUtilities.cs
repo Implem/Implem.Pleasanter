@@ -95,7 +95,7 @@ namespace Implem.Pleasanter.Models
                 default: return null;
             }
             return new BinaryModel(siteModel.SiteId).SiteImage(
-                Libraries.Images.ImageData.SizeTypes.Thumbnail,
+                Libraries.Images.ImageData.SizeTypes.Icon,
                 Rds.BinariesColumn().Icon());
         }
 
