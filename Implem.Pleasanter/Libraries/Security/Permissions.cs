@@ -85,9 +85,13 @@ namespace Implem.Pleasanter.Libraries.Security
                         .PermissionTypeMax(),
                     where: Rds.PermissionsWhere()
                         .ReferenceType("Sites")
-                        .ReferenceId(sub: Rds.SelectItems(
-                            column: Rds.ItemsColumn().SiteId(),
-                            where: Rds.ItemsWhere().ReferenceId(id)))
+                        .ReferenceId(sub: Rds.SelectSites(
+                            column: Rds.SitesColumn().InheritPermission(),
+                            where: Rds.SitesWhere()
+                                .TenantId(Sessions.TenantId())
+                                .SiteId(sub: Rds.SelectItems(
+                                    column: Rds.ItemsColumn().SiteId(),
+                                    where: Rds.ItemsWhere().ReferenceId(id)))))
                         .Add(raw: "([t0].[DeptId]={0} or [t0].[UserId]={1})".Params(
                             user.DeptId, user.Id))))).Admins();
         }
@@ -101,7 +105,11 @@ namespace Implem.Pleasanter.Libraries.Security
                         .PermissionTypeMax(),
                     where: Rds.PermissionsWhere()
                         .ReferenceType("Sites")
-                        .ReferenceId(siteId)
+                        .ReferenceId(sub: Rds.SelectSites(
+                            column: Rds.SitesColumn().InheritPermission(),
+                            where: Rds.SitesWhere()
+                                .TenantId(Sessions.TenantId())
+                                .SiteId(siteId)))
                         .Add(raw: "([t0].[DeptId]={0} or [t0].[UserId]={1})".Params(
                             user.DeptId, user.Id))))).Admins();
         }
