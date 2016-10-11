@@ -583,7 +583,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private string Allow(string returnUrl, bool atLogin = false)
+        public string Allow(string returnUrl, bool atLogin = false)
         {
             Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
                 where: Rds.UsersWhereDefault(this),
@@ -702,13 +702,17 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string ChangePasswordAtLogin()
+        public Error.Types ChangePasswordAtLogin()
         {
             if (Password == ChangedPassword)
             {
-                return Messages.ResponsePasswordNotChanged().ToJson();
+                return Error.Types.PasswordNotChanged;
             }
-            if (GetByCredentials(LoginId, Password))
+            else if (!GetByCredentials(LoginId, Password))
+            {
+                return Error.Types.IncorrectCurrentPassword;
+            }
+            else
             {
                 PasswordExpirationPeriod();
                 Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
@@ -717,11 +721,7 @@ namespace Implem.Pleasanter.Models
                         .Password(ChangedPassword)
                         .PasswordExpirationTime(PasswordExpirationTime.Value)
                         .PasswordChangeTime(raw: "getdate()")));
-                return Allow(Forms.Data("ReturnUrl"), atLogin: true);
-            }
-            else
-            {
-                return Messages.ResponseIncorrectCurrentPassword().ToJson();
+                return Error.Types.None;
             }
         }
 

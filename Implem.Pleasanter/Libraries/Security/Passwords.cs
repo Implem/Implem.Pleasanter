@@ -19,7 +19,11 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static string ChangeAtLogin()
         {
-            return new UserModel(Forms.Data("Users_LoginId")).ChangePasswordAtLogin();
+            var userModel = new UserModel(Forms.Data("Users_LoginId"));
+            var error = userModel.ChangePasswordAtLogin();
+            return error.Has()
+                ? error.MessageJson()
+                : userModel.Allow(Forms.Data("ReturnUrl"), atLogin: true);
         }
 
         public static string Reset(
