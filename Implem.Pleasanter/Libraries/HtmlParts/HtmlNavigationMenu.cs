@@ -32,7 +32,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             action: () => hb
                                                 .Span(css: "ui-icon ui-icon-plus")
                                                 .Displays_New())),
-                                _using: routesAction != "new" && routesAction != "edit")
+                                _using: 
+                                    routesAction != "new" &&
+                                    routesAction != "create" &&
+                                    routesAction != "edit")
                             .Li(
                                 css: "sub-menu",
                                 action: () => hb
