@@ -233,9 +233,9 @@ pre{
 #NavigationMenu{
     float:left;
     margin-right:5px;
-    padding:0px 15px;
+    padding:0px 5px;
     border:none;
-    border-radius:20px;
+    border-radius:5px;
 }
 
 #NavigationMenu > li{
