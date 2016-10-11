@@ -402,15 +402,15 @@ namespace Implem.Pleasanter.Models
             {
                 case "Sites": return SiteUtilities.Copy(Site);
                 case "Issues": return IssueUtilities.Copy(
-                    siteSettings: Site.SiteSettings,
+                    siteSettings: Site.IssuesSiteSettings(),
                     permissionType: Site.PermissionType,
                     issueId: ReferenceId);
                 case "Results": return ResultUtilities.Copy(
-                    siteSettings: Site.SiteSettings,
+                    siteSettings: Site.ResultsSiteSettings(),
                     permissionType: Site.PermissionType,
                     resultId: ReferenceId);
                 case "Wikis": return WikiUtilities.Copy(
-                    siteSettings: Site.SiteSettings,
+                    siteSettings: Site.WikisSiteSettings(),
                     permissionType: Site.PermissionType,
                     wikiId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
