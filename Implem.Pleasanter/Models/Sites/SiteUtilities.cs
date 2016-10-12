@@ -1635,7 +1635,7 @@ namespace Implem.Pleasanter.Models
                             .FieldDropDown(
                                 controlId: "ColumnProperty,ControlFormat",
                                 labelText: Displays.SettingControlFormat(),
-                                optionCollection: DateTimeOptions(),
+                                optionCollection: DateTimeOptions(forControl: true),
                                 selectedValue: column.ControlFormat)
                             .FieldDropDown(
                                 controlId: "ColumnProperty,ExportFormat",
@@ -1881,12 +1881,17 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static Dictionary<string, string> DateTimeOptions()
+        private static Dictionary<string, string> DateTimeOptions(bool forControl = false)
         {
-            return Def.DisplayDefinitionCollection
-                .Where(o => o.Type == "Date")
-                .Where(o => o.Language == string.Empty)
-                .ToDictionary(o => o.Id, o => Displays.Get(o.Id));
+            return forControl
+                ? Def.DisplayDefinitionCollection
+                    .Where(o => new string[] { "Ymd", "Ymdhm", "Ymdhms" }.Contains(o.Name))
+                    .Where(o => o.Language == string.Empty)
+                    .ToDictionary(o => o.Id, o => Displays.Get(o.Id))
+                : Def.DisplayDefinitionCollection
+                    .Where(o => o.Type == "Date")
+                    .Where(o => o.Language == string.Empty)
+                    .ToDictionary(o => o.Id, o => Displays.Get(o.Id));
         }
 
         /// <summary>
