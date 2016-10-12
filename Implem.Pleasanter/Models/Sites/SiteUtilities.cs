@@ -1416,19 +1416,19 @@ namespace Implem.Pleasanter.Models
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
-                                    controlId: "ToDisableEditorColumns",
-                                    text: Displays.ToDisable(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-e",
-                                    action: "SetSiteSettings",
-                                    method: "put")
-                                .Button(
                                     controlId: "OpenColumnPropertiesDialog",
                                     text: Displays.AdvancedSetting(),
                                     controlCss: "button-icon",
                                     onClick: "$p.openColumnPropertiesDialog($(this));",
                                     icon: "ui-icon-gear",
+                                    action: "SetSiteSettings",
+                                    method: "put")
+                                .Button(
+                                    controlId: "ToDisableEditorColumns",
+                                    text: Displays.ToDisable(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-e",
                                     action: "SetSiteSettings",
                                     method: "put")))
                     .FieldSelectable(
