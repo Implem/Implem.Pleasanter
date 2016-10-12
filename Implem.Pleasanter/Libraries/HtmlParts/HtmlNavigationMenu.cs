@@ -22,7 +22,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb
                     .Ul(
                         id: "NavigationMenu",
-                        css: "ui-widget-header",
                         action: () => hb
                             .Li(
                                 action: () => hb

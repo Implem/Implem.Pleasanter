@@ -222,34 +222,33 @@ pre{
 }
 
 #Navigations{
-    height:30px;
-    padding:5px;
+    height:40px;
+    margin:5px 0px;
+    padding:0px 5px 0px 20px;
+    border:none;
     position:absolute;
     top:0px;
     right:5px;
-    border-radius:0px 0px 10px 10px;
+    border-radius:20px 5px 5px 20px;
 }
 
 #NavigationMenu{
     float:left;
     margin-right:5px;
-    padding:0px 5px;
-    border:none;
-    border-radius:5px;
 }
 
 #NavigationMenu > li{
     width:160px;
-    height:30px;
+    height:40px;
     display:block;
     float:left;
     position:relative;
 }
 
 #NavigationMenu > li > div{
-    height:30px;
+    height:40px;
     text-align:center;
-    line-height:30px;
+    line-height:40px;
     color:white;
     cursor:pointer;
 }
@@ -263,7 +262,7 @@ pre{
 }
 
 #NavigationMenu > li > div > a{
-    height:30px;
+    height:40px;
     display:block;
     color:white;
     text-decoration:none;
@@ -278,7 +277,7 @@ pre{
     display:none;
     border-top:none !important;
     position:absolute;
-    top:30px;
+    top:40px;
     right:0px;
     border-radius:0px 0px 5px 5px;
     z-index:3;
@@ -756,6 +755,8 @@ pre{
 
 #SearchField{
     float:left;
+    margin:5px 0px;
+    color:black;
 }
 
 #SearchResults{

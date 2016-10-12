@@ -24,14 +24,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 src: Navigations.Images("logo-corp.png"))
                             .Span(id: "ProductLogo", action: () => hb
                                 .Displays_ProductName())))
-                .Nav(id: "Navigations", action: () => hb
-                    .NavigationMenu(
-                        permissionType: permissionType,
-                        siteId: siteId,
-                        referenceType: referenceType,
-                        allowAccess: allowAccess,
-                        useNavigationMenu: useNavigationMenu)
-                    .Search(_using: useSearch)));
+                .Nav(
+                    id: "Navigations",
+                    css: "ui-widget-header",
+                    action: () => hb
+                        .NavigationMenu(
+                            permissionType: permissionType,
+                            siteId: siteId,
+                            referenceType: referenceType,
+                            allowAccess: allowAccess,
+                            useNavigationMenu: useNavigationMenu)
+                        .Search(_using: useSearch)));
         }
 
         private static HtmlBuilder Search(this HtmlBuilder hb, bool _using)
