@@ -762,28 +762,21 @@ namespace Implem.Pleasanter.Models
 
         public static List<long> GetSwitchTargets(SiteSettings siteSettings, long siteId)
         {
-            var switchTargets = Forms.Data("SwitchTargets").Split(',')
-                .Select(o => o.ToLong())
-                .Where(o => o != 0)
-                .ToList();
-            if (switchTargets.Count() == 0)
-            {
-                var formData = DataViewFilters.SessionFormData(siteId);
-                switchTargets = Rds.ExecuteTable(
-                    transactional: false,
-                    statements: Rds.SelectIssues(
-                        column: Rds.IssuesColumn().IssueId(),
-                        where: DataViewFilters.Get(
-                            siteSettings: siteSettings,
-                            tableName: "Issues",
-                            formData: formData,
-                            where: Rds.IssuesWhere().SiteId(siteId)),
-                        orderBy: GridSorters.Get(
-                            formData, Rds.IssuesOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
-                                .AsEnumerable()
-                                .Select(o => o["IssueId"].ToLong())
-                                .ToList();    
-            }
+            var formData = DataViewFilters.SessionFormData(siteId);
+            var switchTargets = Rds.ExecuteTable(
+                transactional: false,
+                statements: Rds.SelectIssues(
+                    column: Rds.IssuesColumn().IssueId(),
+                    where: DataViewFilters.Get(
+                        siteSettings: siteSettings,
+                        tableName: "Issues",
+                        formData: formData,
+                        where: Rds.IssuesWhere().SiteId(siteId)),
+                    orderBy: GridSorters.Get(
+                        formData, Rds.IssuesOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
+                            .AsEnumerable()
+                            .Select(o => o["IssueId"].ToLong())
+                            .ToList();    
             return switchTargets;
         }
 

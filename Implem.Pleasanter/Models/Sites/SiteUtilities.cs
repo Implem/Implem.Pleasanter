@@ -62,28 +62,21 @@ namespace Implem.Pleasanter.Models
 
         public static List<long> GetSwitchTargets(SiteSettings siteSettings, long siteId)
         {
-            var switchTargets = Forms.Data("SwitchTargets").Split(',')
-                .Select(o => o.ToLong())
-                .Where(o => o != 0)
-                .ToList();
-            if (switchTargets.Count() == 0)
-            {
-                var formData = DataViewFilters.SessionFormData(siteId);
-                switchTargets = Rds.ExecuteTable(
-                    transactional: false,
-                    statements: Rds.SelectSites(
-                        column: Rds.SitesColumn().SiteId(),
-                        where: DataViewFilters.Get(
-                            siteSettings: siteSettings,
-                            tableName: "Sites",
-                            formData: formData,
-                            where: Rds.SitesWhere().TenantId(Sessions.TenantId()).SiteId(siteId)),
-                        orderBy: GridSorters.Get(
-                            formData, Rds.SitesOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
-                                .AsEnumerable()
-                                .Select(o => o["SiteId"].ToLong())
-                                .ToList();    
-            }
+            var formData = DataViewFilters.SessionFormData(siteId);
+            var switchTargets = Rds.ExecuteTable(
+                transactional: false,
+                statements: Rds.SelectSites(
+                    column: Rds.SitesColumn().SiteId(),
+                    where: DataViewFilters.Get(
+                        siteSettings: siteSettings,
+                        tableName: "Sites",
+                        formData: formData,
+                        where: Rds.SitesWhere().TenantId(Sessions.TenantId()).SiteId(siteId)),
+                    orderBy: GridSorters.Get(
+                        formData, Rds.SitesOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
+                            .AsEnumerable()
+                            .Select(o => o["SiteId"].ToLong())
+                            .ToList();    
             return switchTargets;
         }
 

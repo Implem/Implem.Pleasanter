@@ -732,28 +732,21 @@ namespace Implem.Pleasanter.Models
 
         public static List<long> GetSwitchTargets(SiteSettings siteSettings, long siteId)
         {
-            var switchTargets = Forms.Data("SwitchTargets").Split(',')
-                .Select(o => o.ToLong())
-                .Where(o => o != 0)
-                .ToList();
-            if (switchTargets.Count() == 0)
-            {
-                var formData = DataViewFilters.SessionFormData(siteId);
-                switchTargets = Rds.ExecuteTable(
-                    transactional: false,
-                    statements: Rds.SelectResults(
-                        column: Rds.ResultsColumn().ResultId(),
-                        where: DataViewFilters.Get(
-                            siteSettings: siteSettings,
-                            tableName: "Results",
-                            formData: formData,
-                            where: Rds.ResultsWhere().SiteId(siteId)),
-                        orderBy: GridSorters.Get(
-                            formData, Rds.ResultsOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
-                                .AsEnumerable()
-                                .Select(o => o["ResultId"].ToLong())
-                                .ToList();    
-            }
+            var formData = DataViewFilters.SessionFormData(siteId);
+            var switchTargets = Rds.ExecuteTable(
+                transactional: false,
+                statements: Rds.SelectResults(
+                    column: Rds.ResultsColumn().ResultId(),
+                    where: DataViewFilters.Get(
+                        siteSettings: siteSettings,
+                        tableName: "Results",
+                        formData: formData,
+                        where: Rds.ResultsWhere().SiteId(siteId)),
+                    orderBy: GridSorters.Get(
+                        formData, Rds.ResultsOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
+                            .AsEnumerable()
+                            .Select(o => o["ResultId"].ToLong())
+                            .ToList();    
             return switchTargets;
         }
 

@@ -483,28 +483,21 @@ namespace Implem.Pleasanter.Models
 
         public static List<int> GetSwitchTargets(SiteSettings siteSettings)
         {
-            var switchTargets = Forms.Data("SwitchTargets").Split(',')
-                .Select(o => o.ToInt())
-                .Where(o => o != 0)
-                .ToList();
-            if (switchTargets.Count() == 0)
-            {
-                var formData = DataViewFilters.SessionFormData();
-                switchTargets = Rds.ExecuteTable(
-                    transactional: false,
-                    statements: Rds.SelectDepts(
-                        column: Rds.DeptsColumn().DeptId(),
-                        where: DataViewFilters.Get(
-                            siteSettings: siteSettings,
-                            tableName: "Depts",
-                            formData: formData,
-                            where: Rds.DeptsWhere().TenantId(Sessions.TenantId())),
-                        orderBy: GridSorters.Get(
-                            formData, Rds.DeptsOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
-                                .AsEnumerable()
-                                .Select(o => o["DeptId"].ToInt())
-                                .ToList();    
-            }
+            var formData = DataViewFilters.SessionFormData();
+            var switchTargets = Rds.ExecuteTable(
+                transactional: false,
+                statements: Rds.SelectDepts(
+                    column: Rds.DeptsColumn().DeptId(),
+                    where: DataViewFilters.Get(
+                        siteSettings: siteSettings,
+                        tableName: "Depts",
+                        formData: formData,
+                        where: Rds.DeptsWhere().TenantId(Sessions.TenantId())),
+                    orderBy: GridSorters.Get(
+                        formData, Rds.DeptsOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
+                            .AsEnumerable()
+                            .Select(o => o["DeptId"].ToInt())
+                            .ToList();    
             return switchTargets;
         }
 
