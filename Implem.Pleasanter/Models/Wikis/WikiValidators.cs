@@ -17,30 +17,6 @@ namespace Implem.Pleasanter.Models
             {
                 switch (controlId)
                 {
-                    case "Wikis_SiteId":
-                        if (!siteSettings.GetColumn("SiteId").CanCreate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Wikis_UpdatedTime":
-                        if (!siteSettings.GetColumn("UpdatedTime").CanCreate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Wikis_WikiId":
-                        if (!siteSettings.GetColumn("WikiId").CanCreate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Wikis_Ver":
-                        if (!siteSettings.GetColumn("Ver").CanCreate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
                     case "Wikis_Title":
                         if (!siteSettings.GetColumn("Title").CanCreate(permissionType))
                         {
@@ -49,42 +25,6 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "Wikis_Body":
                         if (!siteSettings.GetColumn("Body").CanCreate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Wikis_TitleBody":
-                        if (!siteSettings.GetColumn("TitleBody").CanCreate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Wikis_Comments":
-                        if (!siteSettings.GetColumn("Comments").CanCreate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Wikis_Creator":
-                        if (!siteSettings.GetColumn("Creator").CanCreate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Wikis_Updator":
-                        if (!siteSettings.GetColumn("Updator").CanCreate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Wikis_CreatedTime":
-                        if (!siteSettings.GetColumn("CreatedTime").CanCreate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Wikis_VerUp":
-                        if (!siteSettings.GetColumn("VerUp").CanCreate(permissionType))
                         {
                             return Error.Types.InvalidRequest;
                         }
@@ -111,30 +51,6 @@ namespace Implem.Pleasanter.Models
             {
                 switch (controlId)
                 {
-                    case "Wikis_SiteId":
-                        if (!siteSettings.GetColumn("SiteId").CanUpdate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Wikis_UpdatedTime":
-                        if (!siteSettings.GetColumn("UpdatedTime").CanUpdate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Wikis_WikiId":
-                        if (!siteSettings.GetColumn("WikiId").CanUpdate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Wikis_Ver":
-                        if (!siteSettings.GetColumn("Ver").CanUpdate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
                     case "Wikis_Title":
                         if (!siteSettings.GetColumn("Title").CanUpdate(permissionType))
                         {
@@ -143,42 +59,6 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "Wikis_Body":
                         if (!siteSettings.GetColumn("Body").CanUpdate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Wikis_TitleBody":
-                        if (!siteSettings.GetColumn("TitleBody").CanUpdate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Wikis_Comments":
-                        if (!siteSettings.GetColumn("Comments").CanUpdate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Wikis_Creator":
-                        if (!siteSettings.GetColumn("Creator").CanUpdate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Wikis_Updator":
-                        if (!siteSettings.GetColumn("Updator").CanUpdate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Wikis_CreatedTime":
-                        if (!siteSettings.GetColumn("CreatedTime").CanUpdate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Wikis_VerUp":
-                        if (!siteSettings.GetColumn("VerUp").CanUpdate(permissionType))
                         {
                             return Error.Types.InvalidRequest;
                         }

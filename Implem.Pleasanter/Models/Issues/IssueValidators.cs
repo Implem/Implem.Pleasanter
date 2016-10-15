@@ -17,30 +17,6 @@ namespace Implem.Pleasanter.Models
             {
                 switch (controlId)
                 {
-                    case "Issues_SiteId":
-                        if (!siteSettings.GetColumn("SiteId").CanCreate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Issues_UpdatedTime":
-                        if (!siteSettings.GetColumn("UpdatedTime").CanCreate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Issues_IssueId":
-                        if (!siteSettings.GetColumn("IssueId").CanCreate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Issues_Ver":
-                        if (!siteSettings.GetColumn("Ver").CanCreate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
                     case "Issues_Title":
                         if (!siteSettings.GetColumn("Title").CanCreate(permissionType))
                         {
@@ -49,12 +25,6 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "Issues_Body":
                         if (!siteSettings.GetColumn("Body").CanCreate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Issues_TitleBody":
-                        if (!siteSettings.GetColumn("TitleBody").CanCreate(permissionType))
                         {
                             return Error.Types.InvalidRequest;
                         }
@@ -79,12 +49,6 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "Issues_ProgressRate":
                         if (!siteSettings.GetColumn("ProgressRate").CanCreate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Issues_RemainingWorkValue":
-                        if (!siteSettings.GetColumn("RemainingWorkValue").CanCreate(permissionType))
                         {
                             return Error.Types.InvalidRequest;
                         }
@@ -887,36 +851,6 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.InvalidRequest;
                         }
                         break;
-                    case "Issues_Comments":
-                        if (!siteSettings.GetColumn("Comments").CanCreate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Issues_Creator":
-                        if (!siteSettings.GetColumn("Creator").CanCreate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Issues_Updator":
-                        if (!siteSettings.GetColumn("Updator").CanCreate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Issues_CreatedTime":
-                        if (!siteSettings.GetColumn("CreatedTime").CanCreate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Issues_VerUp":
-                        if (!siteSettings.GetColumn("VerUp").CanCreate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
                     case "Issues_Timestamp":
                         if (!siteSettings.GetColumn("Timestamp").CanCreate(permissionType))
                         {
@@ -939,30 +873,6 @@ namespace Implem.Pleasanter.Models
             {
                 switch (controlId)
                 {
-                    case "Issues_SiteId":
-                        if (!siteSettings.GetColumn("SiteId").CanUpdate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Issues_UpdatedTime":
-                        if (!siteSettings.GetColumn("UpdatedTime").CanUpdate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Issues_IssueId":
-                        if (!siteSettings.GetColumn("IssueId").CanUpdate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Issues_Ver":
-                        if (!siteSettings.GetColumn("Ver").CanUpdate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
                     case "Issues_Title":
                         if (!siteSettings.GetColumn("Title").CanUpdate(permissionType))
                         {
@@ -971,12 +881,6 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "Issues_Body":
                         if (!siteSettings.GetColumn("Body").CanUpdate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Issues_TitleBody":
-                        if (!siteSettings.GetColumn("TitleBody").CanUpdate(permissionType))
                         {
                             return Error.Types.InvalidRequest;
                         }
@@ -1001,12 +905,6 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "Issues_ProgressRate":
                         if (!siteSettings.GetColumn("ProgressRate").CanUpdate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Issues_RemainingWorkValue":
-                        if (!siteSettings.GetColumn("RemainingWorkValue").CanUpdate(permissionType))
                         {
                             return Error.Types.InvalidRequest;
                         }
@@ -1805,36 +1703,6 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "Issues_CheckZ":
                         if (!siteSettings.GetColumn("CheckZ").CanUpdate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Issues_Comments":
-                        if (!siteSettings.GetColumn("Comments").CanUpdate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Issues_Creator":
-                        if (!siteSettings.GetColumn("Creator").CanUpdate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Issues_Updator":
-                        if (!siteSettings.GetColumn("Updator").CanUpdate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Issues_CreatedTime":
-                        if (!siteSettings.GetColumn("CreatedTime").CanUpdate(permissionType))
-                        {
-                            return Error.Types.InvalidRequest;
-                        }
-                        break;
-                    case "Issues_VerUp":
-                        if (!siteSettings.GetColumn("VerUp").CanUpdate(permissionType))
                         {
                             return Error.Types.InvalidRequest;
                         }
