@@ -547,12 +547,13 @@ namespace Implem.Pleasanter.Models
         }
 
         private static ResponseCollection EditorResponse(
-            UserModel userModel, Message message = null)
+            UserModel userModel, Message message = null, string switchTargets = null)
         {
             userModel.MethodType = BaseModel.MethodTypes.Edit;
             return new UsersResponseCollection(userModel)
                 .Invoke("clearDialogs")
                 .ReplaceAll("#MainContainer", Editor(userModel))
+                .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
                 .Invoke("setCurrentIndex")
                 .Invoke("validateUsers")
                 .Message(message)
@@ -628,7 +629,9 @@ namespace Implem.Pleasanter.Models
             else
             {
                 return EditorResponse(
-                    userModel, Messages.Created(userModel.Title.Value)).ToJson();
+                    userModel,
+                    Messages.Created(userModel.Title.Value),
+                    GetSwitchTargets(siteSettings).Join()).ToJson();
             }
         }
 

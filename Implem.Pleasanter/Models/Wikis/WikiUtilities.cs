@@ -228,13 +228,14 @@ namespace Implem.Pleasanter.Models
         }
 
         private static ResponseCollection EditorResponse(
-            WikiModel wikiModel, Message message = null)
+            WikiModel wikiModel, Message message = null, string switchTargets = null)
         {
             var siteModel = new SiteModel(wikiModel.SiteId);
             wikiModel.MethodType = BaseModel.MethodTypes.Edit;
             return new WikisResponseCollection(wikiModel)
                 .Invoke("clearDialogs")
                 .ReplaceAll("#MainContainer", Editor(siteModel, wikiModel))
+                .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
                 .Invoke("setCurrentIndex")
                 .Invoke("validateWikis")
                 .Message(message)

@@ -47,12 +47,13 @@ namespace Implem.Pleasanter.Models
         }
 
         private static ResponseCollection EditorResponse(
-            SiteModel siteModel, Message message = null)
+            SiteModel siteModel, Message message = null, string switchTargets = null)
         {
             siteModel.MethodType = BaseModel.MethodTypes.Edit;
             return new SitesResponseCollection(siteModel)
                 .Invoke("clearDialogs")
                 .ReplaceAll("#MainContainer", Editor(siteModel))
+                .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
                 .Invoke("setCurrentIndex")
                 .Invoke("validateSites")
                 .Message(message)
