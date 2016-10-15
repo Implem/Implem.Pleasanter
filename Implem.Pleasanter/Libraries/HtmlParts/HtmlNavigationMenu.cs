@@ -17,7 +17,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool allowAccess,
             bool useNavigationMenu)
         {
-            var routesAction = Routes.Action();
             return allowAccess && useNavigationMenu
                 ? hb
                     .Ul(
@@ -31,10 +30,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             action: () => hb
                                                 .Span(css: "ui-icon ui-icon-plus")
                                                 .Displays_New())),
-                                _using: 
-                                    routesAction != "new" &&
-                                    routesAction != "create" &&
-                                    routesAction != "edit")
+                                _using: !Routes.Action("new", "create", "edit"))
                             .Li(
                                 css: "sub-menu",
                                 action: () => hb
