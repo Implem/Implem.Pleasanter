@@ -409,10 +409,6 @@ namespace Implem.Pleasanter.Models
                     siteSettings: Site.ResultsSiteSettings(),
                     permissionType: Site.PermissionType,
                     resultId: ReferenceId);
-                case "Wikis": return WikiUtilities.Copy(
-                    siteSettings: Site.WikisSiteSettings(),
-                    permissionType: Site.PermissionType,
-                    wikiId: ReferenceId);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }

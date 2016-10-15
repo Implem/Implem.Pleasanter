@@ -326,29 +326,6 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData();
         }
 
-        public static string Copy(SiteSettings siteSettings, Permissions.Types permissionType, long wikiId)
-        {
-            var wikiModel = new WikiModel(siteSettings, wikiId, setByForm: true);
-            wikiModel.WikiId = 0;
-            if (siteSettings.EditorColumnsOrder.Contains("Title"))
-            {
-                wikiModel.Title.Value += Displays.SuffixCopy();
-            }
-            if (!Forms.Data("CopyWithComments").ToBool())
-            {
-                wikiModel.Comments.Clear();
-            }
-            var error = wikiModel.Create(paramAll: true);
-            if (error.Has())
-            {
-                return error.MessageJson();
-            }
-            else
-            {
-                return EditorResponse(wikiModel).ToJson();
-            }
-        }
-
         public static string Delete(
             SiteSettings siteSettings, Permissions.Types permissionType, long wikiId)
         {
