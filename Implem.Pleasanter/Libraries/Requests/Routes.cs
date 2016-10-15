@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using System.Linq;
 using System.Web;
 using System.Web.Routing;
 namespace Implem.Pleasanter.Libraries.Requests
@@ -17,6 +18,11 @@ namespace Implem.Pleasanter.Libraries.Requests
             return RouteTable.Routes.Count != 0 && HttpContext.Current != null
                 ? Url.RouteData("action").ToString().ToLower()
                 : StackTraces.Method();
+        }
+
+        public static bool Action(params string[] action)
+        {
+            return action.Contains(Action());
         }
 
         public static string Method()
