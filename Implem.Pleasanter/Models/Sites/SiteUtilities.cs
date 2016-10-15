@@ -60,26 +60,6 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData();
         }
 
-        public static List<long> GetSwitchTargets(SiteSettings siteSettings, long siteId)
-        {
-            var formData = DataViewFilters.SessionFormData(siteId);
-            var switchTargets = Rds.ExecuteTable(
-                transactional: false,
-                statements: Rds.SelectSites(
-                    column: Rds.SitesColumn().SiteId(),
-                    where: DataViewFilters.Get(
-                        siteSettings: siteSettings,
-                        tableName: "Sites",
-                        formData: formData,
-                        where: Rds.SitesWhere().TenantId(Sessions.TenantId()).SiteId(siteId)),
-                    orderBy: GridSorters.Get(
-                        formData, Rds.SitesOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
-                            .AsEnumerable()
-                            .Select(o => o["SiteId"].ToLong())
-                            .ToList();    
-            return switchTargets;
-        }
-
         public static ResponseCollection FormResponse(
             this ResponseCollection responseCollection,
             Permissions.Types permissionType,
