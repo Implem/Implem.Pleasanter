@@ -857,8 +857,9 @@ namespace Implem.Pleasanter.Models
                 return EditorResponse(
                     resultModel,
                     Messages.Created(resultModel.Title.Value),
-                    GetSwitchTargets(siteSettings, resultModel.ResultId, resultModel.SiteId)
-                        .Join()).ToJson();
+                    GetSwitchTargets(
+                        siteSettings, resultModel.ResultId, resultModel.SiteId).Join())
+                            .ToJson();
             }
         }
 
