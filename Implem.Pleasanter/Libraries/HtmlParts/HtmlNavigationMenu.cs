@@ -98,7 +98,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             siteId: siteId,
                             referenceType: referenceType,
                             action: action,
-                            edit: Routes.Action() == "edit"));
+                            editor: Routes.Action("new", "create", "edit")));
             });
         }
 
@@ -107,11 +107,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long siteId,
             string referenceType,
             string action,
-            bool edit)
+            bool editor)
         {
             return hb.Li(action: () => hb
                 .A(
-                    attributes: edit
+                    attributes: editor
                         ? new HtmlAttributes().OnClick(
                             "location.href='" + Navigations.ItemView(siteId, action) + "'")
                         : new HtmlAttributes()
