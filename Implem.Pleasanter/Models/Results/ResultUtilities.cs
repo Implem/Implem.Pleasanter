@@ -932,7 +932,12 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                return EditorResponse(resultModel).ToJson();
+            return EditorResponse(
+                resultModel,
+                Messages.Copied(resultModel.Title.Value),
+                GetSwitchTargets(
+                    siteSettings, resultModel.ResultId, resultModel.SiteId).Join())
+                        .ToJson();
             }
         }
 

@@ -448,6 +448,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_CreateParams": Code.Model_Utilities_CreateParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateParams, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateParams_Sites": Code.Model_Utilities_CreateParams_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateParams_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreatedResponse": Code.Model_Utilities_CreatedResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse, definitionRow, CodeXls); break;
+                    case "Model_Utilities_CreatedResponse_Items": Code.Model_Utilities_CreatedResponse_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse_Items, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreatedResponse_Sites": Code.Model_Utilities_CreatedResponse_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreatedResponse_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_Update": Code.Model_Utilities_Update = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update, definitionRow, CodeXls); break;
                     case "Model_Utilities_Update_NewModel": Code.Model_Utilities_Update_NewModel = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Update_NewModel, definitionRow, CodeXls); break;
@@ -457,6 +458,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_OnUpdated_Breadcrumb": Code.Model_Utilities_OnUpdated_Breadcrumb = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_OnUpdated_Breadcrumb, definitionRow, CodeXls); break;
                     case "Model_Utilities_ResponseByUpdate_FormulaResponse": Code.Model_Utilities_ResponseByUpdate_FormulaResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ResponseByUpdate_FormulaResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_Copy": Code.Model_Utilities_Copy = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Copy, definitionRow, CodeXls); break;
+                    case "Model_Utilities_CopyResponse": Code.Model_Utilities_CopyResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CopyResponse, definitionRow, CodeXls); break;
+                    case "Model_Utilities_CopyResponse_Items": Code.Model_Utilities_CopyResponse_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CopyResponse_Items, definitionRow, CodeXls); break;
                     case "Model_Utilities_Copy_Sites": Code.Model_Utilities_Copy_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Copy_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_Move": Code.Model_Utilities_Move = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Move, definitionRow, CodeXls); break;
                     case "Model_Utilities_Delete": Code.Model_Utilities_Delete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Delete, definitionRow, CodeXls); break;
@@ -3002,6 +3005,8 @@ namespace Implem.DefinitionAccessor
                     case "Created_ja": Display.Created_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Created_ja, definitionRow, DisplayXls); break;
                     case "Updated": Display.Updated = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Updated, definitionRow, DisplayXls); break;
                     case "Updated_ja": Display.Updated_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Updated_ja, definitionRow, DisplayXls); break;
+                    case "Copied": Display.Copied = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Copied, definitionRow, DisplayXls); break;
+                    case "Copied_ja": Display.Copied_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Copied_ja, definitionRow, DisplayXls); break;
                     case "CodeDefinerCompleted": Display.CodeDefinerCompleted = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CodeDefinerCompleted, definitionRow, DisplayXls); break;
                     case "CodeDefinerCompleted_ja": Display.CodeDefinerCompleted_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CodeDefinerCompleted_ja, definitionRow, DisplayXls); break;
                     case "CodeDefinerRdsCompleted": Display.CodeDefinerRdsCompleted = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CodeDefinerRdsCompleted, definitionRow, DisplayXls); break;
@@ -4011,6 +4016,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_CreateParams;
         public string Model_Utilities_CreateParams_Sites;
         public string Model_Utilities_CreatedResponse;
+        public string Model_Utilities_CreatedResponse_Items;
         public string Model_Utilities_CreatedResponse_Sites;
         public string Model_Utilities_Update;
         public string Model_Utilities_Update_NewModel;
@@ -4020,6 +4026,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_OnUpdated_Breadcrumb;
         public string Model_Utilities_ResponseByUpdate_FormulaResponse;
         public string Model_Utilities_Copy;
+        public string Model_Utilities_CopyResponse;
+        public string Model_Utilities_CopyResponse_Items;
         public string Model_Utilities_Copy_Sites;
         public string Model_Utilities_Move;
         public string Model_Utilities_Delete;
@@ -4435,6 +4443,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_CreateParams = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateParams_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreatedResponse = new CodeDefinition();
+        public CodeDefinition Model_Utilities_CreatedResponse_Items = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreatedResponse_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_Update = new CodeDefinition();
         public CodeDefinition Model_Utilities_Update_NewModel = new CodeDefinition();
@@ -4444,6 +4453,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_OnUpdated_Breadcrumb = new CodeDefinition();
         public CodeDefinition Model_Utilities_ResponseByUpdate_FormulaResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_Copy = new CodeDefinition();
+        public CodeDefinition Model_Utilities_CopyResponse = new CodeDefinition();
+        public CodeDefinition Model_Utilities_CopyResponse_Items = new CodeDefinition();
         public CodeDefinition Model_Utilities_Copy_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_Move = new CodeDefinition();
         public CodeDefinition Model_Utilities_Delete = new CodeDefinition();
@@ -8290,6 +8301,8 @@ namespace Implem.DefinitionAccessor
         public string Created_ja;
         public string Updated;
         public string Updated_ja;
+        public string Copied;
+        public string Copied_ja;
         public string CodeDefinerCompleted;
         public string CodeDefinerCompleted_ja;
         public string CodeDefinerRdsCompleted;
@@ -8958,6 +8971,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition Created_ja = new DisplayDefinition();
         public DisplayDefinition Updated = new DisplayDefinition();
         public DisplayDefinition Updated_ja = new DisplayDefinition();
+        public DisplayDefinition Copied = new DisplayDefinition();
+        public DisplayDefinition Copied_ja = new DisplayDefinition();
         public DisplayDefinition CodeDefinerCompleted = new DisplayDefinition();
         public DisplayDefinition CodeDefinerCompleted_ja = new DisplayDefinition();
         public DisplayDefinition CodeDefinerRdsCompleted = new DisplayDefinition();
