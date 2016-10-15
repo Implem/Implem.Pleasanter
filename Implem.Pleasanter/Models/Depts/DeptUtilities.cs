@@ -307,7 +307,7 @@ namespace Implem.Pleasanter.Models
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
             deptModel.SwitchTargets = GetSwitchTargets(
-                SiteSettingsUtility.DeptsSiteSettings());
+                SiteSettingsUtility.DeptsSiteSettings(), deptModel.DeptId);
             return Editor(deptModel);
         }
 
@@ -481,7 +481,8 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData();
         }
 
-        public static List<int> GetSwitchTargets(SiteSettings siteSettings)
+        public static List<int> GetSwitchTargets(
+            SiteSettings siteSettings, int deptId)
         {
             var formData = DataViewFilters.SessionFormData();
             var switchTargets = Rds.ExecuteTable(
@@ -497,7 +498,11 @@ namespace Implem.Pleasanter.Models
                         formData, Rds.DeptsOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
                             .AsEnumerable()
                             .Select(o => o["DeptId"].ToInt())
-                            .ToList();    
+                            .ToList();
+            if (!switchTargets.Contains(deptId))
+            {
+                switchTargets.Add(deptId);
+            }
             return switchTargets;
         }
 
@@ -535,7 +540,7 @@ namespace Implem.Pleasanter.Models
                 return EditorResponse(
                     deptModel,
                     Messages.Created(deptModel.Title.Value),
-                    GetSwitchTargets(siteSettings).Join()).ToJson();
+                    GetSwitchTargets(siteSettings, deptModel.DeptId).Join()).ToJson();
             }
         }
 

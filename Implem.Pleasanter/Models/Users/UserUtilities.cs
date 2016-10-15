@@ -322,7 +322,7 @@ namespace Implem.Pleasanter.Models
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
             userModel.SwitchTargets = GetSwitchTargets(
-                SiteSettingsUtility.UsersSiteSettings());
+                SiteSettingsUtility.UsersSiteSettings(), userModel.UserId);
             return Editor(userModel);
         }
 
@@ -560,41 +560,29 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData();
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static List<int> GetSwitchTargets(SiteSettings siteSettings)
+        public static List<int> GetSwitchTargets(
+            SiteSettings siteSettings, int userId)
         {
-            if (Permissions.Admins().CanEditTenant())
+            var formData = DataViewFilters.SessionFormData();
+            var switchTargets = Rds.ExecuteTable(
+                transactional: false,
+                statements: Rds.SelectUsers(
+                    column: Rds.UsersColumn().UserId(),
+                    where: DataViewFilters.Get(
+                        siteSettings: siteSettings,
+                        tableName: "Users",
+                        formData: formData,
+                        where: Rds.UsersWhere().TenantId(Sessions.TenantId())),
+                    orderBy: GridSorters.Get(
+                        formData, Rds.UsersOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
+                            .AsEnumerable()
+                            .Select(o => o["UserId"].ToInt())
+                            .ToList();
+            if (!switchTargets.Contains(userId))
             {
-                var switchTargets = Forms.Data("SwitchTargets").Split(',')
-                    .Select(o => o.ToInt())
-                    .Where(o => o != 0)
-                    .ToList();
-                if (switchTargets.Count() == 0)
-                {
-                    var formData = DataViewFilters.SessionFormData();
-                    switchTargets = Rds.ExecuteTable(
-                        transactional: false,
-                        statements: Rds.SelectUsers(
-                            column: Rds.UsersColumn().UserId(),
-                            where: DataViewFilters.Get(
-                                siteSettings: siteSettings,
-                                tableName: "Users",
-                                formData: formData,
-                                where: Rds.UsersWhere().TenantId(Sessions.TenantId())),
-                            orderBy: GridSorters.Get(
-                                formData, Rds.UsersOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
-                                    .AsEnumerable()
-                                    .Select(o => o["UserId"].ToInt())
-                                    .ToList();
-                }
-                return switchTargets;
+                switchTargets.Add(userId);
             }
-            else
-            {
-                return new List<int> { Sessions.UserId() };
-            }
+            return switchTargets;
         }
 
         public static ResponseCollection FormResponse(
@@ -631,7 +619,7 @@ namespace Implem.Pleasanter.Models
                 return EditorResponse(
                     userModel,
                     Messages.Created(userModel.Title.Value),
-                    GetSwitchTargets(siteSettings).Join()).ToJson();
+                    GetSwitchTargets(siteSettings, userModel.UserId).Join()).ToJson();
             }
         }
 
@@ -784,6 +772,43 @@ namespace Implem.Pleasanter.Models
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
             return EditorResponse(userModel).ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static List<int> GetSwitchTargets(SiteSettings siteSettings)
+        {
+            if (Permissions.Admins().CanEditTenant())
+            {
+                var switchTargets = Forms.Data("SwitchTargets").Split(',')
+                    .Select(o => o.ToInt())
+                    .Where(o => o != 0)
+                    .ToList();
+                if (switchTargets.Count() == 0)
+                {
+                    var formData = DataViewFilters.SessionFormData();
+                    switchTargets = Rds.ExecuteTable(
+                        transactional: false,
+                        statements: Rds.SelectUsers(
+                            column: Rds.UsersColumn().UserId(),
+                            where: DataViewFilters.Get(
+                                siteSettings: siteSettings,
+                                tableName: "Users",
+                                formData: formData,
+                                where: Rds.UsersWhere().TenantId(Sessions.TenantId())),
+                            orderBy: GridSorters.Get(
+                                formData, Rds.UsersOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
+                                    .AsEnumerable()
+                                    .Select(o => o["UserId"].ToInt())
+                                    .ToList();
+                }
+                return switchTargets;
+            }
+            else
+            {
+                return new List<int> { Sessions.UserId() };
+            }
         }
 
         /// <summary>
