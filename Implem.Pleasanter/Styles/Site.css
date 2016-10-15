@@ -222,8 +222,8 @@ pre{
 }
 
 #Navigations{
-    height:40px;
-    margin:5px 0px;
+    height:34px;
+    margin:3px 0px;
     padding:0px 5px 0px 20px;
     border:none;
     position:absolute;
@@ -239,16 +239,16 @@ pre{
 
 #NavigationMenu > li{
     width:160px;
-    height:40px;
+    height:34px;
     display:block;
     float:left;
     position:relative;
 }
 
 #NavigationMenu > li > div{
-    height:40px;
+    height:34px;
     text-align:center;
-    line-height:40px;
+    line-height:34px;
     color:white;
     cursor:pointer;
 }
@@ -262,7 +262,7 @@ pre{
 }
 
 #NavigationMenu > li > div > a{
-    height:40px;
+    height:34px;
     display:block;
     color:white;
     text-decoration:none;
@@ -277,7 +277,7 @@ pre{
     display:none;
     border-top:none !important;
     position:absolute;
-    top:40px;
+    top:34px;
     right:0px;
     border-radius:0px 0px 5px 5px;
     z-index:3;
@@ -293,6 +293,16 @@ pre{
     font-weight:normal;
     border:solid 1px #d19405;
     text-decoration:underline;
+}
+
+#SearchField{
+    float:left;
+    margin:3px 0px;
+    color:black;
+}
+
+#Search{
+    height:28px;
 }
 
 #Application{
@@ -751,12 +761,6 @@ pre{
     border:solid 1px silver;
     border-top:none;
     border-radius:0px 0px 10px 10px / 0px 0px 10px 10px;
-}
-
-#SearchField{
-    float:left;
-    margin:5px 0px;
-    color:black;
 }
 
 #SearchResults{
