@@ -110,9 +110,9 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Add("Focus", target, string.Empty);
         }
 
-        public ResponseCollection Val(string target, object value)
+        public ResponseCollection Val(string target, object value, bool _using = true)
         {
-            return Add("SetValue", target, value);
+            return _using ? Add("SetValue", target, value) : this;
         }
 
         public ResponseCollection ValAndFormData(string target, object value)
