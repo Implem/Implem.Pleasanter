@@ -10,9 +10,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Permissions.Types permissionType,
             long siteId,
             string referenceType,
-            bool useSearch,
             bool allowAccess,
-            bool useNavigationMenu)
+            bool useNavigationMenu,
+            bool useSearch)
         {
             return hb.Header(id: "Header", action: () => hb
                 .H(number: 2, id: "Logo", action: () => hb
@@ -24,29 +24,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 src: Navigations.Images("logo-corp.png"))
                             .Span(id: "ProductLogo", action: () => hb
                                 .Displays_ProductName())))
-                .Nav(
-                    id: "Navigations",
-                    css: "ui-widget-header",
-                    action: () => hb
-                        .NavigationMenu(
-                            permissionType: permissionType,
-                            siteId: siteId,
-                            referenceType: referenceType,
-                            allowAccess: allowAccess,
-                            useNavigationMenu: useNavigationMenu)
-                        .Search(_using: useSearch)));
-        }
+                .NavigationMenu(
+                    permissionType: permissionType,
+                    siteId: siteId,
+                    referenceType: referenceType,
+                    allowAccess: allowAccess,
+                    useNavigationMenu: useNavigationMenu,
+                    useSearch: useSearch));
 
-        private static HtmlBuilder Search(this HtmlBuilder hb, bool _using)
-        {
-            return _using
-                ? hb
-                    .Div(id: "SearchField", action: () => hb
-                        .TextBox(
-                            controlId: "Search",
-                            controlCss: " w150 redirect",
-                            placeholder: Displays.Search()))
-                : hb;
         }
     }
 }

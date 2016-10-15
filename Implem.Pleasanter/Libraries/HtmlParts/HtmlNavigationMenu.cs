@@ -15,58 +15,79 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long siteId,
             string referenceType,
             bool allowAccess,
-            bool useNavigationMenu)
+            bool useNavigationMenu,
+            bool useSearch)
         {
             return allowAccess && useNavigationMenu
-                ? hb
-                    .Ul(
-                        id: "NavigationMenu",
-                        action: () => hb
-                            .Li(
-                                action: () => hb
-                                    .Div(action: () => hb
-                                        .A(
-                                            href: NewHref(siteId),
-                                            action: () => hb
-                                                .Span(css: "ui-icon ui-icon-plus")
-                                                .Displays_New())),
-                                _using: !Routes.Action("new", "create", "edit"))
-                            .Li(
-                                css: "sub-menu",
-                                action: () => hb
-                                    .Div(
-                                        attributes: new HtmlAttributes().DataId("DataViewMenu"),
-                                        action: () => hb
-                                            .Span(css: "ui-icon ui-icon-triangle-1-e")
-                                            .Displays_View())
-                                    .DataViewMenu(siteId: siteId, referenceType: referenceType),
-                                _using: Def.DataViewDefinitionCollection
-                                    .Any(o => o.ReferenceType == referenceType))
-                            .Li(
-                                css: "sub-menu",
-                                action: () => hb
-                                    .Div(
-                                        attributes: new HtmlAttributes().DataId("SettingsMenu"),
-                                        action: () => hb
-                                            .Span(css: "ui-icon ui-icon-gear")
-                                            .Displays_Setting())
-                                    .SettingsMenu(siteId: siteId, permissionType: permissionType),
-                                _using: (
-                                    (siteId != 0 && permissionType.CanEditSite()) ||
-                                    (siteId != 0 && permissionType.CanEditPermission()) ||
-                                    permissionType.CanEditTenant()))
-                            .Li(
-                                css: "sub-menu",
-                                action: () => hb
-                                    .Div(
-                                        attributes: new HtmlAttributes().DataId("AccountMenu"),
-                                        action: () => hb
-                                            .Span(css: "ui-icon ui-icon-person")
-                                            .Text(text: SiteInfo.UserFullName((
-                                                Sessions.UserId()))))
-                                    .AccountMenu()))
-
+                ? hb.Nav(
+                    id: "Navigations",
+                    css: "ui-widget-header",
+                    action: () => hb
+                        .NavigationMenu(
+                            permissionType: permissionType,
+                            siteId: siteId,
+                            referenceType: referenceType,
+                            allowAccess: allowAccess,
+                            useNavigationMenu: useNavigationMenu)
+                        .Search(_using: useSearch))
                 : hb;
+        }
+
+        private static HtmlBuilder NavigationMenu(
+            this HtmlBuilder hb,
+            Permissions.Types permissionType,
+            long siteId,
+            string referenceType,
+            bool allowAccess,
+            bool useNavigationMenu)
+        {
+            return hb.Ul(
+                id: "NavigationMenu",
+                action: () => hb
+                    .Li(
+                        action: () => hb
+                            .Div(action: () => hb
+                                .A(
+                                    href: NewHref(siteId),
+                                    action: () => hb
+                                        .Span(css: "ui-icon ui-icon-plus")
+                                        .Displays_New())),
+                        _using: !Routes.Action("new", "create", "edit"))
+                    .Li(
+                        css: "sub-menu",
+                        action: () => hb
+                            .Div(
+                                attributes: new HtmlAttributes().DataId("DataViewMenu"),
+                                action: () => hb
+                                    .Span(css: "ui-icon ui-icon-triangle-1-e")
+                                    .Displays_View())
+                            .DataViewMenu(siteId: siteId, referenceType: referenceType),
+                        _using: Def.DataViewDefinitionCollection
+                            .Any(o => o.ReferenceType == referenceType))
+                    .Li(
+                        css: "sub-menu",
+                        action: () => hb
+                            .Div(
+                                attributes: new HtmlAttributes().DataId("SettingsMenu"),
+                                action: () => hb
+                                    .Span(css: "ui-icon ui-icon-gear")
+                                    .Displays_Setting())
+                            .SettingsMenu(siteId: siteId, permissionType: permissionType),
+                        _using: (
+                            (siteId != 0 && permissionType.CanEditSite()) ||
+                            (siteId != 0 && permissionType.CanEditPermission()) ||
+                            permissionType.CanEditTenant()))
+                    .Li(
+                        css: "sub-menu",
+                        action: () => hb
+                            .Div(
+                                attributes: new HtmlAttributes().DataId("AccountMenu"),
+                                action: () => hb
+                                    .Span(css: "ui-icon ui-icon-person")
+                                    .Text(text: SiteInfo.UserFullName((
+                                        Sessions.UserId()))))
+                            .AccountMenu()));
+
         }
 
         private static string NewHref(long siteId)
@@ -163,6 +184,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-locked")
                             .Displays_Logout())));
+        }
+
+        private static HtmlBuilder Search(this HtmlBuilder hb, bool _using)
+        {
+            return _using
+                ? hb
+                    .Div(id: "SearchField", action: () => hb
+                        .TextBox(
+                            controlId: "Search",
+                            controlCss: " w150 redirect",
+                            placeholder: Displays.Search()))
+                : hb;
         }
     }
 }

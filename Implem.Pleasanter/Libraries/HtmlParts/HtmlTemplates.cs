@@ -78,9 +78,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     permissionType: permissionType,
                     siteId: siteId,
                     referenceType: referenceType,
-                    useSearch: useSearch,
                     allowAccess: allowAccess,
-                    useNavigationMenu: useNavigationMenu)
+                    useNavigationMenu: useNavigationMenu,
+                    useSearch: useSearch)
                 .Content(
                     permissionType: permissionType,
                     allowAccess: allowAccess,
