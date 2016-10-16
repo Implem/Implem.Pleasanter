@@ -85,7 +85,9 @@ namespace Implem.Pleasanter.Libraries.Converts
         {
             return update
                 ? updated
-                    ? "{0} : {2} => {1}\n".Params(column.LabelText, self, saved)
+                    ? saved != string.Empty
+                        ? "{0} : {2} => {1}\n".Params(column.LabelText, self, saved)
+                        : "{0} : {1}\n".Params(column.LabelText, self)
                     : string.Empty
                 : "{0}: {1}\n".Params(column.LabelText, self);
         }
