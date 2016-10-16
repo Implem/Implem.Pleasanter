@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.DataSources;
+﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Models;
 using System;
@@ -46,6 +47,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void Send(string title, string body = "")
         {
+            var from = MailAddressUtilities.From(withFullName: true);
             switch (Type)
             {
                 case Types.Mail:
@@ -54,15 +56,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                         SiteSettings = SiteSettingsUtility.OutgoingMailsSiteSettings(),
                         Title = new Title(title),
                         Body = body,
-                        From = OutgoingMailUtilities.From(),
+                        From = new System.Net.Mail.MailAddress(
+                            Mails.Addresses.BadAddress(from) == string.Empty
+                                ? from
+                                : Parameters.Mail.SupportFrom),
                         To = Address
                     }.Send();
                     break;
                 case Types.Slack:
-                    new Slack(
-                        "*" + title + "*\n" + body,
-                        MailAddressUtilities.From(withFullName: true))
-                            .Send(Address);
+                    new Slack("*" + title + "*\n" + body, from).Send(Address);
                     break;
                 default:
                     break;
