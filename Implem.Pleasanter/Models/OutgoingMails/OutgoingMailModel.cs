@@ -157,7 +157,7 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public Error.Types Update(SqlParamCollection param = null, bool paramAll = false)
+        public Error.Types Update(bool paramAll = false)
         {
             SetBySession();
             var timestamp = Timestamp.ToDateTime();
@@ -169,7 +169,7 @@ namespace Implem.Pleasanter.Models
                         verUp: VerUp,
                         where: Rds.OutgoingMailsWhereDefault(this)
                             .UpdatedTime(timestamp, _using: timestamp.InRange()),
-                        param: param ?? Rds.OutgoingMailsParamDefault(this, paramAll: paramAll),
+                        param: Rds.OutgoingMailsParamDefault(this, paramAll: paramAll),
                         countRecord: true),
                     Rds.If("@@rowcount = 1"),
                     Rds.UpdateItems(

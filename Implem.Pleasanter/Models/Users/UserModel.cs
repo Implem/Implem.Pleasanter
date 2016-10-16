@@ -232,7 +232,7 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public Error.Types Update(SqlParamCollection param = null, bool paramAll = false)
+        public Error.Types Update(bool paramAll = false)
         {
             SetBySession();
             var timestamp = Timestamp.ToDateTime();
@@ -244,7 +244,7 @@ namespace Implem.Pleasanter.Models
                         verUp: VerUp,
                         where: Rds.UsersWhereDefault(this)
                             .UpdatedTime(timestamp, _using: timestamp.InRange()),
-                        param: param ?? Rds.UsersParamDefault(this, paramAll: paramAll),
+                        param: Rds.UsersParamDefault(this, paramAll: paramAll),
                         countRecord: true)
                 });
             if (count == 0) return Error.Types.UpdateConflicts;
