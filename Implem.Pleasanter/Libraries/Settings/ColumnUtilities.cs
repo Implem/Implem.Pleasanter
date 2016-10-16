@@ -69,13 +69,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .OrderBy(o => o.HistoryColumn);
         }
 
-        public static IEnumerable<ColumnDefinition> MonitorChangesDefinitions(
-            string referenceType, bool enableOnly = false)
+        public static IEnumerable<ColumnDefinition> MonitorChangesDefinitions(string referenceType)
         {
             return Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == referenceType)
                 .Where(o => o.EditorColumn || o.ColumnName == "Comments")
-                .Where(o => o.EditorEnabled || !enableOnly || o.ColumnName == "Comments")
                 .Where(o => !o.NotEditorSettings)
                 .Where(o => !o.Unique)
                 .Where(o => o.ColumnName != "Ver")

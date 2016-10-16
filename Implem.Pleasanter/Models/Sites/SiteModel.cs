@@ -791,9 +791,8 @@ namespace Implem.Pleasanter.Models
                 : new Notification(
                     Notification.Types.Mail,
                     string.Empty,
-                    ColumnUtilities.MonitorChangesDefinitions(ReferenceType, enableOnly: true)
-                        .Select(o => o.ColumnName)
-                        .ToList());
+                    SiteSettings.EditorColumnsOrder
+                        .Concat(new List<string> { "Comments" }).ToList());
             Session_MonitorChangesColumns(notification.MonitorChangesColumns);
             responseCollection
                 .Html("#NotificationDialog", SiteUtilities.NotificationDialog(
