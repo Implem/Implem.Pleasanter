@@ -131,7 +131,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             return this.Count > 0
                 ? this.FirstOrDefault().Body.ToNotice(
-                    saved,
+                    string.Empty,
                     column,
                     updated,
                     update)
