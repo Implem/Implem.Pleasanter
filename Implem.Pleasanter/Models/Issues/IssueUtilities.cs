@@ -997,8 +997,8 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Sessions.Set("Message", Messages.Moved(issueModel.Title.Value).Html);
                 return EditorResponse(issueModel)
+                    .Message(Messages.Moved(issueModel.Title.Value))
                     .Val("#BackUrl", Navigations.ItemIndex(targetSiteId))
                     .ToJson();
             }
