@@ -16,31 +16,29 @@ namespace Implem.Pleasanter.Libraries.Responses
             return this;
         }
 
-        public ResponseCollection Html(string target, HtmlBuilder value)
+        public ResponseCollection Html(string target, HtmlBuilder value, bool _using = true)
         {
-            return Html(target, value.ToString());
+            return _using ? Html(target, value.ToString()) : this;
         }
 
-        public ResponseCollection Html(string target, object value)
+        public ResponseCollection Html(string target, object value, bool _using = true)
         {
-            return Add("Html", target, value);
+            return _using ? Add("Html", target, value) : this;
         }
 
         public ResponseCollection ReplaceAll(string target, HtmlBuilder value, bool _using = true)
         {
-            return _using
-                ? ReplaceAll(target, value.ToString())
-                : this;
+            return _using ? ReplaceAll(target, value.ToString()) : this;
         }
 
-        public ResponseCollection ReplaceAll(string target, object value)
+        public ResponseCollection ReplaceAll(string target, object value, bool _using = true)
         {
-            return Add("ReplaceAll", target, value);
+            return _using ? Add("ReplaceAll", target, value) : this;
         }
 
-        public ResponseCollection Message(Message message)
+        public ResponseCollection Message(Message message, bool _using = true)
         {
-            if (message != null)
+            if (message != null && _using)
             {
                 Add("Message", string.Empty, message.Html);
                 Add("Status", string.Empty, message.Status);
@@ -48,41 +46,39 @@ namespace Implem.Pleasanter.Libraries.Responses
             return this;
         }
 
-        public ResponseCollection Href(string url = null)
+        public ResponseCollection Href(string url = null, bool _using = true)
         {
-            return Add("Href", string.Empty, url);
+            return _using ? Add("Href", string.Empty, url) : this;
         }
 
         public ResponseCollection PushState(string state, string url, bool _using = true)
         {
-            return _using
-                ? Add("PushState", state, url)
-                : this;
+            return _using ? Add("PushState", state, url) : this;
         }
 
-        public ResponseCollection SetFormData(string target, object value)
+        public ResponseCollection SetFormData(string target, object value, bool _using = true)
         {
-            return Add("SetFormData", target, value);
+            return _using ? Add("SetFormData", target, value) : this;
         }
 
-        public ResponseCollection Append(string target, HtmlBuilder value)
+        public ResponseCollection Append(string target, HtmlBuilder value, bool _using = true)
         {
-            return Add("Append", target, value.ToString());
+            return _using ? Add("Append", target, value.ToString()) : this;
         }
 
-        public ResponseCollection Prepend(string target, HtmlBuilder value)
+        public ResponseCollection Prepend(string target, HtmlBuilder value, bool _using = true)
         {
-            return Add("Prepend", target, value.ToString());
+            return _using ? Add("Prepend", target, value.ToString()) : this;
         }
 
-        public ResponseCollection After(string target, HtmlBuilder value)
+        public ResponseCollection After(string target, HtmlBuilder value, bool _using = true)
         {
-            return Add("After", target, value.ToString());
+            return _using ? Add("After", target, value.ToString()) : this;
         }
 
-        public ResponseCollection Before(string target, HtmlBuilder value)
+        public ResponseCollection Before(string target, HtmlBuilder value, bool _using = true)
         {
-            return Add("Before", target, value.ToString());
+            return _using ? Add("Before", target, value.ToString()) : this;
         }
 
 
@@ -91,9 +87,9 @@ namespace Implem.Pleasanter.Libraries.Responses
             return _using ? Add("Remove", target, string.Empty) : this;
         }
 
-        public ResponseCollection Focus(string target = "")
+        public ResponseCollection Focus(string target = "", bool _using = true)
         {
-            return Add("Focus", target, string.Empty);
+            return _using ? Add("Focus", target, string.Empty) : this;
         }
 
         public ResponseCollection Val(string target, object value, bool _using = true)
@@ -101,9 +97,9 @@ namespace Implem.Pleasanter.Libraries.Responses
             return _using ? Add("SetValue", target, value) : this;
         }
 
-        public ResponseCollection ValAndFormData(string target, object value)
+        public ResponseCollection ValAndFormData(string target, object value, bool _using = true)
         {
-            return Add("SetValueAndFormData", target, value);
+            return _using ? Add("SetValueAndFormData", target, value) : this;
         }
 
         public ResponseCollection ClearFormData(
@@ -132,19 +128,19 @@ namespace Implem.Pleasanter.Libraries.Responses
             return _using ? Add("WindowScrollTop", string.Empty, value) : this;
         }
 
-        public ResponseCollection FocusMainForm()
+        public ResponseCollection FocusMainForm(bool _using = true)
         {
-            return Add("FocusMainForm", string.Empty);
+            return _using ? Add("FocusMainForm", string.Empty) : this;
         }
 
-        public ResponseCollection Empty(string key)
+        public ResponseCollection Empty(string key, bool _using = true)
         {
-            return Add("Empty", key, string.Empty);
+            return _using ? Add("Empty", key, string.Empty) : this;
         }
 
-        public ResponseCollection Disabled(string key, bool value = true)
+        public ResponseCollection Disabled(string key, bool value = true, bool _using = true)
         {
-            return Add("Disabled", key, value);
+            return _using ? Add("Disabled", key, value) : this;
         }
     }
 }
