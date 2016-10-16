@@ -734,7 +734,7 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public Error.Types Update(bool notice = false,bool paramAll = false)
+        public Error.Types Update(bool notice = false, bool paramAll = false)
         {
             SetBySession();
             var timestamp = Timestamp.ToDateTime();
