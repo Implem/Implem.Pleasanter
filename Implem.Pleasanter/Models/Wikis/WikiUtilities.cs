@@ -287,7 +287,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts().ToJson();
             }
-            var error = wikiModel.Update();
+            var error = wikiModel.Update(notice: true);
             if (error.Has())
             {
                 return error == Error.Types.UpdateConflicts
@@ -336,7 +336,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var error = wikiModel.Delete();
+            var error = wikiModel.Delete(notice: true);
             if (error.Has())
             {
                 return error.MessageJson();

@@ -295,6 +295,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetSiteSettingsProperties": Code.Model_SetSiteSettingsProperties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSiteSettingsProperties, definitionRow, CodeXls); break;
                     case "Model_SetTenantId": Code.Model_SetTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTenantId, definitionRow, CodeXls); break;
                     case "Model_Create": Code.Model_Create = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Create, definitionRow, CodeXls); break;
+                    case "Model_CreateParams": Code.Model_CreateParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreateParams, definitionRow, CodeXls); break;
                     case "Model_OnCreating_Binaries": Code.Model_OnCreating_Binaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnCreating_Binaries, definitionRow, CodeXls); break;
                     case "Model_OnCreating_Users": Code.Model_OnCreating_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnCreating_Users, definitionRow, CodeXls); break;
                     case "Model_CreatedNotice": Code.Model_CreatedNotice = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreatedNotice, definitionRow, CodeXls); break;
@@ -305,6 +306,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_InsertIdentity": Code.Model_InsertIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertIdentity, definitionRow, CodeXls); break;
                     case "Model_InsertIdentitySet": Code.Model_InsertIdentitySet = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertIdentitySet, definitionRow, CodeXls); break;
                     case "Model_Update": Code.Model_Update = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Update, definitionRow, CodeXls); break;
+                    case "Model_UpdateParams": Code.Model_UpdateParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams, definitionRow, CodeXls); break;
                     case "Model_Update_OutgoingMails": Code.Model_Update_OutgoingMails = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Update_OutgoingMails, definitionRow, CodeXls); break;
                     case "Model_Update_Items": Code.Model_Update_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Update_Items, definitionRow, CodeXls); break;
                     case "Model_Update_Items_Wikis": Code.Model_Update_Items_Wikis = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Update_Items_Wikis, definitionRow, CodeXls); break;
@@ -325,6 +327,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_InsertLinksCases": Code.Model_InsertLinksCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertLinksCases, definitionRow, CodeXls); break;
                     case "Model_Move": Code.Model_Move = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Move, definitionRow, CodeXls); break;
                     case "Model_Delete": Code.Model_Delete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete, definitionRow, CodeXls); break;
+                    case "Model_DeleteParams": Code.Model_DeleteParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteParams, definitionRow, CodeXls); break;
                     case "Model_Delete_Item": Code.Model_Delete_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_Item, definitionRow, CodeXls); break;
                     case "Model_Delete_Sites": Code.Model_Delete_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_Sites, definitionRow, CodeXls); break;
                     case "Model_Delete_SitesItems": Code.Model_Delete_SitesItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_SitesItems, definitionRow, CodeXls); break;
@@ -509,6 +512,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Self": Code.Model_Utilities_Self = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Self, definitionRow, CodeXls); break;
                     case "Model_Utilities_CanEditTenant": Code.Model_Utilities_CanEditTenant = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CanEditTenant, definitionRow, CodeXls); break;
                     case "Model_Utilities_CanEditSys": Code.Model_Utilities_CanEditSys = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CanEditSys, definitionRow, CodeXls); break;
+                    case "Model_Utilities_SetNoticeParam": Code.Model_Utilities_SetNoticeParam = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetNoticeParam, definitionRow, CodeXls); break;
                     case "Model_Validator": Code.Model_Validator = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator, definitionRow, CodeXls); break;
                     case "Model_ValidatorMethods": Code.Model_ValidatorMethods = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidatorMethods, definitionRow, CodeXls); break;
                     case "Model_Validator_OnMoving": Code.Model_Validator_OnMoving = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnMoving, definitionRow, CodeXls); break;
@@ -3867,6 +3871,7 @@ namespace Implem.DefinitionAccessor
         public string Model_SetSiteSettingsProperties;
         public string Model_SetTenantId;
         public string Model_Create;
+        public string Model_CreateParams;
         public string Model_OnCreating_Binaries;
         public string Model_OnCreating_Users;
         public string Model_CreatedNotice;
@@ -3877,6 +3882,7 @@ namespace Implem.DefinitionAccessor
         public string Model_InsertIdentity;
         public string Model_InsertIdentitySet;
         public string Model_Update;
+        public string Model_UpdateParams;
         public string Model_Update_OutgoingMails;
         public string Model_Update_Items;
         public string Model_Update_Items_Wikis;
@@ -3897,6 +3903,7 @@ namespace Implem.DefinitionAccessor
         public string Model_InsertLinksCases;
         public string Model_Move;
         public string Model_Delete;
+        public string Model_DeleteParams;
         public string Model_Delete_Item;
         public string Model_Delete_Sites;
         public string Model_Delete_SitesItems;
@@ -4081,6 +4088,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Self;
         public string Model_Utilities_CanEditTenant;
         public string Model_Utilities_CanEditSys;
+        public string Model_Utilities_SetNoticeParam;
         public string Model_Validator;
         public string Model_ValidatorMethods;
         public string Model_Validator_OnMoving;
@@ -4298,6 +4306,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetSiteSettingsProperties = new CodeDefinition();
         public CodeDefinition Model_SetTenantId = new CodeDefinition();
         public CodeDefinition Model_Create = new CodeDefinition();
+        public CodeDefinition Model_CreateParams = new CodeDefinition();
         public CodeDefinition Model_OnCreating_Binaries = new CodeDefinition();
         public CodeDefinition Model_OnCreating_Users = new CodeDefinition();
         public CodeDefinition Model_CreatedNotice = new CodeDefinition();
@@ -4308,6 +4317,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_InsertIdentity = new CodeDefinition();
         public CodeDefinition Model_InsertIdentitySet = new CodeDefinition();
         public CodeDefinition Model_Update = new CodeDefinition();
+        public CodeDefinition Model_UpdateParams = new CodeDefinition();
         public CodeDefinition Model_Update_OutgoingMails = new CodeDefinition();
         public CodeDefinition Model_Update_Items = new CodeDefinition();
         public CodeDefinition Model_Update_Items_Wikis = new CodeDefinition();
@@ -4328,6 +4338,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_InsertLinksCases = new CodeDefinition();
         public CodeDefinition Model_Move = new CodeDefinition();
         public CodeDefinition Model_Delete = new CodeDefinition();
+        public CodeDefinition Model_DeleteParams = new CodeDefinition();
         public CodeDefinition Model_Delete_Item = new CodeDefinition();
         public CodeDefinition Model_Delete_Sites = new CodeDefinition();
         public CodeDefinition Model_Delete_SitesItems = new CodeDefinition();
@@ -4512,6 +4523,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Self = new CodeDefinition();
         public CodeDefinition Model_Utilities_CanEditTenant = new CodeDefinition();
         public CodeDefinition Model_Utilities_CanEditSys = new CodeDefinition();
+        public CodeDefinition Model_Utilities_SetNoticeParam = new CodeDefinition();
         public CodeDefinition Model_Validator = new CodeDefinition();
         public CodeDefinition Model_ValidatorMethods = new CodeDefinition();
         public CodeDefinition Model_Validator_OnMoving = new CodeDefinition();
