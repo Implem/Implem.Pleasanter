@@ -4,7 +4,6 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
-using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -13,34 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
-    public class Comment
-    {
-        public int CommentId;
-        public DateTime CreatedTime;
-        public int Creator;
-        public string Body;
-
-        public HtmlBuilder Html(
-            HtmlBuilder hb,
-            string controlId = "",
-            Action action = null)
-        {
-            return hb.Div(
-                id: controlId,
-                css: "comment",
-                action: () =>
-                {
-                    if (action != null) action();
-                    hb
-                        .P(css: "time", action: () => hb
-                            .Text(text: CreatedTime.ToLocal(Displays.Get("YmdahmFormat"))))
-                        .HtmlUser(Creator)
-                        .P(css: "body markup", action: () => hb
-                            .Text(text: Body));
-                });
-        }
-    }
-
     public class Comments : List<Comment>, IConvertable
     {
         public Comments()

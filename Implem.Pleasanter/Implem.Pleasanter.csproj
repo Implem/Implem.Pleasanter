@@ -213,6 +213,7 @@
     <Compile Include="Libraries\DataSources\SendGridMail.cs" />
     <Compile Include="Libraries\DataSources\Slack.cs" />
     <Compile Include="Libraries\DataSources\Smtp.cs" />
+    <Compile Include="Libraries\DataTypes\Comment.cs" />
     <Compile Include="Libraries\DataTypes\Comments.cs" />
     <Compile Include="Libraries\DataTypes\CompletionTime.cs" />
     <Compile Include="Libraries\DataTypes\Dept.cs" />
