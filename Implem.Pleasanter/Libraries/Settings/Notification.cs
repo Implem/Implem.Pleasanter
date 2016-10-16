@@ -1,5 +1,9 @@
-﻿using System;
+﻿using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 namespace Implem.Pleasanter.Libraries.Settings
 {
@@ -38,6 +42,39 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             Address = address;
             MonitorChangesColumns = columns;
+        }
+
+        public void Send(string title, string body = "")
+        {
+            switch (Type)
+            {
+                case Types.Mail:
+                    new OutgoingMailModel()
+                    {
+                        SiteSettings = SiteSettingsUtility.OutgoingMailsSiteSettings(),
+                        Title = new Title(title),
+                        Body = body,
+                        From = OutgoingMailUtilities.From(),
+                        To = Address
+                    }.Send();
+                    break;
+                case Types.Slack:
+                    new Slack(
+                        "*" + title + "*\n" + body,
+                        MailAddressUtilities.From(withFullName: true))
+                            .Send(Address);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public IEnumerable<Column> MonitorChangesColumnCollection(SiteSettings siteSettings)
+        {
+            return MonitorChangesColumns
+                .Select(o => siteSettings.GetColumn(o))
+                .Where(o => o != null)
+                .ToList();
         }
     }
 }

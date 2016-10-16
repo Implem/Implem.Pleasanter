@@ -202,6 +202,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IConvertable.cs" />
+    <Compile Include="Libraries\Converts\ToNoticeExtensions.cs" />
     <Compile Include="Libraries\Converts\SearchIndexExtensions.cs" />
     <Compile Include="Libraries\Converts\TdExtensions.cs" />
     <Compile Include="Libraries\Converts\ToControlExtensions.cs" />

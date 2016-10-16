@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
+using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Security;
@@ -53,6 +54,19 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string ToExport(Column column)
         {
             return column.Choice(ToString()).Text;
+        }
+
+        public string ToNotice(
+            int saved,
+            Column column,
+            bool updated,
+            bool update)
+        {
+            return column.Choice(Value.ToString()).Text.ToNotice(
+                column.Choice(saved.ToString()).Text,
+                column,
+                updated,
+                update);
         }
     }
 }

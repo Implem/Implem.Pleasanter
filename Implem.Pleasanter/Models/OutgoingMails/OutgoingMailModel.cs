@@ -2,6 +2,7 @@
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
@@ -335,9 +336,7 @@ namespace Implem.Pleasanter.Models
             }
             ReferenceId = referenceId;
             ReferenceVer = Forms.Int("Ver");
-            From = new System.Net.Mail.MailAddress("\"{0}\" <{1}>".Params(
-                Sessions.User().FullName(),
-                OutgoingMailUtilities.FromMailAddress()));
+            From = OutgoingMailUtilities.From();
             SetByForm();
         }
 

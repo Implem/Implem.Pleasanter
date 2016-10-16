@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
+using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
@@ -138,6 +139,19 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public string ToExport(Column column)
         {
             return Value.ToString();
+        }
+
+        public string ToNotice(
+            decimal saved,
+            Column column,
+            bool updated,
+            bool update)
+        {
+            return column.Display(Value, unit: true).ToNotice(
+                column.Display(saved, unit: true),
+                column,
+                updated,
+                update);
         }
     }
 }

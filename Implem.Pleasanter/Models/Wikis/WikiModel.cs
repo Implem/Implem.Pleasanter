@@ -2,6 +2,7 @@
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
@@ -164,6 +165,7 @@ namespace Implem.Pleasanter.Models
                 });
             WikiId = newId != 0 ? newId : WikiId;
             SynchronizeSummary();
+            Notice("Created");
             Get();
             Rds.ExecuteNonQuery(statements:
                 Rds.UpdateItems(
@@ -191,6 +193,7 @@ namespace Implem.Pleasanter.Models
                 });
             if (count == 0) return Error.Types.UpdateConflicts;
             SynchronizeSummary();
+            Notice("Updated");
             Get();
             Rds.ExecuteNonQuery(
                 transactional: true,
@@ -403,6 +406,56 @@ namespace Implem.Pleasanter.Models
                     }
                 });
             }
+        }
+
+        private void Notice(string type)
+        {
+            var title = WikiUtilities.TitleDisplayValue(SiteSettings, this);
+            switch (type)
+            {
+                case "Created":
+                    SiteSettings.Notifications.ForEach(notification =>
+                        notification.Send(
+                            Displays.Created(title).ToString(),
+                            NoticeBody(notification)));
+                    break;
+                case "Updated":
+                    SiteSettings.Notifications.ForEach(notification =>
+                    {
+                        var body = NoticeBody(notification, update: true);
+                        if (body.Length > 0)
+                        {
+                            notification.Send(
+                                Displays.Updated(title).ToString(),
+                                body);
+                        }
+                    });
+                    break;
+                case "Deleted":
+                    SiteSettings.Notifications.ForEach(notification =>
+                        notification.Send(
+                            Displays.Deleted(title).ToString(),
+                            NoticeBody(notification)));
+                    break;
+            }
+        }
+
+        private string NoticeBody(Notification notification, bool update = false)
+        {
+            var body = new System.Text.StringBuilder();
+            notification.MonitorChangesColumnCollection(SiteSettings).ForEach(column =>
+            {
+                switch (column.ColumnName)
+                {
+                    case "Title": body.Append(Title.ToNotice(SavedTitle, column, Title_Updated, update)); break;
+                    case "Body": body.Append(Body.ToNotice(SavedBody, column, Body_Updated, update)); break;
+                    case "Comments": body.Append(Comments.ToNotice(SavedComments, column, Comments_Updated, update)); break;
+                    case "Creator": body.Append(Creator.ToNotice(SavedCreator, column, Creator_Updated, update)); break;
+                    case "Updator": body.Append(Updator.ToNotice(SavedUpdator, column, Updator_Updated, update)); break;
+                    case "CreatedTime": body.Append(CreatedTime.ToNotice(SavedCreatedTime, column, CreatedTime_Updated, update)); break;
+                }
+            });
+            return body.ToString();
         }
 
         private void SetBySession()

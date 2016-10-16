@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
+using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
@@ -120,6 +121,21 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 new Time(o.CreatedTime).ToViewText() + " " +
                 SiteInfo.UserFullName(o.Creator) + "\n" +
                 o.Body).Join("\n\n");
+        }
+
+        public string ToNotice(
+            string saved,
+            Column column,
+            bool updated,
+            bool update)
+        {
+            return this.Count > 0
+                ? this.FirstOrDefault().Body.ToNotice(
+                    saved,
+                    column,
+                    updated,
+                    update)
+                : string.Empty;
         }
     }
 }

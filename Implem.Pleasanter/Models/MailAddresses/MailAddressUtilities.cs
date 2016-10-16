@@ -22,5 +22,22 @@ namespace Implem.Pleasanter.Models
 {
     public static class MailAddressUtilities
     {
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string From(bool withFullName = false)
+        {
+            var mailAddress = Rds.ExecuteScalar_string(statements:
+                Rds.SelectMailAddresses(
+                    top: 1,
+                    column: Rds.MailAddressesColumn().MailAddress(),
+                    where: Rds.MailAddressesWhere()
+                        .OwnerId(Sessions.UserId())
+                        .OwnerType("Users"),
+                    orderBy: Rds.MailAddressesOrderBy().MailAddressId()));
+            return withFullName
+                ? "\"{0}\" <{1}>".Params(Sessions.User().FullName(), mailAddress)
+                : mailAddress;
+        }
     }
 }

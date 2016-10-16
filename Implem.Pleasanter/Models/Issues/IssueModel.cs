@@ -2,6 +2,7 @@
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.General;
@@ -721,6 +722,7 @@ namespace Implem.Pleasanter.Models
                 });
             IssueId = newId != 0 ? newId : IssueId;
             SynchronizeSummary();
+            Notice("Created");
             Get();
             Rds.ExecuteNonQuery(statements:
                 Rds.UpdateItems(
@@ -748,6 +750,7 @@ namespace Implem.Pleasanter.Models
                 });
             if (count == 0) return Error.Types.UpdateConflicts;
             SynchronizeSummary();
+            Notice("Updated");
             Get();
             Rds.ExecuteNonQuery(
                 transactional: true,
@@ -861,6 +864,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.IssuesWhere().SiteId(SiteId).IssueId(IssueId))
                 });
             SynchronizeSummary();
+            Notice("Deleted");
             return Error.Types.None;
         }
 
@@ -1238,6 +1242,193 @@ namespace Implem.Pleasanter.Models
                     }
                 });
             }
+        }
+
+        private void Notice(string type)
+        {
+            var title = IssueUtilities.TitleDisplayValue(SiteSettings, this);
+            switch (type)
+            {
+                case "Created":
+                    SiteSettings.Notifications.ForEach(notification =>
+                        notification.Send(
+                            Displays.Created(title).ToString(),
+                            NoticeBody(notification)));
+                    break;
+                case "Updated":
+                    SiteSettings.Notifications.ForEach(notification =>
+                    {
+                        var body = NoticeBody(notification, update: true);
+                        if (body.Length > 0)
+                        {
+                            notification.Send(
+                                Displays.Updated(title).ToString(),
+                                body);
+                        }
+                    });
+                    break;
+                case "Deleted":
+                    SiteSettings.Notifications.ForEach(notification =>
+                        notification.Send(
+                            Displays.Deleted(title).ToString(),
+                            NoticeBody(notification)));
+                    break;
+            }
+        }
+
+        private string NoticeBody(Notification notification, bool update = false)
+        {
+            var body = new System.Text.StringBuilder();
+            notification.MonitorChangesColumnCollection(SiteSettings).ForEach(column =>
+            {
+                switch (column.ColumnName)
+                {
+                    case "Title": body.Append(Title.ToNotice(SavedTitle, column, Title_Updated, update)); break;
+                    case "Body": body.Append(Body.ToNotice(SavedBody, column, Body_Updated, update)); break;
+                    case "StartTime": body.Append(StartTime.ToNotice(SavedStartTime, column, StartTime_Updated, update)); break;
+                    case "CompletionTime": body.Append(CompletionTime.ToNotice(SavedCompletionTime, column, CompletionTime_Updated, update)); break;
+                    case "WorkValue": body.Append(WorkValue.ToNotice(SavedWorkValue, column, WorkValue_Updated, update)); break;
+                    case "ProgressRate": body.Append(ProgressRate.ToNotice(SavedProgressRate, column, ProgressRate_Updated, update)); break;
+                    case "Status": body.Append(Status.ToNotice(SavedStatus, column, Status_Updated, update)); break;
+                    case "Manager": body.Append(Manager.ToNotice(SavedManager, column, Manager_Updated, update)); break;
+                    case "Owner": body.Append(Owner.ToNotice(SavedOwner, column, Owner_Updated, update)); break;
+                    case "ClassA": body.Append(ClassA.ToNotice(SavedClassA, column, ClassA_Updated, update)); break;
+                    case "ClassB": body.Append(ClassB.ToNotice(SavedClassB, column, ClassB_Updated, update)); break;
+                    case "ClassC": body.Append(ClassC.ToNotice(SavedClassC, column, ClassC_Updated, update)); break;
+                    case "ClassD": body.Append(ClassD.ToNotice(SavedClassD, column, ClassD_Updated, update)); break;
+                    case "ClassE": body.Append(ClassE.ToNotice(SavedClassE, column, ClassE_Updated, update)); break;
+                    case "ClassF": body.Append(ClassF.ToNotice(SavedClassF, column, ClassF_Updated, update)); break;
+                    case "ClassG": body.Append(ClassG.ToNotice(SavedClassG, column, ClassG_Updated, update)); break;
+                    case "ClassH": body.Append(ClassH.ToNotice(SavedClassH, column, ClassH_Updated, update)); break;
+                    case "ClassI": body.Append(ClassI.ToNotice(SavedClassI, column, ClassI_Updated, update)); break;
+                    case "ClassJ": body.Append(ClassJ.ToNotice(SavedClassJ, column, ClassJ_Updated, update)); break;
+                    case "ClassK": body.Append(ClassK.ToNotice(SavedClassK, column, ClassK_Updated, update)); break;
+                    case "ClassL": body.Append(ClassL.ToNotice(SavedClassL, column, ClassL_Updated, update)); break;
+                    case "ClassM": body.Append(ClassM.ToNotice(SavedClassM, column, ClassM_Updated, update)); break;
+                    case "ClassN": body.Append(ClassN.ToNotice(SavedClassN, column, ClassN_Updated, update)); break;
+                    case "ClassO": body.Append(ClassO.ToNotice(SavedClassO, column, ClassO_Updated, update)); break;
+                    case "ClassP": body.Append(ClassP.ToNotice(SavedClassP, column, ClassP_Updated, update)); break;
+                    case "ClassQ": body.Append(ClassQ.ToNotice(SavedClassQ, column, ClassQ_Updated, update)); break;
+                    case "ClassR": body.Append(ClassR.ToNotice(SavedClassR, column, ClassR_Updated, update)); break;
+                    case "ClassS": body.Append(ClassS.ToNotice(SavedClassS, column, ClassS_Updated, update)); break;
+                    case "ClassT": body.Append(ClassT.ToNotice(SavedClassT, column, ClassT_Updated, update)); break;
+                    case "ClassU": body.Append(ClassU.ToNotice(SavedClassU, column, ClassU_Updated, update)); break;
+                    case "ClassV": body.Append(ClassV.ToNotice(SavedClassV, column, ClassV_Updated, update)); break;
+                    case "ClassW": body.Append(ClassW.ToNotice(SavedClassW, column, ClassW_Updated, update)); break;
+                    case "ClassX": body.Append(ClassX.ToNotice(SavedClassX, column, ClassX_Updated, update)); break;
+                    case "ClassY": body.Append(ClassY.ToNotice(SavedClassY, column, ClassY_Updated, update)); break;
+                    case "ClassZ": body.Append(ClassZ.ToNotice(SavedClassZ, column, ClassZ_Updated, update)); break;
+                    case "NumA": body.Append(NumA.ToNotice(SavedNumA, column, NumA_Updated, update)); break;
+                    case "NumB": body.Append(NumB.ToNotice(SavedNumB, column, NumB_Updated, update)); break;
+                    case "NumC": body.Append(NumC.ToNotice(SavedNumC, column, NumC_Updated, update)); break;
+                    case "NumD": body.Append(NumD.ToNotice(SavedNumD, column, NumD_Updated, update)); break;
+                    case "NumE": body.Append(NumE.ToNotice(SavedNumE, column, NumE_Updated, update)); break;
+                    case "NumF": body.Append(NumF.ToNotice(SavedNumF, column, NumF_Updated, update)); break;
+                    case "NumG": body.Append(NumG.ToNotice(SavedNumG, column, NumG_Updated, update)); break;
+                    case "NumH": body.Append(NumH.ToNotice(SavedNumH, column, NumH_Updated, update)); break;
+                    case "NumI": body.Append(NumI.ToNotice(SavedNumI, column, NumI_Updated, update)); break;
+                    case "NumJ": body.Append(NumJ.ToNotice(SavedNumJ, column, NumJ_Updated, update)); break;
+                    case "NumK": body.Append(NumK.ToNotice(SavedNumK, column, NumK_Updated, update)); break;
+                    case "NumL": body.Append(NumL.ToNotice(SavedNumL, column, NumL_Updated, update)); break;
+                    case "NumM": body.Append(NumM.ToNotice(SavedNumM, column, NumM_Updated, update)); break;
+                    case "NumN": body.Append(NumN.ToNotice(SavedNumN, column, NumN_Updated, update)); break;
+                    case "NumO": body.Append(NumO.ToNotice(SavedNumO, column, NumO_Updated, update)); break;
+                    case "NumP": body.Append(NumP.ToNotice(SavedNumP, column, NumP_Updated, update)); break;
+                    case "NumQ": body.Append(NumQ.ToNotice(SavedNumQ, column, NumQ_Updated, update)); break;
+                    case "NumR": body.Append(NumR.ToNotice(SavedNumR, column, NumR_Updated, update)); break;
+                    case "NumS": body.Append(NumS.ToNotice(SavedNumS, column, NumS_Updated, update)); break;
+                    case "NumT": body.Append(NumT.ToNotice(SavedNumT, column, NumT_Updated, update)); break;
+                    case "NumU": body.Append(NumU.ToNotice(SavedNumU, column, NumU_Updated, update)); break;
+                    case "NumV": body.Append(NumV.ToNotice(SavedNumV, column, NumV_Updated, update)); break;
+                    case "NumW": body.Append(NumW.ToNotice(SavedNumW, column, NumW_Updated, update)); break;
+                    case "NumX": body.Append(NumX.ToNotice(SavedNumX, column, NumX_Updated, update)); break;
+                    case "NumY": body.Append(NumY.ToNotice(SavedNumY, column, NumY_Updated, update)); break;
+                    case "NumZ": body.Append(NumZ.ToNotice(SavedNumZ, column, NumZ_Updated, update)); break;
+                    case "DateA": body.Append(DateA.ToNotice(SavedDateA, column, DateA_Updated, update)); break;
+                    case "DateB": body.Append(DateB.ToNotice(SavedDateB, column, DateB_Updated, update)); break;
+                    case "DateC": body.Append(DateC.ToNotice(SavedDateC, column, DateC_Updated, update)); break;
+                    case "DateD": body.Append(DateD.ToNotice(SavedDateD, column, DateD_Updated, update)); break;
+                    case "DateE": body.Append(DateE.ToNotice(SavedDateE, column, DateE_Updated, update)); break;
+                    case "DateF": body.Append(DateF.ToNotice(SavedDateF, column, DateF_Updated, update)); break;
+                    case "DateG": body.Append(DateG.ToNotice(SavedDateG, column, DateG_Updated, update)); break;
+                    case "DateH": body.Append(DateH.ToNotice(SavedDateH, column, DateH_Updated, update)); break;
+                    case "DateI": body.Append(DateI.ToNotice(SavedDateI, column, DateI_Updated, update)); break;
+                    case "DateJ": body.Append(DateJ.ToNotice(SavedDateJ, column, DateJ_Updated, update)); break;
+                    case "DateK": body.Append(DateK.ToNotice(SavedDateK, column, DateK_Updated, update)); break;
+                    case "DateL": body.Append(DateL.ToNotice(SavedDateL, column, DateL_Updated, update)); break;
+                    case "DateM": body.Append(DateM.ToNotice(SavedDateM, column, DateM_Updated, update)); break;
+                    case "DateN": body.Append(DateN.ToNotice(SavedDateN, column, DateN_Updated, update)); break;
+                    case "DateO": body.Append(DateO.ToNotice(SavedDateO, column, DateO_Updated, update)); break;
+                    case "DateP": body.Append(DateP.ToNotice(SavedDateP, column, DateP_Updated, update)); break;
+                    case "DateQ": body.Append(DateQ.ToNotice(SavedDateQ, column, DateQ_Updated, update)); break;
+                    case "DateR": body.Append(DateR.ToNotice(SavedDateR, column, DateR_Updated, update)); break;
+                    case "DateS": body.Append(DateS.ToNotice(SavedDateS, column, DateS_Updated, update)); break;
+                    case "DateT": body.Append(DateT.ToNotice(SavedDateT, column, DateT_Updated, update)); break;
+                    case "DateU": body.Append(DateU.ToNotice(SavedDateU, column, DateU_Updated, update)); break;
+                    case "DateV": body.Append(DateV.ToNotice(SavedDateV, column, DateV_Updated, update)); break;
+                    case "DateW": body.Append(DateW.ToNotice(SavedDateW, column, DateW_Updated, update)); break;
+                    case "DateX": body.Append(DateX.ToNotice(SavedDateX, column, DateX_Updated, update)); break;
+                    case "DateY": body.Append(DateY.ToNotice(SavedDateY, column, DateY_Updated, update)); break;
+                    case "DateZ": body.Append(DateZ.ToNotice(SavedDateZ, column, DateZ_Updated, update)); break;
+                    case "DescriptionA": body.Append(DescriptionA.ToNotice(SavedDescriptionA, column, DescriptionA_Updated, update)); break;
+                    case "DescriptionB": body.Append(DescriptionB.ToNotice(SavedDescriptionB, column, DescriptionB_Updated, update)); break;
+                    case "DescriptionC": body.Append(DescriptionC.ToNotice(SavedDescriptionC, column, DescriptionC_Updated, update)); break;
+                    case "DescriptionD": body.Append(DescriptionD.ToNotice(SavedDescriptionD, column, DescriptionD_Updated, update)); break;
+                    case "DescriptionE": body.Append(DescriptionE.ToNotice(SavedDescriptionE, column, DescriptionE_Updated, update)); break;
+                    case "DescriptionF": body.Append(DescriptionF.ToNotice(SavedDescriptionF, column, DescriptionF_Updated, update)); break;
+                    case "DescriptionG": body.Append(DescriptionG.ToNotice(SavedDescriptionG, column, DescriptionG_Updated, update)); break;
+                    case "DescriptionH": body.Append(DescriptionH.ToNotice(SavedDescriptionH, column, DescriptionH_Updated, update)); break;
+                    case "DescriptionI": body.Append(DescriptionI.ToNotice(SavedDescriptionI, column, DescriptionI_Updated, update)); break;
+                    case "DescriptionJ": body.Append(DescriptionJ.ToNotice(SavedDescriptionJ, column, DescriptionJ_Updated, update)); break;
+                    case "DescriptionK": body.Append(DescriptionK.ToNotice(SavedDescriptionK, column, DescriptionK_Updated, update)); break;
+                    case "DescriptionL": body.Append(DescriptionL.ToNotice(SavedDescriptionL, column, DescriptionL_Updated, update)); break;
+                    case "DescriptionM": body.Append(DescriptionM.ToNotice(SavedDescriptionM, column, DescriptionM_Updated, update)); break;
+                    case "DescriptionN": body.Append(DescriptionN.ToNotice(SavedDescriptionN, column, DescriptionN_Updated, update)); break;
+                    case "DescriptionO": body.Append(DescriptionO.ToNotice(SavedDescriptionO, column, DescriptionO_Updated, update)); break;
+                    case "DescriptionP": body.Append(DescriptionP.ToNotice(SavedDescriptionP, column, DescriptionP_Updated, update)); break;
+                    case "DescriptionQ": body.Append(DescriptionQ.ToNotice(SavedDescriptionQ, column, DescriptionQ_Updated, update)); break;
+                    case "DescriptionR": body.Append(DescriptionR.ToNotice(SavedDescriptionR, column, DescriptionR_Updated, update)); break;
+                    case "DescriptionS": body.Append(DescriptionS.ToNotice(SavedDescriptionS, column, DescriptionS_Updated, update)); break;
+                    case "DescriptionT": body.Append(DescriptionT.ToNotice(SavedDescriptionT, column, DescriptionT_Updated, update)); break;
+                    case "DescriptionU": body.Append(DescriptionU.ToNotice(SavedDescriptionU, column, DescriptionU_Updated, update)); break;
+                    case "DescriptionV": body.Append(DescriptionV.ToNotice(SavedDescriptionV, column, DescriptionV_Updated, update)); break;
+                    case "DescriptionW": body.Append(DescriptionW.ToNotice(SavedDescriptionW, column, DescriptionW_Updated, update)); break;
+                    case "DescriptionX": body.Append(DescriptionX.ToNotice(SavedDescriptionX, column, DescriptionX_Updated, update)); break;
+                    case "DescriptionY": body.Append(DescriptionY.ToNotice(SavedDescriptionY, column, DescriptionY_Updated, update)); break;
+                    case "DescriptionZ": body.Append(DescriptionZ.ToNotice(SavedDescriptionZ, column, DescriptionZ_Updated, update)); break;
+                    case "CheckA": body.Append(CheckA.ToNotice(SavedCheckA, column, CheckA_Updated, update)); break;
+                    case "CheckB": body.Append(CheckB.ToNotice(SavedCheckB, column, CheckB_Updated, update)); break;
+                    case "CheckC": body.Append(CheckC.ToNotice(SavedCheckC, column, CheckC_Updated, update)); break;
+                    case "CheckD": body.Append(CheckD.ToNotice(SavedCheckD, column, CheckD_Updated, update)); break;
+                    case "CheckE": body.Append(CheckE.ToNotice(SavedCheckE, column, CheckE_Updated, update)); break;
+                    case "CheckF": body.Append(CheckF.ToNotice(SavedCheckF, column, CheckF_Updated, update)); break;
+                    case "CheckG": body.Append(CheckG.ToNotice(SavedCheckG, column, CheckG_Updated, update)); break;
+                    case "CheckH": body.Append(CheckH.ToNotice(SavedCheckH, column, CheckH_Updated, update)); break;
+                    case "CheckI": body.Append(CheckI.ToNotice(SavedCheckI, column, CheckI_Updated, update)); break;
+                    case "CheckJ": body.Append(CheckJ.ToNotice(SavedCheckJ, column, CheckJ_Updated, update)); break;
+                    case "CheckK": body.Append(CheckK.ToNotice(SavedCheckK, column, CheckK_Updated, update)); break;
+                    case "CheckL": body.Append(CheckL.ToNotice(SavedCheckL, column, CheckL_Updated, update)); break;
+                    case "CheckM": body.Append(CheckM.ToNotice(SavedCheckM, column, CheckM_Updated, update)); break;
+                    case "CheckN": body.Append(CheckN.ToNotice(SavedCheckN, column, CheckN_Updated, update)); break;
+                    case "CheckO": body.Append(CheckO.ToNotice(SavedCheckO, column, CheckO_Updated, update)); break;
+                    case "CheckP": body.Append(CheckP.ToNotice(SavedCheckP, column, CheckP_Updated, update)); break;
+                    case "CheckQ": body.Append(CheckQ.ToNotice(SavedCheckQ, column, CheckQ_Updated, update)); break;
+                    case "CheckR": body.Append(CheckR.ToNotice(SavedCheckR, column, CheckR_Updated, update)); break;
+                    case "CheckS": body.Append(CheckS.ToNotice(SavedCheckS, column, CheckS_Updated, update)); break;
+                    case "CheckT": body.Append(CheckT.ToNotice(SavedCheckT, column, CheckT_Updated, update)); break;
+                    case "CheckU": body.Append(CheckU.ToNotice(SavedCheckU, column, CheckU_Updated, update)); break;
+                    case "CheckV": body.Append(CheckV.ToNotice(SavedCheckV, column, CheckV_Updated, update)); break;
+                    case "CheckW": body.Append(CheckW.ToNotice(SavedCheckW, column, CheckW_Updated, update)); break;
+                    case "CheckX": body.Append(CheckX.ToNotice(SavedCheckX, column, CheckX_Updated, update)); break;
+                    case "CheckY": body.Append(CheckY.ToNotice(SavedCheckY, column, CheckY_Updated, update)); break;
+                    case "CheckZ": body.Append(CheckZ.ToNotice(SavedCheckZ, column, CheckZ_Updated, update)); break;
+                    case "Comments": body.Append(Comments.ToNotice(SavedComments, column, Comments_Updated, update)); break;
+                    case "Creator": body.Append(Creator.ToNotice(SavedCreator, column, Creator_Updated, update)); break;
+                    case "Updator": body.Append(Updator.ToNotice(SavedUpdator, column, Updator_Updated, update)); break;
+                    case "CreatedTime": body.Append(CreatedTime.ToNotice(SavedCreatedTime, column, CreatedTime_Updated, update)); break;
+                }
+            });
+            return body.ToString();
         }
 
         private void SetBySession()

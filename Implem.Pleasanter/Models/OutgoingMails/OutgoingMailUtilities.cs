@@ -130,7 +130,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string Editor(string referenceType, long referenceId)
         {
-            if (FromMailAddress() == string.Empty)
+            if (MailAddressUtilities.From() == string.Empty)
             {
                 return new ResponseCollection()
                     .CloseDialog()
@@ -517,16 +517,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string FromMailAddress()
+        /// <returns></returns>
+        public static System.Net.Mail.MailAddress From()
         {
-            return Rds.ExecuteScalar_string(statements:
-                Rds.SelectMailAddresses(
-                    top: 1,
-                    column: Rds.MailAddressesColumn().MailAddress(),
-                    where: Rds.MailAddressesWhere()
-                        .OwnerId(Sessions.UserId())
-                        .OwnerType("Users"),
-                    orderBy: Rds.MailAddressesOrderBy().MailAddressId()));
+            return new System.Net.Mail.MailAddress(MailAddressUtilities.From(withFullName: true));
         }
 
         /// <summary>

@@ -297,6 +297,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Create": Code.Model_Create = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Create, definitionRow, CodeXls); break;
                     case "Model_OnCreating_Binaries": Code.Model_OnCreating_Binaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnCreating_Binaries, definitionRow, CodeXls); break;
                     case "Model_OnCreating_Users": Code.Model_OnCreating_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnCreating_Users, definitionRow, CodeXls); break;
+                    case "Model_CreatedNotice": Code.Model_CreatedNotice = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreatedNotice, definitionRow, CodeXls); break;
                     case "Model_InsertItems": Code.Model_InsertItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertItems, definitionRow, CodeXls); break;
                     case "Model_InsertItemsAfter": Code.Model_InsertItemsAfter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertItemsAfter, definitionRow, CodeXls); break;
                     case "Model_SelectIdentity": Code.Model_SelectIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SelectIdentity, definitionRow, CodeXls); break;
@@ -307,6 +308,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Update_OutgoingMails": Code.Model_Update_OutgoingMails = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Update_OutgoingMails, definitionRow, CodeXls); break;
                     case "Model_Update_Items": Code.Model_Update_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Update_Items, definitionRow, CodeXls); break;
                     case "Model_Update_Items_Wikis": Code.Model_Update_Items_Wikis = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Update_Items_Wikis, definitionRow, CodeXls); break;
+                    case "Model_OnUpdatedNotice": Code.Model_OnUpdatedNotice = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdatedNotice, definitionRow, CodeXls); break;
                     case "Model_OnUpdated_Depts": Code.Model_OnUpdated_Depts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_Depts, definitionRow, CodeXls); break;
                     case "Model_OnUpdated_Users": Code.Model_OnUpdated_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_Users, definitionRow, CodeXls); break;
                     case "Model_OnUpdated_SetSiteMenu": Code.Model_OnUpdated_SetSiteMenu = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_SetSiteMenu, definitionRow, CodeXls); break;
@@ -327,6 +329,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Delete_Sites": Code.Model_Delete_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_Sites, definitionRow, CodeXls); break;
                     case "Model_Delete_SitesItems": Code.Model_Delete_SitesItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_SitesItems, definitionRow, CodeXls); break;
                     case "Model_OnDeleted_SetSiteInfo": Code.Model_OnDeleted_SetSiteInfo = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnDeleted_SetSiteInfo, definitionRow, CodeXls); break;
+                    case "Model_OnDeletedNotice": Code.Model_OnDeletedNotice = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnDeletedNotice, definitionRow, CodeXls); break;
                     case "Model_Restore": Code.Model_Restore = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Restore, definitionRow, CodeXls); break;
                     case "Model_Restore_Item": Code.Model_Restore_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Restore_Item, definitionRow, CodeXls); break;
                     case "Model_PhysicalDelete": Code.Model_PhysicalDelete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PhysicalDelete, definitionRow, CodeXls); break;
@@ -348,7 +351,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Set": Code.Model_Set = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Set, definitionRow, CodeXls); break;
                     case "Model_PushState": Code.Model_PushState = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PushState, definitionRow, CodeXls); break;
                     case "Model_PushState_Item": Code.Model_PushState_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PushState_Item, definitionRow, CodeXls); break;
-                    case "Model_SiteId": Code.Model_SiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteId, definitionRow, CodeXls); break;
+                    case "Model_Notice": Code.Model_Notice = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Notice, definitionRow, CodeXls); break;
+                    case "Model_NoticeColumnCases": Code.Model_NoticeColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_NoticeColumnCases, definitionRow, CodeXls); break;
                     case "Model_SwitchItems": Code.Model_SwitchItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchItems, definitionRow, CodeXls); break;
                     case "Model_IndexCases": Code.Model_IndexCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IndexCases, definitionRow, CodeXls); break;
                     case "Model_IndexJsonCases": Code.Model_IndexJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IndexJsonCases, definitionRow, CodeXls); break;
@@ -3865,6 +3869,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Create;
         public string Model_OnCreating_Binaries;
         public string Model_OnCreating_Users;
+        public string Model_CreatedNotice;
         public string Model_InsertItems;
         public string Model_InsertItemsAfter;
         public string Model_SelectIdentity;
@@ -3875,6 +3880,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Update_OutgoingMails;
         public string Model_Update_Items;
         public string Model_Update_Items_Wikis;
+        public string Model_OnUpdatedNotice;
         public string Model_OnUpdated_Depts;
         public string Model_OnUpdated_Users;
         public string Model_OnUpdated_SetSiteMenu;
@@ -3895,6 +3901,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Delete_Sites;
         public string Model_Delete_SitesItems;
         public string Model_OnDeleted_SetSiteInfo;
+        public string Model_OnDeletedNotice;
         public string Model_Restore;
         public string Model_Restore_Item;
         public string Model_PhysicalDelete;
@@ -3916,7 +3923,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Set;
         public string Model_PushState;
         public string Model_PushState_Item;
-        public string Model_SiteId;
+        public string Model_Notice;
+        public string Model_NoticeColumnCases;
         public string Model_SwitchItems;
         public string Model_IndexCases;
         public string Model_IndexJsonCases;
@@ -4292,6 +4300,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Create = new CodeDefinition();
         public CodeDefinition Model_OnCreating_Binaries = new CodeDefinition();
         public CodeDefinition Model_OnCreating_Users = new CodeDefinition();
+        public CodeDefinition Model_CreatedNotice = new CodeDefinition();
         public CodeDefinition Model_InsertItems = new CodeDefinition();
         public CodeDefinition Model_InsertItemsAfter = new CodeDefinition();
         public CodeDefinition Model_SelectIdentity = new CodeDefinition();
@@ -4302,6 +4311,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Update_OutgoingMails = new CodeDefinition();
         public CodeDefinition Model_Update_Items = new CodeDefinition();
         public CodeDefinition Model_Update_Items_Wikis = new CodeDefinition();
+        public CodeDefinition Model_OnUpdatedNotice = new CodeDefinition();
         public CodeDefinition Model_OnUpdated_Depts = new CodeDefinition();
         public CodeDefinition Model_OnUpdated_Users = new CodeDefinition();
         public CodeDefinition Model_OnUpdated_SetSiteMenu = new CodeDefinition();
@@ -4322,6 +4332,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Delete_Sites = new CodeDefinition();
         public CodeDefinition Model_Delete_SitesItems = new CodeDefinition();
         public CodeDefinition Model_OnDeleted_SetSiteInfo = new CodeDefinition();
+        public CodeDefinition Model_OnDeletedNotice = new CodeDefinition();
         public CodeDefinition Model_Restore = new CodeDefinition();
         public CodeDefinition Model_Restore_Item = new CodeDefinition();
         public CodeDefinition Model_PhysicalDelete = new CodeDefinition();
@@ -4343,7 +4354,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Set = new CodeDefinition();
         public CodeDefinition Model_PushState = new CodeDefinition();
         public CodeDefinition Model_PushState_Item = new CodeDefinition();
-        public CodeDefinition Model_SiteId = new CodeDefinition();
+        public CodeDefinition Model_Notice = new CodeDefinition();
+        public CodeDefinition Model_NoticeColumnCases = new CodeDefinition();
         public CodeDefinition Model_SwitchItems = new CodeDefinition();
         public CodeDefinition Model_IndexCases = new CodeDefinition();
         public CodeDefinition Model_IndexJsonCases = new CodeDefinition();
