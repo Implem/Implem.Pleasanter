@@ -45,7 +45,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             MonitorChangesColumns = columns;
         }
 
-        public void Send(string title, string body = "")
+        public void Send(string title, string body)
         {
             var from = MailAddressUtilities.From(withFullName: true);
             switch (Type)
