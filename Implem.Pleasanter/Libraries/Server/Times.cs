@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Libraries.Server
                 : value;
         }
 
-        public static int DateDiff(Times.Types interval, DateTime from, DateTime to)
+        public static int DateDiff(Types interval, DateTime from, DateTime to)
         {
             if (!InRange(from, to))
             {
@@ -45,17 +45,17 @@ namespace Implem.Pleasanter.Libraries.Server
             }
             switch (interval)
             {
-                case Times.Types.Seconds:
+                case Types.Seconds:
                     return Math.Ceiling((to - from).TotalSeconds).ToInt();
-                case Times.Types.Minutes:
+                case Types.Minutes:
                     return Math.Ceiling((to - from).TotalMinutes).ToInt();
-                case Times.Types.Hours:
+                case Types.Hours:
                     return Math.Ceiling((to - from).TotalHours).ToInt();
-                case Times.Types.Days:
+                case Types.Days:
                     return Math.Ceiling((to - from).TotalDays).ToInt();
-                case Times.Types.Months:
+                case Types.Months:
                     return to.Month - from.Month + (to.Year * 12 - from.Year * 12);
-                case Times.Types.Years:
+                case Types.Years:
                     return to.Year - from.Year;
                 default:
                     return 0;
