@@ -111,7 +111,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
                     aggregations: resultCollection.Aggregations))
-                .WindowScrollTop().ToJson();
+                .ToJson();
         }
 
         private static ResultCollection ResultCollection(
@@ -1888,7 +1888,7 @@ namespace Implem.Pleasanter.Models
                     siteSettings: siteSettings,
                     aggregations: resultCollection.Aggregations))
                 .Invoke("drawTimeSeries")
-                .WindowScrollTop().ToJson();
+                .ToJson();
         }
 
         /// <summary>

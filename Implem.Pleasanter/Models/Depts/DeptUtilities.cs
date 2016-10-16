@@ -145,7 +145,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
                     aggregations: deptCollection.Aggregations))
-                .WindowScrollTop().ToJson();
+                .ToJson();
         }
 
         private static DeptCollection DeptCollection(

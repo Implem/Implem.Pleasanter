@@ -111,7 +111,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
                     aggregations: issueCollection.Aggregations))
-                .WindowScrollTop().ToJson();
+                .ToJson();
         }
 
         private static IssueCollection IssueCollection(
@@ -2016,7 +2016,7 @@ namespace Implem.Pleasanter.Models
                     siteSettings: siteSettings,
                     aggregations: issueCollection.Aggregations))
                 .Invoke("drawGantt")
-                .WindowScrollTop().ToJson();
+                .ToJson();
         }
 
         /// <summary>
@@ -2122,7 +2122,7 @@ namespace Implem.Pleasanter.Models
                     siteSettings: siteSettings,
                     aggregations: issueCollection.Aggregations))
                 .Invoke("drawBurnDown")
-                .WindowScrollTop().ToJson();
+                .ToJson();
         }
 
         /// <summary>
@@ -2241,7 +2241,7 @@ namespace Implem.Pleasanter.Models
                     siteSettings: siteSettings,
                     aggregations: issueCollection.Aggregations))
                 .Invoke("drawTimeSeries")
-                .WindowScrollTop().ToJson();
+                .ToJson();
         }
 
         /// <summary>

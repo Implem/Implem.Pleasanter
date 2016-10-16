@@ -149,7 +149,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     siteSettings: siteSettings,
                     aggregations: userCollection.Aggregations))
-                .WindowScrollTop().ToJson();
+                .ToJson();
         }
 
         private static UserCollection UserCollection(
