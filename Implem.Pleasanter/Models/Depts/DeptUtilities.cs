@@ -123,12 +123,12 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "Depts")
                             .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
-                .MoveDialog(bulk: true)
-                .Div(attributes: new HtmlAttributes()
-                    .Id("ExportSettingsDialog")
-                    .Class("dialog")
-                    .Title(Displays.ExportSettings())))
-                .ToString();
+                    .MoveDialog(bulk: true)
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("ExportSettingsDialog")
+                        .Class("dialog")
+                        .Title(Displays.ExportSettings())))
+                    .ToString();
         }
 
         public static string IndexJson(SiteSettings siteSettings, Permissions.Types permissionType)
