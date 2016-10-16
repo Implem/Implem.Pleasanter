@@ -304,6 +304,7 @@
     <Compile Include="Libraries\Responses\Messages.cs" />
     <Compile Include="Libraries\Responses\Navigations.cs" />
     <Compile Include="Libraries\Responses\Response.cs" />
+    <Compile Include="Libraries\Responses\ResponseCollection.cs" />
     <Compile Include="Libraries\Responses\ResponseComment.cs" />
     <Compile Include="Libraries\Responses\ResponseFile.cs" />
     <Compile Include="Libraries\Responses\ResponseFileNames.cs" />
