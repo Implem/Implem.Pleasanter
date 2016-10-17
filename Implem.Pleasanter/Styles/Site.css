@@ -222,9 +222,9 @@ pre{
 }
 
 #Navigations{
-    height:34px;
-    margin:3px 0px;
-    padding:0px 5px 0px 20px;
+    height:30px;
+    margin:5px 0px;
+    padding:0px 5px 0px 15px;
     border:none;
     position:absolute;
     top:0px;
@@ -238,17 +238,17 @@ pre{
 }
 
 #NavigationMenu > li{
-    width:160px;
-    height:34px;
+    width:158px;
+    height:30px;
     display:block;
     float:left;
     position:relative;
 }
 
 #NavigationMenu > li > div{
-    height:34px;
+    height:30px;
     text-align:center;
-    line-height:34px;
+    line-height:30px;
     color:white;
     cursor:pointer;
 }
@@ -262,7 +262,7 @@ pre{
 }
 
 #NavigationMenu > li > div > a{
-    height:34px;
+    height:30px;
     display:block;
     color:white;
     text-decoration:none;
@@ -273,11 +273,11 @@ pre{
 }
 
 #NavigationMenu .menu{
-    width:160px;
+    width:158px;
     display:none;
     border-top:none !important;
     position:absolute;
-    top:34px;
+    top:30px;
     right:0px;
     border-radius:0px 0px 5px 5px;
     z-index:3;
@@ -302,7 +302,7 @@ pre{
 }
 
 #Search{
-    height:28px;
+    height:24px;
 }
 
 #Application{
