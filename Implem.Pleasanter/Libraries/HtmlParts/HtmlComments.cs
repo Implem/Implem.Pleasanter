@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder TextArea(this HtmlBuilder hb, Versions.VerTypes verType)
         {
             return verType == Versions.VerTypes.Latest
-                ? hb.Div(action: () =>
+                ? hb.Div(id: "CommentField", action: () =>
                     hb.TextArea(
                         id: "Comments",
                         css: "control-textarea upload-image",

@@ -1809,6 +1809,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_MailEditorTabsContainer": Css._sharp_MailEditorTabsContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_MailEditorTabsContainer, definitionRow, CssXls); break;
                     case "_sharp_EditorComments": Css._sharp_EditorComments = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_EditorComments, definitionRow, CssXls); break;
                     case "_sharp_EditorComments_space__dot_title_header": Css._sharp_EditorComments_space__dot_title_header = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_EditorComments_space__dot_title_header, definitionRow, CssXls); break;
+                    case "_sharp_CommentField": Css._sharp_CommentField = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_CommentField, definitionRow, CssXls); break;
                     case "_sharp_OutgoingMailsForm": Css._sharp_OutgoingMailsForm = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_OutgoingMailsForm, definitionRow, CssXls); break;
                     case "_sharp_OutgoingMailsForm_space___space__dot_item": Css._sharp_OutgoingMailsForm_space___space__dot_item = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_OutgoingMailsForm_space___space__dot_item, definitionRow, CssXls); break;
                     case "_sharp_OutgoingMailsForm_space__dot_content": Css._sharp_OutgoingMailsForm_space__dot_content = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_OutgoingMailsForm_space__dot_content, definitionRow, CssXls); break;
@@ -6716,6 +6717,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_MailEditorTabsContainer;
         public string _sharp_EditorComments;
         public string _sharp_EditorComments_space__dot_title_header;
+        public string _sharp_CommentField;
         public string _sharp_OutgoingMailsForm;
         public string _sharp_OutgoingMailsForm_space___space__dot_item;
         public string _sharp_OutgoingMailsForm_space__dot_content;
@@ -7095,6 +7097,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_MailEditorTabsContainer = new CssDefinition();
         public CssDefinition _sharp_EditorComments = new CssDefinition();
         public CssDefinition _sharp_EditorComments_space__dot_title_header = new CssDefinition();
+        public CssDefinition _sharp_CommentField = new CssDefinition();
         public CssDefinition _sharp_OutgoingMailsForm = new CssDefinition();
         public CssDefinition _sharp_OutgoingMailsForm_space___space__dot_item = new CssDefinition();
         public CssDefinition _sharp_OutgoingMailsForm_space__dot_content = new CssDefinition();
