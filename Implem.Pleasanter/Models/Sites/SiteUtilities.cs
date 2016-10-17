@@ -2124,30 +2124,32 @@ namespace Implem.Pleasanter.Models
         {
             return hb.TBody(action: () =>
             {
-                siteSettings.Notifications.ForEach(notification =>
-                {
-                    hb.Tr(
-                        attributes: new HtmlAttributes()
-                            .Class("grid-row not-link")
-                            .DataId(notification.Type.ToInt().ToString()),
-                        action: () => hb
-                            .Td(action: () => hb
-                                .Text(text: Displays.Get(notification.Type.ToString())))
-                            .Td(action: () => hb
-                                .Text(text: notification.Prefix))
-                            .Td(action: () => hb
-                                .Text(text: notification.Address))
-                            .Td(action: () => hb
-                                .Text(text: notification.MonitorChangesColumns
-                                    .Select(o => siteSettings.GetColumn(o).LabelText)
-                                    .Join(", ")))
-                            .Td(action: () => hb
-                                .Button(
-                                    controlCss: "button-icon delete",
-                                    text: Displays.Delete(),
-                                    dataId: notification.Type.ToInt().ToString(),
-                                    icon: "ui-icon-trash")));
-                });
+                siteSettings.Notifications
+                    .Select((o, i) => new { Notification = o, Id = i })
+                    .ForEach(data =>
+                    {
+                        hb.Tr(
+                            attributes: new HtmlAttributes()
+                                .Class("grid-row not-link")
+                                .DataId(data.Id.ToString()),
+                            action: () => hb
+                                .Td(action: () => hb
+                                    .Text(text: Displays.Get(data.Notification.Type.ToString())))
+                                .Td(action: () => hb
+                                    .Text(text: data.Notification.Prefix))
+                                .Td(action: () => hb
+                                    .Text(text: data.Notification.Address))
+                                .Td(action: () => hb
+                                    .Text(text: data.Notification.MonitorChangesColumns
+                                        .Select(o => siteSettings.GetColumn(o).LabelText)
+                                        .Join(", ")))
+                                .Td(action: () => hb
+                                    .Button(
+                                        controlCss: "button-icon delete",
+                                        text: Displays.Delete(),
+                                        dataId: data.Id.ToString(),
+                                        icon: "ui-icon-trash")));
+                    });
             });
         }
 

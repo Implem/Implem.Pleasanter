@@ -786,21 +786,28 @@ namespace Implem.Pleasanter.Models
         private void OpenNotificationDialog(ResponseCollection responseCollection, string controlId)
         {
             var notification = controlId == "EditNotification"
-                ? SiteSettings.Notifications.FirstOrDefault(
-                    o => o.Type == (Notification.Types)Forms.Int("NotificationType"))
+                ? GetNotification(Forms.Int("NotificationId"))
                 : new Notification(
                     Notification.Types.Mail,
                     string.Empty,
                     string.Empty,
                     SiteSettings.EditorColumnsOrder
                         .Concat(new List<string> { "Comments" }).ToList());
-            Session_MonitorChangesColumns(notification.MonitorChangesColumns);
-            responseCollection
-                .Html("#NotificationDialog", SiteUtilities.NotificationDialog(
-                    siteSettings: SiteSettings,
-                    controlId: Forms.ControlId(),
-                    notification: notification))
-                .Invoke("validateSites");
+            if (notification == null)
+            {
+                responseCollection.Message(Messages.NotFound());
+            }
+            else
+            {
+
+                Session_MonitorChangesColumns(notification.MonitorChangesColumns);
+                responseCollection
+                    .Html("#NotificationDialog", SiteUtilities.NotificationDialog(
+                        siteSettings: SiteSettings,
+                        controlId: Forms.ControlId(),
+                        notification: notification))
+                    .Invoke("validateSites");
+            }
         }
 
         /// <summary>
@@ -846,21 +853,12 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void CreateNotification(ResponseCollection responseCollection, string controlId)
         {
-            var type = (Notification.Types)Forms.Int("NotificationType");
-            var notification = GetNotification(type);
-            if (notification != null)
-            {
-                responseCollection.Message(Messages.AlreadyAdded());
-            }
-            else
-            {
-                SiteSettings.Notifications.Add(new Notification(
-                    type,
-                    Forms.Data("NotificationPrefix"),
-                    Forms.Data("NotificationAddress"),
-                    Session_MonitorChangesColumns()));
-                SetNotificationsResponseCollection(responseCollection);
-            }
+            SiteSettings.Notifications.Add(new Notification(
+                (Notification.Types)Forms.Int("NotificationType"),
+                Forms.Data("NotificationPrefix"),
+                Forms.Data("NotificationAddress"),
+                Session_MonitorChangesColumns()));
+            SetNotificationsResponseCollection(responseCollection);
         }
 
         /// <summary>
@@ -868,7 +866,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void UpdateNotification(ResponseCollection responseCollection, string controlId)
         {
-            var notification = GetNotification((Notification.Types)Forms.Int("NotificationType"));
+            var notification = GetNotification(Forms.Int("NotificationId"));
             if (notification == null)
             {
                 responseCollection.Message(Messages.NotFound());
@@ -888,7 +886,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void DeleteNotification(ResponseCollection responseCollection, string controlId)
         {
-            var notification = GetNotification((Notification.Types)Forms.Int("NotificationType"));
+            var notification = GetNotification(Forms.Int("NotificationId"));
             if (notification == null)
             {
                 responseCollection.Message(Messages.NotFound());
@@ -903,9 +901,11 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private Notification GetNotification(Notification.Types type)
+        private Notification GetNotification(int id)
         {
-            return SiteSettings.Notifications.FirstOrDefault(o => o.Type == type);
+            return SiteSettings.Notifications.Count > id
+                ? SiteSettings.Notifications[id]
+                : null;
         }
 
         /// <summary>
@@ -926,7 +926,7 @@ namespace Implem.Pleasanter.Models
         private void SetMonitorChangesColumns(
             ResponseCollection responseCollection, string controlId)
         {
-            var notification = GetNotification((Notification.Types)Forms.Int("NotificationType"));
+            var notification = GetNotification(Forms.Int("NotificationId"));
             MonitorChangesColumns = Session_MonitorChangesColumns();
             if (notification == null && controlId == "EditNotification")
             {

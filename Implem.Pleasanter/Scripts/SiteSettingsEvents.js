@@ -34,13 +34,13 @@
     });
     $(document).on('click', '#NotificationSettings .grid-row', function () {
         var $control = $(this);
-        $p.getData($control).NotificationType = $control.attr('data-id');
+        $p.getData($control).NotificationId = $control.attr('data-id');
         $p.openNotificationDialog($('#EditNotification'), '#NotificationDialog');
     });
     $(document).on('click', '#NotificationSettings .delete', function (e) {
         var $control = $(this);
         e.stopPropagation();
-        $p.getData($control).NotificationType = $control.attr('data-id');
+        $p.getData($control).NotificationId = $control.attr('data-id');
         $p.send($('#DeleteNotification'));
     });
 });
