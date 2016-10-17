@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Models;
@@ -12,6 +13,7 @@ namespace Implem.Pleasanter.Libraries.Settings
     public class Notification
     {
         public Types Type;
+        public string Prefix;
         public string Address;
         public List<string> MonitorChangesColumns;
 
@@ -21,9 +23,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             Slack = 2
         }
 
-        public Notification(Types type, string address, List<string> monitorChangesColumns)
+        public Notification(
+            Types type, string prefix, string address, List<string> monitorChangesColumns)
         {
             Type = type;
+            Prefix = prefix;
             Address = address;
             MonitorChangesColumns = monitorChangesColumns;
             MonitorChangesColumns = monitorChangesColumns;
@@ -39,13 +43,14 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
         }
 
-        public void Update(string address, List<string> columns)
+        public void Update(string prefix, string address, List<string> columns)
         {
+            Prefix = prefix;
             Address = address;
             MonitorChangesColumns = columns;
         }
 
-        public void Send(string title, string body)
+        public void Send(string title, string url, string body)
         {
             var from = MailAddressUtilities.From(withFullName: true);
             switch (Type)
@@ -54,8 +59,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     new OutgoingMailModel()
                     {
                         SiteSettings = SiteSettingsUtility.OutgoingMailsSiteSettings(),
-                        Title = new Title(title),
-                        Body = body,
+                        Title = new Title(Prefix + title),
+                        Body = "{0}\n{1}".Params(url, body),
                         From = new System.Net.Mail.MailAddress(
                             Mails.Addresses.BadAddress(from) == string.Empty
                                 ? from
@@ -64,7 +69,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     }.Send();
                     break;
                 case Types.Slack:
-                    new Slack("*" + title + "*\n" + body, from).Send(Address);
+                    new Slack("*{0}{1}*\n{2}\n{3}".Params(Prefix, title, url, body), from)
+                        .Send(Address);
                     break;
                 default:
                     break;

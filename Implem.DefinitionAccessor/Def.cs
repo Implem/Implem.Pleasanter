@@ -2867,6 +2867,8 @@ namespace Implem.DefinitionAccessor
                     case "Quantity_ja": Display.Quantity_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Quantity_ja, definitionRow, DisplayXls); break;
                     case "SuffixCopy": Display.SuffixCopy = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SuffixCopy, definitionRow, DisplayXls); break;
                     case "SuffixCopy_ja": Display.SuffixCopy_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SuffixCopy_ja, definitionRow, DisplayXls); break;
+                    case "Prefix": Display.Prefix = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Prefix, definitionRow, DisplayXls); break;
+                    case "Prefix_ja": Display.Prefix_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Prefix_ja, definitionRow, DisplayXls); break;
                     case "View": Display.View = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.View, definitionRow, DisplayXls); break;
                     case "View_ja": Display.View_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.View_ja, definitionRow, DisplayXls); break;
                     case "Grid": Display.Grid = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Grid, definitionRow, DisplayXls); break;
@@ -8179,6 +8181,8 @@ namespace Implem.DefinitionAccessor
         public string Quantity_ja;
         public string SuffixCopy;
         public string SuffixCopy_ja;
+        public string Prefix;
+        public string Prefix_ja;
         public string View;
         public string View_ja;
         public string Grid;
@@ -8849,6 +8853,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition Quantity_ja = new DisplayDefinition();
         public DisplayDefinition SuffixCopy = new DisplayDefinition();
         public DisplayDefinition SuffixCopy_ja = new DisplayDefinition();
+        public DisplayDefinition Prefix = new DisplayDefinition();
+        public DisplayDefinition Prefix_ja = new DisplayDefinition();
         public DisplayDefinition View = new DisplayDefinition();
         public DisplayDefinition View_ja = new DisplayDefinition();
         public DisplayDefinition Grid = new DisplayDefinition();

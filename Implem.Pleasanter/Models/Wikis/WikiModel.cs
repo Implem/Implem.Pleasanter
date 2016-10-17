@@ -407,12 +407,15 @@ namespace Implem.Pleasanter.Models
         private void Notice(string type)
         {
             var title = WikiUtilities.TitleDisplayValue(SiteSettings, this);
+            var url = Url.AbsoluteUri().Replace(
+                Url.AbsolutePath(), Navigations.ItemEdit(WikiId));
             switch (type)
             {
                 case "Created":
                     SiteSettings.Notifications.ForEach(notification =>
                         notification.Send(
                             Displays.Created(title).ToString(),
+                            url,
                             NoticeBody(notification)));
                     break;
                 case "Updated":
@@ -423,6 +426,7 @@ namespace Implem.Pleasanter.Models
                         {
                             notification.Send(
                                 Displays.Updated(title).ToString(),
+                                url,
                                 body);
                         }
                     });
@@ -431,6 +435,7 @@ namespace Implem.Pleasanter.Models
                     SiteSettings.Notifications.ForEach(notification =>
                         notification.Send(
                             Displays.Deleted(title).ToString(),
+                            url,
                             NoticeBody(notification)));
                     break;
             }

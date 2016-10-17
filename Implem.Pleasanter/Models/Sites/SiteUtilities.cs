@@ -1995,6 +1995,11 @@ namespace Implem.Pleasanter.Models
                         selectedValue: notification.Type.ToInt().ToString(),
                         disabled: controlId == "EditNotification")
                     .FieldTextBox(
+                        controlId: "NotificationPrefix",
+                        controlCss: " must-transport",
+                        labelText: Displays.Prefix(),
+                        text: notification.Prefix)
+                    .FieldTextBox(
                         controlId: "NotificationAddress",
                         fieldCss: "field-wide",
                         controlCss: " must-transport",
@@ -2101,6 +2106,8 @@ namespace Implem.Pleasanter.Models
                         .Th(action: () => hb
                             .Text(text: Displays.NotificationType()))
                         .Th(action: () => hb
+                            .Text(text: Displays.Prefix()))
+                        .Th(action: () => hb
                             .Text(text: Displays.Address()))
                         .Th(action: () => hb
                             .Text(text: Displays.NotificationSettingsEditor()))
@@ -2126,6 +2133,8 @@ namespace Implem.Pleasanter.Models
                         action: () => hb
                             .Td(action: () => hb
                                 .Text(text: Displays.Get(notification.Type.ToString())))
+                            .Td(action: () => hb
+                                .Text(text: notification.Prefix))
                             .Td(action: () => hb
                                 .Text(text: notification.Address))
                             .Td(action: () => hb
