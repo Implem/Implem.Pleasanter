@@ -32,7 +32,7 @@ namespace Implem.Pleasanter.Libraries.Migrators
             {
                 Rds.ExecuteNonQuery(statements: Rds.UpdateSites(
                     where: Rds.SitesWhere().SiteId(siteId),
-                    param: Rds.SitesParam().SiteSettings(siteSettings.ToJson()),
+                    param: Rds.SitesParam().SiteSettings(siteSettings.RecordingJson()),
                     addUpdatedTimeParam: false,
                     addUpdatorParam: false));
             }
