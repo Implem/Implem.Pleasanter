@@ -2,7 +2,6 @@
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
@@ -28,7 +27,18 @@ namespace Implem.Pleasanter.Libraries.Search
                         Rds.ExecuteNonQuery(statements:
                             Statements(data.SearchIndexCollection, id, data.First));
                     }
-                    catch (Exception e) { new SysLogModel(e); }
+                    catch (System.Data.SqlClient.SqlException e)
+                    {
+                        switch (e.Number)
+                        {
+                            case 2627: break;
+                            default: new SysLogModel(e); break;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        new SysLogModel(e);
+                    }
                 });
         }
 
