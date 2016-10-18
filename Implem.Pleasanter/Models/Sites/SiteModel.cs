@@ -799,7 +799,6 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-
                 Session_MonitorChangesColumns(notification.MonitorChangesColumns);
                 responseCollection
                     .Html("#NotificationDialog", SiteUtilities.NotificationDialog(
