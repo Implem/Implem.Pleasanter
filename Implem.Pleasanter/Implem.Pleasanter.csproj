@@ -279,6 +279,7 @@
     <Compile Include="Libraries\Mails\Addresses.cs" />
     <Compile Include="Libraries\Migrators\SiteSettingsMigrator.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_001.cs" />
+    <Compile Include="Libraries\Migrators\SiteSettings\Version1_003.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_002.cs" />
     <Compile Include="Libraries\Models\Aggregation.cs" />
     <Compile Include="Libraries\Models\Aggregations.cs" />
@@ -330,6 +331,7 @@
     <Compile Include="Libraries\Settings\Choice.cs" />
     <Compile Include="Libraries\Settings\Column.cs" />
     <Compile Include="Libraries\Settings\ColumnUtilities.cs" />
+    <Compile Include="Libraries\Settings\Link.cs" />
     <Compile Include="Libraries\Settings\Notification.cs" />
     <Compile Include="Libraries\Settings\SiteSettings.cs" />
     <Compile Include="Libraries\Settings\SiteSettingsUtility.cs" />

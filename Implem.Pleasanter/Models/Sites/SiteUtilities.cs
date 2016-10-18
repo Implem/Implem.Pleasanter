@@ -2306,11 +2306,11 @@ namespace Implem.Pleasanter.Models
                 fieldId: "SummaryLinkColumnField",
                 controlId: "SummaryLinkColumn",
                 labelText: Displays.SummaryLinkColumn(),
-                optionCollection: siteSettings.LinkColumnSiteIdHash
-                    .Where(o => o.Value == siteId)
+                optionCollection: siteSettings.LinkCollection
+                    .Where(o => o.SiteId == siteId)
                     .ToDictionary(
-                        o => o.Key.Split('_')._1st(),
-                        o => siteSettings.GetColumn(o.Key.Split('_')._1st()).LabelText),
+                        o => o.ColumnName,
+                        o => siteSettings.GetColumn(o.ColumnName).LabelText),
                 action: "SetSiteSettings",
                 method: "post");
         }

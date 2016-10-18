@@ -48,7 +48,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<Column> ColumnCollection;
         public List<Notification> Notifications;
         public List<Aggregation> AggregationCollection;
-        public Dictionary<string, long> LinkColumnSiteIdHash;
+        public List<Link> LinkCollection;
         public List<Summary> SummaryCollection;
         public Dictionary<string, Formula> FormulaHash;
         public string TitleSeparator = ")";
@@ -62,6 +62,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string GridScript;
         public string NewScript;
         public string EditScript;
+        // compatibility Version 1.002
+        public Dictionary<string, long> LinkColumnSiteIdHash;
+
 
         public SiteSettings()
         {
@@ -93,7 +96,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             UpdateColumnHash();
             if (Notifications == null) Notifications = new List<Notification>();
             if (AggregationCollection == null) AggregationCollection = new List<Aggregation>();
-            if (LinkColumnSiteIdHash == null) LinkColumnSiteIdHash = new Dictionary<string, long>();
+            if (LinkCollection == null) LinkCollection = new List<Link>();
             if (SummaryCollection == null) SummaryCollection = new List<Summary>();
             if (FormulaHash == null) FormulaHash = new Dictionary<string, Formula>();
         }
@@ -133,7 +136,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (self.ColumnCollection.SequenceEqual(def.ColumnCollection)) self.ColumnCollection = null;
             if (!self.Notifications.Any()) self.Notifications = null;
             if (self.AggregationCollection.SequenceEqual(def.AggregationCollection)) self.AggregationCollection = null;
-            if (self.LinkColumnSiteIdHash.SequenceEqual(def.LinkColumnSiteIdHash)) self.LinkColumnSiteIdHash = null;
+            if (self.LinkCollection.SequenceEqual(def.LinkCollection)) self.LinkCollection = null;
             if (self.SummaryCollection.SequenceEqual(def.SummaryCollection)) self.SummaryCollection = null;
             if (self.FormulaHash.SequenceEqual(def.FormulaHash)) self.FormulaHash = null;
             if (AddressBook == string.Empty) self.AddressBook = null;
@@ -793,8 +796,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             column.ChoicesText = value;
             column.Link = false;
-            LinkColumnSiteIdHash.RemoveAll((key, o) =>
-                key.StartsWith(column.ColumnName + "_"));
+            LinkCollection.RemoveAll(o => o.ColumnName == column.ColumnName);
             value.SplitReturn()
                 .Select(o => o.Trim())
                 .Where(o => o.RegexExists(@"^\[\[[0-9]*\]\]$"))
@@ -802,13 +804,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ForEach(siteId =>
                 {
                     column.Link = true;
-                    var key = column.ColumnName + "_" + siteId;
-                    if (!LinkColumnSiteIdHash.ContainsKey(key))
+                    if (!LinkCollection.Any(o =>
+                        o.ColumnName == column.ColumnName && o.SiteId == siteId))
                     {
                         if (new SiteModel(siteId).AccessStatus ==
                             Databases.AccessStatuses.Selected)
                         {
-                            LinkColumnSiteIdHash.Add(key, siteId);
+                            LinkCollection.Add(new Link(column.ColumnName, siteId));
                         }
                     }
                 });
@@ -816,7 +818,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         
         public void SetChoicesByLinks()
         {
-            if (LinkColumnSiteIdHash?.Count > 0)
+            if (LinkCollection?.Count > 0)
             {
                 var dataRows = Rds.ExecuteTable(
                     statements: Rds.SelectItems(
@@ -828,26 +830,24 @@ namespace Implem.Pleasanter.Libraries.Settings
                         where: Rds.ItemsWhere()
                             .ReferenceType("Sites", _operator: "<>")
                             .SiteId_In(
-                                value: LinkColumnSiteIdHash
-                                    .Select(o => o.Value)
+                                value: LinkCollection
+                                    .Select(o => o.SiteId)
                                     .Distinct()),
                         orderBy: Rds.ItemsOrderBy()
                             .Title())).AsEnumerable();
-                LinkColumnSiteIdHash.ForEach(linkColumnSiteId =>
-                    SetChoicesByLinks(linkColumnSiteId, dataRows));
+                LinkCollection.ForEach(link =>
+                    SetChoicesByLinks(link, dataRows));
             }
         }
 
         private void SetChoicesByLinks(
-            KeyValuePair<string, long> linkColumnSiteId, EnumerableRowCollection<DataRow> dataRows)
+            Link link, EnumerableRowCollection<DataRow> dataRows)
         {
-            var columnKey = linkColumnSiteId.Key;
-            var columnName = columnKey.Substring(0, columnKey.LastIndexOf('_'));
-            var column = GetColumn(columnName);
+            var column = GetColumn(link.ColumnName);
             column.ChoicesText = column.ChoicesText.SplitReturn()
                 .Select(o => o.Trim())
                 .Where(o => o != string.Empty)
-                .Select(o => LinkedChoices(linkColumnSiteId.Value, dataRows, o))
+                .Select(o => LinkedChoices(link.SiteId, dataRows, o))
                 .Join("\n");
         }
 
@@ -879,8 +879,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public EnumerableRowCollection<DataRow> SummarySiteDataRows()
         {
-            if (LinkColumnSiteIdHash == null) return null;
-            var siteIdCollection = LinkColumnSiteIdHash.Values.ToList<long>();
+            if (LinkCollection == null) return null;
             return Rds.ExecuteTable(statements: Rds.SelectSites(
                 column: Rds.SitesColumn()
                     .SiteId()
@@ -889,7 +888,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .SiteSettings(),
                 where: Rds.SitesWhere()
                     .TenantId(Sessions.TenantId())
-                    .SiteId_In(siteIdCollection)))
+                    .SiteId_In(LinkCollection.Select(o => o.SiteId))))
                         .AsEnumerable();
         }
 

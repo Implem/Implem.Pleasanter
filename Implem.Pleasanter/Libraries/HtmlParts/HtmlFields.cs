@@ -275,11 +275,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static bool IsLinked(SiteSettings siteSettings, Column column)
         {
-            var fromSiteId = Forms.Data("FromSiteId");
+            var fromSiteId = Forms.Long("FromSiteId");
             return
-                fromSiteId != string.Empty &&
-                siteSettings.LinkColumnSiteIdHash.ContainsKey(
-                    column.ColumnName + "_" + fromSiteId);
+                fromSiteId != 0 &&
+                siteSettings.LinkCollection.Any(o =>
+                    o.ColumnName == column.ColumnName && o.SiteId == fromSiteId);
         }
 
         private static ControlTypes ControlType(Column column)

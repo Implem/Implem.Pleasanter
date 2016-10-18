@@ -266,8 +266,8 @@ namespace Implem.Pleasanter.Models
                         .MaintenanceTarget(true)),
                     Rds.PhysicalDeleteLinks(
                         where: Rds.LinksWhere().SourceId(SiteId)),
-                    LinkUtilities.Insert(SiteSettings.LinkColumnSiteIdHash
-                        .Select(o => o.Value)
+                    LinkUtilities.Insert(SiteSettings.LinkCollection
+                        .Select(o => o.SiteId)
                         .Distinct()
                         .ToDictionary(o => o, o => SiteId))
                 });
