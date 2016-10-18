@@ -91,7 +91,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             bool updated,
             bool update)
         {
-            return column.DisplayExport(DisplayValue).ToNotice(
+            return column.DisplayExport(DisplayValue).ToNoticeLine(
                 column.DisplayExport(saved.ToLocal()),
                 column,
                 updated,

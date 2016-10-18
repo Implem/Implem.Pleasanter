@@ -147,7 +147,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             bool updated,
             bool update)
         {
-            return column.Display(Value, unit: true).ToNotice(
+            return column.Display(Value, unit: true).ToNoticeLine(
                 column.Display(saved, unit: true),
                 column,
                 updated,

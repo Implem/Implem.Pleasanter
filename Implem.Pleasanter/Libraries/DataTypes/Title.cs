@@ -86,7 +86,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             bool updated,
             bool update)
         {
-            return Value.ToNotice(
+            return Value.ToNoticeLine(
                 saved,
                 column,
                 updated,

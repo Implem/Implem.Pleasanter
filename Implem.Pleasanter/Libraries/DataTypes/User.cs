@@ -129,7 +129,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             bool updated,
             bool update)
         {
-            return FullName().ToNotice(
+            return FullName().ToNoticeLine(
                 SiteInfo.User(saved).FullName(),
                 column,
                 updated,

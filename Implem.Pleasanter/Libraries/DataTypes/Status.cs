@@ -62,7 +62,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             bool updated,
             bool update)
         {
-            return column.Choice(Value.ToString()).Text.ToNotice(
+            return column.Choice(Value.ToString()).Text.ToNoticeLine(
                 column.Choice(saved.ToString()).Text,
                 column,
                 updated,

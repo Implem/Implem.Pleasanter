@@ -13,7 +13,7 @@ namespace Implem.Pleasanter.Libraries.Converts
             bool updated,
             bool update)
         {
-            return self.ToString().ToNotice(
+            return self.ToString().ToNoticeLine(
                 saved.ToString(),
                 column,
                 updated,
@@ -27,7 +27,7 @@ namespace Implem.Pleasanter.Libraries.Converts
             bool updated,
             bool update)
         {
-            return self.ToString().ToNotice(
+            return self.ToString().ToNoticeLine(
                 saved.ToString(),
                 column,
                 updated,
@@ -41,7 +41,7 @@ namespace Implem.Pleasanter.Libraries.Converts
             bool updated,
             bool update)
         {
-            return self.ToString().ToNotice(
+            return self.ToString().ToNoticeLine(
                 saved.ToString(),
                 column,
                 updated,
@@ -55,7 +55,7 @@ namespace Implem.Pleasanter.Libraries.Converts
             bool updated,
             bool update)
         {
-            return column.Display(self, unit: true).ToNotice(
+            return column.Display(self, unit: true).ToNoticeLine(
                 column.Display(saved, unit: true),
                 column,
                 updated,
@@ -69,7 +69,7 @@ namespace Implem.Pleasanter.Libraries.Converts
             bool updated,
             bool update)
         {
-            return column.DisplayControl(self.ToLocal()).ToNotice(
+            return column.DisplayControl(self.ToLocal()).ToNoticeLine(
                 column.DisplayControl(saved.ToLocal()),
                 column,
                 updated,
@@ -77,6 +77,26 @@ namespace Implem.Pleasanter.Libraries.Converts
         }
 
         public static string ToNotice(
+            this string self,
+            string saved,
+            Column column,
+            bool updated,
+            bool update)
+        {
+            return column.HasChoices()
+                ? column.Choice(self).Text.ToNoticeLine(
+                    column.Choice(saved).Text,
+                    column,
+                    updated,
+                    update)
+                : self.ToNoticeLine(
+                    saved,
+                    column,
+                    updated,
+                    update);
+        }
+
+        public static string ToNoticeLine(
             this string self,
             string saved,
             Column column,

@@ -101,7 +101,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             bool update)
         {
             return this.Count > 0
-                ? this.FirstOrDefault().Body.ToNotice(
+                ? this.FirstOrDefault().Body.ToNoticeLine(
                     string.Empty,
                     column,
                     updated,
