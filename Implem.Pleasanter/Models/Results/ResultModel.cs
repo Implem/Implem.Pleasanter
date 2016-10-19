@@ -734,22 +734,30 @@ namespace Implem.Pleasanter.Models
             SynchronizeSummary();
             if (notice) Notice("Updated");
             Get();
+            UpdateRelatedRecords();
+            return Error.Types.None;
+        }
+
+        public void UpdateRelatedRecords(
+            bool addUpdatedTimeParam = true, bool addUpdatorParam = true)
+        {
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: new SqlStatement[]
                 {
                     Rds.UpdateItems(
-                    where: Rds.ItemsWhere().ReferenceId(ResultId),
-                    param: Rds.ItemsParam()
-                        .SiteId(SiteId)
-                        .Title(ResultUtilities.TitleDisplayValue(SiteSettings, this))
-                        .Subset(Jsons.ToJson(new ResultSubset(this, SiteSettings)))
-                        .MaintenanceTarget(true)),
+                        where: Rds.ItemsWhere().ReferenceId(ResultId),
+                        param: Rds.ItemsParam()
+                            .SiteId(SiteId)
+                            .Title(ResultUtilities.TitleDisplayValue(SiteSettings, this))
+                            .Subset(Jsons.ToJson(new ResultSubset(this, SiteSettings)))
+                            .MaintenanceTarget(true),
+                        addUpdatedTimeParam: addUpdatedTimeParam,
+                        addUpdatorParam: addUpdatorParam),
                     Rds.PhysicalDeleteLinks(
                         where: Rds.LinksWhere().SourceId(ResultId)),
                     InsertLinks(SiteSettings)
                 });
-            return Error.Types.None;
         }
 
         private SqlInsert InsertLinks(

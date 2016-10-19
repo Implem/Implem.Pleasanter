@@ -196,17 +196,27 @@ namespace Implem.Pleasanter.Models
             SynchronizeSummary();
             if (notice) Notice("Updated");
             Get();
+            UpdateRelatedRecords();
+            SiteInfo.SiteMenu.Set(SiteId);
+            return Error.Types.None;
+        }
+
+        public void UpdateRelatedRecords(
+            bool addUpdatedTimeParam = true, bool addUpdatorParam = true)
+        {
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: new SqlStatement[]
                 {
                     Rds.UpdateItems(
-                    where: Rds.ItemsWhere().ReferenceId(WikiId),
-                    param: Rds.ItemsParam()
-                        .SiteId(SiteId)
-                        .Title(WikiUtilities.TitleDisplayValue(SiteSettings, this))
-                        .Subset(Jsons.ToJson(new WikiSubset(this, SiteSettings)))
-                        .MaintenanceTarget(true)),
+                        where: Rds.ItemsWhere().ReferenceId(WikiId),
+                        param: Rds.ItemsParam()
+                            .SiteId(SiteId)
+                            .Title(WikiUtilities.TitleDisplayValue(SiteSettings, this))
+                            .Subset(Jsons.ToJson(new WikiSubset(this, SiteSettings)))
+                            .MaintenanceTarget(true),
+                        addUpdatedTimeParam: addUpdatedTimeParam,
+                        addUpdatorParam: addUpdatorParam),
                     Rds.PhysicalDeleteLinks(
                         where: Rds.LinksWhere().SourceId(WikiId)),
                     InsertLinks(SiteSettings),
@@ -214,8 +224,6 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ItemsWhere().SiteId(SiteId),
                         param: Rds.ItemsParam().Title(Title.Value))
                 });
-            SiteInfo.SiteMenu.Set(SiteId);
-            return Error.Types.None;
         }
 
         private SqlInsert InsertLinks(

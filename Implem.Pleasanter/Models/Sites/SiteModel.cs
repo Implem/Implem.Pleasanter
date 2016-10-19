@@ -253,17 +253,27 @@ namespace Implem.Pleasanter.Models
                 });
             if (count == 0) return Error.Types.UpdateConflicts;
             Get();
+            UpdateRelatedRecords();
+            SiteInfo.SiteMenu.Set(SiteId);
+            return Error.Types.None;
+        }
+
+        public void UpdateRelatedRecords(
+            bool addUpdatedTimeParam = true, bool addUpdatorParam = true)
+        {
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: new SqlStatement[]
                 {
                     Rds.UpdateItems(
-                    where: Rds.ItemsWhere().ReferenceId(SiteId),
-                    param: Rds.ItemsParam()
-                        .SiteId(SiteId)
-                        .Title(SiteUtilities.TitleDisplayValue(SiteSettings, this))
-                        .Subset(Jsons.ToJson(new SiteSubset(this, SiteSettings)))
-                        .MaintenanceTarget(true)),
+                        where: Rds.ItemsWhere().ReferenceId(SiteId),
+                        param: Rds.ItemsParam()
+                            .SiteId(SiteId)
+                            .Title(SiteUtilities.TitleDisplayValue(SiteSettings, this))
+                            .Subset(Jsons.ToJson(new SiteSubset(this, SiteSettings)))
+                            .MaintenanceTarget(true),
+                        addUpdatedTimeParam: addUpdatedTimeParam,
+                        addUpdatorParam: addUpdatorParam),
                     Rds.PhysicalDeleteLinks(
                         where: Rds.LinksWhere().SourceId(SiteId)),
                     LinkUtilities.Insert(SiteSettings.LinkCollection
@@ -271,8 +281,6 @@ namespace Implem.Pleasanter.Models
                         .Distinct()
                         .ToDictionary(o => o, o => SiteId))
                 });
-            SiteInfo.SiteMenu.Set(SiteId);
-            return Error.Types.None;
         }
 
         public Error.Types UpdateOrCreate(
