@@ -76,8 +76,15 @@ namespace Implem.Pleasanter.Libraries.Models
                     .IssueId(id, _using: id != 0))
                         .ForEach(issueModel =>
                         {
-                            if (updateFormula) issueModel.UpdateFormulaColumns();
-                            if (updateRelatedRecords) issueModel.UpdateRelatedRecords();
+                            if (updateFormula)
+                            {
+                                issueModel.UpdateFormulaColumns();
+                            }
+                            if (updateRelatedRecords)
+                            {
+                                issueModel.UpdateRelatedRecords(
+                                    addUpdatedTimeParam: false, addUpdatorParam: false);
+                            }
                         });
         }
 
@@ -95,8 +102,15 @@ namespace Implem.Pleasanter.Libraries.Models
                     .ResultId(id, _using: id != 0))
                         .ForEach(resultModel =>
                         {
-                            if (updateFormula) resultModel.UpdateFormulaColumns();
-                            if (updateRelatedRecords) resultModel.UpdateRelatedRecords();
+                            if (updateFormula)
+                            {
+                                resultModel.UpdateFormulaColumns();
+                            }
+                            if (updateRelatedRecords)
+                            {
+                                resultModel.UpdateRelatedRecords(
+                                    addUpdatedTimeParam: false, addUpdatorParam: false);
+                            }
                         });
         }
 
@@ -114,8 +128,15 @@ namespace Implem.Pleasanter.Libraries.Models
                     .WikiId(id, _using: id != 0))
                         .ForEach(wikiModel =>
                         {
-                            if (updateFormula) wikiModel.UpdateFormulaColumns();
-                            if (updateRelatedRecords) wikiModel.UpdateRelatedRecords();
+                            if (updateFormula)
+                            {
+                                wikiModel.UpdateFormulaColumns();
+                            }
+                            if (updateRelatedRecords)
+                            {
+                                wikiModel.UpdateRelatedRecords(
+                                    addUpdatedTimeParam: false, addUpdatorParam: false);
+                            }
                         });
         }
     }
