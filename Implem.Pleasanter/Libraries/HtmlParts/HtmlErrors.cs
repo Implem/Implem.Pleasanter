@@ -14,7 +14,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var error = HttpContext.Current.Session["error"] as ExceptionContext;
             var hb = new HtmlBuilder();
             return hb.Template(
-                permissionType: Permissions.Types.NotSet,
+                pt: Permissions.Types.NotSet,
                 verType: Versions.VerTypes.Latest,
                 methodType: Pleasanter.Models.BaseModel.MethodTypes.NotSet,
                 allowAccess: true,

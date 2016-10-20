@@ -7,9 +7,9 @@ namespace Implem.Pleasanter.Models
     public static class WikiValidators
     {
         public static Error.Types OnCreating(
-            SiteSettings ss, Permissions.Types permissionType, WikiModel wikiModel)
+            SiteSettings ss, Permissions.Types pt, WikiModel wikiModel)
         {
-            if (!permissionType.CanCreate())
+            if (!pt.CanCreate())
             {
                 return Error.Types.HasNotPermission;
             }
@@ -18,19 +18,19 @@ namespace Implem.Pleasanter.Models
                 switch (controlId)
                 {
                     case "Wikis_Title":
-                        if (!ss.GetColumn("Title").CanCreate(permissionType))
+                        if (!ss.GetColumn("Title").CanCreate(pt))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Wikis_Body":
-                        if (!ss.GetColumn("Body").CanCreate(permissionType))
+                        if (!ss.GetColumn("Body").CanCreate(pt))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Wikis_Timestamp":
-                        if (!ss.GetColumn("Timestamp").CanCreate(permissionType))
+                        if (!ss.GetColumn("Timestamp").CanCreate(pt))
                         {
                             return Error.Types.InvalidRequest;
                         }
@@ -41,9 +41,9 @@ namespace Implem.Pleasanter.Models
         }
 
         public static Error.Types OnUpdating(
-            SiteSettings ss, Permissions.Types permissionType, WikiModel wikiModel)
+            SiteSettings ss, Permissions.Types pt, WikiModel wikiModel)
         {
-            if (!permissionType.CanUpdate())
+            if (!pt.CanUpdate())
             {
                 return Error.Types.HasNotPermission;
             }
@@ -52,19 +52,19 @@ namespace Implem.Pleasanter.Models
                 switch (controlId)
                 {
                     case "Wikis_Title":
-                        if (!ss.GetColumn("Title").CanUpdate(permissionType))
+                        if (!ss.GetColumn("Title").CanUpdate(pt))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Wikis_Body":
-                        if (!ss.GetColumn("Body").CanUpdate(permissionType))
+                        if (!ss.GetColumn("Body").CanUpdate(pt))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Wikis_Timestamp":
-                        if (!ss.GetColumn("Timestamp").CanUpdate(permissionType))
+                        if (!ss.GetColumn("Timestamp").CanUpdate(pt))
                         {
                             return Error.Types.InvalidRequest;
                         }
@@ -75,9 +75,9 @@ namespace Implem.Pleasanter.Models
         }
 
         public static Error.Types OnDeleting(
-            SiteSettings ss, Permissions.Types permissionType, WikiModel wikiModel)
+            SiteSettings ss, Permissions.Types pt, WikiModel wikiModel)
         {
-            if (!permissionType.CanDelete())
+            if (!pt.CanDelete())
             {
                 return Error.Types.HasNotPermission;
             }

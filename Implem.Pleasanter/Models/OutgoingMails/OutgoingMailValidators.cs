@@ -10,12 +10,12 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static Error.Types OnSending(
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             OutgoingMailModel outgoingMailModel,
             out string data)
         {
             data = null;
-            if (!permissionType.CanUpdate())
+            if (!pt.CanUpdate())
             {
                 return Error.Types.HasNotPermission;
             }

@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             SiteSettings ss,
             string groupByColumn,
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             IEnumerable<DataRow> dataRows)
         {
             return hb.Div(css: "both", action: () => hb
@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         dataRows: dataRows))
                 .MainCommands(
                     siteId: ss.SiteId,
-                    permissionType: permissionType,
+                    pt: pt,
                     verType: Versions.VerTypes.Latest,
                     importButton: true,
                     exportButton: true));

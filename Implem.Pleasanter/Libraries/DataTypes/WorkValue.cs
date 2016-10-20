@@ -34,9 +34,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             ProgressRate = progressRate;
         }
 
-        public string ToControl(Column column, Permissions.Types permissionType)
+        public string ToControl(Column column, Permissions.Types pt)
         {
-            return column.Display(Value, permissionType);
+            return column.Display(Value, pt);
         }
 
         public string ToResponse()

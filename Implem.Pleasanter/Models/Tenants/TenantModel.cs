@@ -70,7 +70,7 @@ namespace Implem.Pleasanter.Models
 
         public TenantModel(
             SiteSettings ss, 
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             DataRow dataRow)
         {
             OnConstructing();

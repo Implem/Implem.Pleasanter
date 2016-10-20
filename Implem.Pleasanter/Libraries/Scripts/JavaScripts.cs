@@ -7,7 +7,7 @@ namespace Implem.Pleasanter.Libraries.Scripts
     {
         public static string DataView(
             SiteSettings ss,
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             FormData formData,
             string dataViewName)
         {

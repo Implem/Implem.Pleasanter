@@ -132,7 +132,7 @@ namespace Implem.Pleasanter.Models
 
         public SysLogModel(
             SiteSettings ss, 
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             DataRow dataRow)
         {
             OnConstructing();

@@ -112,7 +112,7 @@ namespace Implem.Pleasanter.Models
 
         public ExportSettingModel(
             SiteSettings ss, 
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             DataRow dataRow)
         {
             OnConstructing();

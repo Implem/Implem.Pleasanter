@@ -7,7 +7,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder Header(
             this HtmlBuilder hb,
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             long siteId,
             string referenceType,
             bool allowAccess,
@@ -25,7 +25,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Span(id: "ProductLogo", action: () => hb
                                 .Displays_ProductName())))
                 .NavigationMenu(
-                    permissionType: permissionType,
+                    pt: pt,
                     siteId: siteId,
                     referenceType: referenceType,
                     allowAccess: allowAccess,

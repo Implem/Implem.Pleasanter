@@ -9,9 +9,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static string AdminsIndex(this HtmlBuilder hb)
         {
-            var permissionType = Permissions.Admins();
+            var pt = Permissions.Admins();
             return hb.Template(
-                permissionType: permissionType,
+                pt: pt,
                 methodType: Pleasanter.Models.BaseModel.MethodTypes.NotSet,
                 allowAccess: Sessions.User().TenantAdmin,
                 title: Displays.Admin(),
@@ -40,7 +40,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         .Div(css: "stacking2")))))
                     .MainCommands(
                         siteId: 0,
-                        permissionType: permissionType,
+                        pt: pt,
                         verType: Versions.VerTypes.Latest))
                             .ToString();
         }

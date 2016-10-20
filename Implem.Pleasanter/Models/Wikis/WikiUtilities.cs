@@ -72,7 +72,7 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             return hb.Template(
-                permissionType: siteModel.PermissionType,
+                pt: siteModel.PermissionType,
                 verType: wikiModel.VerType,
                 methodType: wikiModel.MethodType,
                 allowAccess:
@@ -120,7 +120,7 @@ namespace Implem.Pleasanter.Models
                             : siteModel.SiteId)),
                     action: () => hb
                         .RecordHeader(
-                            permissionType: siteModel.PermissionType,
+                            pt: siteModel.PermissionType,
                             baseModel: wikiModel,
                             tableName: "Wikis")
                         .Div(id: "EditorComments", action: () => hb
@@ -131,7 +131,7 @@ namespace Implem.Pleasanter.Models
                             .EditorTabs(wikiModel: wikiModel)
                             .FieldSetGeneral(
                                 wikiModel: wikiModel,
-                                permissionType: siteModel.PermissionType,
+                                pt: siteModel.PermissionType,
                                 ss: ss)
                             .FieldSet(
                                 attributes: new HtmlAttributes()
@@ -141,7 +141,7 @@ namespace Implem.Pleasanter.Models
                                 _using: wikiModel.MethodType != BaseModel.MethodTypes.New)
                             .MainCommands(
                                 siteId: siteModel.SiteId,
-                                permissionType: siteModel.PermissionType,
+                                pt: siteModel.PermissionType,
                                 verType: wikiModel.VerType,
                                 referenceType: "items",
                                 referenceId: wikiModel.WikiId,
@@ -185,7 +185,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder FieldSetGeneral(
             this HtmlBuilder hb,
             WikiModel wikiModel,
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             SiteSettings ss)
         {
             return hb.FieldSet(id: "FieldSetGeneral", action: () =>
@@ -194,10 +194,10 @@ namespace Implem.Pleasanter.Models
                 {
                     switch (column.ColumnName)
                     {
-                        case "WikiId": hb.Field(ss, column, wikiModel.MethodType, wikiModel.WikiId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                        case "Ver": hb.Field(ss, column, wikiModel.MethodType, wikiModel.Ver.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                        case "Title": hb.Field(ss, column, wikiModel.MethodType, wikiModel.Title.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                        case "Body": hb.Field(ss, column, wikiModel.MethodType, wikiModel.Body.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "WikiId": hb.Field(ss, column, wikiModel.MethodType, wikiModel.WikiId.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
+                        case "Ver": hb.Field(ss, column, wikiModel.MethodType, wikiModel.Ver.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
+                        case "Title": hb.Field(ss, column, wikiModel.MethodType, wikiModel.Title.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
+                        case "Body": hb.Field(ss, column, wikiModel.MethodType, wikiModel.Body.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
                     }
                 });
                 hb.VerUpCheckBox(wikiModel);
@@ -221,7 +221,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public static string EditorJson(
-            SiteSettings ss, Permissions.Types permissionType, long wikiId)
+            SiteSettings ss, Permissions.Types pt, long wikiId)
         {
             return EditorResponse(new WikiModel(ss, wikiId))
                 .ToJson();
@@ -244,7 +244,7 @@ namespace Implem.Pleasanter.Models
 
         public static ResponseCollection FormResponse(
             this ResponseCollection responseCollection,
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             WikiModel wikiModel)
         {
             Forms.All().Keys.ForEach(key =>
@@ -259,7 +259,7 @@ namespace Implem.Pleasanter.Models
 
         public static ResponseCollection Formula(
             this ResponseCollection responseCollection,
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             WikiModel wikiModel)
         {
             wikiModel.SiteSettings.FormulaHash?.Keys.ForEach(columnName =>
@@ -274,10 +274,10 @@ namespace Implem.Pleasanter.Models
         }
 
         public static string Update(
-            SiteSettings ss, Permissions.Types permissionType, long wikiId)
+            SiteSettings ss, Permissions.Types pt, long wikiId)
         {
             var wikiModel = new WikiModel(ss, wikiId, setByForm: true);
-            var invalid = WikiValidators.OnUpdating(ss, permissionType, wikiModel);
+            var invalid = WikiValidators.OnUpdating(ss, pt, wikiModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -299,14 +299,14 @@ namespace Implem.Pleasanter.Models
                 var responseCollection = new WikisResponseCollection(wikiModel);
                 responseCollection.ReplaceAll("#Breadcrumb", new HtmlBuilder()
                     .Breadcrumb(ss.SiteId));
-                return ResponseByUpdate(permissionType, wikiModel, responseCollection)
+                return ResponseByUpdate(pt, wikiModel, responseCollection)
                     .PrependComment(wikiModel.Comments, wikiModel.VerType)
                     .ToJson();
             }
         }
 
         private static ResponseCollection ResponseByUpdate(
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             WikiModel wikiModel,
             WikisResponseCollection responseCollection)
         {
@@ -314,8 +314,8 @@ namespace Implem.Pleasanter.Models
                 .Ver()
                 .Timestamp()
                 .Val("#VerUp", false)
-                .FormResponse(permissionType, wikiModel)
-                .Formula(permissionType, wikiModel)
+                .FormResponse(pt, wikiModel)
+                .Formula(pt, wikiModel)
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", wikiModel.Title.DisplayValue)
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
@@ -327,10 +327,10 @@ namespace Implem.Pleasanter.Models
         }
 
         public static string Delete(
-            SiteSettings ss, Permissions.Types permissionType, long wikiId)
+            SiteSettings ss, Permissions.Types pt, long wikiId)
         {
             var wikiModel = new WikiModel(ss, wikiId);
-            var invalid = WikiValidators.OnDeleting(ss, permissionType, wikiModel);
+            var invalid = WikiValidators.OnDeleting(ss, pt, wikiModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -373,7 +373,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public static string Histories(
-            SiteSettings ss, Permissions.Types permissionType, long wikiId)
+            SiteSettings ss, Permissions.Types pt, long wikiId)
         {
             var wikiModel = new WikiModel(ss, wikiId);
             var columns = ss.HistoryColumnCollection();
@@ -389,7 +389,7 @@ namespace Implem.Pleasanter.Models
                     .TBody(action: () =>
                         new WikiCollection(
                             ss: ss,
-                            permissionType: permissionType,
+                            pt: pt,
                             where: Rds.WikisWhere().WikiId(wikiModel.WikiId),
                             orderBy: Rds.WikisOrderBy().Ver(SqlOrderBy.Types.desc),
                             tableType: Sqls.TableTypes.NormalAndHistory)
@@ -410,7 +410,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public static string History(
-            SiteSettings ss, Permissions.Types permissionType, long wikiId)
+            SiteSettings ss, Permissions.Types pt, long wikiId)
         {
             var wikiModel = new WikiModel(ss, wikiId);
             wikiModel.Get(

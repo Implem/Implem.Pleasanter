@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Models
 
         public OrderModel(
             SiteSettings ss, 
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             DataRow dataRow)
         {
             OnConstructing();

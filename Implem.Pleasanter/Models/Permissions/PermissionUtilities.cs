@@ -40,7 +40,7 @@ namespace Implem.Pleasanter.Models
             var ss = siteModel.PermissionsSiteSettings();
             var hb = new HtmlBuilder();
             hb.Template(
-                permissionType: siteModel.PermissionType,
+                pt: siteModel.PermissionType,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Edit,
                 allowAccess: siteModel.PermissionType.CanEditPermission(),
@@ -102,7 +102,7 @@ namespace Implem.Pleasanter.Models
                         .Selectables(siteModel: siteModel))
                     .MainCommands(
                         siteId: siteModel.SiteId,
-                        permissionType: siteModel.PermissionType,
+                        pt: siteModel.PermissionType,
                         verType: Versions.VerTypes.Latest,
                         updateButton: true));
         }
@@ -566,13 +566,13 @@ namespace Implem.Pleasanter.Models
             this ResponseCollection responseCollection,
             SiteModel siteModel,
             List<string> selectedPermissionType_ItemIdCollection,
-            Permissions.Types permissionType)
+            Permissions.Types pt)
         {
             selectedPermissionType_ItemIdCollection.ForEach(permissionType_ItemId =>
                 siteModel.Session_PermissionDestinationCollection()
                     .Where(o => (o.PermissionId == permissionType_ItemId))
                     .First()
-                    .PermissionType = permissionType);
+                    .PermissionType = pt);
             responseCollection.Html("#PermissionDestination", PermissionListItem(
                 siteModel,
                 Types.Destination,

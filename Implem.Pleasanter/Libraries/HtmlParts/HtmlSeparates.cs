@@ -21,7 +21,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string title,
             decimal workValue,
-            Column column, Permissions.Types permissionType)
+            Column column, Permissions.Types pt)
         {
             var max = Parameters.General.SeparateMax;
             var min = Parameters.General.SeparateMin;
@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         fieldCss: "field-auto-thin",
                         controlCss: " w100",
                         labelText: Displays.WorkValue() + "-1",
-                        text: workValue.ToControl(column, permissionType),
+                        text: workValue.ToControl(column, pt),
                         dataValue: workValue.ToString())
                     .Hidden(
                         controlId: "WorkValueUnit",

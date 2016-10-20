@@ -26,7 +26,7 @@ namespace Implem.Pleasanter.Models
 
         public UserCollection(
             SiteSettings ss, 
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.Models
         {
             if (get)
             {
-                Set(ss, permissionType, Get(
+                Set(ss, pt, Get(
                     column: column,
                     join: join,
                     where: where,
@@ -61,22 +61,22 @@ namespace Implem.Pleasanter.Models
 
         public UserCollection(
             SiteSettings ss, 
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             DataTable dataTable)
         {
-            Set(ss, permissionType, dataTable);
+            Set(ss, pt, dataTable);
         }
 
         private UserCollection Set(
             SiteSettings ss, 
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             DataTable dataTable)
         {
             if (dataTable.Rows.Count > 0)
             {
                 foreach (DataRow dataRow in dataTable.Rows)
                 {
-                    Add(new UserModel(ss, permissionType, dataRow));
+                    Add(new UserModel(ss, pt, dataRow));
                 }
                 AccessStatus = Databases.AccessStatuses.Selected;
             }
@@ -89,11 +89,11 @@ namespace Implem.Pleasanter.Models
 
         public UserCollection(
             SiteSettings ss, 
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             string commandText,
             SqlParamCollection param = null)
         {
-            Set(ss, permissionType, Get(commandText, param));
+            Set(ss, pt, Get(commandText, param));
         }
 
         private DataTable Get(

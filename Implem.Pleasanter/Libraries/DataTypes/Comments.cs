@@ -60,7 +60,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             }
         }
 
-        public string ToControl(Column column, Permissions.Types permissionType)
+        public string ToControl(Column column, Permissions.Types pt)
         {
             return string.Empty;
         }

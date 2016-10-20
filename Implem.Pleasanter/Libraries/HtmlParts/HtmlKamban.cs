@@ -20,7 +20,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string groupByColumn,
             string aggregateType,
             string valueColumn,
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             IEnumerable<KambanElement> data)
         {
             return hb.Div(id: "Kamban", css: "both", action: () =>
@@ -66,7 +66,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         data: data)
                     .MainCommands(
                         siteId: ss.SiteId,
-                        permissionType: permissionType,
+                        pt: pt,
                         verType: Versions.VerTypes.Latest,
                         importButton: true,
                         exportButton: true);

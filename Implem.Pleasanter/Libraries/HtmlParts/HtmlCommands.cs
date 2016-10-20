@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder MainCommands(
             this HtmlBuilder hb,
             long siteId,
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             Versions.VerTypes verType,
             string referenceType = "",
             long referenceId = 0,
@@ -40,7 +40,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             onClick: "$p.back();",
                             icon: "ui-icon-circle-arrow-w");
                     }
-                    if (permissionType.CanRead() && verType == Versions.VerTypes.Latest)
+                    if (pt.CanRead() && verType == Versions.VerTypes.Latest)
                     {
                         if (Routes.Action() == "new")
                         {
@@ -64,7 +64,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     icon: "ui-icon-disk",
                                     action: "Update",
                                     method: "put",
-                                    _using: updateButton && permissionType.CanUpdate())
+                                    _using: updateButton && pt.CanUpdate())
                                 .Button(
                                     text: Displays.Copy(),
                                     controlCss: "button-icon open-dialog",
@@ -72,7 +72,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     onClick: "$p.openDialog($(this));",
                                     icon: "ui-icon-copy",
                                     selector: "#CopyDialog",
-                                    _using: copyButton && permissionType.CanCreate())
+                                    _using: copyButton && pt.CanCreate())
                                 .Button(
                                     text: Displays.Move(),
                                     controlCss: "button-icon open-dialog",
@@ -82,7 +82,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     selector: "#MoveDialog",
                                     action: "MoveTargets",
                                     method: "get",
-                                    _using: moveButton && permissionType.CanUpdate())
+                                    _using: moveButton && pt.CanUpdate())
                                 .Button(
                                     text: Displays.BulkMove(),
                                     controlCss: "button-icon open-dialog",
@@ -92,7 +92,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     selector: "#MoveDialog",
                                     action: "MoveTargets",
                                     method: "get",
-                                    _using: bulkMoveButton && permissionType.CanUpdate())
+                                    _using: bulkMoveButton && pt.CanUpdate())
                                 .Button(
                                     controlId: "EditOutgoingMail",
                                     text: Displays.Mail(),
@@ -102,7 +102,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     action: "Edit",
                                     method: "put",
                                     accessKey: "m",
-                                    _using: mailButton && permissionType.CanUpdate())
+                                    _using: mailButton && pt.CanUpdate())
                                 .Button(
                                     text: Displays.Delete(),
                                     controlCss: "button-icon",
@@ -112,7 +112,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     action: "Delete",
                                     method: "delete",
                                     confirm: "ConfirmDelete",
-                                    _using: deleteButton && permissionType.CanDelete())
+                                    _using: deleteButton && pt.CanDelete())
                                 .Button(
                                     text: Displays.BulkDelete(),
                                     controlCss: "button-icon",
@@ -122,7 +122,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     action: "BulkDelete",
                                     method: "delete",
                                     confirm: "ConfirmDelete",
-                                    _using: bulkDeleteButton && permissionType.CanDelete())
+                                    _using: bulkDeleteButton && pt.CanDelete())
                                 .Button(
                                     controlId: "EditImportSettings",
                                     text: Displays.Import(),
@@ -131,7 +131,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     onClick: "$p.openImportSettingsDialog($(this));",
                                     icon: "ui-icon-arrowreturnthick-1-e",
                                     selector: "#ImportSettingsDialog",
-                                    _using: importButton && permissionType.CanImport())
+                                    _using: importButton && pt.CanImport())
                                 .Button(
                                     controlId: "EditExportSettings",
                                     text: Displays.Export(),
@@ -142,7 +142,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     action: Navigations.ItemAction(
                                         siteId, "ExportSettings", "Edit"),
                                     method: "put",
-                                    _using: exportButton && permissionType.CanExport());
+                                    _using: exportButton && pt.CanExport());
                         }
                     }
                     extensions?.Invoke();

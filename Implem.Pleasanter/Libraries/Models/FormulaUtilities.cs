@@ -30,7 +30,7 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             new IssueCollection(
                 ss: siteModel.SiteSettings,
-                permissionType: siteModel.PermissionType,
+                pt: siteModel.PermissionType,
                 where: Rds.IssuesWhere()
                     .SiteId(siteModel.SiteId)
                     .IssueId(id, _using: id != 0))
@@ -46,7 +46,7 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             new ResultCollection(
                 ss: siteModel.SiteSettings,
-                permissionType: siteModel.PermissionType,
+                pt: siteModel.PermissionType,
                 where: Rds.ResultsWhere()
                     .SiteId(siteModel.SiteId)
                     .ResultId(id, _using: id != 0))
@@ -62,7 +62,7 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             new WikiCollection(
                 ss: siteModel.SiteSettings,
-                permissionType: siteModel.PermissionType,
+                pt: siteModel.PermissionType,
                 where: Rds.WikisWhere()
                     .SiteId(siteModel.SiteId)
                     .WikiId(id, _using: id != 0))

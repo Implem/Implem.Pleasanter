@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     public static class HtmlBreadcrumb
     {
         public static HtmlBuilder Breadcrumb(
-            this HtmlBuilder hb, long siteId, Permissions.Types permissionType, bool _using)
+            this HtmlBuilder hb, long siteId, Permissions.Types pt, bool _using)
         {
             if (!Sessions.LoggedIn() || !_using)
             {
@@ -28,7 +28,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         { Navigations.Index("Admins"), Displays.Admin() }
                     });
                 case "users":
-                    return permissionType.CanEditTenant()
+                    return pt.CanEditTenant()
                         ? hb.Breadcrumb(new Dictionary<string, string>
                         {
                             { Navigations.Index("Admins"), Displays.Admin() },

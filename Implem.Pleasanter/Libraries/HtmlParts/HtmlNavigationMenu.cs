@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder NavigationMenu(
             this HtmlBuilder hb,
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             long siteId,
             string referenceType,
             bool allowAccess,
@@ -24,7 +24,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     css: "ui-widget-header",
                     action: () => hb
                         .NavigationMenu(
-                            permissionType: permissionType,
+                            pt: pt,
                             siteId: siteId,
                             referenceType: referenceType,
                             allowAccess: allowAccess,
@@ -35,7 +35,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder NavigationMenu(
             this HtmlBuilder hb,
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             long siteId,
             string referenceType,
             bool allowAccess,
@@ -72,11 +72,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-gear")
                                     .Displays_Setting())
-                            .SettingsMenu(siteId: siteId, permissionType: permissionType),
+                            .SettingsMenu(siteId: siteId, pt: pt),
                         _using: (
-                            (siteId != 0 && permissionType.CanEditSite()) ||
-                            (siteId != 0 && permissionType.CanEditPermission()) ||
-                            permissionType.CanEditTenant()))
+                            (siteId != 0 && pt.CanEditSite()) ||
+                            (siteId != 0 && pt.CanEditPermission()) ||
+                            pt.CanEditTenant()))
                     .Li(
                         css: "sub-menu",
                         action: () => hb
@@ -140,7 +140,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder SettingsMenu(
-            this HtmlBuilder hb, Permissions.Types permissionType, long siteId)
+            this HtmlBuilder hb, Permissions.Types pt, long siteId)
         {
             return hb.Ul(id: "SettingsMenu", css: "menu", action: () => hb
                 .Li(
@@ -150,7 +150,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-gear")
                                 .Displays_Sites_SiteSettings()),
-                    _using: siteId != 0 && permissionType.CanEditSite())
+                    _using: siteId != 0 && pt.CanEditSite())
                 .Li(
                     action: () => hb
                         .A(
@@ -158,7 +158,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-locked")
                                 .Displays_EditPermissions()),
-                    _using: siteId != 0 && permissionType.CanEditPermission())
+                    _using: siteId != 0 && pt.CanEditPermission())
                 .Li(
                     action: () => hb
                         .A(
@@ -166,7 +166,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-gear")
                                 .Displays_Admin()),
-                    _using: permissionType.CanEditTenant()));
+                    _using: pt.CanEditTenant()));
         }
 
         private static HtmlBuilder AccountMenu(this HtmlBuilder hb)

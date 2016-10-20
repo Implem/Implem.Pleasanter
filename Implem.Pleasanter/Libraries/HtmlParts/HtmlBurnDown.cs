@@ -17,7 +17,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder BurnDown(
             this HtmlBuilder hb,
             SiteSettings ss,
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             IEnumerable<DataRow> dataRows,
             string ownerLabelText,
             Column column)
@@ -32,7 +32,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     column: column)
                 .MainCommands(
                     siteId: ss.SiteId,
-                    permissionType: permissionType,
+                    pt: pt,
                     verType: Versions.VerTypes.Latest,
                     importButton: true,
                     exportButton: true);

@@ -26,11 +26,11 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static bool ExistsSiteImage(
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             long referenceId,
             Libraries.Images.ImageData.SizeTypes sizeType)
         {
-            var invalid = BinaryValidators.OnGetting(permissionType);
+            var invalid = BinaryValidators.OnGetting(pt);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -54,11 +54,11 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static string SiteImagePrefix(
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             long referenceId,
             Libraries.Images.ImageData.SizeTypes sizeType)
         {
-            var invalid = BinaryValidators.OnGetting(permissionType);
+            var invalid = BinaryValidators.OnGetting(pt);
             switch (invalid)
             {
                 case Error.Types.None: break;

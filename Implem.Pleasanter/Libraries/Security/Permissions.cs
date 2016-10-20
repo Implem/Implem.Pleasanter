@@ -63,17 +63,17 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static Types CurrentType()
         {
-            var permissionType = Types.NotSet;
+            var pt = Types.NotSet;
             var userModel = Sessions.User();
             if (userModel.TenantAdmin)
             {
-                permissionType |= Types.TenantAdmin;
+                pt |= Types.TenantAdmin;
             }
             if (userModel.ServiceAdmin)
             {
-                permissionType |= Types.TenantAdmin;
+                pt |= Types.TenantAdmin;
             }
-            return permissionType;
+            return pt;
         }
 
         public static Types GetById(long id)
@@ -214,49 +214,49 @@ namespace Implem.Pleasanter.Libraries.Security
         }
 
         public static ColumnPermissionTypes ColumnPermissionType(
-            this Column self, Types permissionType)
+            this Column self, Types pt)
         {
             switch(Url.RouteData("action").ToLower())
             {
                 case "new":
                     return
-                        self.CanCreate(permissionType)
+                        self.CanCreate(pt)
                             ? ColumnPermissionTypes.Update
-                            : self.CanRead(permissionType)
+                            : self.CanRead(pt)
                                 ? ColumnPermissionTypes.Read
                                 : ColumnPermissionTypes.Deny;
                 default:
                     return
-                        self.CanUpdate(permissionType)
+                        self.CanUpdate(pt)
                             ? ColumnPermissionTypes.Update
-                            : self.CanRead(permissionType)
+                            : self.CanRead(pt)
                                 ? ColumnPermissionTypes.Read
                                 : ColumnPermissionTypes.Deny;
             }
         }
 
         public static bool CanRead(
-            this Column self, Types permissionType)
+            this Column self, Types pt)
         {
             return
                 self.ReadPermission == 0 ||
-                (self.ReadPermission & Admins(permissionType)) != 0;
+                (self.ReadPermission & Admins(pt)) != 0;
         }
 
         public static bool CanCreate(
-            this Column self, Types permissionType)
+            this Column self, Types pt)
         {
             return
                 self.CreatePermission == 0 ||
-                (self.CreatePermission & Admins(permissionType)) != 0;
+                (self.CreatePermission & Admins(pt)) != 0;
         }
 
         public static bool CanUpdate(
-            this Column self, Types permissionType)
+            this Column self, Types pt)
         {
             return
                 self.UpdatePermission == 0 ||
-                (self.UpdatePermission & Admins(permissionType)) != 0;
+                (self.UpdatePermission & Admins(pt)) != 0;
         }
 
         public static Types Admins()
@@ -264,7 +264,7 @@ namespace Implem.Pleasanter.Libraries.Security
             return Types.NotSet.Admins();
         }
 
-        public static Types Admins(this Types permissionType)
+        public static Types Admins(this Types pt)
         {
             var userModel = Sessions.User();
             var tenantAdmin = userModel.TenantAdmin
@@ -273,7 +273,7 @@ namespace Implem.Pleasanter.Libraries.Security
             var sysAdmin = userModel.ServiceAdmin
                 ? Types.ServiceAdmin
                 : Types.NotSet;
-            return permissionType | tenantAdmin | sysAdmin;
+            return pt | tenantAdmin | sysAdmin;
         }
     }
 }

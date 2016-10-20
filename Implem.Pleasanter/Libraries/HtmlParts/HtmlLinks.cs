@@ -142,7 +142,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .TBody(action: () => hb
                                     .Issues(
                                         ss: issuesSiteSettings,
-                                        permissionType: siteModel.PermissionType,
+                                        pt: siteModel.PermissionType,
                                         dataRows: dataRows));
                             break;
                         case "Results":
@@ -160,7 +160,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .TBody(action: () => hb
                                     .Results(
                                         ss: resultsSiteSettings,
-                                        permissionType: siteModel.PermissionType,
+                                        pt: siteModel.PermissionType,
                                         dataRows: dataRows));
                             break;
                         case "Wikis":
@@ -178,7 +178,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .TBody(action: () => hb
                                     .Wikis(
                                         ss: wikisSiteSettings,
-                                        permissionType: siteModel.PermissionType,
+                                        pt: siteModel.PermissionType,
                                         dataRows: dataRows));
                             break;
                     }
@@ -226,12 +226,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder Issues(
             this HtmlBuilder hb,
             SiteSettings ss,
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             EnumerableRowCollection<DataRow> dataRows)
         {
             dataRows.ForEach(dataRow =>
             {
-                var issueModel = new IssueModel(ss, permissionType, dataRow);
+                var issueModel = new IssueModel(ss, pt, dataRow);
                 hb.Tr(
                     attributes: new HtmlAttributes()
                         .Class("grid-row")
@@ -1009,12 +1009,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder Results(
             this HtmlBuilder hb,
             SiteSettings ss,
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             EnumerableRowCollection<DataRow> dataRows)
         {
             dataRows.ForEach(dataRow =>
             {
-                var resultModel = new ResultModel(ss, permissionType, dataRow);
+                var resultModel = new ResultModel(ss, pt, dataRow);
                 hb.Tr(
                     attributes: new HtmlAttributes()
                         .Class("grid-row")
@@ -1767,12 +1767,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder Wikis(
             this HtmlBuilder hb,
             SiteSettings ss,
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             EnumerableRowCollection<DataRow> dataRows)
         {
             dataRows.ForEach(dataRow =>
             {
-                var wikiModel = new WikiModel(ss, permissionType, dataRow);
+                var wikiModel = new WikiModel(ss, pt, dataRow);
                 hb.Tr(
                     attributes: new HtmlAttributes()
                         .Class("grid-row")

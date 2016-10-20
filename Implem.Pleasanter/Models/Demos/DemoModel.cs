@@ -81,7 +81,7 @@ namespace Implem.Pleasanter.Models
 
         public DemoModel(
             SiteSettings ss, 
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             DataRow dataRow)
         {
             OnConstructing();

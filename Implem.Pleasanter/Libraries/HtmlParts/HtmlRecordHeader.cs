@@ -8,7 +8,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder RecordHeader(
             this HtmlBuilder hb,
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             BaseModel baseModel,
             string tableName,
             bool switcher = true)
@@ -19,7 +19,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .RecordInfo(baseModel: baseModel, tableName: tableName))
                     .Div(id: "RecordSwitchers", action: () => hb
                         .RecordSwitchers(switcher: switcher)))
-                    .Notes(permissionType: permissionType, verType: baseModel.VerType)
+                    .Notes(pt: pt, verType: baseModel.VerType)
                 : hb;
         }
     }

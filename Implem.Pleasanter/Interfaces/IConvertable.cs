@@ -5,7 +5,7 @@ namespace Implem.Pleasanter.Interfaces
 {
     public interface IConvertable
     {
-        string ToControl(Column column, Permissions.Types permissionType);
+        string ToControl(Column column, Permissions.Types pt);
         string ToResponse();
         HtmlBuilder Td(HtmlBuilder hb, Column column);
         string ToExport(Column column);

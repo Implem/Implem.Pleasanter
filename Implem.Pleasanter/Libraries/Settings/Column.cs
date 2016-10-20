@@ -284,9 +284,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : str;
         }
 
-        public string Display(decimal value, Permissions.Types permissionType)
+        public string Display(decimal value, Permissions.Types pt)
         {
-            return Display(value) + (EditorReadOnly.ToBool() || !this.CanUpdate(permissionType)
+            return Display(value) + (EditorReadOnly.ToBool() || !this.CanUpdate(pt)
                 ? Unit
                 : string.Empty);
         }

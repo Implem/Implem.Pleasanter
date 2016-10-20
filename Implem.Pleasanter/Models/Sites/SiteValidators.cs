@@ -7,9 +7,9 @@ namespace Implem.Pleasanter.Models
     public static class SiteValidators
     {
         public static Error.Types OnCreating(
-            SiteSettings ss, Permissions.Types permissionType, SiteModel siteModel)
+            SiteSettings ss, Permissions.Types pt, SiteModel siteModel)
         {
-            if (!permissionType.CanEditSite())
+            if (!pt.CanEditSite())
             {
                 return Error.Types.HasNotPermission;
             }
@@ -18,31 +18,31 @@ namespace Implem.Pleasanter.Models
                 switch (controlId)
                 {
                     case "Sites_Title":
-                        if (!ss.GetColumn("Title").CanCreate(permissionType))
+                        if (!ss.GetColumn("Title").CanCreate(pt))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Sites_Body":
-                        if (!ss.GetColumn("Body").CanCreate(permissionType))
+                        if (!ss.GetColumn("Body").CanCreate(pt))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Sites_ReferenceType":
-                        if (!ss.GetColumn("ReferenceType").CanCreate(permissionType))
+                        if (!ss.GetColumn("ReferenceType").CanCreate(pt))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Sites_InheritPermission":
-                        if (!ss.GetColumn("InheritPermission").CanCreate(permissionType))
+                        if (!ss.GetColumn("InheritPermission").CanCreate(pt))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Sites_Timestamp":
-                        if (!ss.GetColumn("Timestamp").CanCreate(permissionType))
+                        if (!ss.GetColumn("Timestamp").CanCreate(pt))
                         {
                             return Error.Types.InvalidRequest;
                         }
@@ -53,9 +53,9 @@ namespace Implem.Pleasanter.Models
         }
 
         public static Error.Types OnUpdating(
-            SiteSettings ss, Permissions.Types permissionType, SiteModel siteModel)
+            SiteSettings ss, Permissions.Types pt, SiteModel siteModel)
         {
-            if (!permissionType.CanEditSite())
+            if (!pt.CanEditSite())
             {
                 return Error.Types.HasNotPermission;
             }
@@ -64,31 +64,31 @@ namespace Implem.Pleasanter.Models
                 switch (controlId)
                 {
                     case "Sites_Title":
-                        if (!ss.GetColumn("Title").CanUpdate(permissionType))
+                        if (!ss.GetColumn("Title").CanUpdate(pt))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Sites_Body":
-                        if (!ss.GetColumn("Body").CanUpdate(permissionType))
+                        if (!ss.GetColumn("Body").CanUpdate(pt))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Sites_ReferenceType":
-                        if (!ss.GetColumn("ReferenceType").CanUpdate(permissionType))
+                        if (!ss.GetColumn("ReferenceType").CanUpdate(pt))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Sites_InheritPermission":
-                        if (!ss.GetColumn("InheritPermission").CanUpdate(permissionType))
+                        if (!ss.GetColumn("InheritPermission").CanUpdate(pt))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Sites_Timestamp":
-                        if (!ss.GetColumn("Timestamp").CanUpdate(permissionType))
+                        if (!ss.GetColumn("Timestamp").CanUpdate(pt))
                         {
                             return Error.Types.InvalidRequest;
                         }
@@ -99,9 +99,9 @@ namespace Implem.Pleasanter.Models
         }
 
         public static Error.Types OnDeleting(
-            SiteSettings ss, Permissions.Types permissionType, SiteModel siteModel)
+            SiteSettings ss, Permissions.Types pt, SiteModel siteModel)
         {
-            if (!permissionType.CanEditSite())
+            if (!pt.CanEditSite())
             {
                 return Error.Types.HasNotPermission;
             }

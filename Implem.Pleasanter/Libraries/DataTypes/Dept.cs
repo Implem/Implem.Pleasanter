@@ -18,7 +18,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Name = name;
         }
 
-        public string ToControl(Column column, Permissions.Types permissionType)
+        public string ToControl(Column column, Permissions.Types pt)
         {
             return Id.ToString();
         }

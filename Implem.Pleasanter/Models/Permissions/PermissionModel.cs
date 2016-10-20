@@ -188,9 +188,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public bool Check(Permissions.Types permissionType)
+        public bool Check(Permissions.Types pt)
         {
-            return (PermissionType & permissionType) != 0;
+            return (PermissionType & pt) != 0;
         }
     }
 }

@@ -78,7 +78,7 @@ namespace Implem.Pleasanter.Models
 
         public DeptModel(
             SiteSettings ss, 
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             DataRow dataRow)
         {
             OnConstructing();
@@ -291,7 +291,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string ToControl(Column column, Permissions.Types permissionType)
+        public string ToControl(Column column, Permissions.Types pt)
         {
             return string.Empty;
         }

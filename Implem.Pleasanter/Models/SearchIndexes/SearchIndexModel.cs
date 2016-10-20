@@ -42,7 +42,7 @@ namespace Implem.Pleasanter.Models
 
         public SearchIndexModel(
             SiteSettings ss, 
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             DataRow dataRow)
         {
             OnConstructing();

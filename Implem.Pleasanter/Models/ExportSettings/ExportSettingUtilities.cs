@@ -26,11 +26,11 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static string UpdateOrCreate(
-            Permissions.Types permissionType, string referenceType, long referenceId)
+            Permissions.Types pt, string referenceType, long referenceId)
         {
             var exportSettingModel = new ExportSettingModel(
                 referenceType, referenceId, withTitle: true);
-            var invalid = ExportSettingValidator.OnUpdatingOrCreating(permissionType);
+            var invalid = ExportSettingValidator.OnUpdatingOrCreating(pt);
             switch (invalid)
             {
                 case Error.Types.None: break;

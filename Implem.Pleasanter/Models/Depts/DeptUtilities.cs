@@ -25,13 +25,13 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string Index(SiteSettings ss, Permissions.Types permissionType)
+        public static string Index(SiteSettings ss, Permissions.Types pt)
         {
             var hb = new HtmlBuilder();
             var formData = DataViewFilters.SessionFormData();
-            var deptCollection = DeptCollection(ss, permissionType, formData);
+            var deptCollection = DeptCollection(ss, pt, formData);
             return hb.Template(
-                permissionType: permissionType,
+                pt: pt,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: Sessions.User().TenantAdmin,
@@ -52,12 +52,12 @@ namespace Implem.Pleasanter.Models
                                 .Div(id: "DataViewContainer", action: () => hb
                                     .Grid(
                                         deptCollection: deptCollection,
-                                        permissionType: permissionType,
+                                        pt: pt,
                                         ss: ss,
                                         formData: formData))
                                 .MainCommands(
                                     siteId: ss.SiteId,
-                                    permissionType: permissionType,
+                                    pt: pt,
                                     verType: Versions.VerTypes.Latest)
                                 .Div(css: "margin-bottom")
                                 .Hidden(controlId: "TableName", value: "Depts")
@@ -79,23 +79,23 @@ namespace Implem.Pleasanter.Models
         private static string DataViewTemplate(
             this HtmlBuilder hb,
             SiteSettings ss,
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             DeptCollection deptCollection,
             FormData formData,
             string dataViewName,
             Action dataViewBody)
         {
             return hb.Template(
-                permissionType: permissionType,
+                pt: pt,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
-                allowAccess: permissionType.CanRead(),
+                allowAccess: pt.CanRead(),
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Depts",
                 script: Libraries.Scripts.JavaScripts.DataView(
                     ss: ss,
-                    permissionType: permissionType,
+                    pt: pt,
                     formData: formData,
                     dataViewName: dataViewName),
                 userScript: ss.GridScript,
@@ -114,7 +114,7 @@ namespace Implem.Pleasanter.Models
                             .Div(id: "DataViewContainer", action: () => dataViewBody())
                             .MainCommands(
                                 siteId: ss.SiteId,
-                                permissionType: permissionType,
+                                pt: pt,
                                 verType: Versions.VerTypes.Latest,
                                 bulkMoveButton: true,
                                 bulkDeleteButton: true,
@@ -131,15 +131,15 @@ namespace Implem.Pleasanter.Models
                     .ToString();
         }
 
-        public static string IndexJson(SiteSettings ss, Permissions.Types permissionType)
+        public static string IndexJson(SiteSettings ss, Permissions.Types pt)
         {
             var formData = DataViewFilters.SessionFormData();
-            var deptCollection = DeptCollection(ss, permissionType, formData);
+            var deptCollection = DeptCollection(ss, pt, formData);
             return new ResponseCollection()
                 .Html("#DataViewContainer", new HtmlBuilder().Grid(
                     ss: ss,
                     deptCollection: deptCollection,
-                    permissionType: permissionType,
+                    pt: pt,
                     formData: formData))
                 .DataViewFilters(ss: ss)
                 .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
@@ -150,13 +150,13 @@ namespace Implem.Pleasanter.Models
 
         private static DeptCollection DeptCollection(
             SiteSettings ss,
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             FormData formData,
             int offset = 0)
         {
             return new DeptCollection(
                 ss: ss,
-                permissionType: permissionType,
+                pt: pt,
                 column: GridSqlColumnCollection(ss),
                 where: DataViewFilters.Get(
                     ss: ss,
@@ -174,7 +174,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder Grid(
             this HtmlBuilder hb,
             SiteSettings ss,
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             DeptCollection deptCollection,
             FormData formData)
         {
@@ -199,14 +199,14 @@ namespace Implem.Pleasanter.Models
 
         public static string GridRows(
             SiteSettings ss,
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             ResponseCollection responseCollection = null,
             int offset = 0,
             bool clearCheck = false,
             Message message = null)
         {
             var formData = DataViewFilters.SessionFormData();
-            var deptCollection = DeptCollection(ss, permissionType, formData, offset);
+            var deptCollection = DeptCollection(ss, pt, formData, offset);
             return (responseCollection ?? new ResponseCollection())
                 .Remove(".grid tr", _using: offset == 0)
                 .ClearFormData("GridCheckAll", _using: clearCheck)
@@ -314,13 +314,13 @@ namespace Implem.Pleasanter.Models
         public static string Editor(DeptModel deptModel)
         {
             var hb = new HtmlBuilder();
-            var permissionType = Permissions.Admins();
+            var pt = Permissions.Admins();
             return hb.Template(
-                permissionType: permissionType,
+                pt: pt,
                 verType: deptModel.VerType,
                 methodType: deptModel.MethodType,
                 allowAccess:
-                    permissionType.CanEditTenant() &&
+                    pt.CanEditTenant() &&
                     deptModel.AccessStatus != Databases.AccessStatuses.NotFound,
                 referenceType: "Depts",
                 title: deptModel.MethodType == BaseModel.MethodTypes.New
@@ -331,7 +331,7 @@ namespace Implem.Pleasanter.Models
                     hb
                         .Editor(
                             deptModel: deptModel,
-                            permissionType: permissionType,
+                            pt: pt,
                             ss: deptModel.SiteSettings)
                         .Hidden(controlId: "TableName", value: "Depts")
                         .Hidden(controlId: "Id", value: deptModel.DeptId.ToString());
@@ -341,7 +341,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder Editor(
             this HtmlBuilder hb,
             DeptModel deptModel,
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             SiteSettings ss)
         {
             return hb.Div(id: "Editor", action: () => hb
@@ -354,7 +354,7 @@ namespace Implem.Pleasanter.Models
                             : Navigations.Action("Depts")),
                     action: () => hb
                         .RecordHeader(
-                            permissionType: permissionType,
+                            pt: pt,
                             baseModel: deptModel,
                             tableName: "Depts")
                         .Div(id: "EditorComments", action: () => hb
@@ -365,7 +365,7 @@ namespace Implem.Pleasanter.Models
                             .EditorTabs(deptModel: deptModel)
                             .FieldSetGeneral(
                                 ss: ss,
-                                permissionType: permissionType,
+                                pt: pt,
                                 deptModel: deptModel)
                             .FieldSet(
                                 attributes: new HtmlAttributes()
@@ -375,7 +375,7 @@ namespace Implem.Pleasanter.Models
                                 _using: deptModel.MethodType != BaseModel.MethodTypes.New)
                             .MainCommands(
                                 siteId: 0,
-                                permissionType: permissionType,
+                                pt: pt,
                                 verType: deptModel.VerType,
                                 referenceType: "Depts",
                                 referenceId: deptModel.DeptId,
@@ -423,7 +423,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder FieldSetGeneral(
             this HtmlBuilder hb,
             SiteSettings ss,
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             DeptModel deptModel)
         {
             return hb.FieldSet(id: "FieldSetGeneral", action: () =>
@@ -432,12 +432,12 @@ namespace Implem.Pleasanter.Models
                 {
                     switch (column.ColumnName)
                     {
-                        case "TenantId": hb.Field(ss, column, deptModel.MethodType, deptModel.TenantId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                        case "DeptId": hb.Field(ss, column, deptModel.MethodType, deptModel.DeptId.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                        case "Ver": hb.Field(ss, column, deptModel.MethodType, deptModel.Ver.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                        case "DeptCode": hb.Field(ss, column, deptModel.MethodType, deptModel.DeptCode.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                        case "DeptName": hb.Field(ss, column, deptModel.MethodType, deptModel.DeptName.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
-                        case "Body": hb.Field(ss, column, deptModel.MethodType, deptModel.Body.ToControl(column, permissionType), column.ColumnPermissionType(permissionType)); break;
+                        case "TenantId": hb.Field(ss, column, deptModel.MethodType, deptModel.TenantId.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
+                        case "DeptId": hb.Field(ss, column, deptModel.MethodType, deptModel.DeptId.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
+                        case "Ver": hb.Field(ss, column, deptModel.MethodType, deptModel.Ver.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
+                        case "DeptCode": hb.Field(ss, column, deptModel.MethodType, deptModel.DeptCode.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
+                        case "DeptName": hb.Field(ss, column, deptModel.MethodType, deptModel.DeptName.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
+                        case "Body": hb.Field(ss, column, deptModel.MethodType, deptModel.Body.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
                     }
                 });
                 hb.VerUpCheckBox(deptModel);
@@ -461,7 +461,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public static string EditorJson(
-            SiteSettings ss, Permissions.Types permissionType, int deptId)
+            SiteSettings ss, Permissions.Types pt, int deptId)
         {
             return EditorResponse(new DeptModel(ss, deptId))
                 .ToJson();
@@ -508,7 +508,7 @@ namespace Implem.Pleasanter.Models
 
         public static ResponseCollection FormResponse(
             this ResponseCollection responseCollection,
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             DeptModel deptModel)
         {
             Forms.All().Keys.ForEach(key =>
@@ -521,10 +521,10 @@ namespace Implem.Pleasanter.Models
             return responseCollection;
         }
 
-        public static string Create(SiteSettings ss, Permissions.Types permissionType)
+        public static string Create(SiteSettings ss, Permissions.Types pt)
         {
             var deptModel = new DeptModel(ss, 0, setByForm: true);
-            var invalid = DeptValidators.OnCreating(ss, permissionType, deptModel);
+            var invalid = DeptValidators.OnCreating(ss, pt, deptModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -545,10 +545,10 @@ namespace Implem.Pleasanter.Models
         }
 
         public static string Update(
-            SiteSettings ss, Permissions.Types permissionType, int deptId)
+            SiteSettings ss, Permissions.Types pt, int deptId)
         {
             var deptModel = new DeptModel(ss, deptId, setByForm: true);
-            var invalid = DeptValidators.OnUpdating(ss, permissionType, deptModel);
+            var invalid = DeptValidators.OnUpdating(ss, pt, deptModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -568,14 +568,14 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var responseCollection = new DeptsResponseCollection(deptModel);
-                return ResponseByUpdate(permissionType, deptModel, responseCollection)
+                return ResponseByUpdate(pt, deptModel, responseCollection)
                     .PrependComment(deptModel.Comments, deptModel.VerType)
                     .ToJson();
             }
         }
 
         private static ResponseCollection ResponseByUpdate(
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             DeptModel deptModel,
             DeptsResponseCollection responseCollection)
         {
@@ -583,7 +583,7 @@ namespace Implem.Pleasanter.Models
                 .Ver()
                 .Timestamp()
                 .Val("#VerUp", false)
-                .FormResponse(permissionType, deptModel)
+                .FormResponse(pt, deptModel)
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", deptModel.Title.Value)
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
@@ -594,10 +594,10 @@ namespace Implem.Pleasanter.Models
         }
 
         public static string Delete(
-            SiteSettings ss, Permissions.Types permissionType, int deptId)
+            SiteSettings ss, Permissions.Types pt, int deptId)
         {
             var deptModel = new DeptModel(ss, deptId);
-            var invalid = DeptValidators.OnDeleting(ss, permissionType, deptModel);
+            var invalid = DeptValidators.OnDeleting(ss, pt, deptModel);
             switch (invalid)
             {
                 case Error.Types.None: break;
@@ -639,7 +639,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public static string Histories(
-            SiteSettings ss, Permissions.Types permissionType, int deptId)
+            SiteSettings ss, Permissions.Types pt, int deptId)
         {
             var deptModel = new DeptModel(ss, deptId);
             var columns = ss.HistoryColumnCollection();
@@ -655,7 +655,7 @@ namespace Implem.Pleasanter.Models
                     .TBody(action: () =>
                         new DeptCollection(
                             ss: ss,
-                            permissionType: permissionType,
+                            pt: pt,
                             where: Rds.DeptsWhere().DeptId(deptModel.DeptId),
                             orderBy: Rds.DeptsOrderBy().Ver(SqlOrderBy.Types.desc),
                             tableType: Sqls.TableTypes.NormalAndHistory)
@@ -676,7 +676,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public static string History(
-            SiteSettings ss, Permissions.Types permissionType, int deptId)
+            SiteSettings ss, Permissions.Types pt, int deptId)
         {
             var deptModel = new DeptModel(ss, deptId);
             deptModel.Get(

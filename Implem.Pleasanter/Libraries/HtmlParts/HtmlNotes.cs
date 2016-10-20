@@ -10,11 +10,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder Notes(
             this HtmlBuilder hb,
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             Versions.VerTypes verType)
         {
             var notes = new Dictionary<string, string>();
-            if (!permissionType.CanUpdate())
+            if (!pt.CanUpdate())
             {
                 notes.Add("readonly", Displays.CanNotUpdate());
             }

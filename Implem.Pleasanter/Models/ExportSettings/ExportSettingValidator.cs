@@ -7,9 +7,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static Error.Types OnUpdatingOrCreating(Permissions.Types permissionType)
+        public static Error.Types OnUpdatingOrCreating(Permissions.Types pt)
         {
-            if (!permissionType.CanCreate() || !permissionType.CanUpdate())
+            if (!pt.CanCreate() || !pt.CanUpdate())
             {
                 return Error.Types.HasNotPermission;
             }

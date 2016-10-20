@@ -26,7 +26,7 @@ namespace Implem.Pleasanter.Models
 
         public WikiCollection(
             SiteSettings ss, 
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.Models
         {
             if (get)
             {
-                Set(ss, permissionType, Get(
+                Set(ss, pt, Get(
                     ss: ss,
                     column: column,
                     join: join,
@@ -62,22 +62,22 @@ namespace Implem.Pleasanter.Models
 
         public WikiCollection(
             SiteSettings ss, 
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             DataTable dataTable)
         {
-            Set(ss, permissionType, dataTable);
+            Set(ss, pt, dataTable);
         }
 
         private WikiCollection Set(
             SiteSettings ss, 
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             DataTable dataTable)
         {
             if (dataTable.Rows.Count > 0)
             {
                 foreach (DataRow dataRow in dataTable.Rows)
                 {
-                    Add(new WikiModel(ss, permissionType, dataRow));
+                    Add(new WikiModel(ss, pt, dataRow));
                 }
                 AccessStatus = Databases.AccessStatuses.Selected;
             }
@@ -90,11 +90,11 @@ namespace Implem.Pleasanter.Models
 
         public WikiCollection(
             SiteSettings ss, 
-            Permissions.Types permissionType,
+            Permissions.Types pt,
             string commandText,
             SqlParamCollection param = null)
         {
-            Set(ss, permissionType, Get(commandText, param));
+            Set(ss, pt, Get(commandText, param));
         }
 
         private DataTable Get(
