@@ -314,7 +314,6 @@
     <Compile Include="Libraries\Responses\ResponseSpecials.cs" />
     <Compile Include="Libraries\Scripts\JavaScripts.cs" />
     <Compile Include="Libraries\Search\Indexes.cs" />
-    <Compile Include="Libraries\Search\Responses.cs" />
     <Compile Include="Libraries\Search\WordBreaker.cs" />
     <Compile Include="Libraries\Security\Authentications.cs" />
     <Compile Include="Libraries\Security\Passwords.cs" />
