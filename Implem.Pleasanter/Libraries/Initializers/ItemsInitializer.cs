@@ -29,9 +29,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                         .ReferenceId(siteModel.SiteId)
                                         .ReferenceType("Sites")
                                         .SiteId(siteModel.SiteId)
-                                        .Title(siteModel.Title.Value)
-                                        .Subset(Jsons.ToJson(new SiteSubset(
-                                            siteModel, siteModel.SiteSettings)))),
+                                        .Title(siteModel.Title.Value)),
                                 Rds.IdentityInsertItems(on: false)
                             });
                     }
@@ -50,9 +48,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                         .Ver(siteModel.Ver)
                                         .ReferenceType("Sites")
                                         .SiteId(siteModel.SiteId)
-                                        .Title(siteModel.Title.Value)
-                                        .Subset(Jsons.ToJson(new SiteSubset(
-                                            siteModel, siteModel.SiteSettings))))
+                                        .Title(siteModel.Title.Value))
                             });
                     }
                 });
@@ -70,9 +66,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                         .Ver(siteModel.Ver)
                                         .ReferenceType("Sites")
                                         .SiteId(siteModel.SiteId)
-                                        .Title(siteModel.Title.Value)
-                                        .Subset(Jsons.ToJson(new SiteSubset(
-                                            siteModel, siteModel.SiteSettings))))
+                                        .Title(siteModel.Title.Value))
                             });
                     }
                 });
@@ -106,9 +100,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .ReferenceType("Issues")
                                             .SiteId(issueModel.SiteId)
                                             .Title(IssueUtilities.TitleDisplayValue(
-                                                siteSettings, issueModel))
-                                            .Subset(Jsons.ToJson(new IssueSubset(
-                                                issueModel, siteSettings)))),
+                                                siteSettings, issueModel))),
                                     Rds.IdentityInsertItems(on: false)
                                 });
                         }
@@ -143,9 +135,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .ReferenceType("Issues")
                                             .SiteId(issueModel.SiteId)
                                             .Title(IssueUtilities.TitleDisplayValue(
-                                                siteSettings, issueModel))
-                                            .Subset(Jsons.ToJson(new IssueSubset(
-                                                issueModel, siteSettings))))
+                                                siteSettings, issueModel)))
                                 });
                         }
                     });
@@ -179,9 +169,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .ReferenceType("Results")
                                             .SiteId(resultModel.SiteId)
                                             .Title(ResultUtilities.TitleDisplayValue(
-                                                siteSettings, resultModel))
-                                            .Subset(Jsons.ToJson(new ResultSubset(
-                                                resultModel, siteSettings)))),
+                                                siteSettings, resultModel))),
                                     Rds.IdentityInsertItems(on: false)
                                 });
                         }
@@ -216,9 +204,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .ReferenceType("Results")
                                             .SiteId(resultModel.SiteId)
                                             .Title(ResultUtilities.TitleDisplayValue(
-                                                siteSettings, resultModel))
-                                            .Subset(Jsons.ToJson(new ResultSubset(
-                                                resultModel, siteSettings))))
+                                                siteSettings, resultModel)))
                                 });
                         }
                     });
@@ -252,9 +238,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .ReferenceType("Wikis")
                                             .SiteId(wikiModel.SiteId)
                                             .Title(WikiUtilities.TitleDisplayValue(
-                                                siteSettings, wikiModel))
-                                            .Subset(Jsons.ToJson(new WikiSubset(
-                                                wikiModel, siteSettings)))),
+                                                siteSettings, wikiModel))),
                                     Rds.IdentityInsertItems(on: false)
                                 });
                         }
@@ -289,9 +273,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .ReferenceType("Wikis")
                                             .SiteId(wikiModel.SiteId)
                                             .Title(WikiUtilities.TitleDisplayValue(
-                                                siteSettings, wikiModel))
-                                            .Subset(Jsons.ToJson(new WikiSubset(
-                                                wikiModel, siteSettings))))
+                                                siteSettings, wikiModel)))
                                 });
                         }
                     });

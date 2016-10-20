@@ -171,8 +171,7 @@ namespace Implem.Pleasanter.Models
             Rds.ExecuteNonQuery(statements:
                 Rds.UpdateItems(
                     param: Rds.ItemsParam()
-                        .Title(WikiUtilities.TitleDisplayValue(SiteSettings, this))
-                        .Subset(Jsons.ToJson(new WikiSubset(this, SiteSettings))),
+                        .Title(WikiUtilities.TitleDisplayValue(SiteSettings, this)),
                     where: Rds.ItemsWhere().ReferenceId(WikiId)));
             return Error.Types.None;
         }
@@ -213,7 +212,6 @@ namespace Implem.Pleasanter.Models
                         param: Rds.ItemsParam()
                             .SiteId(SiteId)
                             .Title(WikiUtilities.TitleDisplayValue(SiteSettings, this))
-                            .Subset(Jsons.ToJson(new WikiSubset(this, SiteSettings)))
                             .MaintenanceTarget(true),
                         addUpdatedTimeParam: addUpdatedTimeParam,
                         addUpdatorParam: addUpdatorParam),

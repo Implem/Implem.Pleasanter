@@ -998,7 +998,6 @@ namespace Implem.DefinitionAccessor
                     case "Items_ReferenceType": Column.Items_ReferenceType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_ReferenceType, definitionRow, ColumnXls); break;
                     case "Items_SiteId": Column.Items_SiteId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_SiteId, definitionRow, ColumnXls); break;
                     case "Items_Title": Column.Items_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_Title, definitionRow, ColumnXls); break;
-                    case "Items_Subset": Column.Items_Subset = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_Subset, definitionRow, ColumnXls); break;
                     case "Items_MaintenanceTarget": Column.Items_MaintenanceTarget = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_MaintenanceTarget, definitionRow, ColumnXls); break;
                     case "Items_Site": Column.Items_Site = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Items_Site, definitionRow, ColumnXls); break;
                     case "Sites_TenantId": Column.Sites_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_TenantId, definitionRow, ColumnXls); break;
@@ -5267,7 +5266,6 @@ namespace Implem.DefinitionAccessor
         public string Items_ReferenceType;
         public string Items_SiteId;
         public string Items_Title;
-        public string Items_Subset;
         public string Items_MaintenanceTarget;
         public string Items_Site;
         public string Sites_TenantId;
@@ -5895,7 +5893,6 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Items_ReferenceType = new ColumnDefinition();
         public ColumnDefinition Items_SiteId = new ColumnDefinition();
         public ColumnDefinition Items_Title = new ColumnDefinition();
-        public ColumnDefinition Items_Subset = new ColumnDefinition();
         public ColumnDefinition Items_MaintenanceTarget = new ColumnDefinition();
         public ColumnDefinition Items_Site = new ColumnDefinition();
         public ColumnDefinition Sites_TenantId = new ColumnDefinition();

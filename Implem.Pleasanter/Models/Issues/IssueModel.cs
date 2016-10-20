@@ -728,8 +728,7 @@ namespace Implem.Pleasanter.Models
             Rds.ExecuteNonQuery(statements:
                 Rds.UpdateItems(
                     param: Rds.ItemsParam()
-                        .Title(IssueUtilities.TitleDisplayValue(SiteSettings, this))
-                        .Subset(Jsons.ToJson(new IssueSubset(this, SiteSettings))),
+                        .Title(IssueUtilities.TitleDisplayValue(SiteSettings, this)),
                     where: Rds.ItemsWhere().ReferenceId(IssueId)));
             return Error.Types.None;
         }
@@ -769,7 +768,6 @@ namespace Implem.Pleasanter.Models
                         param: Rds.ItemsParam()
                             .SiteId(SiteId)
                             .Title(IssueUtilities.TitleDisplayValue(SiteSettings, this))
-                            .Subset(Jsons.ToJson(new IssueSubset(this, SiteSettings)))
                             .MaintenanceTarget(true),
                         addUpdatedTimeParam: addUpdatedTimeParam,
                         addUpdatorParam: addUpdatorParam),

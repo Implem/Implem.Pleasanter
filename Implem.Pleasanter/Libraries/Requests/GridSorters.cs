@@ -221,7 +221,6 @@ namespace Implem.Pleasanter.Libraries.Requests
                     case "GridSorters_Items_ReferenceType": orderBy.Items_ReferenceType(type); break;
                     case "GridSorters_Items_SiteId": orderBy.Items_SiteId(type); break;
                     case "GridSorters_Items_Title": orderBy.Items_Title(type); break;
-                    case "GridSorters_Items_Subset": orderBy.Items_Subset(type); break;
                     case "GridSorters_Items_MaintenanceTarget": orderBy.Items_MaintenanceTarget(type); break;
                     case "GridSorters_Items_Comments": orderBy.Items_Comments(type); break;
                     case "GridSorters_Items_Creator": orderBy.Items_Creator(type); break;

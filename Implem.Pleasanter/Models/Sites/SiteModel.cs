@@ -270,7 +270,6 @@ namespace Implem.Pleasanter.Models
                         param: Rds.ItemsParam()
                             .SiteId(SiteId)
                             .Title(SiteUtilities.TitleDisplayValue(SiteSettings, this))
-                            .Subset(Jsons.ToJson(new SiteSubset(this, SiteSettings)))
                             .MaintenanceTarget(true),
                         addUpdatedTimeParam: addUpdatedTimeParam,
                         addUpdatorParam: addUpdatorParam),
@@ -473,9 +472,7 @@ namespace Implem.Pleasanter.Models
                             .Comments(Comments.ToJson())),
                     Rds.UpdateItems(
                         where: Rds.ItemsWhere().ReferenceId(raw: Def.Sql.Identity),
-                        param: Rds.ItemsParam()
-                            .SiteId(raw: Def.Sql.Identity)
-                            .Subset(Jsons.ToJson(new SiteSubset(this, SiteSettings)))),
+                        param: Rds.ItemsParam().SiteId(raw: Def.Sql.Identity)),
                     Rds.InsertPermissions(
                         param: Rds.PermissionsParam()
                             .ReferenceType("Sites")

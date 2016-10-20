@@ -220,9 +220,7 @@ namespace Implem.Pleasanter.Models
                     Rds.ExecuteNonQuery(statements: Rds.UpdateItems(
                         param: Rds.ItemsParam()
                             .SiteId(siteModel.SiteId)
-                            .Title(siteModel.Title.DisplayValue)
-                            .Subset(Jsons.ToJson(new SiteSubset(
-                                siteModel, siteModel.SiteSettings))),
+                            .Title(siteModel.Title.DisplayValue),
                         where: Rds.ItemsWhere().ReferenceId(siteModel.SiteId),
                         addUpdatorParam: false,
                         addUpdatedTimeParam: false));
@@ -302,9 +300,7 @@ namespace Implem.Pleasanter.Models
                         Rds.UpdateItems(
                             param: Rds.ItemsParam()
                                 .SiteId(issueModel.SiteId)
-                                .Title(issueModel.Title.DisplayValue)
-                                .Subset(Jsons.ToJson(new IssueSubset(
-                                    issueModel, siteSettings))),
+                                .Title(issueModel.Title.DisplayValue),
                             where: Rds.ItemsWhere().ReferenceId(issueModel.IssueId),
                             addUpdatorParam: false,
                             addUpdatedTimeParam: false));
@@ -423,9 +419,7 @@ namespace Implem.Pleasanter.Models
                         Rds.UpdateItems(
                             param: Rds.ItemsParam()
                                 .SiteId(resultModel.SiteId)
-                                .Title(resultModel.Title.DisplayValue)
-                                .Subset(Jsons.ToJson(new ResultSubset(
-                                    resultModel, siteSettings))),
+                                .Title(resultModel.Title.DisplayValue),
                             where: Rds.ItemsWhere().ReferenceId(resultModel.ResultId),
                             addUpdatorParam: false,
                             addUpdatedTimeParam: false));
