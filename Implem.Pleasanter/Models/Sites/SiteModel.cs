@@ -238,18 +238,25 @@ namespace Implem.Pleasanter.Models
 
         public Dictionary<string, int> SearchIndexHash()
         {
-            var searchIndexHash = new Dictionary<string, int>();
-            SiteInfo.SiteMenu.Breadcrumb(SiteId).SearchIndexes(searchIndexHash, 100);
-            SiteId.SearchIndexes(searchIndexHash, 1);
-            UpdatedTime.SearchIndexes(searchIndexHash, 200);
-            Title.SearchIndexes(searchIndexHash, 4);
-            Body.SearchIndexes(searchIndexHash, 200);
-            Comments.SearchIndexes(searchIndexHash, 200);
-            Creator.SearchIndexes(searchIndexHash, 100);
-            Updator.SearchIndexes(searchIndexHash, 100);
-            CreatedTime.SearchIndexes(searchIndexHash, 200);
-            SearchIndexExtensions.OutgoingMailsSearchIndexes(searchIndexHash, "Sites", SiteId);
-            return searchIndexHash;
+            if (AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return null;
+            }
+            else
+            {
+                var searchIndexHash = new Dictionary<string, int>();
+                SiteInfo.SiteMenu.Breadcrumb(SiteId).SearchIndexes(searchIndexHash, 100);
+                SiteId.SearchIndexes(searchIndexHash, 1);
+                UpdatedTime.SearchIndexes(searchIndexHash, 200);
+                Title.SearchIndexes(searchIndexHash, 4);
+                Body.SearchIndexes(searchIndexHash, 200);
+                Comments.SearchIndexes(searchIndexHash, 200);
+                Creator.SearchIndexes(searchIndexHash, 100);
+                Updator.SearchIndexes(searchIndexHash, 100);
+                CreatedTime.SearchIndexes(searchIndexHash, 200);
+                SearchIndexExtensions.OutgoingMailsSearchIndexes(searchIndexHash, "Sites", SiteId);
+                return searchIndexHash;
+            }
         }
 
         public Error.Types Update(bool paramAll = false)
