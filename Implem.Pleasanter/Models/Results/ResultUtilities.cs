@@ -437,8 +437,8 @@ namespace Implem.Pleasanter.Models
                     hb
                         .Editor(
                             ss: resultModel.SiteSettings,
-                            resultModel: resultModel,
-                            siteModel: siteModel)
+                            siteModel: siteModel,
+                            resultModel: resultModel)
                         .Hidden(controlId: "TableName", value: "Results")
                         .Hidden(controlId: "Id", value: resultModel.ResultId.ToString());
                 }).ToString();
@@ -446,8 +446,8 @@ namespace Implem.Pleasanter.Models
 
         private static HtmlBuilder Editor(
             this HtmlBuilder hb,
-            SiteModel siteModel,
             SiteSettings ss,
+            SiteModel siteModel,
             ResultModel resultModel)
         {
             return hb.Div(id: "Editor", action: () => hb
@@ -531,9 +531,9 @@ namespace Implem.Pleasanter.Models
 
         private static HtmlBuilder FieldSetGeneral(
             this HtmlBuilder hb,
-            ResultModel resultModel,
+            SiteSettings ss,
             Permissions.Types pt,
-            SiteSettings ss)
+            ResultModel resultModel)
         {
             return hb.FieldSet(id: "FieldSetGeneral", action: () =>
             {
@@ -694,16 +694,16 @@ namespace Implem.Pleasanter.Models
 
         private static HtmlBuilder MainCommandExtensions(
             this HtmlBuilder hb,
-            ResultModel resultModel,
-            SiteSettings ss)
+            SiteSettings ss,
+            ResultModel resultModel)
         {
             return hb;
         }
 
         private static HtmlBuilder EditorExtensions(
             this HtmlBuilder hb,
-            ResultModel resultModel,
-            SiteSettings ss)
+            SiteSettings ss,
+            ResultModel resultModel)
         {
             return hb;
         }

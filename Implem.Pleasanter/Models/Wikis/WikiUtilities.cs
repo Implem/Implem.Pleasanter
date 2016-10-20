@@ -94,8 +94,8 @@ namespace Implem.Pleasanter.Models
                     hb
                         .Editor(
                             ss: wikiModel.SiteSettings,
-                            wikiModel: wikiModel,
-                            siteModel: siteModel)
+                            siteModel: siteModel,
+                            wikiModel: wikiModel)
                         .Hidden(controlId: "TableName", value: "Wikis")
                         .Hidden(controlId: "Id", value: wikiModel.WikiId.ToString());
                 }).ToString();
@@ -106,8 +106,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder Editor(
             this HtmlBuilder hb,
-            SiteModel siteModel,
             SiteSettings ss,
+            SiteModel siteModel,
             WikiModel wikiModel)
         {
             return hb.Div(id: "Editor", action: () => hb
@@ -184,9 +184,9 @@ namespace Implem.Pleasanter.Models
 
         private static HtmlBuilder FieldSetGeneral(
             this HtmlBuilder hb,
-            WikiModel wikiModel,
+            SiteSettings ss,
             Permissions.Types pt,
-            SiteSettings ss)
+            WikiModel wikiModel)
         {
             return hb.FieldSet(id: "FieldSetGeneral", action: () =>
             {
@@ -206,16 +206,16 @@ namespace Implem.Pleasanter.Models
 
         private static HtmlBuilder MainCommandExtensions(
             this HtmlBuilder hb,
-            WikiModel wikiModel,
-            SiteSettings ss)
+            SiteSettings ss,
+            WikiModel wikiModel)
         {
             return hb;
         }
 
         private static HtmlBuilder EditorExtensions(
             this HtmlBuilder hb,
-            WikiModel wikiModel,
-            SiteSettings ss)
+            SiteSettings ss,
+            WikiModel wikiModel)
         {
             return hb;
         }

@@ -345,9 +345,9 @@ namespace Implem.Pleasanter.Models
                 {
                     hb
                         .Editor(
-                            userModel: userModel,
+                            ss: userModel.SiteSettings,
                             pt: pt,
-                            ss: userModel.SiteSettings)
+                            userModel: userModel)
                         .Hidden(controlId: "TableName", value: "Users")
                         .Hidden(controlId: "Id", value: userModel.UserId.ToString());
                 }).ToString();
@@ -358,9 +358,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder Editor(
             this HtmlBuilder hb,
-            UserModel userModel,
+            SiteSettings ss,
             Permissions.Types pt,
-            SiteSettings ss)
+            UserModel userModel)
         {
             return hb.Div(id: "Editor", action: () => hb
                 .Form(
@@ -498,8 +498,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder MainCommandExtensions(
             this HtmlBuilder hb,
-            UserModel userModel,
-            SiteSettings ss)
+            SiteSettings ss,
+            UserModel userModel)
         {
             if (userModel.VerType == Versions.VerTypes.Latest &&
                 userModel.MethodType != BaseModel.MethodTypes.New)

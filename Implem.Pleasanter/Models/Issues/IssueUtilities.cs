@@ -442,8 +442,8 @@ namespace Implem.Pleasanter.Models
                     hb
                         .Editor(
                             ss: issueModel.SiteSettings,
-                            issueModel: issueModel,
-                            siteModel: siteModel)
+                            siteModel: siteModel,
+                            issueModel: issueModel)
                         .Hidden(controlId: "TableName", value: "Issues")
                         .Hidden(controlId: "Id", value: issueModel.IssueId.ToString());
                 }).ToString();
@@ -451,8 +451,8 @@ namespace Implem.Pleasanter.Models
 
         private static HtmlBuilder Editor(
             this HtmlBuilder hb,
-            SiteModel siteModel,
             SiteSettings ss,
+            SiteModel siteModel,
             IssueModel issueModel)
         {
             return hb.Div(id: "Editor", action: () => hb
@@ -536,9 +536,9 @@ namespace Implem.Pleasanter.Models
 
         private static HtmlBuilder FieldSetGeneral(
             this HtmlBuilder hb,
-            IssueModel issueModel,
+            SiteSettings ss,
             Permissions.Types pt,
-            SiteSettings ss)
+            IssueModel issueModel)
         {
             return hb.FieldSet(id: "FieldSetGeneral", action: () =>
             {
@@ -707,8 +707,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder MainCommandExtensions(
             this HtmlBuilder hb,
-            IssueModel issueModel,
-            SiteSettings ss)
+            SiteSettings ss,
+            IssueModel issueModel)
         {
             return
                 issueModel.MethodType != BaseModel.MethodTypes.New &&
@@ -728,8 +728,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder EditorExtensions(
             this HtmlBuilder hb,
-            IssueModel issueModel,
-            SiteSettings ss)
+            SiteSettings ss,
+            IssueModel issueModel)
         {
             return
                 issueModel.MethodType != BaseModel.MethodTypes.New &&

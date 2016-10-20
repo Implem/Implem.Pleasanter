@@ -330,9 +330,9 @@ namespace Implem.Pleasanter.Models
                 {
                     hb
                         .Editor(
-                            deptModel: deptModel,
+                            ss: deptModel.SiteSettings,
                             pt: pt,
-                            ss: deptModel.SiteSettings)
+                            deptModel: deptModel)
                         .Hidden(controlId: "TableName", value: "Depts")
                         .Hidden(controlId: "Id", value: deptModel.DeptId.ToString());
                 }).ToString();
@@ -340,9 +340,9 @@ namespace Implem.Pleasanter.Models
 
         private static HtmlBuilder Editor(
             this HtmlBuilder hb,
-            DeptModel deptModel,
+            SiteSettings ss,
             Permissions.Types pt,
-            SiteSettings ss)
+            DeptModel deptModel)
         {
             return hb.Div(id: "Editor", action: () => hb
                 .Form(
@@ -446,8 +446,8 @@ namespace Implem.Pleasanter.Models
 
         private static HtmlBuilder MainCommandExtensions(
             this HtmlBuilder hb,
-            DeptModel deptModel,
-            SiteSettings ss)
+            SiteSettings ss,
+            DeptModel deptModel)
         {
             return hb;
         }
