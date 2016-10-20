@@ -61,7 +61,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public static ResponseCollection FormResponse(
-            this ResponseCollection responseCollection,
+            this ResponseCollection res,
             Permissions.Types pt,
             SiteModel siteModel)
         {
@@ -72,7 +72,7 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
-            return responseCollection;
+            return res;
         }
 
         private static HtmlBuilder ReferenceType(
@@ -164,10 +164,10 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var responseCollection = new SitesResponseCollection(siteModel);
-                responseCollection.ReplaceAll("#Breadcrumb", new HtmlBuilder()
+                var res = new SitesResponseCollection(siteModel);
+                res.ReplaceAll("#Breadcrumb", new HtmlBuilder()
                     .Breadcrumb(ss.SiteId));
-                return ResponseByUpdate(pt, siteModel, responseCollection)
+                return ResponseByUpdate(pt, siteModel, res)
                     .PrependComment(siteModel.Comments, siteModel.VerType)
                     .ToJson();
             }
@@ -176,9 +176,9 @@ namespace Implem.Pleasanter.Models
         private static ResponseCollection ResponseByUpdate(
             Permissions.Types pt,
             SiteModel siteModel,
-            SitesResponseCollection responseCollection)
+            SitesResponseCollection res)
         {
-            return responseCollection
+            return res
                 .Ver()
                 .Timestamp()
                 .Val("#VerUp", false)
@@ -229,9 +229,9 @@ namespace Implem.Pleasanter.Models
             else
             {
                 Sessions.Set("Message", Messages.Deleted(siteModel.Title.Value).Html);
-                var responseCollection = new SitesResponseCollection(siteModel);
-                responseCollection.Href(Navigations.ItemIndex(siteModel.ParentId));
-                return responseCollection.ToJson();
+                var res = new SitesResponseCollection(siteModel);
+                res.Href(Navigations.ItemIndex(siteModel.ParentId));
+                return res.ToJson();
             }
         }
 
@@ -251,8 +251,8 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var responseCollection = new SitesResponseCollection(siteModel);
-                return responseCollection.ToJson();
+                var res = new SitesResponseCollection(siteModel);
+                return res.ToJson();
             }
         }
 

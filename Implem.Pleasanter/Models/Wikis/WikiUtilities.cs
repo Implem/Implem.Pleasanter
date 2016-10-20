@@ -243,7 +243,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public static ResponseCollection FormResponse(
-            this ResponseCollection responseCollection,
+            this ResponseCollection res,
             Permissions.Types pt,
             WikiModel wikiModel)
         {
@@ -254,11 +254,11 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
-            return responseCollection;
+            return res;
         }
 
         public static ResponseCollection Formula(
-            this ResponseCollection responseCollection,
+            this ResponseCollection res,
             Permissions.Types pt,
             WikiModel wikiModel)
         {
@@ -270,7 +270,7 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
-            return responseCollection;
+            return res;
         }
 
         public static string Update(
@@ -296,10 +296,10 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var responseCollection = new WikisResponseCollection(wikiModel);
-                responseCollection.ReplaceAll("#Breadcrumb", new HtmlBuilder()
+                var res = new WikisResponseCollection(wikiModel);
+                res.ReplaceAll("#Breadcrumb", new HtmlBuilder()
                     .Breadcrumb(ss.SiteId));
-                return ResponseByUpdate(pt, wikiModel, responseCollection)
+                return ResponseByUpdate(pt, wikiModel, res)
                     .PrependComment(wikiModel.Comments, wikiModel.VerType)
                     .ToJson();
             }
@@ -308,9 +308,9 @@ namespace Implem.Pleasanter.Models
         private static ResponseCollection ResponseByUpdate(
             Permissions.Types pt,
             WikiModel wikiModel,
-            WikisResponseCollection responseCollection)
+            WikisResponseCollection res)
         {
-            return responseCollection
+            return res
                 .Ver()
                 .Timestamp()
                 .Val("#VerUp", false)
@@ -344,10 +344,10 @@ namespace Implem.Pleasanter.Models
             else
             {
                 Sessions.Set("Message", Messages.Deleted(wikiModel.Title.Value).Html);
-                var responseCollection = new WikisResponseCollection(wikiModel);
-                responseCollection.Href(Navigations.ItemIndex(
+                var res = new WikisResponseCollection(wikiModel);
+                res.Href(Navigations.ItemIndex(
                     new SiteModel(wikiModel.SiteId).ParentId));
-                return responseCollection.ToJson();
+                return res.ToJson();
             }
         }
 
@@ -367,8 +367,8 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var responseCollection = new WikisResponseCollection(wikiModel);
-                return responseCollection.ToJson();
+                var res = new WikisResponseCollection(wikiModel);
+                return res.ToJson();
             }
         }
 

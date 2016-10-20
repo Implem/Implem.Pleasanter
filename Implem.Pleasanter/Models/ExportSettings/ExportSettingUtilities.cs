@@ -107,12 +107,12 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static ResponseCollection EditorResponse(
-            this ResponseCollection responseCollection, string referenceType, long referenceId)
+            this ResponseCollection res, string referenceType, long referenceId)
         {
             var exportSettingModel = ExportSetting(referenceType, referenceId);
             SetSessions(exportSettingModel);
             var hb = new HtmlBuilder();
-            return responseCollection
+            return res
                 .Html("#ExportSettingsDialog", hb
                     .Form(
                         attributes: new HtmlAttributes()

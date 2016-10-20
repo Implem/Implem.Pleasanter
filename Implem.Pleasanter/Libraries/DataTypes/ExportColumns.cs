@@ -80,7 +80,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         }
 
         public void SetExport(
-            Responses.ResponseCollection responseCollection,
+            Responses.ResponseCollection res,
             string controlId,
             IEnumerable<string> selectedValues,
             SiteSettings ss)
@@ -117,7 +117,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             var newColumns = order.ToDictionary(o => o, o => Columns[o]);
             Columns.Clear();
             Columns.AddRange(newColumns);
-            responseCollection.Html("#ExportSettings_Columns",
+            res.Html("#ExportSettings_Columns",
                 new HtmlBuilder().SelectableItems(
                     listItemCollection: ExportColumnHash(ss),
                     selectedValueTextCollection: selectedValues));

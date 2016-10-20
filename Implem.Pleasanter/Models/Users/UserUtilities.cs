@@ -204,14 +204,14 @@ namespace Implem.Pleasanter.Models
         public static string GridRows(
             SiteSettings ss,
             Permissions.Types pt,
-            ResponseCollection responseCollection = null,
+            ResponseCollection res = null,
             int offset = 0,
             bool clearCheck = false,
             Message message = null)
         {
             var formData = DataViewFilters.SessionFormData();
             var userCollection = UserCollection(ss, pt, formData, offset);
-            return (responseCollection ?? new ResponseCollection())
+            return (res ?? new ResponseCollection())
                 .Remove(".grid tr", _using: offset == 0)
                 .ClearFormData("GridCheckAll", _using: clearCheck)
                 .ClearFormData("GridUnCheckedItems", _using: clearCheck)
@@ -586,7 +586,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public static ResponseCollection FormResponse(
-            this ResponseCollection responseCollection,
+            this ResponseCollection res,
             Permissions.Types pt,
             UserModel userModel)
         {
@@ -597,7 +597,7 @@ namespace Implem.Pleasanter.Models
                     default: break;
                 }
             });
-            return responseCollection;
+            return res;
         }
 
         public static string Create(SiteSettings ss, Permissions.Types pt)
@@ -651,8 +651,8 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var responseCollection = new UsersResponseCollection(userModel);
-                return ResponseByUpdate(pt, userModel, responseCollection)
+                var res = new UsersResponseCollection(userModel);
+                return ResponseByUpdate(pt, userModel, res)
                     .PrependComment(userModel.Comments, userModel.VerType)
                     .ToJson();
             }
@@ -661,9 +661,9 @@ namespace Implem.Pleasanter.Models
         private static ResponseCollection ResponseByUpdate(
             Permissions.Types pt,
             UserModel userModel,
-            UsersResponseCollection responseCollection)
+            UsersResponseCollection res)
         {
-            return responseCollection
+            return res
                 .Ver()
                 .Timestamp()
                 .Val("#VerUp", false)
@@ -695,9 +695,9 @@ namespace Implem.Pleasanter.Models
             else
             {
                 Sessions.Set("Message", Messages.Deleted(userModel.Title.Value).Html);
-                var responseCollection = new UsersResponseCollection(userModel);
-                responseCollection.Href(Navigations.Index("Users"));
-                return responseCollection.ToJson();
+                var res = new UsersResponseCollection(userModel);
+                res.Href(Navigations.Index("Users"));
+                return res.ToJson();
             }
         }
 
@@ -717,8 +717,8 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var responseCollection = new UsersResponseCollection(userModel);
-                return responseCollection.ToJson();
+                var res = new UsersResponseCollection(userModel);
+                return res.ToJson();
             }
         }
 

@@ -15,14 +15,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     public static class HtmlDataViewFilters
     {
         public static ResponseCollection DataViewFilters(
-            this ResponseCollection responseCollection, SiteSettings ss)
+            this ResponseCollection res, SiteSettings ss)
         {
             return
                 Forms.ControlId() == "ReduceDataViewFilters" ||
                 Forms.ControlId() == "ExpandDataViewFilters"
-                    ? responseCollection.ReplaceAll(
+                    ? res.ReplaceAll(
                         "#DataViewFilters", new HtmlBuilder().DataViewFilters(ss))
-                    : responseCollection;
+                    : res;
         }
 
         public static HtmlBuilder DataViewFilters(

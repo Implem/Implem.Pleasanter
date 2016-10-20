@@ -376,15 +376,15 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string Set()
         {
-            var responseCollection = new ExportSettingsResponseCollection(this);
+            var res = new ExportSettingsResponseCollection(this);
             ExportColumns = Session_ExportColumns();
             ExportColumns.SetExport(
-                responseCollection,
+                res,
                 Forms.ControlId(),
                 Forms.Data("ExportSettings_Columns")?.Split(';'),
                 GetSiteSettings());
             ExportSettingUtilities.SetSessions(this);
-            return responseCollection.ToJson();
+            return res.ToJson();
         }
 
         /// <summary>

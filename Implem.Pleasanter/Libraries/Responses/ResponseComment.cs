@@ -8,27 +8,27 @@ namespace Implem.Pleasanter.Libraries.Responses
     public static class ResponseComment
     {
         public static ResponseCollection PrependComment(
-            this ResponseCollection responseCollection,
+            this ResponseCollection res,
             Comments comments,
             Versions.VerTypes verType)
         {
             return Forms.Data("Comments").Trim() != string.Empty
-                ? responseCollection
+                ? res
                     .Val("#Comments", string.Empty)
                     .Focus("#Comments")
                     .Prepend("#CommentList", new HtmlBuilder()
                         .Comment(comment: comments[0], verType: verType))
-                : responseCollection;
+                : res;
         }
 
         public static ResponseCollection RemoveComment(
-            this ResponseCollection responseCollection, int commentId, bool _using)
+            this ResponseCollection res, int commentId, bool _using)
         {
             return _using
-                ? responseCollection
+                ? res
                     .Remove("#Comment" + commentId)
                     .Focus("#Comments")
-                : responseCollection;
+                : res;
         }
     }
 }

@@ -663,7 +663,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string ChangePassword()
         {
-            var responseCollection = new UsersResponseCollection(this);
+            var res = new UsersResponseCollection(this);
             if (UserId == Sessions.UserId())
             {
                 if (OldPassword == ChangedPassword)
@@ -679,7 +679,7 @@ namespace Implem.Pleasanter.Models
                             .Password(ChangedPassword)
                             .PasswordExpirationTime(PasswordExpirationTime.Value)
                             .PasswordChangeTime(raw: "getdate()")));
-                    responseCollection
+                    res
                         .PasswordExpirationTime(PasswordExpirationTime.ToString())
                         .PasswordChangeTime(PasswordChangeTime.ToString())
                         .UpdatedTime(UpdatedTime.ToString())
@@ -692,14 +692,14 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
-                    responseCollection.Message(Messages.IncorrectCurrentPassword());
+                    res.Message(Messages.IncorrectCurrentPassword());
                 }
             }
             else
             {
-                responseCollection.Message(Messages.HasNotPermission());
+                res.Message(Messages.HasNotPermission());
             }
-            return responseCollection.ToJson();
+            return res.ToJson();
         }
 
         /// <summary>

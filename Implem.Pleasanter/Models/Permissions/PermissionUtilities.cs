@@ -463,7 +463,7 @@ namespace Implem.Pleasanter.Models
         public static string Set(long siteId)
         {
             var siteModel = new SiteModel(siteId, setByForm: true);
-            var responseCollection = new ResponseCollection();
+            var res = new ResponseCollection();
             var selectedDestinationPermissionType_ItemIdCollection = Forms.Data("PermissionDestination")
                 .SortedSet(';')
                 .Where(o => o != string.Empty)
@@ -475,32 +475,32 @@ namespace Implem.Pleasanter.Models
             if (Forms.Data("command") != "AddPermission" &&
                 selectedDestinationPermissionType_ItemIdCollection.Contains("User," + Sessions.UserId()))
             {
-                responseCollection.Message(Messages.PermissionNotSelfChange());
+                res.Message(Messages.PermissionNotSelfChange());
             }
             else
             {
                 switch (Forms.ControlId())
                 {
                     case "ReadOnly":
-                        responseCollection.SetPermissionType(
+                        res.SetPermissionType(
                             siteModel,
                             selectedDestinationPermissionType_ItemIdCollection,
                             Permissions.Types.ReadOnly);
                         break;
                     case "ReadWrite":
-                        responseCollection.SetPermissionType(
+                        res.SetPermissionType(
                             siteModel,
                             selectedDestinationPermissionType_ItemIdCollection,
                             Permissions.Types.ReadWrite);
                         break;
                     case "Leader":
-                        responseCollection.SetPermissionType(
+                        res.SetPermissionType(
                             siteModel,
                             selectedDestinationPermissionType_ItemIdCollection,
                             Permissions.Types.Leader);
                         break;
                     case "Manager":
-                        responseCollection.SetPermissionType(
+                        res.SetPermissionType(
                             siteModel,
                             selectedDestinationPermissionType_ItemIdCollection,
                             Permissions.Types.Manager);
@@ -517,7 +517,7 @@ namespace Implem.Pleasanter.Models
                         siteModel.Session_PermissionSourceCollection().RemoveAll(o =>
                             selectedSourcePermissionType_ItemIdCollection
                                 .Contains(o.PermissionId));
-                        responseCollection
+                        res
                             .Html("#PermissionDestination", PermissionListItem(
                                 siteModel, Types.Destination,
                                 selectedSourcePermissionType_ItemIdCollection))
@@ -533,7 +533,7 @@ namespace Implem.Pleasanter.Models
                         siteModel.Session_PermissionDestinationCollection().RemoveAll(o =>
                             selectedDestinationPermissionType_ItemIdCollection
                                 .Contains(o.PermissionId));
-                        responseCollection
+                        res
                             .Html("#PermissionDestination", PermissionListItem(siteModel, Types.Destination))
                             .Html("#PermissionSource", PermissionListItem(
                                 siteModel, Types.Source,
@@ -550,20 +550,20 @@ namespace Implem.Pleasanter.Models
                         siteModel.Session_PermissionSourceCollection().RemoveAll(o =>
                             siteModel.Session_PermissionDestinationCollection()
                                 .Any(p => p.PermissionId == o.PermissionId));
-                        responseCollection.Html("#PermissionSource", PermissionListItem(
+                        res.Html("#PermissionSource", PermissionListItem(
                             siteModel, Types.Source,
                             selectedDestinationPermissionType_ItemIdCollection));
                         break;
                 }
             }
-            return responseCollection.ToJson();
+            return res.ToJson();
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         public static void SetPermissionType(
-            this ResponseCollection responseCollection,
+            this ResponseCollection res,
             SiteModel siteModel,
             List<string> selectedPermissionType_ItemIdCollection,
             Permissions.Types pt)
@@ -573,7 +573,7 @@ namespace Implem.Pleasanter.Models
                     .Where(o => (o.PermissionId == permissionType_ItemId))
                     .First()
                     .PermissionType = pt);
-            responseCollection.Html("#PermissionDestination", PermissionListItem(
+            res.Html("#PermissionDestination", PermissionListItem(
                 siteModel,
                 Types.Destination,
                 selectedPermissionType_ItemIdCollection));
