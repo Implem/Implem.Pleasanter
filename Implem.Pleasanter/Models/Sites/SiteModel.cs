@@ -1050,8 +1050,8 @@ namespace Implem.Pleasanter.Models
                         siteDataRows: siteDataRows))
                 .ReplaceAll("#SummaryLinkColumnField", new HtmlBuilder()
                     .SummaryLinkColumn(
-                        siteId: destinationSiteId,
-                        ss: SiteSettings));
+                        ss: SiteSettings,
+                        siteId: destinationSiteId));
         }
 
         /// <summary>

@@ -615,8 +615,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static string SiteHref(
-            SiteSettings ss, long siteId, string referenceType)
+        private static string SiteHref(SiteSettings ss, long siteId, string referenceType)
         {
             switch (referenceType)
             {
@@ -1022,8 +1021,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder SiteImageSettingsEditor(
-            this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder SiteImageSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
                 id: "SiteImageSettingsEditor",
@@ -1051,8 +1049,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder GridSettingsEditor(
-            this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder GridSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
                 id: "GridSettingsEditor",
@@ -1292,8 +1289,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder AggregationDetailsDialog(
-            this HtmlBuilder hb, SiteSettings ss)
+        public static HtmlBuilder AggregationDetailsDialog(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
@@ -1341,8 +1337,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder EditorSettingsEditor(
-            this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder EditorSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
                 id: "EditorSettingsEditor",
@@ -1356,8 +1351,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder SiteSettingEditorColumns(
-            this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder SiteSettingEditorColumns(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
                 legendText: Displays.SettingEditorColumns(),
@@ -1432,8 +1426,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder SiteSettingLinkColumns(
-            this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder SiteSettingLinkColumns(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
                 legendText: Displays.SettingLinkColumns(),
@@ -1496,8 +1489,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder SiteSettingHistoryColumns(
-            this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder SiteSettingHistoryColumns(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
                 legendText: Displays.SettingHistoryColumns(),
@@ -1879,8 +1871,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder SiteSettingFormulas(
-            this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder SiteSettingFormulas(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
                 legendText: Displays.SettingFormulas(),
@@ -1945,8 +1936,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder NotificationSettingsEditor(
-            this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder NotificationSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
                 id: "NotificationSettingsEditor",
@@ -2097,8 +2087,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder NotificationSettings(
-            this HtmlBuilder hb, SiteSettings ss)
+        public static HtmlBuilder NotificationSettings(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.Table(id: "NotificationSettings", css: "grid", action: () => hb
                 .THead(action: () => hb
@@ -2119,8 +2108,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder NotificationSettingsTBody(
-            this HtmlBuilder hb, SiteSettings ss)
+        public static HtmlBuilder NotificationSettingsTBody(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.TBody(action: () =>
             {
@@ -2156,8 +2144,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder SummarySettingsEditor(
-            this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder SummarySettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
             var siteDataRows = ss.SummarySiteDataRows();
             if (siteDataRows == null)
@@ -2186,8 +2173,8 @@ namespace Implem.Pleasanter.Models
                                     referenceType: ss.ReferenceType,
                                     siteDataRows: siteDataRows)
                                 .SummaryLinkColumn(
-                                    siteId: firstSiteId,
-                                    ss: ss)
+                                    ss: ss,
+                                    siteId: firstSiteId)
                                 .FieldDropDown(
                                     controlId: "SummaryType",
                                     controlCss: " auto-postback",
@@ -2298,9 +2285,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static HtmlBuilder SummaryLinkColumn(
-            this HtmlBuilder hb,
-            long siteId,
-            SiteSettings ss)
+            this HtmlBuilder hb, SiteSettings ss, long siteId)
         {
             return hb.FieldDropDown(
                 fieldId: "SummaryLinkColumnField",
@@ -2453,8 +2438,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder MailerSettingsEditor(
-            this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder MailerSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
                 id: "MailerSettingsEditor",
@@ -2492,8 +2476,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder StyleSettingsEditor(
-            this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder StyleSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
                 id: "StyleSettingsEditor",
@@ -2521,8 +2504,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder ScriptSettingsEditor(
-            this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder ScriptSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
                 id: "ScriptSettingsEditor",
