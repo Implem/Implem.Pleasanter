@@ -356,7 +356,6 @@
     <Compile Include="Models\ExportSettings\ExportSettingValidator.cs" />
     <Compile Include="Models\Issues\IssueCollection.cs" />
     <Compile Include="Models\Issues\IssueModel.cs" />
-    <Compile Include="Models\Issues\IssueSubset.cs" />
     <Compile Include="Models\Issues\IssueUtilities.cs" />
     <Compile Include="Models\Issues\IssueValidators.cs" />
     <Compile Include="Models\Items\ItemCollection.cs" />
@@ -385,7 +384,6 @@
     <Compile Include="Models\Permissions\PermissionValidators.cs" />
     <Compile Include="Models\Results\ResultCollection.cs" />
     <Compile Include="Models\Results\ResultModel.cs" />
-    <Compile Include="Models\Results\ResultSubset.cs" />
     <Compile Include="Models\Results\ResultUtilities.cs" />
     <Compile Include="Models\Results\ResultValidators.cs" />
     <Compile Include="Models\SearchIndexes\SearchIndexCollection.cs" />
@@ -394,7 +392,6 @@
     <Compile Include="Models\SearchIndexes\SearchIndexValidators.cs" />
     <Compile Include="Models\Sites\SiteCollection.cs" />
     <Compile Include="Models\Sites\SiteModel.cs" />
-    <Compile Include="Models\Sites\SiteSubset.cs" />
     <Compile Include="Models\Sites\SiteUtilities.cs" />
     <Compile Include="Models\Sites\SiteValidators.cs" />
     <Compile Include="Models\SysLogs\SysLogCollection.cs" />
@@ -411,7 +408,6 @@
     <Compile Include="Models\Users\UserValidators.cs" />
     <Compile Include="Models\Wikis\WikiCollection.cs" />
     <Compile Include="Models\Wikis\WikiModel.cs" />
-    <Compile Include="Models\Wikis\WikiSubset.cs" />
     <Compile Include="Models\Wikis\WikiUtilities.cs" />
     <Compile Include="Models\Shared\_BaseModel.cs" />
     <Compile Include="Models\Wikis\WikiValidators.cs" />

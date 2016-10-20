@@ -80,22 +80,18 @@ namespace Implem.Pleasanter.Libraries.Search
             var siteSettings = SiteSettingsUtility.Get(siteModel);
             switch (referenceType)
             {
-                case "Sites": return new SiteSubset(
-                    new SiteModel().Get(where: Rds.SitesWhere().SiteId(id)),
-                    siteSettings)
-                        .SearchIndexCollection();
-                case "Issues": return new IssueSubset(
-                    new IssueModel(siteSettings, id),
-                    siteSettings)
-                        .SearchIndexCollection();
-                case "Results": return new ResultSubset(
-                    new ResultModel(siteSettings, id),
-                    siteSettings)
-                        .SearchIndexCollection();
-                case "Wikis": return new WikiSubset(
-                    new WikiModel(siteSettings, id),
-                    siteSettings)
-                        .SearchIndexCollection();
+                case "Sites":
+                    return new SiteModel().Get(where: Rds.SitesWhere().SiteId(id))
+                        .SearchIndexHash();
+                case "Issues":
+                    return new IssueModel(siteSettings, id)
+                        .SearchIndexHash();
+                case "Results":
+                    return new ResultModel(siteSettings, id)
+                        .SearchIndexHash();
+                case "Wikis":
+                    return new WikiModel(siteSettings, id)
+                        .SearchIndexHash();
                 default: return null;
             }
         }

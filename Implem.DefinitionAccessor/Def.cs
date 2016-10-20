@@ -294,6 +294,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_GetItemsDefaultColumns": Code.Model_GetItemsDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetItemsDefaultColumns, definitionRow, CodeXls); break;
                     case "Model_SetSiteSettingsProperties": Code.Model_SetSiteSettingsProperties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSiteSettingsProperties, definitionRow, CodeXls); break;
                     case "Model_SetTenantId": Code.Model_SetTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetTenantId, definitionRow, CodeXls); break;
+                    case "Model_SearchIndexHash": Code.Model_SearchIndexHash = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SearchIndexHash, definitionRow, CodeXls); break;
+                    case "Model_SearchIndexHashColumnCases": Code.Model_SearchIndexHashColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SearchIndexHashColumnCases, definitionRow, CodeXls); break;
                     case "Model_Create": Code.Model_Create = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Create, definitionRow, CodeXls); break;
                     case "Model_CreateParams": Code.Model_CreateParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreateParams, definitionRow, CodeXls); break;
                     case "Model_OnCreating_Binaries": Code.Model_OnCreating_Binaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnCreating_Binaries, definitionRow, CodeXls); break;
@@ -410,10 +412,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_PermissionType": Code.Model_PermissionType = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PermissionType, definitionRow, CodeXls); break;
                     case "Model_PermissionTypeWithParameterName": Code.Model_PermissionTypeWithParameterName = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PermissionTypeWithParameterName, definitionRow, CodeXls); break;
                     case "Model_PermissionTypeWithParameterNameLower": Code.Model_PermissionTypeWithParameterNameLower = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_PermissionTypeWithParameterNameLower, definitionRow, CodeXls); break;
-                    case "Subset": Code.Subset = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Subset, definitionRow, CodeXls); break;
-                    case "Subset_Properties": Code.Subset_Properties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Subset_Properties, definitionRow, CodeXls); break;
-                    case "Subset_SetProperties": Code.Subset_SetProperties = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Subset_SetProperties, definitionRow, CodeXls); break;
-                    case "Subset_SearchIndexes": Code.Subset_SearchIndexes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Subset_SearchIndexes, definitionRow, CodeXls); break;
                     case "Collection": Code.Collection = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection, definitionRow, CodeXls); break;
                     case "Collection_SiteSettings": Code.Collection_SiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_SiteSettings, definitionRow, CodeXls); break;
                     case "Collection_SiteSettingsArgument": Code.Collection_SiteSettingsArgument = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_SiteSettingsArgument, definitionRow, CodeXls); break;
@@ -3876,6 +3874,8 @@ namespace Implem.DefinitionAccessor
         public string Model_GetItemsDefaultColumns;
         public string Model_SetSiteSettingsProperties;
         public string Model_SetTenantId;
+        public string Model_SearchIndexHash;
+        public string Model_SearchIndexHashColumnCases;
         public string Model_Create;
         public string Model_CreateParams;
         public string Model_OnCreating_Binaries;
@@ -3992,10 +3992,6 @@ namespace Implem.DefinitionAccessor
         public string Model_PermissionType;
         public string Model_PermissionTypeWithParameterName;
         public string Model_PermissionTypeWithParameterNameLower;
-        public string Subset;
-        public string Subset_Properties;
-        public string Subset_SetProperties;
-        public string Subset_SearchIndexes;
         public string Collection;
         public string Collection_SiteSettings;
         public string Collection_SiteSettingsArgument;
@@ -4315,6 +4311,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_GetItemsDefaultColumns = new CodeDefinition();
         public CodeDefinition Model_SetSiteSettingsProperties = new CodeDefinition();
         public CodeDefinition Model_SetTenantId = new CodeDefinition();
+        public CodeDefinition Model_SearchIndexHash = new CodeDefinition();
+        public CodeDefinition Model_SearchIndexHashColumnCases = new CodeDefinition();
         public CodeDefinition Model_Create = new CodeDefinition();
         public CodeDefinition Model_CreateParams = new CodeDefinition();
         public CodeDefinition Model_OnCreating_Binaries = new CodeDefinition();
@@ -4431,10 +4429,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_PermissionType = new CodeDefinition();
         public CodeDefinition Model_PermissionTypeWithParameterName = new CodeDefinition();
         public CodeDefinition Model_PermissionTypeWithParameterNameLower = new CodeDefinition();
-        public CodeDefinition Subset = new CodeDefinition();
-        public CodeDefinition Subset_Properties = new CodeDefinition();
-        public CodeDefinition Subset_SetProperties = new CodeDefinition();
-        public CodeDefinition Subset_SearchIndexes = new CodeDefinition();
         public CodeDefinition Collection = new CodeDefinition();
         public CodeDefinition Collection_SiteSettings = new CodeDefinition();
         public CodeDefinition Collection_SiteSettingsArgument = new CodeDefinition();
