@@ -1,6 +1,5 @@
 ﻿using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataTypes;
-using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
@@ -12,10 +11,8 @@ namespace Implem.Pleasanter.Models
         public long SiteId;
         public Time UpdatedTime;
         public long ResultId;
-        public int Ver;
         public Title Title;
         public string Body;
-        public TitleBody TitleBody;
         public Status Status;
         public User Manager;
         public User Owner;
@@ -123,38 +120,10 @@ namespace Implem.Pleasanter.Models
         public string DescriptionX;
         public string DescriptionY;
         public string DescriptionZ;
-        public bool CheckA;
-        public bool CheckB;
-        public bool CheckC;
-        public bool CheckD;
-        public bool CheckE;
-        public bool CheckF;
-        public bool CheckG;
-        public bool CheckH;
-        public bool CheckI;
-        public bool CheckJ;
-        public bool CheckK;
-        public bool CheckL;
-        public bool CheckM;
-        public bool CheckN;
-        public bool CheckO;
-        public bool CheckP;
-        public bool CheckQ;
-        public bool CheckR;
-        public bool CheckS;
-        public bool CheckT;
-        public bool CheckU;
-        public bool CheckV;
-        public bool CheckW;
-        public bool CheckX;
-        public bool CheckY;
-        public bool CheckZ;
         public Comments Comments;
         public User Creator;
         public User Updator;
         public Time CreatedTime;
-        public bool VerUp;
-        public string Timestamp;
 
         public ResultSubset()
         {
@@ -165,10 +134,8 @@ namespace Implem.Pleasanter.Models
             SiteId = resultModel.SiteId;
             UpdatedTime = resultModel.UpdatedTime;
             ResultId = resultModel.ResultId;
-            Ver = resultModel.Ver;
             Title = resultModel.Title;
             Body = resultModel.Body;
-            TitleBody = resultModel.TitleBody;
             Status = resultModel.Status;
             Manager = resultModel.Manager;
             Owner = resultModel.Owner;
@@ -276,38 +243,10 @@ namespace Implem.Pleasanter.Models
             DescriptionX = resultModel.DescriptionX;
             DescriptionY = resultModel.DescriptionY;
             DescriptionZ = resultModel.DescriptionZ;
-            CheckA = resultModel.CheckA;
-            CheckB = resultModel.CheckB;
-            CheckC = resultModel.CheckC;
-            CheckD = resultModel.CheckD;
-            CheckE = resultModel.CheckE;
-            CheckF = resultModel.CheckF;
-            CheckG = resultModel.CheckG;
-            CheckH = resultModel.CheckH;
-            CheckI = resultModel.CheckI;
-            CheckJ = resultModel.CheckJ;
-            CheckK = resultModel.CheckK;
-            CheckL = resultModel.CheckL;
-            CheckM = resultModel.CheckM;
-            CheckN = resultModel.CheckN;
-            CheckO = resultModel.CheckO;
-            CheckP = resultModel.CheckP;
-            CheckQ = resultModel.CheckQ;
-            CheckR = resultModel.CheckR;
-            CheckS = resultModel.CheckS;
-            CheckT = resultModel.CheckT;
-            CheckU = resultModel.CheckU;
-            CheckV = resultModel.CheckV;
-            CheckW = resultModel.CheckW;
-            CheckX = resultModel.CheckX;
-            CheckY = resultModel.CheckY;
-            CheckZ = resultModel.CheckZ;
             Comments = resultModel.Comments;
             Creator = resultModel.Creator;
             Updator = resultModel.Updator;
             CreatedTime = resultModel.CreatedTime;
-            VerUp = resultModel.VerUp;
-            Timestamp = resultModel.Timestamp;
         }
 
         public Dictionary<string, int> SearchIndexCollection()

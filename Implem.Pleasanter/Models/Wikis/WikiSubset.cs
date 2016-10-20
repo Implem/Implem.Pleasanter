@@ -1,6 +1,5 @@
 ﻿using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataTypes;
-using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
@@ -12,16 +11,12 @@ namespace Implem.Pleasanter.Models
         public long SiteId;
         public Time UpdatedTime;
         public long WikiId;
-        public int Ver;
         public Title Title;
         public string Body;
-        public TitleBody TitleBody;
         public Comments Comments;
         public User Creator;
         public User Updator;
         public Time CreatedTime;
-        public bool VerUp;
-        public string Timestamp;
 
         public WikiSubset()
         {
@@ -32,16 +27,12 @@ namespace Implem.Pleasanter.Models
             SiteId = wikiModel.SiteId;
             UpdatedTime = wikiModel.UpdatedTime;
             WikiId = wikiModel.WikiId;
-            Ver = wikiModel.Ver;
             Title = wikiModel.Title;
             Body = wikiModel.Body;
-            TitleBody = wikiModel.TitleBody;
             Comments = wikiModel.Comments;
             Creator = wikiModel.Creator;
             Updator = wikiModel.Updator;
             CreatedTime = wikiModel.CreatedTime;
-            VerUp = wikiModel.VerUp;
-            Timestamp = wikiModel.Timestamp;
         }
 
         public Dictionary<string, int> SearchIndexCollection()

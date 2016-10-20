@@ -1,6 +1,5 @@
 ﻿using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.DataTypes;
-using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
@@ -12,15 +11,12 @@ namespace Implem.Pleasanter.Models
         public long SiteId;
         public Time UpdatedTime;
         public long IssueId;
-        public int Ver;
         public Title Title;
         public string Body;
-        public TitleBody TitleBody;
         public DateTime StartTime;
         public CompletionTime CompletionTime;
         public WorkValue WorkValue;
         public ProgressRate ProgressRate;
-        public decimal RemainingWorkValue;
         public Status Status;
         public User Manager;
         public User Owner;
@@ -128,38 +124,10 @@ namespace Implem.Pleasanter.Models
         public string DescriptionX;
         public string DescriptionY;
         public string DescriptionZ;
-        public bool CheckA;
-        public bool CheckB;
-        public bool CheckC;
-        public bool CheckD;
-        public bool CheckE;
-        public bool CheckF;
-        public bool CheckG;
-        public bool CheckH;
-        public bool CheckI;
-        public bool CheckJ;
-        public bool CheckK;
-        public bool CheckL;
-        public bool CheckM;
-        public bool CheckN;
-        public bool CheckO;
-        public bool CheckP;
-        public bool CheckQ;
-        public bool CheckR;
-        public bool CheckS;
-        public bool CheckT;
-        public bool CheckU;
-        public bool CheckV;
-        public bool CheckW;
-        public bool CheckX;
-        public bool CheckY;
-        public bool CheckZ;
         public Comments Comments;
         public User Creator;
         public User Updator;
         public Time CreatedTime;
-        public bool VerUp;
-        public string Timestamp;
 
         public IssueSubset()
         {
@@ -170,15 +138,12 @@ namespace Implem.Pleasanter.Models
             SiteId = issueModel.SiteId;
             UpdatedTime = issueModel.UpdatedTime;
             IssueId = issueModel.IssueId;
-            Ver = issueModel.Ver;
             Title = issueModel.Title;
             Body = issueModel.Body;
-            TitleBody = issueModel.TitleBody;
             StartTime = issueModel.StartTime;
             CompletionTime = issueModel.CompletionTime;
             WorkValue = issueModel.WorkValue;
             ProgressRate = issueModel.ProgressRate;
-            RemainingWorkValue = issueModel.RemainingWorkValue;
             Status = issueModel.Status;
             Manager = issueModel.Manager;
             Owner = issueModel.Owner;
@@ -286,38 +251,10 @@ namespace Implem.Pleasanter.Models
             DescriptionX = issueModel.DescriptionX;
             DescriptionY = issueModel.DescriptionY;
             DescriptionZ = issueModel.DescriptionZ;
-            CheckA = issueModel.CheckA;
-            CheckB = issueModel.CheckB;
-            CheckC = issueModel.CheckC;
-            CheckD = issueModel.CheckD;
-            CheckE = issueModel.CheckE;
-            CheckF = issueModel.CheckF;
-            CheckG = issueModel.CheckG;
-            CheckH = issueModel.CheckH;
-            CheckI = issueModel.CheckI;
-            CheckJ = issueModel.CheckJ;
-            CheckK = issueModel.CheckK;
-            CheckL = issueModel.CheckL;
-            CheckM = issueModel.CheckM;
-            CheckN = issueModel.CheckN;
-            CheckO = issueModel.CheckO;
-            CheckP = issueModel.CheckP;
-            CheckQ = issueModel.CheckQ;
-            CheckR = issueModel.CheckR;
-            CheckS = issueModel.CheckS;
-            CheckT = issueModel.CheckT;
-            CheckU = issueModel.CheckU;
-            CheckV = issueModel.CheckV;
-            CheckW = issueModel.CheckW;
-            CheckX = issueModel.CheckX;
-            CheckY = issueModel.CheckY;
-            CheckZ = issueModel.CheckZ;
             Comments = issueModel.Comments;
             Creator = issueModel.Creator;
             Updator = issueModel.Updator;
             CreatedTime = issueModel.CreatedTime;
-            VerUp = issueModel.VerUp;
-            Timestamp = issueModel.Timestamp;
         }
 
         public Dictionary<string, int> SearchIndexCollection()
