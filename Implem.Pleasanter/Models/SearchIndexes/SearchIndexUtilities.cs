@@ -22,6 +22,69 @@ namespace Implem.Pleasanter.Models
 {
     public static class SearchIndexUtilities
     {
+        private static DataSet ResultContents(EnumerableRowCollection<DataRow> dataRows)
+        {
+            var statements = new List<SqlStatement>();
+            if (dataRows.Any(o => o["ReferenceType"].ToString() == "Sites"))
+            {
+                statements.Add(Rds.SelectSites(
+                    dataTableName: "Sites",
+                    column: Rds.SitesColumn()
+                        .ParentId(_as: "SiteId")
+                        .SiteId(_as: "Id")
+                        .Title()
+                        .Body(),
+                    where: Rds.SitesWhere()
+                        .TenantId(Sessions.TenantId())
+                        .SiteId_In(dataRows
+                            .Where(o => o["ReferenceType"].ToString() == "Sites")
+                            .Select(o => o["ReferenceId"].ToLong()))));
+            }
+            if (dataRows.Any(o => o["ReferenceType"].ToString() == "Issues"))
+            {
+                statements.Add(Rds.SelectIssues(
+                    dataTableName: "Issues",
+                    column: Rds.IssuesColumn()
+                        .SiteId()
+                        .IssueId(_as: "Id")
+                        .Title()
+                        .Body(),
+                    where: Rds.IssuesWhere()
+                        .IssueId_In(dataRows
+                            .Where(o => o["ReferenceType"].ToString() == "Issues")
+                            .Select(o =>o["ReferenceId"].ToLong()))));
+            }
+            if (dataRows.Any(o => o["ReferenceType"].ToString() == "Results"))
+            {
+                statements.Add(Rds.SelectResults(
+                    dataTableName: "Results",
+                    column: Rds.ResultsColumn()
+                        .SiteId()
+                        .ResultId(_as: "Id")
+                        .Title()
+                        .Body(),
+                    where: Rds.ResultsWhere()
+                        .ResultId_In(dataRows
+                            .Where(o => o["ReferenceType"].ToString() == "Results")
+                            .Select(o =>o["ReferenceId"].ToLong()))));
+            }
+            if (dataRows.Any(o => o["ReferenceType"].ToString() == "Wikis"))
+            {
+                statements.Add(Rds.SelectWikis(
+                    dataTableName: "Wikis",
+                    column: Rds.WikisColumn()
+                        .SiteId()
+                        .WikiId(_as: "Id")
+                        .Title()
+                        .Body(),
+                    where: Rds.WikisWhere()
+                        .WikiId_In(dataRows
+                            .Where(o => o["ReferenceType"].ToString() == "Wikis")
+                            .Select(o =>o["ReferenceId"].ToLong()))));
+            }
+            return Rds.ExecuteDataSet(statements: statements.ToArray());
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -144,7 +207,43 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder Results(
             this HtmlBuilder hb, string text, int offset, EnumerableRowCollection<DataRow> results)
         {
-            results?.ForEach(dataRow => Libraries.Search.Responses.Get(hb, dataRow, text));
+            if (results != null && results.Any())
+            {
+                var dataSet = ResultContents(results);
+                results.ForEach(result =>
+                {
+                    var referenceType = result["ReferenceType"].ToString();
+                    var referenceId = result["ReferenceId"].ToLong();
+                    var dataRow = dataSet.Tables[referenceType]
+                        .AsEnumerable()
+                        .FirstOrDefault(o => o["Id"].ToLong() == referenceId);
+                    if (dataRow != null)
+                    {
+                        var href = string.Empty;
+                        switch (referenceType)
+                        {
+                            case "Sites":
+                                href = Navigations.ItemIndex(referenceId);
+                                break;
+                            default:
+                                href = Navigations.ItemEdit(referenceId);
+                                break;
+                        }
+                        hb.Section(
+                            attributes: new HtmlAttributes()
+                                .Class("result")
+                                .Add("data-href", href),
+                            action: () => hb
+                                .Breadcrumb(dataRow["SiteId"].ToLong())
+                                .H(number: 3, action: () => hb
+                                     .A(
+                                         href: href,
+                                         text: dataRow["Title"].ToString()))
+                                .P(action: () => hb
+                                    .Text(text: dataRow["Body"].ToString())));
+                    }
+                });
+            }
             return hb;
         }
 
@@ -173,8 +272,6 @@ namespace Implem.Pleasanter.Models
                 column: Rds.SearchIndexesColumn()
                     .ReferenceId()
                     .ReferenceType()
-                    .Title()
-                    .Subset()
                     .PriorityTotal()
                     .SearchIndexesCount(),
                 offset: offset,
@@ -207,9 +304,7 @@ namespace Implem.Pleasanter.Models
                         .Items_SiteId(value: siteId, tableName: "t1", _using: siteId != 0),
                     groupBy: Rds.SearchIndexesGroupBy()
                         .ReferenceId()
-                        .ReferenceType()
-                        .Title()
-                        .Subset(),
+                        .ReferenceType(),
                     having: Rds.SearchIndexesHaving()
                         .SearchIndexesCount(concordance, _operator: ">="),
                     orderBy: Rds.SearchIndexesOrderBy()

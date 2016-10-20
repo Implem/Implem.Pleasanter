@@ -514,6 +514,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_CanEditTenant": Code.Model_Utilities_CanEditTenant = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CanEditTenant, definitionRow, CodeXls); break;
                     case "Model_Utilities_CanEditSys": Code.Model_Utilities_CanEditSys = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CanEditSys, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetNoticeParam": Code.Model_Utilities_SetNoticeParam = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetNoticeParam, definitionRow, CodeXls); break;
+                    case "Model_Utilities_SearchIndexes": Code.Model_Utilities_SearchIndexes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SearchIndexes, definitionRow, CodeXls); break;
+                    case "Model_Utilities_SearchIndexes_TableCases": Code.Model_Utilities_SearchIndexes_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SearchIndexes_TableCases, definitionRow, CodeXls); break;
                     case "Model_Validator": Code.Model_Validator = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator, definitionRow, CodeXls); break;
                     case "Model_ValidatorMethods": Code.Model_ValidatorMethods = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidatorMethods, definitionRow, CodeXls); break;
                     case "Model_Validator_OnMoving": Code.Model_Validator_OnMoving = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnMoving, definitionRow, CodeXls); break;
@@ -4097,6 +4099,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_CanEditTenant;
         public string Model_Utilities_CanEditSys;
         public string Model_Utilities_SetNoticeParam;
+        public string Model_Utilities_SearchIndexes;
+        public string Model_Utilities_SearchIndexes_TableCases;
         public string Model_Validator;
         public string Model_ValidatorMethods;
         public string Model_Validator_OnMoving;
@@ -4536,6 +4540,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_CanEditTenant = new CodeDefinition();
         public CodeDefinition Model_Utilities_CanEditSys = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetNoticeParam = new CodeDefinition();
+        public CodeDefinition Model_Utilities_SearchIndexes = new CodeDefinition();
+        public CodeDefinition Model_Utilities_SearchIndexes_TableCases = new CodeDefinition();
         public CodeDefinition Model_Validator = new CodeDefinition();
         public CodeDefinition Model_ValidatorMethods = new CodeDefinition();
         public CodeDefinition Model_Validator_OnMoving = new CodeDefinition();
