@@ -626,6 +626,9 @@ namespace Implem.DefinitionAccessor
                     case "GridSorters_Model": Code.GridSorters_Model = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.GridSorters_Model, definitionRow, CodeXls); break;
                     case "GridSorters_Cases": Code.GridSorters_Cases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.GridSorters_Cases, definitionRow, CodeXls); break;
                     case "HtmlLinks": Code.HtmlLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks, definitionRow, CodeXls); break;
+                    case "HtmlLinks_Contains": Code.HtmlLinks_Contains = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_Contains, definitionRow, CodeXls); break;
+                    case "HtmlLinks_DataSetTableCases": Code.HtmlLinks_DataSetTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_DataSetTableCases, definitionRow, CodeXls); break;
+                    case "HtmlLinks_SelectStatementTableCases": Code.HtmlLinks_SelectStatementTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_SelectStatementTableCases, definitionRow, CodeXls); break;
                     case "HtmlLinks_TableCases": Code.HtmlLinks_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_TableCases, definitionRow, CodeXls); break;
                     case "HtmlLinks_Headers": Code.HtmlLinks_Headers = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_Headers, definitionRow, CodeXls); break;
                     case "HtmlLinks_Rows": Code.HtmlLinks_Rows = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_Rows, definitionRow, CodeXls); break;
@@ -4206,6 +4209,9 @@ namespace Implem.DefinitionAccessor
         public string GridSorters_Model;
         public string GridSorters_Cases;
         public string HtmlLinks;
+        public string HtmlLinks_Contains;
+        public string HtmlLinks_DataSetTableCases;
+        public string HtmlLinks_SelectStatementTableCases;
         public string HtmlLinks_TableCases;
         public string HtmlLinks_Headers;
         public string HtmlLinks_Rows;
@@ -4642,6 +4648,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition GridSorters_Model = new CodeDefinition();
         public CodeDefinition GridSorters_Cases = new CodeDefinition();
         public CodeDefinition HtmlLinks = new CodeDefinition();
+        public CodeDefinition HtmlLinks_Contains = new CodeDefinition();
+        public CodeDefinition HtmlLinks_DataSetTableCases = new CodeDefinition();
+        public CodeDefinition HtmlLinks_SelectStatementTableCases = new CodeDefinition();
         public CodeDefinition HtmlLinks_TableCases = new CodeDefinition();
         public CodeDefinition HtmlLinks_Headers = new CodeDefinition();
         public CodeDefinition HtmlLinks_Rows = new CodeDefinition();
