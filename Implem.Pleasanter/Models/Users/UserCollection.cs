@@ -25,7 +25,7 @@ namespace Implem.Pleasanter.Models
         public Aggregations Aggregations = new Aggregations();
 
         public UserCollection(
-            SiteSettings siteSettings, 
+            SiteSettings ss, 
             Permissions.Types permissionType,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.Models
         {
             if (get)
             {
-                Set(siteSettings, permissionType, Get(
+                Set(ss, permissionType, Get(
                     column: column,
                     join: join,
                     where: where,
@@ -60,15 +60,15 @@ namespace Implem.Pleasanter.Models
         }
 
         public UserCollection(
-            SiteSettings siteSettings, 
+            SiteSettings ss, 
             Permissions.Types permissionType,
             DataTable dataTable)
         {
-            Set(siteSettings, permissionType, dataTable);
+            Set(ss, permissionType, dataTable);
         }
 
         private UserCollection Set(
-            SiteSettings siteSettings, 
+            SiteSettings ss, 
             Permissions.Types permissionType,
             DataTable dataTable)
         {
@@ -76,7 +76,7 @@ namespace Implem.Pleasanter.Models
             {
                 foreach (DataRow dataRow in dataTable.Rows)
                 {
-                    Add(new UserModel(siteSettings, permissionType, dataRow));
+                    Add(new UserModel(ss, permissionType, dataRow));
                 }
                 AccessStatus = Databases.AccessStatuses.Selected;
             }
@@ -88,12 +88,12 @@ namespace Implem.Pleasanter.Models
         }
 
         public UserCollection(
-            SiteSettings siteSettings, 
+            SiteSettings ss, 
             Permissions.Types permissionType,
             string commandText,
             SqlParamCollection param = null)
         {
-            Set(siteSettings, permissionType, Get(commandText, param));
+            Set(ss, permissionType, Get(commandText, param));
         }
 
         private DataTable Get(

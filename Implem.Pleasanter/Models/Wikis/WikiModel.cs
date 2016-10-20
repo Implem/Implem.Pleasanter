@@ -49,9 +49,9 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public WikiModel(SiteSettings siteSettings)
+        public WikiModel(SiteSettings ss)
         {
-            SiteSettings = siteSettings;
+            SiteSettings = ss;
         }
 
         public WikiModel(long wikiId, long siteId, bool setByForm = false)
@@ -67,29 +67,29 @@ namespace Implem.Pleasanter.Models
         }
 
         public WikiModel(
-            SiteSettings siteSettings, 
+            SiteSettings ss, 
             bool setByForm = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
-            SiteId = siteSettings.SiteId;
-            SiteSettings = siteSettings;
+            SiteId = ss.SiteId;
+            SiteSettings = ss;
             if (setByForm) SetByForm();
             MethodType = methodType;
             OnConstructed();
         }
 
         public WikiModel(
-            SiteSettings siteSettings, 
+            SiteSettings ss, 
             long wikiId,
             bool clearSessions = false,
             bool setByForm = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
-            SiteSettings = siteSettings;
+            SiteSettings = ss;
             WikiId = wikiId;
-            SiteId = siteSettings.SiteId;
+            SiteId = ss.SiteId;
             Get();
             if (clearSessions) ClearSessions();
             if (setByForm) SetByForm();
@@ -98,12 +98,12 @@ namespace Implem.Pleasanter.Models
         }
 
         public WikiModel(
-            SiteSettings siteSettings, 
+            SiteSettings ss, 
             Permissions.Types permissionType,
             DataRow dataRow)
         {
             OnConstructing();
-            SiteSettings = siteSettings;
+            SiteSettings = ss;
             Set(dataRow);
             OnConstructed();
         }
@@ -250,10 +250,10 @@ namespace Implem.Pleasanter.Models
         }
 
         private SqlInsert InsertLinks(
-            SiteSettings siteSettings, bool selectIdentity = false)
+            SiteSettings ss, bool selectIdentity = false)
         {
             var link = new Dictionary<long, long>();
-            siteSettings.ColumnCollection.Where(o => o.Link.ToBool()).ForEach(column =>
+            ss.ColumnCollection.Where(o => o.Link.ToBool()).ForEach(column =>
             {
                 switch (column.ColumnName)
                 {

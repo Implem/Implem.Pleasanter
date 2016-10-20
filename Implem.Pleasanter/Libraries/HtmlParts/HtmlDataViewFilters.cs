@@ -15,21 +15,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     public static class HtmlDataViewFilters
     {
         public static ResponseCollection DataViewFilters(
-            this ResponseCollection responseCollection, SiteSettings siteSettings)
+            this ResponseCollection responseCollection, SiteSettings ss)
         {
             return
                 Forms.ControlId() == "ReduceDataViewFilters" ||
                 Forms.ControlId() == "ExpandDataViewFilters"
                     ? responseCollection.ReplaceAll(
-                        "#DataViewFilters", new HtmlBuilder().DataViewFilters(siteSettings))
+                        "#DataViewFilters", new HtmlBuilder().DataViewFilters(ss))
                     : responseCollection;
         }
 
         public static HtmlBuilder DataViewFilters(
-            this HtmlBuilder hb, SiteSettings siteSettings)
+            this HtmlBuilder hb, SiteSettings ss)
         {
-            var formData = Requests.DataViewFilters.SessionFormData(siteSettings.SiteId);
-            return !Reduced(siteSettings.SiteId)
+            var formData = Requests.DataViewFilters.SessionFormData(ss.SiteId);
+            return !Reduced(ss.SiteId)
                 ? hb.Div(
                     id: "DataViewFilters",
                     action: () => hb
@@ -37,13 +37,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             id: "ReduceDataViewFilters",
                             icon: "ui-icon-close")
                         .Reset()
-                        .Incomplete(siteSettings: siteSettings, formData: formData)
-                        .Own(siteSettings: siteSettings, formData: formData)
-                        .NearCompletionTime(siteSettings: siteSettings, formData: formData)
-                        .Delay(siteSettings: siteSettings, formData: formData)
-                        .Limit(siteSettings: siteSettings, formData: formData)
-                        .Columns(siteSettings: siteSettings, formData: formData)
-                        .Search(siteSettings: siteSettings, formData: formData))
+                        .Incomplete(ss: ss, formData: formData)
+                        .Own(ss: ss, formData: formData)
+                        .NearCompletionTime(ss: ss, formData: formData)
+                        .Delay(ss: ss, formData: formData)
+                        .Limit(ss: ss, formData: formData)
+                        .Columns(ss: ss, formData: formData)
+                        .Search(ss: ss, formData: formData))
                 : hb.Div(
                     id: "DataViewFilters",
                     css: "reduced",
@@ -93,7 +93,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder Incomplete(
-            this HtmlBuilder hb, SiteSettings siteSettings, FormData formData)
+            this HtmlBuilder hb, SiteSettings ss, FormData formData)
         {
             return hb.FieldCheckBox(
                 controlId: "DataViewFilters_Incomplete",
@@ -103,11 +103,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 _checked: formData.Checked("DataViewFilters_Incomplete"),
                 method: "post",
                 labelPositionIsRight: true,
-                _using: Visible(siteSettings, "Status"));
+                _using: Visible(ss, "Status"));
         }
 
         private static HtmlBuilder Own(
-            this HtmlBuilder hb, SiteSettings siteSettings, FormData formData)
+            this HtmlBuilder hb, SiteSettings ss, FormData formData)
         {
             return hb.FieldCheckBox(
                 controlId: "DataViewFilters_Own",
@@ -117,11 +117,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 _checked: formData.Checked("DataViewFilters_Own"),
                 method: "post",
                 labelPositionIsRight: true,
-                _using: Visible(siteSettings, "Owner"));
+                _using: Visible(ss, "Owner"));
         }
 
         private static HtmlBuilder NearCompletionTime(
-            this HtmlBuilder hb, SiteSettings siteSettings, FormData formData)
+            this HtmlBuilder hb, SiteSettings ss, FormData formData)
         {
             return hb.FieldCheckBox(
                 controlId: "DataViewFilters_NearCompletionTime",
@@ -131,11 +131,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 _checked: formData.Checked("DataViewFilters_NearCompletionTime"),
                 method: "post",
                 labelPositionIsRight: true,
-                _using: Visible(siteSettings, "CompletionTime"));
+                _using: Visible(ss, "CompletionTime"));
         }
 
         private static HtmlBuilder Delay(
-            this HtmlBuilder hb, SiteSettings siteSettings, FormData formData)
+            this HtmlBuilder hb, SiteSettings ss, FormData formData)
         {
             return hb.FieldCheckBox(
                 controlId: "DataViewFilters_Delay",
@@ -145,11 +145,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 _checked: formData.Checked("DataViewFilters_Delay"),
                 method: "post",
                 labelPositionIsRight: true,
-                _using: Visible(siteSettings, "ProgressRate"));
+                _using: Visible(ss, "ProgressRate"));
         }
 
         private static HtmlBuilder Limit(
-            this HtmlBuilder hb, SiteSettings siteSettings, FormData formData)
+            this HtmlBuilder hb, SiteSettings ss, FormData formData)
         {
             return hb.FieldCheckBox(
                 controlId: "DataViewFilters_Overdue",
@@ -159,33 +159,33 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 _checked: formData.Checked("DataViewFilters_Overdue"),
                 method: "post",
                 labelPositionIsRight: true,
-                _using: Visible(siteSettings, "CompletionTime"));
+                _using: Visible(ss, "CompletionTime"));
         }
 
-        private static bool Visible(SiteSettings siteSettings, string columnName)
+        private static bool Visible(SiteSettings ss, string columnName)
         {
             return
-                siteSettings.GridColumnsOrder.Contains(columnName) ||
-                siteSettings.EditorColumnsOrder.Contains(columnName);
+                ss.GridColumnsOrder.Contains(columnName) ||
+                ss.EditorColumnsOrder.Contains(columnName);
         }
 
         private static HtmlBuilder Columns(
-            this HtmlBuilder hb, SiteSettings siteSettings, FormData formData)
+            this HtmlBuilder hb, SiteSettings ss, FormData formData)
         {
-            siteSettings.FilterColumnCollection().ForEach(column =>
+            ss.FilterColumnCollection().ForEach(column =>
             {
                 switch (column.TypeName.CsTypeSummary())
                 {
                     case Types.CsBool:
                         hb.CheckBox(
                             column: column,
-                            siteSettings: siteSettings,
+                            ss: ss,
                             formData: formData);
                         break;
                     case Types.CsDateTime:
                         var timePeriod = TimePeriod(column.RecordedTime);
                         hb.DropDown(
-                            siteSettings: siteSettings,
+                            ss: ss,
                             column: column,
                             formData: formData,
                             optionCollection: timePeriod);
@@ -195,7 +195,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         if (column.HasChoices())
                         {
                             hb.DropDown(
-                            siteSettings: siteSettings,
+                            ss: ss,
                                 column: column,
                                 formData: formData,
                                 optionCollection: column.EditChoices(addNotSet: true));
@@ -209,7 +209,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder CheckBox(
-            this HtmlBuilder hb, SiteSettings siteSettings, Column column, FormData formData)
+            this HtmlBuilder hb, SiteSettings ss, Column column, FormData formData)
         {
             return hb.FieldCheckBox(
                 controlId: "DataViewFilters_" + column.Id,
@@ -219,13 +219,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 _checked: formData.Get("DataViewFilters_" + column.Id).ToBool(),
                 method: "post",
                 _using:
-                    siteSettings.GridColumnsOrder.Contains(column.ColumnName) ||
-                    siteSettings.EditorColumnsOrder.Contains(column.ColumnName));
+                    ss.GridColumnsOrder.Contains(column.ColumnName) ||
+                    ss.EditorColumnsOrder.Contains(column.ColumnName));
         }
 
         private static HtmlBuilder DropDown(
             this HtmlBuilder hb,
-            SiteSettings siteSettings,
+            SiteSettings ss,
             Column column,
             FormData formData,
             Dictionary<string, ControlData> optionCollection)
@@ -241,13 +241,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 addSelectedValue: false,
                 method: "post",
                 _using:
-                    siteSettings.GridColumnsOrder.Contains(column.ColumnName) ||
-                    siteSettings.EditorColumnsOrder.Contains(column.ColumnName) ||
+                    ss.GridColumnsOrder.Contains(column.ColumnName) ||
+                    ss.EditorColumnsOrder.Contains(column.ColumnName) ||
                     column.RecordedTime);
         }
 
         private static HtmlBuilder Search(
-            this HtmlBuilder hb, SiteSettings siteSettings, FormData formData)
+            this HtmlBuilder hb, SiteSettings ss, FormData formData)
         {
             return hb.FieldTextBox(
                 controlId: "DataViewFilters_Search",

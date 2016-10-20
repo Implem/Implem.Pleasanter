@@ -6,7 +6,7 @@ namespace Implem.Pleasanter.Libraries.Scripts
     public static class JavaScripts
     {
         public static string DataView(
-            SiteSettings siteSettings,
+            SiteSettings ss,
             Permissions.Types permissionType,
             FormData formData,
             string dataViewName)

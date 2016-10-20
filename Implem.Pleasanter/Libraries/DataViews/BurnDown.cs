@@ -24,7 +24,7 @@ namespace Implem.Pleasanter.Libraries.DataViews
             public decimal? Earned;
         }
 
-        public BurnDown(SiteSettings siteSettings, IEnumerable<DataRow> dataRows)
+        public BurnDown(SiteSettings ss, IEnumerable<DataRow> dataRows)
         {
             dataRows.ForEach(dataRow =>
             {
@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Libraries.DataViews
                 Add(new BurnDownElement(
                     id,
                     ver,
-                    Titles.DisplayValue(siteSettings, dataRow),
+                    Titles.DisplayValue(ss, dataRow),
                     workValue,
                     dataRow["StartTime"].ToDateTime(),
                     dataRow["CompletionTime"].ToDateTime(),

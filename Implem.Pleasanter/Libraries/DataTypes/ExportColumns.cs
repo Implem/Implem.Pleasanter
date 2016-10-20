@@ -65,17 +65,17 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 !Def.ColumnDefinitionCollection.Any(p => p.ColumnName == key && p.Export > 0));
         }
 
-        public Dictionary<string, string> ExportColumnHash(SiteSettings siteSettings)
+        public Dictionary<string, string> ExportColumnHash(SiteSettings ss)
         {
             return Columns.ToDictionary(
                 o => o.Key,
-                o => Displays.Get(ExportColumn(siteSettings, o.Key)) +
+                o => Displays.Get(ExportColumn(ss, o.Key)) +
                     (o.Value ? " (" + Displays.Output() + ")" : string.Empty));
         }
 
-        public string ExportColumn(SiteSettings siteSettings, string columnName)
+        public string ExportColumn(SiteSettings ss, string columnName)
         {
-            return siteSettings.ColumnCollection
+            return ss.ColumnCollection
                 .FirstOrDefault(o => o.ColumnName == columnName && o.Export).LabelText;
         }
 
@@ -83,7 +83,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Responses.ResponseCollection responseCollection,
             string controlId,
             IEnumerable<string> selectedValues,
-            SiteSettings siteSettings)
+            SiteSettings ss)
         {
             var order = Columns.Keys.ToArray();
             if (controlId == "ColumnToDown") Array.Reverse(order);
@@ -119,13 +119,13 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Columns.AddRange(newColumns);
             responseCollection.Html("#ExportSettings_Columns",
                 new HtmlBuilder().SelectableItems(
-                    listItemCollection: ExportColumnHash(siteSettings),
+                    listItemCollection: ExportColumnHash(ss),
                     selectedValueTextCollection: selectedValues));
         }
 
-        public Dictionary<string, Column> ColumnHash(SiteSettings siteSettings)
+        public Dictionary<string, Column> ColumnHash(SiteSettings ss)
         {
-            return Columns.ToDictionary(o => o.Key, o => siteSettings.GetColumn(o.Key));
+            return Columns.ToDictionary(o => o.Key, o => ss.GetColumn(o.Key));
         }
     }
 }

@@ -138,10 +138,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     Displays.Quantity(),
                                     dataRows.Count()))
                                 .THead(action: () => hb
-                                    .IssuesHeader(siteSettings: issuesSiteSettings))
+                                    .IssuesHeader(ss: issuesSiteSettings))
                                 .TBody(action: () => hb
                                     .Issues(
-                                        siteSettings: issuesSiteSettings,
+                                        ss: issuesSiteSettings,
                                         permissionType: siteModel.PermissionType,
                                         dataRows: dataRows));
                             break;
@@ -156,10 +156,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     Displays.Quantity(),
                                     dataRows.Count()))
                                 .THead(action: () => hb
-                                    .ResultsHeader(siteSettings: resultsSiteSettings))
+                                    .ResultsHeader(ss: resultsSiteSettings))
                                 .TBody(action: () => hb
                                     .Results(
-                                        siteSettings: resultsSiteSettings,
+                                        ss: resultsSiteSettings,
                                         permissionType: siteModel.PermissionType,
                                         dataRows: dataRows));
                             break;
@@ -174,10 +174,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     Displays.Quantity(),
                                     dataRows.Count()))
                                 .THead(action: () => hb
-                                    .WikisHeader(siteSettings: wikisSiteSettings))
+                                    .WikisHeader(ss: wikisSiteSettings))
                                 .TBody(action: () => hb
                                     .Wikis(
-                                        siteSettings: wikisSiteSettings,
+                                        ss: wikisSiteSettings,
                                         permissionType: siteModel.PermissionType,
                                         dataRows: dataRows));
                             break;
@@ -187,11 +187,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb;
         }
 
-        private static HtmlBuilder IssuesHeader(this HtmlBuilder hb, SiteSettings siteSettings)
+        private static HtmlBuilder IssuesHeader(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.Tr(css: "ui-widget-header", action: () =>
             {
-                siteSettings
+                ss
                     .LinkColumnCollection()
                     .ForEach(column => hb
                         .Th(action: () => hb
@@ -199,11 +199,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             });
         }
 
-        private static HtmlBuilder ResultsHeader(this HtmlBuilder hb, SiteSettings siteSettings)
+        private static HtmlBuilder ResultsHeader(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.Tr(css: "ui-widget-header", action: () =>
             {
-                siteSettings
+                ss
                     .LinkColumnCollection()
                     .ForEach(column => hb
                         .Th(action: () => hb
@@ -211,11 +211,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             });
         }
 
-        private static HtmlBuilder WikisHeader(this HtmlBuilder hb, SiteSettings siteSettings)
+        private static HtmlBuilder WikisHeader(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.Tr(css: "ui-widget-header", action: () =>
             {
-                siteSettings
+                ss
                     .LinkColumnCollection()
                     .ForEach(column => hb
                         .Th(action: () => hb
@@ -225,20 +225,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder Issues(
             this HtmlBuilder hb,
-            SiteSettings siteSettings,
+            SiteSettings ss,
             Permissions.Types permissionType,
             EnumerableRowCollection<DataRow> dataRows)
         {
             dataRows.ForEach(dataRow =>
             {
-                var issueModel = new IssueModel(siteSettings, permissionType, dataRow);
+                var issueModel = new IssueModel(ss, permissionType, dataRow);
                 hb.Tr(
                     attributes: new HtmlAttributes()
                         .Class("grid-row")
                         .DataId(issueModel.IssueId.ToString()),
                     action: () =>
                     {
-                        siteSettings
+                        ss
                             .LinkColumnCollection()
                             .ForEach(column =>
                             {
@@ -246,757 +246,757 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 {
                                     case "SiteId":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("SiteId"),
+                                    	    column: ss.LinkColumn("SiteId"),
                                     	    value: issueModel.SiteId);
                                     	break;
                                     case "UpdatedTime":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("UpdatedTime"),
+                                    	    column: ss.LinkColumn("UpdatedTime"),
                                     	    value: issueModel.UpdatedTime);
                                     	break;
                                     case "IssueId":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("IssueId"),
+                                    	    column: ss.LinkColumn("IssueId"),
                                     	    value: issueModel.IssueId);
                                     	break;
                                     case "Ver":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Ver"),
+                                    	    column: ss.LinkColumn("Ver"),
                                     	    value: issueModel.Ver);
                                     	break;
                                     case "Title":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Title"),
+                                    	    column: ss.LinkColumn("Title"),
                                     	    value: issueModel.Title);
                                     	break;
                                     case "Body":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Body"),
+                                    	    column: ss.LinkColumn("Body"),
                                     	    value: issueModel.Body);
                                     	break;
                                     case "TitleBody":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("TitleBody"),
+                                    	    column: ss.LinkColumn("TitleBody"),
                                     	    value: issueModel.TitleBody);
                                     	break;
                                     case "StartTime":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("StartTime"),
+                                    	    column: ss.LinkColumn("StartTime"),
                                     	    value: issueModel.StartTime);
                                     	break;
                                     case "CompletionTime":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CompletionTime"),
+                                    	    column: ss.LinkColumn("CompletionTime"),
                                     	    value: issueModel.CompletionTime);
                                     	break;
                                     case "WorkValue":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("WorkValue"),
+                                    	    column: ss.LinkColumn("WorkValue"),
                                     	    value: issueModel.WorkValue);
                                     	break;
                                     case "ProgressRate":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ProgressRate"),
+                                    	    column: ss.LinkColumn("ProgressRate"),
                                     	    value: issueModel.ProgressRate);
                                     	break;
                                     case "RemainingWorkValue":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("RemainingWorkValue"),
+                                    	    column: ss.LinkColumn("RemainingWorkValue"),
                                     	    value: issueModel.RemainingWorkValue);
                                     	break;
                                     case "Status":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Status"),
+                                    	    column: ss.LinkColumn("Status"),
                                     	    value: issueModel.Status);
                                     	break;
                                     case "Manager":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Manager"),
+                                    	    column: ss.LinkColumn("Manager"),
                                     	    value: issueModel.Manager);
                                     	break;
                                     case "Owner":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Owner"),
+                                    	    column: ss.LinkColumn("Owner"),
                                     	    value: issueModel.Owner);
                                     	break;
                                     case "ClassA":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassA"),
+                                    	    column: ss.LinkColumn("ClassA"),
                                     	    value: issueModel.ClassA);
                                     	break;
                                     case "ClassB":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassB"),
+                                    	    column: ss.LinkColumn("ClassB"),
                                     	    value: issueModel.ClassB);
                                     	break;
                                     case "ClassC":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassC"),
+                                    	    column: ss.LinkColumn("ClassC"),
                                     	    value: issueModel.ClassC);
                                     	break;
                                     case "ClassD":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassD"),
+                                    	    column: ss.LinkColumn("ClassD"),
                                     	    value: issueModel.ClassD);
                                     	break;
                                     case "ClassE":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassE"),
+                                    	    column: ss.LinkColumn("ClassE"),
                                     	    value: issueModel.ClassE);
                                     	break;
                                     case "ClassF":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassF"),
+                                    	    column: ss.LinkColumn("ClassF"),
                                     	    value: issueModel.ClassF);
                                     	break;
                                     case "ClassG":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassG"),
+                                    	    column: ss.LinkColumn("ClassG"),
                                     	    value: issueModel.ClassG);
                                     	break;
                                     case "ClassH":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassH"),
+                                    	    column: ss.LinkColumn("ClassH"),
                                     	    value: issueModel.ClassH);
                                     	break;
                                     case "ClassI":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassI"),
+                                    	    column: ss.LinkColumn("ClassI"),
                                     	    value: issueModel.ClassI);
                                     	break;
                                     case "ClassJ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassJ"),
+                                    	    column: ss.LinkColumn("ClassJ"),
                                     	    value: issueModel.ClassJ);
                                     	break;
                                     case "ClassK":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassK"),
+                                    	    column: ss.LinkColumn("ClassK"),
                                     	    value: issueModel.ClassK);
                                     	break;
                                     case "ClassL":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassL"),
+                                    	    column: ss.LinkColumn("ClassL"),
                                     	    value: issueModel.ClassL);
                                     	break;
                                     case "ClassM":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassM"),
+                                    	    column: ss.LinkColumn("ClassM"),
                                     	    value: issueModel.ClassM);
                                     	break;
                                     case "ClassN":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassN"),
+                                    	    column: ss.LinkColumn("ClassN"),
                                     	    value: issueModel.ClassN);
                                     	break;
                                     case "ClassO":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassO"),
+                                    	    column: ss.LinkColumn("ClassO"),
                                     	    value: issueModel.ClassO);
                                     	break;
                                     case "ClassP":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassP"),
+                                    	    column: ss.LinkColumn("ClassP"),
                                     	    value: issueModel.ClassP);
                                     	break;
                                     case "ClassQ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassQ"),
+                                    	    column: ss.LinkColumn("ClassQ"),
                                     	    value: issueModel.ClassQ);
                                     	break;
                                     case "ClassR":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassR"),
+                                    	    column: ss.LinkColumn("ClassR"),
                                     	    value: issueModel.ClassR);
                                     	break;
                                     case "ClassS":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassS"),
+                                    	    column: ss.LinkColumn("ClassS"),
                                     	    value: issueModel.ClassS);
                                     	break;
                                     case "ClassT":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassT"),
+                                    	    column: ss.LinkColumn("ClassT"),
                                     	    value: issueModel.ClassT);
                                     	break;
                                     case "ClassU":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassU"),
+                                    	    column: ss.LinkColumn("ClassU"),
                                     	    value: issueModel.ClassU);
                                     	break;
                                     case "ClassV":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassV"),
+                                    	    column: ss.LinkColumn("ClassV"),
                                     	    value: issueModel.ClassV);
                                     	break;
                                     case "ClassW":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassW"),
+                                    	    column: ss.LinkColumn("ClassW"),
                                     	    value: issueModel.ClassW);
                                     	break;
                                     case "ClassX":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassX"),
+                                    	    column: ss.LinkColumn("ClassX"),
                                     	    value: issueModel.ClassX);
                                     	break;
                                     case "ClassY":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassY"),
+                                    	    column: ss.LinkColumn("ClassY"),
                                     	    value: issueModel.ClassY);
                                     	break;
                                     case "ClassZ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassZ"),
+                                    	    column: ss.LinkColumn("ClassZ"),
                                     	    value: issueModel.ClassZ);
                                     	break;
                                     case "NumA":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumA"),
+                                    	    column: ss.LinkColumn("NumA"),
                                     	    value: issueModel.NumA);
                                     	break;
                                     case "NumB":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumB"),
+                                    	    column: ss.LinkColumn("NumB"),
                                     	    value: issueModel.NumB);
                                     	break;
                                     case "NumC":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumC"),
+                                    	    column: ss.LinkColumn("NumC"),
                                     	    value: issueModel.NumC);
                                     	break;
                                     case "NumD":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumD"),
+                                    	    column: ss.LinkColumn("NumD"),
                                     	    value: issueModel.NumD);
                                     	break;
                                     case "NumE":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumE"),
+                                    	    column: ss.LinkColumn("NumE"),
                                     	    value: issueModel.NumE);
                                     	break;
                                     case "NumF":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumF"),
+                                    	    column: ss.LinkColumn("NumF"),
                                     	    value: issueModel.NumF);
                                     	break;
                                     case "NumG":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumG"),
+                                    	    column: ss.LinkColumn("NumG"),
                                     	    value: issueModel.NumG);
                                     	break;
                                     case "NumH":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumH"),
+                                    	    column: ss.LinkColumn("NumH"),
                                     	    value: issueModel.NumH);
                                     	break;
                                     case "NumI":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumI"),
+                                    	    column: ss.LinkColumn("NumI"),
                                     	    value: issueModel.NumI);
                                     	break;
                                     case "NumJ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumJ"),
+                                    	    column: ss.LinkColumn("NumJ"),
                                     	    value: issueModel.NumJ);
                                     	break;
                                     case "NumK":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumK"),
+                                    	    column: ss.LinkColumn("NumK"),
                                     	    value: issueModel.NumK);
                                     	break;
                                     case "NumL":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumL"),
+                                    	    column: ss.LinkColumn("NumL"),
                                     	    value: issueModel.NumL);
                                     	break;
                                     case "NumM":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumM"),
+                                    	    column: ss.LinkColumn("NumM"),
                                     	    value: issueModel.NumM);
                                     	break;
                                     case "NumN":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumN"),
+                                    	    column: ss.LinkColumn("NumN"),
                                     	    value: issueModel.NumN);
                                     	break;
                                     case "NumO":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumO"),
+                                    	    column: ss.LinkColumn("NumO"),
                                     	    value: issueModel.NumO);
                                     	break;
                                     case "NumP":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumP"),
+                                    	    column: ss.LinkColumn("NumP"),
                                     	    value: issueModel.NumP);
                                     	break;
                                     case "NumQ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumQ"),
+                                    	    column: ss.LinkColumn("NumQ"),
                                     	    value: issueModel.NumQ);
                                     	break;
                                     case "NumR":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumR"),
+                                    	    column: ss.LinkColumn("NumR"),
                                     	    value: issueModel.NumR);
                                     	break;
                                     case "NumS":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumS"),
+                                    	    column: ss.LinkColumn("NumS"),
                                     	    value: issueModel.NumS);
                                     	break;
                                     case "NumT":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumT"),
+                                    	    column: ss.LinkColumn("NumT"),
                                     	    value: issueModel.NumT);
                                     	break;
                                     case "NumU":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumU"),
+                                    	    column: ss.LinkColumn("NumU"),
                                     	    value: issueModel.NumU);
                                     	break;
                                     case "NumV":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumV"),
+                                    	    column: ss.LinkColumn("NumV"),
                                     	    value: issueModel.NumV);
                                     	break;
                                     case "NumW":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumW"),
+                                    	    column: ss.LinkColumn("NumW"),
                                     	    value: issueModel.NumW);
                                     	break;
                                     case "NumX":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumX"),
+                                    	    column: ss.LinkColumn("NumX"),
                                     	    value: issueModel.NumX);
                                     	break;
                                     case "NumY":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumY"),
+                                    	    column: ss.LinkColumn("NumY"),
                                     	    value: issueModel.NumY);
                                     	break;
                                     case "NumZ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumZ"),
+                                    	    column: ss.LinkColumn("NumZ"),
                                     	    value: issueModel.NumZ);
                                     	break;
                                     case "DateA":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateA"),
+                                    	    column: ss.LinkColumn("DateA"),
                                     	    value: issueModel.DateA);
                                     	break;
                                     case "DateB":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateB"),
+                                    	    column: ss.LinkColumn("DateB"),
                                     	    value: issueModel.DateB);
                                     	break;
                                     case "DateC":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateC"),
+                                    	    column: ss.LinkColumn("DateC"),
                                     	    value: issueModel.DateC);
                                     	break;
                                     case "DateD":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateD"),
+                                    	    column: ss.LinkColumn("DateD"),
                                     	    value: issueModel.DateD);
                                     	break;
                                     case "DateE":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateE"),
+                                    	    column: ss.LinkColumn("DateE"),
                                     	    value: issueModel.DateE);
                                     	break;
                                     case "DateF":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateF"),
+                                    	    column: ss.LinkColumn("DateF"),
                                     	    value: issueModel.DateF);
                                     	break;
                                     case "DateG":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateG"),
+                                    	    column: ss.LinkColumn("DateG"),
                                     	    value: issueModel.DateG);
                                     	break;
                                     case "DateH":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateH"),
+                                    	    column: ss.LinkColumn("DateH"),
                                     	    value: issueModel.DateH);
                                     	break;
                                     case "DateI":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateI"),
+                                    	    column: ss.LinkColumn("DateI"),
                                     	    value: issueModel.DateI);
                                     	break;
                                     case "DateJ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateJ"),
+                                    	    column: ss.LinkColumn("DateJ"),
                                     	    value: issueModel.DateJ);
                                     	break;
                                     case "DateK":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateK"),
+                                    	    column: ss.LinkColumn("DateK"),
                                     	    value: issueModel.DateK);
                                     	break;
                                     case "DateL":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateL"),
+                                    	    column: ss.LinkColumn("DateL"),
                                     	    value: issueModel.DateL);
                                     	break;
                                     case "DateM":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateM"),
+                                    	    column: ss.LinkColumn("DateM"),
                                     	    value: issueModel.DateM);
                                     	break;
                                     case "DateN":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateN"),
+                                    	    column: ss.LinkColumn("DateN"),
                                     	    value: issueModel.DateN);
                                     	break;
                                     case "DateO":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateO"),
+                                    	    column: ss.LinkColumn("DateO"),
                                     	    value: issueModel.DateO);
                                     	break;
                                     case "DateP":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateP"),
+                                    	    column: ss.LinkColumn("DateP"),
                                     	    value: issueModel.DateP);
                                     	break;
                                     case "DateQ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateQ"),
+                                    	    column: ss.LinkColumn("DateQ"),
                                     	    value: issueModel.DateQ);
                                     	break;
                                     case "DateR":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateR"),
+                                    	    column: ss.LinkColumn("DateR"),
                                     	    value: issueModel.DateR);
                                     	break;
                                     case "DateS":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateS"),
+                                    	    column: ss.LinkColumn("DateS"),
                                     	    value: issueModel.DateS);
                                     	break;
                                     case "DateT":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateT"),
+                                    	    column: ss.LinkColumn("DateT"),
                                     	    value: issueModel.DateT);
                                     	break;
                                     case "DateU":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateU"),
+                                    	    column: ss.LinkColumn("DateU"),
                                     	    value: issueModel.DateU);
                                     	break;
                                     case "DateV":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateV"),
+                                    	    column: ss.LinkColumn("DateV"),
                                     	    value: issueModel.DateV);
                                     	break;
                                     case "DateW":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateW"),
+                                    	    column: ss.LinkColumn("DateW"),
                                     	    value: issueModel.DateW);
                                     	break;
                                     case "DateX":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateX"),
+                                    	    column: ss.LinkColumn("DateX"),
                                     	    value: issueModel.DateX);
                                     	break;
                                     case "DateY":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateY"),
+                                    	    column: ss.LinkColumn("DateY"),
                                     	    value: issueModel.DateY);
                                     	break;
                                     case "DateZ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateZ"),
+                                    	    column: ss.LinkColumn("DateZ"),
                                     	    value: issueModel.DateZ);
                                     	break;
                                     case "DescriptionA":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionA"),
+                                    	    column: ss.LinkColumn("DescriptionA"),
                                     	    value: issueModel.DescriptionA);
                                     	break;
                                     case "DescriptionB":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionB"),
+                                    	    column: ss.LinkColumn("DescriptionB"),
                                     	    value: issueModel.DescriptionB);
                                     	break;
                                     case "DescriptionC":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionC"),
+                                    	    column: ss.LinkColumn("DescriptionC"),
                                     	    value: issueModel.DescriptionC);
                                     	break;
                                     case "DescriptionD":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionD"),
+                                    	    column: ss.LinkColumn("DescriptionD"),
                                     	    value: issueModel.DescriptionD);
                                     	break;
                                     case "DescriptionE":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionE"),
+                                    	    column: ss.LinkColumn("DescriptionE"),
                                     	    value: issueModel.DescriptionE);
                                     	break;
                                     case "DescriptionF":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionF"),
+                                    	    column: ss.LinkColumn("DescriptionF"),
                                     	    value: issueModel.DescriptionF);
                                     	break;
                                     case "DescriptionG":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionG"),
+                                    	    column: ss.LinkColumn("DescriptionG"),
                                     	    value: issueModel.DescriptionG);
                                     	break;
                                     case "DescriptionH":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionH"),
+                                    	    column: ss.LinkColumn("DescriptionH"),
                                     	    value: issueModel.DescriptionH);
                                     	break;
                                     case "DescriptionI":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionI"),
+                                    	    column: ss.LinkColumn("DescriptionI"),
                                     	    value: issueModel.DescriptionI);
                                     	break;
                                     case "DescriptionJ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionJ"),
+                                    	    column: ss.LinkColumn("DescriptionJ"),
                                     	    value: issueModel.DescriptionJ);
                                     	break;
                                     case "DescriptionK":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionK"),
+                                    	    column: ss.LinkColumn("DescriptionK"),
                                     	    value: issueModel.DescriptionK);
                                     	break;
                                     case "DescriptionL":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionL"),
+                                    	    column: ss.LinkColumn("DescriptionL"),
                                     	    value: issueModel.DescriptionL);
                                     	break;
                                     case "DescriptionM":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionM"),
+                                    	    column: ss.LinkColumn("DescriptionM"),
                                     	    value: issueModel.DescriptionM);
                                     	break;
                                     case "DescriptionN":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionN"),
+                                    	    column: ss.LinkColumn("DescriptionN"),
                                     	    value: issueModel.DescriptionN);
                                     	break;
                                     case "DescriptionO":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionO"),
+                                    	    column: ss.LinkColumn("DescriptionO"),
                                     	    value: issueModel.DescriptionO);
                                     	break;
                                     case "DescriptionP":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionP"),
+                                    	    column: ss.LinkColumn("DescriptionP"),
                                     	    value: issueModel.DescriptionP);
                                     	break;
                                     case "DescriptionQ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionQ"),
+                                    	    column: ss.LinkColumn("DescriptionQ"),
                                     	    value: issueModel.DescriptionQ);
                                     	break;
                                     case "DescriptionR":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionR"),
+                                    	    column: ss.LinkColumn("DescriptionR"),
                                     	    value: issueModel.DescriptionR);
                                     	break;
                                     case "DescriptionS":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionS"),
+                                    	    column: ss.LinkColumn("DescriptionS"),
                                     	    value: issueModel.DescriptionS);
                                     	break;
                                     case "DescriptionT":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionT"),
+                                    	    column: ss.LinkColumn("DescriptionT"),
                                     	    value: issueModel.DescriptionT);
                                     	break;
                                     case "DescriptionU":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionU"),
+                                    	    column: ss.LinkColumn("DescriptionU"),
                                     	    value: issueModel.DescriptionU);
                                     	break;
                                     case "DescriptionV":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionV"),
+                                    	    column: ss.LinkColumn("DescriptionV"),
                                     	    value: issueModel.DescriptionV);
                                     	break;
                                     case "DescriptionW":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionW"),
+                                    	    column: ss.LinkColumn("DescriptionW"),
                                     	    value: issueModel.DescriptionW);
                                     	break;
                                     case "DescriptionX":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionX"),
+                                    	    column: ss.LinkColumn("DescriptionX"),
                                     	    value: issueModel.DescriptionX);
                                     	break;
                                     case "DescriptionY":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionY"),
+                                    	    column: ss.LinkColumn("DescriptionY"),
                                     	    value: issueModel.DescriptionY);
                                     	break;
                                     case "DescriptionZ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionZ"),
+                                    	    column: ss.LinkColumn("DescriptionZ"),
                                     	    value: issueModel.DescriptionZ);
                                     	break;
                                     case "CheckA":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckA"),
+                                    	    column: ss.LinkColumn("CheckA"),
                                     	    value: issueModel.CheckA);
                                     	break;
                                     case "CheckB":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckB"),
+                                    	    column: ss.LinkColumn("CheckB"),
                                     	    value: issueModel.CheckB);
                                     	break;
                                     case "CheckC":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckC"),
+                                    	    column: ss.LinkColumn("CheckC"),
                                     	    value: issueModel.CheckC);
                                     	break;
                                     case "CheckD":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckD"),
+                                    	    column: ss.LinkColumn("CheckD"),
                                     	    value: issueModel.CheckD);
                                     	break;
                                     case "CheckE":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckE"),
+                                    	    column: ss.LinkColumn("CheckE"),
                                     	    value: issueModel.CheckE);
                                     	break;
                                     case "CheckF":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckF"),
+                                    	    column: ss.LinkColumn("CheckF"),
                                     	    value: issueModel.CheckF);
                                     	break;
                                     case "CheckG":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckG"),
+                                    	    column: ss.LinkColumn("CheckG"),
                                     	    value: issueModel.CheckG);
                                     	break;
                                     case "CheckH":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckH"),
+                                    	    column: ss.LinkColumn("CheckH"),
                                     	    value: issueModel.CheckH);
                                     	break;
                                     case "CheckI":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckI"),
+                                    	    column: ss.LinkColumn("CheckI"),
                                     	    value: issueModel.CheckI);
                                     	break;
                                     case "CheckJ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckJ"),
+                                    	    column: ss.LinkColumn("CheckJ"),
                                     	    value: issueModel.CheckJ);
                                     	break;
                                     case "CheckK":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckK"),
+                                    	    column: ss.LinkColumn("CheckK"),
                                     	    value: issueModel.CheckK);
                                     	break;
                                     case "CheckL":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckL"),
+                                    	    column: ss.LinkColumn("CheckL"),
                                     	    value: issueModel.CheckL);
                                     	break;
                                     case "CheckM":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckM"),
+                                    	    column: ss.LinkColumn("CheckM"),
                                     	    value: issueModel.CheckM);
                                     	break;
                                     case "CheckN":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckN"),
+                                    	    column: ss.LinkColumn("CheckN"),
                                     	    value: issueModel.CheckN);
                                     	break;
                                     case "CheckO":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckO"),
+                                    	    column: ss.LinkColumn("CheckO"),
                                     	    value: issueModel.CheckO);
                                     	break;
                                     case "CheckP":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckP"),
+                                    	    column: ss.LinkColumn("CheckP"),
                                     	    value: issueModel.CheckP);
                                     	break;
                                     case "CheckQ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckQ"),
+                                    	    column: ss.LinkColumn("CheckQ"),
                                     	    value: issueModel.CheckQ);
                                     	break;
                                     case "CheckR":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckR"),
+                                    	    column: ss.LinkColumn("CheckR"),
                                     	    value: issueModel.CheckR);
                                     	break;
                                     case "CheckS":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckS"),
+                                    	    column: ss.LinkColumn("CheckS"),
                                     	    value: issueModel.CheckS);
                                     	break;
                                     case "CheckT":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckT"),
+                                    	    column: ss.LinkColumn("CheckT"),
                                     	    value: issueModel.CheckT);
                                     	break;
                                     case "CheckU":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckU"),
+                                    	    column: ss.LinkColumn("CheckU"),
                                     	    value: issueModel.CheckU);
                                     	break;
                                     case "CheckV":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckV"),
+                                    	    column: ss.LinkColumn("CheckV"),
                                     	    value: issueModel.CheckV);
                                     	break;
                                     case "CheckW":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckW"),
+                                    	    column: ss.LinkColumn("CheckW"),
                                     	    value: issueModel.CheckW);
                                     	break;
                                     case "CheckX":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckX"),
+                                    	    column: ss.LinkColumn("CheckX"),
                                     	    value: issueModel.CheckX);
                                     	break;
                                     case "CheckY":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckY"),
+                                    	    column: ss.LinkColumn("CheckY"),
                                     	    value: issueModel.CheckY);
                                     	break;
                                     case "CheckZ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckZ"),
+                                    	    column: ss.LinkColumn("CheckZ"),
                                     	    value: issueModel.CheckZ);
                                     	break;
                                     case "Comments":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Comments"),
+                                    	    column: ss.LinkColumn("Comments"),
                                     	    value: issueModel.Comments);
                                     	break;
                                     case "Creator":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Creator"),
+                                    	    column: ss.LinkColumn("Creator"),
                                     	    value: issueModel.Creator);
                                     	break;
                                     case "Updator":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Updator"),
+                                    	    column: ss.LinkColumn("Updator"),
                                     	    value: issueModel.Updator);
                                     	break;
                                     case "CreatedTime":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CreatedTime"),
+                                    	    column: ss.LinkColumn("CreatedTime"),
                                     	    value: issueModel.CreatedTime);
                                     	break;
                                     case "VerUp":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("VerUp"),
+                                    	    column: ss.LinkColumn("VerUp"),
                                     	    value: issueModel.VerUp);
                                     	break;
                                     case "Timestamp":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Timestamp"),
+                                    	    column: ss.LinkColumn("Timestamp"),
                                     	    value: issueModel.Timestamp);
                                     	break;
                                 }
@@ -1008,20 +1008,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder Results(
             this HtmlBuilder hb,
-            SiteSettings siteSettings,
+            SiteSettings ss,
             Permissions.Types permissionType,
             EnumerableRowCollection<DataRow> dataRows)
         {
             dataRows.ForEach(dataRow =>
             {
-                var resultModel = new ResultModel(siteSettings, permissionType, dataRow);
+                var resultModel = new ResultModel(ss, permissionType, dataRow);
                 hb.Tr(
                     attributes: new HtmlAttributes()
                         .Class("grid-row")
                         .DataId(resultModel.ResultId.ToString()),
                     action: () =>
                     {
-                        siteSettings
+                        ss
                             .LinkColumnCollection()
                             .ForEach(column =>
                             {
@@ -1029,732 +1029,732 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 {
                                     case "SiteId":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("SiteId"),
+                                    	    column: ss.LinkColumn("SiteId"),
                                     	    value: resultModel.SiteId);
                                     	break;
                                     case "UpdatedTime":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("UpdatedTime"),
+                                    	    column: ss.LinkColumn("UpdatedTime"),
                                     	    value: resultModel.UpdatedTime);
                                     	break;
                                     case "ResultId":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ResultId"),
+                                    	    column: ss.LinkColumn("ResultId"),
                                     	    value: resultModel.ResultId);
                                     	break;
                                     case "Ver":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Ver"),
+                                    	    column: ss.LinkColumn("Ver"),
                                     	    value: resultModel.Ver);
                                     	break;
                                     case "Title":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Title"),
+                                    	    column: ss.LinkColumn("Title"),
                                     	    value: resultModel.Title);
                                     	break;
                                     case "Body":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Body"),
+                                    	    column: ss.LinkColumn("Body"),
                                     	    value: resultModel.Body);
                                     	break;
                                     case "TitleBody":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("TitleBody"),
+                                    	    column: ss.LinkColumn("TitleBody"),
                                     	    value: resultModel.TitleBody);
                                     	break;
                                     case "Status":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Status"),
+                                    	    column: ss.LinkColumn("Status"),
                                     	    value: resultModel.Status);
                                     	break;
                                     case "Manager":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Manager"),
+                                    	    column: ss.LinkColumn("Manager"),
                                     	    value: resultModel.Manager);
                                     	break;
                                     case "Owner":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Owner"),
+                                    	    column: ss.LinkColumn("Owner"),
                                     	    value: resultModel.Owner);
                                     	break;
                                     case "ClassA":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassA"),
+                                    	    column: ss.LinkColumn("ClassA"),
                                     	    value: resultModel.ClassA);
                                     	break;
                                     case "ClassB":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassB"),
+                                    	    column: ss.LinkColumn("ClassB"),
                                     	    value: resultModel.ClassB);
                                     	break;
                                     case "ClassC":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassC"),
+                                    	    column: ss.LinkColumn("ClassC"),
                                     	    value: resultModel.ClassC);
                                     	break;
                                     case "ClassD":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassD"),
+                                    	    column: ss.LinkColumn("ClassD"),
                                     	    value: resultModel.ClassD);
                                     	break;
                                     case "ClassE":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassE"),
+                                    	    column: ss.LinkColumn("ClassE"),
                                     	    value: resultModel.ClassE);
                                     	break;
                                     case "ClassF":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassF"),
+                                    	    column: ss.LinkColumn("ClassF"),
                                     	    value: resultModel.ClassF);
                                     	break;
                                     case "ClassG":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassG"),
+                                    	    column: ss.LinkColumn("ClassG"),
                                     	    value: resultModel.ClassG);
                                     	break;
                                     case "ClassH":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassH"),
+                                    	    column: ss.LinkColumn("ClassH"),
                                     	    value: resultModel.ClassH);
                                     	break;
                                     case "ClassI":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassI"),
+                                    	    column: ss.LinkColumn("ClassI"),
                                     	    value: resultModel.ClassI);
                                     	break;
                                     case "ClassJ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassJ"),
+                                    	    column: ss.LinkColumn("ClassJ"),
                                     	    value: resultModel.ClassJ);
                                     	break;
                                     case "ClassK":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassK"),
+                                    	    column: ss.LinkColumn("ClassK"),
                                     	    value: resultModel.ClassK);
                                     	break;
                                     case "ClassL":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassL"),
+                                    	    column: ss.LinkColumn("ClassL"),
                                     	    value: resultModel.ClassL);
                                     	break;
                                     case "ClassM":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassM"),
+                                    	    column: ss.LinkColumn("ClassM"),
                                     	    value: resultModel.ClassM);
                                     	break;
                                     case "ClassN":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassN"),
+                                    	    column: ss.LinkColumn("ClassN"),
                                     	    value: resultModel.ClassN);
                                     	break;
                                     case "ClassO":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassO"),
+                                    	    column: ss.LinkColumn("ClassO"),
                                     	    value: resultModel.ClassO);
                                     	break;
                                     case "ClassP":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassP"),
+                                    	    column: ss.LinkColumn("ClassP"),
                                     	    value: resultModel.ClassP);
                                     	break;
                                     case "ClassQ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassQ"),
+                                    	    column: ss.LinkColumn("ClassQ"),
                                     	    value: resultModel.ClassQ);
                                     	break;
                                     case "ClassR":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassR"),
+                                    	    column: ss.LinkColumn("ClassR"),
                                     	    value: resultModel.ClassR);
                                     	break;
                                     case "ClassS":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassS"),
+                                    	    column: ss.LinkColumn("ClassS"),
                                     	    value: resultModel.ClassS);
                                     	break;
                                     case "ClassT":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassT"),
+                                    	    column: ss.LinkColumn("ClassT"),
                                     	    value: resultModel.ClassT);
                                     	break;
                                     case "ClassU":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassU"),
+                                    	    column: ss.LinkColumn("ClassU"),
                                     	    value: resultModel.ClassU);
                                     	break;
                                     case "ClassV":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassV"),
+                                    	    column: ss.LinkColumn("ClassV"),
                                     	    value: resultModel.ClassV);
                                     	break;
                                     case "ClassW":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassW"),
+                                    	    column: ss.LinkColumn("ClassW"),
                                     	    value: resultModel.ClassW);
                                     	break;
                                     case "ClassX":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassX"),
+                                    	    column: ss.LinkColumn("ClassX"),
                                     	    value: resultModel.ClassX);
                                     	break;
                                     case "ClassY":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassY"),
+                                    	    column: ss.LinkColumn("ClassY"),
                                     	    value: resultModel.ClassY);
                                     	break;
                                     case "ClassZ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("ClassZ"),
+                                    	    column: ss.LinkColumn("ClassZ"),
                                     	    value: resultModel.ClassZ);
                                     	break;
                                     case "NumA":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumA"),
+                                    	    column: ss.LinkColumn("NumA"),
                                     	    value: resultModel.NumA);
                                     	break;
                                     case "NumB":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumB"),
+                                    	    column: ss.LinkColumn("NumB"),
                                     	    value: resultModel.NumB);
                                     	break;
                                     case "NumC":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumC"),
+                                    	    column: ss.LinkColumn("NumC"),
                                     	    value: resultModel.NumC);
                                     	break;
                                     case "NumD":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumD"),
+                                    	    column: ss.LinkColumn("NumD"),
                                     	    value: resultModel.NumD);
                                     	break;
                                     case "NumE":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumE"),
+                                    	    column: ss.LinkColumn("NumE"),
                                     	    value: resultModel.NumE);
                                     	break;
                                     case "NumF":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumF"),
+                                    	    column: ss.LinkColumn("NumF"),
                                     	    value: resultModel.NumF);
                                     	break;
                                     case "NumG":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumG"),
+                                    	    column: ss.LinkColumn("NumG"),
                                     	    value: resultModel.NumG);
                                     	break;
                                     case "NumH":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumH"),
+                                    	    column: ss.LinkColumn("NumH"),
                                     	    value: resultModel.NumH);
                                     	break;
                                     case "NumI":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumI"),
+                                    	    column: ss.LinkColumn("NumI"),
                                     	    value: resultModel.NumI);
                                     	break;
                                     case "NumJ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumJ"),
+                                    	    column: ss.LinkColumn("NumJ"),
                                     	    value: resultModel.NumJ);
                                     	break;
                                     case "NumK":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumK"),
+                                    	    column: ss.LinkColumn("NumK"),
                                     	    value: resultModel.NumK);
                                     	break;
                                     case "NumL":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumL"),
+                                    	    column: ss.LinkColumn("NumL"),
                                     	    value: resultModel.NumL);
                                     	break;
                                     case "NumM":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumM"),
+                                    	    column: ss.LinkColumn("NumM"),
                                     	    value: resultModel.NumM);
                                     	break;
                                     case "NumN":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumN"),
+                                    	    column: ss.LinkColumn("NumN"),
                                     	    value: resultModel.NumN);
                                     	break;
                                     case "NumO":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumO"),
+                                    	    column: ss.LinkColumn("NumO"),
                                     	    value: resultModel.NumO);
                                     	break;
                                     case "NumP":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumP"),
+                                    	    column: ss.LinkColumn("NumP"),
                                     	    value: resultModel.NumP);
                                     	break;
                                     case "NumQ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumQ"),
+                                    	    column: ss.LinkColumn("NumQ"),
                                     	    value: resultModel.NumQ);
                                     	break;
                                     case "NumR":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumR"),
+                                    	    column: ss.LinkColumn("NumR"),
                                     	    value: resultModel.NumR);
                                     	break;
                                     case "NumS":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumS"),
+                                    	    column: ss.LinkColumn("NumS"),
                                     	    value: resultModel.NumS);
                                     	break;
                                     case "NumT":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumT"),
+                                    	    column: ss.LinkColumn("NumT"),
                                     	    value: resultModel.NumT);
                                     	break;
                                     case "NumU":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumU"),
+                                    	    column: ss.LinkColumn("NumU"),
                                     	    value: resultModel.NumU);
                                     	break;
                                     case "NumV":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumV"),
+                                    	    column: ss.LinkColumn("NumV"),
                                     	    value: resultModel.NumV);
                                     	break;
                                     case "NumW":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumW"),
+                                    	    column: ss.LinkColumn("NumW"),
                                     	    value: resultModel.NumW);
                                     	break;
                                     case "NumX":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumX"),
+                                    	    column: ss.LinkColumn("NumX"),
                                     	    value: resultModel.NumX);
                                     	break;
                                     case "NumY":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumY"),
+                                    	    column: ss.LinkColumn("NumY"),
                                     	    value: resultModel.NumY);
                                     	break;
                                     case "NumZ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("NumZ"),
+                                    	    column: ss.LinkColumn("NumZ"),
                                     	    value: resultModel.NumZ);
                                     	break;
                                     case "DateA":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateA"),
+                                    	    column: ss.LinkColumn("DateA"),
                                     	    value: resultModel.DateA);
                                     	break;
                                     case "DateB":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateB"),
+                                    	    column: ss.LinkColumn("DateB"),
                                     	    value: resultModel.DateB);
                                     	break;
                                     case "DateC":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateC"),
+                                    	    column: ss.LinkColumn("DateC"),
                                     	    value: resultModel.DateC);
                                     	break;
                                     case "DateD":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateD"),
+                                    	    column: ss.LinkColumn("DateD"),
                                     	    value: resultModel.DateD);
                                     	break;
                                     case "DateE":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateE"),
+                                    	    column: ss.LinkColumn("DateE"),
                                     	    value: resultModel.DateE);
                                     	break;
                                     case "DateF":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateF"),
+                                    	    column: ss.LinkColumn("DateF"),
                                     	    value: resultModel.DateF);
                                     	break;
                                     case "DateG":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateG"),
+                                    	    column: ss.LinkColumn("DateG"),
                                     	    value: resultModel.DateG);
                                     	break;
                                     case "DateH":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateH"),
+                                    	    column: ss.LinkColumn("DateH"),
                                     	    value: resultModel.DateH);
                                     	break;
                                     case "DateI":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateI"),
+                                    	    column: ss.LinkColumn("DateI"),
                                     	    value: resultModel.DateI);
                                     	break;
                                     case "DateJ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateJ"),
+                                    	    column: ss.LinkColumn("DateJ"),
                                     	    value: resultModel.DateJ);
                                     	break;
                                     case "DateK":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateK"),
+                                    	    column: ss.LinkColumn("DateK"),
                                     	    value: resultModel.DateK);
                                     	break;
                                     case "DateL":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateL"),
+                                    	    column: ss.LinkColumn("DateL"),
                                     	    value: resultModel.DateL);
                                     	break;
                                     case "DateM":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateM"),
+                                    	    column: ss.LinkColumn("DateM"),
                                     	    value: resultModel.DateM);
                                     	break;
                                     case "DateN":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateN"),
+                                    	    column: ss.LinkColumn("DateN"),
                                     	    value: resultModel.DateN);
                                     	break;
                                     case "DateO":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateO"),
+                                    	    column: ss.LinkColumn("DateO"),
                                     	    value: resultModel.DateO);
                                     	break;
                                     case "DateP":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateP"),
+                                    	    column: ss.LinkColumn("DateP"),
                                     	    value: resultModel.DateP);
                                     	break;
                                     case "DateQ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateQ"),
+                                    	    column: ss.LinkColumn("DateQ"),
                                     	    value: resultModel.DateQ);
                                     	break;
                                     case "DateR":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateR"),
+                                    	    column: ss.LinkColumn("DateR"),
                                     	    value: resultModel.DateR);
                                     	break;
                                     case "DateS":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateS"),
+                                    	    column: ss.LinkColumn("DateS"),
                                     	    value: resultModel.DateS);
                                     	break;
                                     case "DateT":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateT"),
+                                    	    column: ss.LinkColumn("DateT"),
                                     	    value: resultModel.DateT);
                                     	break;
                                     case "DateU":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateU"),
+                                    	    column: ss.LinkColumn("DateU"),
                                     	    value: resultModel.DateU);
                                     	break;
                                     case "DateV":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateV"),
+                                    	    column: ss.LinkColumn("DateV"),
                                     	    value: resultModel.DateV);
                                     	break;
                                     case "DateW":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateW"),
+                                    	    column: ss.LinkColumn("DateW"),
                                     	    value: resultModel.DateW);
                                     	break;
                                     case "DateX":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateX"),
+                                    	    column: ss.LinkColumn("DateX"),
                                     	    value: resultModel.DateX);
                                     	break;
                                     case "DateY":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateY"),
+                                    	    column: ss.LinkColumn("DateY"),
                                     	    value: resultModel.DateY);
                                     	break;
                                     case "DateZ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DateZ"),
+                                    	    column: ss.LinkColumn("DateZ"),
                                     	    value: resultModel.DateZ);
                                     	break;
                                     case "DescriptionA":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionA"),
+                                    	    column: ss.LinkColumn("DescriptionA"),
                                     	    value: resultModel.DescriptionA);
                                     	break;
                                     case "DescriptionB":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionB"),
+                                    	    column: ss.LinkColumn("DescriptionB"),
                                     	    value: resultModel.DescriptionB);
                                     	break;
                                     case "DescriptionC":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionC"),
+                                    	    column: ss.LinkColumn("DescriptionC"),
                                     	    value: resultModel.DescriptionC);
                                     	break;
                                     case "DescriptionD":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionD"),
+                                    	    column: ss.LinkColumn("DescriptionD"),
                                     	    value: resultModel.DescriptionD);
                                     	break;
                                     case "DescriptionE":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionE"),
+                                    	    column: ss.LinkColumn("DescriptionE"),
                                     	    value: resultModel.DescriptionE);
                                     	break;
                                     case "DescriptionF":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionF"),
+                                    	    column: ss.LinkColumn("DescriptionF"),
                                     	    value: resultModel.DescriptionF);
                                     	break;
                                     case "DescriptionG":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionG"),
+                                    	    column: ss.LinkColumn("DescriptionG"),
                                     	    value: resultModel.DescriptionG);
                                     	break;
                                     case "DescriptionH":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionH"),
+                                    	    column: ss.LinkColumn("DescriptionH"),
                                     	    value: resultModel.DescriptionH);
                                     	break;
                                     case "DescriptionI":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionI"),
+                                    	    column: ss.LinkColumn("DescriptionI"),
                                     	    value: resultModel.DescriptionI);
                                     	break;
                                     case "DescriptionJ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionJ"),
+                                    	    column: ss.LinkColumn("DescriptionJ"),
                                     	    value: resultModel.DescriptionJ);
                                     	break;
                                     case "DescriptionK":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionK"),
+                                    	    column: ss.LinkColumn("DescriptionK"),
                                     	    value: resultModel.DescriptionK);
                                     	break;
                                     case "DescriptionL":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionL"),
+                                    	    column: ss.LinkColumn("DescriptionL"),
                                     	    value: resultModel.DescriptionL);
                                     	break;
                                     case "DescriptionM":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionM"),
+                                    	    column: ss.LinkColumn("DescriptionM"),
                                     	    value: resultModel.DescriptionM);
                                     	break;
                                     case "DescriptionN":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionN"),
+                                    	    column: ss.LinkColumn("DescriptionN"),
                                     	    value: resultModel.DescriptionN);
                                     	break;
                                     case "DescriptionO":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionO"),
+                                    	    column: ss.LinkColumn("DescriptionO"),
                                     	    value: resultModel.DescriptionO);
                                     	break;
                                     case "DescriptionP":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionP"),
+                                    	    column: ss.LinkColumn("DescriptionP"),
                                     	    value: resultModel.DescriptionP);
                                     	break;
                                     case "DescriptionQ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionQ"),
+                                    	    column: ss.LinkColumn("DescriptionQ"),
                                     	    value: resultModel.DescriptionQ);
                                     	break;
                                     case "DescriptionR":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionR"),
+                                    	    column: ss.LinkColumn("DescriptionR"),
                                     	    value: resultModel.DescriptionR);
                                     	break;
                                     case "DescriptionS":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionS"),
+                                    	    column: ss.LinkColumn("DescriptionS"),
                                     	    value: resultModel.DescriptionS);
                                     	break;
                                     case "DescriptionT":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionT"),
+                                    	    column: ss.LinkColumn("DescriptionT"),
                                     	    value: resultModel.DescriptionT);
                                     	break;
                                     case "DescriptionU":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionU"),
+                                    	    column: ss.LinkColumn("DescriptionU"),
                                     	    value: resultModel.DescriptionU);
                                     	break;
                                     case "DescriptionV":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionV"),
+                                    	    column: ss.LinkColumn("DescriptionV"),
                                     	    value: resultModel.DescriptionV);
                                     	break;
                                     case "DescriptionW":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionW"),
+                                    	    column: ss.LinkColumn("DescriptionW"),
                                     	    value: resultModel.DescriptionW);
                                     	break;
                                     case "DescriptionX":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionX"),
+                                    	    column: ss.LinkColumn("DescriptionX"),
                                     	    value: resultModel.DescriptionX);
                                     	break;
                                     case "DescriptionY":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionY"),
+                                    	    column: ss.LinkColumn("DescriptionY"),
                                     	    value: resultModel.DescriptionY);
                                     	break;
                                     case "DescriptionZ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("DescriptionZ"),
+                                    	    column: ss.LinkColumn("DescriptionZ"),
                                     	    value: resultModel.DescriptionZ);
                                     	break;
                                     case "CheckA":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckA"),
+                                    	    column: ss.LinkColumn("CheckA"),
                                     	    value: resultModel.CheckA);
                                     	break;
                                     case "CheckB":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckB"),
+                                    	    column: ss.LinkColumn("CheckB"),
                                     	    value: resultModel.CheckB);
                                     	break;
                                     case "CheckC":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckC"),
+                                    	    column: ss.LinkColumn("CheckC"),
                                     	    value: resultModel.CheckC);
                                     	break;
                                     case "CheckD":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckD"),
+                                    	    column: ss.LinkColumn("CheckD"),
                                     	    value: resultModel.CheckD);
                                     	break;
                                     case "CheckE":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckE"),
+                                    	    column: ss.LinkColumn("CheckE"),
                                     	    value: resultModel.CheckE);
                                     	break;
                                     case "CheckF":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckF"),
+                                    	    column: ss.LinkColumn("CheckF"),
                                     	    value: resultModel.CheckF);
                                     	break;
                                     case "CheckG":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckG"),
+                                    	    column: ss.LinkColumn("CheckG"),
                                     	    value: resultModel.CheckG);
                                     	break;
                                     case "CheckH":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckH"),
+                                    	    column: ss.LinkColumn("CheckH"),
                                     	    value: resultModel.CheckH);
                                     	break;
                                     case "CheckI":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckI"),
+                                    	    column: ss.LinkColumn("CheckI"),
                                     	    value: resultModel.CheckI);
                                     	break;
                                     case "CheckJ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckJ"),
+                                    	    column: ss.LinkColumn("CheckJ"),
                                     	    value: resultModel.CheckJ);
                                     	break;
                                     case "CheckK":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckK"),
+                                    	    column: ss.LinkColumn("CheckK"),
                                     	    value: resultModel.CheckK);
                                     	break;
                                     case "CheckL":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckL"),
+                                    	    column: ss.LinkColumn("CheckL"),
                                     	    value: resultModel.CheckL);
                                     	break;
                                     case "CheckM":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckM"),
+                                    	    column: ss.LinkColumn("CheckM"),
                                     	    value: resultModel.CheckM);
                                     	break;
                                     case "CheckN":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckN"),
+                                    	    column: ss.LinkColumn("CheckN"),
                                     	    value: resultModel.CheckN);
                                     	break;
                                     case "CheckO":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckO"),
+                                    	    column: ss.LinkColumn("CheckO"),
                                     	    value: resultModel.CheckO);
                                     	break;
                                     case "CheckP":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckP"),
+                                    	    column: ss.LinkColumn("CheckP"),
                                     	    value: resultModel.CheckP);
                                     	break;
                                     case "CheckQ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckQ"),
+                                    	    column: ss.LinkColumn("CheckQ"),
                                     	    value: resultModel.CheckQ);
                                     	break;
                                     case "CheckR":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckR"),
+                                    	    column: ss.LinkColumn("CheckR"),
                                     	    value: resultModel.CheckR);
                                     	break;
                                     case "CheckS":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckS"),
+                                    	    column: ss.LinkColumn("CheckS"),
                                     	    value: resultModel.CheckS);
                                     	break;
                                     case "CheckT":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckT"),
+                                    	    column: ss.LinkColumn("CheckT"),
                                     	    value: resultModel.CheckT);
                                     	break;
                                     case "CheckU":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckU"),
+                                    	    column: ss.LinkColumn("CheckU"),
                                     	    value: resultModel.CheckU);
                                     	break;
                                     case "CheckV":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckV"),
+                                    	    column: ss.LinkColumn("CheckV"),
                                     	    value: resultModel.CheckV);
                                     	break;
                                     case "CheckW":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckW"),
+                                    	    column: ss.LinkColumn("CheckW"),
                                     	    value: resultModel.CheckW);
                                     	break;
                                     case "CheckX":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckX"),
+                                    	    column: ss.LinkColumn("CheckX"),
                                     	    value: resultModel.CheckX);
                                     	break;
                                     case "CheckY":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckY"),
+                                    	    column: ss.LinkColumn("CheckY"),
                                     	    value: resultModel.CheckY);
                                     	break;
                                     case "CheckZ":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CheckZ"),
+                                    	    column: ss.LinkColumn("CheckZ"),
                                     	    value: resultModel.CheckZ);
                                     	break;
                                     case "Comments":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Comments"),
+                                    	    column: ss.LinkColumn("Comments"),
                                     	    value: resultModel.Comments);
                                     	break;
                                     case "Creator":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Creator"),
+                                    	    column: ss.LinkColumn("Creator"),
                                     	    value: resultModel.Creator);
                                     	break;
                                     case "Updator":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Updator"),
+                                    	    column: ss.LinkColumn("Updator"),
                                     	    value: resultModel.Updator);
                                     	break;
                                     case "CreatedTime":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CreatedTime"),
+                                    	    column: ss.LinkColumn("CreatedTime"),
                                     	    value: resultModel.CreatedTime);
                                     	break;
                                     case "VerUp":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("VerUp"),
+                                    	    column: ss.LinkColumn("VerUp"),
                                     	    value: resultModel.VerUp);
                                     	break;
                                     case "Timestamp":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Timestamp"),
+                                    	    column: ss.LinkColumn("Timestamp"),
                                     	    value: resultModel.Timestamp);
                                     	break;
                                 }
@@ -1766,20 +1766,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder Wikis(
             this HtmlBuilder hb,
-            SiteSettings siteSettings,
+            SiteSettings ss,
             Permissions.Types permissionType,
             EnumerableRowCollection<DataRow> dataRows)
         {
             dataRows.ForEach(dataRow =>
             {
-                var wikiModel = new WikiModel(siteSettings, permissionType, dataRow);
+                var wikiModel = new WikiModel(ss, permissionType, dataRow);
                 hb.Tr(
                     attributes: new HtmlAttributes()
                         .Class("grid-row")
                         .DataId(wikiModel.WikiId.ToString()),
                     action: () =>
                     {
-                        siteSettings
+                        ss
                             .LinkColumnCollection()
                             .ForEach(column =>
                             {
@@ -1787,67 +1787,67 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 {
                                     case "SiteId":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("SiteId"),
+                                    	    column: ss.LinkColumn("SiteId"),
                                     	    value: wikiModel.SiteId);
                                     	break;
                                     case "UpdatedTime":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("UpdatedTime"),
+                                    	    column: ss.LinkColumn("UpdatedTime"),
                                     	    value: wikiModel.UpdatedTime);
                                     	break;
                                     case "WikiId":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("WikiId"),
+                                    	    column: ss.LinkColumn("WikiId"),
                                     	    value: wikiModel.WikiId);
                                     	break;
                                     case "Ver":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Ver"),
+                                    	    column: ss.LinkColumn("Ver"),
                                     	    value: wikiModel.Ver);
                                     	break;
                                     case "Title":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Title"),
+                                    	    column: ss.LinkColumn("Title"),
                                     	    value: wikiModel.Title);
                                     	break;
                                     case "Body":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Body"),
+                                    	    column: ss.LinkColumn("Body"),
                                     	    value: wikiModel.Body);
                                     	break;
                                     case "TitleBody":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("TitleBody"),
+                                    	    column: ss.LinkColumn("TitleBody"),
                                     	    value: wikiModel.TitleBody);
                                     	break;
                                     case "Comments":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Comments"),
+                                    	    column: ss.LinkColumn("Comments"),
                                     	    value: wikiModel.Comments);
                                     	break;
                                     case "Creator":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Creator"),
+                                    	    column: ss.LinkColumn("Creator"),
                                     	    value: wikiModel.Creator);
                                     	break;
                                     case "Updator":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Updator"),
+                                    	    column: ss.LinkColumn("Updator"),
                                     	    value: wikiModel.Updator);
                                     	break;
                                     case "CreatedTime":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("CreatedTime"),
+                                    	    column: ss.LinkColumn("CreatedTime"),
                                     	    value: wikiModel.CreatedTime);
                                     	break;
                                     case "VerUp":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("VerUp"),
+                                    	    column: ss.LinkColumn("VerUp"),
                                     	    value: wikiModel.VerUp);
                                     	break;
                                     case "Timestamp":
                                     	hb.Td(
-                                    	    column: siteSettings.LinkColumn("Timestamp"),
+                                    	    column: ss.LinkColumn("Timestamp"),
                                     	    value: wikiModel.Timestamp);
                                     	break;
                                 }

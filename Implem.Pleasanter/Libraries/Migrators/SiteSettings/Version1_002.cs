@@ -2,14 +2,14 @@
 {
     public static class Version1_002
     {
-        public static void Migrate1_002(this Settings.SiteSettings siteSettings)
+        public static void Migrate1_002(this Settings.SiteSettings ss)
         {
-            siteSettings.ColumnCollection.ForEach(column =>
+            ss.ColumnCollection.ForEach(column =>
             {
                 column.GridFormat = column.GridDateTime;
                 column.ControlFormat = column.ControlDateTime;
             });
-            siteSettings.Migrated = true;
+            ss.Migrated = true;
         }
     }
 }

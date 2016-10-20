@@ -294,8 +294,8 @@ namespace Implem.Pleasanter.Models
                     });
                     idHash.Add(demoDefinition.Id, issueId);
                     var siteModel = new SiteModel(idHash[demoDefinition.ParentId]);
-                    var siteSettings = siteModel.IssuesSiteSettings();
-                    var issueModel = new IssueModel(siteSettings, issueId);
+                    var ss = siteModel.IssuesSiteSettings();
+                    var issueModel = new IssueModel(ss, issueId);
                     Rds.ExecuteNonQuery(statements:
                         Rds.UpdateItems(
                             param: Rds.ItemsParam()
@@ -413,8 +413,8 @@ namespace Implem.Pleasanter.Models
                     });
                     idHash.Add(demoDefinition.Id, resultId);
                     var siteModel = new SiteModel(idHash[demoDefinition.ParentId]);
-                    var siteSettings = siteModel.ResultsSiteSettings();
-                    var resultModel = new ResultModel(siteSettings, resultId);
+                    var ss = siteModel.ResultsSiteSettings();
+                    var resultModel = new ResultModel(ss, resultId);
                     Rds.ExecuteNonQuery(statements:
                         Rds.UpdateItems(
                             param: Rds.ItemsParam()

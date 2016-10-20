@@ -13,16 +13,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     public static class HtmlAggregations
     {
         public static HtmlBuilder Aggregations(
-            this HtmlBuilder hb, SiteSettings siteSettings, Aggregations aggregations)
+            this HtmlBuilder hb, SiteSettings ss, Aggregations aggregations)
         {
-            return !Reduced(siteSettings.SiteId)
+            return !Reduced(ss.SiteId)
                 ? hb.Div(
                     id: "Aggregations",
                     action: () => hb
                         .DisplayControl(
                             id: "ReduceAggregations",
                             icon: "ui-icon-close")
-                        .Contents(siteSettings, aggregations))
+                        .Contents(ss, aggregations))
                 : hb.Div(
                     id: "Aggregations",
                     css: "reduced",
@@ -62,13 +62,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder Contents(
-            this HtmlBuilder hb, SiteSettings siteSettings, Aggregations aggregations)
+            this HtmlBuilder hb, SiteSettings ss, Aggregations aggregations)
         {
             return aggregations.TotalCount != 0
                 ? hb
                     .Total(aggregations)
                     .Overdue(aggregations)
-                    .Parts(siteSettings, aggregations)
+                    .Parts(ss, aggregations)
                 : hb.Span(css: "label", action: () => hb
                     .Text(text: Displays.NoData()));
         }
@@ -94,15 +94,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder Parts(
-           this HtmlBuilder hb, SiteSettings siteSettings, Aggregations aggregations)
+           this HtmlBuilder hb, SiteSettings ss, Aggregations aggregations)
         {
             aggregations.AggregationCollection
                 .Where(o => o.Data.Count > 0)
                 .ForEach(aggregation =>
                 {
                     var html = string.Empty;
-                    var groupByColumn = siteSettings.GetColumn(aggregation.GroupBy);
-                    var targetColumn = siteSettings.GetColumn(aggregation.Target);
+                    var groupByColumn = ss.GetColumn(aggregation.GroupBy);
+                    var targetColumn = ss.GetColumn(aggregation.Target);
                     if (aggregation.Data.Count > 0)
                     hb.GroupBy(
                         groupByColumn: groupByColumn,
@@ -123,7 +123,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         ? targetColumn?.Unit
                                         : string.Empty),
                             attributes: new HtmlAttributes()
-                                .Attributes(siteSettings, aggregation, groupByColumn, data.Key));
+                                .Attributes(ss, aggregation, groupByColumn, data.Key));
                     });
                 });
             return hb;
@@ -175,14 +175,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
         }
 
-        private static string Selector(SiteSettings siteSettings, string columnName)
+        private static string Selector(SiteSettings ss, string columnName)
         {
-            return "#DataViewFilters_" + siteSettings.ReferenceType + "_" + columnName;
+            return "#DataViewFilters_" + ss.ReferenceType + "_" + columnName;
         }
 
         private static HtmlAttributes Attributes(
             this HtmlAttributes attributes,
-            SiteSettings siteSettings,
+            SiteSettings ss,
             Aggregation aggregation,
             Column groupByColumn, string key)
         {
@@ -191,7 +191,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Class("data" + (groupByColumn != null
                         ? " link"
                         : string.Empty))
-                    .DataSelector(Selector(siteSettings, aggregation.GroupBy))
+                    .DataSelector(Selector(ss, aggregation.GroupBy))
                     .DataValue(DataValue(groupByColumn, key))
                 : attributes
                     .Class("data");

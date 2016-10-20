@@ -7,7 +7,7 @@ namespace Implem.Pleasanter.Libraries.Models
 {
     public static class FormulaBuilder
     {
-        public static Error.Types AddFormula(this SiteSettings siteSettings, string formula)
+        public static Error.Types AddFormula(this SiteSettings ss, string formula)
         {
             var parts = formula
                 .Replace("(", "( ")
@@ -19,12 +19,12 @@ namespace Implem.Pleasanter.Libraries.Models
             {
                 return Error.Types.InvalidFormula;
             }
-            var target = siteSettings.FormulaColumn(parts.Take(1).Last());
+            var target = ss.FormulaColumn(parts.Take(1).Last());
             if (target == null)
             {
                 return Error.Types.InvalidFormula;
             }
-            if (siteSettings.FormulaHash.Keys.Contains(target.ColumnName))
+            if (ss.FormulaHash.Keys.Contains(target.ColumnName))
             {
                 return Error.Types.AlreadyAdded;
             }
@@ -85,7 +85,7 @@ namespace Implem.Pleasanter.Libraries.Models
                         stack.Pop();
                         break;
                     default:
-                        var columnName = siteSettings.FormulaColumn(part)?.ColumnName;
+                        var columnName = ss.FormulaColumn(part)?.ColumnName;
                         if (columnName != null)
                         {
                             stack.First().Children.Last().ColumnName = columnName;
@@ -105,7 +105,7 @@ namespace Implem.Pleasanter.Libraries.Models
             {
                 return Error.Types.InvalidFormula;
             }
-            siteSettings.FormulaHash.Add(target.ColumnName, root);
+            ss.FormulaHash.Add(target.ColumnName, root);
             return Error.Types.None;
         }
 

@@ -77,16 +77,16 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .IssueId()
                         .Ver())).AsEnumerable().ForEach(dataRow =>
                     {
-                        var siteSettings = new SiteModel().Get(where:
+                        var ss = new SiteModel().Get(where:
                             Rds.SitesWhere().SiteId(dataRow["SiteId"].ToLong()))?
                                 .IssuesSiteSettings();
-                        var issueModel = new IssueModel(siteSettings).Get(
+                        var issueModel = new IssueModel(ss).Get(
                             tableType: Sqls.TableTypes.Normal,
                             where: Rds.IssuesWhere()
                                 .SiteId(dataRow["SiteId"].ToLong())
                                 .IssueId(dataRow["IssueId"].ToLong())
                                 .Ver(dataRow["Ver"].ToInt()));
-                        if (siteSettings != null &&
+                        if (ss != null &&
                             issueModel.AccessStatus == Databases.AccessStatuses.Selected)
                         {
                             Rds.ExecuteNonQuery(
@@ -100,7 +100,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .ReferenceType("Issues")
                                             .SiteId(issueModel.SiteId)
                                             .Title(IssueUtilities.TitleDisplayValue(
-                                                siteSettings, issueModel))),
+                                                ss, issueModel))),
                                     Rds.IdentityInsertItems(on: false)
                                 });
                         }
@@ -112,16 +112,16 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .IssueId()
                         .Ver())).AsEnumerable().ForEach(dataRow =>
                     {
-                        var siteSettings = new SiteModel().Get(where:
+                        var ss = new SiteModel().Get(where:
                             Rds.SitesWhere().SiteId(dataRow["SiteId"].ToLong()))?
                                 .IssuesSiteSettings();
-                        var issueModel = new IssueModel(siteSettings).Get(
+                        var issueModel = new IssueModel(ss).Get(
                             tableType: Sqls.TableTypes.Deleted,
                             where: Rds.IssuesWhere()
                                 .SiteId(dataRow["SiteId"].ToLong())
                                 .IssueId(dataRow["IssueId"].ToLong())
                                 .Ver(dataRow["Ver"].ToInt()));
-                        if (siteSettings != null &&
+                        if (ss != null &&
                             issueModel.AccessStatus == Databases.AccessStatuses.Selected)
                         {
                             Rds.ExecuteNonQuery(
@@ -135,7 +135,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .ReferenceType("Issues")
                                             .SiteId(issueModel.SiteId)
                                             .Title(IssueUtilities.TitleDisplayValue(
-                                                siteSettings, issueModel)))
+                                                ss, issueModel)))
                                 });
                         }
                     });
@@ -146,16 +146,16 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .ResultId()
                         .Ver())).AsEnumerable().ForEach(dataRow =>
                     {
-                        var siteSettings = new SiteModel().Get(where:
+                        var ss = new SiteModel().Get(where:
                             Rds.SitesWhere().SiteId(dataRow["SiteId"].ToLong()))?
                                 .ResultsSiteSettings();
-                        var resultModel = new ResultModel(siteSettings).Get(
+                        var resultModel = new ResultModel(ss).Get(
                             tableType: Sqls.TableTypes.Normal,
                             where: Rds.ResultsWhere()
                                 .SiteId(dataRow["SiteId"].ToLong())
                                 .ResultId(dataRow["ResultId"].ToLong())
                                 .Ver(dataRow["Ver"].ToInt()));
-                        if (siteSettings != null &&
+                        if (ss != null &&
                             resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                         {
                             Rds.ExecuteNonQuery(
@@ -169,7 +169,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .ReferenceType("Results")
                                             .SiteId(resultModel.SiteId)
                                             .Title(ResultUtilities.TitleDisplayValue(
-                                                siteSettings, resultModel))),
+                                                ss, resultModel))),
                                     Rds.IdentityInsertItems(on: false)
                                 });
                         }
@@ -181,16 +181,16 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .ResultId()
                         .Ver())).AsEnumerable().ForEach(dataRow =>
                     {
-                        var siteSettings = new SiteModel().Get(where:
+                        var ss = new SiteModel().Get(where:
                             Rds.SitesWhere().SiteId(dataRow["SiteId"].ToLong()))?
                                 .ResultsSiteSettings();
-                        var resultModel = new ResultModel(siteSettings).Get(
+                        var resultModel = new ResultModel(ss).Get(
                             tableType: Sqls.TableTypes.Deleted,
                             where: Rds.ResultsWhere()
                                 .SiteId(dataRow["SiteId"].ToLong())
                                 .ResultId(dataRow["ResultId"].ToLong())
                                 .Ver(dataRow["Ver"].ToInt()));
-                        if (siteSettings != null &&
+                        if (ss != null &&
                             resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                         {
                             Rds.ExecuteNonQuery(
@@ -204,7 +204,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .ReferenceType("Results")
                                             .SiteId(resultModel.SiteId)
                                             .Title(ResultUtilities.TitleDisplayValue(
-                                                siteSettings, resultModel)))
+                                                ss, resultModel)))
                                 });
                         }
                     });
@@ -215,16 +215,16 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .WikiId()
                         .Ver())).AsEnumerable().ForEach(dataRow =>
                     {
-                        var siteSettings = new SiteModel().Get(where:
+                        var ss = new SiteModel().Get(where:
                             Rds.SitesWhere().SiteId(dataRow["SiteId"].ToLong()))?
                                 .WikisSiteSettings();
-                        var wikiModel = new WikiModel(siteSettings).Get(
+                        var wikiModel = new WikiModel(ss).Get(
                             tableType: Sqls.TableTypes.Normal,
                             where: Rds.WikisWhere()
                                 .SiteId(dataRow["SiteId"].ToLong())
                                 .WikiId(dataRow["WikiId"].ToLong())
                                 .Ver(dataRow["Ver"].ToInt()));
-                        if (siteSettings != null &&
+                        if (ss != null &&
                             wikiModel.AccessStatus == Databases.AccessStatuses.Selected)
                         {
                             Rds.ExecuteNonQuery(
@@ -238,7 +238,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .ReferenceType("Wikis")
                                             .SiteId(wikiModel.SiteId)
                                             .Title(WikiUtilities.TitleDisplayValue(
-                                                siteSettings, wikiModel))),
+                                                ss, wikiModel))),
                                     Rds.IdentityInsertItems(on: false)
                                 });
                         }
@@ -250,16 +250,16 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         .WikiId()
                         .Ver())).AsEnumerable().ForEach(dataRow =>
                     {
-                        var siteSettings = new SiteModel().Get(where:
+                        var ss = new SiteModel().Get(where:
                             Rds.SitesWhere().SiteId(dataRow["SiteId"].ToLong()))?
                                 .WikisSiteSettings();
-                        var wikiModel = new WikiModel(siteSettings).Get(
+                        var wikiModel = new WikiModel(ss).Get(
                             tableType: Sqls.TableTypes.Deleted,
                             where: Rds.WikisWhere()
                                 .SiteId(dataRow["SiteId"].ToLong())
                                 .WikiId(dataRow["WikiId"].ToLong())
                                 .Ver(dataRow["Ver"].ToInt()));
-                        if (siteSettings != null &&
+                        if (ss != null &&
                             wikiModel.AccessStatus == Databases.AccessStatuses.Selected)
                         {
                             Rds.ExecuteNonQuery(
@@ -273,7 +273,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                             .ReferenceType("Wikis")
                                             .SiteId(wikiModel.SiteId)
                                             .Title(WikiUtilities.TitleDisplayValue(
-                                                siteSettings, wikiModel)))
+                                                ss, wikiModel)))
                                 });
                         }
                     });

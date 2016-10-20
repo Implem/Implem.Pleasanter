@@ -16,7 +16,7 @@ namespace Implem.Pleasanter.Libraries.Models
         public void Set(
             DataSet dataSet,
             IEnumerable<Aggregation> aggregationCollection,
-            SiteSettings siteSettings = null)
+            SiteSettings ss = null)
         {
             AggregationCollection = aggregationCollection;
             TotalCount = Rds.Count(dataSet);
@@ -30,7 +30,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 .Where(o => dataSet.Tables.Contains("Aggregation" + o.Index))
                 .ForEach(data =>
                 {
-                    var groupByColumn = siteSettings?.GetColumn(data.Aggregation.GroupBy);
+                    var groupByColumn = ss?.GetColumn(data.Aggregation.GroupBy);
                     dataSet.Tables["Aggregation" + data.Index]
                         .AsEnumerable()
                         .ForEach(dataRow =>
@@ -40,7 +40,7 @@ namespace Implem.Pleasanter.Libraries.Models
                                 if (dataRow[1].ToDecimal() != 0)
                                 {
                                     var key = Key(
-                                        siteSettings,
+                                        ss,
                                         dataRow[0].ToString(),
                                         groupByColumn);
                                     if (data.Aggregation.Data.ContainsKey(key))
@@ -64,7 +64,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 });
         }
 
-        private static string Key(SiteSettings siteSettings, string key, Column groupByColumn)
+        private static string Key(SiteSettings ss, string key, Column groupByColumn)
         {
             return !(groupByColumn.UserColumn && key.ToInt() == 0)
                  ? key

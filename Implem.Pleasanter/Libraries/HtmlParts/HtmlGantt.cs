@@ -13,7 +13,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder Gantt(
             this HtmlBuilder hb,
-            SiteSettings siteSettings,
+            SiteSettings ss,
             string groupByColumn,
             Permissions.Types permissionType,
             IEnumerable<DataRow> dataRows)
@@ -24,7 +24,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
                     labelText: Displays.GroupBy(),
-                    optionCollection: siteSettings.ColumnCollection
+                    optionCollection: ss.ColumnCollection
                         .Where(o => o.HasChoices())
                         .ToDictionary(o => o.ColumnName, o => o.LabelText),
                     selectedValue: groupByColumn,
@@ -32,11 +32,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     method: "post")
                 .Div(id: "GanttBody", action: () => hb
                     .GanttBody(
-                        siteSettings: siteSettings,
+                        ss: ss,
                         groupByColumn: groupByColumn,
                         dataRows: dataRows))
                 .MainCommands(
-                    siteId: siteSettings.SiteId,
+                    siteId: ss.SiteId,
                     permissionType: permissionType,
                     verType: Versions.VerTypes.Latest,
                     importButton: true,
@@ -45,11 +45,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder GanttBody(
             this HtmlBuilder hb,
-            SiteSettings siteSettings,
+            SiteSettings ss,
             string groupByColumn,
             IEnumerable<DataRow> dataRows)
         {
-            var gantt = new Gantt(siteSettings, dataRows, groupByColumn);
+            var gantt = new Gantt(ss, dataRows, groupByColumn);
             return hb
                 .Svg(id: "Gantt")
                 .Svg(id: "GanttAxis")

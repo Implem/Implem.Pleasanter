@@ -113,7 +113,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var log = new SysLogModel();
             var json = UserUtilities.Delete(
-                siteSettings: SiteSettingsUtility.UsersSiteSettings(),
+                ss: SiteSettingsUtility.UsersSiteSettings(),
                 permissionType: Permissions.Admins(),
                 userId: id);
             log.Finish(json.Length);
@@ -137,7 +137,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var log = new SysLogModel();
             var json = UserUtilities.Histories(
-                siteSettings: SiteSettingsUtility.UsersSiteSettings(),
+                ss: SiteSettingsUtility.UsersSiteSettings(),
                 permissionType: Permissions.Admins(),
                 userId: id);
             log.Finish(json.Length);
@@ -149,7 +149,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var log = new SysLogModel();
             var json = UserUtilities.History(
-                siteSettings: SiteSettingsUtility.UsersSiteSettings(),
+                ss: SiteSettingsUtility.UsersSiteSettings(),
                 permissionType: Permissions.Admins(),
                 userId: id);
             log.Finish(json.Length);
@@ -238,7 +238,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var log = new SysLogModel();
             var json = Passwords.Reset(
-                siteSettings: SiteSettingsUtility.UsersSiteSettings(),
+                ss: SiteSettingsUtility.UsersSiteSettings(),
                 permissionType: Permissions.Admins(),
                 userId: id);
             log.Finish(json.Length);
@@ -252,7 +252,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var log = new SysLogModel();
             var json = UserUtilities.AddMailAddresses(
-                siteSettings: SiteSettingsUtility.UsersSiteSettings(),
+                ss: SiteSettingsUtility.UsersSiteSettings(),
                 permissionType: Permissions.Admins(),
                 userId: id);
             log.Finish(json.Length);
@@ -266,7 +266,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var log = new SysLogModel();
             var json = UserUtilities.DeleteMailAddresses(
-                siteSettings: SiteSettingsUtility.UsersSiteSettings(),
+                ss: SiteSettingsUtility.UsersSiteSettings(),
                 permissionType: Permissions.Admins(), 
                 userId: id);
             log.Finish(json.Length);

@@ -745,7 +745,7 @@ namespace Implem.Pleasanter.Models
         private HtmlBuilder ReplaceSiteMenu(long sourceId, long destinationId)
         {
             return new HtmlBuilder().SiteMenu(
-                siteSettings: SiteSettings,
+                ss: SiteSettings,
                 permissionType: Permissions.Types.Manager,
                 siteId: destinationId,
                 referenceType: ReferenceType,
@@ -802,7 +802,7 @@ namespace Implem.Pleasanter.Models
                     responseCollection.Html(
                         "#ColumnPropertiesDialog",
                         SiteUtilities.ColumnProperties(
-                            siteSettings: SiteSettings,
+                            ss: SiteSettings,
                             column: column,
                             titleColumns: titleColumns));
                 }
@@ -831,7 +831,7 @@ namespace Implem.Pleasanter.Models
                 Session_MonitorChangesColumns(notification.MonitorChangesColumns);
                 responseCollection
                     .Html("#NotificationDialog", SiteUtilities.NotificationDialog(
-                        siteSettings: SiteSettings,
+                        ss: SiteSettings,
                         controlId: Forms.ControlId(),
                         notification: notification))
                     .Invoke("validateSites");
@@ -944,7 +944,7 @@ namespace Implem.Pleasanter.Models
             responseCollection
                 .ReplaceAll(
                     "#NotificationSettings",
-                    new HtmlBuilder().NotificationSettings(siteSettings: SiteSettings))
+                    new HtmlBuilder().NotificationSettings(ss: SiteSettings))
                 .CloseDialog();
         }
 
@@ -1051,7 +1051,7 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll("#SummaryLinkColumnField", new HtmlBuilder()
                     .SummaryLinkColumn(
                         siteId: destinationSiteId,
-                        siteSettings: SiteSettings));
+                        ss: SiteSettings));
         }
 
         /// <summary>

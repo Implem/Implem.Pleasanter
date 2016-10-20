@@ -16,20 +16,20 @@ namespace Implem.Pleasanter.Libraries.Requests
     public static class DataViewFilters
     {
         public static SqlWhereCollection Get(
-            SiteSettings siteSettings,
+            SiteSettings ss,
             string tableName,
             FormData formData,
             SqlWhereCollection where)
         {
             return where
-                .Generals(siteSettings: siteSettings, tableName: tableName, formData: formData)
-                .Columns(siteSettings: siteSettings, tableName: tableName, formData: formData)
-                .Search(tableName: tableName, formData: formData, siteId: siteSettings.SiteId);
+                .Generals(ss: ss, tableName: tableName, formData: formData)
+                .Columns(ss: ss, tableName: tableName, formData: formData)
+                .Search(tableName: tableName, formData: formData, siteId: ss.SiteId);
         }
 
         private static SqlWhereCollection Generals(
             this SqlWhereCollection sqlWhereCollection,
-            SiteSettings siteSettings,
+            SiteSettings ss,
             string tableName,
             FormData formData)
         {
@@ -55,9 +55,9 @@ namespace Implem.Pleasanter.Libraries.Requests
                             columnBrackets: new string[] { "[t0].[CompletionTime]" },
                             _operator: " between '{0}' and '{1}'".Params(
                                 DateTime.Now.ToLocal().Date
-                                    .AddDays(siteSettings.NearCompletionTimeBeforeDays.ToInt() * (-1)),
+                                    .AddDays(ss.NearCompletionTimeBeforeDays.ToInt() * (-1)),
                                 DateTime.Now.ToLocal().Date
-                                    .AddDays(siteSettings.NearCompletionTimeAfterDays.ToInt() + 1)
+                                    .AddDays(ss.NearCompletionTimeAfterDays.ToInt() + 1)
                                     .AddMilliseconds(-1)
                                     .ToString("yyyy/M/d H:m:s.fff")));
                         break;
@@ -110,7 +110,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         private static SqlWhereCollection Columns(
             this SqlWhereCollection where,
-            SiteSettings siteSettings,
+            SiteSettings ss,
             string tableName,
             FormData formData)
         {
@@ -120,7 +120,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 .Where(o => o.StartsWith(prefix))
                 .Select(o => new
                 {
-                    Column = siteSettings.GetColumn(o.Substring(prefixLength)),
+                    Column = ss.GetColumn(o.Substring(prefixLength)),
                     ColumnName = o.Substring(prefixLength),
                     Value = formData[o].Value
                 })

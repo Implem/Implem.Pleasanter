@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Libraries.Models
         private static void UpdateIssues(SiteModel siteModel, long id, bool hasFormula = false)
         {
             new IssueCollection(
-                siteSettings: siteModel.SiteSettings,
+                ss: siteModel.SiteSettings,
                 permissionType: siteModel.PermissionType,
                 where: Rds.IssuesWhere()
                     .SiteId(siteModel.SiteId)
@@ -45,7 +45,7 @@ namespace Implem.Pleasanter.Libraries.Models
         private static void UpdateResults(SiteModel siteModel, long id, bool hasFormula = false)
         {
             new ResultCollection(
-                siteSettings: siteModel.SiteSettings,
+                ss: siteModel.SiteSettings,
                 permissionType: siteModel.PermissionType,
                 where: Rds.ResultsWhere()
                     .SiteId(siteModel.SiteId)
@@ -61,7 +61,7 @@ namespace Implem.Pleasanter.Libraries.Models
         private static void UpdateWikis(SiteModel siteModel, long id, bool hasFormula = false)
         {
             new WikiCollection(
-                siteSettings: siteModel.SiteSettings,
+                ss: siteModel.SiteSettings,
                 permissionType: siteModel.PermissionType,
                 where: Rds.WikisWhere()
                     .SiteId(siteModel.SiteId)

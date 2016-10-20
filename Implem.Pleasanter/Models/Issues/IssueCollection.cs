@@ -25,7 +25,7 @@ namespace Implem.Pleasanter.Models
         public Aggregations Aggregations = new Aggregations();
 
         public IssueCollection(
-            SiteSettings siteSettings, 
+            SiteSettings ss, 
             Permissions.Types permissionType,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
@@ -43,8 +43,8 @@ namespace Implem.Pleasanter.Models
         {
             if (get)
             {
-                Set(siteSettings, permissionType, Get(
-                    siteSettings: siteSettings,
+                Set(ss, permissionType, Get(
+                    ss: ss,
                     column: column,
                     join: join,
                     where: where,
@@ -61,15 +61,15 @@ namespace Implem.Pleasanter.Models
         }
 
         public IssueCollection(
-            SiteSettings siteSettings, 
+            SiteSettings ss, 
             Permissions.Types permissionType,
             DataTable dataTable)
         {
-            Set(siteSettings, permissionType, dataTable);
+            Set(ss, permissionType, dataTable);
         }
 
         private IssueCollection Set(
-            SiteSettings siteSettings, 
+            SiteSettings ss, 
             Permissions.Types permissionType,
             DataTable dataTable)
         {
@@ -77,7 +77,7 @@ namespace Implem.Pleasanter.Models
             {
                 foreach (DataRow dataRow in dataTable.Rows)
                 {
-                    Add(new IssueModel(siteSettings, permissionType, dataRow));
+                    Add(new IssueModel(ss, permissionType, dataRow));
                 }
                 AccessStatus = Databases.AccessStatuses.Selected;
             }
@@ -89,16 +89,16 @@ namespace Implem.Pleasanter.Models
         }
 
         public IssueCollection(
-            SiteSettings siteSettings, 
+            SiteSettings ss, 
             Permissions.Types permissionType,
             string commandText,
             SqlParamCollection param = null)
         {
-            Set(siteSettings, permissionType, Get(commandText, param));
+            Set(ss, permissionType, Get(commandText, param));
         }
 
         private DataTable Get(
-            SiteSettings siteSettings,
+            SiteSettings ss,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
@@ -136,7 +136,7 @@ namespace Implem.Pleasanter.Models
             var dataSet = Rds.ExecuteDataSet(
                 transactional: false,
                 statements: statements.ToArray());
-            Aggregations.Set(dataSet, aggregationCollection, siteSettings);
+            Aggregations.Set(dataSet, aggregationCollection, ss);
             return dataSet.Tables["Main"];
         }
 

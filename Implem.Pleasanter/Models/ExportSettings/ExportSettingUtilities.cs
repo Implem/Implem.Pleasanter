@@ -157,7 +157,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder Columns(
-            this HtmlBuilder hb, ExportColumns exportSettings, SiteSettings siteSettings)
+            this HtmlBuilder hb, ExportColumns exportSettings, SiteSettings ss)
         {
             return hb.FieldSet(
                 css: "fieldset enclosed-auto w500 h400",
@@ -168,7 +168,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-vertical w500",
                         controlContainerCss: "container-selectable",
                         controlWrapperCss: " h300",
-                        listItemCollection: exportSettings.ExportColumnHash(siteSettings),
+                        listItemCollection: exportSettings.ExportColumnHash(ss),
                         selectedValueCollection: new List<string>(),
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb

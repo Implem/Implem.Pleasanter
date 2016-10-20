@@ -13,7 +13,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder TimeSeries(
             this HtmlBuilder hb,
-            SiteSettings siteSettings,
+            SiteSettings ss,
             string groupByColumn,
             string aggregateType,
             string valueColumn,
@@ -26,7 +26,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
                     labelText: Displays.GroupBy(),
-                    optionCollection: siteSettings.ColumnCollection.Where(o => o.HasChoices())
+                    optionCollection: ss.ColumnCollection.Where(o => o.HasChoices())
                         .ToDictionary(o => o.ColumnName, o => o.LabelText),
                     selectedValue: groupByColumn,
                     method: "post")
@@ -51,7 +51,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
                     labelText: Displays.SettingAggregationTarget(),
-                    optionCollection: siteSettings.ColumnCollection
+                    optionCollection: ss.ColumnCollection
                         .Where(o => o.Computable)
                         .Where(o => o.TypeName != "datetime")
                         .ToDictionary(o => o.ColumnName, o => o.LabelText),
@@ -59,13 +59,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     method: "post")
                 .Div(id: "TimeSeriesBody", action: () => hb
                     .TimeSeriesBody(
-                        siteSettings: siteSettings,
+                        ss: ss,
                         groupByColumn: groupByColumn,
                         aggregateType: aggregateType,
                         valueColumn: valueColumn,
                         dataRows: dataRows))
                 .MainCommands(
-                    siteId: siteSettings.SiteId,
+                    siteId: ss.SiteId,
                     permissionType: permissionType,
                     verType: Versions.VerTypes.Latest,
                     importButton: true,
@@ -74,7 +74,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder TimeSeriesBody(
             this HtmlBuilder hb,
-            SiteSettings siteSettings,
+            SiteSettings ss,
             string groupByColumn,
             string aggregateType,
             string valueColumn,
@@ -83,7 +83,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             if (dataRows != null && dataRows.Any())
             {
                 var timeSeries = new TimeSeries(
-                    siteSettings, groupByColumn, aggregateType, valueColumn, dataRows);
+                    ss, groupByColumn, aggregateType, valueColumn, dataRows);
                 return hb
                     .Svg(id: "TimeSeries")
                     .Hidden(

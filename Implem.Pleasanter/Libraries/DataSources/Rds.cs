@@ -24693,15 +24693,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .CreatedTime();
         }
 
-        public static IssuesColumnCollection IssuesEditorColumns(SiteSettings siteSettings)
+        public static IssuesColumnCollection IssuesEditorColumns(SiteSettings ss)
         {
-            if (siteSettings != null)
+            if (ss != null)
             {
                 var ret = Rds.IssuesColumn()
                     .SiteId()
                     .IssueId()
                     .Comments();
-                siteSettings.SelectColumnCollection()
+                ss.SelectColumnCollection()
                     .ForEach(column => ret.IssuesColumn(column.ColumnName));
                 return ret;
             }
@@ -25020,15 +25020,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .CreatedTime();
         }
 
-        public static ResultsColumnCollection ResultsEditorColumns(SiteSettings siteSettings)
+        public static ResultsColumnCollection ResultsEditorColumns(SiteSettings ss)
         {
-            if (siteSettings != null)
+            if (ss != null)
             {
                 var ret = Rds.ResultsColumn()
                     .SiteId()
                     .ResultId()
                     .Comments();
-                siteSettings.SelectColumnCollection()
+                ss.SelectColumnCollection()
                     .ForEach(column => ret.ResultsColumn(column.ColumnName));
                 return ret;
             }
@@ -25210,15 +25210,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .CreatedTime();
         }
 
-        public static WikisColumnCollection WikisEditorColumns(SiteSettings siteSettings)
+        public static WikisColumnCollection WikisEditorColumns(SiteSettings ss)
         {
-            if (siteSettings != null)
+            if (ss != null)
             {
                 var ret = Rds.WikisColumn()
                     .SiteId()
                     .WikiId()
                     .Comments();
-                siteSettings.SelectColumnCollection()
+                ss.SelectColumnCollection()
                     .ForEach(column => ret.WikisColumn(column.ColumnName));
                 return ret;
             }
@@ -25251,10 +25251,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .Comments(wikiModel.Comments.ToJson(), _using: wikiModel.Comments_Updated || paramAll);
         }
 
-        public static IssuesColumnCollection IssuesTitleColumn(SiteSettings siteSettings)
+        public static IssuesColumnCollection IssuesTitleColumn(SiteSettings ss)
         {
             var column = IssuesColumn();
-            siteSettings.TitleColumnCollection().Select(o => o.ColumnName).ForEach(columnName =>
+            ss.TitleColumnCollection().Select(o => o.ColumnName).ForEach(columnName =>
             {
                 switch (columnName)
                 {
@@ -25290,10 +25290,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return column;
         }
 
-        public static ResultsColumnCollection ResultsTitleColumn(SiteSettings siteSettings)
+        public static ResultsColumnCollection ResultsTitleColumn(SiteSettings ss)
         {
             var column = ResultsColumn();
-            siteSettings.TitleColumnCollection().Select(o => o.ColumnName).ForEach(columnName =>
+            ss.TitleColumnCollection().Select(o => o.ColumnName).ForEach(columnName =>
             {
                 switch (columnName)
                 {
@@ -25329,10 +25329,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return column;
         }
 
-        public static WikisColumnCollection WikisTitleColumn(SiteSettings siteSettings)
+        public static WikisColumnCollection WikisTitleColumn(SiteSettings ss)
         {
             var column = WikisColumn();
-            siteSettings.TitleColumnCollection().Select(o => o.ColumnName).ForEach(columnName =>
+            ss.TitleColumnCollection().Select(o => o.ColumnName).ForEach(columnName =>
             {
                 switch (columnName)
                 {

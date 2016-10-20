@@ -138,7 +138,7 @@ namespace Implem.Pleasanter.Models
                     .ToJson();
             }
             var siteModel = new ItemModel(referenceId).GetSite();
-            var siteSettings = siteModel.SitesSiteSettings();
+            var ss = siteModel.SitesSiteSettings();
             var outgoingMailModel = new OutgoingMailModel().Get(
                 where: Rds.OutgoingMailsWhere().OutgoingMailId(
                     Forms.Long("OutgoingMails_OutgoingMailId")));
@@ -163,7 +163,7 @@ namespace Implem.Pleasanter.Models
                                         referenceType, referenceId, "OutgoingMails")),
                                 action: () => hb
                                     .Editor(
-                                        siteSettings: siteSettings,
+                                        ss: ss,
                                         outgoingMailModel: outgoingMailModel)))
                         .FieldSet(id: "FieldSetAddressBook", action: () => hb
                             .Form(
@@ -173,7 +173,7 @@ namespace Implem.Pleasanter.Models
                                         referenceType, referenceId, "OutgoingMails")),
                                 action: () => hb
                                     .Destinations(
-                                        siteSettings: siteSettings,
+                                        ss: ss,
                                         referenceId: siteModel.InheritPermission)))))
                 .Invoke("initOutgoingMailDialog")
                 .Invoke("validateOutgoingMails")
@@ -186,7 +186,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder Editor(
             this HtmlBuilder hb,
-            SiteSettings siteSettings,
+            SiteSettings ss,
             OutgoingMailModel outgoingMailModel)
         {
             outgoingMailModel.SiteSettings = SiteSettingsUtility.OutgoingMailsSiteSettings();
@@ -247,13 +247,13 @@ namespace Implem.Pleasanter.Models
                     : "0")
             .Hidden(
                 controlId: "MailToDefault",
-                value: MailDefault(outgoingMailModel, siteSettings.MailToDefault, "to"))
+                value: MailDefault(outgoingMailModel, ss.MailToDefault, "to"))
             .Hidden(
                 controlId: "MailCcDefault",
-                value: MailDefault(outgoingMailModel, siteSettings.MailCcDefault, "cc"))
+                value: MailDefault(outgoingMailModel, ss.MailCcDefault, "cc"))
             .Hidden(
                 controlId: "MailBccDefault",
-                value: MailDefault(outgoingMailModel, siteSettings.MailBccDefault, "bcc"));
+                value: MailDefault(outgoingMailModel, ss.MailBccDefault, "bcc"));
         }
 
         /// <summary>
@@ -325,9 +325,9 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder Destinations(
-            this HtmlBuilder hb, SiteSettings siteSettings, long referenceId)
+            this HtmlBuilder hb, SiteSettings ss, long referenceId)
         {
-            var addressBook = AddressBook(siteSettings);
+            var addressBook = AddressBook(ss);
             var searchRangeDefault = SiteInfo.IsItem()
                 ? addressBook.Count > 0
                     ? "DefaultAddressBook"
@@ -383,9 +383,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static Dictionary<string, string> AddressBook(SiteSettings siteSettings)
+        public static Dictionary<string, string> AddressBook(SiteSettings ss)
         {
-            return siteSettings.AddressBook
+            return ss.AddressBook
                 .SplitReturn()
                 .Select(o => o.Trim())
                 .Where(o => o != string.Empty)

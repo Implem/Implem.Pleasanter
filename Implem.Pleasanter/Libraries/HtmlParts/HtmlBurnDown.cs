@@ -16,22 +16,22 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder BurnDown(
             this HtmlBuilder hb,
-            SiteSettings siteSettings,
+            SiteSettings ss,
             Permissions.Types permissionType,
             IEnumerable<DataRow> dataRows,
             string ownerLabelText,
             Column column)
         {
-            var burnDown = new BurnDown(siteSettings, dataRows);
+            var burnDown = new BurnDown(ss, dataRows);
             return hb
                 .Body(burnDown: burnDown)
                 .Details(
                     burnDown: burnDown,
-                    siteSettings: siteSettings,
+                    ss: ss,
                     ownerLabelText: ownerLabelText,
                     column: column)
                 .MainCommands(
-                    siteId: siteSettings.SiteId,
+                    siteId: ss.SiteId,
                     permissionType: permissionType,
                     verType: Versions.VerTypes.Latest,
                     importButton: true,
@@ -50,7 +50,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder Details(
             this HtmlBuilder hb,
             BurnDown burnDown,
-            SiteSettings siteSettings,
+            SiteSettings ss,
             string ownerLabelText,
             Column column)
         {
@@ -73,7 +73,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         column: column))
                     .DetailsBody(
                         burnDown: burnDown,
-                        siteSettings: siteSettings,
+                        ss: ss,
                         updators: updators,
                         column: column));
             }
@@ -83,7 +83,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder DetailsBody(
             this HtmlBuilder hb,
             BurnDown burnDown,
-            SiteSettings siteSettings,
+            SiteSettings ss,
             IEnumerable<int> updators,
             Column column)
         {
@@ -110,8 +110,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         {
                             hb.BurnDownRecordDetails(
                                 elements: burnDown.Where(o => o.UpdatedTime == currentTime),
-                                progressRateColumn: siteSettings.GetColumn("ProgressRate"),
-                                statusColumn: siteSettings.GetColumn("Status"),
+                                progressRateColumn: ss.GetColumn("ProgressRate"),
+                                statusColumn: ss.GetColumn("Status"),
                                 colspan: updators.Count() + 5,
                                 unit: column.Unit);
                             first = false;

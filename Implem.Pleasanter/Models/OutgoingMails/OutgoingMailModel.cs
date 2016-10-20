@@ -346,13 +346,13 @@ namespace Implem.Pleasanter.Models
         public string GetDestinations()
         {
             var siteModel = new ItemModel(ReferenceId).GetSite();
-            var siteSettings = siteModel.SitesSiteSettings();
+            var ss = siteModel.SitesSiteSettings();
             return new OutgoingMailsResponseCollection(this)
                 .Html("#OutgoingMails_MailAddresses",
                     new HtmlBuilder().SelectableItems(
                         listItemCollection: OutgoingMailUtilities.Destinations(
                             referenceId: siteModel.InheritPermission,
-                            addressBook: OutgoingMailUtilities.AddressBook(siteSettings),
+                            addressBook: OutgoingMailUtilities.AddressBook(ss),
                             searchRange: DestinationSearchRange,
                             searchText: DestinationSearchText),
                         selectedValueTextCollection: new List<string>())).ToJson();

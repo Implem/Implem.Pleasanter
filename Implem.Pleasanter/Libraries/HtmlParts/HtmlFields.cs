@@ -32,7 +32,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder Field(
             this HtmlBuilder hb,
-            SiteSettings siteSettings,
+            SiteSettings ss,
             Column column,
             BaseModel.MethodTypes methodType = BaseModel.MethodTypes.NotSet,
             string value = null,
@@ -60,7 +60,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlCss: Strings.CoalesceEmpty(controlCss, column.ControlCss),
                     controlType: ControlType(column),
                     value: methodType == BaseModel.MethodTypes.New
-                        ? value.ToDefault(siteSettings, column)
+                        ? value.ToDefault(ss, column)
                         : value,
                     optionCollection: column.EditChoices());
             }
@@ -245,9 +245,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static string ToDefault(
-            this string self, SiteSettings siteSettings, Column column)
+            this string self, SiteSettings ss, Column column)
         {
-            if (IsLinked(siteSettings, column))
+            if (IsLinked(ss, column))
             {
                 return Forms.Data("LinkId");
             }
@@ -273,12 +273,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return self;
         }
 
-        private static bool IsLinked(SiteSettings siteSettings, Column column)
+        private static bool IsLinked(SiteSettings ss, Column column)
         {
             var fromSiteId = Forms.Long("FromSiteId");
             return
                 fromSiteId != 0 &&
-                siteSettings.LinkCollection.Any(o =>
+                ss.LinkCollection.Any(o =>
                     o.ColumnName == column.ColumnName && o.SiteId == fromSiteId);
         }
 

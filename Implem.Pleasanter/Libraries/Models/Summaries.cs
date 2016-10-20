@@ -10,9 +10,9 @@ namespace Implem.Pleasanter.Libraries.Models
 {
     public static class Summaries
     {
-        public static string Synchronize(SiteSettings siteSettings, long siteId)
+        public static string Synchronize(SiteSettings ss, long siteId)
         {
-            var summary = siteSettings.SummaryCollection.FirstOrDefault(
+            var summary = ss.SummaryCollection.FirstOrDefault(
                 o => o.Id == Forms.Long("SynchronizeSummaryId"));
             var destinationSiteModel = new SiteModel(summary.SiteId);
             var json = Synchronize(
@@ -20,7 +20,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 destinationSiteModel.ReferenceType,
                 summary.DestinationColumn,
                 siteId,
-                siteSettings.ReferenceType,
+                ss.ReferenceType,
                 summary.LinkColumn,
                 summary.Type,
                 summary.SourceColumn);

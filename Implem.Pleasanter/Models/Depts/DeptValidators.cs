@@ -7,7 +7,7 @@ namespace Implem.Pleasanter.Models
     public static class DeptValidators
     {
         public static Error.Types OnCreating(
-            SiteSettings siteSettings, Permissions.Types permissionType, DeptModel deptModel)
+            SiteSettings ss, Permissions.Types permissionType, DeptModel deptModel)
         {
             if (!permissionType.CanEditTenant())
             {
@@ -18,25 +18,25 @@ namespace Implem.Pleasanter.Models
                 switch (controlId)
                 {
                     case "Depts_DeptCode":
-                        if (!siteSettings.GetColumn("DeptCode").CanCreate(permissionType))
+                        if (!ss.GetColumn("DeptCode").CanCreate(permissionType))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Depts_DeptName":
-                        if (!siteSettings.GetColumn("DeptName").CanCreate(permissionType))
+                        if (!ss.GetColumn("DeptName").CanCreate(permissionType))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Depts_Body":
-                        if (!siteSettings.GetColumn("Body").CanCreate(permissionType))
+                        if (!ss.GetColumn("Body").CanCreate(permissionType))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Depts_Timestamp":
-                        if (!siteSettings.GetColumn("Timestamp").CanCreate(permissionType))
+                        if (!ss.GetColumn("Timestamp").CanCreate(permissionType))
                         {
                             return Error.Types.InvalidRequest;
                         }
@@ -47,7 +47,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public static Error.Types OnUpdating(
-            SiteSettings siteSettings, Permissions.Types permissionType, DeptModel deptModel)
+            SiteSettings ss, Permissions.Types permissionType, DeptModel deptModel)
         {
             if (!permissionType.CanEditTenant())
             {
@@ -58,25 +58,25 @@ namespace Implem.Pleasanter.Models
                 switch (controlId)
                 {
                     case "Depts_DeptCode":
-                        if (!siteSettings.GetColumn("DeptCode").CanUpdate(permissionType))
+                        if (!ss.GetColumn("DeptCode").CanUpdate(permissionType))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Depts_DeptName":
-                        if (!siteSettings.GetColumn("DeptName").CanUpdate(permissionType))
+                        if (!ss.GetColumn("DeptName").CanUpdate(permissionType))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Depts_Body":
-                        if (!siteSettings.GetColumn("Body").CanUpdate(permissionType))
+                        if (!ss.GetColumn("Body").CanUpdate(permissionType))
                         {
                             return Error.Types.InvalidRequest;
                         }
                         break;
                     case "Depts_Timestamp":
-                        if (!siteSettings.GetColumn("Timestamp").CanUpdate(permissionType))
+                        if (!ss.GetColumn("Timestamp").CanUpdate(permissionType))
                         {
                             return Error.Types.InvalidRequest;
                         }
@@ -87,7 +87,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public static Error.Types OnDeleting(
-            SiteSettings siteSettings, Permissions.Types permissionType, DeptModel deptModel)
+            SiteSettings ss, Permissions.Types permissionType, DeptModel deptModel)
         {
             if (!permissionType.CanEditTenant())
             {

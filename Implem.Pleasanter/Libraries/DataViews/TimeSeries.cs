@@ -43,13 +43,13 @@ namespace Implem.Pleasanter.Libraries.DataViews
         }
 
         public TimeSeries(
-            SiteSettings siteSettings,
+            SiteSettings ss,
             string groupByColumn,
             string aggregationType,
             string valueColumn,
             IEnumerable<DataRow> dataRows)
         {
-            SiteSettings = siteSettings;
+            SiteSettings = ss;
             GroupByColumn = groupByColumn;
             AggregationType = aggregationType;
             ValueColumn = valueColumn;

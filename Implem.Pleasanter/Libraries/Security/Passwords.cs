@@ -27,10 +27,10 @@ namespace Implem.Pleasanter.Libraries.Security
         }
 
         public static string Reset(
-            SiteSettings siteSettings, Permissions.Types permissionType, int userId)
+            SiteSettings ss, Permissions.Types permissionType, int userId)
         {
             var userModel = new UserModel(SiteSettingsUtility.UsersSiteSettings(), userId);
-            var invalid = UserValidators.OnUpdating(siteSettings, permissionType, userModel);
+            var invalid = UserValidators.OnUpdating(ss, permissionType, userModel);
             switch (invalid)
             {
                 case Error.Types.None: break;

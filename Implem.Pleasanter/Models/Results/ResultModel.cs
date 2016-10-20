@@ -583,9 +583,9 @@ namespace Implem.Pleasanter.Models
 
         public List<long> SwitchTargets;
 
-        public ResultModel(SiteSettings siteSettings)
+        public ResultModel(SiteSettings ss)
         {
-            SiteSettings = siteSettings;
+            SiteSettings = ss;
         }
 
         public ResultModel(long resultId, long siteId, bool setByForm = false)
@@ -601,22 +601,22 @@ namespace Implem.Pleasanter.Models
         }
 
         public ResultModel(
-            SiteSettings siteSettings, 
+            SiteSettings ss, 
             bool setByForm = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
-            SiteId = siteSettings.SiteId;
+            SiteId = ss.SiteId;
             Manager = SiteInfo.User(Sessions.UserId());
             Owner = SiteInfo.User(Sessions.UserId());
-            SiteSettings = siteSettings;
+            SiteSettings = ss;
             if (setByForm) SetByForm();
             MethodType = methodType;
             OnConstructed();
         }
 
         public ResultModel(
-            SiteSettings siteSettings, 
+            SiteSettings ss, 
             long resultId,
             bool clearSessions = false,
             bool setByForm = false,
@@ -624,9 +624,9 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
-            SiteSettings = siteSettings;
+            SiteSettings = ss;
             ResultId = resultId;
-            SiteId = siteSettings.SiteId;
+            SiteId = ss.SiteId;
             Get();
             if (clearSessions) ClearSessions();
             if (setByForm) SetByForm();
@@ -636,12 +636,12 @@ namespace Implem.Pleasanter.Models
         }
 
         public ResultModel(
-            SiteSettings siteSettings, 
+            SiteSettings ss, 
             Permissions.Types permissionType,
             DataRow dataRow)
         {
             OnConstructing();
-            SiteSettings = siteSettings;
+            SiteSettings = ss;
             Set(dataRow);
             OnConstructed();
         }
@@ -891,10 +891,10 @@ namespace Implem.Pleasanter.Models
         }
 
         private SqlInsert InsertLinks(
-            SiteSettings siteSettings, bool selectIdentity = false)
+            SiteSettings ss, bool selectIdentity = false)
         {
             var link = new Dictionary<long, long>();
-            siteSettings.ColumnCollection.Where(o => o.Link.ToBool()).ForEach(column =>
+            ss.ColumnCollection.Where(o => o.Link.ToBool()).ForEach(column =>
             {
                 switch (column.ColumnName)
                 {

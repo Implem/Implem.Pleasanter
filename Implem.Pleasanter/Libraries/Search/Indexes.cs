@@ -77,20 +77,20 @@ namespace Implem.Pleasanter.Libraries.Search
         private static Dictionary<string, int> SearchIndexHash(
             SiteModel siteModel, long id, string referenceType)
         {
-            var siteSettings = SiteSettingsUtility.Get(siteModel);
+            var ss = SiteSettingsUtility.Get(siteModel);
             switch (referenceType)
             {
                 case "Sites":
                     return new SiteModel().Get(where: Rds.SitesWhere().SiteId(id))
                         .SearchIndexHash();
                 case "Issues":
-                    return new IssueModel(siteSettings, id)
+                    return new IssueModel(ss, id)
                         .SearchIndexHash();
                 case "Results":
-                    return new ResultModel(siteSettings, id)
+                    return new ResultModel(ss, id)
                         .SearchIndexHash();
                 case "Wikis":
-                    return new WikiModel(siteSettings, id)
+                    return new WikiModel(ss, id)
                         .SearchIndexHash();
                 default: return null;
             }

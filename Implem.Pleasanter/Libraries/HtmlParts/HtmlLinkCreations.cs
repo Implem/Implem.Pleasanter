@@ -10,11 +10,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
     {
         public static HtmlBuilder LinkCreations(
             this HtmlBuilder hb,
-            SiteSettings siteSettings,
+            SiteSettings ss,
             long linkId,
             BaseModel.MethodTypes methodType)
         {
-            var linkCollection = LinkCollection(siteSettings);
+            var linkCollection = LinkCollection(ss);
             return
                 methodType != BaseModel.MethodTypes.New &&
                 linkCollection.Any()
@@ -24,18 +24,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => hb
                             .LinkCreations(
                                 linkCollection: linkCollection,
-                                siteId: siteSettings.SiteId,
+                                siteId: ss.SiteId,
                                 linkId: linkId))
                     : hb;
         }
 
-        private static LinkCollection LinkCollection(SiteSettings siteSettings)
+        private static LinkCollection LinkCollection(SiteSettings ss)
         {
             return new LinkCollection(
                 column: Rds.LinksColumn()
                     .SourceId()
                     .SiteTitle(),
-                where: Rds.LinksWhere().DestinationId(siteSettings.SiteId));
+                where: Rds.LinksWhere().DestinationId(ss.SiteId));
         }
 
         private static HtmlBuilder LinkCreations(

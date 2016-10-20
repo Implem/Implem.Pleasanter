@@ -16,9 +16,9 @@ namespace Implem.Pleasanter.Libraries.DataViews
         public Column GroupByColumn;
 
         public Gantt(
-            SiteSettings siteSettings, IEnumerable<DataRow> dataRows, string groupByColumn)
+            SiteSettings ss, IEnumerable<DataRow> dataRows, string groupByColumn)
         {
-            SiteSettings = siteSettings;
+            SiteSettings = ss;
             GroupByColumn = SiteSettings.GetColumn(groupByColumn);
             var statusColumn = SiteSettings.GetColumn("Status");
             var workValueColumn = SiteSettings.GetColumn("WorkValue");

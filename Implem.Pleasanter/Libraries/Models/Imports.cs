@@ -10,14 +10,14 @@ namespace Implem.Pleasanter.Libraries.Models
     public static class Imports
     {
         public static string ColumnValidate(
-            SiteSettings siteSettings, IEnumerable<string> headers, params string[] columnNames)
+            SiteSettings ss, IEnumerable<string> headers, params string[] columnNames)
         {
             foreach (var name in columnNames)
             {
                 if (!headers.Contains(name))
                 {
                     return Messages.ResponseNotRequiredColumn(
-                        siteSettings.GetColumn(name).LabelText).ToJson();
+                        ss.GetColumn(name).LabelText).ToJson();
                 }
             }
             return null;

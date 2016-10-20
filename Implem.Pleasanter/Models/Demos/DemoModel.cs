@@ -51,26 +51,26 @@ namespace Implem.Pleasanter.Models
         }
 
         public DemoModel(
-            SiteSettings siteSettings, 
+            SiteSettings ss, 
             bool setByForm = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
-            SiteSettings = siteSettings;
+            SiteSettings = ss;
             if (setByForm) SetByForm();
             MethodType = methodType;
             OnConstructed();
         }
 
         public DemoModel(
-            SiteSettings siteSettings, 
+            SiteSettings ss, 
             int demoId,
             bool clearSessions = false,
             bool setByForm = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing();
-            SiteSettings = siteSettings;
+            SiteSettings = ss;
             DemoId = demoId;
             Get();
             if (clearSessions) ClearSessions();
@@ -80,12 +80,12 @@ namespace Implem.Pleasanter.Models
         }
 
         public DemoModel(
-            SiteSettings siteSettings, 
+            SiteSettings ss, 
             Permissions.Types permissionType,
             DataRow dataRow)
         {
             OnConstructing();
-            SiteSettings = siteSettings;
+            SiteSettings = ss;
             Set(dataRow);
             OnConstructed();
         }

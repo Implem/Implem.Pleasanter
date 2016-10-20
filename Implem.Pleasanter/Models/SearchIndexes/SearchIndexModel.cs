@@ -41,12 +41,12 @@ namespace Implem.Pleasanter.Models
         public bool Priority_Updated { get { return Priority != SavedPriority; } }
 
         public SearchIndexModel(
-            SiteSettings siteSettings, 
+            SiteSettings ss, 
             Permissions.Types permissionType,
             DataRow dataRow)
         {
             OnConstructing();
-            SiteSettings = siteSettings;
+            SiteSettings = ss;
             Set(dataRow);
             OnConstructed();
         }

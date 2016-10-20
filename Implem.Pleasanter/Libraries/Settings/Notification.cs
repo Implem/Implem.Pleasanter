@@ -77,10 +77,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public IEnumerable<Column> MonitorChangesColumnCollection(SiteSettings siteSettings)
+        public IEnumerable<Column> MonitorChangesColumnCollection(SiteSettings ss)
         {
             return MonitorChangesColumns
-                .Select(o => siteSettings.GetColumn(o))
+                .Select(o => ss.GetColumn(o))
                 .Where(o => o != null)
                 .ToList();
         }

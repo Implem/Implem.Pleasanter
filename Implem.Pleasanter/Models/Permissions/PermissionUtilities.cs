@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Models
         public static string Editor(long siteId)
         {
             var siteModel = new SiteModel(siteId, clearSessions: true);
-            var siteSettings = siteModel.PermissionsSiteSettings();
+            var ss = siteModel.PermissionsSiteSettings();
             var hb = new HtmlBuilder();
             hb.Template(
                 permissionType: siteModel.PermissionType,
@@ -49,7 +49,7 @@ namespace Implem.Pleasanter.Models
                 title: siteModel.Title.Value + " - " + Displays.EditPermissions(),
                 useNavigationMenu: false,
                 action: () => hb
-                    .Editor(siteModel: siteModel, siteSettings: siteSettings));
+                    .Editor(siteModel: siteModel, ss: ss));
             return hb.ToString();
         }
 
@@ -57,7 +57,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder Editor(
-            this HtmlBuilder hb, SiteModel siteModel, SiteSettings siteSettings)
+            this HtmlBuilder hb, SiteModel siteModel, SiteSettings ss)
         {
             return hb.Div(id: "Editor", action: () => hb
                 .Form(
@@ -71,7 +71,7 @@ namespace Implem.Pleasanter.Models
                             css: "max",
                             action: () => hb
                                 .EditorTabs()
-                                .Fields(siteModel: siteModel, siteSettings: siteSettings))
+                                .Fields(siteModel: siteModel, ss: ss))
                         .Hidden(controlId: "MethodType", value: "edit")));
         }
 
@@ -91,7 +91,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder Fields(
-            this HtmlBuilder hb, SiteModel siteModel, SiteSettings siteSettings)
+            this HtmlBuilder hb, SiteModel siteModel, SiteSettings ss)
         {
             SetPermissionCollectionSession(siteModel);
             return hb.FieldSet(

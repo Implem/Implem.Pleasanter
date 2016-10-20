@@ -5,13 +5,13 @@ namespace Implem.Pleasanter.Libraries.Models
 {
     public static class Titles
     {
-        public static string DisplayValue(SiteSettings siteSettings, DataRow dataRow)
+        public static string DisplayValue(SiteSettings ss, DataRow dataRow)
         {
-            switch (siteSettings.ReferenceType)
+            switch (ss.ReferenceType)
             {
-                case "Issues": return IssueUtilities.TitleDisplayValue(siteSettings, dataRow);
-                case "Results": return ResultUtilities.TitleDisplayValue(siteSettings, dataRow);
-                case "Wikis": return WikiUtilities.TitleDisplayValue(siteSettings, dataRow);
+                case "Issues": return IssueUtilities.TitleDisplayValue(ss, dataRow);
+                case "Results": return ResultUtilities.TitleDisplayValue(ss, dataRow);
+                case "Wikis": return WikiUtilities.TitleDisplayValue(ss, dataRow);
                 default: return string.Empty;
             }
         }
