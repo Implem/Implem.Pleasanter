@@ -161,7 +161,8 @@ namespace Implem.Pleasanter.Models
                 Creator.SearchIndexes(searchIndexHash, 100);
                 Updator.SearchIndexes(searchIndexHash, 100);
                 CreatedTime.SearchIndexes(searchIndexHash, 200);
-                SearchIndexExtensions.OutgoingMailsSearchIndexes(searchIndexHash, "Wikis", WikiId);
+                SearchIndexExtensions.OutgoingMailsSearchIndexes(
+                    searchIndexHash, "Wikis", WikiId);
                 return searchIndexHash;
             }
         }

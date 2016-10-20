@@ -829,7 +829,8 @@ namespace Implem.Pleasanter.Models
                 Creator.SearchIndexes(searchIndexHash, 100);
                 Updator.SearchIndexes(searchIndexHash, 100);
                 CreatedTime.SearchIndexes(searchIndexHash, 200);
-                SearchIndexExtensions.OutgoingMailsSearchIndexes(searchIndexHash, "Issues", IssueId);
+                SearchIndexExtensions.OutgoingMailsSearchIndexes(
+                    searchIndexHash, "Issues", IssueId);
                 return searchIndexHash;
             }
         }
