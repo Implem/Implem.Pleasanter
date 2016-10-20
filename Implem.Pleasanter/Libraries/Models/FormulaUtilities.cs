@@ -6,7 +6,7 @@ namespace Implem.Pleasanter.Libraries.Models
     {
         public static void Synchronize(SiteModel siteModel)
         {
-            Update(siteModel, 0, updateRelatedRecords: true);
+            Update(siteModel, 0);
         }
 
         public static void Update(long id)
@@ -14,59 +14,19 @@ namespace Implem.Pleasanter.Libraries.Models
             Update(new SiteModel(new ItemModel(id).SiteId), id);
         }
 
-        private static void Update(SiteModel siteModel, long id, bool updateRelatedRecords = false)
+        private static void Update(SiteModel siteModel, long id)
         {
-            if (siteModel.SiteSettings.FormulaHash?.Count > 0)
+            var hasFormula = siteModel.SiteSettings.FormulaHash?.Count > 0;
+            switch (siteModel.ReferenceType)
             {
-                switch (siteModel.ReferenceType)
-                {
-                    case "Issues":
-                        UpdateIssues(
-                            siteModel,
-                            id,
-                            updateFormula: true,
-                            updateRelatedRecords: updateRelatedRecords);
-                        break;
-                    case "Results":
-                        UpdateResults(
-                            siteModel,
-                            id,
-                            updateFormula: true,
-                            updateRelatedRecords: updateRelatedRecords);
-                        break;
-                    case "Wikis":
-                        UpdateWikis(
-                            siteModel,
-                            id,
-                            updateFormula: true,
-                            updateRelatedRecords: updateRelatedRecords);
-                        break;
-                    default: break;
-                }
-            }
-            else if (updateRelatedRecords)
-            {
-                switch (siteModel.ReferenceType)
-                {
-                    case "Issues":
-                        UpdateIssues(siteModel, id, updateRelatedRecords: true);
-                        break;
-                    case "Results":
-                        UpdateResults(siteModel, id, updateRelatedRecords: true);
-                        break;
-                    case "Wikis":
-                        UpdateWikis(siteModel, id, updateRelatedRecords: true);
-                        break;
-                    default: break;
-                }            
+                case "Issues": UpdateIssues(siteModel, id, hasFormula: hasFormula); break;
+                case "Results": UpdateResults(siteModel, id, hasFormula: hasFormula); break;
+                case "Wikis": UpdateWikis(siteModel, id, hasFormula: hasFormula); break;
+                default: break;
             }
         }
 
-        private static void UpdateIssues(
-            SiteModel siteModel,
-            long id,
-            bool updateFormula = false,
-            bool updateRelatedRecords = false)
+        private static void UpdateIssues(SiteModel siteModel, long id, bool hasFormula = false)
         {
             new IssueCollection(
                 siteSettings: siteModel.SiteSettings,
@@ -76,23 +36,13 @@ namespace Implem.Pleasanter.Libraries.Models
                     .IssueId(id, _using: id != 0))
                         .ForEach(issueModel =>
                         {
-                            if (updateFormula)
-                            {
-                                issueModel.UpdateFormulaColumns();
-                            }
-                            if (updateRelatedRecords)
-                            {
-                                issueModel.UpdateRelatedRecords(
-                                    addUpdatedTimeParam: false, addUpdatorParam: false);
-                            }
+                            if (hasFormula) issueModel.UpdateFormulaColumns();
+                            issueModel.UpdateRelatedRecords(
+                                addUpdatedTimeParam: false, addUpdatorParam: false);
                         });
         }
 
-        private static void UpdateResults(
-            SiteModel siteModel,
-            long id,
-            bool updateFormula = false,
-            bool updateRelatedRecords = false)
+        private static void UpdateResults(SiteModel siteModel, long id, bool hasFormula = false)
         {
             new ResultCollection(
                 siteSettings: siteModel.SiteSettings,
@@ -102,23 +52,13 @@ namespace Implem.Pleasanter.Libraries.Models
                     .ResultId(id, _using: id != 0))
                         .ForEach(resultModel =>
                         {
-                            if (updateFormula)
-                            {
-                                resultModel.UpdateFormulaColumns();
-                            }
-                            if (updateRelatedRecords)
-                            {
-                                resultModel.UpdateRelatedRecords(
-                                    addUpdatedTimeParam: false, addUpdatorParam: false);
-                            }
+                            if (hasFormula) resultModel.UpdateFormulaColumns();
+                            resultModel.UpdateRelatedRecords(
+                                addUpdatedTimeParam: false, addUpdatorParam: false);
                         });
         }
 
-        private static void UpdateWikis(
-            SiteModel siteModel,
-            long id,
-            bool updateFormula = false,
-            bool updateRelatedRecords = false)
+        private static void UpdateWikis(SiteModel siteModel, long id, bool hasFormula = false)
         {
             new WikiCollection(
                 siteSettings: siteModel.SiteSettings,
@@ -128,15 +68,9 @@ namespace Implem.Pleasanter.Libraries.Models
                     .WikiId(id, _using: id != 0))
                         .ForEach(wikiModel =>
                         {
-                            if (updateFormula)
-                            {
-                                wikiModel.UpdateFormulaColumns();
-                            }
-                            if (updateRelatedRecords)
-                            {
-                                wikiModel.UpdateRelatedRecords(
-                                    addUpdatedTimeParam: false, addUpdatorParam: false);
-                            }
+                            if (hasFormula) wikiModel.UpdateFormulaColumns();
+                            wikiModel.UpdateRelatedRecords(
+                                addUpdatedTimeParam: false, addUpdatorParam: false);
                         });
         }
     }
