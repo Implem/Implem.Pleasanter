@@ -154,5 +154,18 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 return "limit-normal";
             }
         }
+
+        public override string ToNotice(
+            DateTime saved,
+            Column column,
+            bool updated,
+            bool update)
+        {
+            return column.DisplayExport(DisplayValue).ToNoticeLine(
+                column.DisplayExport(saved.ToLocal().AddDays(-1)),
+                column,
+                updated,
+                update);
+        }
     }
 }

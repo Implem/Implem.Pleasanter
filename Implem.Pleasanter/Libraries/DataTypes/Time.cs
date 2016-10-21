@@ -85,7 +85,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return column.DisplayExport(DisplayValue);
         }
 
-        public string ToNotice(
+        public virtual string ToNotice(
             DateTime saved,
             Column column,
             bool updated,
