@@ -232,8 +232,8 @@ namespace Implem.Pleasanter.Models
         {
             var sqlColumnCollection = Rds.IssuesColumn();
             new List<string> { "SiteId", "IssueId", "Creator", "Updator" }
-                .Concat(ss.GridColumnsOrder)
-                .Concat(ss.TitleColumnsOrder)
+                .Concat(ss.GridColumns)
+                .Concat(ss.TitleColumns)
                     .Distinct().ForEach(column =>
                         sqlColumnCollection.IssuesColumn(column));
             return sqlColumnCollection;
@@ -954,7 +954,7 @@ namespace Implem.Pleasanter.Models
         {
             var issueModel = new IssueModel(ss, issueId, setByForm: true);
             issueModel.IssueId = 0;
-            if (ss.EditorColumnsOrder.Contains("Title"))
+            if (ss.EditorColumns.Contains("Title"))
             {
                 issueModel.Title.Value += Displays.SuffixCopy();
             }

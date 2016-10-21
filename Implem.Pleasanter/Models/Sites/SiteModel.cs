@@ -794,7 +794,7 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
-                    var titleColumns = SiteSettings.TitleColumnsOrder;
+                    var titleColumns = SiteSettings.TitleColumns;
                     if (column.ColumnName == "Title")
                     {
                         Session_TitleColumns(titleColumns);
@@ -820,7 +820,7 @@ namespace Implem.Pleasanter.Models
                     Notification.Types.Mail,
                     string.Empty,
                     string.Empty,
-                    SiteSettings.EditorColumnsOrder
+                    SiteSettings.EditorColumns
                         .Concat(new List<string> { "Comments" }).ToList());
             if (notification == null)
             {
@@ -1144,7 +1144,7 @@ namespace Implem.Pleasanter.Models
                 {
                     if (column.ColumnName == "Title")
                     {
-                        SiteSettings.TitleColumnsOrder = Session_TitleColumns();
+                        SiteSettings.TitleColumns = Session_TitleColumns();
                     }
                     Forms.All()
                         .Where(o => o.Key.StartsWith("ColumnProperty,"))

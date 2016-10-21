@@ -165,8 +165,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static bool Visible(SiteSettings ss, string columnName)
         {
             return
-                ss.GridColumnsOrder.Contains(columnName) ||
-                ss.EditorColumnsOrder.Contains(columnName);
+                ss.GridColumns.Contains(columnName) ||
+                ss.EditorColumns.Contains(columnName);
         }
 
         private static HtmlBuilder Columns(
@@ -219,8 +219,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 _checked: formData.Get("DataViewFilters_" + column.Id).ToBool(),
                 method: "post",
                 _using:
-                    ss.GridColumnsOrder.Contains(column.ColumnName) ||
-                    ss.EditorColumnsOrder.Contains(column.ColumnName));
+                    ss.GridColumns.Contains(column.ColumnName) ||
+                    ss.EditorColumns.Contains(column.ColumnName));
         }
 
         private static HtmlBuilder DropDown(
@@ -241,8 +241,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 addSelectedValue: false,
                 method: "post",
                 _using:
-                    ss.GridColumnsOrder.Contains(column.ColumnName) ||
-                    ss.EditorColumnsOrder.Contains(column.ColumnName) ||
+                    ss.GridColumns.Contains(column.ColumnName) ||
+                    ss.EditorColumns.Contains(column.ColumnName) ||
                     column.RecordedTime);
         }
 

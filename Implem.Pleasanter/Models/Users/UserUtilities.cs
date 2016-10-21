@@ -270,8 +270,8 @@ namespace Implem.Pleasanter.Models
         {
             var sqlColumnCollection = Rds.UsersColumn();
             new List<string> { "UserId", "Creator", "Updator" }
-                .Concat(ss.GridColumnsOrder)
-                .Concat(ss.TitleColumnsOrder)
+                .Concat(ss.GridColumns)
+                .Concat(ss.TitleColumns)
                     .Distinct().ForEach(column =>
                         sqlColumnCollection.UsersColumn(column));
             return sqlColumnCollection;

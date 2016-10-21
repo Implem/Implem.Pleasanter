@@ -39,12 +39,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int? GridPageSize;
         public int? FirstDayOfWeek;
         public int? FirstMonth;
-        public List<string> GridColumnsOrder;
-        public List<string> FilterColumnsOrder;
-        public List<string> EditorColumnsOrder;
-        public List<string> TitleColumnsOrder;
-        public List<string> LinkColumnsOrder;
-        public List<string> HistoryColumnsOrder;
+        public List<string> GridColumns;
+        public List<string> FilterColumns;
+        public List<string> EditorColumns;
+        public List<string> TitleColumns;
+        public List<string> LinkColumns;
+        public List<string> HistoryColumns;
         public List<Column> ColumnCollection;
         public List<Notification> Notifications;
         public List<Aggregation> AggregationCollection;
@@ -64,7 +64,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string EditScript;
         // compatibility Version 1.002
         public Dictionary<string, long> LinkColumnSiteIdHash;
-
+        // compatibility Version 1.003
+        public List<string> GridColumnsOrder;
+        public List<string> FilterColumnsOrder;
+        public List<string> EditorColumnsOrder;
+        public List<string> TitleColumnsOrder;
+        public List<string> LinkColumnsOrder;
+        public List<string> HistoryColumnsOrder;
 
         public SiteSettings()
         {
@@ -126,13 +132,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (self.GridPageSize == def.GridPageSize) self.GridPageSize = null;
             if (self.FirstDayOfWeek == def.FirstDayOfWeek) self.FirstDayOfWeek = null;
             if (self.FirstMonth == def.FirstMonth) self.FirstMonth = null;
-            if (self.GridColumnsOrder.SequenceEqual(def.GridColumnsOrder)) self.GridColumnsOrder = null;
-            if (self.FilterColumnsOrder.SequenceEqual(def.FilterColumnsOrder)) self.FilterColumnsOrder = null;
-            if (self.EditorColumnsOrder.SequenceEqual(def.EditorColumnsOrder)) self.EditorColumnsOrder = null;
-            if (self.TitleColumnsOrder.SequenceEqual(def.TitleColumnsOrder)) self.TitleColumnsOrder = null;
+            if (self.GridColumns.SequenceEqual(def.GridColumns)) self.GridColumns = null;
+            if (self.FilterColumns.SequenceEqual(def.FilterColumns)) self.FilterColumns = null;
+            if (self.EditorColumns.SequenceEqual(def.EditorColumns)) self.EditorColumns = null;
+            if (self.TitleColumns.SequenceEqual(def.TitleColumns)) self.TitleColumns = null;
             if (self.TitleSeparator == def.TitleSeparator) self.TitleSeparator = null;
-            if (self.LinkColumnsOrder.SequenceEqual(def.LinkColumnsOrder)) self.LinkColumnsOrder = null;
-            if (self.HistoryColumnsOrder.SequenceEqual(def.HistoryColumnsOrder)) self.HistoryColumnsOrder = null;
+            if (self.LinkColumns.SequenceEqual(def.LinkColumns)) self.LinkColumns = null;
+            if (self.HistoryColumns.SequenceEqual(def.HistoryColumns)) self.HistoryColumns = null;
             if (self.ColumnCollection.SequenceEqual(def.ColumnCollection)) self.ColumnCollection = null;
             if (!self.Notifications.Any()) self.Notifications = null;
             if (self.AggregationCollection.SequenceEqual(def.AggregationCollection)) self.AggregationCollection = null;
@@ -187,16 +193,16 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void UpdateGridColumnsOrder()
         {
-            if (GridColumnsOrder == null)
+            if (GridColumns == null)
             {
-                GridColumnsOrder = ColumnUtilities.GridDefinitions(
+                GridColumns = ColumnUtilities.GridDefinitions(
                     ReferenceType, enableOnly: true)
                         .Select(o => o.ColumnName)
                         .ToList();
             }
             else
             {
-                GridColumnsOrder.RemoveAll(o =>
+                GridColumns.RemoveAll(o =>
                     !Def.ColumnDefinitionCollection.Any(p =>
                         p.ColumnName == o &&
                         p.TableName == ReferenceType &&
@@ -206,16 +212,16 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void UpdateFilterColumnsOrder()
         {
-            if (FilterColumnsOrder == null)
+            if (FilterColumns == null)
             {
-                FilterColumnsOrder = ColumnUtilities.FilterDefinitions(
+                FilterColumns = ColumnUtilities.FilterDefinitions(
                     ReferenceType, enableOnly: true)
                         .Select(o => o.ColumnName)
                         .ToList();
             }
             else
             {
-                FilterColumnsOrder.RemoveAll(o =>
+                FilterColumns.RemoveAll(o =>
                     !Def.ColumnDefinitionCollection.Any(p =>
                         p.ColumnName == o &&
                         p.TableName == ReferenceType &&
@@ -225,16 +231,16 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void UpdateEditorColumnsOrder()
         {
-            if (EditorColumnsOrder == null)
+            if (EditorColumns == null)
             {
-                EditorColumnsOrder = ColumnUtilities.EditorDefinitions(
+                EditorColumns = ColumnUtilities.EditorDefinitions(
                     ReferenceType, enableOnly: true)
                         .Select(o => o.ColumnName)
                         .ToList();
             }
             else
             {
-                EditorColumnsOrder.RemoveAll(o =>
+                EditorColumns.RemoveAll(o =>
                     !Def.ColumnDefinitionCollection.Any(p =>
                         p.ColumnName == o &&
                         p.TableName == ReferenceType &&
@@ -245,16 +251,16 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void UpdateTitleColumnsOrder()
         {
-            if (TitleColumnsOrder == null)
+            if (TitleColumns == null)
             {
-                TitleColumnsOrder = ColumnUtilities.TitleDefinitions(
+                TitleColumns = ColumnUtilities.TitleDefinitions(
                     ReferenceType, enableOnly: true)
                         .Select(o => o.ColumnName)
                         .ToList();
             }
             else
             {
-                TitleColumnsOrder.RemoveAll(o =>
+                TitleColumns.RemoveAll(o =>
                     !Def.ColumnDefinitionCollection.Any(p =>
                         p.TableName == ReferenceType &&
                         p.ColumnName == o &&
@@ -265,16 +271,16 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void UpdateLinkColumnsOrder()
         {
-            if (LinkColumnsOrder == null)
+            if (LinkColumns == null)
             {
-                LinkColumnsOrder = ColumnUtilities.LinkDefinitions(
+                LinkColumns = ColumnUtilities.LinkDefinitions(
                     ReferenceType, enableOnly: true)
                         .Select(o => o.ColumnName)
                         .ToList();
             }
             else
             {
-                LinkColumnsOrder.RemoveAll(o =>
+                LinkColumns.RemoveAll(o =>
                     !Def.ColumnDefinitionCollection.Any(p =>
                         p.TableName == ReferenceType &&
                         p.ColumnName == o &&
@@ -284,16 +290,16 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void UpdateHistoryColumnsOrder()
         {
-            if (HistoryColumnsOrder == null)
+            if (HistoryColumns == null)
             {
-                HistoryColumnsOrder = ColumnUtilities.HistoryDefinitions(
+                HistoryColumns = ColumnUtilities.HistoryDefinitions(
                     ReferenceType, enableOnly: true)
                         .Select(o => o.ColumnName)
                         .ToList();
             }
             else
             {
-                HistoryColumnsOrder.RemoveAll(o =>
+                HistoryColumns.RemoveAll(o =>
                     !Def.ColumnDefinitionCollection.Any(p =>
                         p.TableName == ReferenceType &&
                         p.ColumnName == o &&
@@ -444,7 +450,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public IEnumerable<Column> GridColumnCollection()
         {
-            return GridColumnsOrder
+            return GridColumns
                 .Select(o => GetColumn(o))
                 .Where(o => o != null)
                 .ToList();
@@ -452,7 +458,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public IEnumerable<Column> FilterColumnCollection()
         {
-            return FilterColumnsOrder
+            return FilterColumns
                 .Select(o => GetColumn(o))
                 .Where(o => o != null)
                 .ToList();
@@ -460,7 +466,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public IEnumerable<Column> EditorColumnCollection()
         {
-            return EditorColumnsOrder
+            return EditorColumns
                 .Select(o => GetColumn(o))
                 .Where(o => o != null)
                 .ToList();
@@ -468,7 +474,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public IEnumerable<Column> TitleColumnCollection()
         {
-            return TitleColumnsOrder
+            return TitleColumns
                 .Select(o => GetColumn(o))
                 .Where(o => o != null)
                 .ToList();
@@ -476,7 +482,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public IEnumerable<Column> LinkColumnCollection()
         {
-            return LinkColumnsOrder
+            return LinkColumns
                 .Select(o => GetColumn(o))
                 .Where(o => o != null)
                 .ToList();
@@ -484,7 +490,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public IEnumerable<Column> HistoryColumnCollection()
         {
-            return HistoryColumnsOrder
+            return HistoryColumns
                 .Select(o => GetColumn(o))
                 .Where(o => o != null)
                 .ToList();
@@ -494,18 +500,18 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return ColumnCollection.Where(o =>
                 !o.Nullable.ToBool() ||
-                EditorColumnsOrder.Contains(o.ColumnName) ||
-                EditorColumnsOrder.Contains(o.ColumnName));
+                EditorColumns.Contains(o.ColumnName) ||
+                EditorColumns.Contains(o.ColumnName));
         }
 
         public Dictionary<string, string> GridSelectableOptions(bool enabled = true)
         {
             return enabled
                 ? ColumnUtilities.SelectableOptions(
-                    this, GridColumnsOrder, enabled)
+                    this, GridColumns, enabled)
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnUtilities.GridDefinitions(ReferenceType)
-                        .Where(o => !GridColumnsOrder.Contains(o.ColumnName))
+                        .Where(o => !GridColumns.Contains(o.ColumnName))
                         .Select(o => o.ColumnName), enabled);
         }
 
@@ -513,10 +519,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return enabled
                 ? ColumnUtilities.SelectableOptions(
-                    this, FilterColumnsOrder, enabled)
+                    this, FilterColumns, enabled)
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnUtilities.FilterDefinitions(ReferenceType)
-                        .Where(o => !FilterColumnsOrder.Contains(o.ColumnName))
+                        .Where(o => !FilterColumns.Contains(o.ColumnName))
                         .Select(o => o.ColumnName), enabled);
         }
 
@@ -524,10 +530,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return enabled
                 ? ColumnUtilities.SelectableOptions(
-                    this, EditorColumnsOrder, enabled)
+                    this, EditorColumns, enabled)
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnUtilities.EditorDefinitions(ReferenceType)
-                        .Where(o => !EditorColumnsOrder.Contains(o.ColumnName))
+                        .Where(o => !EditorColumns.Contains(o.ColumnName))
                         .Select(o => o.ColumnName), enabled);
         }
 
@@ -547,10 +553,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return enabled
                 ? ColumnUtilities.SelectableOptions(
-                    this, LinkColumnsOrder, enabled)
+                    this, LinkColumns, enabled)
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnUtilities.LinkDefinitions(ReferenceType)
-                        .Where(o => !LinkColumnsOrder.Contains(o.ColumnName))
+                        .Where(o => !LinkColumns.Contains(o.ColumnName))
                         .Select(o => o.ColumnName), enabled);
         }
 
@@ -558,10 +564,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return enabled
                 ? ColumnUtilities.SelectableOptions(
-                    this, HistoryColumnsOrder, enabled)
+                    this, HistoryColumns, enabled)
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnUtilities.HistoryDefinitions(ReferenceType)
-                        .Where(o => !HistoryColumnsOrder.Contains(o.ColumnName))
+                        .Where(o => !HistoryColumns.Contains(o.ColumnName))
                         .Select(o => o.ColumnName), enabled);
         }
 
@@ -700,36 +706,36 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void SetGridColumns(
             string command, List<string> selectedColumns, List<string> selectedSourceColumns)
         {
-            GridColumnsOrder = ColumnUtilities.GetChanged(
-                GridColumnsOrder, command, selectedColumns, selectedSourceColumns);
+            GridColumns = ColumnUtilities.GetChanged(
+                GridColumns, command, selectedColumns, selectedSourceColumns);
         }
 
         public void SetFilterColumns(
             string command, List<string> selectedColumns, List<string> selectedSourceColumns)
         {
-            FilterColumnsOrder = ColumnUtilities.GetChanged(
-                FilterColumnsOrder, command, selectedColumns, selectedSourceColumns);
+            FilterColumns = ColumnUtilities.GetChanged(
+                FilterColumns, command, selectedColumns, selectedSourceColumns);
         }
 
         public void SetEditorColumns(
             string command, List<string> selectedColumns, List<string> selectedSourceColumns)
         {
-            EditorColumnsOrder = ColumnUtilities.GetChanged(
-                EditorColumnsOrder, command, selectedColumns, selectedSourceColumns);
+            EditorColumns = ColumnUtilities.GetChanged(
+                EditorColumns, command, selectedColumns, selectedSourceColumns);
         }
 
         public void SetLinkColumns(
             string command, List<string> selectedColumns, List<string> selectedSourceColumns)
         {
-            LinkColumnsOrder = ColumnUtilities.GetChanged(
-                LinkColumnsOrder, command, selectedColumns, selectedSourceColumns);
+            LinkColumns = ColumnUtilities.GetChanged(
+                LinkColumns, command, selectedColumns, selectedSourceColumns);
         }
 
         public void SetHistoryColumns(
             string command, List<string> selectedColumns, List<string> selectedSourceColumns)
         {
-            HistoryColumnsOrder = ColumnUtilities.GetChanged(
-                HistoryColumnsOrder, command, selectedColumns, selectedSourceColumns);
+            HistoryColumns = ColumnUtilities.GetChanged(
+                HistoryColumns, command, selectedColumns, selectedSourceColumns);
         }
 
         public void SetColumnProperty(Column column, string propertyName, string value)
