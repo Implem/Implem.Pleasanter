@@ -890,8 +890,7 @@ namespace Implem.Pleasanter.Models
                 });
         }
 
-        private SqlInsert InsertLinks(
-            SiteSettings ss, bool selectIdentity = false)
+        private SqlInsert InsertLinks(SiteSettings ss, bool selectIdentity = false)
         {
             var link = new Dictionary<long, long>();
             ss.ColumnCollection.Where(o => o.Link.ToBool()).ForEach(column =>
