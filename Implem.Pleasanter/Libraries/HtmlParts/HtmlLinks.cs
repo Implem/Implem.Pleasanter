@@ -120,10 +120,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             siteCollection.ForEach(siteModel => hb.Table(css: "grid", action: () =>
             {
-                var dataRows = dataSet.Tables[siteModel.ReferenceType]
+                var dataRows = dataSet.Tables[siteModel.ReferenceType]?
                     .AsEnumerable()
                     .Where(o => o["SiteId"].ToLong() == siteModel.SiteId);
-                if (dataRows.Any())
+                if (dataRows != null && dataRows.Any())
                 {
                     switch (siteModel.ReferenceType)
                     {
