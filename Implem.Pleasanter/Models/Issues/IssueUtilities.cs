@@ -70,7 +70,7 @@ namespace Implem.Pleasanter.Models
                         attributes: new HtmlAttributes()
                             .Id("IssuesForm")
                             .Class("main-form")
-                            .Action(Navigations.ItemAction(ss.SiteId)),
+                            .Action(Locations.ItemAction(ss.SiteId)),
                         action: () => hb
                             .DataViewFilters(ss: ss)
                             .Aggregations(
@@ -87,7 +87,7 @@ namespace Implem.Pleasanter.Models
                                 exportButton: true)
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "Issues")
-                            .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
+                            .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl()))
                     .MoveDialog(bulk: true)
                     .ImportSettingsDialog()
                     .Div(attributes: new HtmlAttributes()
@@ -460,7 +460,7 @@ namespace Implem.Pleasanter.Models
                     attributes: new HtmlAttributes()
                         .Id("IssueForm")
                         .Class("main-form")
-                        .Action(Navigations.ItemAction(issueModel.IssueId != 0 
+                        .Action(Locations.ItemAction(issueModel.IssueId != 0 
                             ? issueModel.IssueId
                             : siteModel.SiteId)),
                     action: () => hb
@@ -499,7 +499,7 @@ namespace Implem.Pleasanter.Models
                                     .MainCommandExtensions(
                                         issueModel: issueModel,
                                         ss: ss)))
-                        .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl())
+                        .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl())
                         .Hidden(
                             controlId: "MethodType",
                             value: issueModel.MethodType.ToString().ToLower())
@@ -999,7 +999,7 @@ namespace Implem.Pleasanter.Models
             {
                 return EditorResponse(issueModel)
                     .Message(Messages.Moved(issueModel.Title.Value))
-                    .Val("#BackUrl", Navigations.ItemIndex(targetSiteId))
+                    .Val("#BackUrl", Locations.ItemIndex(targetSiteId))
                     .ToJson();
             }
         }
@@ -1023,7 +1023,7 @@ namespace Implem.Pleasanter.Models
             {
                 Sessions.Set("Message", Messages.Deleted(issueModel.Title.Value).Html);
                 var res = new IssuesResponseCollection(issueModel);
-                res.Href(Navigations.ItemIndex(issueModel.SiteId));
+                res.Href(Locations.ItemIndex(issueModel.SiteId));
                 return res.ToJson();
             }
         }
@@ -1139,7 +1139,7 @@ namespace Implem.Pleasanter.Models
                 addCommentCollection.AddRange(idHash.Select(o => "[{0}]({1}{2})".Params(
                     Forms.Data("SeparateTitle_" + o.Key),
                     Url.Server(),
-                    Navigations.ItemEdit(o.Value))));
+                    Locations.ItemEdit(o.Value))));
                 var addComment = addCommentCollection.Join("\n");
                 for (var index = number; index >= 1; index--)
                 {

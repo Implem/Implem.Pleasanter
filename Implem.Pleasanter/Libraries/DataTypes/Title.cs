@@ -69,7 +69,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     break;
                 default:
                     hb.A(
-                        href: Navigations.ItemEdit(Id),
+                        href: Locations.ItemEdit(Id),
                         text: DisplayValue);
                     break;
             }

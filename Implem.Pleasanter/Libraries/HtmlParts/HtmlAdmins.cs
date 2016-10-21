@@ -23,7 +23,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Li(css: "nav-site", action: () => hb
                                 .A(
                                     attributes: new HtmlAttributes()
-                                        .Href(Navigations.Index("Depts")),
+                                        .Href(Locations.Index("Depts")),
                                     action: () => hb
                                         .Div(action: () => hb
                                             .Text(Displays.Depts()))
@@ -32,7 +32,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Li(css: "nav-site", action: () => hb
                                 .A(
                                     attributes: new HtmlAttributes()
-                                        .Href(Navigations.Index("Users")),
+                                        .Href(Locations.Index("Users")),
                                     action: () => hb
                                         .Div(action: () => hb
                                             .Text(Displays.Users()))

@@ -3,7 +3,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Responses
 {
-    public static class Navigations
+    public static class Locations
     {
         public static string Top()
         {

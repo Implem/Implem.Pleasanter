@@ -167,7 +167,7 @@ namespace Implem.Pleasanter.Controllers
             if (Sessions.LoggedIn())
             {
                 log.Finish();
-                return base.Redirect(Navigations.Top());
+                return base.Redirect(Locations.Top());
             }
             else
             {
@@ -200,7 +200,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var log = new SysLogModel();
             Authentications.SignOut();
-            var url = Navigations.Login();
+            var url = Locations.Login();
             log.Finish();
             return Redirect(url);
         }

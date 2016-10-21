@@ -139,7 +139,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     accessKey: "x",
                                     onClick: "$p.openExportSettingsDialog($(this));",
                                     icon: "ui-icon-arrowreturnthick-1-w",
-                                    action: Navigations.ItemAction(
+                                    action: Locations.ItemAction(
                                         siteId, "ExportSettings", "Edit"),
                                     method: "put",
                                     _using: exportButton && pt.CanExport());

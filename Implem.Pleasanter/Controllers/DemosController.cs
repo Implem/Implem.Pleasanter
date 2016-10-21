@@ -24,7 +24,7 @@ namespace Implem.Pleasanter.Controllers
             var log = new SysLogModel();
             DemoUtilities.Login();
             log.Finish();
-            return Redirect(Navigations.Get());
+            return Redirect(Locations.Get());
         }
     }
 }

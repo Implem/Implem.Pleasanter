@@ -439,7 +439,7 @@ namespace Implem.Pleasanter.Models
         {
             var title = WikiUtilities.TitleDisplayValue(SiteSettings, this);
             var url = Url.AbsoluteUri().Replace(
-                Url.AbsolutePath(), Navigations.ItemEdit(WikiId));
+                Url.AbsolutePath(), Locations.ItemEdit(WikiId));
             switch (type)
             {
                 case "Created":

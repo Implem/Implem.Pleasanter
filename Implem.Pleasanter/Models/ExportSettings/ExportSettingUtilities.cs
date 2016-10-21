@@ -117,7 +117,7 @@ namespace Implem.Pleasanter.Models
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("ExportSettingsForm")
-                            .Action(Navigations.ItemAction(referenceId, "ExportSettings")),
+                            .Action(Locations.ItemAction(referenceId, "ExportSettings")),
                         action: () => hb
                             .Columns(
                                 exportSettingModel.ExportColumns,

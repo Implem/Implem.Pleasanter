@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             switch (controller)
             {
                 case "admins":
-                    return Navigations.Top();
+                    return Locations.Top();
                 case "depts":
                 case "users":
                     switch (Routes.Action())
@@ -37,9 +37,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         case "new":
                         case "edit":
                             return Strings.CoalesceEmpty(
-                                referer, Navigations.Get(controller));
+                                referer, Locations.Get(controller));
                         default:
-                            return Navigations.Get("Admins");
+                            return Locations.Get("Admins");
                     }
                 default:
                     switch (referenceType)
@@ -48,17 +48,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             switch (Routes.Action())
                             {
                                 case "new":
-                                    return Navigations.ItemIndex(siteId);
+                                    return Locations.ItemIndex(siteId);
                                 case "edit":
                                     switch (siteReferenceType)
                                     {
                                         case "Wikis":
-                                            return Navigations.ItemIndex(parentId);
+                                            return Locations.ItemIndex(parentId);
                                         default:
-                                            return Navigations.ItemIndex(siteId);
+                                            return Locations.ItemIndex(siteId);
                                     }
                                 default:
-                                    return Navigations.ItemIndex(parentId);
+                                    return Locations.ItemIndex(parentId);
                             }
                         default:
                             switch (Routes.Action())
@@ -66,9 +66,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 case "new":
                                 case "edit":
                                     return Strings.CoalesceEmpty(
-                                        referer, Navigations.ItemIndex(siteId));
+                                        referer, Locations.ItemIndex(siteId));
                                 default:
-                                    return Navigations.ItemIndex(parentId);
+                                    return Locations.ItemIndex(parentId);
                             }
                     }
             }

@@ -96,9 +96,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             switch (controller)
             {
                 case "items":
-                    return Navigations.ItemNew(siteId);
+                    return Locations.ItemNew(siteId);
                 default:
-                    return Navigations.New(controller);
+                    return Locations.New(controller);
             }
         }
 
@@ -130,7 +130,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .A(
                     attributes: editor
                         ? new HtmlAttributes().OnClick(
-                            "location.href='" + Navigations.ItemView(siteId, action) + "'")
+                            "location.href='" + Locations.ItemView(siteId, action) + "'")
                         : new HtmlAttributes()
                             .OnClick("$p.dataView($(this));")
                             .DataAction(action),
@@ -146,7 +146,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Li(
                     action: () => hb
                         .A(
-                            href: Navigations.ItemEdit(siteId),
+                            href: Locations.ItemEdit(siteId),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-gear")
                                 .Displays_Sites_SiteSettings()),
@@ -154,7 +154,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Li(
                     action: () => hb
                         .A(
-                            href: Navigations.ItemEdit(siteId, "Permissions"),
+                            href: Locations.ItemEdit(siteId, "Permissions"),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-locked")
                                 .Displays_EditPermissions()),
@@ -162,7 +162,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Li(
                     action: () => hb
                         .A(
-                            href: Navigations.Index("Admins"),
+                            href: Locations.Index("Admins"),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-gear")
                                 .Displays_Admin()),
@@ -174,13 +174,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Ul(id: "AccountMenu", css: "menu", action: () => hb
                 .Li(action: () => hb
                     .A(
-                        href: Navigations.Edit("Users", Sessions.UserId()),
+                        href: Locations.Edit("Users", Sessions.UserId()),
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-wrench")
                             .Displays_EditProfile()))
                 .Li(action: () => hb
                     .A(
-                        href: Navigations.Logout(),
+                        href: Locations.Logout(),
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-locked")
                             .Displays_Logout())));

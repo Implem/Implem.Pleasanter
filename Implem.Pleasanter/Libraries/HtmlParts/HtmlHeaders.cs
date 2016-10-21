@@ -17,11 +17,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Header(id: "Header", action: () => hb
                 .H(number: 2, id: "Logo", action: () => hb
                     .A(
-                        attributes: new HtmlAttributes().Href(Navigations.Top()),
+                        attributes: new HtmlAttributes().Href(Locations.Top()),
                         action: () => hb
                             .Img(
                                 id: "CorpLogo",
-                                src: Navigations.Images("logo-corp.png"))
+                                src: Locations.Images("logo-corp.png"))
                             .Span(id: "ProductLogo", action: () => hb
                                 .Displays_ProductName())))
                 .NavigationMenu(

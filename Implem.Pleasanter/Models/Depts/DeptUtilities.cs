@@ -44,7 +44,7 @@ namespace Implem.Pleasanter.Models
                             attributes: new HtmlAttributes()
                                 .Id("DeptForm")
                                 .Class("main-form")
-                                .Action(Navigations.Action("Depts")),
+                                .Action(Locations.Action("Depts")),
                             action: () => hb
                                 .Aggregations(
                                     ss: ss,
@@ -61,7 +61,7 @@ namespace Implem.Pleasanter.Models
                                     verType: Versions.VerTypes.Latest)
                                 .Div(css: "margin-bottom")
                                 .Hidden(controlId: "TableName", value: "Depts")
-                                .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl())
+                                .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl())
                                 .Hidden(
                                     controlId: "GridOffset",
                                     value: Parameters.General.GridPageSize.ToString()))
@@ -105,7 +105,7 @@ namespace Implem.Pleasanter.Models
                         attributes: new HtmlAttributes()
                             .Id("DeptsForm")
                             .Class("main-form")
-                            .Action(Navigations.ItemAction(ss.SiteId)),
+                            .Action(Locations.ItemAction(ss.SiteId)),
                         action: () => hb
                             .DataViewFilters(ss: ss)
                             .Aggregations(
@@ -122,7 +122,7 @@ namespace Implem.Pleasanter.Models
                                 exportButton: true)
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "Depts")
-                            .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
+                            .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl()))
                     .MoveDialog(bulk: true)
                     .Div(attributes: new HtmlAttributes()
                         .Id("ExportSettingsDialog")
@@ -350,8 +350,8 @@ namespace Implem.Pleasanter.Models
                         .Id("DeptForm")
                         .Class("main-form")
                         .Action(deptModel.DeptId != 0
-                            ? Navigations.Action("Depts", deptModel.DeptId)
-                            : Navigations.Action("Depts")),
+                            ? Locations.Action("Depts", deptModel.DeptId)
+                            : Locations.Action("Depts")),
                     action: () => hb
                         .RecordHeader(
                             pt: pt,
@@ -386,7 +386,7 @@ namespace Implem.Pleasanter.Models
                                     .MainCommandExtensions(
                                         deptModel: deptModel,
                                         ss: ss)))
-                        .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl())
+                        .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl())
                         .Hidden(
                             controlId: "MethodType",
                             value: deptModel.MethodType.ToString().ToLower())
@@ -612,7 +612,7 @@ namespace Implem.Pleasanter.Models
             {
                 Sessions.Set("Message", Messages.Deleted(deptModel.Title.Value).Html);
                 var res = new DeptsResponseCollection(deptModel);
-                res.Href(Navigations.Index("Depts"));
+                res.Href(Locations.Index("Depts"));
                 return res.ToJson();
             }
         }

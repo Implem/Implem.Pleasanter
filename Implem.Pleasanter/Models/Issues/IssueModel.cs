@@ -1391,7 +1391,7 @@ namespace Implem.Pleasanter.Models
         {
             var title = IssueUtilities.TitleDisplayValue(SiteSettings, this);
             var url = Url.AbsoluteUri().Replace(
-                Url.AbsolutePath(), Navigations.ItemEdit(IssueId));
+                Url.AbsolutePath(), Locations.ItemEdit(IssueId));
             switch (type)
             {
                 case "Created":

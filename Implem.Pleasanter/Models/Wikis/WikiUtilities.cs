@@ -115,7 +115,7 @@ namespace Implem.Pleasanter.Models
                     attributes: new HtmlAttributes()
                         .Id("WikiForm")
                         .Class("main-form")
-                        .Action(Navigations.ItemAction(wikiModel.WikiId != 0
+                        .Action(Locations.ItemAction(wikiModel.WikiId != 0
                             ? wikiModel.WikiId
                             : siteModel.SiteId)),
                     action: () => hb
@@ -150,7 +150,7 @@ namespace Implem.Pleasanter.Models
                                 moveButton: false,
                                 mailButton: true,
                                 deleteButton: true))
-                        .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl())
+                        .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl())
                         .Hidden(controlId: "MethodType", value: "edit")
                         .Hidden(
                             controlId: "Wikis_Timestamp",
@@ -345,7 +345,7 @@ namespace Implem.Pleasanter.Models
             {
                 Sessions.Set("Message", Messages.Deleted(wikiModel.Title.Value).Html);
                 var res = new WikisResponseCollection(wikiModel);
-                res.Href(Navigations.ItemIndex(
+                res.Href(Locations.ItemIndex(
                     new SiteModel(wikiModel.SiteId).ParentId));
                 return res.ToJson();
             }

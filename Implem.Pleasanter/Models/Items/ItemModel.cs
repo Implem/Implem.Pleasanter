@@ -276,7 +276,7 @@ namespace Implem.Pleasanter.Models
                 .WindowScrollTop()
                 .FocusMainForm()
                 .ClearFormData()
-                .PushState("Edit", Navigations.Get("Items", ReferenceId.ToString(), "New"))
+                .PushState("Edit", Locations.Get("Items", ReferenceId.ToString(), "New"))
                 .ToJson();
         }
 

@@ -128,7 +128,7 @@ namespace Implem.Pleasanter.Models
                             .ReplaceAll(
                                 "#ItemValidator",
                                 new HtmlBuilder().ItemValidator(referenceType: "Wikis"))
-                            .Val("#BackUrl", Navigations.ItemIndex(siteModel.ParentId))
+                            .Val("#BackUrl", Locations.ItemIndex(siteModel.ParentId))
                             .Invoke("setSwitchTargets")
                             .ToJson();
                     default:
@@ -136,7 +136,7 @@ namespace Implem.Pleasanter.Models
                             ? EditorResponse(
                                 siteModel, Messages.Created(siteModel.Title.ToString())).ToJson()
                             : new ResponseCollection().Href(
-                                Navigations.ItemIndex(siteModel.SiteId)).ToJson();
+                                Locations.ItemIndex(siteModel.SiteId)).ToJson();
                 }
             }
         }
@@ -230,7 +230,7 @@ namespace Implem.Pleasanter.Models
             {
                 Sessions.Set("Message", Messages.Deleted(siteModel.Title.Value).Html);
                 var res = new SitesResponseCollection(siteModel);
-                res.Href(Navigations.ItemIndex(siteModel.ParentId));
+                res.Href(Locations.ItemIndex(siteModel.ParentId));
                 return res.ToJson();
             }
         }
@@ -466,7 +466,7 @@ namespace Implem.Pleasanter.Models
                         attributes: new HtmlAttributes()
                             .Id("SitesForm")
                             .Class("main-form")
-                            .Action(Navigations.ItemAction(0)),
+                            .Action(Locations.ItemAction(0)),
                         action: () => hb
                             .Nav(action: () => hb
                                 .Ul(css: "nav-sites sortable", action: () =>
@@ -511,7 +511,7 @@ namespace Implem.Pleasanter.Models
                         attributes: new HtmlAttributes()
                             .Id("SitesForm")
                             .Class("main-form")
-                            .Action(Navigations.ItemAction(ss.SiteId)),
+                            .Action(Locations.ItemAction(ss.SiteId)),
                         action: () => hb
                             .Nav(css: "cf", action: () => hb
                                 .Ul(css: "nav-sites", action: () => hb
@@ -620,12 +620,12 @@ namespace Implem.Pleasanter.Models
             switch (referenceType)
             {
                 case "Wikis":
-                    return Navigations.ItemEdit(Rds.ExecuteScalar_long(
+                    return Locations.ItemEdit(Rds.ExecuteScalar_long(
                         statements: Rds.SelectWikis(
                             column: Rds.WikisColumn().WikiId(),
                             where: Rds.WikisWhere().SiteId(siteId))));
                 default:
-                    return Navigations.Get(
+                    return Locations.Get(
                         "Items",
                         siteId.ToString(),
                         DataViewSelectors.Get(siteId));
@@ -680,7 +680,7 @@ namespace Implem.Pleasanter.Models
             {
                 return hb
                     .Img(
-                        src: Navigations.Get(
+                        src: Locations.Get(
                             "Items",
                             siteId.ToString(),
                             "Binaries",
@@ -712,7 +712,7 @@ namespace Implem.Pleasanter.Models
             if (hasImage)
             {
                 hb.Img(
-                    src: Navigations.Get(
+                    src: Locations.Get(
                         "Items",
                         siteId.ToString(),
                         "Binaries",
@@ -840,7 +840,7 @@ namespace Implem.Pleasanter.Models
                     : siteModel.Title + " - " + Displays.EditSettings(),
                 action: () => hb
                     .Editor(siteModel: siteModel)
-                    .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl())
+                    .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl())
                     .Hidden(controlId: "ReferenceType", value: "Sites")).ToString();
         }
 
@@ -872,7 +872,7 @@ namespace Implem.Pleasanter.Models
                     attributes: new HtmlAttributes()
                         .Id("SiteForm")
                         .Class("main-form")
-                        .Action(Navigations.ItemAction(siteModel.SiteId)),
+                        .Action(Locations.ItemAction(siteModel.SiteId)),
                     action: () => hb
                         .RecordHeader(
                             pt: siteModel.PermissionType,
@@ -933,10 +933,10 @@ namespace Implem.Pleasanter.Models
                             column: Rds.WikisColumn().WikiId(),
                             where: Rds.WikisWhere().SiteId(siteModel.SiteId)));
                     return wikiId != 0
-                        ? Navigations.ItemEdit(wikiId)
-                        : Navigations.ItemIndex(siteModel.ParentId);
+                        ? Locations.ItemEdit(wikiId)
+                        : Locations.ItemIndex(siteModel.ParentId);
                 default:
-                    return Navigations.ItemIndex(siteModel.SiteId);
+                    return Locations.ItemIndex(siteModel.SiteId);
             }
         }
 
@@ -985,7 +985,7 @@ namespace Implem.Pleasanter.Models
                         controlContainerCss: "m-l30",
                         iconCss: "ui-icon-person a",
                         text: Displays.EditPermissions(),
-                        href: Navigations.ItemEdit(siteModel.SiteId, "Permissions"));
+                        href: Locations.ItemEdit(siteModel.SiteId, "Permissions"));
                 }
             });
             if (siteModel.MethodType != BaseModel.MethodTypes.New)
@@ -1971,7 +1971,7 @@ namespace Implem.Pleasanter.Models
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("NotificationForm")
-                    .Action(Navigations.ItemAction(ss.SiteId)),
+                    .Action(Locations.ItemAction(ss.SiteId)),
                 action: () => hb
                     .FieldDropDown(
                         controlId: "NotificationType",

@@ -18,13 +18,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return !Request.IsAjax()
                 ? hb
-                    .Script(src: Navigations.Get("Scripts/Plugins/jquery-3.1.0.min.js"))
-                    .Script(src: Navigations.Get("Scripts/Plugins/jquery-ui.min.js"))
-                    .Script(src: Navigations.Get("Scripts/Plugins/jquery.multiselect.min.js"))
-                    .Script(src: Navigations.Get("Scripts/Plugins/jquery.multiselect.filter.min.js"))
-                    .Script(src: Navigations.Get("Scripts/Plugins/jquery.validate.min.js"))
-                    .Script(src: Navigations.Get("Scripts/Plugins/d3.min.js"))
-                    .Script(src: Navigations.Get("Scripts/Plugins/marked.min.js"))
+                    .Script(src: Locations.Get("Scripts/Plugins/jquery-3.1.0.min.js"))
+                    .Script(src: Locations.Get("Scripts/Plugins/jquery-ui.min.js"))
+                    .Script(src: Locations.Get("Scripts/Plugins/jquery.multiselect.min.js"))
+                    .Script(src: Locations.Get("Scripts/Plugins/jquery.multiselect.filter.min.js"))
+                    .Script(src: Locations.Get("Scripts/Plugins/jquery.validate.min.js"))
+                    .Script(src: Locations.Get("Scripts/Plugins/d3.min.js"))
+                    .Script(src: Locations.Get("Scripts/Plugins/marked.min.js"))
                     .Generals()
                     .Script(script: script, _using: !script.IsNullOrEmpty())
                     .Script(script: userScript, _using: !userScript.IsNullOrEmpty())
@@ -80,7 +80,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             switch (Sessions.Language())
             {
                 case "ja": return hb
-                    .Script(src: Navigations.Get(
+                    .Script(src: Locations.Get(
                         "Scripts/Plugins/jquery-ui/i18n/datepicker-ja.js"));
                 default: return hb;
             }

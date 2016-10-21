@@ -223,10 +223,10 @@ namespace Implem.Pleasanter.Models
                         switch (referenceType)
                         {
                             case "Sites":
-                                href = Navigations.ItemIndex(referenceId);
+                                href = Locations.ItemIndex(referenceId);
                                 break;
                             default:
-                                href = Navigations.ItemEdit(referenceId);
+                                href = Locations.ItemEdit(referenceId);
                                 break;
                         }
                         hb.Section(

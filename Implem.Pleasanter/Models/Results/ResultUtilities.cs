@@ -70,7 +70,7 @@ namespace Implem.Pleasanter.Models
                         attributes: new HtmlAttributes()
                             .Id("ResultsForm")
                             .Class("main-form")
-                            .Action(Navigations.ItemAction(ss.SiteId)),
+                            .Action(Locations.ItemAction(ss.SiteId)),
                         action: () => hb
                             .DataViewFilters(ss: ss)
                             .Aggregations(
@@ -87,7 +87,7 @@ namespace Implem.Pleasanter.Models
                                 exportButton: true)
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "Results")
-                            .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
+                            .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl()))
                     .MoveDialog(bulk: true)
                     .ImportSettingsDialog()
                     .Div(attributes: new HtmlAttributes()
@@ -455,7 +455,7 @@ namespace Implem.Pleasanter.Models
                     attributes: new HtmlAttributes()
                         .Id("ResultForm")
                         .Class("main-form")
-                        .Action(Navigations.ItemAction(resultModel.ResultId != 0 
+                        .Action(Locations.ItemAction(resultModel.ResultId != 0 
                             ? resultModel.ResultId
                             : siteModel.SiteId)),
                     action: () => hb
@@ -494,7 +494,7 @@ namespace Implem.Pleasanter.Models
                                     .MainCommandExtensions(
                                         resultModel: resultModel,
                                         ss: ss)))
-                        .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl())
+                        .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl())
                         .Hidden(
                             controlId: "MethodType",
                             value: resultModel.MethodType.ToString().ToLower())
@@ -963,7 +963,7 @@ namespace Implem.Pleasanter.Models
             {
                 return EditorResponse(resultModel)
                     .Message(Messages.Moved(resultModel.Title.Value))
-                    .Val("#BackUrl", Navigations.ItemIndex(targetSiteId))
+                    .Val("#BackUrl", Locations.ItemIndex(targetSiteId))
                     .ToJson();
             }
         }
@@ -987,7 +987,7 @@ namespace Implem.Pleasanter.Models
             {
                 Sessions.Set("Message", Messages.Deleted(resultModel.Title.Value).Html);
                 var res = new ResultsResponseCollection(resultModel);
-                res.Href(Navigations.ItemIndex(resultModel.SiteId));
+                res.Href(Locations.ItemIndex(resultModel.SiteId));
                 return res.ToJson();
             }
         }

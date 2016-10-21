@@ -31,7 +31,7 @@ namespace Implem.Pleasanter.Models
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("OutgoingMailsForm")
-                    .Action(Navigations.ItemAction(referenceId, "OutgoingMails")),
+                    .Action(Locations.ItemAction(referenceId, "OutgoingMails")),
                 action: () =>
                     new OutgoingMailCollection(
                         where: Rds.OutgoingMailsWhere()
@@ -159,7 +159,7 @@ namespace Implem.Pleasanter.Models
                             .Form(
                                 attributes: new HtmlAttributes()
                                     .Id("OutgoingMailForm")
-                                    .Action(Navigations.Action(
+                                    .Action(Locations.Action(
                                         referenceType, referenceId, "OutgoingMails")),
                                 action: () => hb
                                     .Editor(
@@ -169,7 +169,7 @@ namespace Implem.Pleasanter.Models
                             .Form(
                                 attributes: new HtmlAttributes()
                                     .Id("OutgoingMailDestinationForm")
-                                    .Action(Navigations.Action(
+                                    .Action(Locations.Action(
                                         referenceType, referenceId, "OutgoingMails")),
                                 action: () => hb
                                     .Destinations(

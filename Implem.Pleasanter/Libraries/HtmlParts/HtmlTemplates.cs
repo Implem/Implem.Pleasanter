@@ -151,7 +151,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     pt, siteId, ImageData.SizeTypes.Icon))
                 {
                     hb.Img(
-                        src: Navigations.Get(
+                        src: Locations.Get(
                             "Items",
                             siteId.ToString(),
                             "Binaries",
@@ -174,7 +174,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return !Request.IsAjax()
                 ? hb
-                    .Hidden(controlId: "ApplicationPath", value: Navigations.Get())
+                    .Hidden(controlId: "ApplicationPath", value: Locations.Get())
                     .Hidden(controlId: "Language", value: Sessions.Language())
                 : hb;
         }

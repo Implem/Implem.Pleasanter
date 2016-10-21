@@ -64,7 +64,7 @@ namespace Implem.Pleasanter.Models
                     attributes: new HtmlAttributes()
                         .Id("PermissionForm")
                         .Class("main-form")
-                        .Action(Navigations.ItemAction(siteModel.SiteId, "Permissions")),
+                        .Action(Locations.ItemAction(siteModel.SiteId, "Permissions")),
                     action: () => hb
                         .Div(
                             id: "EditorTabsContainer",

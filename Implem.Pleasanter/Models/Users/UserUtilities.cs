@@ -47,7 +47,7 @@ namespace Implem.Pleasanter.Models
                             attributes: new HtmlAttributes()
                                 .Id("UserForm")
                                 .Class("main-form")
-                                .Action(Navigations.Action("Users")),
+                                .Action(Locations.Action("Users")),
                             action: () => hb
                                 .DataViewFilters(ss)
                                 .Aggregations(
@@ -65,7 +65,7 @@ namespace Implem.Pleasanter.Models
                                     verType: Versions.VerTypes.Latest)
                                 .Div(css: "margin-bottom")
                                 .Hidden(controlId: "TableName", value: "Users")
-                                .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl())
+                                .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl())
                                 .Hidden(
                                     controlId: "GridOffset",
                                     value: Parameters.General.GridPageSize.ToString()))
@@ -109,7 +109,7 @@ namespace Implem.Pleasanter.Models
                         attributes: new HtmlAttributes()
                             .Id("UsersForm")
                             .Class("main-form")
-                            .Action(Navigations.ItemAction(ss.SiteId)),
+                            .Action(Locations.ItemAction(ss.SiteId)),
                         action: () => hb
                             .DataViewFilters(ss: ss)
                             .Aggregations(
@@ -126,7 +126,7 @@ namespace Implem.Pleasanter.Models
                                 exportButton: true)
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "Users")
-                            .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl()))
+                            .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl()))
                     .MoveDialog(bulk: true)
                     .Div(attributes: new HtmlAttributes()
                         .Id("ExportSettingsDialog")
@@ -368,8 +368,8 @@ namespace Implem.Pleasanter.Models
                         .Id("UserForm")
                         .Class("main-form")
                         .Action(userModel.UserId != 0
-                            ? Navigations.Action("Users", userModel.UserId)
-                            : Navigations.Action("Users")),
+                            ? Locations.Action("Users", userModel.UserId)
+                            : Locations.Action("Users")),
                     action: () => hb
                         .RecordHeader(
                             pt: pt,
@@ -405,7 +405,7 @@ namespace Implem.Pleasanter.Models
                                     .MainCommandExtensions(
                                         userModel: userModel,
                                         ss: ss)))
-                        .Hidden(controlId: "BaseUrl", value: Navigations.BaseUrl())
+                        .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl())
                         .Hidden(
                             controlId: "MethodType",
                             value: userModel.MethodType.ToString().ToLower())
@@ -696,7 +696,7 @@ namespace Implem.Pleasanter.Models
             {
                 Sessions.Set("Message", Messages.Deleted(userModel.Title.Value).Html);
                 var res = new UsersResponseCollection(userModel);
-                res.Href(Navigations.Index("Users"));
+                res.Href(Locations.Index("Users"));
                 return res.ToJson();
             }
         }
@@ -890,7 +890,7 @@ namespace Implem.Pleasanter.Models
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("ChangePasswordForm")
-                            .Action(Navigations.Action("Users", userId)),
+                            .Action(Locations.Action("Users", userId)),
                         action: () => hb
                             .Field(
                                 ss: ss,
@@ -932,7 +932,7 @@ namespace Implem.Pleasanter.Models
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("ResetPasswordForm")
-                            .Action(Navigations.Action("Users", userId)),
+                            .Action(Locations.Action("Users", userId)),
                         action: () => hb
                             .Field(
                                 ss: ss,
@@ -994,7 +994,7 @@ namespace Implem.Pleasanter.Models
                         attributes: new HtmlAttributes()
                             .Id("UserForm")
                             .Class("main-form")
-                            .Action(Navigations.Get("users", "_action_?ReturnUrl="
+                            .Action(Locations.Get("users", "_action_?ReturnUrl="
                                 + Url.Encode(returnUrl))),
                         action: () => hb
                             .FieldSet(id: "Login", action: () => hb
@@ -1023,7 +1023,7 @@ namespace Implem.Pleasanter.Models
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("DemoForm")
-                            .Action(Navigations.Get("demos", "_action_")),
+                            .Action(Locations.Get("demos", "_action_")),
                         _using: Parameters.Service.Demo,
                         action: () => hb
                             .Div(id: "Demo", action: () => hb
@@ -1063,7 +1063,7 @@ namespace Implem.Pleasanter.Models
                     .Form(
                         attributes: new HtmlAttributes()
                             .Id("ChangePasswordForm")
-                            .Action(Navigations.Action("Users")),
+                            .Action(Locations.Action("Users")),
                         action: () => hb
                             .Field(
                                 ss: ss,

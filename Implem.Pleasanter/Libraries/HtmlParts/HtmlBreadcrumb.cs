@@ -25,21 +25,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "admins":
                     return hb.Breadcrumb(new Dictionary<string, string>
                     {
-                        { Navigations.Index("Admins"), Displays.Admin() }
+                        { Locations.Index("Admins"), Displays.Admin() }
                     });
                 case "users":
                     return pt.CanEditTenant()
                         ? hb.Breadcrumb(new Dictionary<string, string>
                         {
-                            { Navigations.Index("Admins"), Displays.Admin() },
-                            { Navigations.Index(controller), Displays.Users() }
+                            { Locations.Index("Admins"), Displays.Admin() },
+                            { Locations.Index(controller), Displays.Users() }
                         })
                         : hb.Breadcrumb();
                 case "depts":
                     return hb.Breadcrumb(new Dictionary<string, string>
                     {
-                        { Navigations.Index("Admins"), Displays.Admin() },
-                        { Navigations.Index(controller), Displays.Depts() }
+                        { Locations.Index("Admins"), Displays.Admin() },
+                        { Locations.Index(controller), Displays.Depts() }
                     });
                 default:
                     return hb;
@@ -51,8 +51,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Breadcrumb(SiteInfo.SiteMenu.Breadcrumb(siteId)
                 .ToDictionary(
                     o => !o.HasOnlyOneChild()
-                        ? Navigations.ItemIndex(o.SiteId)
-                        : Navigations.ItemEdit(o.OnlyOneChildId),
+                        ? Locations.ItemIndex(o.SiteId)
+                        : Locations.ItemEdit(o.OnlyOneChildId),
                     o => o.Title));
         }
 
@@ -61,7 +61,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return hb.Ul(id: "Breadcrumb", action: () =>
             {
-                hb.BreadcrumbItem(Navigations.Top(), Displays.Top());
+                hb.BreadcrumbItem(Locations.Top(), Displays.Top());
                 breadcrumb?.ForEach(item => hb
                     .BreadcrumbItem(
                         href: item.Key,

@@ -598,7 +598,7 @@ namespace Implem.Pleasanter.Models
                 .CloseDialog("#ChangePasswordDialog", _using: atLogin)
                 .Message(Messages.LoginIn())
                 .Href(returnUrl == string.Empty
-                    ? Navigations.Top()
+                    ? Locations.Top()
                     : returnUrl).ToJson();
         }
 

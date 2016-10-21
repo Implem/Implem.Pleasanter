@@ -305,7 +305,7 @@
     <Compile Include="Libraries\Responses\Displays.cs" />
     <Compile Include="Libraries\Responses\Message.cs" />
     <Compile Include="Libraries\Responses\Messages.cs" />
-    <Compile Include="Libraries\Responses\Navigations.cs" />
+    <Compile Include="Libraries\Responses\Locations.cs" />
     <Compile Include="Libraries\Responses\Response.cs" />
     <Compile Include="Libraries\Responses\ResponseCollection.cs" />
     <Compile Include="Libraries\Responses\ResponseComment.cs" />
