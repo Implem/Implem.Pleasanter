@@ -115,7 +115,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             siteId: siteId,
                             referenceType: referenceType,
                             action: action,
-                            editor: Routes.Action("new", "create", "edit")));
+                            editor: Routes.Action("new", "create", "edit", "history")));
             });
         }
 
