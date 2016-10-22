@@ -380,10 +380,6 @@ namespace Implem.Pleasanter.Models
                     switch (siteModel.ReferenceType)
                     {
                         case "Sites":
-                            hb.Li(action: () => hb
-                                .A(
-                                    href: "#NotificationSettingsEditor",
-                                    text: Displays.NotificationSettingsEditor()));
                             break;
                         case "Wikis":
                             hb
