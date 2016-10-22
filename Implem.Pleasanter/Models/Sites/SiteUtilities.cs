@@ -1787,7 +1787,7 @@ namespace Implem.Pleasanter.Models
                 controlId: "TitleColumns",
                 fieldCss: "field-vertical",
                 controlContainerCss: "container-selectable",
-                controlWrapperCss: " h350",
+                controlWrapperCss: " h200",
                 labelText: Displays.EnabledList(),
                 listItemCollection: ss
                     .TitleSelectableOptions(titleColumns),
@@ -1822,7 +1822,7 @@ namespace Implem.Pleasanter.Models
                 controlId: "TitleSourceColumns",
                 fieldCss: "field-vertical",
                 controlContainerCss: "container-selectable",
-                controlWrapperCss: " h350",
+                controlWrapperCss: " h200",
                 labelText: Displays.DisabledList(),
                 listItemCollection: ss
                     .TitleSelectableOptions(titleColumns, enabled: false),
