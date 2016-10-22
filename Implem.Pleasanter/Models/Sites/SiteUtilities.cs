@@ -2005,7 +2005,7 @@ namespace Implem.Pleasanter.Models
                                     controlId: "MonitorChangesColumns",
                                     fieldCss: "field-vertical",
                                     controlContainerCss: "container-selectable",
-                                    controlWrapperCss: " h350",
+                                    controlWrapperCss: " h200",
                                     labelText: Displays.EnabledList(),
                                     listItemCollection: ss
                                         .MonitorChangesSelectableOptions(
@@ -2041,7 +2041,7 @@ namespace Implem.Pleasanter.Models
                                     controlId: "MonitorChangesSourceColumns",
                                     fieldCss: "field-vertical",
                                     controlContainerCss: "container-selectable",
-                                    controlWrapperCss: " h350",
+                                    controlWrapperCss: " h200",
                                     labelText: Displays.DisabledList(),
                                     listItemCollection: ss
                                         .MonitorChangesSelectableOptions(
