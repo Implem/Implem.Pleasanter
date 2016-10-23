@@ -166,16 +166,14 @@ namespace Implem.Pleasanter.Models
                 var res = new SitesResponseCollection(siteModel);
                 res.ReplaceAll("#Breadcrumb", new HtmlBuilder()
                     .Breadcrumb(ss.SiteId));
-                return ResponseByUpdate(pt, siteModel, res)
+                return ResponseByUpdate(pt, res, siteModel)
                     .PrependComment(siteModel.Comments, siteModel.VerType)
                     .ToJson();
             }
         }
 
         private static ResponseCollection ResponseByUpdate(
-            Permissions.Types pt,
-            SiteModel siteModel,
-            SitesResponseCollection res)
+            Permissions.Types pt, SitesResponseCollection res, SiteModel siteModel)
         {
             return res
                 .Ver()

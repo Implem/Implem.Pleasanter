@@ -298,16 +298,14 @@ namespace Implem.Pleasanter.Models
                 var res = new WikisResponseCollection(wikiModel);
                 res.ReplaceAll("#Breadcrumb", new HtmlBuilder()
                     .Breadcrumb(ss.SiteId));
-                return ResponseByUpdate(pt, wikiModel, res)
+                return ResponseByUpdate(pt, res, wikiModel)
                     .PrependComment(wikiModel.Comments, wikiModel.VerType)
                     .ToJson();
             }
         }
 
         private static ResponseCollection ResponseByUpdate(
-            Permissions.Types pt,
-            WikiModel wikiModel,
-            WikisResponseCollection res)
+            Permissions.Types pt, WikisResponseCollection res, WikiModel wikiModel)
         {
             return res
                 .Ver()

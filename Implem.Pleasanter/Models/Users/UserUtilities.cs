@@ -651,16 +651,14 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var res = new UsersResponseCollection(userModel);
-                return ResponseByUpdate(pt, userModel, res)
+                return ResponseByUpdate(pt, res, userModel)
                     .PrependComment(userModel.Comments, userModel.VerType)
                     .ToJson();
             }
         }
 
         private static ResponseCollection ResponseByUpdate(
-            Permissions.Types pt,
-            UserModel userModel,
-            UsersResponseCollection res)
+            Permissions.Types pt, UsersResponseCollection res, UserModel userModel)
         {
             return res
                 .Ver()

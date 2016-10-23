@@ -922,16 +922,14 @@ namespace Implem.Pleasanter.Models
                     "#Issues_RemainingWorkValue",
                     ss.GetColumn("RemainingWorkValue")
                         .Display(issueModel.RemainingWorkValue, pt));
-                return ResponseByUpdate(pt, issueModel, res)
+                return ResponseByUpdate(pt, res, issueModel)
                     .PrependComment(issueModel.Comments, issueModel.VerType)
                     .ToJson();
             }
         }
 
         private static ResponseCollection ResponseByUpdate(
-            Permissions.Types pt,
-            IssueModel issueModel,
-            IssuesResponseCollection res)
+            Permissions.Types pt, IssuesResponseCollection res, IssueModel issueModel)
         {
             return res
                 .Ver()

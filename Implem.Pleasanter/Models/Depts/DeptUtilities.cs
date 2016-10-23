@@ -567,16 +567,14 @@ namespace Implem.Pleasanter.Models
             else
             {
                 var res = new DeptsResponseCollection(deptModel);
-                return ResponseByUpdate(pt, deptModel, res)
+                return ResponseByUpdate(pt, res, deptModel)
                     .PrependComment(deptModel.Comments, deptModel.VerType)
                     .ToJson();
             }
         }
 
         private static ResponseCollection ResponseByUpdate(
-            Permissions.Types pt,
-            DeptModel deptModel,
-            DeptsResponseCollection res)
+            Permissions.Types pt, DeptsResponseCollection res, DeptModel deptModel)
         {
             return res
                 .Ver()
