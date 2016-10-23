@@ -544,8 +544,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Update(
-            SiteSettings ss, Permissions.Types pt, int deptId)
+        public static string Update(SiteSettings ss, Permissions.Types pt, int deptId)
         {
             var deptModel = new DeptModel(ss, deptId, setByForm: true);
             var invalid = DeptValidators.OnUpdating(ss, pt, deptModel);

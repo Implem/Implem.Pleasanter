@@ -273,8 +273,7 @@ namespace Implem.Pleasanter.Models
             return res;
         }
 
-        public static string Update(
-            SiteSettings ss, Permissions.Types pt, long wikiId)
+        public static string Update(SiteSettings ss, Permissions.Types pt, long wikiId)
         {
             var wikiModel = new WikiModel(ss, wikiId, setByForm: true);
             var invalid = WikiValidators.OnUpdating(ss, pt, wikiModel);

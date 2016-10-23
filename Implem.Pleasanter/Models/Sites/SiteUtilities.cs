@@ -141,8 +141,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Update(
-            SiteSettings ss, Permissions.Types pt, long siteId)
+        public static string Update(SiteSettings ss, Permissions.Types pt, long siteId)
         {
             var siteModel = new SiteModel(siteId, setByForm: true);
             var invalid = SiteValidators.OnUpdating(ss, pt, siteModel);
