@@ -2251,8 +2251,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static Dictionary<string, string> SummarySiteIdHash(
-            EnumerableRowCollection<DataRow> summarySiteCollection,
-            SiteSettings ss)
+            EnumerableRowCollection<DataRow> summarySiteCollection, SiteSettings ss)
         {
             return summarySiteCollection
                 .OrderBy(o =>
