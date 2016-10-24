@@ -560,29 +560,39 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData();
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static List<int> GetSwitchTargets(
             SiteSettings ss, int userId)
         {
-            var formData = DataViewFilters.SessionFormData();
-            var switchTargets = Rds.ExecuteTable(
-                transactional: false,
-                statements: Rds.SelectUsers(
-                    column: Rds.UsersColumn().UserId(),
-                    where: DataViewFilters.Get(
-                        ss: ss,
-                        tableName: "Users",
-                        formData: formData,
-                        where: Rds.UsersWhere().TenantId(Sessions.TenantId())),
-                    orderBy: GridSorters.Get(
-                        formData, Rds.UsersOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
-                            .AsEnumerable()
-                            .Select(o => o["UserId"].ToInt())
-                            .ToList();
-            if (!switchTargets.Contains(userId))
+            if (Permissions.Admins().CanEditTenant())
             {
-                switchTargets.Add(userId);
+                var formData = DataViewFilters.SessionFormData();
+                var switchTargets = Rds.ExecuteTable(
+                    transactional: false,
+                    statements: Rds.SelectUsers(
+                        column: Rds.UsersColumn().UserId(),
+                        where: DataViewFilters.Get(
+                            ss: ss,
+                            tableName: "Users",
+                            formData: formData,
+                            where: Rds.UsersWhere().TenantId(Sessions.TenantId())),
+                        orderBy: GridSorters.Get(
+                            formData, Rds.UsersOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
+                                .AsEnumerable()
+                                .Select(o => o["UserId"].ToInt())
+                                .ToList();
+                if (!switchTargets.Contains(userId))
+                {
+                    switchTargets.Add(userId);
+                }
+                return switchTargets;
             }
-            return switchTargets;
+            else
+            {
+                return new List<int> { userId };
+            }
         }
 
         public static ResponseCollection FormResponse(
@@ -769,43 +779,6 @@ namespace Implem.Pleasanter.Models
                 ? Versions.VerTypes.Latest
                 : Versions.VerTypes.History;
             return EditorResponse(userModel).ToJson();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static List<int> GetSwitchTargets(SiteSettings ss)
-        {
-            if (Permissions.Admins().CanEditTenant())
-            {
-                var switchTargets = Forms.Data("SwitchTargets").Split(',')
-                    .Select(o => o.ToInt())
-                    .Where(o => o != 0)
-                    .ToList();
-                if (switchTargets.Count() == 0)
-                {
-                    var formData = DataViewFilters.SessionFormData();
-                    switchTargets = Rds.ExecuteTable(
-                        transactional: false,
-                        statements: Rds.SelectUsers(
-                            column: Rds.UsersColumn().UserId(),
-                            where: DataViewFilters.Get(
-                                ss: ss,
-                                tableName: "Users",
-                                formData: formData,
-                                where: Rds.UsersWhere().TenantId(Sessions.TenantId())),
-                            orderBy: GridSorters.Get(
-                                formData, Rds.UsersOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
-                                    .AsEnumerable()
-                                    .Select(o => o["UserId"].ToInt())
-                                    .ToList();
-                }
-                return switchTargets;
-            }
-            else
-            {
-                return new List<int> { Sessions.UserId() };
-            }
         }
 
         /// <summary>
