@@ -563,8 +563,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static List<int> GetSwitchTargets(
-            SiteSettings ss, int userId)
+        public static List<int> GetSwitchTargets(SiteSettings ss, int userId)
         {
             if (Permissions.Admins().CanEditTenant())
             {

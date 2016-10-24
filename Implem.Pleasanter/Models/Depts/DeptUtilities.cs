@@ -481,8 +481,7 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData();
         }
 
-        public static List<int> GetSwitchTargets(
-            SiteSettings ss, int deptId)
+        public static List<int> GetSwitchTargets(SiteSettings ss, int deptId)
         {
             var formData = DataViewFilters.SessionFormData();
             var switchTargets = Rds.ExecuteTable(
