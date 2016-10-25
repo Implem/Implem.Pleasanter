@@ -13,7 +13,7 @@ namespace Implem.Pleasanter.Libraries.Migrators
                     o => o.ColumnName,
                     o => ss.ColumnCollection.FirstOrDefault(p =>
                         p.ColumnName == o.ColumnName));
-            ss.GridColumns = hash
+            ss.GridColumnsOrder = hash
                 .Where(o => (o.Value?.GridVisible).ToBool() ||
                     (o.Value?.GridVisible == null &&
                     Def.ColumnDefinitionCollection
@@ -31,7 +31,7 @@ namespace Implem.Pleasanter.Libraries.Migrators
                         .FirstOrDefault())
                 .Select(o => o.Key)
                 .ToList();
-            ss.FilterColumns = hash
+            ss.FilterColumnsOrder = hash
                 .Where(o => (o.Value?.FilterVisible).ToBool() ||
                     (o.Value?.FilterVisible == null &&
                     Def.ColumnDefinitionCollection
@@ -49,7 +49,7 @@ namespace Implem.Pleasanter.Libraries.Migrators
                         .FirstOrDefault())
                 .Select(o => o.Key)
                 .ToList();
-            ss.EditorColumns = hash
+            ss.EditorColumnsOrder = hash
                 .Where(o => (o.Value?.EditorVisible).ToBool() ||
                     (o.Value?.EditorVisible == null &&
                     Def.ColumnDefinitionCollection
@@ -68,7 +68,7 @@ namespace Implem.Pleasanter.Libraries.Migrators
                         .FirstOrDefault())
                 .Select(o => o.Key)
                 .ToList();
-            ss.TitleColumns = hash
+            ss.TitleColumnsOrder = hash
                 .Where(o => (o.Value?.TitleVisible).ToBool() ||
                     (o.Value?.TitleVisible == null &&
                     Def.ColumnDefinitionCollection
@@ -85,7 +85,7 @@ namespace Implem.Pleasanter.Libraries.Migrators
                         .FirstOrDefault())
                 .Select(o => o.Key)
                 .ToList();
-            ss.LinkColumns = hash
+            ss.LinkColumnsOrder = hash
                 .Where(o => (o.Value?.LinkVisible).ToBool() ||
                     (o.Value?.LinkVisible == null &&
                     Def.ColumnDefinitionCollection
@@ -103,7 +103,7 @@ namespace Implem.Pleasanter.Libraries.Migrators
                         .FirstOrDefault())
                 .Select(o => o.Key)
                 .ToList();
-            ss.HistoryColumns = hash
+            ss.HistoryColumnsOrder = hash
                 .Where(o => (o.Value?.HistoryVisible).ToBool() ||
                     (o.Value?.HistoryVisible == null &&
                     Def.ColumnDefinitionCollection
