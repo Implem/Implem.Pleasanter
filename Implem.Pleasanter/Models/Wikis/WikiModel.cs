@@ -190,7 +190,6 @@ namespace Implem.Pleasanter.Models
                     InsertLinks(SiteSettings, selectIdentity: true),
                 });
             WikiId = newId != 0 ? newId : WikiId;
-            SynchronizeSummary();
             if (notice) Notice("Created");
             Get();
             Rds.ExecuteNonQuery(statements:
@@ -217,7 +216,6 @@ namespace Implem.Pleasanter.Models
                         countRecord: true)
                 });
             if (count == 0) return Error.Types.UpdateConflicts;
-            SynchronizeSummary();
             if (notice) Notice("Updated");
             Get();
             UpdateRelatedRecords();
@@ -298,7 +296,6 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteWikis(
                         where: Rds.WikisWhere().SiteId(SiteId).WikiId(WikiId))
                 });
-            SynchronizeSummary();
             if (notice) Notice("Deleted");
             return Error.Types.None;
         }
@@ -327,46 +324,6 @@ namespace Implem.Pleasanter.Models
                     tableType: tableType,
                     param: Rds.WikisParam().SiteId(SiteId).WikiId(WikiId)));
             return Error.Types.None;
-        }
-
-        private void SynchronizeSummary()
-        {
-            SiteSettings.SummaryCollection.ForEach(summary =>
-            {
-                var id = SynchronizeSummaryDestinationId(summary.LinkColumn);
-                var savedId = SynchronizeSummaryDestinationId(summary.LinkColumn, saved: true);
-                if (id != 0)
-                {
-                    SynchronizeSummary(summary, id);
-                }
-                if (savedId != 0 && id != savedId)
-                {
-                    SynchronizeSummary(summary, savedId);
-                }
-            });
-        }
-
-        private void SynchronizeSummary(Summary summary, long id)
-        {
-            Summaries.Synchronize(
-                summary.SiteId,
-                summary.DestinationReferenceType,
-                summary.DestinationColumn,
-                SiteId,
-                "Wikis",
-                summary.LinkColumn,
-                summary.Type,
-                summary.SourceColumn,
-                id);
-            FormulaUtilities.Update(id);
-        }
-
-        private long SynchronizeSummaryDestinationId(string linkColumn, bool saved = false)
-        {
-            switch (linkColumn)
-            {
-                default: return 0;
-            }
         }
 
         public void UpdateFormulaColumns()
