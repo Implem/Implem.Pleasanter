@@ -285,6 +285,9 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public Error.Types Delete(bool notice = false)
         {
             Rds.ExecuteNonQuery(
@@ -294,7 +297,11 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteItems(
                         where: Rds.ItemsWhere().ReferenceId(WikiId)),
                     Rds.DeleteWikis(
-                        where: Rds.WikisWhere().SiteId(SiteId).WikiId(WikiId))
+                        where: Rds.WikisWhere().SiteId(SiteId).WikiId(WikiId)),
+                    Rds.DeleteItems(
+                        where: Rds.ItemsWhere().ReferenceId(SiteId)),
+                    Rds.DeleteSites(
+                        where: Rds.SitesWhere().SiteId(SiteId))
                 });
             if (notice) Notice("Deleted");
             return Error.Types.None;
@@ -485,27 +492,6 @@ namespace Implem.Pleasanter.Models
             {
                 Title.DisplayValue = WikiUtilities.TitleDisplayValue(SiteSettings, this);
             }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public Error.Types Delete()
-        {
-            Rds.ExecuteNonQuery(
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.DeleteItems(
-                        where: Rds.ItemsWhere().ReferenceId(WikiId)),
-                    Rds.DeleteWikis(
-                        where: Rds.WikisWhere().SiteId(SiteId).WikiId(WikiId)),
-                    Rds.DeleteItems(
-                        where: Rds.ItemsWhere().ReferenceId(SiteId)),
-                    Rds.DeleteSites(
-                        where: Rds.SitesWhere().SiteId(SiteId))
-                });
-            return Error.Types.None;
         }
     }
 }
