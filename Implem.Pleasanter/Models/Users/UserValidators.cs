@@ -77,8 +77,8 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.InvalidRequest;
                         }
                         break;
-                    case "Users_Sex":
-                        if (!ss.GetColumn("Sex").CanCreate(pt))
+                    case "Users_Gender":
+                        if (!ss.GetColumn("Gender").CanCreate(pt))
                         {
                             return Error.Types.InvalidRequest;
                         }
@@ -271,8 +271,8 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.InvalidRequest;
                         }
                         break;
-                    case "Users_Sex":
-                        if (!ss.GetColumn("Sex").CanUpdate(pt))
+                    case "Users_Gender":
+                        if (!ss.GetColumn("Gender").CanUpdate(pt))
                         {
                             return Error.Types.InvalidRequest;
                         }

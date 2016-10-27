@@ -930,7 +930,7 @@ namespace Implem.DefinitionAccessor
                     case "Users_FullName1": Column.Users_FullName1 = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_FullName1, definitionRow, ColumnXls); break;
                     case "Users_FullName2": Column.Users_FullName2 = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_FullName2, definitionRow, ColumnXls); break;
                     case "Users_Birthday": Column.Users_Birthday = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Birthday, definitionRow, ColumnXls); break;
-                    case "Users_Sex": Column.Users_Sex = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Sex, definitionRow, ColumnXls); break;
+                    case "Users_Gender": Column.Users_Gender = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Gender, definitionRow, ColumnXls); break;
                     case "Users_Language": Column.Users_Language = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Language, definitionRow, ColumnXls); break;
                     case "Users_TimeZone": Column.Users_TimeZone = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_TimeZone, definitionRow, ColumnXls); break;
                     case "Users_TimeZoneInfo": Column.Users_TimeZoneInfo = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_TimeZoneInfo, definitionRow, ColumnXls); break;
@@ -5194,7 +5194,7 @@ namespace Implem.DefinitionAccessor
         public string Users_FullName1;
         public string Users_FullName2;
         public string Users_Birthday;
-        public string Users_Sex;
+        public string Users_Gender;
         public string Users_Language;
         public string Users_TimeZone;
         public string Users_TimeZoneInfo;
@@ -5821,7 +5821,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_FullName1 = new ColumnDefinition();
         public ColumnDefinition Users_FullName2 = new ColumnDefinition();
         public ColumnDefinition Users_Birthday = new ColumnDefinition();
-        public ColumnDefinition Users_Sex = new ColumnDefinition();
+        public ColumnDefinition Users_Gender = new ColumnDefinition();
         public ColumnDefinition Users_Language = new ColumnDefinition();
         public ColumnDefinition Users_TimeZone = new ColumnDefinition();
         public ColumnDefinition Users_TimeZoneInfo = new ColumnDefinition();

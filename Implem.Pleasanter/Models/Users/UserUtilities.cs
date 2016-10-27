@@ -289,7 +289,7 @@ namespace Implem.Pleasanter.Models
                 case "LastName": return hb.Td(column: column, value: userModel.LastName);
                 case "FirstName": return hb.Td(column: column, value: userModel.FirstName);
                 case "Birthday": return hb.Td(column: column, value: userModel.Birthday);
-                case "Sex": return hb.Td(column: column, value: userModel.Sex);
+                case "Gender": return hb.Td(column: column, value: userModel.Gender);
                 case "Language": return hb.Td(column: column, value: userModel.Language);
                 case "TimeZoneInfo": return hb.Td(column: column, value: userModel.TimeZoneInfo);
                 case "Dept": return hb.Td(column: column, value: userModel.Dept);
@@ -470,7 +470,7 @@ namespace Implem.Pleasanter.Models
                         case "LastName": hb.Field(ss, column, userModel.MethodType, userModel.LastName.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
                         case "FirstName": hb.Field(ss, column, userModel.MethodType, userModel.FirstName.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
                         case "Birthday": hb.Field(ss, column, userModel.MethodType, userModel.Birthday?.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
-                        case "Sex": hb.Field(ss, column, userModel.MethodType, userModel.Sex.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
+                        case "Gender": hb.Field(ss, column, userModel.MethodType, userModel.Gender.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
                         case "Language": hb.Field(ss, column, userModel.MethodType, userModel.Language.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
                         case "TimeZone": hb.Field(ss, column, userModel.MethodType, userModel.TimeZone.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
                         case "DeptId": hb.Field(ss, column, userModel.MethodType, userModel.DeptId.ToControl(column, pt), column.ColumnPermissionType(pt)); break;

@@ -140,7 +140,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     case "GridSorters_Users_LastName": orderBy.Users_LastName(type); break;
                     case "GridSorters_Users_FirstName": orderBy.Users_FirstName(type); break;
                     case "GridSorters_Users_Birthday": orderBy.Users_Birthday(type); break;
-                    case "GridSorters_Users_Sex": orderBy.Users_Sex(type); break;
+                    case "GridSorters_Users_Gender": orderBy.Users_Gender(type); break;
                     case "GridSorters_Users_Language": orderBy.Users_Language(type); break;
                     case "GridSorters_Users_TimeZone": orderBy.Users_TimeZone(type); break;
                     case "GridSorters_Users_DeptId": orderBy.Users_DeptId(type); break;

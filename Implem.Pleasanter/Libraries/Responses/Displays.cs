@@ -844,8 +844,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Users_FullName2(params string[] data) { return Get("Users_FullName2", data); }
         public static HtmlBuilder Displays_Users_Birthday(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Users_Birthday", data)); }
         public static string Users_Birthday(params string[] data) { return Get("Users_Birthday", data); }
-        public static HtmlBuilder Displays_Users_Sex(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Users_Sex", data)); }
-        public static string Users_Sex(params string[] data) { return Get("Users_Sex", data); }
+        public static HtmlBuilder Displays_Users_Gender(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Users_Gender", data)); }
+        public static string Users_Gender(params string[] data) { return Get("Users_Gender", data); }
         public static HtmlBuilder Displays_Users_Language(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Users_Language", data)); }
         public static string Users_Language(params string[] data) { return Get("Users_Language", data); }
         public static HtmlBuilder Displays_Users_TimeZone(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Users_TimeZone", data)); }

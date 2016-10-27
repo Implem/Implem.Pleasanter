@@ -476,10 +476,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static UsersResponseCollection Birthday(this UsersResponseCollection res, string value) { return res.Val("#Users_Birthday", value); }
         public static UsersResponseCollection Birthday_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_Birthday", res.UserModel.Birthday.ToResponse()); }
         public static UsersResponseCollection Birthday_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_Birthday", value); }
-        public static UsersResponseCollection Sex(this UsersResponseCollection res) { return res.Val("#Users_Sex", res.UserModel.Sex.ToResponse()); }
-        public static UsersResponseCollection Sex(this UsersResponseCollection res, string value) { return res.Val("#Users_Sex", value); }
-        public static UsersResponseCollection Sex_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_Sex", res.UserModel.Sex.ToResponse()); }
-        public static UsersResponseCollection Sex_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_Sex", value); }
+        public static UsersResponseCollection Gender(this UsersResponseCollection res) { return res.Val("#Users_Gender", res.UserModel.Gender.ToResponse()); }
+        public static UsersResponseCollection Gender(this UsersResponseCollection res, string value) { return res.Val("#Users_Gender", value); }
+        public static UsersResponseCollection Gender_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_Gender", res.UserModel.Gender.ToResponse()); }
+        public static UsersResponseCollection Gender_FormData(this UsersResponseCollection res, string value) { return res.ValAndFormData("#Users_Gender", value); }
         public static UsersResponseCollection Language(this UsersResponseCollection res) { return res.Val("#Users_Language", res.UserModel.Language.ToResponse()); }
         public static UsersResponseCollection Language(this UsersResponseCollection res, string value) { return res.Val("#Users_Language", value); }
         public static UsersResponseCollection Language_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_Language", res.UserModel.Language.ToResponse()); }

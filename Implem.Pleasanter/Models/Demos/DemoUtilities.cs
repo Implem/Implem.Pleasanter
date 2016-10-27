@@ -162,7 +162,7 @@ namespace Implem.Pleasanter.Models
                                     ? Names.FirstAndLastNameOrders.FirstNameIsFirst
                                     : Names.FirstAndLastNameOrders.LastNameIsFirst)
                                 .Birthday(demoDefinition.ClassC.ToDateTime())
-                                .Sex(demoDefinition.ClassB)
+                                .Gender(demoDefinition.ClassB)
                                 .CreatedTime(demoDefinition.CreatedTime.DemoTime(demoModel))
                                 .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(demoModel))),
                         Rds.InsertMailAddresses(

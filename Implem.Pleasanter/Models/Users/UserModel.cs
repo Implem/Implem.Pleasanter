@@ -34,7 +34,7 @@ namespace Implem.Pleasanter.Models
         public string LastName = string.Empty;
         public string FirstName = string.Empty;
         public Time Birthday = null;
-        public string Sex = string.Empty;
+        public string Gender = string.Empty;
         public string Language = "ja";
         public string TimeZone = "Tokyo Standard Time";
         public int DeptId = 0;
@@ -72,7 +72,7 @@ namespace Implem.Pleasanter.Models
         public string SavedLastName = string.Empty;
         public string SavedFirstName = string.Empty;
         public DateTime SavedBirthday = 0.ToDateTime();
-        public string SavedSex = string.Empty;
+        public string SavedGender = string.Empty;
         public string SavedLanguage = "ja";
         public string SavedTimeZone = "Tokyo Standard Time";
         public int SavedDeptId = 0;
@@ -102,7 +102,7 @@ namespace Implem.Pleasanter.Models
         public bool LastName_Updated { get { return LastName != SavedLastName && LastName != null; } }
         public bool FirstName_Updated { get { return FirstName != SavedFirstName && FirstName != null; } }
         public bool Birthday_Updated { get { return Birthday.Value != SavedBirthday && Birthday.Value != null; } }
-        public bool Sex_Updated { get { return Sex != SavedSex && Sex != null; } }
+        public bool Gender_Updated { get { return Gender != SavedGender && Gender != null; } }
         public bool Language_Updated { get { return Language != SavedLanguage && Language != null; } }
         public bool TimeZone_Updated { get { return TimeZone != SavedTimeZone && TimeZone != null; } }
         public bool DeptId_Updated { get { return DeptId != SavedDeptId; } }
@@ -329,7 +329,7 @@ namespace Implem.Pleasanter.Models
                     case "Users_LastName": LastName = Forms.Data(controlId).ToString(); break;
                     case "Users_FirstName": FirstName = Forms.Data(controlId).ToString(); break;
                     case "Users_Birthday": Birthday = new Time(Forms.Data(controlId).ToDateTime(), byForm: true); break;
-                    case "Users_Sex": Sex = Forms.Data(controlId).ToString(); break;
+                    case "Users_Gender": Gender = Forms.Data(controlId).ToString(); break;
                     case "Users_Language": Language = Forms.Data(controlId).ToString(); break;
                     case "Users_TimeZone": TimeZone = Forms.Data(controlId).ToString(); break;
                     case "Users_DeptId": DeptId = Forms.Data(controlId).ToInt(); break;
@@ -400,7 +400,7 @@ namespace Implem.Pleasanter.Models
                     case "LastName": LastName = dataRow[name].ToString(); SavedLastName = LastName; break;
                     case "FirstName": FirstName = dataRow[name].ToString(); SavedFirstName = FirstName; break;
                     case "Birthday": Birthday = new Time(dataRow, "Birthday"); SavedBirthday = Birthday.Value; break;
-                    case "Sex": Sex = dataRow[name].ToString(); SavedSex = Sex; break;
+                    case "Gender": Gender = dataRow[name].ToString(); SavedGender = Gender; break;
                     case "Language": Language = dataRow[name].ToString(); SavedLanguage = Language; break;
                     case "TimeZone": TimeZone = dataRow[name].ToString(); SavedTimeZone = TimeZone; break;
                     case "DeptId": DeptId = dataRow[name].ToInt(); SavedDeptId = DeptId; break;
