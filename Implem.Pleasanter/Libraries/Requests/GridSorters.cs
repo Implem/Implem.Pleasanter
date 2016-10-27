@@ -17,7 +17,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             return sqlOrderByCollection.Columns(formData);
         }
 
-        private static SqlOrderBy.Types Type(string type)
+        public static SqlOrderBy.Types Type(string type)
         {
             switch (type)
             {

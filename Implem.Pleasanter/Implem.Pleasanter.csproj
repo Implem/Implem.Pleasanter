@@ -331,6 +331,7 @@
     <Compile Include="Libraries\Settings\Choice.cs" />
     <Compile Include="Libraries\Settings\Column.cs" />
     <Compile Include="Libraries\Settings\ColumnUtilities.cs" />
+    <Compile Include="Libraries\Settings\DataView.cs" />
     <Compile Include="Libraries\Settings\Link.cs" />
     <Compile Include="Libraries\Settings\Notification.cs" />
     <Compile Include="Libraries\Settings\SiteSettings.cs" />
