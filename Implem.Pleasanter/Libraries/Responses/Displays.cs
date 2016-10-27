@@ -550,6 +550,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Ymda(params string[] data) { return Get("Ymda", data); }
         public static HtmlBuilder Displays_Ym(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Ym", data)); }
         public static string Ym(params string[] data) { return Get("Ym", data); }
+        public static HtmlBuilder Displays_Md(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Md", data)); }
+        public static string Md(params string[] data) { return Get("Md", data); }
         public static HtmlBuilder Displays_Ymdhms(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Ymdhms", data)); }
         public static string Ymdhms(params string[] data) { return Get("Ymdhms", data); }
         public static HtmlBuilder Displays_Ymdahms(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Ymdahms", data)); }
@@ -564,6 +566,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string YmdaFormat(params string[] data) { return Get("YmdaFormat", data); }
         public static HtmlBuilder Displays_YmFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("YmFormat", data)); }
         public static string YmFormat(params string[] data) { return Get("YmFormat", data); }
+        public static HtmlBuilder Displays_MdFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MdFormat", data)); }
+        public static string MdFormat(params string[] data) { return Get("MdFormat", data); }
         public static HtmlBuilder Displays_YmdhmsFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("YmdhmsFormat", data)); }
         public static string YmdhmsFormat(params string[] data) { return Get("YmdhmsFormat", data); }
         public static HtmlBuilder Displays_YmdahmsFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("YmdahmsFormat", data)); }

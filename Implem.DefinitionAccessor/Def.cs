@@ -2923,6 +2923,8 @@ namespace Implem.DefinitionAccessor
                     case "Ymda_ja": Display.Ymda_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Ymda_ja, definitionRow, DisplayXls); break;
                     case "Ym": Display.Ym = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Ym, definitionRow, DisplayXls); break;
                     case "Ym_ja": Display.Ym_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Ym_ja, definitionRow, DisplayXls); break;
+                    case "Md": Display.Md = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Md, definitionRow, DisplayXls); break;
+                    case "Md_ja": Display.Md_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Md_ja, definitionRow, DisplayXls); break;
                     case "Ymdhms": Display.Ymdhms = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Ymdhms, definitionRow, DisplayXls); break;
                     case "Ymdhms_ja": Display.Ymdhms_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Ymdhms_ja, definitionRow, DisplayXls); break;
                     case "Ymdahms": Display.Ymdahms = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Ymdahms, definitionRow, DisplayXls); break;
@@ -2937,6 +2939,8 @@ namespace Implem.DefinitionAccessor
                     case "YmdaFormat_ja": Display.YmdaFormat_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.YmdaFormat_ja, definitionRow, DisplayXls); break;
                     case "YmFormat": Display.YmFormat = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.YmFormat, definitionRow, DisplayXls); break;
                     case "YmFormat_ja": Display.YmFormat_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.YmFormat_ja, definitionRow, DisplayXls); break;
+                    case "MdFormat": Display.MdFormat = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.MdFormat, definitionRow, DisplayXls); break;
+                    case "MdFormat_ja": Display.MdFormat_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.MdFormat_ja, definitionRow, DisplayXls); break;
                     case "YmdhmsFormat": Display.YmdhmsFormat = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.YmdhmsFormat, definitionRow, DisplayXls); break;
                     case "YmdhmsFormat_ja": Display.YmdhmsFormat_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.YmdhmsFormat_ja, definitionRow, DisplayXls); break;
                     case "YmdahmsFormat": Display.YmdahmsFormat = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.YmdahmsFormat, definitionRow, DisplayXls); break;
@@ -8241,6 +8245,8 @@ namespace Implem.DefinitionAccessor
         public string Ymda_ja;
         public string Ym;
         public string Ym_ja;
+        public string Md;
+        public string Md_ja;
         public string Ymdhms;
         public string Ymdhms_ja;
         public string Ymdahms;
@@ -8255,6 +8261,8 @@ namespace Implem.DefinitionAccessor
         public string YmdaFormat_ja;
         public string YmFormat;
         public string YmFormat_ja;
+        public string MdFormat;
+        public string MdFormat_ja;
         public string YmdhmsFormat;
         public string YmdhmsFormat_ja;
         public string YmdahmsFormat;
@@ -8913,6 +8921,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition Ymda_ja = new DisplayDefinition();
         public DisplayDefinition Ym = new DisplayDefinition();
         public DisplayDefinition Ym_ja = new DisplayDefinition();
+        public DisplayDefinition Md = new DisplayDefinition();
+        public DisplayDefinition Md_ja = new DisplayDefinition();
         public DisplayDefinition Ymdhms = new DisplayDefinition();
         public DisplayDefinition Ymdhms_ja = new DisplayDefinition();
         public DisplayDefinition Ymdahms = new DisplayDefinition();
@@ -8927,6 +8937,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition YmdaFormat_ja = new DisplayDefinition();
         public DisplayDefinition YmFormat = new DisplayDefinition();
         public DisplayDefinition YmFormat_ja = new DisplayDefinition();
+        public DisplayDefinition MdFormat = new DisplayDefinition();
+        public DisplayDefinition MdFormat_ja = new DisplayDefinition();
         public DisplayDefinition YmdhmsFormat = new DisplayDefinition();
         public DisplayDefinition YmdhmsFormat_ja = new DisplayDefinition();
         public DisplayDefinition YmdahmsFormat = new DisplayDefinition();
