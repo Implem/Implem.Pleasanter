@@ -17,7 +17,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer
         private static void ConfigureTableSet(string generalTableName)
         {
             Consoles.Write(generalTableName, Consoles.Types.Info);
-            var tableNameDeleted = generalTableName + "_deleted";
+            var deletedTableName = generalTableName + "_deleted";
             var historyTableName = generalTableName + "_history";
             var columnDefinitionCollection = Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == generalTableName)
@@ -35,7 +35,7 @@ namespace Implem.CodeDefiner.Functions.SqlServer
                 columnDefinitionCollection);
             ConfigureTablePart(
                 generalTableName,
-                tableNameDeleted,
+                deletedTableName,
                 false,
                 columnDefinitionCollection);
             ConfigureTablePart(
