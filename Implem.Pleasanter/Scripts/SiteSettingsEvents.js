@@ -1,5 +1,5 @@
 ﻿$(function () {
-    $(document).on('selectableselected', '#EditorColumns', function () {
+    $(document).on('selectableselected', '#EditorColumns, #EditorSourceColumns', function () {
         $p.clearData('ColumnProperty,', $p.getData($(this)), 'startsWith');
     });
     $(document).on('change', '[id="ColumnProperty,ControlType"]', function () {
