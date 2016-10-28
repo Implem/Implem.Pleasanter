@@ -1525,7 +1525,6 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("JoinExpression")) { newColumnDefinition.JoinExpression = definitionRow["JoinExpression"].ToString(); newColumnDefinition.SavedJoinExpression = newColumnDefinition.JoinExpression; }
                 if (definitionRow.ContainsKey("Like")) { newColumnDefinition.Like = definitionRow["Like"].ToBool(); newColumnDefinition.SavedLike = newColumnDefinition.Like; }
                 if (definitionRow.ContainsKey("WhereSpecial")) { newColumnDefinition.WhereSpecial = definitionRow["WhereSpecial"].ToBool(); newColumnDefinition.SavedWhereSpecial = newColumnDefinition.WhereSpecial; }
-                if (definitionRow.ContainsKey("ColumnNameOld")) { newColumnDefinition.ColumnNameOld = definitionRow["ColumnNameOld"].ToString(); newColumnDefinition.SavedColumnNameOld = newColumnDefinition.ColumnNameOld; }
                 if (definitionRow.ContainsKey("ReadPermission")) { newColumnDefinition.ReadPermission = definitionRow["ReadPermission"].ToString(); newColumnDefinition.SavedReadPermission = newColumnDefinition.ReadPermission; }
                 if (definitionRow.ContainsKey("CreatePermission")) { newColumnDefinition.CreatePermission = definitionRow["CreatePermission"].ToString(); newColumnDefinition.SavedCreatePermission = newColumnDefinition.CreatePermission; }
                 if (definitionRow.ContainsKey("UpdatePermission")) { newColumnDefinition.UpdatePermission = definitionRow["UpdatePermission"].ToString(); newColumnDefinition.SavedUpdatePermission = newColumnDefinition.UpdatePermission; }
@@ -1572,6 +1571,7 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("Unit")) { newColumnDefinition.Unit = definitionRow["Unit"].ToString(); newColumnDefinition.SavedUnit = newColumnDefinition.Unit; }
                 if (definitionRow.ContainsKey("Width")) { newColumnDefinition.Width = definitionRow["Width"].ToInt(); newColumnDefinition.SavedWidth = newColumnDefinition.Width; }
                 if (definitionRow.ContainsKey("SettingEnable")) { newColumnDefinition.SettingEnable = definitionRow["SettingEnable"].ToBool(); newColumnDefinition.SavedSettingEnable = newColumnDefinition.SettingEnable; }
+                if (definitionRow.ContainsKey("OldColumnName")) { newColumnDefinition.OldColumnName = definitionRow["OldColumnName"].ToString(); newColumnDefinition.SavedOldColumnName = newColumnDefinition.OldColumnName; }
                 ColumnDefinitionCollection.Add(newColumnDefinition);
             });
         }
@@ -1627,7 +1627,6 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("JoinExpression")) { definition.JoinExpression = definitionRow["JoinExpression"].ToString(); definition.SavedJoinExpression = definition.JoinExpression; }
             if (definitionRow.ContainsKey("Like")) { definition.Like = definitionRow["Like"].ToBool(); definition.SavedLike = definition.Like; }
             if (definitionRow.ContainsKey("WhereSpecial")) { definition.WhereSpecial = definitionRow["WhereSpecial"].ToBool(); definition.SavedWhereSpecial = definition.WhereSpecial; }
-            if (definitionRow.ContainsKey("ColumnNameOld")) { definition.ColumnNameOld = definitionRow["ColumnNameOld"].ToString(); definition.SavedColumnNameOld = definition.ColumnNameOld; }
             if (definitionRow.ContainsKey("ReadPermission")) { definition.ReadPermission = definitionRow["ReadPermission"].ToString(); definition.SavedReadPermission = definition.ReadPermission; }
             if (definitionRow.ContainsKey("CreatePermission")) { definition.CreatePermission = definitionRow["CreatePermission"].ToString(); definition.SavedCreatePermission = definition.CreatePermission; }
             if (definitionRow.ContainsKey("UpdatePermission")) { definition.UpdatePermission = definitionRow["UpdatePermission"].ToString(); definition.SavedUpdatePermission = definition.UpdatePermission; }
@@ -1674,6 +1673,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("Unit")) { definition.Unit = definitionRow["Unit"].ToString(); definition.SavedUnit = definition.Unit; }
             if (definitionRow.ContainsKey("Width")) { definition.Width = definitionRow["Width"].ToInt(); definition.SavedWidth = definition.Width; }
             if (definitionRow.ContainsKey("SettingEnable")) { definition.SettingEnable = definitionRow["SettingEnable"].ToBool(); definition.SavedSettingEnable = definition.SettingEnable; }
+            if (definitionRow.ContainsKey("OldColumnName")) { definition.OldColumnName = definitionRow["OldColumnName"].ToString(); definition.SavedOldColumnName = definition.OldColumnName; }
         }
 
         private static void ConstructColumnDefinitions()
@@ -3319,7 +3319,6 @@ namespace Implem.DefinitionAccessor
                         case "JoinExpression": columnDefinition.JoinExpression = optionValue.ToString(); break;
                         case "Like": columnDefinition.Like = optionValue.ToBool(); break;
                         case "WhereSpecial": columnDefinition.WhereSpecial = optionValue.ToBool(); break;
-                        case "ColumnNameOld": columnDefinition.ColumnNameOld = optionValue.ToString(); break;
                         case "ReadPermission": columnDefinition.ReadPermission = optionValue.ToString(); break;
                         case "CreatePermission": columnDefinition.CreatePermission = optionValue.ToString(); break;
                         case "UpdatePermission": columnDefinition.UpdatePermission = optionValue.ToString(); break;
@@ -3366,6 +3365,7 @@ namespace Implem.DefinitionAccessor
                         case "Unit": columnDefinition.Unit = optionValue.ToString(); break;
                         case "Width": columnDefinition.Width = optionValue.ToInt(); break;
                         case "SettingEnable": columnDefinition.SettingEnable = optionValue.ToBool(); break;
+                        case "OldColumnName": columnDefinition.OldColumnName = optionValue.ToString(); break;
                     }
                 });
         }
@@ -4750,7 +4750,6 @@ namespace Implem.DefinitionAccessor
         public string JoinExpression; public string SavedJoinExpression;
         public bool Like; public bool SavedLike;
         public bool WhereSpecial; public bool SavedWhereSpecial;
-        public string ColumnNameOld; public string SavedColumnNameOld;
         public string ReadPermission; public string SavedReadPermission;
         public string CreatePermission; public string SavedCreatePermission;
         public string UpdatePermission; public string SavedUpdatePermission;
@@ -4797,6 +4796,7 @@ namespace Implem.DefinitionAccessor
         public string Unit; public string SavedUnit;
         public int Width; public int SavedWidth;
         public bool SettingEnable; public bool SavedSettingEnable;
+        public string OldColumnName; public string SavedOldColumnName;
 
         public ColumnDefinition()
         {
@@ -4853,7 +4853,6 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("JoinExpression")) JoinExpression = propertyCollection["JoinExpression"].ToString(); else JoinExpression = string.Empty;
             if (propertyCollection.ContainsKey("Like")) Like = propertyCollection["Like"].ToBool(); else Like = false;
             if (propertyCollection.ContainsKey("WhereSpecial")) WhereSpecial = propertyCollection["WhereSpecial"].ToBool(); else WhereSpecial = false;
-            if (propertyCollection.ContainsKey("ColumnNameOld")) ColumnNameOld = propertyCollection["ColumnNameOld"].ToString(); else ColumnNameOld = string.Empty;
             if (propertyCollection.ContainsKey("ReadPermission")) ReadPermission = propertyCollection["ReadPermission"].ToString(); else ReadPermission = string.Empty;
             if (propertyCollection.ContainsKey("CreatePermission")) CreatePermission = propertyCollection["CreatePermission"].ToString(); else CreatePermission = string.Empty;
             if (propertyCollection.ContainsKey("UpdatePermission")) UpdatePermission = propertyCollection["UpdatePermission"].ToString(); else UpdatePermission = string.Empty;
@@ -4900,6 +4899,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("Unit")) Unit = propertyCollection["Unit"].ToString(); else Unit = string.Empty;
             if (propertyCollection.ContainsKey("Width")) Width = propertyCollection["Width"].ToInt(); else Width = 0;
             if (propertyCollection.ContainsKey("SettingEnable")) SettingEnable = propertyCollection["SettingEnable"].ToBool(); else SettingEnable = false;
+            if (propertyCollection.ContainsKey("OldColumnName")) OldColumnName = propertyCollection["OldColumnName"].ToString(); else OldColumnName = string.Empty;
         }
 
         public object this[string key]
@@ -4956,7 +4956,6 @@ namespace Implem.DefinitionAccessor
                     case "JoinExpression": return JoinExpression;
                     case "Like": return Like;
                     case "WhereSpecial": return WhereSpecial;
-                    case "ColumnNameOld": return ColumnNameOld;
                     case "ReadPermission": return ReadPermission;
                     case "CreatePermission": return CreatePermission;
                     case "UpdatePermission": return UpdatePermission;
@@ -5003,6 +5002,7 @@ namespace Implem.DefinitionAccessor
                     case "Unit": return Unit;
                     case "Width": return Width;
                     case "SettingEnable": return SettingEnable;
+                    case "OldColumnName": return OldColumnName;
                     default: return null;
                 }
             }
@@ -5059,7 +5059,6 @@ namespace Implem.DefinitionAccessor
             JoinExpression = SavedJoinExpression;
             Like = SavedLike;
             WhereSpecial = SavedWhereSpecial;
-            ColumnNameOld = SavedColumnNameOld;
             ReadPermission = SavedReadPermission;
             CreatePermission = SavedCreatePermission;
             UpdatePermission = SavedUpdatePermission;
@@ -5106,6 +5105,7 @@ namespace Implem.DefinitionAccessor
             Unit = SavedUnit;
             Width = SavedWidth;
             SettingEnable = SavedSettingEnable;
+            OldColumnName = SavedOldColumnName;
         }
     }
 

@@ -84,11 +84,11 @@ namespace Implem.CodeDefiner.Functions.SqlServer.Parts
             columnDefinitionCollection.ForEach(columnDefinition =>
             {
                 var destinationColumnNameBracket = columnDefinition.ColumnName.SqlBracket();
-                var destinationColumnNameHistoryBracket = columnDefinition.ColumnNameOld.SqlBracket();
+                var destinationColumnNameHistoryBracket = columnDefinition.OldColumnName.SqlBracket();
                 if (!Columns.Get(sourceTableName).Any(
                     o => o["ColumnName"].ToString() == columnDefinition.ColumnName))
                 {
-                    if (columnDefinition.ColumnNameOld != string.Empty)
+                    if (columnDefinition.OldColumnName != string.Empty)
                     {
                         destinationColumnCollection.Add(destinationColumnNameBracket);
                         sourceColumnCollection.Add(destinationColumnNameHistoryBracket);
