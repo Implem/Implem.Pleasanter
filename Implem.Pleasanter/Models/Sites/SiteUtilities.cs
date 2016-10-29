@@ -987,7 +987,6 @@ namespace Implem.Pleasanter.Models
                 switch (siteModel.ReferenceType)
                 {
                     case "Sites":
-                        hb.NotificationSettingsEditor(siteModel.SiteSettings);
                         break;
                     case "Wikis":
                         hb
