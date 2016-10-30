@@ -1131,12 +1131,13 @@ namespace Implem.Pleasanter.Models
                     idHash.Add(index, issueModel.IssueId);
                     timestampHash.Add(index, issueModel.Timestamp);
                 }
-                var addCommentCollection = new List<string> { Displays.Separated() };
-                addCommentCollection.AddRange(idHash.Select(o => "[{0}]({1}{2})".Params(
+                var addCommentCollection = new List<string>();
+                addCommentCollection.AddRange(idHash.Select(o => "[{0}]({1}{2})  ".Params(
                     Forms.Data("SeparateTitle_" + o.Key),
                     Url.Server(),
                     Locations.ItemEdit(o.Value))));
-                var addComment = addCommentCollection.Join("\n");
+                var addComment = "[md]\n{0}  \n{1}".Params(
+                    Displays.Separated(), addCommentCollection.Join("\n"));
                 for (var index = number; index >= 1; index--)
                 {
                     var source = index == 1;
