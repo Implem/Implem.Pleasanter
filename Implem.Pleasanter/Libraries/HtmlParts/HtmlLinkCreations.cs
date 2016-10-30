@@ -1,6 +1,8 @@
-﻿using Implem.Pleasanter.Libraries.DataSources;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Linq;
@@ -56,6 +58,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 attributes: new HtmlAttributes()
                     .Class("button button-icon")
                     .OnClick("$p.new($(this));")
+                    .Title(SiteInfo.SiteMenu.Breadcrumb(siteId).Select(o => o.Title).Join(" > "))
                     .DataId(linkId.ToString())
                     .DataIcon("ui-icon-plus")
                     .Add("data-from-site-id", siteId.ToString())
