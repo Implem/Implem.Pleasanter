@@ -3021,6 +3021,8 @@ namespace Implem.DefinitionAccessor
                     case "Created_ja": Display.Created_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Created_ja, definitionRow, DisplayXls); break;
                     case "Updated": Display.Updated = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Updated, definitionRow, DisplayXls); break;
                     case "Updated_ja": Display.Updated_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Updated_ja, definitionRow, DisplayXls); break;
+                    case "CommentDeleted": Display.CommentDeleted = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CommentDeleted, definitionRow, DisplayXls); break;
+                    case "CommentDeleted_ja": Display.CommentDeleted_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CommentDeleted_ja, definitionRow, DisplayXls); break;
                     case "Copied": Display.Copied = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Copied, definitionRow, DisplayXls); break;
                     case "Copied_ja": Display.Copied_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Copied_ja, definitionRow, DisplayXls); break;
                     case "CodeDefinerCompleted": Display.CodeDefinerCompleted = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CodeDefinerCompleted, definitionRow, DisplayXls); break;
@@ -8343,6 +8345,8 @@ namespace Implem.DefinitionAccessor
         public string Created_ja;
         public string Updated;
         public string Updated_ja;
+        public string CommentDeleted;
+        public string CommentDeleted_ja;
         public string Copied;
         public string Copied_ja;
         public string CodeDefinerCompleted;
@@ -9019,6 +9023,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition Created_ja = new DisplayDefinition();
         public DisplayDefinition Updated = new DisplayDefinition();
         public DisplayDefinition Updated_ja = new DisplayDefinition();
+        public DisplayDefinition CommentDeleted = new DisplayDefinition();
+        public DisplayDefinition CommentDeleted_ja = new DisplayDefinition();
         public DisplayDefinition Copied = new DisplayDefinition();
         public DisplayDefinition Copied_ja = new DisplayDefinition();
         public DisplayDefinition CodeDefinerCompleted = new DisplayDefinition();

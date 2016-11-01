@@ -648,6 +648,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Created(params string[] data) { return Get("Created", data); }
         public static HtmlBuilder Displays_Updated(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Updated", data)); }
         public static string Updated(params string[] data) { return Get("Updated", data); }
+        public static HtmlBuilder Displays_CommentDeleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CommentDeleted", data)); }
+        public static string CommentDeleted(params string[] data) { return Get("CommentDeleted", data); }
         public static HtmlBuilder Displays_Copied(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Copied", data)); }
         public static string Copied(params string[] data) { return Get("Copied", data); }
         public static HtmlBuilder Displays_CodeDefinerCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CodeDefinerCompleted", data)); }

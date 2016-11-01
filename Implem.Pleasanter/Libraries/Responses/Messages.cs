@@ -198,6 +198,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.Updated(data), "alert-success");
         }
 
+        public static Message CommentDeleted(params string[] data)
+        {
+            return Get(Displays.CommentDeleted(data), "alert-success");
+        }
+
         public static Message Copied(params string[] data)
         {
             return Get(Displays.Copied(data), "alert-success");
@@ -491,6 +496,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseUpdated(params string[] data)
         {
             return ResponseMessage(Messages.Updated(data));
+        }
+
+        public static ResponseCollection ResponseCommentDeleted(params string[] data)
+        {
+            return ResponseMessage(Messages.CommentDeleted(data));
         }
 
         public static ResponseCollection ResponseCopied(params string[] data)

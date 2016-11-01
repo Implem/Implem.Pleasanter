@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -100,13 +101,19 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             bool updated,
             bool update)
         {
-            return this.Count > 0
-                ? this.FirstOrDefault().Body.ToNoticeLine(
-                    string.Empty,
-                    column,
-                    updated,
-                    update)
-                : string.Empty;
+            switch (Routes.Action())
+            {
+                case "deletecomment":
+                    return Displays.CommentDeleted();
+                default:
+                    return this.Any()
+                        ? this.FirstOrDefault().Body.ToNoticeLine(
+                            string.Empty,
+                            column,
+                            updated,
+                            update)
+                        : string.Empty;
+            }
         }
     }
 }
