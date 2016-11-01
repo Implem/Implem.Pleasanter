@@ -1113,8 +1113,7 @@ namespace Implem.Pleasanter.Models
                 .ToJson();
         }
 
-        public static string Separate(
-            SiteSettings ss, Permissions.Types pt, long issueId)
+        public static string Separate(SiteSettings ss, Permissions.Types pt, long issueId)
         {
             var issueModel = new IssueModel(ss, issueId);
             var number = Forms.Int("SeparateNumber");
