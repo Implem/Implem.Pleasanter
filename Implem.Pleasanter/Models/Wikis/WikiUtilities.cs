@@ -342,8 +342,13 @@ namespace Implem.Pleasanter.Models
             {
                 Sessions.Set("Message", Messages.Deleted(wikiModel.Title.Value).Html);
                 var res = new WikisResponseCollection(wikiModel);
-                res.Href(Locations.ItemIndex(
-                    new SiteModel(wikiModel.SiteId).ParentId));
+                res.Href(Locations.ItemIndex(Rds.ExecuteScalar_long(statements:
+                    Rds.SelectSites(
+                        tableType: Sqls.TableTypes.Deleted,
+                        column: Rds.SitesColumn().ParentId(),
+                        where: Rds.SitesWhere()
+                            .TenantId(Sessions.TenantId())
+                            .SiteId(wikiModel.SiteId)))));
                 return res.ToJson();
             }
         }
