@@ -4,8 +4,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlCopies
     {
-        public static HtmlBuilder CopyDialog(
-            this HtmlBuilder hb, string referenceType, long id)
+        public static HtmlBuilder CopyDialog(this HtmlBuilder hb, string referenceType, long id)
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
