@@ -244,8 +244,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
         }
 
-        private static string ToDefault(
-            this string self, SiteSettings ss, Column column)
+        private static string ToDefault(this string self, SiteSettings ss, Column column)
         {
             if (IsLinked(ss, column))
             {
