@@ -115,8 +115,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static IEnumerable<KeyValuePair<string, ControlData>> CorrectedChoices(
-            Column groupByColumn,
-            IEnumerable<KeyValuePair<string, ControlData>> choices)
+            Column groupByColumn, IEnumerable<KeyValuePair<string, ControlData>> choices)
         {
             return groupByColumn.TypeName.CsTypeSummary() != Types.CsNumeric
                 ? choices
