@@ -20,7 +20,7 @@
                 $('[id="ColumnProperty,Format"]').val($control.val());
                 break;
         }
-        $p.getData($control).ColumnProperty, Format = $('[id="ColumnProperty,Format"]').val();
+        $p.setData($('[id="ColumnProperty,Format"]'));
     });
     $(document).on('click', '#SummarySettings .grid-row button', function () {
         var $control = $($(this).attr('data-selector'))
