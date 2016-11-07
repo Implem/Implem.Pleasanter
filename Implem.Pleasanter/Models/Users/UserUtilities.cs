@@ -502,7 +502,8 @@ namespace Implem.Pleasanter.Models
             UserModel userModel)
         {
             if (userModel.VerType == Versions.VerTypes.Latest &&
-                userModel.MethodType != BaseModel.MethodTypes.New)
+                userModel.MethodType != BaseModel.MethodTypes.New &&
+                Parameters.Authentication.Provider == null)
             {
                 if (userModel.Self())
                 {
