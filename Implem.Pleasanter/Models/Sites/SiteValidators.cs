@@ -121,12 +121,21 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static Error.Types OnMoving(
-            long sourceId,
+            long currentId,
+            long destinationId,
             Permissions.Types current,
             Permissions.Types source,
             Permissions.Types destination)
         {
-            if (sourceId != 0 && !(current & source & destination).CanEditSite())
+            if (currentId != 0 && !current.CanEditSite())
+            {
+                return Error.Types.HasNotPermission;
+            }
+            if (!source.CanEditSite())
+            {
+                return Error.Types.HasNotPermission;
+            }
+            if (destinationId != 0 && !destination.CanEditSite())
             {
                 return Error.Types.HasNotPermission;
             }

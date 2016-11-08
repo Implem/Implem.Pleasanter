@@ -358,6 +358,7 @@ namespace Implem.Pleasanter.Models
             var toParent = id != 0 && SiteInfo.SiteMenu.Get(id).ParentId == destinationId;
             var invalid = SiteValidators.OnMoving(
                 id,
+                destinationId,
                 siteModel.PermissionType,
                 Permissions.GetById(sourceId),
                 Permissions.GetById(destinationId));
