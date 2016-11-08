@@ -350,6 +350,49 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string MoveSiteMenu(long id)
+        {
+            var siteModel = new SiteModel(id);
+            var sourceId = Forms.Long("SiteId");
+            var destinationId = Forms.Long("DestinationId");
+            var toParent = id != 0 && SiteInfo.SiteMenu.Get(id).ParentId == destinationId;
+            var invalid = SiteValidators.OnMoving(
+                id,
+                siteModel.PermissionType,
+                Permissions.GetById(sourceId),
+                Permissions.GetById(destinationId));
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson();
+            }
+            MoveSiteMenu(sourceId, destinationId);
+            var res = new ResponseCollection().Remove(".nav-site[data-id=\"" + sourceId + "\"]");
+            return toParent
+                ? res.ToJson()
+                : res
+                    .ReplaceAll(
+                        "[data-id=\"" + destinationId + "\"]",
+                        siteModel.ReplaceSiteMenu(sourceId, destinationId))
+                    .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void MoveSiteMenu(long sourceId, long destinationId)
+        {
+            Rds.ExecuteNonQuery(statements: Rds.UpdateSites(
+                where: Rds.SitesWhere()
+                    .TenantId(Sessions.TenantId())
+                    .SiteId(sourceId),
+                param: Rds.SitesParam().ParentId(destinationId)));
+            SiteInfo.SiteMenu.Set(sourceId);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string Editor(long siteId, bool clearSessions)
         {
             return Editor(

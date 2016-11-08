@@ -714,35 +714,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string MoveSiteMenu(long sourceId)
-        {
-            var destinationId = Forms.Long("DestinationId");
-            var toParent = SiteId != 0 && SiteInfo.SiteMenu.Get(SiteId).ParentId == destinationId;
-            if (SiteId != 0 && !PermissionType.CanEditSite())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            Rds.ExecuteNonQuery(statements: Rds.UpdateSites(
-                where: Rds.SitesWhere()
-                    .TenantId(Sessions.TenantId())
-                    .SiteId(sourceId),
-                param: Rds.SitesParam().ParentId(destinationId)));
-            SiteInfo.SiteMenu.Set(sourceId);
-            var res = new ResponseCollection()
-                .Remove(".nav-site[data-id=\"" + sourceId + "\"]");
-            return toParent
-                ? res.ToJson()
-                : res
-                    .ReplaceAll(
-                        "[data-id=\"" + destinationId + "\"]",
-                        ReplaceSiteMenu(sourceId, destinationId))
-                    .ToJson();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private HtmlBuilder ReplaceSiteMenu(long sourceId, long destinationId)
+        public HtmlBuilder ReplaceSiteMenu(long sourceId, long destinationId)
         {
             return new HtmlBuilder().SiteMenu(
                 ss: SiteSettings,

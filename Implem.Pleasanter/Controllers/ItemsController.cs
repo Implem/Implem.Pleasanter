@@ -243,7 +243,7 @@ namespace Implem.Pleasanter.Controllers
         public string MoveSiteMenu(long id)
         {
             var log = new SysLogModel();
-            var json = new SiteModel(id).MoveSiteMenu(Forms.Long("SiteId"));
+            var json = SiteUtilities.MoveSiteMenu(id);
             log.Finish(json.Length);
             return json;
         }

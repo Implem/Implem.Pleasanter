@@ -116,5 +116,21 @@ namespace Implem.Pleasanter.Models
             }
             return Error.Types.None;
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Error.Types OnMoving(
+            long sourceId,
+            Permissions.Types current,
+            Permissions.Types source,
+            Permissions.Types destination)
+        {
+            if (sourceId != 0 && !(current & source & destination).CanEditSite())
+            {
+                return Error.Types.HasNotPermission;
+            }
+            return Error.Types.None;
+        }
     }
 }
