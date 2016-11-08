@@ -9,7 +9,7 @@ namespace Implem.Pleasanter.Models
         public static Error.Types OnCreating(
             SiteSettings ss, Permissions.Types pt, SiteModel siteModel)
         {
-            if (!pt.CanEditSite())
+            if (!pt.CanCreate())
             {
                 return Error.Types.HasNotPermission;
             }
