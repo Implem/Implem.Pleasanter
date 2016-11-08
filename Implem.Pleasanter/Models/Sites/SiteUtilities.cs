@@ -504,16 +504,11 @@ namespace Implem.Pleasanter.Models
                             .Class("main-form")
                             .Action(Locations.ItemAction(0)),
                         action: () => hb
-                            .Nav(action: () => hb
-                                .Ul(css: "nav-sites sortable", action: () =>
-                                    Menu(0).ForEach(siteModelChild => hb
-                                        .SiteMenu(
-                                            ss: ss,
-                                            pt: pt,
-                                            siteId: siteModelChild.SiteId,
-                                            referenceType: siteModelChild.ReferenceType,
-                                            title: siteModelChild.Title.Value,
-                                            siteConditions: siteConditions))))
+                            .SiteMenu(
+                                ss: ss,
+                                pt: pt,
+                                siteModel: null,
+                                siteConditions: siteConditions)
                             .SiteMenuData());
                     hb.MainCommands(
                         siteId: 0,
@@ -549,19 +544,11 @@ namespace Implem.Pleasanter.Models
                             .Class("main-form")
                             .Action(Locations.ItemAction(ss.SiteId)),
                         action: () => hb
-                            .Nav(css: "cf", action: () => hb
-                                .Ul(css: "nav-sites", action: () => hb
-                                    .ToParent(siteModel)))
-                            .Nav(css: "cf", action: () => hb
-                                .Ul(css: "nav-sites sortable", action: () =>
-                                    Menu(ss.SiteId).ForEach(siteModelChild => hb
-                                        .SiteMenu(
-                                            ss: ss,
-                                            pt: siteModel.PermissionType,
-                                            siteId: siteModelChild.SiteId,
-                                            referenceType: siteModelChild.ReferenceType,
-                                            title: siteModelChild.Title.Value,
-                                            siteConditions: siteConditions))))
+                            .SiteMenu(
+                                ss: ss,
+                                pt: siteModel.PermissionType,
+                                siteModel: siteModel,
+                                siteConditions: siteConditions)
                             .SiteMenuData());
                     if (ss.SiteId != 0)
                     {
@@ -573,20 +560,28 @@ namespace Implem.Pleasanter.Models
                 }).ToString();
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static HtmlBuilder SiteMenuData(this HtmlBuilder hb)
+        private static HtmlBuilder SiteMenu(
+            this HtmlBuilder hb,
+            SiteSettings ss,
+            Permissions.Types pt,
+            SiteModel siteModel,
+            IEnumerable<SiteCondition> siteConditions)
         {
-            return hb
-                .Hidden(attributes: new HtmlAttributes()
-                    .Id("MoveSiteMenu")
-                    .DataAction("MoveSiteMenu")
-                    .DataMethod("post"))
-                .Hidden(attributes: new HtmlAttributes()
-                    .Id("SortSiteMenu")
-                    .DataAction("SortSiteMenu")
-                    .DataMethod("put"));
+            return hb.Div(id: "SiteMenu", action: () => hb
+                .Nav(css: "cf", _using: siteModel != null, action: () => hb
+                    .Ul(css: "nav-sites", action: () => hb
+                        .ToParent(siteModel)))
+                .Nav(css: "cf", action: () => hb
+                    .Ul(css: "nav-sites sortable", action: () =>
+                        Menu(ss.SiteId).ForEach(siteModelChild => hb
+                            .SiteMenu(
+                                ss: ss,
+                                pt: pt,
+                                siteId: siteModelChild.SiteId,
+                                referenceType: siteModelChild.ReferenceType,
+                                title: siteModelChild.Title.Value,
+                                siteConditions: siteConditions))))
+                .SiteMenuData());
         }
 
         /// <summary>
@@ -839,6 +834,22 @@ namespace Implem.Pleasanter.Models
                 siteModel.SiteMenu = (index != -1 ? index : int.MaxValue);
             });
             return siteDataRows.OrderBy(o => o.SiteMenu);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder SiteMenuData(this HtmlBuilder hb)
+        {
+            return hb
+                .Hidden(attributes: new HtmlAttributes()
+                    .Id("MoveSiteMenu")
+                    .DataAction("MoveSiteMenu")
+                    .DataMethod("post"))
+                .Hidden(attributes: new HtmlAttributes()
+                    .Id("SortSiteMenu")
+                    .DataAction("SortSiteMenu")
+                    .DataMethod("put"));
         }
 
         /// <summary>
