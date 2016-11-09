@@ -89,8 +89,7 @@ namespace Implem.Pleasanter.Models
         {
             if (ReferenceId == 0)
             {
-                return SiteUtilities.SiteTop(
-                    ss: SiteSettingsUtility.SitesSiteSettings(0));
+                return SiteUtilities.SiteTop();
             }
             SetSite();
             DataViewSelectors.Set(Site.SiteId);

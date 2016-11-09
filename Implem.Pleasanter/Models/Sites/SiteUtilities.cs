@@ -365,7 +365,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson();
+                default: return SiteMenuError(id, siteModel, invalid);
             }
             MoveSiteMenu(sourceId, destinationId);
             var res = new ResponseCollection().Remove(".nav-site[data-id=\"" + sourceId + "\"]");
@@ -376,6 +376,20 @@ namespace Implem.Pleasanter.Models
                         "[data-id=\"" + destinationId + "\"]",
                         siteModel.ReplaceSiteMenu(sourceId, destinationId))
                     .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string SiteMenuError(long id, SiteModel siteModel, Error.Types invalid)
+        {
+            return new ResponseCollection()
+                .ReplaceAll("#SiteMenu", new HtmlBuilder().SiteMenu(
+                    siteModel: id != 0 ? siteModel : null,
+                    siteConditions: SiteInfo.SiteMenu.SiteConditions(0)))
+                .Invoke("setSiteMenu")
+                .Message(invalid.Message())
+                .ToJson();
         }
 
         /// <summary>
@@ -485,7 +499,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string SiteTop(SiteSettings ss)
+        public static string SiteTop()
         {
             var hb = new HtmlBuilder();
             var pt = Permissions.Admins() | Permissions.Types.Manager;
@@ -497,6 +511,7 @@ namespace Implem.Pleasanter.Models
                 methodType: BaseModel.MethodTypes.Index,
                 allowAccess: true,
                 referenceType: "Sites",
+                script: "$p.setSiteMenu();",
                 action: () =>
                 {
                     hb.Form(
@@ -505,11 +520,7 @@ namespace Implem.Pleasanter.Models
                             .Class("main-form")
                             .Action(Locations.ItemAction(0)),
                         action: () => hb
-                            .SiteMenu(
-                                ss: ss,
-                                pt: pt,
-                                siteModel: null,
-                                siteConditions: siteConditions)
+                            .SiteMenu(siteModel: null, siteConditions: siteConditions)
                             .SiteMenuData());
                     hb.MainCommands(
                         siteId: 0,
@@ -537,6 +548,7 @@ namespace Implem.Pleasanter.Models
                 siteId: siteModel.SiteId,
                 parentId: siteModel.ParentId,
                 referenceType: "Sites",
+                script: "$p.setSiteMenu();",
                 action: () =>
                 {
                     hb.Form(
@@ -545,11 +557,7 @@ namespace Implem.Pleasanter.Models
                             .Class("main-form")
                             .Action(Locations.ItemAction(ss.SiteId)),
                         action: () => hb
-                            .SiteMenu(
-                                ss: ss,
-                                pt: siteModel.PermissionType,
-                                siteModel: siteModel,
-                                siteConditions: siteConditions)
+                            .SiteMenu(siteModel: siteModel, siteConditions: siteConditions)
                             .SiteMenuData());
                     if (ss.SiteId != 0)
                     {
@@ -561,13 +569,18 @@ namespace Implem.Pleasanter.Models
                 }).ToString();
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder SiteMenu(
-            this HtmlBuilder hb,
-            SiteSettings ss,
-            Permissions.Types pt,
-            SiteModel siteModel,
-            IEnumerable<SiteCondition> siteConditions)
+            this HtmlBuilder hb, SiteModel siteModel, IEnumerable<SiteCondition> siteConditions)
         {
+            var ss = siteModel != null
+                ? siteModel.SiteSettings
+                : SiteSettingsUtility.SitesSiteSettings(0);
+            var pt = siteModel != null
+                ? siteModel.PermissionType
+                : Permissions.Admins() | Permissions.Types.Manager;
             return hb.Div(id: "SiteMenu", action: () => hb
                 .Nav(css: "cf", _using: siteModel != null, action: () => hb
                     .Ul(css: "nav-sites", action: () => hb

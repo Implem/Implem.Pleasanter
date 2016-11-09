@@ -503,7 +503,7 @@
     <Content Include="Scripts\Position.js" />
     <Content Include="Scripts\Display.js" />
     <Content Include="Scripts\SiteInfo.js" />
-    <Content Include="Scripts\SiteMenuEvents.js" />
+    <Content Include="Scripts\SiteMenu.js" />
     <Content Include="Scripts\JqueryUi.js" />
     <Content Include="Scripts\KeyEvents.js" />
     <Content Include="Scripts\_Time.js" />

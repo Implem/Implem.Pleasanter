@@ -1,4 +1,4 @@
-﻿$(function () {
+﻿$p.setSiteMenu = function () {
     $('.nav-sites.sortable').sortable({
         delay: 150,
         stop: function (event, ui) {
@@ -20,4 +20,4 @@
             $p.send($('#SortSiteMenu'));
         }
     });
-});
+}
