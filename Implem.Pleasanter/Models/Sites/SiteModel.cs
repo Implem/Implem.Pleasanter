@@ -728,28 +728,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string SortSiteMenu()
-        {
-            if (SiteId != 0 && !PermissionType.CanEditSite())
-            {
-                return Messages.ResponseHasNotPermission().ToJson();
-            }
-            var ownerId = SiteId == 0
-                ? Sessions.UserId()
-                : 0;
-            new OrderModel()
-            {
-                ReferenceId = SiteId,
-                ReferenceType = "Sites",
-                OwnerId = ownerId,
-                Data = Forms.LongList("Data").Where(o => o != 0).ToList()
-            }.UpdateOrCreate();
-            return new ResponseCollection().ToJson();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         private void OpenColumnPropertiesDialog(ResponseCollection res)
         {
             var selectedColumns = Forms.List("EditorColumns");

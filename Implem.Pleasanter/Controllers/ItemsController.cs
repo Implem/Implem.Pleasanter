@@ -252,7 +252,7 @@ namespace Implem.Pleasanter.Controllers
         public string SortSiteMenu(long id)
         {
             var log = new SysLogModel();
-            var json = new SiteModel(id).SortSiteMenu();
+            var json = SiteUtilities.SortSiteMenu(id);
             log.Finish(json.Length);
             return json;
         }

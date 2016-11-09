@@ -381,6 +381,52 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static void MoveSiteMenu(long sourceId, long destinationId)
+        {
+            Rds.ExecuteNonQuery(statements: Rds.UpdateSites(
+                where: Rds.SitesWhere()
+                    .TenantId(Sessions.TenantId())
+                    .SiteId(sourceId),
+                param: Rds.SitesParam().ParentId(destinationId)));
+            SiteInfo.SiteMenu.Set(sourceId);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string SortSiteMenu(long siteId)
+        {
+            var siteModel = new SiteModel(siteId);
+            var invalid = SiteValidators.OnSorting(siteId, siteModel.PermissionType);
+            switch (invalid)
+            {
+                case Error.Types.None: break;
+                default: return SiteMenuError(siteId, siteModel, invalid);
+            }
+            var ownerId = siteModel.SiteId == 0
+                ? Sessions.UserId()
+                : 0;
+            SortSiteMenu(siteModel, ownerId);
+            return new ResponseCollection().ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void SortSiteMenu(SiteModel siteModel, int ownerId)
+        {
+            new OrderModel()
+            {
+                ReferenceId = siteModel.SiteId,
+                ReferenceType = "Sites",
+                OwnerId = ownerId,
+                Data = Forms.LongList("Data").Where(o => o != 0).ToList()
+            }.UpdateOrCreate();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static string SiteMenuError(long id, SiteModel siteModel, Error.Types invalid)
         {
             return new ResponseCollection()
@@ -390,19 +436,6 @@ namespace Implem.Pleasanter.Models
                 .Invoke("setSiteMenu")
                 .Message(invalid.Message())
                 .ToJson();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static void MoveSiteMenu(long sourceId, long destinationId)
-        {
-            Rds.ExecuteNonQuery(statements: Rds.UpdateSites(
-                where: Rds.SitesWhere()
-                    .TenantId(Sessions.TenantId())
-                    .SiteId(sourceId),
-                param: Rds.SitesParam().ParentId(destinationId)));
-            SiteInfo.SiteMenu.Set(sourceId);
         }
 
         /// <summary>

@@ -141,5 +141,17 @@ namespace Implem.Pleasanter.Models
             }
             return Error.Types.None;
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Error.Types OnSorting(long siteId, Permissions.Types pt)
+        {
+            if (siteId != 0 && !pt.CanEditSite())
+            {
+                return Error.Types.HasNotPermission;
+            }
+            return Error.Types.None;
+        }
     }
 }
