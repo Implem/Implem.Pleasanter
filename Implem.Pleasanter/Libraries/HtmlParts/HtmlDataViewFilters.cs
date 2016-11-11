@@ -215,7 +215,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 controlId: "DataViewFilters_" + column.Id,
                 fieldCss: "field-auto-thin",
                 controlCss: " auto-postback",
-                labelText: Displays.Get(column.LabelText),
+                labelText: Displays.Get(column.GridLabelText),
                 _checked: formData.Get("DataViewFilters_" + column.Id).ToBool(),
                 method: "post",
                 _using:
@@ -234,7 +234,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 controlId: "DataViewFilters_" + column.Id,
                 fieldCss: "field-auto-thin",
                 controlCss: " auto-postback",
-                labelText: Displays.Get(column.LabelText),
+                labelText: Displays.Get(column.GridLabelText),
                 optionCollection: optionCollection,
                 selectedValue: formData.Get("DataViewFilters_" + column.Id),
                 multiple: true,

@@ -583,6 +583,12 @@ namespace Implem.Pleasanter.Models
                 case "ToEnableGridColumns":
                     SetGridColumns(res, controlId);
                     break;
+                case "OpenGridColumnPropertiesDialog":
+                    OpenGridColumnPropertiesDialog(res);
+                    break;
+                case "SetGridColumnProperties":
+                    SetGridColumnProperties(res);
+                    break;
                 case "MoveUpFilterColumns":
                 case "MoveDownFilterColumns":
                 case "ToDisableFilterColumns":
@@ -616,6 +622,9 @@ namespace Implem.Pleasanter.Models
                 case "ToEnableEditorColumns":
                     SetEditorColumns(res, controlId);
                     break;
+                case "OpenEditorColumnPropertiesDialog":
+                    OpenEditorColumnPropertiesDialog(res);
+                    break;
                 case "SetEditorColumnProperties":
                     SetEditorColumnProperties(res);
                     break;
@@ -646,9 +655,6 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "DeleteFormulas":
                     DeleteFormulas(res);
-                    break;
-                case "OpenEditorColumnPropertiesDialog":
-                    OpenEditorColumnPropertiesDialog(res);
                     break;
                 case "NewNotification":
                 case "EditNotification":
@@ -728,69 +734,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void OpenEditorColumnPropertiesDialog(ResponseCollection res)
-        {
-            var selectedColumns = Forms.List("EditorColumns");
-            if (selectedColumns.Count() != 1)
-            {
-                res.Message(Messages.RequireColumn());
-            }
-            else
-            {
-                var column = SiteSettings.EditorColumn(selectedColumns.FirstOrDefault());
-                if (column == null)
-                {
-                    res.Message(Messages.InvalidRequest());
-                }
-                else
-                {
-                    var titleColumns = SiteSettings.TitleColumns;
-                    if (column.ColumnName == "Title")
-                    {
-                        Session_TitleColumns(titleColumns);
-                    }
-                    res.Html(
-                        "#EditorColumnPropertiesDialog",
-                        SiteUtilities.EditorColumnProperties(
-                            ss: SiteSettings,
-                            column: column,
-                            titleColumns: titleColumns));
-                }
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void OpenNotificationDialog(ResponseCollection res, string controlId)
-        {
-            var notification = controlId == "EditNotification"
-                ? GetNotification(Forms.Int("NotificationId"))
-                : new Notification(
-                    Notification.Types.Mail,
-                    string.Empty,
-                    string.Empty,
-                    SiteSettings.EditorColumns
-                        .Concat(new List<string> { "Comments" }).ToList());
-            if (notification == null)
-            {
-                res.Message(Messages.NotFound());
-            }
-            else
-            {
-                Session_MonitorChangesColumns(notification.MonitorChangesColumns);
-                res
-                    .Html("#NotificationDialog", SiteUtilities.NotificationDialog(
-                        ss: SiteSettings,
-                        controlId: Forms.ControlId(),
-                        notification: notification))
-                    .Invoke("validateSites");
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         private void SetGridColumns(ResponseCollection res, string controlId)
         {
             var command = ColumnUtilities.ChangeCommand(controlId);
@@ -810,6 +753,62 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void OpenGridColumnPropertiesDialog(ResponseCollection res)
+        {
+            var selectedColumns = Forms.List("GridColumns");
+            if (selectedColumns.Count() != 1)
+            {
+                res.Message(Messages.RequireColumn());
+            }
+            else
+            {
+                var column = SiteSettings.GridColumn(selectedColumns.FirstOrDefault());
+                if (column == null)
+                {
+                    res.Message(Messages.InvalidRequest());
+                }
+                else
+                {
+                    res.Html(
+                        "#GridColumnPropertiesDialog",
+                        SiteUtilities.GridColumnProperties(ss: SiteSettings, column: column));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetGridColumnProperties(ResponseCollection res)
+        {
+            var selectedColumns = Forms.List("GridColumns");
+            if (selectedColumns.Count() == 1)
+            {
+                var column = SiteSettings.GridColumn(selectedColumns.FirstOrDefault());
+                if (column == null)
+                {
+                    res.Message(Messages.InvalidRequest());
+                }
+                else
+                {
+                    Forms.All()
+                        .Where(o => o.Key.StartsWith("GridColumnProperty,"))
+                        .ForEach(data =>
+                            SiteSettings.SetColumnProperty(
+                                column,
+                                data.Key.Split_2nd(),
+                                data.Value));
+                    res.Html("#GridColumns",
+                        new HtmlBuilder().SelectableItems(
+                            listItemCollection: SiteSettings.GridSelectableOptions(),
+                            selectedValueTextCollection: selectedColumns));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void SetFilterColumns(ResponseCollection res, string controlId)
         {
             var command = ColumnUtilities.ChangeCommand(controlId);
@@ -824,114 +823,6 @@ namespace Implem.Pleasanter.Models
                 selectedColumns,
                 SiteSettings.FilterSelectableOptions(enabled: false),
                 selectedSourceColumns);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void CreateNotification(ResponseCollection res, string controlId)
-        {
-            SiteSettings.Notifications.Add(new Notification(
-                (Notification.Types)Forms.Int("NotificationType"),
-                Forms.Data("NotificationPrefix"),
-                Forms.Data("NotificationAddress"),
-                Session_MonitorChangesColumns()));
-            SetNotificationsResponseCollection(res);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void UpdateNotification(ResponseCollection res, string controlId)
-        {
-            var notification = GetNotification(Forms.Int("NotificationId"));
-            if (notification == null)
-            {
-                res.Message(Messages.NotFound());
-            }
-            else
-            {
-                notification.Update(
-                    Forms.Data("NotificationPrefix"),
-                    Forms.Data("NotificationAddress"),
-                    Session_MonitorChangesColumns());
-                SetNotificationsResponseCollection(res);
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void DeleteNotification(ResponseCollection res, string controlId)
-        {
-            var notification = GetNotification(Forms.Int("NotificationId"));
-            if (notification == null)
-            {
-                res.Message(Messages.NotFound());
-            }
-            else
-            {
-                SiteSettings.Notifications.Remove(notification);
-                SetNotificationsResponseCollection(res);
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private Notification GetNotification(int id)
-        {
-            return SiteSettings.Notifications.Count > id
-                ? SiteSettings.Notifications[id]
-                : null;
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void SetNotificationsResponseCollection(ResponseCollection res)
-        {
-            res
-                .ReplaceAll(
-                    "#NotificationSettings",
-                    new HtmlBuilder().NotificationSettings(ss: SiteSettings))
-                .CloseDialog();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void SetMonitorChangesColumns(
-            ResponseCollection res, string controlId)
-        {
-            var notification = GetNotification(Forms.Int("NotificationId"));
-            MonitorChangesColumns = Session_MonitorChangesColumns();
-            if (notification == null && controlId == "EditNotification")
-            {
-                res.Message(Messages.NotFound());
-            }
-            else
-            {
-                var command = ColumnUtilities.ChangeCommand(controlId);
-                var selectedColumns = Forms.List("MonitorChangesColumns");
-                var selectedSourceColumns = Forms.List("MonitorChangesSourceColumns");
-                MonitorChangesColumns = ColumnUtilities.GetChanged(
-                    MonitorChangesColumns,
-                    ColumnUtilities.ChangeCommand(controlId),
-                    selectedColumns,
-                    selectedSourceColumns);
-                SetResponseAfterChangeColumns(
-                    res,
-                    command,
-                    "MonitorChanges",
-                    SiteSettings.MonitorChangesSelectableOptions(
-                        MonitorChangesColumns),
-                    selectedColumns,
-                    SiteSettings.MonitorChangesSelectableOptions(
-                        MonitorChangesColumns, enabled: false),
-                    selectedSourceColumns);
-                Session_MonitorChangesColumns(MonitorChangesColumns);
-            }
         }
 
         /// <summary>
@@ -1080,6 +971,40 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void OpenEditorColumnPropertiesDialog(ResponseCollection res)
+        {
+            var selectedColumns = Forms.List("EditorColumns");
+            if (selectedColumns.Count() != 1)
+            {
+                res.Message(Messages.RequireColumn());
+            }
+            else
+            {
+                var column = SiteSettings.EditorColumn(selectedColumns.FirstOrDefault());
+                if (column == null)
+                {
+                    res.Message(Messages.InvalidRequest());
+                }
+                else
+                {
+                    var titleColumns = SiteSettings.TitleColumns;
+                    if (column.ColumnName == "Title")
+                    {
+                        Session_TitleColumns(titleColumns);
+                    }
+                    res.Html(
+                        "#EditorColumnPropertiesDialog",
+                        SiteUtilities.EditorColumnProperties(
+                            ss: SiteSettings,
+                            column: column,
+                            titleColumns: titleColumns));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void SetEditorColumnProperties(ResponseCollection res)
         {
             var selectedColumns = Forms.List("EditorColumns");
@@ -1109,26 +1034,6 @@ namespace Implem.Pleasanter.Models
                             selectedValueTextCollection: selectedColumns));
                 }
             }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public string SynchronizeSummary()
-        {
-            SetSiteSettingsPropertiesBySession();
-            return Summaries.Synchronize(SiteSettings, SiteId);
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public string SynchronizeFormulas()
-        {
-            SetSiteSettingsPropertiesBySession();
-            SiteSettings.SetChoicesByLinks();
-            FormulaUtilities.Synchronize(this);
-            return Messages.ResponseSynchronizationCompleted().ToJson();
         }
 
         /// <summary>
@@ -1236,6 +1141,163 @@ namespace Implem.Pleasanter.Models
                 .Html("#Formulas", new HtmlBuilder()
                     .SelectableItems(listItemCollection: SiteSettings.FormulaItemCollection()))
                 .ClearFormData("Formulas");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenNotificationDialog(ResponseCollection res, string controlId)
+        {
+            var notification = controlId == "EditNotification"
+                ? GetNotification(Forms.Int("NotificationId"))
+                : new Notification(
+                    Notification.Types.Mail,
+                    string.Empty,
+                    string.Empty,
+                    SiteSettings.EditorColumns
+                        .Concat(new List<string> { "Comments" }).ToList());
+            if (notification == null)
+            {
+                res.Message(Messages.NotFound());
+            }
+            else
+            {
+                Session_MonitorChangesColumns(notification.MonitorChangesColumns);
+                res
+                    .Html("#NotificationDialog", SiteUtilities.NotificationDialog(
+                        ss: SiteSettings,
+                        controlId: Forms.ControlId(),
+                        notification: notification))
+                    .Invoke("validateSites");
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CreateNotification(ResponseCollection res, string controlId)
+        {
+            SiteSettings.Notifications.Add(new Notification(
+                (Notification.Types)Forms.Int("NotificationType"),
+                Forms.Data("NotificationPrefix"),
+                Forms.Data("NotificationAddress"),
+                Session_MonitorChangesColumns()));
+            SetNotificationsResponseCollection(res);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateNotification(ResponseCollection res, string controlId)
+        {
+            var notification = GetNotification(Forms.Int("NotificationId"));
+            if (notification == null)
+            {
+                res.Message(Messages.NotFound());
+            }
+            else
+            {
+                notification.Update(
+                    Forms.Data("NotificationPrefix"),
+                    Forms.Data("NotificationAddress"),
+                    Session_MonitorChangesColumns());
+                SetNotificationsResponseCollection(res);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void DeleteNotification(ResponseCollection res, string controlId)
+        {
+            var notification = GetNotification(Forms.Int("NotificationId"));
+            if (notification == null)
+            {
+                res.Message(Messages.NotFound());
+            }
+            else
+            {
+                SiteSettings.Notifications.Remove(notification);
+                SetNotificationsResponseCollection(res);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private Notification GetNotification(int id)
+        {
+            return SiteSettings.Notifications.Count > id
+                ? SiteSettings.Notifications[id]
+                : null;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetNotificationsResponseCollection(ResponseCollection res)
+        {
+            res
+                .ReplaceAll(
+                    "#NotificationSettings",
+                    new HtmlBuilder().NotificationSettings(ss: SiteSettings))
+                .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetMonitorChangesColumns(
+            ResponseCollection res, string controlId)
+        {
+            var notification = GetNotification(Forms.Int("NotificationId"));
+            MonitorChangesColumns = Session_MonitorChangesColumns();
+            if (notification == null && controlId == "EditNotification")
+            {
+                res.Message(Messages.NotFound());
+            }
+            else
+            {
+                var command = ColumnUtilities.ChangeCommand(controlId);
+                var selectedColumns = Forms.List("MonitorChangesColumns");
+                var selectedSourceColumns = Forms.List("MonitorChangesSourceColumns");
+                MonitorChangesColumns = ColumnUtilities.GetChanged(
+                    MonitorChangesColumns,
+                    ColumnUtilities.ChangeCommand(controlId),
+                    selectedColumns,
+                    selectedSourceColumns);
+                SetResponseAfterChangeColumns(
+                    res,
+                    command,
+                    "MonitorChanges",
+                    SiteSettings.MonitorChangesSelectableOptions(
+                        MonitorChangesColumns),
+                    selectedColumns,
+                    SiteSettings.MonitorChangesSelectableOptions(
+                        MonitorChangesColumns, enabled: false),
+                    selectedSourceColumns);
+                Session_MonitorChangesColumns(MonitorChangesColumns);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string SynchronizeSummary()
+        {
+            SetSiteSettingsPropertiesBySession();
+            return Summaries.Synchronize(SiteSettings, SiteId);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string SynchronizeFormulas()
+        {
+            SetSiteSettingsPropertiesBySession();
+            SiteSettings.SetChoicesByLinks();
+            FormulaUtilities.Synchronize(this);
+            return Messages.ResponseSynchronizationCompleted().ToJson();
         }
 
         /// <summary>

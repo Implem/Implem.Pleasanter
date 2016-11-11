@@ -2091,7 +2091,7 @@ namespace Implem.Pleasanter.Models
                     dataRows: BurnDownDataRows(
                         ss: ss,
                         formData: formData),
-                    ownerLabelText: ss.GetColumn("Owner").LabelText,
+                    ownerLabelText: ss.GetColumn("Owner").GridLabelText,
                     column: ss.GetColumn("WorkValue")));
         }
 
@@ -2110,7 +2110,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         pt: pt,
                         dataRows: BurnDownDataRows(ss, formData),
-                        ownerLabelText: ss.GetColumn("Owner").LabelText,
+                        ownerLabelText: ss.GetColumn("Owner").GridLabelText,
                         column: ss.GetColumn("WorkValue")))
                 .DataViewFilters(ss: ss)
                 .ReplaceAll(

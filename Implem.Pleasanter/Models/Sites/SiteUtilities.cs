@@ -1217,6 +1217,14 @@ namespace Implem.Pleasanter.Models
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
+                                    controlId: "OpenGridColumnPropertiesDialog",
+                                    text: Displays.AdvancedSetting(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.openGridColumnPropertiesDialog($(this));",
+                                    icon: "ui-icon-gear",
+                                    action: "SetSiteSettings",
+                                    method: "put")
+                                .Button(
                                     controlId: "ToDisableGridColumns",
                                     controlCss: "button-icon",
                                     text: Displays.ToDisable(),
@@ -1241,7 +1249,54 @@ namespace Implem.Pleasanter.Models
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-circle-triangle-w",
                                     action: "SetSiteSettings",
-                                    method: "put"))));
+                                    method: "put")))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("GridColumnPropertiesDialog")
+                        .Class("dialog")
+                        .Title(Displays.AdvancedSetting())));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder GridColumnProperties(SiteSettings ss, Column column)
+        {
+            var hb = new HtmlBuilder();
+            hb.FieldSet(
+                css: " enclosed",
+                legendText: column.LabelTextDefault,
+                action: () =>
+                {
+                    hb.FieldTextBox(
+                        controlId: "GridColumnProperty,GridLabelText",
+                        labelText: Displays.SettingLabel(),
+                        text: column.GridLabelText);
+                    if (column.TypeName == "datetime")
+                    {
+                        hb
+                            .FieldDropDown(
+                                controlId: "GridColumnProperty,GridFormat",
+                                labelText: Displays.SettingGridFormat(),
+                                optionCollection: DateTimeOptions(),
+                                selectedValue: column.GridFormat);
+                    }
+                });
+            return hb
+                .P(css: "message-dialog")
+                .Div(css: "command-center", action: () => hb
+                    .Button(
+                        controlId: "SetGridColumnProperties",
+                        text: Displays.Setting(),
+                        controlCss: "button-icon",
+                        onClick: "$p.sendByDialog($(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        text: Displays.Cancel(),
+                        controlCss: "button-icon",
+                        onClick: "$p.closeDialog($(this));",
+                        icon: "ui-icon-cancel"));
         }
 
         /// <summary>
@@ -1560,11 +1615,6 @@ namespace Implem.Pleasanter.Models
                     if (column.TypeName == "datetime")
                     {
                         hb
-                            .FieldDropDown(
-                                controlId: "EditorColumnProperty,GridFormat",
-                                labelText: Displays.SettingGridFormat(),
-                                optionCollection: DateTimeOptions(),
-                                selectedValue: column.GridFormat)
                             .FieldDropDown(
                                 controlId: "EditorColumnProperty,ControlFormat",
                                 labelText: Displays.SettingControlFormat(),

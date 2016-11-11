@@ -136,7 +136,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Aggregation aggregation)
         {
             var text = groupByColumn != null
-                ? groupByColumn.LabelText + ": "
+                ? groupByColumn.GridLabelText + ": "
                 : string.Empty;
             switch (aggregation.Type)
             {
@@ -144,7 +144,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     text += Displays.Get(aggregation.Type.ToString());
                     break;
                 default:
-                    text += targetColumn.LabelText + " " +
+                    text += targetColumn.GridLabelText + " " +
                         Displays.Get(aggregation.Type.ToString());
                     break;
             }

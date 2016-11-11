@@ -41,7 +41,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         .DataMethod("post"),
                                     action: () => hb
                                         .Span(action: () => hb
-                                            .Text(text: Displays.Get(column.LabelText)))
+                                            .Text(text: Displays.Get(column.GridLabelText)))
                                         .SortIcon(
                                             formData: formData,
                                             key: "GridSorters_" + column.Id)));
@@ -49,7 +49,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         else
                         {
                             hb.Th(action: () => hb
-                                .Text(text: Displays.Get(column.LabelText)));
+                                .Text(text: Displays.Get(column.GridLabelText)));
                         }
                     });
                 });

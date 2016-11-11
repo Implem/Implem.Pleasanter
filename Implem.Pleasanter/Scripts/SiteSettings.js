@@ -25,6 +25,10 @@ $p.openEditorColumnPropertiesDialog = function ($control) {
     $p.openSiteSettingsDialog($control, '#EditorColumnPropertiesDialog')
 }
 
+$p.openGridColumnPropertiesDialog = function ($control) {
+    $p.openSiteSettingsDialog($control, '#GridColumnPropertiesDialog')
+}
+
 $p.openNotificationDialog = function ($control) {
     $p.openSiteSettingsDialog($control, '#NotificationDialog', 'body')
 }

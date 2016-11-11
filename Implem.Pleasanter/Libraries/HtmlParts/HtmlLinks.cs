@@ -195,7 +195,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .LinkColumnCollection()
                     .ForEach(column => hb
                         .Th(action: () => hb
-                            .Text(text: column.LabelText)));
+                            .Text(text: column.GridLabelText)));
             });
         }
 
@@ -207,7 +207,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .LinkColumnCollection()
                     .ForEach(column => hb
                         .Th(action: () => hb
-                            .Text(text: column.LabelText)));
+                            .Text(text: column.GridLabelText)));
             });
         }
 
@@ -219,7 +219,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .LinkColumnCollection()
                     .ForEach(column => hb
                         .Th(action: () => hb
-                            .Text(text: column.LabelText)));
+                            .Text(text: column.GridLabelText)));
             });
         }
 

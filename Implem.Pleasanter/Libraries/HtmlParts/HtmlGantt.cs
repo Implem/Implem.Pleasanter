@@ -26,7 +26,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelText: Displays.GroupBy(),
                     optionCollection: ss.ColumnCollection
                         .Where(o => o.HasChoices())
-                        .ToDictionary(o => o.ColumnName, o => o.LabelText),
+                        .ToDictionary(o => o.ColumnName, o => o.GridLabelText),
                     selectedValue: groupByColumn,
                     insertBlank: true,
                     method: "post")

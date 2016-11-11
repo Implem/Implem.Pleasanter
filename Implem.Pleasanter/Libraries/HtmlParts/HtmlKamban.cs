@@ -32,7 +32,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlCss: " auto-postback",
                         labelText: Displays.GroupBy(),
                         optionCollection: ss.ColumnCollection.Where(o => o.HasChoices())
-                            .ToDictionary(o => o.ColumnName, o => o.LabelText),
+                            .ToDictionary(o => o.ColumnName, o => o.GridLabelText),
                         selectedValue: groupByColumn,
                         method: "post")
                     .FieldDropDown(
@@ -83,7 +83,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Where(o => o.Computable)
                 .Where(o => o.TypeName != "datetime")
                 .ToList()
-                .ToDictionary(o => o.ColumnName, o => o.LabelText))
+                .ToDictionary(o => o.ColumnName, o => o.GridLabelText))
                 .ToDictionary(o => o.Key, o => o.Value);
         }
 

@@ -169,7 +169,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
                 else
                 {
+                    var labelText = column.LabelText;
                     if (column.LabelText == Displays.Get(columnDefinition.Id)) column.LabelText = null;
+                    if (column.GridLabelText == labelText) column.GridLabelText = null;
                     if (column.ChoicesText == columnDefinition.ChoicesText) column.ChoicesText = null;
                     if (column.DefaultInput == columnDefinition.DefaultInput) column.DefaultInput = null;
                     if (column.GridFormat == columnDefinition.GridFormat) column.GridFormat = null;
@@ -339,6 +341,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.Id_Ver = columnDefinition.Unique || columnDefinition.ColumnName == "Ver";
                 column.ColumnName = column.ColumnName ?? columnDefinition.ColumnName;
                 column.LabelText = column.LabelText ?? Displays.Get(columnDefinition.Id);
+                column.GridLabelText = column.GridLabelText ?? column.LabelText;
                 column.ChoicesText = column.ChoicesText ?? columnDefinition.ChoicesText;
                 column.DefaultInput = column.DefaultInput ?? columnDefinition.DefaultInput;
                 column.GridFormat = column.GridFormat ?? columnDefinition.GridFormat;
@@ -743,7 +746,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (propertyName)
             {
                 case "ColumnName": column.ColumnName = value; break;
-                case "LabelText": column.LabelText = value; break;
+                case "LabelText":
+                    var labelText = column.LabelText;
+                    column.LabelText = value;
+                    if (column.GridLabelText == labelText)
+                    {
+                        column.GridLabelText = value;
+                    }
+                    break;
+                case "GridLabelText": column.GridLabelText = value; break;
                 case "ControlType": column.ControlType = value; break;
                 case "Format": column.Format = value; break;
                 case "DecimalPlaces": column.DecimalPlaces = value.ToInt(); break;

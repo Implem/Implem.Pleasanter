@@ -1,4 +1,7 @@
 ﻿$(function () {
+    $(document).on('selectableselected', '#GridColumns, #GridSourceColumns', function () {
+        $p.clearData('GridColumnProperty,', $p.getData($(this)), 'startsWith');
+    });
     $(document).on('selectableselected', '#EditorColumns, #EditorSourceColumns', function () {
         $p.clearData('EditorColumnProperty,', $p.getData($(this)), 'startsWith');
     });
