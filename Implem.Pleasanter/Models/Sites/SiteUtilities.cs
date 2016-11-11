@@ -1519,132 +1519,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder SiteSettingLinkColumns(this HtmlBuilder hb, SiteSettings ss)
-        {
-            return hb.FieldSet(
-                legendText: Displays.SettingLinkColumns(),
-                css: " enclosed",
-                action: () => hb
-                    .FieldSelectable(
-                        controlId: "LinkColumns",
-                        fieldCss: "field-vertical",
-                        controlContainerCss: "container-selectable",
-                        controlWrapperCss: " h350",
-                        labelText: Displays.EnabledList(),
-                        listItemCollection: ss.LinkSelectableOptions(),
-                        commandOptionPositionIsTop: true,
-                        commandOptionAction: () => hb
-                            .Div(css: "command-center", action: () => hb
-                                .Button(
-                                    controlId: "MoveUpLinkColumns",
-                                    text: Displays.MoveUp(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-n",
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .Button(
-                                    controlId: "MoveDownLinkColumns",
-                                    text: Displays.MoveDown(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-s",
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .Button(
-                                    controlId: "ToDisableLinkColumns",
-                                    text: Displays.ToDisable(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-e",
-                                    action: "SetSiteSettings",
-                                    method: "put")))
-                    .FieldSelectable(
-                        controlId: "LinkSourceColumns",
-                        fieldCss: "field-vertical",
-                        controlContainerCss: "container-selectable",
-                        controlWrapperCss: " h350",
-                        labelText: Displays.DisabledList(),
-                        listItemCollection: ss.LinkSelectableOptions(enabled: false),
-                        commandOptionPositionIsTop: true,
-                        commandOptionAction: () => hb
-                            .Div(css: "command-center", action: () => hb
-                                .Button(
-                                    controlId: "ToEnableLinkColumns",
-                                    text: Displays.ToEnable(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-w",
-                                    action: "SetSiteSettings",
-                                    method: "put"))));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static HtmlBuilder SiteSettingHistoryColumns(this HtmlBuilder hb, SiteSettings ss)
-        {
-            return hb.FieldSet(
-                legendText: Displays.SettingHistoryColumns(),
-                css: " enclosed",
-                action: () => hb
-                    .FieldSelectable(
-                        controlId: "HistoryColumns",
-                        fieldCss: "field-vertical",
-                        controlContainerCss: "container-selectable",
-                        controlWrapperCss: " h350",
-                        labelText: Displays.EnabledList(),
-                        listItemCollection: ss.HistorySelectableOptions(),
-                        commandOptionPositionIsTop: true,
-                        commandOptionAction: () => hb
-                            .Div(css: "command-center", action: () => hb
-                                .Button(
-                                    controlId: "MoveUpHistoryColumns",
-                                    text: Displays.MoveUp(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-n",
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .Button(
-                                    controlId: "MoveDownHistoryColumns",
-                                    text: Displays.MoveDown(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-s",
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .Button(
-                                    controlId: "ToDisableHistoryColumns",
-                                    text: Displays.ToDisable(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-e",
-                                    action: "SetSiteSettings",
-                                    method: "put")))
-                    .FieldSelectable(
-                        controlId: "HistorySourceColumns",
-                        fieldCss: "field-vertical",
-                        controlContainerCss: "container-selectable",
-                        controlWrapperCss: " h350",
-                        labelText: Displays.DisabledList(),
-                        listItemCollection: ss.HistorySelectableOptions(enabled: false),
-                        commandOptionPositionIsTop: true,
-                        commandOptionAction: () => hb
-                            .Div(css: "command-center", action: () => hb
-                                .Button(
-                                    controlId: "ToEnableHistoryColumns",
-                                    text: Displays.ToEnable(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-w",
-                                    action: "SetSiteSettings",
-                                    method: "put"))));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public static HtmlBuilder EditorColumnProperties(
             SiteSettings ss, Column column, IEnumerable<string> titleColumns)
         {
@@ -1936,6 +1810,132 @@ namespace Implem.Pleasanter.Models
                     fieldCss: " both",
                     labelText: Displays.SettingTitleSeparator(),
                     text: ss.TitleSeparator);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder SiteSettingLinkColumns(this HtmlBuilder hb, SiteSettings ss)
+        {
+            return hb.FieldSet(
+                legendText: Displays.SettingLinkColumns(),
+                css: " enclosed",
+                action: () => hb
+                    .FieldSelectable(
+                        controlId: "LinkColumns",
+                        fieldCss: "field-vertical",
+                        controlContainerCss: "container-selectable",
+                        controlWrapperCss: " h350",
+                        labelText: Displays.EnabledList(),
+                        listItemCollection: ss.LinkSelectableOptions(),
+                        commandOptionPositionIsTop: true,
+                        commandOptionAction: () => hb
+                            .Div(css: "command-center", action: () => hb
+                                .Button(
+                                    controlId: "MoveUpLinkColumns",
+                                    text: Displays.MoveUp(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-n",
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    controlId: "MoveDownLinkColumns",
+                                    text: Displays.MoveDown(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-s",
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    controlId: "ToDisableLinkColumns",
+                                    text: Displays.ToDisable(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-e",
+                                    action: "SetSiteSettings",
+                                    method: "put")))
+                    .FieldSelectable(
+                        controlId: "LinkSourceColumns",
+                        fieldCss: "field-vertical",
+                        controlContainerCss: "container-selectable",
+                        controlWrapperCss: " h350",
+                        labelText: Displays.DisabledList(),
+                        listItemCollection: ss.LinkSelectableOptions(enabled: false),
+                        commandOptionPositionIsTop: true,
+                        commandOptionAction: () => hb
+                            .Div(css: "command-center", action: () => hb
+                                .Button(
+                                    controlId: "ToEnableLinkColumns",
+                                    text: Displays.ToEnable(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-w",
+                                    action: "SetSiteSettings",
+                                    method: "put"))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder SiteSettingHistoryColumns(this HtmlBuilder hb, SiteSettings ss)
+        {
+            return hb.FieldSet(
+                legendText: Displays.SettingHistoryColumns(),
+                css: " enclosed",
+                action: () => hb
+                    .FieldSelectable(
+                        controlId: "HistoryColumns",
+                        fieldCss: "field-vertical",
+                        controlContainerCss: "container-selectable",
+                        controlWrapperCss: " h350",
+                        labelText: Displays.EnabledList(),
+                        listItemCollection: ss.HistorySelectableOptions(),
+                        commandOptionPositionIsTop: true,
+                        commandOptionAction: () => hb
+                            .Div(css: "command-center", action: () => hb
+                                .Button(
+                                    controlId: "MoveUpHistoryColumns",
+                                    text: Displays.MoveUp(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-n",
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    controlId: "MoveDownHistoryColumns",
+                                    text: Displays.MoveDown(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-s",
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    controlId: "ToDisableHistoryColumns",
+                                    text: Displays.ToDisable(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-e",
+                                    action: "SetSiteSettings",
+                                    method: "put")))
+                    .FieldSelectable(
+                        controlId: "HistorySourceColumns",
+                        fieldCss: "field-vertical",
+                        controlContainerCss: "container-selectable",
+                        controlWrapperCss: " h350",
+                        labelText: Displays.DisabledList(),
+                        listItemCollection: ss.HistorySelectableOptions(enabled: false),
+                        commandOptionPositionIsTop: true,
+                        commandOptionAction: () => hb
+                            .Div(css: "command-center", action: () => hb
+                                .Button(
+                                    controlId: "ToEnableHistoryColumns",
+                                    text: Displays.ToEnable(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-w",
+                                    action: "SetSiteSettings",
+                                    method: "put"))));
         }
 
         /// <summary>
