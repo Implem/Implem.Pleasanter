@@ -1435,16 +1435,16 @@ namespace Implem.Pleasanter.Models
             return hb.FieldSet(
                 id: "EditorSettingsEditor",
                 action: () => hb
-                    .SiteSettingEditorColumns(ss)
-                    .SiteSettingLinkColumns(ss)
-                    .SiteSettingHistoryColumns(ss)
-                    .SiteSettingFormulas(ss));
+                    .EditorColumns(ss)
+                    .LinkColumns(ss)
+                    .HistoryColumns(ss)
+                    .Formulas(ss));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder SiteSettingEditorColumns(this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder EditorColumns(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
                 legendText: Displays.SettingEditorColumns(),
@@ -1815,7 +1815,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder SiteSettingLinkColumns(this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder LinkColumns(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
                 legendText: Displays.SettingLinkColumns(),
@@ -1878,7 +1878,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder SiteSettingHistoryColumns(this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder HistoryColumns(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
                 legendText: Displays.SettingHistoryColumns(),
@@ -1965,7 +1965,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder SiteSettingFormulas(this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder Formulas(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
                 legendText: Displays.SettingFormulas(),
