@@ -21,12 +21,12 @@ $p.openSiteSettingsDialog = function ($control, selector, appendTo) {
     }
 }
 
-$p.openEditorColumnPropertiesDialog = function ($control) {
-    $p.openSiteSettingsDialog($control, '#EditorColumnPropertiesDialog')
-}
-
 $p.openGridColumnPropertiesDialog = function ($control) {
     $p.openSiteSettingsDialog($control, '#GridColumnPropertiesDialog')
+}
+
+$p.openEditorColumnPropertiesDialog = function ($control) {
+    $p.openSiteSettingsDialog($control, '#EditorColumnPropertiesDialog')
 }
 
 $p.openNotificationDialog = function ($control) {
