@@ -21,8 +21,8 @@ $p.openSiteSettingsDialog = function ($control, selector, appendTo) {
     }
 }
 
-$p.openColumnPropertiesDialog = function ($control) {
-    $p.openSiteSettingsDialog($control, '#ColumnPropertiesDialog')
+$p.openEditorColumnPropertiesDialog = function ($control) {
+    $p.openSiteSettingsDialog($control, '#EditorColumnPropertiesDialog')
 }
 
 $p.openNotificationDialog = function ($control) {

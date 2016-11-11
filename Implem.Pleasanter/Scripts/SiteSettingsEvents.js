@@ -1,26 +1,26 @@
 ﻿$(function () {
     $(document).on('selectableselected', '#EditorColumns, #EditorSourceColumns', function () {
-        $p.clearData('ColumnProperty,', $p.getData($(this)), 'startsWith');
+        $p.clearData('EditorColumnProperty,', $p.getData($(this)), 'startsWith');
     });
-    $(document).on('change', '[id="ColumnProperty,ControlType"]', function () {
+    $(document).on('change', '[id="EditorColumnProperty,ControlType"]', function () {
         var visibility = $(this).val() === 'Spinner';
-        $('[id="ColumnPropertyField,Min"]').toggle(visibility);
-        $('[id="ColumnPropertyField,Max"]').toggle(visibility);
-        $('[id="ColumnPropertyField,Step"]').toggle(visibility);
+        $('[id="EditorColumnPropertyField,Min"]').toggle(visibility);
+        $('[id="EditorColumnPropertyField,Max"]').toggle(visibility);
+        $('[id="EditorColumnPropertyField,Step"]').toggle(visibility);
     });
-    $(document).on('change', '[id="ColumnProperty,FormatSelector"]', function () {
+    $(document).on('change', '[id="EditorColumnProperty,FormatSelector"]', function () {
         var $control = $(this);
         switch ($control.val()) {
             case '\t':
-                $('[id="ColumnPropertyField,Format"]').toggle(true);
-                $('[id="ColumnProperty,Format"]').val('');
+                $('[id="EditorColumnPropertyField,Format"]').toggle(true);
+                $('[id="EditorColumnProperty,Format"]').val('');
                 break;
             default:
-                $('[id="ColumnPropertyField,Format"]').toggle(false);
-                $('[id="ColumnProperty,Format"]').val($control.val());
+                $('[id="EditorColumnPropertyField,Format"]').toggle(false);
+                $('[id="EditorColumnProperty,Format"]').val($control.val());
                 break;
         }
-        $p.setData($('[id="ColumnProperty,Format"]'));
+        $p.setData($('[id="EditorColumnProperty,Format"]'));
     });
     $(document).on('click', '#SummarySettings .grid-row button', function () {
         var $control = $($(this).attr('data-selector'))

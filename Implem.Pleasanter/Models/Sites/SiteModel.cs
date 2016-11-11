@@ -616,8 +616,8 @@ namespace Implem.Pleasanter.Models
                 case "ToEnableEditorColumns":
                     SetEditorColumns(res, controlId);
                     break;
-                case "SetColumnProperties":
-                    SetColumnProperties(res);
+                case "SetEditorColumnProperties":
+                    SetEditorColumnProperties(res);
                     break;
                 case "MoveUpTitleColumns":
                 case "MoveDownTitleColumns":
@@ -647,8 +647,8 @@ namespace Implem.Pleasanter.Models
                 case "DeleteFormulas":
                     DeleteFormulas(res);
                     break;
-                case "OpenColumnPropertiesDialog":
-                    OpenColumnPropertiesDialog(res);
+                case "OpenEditorColumnPropertiesDialog":
+                    OpenEditorColumnPropertiesDialog(res);
                     break;
                 case "NewNotification":
                 case "EditNotification":
@@ -687,7 +687,7 @@ namespace Implem.Pleasanter.Models
             {
                 switch (data.Key)
                 {
-                    case "ColumnProperty,Format":
+                    case "EditorColumnProperty,Format":
                         try
                         {
                             0.ToString(data.Value, Sessions.CultureInfo());
@@ -728,7 +728,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void OpenColumnPropertiesDialog(ResponseCollection res)
+        private void OpenEditorColumnPropertiesDialog(ResponseCollection res)
         {
             var selectedColumns = Forms.List("EditorColumns");
             if (selectedColumns.Count() != 1)
@@ -750,8 +750,8 @@ namespace Implem.Pleasanter.Models
                         Session_TitleColumns(titleColumns);
                     }
                     res.Html(
-                        "#ColumnPropertiesDialog",
-                        SiteUtilities.ColumnProperties(
+                        "#EditorColumnPropertiesDialog",
+                        SiteUtilities.EditorColumnProperties(
                             ss: SiteSettings,
                             column: column,
                             titleColumns: titleColumns));
@@ -1080,7 +1080,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetColumnProperties(ResponseCollection res)
+        private void SetEditorColumnProperties(ResponseCollection res)
         {
             var selectedColumns = Forms.List("EditorColumns");
             if (selectedColumns.Count() == 1)
@@ -1097,7 +1097,7 @@ namespace Implem.Pleasanter.Models
                         SiteSettings.TitleColumns = Session_TitleColumns();
                     }
                     Forms.All()
-                        .Where(o => o.Key.StartsWith("ColumnProperty,"))
+                        .Where(o => o.Key.StartsWith("EditorColumnProperty,"))
                         .ForEach(data =>
                             SiteSettings.SetColumnProperty(
                                 column,

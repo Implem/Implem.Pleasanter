@@ -1477,10 +1477,10 @@ namespace Implem.Pleasanter.Models
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
-                                    controlId: "OpenColumnPropertiesDialog",
+                                    controlId: "OpenEditorColumnPropertiesDialog",
                                     text: Displays.AdvancedSetting(),
                                     controlCss: "button-icon",
-                                    onClick: "$p.openColumnPropertiesDialog($(this));",
+                                    onClick: "$p.openEditorColumnPropertiesDialog($(this));",
                                     icon: "ui-icon-gear",
                                     action: "SetSiteSettings",
                                     method: "put")
@@ -1511,7 +1511,7 @@ namespace Implem.Pleasanter.Models
                                     action: "SetSiteSettings",
                                     method: "put")))
                     .Div(attributes: new HtmlAttributes()
-                        .Id("ColumnPropertiesDialog")
+                        .Id("EditorColumnPropertiesDialog")
                         .Class("dialog")
                         .Title(Displays.AdvancedSetting())));
         }
@@ -1645,7 +1645,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder ColumnProperties(
+        public static HtmlBuilder EditorColumnProperties(
             SiteSettings ss, Column column, IEnumerable<string> titleColumns)
         {
             var hb = new HtmlBuilder();
@@ -1655,7 +1655,7 @@ namespace Implem.Pleasanter.Models
                 action: () =>
                 {
                     hb.FieldTextBox(
-                        controlId: "ColumnProperty,LabelText",
+                        controlId: "EditorColumnProperty,LabelText",
                         labelText: Displays.SettingLabel(),
                         text: column.LabelText);
                     switch (column.TypeName.CsTypeSummary())
@@ -1666,7 +1666,7 @@ namespace Implem.Pleasanter.Models
                             if (column.Max != -1)
                             {
                                 hb.FieldDropDown(
-                                    controlId: "ColumnProperty,FieldCss",
+                                    controlId: "EditorColumnProperty,FieldCss",
                                     labelText: Displays.Style(),
                                     optionCollection: new Dictionary<string, string>
                                     {
@@ -1679,7 +1679,7 @@ namespace Implem.Pleasanter.Models
                             break;
                     }
                     hb.FieldCheckBox(
-                        controlId: "ColumnProperty,EditorReadOnly",
+                        controlId: "EditorColumnProperty,EditorReadOnly",
                         labelText: Displays.ReadOnly(),
                         _checked: column.EditorReadOnly.ToBool(),
                         _using: column.Nullable);
@@ -1687,17 +1687,17 @@ namespace Implem.Pleasanter.Models
                     {
                         hb
                             .FieldDropDown(
-                                controlId: "ColumnProperty,GridFormat",
+                                controlId: "EditorColumnProperty,GridFormat",
                                 labelText: Displays.SettingGridFormat(),
                                 optionCollection: DateTimeOptions(),
                                 selectedValue: column.GridFormat)
                             .FieldDropDown(
-                                controlId: "ColumnProperty,ControlFormat",
+                                controlId: "EditorColumnProperty,ControlFormat",
                                 labelText: Displays.SettingControlFormat(),
                                 optionCollection: DateTimeOptions(forControl: true),
                                 selectedValue: column.ControlFormat)
                             .FieldDropDown(
-                                controlId: "ColumnProperty,ExportFormat",
+                                controlId: "EditorColumnProperty,ExportFormat",
                                 labelText: Displays.SettingExportFormat(),
                                 optionCollection: DateTimeOptions(),
                                 selectedValue: column.ExportFormat);
@@ -1706,7 +1706,7 @@ namespace Implem.Pleasanter.Models
                     {
                         case Types.CsBool:
                             hb.FieldCheckBox(
-                                controlId: "ColumnProperty,DefaultInput",
+                                controlId: "EditorColumnProperty,DefaultInput",
                                 labelText: Displays.DefaultInput(),
                                 _checked: column.DefaultInput.ToBool());
                             break;
@@ -1716,19 +1716,19 @@ namespace Implem.Pleasanter.Models
                                 var maxDecimalPlaces = MaxDecimalPlaces(column);
                                 hb
                                     .FieldTextBox(
-                                        controlId: "ColumnProperty,DefaultInput",
+                                        controlId: "EditorColumnProperty,DefaultInput",
                                         labelText: Displays.DefaultInput(),
                                         text: column.DefaultInput.ToLong().ToString(),
                                         _using: !column.Id_Ver)
-                                    .FormatColumnProperty(column: column)
+                                    .EditorColumnFormatProperties(column: column)
                                     .FieldTextBox(
-                                        controlId: "ColumnProperty,Unit",
+                                        controlId: "EditorColumnProperty,Unit",
                                         controlCss: " w50",
                                         labelText: Displays.SettingUnit(),
                                         text: column.Unit,
                                         _using: !column.Id_Ver)
                                     .FieldSpinner(
-                                        controlId: "ColumnProperty,DecimalPlaces",
+                                        controlId: "EditorColumnProperty,DecimalPlaces",
                                         labelText: Displays.DecimalPlaces(),
                                         value: column.DecimalPlaces.ToDecimal(),
                                         min: 0,
@@ -1742,7 +1742,7 @@ namespace Implem.Pleasanter.Models
                                         : string.Empty;
                                     hb
                                         .FieldDropDown(
-                                            controlId: "ColumnProperty,ControlType",
+                                            controlId: "EditorColumnProperty,ControlType",
                                             labelText: Displays.ControlType(),
                                             optionCollection: new Dictionary<string, string>
                                             {
@@ -1751,20 +1751,20 @@ namespace Implem.Pleasanter.Models
                                             },
                                             selectedValue: column.ControlType)
                                         .FieldTextBox(
-                                            fieldId: "ColumnPropertyField,Min",
-                                            controlId: "ColumnProperty,Min",
+                                            fieldId: "EditorColumnPropertyField,Min",
+                                            controlId: "EditorColumnProperty,Min",
                                             fieldCss: " both" + hidden,
                                             labelText: Displays.Min(),
                                             text: column.Display(column.Min.ToDecimal()))
                                         .FieldTextBox(
-                                            fieldId: "ColumnPropertyField,Max",
-                                            controlId: "ColumnProperty,Max",
+                                            fieldId: "EditorColumnPropertyField,Max",
+                                            controlId: "EditorColumnProperty,Max",
                                             fieldCss: hidden,
                                             labelText: Displays.Max(),
                                             text: column.Display(column.Max.ToDecimal()))
                                         .FieldTextBox(
-                                            fieldId: "ColumnPropertyField,Step",
-                                            controlId: "ColumnProperty,Step",
+                                            fieldId: "EditorColumnPropertyField,Step",
+                                            controlId: "EditorColumnProperty,Step",
                                             fieldCss: hidden,
                                             labelText: Displays.Step(),
                                             text: column.Display(column.Step.ToDecimal()));
@@ -1773,7 +1773,7 @@ namespace Implem.Pleasanter.Models
                             break;
                         case Types.CsDateTime:
                             hb.FieldSpinner(
-                                controlId: "ColumnProperty,DefaultInput",
+                                controlId: "EditorColumnProperty,DefaultInput",
                                 controlCss: " allow-blank",
                                 labelText: Displays.DefaultInput(),
                                 value: column.DefaultInput != string.Empty
@@ -1787,14 +1787,14 @@ namespace Implem.Pleasanter.Models
                         case Types.CsString:
                             hb
                                 .FieldTextBox(
-                                    controlId: "ColumnProperty,DefaultInput",
+                                    controlId: "EditorColumnProperty,DefaultInput",
                                     fieldCss: column.FieldCss,
                                     labelText: Displays.DefaultInput(),
                                     text: column.DefaultInput,
                                     _using: !column.MarkDown)
                                 .FieldTextBox(
                                     textType: HtmlTypes.TextTypes.MultiLine,
-                                    controlId: "ColumnProperty,DefaultInput",
+                                    controlId: "EditorColumnProperty,DefaultInput",
                                     fieldCss: column.FieldCss,
                                     labelText: Displays.DefaultInput(),
                                     text: column.DefaultInput,
@@ -1806,7 +1806,7 @@ namespace Implem.Pleasanter.Models
                         case "ChoicesText":
                             hb.TextBox(
                                 textType: HtmlTypes.TextTypes.MultiLine,
-                                controlId: "ColumnProperty,ChoicesText",
+                                controlId: "EditorColumnProperty,ChoicesText",
                                 controlCss: " choices",
                                 placeholder: Displays.SettingSelectionList(),
                                 text: column.ChoicesText);
@@ -1816,14 +1816,14 @@ namespace Implem.Pleasanter.Models
                     }
                     if (column.ColumnName == "Title")
                     {
-                        hb.TitleColumnProperty(ss, titleColumns);
+                        hb.EditorColumnTitleProperties(ss, titleColumns);
                     }
                 });
             return hb
                 .P(css: "message-dialog")
                 .Div(css: "command-center", action: () => hb
                     .Button(
-                        controlId: "SetColumnProperties",
+                        controlId: "SetEditorColumnProperties",
                         text: Displays.Setting(),
                         controlCss: "button-icon",
                         onClick: "$p.sendByDialog($(this));",
@@ -1840,7 +1840,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder FormatColumnProperty(this HtmlBuilder hb, Column column)
+        private static HtmlBuilder EditorColumnFormatProperties(this HtmlBuilder hb, Column column)
         {
             var formats = Parameters.Formats
                 .Where(o => (o.Type & ParameterAccessor.Parts.Format.Types.NumColumn) > 0);
@@ -1848,7 +1848,7 @@ namespace Implem.Pleasanter.Models
             var other = !column.Format.IsNullOrEmpty() && format == null;
             return hb
                 .FieldDropDown(
-                    controlId: "ColumnProperty,FormatSelector",
+                    controlId: "EditorColumnProperty,FormatSelector",
                     controlCss: " not-transport",
                     labelText: Displays.SettingFormat(),
                     optionCollection: formats
@@ -1861,8 +1861,8 @@ namespace Implem.Pleasanter.Models
                     insertBlank: true,
                     _using: !column.Id_Ver)
                 .FieldTextBox(
-                    fieldId: "ColumnPropertyField,Format",
-                    controlId: "ColumnProperty,Format",
+                    fieldId: "EditorColumnPropertyField,Format",
+                    controlId: "EditorColumnProperty,Format",
                     fieldCss: other ? string.Empty : " hidden",
                     labelText: Displays.Custom(),
                     text: other
@@ -1873,68 +1873,69 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder TitleColumnProperty(
+        private static HtmlBuilder EditorColumnTitleProperties(
             this HtmlBuilder hb, SiteSettings ss, IEnumerable<string> titleColumns)
         {
-            return hb.FieldSelectable(
-                controlId: "TitleColumns",
-                fieldCss: "field-vertical",
-                controlContainerCss: "container-selectable",
-                controlWrapperCss: " h200",
-                labelText: Displays.EnabledList(),
-                listItemCollection: ss
-                    .TitleSelectableOptions(titleColumns),
-                commandOptionPositionIsTop: true,
-                commandOptionAction: () => hb
-                    .Div(css: "command-center", action: () => hb
-                        .Button(
-                            controlId: "MoveUpTitleColumns",
-                            text: Displays.MoveUp(),
-                            controlCss: "button-icon",
-                            onClick: "$p.send($(this));",
-                            icon: "ui-icon-circle-triangle-n",
-                            action: "SetSiteSettings",
-                            method: "post")
-                        .Button(
-                            controlId: "MoveDownTitleColumns",
-                            text: Displays.MoveDown(),
-                            controlCss: "button-icon",
-                            onClick: "$p.send($(this));",
-                            icon: "ui-icon-circle-triangle-s",
-                            action: "SetSiteSettings",
-                            method: "post")
-                        .Button(
-                            controlId: "ToDisableTitleColumns",
-                            text: Displays.ToDisable(),
-                            controlCss: "button-icon",
-                            onClick: "$p.send($(this));",
-                            icon: "ui-icon-circle-triangle-e",
-                            action: "SetSiteSettings",
-                            method: "put")))
-            .FieldSelectable(
-                controlId: "TitleSourceColumns",
-                fieldCss: "field-vertical",
-                controlContainerCss: "container-selectable",
-                controlWrapperCss: " h200",
-                labelText: Displays.DisabledList(),
-                listItemCollection: ss
-                    .TitleSelectableOptions(titleColumns, enabled: false),
-                commandOptionPositionIsTop: true,
-                commandOptionAction: () => hb
-                    .Div(css: "command-center", action: () => hb
-                        .Button(
-                            controlId: "ToEnableTitleColumns",
-                            text: Displays.ToEnable(),
-                            controlCss: "button-icon",
-                            onClick: "$p.send($(this));",
-                            icon: "ui-icon-circle-triangle-w",
-                            action: "SetSiteSettings",
-                            method: "put")))
-            .FieldTextBox(
-                controlId: "SiteSettings,TitleSeparator",
-                fieldCss: " both",
-                labelText: Displays.SettingTitleSeparator(),
-                text: ss.TitleSeparator);
+            return hb
+                .FieldSelectable(
+                    controlId: "TitleColumns",
+                    fieldCss: "field-vertical",
+                    controlContainerCss: "container-selectable",
+                    controlWrapperCss: " h200",
+                    labelText: Displays.EnabledList(),
+                    listItemCollection: ss
+                        .TitleSelectableOptions(titleColumns),
+                    commandOptionPositionIsTop: true,
+                    commandOptionAction: () => hb
+                        .Div(css: "command-center", action: () => hb
+                            .Button(
+                                controlId: "MoveUpTitleColumns",
+                                text: Displays.MoveUp(),
+                                controlCss: "button-icon",
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-circle-triangle-n",
+                                action: "SetSiteSettings",
+                                method: "post")
+                            .Button(
+                                controlId: "MoveDownTitleColumns",
+                                text: Displays.MoveDown(),
+                                controlCss: "button-icon",
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-circle-triangle-s",
+                                action: "SetSiteSettings",
+                                method: "post")
+                            .Button(
+                                controlId: "ToDisableTitleColumns",
+                                text: Displays.ToDisable(),
+                                controlCss: "button-icon",
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-circle-triangle-e",
+                                action: "SetSiteSettings",
+                                method: "put")))
+                .FieldSelectable(
+                    controlId: "TitleSourceColumns",
+                    fieldCss: "field-vertical",
+                    controlContainerCss: "container-selectable",
+                    controlWrapperCss: " h200",
+                    labelText: Displays.DisabledList(),
+                    listItemCollection: ss
+                        .TitleSelectableOptions(titleColumns, enabled: false),
+                    commandOptionPositionIsTop: true,
+                    commandOptionAction: () => hb
+                        .Div(css: "command-center", action: () => hb
+                            .Button(
+                                controlId: "ToEnableTitleColumns",
+                                text: Displays.ToEnable(),
+                                controlCss: "button-icon",
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-circle-triangle-w",
+                                action: "SetSiteSettings",
+                                method: "put")))
+                .FieldTextBox(
+                    controlId: "SiteSettings,TitleSeparator",
+                    fieldCss: " both",
+                    labelText: Displays.SettingTitleSeparator(),
+                    text: ss.TitleSeparator);
         }
 
         /// <summary>
