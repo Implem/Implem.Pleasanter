@@ -171,13 +171,9 @@ namespace Implem.Pleasanter.Models
         private static void SetPermissionCollectionSession(SiteModel siteModel)
         {
             siteModel.Session_PermissionDestinationCollection(
-                PermissionUtilities.DestinationCollection(
-                    "Sites", siteModel.SiteId));
+                DestinationCollection("Sites", siteModel.SiteId));
             siteModel.Session_PermissionSourceCollection(
-                PermissionUtilities.SourceCollection(
-                    "Sites",
-                    siteModel.SiteId,
-                    Forms.Data("SearchText")));
+                SourceCollection("Sites", siteModel.SiteId, Forms.Data("SearchText")));
         }
 
         /// <summary>
