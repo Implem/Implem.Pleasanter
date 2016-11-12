@@ -6,6 +6,8 @@ using Implem.Pleasanter.Libraries.Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
+
 namespace Implem.Pleasanter.Libraries.Settings
 {
     public class Column
@@ -21,6 +23,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ExportFormat;
         public string ControlType;
         public string Format;
+        public string GridDesign;
         public int? DecimalPlaces;
         public decimal? Min;
         public decimal? Max;

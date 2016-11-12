@@ -74,8 +74,17 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public HtmlBuilder Td(HtmlBuilder hb, Column column)
         {
             return hb.Td(action: () =>
-                this?.Take(DisplayCount()).ForEach(comment =>
-                    comment.Html(hb: hb)));
+                this?.Take(DisplayCount()).ForEach(comment => comment.Html(hb: hb)));
+        }
+
+        public string GridText(Column column)
+        {
+            return this?.Take(DisplayCount()).Select(comment =>
+                "{0} {1}  \n{2}".Params(
+                    comment.CreatedTimeDisplayValue(),
+                    SiteInfo.UserFullName(comment.Creator),
+                    comment.Body))
+                        .Join("\n\n");
         }
 
         private int DisplayCount()

@@ -25,11 +25,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     if (action != null) action();
                     hb
                         .P(css: "time", action: () => hb
-                            .Text(text: CreatedTime.ToLocal(Displays.Get("YmdahmFormat"))))
+                            .Text(text: CreatedTimeDisplayValue()))
                         .HtmlUser(Creator)
                         .P(css: "body markup", action: () => hb
                             .Text(text: Body));
                 });
+        }
+
+        public string CreatedTimeDisplayValue()
+        {
+            return CreatedTime.ToLocal(Displays.Get("YmdahmFormat"));
         }
     }
 }

@@ -80,6 +80,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     .Text(column.DisplayGrid(DisplayValue))));
         }
 
+        public virtual string GridText(Column column)
+        {
+            return column.DisplayGrid(DisplayValue);
+        }
+
         public string ToExport(Column column)
         {
             return column.DisplayExport(DisplayValue);

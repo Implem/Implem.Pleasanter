@@ -34,6 +34,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 .Text(text: Name));
         }
 
+        public string GridText(Column column)
+        {
+            return Name;
+        }
+
         public string ToExport(Column column)
         {
             return Name;

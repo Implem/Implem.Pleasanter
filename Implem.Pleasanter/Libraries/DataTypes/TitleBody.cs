@@ -27,11 +27,22 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public override HtmlBuilder Td(HtmlBuilder hb, Column column)
         {
-            return hb.Td(action: () => hb
-                .Div(css: "grid-title-body", action: () => hb
-                    .P(css: "title", action: () => TdTitle(hb, column))
-                    .P(css: "body markup", action: () => hb
-                         .Text(text: Body))));
+            return hb.Td(action: () => TdTitleBody(hb, column));
+        }
+
+        private HtmlBuilder TdTitleBody(HtmlBuilder hb, Column column)
+        {
+            return hb.Div(css: "grid-title-body", action: () => hb
+                .P(css: "title", action: () => TdTitle(hb, column))
+                .P(css: "body markup", action: () => hb
+                        .Text(text: Body)));
+        }
+
+        public override string GridText(Column column)
+        {
+            var hb = new HtmlBuilder();
+            TdTitleBody(hb, column);
+            return hb.ToString();
         }
 
         public override string ToExport(Column column)

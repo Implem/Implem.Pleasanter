@@ -51,6 +51,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         : string.Empty));
         }
 
+        public string GridText(Column column)
+        {
+            return column.Choice(ToString()).TextMini;
+        }
+
         public string ToExport(Column column)
         {
             return column.Choice(ToString()).Text;

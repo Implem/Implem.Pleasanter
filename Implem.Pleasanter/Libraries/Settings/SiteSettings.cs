@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
 namespace Implem.Pleasanter.Libraries.Settings
 {
     [Serializable()]
@@ -757,6 +758,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "GridLabelText": column.GridLabelText = value; break;
                 case "ControlType": column.ControlType = value; break;
                 case "Format": column.Format = value; break;
+                case "GridDesign":
+                    column.GridDesign = GridDesignRecordingData(column, value);
+                    break;
                 case "DecimalPlaces": column.DecimalPlaces = value.ToInt(); break;
                 case "Max": column.Max = value.ToDecimal(); break;
                 case "Min": column.Min = value.ToDecimal(); break;
@@ -769,6 +773,60 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ControlFormat": column.ControlFormat = value; break;
                 case "ExportFormat": column.ExportFormat = value; break;
                 case "Unit": column.Unit = value; break;
+            }
+        }
+
+        private string GridDesignRecordingData(Column currentColumn, string value)
+        {
+            if (!value.IsNullOrEmpty())
+            {
+                IncludedColumns(value, labelText: true).ForEach(column =>
+                    value = value.Replace(
+                        "[" + column.LabelText + "]", "[" + column.ColumnName + "]"));
+                return value != "[" + currentColumn.ColumnName + "]"
+                    ? value
+                    : null;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public string GridDesignEditorText(Column column)
+        {
+            return column.GridDesign.IsNullOrEmpty()
+                ? "[" + column.LabelText + "]"
+                : GridDesignEditorText(column.GridDesign);
+        }
+
+        private string GridDesignEditorText(string gridDesign)
+        {
+            IncludedColumns(gridDesign).ForEach(column =>
+                gridDesign = gridDesign.Replace(
+                    "[" + column.ColumnName + "]", "[" + column.LabelText + "]"));
+            return gridDesign;
+        }
+
+        public IEnumerable<string> IncludedColumns()
+        {
+            return IncludedColumns(ColumnCollection
+                .Where(o => !o.GridDesign.IsNullOrEmpty())
+                .Select(o => o.GridDesign)
+                .Join(string.Empty))
+                    .Select(o => o.ColumnName);
+        }
+
+        public IEnumerable<Column> IncludedColumns(string value, bool labelText = false)
+        {
+            foreach (Match match in value.RegexMatches(@"(?<=\[).+?(?=\])"))
+            {
+                var column = labelText
+                    ? ColumnCollection.FirstOrDefault(o =>
+                        o.LabelText == match.Value)
+                    : ColumnCollection.FirstOrDefault(o =>
+                        o.ColumnName == match.Value);
+                if (column != null) yield return column;
             }
         }
 

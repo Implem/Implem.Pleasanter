@@ -23,23 +23,60 @@ namespace Implem.Pleasanter.Models
     public static class WikiUtilities
     {
         public static HtmlBuilder TdValue(
-            this HtmlBuilder hb, Column column, WikiModel wikiModel)
+            this HtmlBuilder hb, SiteSettings ss, Column column, WikiModel wikiModel)
         {
-            switch (column.ColumnName)
+            if (!column.GridDesign.IsNullOrEmpty())
             {
-                case "SiteId": return hb.Td(column: column, value: wikiModel.SiteId);
-                case "UpdatedTime": return hb.Td(column: column, value: wikiModel.UpdatedTime);
-                case "WikiId": return hb.Td(column: column, value: wikiModel.WikiId);
-                case "Ver": return hb.Td(column: column, value: wikiModel.Ver);
-                case "Title": return hb.Td(column: column, value: wikiModel.Title);
-                case "Body": return hb.Td(column: column, value: wikiModel.Body);
-                case "TitleBody": return hb.Td(column: column, value: wikiModel.TitleBody);
-                case "Comments": return hb.Td(column: column, value: wikiModel.Comments);
-                case "Creator": return hb.Td(column: column, value: wikiModel.Creator);
-                case "Updator": return hb.Td(column: column, value: wikiModel.Updator);
-                case "CreatedTime": return hb.Td(column: column, value: wikiModel.CreatedTime);
-                default: return hb;
+                return hb.TdCustomValue(
+                    ss: ss,
+                    gridDesign: column.GridDesign,
+                    wikiModel: wikiModel);
             }
+            else
+            {
+                switch (column.ColumnName)
+                {
+                    case "SiteId": return hb.Td(column: column, value: wikiModel.SiteId);
+                    case "UpdatedTime": return hb.Td(column: column, value: wikiModel.UpdatedTime);
+                    case "WikiId": return hb.Td(column: column, value: wikiModel.WikiId);
+                    case "Ver": return hb.Td(column: column, value: wikiModel.Ver);
+                    case "Title": return hb.Td(column: column, value: wikiModel.Title);
+                    case "Body": return hb.Td(column: column, value: wikiModel.Body);
+                    case "TitleBody": return hb.Td(column: column, value: wikiModel.TitleBody);
+                    case "Comments": return hb.Td(column: column, value: wikiModel.Comments);
+                    case "Creator": return hb.Td(column: column, value: wikiModel.Creator);
+                    case "Updator": return hb.Td(column: column, value: wikiModel.Updator);
+                    case "CreatedTime": return hb.Td(column: column, value: wikiModel.CreatedTime);
+                    default: return hb;
+                }
+            }
+        }
+
+        public static HtmlBuilder TdCustomValue(
+            this HtmlBuilder hb, SiteSettings ss, string gridDesign, WikiModel wikiModel)
+        {
+            ss.IncludedColumns(gridDesign).ForEach(column =>
+            {
+                var value = string.Empty;
+                switch (column.ColumnName)
+                {
+                    case "SiteId": value = wikiModel.SiteId.GridText(column: column); break;
+                    case "UpdatedTime": value = wikiModel.UpdatedTime.GridText(column: column); break;
+                    case "WikiId": value = wikiModel.WikiId.GridText(column: column); break;
+                    case "Ver": value = wikiModel.Ver.GridText(column: column); break;
+                    case "Title": value = wikiModel.Title.GridText(column: column); break;
+                    case "Body": value = wikiModel.Body.GridText(column: column); break;
+                    case "TitleBody": value = wikiModel.TitleBody.GridText(column: column); break;
+                    case "Comments": value = wikiModel.Comments.GridText(column: column); break;
+                    case "Creator": value = wikiModel.Creator.GridText(column: column); break;
+                    case "Updator": value = wikiModel.Updator.GridText(column: column); break;
+                    case "CreatedTime": value = wikiModel.CreatedTime.GridText(column: column); break;
+                }
+                gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
+            });
+            return hb.Td(action: () => hb
+                .Div(css: "markup", action: () => hb
+                    .Text(text: gridDesign)));
         }
 
         /// <summary>
@@ -406,7 +443,10 @@ namespace Implem.Pleasanter.Models
                                                 wikiModelHistory.Ver == wikiModel.Ver),
                                         action: () => columns
                                             .ForEach(column => hb
-                                                .TdValue(column, wikiModelHistory))))));
+                                                .TdValue(
+                                                    ss: ss,
+                                                    column: column,
+                                                    wikiModel: wikiModelHistory))))));
             return new WikisResponseCollection(wikiModel)
                 .Html("#FieldSetHistories", hb).ToJson();
         }

@@ -155,6 +155,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             }
         }
 
+        public override string GridText(Column column)
+        {
+            return column.DisplayGrid(DisplayValue);
+        }
+
         public override string ToNotice(
             DateTime saved,
             Column column,

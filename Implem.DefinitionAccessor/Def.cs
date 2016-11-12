@@ -422,8 +422,9 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_ImportSettings": Code.Model_Utilities_ImportSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportSettings, definitionRow, CodeXls); break;
                     case "Model_Utilities_GridRows_OnClick": Code.Model_Utilities_GridRows_OnClick = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridRows_OnClick, definitionRow, CodeXls); break;
                     case "Model_Utilities_GridRows_OnClickItem": Code.Model_Utilities_GridRows_OnClickItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridRows_OnClickItem, definitionRow, CodeXls); break;
-                    case "Model_Utilities_Td": Code.Model_Utilities_Td = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Td, definitionRow, CodeXls); break;
-                    case "Model_Utilities_TdCases": Code.Model_Utilities_TdCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TdCases, definitionRow, CodeXls); break;
+                    case "Model_Utilities_TdValue": Code.Model_Utilities_TdValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TdValue, definitionRow, CodeXls); break;
+                    case "Model_Utilities_TdValueCases": Code.Model_Utilities_TdValueCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TdValueCases, definitionRow, CodeXls); break;
+                    case "Model_Utilities_TdValueCustomValueCases": Code.Model_Utilities_TdValueCustomValueCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_TdValueCustomValueCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_SqlColumn_SiteId": Code.Model_Utilities_SqlColumn_SiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SqlColumn_SiteId, definitionRow, CodeXls); break;
                     case "Model_Utilities_GridSqlWhereTenantId": Code.Model_Utilities_GridSqlWhereTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridSqlWhereTenantId, definitionRow, CodeXls); break;
                     case "Model_Utilities_GridSqlWhereSiteId": Code.Model_Utilities_GridSqlWhereSiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridSqlWhereSiteId, definitionRow, CodeXls); break;
@@ -2632,6 +2633,10 @@ namespace Implem.DefinitionAccessor
                     case "SettingAggregationType_ja": Display.SettingAggregationType_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingAggregationType_ja, definitionRow, DisplayXls); break;
                     case "SettingAggregationTarget": Display.SettingAggregationTarget = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingAggregationTarget, definitionRow, DisplayXls); break;
                     case "SettingAggregationTarget_ja": Display.SettingAggregationTarget_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingAggregationTarget_ja, definitionRow, DisplayXls); break;
+                    case "CustomDesign": Display.CustomDesign = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CustomDesign, definitionRow, DisplayXls); break;
+                    case "CustomDesign_ja": Display.CustomDesign_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CustomDesign_ja, definitionRow, DisplayXls); break;
+                    case "UseCustomDesign": Display.UseCustomDesign = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.UseCustomDesign, definitionRow, DisplayXls); break;
+                    case "UseCustomDesign_ja": Display.UseCustomDesign_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.UseCustomDesign_ja, definitionRow, DisplayXls); break;
                     case "CurrentPassword": Display.CurrentPassword = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CurrentPassword, definitionRow, DisplayXls); break;
                     case "CurrentPassword_ja": Display.CurrentPassword_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CurrentPassword_ja, definitionRow, DisplayXls); break;
                     case "ReEnter": Display.ReEnter = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ReEnter, definitionRow, DisplayXls); break;
@@ -4008,8 +4013,9 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_ImportSettings;
         public string Model_Utilities_GridRows_OnClick;
         public string Model_Utilities_GridRows_OnClickItem;
-        public string Model_Utilities_Td;
-        public string Model_Utilities_TdCases;
+        public string Model_Utilities_TdValue;
+        public string Model_Utilities_TdValueCases;
+        public string Model_Utilities_TdValueCustomValueCases;
         public string Model_Utilities_SqlColumn_SiteId;
         public string Model_Utilities_GridSqlWhereTenantId;
         public string Model_Utilities_GridSqlWhereSiteId;
@@ -4445,8 +4451,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_ImportSettings = new CodeDefinition();
         public CodeDefinition Model_Utilities_GridRows_OnClick = new CodeDefinition();
         public CodeDefinition Model_Utilities_GridRows_OnClickItem = new CodeDefinition();
-        public CodeDefinition Model_Utilities_Td = new CodeDefinition();
-        public CodeDefinition Model_Utilities_TdCases = new CodeDefinition();
+        public CodeDefinition Model_Utilities_TdValue = new CodeDefinition();
+        public CodeDefinition Model_Utilities_TdValueCases = new CodeDefinition();
+        public CodeDefinition Model_Utilities_TdValueCustomValueCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_SqlColumn_SiteId = new CodeDefinition();
         public CodeDefinition Model_Utilities_GridSqlWhereTenantId = new CodeDefinition();
         public CodeDefinition Model_Utilities_GridSqlWhereSiteId = new CodeDefinition();
@@ -7956,6 +7963,10 @@ namespace Implem.DefinitionAccessor
         public string SettingAggregationType_ja;
         public string SettingAggregationTarget;
         public string SettingAggregationTarget_ja;
+        public string CustomDesign;
+        public string CustomDesign_ja;
+        public string UseCustomDesign;
+        public string UseCustomDesign_ja;
         public string CurrentPassword;
         public string CurrentPassword_ja;
         public string ReEnter;
@@ -8634,6 +8645,10 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition SettingAggregationType_ja = new DisplayDefinition();
         public DisplayDefinition SettingAggregationTarget = new DisplayDefinition();
         public DisplayDefinition SettingAggregationTarget_ja = new DisplayDefinition();
+        public DisplayDefinition CustomDesign = new DisplayDefinition();
+        public DisplayDefinition CustomDesign_ja = new DisplayDefinition();
+        public DisplayDefinition UseCustomDesign = new DisplayDefinition();
+        public DisplayDefinition UseCustomDesign_ja = new DisplayDefinition();
         public DisplayDefinition CurrentPassword = new DisplayDefinition();
         public DisplayDefinition CurrentPassword_ja = new DisplayDefinition();
         public DisplayDefinition ReEnter = new DisplayDefinition();

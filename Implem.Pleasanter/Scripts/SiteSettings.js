@@ -25,6 +25,13 @@ $p.openGridColumnPropertiesDialog = function ($control) {
     $p.openSiteSettingsDialog($control, '#GridColumnPropertiesDialog')
 }
 
+$p.setGridColumnProperties = function ($control) {
+    $p.setData($('[id="GridColumnProperty,UseGridDesign"]'));
+    $p.setData($('[id="GridColumnProperty,GridDesign"]'));
+    $p.send($control);
+    $p.closeDialog($control);
+}
+
 $p.openEditorColumnPropertiesDialog = function ($control) {
     $p.openSiteSettingsDialog($control, '#EditorColumnPropertiesDialog')
 }

@@ -118,6 +118,13 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 : hb.Td(action: () => { });
         }
 
+        public string GridText(Column column)
+        {
+            return Id != UserTypes.Anonymous.ToInt()
+                ? SiteInfo.UserFullName(Id)
+                : string.Empty;
+        }
+
         public string ToExport(Column column)
         {
             return FullName().ToString();

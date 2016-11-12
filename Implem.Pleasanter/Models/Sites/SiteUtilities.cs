@@ -23,22 +23,58 @@ namespace Implem.Pleasanter.Models
     public static class SiteUtilities
     {
         public static HtmlBuilder TdValue(
-            this HtmlBuilder hb, Column column, SiteModel siteModel)
+            this HtmlBuilder hb, SiteSettings ss, Column column, SiteModel siteModel)
         {
-            switch (column.ColumnName)
+            if (!column.GridDesign.IsNullOrEmpty())
             {
-                case "SiteId": return hb.Td(column: column, value: siteModel.SiteId);
-                case "UpdatedTime": return hb.Td(column: column, value: siteModel.UpdatedTime);
-                case "Ver": return hb.Td(column: column, value: siteModel.Ver);
-                case "Title": return hb.Td(column: column, value: siteModel.Title);
-                case "Body": return hb.Td(column: column, value: siteModel.Body);
-                case "TitleBody": return hb.Td(column: column, value: siteModel.TitleBody);
-                case "Comments": return hb.Td(column: column, value: siteModel.Comments);
-                case "Creator": return hb.Td(column: column, value: siteModel.Creator);
-                case "Updator": return hb.Td(column: column, value: siteModel.Updator);
-                case "CreatedTime": return hb.Td(column: column, value: siteModel.CreatedTime);
-                default: return hb;
+                return hb.TdCustomValue(
+                    ss: ss,
+                    gridDesign: column.GridDesign,
+                    siteModel: siteModel);
             }
+            else
+            {
+                switch (column.ColumnName)
+                {
+                    case "SiteId": return hb.Td(column: column, value: siteModel.SiteId);
+                    case "UpdatedTime": return hb.Td(column: column, value: siteModel.UpdatedTime);
+                    case "Ver": return hb.Td(column: column, value: siteModel.Ver);
+                    case "Title": return hb.Td(column: column, value: siteModel.Title);
+                    case "Body": return hb.Td(column: column, value: siteModel.Body);
+                    case "TitleBody": return hb.Td(column: column, value: siteModel.TitleBody);
+                    case "Comments": return hb.Td(column: column, value: siteModel.Comments);
+                    case "Creator": return hb.Td(column: column, value: siteModel.Creator);
+                    case "Updator": return hb.Td(column: column, value: siteModel.Updator);
+                    case "CreatedTime": return hb.Td(column: column, value: siteModel.CreatedTime);
+                    default: return hb;
+                }
+            }
+        }
+
+        public static HtmlBuilder TdCustomValue(
+            this HtmlBuilder hb, SiteSettings ss, string gridDesign, SiteModel siteModel)
+        {
+            ss.IncludedColumns(gridDesign).ForEach(column =>
+            {
+                var value = string.Empty;
+                switch (column.ColumnName)
+                {
+                    case "SiteId": value = siteModel.SiteId.GridText(column: column); break;
+                    case "UpdatedTime": value = siteModel.UpdatedTime.GridText(column: column); break;
+                    case "Ver": value = siteModel.Ver.GridText(column: column); break;
+                    case "Title": value = siteModel.Title.GridText(column: column); break;
+                    case "Body": value = siteModel.Body.GridText(column: column); break;
+                    case "TitleBody": value = siteModel.TitleBody.GridText(column: column); break;
+                    case "Comments": value = siteModel.Comments.GridText(column: column); break;
+                    case "Creator": value = siteModel.Creator.GridText(column: column); break;
+                    case "Updator": value = siteModel.Updator.GridText(column: column); break;
+                    case "CreatedTime": value = siteModel.CreatedTime.GridText(column: column); break;
+                }
+                gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
+            });
+            return hb.Td(action: () => hb
+                .Div(css: "markup", action: () => hb
+                    .Text(text: gridDesign)));
         }
 
         public static string EditorJson(long siteId)
@@ -283,7 +319,10 @@ namespace Implem.Pleasanter.Models
                                                 siteModelHistory.Ver == siteModel.Ver),
                                         action: () => columns
                                             .ForEach(column => hb
-                                                .TdValue(column, siteModelHistory))))));
+                                                .TdValue(
+                                                    ss: ss,
+                                                    column: column,
+                                                    siteModel: siteModelHistory))))));
             return new SitesResponseCollection(siteModel)
                 .Html("#FieldSetHistories", hb).ToJson();
         }
@@ -1280,6 +1319,20 @@ namespace Implem.Pleasanter.Models
                                 optionCollection: DateTimeOptions(),
                                 selectedValue: column.GridFormat);
                     }
+                    hb
+                        .FieldCheckBox(
+                            controlId: "GridColumnProperty,UseGridDesign",
+                            labelText: Displays.UseCustomDesign(),
+                            _checked: !column.GridDesign.IsNullOrEmpty())
+                        .FieldMarkDown(
+                            fieldId: "GridColumnProperty,GridDesignField",
+                            controlId: "GridColumnProperty,GridDesign",
+                            fieldCss: "field-wide" + (!column.GridDesign.IsNullOrEmpty()
+                                ? string.Empty
+                                : " hidden"),
+                            labelText: Displays.CustomDesign(),
+                            placeholder: Displays.CustomDesign(),
+                            text: ss.GridDesignEditorText(column));
                 });
             return hb
                 .P(css: "message-dialog")
@@ -1288,7 +1341,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "SetGridColumnProperties",
                         text: Displays.Setting(),
                         controlCss: "button-icon",
-                        onClick: "$p.sendByDialog($(this));",
+                        onClick: "$p.setGridColumnProperties($(this));",
                         icon: "ui-icon-gear",
                         action: "SetSiteSettings",
                         method: "post")

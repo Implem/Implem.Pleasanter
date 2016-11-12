@@ -257,6 +257,7 @@ namespace Implem.Pleasanter.Models
                                 columns
                                     .ForEach(column => hb
                                         .TdValue(
+                                            ss: ss,
                                             column: column,
                                             deptModel: deptModel));
                             })));
@@ -267,6 +268,7 @@ namespace Implem.Pleasanter.Models
             var sqlColumnCollection = Rds.DeptsColumn();
             new List<string> { "DeptId", "Creator", "Updator" }
                 .Concat(ss.GridColumns)
+                .Concat(ss.IncludedColumns())
                 .Concat(ss.TitleColumns)
                     .Distinct().ForEach(column =>
                         sqlColumnCollection.DeptsColumn(column));
@@ -274,22 +276,58 @@ namespace Implem.Pleasanter.Models
         }
 
         public static HtmlBuilder TdValue(
-            this HtmlBuilder hb, Column column, DeptModel deptModel)
+            this HtmlBuilder hb, SiteSettings ss, Column column, DeptModel deptModel)
         {
-            switch (column.ColumnName)
+            if (!column.GridDesign.IsNullOrEmpty())
             {
-                case "DeptId": return hb.Td(column: column, value: deptModel.DeptId);
-                case "Ver": return hb.Td(column: column, value: deptModel.Ver);
-                case "DeptCode": return hb.Td(column: column, value: deptModel.DeptCode);
-                case "Dept": return hb.Td(column: column, value: deptModel.Dept);
-                case "Body": return hb.Td(column: column, value: deptModel.Body);
-                case "Comments": return hb.Td(column: column, value: deptModel.Comments);
-                case "Creator": return hb.Td(column: column, value: deptModel.Creator);
-                case "Updator": return hb.Td(column: column, value: deptModel.Updator);
-                case "CreatedTime": return hb.Td(column: column, value: deptModel.CreatedTime);
-                case "UpdatedTime": return hb.Td(column: column, value: deptModel.UpdatedTime);
-                default: return hb;
+                return hb.TdCustomValue(
+                    ss: ss,
+                    gridDesign: column.GridDesign,
+                    deptModel: deptModel);
             }
+            else
+            {
+                switch (column.ColumnName)
+                {
+                    case "DeptId": return hb.Td(column: column, value: deptModel.DeptId);
+                    case "Ver": return hb.Td(column: column, value: deptModel.Ver);
+                    case "DeptCode": return hb.Td(column: column, value: deptModel.DeptCode);
+                    case "Dept": return hb.Td(column: column, value: deptModel.Dept);
+                    case "Body": return hb.Td(column: column, value: deptModel.Body);
+                    case "Comments": return hb.Td(column: column, value: deptModel.Comments);
+                    case "Creator": return hb.Td(column: column, value: deptModel.Creator);
+                    case "Updator": return hb.Td(column: column, value: deptModel.Updator);
+                    case "CreatedTime": return hb.Td(column: column, value: deptModel.CreatedTime);
+                    case "UpdatedTime": return hb.Td(column: column, value: deptModel.UpdatedTime);
+                    default: return hb;
+                }
+            }
+        }
+
+        public static HtmlBuilder TdCustomValue(
+            this HtmlBuilder hb, SiteSettings ss, string gridDesign, DeptModel deptModel)
+        {
+            ss.IncludedColumns(gridDesign).ForEach(column =>
+            {
+                var value = string.Empty;
+                switch (column.ColumnName)
+                {
+                    case "DeptId": value = deptModel.DeptId.GridText(column: column); break;
+                    case "Ver": value = deptModel.Ver.GridText(column: column); break;
+                    case "DeptCode": value = deptModel.DeptCode.GridText(column: column); break;
+                    case "Dept": value = deptModel.Dept.GridText(column: column); break;
+                    case "Body": value = deptModel.Body.GridText(column: column); break;
+                    case "Comments": value = deptModel.Comments.GridText(column: column); break;
+                    case "Creator": value = deptModel.Creator.GridText(column: column); break;
+                    case "Updator": value = deptModel.Updator.GridText(column: column); break;
+                    case "CreatedTime": value = deptModel.CreatedTime.GridText(column: column); break;
+                    case "UpdatedTime": value = deptModel.UpdatedTime.GridText(column: column); break;
+                }
+                gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
+            });
+            return hb.Td(action: () => hb
+                .Div(css: "markup", action: () => hb
+                    .Text(text: gridDesign)));
         }
 
         public static string EditorNew()
@@ -666,7 +704,10 @@ namespace Implem.Pleasanter.Models
                                                 deptModelHistory.Ver == deptModel.Ver),
                                         action: () => columns
                                             .ForEach(column => hb
-                                                .TdValue(column, deptModelHistory))))));
+                                                .TdValue(
+                                                    ss: ss,
+                                                    column: column,
+                                                    deptModel: deptModelHistory))))));
             return new DeptsResponseCollection(deptModel)
                 .Html("#FieldSetHistories", hb).ToJson();
         }

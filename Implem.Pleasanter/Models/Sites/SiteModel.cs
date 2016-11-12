@@ -797,12 +797,28 @@ namespace Implem.Pleasanter.Models
                             SiteSettings.SetColumnProperty(
                                 column,
                                 data.Key.Split_2nd(),
-                                data.Value));
+                                GridColumnPropertyValue(data.Key, data.Value)));
                     res.Html("#GridColumns",
                         new HtmlBuilder().SelectableItems(
                             listItemCollection: SiteSettings.GridSelectableOptions(),
                             selectedValueTextCollection: selectedColumns));
                 }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private string GridColumnPropertyValue(string name, string value)
+        {
+            switch (name)
+            {
+                case "GridColumnProperty,GridDesign":
+                    return Forms.Bool("GridColumnProperty,UseGridDesign")
+                        ? value
+                        : null;
+                default:
+                    return value;
             }
         }
 

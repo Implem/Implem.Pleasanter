@@ -46,27 +46,36 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public HtmlBuilder Td(HtmlBuilder hb, Column column)
         {
+            return hb.Td(action: () => Svg(hb, column));
+        }
+
+        private HtmlBuilder Svg(HtmlBuilder hb, Column column)
+        {
             var width = column.Max != null
                 ? Convert.ToInt32(Value / column.Max.ToInt() * 100)
                 : 0;
-            return hb.Td(action: () => hb
-                .Svg(css: "svg-work-value", action: () => hb
-                    .SvgText(
-                        text: column.Display(Value) + column.Unit,
-                        x: 0,
-                        y: Parameters.General.WorkValueTextTop)
-                    .Rect(
-                        x: 0,
-                        y: Parameters.General.WorkValueHeight / 2,
-                        width: width,
-                        height: Parameters.General.WorkValueHeight / 2)
-                    .Rect(
-                        x: 0,
-                        y: Parameters.General.WorkValueHeight / 2,
-                        width: ProgressRate != 0
-                            ? (int)(width * (ProgressRate / 100))
-                            : 0,
-                        height: Parameters.General.WorkValueHeight / 2)));
+            return hb.Svg(css: "svg-work-value", action: () => hb
+                .SvgText(
+                    text: column.Display(Value, unit: true),
+                    x: 0,
+                    y: Parameters.General.WorkValueTextTop)
+                .Rect(
+                    x: 0,
+                    y: Parameters.General.WorkValueHeight / 2,
+                    width: width,
+                    height: Parameters.General.WorkValueHeight / 2)
+                .Rect(
+                    x: 0,
+                    y: Parameters.General.WorkValueHeight / 2,
+                    width: ProgressRate != 0
+                        ? (int)(width * (ProgressRate / 100))
+                        : 0,
+                    height: Parameters.General.WorkValueHeight / 2));
+        }
+
+        public string GridText(Column column)
+        {
+            return column.Display(Value, unit: true);
         }
 
         public string ToExport(Column column)

@@ -75,6 +75,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public HtmlBuilder Td(HtmlBuilder hb, Column column)
         {
+            return hb.Td(action: () => Svg(hb, column));
+        }
+
+        private HtmlBuilder Svg(HtmlBuilder hb, Column column)
+        {
             var now = VerType == Versions.VerTypes.Latest
                 ? DateTime.Now.ToLocal()
                 : UpdatedTime.ToLocal();
@@ -87,27 +92,26 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 (plannedValue > earnedValue && Value < 100
                     ? " warning"
                     : string.Empty);
-            return hb.Td(action: () => hb
-                .Svg(css: css, action: () => hb
-                    .SvgText(
-                        text: column.Display(Value) + column.Unit,
-                        x: 0,
-                        y: Parameters.General.ProgressRateTextTop)
-                    .Rect(
-                        x: 0,
-                        y: Parameters.General.ProgressRateItemHeight * 2,
-                        width: Parameters.General.ProgressRateWidth,
-                        height: Parameters.General.ProgressRateItemHeight)
-                    .Rect(
-                        x: 0,
-                        y: Parameters.General.ProgressRateItemHeight * 2,
-                        width: Convert.ToInt32(plannedValue * Parameters.General.ProgressRateWidth),
-                        height: Parameters.General.ProgressRateItemHeight)
-                    .Rect(
-                        x: 0,
-                        y: Parameters.General.ProgressRateItemHeight * 3,
-                        width: Convert.ToInt32(earnedValue * Parameters.General.ProgressRateWidth),
-                        height: Parameters.General.ProgressRateItemHeight)));
+            return hb.Svg(css: css, action: () => hb
+                .SvgText(
+                    text: column.Display(Value, unit: true),
+                    x: 0,
+                    y: Parameters.General.ProgressRateTextTop)
+                .Rect(
+                    x: 0,
+                    y: Parameters.General.ProgressRateItemHeight * 2,
+                    width: Parameters.General.ProgressRateWidth,
+                    height: Parameters.General.ProgressRateItemHeight)
+                .Rect(
+                    x: 0,
+                    y: Parameters.General.ProgressRateItemHeight * 2,
+                    width: Convert.ToInt32(plannedValue * Parameters.General.ProgressRateWidth),
+                    height: Parameters.General.ProgressRateItemHeight)
+                .Rect(
+                    x: 0,
+                    y: Parameters.General.ProgressRateItemHeight * 3,
+                    width: Convert.ToInt32(earnedValue * Parameters.General.ProgressRateWidth),
+                    height: Parameters.General.ProgressRateItemHeight));
         }
 
         private DateTime Start()
@@ -134,6 +138,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return Value != 0
                 ? (float)(Value / 100)
                 : 0;
+        }
+
+        public string GridText(Column column)
+        {
+            return column.Display(Value, unit: true);
         }
 
         public string ToExport(Column column)

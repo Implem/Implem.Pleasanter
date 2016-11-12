@@ -261,6 +261,7 @@ namespace Implem.Pleasanter.Models
                                 columns
                                     .ForEach(column => hb
                                         .TdValue(
+                                            ss: ss,
                                             column: column,
                                             userModel: userModel));
                             })));
@@ -271,6 +272,7 @@ namespace Implem.Pleasanter.Models
             var sqlColumnCollection = Rds.UsersColumn();
             new List<string> { "UserId", "Creator", "Updator" }
                 .Concat(ss.GridColumns)
+                .Concat(ss.IncludedColumns())
                 .Concat(ss.TitleColumns)
                     .Distinct().ForEach(column =>
                         sqlColumnCollection.UsersColumn(column));
@@ -278,33 +280,80 @@ namespace Implem.Pleasanter.Models
         }
 
         public static HtmlBuilder TdValue(
-            this HtmlBuilder hb, Column column, UserModel userModel)
+            this HtmlBuilder hb, SiteSettings ss, Column column, UserModel userModel)
         {
-            switch (column.ColumnName)
+            if (!column.GridDesign.IsNullOrEmpty())
             {
-                case "UserId": return hb.Td(column: column, value: userModel.UserId);
-                case "Ver": return hb.Td(column: column, value: userModel.Ver);
-                case "LoginId": return hb.Td(column: column, value: userModel.LoginId);
-                case "Disabled": return hb.Td(column: column, value: userModel.Disabled);
-                case "LastName": return hb.Td(column: column, value: userModel.LastName);
-                case "FirstName": return hb.Td(column: column, value: userModel.FirstName);
-                case "Birthday": return hb.Td(column: column, value: userModel.Birthday);
-                case "Gender": return hb.Td(column: column, value: userModel.Gender);
-                case "Language": return hb.Td(column: column, value: userModel.Language);
-                case "TimeZoneInfo": return hb.Td(column: column, value: userModel.TimeZoneInfo);
-                case "Dept": return hb.Td(column: column, value: userModel.Dept);
-                case "LastLoginTime": return hb.Td(column: column, value: userModel.LastLoginTime);
-                case "PasswordExpirationTime": return hb.Td(column: column, value: userModel.PasswordExpirationTime);
-                case "PasswordChangeTime": return hb.Td(column: column, value: userModel.PasswordChangeTime);
-                case "NumberOfLogins": return hb.Td(column: column, value: userModel.NumberOfLogins);
-                case "NumberOfDenial": return hb.Td(column: column, value: userModel.NumberOfDenial);
-                case "Comments": return hb.Td(column: column, value: userModel.Comments);
-                case "Creator": return hb.Td(column: column, value: userModel.Creator);
-                case "Updator": return hb.Td(column: column, value: userModel.Updator);
-                case "CreatedTime": return hb.Td(column: column, value: userModel.CreatedTime);
-                case "UpdatedTime": return hb.Td(column: column, value: userModel.UpdatedTime);
-                default: return hb;
+                return hb.TdCustomValue(
+                    ss: ss,
+                    gridDesign: column.GridDesign,
+                    userModel: userModel);
             }
+            else
+            {
+                switch (column.ColumnName)
+                {
+                    case "UserId": return hb.Td(column: column, value: userModel.UserId);
+                    case "Ver": return hb.Td(column: column, value: userModel.Ver);
+                    case "LoginId": return hb.Td(column: column, value: userModel.LoginId);
+                    case "Disabled": return hb.Td(column: column, value: userModel.Disabled);
+                    case "LastName": return hb.Td(column: column, value: userModel.LastName);
+                    case "FirstName": return hb.Td(column: column, value: userModel.FirstName);
+                    case "Birthday": return hb.Td(column: column, value: userModel.Birthday);
+                    case "Gender": return hb.Td(column: column, value: userModel.Gender);
+                    case "Language": return hb.Td(column: column, value: userModel.Language);
+                    case "TimeZoneInfo": return hb.Td(column: column, value: userModel.TimeZoneInfo);
+                    case "Dept": return hb.Td(column: column, value: userModel.Dept);
+                    case "LastLoginTime": return hb.Td(column: column, value: userModel.LastLoginTime);
+                    case "PasswordExpirationTime": return hb.Td(column: column, value: userModel.PasswordExpirationTime);
+                    case "PasswordChangeTime": return hb.Td(column: column, value: userModel.PasswordChangeTime);
+                    case "NumberOfLogins": return hb.Td(column: column, value: userModel.NumberOfLogins);
+                    case "NumberOfDenial": return hb.Td(column: column, value: userModel.NumberOfDenial);
+                    case "Comments": return hb.Td(column: column, value: userModel.Comments);
+                    case "Creator": return hb.Td(column: column, value: userModel.Creator);
+                    case "Updator": return hb.Td(column: column, value: userModel.Updator);
+                    case "CreatedTime": return hb.Td(column: column, value: userModel.CreatedTime);
+                    case "UpdatedTime": return hb.Td(column: column, value: userModel.UpdatedTime);
+                    default: return hb;
+                }
+            }
+        }
+
+        public static HtmlBuilder TdCustomValue(
+            this HtmlBuilder hb, SiteSettings ss, string gridDesign, UserModel userModel)
+        {
+            ss.IncludedColumns(gridDesign).ForEach(column =>
+            {
+                var value = string.Empty;
+                switch (column.ColumnName)
+                {
+                    case "UserId": value = userModel.UserId.GridText(column: column); break;
+                    case "Ver": value = userModel.Ver.GridText(column: column); break;
+                    case "LoginId": value = userModel.LoginId.GridText(column: column); break;
+                    case "Disabled": value = userModel.Disabled.GridText(column: column); break;
+                    case "LastName": value = userModel.LastName.GridText(column: column); break;
+                    case "FirstName": value = userModel.FirstName.GridText(column: column); break;
+                    case "Birthday": value = userModel.Birthday.GridText(column: column); break;
+                    case "Gender": value = userModel.Gender.GridText(column: column); break;
+                    case "Language": value = userModel.Language.GridText(column: column); break;
+                    case "TimeZoneInfo": value = userModel.TimeZoneInfo.GridText(column: column); break;
+                    case "Dept": value = userModel.Dept.GridText(column: column); break;
+                    case "LastLoginTime": value = userModel.LastLoginTime.GridText(column: column); break;
+                    case "PasswordExpirationTime": value = userModel.PasswordExpirationTime.GridText(column: column); break;
+                    case "PasswordChangeTime": value = userModel.PasswordChangeTime.GridText(column: column); break;
+                    case "NumberOfLogins": value = userModel.NumberOfLogins.GridText(column: column); break;
+                    case "NumberOfDenial": value = userModel.NumberOfDenial.GridText(column: column); break;
+                    case "Comments": value = userModel.Comments.GridText(column: column); break;
+                    case "Creator": value = userModel.Creator.GridText(column: column); break;
+                    case "Updator": value = userModel.Updator.GridText(column: column); break;
+                    case "CreatedTime": value = userModel.CreatedTime.GridText(column: column); break;
+                    case "UpdatedTime": value = userModel.UpdatedTime.GridText(column: column); break;
+                }
+                gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
+            });
+            return hb.Td(action: () => hb
+                .Div(css: "markup", action: () => hb
+                    .Text(text: gridDesign)));
         }
 
         public static string EditorNew()
@@ -761,7 +810,10 @@ namespace Implem.Pleasanter.Models
                                                 userModelHistory.Ver == userModel.Ver),
                                         action: () => columns
                                             .ForEach(column => hb
-                                                .TdValue(column, userModelHistory))))));
+                                                .TdValue(
+                                                    ss: ss,
+                                                    column: column,
+                                                    userModel: userModelHistory))))));
             return new UsersResponseCollection(userModel)
                 .Html("#FieldSetHistories", hb).ToJson();
         }

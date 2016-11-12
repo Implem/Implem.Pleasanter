@@ -256,6 +256,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SettingAggregationType(params string[] data) { return Get("SettingAggregationType", data); }
         public static HtmlBuilder Displays_SettingAggregationTarget(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingAggregationTarget", data)); }
         public static string SettingAggregationTarget(params string[] data) { return Get("SettingAggregationTarget", data); }
+        public static HtmlBuilder Displays_CustomDesign(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CustomDesign", data)); }
+        public static string CustomDesign(params string[] data) { return Get("CustomDesign", data); }
+        public static HtmlBuilder Displays_UseCustomDesign(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("UseCustomDesign", data)); }
+        public static string UseCustomDesign(params string[] data) { return Get("UseCustomDesign", data); }
         public static HtmlBuilder Displays_CurrentPassword(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CurrentPassword", data)); }
         public static string CurrentPassword(params string[] data) { return Get("CurrentPassword", data); }
         public static HtmlBuilder Displays_ReEnter(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ReEnter", data)); }

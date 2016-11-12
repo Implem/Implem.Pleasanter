@@ -75,6 +75,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             }
         }
 
+        public virtual string GridText(Column column)
+        {
+            return DisplayValue;
+        }
+
         public virtual string ToExport(Column column)
         {
             return Value;

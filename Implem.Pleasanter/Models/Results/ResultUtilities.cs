@@ -223,6 +223,7 @@ namespace Implem.Pleasanter.Models
                                 columns
                                     .ForEach(column => hb
                                         .TdValue(
+                                            ss: ss,
                                             column: column,
                                             resultModel: resultModel));
                             })));
@@ -233,6 +234,7 @@ namespace Implem.Pleasanter.Models
             var sqlColumnCollection = Rds.ResultsColumn();
             new List<string> { "SiteId", "ResultId", "Creator", "Updator" }
                 .Concat(ss.GridColumns)
+                .Concat(ss.IncludedColumns())
                 .Concat(ss.TitleColumns)
                     .Distinct().ForEach(column =>
                         sqlColumnCollection.ResultsColumn(column));
@@ -240,156 +242,326 @@ namespace Implem.Pleasanter.Models
         }
 
         public static HtmlBuilder TdValue(
-            this HtmlBuilder hb, Column column, ResultModel resultModel)
+            this HtmlBuilder hb, SiteSettings ss, Column column, ResultModel resultModel)
         {
-            switch (column.ColumnName)
+            if (!column.GridDesign.IsNullOrEmpty())
             {
-                case "SiteId": return hb.Td(column: column, value: resultModel.SiteId);
-                case "UpdatedTime": return hb.Td(column: column, value: resultModel.UpdatedTime);
-                case "ResultId": return hb.Td(column: column, value: resultModel.ResultId);
-                case "Ver": return hb.Td(column: column, value: resultModel.Ver);
-                case "Title": return hb.Td(column: column, value: resultModel.Title);
-                case "Body": return hb.Td(column: column, value: resultModel.Body);
-                case "TitleBody": return hb.Td(column: column, value: resultModel.TitleBody);
-                case "Status": return hb.Td(column: column, value: resultModel.Status);
-                case "Manager": return hb.Td(column: column, value: resultModel.Manager);
-                case "Owner": return hb.Td(column: column, value: resultModel.Owner);
-                case "ClassA": return hb.Td(column: column, value: resultModel.ClassA);
-                case "ClassB": return hb.Td(column: column, value: resultModel.ClassB);
-                case "ClassC": return hb.Td(column: column, value: resultModel.ClassC);
-                case "ClassD": return hb.Td(column: column, value: resultModel.ClassD);
-                case "ClassE": return hb.Td(column: column, value: resultModel.ClassE);
-                case "ClassF": return hb.Td(column: column, value: resultModel.ClassF);
-                case "ClassG": return hb.Td(column: column, value: resultModel.ClassG);
-                case "ClassH": return hb.Td(column: column, value: resultModel.ClassH);
-                case "ClassI": return hb.Td(column: column, value: resultModel.ClassI);
-                case "ClassJ": return hb.Td(column: column, value: resultModel.ClassJ);
-                case "ClassK": return hb.Td(column: column, value: resultModel.ClassK);
-                case "ClassL": return hb.Td(column: column, value: resultModel.ClassL);
-                case "ClassM": return hb.Td(column: column, value: resultModel.ClassM);
-                case "ClassN": return hb.Td(column: column, value: resultModel.ClassN);
-                case "ClassO": return hb.Td(column: column, value: resultModel.ClassO);
-                case "ClassP": return hb.Td(column: column, value: resultModel.ClassP);
-                case "ClassQ": return hb.Td(column: column, value: resultModel.ClassQ);
-                case "ClassR": return hb.Td(column: column, value: resultModel.ClassR);
-                case "ClassS": return hb.Td(column: column, value: resultModel.ClassS);
-                case "ClassT": return hb.Td(column: column, value: resultModel.ClassT);
-                case "ClassU": return hb.Td(column: column, value: resultModel.ClassU);
-                case "ClassV": return hb.Td(column: column, value: resultModel.ClassV);
-                case "ClassW": return hb.Td(column: column, value: resultModel.ClassW);
-                case "ClassX": return hb.Td(column: column, value: resultModel.ClassX);
-                case "ClassY": return hb.Td(column: column, value: resultModel.ClassY);
-                case "ClassZ": return hb.Td(column: column, value: resultModel.ClassZ);
-                case "NumA": return hb.Td(column: column, value: resultModel.NumA);
-                case "NumB": return hb.Td(column: column, value: resultModel.NumB);
-                case "NumC": return hb.Td(column: column, value: resultModel.NumC);
-                case "NumD": return hb.Td(column: column, value: resultModel.NumD);
-                case "NumE": return hb.Td(column: column, value: resultModel.NumE);
-                case "NumF": return hb.Td(column: column, value: resultModel.NumF);
-                case "NumG": return hb.Td(column: column, value: resultModel.NumG);
-                case "NumH": return hb.Td(column: column, value: resultModel.NumH);
-                case "NumI": return hb.Td(column: column, value: resultModel.NumI);
-                case "NumJ": return hb.Td(column: column, value: resultModel.NumJ);
-                case "NumK": return hb.Td(column: column, value: resultModel.NumK);
-                case "NumL": return hb.Td(column: column, value: resultModel.NumL);
-                case "NumM": return hb.Td(column: column, value: resultModel.NumM);
-                case "NumN": return hb.Td(column: column, value: resultModel.NumN);
-                case "NumO": return hb.Td(column: column, value: resultModel.NumO);
-                case "NumP": return hb.Td(column: column, value: resultModel.NumP);
-                case "NumQ": return hb.Td(column: column, value: resultModel.NumQ);
-                case "NumR": return hb.Td(column: column, value: resultModel.NumR);
-                case "NumS": return hb.Td(column: column, value: resultModel.NumS);
-                case "NumT": return hb.Td(column: column, value: resultModel.NumT);
-                case "NumU": return hb.Td(column: column, value: resultModel.NumU);
-                case "NumV": return hb.Td(column: column, value: resultModel.NumV);
-                case "NumW": return hb.Td(column: column, value: resultModel.NumW);
-                case "NumX": return hb.Td(column: column, value: resultModel.NumX);
-                case "NumY": return hb.Td(column: column, value: resultModel.NumY);
-                case "NumZ": return hb.Td(column: column, value: resultModel.NumZ);
-                case "DateA": return hb.Td(column: column, value: resultModel.DateA);
-                case "DateB": return hb.Td(column: column, value: resultModel.DateB);
-                case "DateC": return hb.Td(column: column, value: resultModel.DateC);
-                case "DateD": return hb.Td(column: column, value: resultModel.DateD);
-                case "DateE": return hb.Td(column: column, value: resultModel.DateE);
-                case "DateF": return hb.Td(column: column, value: resultModel.DateF);
-                case "DateG": return hb.Td(column: column, value: resultModel.DateG);
-                case "DateH": return hb.Td(column: column, value: resultModel.DateH);
-                case "DateI": return hb.Td(column: column, value: resultModel.DateI);
-                case "DateJ": return hb.Td(column: column, value: resultModel.DateJ);
-                case "DateK": return hb.Td(column: column, value: resultModel.DateK);
-                case "DateL": return hb.Td(column: column, value: resultModel.DateL);
-                case "DateM": return hb.Td(column: column, value: resultModel.DateM);
-                case "DateN": return hb.Td(column: column, value: resultModel.DateN);
-                case "DateO": return hb.Td(column: column, value: resultModel.DateO);
-                case "DateP": return hb.Td(column: column, value: resultModel.DateP);
-                case "DateQ": return hb.Td(column: column, value: resultModel.DateQ);
-                case "DateR": return hb.Td(column: column, value: resultModel.DateR);
-                case "DateS": return hb.Td(column: column, value: resultModel.DateS);
-                case "DateT": return hb.Td(column: column, value: resultModel.DateT);
-                case "DateU": return hb.Td(column: column, value: resultModel.DateU);
-                case "DateV": return hb.Td(column: column, value: resultModel.DateV);
-                case "DateW": return hb.Td(column: column, value: resultModel.DateW);
-                case "DateX": return hb.Td(column: column, value: resultModel.DateX);
-                case "DateY": return hb.Td(column: column, value: resultModel.DateY);
-                case "DateZ": return hb.Td(column: column, value: resultModel.DateZ);
-                case "DescriptionA": return hb.Td(column: column, value: resultModel.DescriptionA);
-                case "DescriptionB": return hb.Td(column: column, value: resultModel.DescriptionB);
-                case "DescriptionC": return hb.Td(column: column, value: resultModel.DescriptionC);
-                case "DescriptionD": return hb.Td(column: column, value: resultModel.DescriptionD);
-                case "DescriptionE": return hb.Td(column: column, value: resultModel.DescriptionE);
-                case "DescriptionF": return hb.Td(column: column, value: resultModel.DescriptionF);
-                case "DescriptionG": return hb.Td(column: column, value: resultModel.DescriptionG);
-                case "DescriptionH": return hb.Td(column: column, value: resultModel.DescriptionH);
-                case "DescriptionI": return hb.Td(column: column, value: resultModel.DescriptionI);
-                case "DescriptionJ": return hb.Td(column: column, value: resultModel.DescriptionJ);
-                case "DescriptionK": return hb.Td(column: column, value: resultModel.DescriptionK);
-                case "DescriptionL": return hb.Td(column: column, value: resultModel.DescriptionL);
-                case "DescriptionM": return hb.Td(column: column, value: resultModel.DescriptionM);
-                case "DescriptionN": return hb.Td(column: column, value: resultModel.DescriptionN);
-                case "DescriptionO": return hb.Td(column: column, value: resultModel.DescriptionO);
-                case "DescriptionP": return hb.Td(column: column, value: resultModel.DescriptionP);
-                case "DescriptionQ": return hb.Td(column: column, value: resultModel.DescriptionQ);
-                case "DescriptionR": return hb.Td(column: column, value: resultModel.DescriptionR);
-                case "DescriptionS": return hb.Td(column: column, value: resultModel.DescriptionS);
-                case "DescriptionT": return hb.Td(column: column, value: resultModel.DescriptionT);
-                case "DescriptionU": return hb.Td(column: column, value: resultModel.DescriptionU);
-                case "DescriptionV": return hb.Td(column: column, value: resultModel.DescriptionV);
-                case "DescriptionW": return hb.Td(column: column, value: resultModel.DescriptionW);
-                case "DescriptionX": return hb.Td(column: column, value: resultModel.DescriptionX);
-                case "DescriptionY": return hb.Td(column: column, value: resultModel.DescriptionY);
-                case "DescriptionZ": return hb.Td(column: column, value: resultModel.DescriptionZ);
-                case "CheckA": return hb.Td(column: column, value: resultModel.CheckA);
-                case "CheckB": return hb.Td(column: column, value: resultModel.CheckB);
-                case "CheckC": return hb.Td(column: column, value: resultModel.CheckC);
-                case "CheckD": return hb.Td(column: column, value: resultModel.CheckD);
-                case "CheckE": return hb.Td(column: column, value: resultModel.CheckE);
-                case "CheckF": return hb.Td(column: column, value: resultModel.CheckF);
-                case "CheckG": return hb.Td(column: column, value: resultModel.CheckG);
-                case "CheckH": return hb.Td(column: column, value: resultModel.CheckH);
-                case "CheckI": return hb.Td(column: column, value: resultModel.CheckI);
-                case "CheckJ": return hb.Td(column: column, value: resultModel.CheckJ);
-                case "CheckK": return hb.Td(column: column, value: resultModel.CheckK);
-                case "CheckL": return hb.Td(column: column, value: resultModel.CheckL);
-                case "CheckM": return hb.Td(column: column, value: resultModel.CheckM);
-                case "CheckN": return hb.Td(column: column, value: resultModel.CheckN);
-                case "CheckO": return hb.Td(column: column, value: resultModel.CheckO);
-                case "CheckP": return hb.Td(column: column, value: resultModel.CheckP);
-                case "CheckQ": return hb.Td(column: column, value: resultModel.CheckQ);
-                case "CheckR": return hb.Td(column: column, value: resultModel.CheckR);
-                case "CheckS": return hb.Td(column: column, value: resultModel.CheckS);
-                case "CheckT": return hb.Td(column: column, value: resultModel.CheckT);
-                case "CheckU": return hb.Td(column: column, value: resultModel.CheckU);
-                case "CheckV": return hb.Td(column: column, value: resultModel.CheckV);
-                case "CheckW": return hb.Td(column: column, value: resultModel.CheckW);
-                case "CheckX": return hb.Td(column: column, value: resultModel.CheckX);
-                case "CheckY": return hb.Td(column: column, value: resultModel.CheckY);
-                case "CheckZ": return hb.Td(column: column, value: resultModel.CheckZ);
-                case "Comments": return hb.Td(column: column, value: resultModel.Comments);
-                case "Creator": return hb.Td(column: column, value: resultModel.Creator);
-                case "Updator": return hb.Td(column: column, value: resultModel.Updator);
-                case "CreatedTime": return hb.Td(column: column, value: resultModel.CreatedTime);
-                default: return hb;
+                return hb.TdCustomValue(
+                    ss: ss,
+                    gridDesign: column.GridDesign,
+                    resultModel: resultModel);
             }
+            else
+            {
+                switch (column.ColumnName)
+                {
+                    case "SiteId": return hb.Td(column: column, value: resultModel.SiteId);
+                    case "UpdatedTime": return hb.Td(column: column, value: resultModel.UpdatedTime);
+                    case "ResultId": return hb.Td(column: column, value: resultModel.ResultId);
+                    case "Ver": return hb.Td(column: column, value: resultModel.Ver);
+                    case "Title": return hb.Td(column: column, value: resultModel.Title);
+                    case "Body": return hb.Td(column: column, value: resultModel.Body);
+                    case "TitleBody": return hb.Td(column: column, value: resultModel.TitleBody);
+                    case "Status": return hb.Td(column: column, value: resultModel.Status);
+                    case "Manager": return hb.Td(column: column, value: resultModel.Manager);
+                    case "Owner": return hb.Td(column: column, value: resultModel.Owner);
+                    case "ClassA": return hb.Td(column: column, value: resultModel.ClassA);
+                    case "ClassB": return hb.Td(column: column, value: resultModel.ClassB);
+                    case "ClassC": return hb.Td(column: column, value: resultModel.ClassC);
+                    case "ClassD": return hb.Td(column: column, value: resultModel.ClassD);
+                    case "ClassE": return hb.Td(column: column, value: resultModel.ClassE);
+                    case "ClassF": return hb.Td(column: column, value: resultModel.ClassF);
+                    case "ClassG": return hb.Td(column: column, value: resultModel.ClassG);
+                    case "ClassH": return hb.Td(column: column, value: resultModel.ClassH);
+                    case "ClassI": return hb.Td(column: column, value: resultModel.ClassI);
+                    case "ClassJ": return hb.Td(column: column, value: resultModel.ClassJ);
+                    case "ClassK": return hb.Td(column: column, value: resultModel.ClassK);
+                    case "ClassL": return hb.Td(column: column, value: resultModel.ClassL);
+                    case "ClassM": return hb.Td(column: column, value: resultModel.ClassM);
+                    case "ClassN": return hb.Td(column: column, value: resultModel.ClassN);
+                    case "ClassO": return hb.Td(column: column, value: resultModel.ClassO);
+                    case "ClassP": return hb.Td(column: column, value: resultModel.ClassP);
+                    case "ClassQ": return hb.Td(column: column, value: resultModel.ClassQ);
+                    case "ClassR": return hb.Td(column: column, value: resultModel.ClassR);
+                    case "ClassS": return hb.Td(column: column, value: resultModel.ClassS);
+                    case "ClassT": return hb.Td(column: column, value: resultModel.ClassT);
+                    case "ClassU": return hb.Td(column: column, value: resultModel.ClassU);
+                    case "ClassV": return hb.Td(column: column, value: resultModel.ClassV);
+                    case "ClassW": return hb.Td(column: column, value: resultModel.ClassW);
+                    case "ClassX": return hb.Td(column: column, value: resultModel.ClassX);
+                    case "ClassY": return hb.Td(column: column, value: resultModel.ClassY);
+                    case "ClassZ": return hb.Td(column: column, value: resultModel.ClassZ);
+                    case "NumA": return hb.Td(column: column, value: resultModel.NumA);
+                    case "NumB": return hb.Td(column: column, value: resultModel.NumB);
+                    case "NumC": return hb.Td(column: column, value: resultModel.NumC);
+                    case "NumD": return hb.Td(column: column, value: resultModel.NumD);
+                    case "NumE": return hb.Td(column: column, value: resultModel.NumE);
+                    case "NumF": return hb.Td(column: column, value: resultModel.NumF);
+                    case "NumG": return hb.Td(column: column, value: resultModel.NumG);
+                    case "NumH": return hb.Td(column: column, value: resultModel.NumH);
+                    case "NumI": return hb.Td(column: column, value: resultModel.NumI);
+                    case "NumJ": return hb.Td(column: column, value: resultModel.NumJ);
+                    case "NumK": return hb.Td(column: column, value: resultModel.NumK);
+                    case "NumL": return hb.Td(column: column, value: resultModel.NumL);
+                    case "NumM": return hb.Td(column: column, value: resultModel.NumM);
+                    case "NumN": return hb.Td(column: column, value: resultModel.NumN);
+                    case "NumO": return hb.Td(column: column, value: resultModel.NumO);
+                    case "NumP": return hb.Td(column: column, value: resultModel.NumP);
+                    case "NumQ": return hb.Td(column: column, value: resultModel.NumQ);
+                    case "NumR": return hb.Td(column: column, value: resultModel.NumR);
+                    case "NumS": return hb.Td(column: column, value: resultModel.NumS);
+                    case "NumT": return hb.Td(column: column, value: resultModel.NumT);
+                    case "NumU": return hb.Td(column: column, value: resultModel.NumU);
+                    case "NumV": return hb.Td(column: column, value: resultModel.NumV);
+                    case "NumW": return hb.Td(column: column, value: resultModel.NumW);
+                    case "NumX": return hb.Td(column: column, value: resultModel.NumX);
+                    case "NumY": return hb.Td(column: column, value: resultModel.NumY);
+                    case "NumZ": return hb.Td(column: column, value: resultModel.NumZ);
+                    case "DateA": return hb.Td(column: column, value: resultModel.DateA);
+                    case "DateB": return hb.Td(column: column, value: resultModel.DateB);
+                    case "DateC": return hb.Td(column: column, value: resultModel.DateC);
+                    case "DateD": return hb.Td(column: column, value: resultModel.DateD);
+                    case "DateE": return hb.Td(column: column, value: resultModel.DateE);
+                    case "DateF": return hb.Td(column: column, value: resultModel.DateF);
+                    case "DateG": return hb.Td(column: column, value: resultModel.DateG);
+                    case "DateH": return hb.Td(column: column, value: resultModel.DateH);
+                    case "DateI": return hb.Td(column: column, value: resultModel.DateI);
+                    case "DateJ": return hb.Td(column: column, value: resultModel.DateJ);
+                    case "DateK": return hb.Td(column: column, value: resultModel.DateK);
+                    case "DateL": return hb.Td(column: column, value: resultModel.DateL);
+                    case "DateM": return hb.Td(column: column, value: resultModel.DateM);
+                    case "DateN": return hb.Td(column: column, value: resultModel.DateN);
+                    case "DateO": return hb.Td(column: column, value: resultModel.DateO);
+                    case "DateP": return hb.Td(column: column, value: resultModel.DateP);
+                    case "DateQ": return hb.Td(column: column, value: resultModel.DateQ);
+                    case "DateR": return hb.Td(column: column, value: resultModel.DateR);
+                    case "DateS": return hb.Td(column: column, value: resultModel.DateS);
+                    case "DateT": return hb.Td(column: column, value: resultModel.DateT);
+                    case "DateU": return hb.Td(column: column, value: resultModel.DateU);
+                    case "DateV": return hb.Td(column: column, value: resultModel.DateV);
+                    case "DateW": return hb.Td(column: column, value: resultModel.DateW);
+                    case "DateX": return hb.Td(column: column, value: resultModel.DateX);
+                    case "DateY": return hb.Td(column: column, value: resultModel.DateY);
+                    case "DateZ": return hb.Td(column: column, value: resultModel.DateZ);
+                    case "DescriptionA": return hb.Td(column: column, value: resultModel.DescriptionA);
+                    case "DescriptionB": return hb.Td(column: column, value: resultModel.DescriptionB);
+                    case "DescriptionC": return hb.Td(column: column, value: resultModel.DescriptionC);
+                    case "DescriptionD": return hb.Td(column: column, value: resultModel.DescriptionD);
+                    case "DescriptionE": return hb.Td(column: column, value: resultModel.DescriptionE);
+                    case "DescriptionF": return hb.Td(column: column, value: resultModel.DescriptionF);
+                    case "DescriptionG": return hb.Td(column: column, value: resultModel.DescriptionG);
+                    case "DescriptionH": return hb.Td(column: column, value: resultModel.DescriptionH);
+                    case "DescriptionI": return hb.Td(column: column, value: resultModel.DescriptionI);
+                    case "DescriptionJ": return hb.Td(column: column, value: resultModel.DescriptionJ);
+                    case "DescriptionK": return hb.Td(column: column, value: resultModel.DescriptionK);
+                    case "DescriptionL": return hb.Td(column: column, value: resultModel.DescriptionL);
+                    case "DescriptionM": return hb.Td(column: column, value: resultModel.DescriptionM);
+                    case "DescriptionN": return hb.Td(column: column, value: resultModel.DescriptionN);
+                    case "DescriptionO": return hb.Td(column: column, value: resultModel.DescriptionO);
+                    case "DescriptionP": return hb.Td(column: column, value: resultModel.DescriptionP);
+                    case "DescriptionQ": return hb.Td(column: column, value: resultModel.DescriptionQ);
+                    case "DescriptionR": return hb.Td(column: column, value: resultModel.DescriptionR);
+                    case "DescriptionS": return hb.Td(column: column, value: resultModel.DescriptionS);
+                    case "DescriptionT": return hb.Td(column: column, value: resultModel.DescriptionT);
+                    case "DescriptionU": return hb.Td(column: column, value: resultModel.DescriptionU);
+                    case "DescriptionV": return hb.Td(column: column, value: resultModel.DescriptionV);
+                    case "DescriptionW": return hb.Td(column: column, value: resultModel.DescriptionW);
+                    case "DescriptionX": return hb.Td(column: column, value: resultModel.DescriptionX);
+                    case "DescriptionY": return hb.Td(column: column, value: resultModel.DescriptionY);
+                    case "DescriptionZ": return hb.Td(column: column, value: resultModel.DescriptionZ);
+                    case "CheckA": return hb.Td(column: column, value: resultModel.CheckA);
+                    case "CheckB": return hb.Td(column: column, value: resultModel.CheckB);
+                    case "CheckC": return hb.Td(column: column, value: resultModel.CheckC);
+                    case "CheckD": return hb.Td(column: column, value: resultModel.CheckD);
+                    case "CheckE": return hb.Td(column: column, value: resultModel.CheckE);
+                    case "CheckF": return hb.Td(column: column, value: resultModel.CheckF);
+                    case "CheckG": return hb.Td(column: column, value: resultModel.CheckG);
+                    case "CheckH": return hb.Td(column: column, value: resultModel.CheckH);
+                    case "CheckI": return hb.Td(column: column, value: resultModel.CheckI);
+                    case "CheckJ": return hb.Td(column: column, value: resultModel.CheckJ);
+                    case "CheckK": return hb.Td(column: column, value: resultModel.CheckK);
+                    case "CheckL": return hb.Td(column: column, value: resultModel.CheckL);
+                    case "CheckM": return hb.Td(column: column, value: resultModel.CheckM);
+                    case "CheckN": return hb.Td(column: column, value: resultModel.CheckN);
+                    case "CheckO": return hb.Td(column: column, value: resultModel.CheckO);
+                    case "CheckP": return hb.Td(column: column, value: resultModel.CheckP);
+                    case "CheckQ": return hb.Td(column: column, value: resultModel.CheckQ);
+                    case "CheckR": return hb.Td(column: column, value: resultModel.CheckR);
+                    case "CheckS": return hb.Td(column: column, value: resultModel.CheckS);
+                    case "CheckT": return hb.Td(column: column, value: resultModel.CheckT);
+                    case "CheckU": return hb.Td(column: column, value: resultModel.CheckU);
+                    case "CheckV": return hb.Td(column: column, value: resultModel.CheckV);
+                    case "CheckW": return hb.Td(column: column, value: resultModel.CheckW);
+                    case "CheckX": return hb.Td(column: column, value: resultModel.CheckX);
+                    case "CheckY": return hb.Td(column: column, value: resultModel.CheckY);
+                    case "CheckZ": return hb.Td(column: column, value: resultModel.CheckZ);
+                    case "Comments": return hb.Td(column: column, value: resultModel.Comments);
+                    case "Creator": return hb.Td(column: column, value: resultModel.Creator);
+                    case "Updator": return hb.Td(column: column, value: resultModel.Updator);
+                    case "CreatedTime": return hb.Td(column: column, value: resultModel.CreatedTime);
+                    default: return hb;
+                }
+            }
+        }
+
+        public static HtmlBuilder TdCustomValue(
+            this HtmlBuilder hb, SiteSettings ss, string gridDesign, ResultModel resultModel)
+        {
+            ss.IncludedColumns(gridDesign).ForEach(column =>
+            {
+                var value = string.Empty;
+                switch (column.ColumnName)
+                {
+                    case "SiteId": value = resultModel.SiteId.GridText(column: column); break;
+                    case "UpdatedTime": value = resultModel.UpdatedTime.GridText(column: column); break;
+                    case "ResultId": value = resultModel.ResultId.GridText(column: column); break;
+                    case "Ver": value = resultModel.Ver.GridText(column: column); break;
+                    case "Title": value = resultModel.Title.GridText(column: column); break;
+                    case "Body": value = resultModel.Body.GridText(column: column); break;
+                    case "TitleBody": value = resultModel.TitleBody.GridText(column: column); break;
+                    case "Status": value = resultModel.Status.GridText(column: column); break;
+                    case "Manager": value = resultModel.Manager.GridText(column: column); break;
+                    case "Owner": value = resultModel.Owner.GridText(column: column); break;
+                    case "ClassA": value = resultModel.ClassA.GridText(column: column); break;
+                    case "ClassB": value = resultModel.ClassB.GridText(column: column); break;
+                    case "ClassC": value = resultModel.ClassC.GridText(column: column); break;
+                    case "ClassD": value = resultModel.ClassD.GridText(column: column); break;
+                    case "ClassE": value = resultModel.ClassE.GridText(column: column); break;
+                    case "ClassF": value = resultModel.ClassF.GridText(column: column); break;
+                    case "ClassG": value = resultModel.ClassG.GridText(column: column); break;
+                    case "ClassH": value = resultModel.ClassH.GridText(column: column); break;
+                    case "ClassI": value = resultModel.ClassI.GridText(column: column); break;
+                    case "ClassJ": value = resultModel.ClassJ.GridText(column: column); break;
+                    case "ClassK": value = resultModel.ClassK.GridText(column: column); break;
+                    case "ClassL": value = resultModel.ClassL.GridText(column: column); break;
+                    case "ClassM": value = resultModel.ClassM.GridText(column: column); break;
+                    case "ClassN": value = resultModel.ClassN.GridText(column: column); break;
+                    case "ClassO": value = resultModel.ClassO.GridText(column: column); break;
+                    case "ClassP": value = resultModel.ClassP.GridText(column: column); break;
+                    case "ClassQ": value = resultModel.ClassQ.GridText(column: column); break;
+                    case "ClassR": value = resultModel.ClassR.GridText(column: column); break;
+                    case "ClassS": value = resultModel.ClassS.GridText(column: column); break;
+                    case "ClassT": value = resultModel.ClassT.GridText(column: column); break;
+                    case "ClassU": value = resultModel.ClassU.GridText(column: column); break;
+                    case "ClassV": value = resultModel.ClassV.GridText(column: column); break;
+                    case "ClassW": value = resultModel.ClassW.GridText(column: column); break;
+                    case "ClassX": value = resultModel.ClassX.GridText(column: column); break;
+                    case "ClassY": value = resultModel.ClassY.GridText(column: column); break;
+                    case "ClassZ": value = resultModel.ClassZ.GridText(column: column); break;
+                    case "NumA": value = resultModel.NumA.GridText(column: column); break;
+                    case "NumB": value = resultModel.NumB.GridText(column: column); break;
+                    case "NumC": value = resultModel.NumC.GridText(column: column); break;
+                    case "NumD": value = resultModel.NumD.GridText(column: column); break;
+                    case "NumE": value = resultModel.NumE.GridText(column: column); break;
+                    case "NumF": value = resultModel.NumF.GridText(column: column); break;
+                    case "NumG": value = resultModel.NumG.GridText(column: column); break;
+                    case "NumH": value = resultModel.NumH.GridText(column: column); break;
+                    case "NumI": value = resultModel.NumI.GridText(column: column); break;
+                    case "NumJ": value = resultModel.NumJ.GridText(column: column); break;
+                    case "NumK": value = resultModel.NumK.GridText(column: column); break;
+                    case "NumL": value = resultModel.NumL.GridText(column: column); break;
+                    case "NumM": value = resultModel.NumM.GridText(column: column); break;
+                    case "NumN": value = resultModel.NumN.GridText(column: column); break;
+                    case "NumO": value = resultModel.NumO.GridText(column: column); break;
+                    case "NumP": value = resultModel.NumP.GridText(column: column); break;
+                    case "NumQ": value = resultModel.NumQ.GridText(column: column); break;
+                    case "NumR": value = resultModel.NumR.GridText(column: column); break;
+                    case "NumS": value = resultModel.NumS.GridText(column: column); break;
+                    case "NumT": value = resultModel.NumT.GridText(column: column); break;
+                    case "NumU": value = resultModel.NumU.GridText(column: column); break;
+                    case "NumV": value = resultModel.NumV.GridText(column: column); break;
+                    case "NumW": value = resultModel.NumW.GridText(column: column); break;
+                    case "NumX": value = resultModel.NumX.GridText(column: column); break;
+                    case "NumY": value = resultModel.NumY.GridText(column: column); break;
+                    case "NumZ": value = resultModel.NumZ.GridText(column: column); break;
+                    case "DateA": value = resultModel.DateA.GridText(column: column); break;
+                    case "DateB": value = resultModel.DateB.GridText(column: column); break;
+                    case "DateC": value = resultModel.DateC.GridText(column: column); break;
+                    case "DateD": value = resultModel.DateD.GridText(column: column); break;
+                    case "DateE": value = resultModel.DateE.GridText(column: column); break;
+                    case "DateF": value = resultModel.DateF.GridText(column: column); break;
+                    case "DateG": value = resultModel.DateG.GridText(column: column); break;
+                    case "DateH": value = resultModel.DateH.GridText(column: column); break;
+                    case "DateI": value = resultModel.DateI.GridText(column: column); break;
+                    case "DateJ": value = resultModel.DateJ.GridText(column: column); break;
+                    case "DateK": value = resultModel.DateK.GridText(column: column); break;
+                    case "DateL": value = resultModel.DateL.GridText(column: column); break;
+                    case "DateM": value = resultModel.DateM.GridText(column: column); break;
+                    case "DateN": value = resultModel.DateN.GridText(column: column); break;
+                    case "DateO": value = resultModel.DateO.GridText(column: column); break;
+                    case "DateP": value = resultModel.DateP.GridText(column: column); break;
+                    case "DateQ": value = resultModel.DateQ.GridText(column: column); break;
+                    case "DateR": value = resultModel.DateR.GridText(column: column); break;
+                    case "DateS": value = resultModel.DateS.GridText(column: column); break;
+                    case "DateT": value = resultModel.DateT.GridText(column: column); break;
+                    case "DateU": value = resultModel.DateU.GridText(column: column); break;
+                    case "DateV": value = resultModel.DateV.GridText(column: column); break;
+                    case "DateW": value = resultModel.DateW.GridText(column: column); break;
+                    case "DateX": value = resultModel.DateX.GridText(column: column); break;
+                    case "DateY": value = resultModel.DateY.GridText(column: column); break;
+                    case "DateZ": value = resultModel.DateZ.GridText(column: column); break;
+                    case "DescriptionA": value = resultModel.DescriptionA.GridText(column: column); break;
+                    case "DescriptionB": value = resultModel.DescriptionB.GridText(column: column); break;
+                    case "DescriptionC": value = resultModel.DescriptionC.GridText(column: column); break;
+                    case "DescriptionD": value = resultModel.DescriptionD.GridText(column: column); break;
+                    case "DescriptionE": value = resultModel.DescriptionE.GridText(column: column); break;
+                    case "DescriptionF": value = resultModel.DescriptionF.GridText(column: column); break;
+                    case "DescriptionG": value = resultModel.DescriptionG.GridText(column: column); break;
+                    case "DescriptionH": value = resultModel.DescriptionH.GridText(column: column); break;
+                    case "DescriptionI": value = resultModel.DescriptionI.GridText(column: column); break;
+                    case "DescriptionJ": value = resultModel.DescriptionJ.GridText(column: column); break;
+                    case "DescriptionK": value = resultModel.DescriptionK.GridText(column: column); break;
+                    case "DescriptionL": value = resultModel.DescriptionL.GridText(column: column); break;
+                    case "DescriptionM": value = resultModel.DescriptionM.GridText(column: column); break;
+                    case "DescriptionN": value = resultModel.DescriptionN.GridText(column: column); break;
+                    case "DescriptionO": value = resultModel.DescriptionO.GridText(column: column); break;
+                    case "DescriptionP": value = resultModel.DescriptionP.GridText(column: column); break;
+                    case "DescriptionQ": value = resultModel.DescriptionQ.GridText(column: column); break;
+                    case "DescriptionR": value = resultModel.DescriptionR.GridText(column: column); break;
+                    case "DescriptionS": value = resultModel.DescriptionS.GridText(column: column); break;
+                    case "DescriptionT": value = resultModel.DescriptionT.GridText(column: column); break;
+                    case "DescriptionU": value = resultModel.DescriptionU.GridText(column: column); break;
+                    case "DescriptionV": value = resultModel.DescriptionV.GridText(column: column); break;
+                    case "DescriptionW": value = resultModel.DescriptionW.GridText(column: column); break;
+                    case "DescriptionX": value = resultModel.DescriptionX.GridText(column: column); break;
+                    case "DescriptionY": value = resultModel.DescriptionY.GridText(column: column); break;
+                    case "DescriptionZ": value = resultModel.DescriptionZ.GridText(column: column); break;
+                    case "CheckA": value = resultModel.CheckA.GridText(column: column); break;
+                    case "CheckB": value = resultModel.CheckB.GridText(column: column); break;
+                    case "CheckC": value = resultModel.CheckC.GridText(column: column); break;
+                    case "CheckD": value = resultModel.CheckD.GridText(column: column); break;
+                    case "CheckE": value = resultModel.CheckE.GridText(column: column); break;
+                    case "CheckF": value = resultModel.CheckF.GridText(column: column); break;
+                    case "CheckG": value = resultModel.CheckG.GridText(column: column); break;
+                    case "CheckH": value = resultModel.CheckH.GridText(column: column); break;
+                    case "CheckI": value = resultModel.CheckI.GridText(column: column); break;
+                    case "CheckJ": value = resultModel.CheckJ.GridText(column: column); break;
+                    case "CheckK": value = resultModel.CheckK.GridText(column: column); break;
+                    case "CheckL": value = resultModel.CheckL.GridText(column: column); break;
+                    case "CheckM": value = resultModel.CheckM.GridText(column: column); break;
+                    case "CheckN": value = resultModel.CheckN.GridText(column: column); break;
+                    case "CheckO": value = resultModel.CheckO.GridText(column: column); break;
+                    case "CheckP": value = resultModel.CheckP.GridText(column: column); break;
+                    case "CheckQ": value = resultModel.CheckQ.GridText(column: column); break;
+                    case "CheckR": value = resultModel.CheckR.GridText(column: column); break;
+                    case "CheckS": value = resultModel.CheckS.GridText(column: column); break;
+                    case "CheckT": value = resultModel.CheckT.GridText(column: column); break;
+                    case "CheckU": value = resultModel.CheckU.GridText(column: column); break;
+                    case "CheckV": value = resultModel.CheckV.GridText(column: column); break;
+                    case "CheckW": value = resultModel.CheckW.GridText(column: column); break;
+                    case "CheckX": value = resultModel.CheckX.GridText(column: column); break;
+                    case "CheckY": value = resultModel.CheckY.GridText(column: column); break;
+                    case "CheckZ": value = resultModel.CheckZ.GridText(column: column); break;
+                    case "Comments": value = resultModel.Comments.GridText(column: column); break;
+                    case "Creator": value = resultModel.Creator.GridText(column: column); break;
+                    case "Updator": value = resultModel.Updator.GridText(column: column); break;
+                    case "CreatedTime": value = resultModel.CreatedTime.GridText(column: column); break;
+                }
+                gridDesign = gridDesign.Replace("[" + column.ColumnName + "]", value);
+            });
+            return hb.Td(action: () => hb
+                .Div(css: "markup", action: () => hb
+                    .Text(text: gridDesign)));
         }
 
         public static string EditorNew(SiteModel siteModel)
@@ -1041,7 +1213,10 @@ namespace Implem.Pleasanter.Models
                                                 resultModelHistory.Ver == resultModel.Ver),
                                         action: () => columns
                                             .ForEach(column => hb
-                                                .TdValue(column, resultModelHistory))))));
+                                                .TdValue(
+                                                    ss: ss,
+                                                    column: column,
+                                                    resultModel: resultModelHistory))))));
             return new ResultsResponseCollection(resultModel)
                 .Html("#FieldSetHistories", hb).ToJson();
         }
