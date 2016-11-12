@@ -1787,7 +1787,6 @@ namespace Implem.Pleasanter.Models
                             hb.TextBox(
                                 textType: HtmlTypes.TextTypes.MultiLine,
                                 controlId: "EditorColumnProperty,ChoicesText",
-                                controlCss: " choices",
                                 placeholder: Displays.SettingSelectionList(),
                                 text: column.ChoicesText);
                             break;
