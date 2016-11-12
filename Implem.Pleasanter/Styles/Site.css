@@ -1385,6 +1385,7 @@ pre{
 
 .md p{
     margin:0px 0px 10px 0px;
+    clear:both;
 }
 
 .md table{
