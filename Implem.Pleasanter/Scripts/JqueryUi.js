@@ -81,7 +81,6 @@
             var $control = $(this);
             var $viewer = $('[id="' + this.id + '.viewer"]');
             $viewer.html($p.markup($control.val()));
-            $p.resizeEditor($control, $viewer);
             $control.addClass('applied');
         });
         $('.markup:not(.applied)').each(function () {

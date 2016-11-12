@@ -13,6 +13,9 @@ $p.editMarkdown = function ($control) {
 $p.toggleEditor = function ($control, edit) {
     var id = $p.generalId($control);
     if ($('[id="' + id + '.editor"]').length !== 0) {
+        if (edit) {
+            $p.resizeEditor($('[id="' + id + '"]'), $('[id="' + id + '.viewer"]'));
+        }
         $('[id="' + id + '.viewer"]').toggle(!edit);
         $('[id="' + id + '.editor"]').toggle(!edit);
         $('[id="' + id + '"]').toggle(edit);
