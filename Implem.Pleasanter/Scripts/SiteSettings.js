@@ -22,7 +22,7 @@ $p.openSiteSettingsDialog = function ($control, selector, appendTo) {
 }
 
 $p.openGridColumnPropertiesDialog = function ($control) {
-    $p.openSiteSettingsDialog($control, '#GridColumnPropertiesDialog')
+    $p.openSiteSettingsDialog($control, '#GridColumnPropertiesDialog');
 }
 
 $p.setGridColumnProperties = function ($control) {
@@ -33,11 +33,11 @@ $p.setGridColumnProperties = function ($control) {
 }
 
 $p.openEditorColumnPropertiesDialog = function ($control) {
-    $p.openSiteSettingsDialog($control, '#EditorColumnPropertiesDialog')
+    $p.openSiteSettingsDialog($control, '#EditorColumnPropertiesDialog');
 }
 
 $p.openNotificationDialog = function ($control) {
-    $p.openSiteSettingsDialog($control, '#NotificationDialog', 'body')
+    $p.openSiteSettingsDialog($control, '#NotificationDialog', 'body');
 }
 
 $p.setAggregationDetails = function ($control) {
