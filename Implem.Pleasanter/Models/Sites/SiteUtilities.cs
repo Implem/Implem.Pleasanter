@@ -1762,20 +1762,23 @@ namespace Implem.Pleasanter.Models
                                 width: column.Width);
                             break;
                         case Types.CsString:
-                            hb
-                                .FieldTextBox(
-                                    controlId: "EditorColumnProperty,DefaultInput",
-                                    fieldCss: column.FieldCss,
-                                    labelText: Displays.DefaultInput(),
-                                    text: column.DefaultInput,
-                                    _using: !column.MarkDown)
-                                .FieldTextBox(
+                            if (column.MarkDown)
+                            {
+                                hb.FieldTextBox(
                                     textType: HtmlTypes.TextTypes.MultiLine,
                                     controlId: "EditorColumnProperty,DefaultInput",
                                     fieldCss: column.FieldCss,
                                     labelText: Displays.DefaultInput(),
-                                    text: column.DefaultInput,
-                                    _using: column.MarkDown);
+                                    text: column.DefaultInput);
+                            }
+                            else
+                            {
+                                hb.FieldTextBox(
+                                    controlId: "EditorColumnProperty,DefaultInput",
+                                    fieldCss: column.FieldCss,
+                                    labelText: Displays.DefaultInput(),
+                                    text: column.DefaultInput);
+                            }
                             break;
                     }
                     switch (column.ControlType)
