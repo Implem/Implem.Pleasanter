@@ -1784,10 +1784,11 @@ namespace Implem.Pleasanter.Models
                     switch (column.ControlType)
                     {
                         case "ChoicesText":
-                            hb.TextBox(
+                            hb.FieldTextBox(
                                 textType: HtmlTypes.TextTypes.MultiLine,
                                 controlId: "EditorColumnProperty,ChoicesText",
-                                placeholder: Displays.SettingSelectionList(),
+                                fieldCss: "field-wide",
+                                labelText: Displays.SettingSelectionList(),
                                 text: column.ChoicesText);
                             break;
                         default:
