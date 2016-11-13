@@ -304,6 +304,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
             switch (column.TypeName.CsTypeSummary())
             {
+                case Types.CsBool:
+                    return ControlTypes.CheckBox;
+                case Types.CsNumeric:
+                    return column.HasChoices()
+                        ? ControlTypes.DropDown
+                        : ControlTypes.TextBoxNumeric;
+                case Types.CsDateTime:
+                    return ControlTypes.TextBoxDateTime;
                 case Types.CsString:
                     return column.HasChoices()
                         ? ControlTypes.DropDown
@@ -313,14 +321,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                               column.Max.ToInt() >= Parameters.General.SizeToUseTextArea
                                 ? ControlTypes.TextBoxMultiLine
                                 : ControlTypes.TextBox;
-                case Types.CsNumeric:
-                    return column.HasChoices()
-                        ? ControlTypes.DropDown
-                        : ControlTypes.TextBoxNumeric;
-                case Types.CsDateTime:
-                    return ControlTypes.TextBoxDateTime;
-                case Types.CsBool:
-                    return ControlTypes.CheckBox;
                 default:
                     return ControlTypes.Text;
             }
