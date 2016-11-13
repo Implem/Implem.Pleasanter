@@ -196,9 +196,11 @@ namespace Implem.Pleasanter.Models
                             formData: formData))
                 .Hidden(
                     controlId: "GridOffset",
-                    value: ss.GridPageSize == userCollection.Count()
-                        ? ss.GridPageSize.ToString()
-                        : "-1");
+                    value: ss.GridNextOffset(
+                        0,
+                        userCollection.Count(),
+                        userCollection.Aggregations.TotalCount)
+                            .ToString());
         }
 
         public static string GridRows(
@@ -223,7 +225,10 @@ namespace Implem.Pleasanter.Models
                     formData: formData,
                     addHeader: offset == 0,
                     clearCheck: clearCheck))
-                .Val("#GridOffset", ss.NextPageOffset(offset, userCollection.Count()))
+                .Val("#GridOffset", ss.GridNextOffset(
+                    offset,
+                    userCollection.Count(),
+                    userCollection.Aggregations.TotalCount))
                 .ToJson();
         }
 

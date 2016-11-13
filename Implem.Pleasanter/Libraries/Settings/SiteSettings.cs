@@ -616,11 +616,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     o => GetColumn(o.ColumnName).LabelText));
         }
 
-        public int NextPageOffset(int gridOffset, int resultCount)
+        public int GridNextOffset(int offset, int count, int totalCount)
         {
-            return (resultCount > 0 && GridPageSize == resultCount
-                ? gridOffset + GridPageSize
-                : -1).ToInt();
+            return offset + count < totalCount
+                ? offset + GridPageSize.ToInt()
+                : -1;
         }
 
         public void Set(string propertyName, string value)
