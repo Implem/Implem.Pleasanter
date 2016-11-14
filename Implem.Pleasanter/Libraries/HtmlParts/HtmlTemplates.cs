@@ -140,10 +140,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder Title(
-            this HtmlBuilder hb,
-            Permissions.Types pt,
-            long siteId,
-            string text)
+            this HtmlBuilder hb, Permissions.Types pt, long siteId, string text)
         {
             if (text != string.Empty)
             {
