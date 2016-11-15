@@ -31,6 +31,11 @@ $p.setData = function ($control) {
                             data[controlId] = $control.val();
                         }
                         break;
+                    case 'OL':
+                        data[controlId] = $control.find('li').map(function () {
+                            return unescape($(this).text());
+                        }).get().join(';');
+                        break;
                     default:
                         data[controlId] = $control.val();
                         break;

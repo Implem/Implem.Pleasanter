@@ -32,6 +32,7 @@ namespace Implem.Pleasanter
                 "~/Scripts/_ControllEvents.js",
                 "~/Scripts/AggregationEvents.js",
                 "~/Scripts/AnchorEvents.js",
+                "~/Scripts/Basket.js",
                 "~/Scripts/BurnDown.js",
                 "~/Scripts/BurnDownEvents.js",
                 "~/Scripts/DataView.js",

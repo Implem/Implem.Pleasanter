@@ -46,21 +46,9 @@ $p.addMailAddress = function ($control, defaultMailAddresses) {
     if (mailAddresses) {
         mailAddresses.split(';').forEach(function (mailAddress) {
             if (mailAddress) {
-                $control.append(
-                    $('<li/>')
-                        .addClass('ui-widget-content ui-selectee')
-                        .append($('<span/>').text(mailAddress))
-                        .append($('<span/>')
-                            .addClass('ui-icon ui-icon-close button-delete-address')));
+                $p.addBasket($control, mailAddress);
             }
         });
     }
-    $p.setMailAddressData($control);
-}
-
-$p.setMailAddressData = function ($control) {
-    $p.getData($('#OutgoingMailForm'))[$control.attr('id')] =
-        $control.find('li').map(function () {
-            return unescape($(this).text());
-        }).get().join(';');
+    $p.setData($control);
 }
