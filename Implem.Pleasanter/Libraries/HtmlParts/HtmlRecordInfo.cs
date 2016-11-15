@@ -12,27 +12,41 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb, BaseModel baseModel, string tableName)
         {
             return hb
-                .Div(action: () => hb
-                    .P(action: () => hb
-                        .Displays_Create())
-                    .HtmlUser(baseModel.Creator.Id)
-                    .RecordTime(
-                        controlDateTime: Def.ColumnTable._Bases_CreatedTime.ControlFormat,
-                        controlId: tableName + "_CreatedTime",
-                        time: baseModel.CreatedTime))
-                .Div(action: () => hb
-                    .P(action: () => hb
-                        .Displays_Update())
-                    .HtmlUser(baseModel.Updator.Id)
-                    .RecordTime(
-                        controlDateTime: Def.ColumnTable._Bases_UpdatedTime.ControlFormat,
-                        controlId: tableName + "_UpdatedTime",
-                        time: baseModel.UpdatedTime));
+                .RecordedTime(
+                    controlId: tableName + "_CreatedTime",
+                    labelText: Displays.CreatedTime(),
+                    format: Def.ColumnTable._Bases_CreatedTime.ControlFormat,
+                    userId: baseModel.Creator.Id,
+                    time: baseModel.CreatedTime)
+                .RecordedTime(
+                    controlId: tableName + "_UpdatedTime",
+                    labelText: Displays.UpdatedTime(),
+                    format: Def.ColumnTable._Bases_UpdatedTime.ControlFormat,
+                    userId: baseModel.Updator.Id,
+                    time: baseModel.UpdatedTime);
         }
 
-        private static HtmlBuilder RecordTime(
+        private static HtmlBuilder RecordedTime(
             this HtmlBuilder hb,
-            string controlDateTime,
+            string controlId,
+            string labelText,
+            string format,
+            int userId,
+            Time time)
+        {
+            return hb.Div(action: () => hb
+                .P(action: () => hb
+                    .Text(labelText))
+                .HtmlUser(userId)
+                .RecordedTime(
+                    format: format,
+                    controlId: controlId,
+                    time: time));
+        }
+
+        private static HtmlBuilder RecordedTime(
+            this HtmlBuilder hb,
+            string format,
             string controlId,
             Time time)
         {
@@ -46,8 +60,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .DateTime(time.Value)
                                 .Class("time"),
                             action: () => hb
-                                .Text(time.ToViewText(
-                                    Displays.Get(controlDateTime + "Format")))))
+                                .Text(time.ToViewText(Displays.Get(format + "Format")))))
                     .P(action: () => hb
                         .ElapsedTime(time.DisplayValue));
             }
