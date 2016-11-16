@@ -33,7 +33,7 @@ $p.setData = function ($control) {
                         break;
                     case 'OL':
                         data[controlId] = $control.find('li').map(function () {
-                            return unescape($(this).text());
+                            return unescape($(this).attr('data-value'));
                         }).get().join(';');
                         break;
                     default:
