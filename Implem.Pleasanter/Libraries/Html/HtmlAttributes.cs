@@ -15,8 +15,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (value != null && _using)
             {
-                base.Add(name);
-                base.Add(value);
+                Add(name);
+                Add(value);
             }
             return this;
         }
@@ -27,8 +27,8 @@ namespace Implem.Pleasanter.Libraries.Html
             {
                 attributes.ForEach(attribute =>
                 {
-                    base.Add(attribute.Key);
-                    base.Add(attribute.Value);
+                    Add(attribute.Key);
+                    Add(attribute.Value);
                 });
             }
             return this;
@@ -38,10 +38,10 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("id");
-                base.Add(value);
-                base.Add("name");
-                base.Add(value);
+                Add("id");
+                Add(value);
+                Add("name");
+                Add(value);
             }
             return this;
         }
@@ -50,8 +50,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("class");
-                base.Add(value);
+                Add("class");
+                Add(value);
             }
             return this;
         }
@@ -60,8 +60,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("style");
-                base.Add(value);
+                Add("style");
+                Add(value);
             }
             return this;
         }
@@ -70,8 +70,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("type");
-                base.Add(value);
+                Add("type");
+                Add(value);
             }
             return this;
         }
@@ -80,8 +80,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("src");
-                base.Add(value);
+                Add("src");
+                Add(value);
             }
             return this;
         }
@@ -90,8 +90,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("value");
-                base.Add(HttpUtility.HtmlEncode(value));
+                Add("value");
+                Add(HttpUtility.HtmlEncode(value));
             }
             return this;
         }
@@ -100,8 +100,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("value");
-                base.Add(value);
+                Add("value");
+                Add(value);
             }
             return this;
         }
@@ -110,8 +110,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (_using)
             {
-                base.Add("data-max");
-                base.Add(value.ToString());
+                Add("data-max");
+                Add(value.ToString());
             }
             return this;
         }
@@ -120,8 +120,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (_using)
             {
-                base.Add("data-min");
-                base.Add(value.ToString());
+                Add("data-min");
+                Add(value.ToString());
             }
             return this;
         }
@@ -130,8 +130,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (_using)
             {
-                base.Add("data-step");
-                base.Add(value.ToString());
+                Add("data-step");
+                Add(value.ToString());
             }
             return this;
         }
@@ -140,7 +140,7 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (value && _using)
             {
-                base.Add("checked");
+                Add("checked");
             }
             return this;
         }
@@ -149,7 +149,7 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (value && _using)
             {
-                base.Add("selected");
+                Add("selected");
             }
             return this;
         }
@@ -158,8 +158,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (value && _using)
             {
-                base.Add("multiple");
-                base.Add("multiple");
+                Add("multiple");
+                Add("multiple");
             }
             return this;
         }
@@ -168,8 +168,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("action");
-                base.Add(value);
+                Add("action");
+                Add(value);
             }
             return this;
         }
@@ -178,8 +178,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("for");
-                base.Add(value);
+                Add("for");
+                Add(value);
             }
             return this;
         }
@@ -188,8 +188,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("href");
-                base.Add(value);
+                Add("href");
+                Add(value);
             }
             return this;
         }
@@ -198,8 +198,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("title");
-                base.Add(value);
+                Add("title");
+                Add(value);
             }
             return this;
         }
@@ -208,8 +208,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("placeholder");
-                base.Add(value);
+                Add("placeholder");
+                Add(value);
             }
             return this;
         }
@@ -218,8 +218,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("accesskey");
-                base.Add(value);
+                Add("accesskey");
+                Add(value);
             }
             return this;
         }
@@ -228,8 +228,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("onclick");
-                base.Add(value);
+                Add("onclick");
+                Add(value);
             }
             return this;
         }
@@ -238,8 +238,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("ondblclick");
-                base.Add(value);
+                Add("ondblclick");
+                Add(value);
             }
             return this;
         }
@@ -248,8 +248,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("onchange");
-                base.Add(value);
+                Add("onchange");
+                Add(value);
             }
             return this;
         }
@@ -258,8 +258,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (value && _using)
             {
-                base.Add("disabled");
-                base.Add("disabled");
+                Add("disabled");
+                Add("disabled");
             }
             return this;
         }
@@ -268,8 +268,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (value != 0 && _using)
             {
-                base.Add("colspan");
-                base.Add(value.ToString());
+                Add("colspan");
+                Add(value.ToString());
             }
             return this;
         }
@@ -278,8 +278,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (value.InRange() && _using)
             {
-                base.Add("datetime");
-                base.Add(value.ToString("s"));
+                Add("datetime");
+                Add(value.ToString("s"));
             }
             return this;
         }
@@ -288,8 +288,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("data-id");
-                base.Add(value);
+                Add("data-id");
+                Add(value);
             }
             return this;
         }
@@ -298,8 +298,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("data-type");
-                base.Add(value);
+                Add("data-type");
+                Add(value);
             }
             return this;
         }
@@ -308,8 +308,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("data-method");
-                base.Add(value);
+                Add("data-method");
+                Add(value);
             }
             return this;
         }
@@ -318,8 +318,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("data-action");
-                base.Add(value);
+                Add("data-action");
+                Add(value);
             }
             return this;
         }
@@ -328,8 +328,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("data-icon");
-                base.Add(value);
+                Add("data-icon");
+                Add(value);
             }
             return this;
         }
@@ -338,8 +338,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("data-selector");
-                base.Add(value);
+                Add("data-selector");
+                Add(value);
             }
             return this;
         }
@@ -348,8 +348,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("data-value");
-                base.Add(value);
+                Add("data-value");
+                Add(value);
             }
             return this;
         }
@@ -358,8 +358,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (_using)
             {
-                base.Add("data-ver");
-                base.Add(value.ToString());
+                Add("data-ver");
+                Add(value.ToString());
             }
             return this;
         }
@@ -368,8 +368,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (_using)
             {
-                base.Add("data-latest");
-                base.Add(value.ToString());
+                Add("data-latest");
+                Add(value.ToString());
             }
             return this;
         }
@@ -378,8 +378,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("data-confirm");
-                base.Add(value);
+                Add("data-confirm");
+                Add(value);
             }
             return this;
         }
@@ -388,8 +388,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("data-class");
-                base.Add(value);
+                Add("data-class");
+                Add(value);
             }
             return this;
         }
@@ -398,8 +398,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                base.Add("data-style");
-                base.Add(value);
+                Add("data-style");
+                Add(value);
             }
             return this;
         }
@@ -408,8 +408,8 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             if (_using)
             {
-                base.Add("data-width");
-                base.Add(value.ToString());
+                Add("data-width");
+                Add(value.ToString());
             }
             return this;
         }
