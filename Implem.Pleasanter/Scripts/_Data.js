@@ -32,9 +32,15 @@ $p.setData = function ($control) {
                         }
                         break;
                     case 'OL':
-                        data[controlId] = $control.find('li').map(function () {
-                            return unescape($(this).attr('data-value'));
-                        }).get().join(';');
+                        if ($control.hasClass('control-selectable')) {
+                            data[controlId] = $control.find('li.ui-selected').map(function () {
+                                return unescape($(this).val());
+                            }).get().join(';');
+                        } else {
+                            data[controlId] = $control.find('li').map(function () {
+                                return unescape($(this).attr('data-value'));
+                            }).get().join(';');
+                        }
                         break;
                     default:
                         data[controlId] = $control.val();
