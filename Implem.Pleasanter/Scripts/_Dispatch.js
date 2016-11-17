@@ -32,6 +32,9 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
         case 'PushState':
             history.pushState(target, '', value);
             break;
+        case 'SetData':
+            $p.setData($(target));
+            break;
         case 'SetFormData':
             data[target] = value;
             break;

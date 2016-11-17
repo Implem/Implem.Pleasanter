@@ -56,6 +56,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return _using ? Add("PushState", state, url) : this;
         }
 
+        public ResponseCollection SetData(string target, bool _using = true)
+        {
+            return _using ? Add("SetData", target) : this;
+        }
+
         public ResponseCollection SetFormData(string target, object value, bool _using = true)
         {
             return _using ? Add("SetFormData", target, value) : this;
