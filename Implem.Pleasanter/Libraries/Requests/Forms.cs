@@ -47,18 +47,18 @@ namespace Implem.Pleasanter.Libraries.Requests
             return Data(key).ToDateTime();
         }
 
-        public static IEnumerable<int> IntList(string name)
+        public static IEnumerable<int> IntList(string name, char delimiter = ',')
         {
-            return Forms.Data(name)
-                .Split(',')
+            return Data(name)
+                .Split(delimiter)
                 .Select(o => o.ToInt())
                 .Distinct();
         }
 
-        public static IEnumerable<long> LongList(string name)
+        public static IEnumerable<long> LongList(string name, char delimiter = ',')
         {
-            return Forms.Data(name)
-                .Split(',')
+            return Data(name)
+                .Split(delimiter)
                 .Select(o => o.ToLong())
                 .Distinct();
         }
