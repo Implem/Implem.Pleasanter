@@ -82,6 +82,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string GoBack(params string[] data) { return Get("GoBack", data); }
         public static HtmlBuilder Displays_Address(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Address", data)); }
         public static string Address(params string[] data) { return Get("Address", data); }
+        public static HtmlBuilder Displays_Token(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Token", data)); }
+        public static string Token(params string[] data) { return Get("Token", data); }
         public static HtmlBuilder Displays_Synchronize(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Synchronize", data)); }
         public static string Synchronize(params string[] data) { return Get("Synchronize", data); }
         public static HtmlBuilder Displays_Operations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Operations", data)); }
@@ -206,7 +208,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SettingTitleSeparator(params string[] data) { return Get("SettingTitleSeparator", data); }
         public static HtmlBuilder Displays_SettingAggregationList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingAggregationList", data)); }
         public static string SettingAggregationList(params string[] data) { return Get("SettingAggregationList", data); }
-        public static HtmlBuilder Displays_SettingNotGroupBy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingNotGroupBy", data)); }
+        public static HtmlBuilder Displays_SettingNotGroupBySlack(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingNotGroupBy", data)); }
         public static string SettingNotGroupBy(params string[] data) { return Get("SettingNotGroupBy", data); }
         public static HtmlBuilder Displays_SettingNearCompletionTimeBeforeDays(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingNearCompletionTimeBeforeDays", data)); }
         public static string SettingNearCompletionTimeBeforeDays(params string[] data) { return Get("SettingNearCompletionTimeBeforeDays", data); }
@@ -278,6 +280,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Hyphen(params string[] data) { return Get("Hyphen", data); }
         public static HtmlBuilder Displays_Slack(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Slack", data)); }
         public static string Slack(params string[] data) { return Get("Slack", data); }
+
+        public static HtmlBuilder Displays_ChatWorks(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ChatWorks", data)); }
+        public static string ChatWorks(params string[] data) { return Get("ChatWorks", data); }
+
         public static HtmlBuilder Displays_WebHookUrl(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("WebHookUrl", data)); }
         public static string WebHookUrl(params string[] data) { return Get("WebHookUrl", data); }
         public static HtmlBuilder Displays_Search(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Search", data)); }

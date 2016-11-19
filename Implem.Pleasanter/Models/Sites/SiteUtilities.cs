@@ -2180,7 +2180,8 @@ namespace Implem.Pleasanter.Models
                         optionCollection: new Dictionary<string, string>
                         {
                             { Notification.Types.Mail.ToInt().ToString(), Displays.Mail() },
-                            { Notification.Types.Slack.ToInt().ToString(), Displays.Slack() }
+                            { Notification.Types.Slack.ToInt().ToString(), Displays.Slack() },
+                            { Notification.Types.ChatWorks.ToInt().ToString(), Displays.ChatWorks() }
                         },
                         selectedValue: notification.Type.ToInt().ToString(),
                         disabled: controlId == "EditNotification")
@@ -2195,6 +2196,18 @@ namespace Implem.Pleasanter.Models
                         controlCss: " must-transport",
                         labelText: Displays.Address(),
                         text: notification.Address)
+                    .FieldTextBox(
+                        fieldId: "NotificationTokenField",
+                        controlId: "NotificationToken",
+                        fieldCss: "field-wide" + (!TokenList().Contains(notification.Type.ToInt())
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " must-transport",
+                        labelText: Displays.Token(),
+                        text: notification.Token)
+                    .Hidden(
+                        controlId: "NotificationTokenEnableList",
+                        value: TokenList().Join())
                     .FieldSet(
                         css: " enclosed",
                         legendText: Displays.MonitorChangesColumns(),
@@ -2282,6 +2295,14 @@ namespace Implem.Pleasanter.Models
                             controlCss: "button-icon",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static IEnumerable<int> TokenList()
+        {
+            return new List<int> { Notification.Types.ChatWorks.ToInt() };
         }
 
         /// <summary>
