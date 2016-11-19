@@ -100,6 +100,7 @@ namespace Implem.Pleasanter.Libraries.Images
                 var x = ((size - width) / 2).ToInt();
                 var y = ((size - height) / 2).ToInt();
                 var resizedImage = new Bitmap(size.ToInt(), size.ToInt());
+                resizedImage.MakeTransparent();
                 using (var graphics = Graphics.FromImage(resizedImage))
                 {
                     graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
