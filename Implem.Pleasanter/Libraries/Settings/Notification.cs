@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Security.Principal;
+
 namespace Implem.Pleasanter.Libraries.Settings
 {
     [Serializable()]
@@ -15,20 +17,23 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Types Type;
         public string Prefix;
         public string Address;
+        public string Token;
         public List<string> MonitorChangesColumns;
 
         public enum Types : int
         {
             Mail = 1,
-            Slack = 2
+            Slack = 2,
+            ChatWorks = 3
         }
 
         public Notification(
-            Types type, string prefix, string address, List<string> monitorChangesColumns)
+            Types type, string prefix, string address, string token, List<string> monitorChangesColumns)
         {
             Type = type;
             Prefix = prefix;
             Address = address;
+            Token = token;
             MonitorChangesColumns = monitorChangesColumns;
             MonitorChangesColumns = monitorChangesColumns;
         }
@@ -43,10 +48,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
         }
 
-        public void Update(string prefix, string address, List<string> columns)
+        public void Update(string prefix, string address, string token, List<string> columns )
         {
             Prefix = prefix;
             Address = address;
+            Token = token;
             MonitorChangesColumns = columns;
         }
 
@@ -71,6 +77,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case Types.Slack:
                     new Slack("*{0}{1}*\n{2}\n{3}".Params(Prefix, title, url, body), from)
                         .Send(Address);
+                    break;
+                case Types.ChatWorks:
+                    //new ChatWorks("*{0}{1}*\n{2}\n{3}".Params(Prefix, title, url, body), from)
+                    //    .Send(Address);
                     break;
                 default:
                     break;
