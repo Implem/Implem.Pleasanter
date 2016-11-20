@@ -12,17 +12,14 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public int Creator;
         public string Body;
 
-        public HtmlBuilder Html(
-            HtmlBuilder hb,
-            string controlId = "",
-            Action action = null)
+        public HtmlBuilder Html(HtmlBuilder hb, string controlId = "", Action action = null)
         {
             return hb.Div(
                 id: controlId,
                 css: "comment",
                 action: () =>
                 {
-                    if (action != null) action();
+                    action?.Invoke();
                     hb
                         .P(css: "time", action: () => hb
                             .Text(text: CreatedTimeDisplayValue()))
