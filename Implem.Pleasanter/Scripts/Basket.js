@@ -6,6 +6,6 @@
         .addClass('ui-widget-content ui-selectee')
         .append($('<span/>').text(text))
         .append($('<span/>')
-            .addClass('ui-icon ui-icon-close button-delete-address')));
+            .addClass('ui-icon ui-icon-close delete')));
     $p.setData($control);
 }
