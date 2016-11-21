@@ -79,8 +79,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Send(Address);
                     break;
                 case Types.ChatWorks:
-                    //new ChatWorks("*{0}{1}*\n{2}\n{3}".Params(Prefix, title, url, body), from)
-                    //    .Send(Address);
+                    new ChatWork("*{0}{1}*\n{2}\n{3}".Params(Prefix, title, url, body), from,Token)
+                        .Send(Address);
                     break;
                 default:
                     break;
