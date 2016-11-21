@@ -160,11 +160,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return column.DisplayGrid(DisplayValue);
         }
 
-        public override string ToNotice(
-            DateTime saved,
-            Column column,
-            bool updated,
-            bool update)
+        public override string ToNotice(DateTime saved, Column column, bool updated, bool update)
         {
             return column.DisplayExport(DisplayValue).ToNoticeLine(
                 column.DisplayExport(saved.ToLocal().AddDays(-1)),
