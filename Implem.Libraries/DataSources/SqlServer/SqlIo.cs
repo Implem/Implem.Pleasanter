@@ -241,11 +241,11 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             lock (this)
             {
-                if (this.disposed)
+                if (disposed)
                 {
                     return;
                 }
-                this.disposed = true;
+                disposed = true;
                 if (disposing)
                 {
                     SqlCommand.Dispose();
