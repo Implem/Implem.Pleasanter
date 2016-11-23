@@ -72,17 +72,17 @@ $(function () {
         var $control = $($(this).parent().attr('data-target'));
         var data = $p.getData($control);
         data[$control.attr('id')] = $(this).attr('data-order-type');
-        $p.send($('#DataViewSorter'));
+        $p.send($('#ViewSorter'));
         delete data[$control.attr('id')];
         e.stopPropagation();
     });
     $(document).on('click', '.menu-sort > li.reset', function (e) {
         var data = $p.getData($(this));
-        $('[id^="DataViewSorters_"]').each(function () {
+        $('[id^="ViewSorters_"]').each(function () {
             data[this.id] = '';
         });
-        $p.send($('#DataViewSorters_Reset'));
-        $('[id^="DataViewSorters_"]').each(function () {
+        $p.send($('#ViewSorters_Reset'));
+        $('[id^="ViewSorters_"]').each(function () {
             delete data[this.id];
         });
         e.stopPropagation();

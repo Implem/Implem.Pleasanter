@@ -539,7 +539,7 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.EditorSettingsEditor()))
                                 .Li(action: () => hb
                                     .A(
-                                        href: "#DataViewSettingsEditor",
+                                        href: "#ViewSettingsEditor",
                                         text: Displays.DataView()))
                                 .Li(action: () => hb
                                     .A(
@@ -1051,7 +1051,7 @@ namespace Implem.Pleasanter.Models
                 .CopyDialog("items", siteModel.SiteId)
                 .OutgoingMailDialog()
                 .Div(attributes: new HtmlAttributes()
-                    .Id("DataViewDialog")
+                    .Id("ViewDialog")
                     .Class("dialog")
                     .Title(Displays.DataView()))
                 .Div(attributes: new HtmlAttributes()
@@ -1147,7 +1147,7 @@ namespace Implem.Pleasanter.Models
                         hb
                             .GridSettingsEditor(siteModel.SiteSettings)
                             .EditorSettingsEditor(siteModel.SiteSettings)
-                            .DataViewSettingsEditor(siteModel.SiteSettings)
+                            .ViewSettingsEditor(siteModel.SiteSettings)
                             .NotificationSettingsEditor(siteModel.SiteSettings)
                             .SummarySettingsEditor(siteModel.SiteSettings)
                             .MailerSettingsEditor(siteModel.SiteSettings)
@@ -2145,22 +2145,22 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder DataViewSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder ViewSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
-                id: "DataViewSettingsEditor",
+                id: "ViewSettingsEditor",
                 action: () => hb
                     .FieldSelectable(
-                        controlId: "DataViews",
+                        controlId: "Views",
                         fieldCss: "field-vertical w400",
                         controlContainerCss: "container-selectable",
                         controlWrapperCss: " h350",
-                        listItemCollection: ss.DataViewSelectableOptions(),
+                        listItemCollection: ss.ViewSelectableOptions(),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
                                 .Button(
-                                    controlId: "MoveUpDataView",
+                                    controlId: "MoveUpView",
                                     text: Displays.MoveUp(),
                                     controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
@@ -2168,7 +2168,7 @@ namespace Implem.Pleasanter.Models
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
-                                    controlId: "MoveDownDataView",
+                                    controlId: "MoveDownView",
                                     text: Displays.MoveDown(),
                                     controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
@@ -2176,23 +2176,23 @@ namespace Implem.Pleasanter.Models
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
-                                    controlId: "NewDataView",
+                                    controlId: "NewView",
                                     text: Displays.New(),
                                     controlCss: "button-icon",
-                                    onClick: "$p.openDataViewDialog($(this));",
+                                    onClick: "$p.openViewDialog($(this));",
                                     icon: "ui-icon-gear",
                                     action: "SetSiteSettings",
                                     method: "put")
                                 .Button(
-                                    controlId: "EditDataView",
+                                    controlId: "EditView",
                                     text: Displays.AdvancedSetting(),
                                     controlCss: "button-icon",
-                                    onClick: "$p.openDataViewDialog($(this));",
+                                    onClick: "$p.openViewDialog($(this));",
                                     icon: "ui-icon-gear",
                                     action: "SetSiteSettings",
                                     method: "put")
                                 .Button(
-                                    controlId: "DeleteDataView",
+                                    controlId: "DeleteView",
                                     text: Displays.Delete(),
                                     controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
@@ -2204,58 +2204,58 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder DataViewDialog(
+        public static HtmlBuilder ViewDialog(
             SiteSettings ss,
             string controlId,
-            Libraries.Settings.DataView dataView)
+            Libraries.Settings.View view)
         {
             var hb = new HtmlBuilder();
             return hb.Form(
                 attributes: new HtmlAttributes()
-                    .Id("DataViewForm")
+                    .Id("ViewForm")
                     .Action(Locations.ItemAction(ss.SiteId)),
                 action: () => hb
                     .FieldText(
-                        controlId: "DataViewId",
+                        controlId: "ViewId",
                         controlCss: " must-transport",
                         labelText: Displays.Id(),
-                        text: dataView.Id.ToString())
+                        text: view.Id.ToString())
                     .FieldTextBox(
-                        controlId: "DataViewName",
+                        controlId: "ViewName",
                         labelText: Displays.Name(),
-                        text: dataView.Name)
-                    .Div(id: "DataViewTabsContainer", action: () => hb
-                        .Ul(id: "DataViewTabs", action: () => hb
+                        text: view.Name)
+                    .Div(id: "ViewTabsContainer", action: () => hb
+                        .Ul(id: "ViewTabs", action: () => hb
                             .Li(action: () => hb
                                 .A(
-                                    href: "#DataViewFiltersTab",
+                                    href: "#ViewFiltersTab",
                                     text: Displays.Filters()))
                             .Li(action: () => hb
                                 .A(
-                                    href: "#DataViewSortersTab",
+                                    href: "#ViewSortersTab",
                                     text: Displays.Sorters())))
-                        .DataViewFiltersTab(ss: ss, dataView: dataView)
-                        .DataViewSortersTab(ss: ss, dataView: dataView))
+                        .ViewFiltersTab(ss: ss, view: view)
+                        .ViewSortersTab(ss: ss, view: view))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
-                            controlId: "CreateDataView",
+                            controlId: "CreateView",
                             text: Displays.Setting(),
                             controlCss: "button-icon validate",
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
                             method: "post",
-                            _using: controlId == "NewDataView")
+                            _using: controlId == "NewView")
                         .Button(
-                            controlId: "UpdateDataView",
+                            controlId: "UpdateView",
                             text: Displays.Setting(),
                             controlCss: "button-icon validate",
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
                             method: "post",
-                            _using: controlId == "EditDataView")
+                            _using: controlId == "EditView")
                         .Button(
                             text: Displays.Cancel(),
                             controlCss: "button-icon",
@@ -2266,59 +2266,59 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder DataViewFiltersTab(
-            this HtmlBuilder hb, SiteSettings ss, Libraries.Settings.DataView dataView)
+        private static HtmlBuilder ViewFiltersTab(
+            this HtmlBuilder hb, SiteSettings ss, Libraries.Settings.View view)
         {
-            return hb.FieldSet(id: "DataViewFiltersTab", action: () => hb
+            return hb.FieldSet(id: "ViewFiltersTab", action: () => hb
                 .Div(css: "items", action: () => hb
                     .FieldCheckBox(
-                        controlId: "DataViewFilters_Incomplete",
+                        controlId: "ViewFilters_Incomplete",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.Incomplete(),
-                        _checked: dataView.Incomplete.ToBool(),
+                        _checked: view.Incomplete.ToBool(),
                         labelPositionIsRight: true)
                     .FieldCheckBox(
-                        controlId: "DataViewFilters_Own",
+                        controlId: "ViewFilters_Own",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.Own(),
-                        _checked: dataView.Own.ToBool(),
+                        _checked: view.Own.ToBool(),
                         labelPositionIsRight: true)
                     .FieldCheckBox(
-                        controlId: "DataViewFilters_NearCompletionTime",
+                        controlId: "ViewFilters_NearCompletionTime",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.NearCompletionTime(),
-                        _checked: dataView.NearCompletionTime.ToBool(),
+                        _checked: view.NearCompletionTime.ToBool(),
                         labelPositionIsRight: true)
                     .FieldCheckBox(
-                        controlId: "DataViewFilters_Delay",
+                        controlId: "ViewFilters_Delay",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.Delay(),
-                        _checked: dataView.Delay.ToBool(),
+                        _checked: view.Delay.ToBool(),
                         labelPositionIsRight: true)
                     .FieldCheckBox(
-                        controlId: "DataViewFilters_Overdue",
+                        controlId: "ViewFilters_Overdue",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.Overdue(),
-                        _checked: dataView.Overdue.ToBool(),
+                        _checked: view.Overdue.ToBool(),
                         labelPositionIsRight: true)
                     .FieldTextBox(
-                        controlId: "DataViewFilters_Search",
+                        controlId: "ViewFilters_Search",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.Search(),
-                        text: dataView.Search)
-                    .DataViewColumnFilters(ss: ss, dataView: dataView))
+                        text: view.Search)
+                    .ViewColumnFilters(ss: ss, view: view))
                 .Div(css: "both", action: () => hb
                     .FieldDropDown(
-                        controlId: "DataViewFilterSelector",
+                        controlId: "ViewFilterSelector",
                         fieldCss: "field-auto-thin",
                         controlCss: " must-transport",
                         optionCollection: ColumnUtilities.FilterDefinitions(ss.ReferenceType)
-                            .Where(o => !dataView.FilterContains(o.ColumnName))
+                            .Where(o => !view.FilterContains(o.ColumnName))
                             .ToDictionary(
                                 o => o.ColumnName,
                                 o => ss.GetColumn(o.ColumnName).LabelText))
                     .Button(
-                        controlId: "AddDataViewFilter",
+                        controlId: "AddViewFilter",
                         controlCss: "button-icon",
                         text: Displays.Add(),
                         onClick: "$p.send($(this));",
@@ -2330,31 +2330,31 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder DataViewColumnFilters(
-            this HtmlBuilder hb, SiteSettings ss, Libraries.Settings.DataView dataView)
+        public static HtmlBuilder ViewColumnFilters(
+            this HtmlBuilder hb, SiteSettings ss, View view)
         {
-            dataView.ColumnFilterHash?.ForEach(data => hb
-                .DataViewFilter(ss.GetColumn(data.Key), data.Value));
+            view.ColumnFilterHash?.ForEach(data => hb
+                .ViewFilter(ss.GetColumn(data.Key), data.Value));
             return hb;
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder DataViewFilter(
+        public static HtmlBuilder ViewFilter(
             this HtmlBuilder hb, Column column, string value = null)
         {
             switch (column.TypeName.CsTypeSummary())
             {
                 case Types.CsBool:
                     return hb.FieldCheckBox(
-                        controlId: "DataViewFilters_" + column.Id,
+                        controlId: "ViewFilters_" + column.Id,
                         fieldCss: "field-auto-thin",
                         labelText: Displays.Get(column.GridLabelText),
                         _checked: value.ToBool());
                 case Types.CsDateTime:
                     return hb.FieldDropDown(
-                        controlId: "DataViewFilters_" + column.Id,
+                        controlId: "ViewFilters_" + column.Id,
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
                         labelText: Displays.Get(column.GridLabelText),
@@ -2366,7 +2366,7 @@ namespace Implem.Pleasanter.Models
                 case Types.CsString:
                     return column.HasChoices()
                         ? hb.FieldDropDown(
-                            controlId: "DataViewFilters_" + column.Id,
+                            controlId: "ViewFilters_" + column.Id,
                             fieldCss: "field-auto-thin",
                             controlCss: " auto-postback",
                             labelText: Displays.Get(column.GridLabelText),
@@ -2375,7 +2375,7 @@ namespace Implem.Pleasanter.Models
                             multiple: true,
                             addSelectedValue: false)
                         : hb.FieldTextBox(
-                            controlId: "DataViewFilters_" + column.Id,
+                            controlId: "ViewFilters_" + column.Id,
                             fieldCss: "field-auto-thin",
                             labelText: Displays.Get(column.GridLabelText),
                             text: value);
@@ -2387,17 +2387,17 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder DataViewSortersTab(
-            this HtmlBuilder hb, SiteSettings ss, Libraries.Settings.DataView dataView)
+        private static HtmlBuilder ViewSortersTab(
+            this HtmlBuilder hb, SiteSettings ss, View view)
         {
             return hb.FieldSet(
-                id: "DataViewSortersTab",
+                id: "ViewSortersTab",
                 action: () => hb
                     .FieldBasket(
-                        controlId: "DataViewSorters",
+                        controlId: "ViewSorters",
                         fieldCss: "field-wide",
                         controlCss: "control-basket cf",
-                        listItemCollection: dataView.ColumnSorterHash?.ToDictionary(
+                        listItemCollection: view.ColumnSorterHash?.ToDictionary(
                             o => "{0},{1}".Params(o.Key, o.Value),
                             o => "{0}({1})".Params(
                                 ss.GetColumn(o.Key)?.LabelText,
@@ -2405,16 +2405,16 @@ namespace Implem.Pleasanter.Models
                         labelAction: () => hb
                             .Displays_Sorters())
                     .FieldDropDown(
-                        controlId: "DataViewSorterSelector",
+                        controlId: "ViewSorterSelector",
                         fieldCss: "field-auto-thin",
                         controlCss: " must-transport",
                         optionCollection: ColumnUtilities.GridDefinitions(ss.ReferenceType)
-                            .Where(o => !dataView.SorterContains(o.ColumnName))
+                            .Where(o => !view.SorterContains(o.ColumnName))
                             .ToDictionary(
                                 o => o.ColumnName,
                                 o => ss.GetColumn(o.ColumnName).LabelText))
                     .FieldDropDown(
-                        controlId: "DataViewSorterOrderTypes",
+                        controlId: "ViewSorterOrderTypes",
                         fieldCss: "field-auto-thin",
                         controlCss: " must-transport",
                         optionCollection: new Dictionary<string, string>
@@ -2423,7 +2423,7 @@ namespace Implem.Pleasanter.Models
                             { "Desc", Displays.OrderDesc() }
                         })
                     .Button(
-                        controlId: "AddDataViewSorter",
+                        controlId: "AddViewSorter",
                         controlCss: "button-icon",
                         text: Displays.Add(),
                         icon: "ui-icon-plus"));
@@ -2432,14 +2432,14 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static ResponseCollection DataViewResponses(
+        public static ResponseCollection ViewResponses(
             this ResponseCollection res, SiteSettings ss, IEnumerable<int> selected = null)
         {
             return res
-                .Html("#DataViews", new HtmlBuilder().SelectableItems(
-                    listItemCollection: ss.DataViewSelectableOptions(),
+                .Html("#Views", new HtmlBuilder().SelectableItems(
+                    listItemCollection: ss.ViewSelectableOptions(),
                     selectedValueTextCollection: selected?.Select(o => o.ToString())))
-                .SetData("#DataViews");
+                .SetData("#Views");
         }
 
         /// <summary>

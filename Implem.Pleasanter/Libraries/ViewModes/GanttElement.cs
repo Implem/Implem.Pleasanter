@@ -4,7 +4,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
-namespace Implem.Pleasanter.Libraries.DataViews
+namespace Implem.Pleasanter.Libraries.ViewModes
 {
     public class GanttElement
     {

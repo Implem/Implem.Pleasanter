@@ -14,7 +14,7 @@ using System.Web;
 namespace Implem.Pleasanter.Libraries.Settings
 {
     [Serializable]
-    public class DataView
+    public class View
     {
         public int Id;
         public string Name;
@@ -28,22 +28,22 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, SqlOrderBy.Types> ColumnSorterHash =
             new Dictionary<string, SqlOrderBy.Types>();
 
-        public DataView()
+        public View()
         {
         }
 
-        public DataView(SiteSettings ss)
+        public View(SiteSettings ss)
         {
             SetByForm(ss);
         }
 
         public void SetByForm(SiteSettings ss)
         {
-            var columnFilterPrefix = "DataViewFilters_{0}_".Params(ss.ReferenceType);
-            var columnSorterPrefix = "DataViewSorters_{0}_".Params(ss.ReferenceType);
+            var columnFilterPrefix = "ViewFilters_{0}_".Params(ss.ReferenceType);
+            var columnSorterPrefix = "ViewSorters_{0}_".Params(ss.ReferenceType);
             switch (Forms.Data("ControlId"))
             {
-                case "DataViewFilters_Reset":
+                case "ViewFilters_Reset":
                     Incomplete = null;
                     Own = null;
                     NearCompletionTime = null;
@@ -52,7 +52,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ColumnFilterHash = null;
                     Search = null;
                     break;
-                case "DataViewSorters_Reset":
+                case "ViewSorters_Reset":
                     ColumnSorterHash = null;
                     break;
             }
@@ -60,28 +60,28 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 switch (controlId)
                 {
-                    case "DataViewName":
+                    case "ViewName":
                         Name = String(controlId);
                         break;
-                    case "DataViewFilters_Incomplete":
+                    case "ViewFilters_Incomplete":
                         Incomplete = Bool(controlId);
                         break;
-                    case "DataViewFilters_Own":
+                    case "ViewFilters_Own":
                         Own = Bool(controlId);
                         break;
-                    case "DataViewFilters_NearCompletionTime":
+                    case "ViewFilters_NearCompletionTime":
                         NearCompletionTime = Bool(controlId);
                         break;
-                    case "DataViewFilters_Delay":
+                    case "ViewFilters_Delay":
                         Delay = Bool(controlId);
                         break;
-                    case "DataViewFilters_Overdue":
+                    case "ViewFilters_Overdue":
                         Overdue = Bool(controlId);
                         break;
-                    case "DataViewFilters_Search":
+                    case "ViewFilters_Search":
                         Search = String(controlId);
                         break;
-                    case "DataViewSorters":
+                    case "ViewSorters":
                         SetSorters(ss);
                         break;
                     default:
@@ -214,7 +214,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         private void SetSorters(SiteSettings ss)
         {
             ColumnSorterHash.Clear();
-            Forms.Data("DataViewSorters").Split(';').ForEach(data =>
+            Forms.Data("ViewSorters").Split(';').ForEach(data =>
             {
                 var columnName = data.Split_1st();
                 var type = OrderByType(data.Split_2nd());
@@ -323,7 +323,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private SqlWhereCollection ColumnsWhere(SiteSettings ss, SqlWhereCollection where)
         {
-            var prefix = "DataViewFilters_" + ss.ReferenceType + "_";
+            var prefix = "ViewFilters_" + ss.ReferenceType + "_";
             var prefixLength = prefix.Length;
             ColumnFilterHash?
                 .Select(data => new

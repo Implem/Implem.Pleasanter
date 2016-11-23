@@ -5,25 +5,24 @@ using Implem.Pleasanter.Libraries.Settings;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
-    public static class HtmlDataView
+    public static class HtmlView
     {
-        public static HtmlBuilder DataViewSelector(
-            this HtmlBuilder hb, SiteSettings ss, DataView dataView)
+        public static HtmlBuilder ViewSelector(this HtmlBuilder hb, SiteSettings ss, View view)
         {
             return hb.FieldDropDown(
-                fieldId: "DataViewSelectorField",
-                controlId: "DataViewSelector",
+                fieldId: "ViewSelectorField",
+                controlId: "ViewSelector",
                 fieldCss: "field-auto-thin",
                 controlCss: " auto-postback",
                 labelText: Displays.DataView(),
-                optionCollection: ss.DataViews?.ToDictionary(o =>
+                optionCollection: ss.Views?.ToDictionary(o =>
                     o.Id.ToString(), o => o.Name),
-                selectedValue: ss.DataViews?.FirstOrDefault(o =>
-                    o.ToJson() == dataView.ToJson())?.Id.ToString(),
+                selectedValue: ss.Views?.FirstOrDefault(o =>
+                    o.ToJson() == view.ToJson())?.Id.ToString(),
                 addSelectedValue: false,
                 insertBlank: true,
                 method: "post",
-                _using: ss.DataViews?.Any() == true);
+                _using: ss.Views?.Any() == true);
         }
     }
 }

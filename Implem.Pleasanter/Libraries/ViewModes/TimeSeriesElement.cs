@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Implem.Pleasanter.Libraries.DataViews
+namespace Implem.Pleasanter.Libraries.ViewModes
 {
     public class TimeSeriesElement
     {

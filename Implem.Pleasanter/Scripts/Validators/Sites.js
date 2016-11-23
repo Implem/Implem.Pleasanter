@@ -8,12 +8,12 @@
             Sites_Title: { required:$p.display('ValidateRequired') }
         }
     });
-    $('#DataViewForm').validate({
+    $('#ViewForm').validate({
         rules: {
-            DataViewName: { required: true }
+            ViewName: { required: true }
         },
         messages: {
-            DataViewName: { required: $p.display('ValidateRequired') }
+            ViewName: { required: $p.display('ValidateRequired') }
         }
     });
     $('#NotificationForm').validate({

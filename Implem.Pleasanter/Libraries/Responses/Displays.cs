@@ -262,8 +262,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Others(params string[] data) { return Get("Others", data); }
         public static HtmlBuilder Displays_Name(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Name", data)); }
         public static string Name(params string[] data) { return Get("Name", data); }
-        public static HtmlBuilder Displays_DataView(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DataView", data)); }
-        public static string DataView(params string[] data) { return Get("DataView", data); }
         public static HtmlBuilder Displays_CustomDesign(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CustomDesign", data)); }
         public static string CustomDesign(params string[] data) { return Get("CustomDesign", data); }
         public static HtmlBuilder Displays_UseCustomDesign(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("UseCustomDesign", data)); }
@@ -514,6 +512,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Prefix(params string[] data) { return Get("Prefix", data); }
         public static HtmlBuilder Displays_View(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("View", data)); }
         public static string View(params string[] data) { return Get("View", data); }
+        public static HtmlBuilder Displays_DataView(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DataView", data)); }
+        public static string DataView(params string[] data) { return Get("DataView", data); }
         public static HtmlBuilder Displays_Grid(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Grid", data)); }
         public static string Grid(params string[] data) { return Get("Grid", data); }
         public static HtmlBuilder Displays_Style(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Style", data)); }

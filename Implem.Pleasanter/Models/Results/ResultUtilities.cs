@@ -25,28 +25,28 @@ namespace Implem.Pleasanter.Models
         public static string Index(SiteSettings ss, Permissions.Types pt)
         {
             var hb = new HtmlBuilder();
-            var dataView = DataViews.GetBySession(ss);
-            var resultCollection = ResultCollection(ss, pt, dataView);
+            var view = Views.GetBySession(ss);
+            var resultCollection = ResultCollection(ss, pt, view);
             var viewMode = ViewModes.GetBySession(ss.SiteId);
-            return hb.DataViewTemplate(
+            return hb.ViewModeTemplate(
                 ss: ss,
                 pt: pt,
                 resultCollection: resultCollection,
-                dataView: dataView,
+                view: view,
                 viewMode: viewMode,
                 viewModeBody: () => hb.Grid(
                    resultCollection: resultCollection,
                    ss: ss,
                    pt: pt,
-                   dataView: dataView));
+                   view: view));
         }
 
-        private static string DataViewTemplate(
+        private static string ViewModeTemplate(
             this HtmlBuilder hb,
             SiteSettings ss,
             Permissions.Types pt,
             ResultCollection resultCollection,
-            Libraries.Settings.DataView dataView,
+            View view,
             string viewMode,
             Action viewModeBody)
         {
@@ -58,7 +58,7 @@ namespace Implem.Pleasanter.Models
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Results",
-                script: Libraries.Scripts.JavaScripts.DataView(
+                script: Libraries.Scripts.JavaScripts.ViewMode(
                     ss: ss, pt: pt, viewMode: viewMode),
                 userScript: ss.GridScript,
                 userStyle: ss.GridStyle,
@@ -69,12 +69,12 @@ namespace Implem.Pleasanter.Models
                             .Class("main-form")
                             .Action(Locations.ItemAction(ss.SiteId)),
                         action: () => hb
-                            .DataViewSelector(ss: ss, dataView: dataView)
-                            .DataViewFilters(ss: ss, dataView: dataView)
+                            .ViewSelector(ss: ss, view: view)
+                            .ViewFilters(ss: ss, view: view)
                             .Aggregations(
                                 ss: ss,
                                 aggregations: resultCollection.Aggregations)
-                            .Div(id: "DataViewContainer", action: () => viewModeBody())
+                            .Div(id: "ViewModeContainer", action: () => viewModeBody())
                             .MainCommands(
                                 siteId: ss.SiteId,
                                 pt: pt,
@@ -97,15 +97,15 @@ namespace Implem.Pleasanter.Models
 
         public static string IndexJson(SiteSettings ss, Permissions.Types pt)
         {
-            var dataView = DataViews.GetBySession(ss);
-            var resultCollection = ResultCollection(ss, pt, dataView);
+            var view = Views.GetBySession(ss);
+            var resultCollection = ResultCollection(ss, pt, view);
             return new ResponseCollection()
-                .Html("#DataViewContainer", new HtmlBuilder().Grid(
+                .Html("#ViewModeContainer", new HtmlBuilder().Grid(
                     ss: ss,
                     resultCollection: resultCollection,
                     pt: pt,
-                    dataView: dataView))
-                .DataView(ss: ss, dataView: dataView)
+                    view: view))
+                .View(ss: ss, view: view)
                 .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     ss: ss,
                     aggregations: resultCollection.Aggregations))
@@ -115,15 +115,15 @@ namespace Implem.Pleasanter.Models
         private static ResultCollection ResultCollection(
             SiteSettings ss,
             Permissions.Types pt,
-            Libraries.Settings.DataView dataView,
+            View view,
             int offset = 0)
         {
             return new ResultCollection(
                 ss: ss,
                 pt: pt,
                 column: GridSqlColumnCollection(ss),
-                where: dataView.Where(ss, Rds.ResultsWhere().SiteId(ss.SiteId)),
-                orderBy: dataView.OrderBy(ss, Rds.ResultsOrderBy()
+                where: view.Where(ss, Rds.ResultsWhere().SiteId(ss.SiteId)),
+                orderBy: view.OrderBy(ss, Rds.ResultsOrderBy()
                     .UpdatedTime(SqlOrderBy.Types.desc)),
                 offset: offset,
                 pageSize: ss.GridPageSize.ToInt(),
@@ -136,7 +136,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Permissions.Types pt,
             ResultCollection resultCollection,
-            Libraries.Settings.DataView dataView)
+            View view)
         {
             return hb
                 .Table(
@@ -149,7 +149,7 @@ namespace Implem.Pleasanter.Models
                         .GridRows(
                             ss: ss,
                             resultCollection: resultCollection,
-                            dataView: dataView))
+                            view: view))
                 .Hidden(
                     controlId: "GridOffset",
                     value: ss.GridNextOffset(
@@ -158,12 +158,12 @@ namespace Implem.Pleasanter.Models
                         resultCollection.Aggregations.TotalCount)
                             .ToString())
                 .Button(
-                    controlId: "DataViewSorter",
+                    controlId: "ViewSorter",
                     controlCss: "hidden",
                     action: "GridRows",
                     method: "post")
                 .Button(
-                    controlId: "DataViewSorters_Reset",
+                    controlId: "ViewSorters_Reset",
                     controlCss: "hidden",
                     action: "GridRows",
                     method: "post");
@@ -177,8 +177,8 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false,
             Message message = null)
         {
-            var dataView = DataViews.GetBySession(ss);
-            var resultCollection = ResultCollection(ss, pt, dataView, offset);
+            var view = Views.GetBySession(ss);
+            var resultCollection = ResultCollection(ss, pt, view, offset);
             return (res ?? new ResponseCollection())
                 .Remove(".grid tr", _using: offset == 0)
                 .ClearFormData("GridCheckAll", _using: clearCheck)
@@ -188,7 +188,7 @@ namespace Implem.Pleasanter.Models
                 .Append("#Grid", new HtmlBuilder().GridRows(
                     ss: ss,
                     resultCollection: resultCollection,
-                    dataView: dataView,
+                    view: view,
                     addHeader: offset == 0,
                     clearCheck: clearCheck))
                 .Val("#GridOffset", ss.GridNextOffset(
@@ -202,7 +202,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             SiteSettings ss,
             ResultCollection resultCollection,
-            Libraries.Settings.DataView dataView,
+            View view,
             bool addHeader = true,
             bool clearCheck = false)
         {
@@ -214,7 +214,7 @@ namespace Implem.Pleasanter.Models
                     action: () => hb
                         .GridHeader(
                             columnCollection: columns, 
-                            dataView: dataView,
+                            view: view,
                             checkAll: checkAll))
                 .TBody(action: () => resultCollection
                     .ForEach(resultModel => hb
@@ -913,14 +913,14 @@ namespace Implem.Pleasanter.Models
 
         public static List<long> GetSwitchTargets(SiteSettings ss, long resultId, long siteId)
         {
-            var dataView = DataViews.GetBySession(ss);
+            var view = Views.GetBySession(ss);
             var switchTargets = Rds.ExecuteTable(
                 transactional: false,
                 statements: Rds.SelectResults(
                     column: Rds.ResultsColumn().ResultId(),
-                    where: dataView.Where(
+                    where: view.Where(
                         ss: ss, where: Rds.ResultsWhere().SiteId(siteId)),
-                    orderBy: dataView.OrderBy(ss, Rds.ResultsOrderBy()
+                    orderBy: view.OrderBy(ss, Rds.ResultsOrderBy()
                         .UpdatedTime(SqlOrderBy.Types.desc))))
                             .AsEnumerable()
                             .Select(o => o["ResultId"].ToLong())
@@ -1294,7 +1294,7 @@ namespace Implem.Pleasanter.Models
                 statements: new SqlStatement[]
                 {
                     Rds.UpdateResults(
-                        where: DataViews.GetBySession(ss).Where(
+                        where: Views.GetBySession(ss).Where(
                             ss, Rds.ResultsWhere()
                                 .SiteId(ss.SiteId)
                                 .ResultId_In(
@@ -1359,7 +1359,7 @@ namespace Implem.Pleasanter.Models
             IEnumerable<long> checkedItems,
             bool negative = false)
         {
-            var where = DataViews.GetBySession(ss).Where(
+            var where = Views.GetBySession(ss).Where(
                 ss, Rds.ResultsWhere()
                     .SiteId(ss.SiteId)
                     .ResultId_In(
@@ -1607,13 +1607,13 @@ namespace Implem.Pleasanter.Models
             Permissions.Types pt,
             SiteModel siteModel)
         {
-            var dataView = DataViews.GetBySession(ss);
+            var view = Views.GetBySession(ss);
             var resultCollection = new ResultCollection(
                 ss: ss,
                 pt: pt,
-                where: dataView.Where(
+                where: view.Where(
                     ss: ss, where: Rds.ResultsWhere().SiteId(siteModel.SiteId)),
-                orderBy: dataView.OrderBy(ss, Rds.ResultsOrderBy().UpdatedTime(SqlOrderBy.Types.desc)));
+                orderBy: view.OrderBy(ss, Rds.ResultsOrderBy().UpdatedTime(SqlOrderBy.Types.desc)));
             var csv = new System.Text.StringBuilder();
             var exportColumns = (Sessions.PageSession(
                 siteModel.Id, 
@@ -2016,19 +2016,19 @@ namespace Implem.Pleasanter.Models
         public static string TimeSeries(SiteSettings ss, Permissions.Types pt)
         {
             var hb = new HtmlBuilder();
-            var dataView = DataViews.GetBySession(ss);
-            var resultCollection = ResultCollection(ss, pt, dataView);
+            var view = Views.GetBySession(ss);
+            var resultCollection = ResultCollection(ss, pt, view);
             var viewMode = ViewModes.GetBySession(ss.SiteId);
-            return hb.DataViewTemplate(
+            return hb.ViewModeTemplate(
                 ss: ss,
                 pt: pt,
                 resultCollection: resultCollection,
-                dataView: dataView,
+                view: view,
                 viewMode: viewMode,
                 viewModeBody: () => hb.TimeSeries(
                     ss: ss,
                     pt: pt,
-                    dataView: dataView,
+                    view: view,
                     bodyOnly: false));
         }
 
@@ -2038,18 +2038,18 @@ namespace Implem.Pleasanter.Models
         public static string TimeSeriesJson(
             SiteSettings ss, Permissions.Types pt)
         {
-            var dataView = DataViews.GetBySession(ss);
-            var resultCollection = ResultCollection(ss, pt, dataView);
+            var view = Views.GetBySession(ss);
+            var resultCollection = ResultCollection(ss, pt, view);
             var bodyOnly = Forms.ControlId().StartsWith("TimeSeries");
             return new ResponseCollection()
                 .Html(
-                    !bodyOnly ? "#DataViewContainer" : "#TimeSeriesBody",
+                    !bodyOnly ? "#ViewModeContainer" : "#TimeSeriesBody",
                     new HtmlBuilder().TimeSeries(
                         ss: ss,
                         pt: pt,
-                        dataView: dataView,
+                        view: view,
                         bodyOnly: bodyOnly))
-                .DataView(ss: ss, dataView: dataView)
+                .View(ss: ss, view: view)
                 .ReplaceAll(
                     "#Aggregations", new HtmlBuilder().Aggregations(
                     ss: ss,
@@ -2065,7 +2065,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             SiteSettings ss,
             Permissions.Types pt,
-            Libraries.Settings.DataView dataView,
+            Libraries.Settings.View view,
             bool bodyOnly)
         {
             var formData = Forms.All();
@@ -2080,7 +2080,7 @@ namespace Implem.Pleasanter.Models
                 : "NumA";
             var dataRows = TimeSeriesDataRows(
                 ss: ss,
-                dataView: dataView,
+                view: view,
                 groupByColumn: groupByColumn,
                 valueColumn: valueColumn);
             return !bodyOnly
@@ -2104,7 +2104,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static EnumerableRowCollection<DataRow> TimeSeriesDataRows(
             SiteSettings ss,
-            Libraries.Settings.DataView dataView,
+            Libraries.Settings.View view,
             string groupByColumn,
             string valueColumn)
         {
@@ -2118,7 +2118,7 @@ namespace Implem.Pleasanter.Models
                             .UpdatedTime()
                             .ResultsColumn(groupByColumn, _as: "Index")
                             .ResultsColumn(valueColumn, _as: "Value"),
-                        where: dataView.Where(ss, Rds.ResultsWhere().SiteId(ss.SiteId))))
+                        where: view.Where(ss, Rds.ResultsWhere().SiteId(ss.SiteId))))
                             .AsEnumerable()
                 : null;
         }
@@ -2129,19 +2129,19 @@ namespace Implem.Pleasanter.Models
         public static string Kamban(SiteSettings ss, Permissions.Types pt)
         {
             var hb = new HtmlBuilder();
-            var dataView = DataViews.GetBySession(ss);
-            var resultCollection = ResultCollection(ss, pt, dataView);
+            var view = Views.GetBySession(ss);
+            var resultCollection = ResultCollection(ss, pt, view);
             var viewMode = ViewModes.GetBySession(ss.SiteId);
-            return hb.DataViewTemplate(
+            return hb.ViewModeTemplate(
                 ss: ss,
                 pt: pt,
                 resultCollection: resultCollection,
-                dataView: dataView,
+                view: view,
                 viewMode: viewMode,
                 viewModeBody: () => hb.Kamban(
                     ss: ss,
                     pt: pt,
-                    dataView: dataView,
+                    view: view,
                     bodyOnly: false));
         }
 
@@ -2150,19 +2150,19 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string KambanJson(SiteSettings ss, Permissions.Types pt)
         {
-            var dataView = DataViews.GetBySession(ss);
-            var resultCollection = ResultCollection(ss, pt, dataView);
+            var view = Views.GetBySession(ss);
+            var resultCollection = ResultCollection(ss, pt, view);
             var bodyOnly = Forms.ControlId().StartsWith("Kamban");
             return new ResponseCollection()
                 .Html(
-                    !bodyOnly ? "#DataViewContainer" : "#KambanBody",
+                    !bodyOnly ? "#ViewModeContainer" : "#KambanBody",
                     new HtmlBuilder().Kamban(
                         ss: ss,
                         pt: pt,
-                        dataView: dataView,
+                        view: view,
                         bodyOnly: bodyOnly,
                         changedItemId: Forms.Long("KambanId")))
-                .DataView(ss: ss, dataView: dataView)
+                .View(ss: ss, view: view)
                 .ReplaceAll(
                     "#Aggregations", new HtmlBuilder().Aggregations(
                     ss: ss,
@@ -2178,7 +2178,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             SiteSettings ss,
             Permissions.Types pt,
-            Libraries.Settings.DataView dataView,
+            Libraries.Settings.View view,
             bool bodyOnly,
             long changedItemId = 0)
         {
@@ -2204,10 +2204,10 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 pt: pt,
                 column: column,
-                where: dataView.Where(ss, Rds.ResultsWhere().SiteId(ss.SiteId)),
-                orderBy: dataView.OrderBy(ss, Rds.IssuesOrderBy()
+                where: view.Where(ss, Rds.ResultsWhere().SiteId(ss.SiteId)),
+                orderBy: view.OrderBy(ss, Rds.IssuesOrderBy()
                     .UpdatedTime(SqlOrderBy.Types.desc)))
-                        .Select(o => new Libraries.DataViews.KambanElement()
+                        .Select(o => new Libraries.ViewModes.KambanElement()
                         {
                             Id = o.Id,
                             Title = o.Title.DisplayValue,

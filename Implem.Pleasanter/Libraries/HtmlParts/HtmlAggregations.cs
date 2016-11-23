@@ -177,7 +177,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static string Selector(SiteSettings ss, string columnName)
         {
-            return "#DataViewFilters_" + ss.ReferenceType + "_" + columnName;
+            return "#ViewFilters_" + ss.ReferenceType + "_" + columnName;
         }
 
         private static HtmlAttributes Attributes(

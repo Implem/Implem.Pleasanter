@@ -1,5 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.DataViews;
+using Implem.Pleasanter.Libraries.ViewModes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;

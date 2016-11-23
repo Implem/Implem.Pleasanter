@@ -1,6 +1,6 @@
 ﻿$(function () {
-    $(document).on('click', '#DataViewFilters_Reset', function () {
-        $('[id^="DataViewFilters_"]').each(function () {
+    $(document).on('click', '#ViewFilters_Reset', function () {
+        $('[id^="ViewFilters_"]').each(function () {
             $p.clear($(this));
         });
         $p.send($(this));

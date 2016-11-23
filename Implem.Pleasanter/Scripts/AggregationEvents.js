@@ -19,6 +19,6 @@
         }
     });
     $(document).on('click', '#Aggregations .overdue', function () {
-        $('#DataViewFilters_Overdue').click();
+        $('#ViewFilters_Overdue').click();
     });
 });

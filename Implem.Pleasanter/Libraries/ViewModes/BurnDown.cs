@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-namespace Implem.Pleasanter.Libraries.DataViews
+namespace Implem.Pleasanter.Libraries.ViewModes
 {
     public class BurnDown : List<BurnDownElement>
     {

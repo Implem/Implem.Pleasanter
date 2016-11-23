@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder GridHeader(
             this HtmlBuilder hb,
             IEnumerable<Column> columnCollection, 
-            DataView dataView = null,
+            View view = null,
             bool sort = true,
             bool checkAll = false,
             bool checkRow = true)
@@ -34,16 +34,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             hb.Th(css: "sortable", action: () => hb
                                 .Div(
                                     attributes: new HtmlAttributes()
-                                        .Id("DataViewSorters_" + column.Id)
+                                        .Id("ViewSorters_" + column.Id)
                                         .Add("data-order-type", OrderBy(
-                                            dataView, column.ColumnName))
+                                            view, column.ColumnName))
                                         .DataAction("GridRows")
                                         .DataMethod("post"),
                                     action: () => hb
                                         .Span(action: () => hb
                                             .Text(text: Displays.Get(column.GridLabelText)))
                                         .SortIcon(
-                                            dataView: dataView,
+                                            view: view,
                                             key: column.ColumnName)));
                         }
                         else
@@ -55,9 +55,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 });
         }
 
-        private static string OrderBy(DataView dataView, string key)
+        private static string OrderBy(View view, string key)
         {
-            switch (dataView.ColumnSorter(key))
+            switch (view.ColumnSorter(key))
             {
                 case SqlOrderBy.Types.asc: return "Desc";
                 case SqlOrderBy.Types.desc: return string.Empty;
@@ -65,9 +65,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
         }
 
-        public static HtmlBuilder SortIcon(this HtmlBuilder hb, DataView dataView, string key)
+        public static HtmlBuilder SortIcon(this HtmlBuilder hb, View view, string key)
         {
-            switch (dataView.ColumnSorter(key))
+            switch (view.ColumnSorter(key))
             {
                 case SqlOrderBy.Types.asc: return hb.Icon(iconCss: "ui-icon-triangle-1-n");
                 case SqlOrderBy.Types.desc: return hb.Icon(iconCss: "ui-icon-triangle-1-s");

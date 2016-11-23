@@ -357,13 +357,13 @@ pre{
     border-radius:7px;
 }
 
-#DataViewSelectorField{
+#ViewSelectorField{
     position:absolute;
     top:-10px;
     right:0px;
 }
 
-#DataViewFilters{
+#ViewFilters{
     width:100%;
     float:left;
     margin:0px 0px 5px 0px;
@@ -372,25 +372,25 @@ pre{
     border-radius:5px;
 }
 
-#DataViewFilters.reduced{
+#ViewFilters.reduced{
     width:auto;
     padding:0px;
     border:none;
 }
 
-#DataViewFilters > .field-auto-thin{
+#ViewFilters > .field-auto-thin{
     height:32px;
     float:left;
     padding:0px;
 }
 
-#DataViewFilters_Reset{
+#ViewFilters_Reset{
     display:block;
     float:left;
     margin:0px 20px 0px 0px;
 }
 
-#DataViewFilters > .display-control{
+#ViewFilters > .display-control{
     float:left;
     margin:0px 5px 0px 0px;
     padding:5px 10px 5px 0px;
@@ -773,7 +773,7 @@ pre{
     border-radius:0px 0px 10px 10px / 0px 0px 10px 10px;
 }
 
-#DataViewTabsContainer{
+#ViewTabsContainer{
     margin:0px 20px 10px 20px;
     clear:both;
 }

@@ -6,8 +6,8 @@ namespace Implem.Pleasanter.Libraries.Requests
         public static int Offset()
         {
             return
-                Forms.ControlId().StartsWith("DataViewFilters_") ||
-                Forms.Keys().Any(o => o.StartsWith("DataViewSorters_"))
+                Forms.ControlId().StartsWith("ViewFilters_") ||
+                Forms.Keys().Any(o => o.StartsWith("ViewSorters_"))
                     ? 0
                     : Forms.Int("GridOffset");
         }

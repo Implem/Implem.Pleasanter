@@ -5,7 +5,7 @@ namespace Implem.Pleasanter.Libraries.Scripts
 {
     public static class JavaScripts
     {
-        public static string DataView(SiteSettings ss, Permissions.Types pt, string viewMode)
+        public static string ViewMode(SiteSettings ss, Permissions.Types pt, string viewMode)
         {
             switch (viewMode)
             {

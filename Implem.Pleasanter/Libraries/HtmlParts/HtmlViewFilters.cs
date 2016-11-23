@@ -9,45 +9,44 @@ using System.Linq;
 using System.Web;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
-    public static class HtmlDataViewFilters
+    public static class HtmlViewFilters
     {
-        public static HtmlBuilder DataViewFilters(
-            this HtmlBuilder hb, SiteSettings ss, DataView dataView)
+        public static HtmlBuilder ViewFilters(this HtmlBuilder hb, SiteSettings ss, View view)
         {
             return !Reduced(ss.SiteId)
                 ? hb.Div(
-                    id: "DataViewFilters",
+                    id: "ViewFilters",
                     action: () => hb
                         .DisplayControl(
-                            id: "ReduceDataViewFilters",
+                            id: "ReduceViewFilters",
                             icon: "ui-icon-close")
                         .Reset()
-                        .Incomplete(ss: ss, dataView: dataView)
-                        .Own(ss: ss, dataView: dataView)
-                        .NearCompletionTime(ss: ss, dataView: dataView)
-                        .Delay(ss: ss, dataView: dataView)
-                        .Limit(ss: ss, dataView: dataView)
-                        .Columns(ss: ss, dataView: dataView)
-                        .Search(ss: ss, dataView: dataView))
+                        .Incomplete(ss: ss, view: view)
+                        .Own(ss: ss, view: view)
+                        .NearCompletionTime(ss: ss, view: view)
+                        .Delay(ss: ss, view: view)
+                        .Limit(ss: ss, view: view)
+                        .Columns(ss: ss, view: view)
+                        .Search(ss: ss, view: view))
                 : hb.Div(
-                    id: "DataViewFilters",
+                    id: "ViewFilters",
                     css: "reduced",
                     action: () => hb
                         .DisplayControl(
-                            id: "ExpandDataViewFilters",
+                            id: "ExpandViewFilters",
                             icon: "ui-icon-folder-open"));
         }
 
         private static bool Reduced(long? siteId)
         {
-            var key = "ReduceDataViewFilters_" + (siteId != null
+            var key = "ReduceViewFilters_" + (siteId != null
                 ? Pages.Key()
                 : siteId.ToString());
-            if (Forms.ControlId() == "ReduceDataViewFilters")
+            if (Forms.ControlId() == "ReduceViewFilters")
             {
                 HttpContext.Current.Session[key] = true;
             }
-            else if (Forms.ControlId() == "ExpandDataViewFilters")
+            else if (Forms.ControlId() == "ExpandViewFilters")
             {
                 HttpContext.Current.Session.Remove(key);
             }
@@ -70,78 +69,76 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder Reset(this HtmlBuilder hb)
         {
             return hb.Button(
-                controlId: "DataViewFilters_Reset",
+                controlId: "ViewFilters_Reset",
                 text: Displays.Reset(),
                 controlCss: "button-icon",
                 icon: "ui-icon-close",
                 method: "post");
         }
 
-        private static HtmlBuilder Incomplete(
-            this HtmlBuilder hb, SiteSettings ss, DataView dataView)
+        private static HtmlBuilder Incomplete(this HtmlBuilder hb, SiteSettings ss, View view)
         {
             return hb.FieldCheckBox(
-                controlId: "DataViewFilters_Incomplete",
+                controlId: "ViewFilters_Incomplete",
                 fieldCss: "field-auto-thin",
                 controlCss: " auto-postback",
                 labelText: Displays.Incomplete(),
-                _checked: dataView.Incomplete == true,
+                _checked: view.Incomplete == true,
                 method: "post",
                 labelPositionIsRight: true,
                 _using: Visible(ss, "Status"));
         }
 
-        private static HtmlBuilder Own(
-            this HtmlBuilder hb, SiteSettings ss, DataView dataView)
+        private static HtmlBuilder Own(this HtmlBuilder hb, SiteSettings ss, View view)
         {
             return hb.FieldCheckBox(
-                controlId: "DataViewFilters_Own",
+                controlId: "ViewFilters_Own",
                 fieldCss: "field-auto-thin",
                 controlCss: " auto-postback",
                 labelText: Displays.Own(),
-                _checked: dataView.Own == true,
+                _checked: view.Own == true,
                 method: "post",
                 labelPositionIsRight: true,
                 _using: Visible(ss, "Owner"));
         }
 
         private static HtmlBuilder NearCompletionTime(
-            this HtmlBuilder hb, SiteSettings ss, DataView dataView)
+            this HtmlBuilder hb, SiteSettings ss, View view)
         {
             return hb.FieldCheckBox(
-                controlId: "DataViewFilters_NearCompletionTime",
+                controlId: "ViewFilters_NearCompletionTime",
                 fieldCss: "field-auto-thin",
                 controlCss: " auto-postback",
                 labelText: Displays.NearCompletionTime(),
-                _checked: dataView.NearCompletionTime == true,
+                _checked: view.NearCompletionTime == true,
                 method: "post",
                 labelPositionIsRight: true,
                 _using: Visible(ss, "CompletionTime"));
         }
 
         private static HtmlBuilder Delay(
-            this HtmlBuilder hb, SiteSettings ss, DataView dataView)
+            this HtmlBuilder hb, SiteSettings ss, View view)
         {
             return hb.FieldCheckBox(
-                controlId: "DataViewFilters_Delay",
+                controlId: "ViewFilters_Delay",
                 fieldCss: "field-auto-thin",
                 controlCss: " auto-postback",
                 labelText: Displays.Delay(),
-                _checked: dataView.Delay == true,
+                _checked: view.Delay == true,
                 method: "post",
                 labelPositionIsRight: true,
                 _using: Visible(ss, "ProgressRate"));
         }
 
         private static HtmlBuilder Limit(
-            this HtmlBuilder hb, SiteSettings ss, DataView dataView)
+            this HtmlBuilder hb, SiteSettings ss, View view)
         {
             return hb.FieldCheckBox(
-                controlId: "DataViewFilters_Overdue",
+                controlId: "ViewFilters_Overdue",
                 fieldCss: "field-auto-thin",
                 controlCss: " auto-postback",
                 labelText: Displays.Overdue(),
-                _checked: dataView.Overdue == true,
+                _checked: view.Overdue == true,
                 method: "post",
                 labelPositionIsRight: true,
                 _using: Visible(ss, "CompletionTime"));
@@ -155,7 +152,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder Columns(
-            this HtmlBuilder hb, SiteSettings ss, DataView dataView)
+            this HtmlBuilder hb, SiteSettings ss, View view)
         {
             ss.FilterColumnCollection().ForEach(column =>
             {
@@ -165,14 +162,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         hb.CheckBox(
                             column: column,
                             ss: ss,
-                            dataView: dataView);
+                            view: view);
                         break;
                     case Types.CsDateTime:
                         var timePeriod = TimePeriod.Get(column.RecordedTime);
                         hb.DropDown(
                             ss: ss,
                             column: column,
-                            dataView: dataView,
+                            view: view,
                             optionCollection: timePeriod);
                         break;
                     case Types.CsNumeric:
@@ -182,7 +179,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             hb.DropDown(
                                 ss: ss,
                                 column: column,
-                                dataView: dataView,
+                                view: view,
                                 optionCollection: column.EditChoices(addNotSet: true));
                         }
                         break;
@@ -194,14 +191,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder CheckBox(
-            this HtmlBuilder hb, SiteSettings ss, Column column, DataView dataView)
+            this HtmlBuilder hb, SiteSettings ss, Column column, View view)
         {
             return hb.FieldCheckBox(
-                controlId: "DataViewFilters_" + column.Id,
+                controlId: "ViewFilters_" + column.Id,
                 fieldCss: "field-auto-thin",
                 controlCss: " auto-postback",
                 labelText: Displays.Get(column.GridLabelText),
-                _checked: dataView.ColumnFilter(column.ColumnName).ToBool(),
+                _checked: view.ColumnFilter(column.ColumnName).ToBool(),
                 method: "post",
                 _using:
                     ss.GridColumns.Contains(column.ColumnName) ||
@@ -212,16 +209,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             SiteSettings ss,
             Column column,
-            DataView dataView,
+            View view,
             Dictionary<string, ControlData> optionCollection)
         {
             return hb.FieldDropDown(
-                controlId: "DataViewFilters_" + column.Id,
+                controlId: "ViewFilters_" + column.Id,
                 fieldCss: "field-auto-thin",
                 controlCss: " auto-postback",
                 labelText: Displays.Get(column.GridLabelText),
                 optionCollection: optionCollection,
-                selectedValue: dataView.ColumnFilter(column.ColumnName),
+                selectedValue: view.ColumnFilter(column.ColumnName),
                 multiple: true,
                 addSelectedValue: false,
                 method: "post",
@@ -232,14 +229,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder Search(
-            this HtmlBuilder hb, SiteSettings ss, DataView dataView)
+            this HtmlBuilder hb, SiteSettings ss, View view)
         {
             return hb.FieldTextBox(
-                controlId: "DataViewFilters_Search",
+                controlId: "ViewFilters_Search",
                 fieldCss: "field-auto-thin",
                 controlCss: " auto-postback",
                 labelText: Displays.Search(),
-                text: dataView.Search,
+                text: view.Search,
                 method: "post",
                 _using: Routes.Controller().ToLower() == "items");
         }

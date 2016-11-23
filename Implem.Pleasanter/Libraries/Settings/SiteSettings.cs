@@ -47,8 +47,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<string> LinkColumns;
         public List<string> HistoryColumns;
         public List<Column> ColumnCollection;
-        public int DataViewLatestId;
-        public List<DataView> DataViews;
+        public int ViewLatestId;
+        public List<View> Views;
         public List<Notification> Notifications;
         public List<Aggregation> AggregationCollection;
         public List<Link> LinkCollection;
@@ -143,7 +143,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (self.LinkColumns.SequenceEqual(def.LinkColumns)) self.LinkColumns = null;
             if (self.HistoryColumns.SequenceEqual(def.HistoryColumns)) self.HistoryColumns = null;
             if (self.ColumnCollection.SequenceEqual(def.ColumnCollection)) self.ColumnCollection = null;
-            if (self.DataViews?.Count == 0) self.DataViews = null;
+            if (self.Views?.Count == 0) self.Views = null;
             if (!self.Notifications.Any()) self.Notifications = null;
             if (self.AggregationCollection.SequenceEqual(def.AggregationCollection)) self.AggregationCollection = null;
             if (self.LinkCollection.SequenceEqual(def.LinkCollection)) self.LinkCollection = null;
@@ -578,10 +578,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(o => o.ColumnName), enabled);
         }
 
-        public Dictionary<string, string> DataViewSelectableOptions()
+        public Dictionary<string, string> ViewSelectableOptions()
         {
-            return DataViews != null
-                ? DataViews.ToDictionary(o => o.Id.ToString(), o => o.Name)
+            return Views != null
+                ? Views.ToDictionary(o => o.Id.ToString(), o => o.Name)
                 : new Dictionary<string, string>();
         }
 
@@ -840,12 +840,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public void AddDataView(DataView dataView)
+        public void AddView(View view)
         {
-            DataViewLatestId++;
-            dataView.Id = DataViewLatestId;
-            if (DataViews == null) DataViews = new List<DataView>();
-            DataViews.Add(dataView);
+            ViewLatestId++;
+            view.Id = ViewLatestId;
+            if (Views == null) Views = new List<View>();
+            Views.Add(view);
         }
 
         public Error.Types AddSummary(
