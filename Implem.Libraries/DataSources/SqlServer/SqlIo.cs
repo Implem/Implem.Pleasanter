@@ -9,7 +9,7 @@ namespace Implem.Libraries.DataSources.SqlServer
 {
     public class SqlIo : IDisposable
     {
-        private bool disposed;
+        private bool Disposed;
         public SqlContainer SqlContainer;
         public SqlCommand SqlCommand = new SqlCommand();
         public StringBuilder CommandText = new StringBuilder();
@@ -241,11 +241,11 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             lock (this)
             {
-                if (disposed)
+                if (Disposed)
                 {
                     return;
                 }
-                disposed = true;
+                Disposed = true;
                 if (disposing)
                 {
                     SqlCommand.Dispose();
