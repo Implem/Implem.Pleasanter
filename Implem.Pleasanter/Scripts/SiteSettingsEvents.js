@@ -33,6 +33,15 @@
         $p.getData($control)[$control.attr('id') + "Id"] = $(this).attr('data-id');
         $p.send($control);
     });
+    $(document).on('click', '#AddDataViewSorter', function () {
+        var $dataViewSorter = $('#DataViewSorterSelector option:selected');
+        var $dataViewSorterOrderType = $('#DataViewSorterOrderTypes option:selected');
+        var orderType = $dataViewSorterOrderType.val();
+        $p.addBasket(
+            $('#DataViewSorters'),
+            $dataViewSorter.text() + '(' + $p.display('Order' + orderType) + ')',
+            $dataViewSorter.val() + ',' + orderType);
+    });
     $(document).on('click', '#CreateNotification,#UpdateNotification', function () {
         var $control = $(this);
         $p.getData($control).NotificationType = $('#NotificationType').val();

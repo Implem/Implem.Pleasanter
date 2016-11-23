@@ -547,7 +547,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     action: () => hb
                         .SelectableItems(
                             listItemCollection: listItemCollection,
-                            selectedValueTextCollection: selectedValueCollection))
+                            selectedValueTextCollection: selectedValueCollection,
+                            basket: true))
                 : hb;
         }
 
@@ -555,6 +556,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Dictionary<string, string> listItemCollection = null,
             IEnumerable<string> selectedValueTextCollection = null,
+            bool basket = false,
             bool _using = true)
         {
             if (_using)
@@ -567,9 +569,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 selectedValueTextCollection.Contains(listItem.Key)
                                     ? "ui-widget-content ui-selected"
                                     : "ui-widget-content")
-                            .Value( listItem.Key),
-                        action: () => hb
-                            .Text(text: listItem.Value)));
+                            .Value(listItem.Key),
+                        action: () =>
+                        {
+                            if (basket)
+                            {
+                                hb
+                                    .Span(action: () => hb
+                                        .Text(listItem.Value))
+                                    .Span(css: "ui-icon ui-icon-close delete");
+                            }
+                            else
+                            {
+                                hb.Text(text: listItem.Value);
+                            }
+                        }));
             }
             return hb;
         }

@@ -600,7 +600,6 @@ namespace Implem.DefinitionAccessor
                     case "Rds_ParamDefault_ParamAll": Code.Rds_ParamDefault_ParamAll = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_ParamDefault_ParamAll, definitionRow, CodeXls); break;
                     case "Rds_ParamItemId": Code.Rds_ParamItemId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_ParamItemId, definitionRow, CodeXls); break;
                     case "Rds_SiteId": Code.Rds_SiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SiteId, definitionRow, CodeXls); break;
-                    case "Rds_SiteSettings_SiteId": Code.Rds_SiteSettings_SiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SiteSettings_SiteId, definitionRow, CodeXls); break;
                     case "Rds_TitleColumn": Code.Rds_TitleColumn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_TitleColumn, definitionRow, CodeXls); break;
                     case "Rds_TitleColumnCases": Code.Rds_TitleColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_TitleColumnCases, definitionRow, CodeXls); break;
                     case "Titles": Code.Titles = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Titles, definitionRow, CodeXls); break;
@@ -619,11 +618,10 @@ namespace Implem.DefinitionAccessor
                     case "SiteSettings_GetModels_Items": Code.SiteSettings_GetModels_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Items_Choices": Code.SiteSettings_GetModels_Items_Choices = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items_Choices, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Includes": Code.SiteSettings_GetModels_Includes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Includes, definitionRow, CodeXls); break;
-                    case "DataViewFilters": Code.DataViewFilters = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.DataViewFilters, definitionRow, CodeXls); break;
-                    case "DataViewFilters_Search_TableCases": Code.DataViewFilters_Search_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.DataViewFilters_Search_TableCases, definitionRow, CodeXls); break;
-                    case "GridSorters": Code.GridSorters = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.GridSorters, definitionRow, CodeXls); break;
-                    case "GridSorters_Model": Code.GridSorters_Model = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.GridSorters_Model, definitionRow, CodeXls); break;
-                    case "GridSorters_Cases": Code.GridSorters_Cases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.GridSorters_Cases, definitionRow, CodeXls); break;
+                    case "DataView": Code.DataView = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.DataView, definitionRow, CodeXls); break;
+                    case "DataView_Search_TableCases": Code.DataView_Search_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.DataView_Search_TableCases, definitionRow, CodeXls); break;
+                    case "DataView_Sorter_TableCases": Code.DataView_Sorter_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.DataView_Sorter_TableCases, definitionRow, CodeXls); break;
+                    case "DataView_Sorter_ColumnCases": Code.DataView_Sorter_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.DataView_Sorter_ColumnCases, definitionRow, CodeXls); break;
                     case "HtmlLinks": Code.HtmlLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks, definitionRow, CodeXls); break;
                     case "HtmlLinks_Contains": Code.HtmlLinks_Contains = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_Contains, definitionRow, CodeXls); break;
                     case "HtmlLinks_DataSetTableCases": Code.HtmlLinks_DataSetTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_DataSetTableCases, definitionRow, CodeXls); break;
@@ -1742,6 +1740,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_Notes_space___space__asterisk_": Css._sharp_Notes_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Notes_space___space__asterisk_, definitionRow, CssXls); break;
                     case "_sharp_Notes_space___space__dot_history": Css._sharp_Notes_space___space__dot_history = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Notes_space___space__dot_history, definitionRow, CssXls); break;
                     case "_sharp_Notes_space___space__dot_readonly": Css._sharp_Notes_space___space__dot_readonly = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Notes_space___space__dot_readonly, definitionRow, CssXls); break;
+                    case "_sharp_DataViewSelectorField": Css._sharp_DataViewSelectorField = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_DataViewSelectorField, definitionRow, CssXls); break;
                     case "_sharp_DataViewFilters": Css._sharp_DataViewFilters = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_DataViewFilters, definitionRow, CssXls); break;
                     case "_sharp_DataViewFilters_dot_reduced": Css._sharp_DataViewFilters_dot_reduced = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_DataViewFilters_dot_reduced, definitionRow, CssXls); break;
                     case "_sharp_DataViewFilters_space___space__dot_field_auto_thin": Css._sharp_DataViewFilters_space___space__dot_field_auto_thin = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_DataViewFilters_space___space__dot_field_auto_thin, definitionRow, CssXls); break;
@@ -1815,6 +1814,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_OutgoingMailsForm": Css._sharp_OutgoingMailsForm = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_OutgoingMailsForm, definitionRow, CssXls); break;
                     case "_sharp_OutgoingMailsForm_space___space__dot_item": Css._sharp_OutgoingMailsForm_space___space__dot_item = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_OutgoingMailsForm_space___space__dot_item, definitionRow, CssXls); break;
                     case "_sharp_OutgoingMailsForm_space__dot_content": Css._sharp_OutgoingMailsForm_space__dot_content = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_OutgoingMailsForm_space__dot_content, definitionRow, CssXls); break;
+                    case "_sharp_DataViewTabsContainer": Css._sharp_DataViewTabsContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_DataViewTabsContainer, definitionRow, CssXls); break;
                     case "_sharp_SearchResults": Css._sharp_SearchResults = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SearchResults, definitionRow, CssXls); break;
                     case "_sharp_SearchResults_space__dot_count": Css._sharp_SearchResults_space__dot_count = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SearchResults_space__dot_count, definitionRow, CssXls); break;
                     case "_sharp_SearchResults_space__dot_count_space__dot_label": Css._sharp_SearchResults_space__dot_count_space__dot_label = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SearchResults_space__dot_count_space__dot_label, definitionRow, CssXls); break;
@@ -2486,6 +2486,7 @@ namespace Implem.DefinitionAccessor
                     case "DecimalPlaces_ja": Display.DecimalPlaces_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DecimalPlaces_ja, definitionRow, DisplayXls); break;
                     case "ToParent": Display.ToParent = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ToParent, definitionRow, DisplayXls); break;
                     case "ToParent_ja": Display.ToParent_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ToParent_ja, definitionRow, DisplayXls); break;
+                    case "Id": Display.Id = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Id, definitionRow, DisplayXls); break;
                     case "MoveUp": Display.MoveUp = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.MoveUp, definitionRow, DisplayXls); break;
                     case "MoveUp_ja": Display.MoveUp_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.MoveUp_ja, definitionRow, DisplayXls); break;
                     case "MoveDown": Display.MoveDown = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.MoveDown, definitionRow, DisplayXls); break;
@@ -2633,6 +2634,12 @@ namespace Implem.DefinitionAccessor
                     case "SettingAggregationType_ja": Display.SettingAggregationType_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingAggregationType_ja, definitionRow, DisplayXls); break;
                     case "SettingAggregationTarget": Display.SettingAggregationTarget = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingAggregationTarget, definitionRow, DisplayXls); break;
                     case "SettingAggregationTarget_ja": Display.SettingAggregationTarget_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingAggregationTarget_ja, definitionRow, DisplayXls); break;
+                    case "Others": Display.Others = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Others, definitionRow, DisplayXls); break;
+                    case "Others_ja": Display.Others_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Others_ja, definitionRow, DisplayXls); break;
+                    case "Name": Display.Name = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Name, definitionRow, DisplayXls); break;
+                    case "Name_ja": Display.Name_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Name_ja, definitionRow, DisplayXls); break;
+                    case "DataView": Display.DataView = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DataView, definitionRow, DisplayXls); break;
+                    case "DataView_ja": Display.DataView_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DataView_ja, definitionRow, DisplayXls); break;
                     case "CustomDesign": Display.CustomDesign = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CustomDesign, definitionRow, DisplayXls); break;
                     case "CustomDesign_ja": Display.CustomDesign_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CustomDesign_ja, definitionRow, DisplayXls); break;
                     case "UseCustomDesign": Display.UseCustomDesign = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.UseCustomDesign, definitionRow, DisplayXls); break;
@@ -2748,6 +2755,8 @@ namespace Implem.DefinitionAccessor
                     case "Aggregations_ja": Display.Aggregations_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Aggregations_ja, definitionRow, DisplayXls); break;
                     case "Filters": Display.Filters = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Filters, definitionRow, DisplayXls); break;
                     case "Filters_ja": Display.Filters_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Filters_ja, definitionRow, DisplayXls); break;
+                    case "Sorters": Display.Sorters = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Sorters, definitionRow, DisplayXls); break;
+                    case "Sorters_ja": Display.Sorters_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Sorters_ja, definitionRow, DisplayXls); break;
                     case "Incomplete": Display.Incomplete = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Incomplete, definitionRow, DisplayXls); break;
                     case "Incomplete_ja": Display.Incomplete_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Incomplete_ja, definitionRow, DisplayXls); break;
                     case "Blank": Display.Blank = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Blank, definitionRow, DisplayXls); break;
@@ -4191,7 +4200,6 @@ namespace Implem.DefinitionAccessor
         public string Rds_ParamDefault_ParamAll;
         public string Rds_ParamItemId;
         public string Rds_SiteId;
-        public string Rds_SiteSettings_SiteId;
         public string Rds_TitleColumn;
         public string Rds_TitleColumnCases;
         public string Titles;
@@ -4210,11 +4218,10 @@ namespace Implem.DefinitionAccessor
         public string SiteSettings_GetModels_Items;
         public string SiteSettings_GetModels_Items_Choices;
         public string SiteSettings_GetModels_Includes;
-        public string DataViewFilters;
-        public string DataViewFilters_Search_TableCases;
-        public string GridSorters;
-        public string GridSorters_Model;
-        public string GridSorters_Cases;
+        public string DataView;
+        public string DataView_Search_TableCases;
+        public string DataView_Sorter_TableCases;
+        public string DataView_Sorter_ColumnCases;
         public string HtmlLinks;
         public string HtmlLinks_Contains;
         public string HtmlLinks_DataSetTableCases;
@@ -4629,7 +4636,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Rds_ParamDefault_ParamAll = new CodeDefinition();
         public CodeDefinition Rds_ParamItemId = new CodeDefinition();
         public CodeDefinition Rds_SiteId = new CodeDefinition();
-        public CodeDefinition Rds_SiteSettings_SiteId = new CodeDefinition();
         public CodeDefinition Rds_TitleColumn = new CodeDefinition();
         public CodeDefinition Rds_TitleColumnCases = new CodeDefinition();
         public CodeDefinition Titles = new CodeDefinition();
@@ -4648,11 +4654,10 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition SiteSettings_GetModels_Items = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Items_Choices = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Includes = new CodeDefinition();
-        public CodeDefinition DataViewFilters = new CodeDefinition();
-        public CodeDefinition DataViewFilters_Search_TableCases = new CodeDefinition();
-        public CodeDefinition GridSorters = new CodeDefinition();
-        public CodeDefinition GridSorters_Model = new CodeDefinition();
-        public CodeDefinition GridSorters_Cases = new CodeDefinition();
+        public CodeDefinition DataView = new CodeDefinition();
+        public CodeDefinition DataView_Search_TableCases = new CodeDefinition();
+        public CodeDefinition DataView_Sorter_TableCases = new CodeDefinition();
+        public CodeDefinition DataView_Sorter_ColumnCases = new CodeDefinition();
         public CodeDefinition HtmlLinks = new CodeDefinition();
         public CodeDefinition HtmlLinks_Contains = new CodeDefinition();
         public CodeDefinition HtmlLinks_DataSetTableCases = new CodeDefinition();
@@ -6664,6 +6669,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_Notes_space___space__asterisk_;
         public string _sharp_Notes_space___space__dot_history;
         public string _sharp_Notes_space___space__dot_readonly;
+        public string _sharp_DataViewSelectorField;
         public string _sharp_DataViewFilters;
         public string _sharp_DataViewFilters_dot_reduced;
         public string _sharp_DataViewFilters_space___space__dot_field_auto_thin;
@@ -6737,6 +6743,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_OutgoingMailsForm;
         public string _sharp_OutgoingMailsForm_space___space__dot_item;
         public string _sharp_OutgoingMailsForm_space__dot_content;
+        public string _sharp_DataViewTabsContainer;
         public string _sharp_SearchResults;
         public string _sharp_SearchResults_space__dot_count;
         public string _sharp_SearchResults_space__dot_count_space__dot_label;
@@ -7044,6 +7051,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_Notes_space___space__asterisk_ = new CssDefinition();
         public CssDefinition _sharp_Notes_space___space__dot_history = new CssDefinition();
         public CssDefinition _sharp_Notes_space___space__dot_readonly = new CssDefinition();
+        public CssDefinition _sharp_DataViewSelectorField = new CssDefinition();
         public CssDefinition _sharp_DataViewFilters = new CssDefinition();
         public CssDefinition _sharp_DataViewFilters_dot_reduced = new CssDefinition();
         public CssDefinition _sharp_DataViewFilters_space___space__dot_field_auto_thin = new CssDefinition();
@@ -7117,6 +7125,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_OutgoingMailsForm = new CssDefinition();
         public CssDefinition _sharp_OutgoingMailsForm_space___space__dot_item = new CssDefinition();
         public CssDefinition _sharp_OutgoingMailsForm_space__dot_content = new CssDefinition();
+        public CssDefinition _sharp_DataViewTabsContainer = new CssDefinition();
         public CssDefinition _sharp_SearchResults = new CssDefinition();
         public CssDefinition _sharp_SearchResults_space__dot_count = new CssDefinition();
         public CssDefinition _sharp_SearchResults_space__dot_count_space__dot_label = new CssDefinition();
@@ -7816,6 +7825,7 @@ namespace Implem.DefinitionAccessor
         public string DecimalPlaces_ja;
         public string ToParent;
         public string ToParent_ja;
+        public string Id;
         public string MoveUp;
         public string MoveUp_ja;
         public string MoveDown;
@@ -7963,6 +7973,12 @@ namespace Implem.DefinitionAccessor
         public string SettingAggregationType_ja;
         public string SettingAggregationTarget;
         public string SettingAggregationTarget_ja;
+        public string Others;
+        public string Others_ja;
+        public string Name;
+        public string Name_ja;
+        public string DataView;
+        public string DataView_ja;
         public string CustomDesign;
         public string CustomDesign_ja;
         public string UseCustomDesign;
@@ -8078,6 +8094,8 @@ namespace Implem.DefinitionAccessor
         public string Aggregations_ja;
         public string Filters;
         public string Filters_ja;
+        public string Sorters;
+        public string Sorters_ja;
         public string Incomplete;
         public string Incomplete_ja;
         public string Blank;
@@ -8498,6 +8516,7 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition DecimalPlaces_ja = new DisplayDefinition();
         public DisplayDefinition ToParent = new DisplayDefinition();
         public DisplayDefinition ToParent_ja = new DisplayDefinition();
+        public DisplayDefinition Id = new DisplayDefinition();
         public DisplayDefinition MoveUp = new DisplayDefinition();
         public DisplayDefinition MoveUp_ja = new DisplayDefinition();
         public DisplayDefinition MoveDown = new DisplayDefinition();
@@ -8645,6 +8664,12 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition SettingAggregationType_ja = new DisplayDefinition();
         public DisplayDefinition SettingAggregationTarget = new DisplayDefinition();
         public DisplayDefinition SettingAggregationTarget_ja = new DisplayDefinition();
+        public DisplayDefinition Others = new DisplayDefinition();
+        public DisplayDefinition Others_ja = new DisplayDefinition();
+        public DisplayDefinition Name = new DisplayDefinition();
+        public DisplayDefinition Name_ja = new DisplayDefinition();
+        public DisplayDefinition DataView = new DisplayDefinition();
+        public DisplayDefinition DataView_ja = new DisplayDefinition();
         public DisplayDefinition CustomDesign = new DisplayDefinition();
         public DisplayDefinition CustomDesign_ja = new DisplayDefinition();
         public DisplayDefinition UseCustomDesign = new DisplayDefinition();
@@ -8760,6 +8785,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition Aggregations_ja = new DisplayDefinition();
         public DisplayDefinition Filters = new DisplayDefinition();
         public DisplayDefinition Filters_ja = new DisplayDefinition();
+        public DisplayDefinition Sorters = new DisplayDefinition();
+        public DisplayDefinition Sorters_ja = new DisplayDefinition();
         public DisplayDefinition Incomplete = new DisplayDefinition();
         public DisplayDefinition Incomplete_ja = new DisplayDefinition();
         public DisplayDefinition Blank = new DisplayDefinition();

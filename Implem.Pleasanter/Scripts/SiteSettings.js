@@ -36,6 +36,10 @@ $p.openEditorColumnPropertiesDialog = function ($control) {
     $p.openSiteSettingsDialog($control, '#EditorColumnPropertiesDialog');
 }
 
+$p.openDataViewDialog = function ($control) {
+    $p.openSiteSettingsDialog($control, '#DataViewDialog', 'body');
+}
+
 $p.openNotificationDialog = function ($control) {
     $p.openSiteSettingsDialog($control, '#NotificationDialog', 'body');
 }

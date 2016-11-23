@@ -656,6 +656,22 @@ namespace Implem.Pleasanter.Models
                 case "DeleteFormulas":
                     DeleteFormulas(res);
                     break;
+                case "NewDataView":
+                case "EditDataView":
+                    OpenDataViewDialog(res, controlId);
+                    break;
+                case "AddDataViewFilter":
+                    AddDataViewFilter(res);
+                    break;
+                case "CreateDataView":
+                    CreateDataView(res);
+                    break;
+                case "UpdateDataView":
+                    UpdateDataView(res);
+                    break;
+                case "DeleteDataView":
+                    DeleteDataView(res);
+                    break;
                 case "NewNotification":
                 case "EditNotification":
                     OpenNotificationDialog(res, controlId);
@@ -1162,6 +1178,121 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void OpenDataViewDialog(ResponseCollection res, string controlId)
+        {
+            Libraries.Settings.DataView dataView;
+            if (controlId == "NewDataView")
+            {
+                dataView = new Libraries.Settings.DataView(SiteSettings);
+                OpenDataViewDialog(res, dataView);
+            }
+            else
+            {
+                var idList = Forms.IntList("DataViews", ';');
+                if (idList.Count() != 1)
+                {
+                    OpenDataViewError(res, Messages.RequireColumn());
+                }
+                else
+                {
+                    dataView = SiteSettings.DataViews.FirstOrDefault(o => o.Id == idList.First());
+                    if (dataView == null)
+                    {
+                        OpenDataViewError(res, Messages.RequireColumn());
+                    }
+                    else
+                    {
+                        SiteSettingsUtility.Get(this);
+                        OpenDataViewDialog(res, dataView);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenDataViewDialog(
+            ResponseCollection res, Libraries.Settings.DataView dataView)
+        {
+            res
+                .Html("#DataViewDialog", SiteUtilities.DataViewDialog(
+                    ss: SiteSettings,
+                    controlId: Forms.ControlId(),
+                    dataView: dataView))
+                .Invoke("validateSites");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenDataViewError(ResponseCollection res, Message message)
+        {
+            res
+                .Message(message)
+                .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AddDataViewFilter(ResponseCollection res)
+        {
+            SiteSettingsUtility.Get(this);
+            res
+                .Append(
+                    "#DataViewFiltersTab .items",
+                    new HtmlBuilder().DataViewFilter(
+                        SiteSettings.GetColumn(Forms.Data("DataViewFilterSelector"))))
+                .Remove("#DataViewFilterSelector option:selected");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CreateDataView(ResponseCollection res)
+        {
+            SiteSettings.AddDataView(new Libraries.Settings.DataView(SiteSettings));
+            res
+                .DataViewResponses(SiteSettings, new List<int>
+                {
+                    SiteSettings.DataViewLatestId
+                })
+                .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateDataView(ResponseCollection res)
+        {
+            var selected = Forms.Int("DataViewId");
+            var dataView = SiteSettings.DataViews.FirstOrDefault(o => o.Id == selected);
+            if (dataView == null)
+            {
+                res.Message(Messages.NotFound());
+            }
+            else
+            {
+                dataView.SetByForm(SiteSettings);
+                res
+                    .DataViewResponses(SiteSettings, new List<int> { selected })
+                    .CloseDialog();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void DeleteDataView(ResponseCollection res)
+        {
+            SiteSettings.DataViews.RemoveAll(o => Forms.IntList("DataViews", ';').Contains(o.Id));
+            res.DataViewResponses(SiteSettings);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void OpenNotificationDialog(ResponseCollection res, string controlId)
         {
             var notification = controlId == "EditNotification"
@@ -1311,7 +1442,7 @@ namespace Implem.Pleasanter.Models
         public string SynchronizeFormulas()
         {
             SetSiteSettingsPropertiesBySession();
-            SiteSettings.SetChoicesByLinks();
+            SiteSettings.SetChoiceHash();
             FormulaUtilities.Synchronize(this);
             return Messages.ResponseSynchronizationCompleted().ToJson();
         }

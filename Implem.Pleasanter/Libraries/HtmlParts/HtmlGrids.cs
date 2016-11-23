@@ -1,5 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Html;
-using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.Libraries.DataSources.SqlServer;
+using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder GridHeader(
             this HtmlBuilder hb,
             IEnumerable<Column> columnCollection, 
-            FormData formData = null,
+            DataView dataView = null,
             bool sort = true,
             bool checkAll = false,
             bool checkRow = true)
@@ -34,17 +34,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             hb.Th(css: "sortable", action: () => hb
                                 .Div(
                                     attributes: new HtmlAttributes()
-                                        .Id("GridSorters_" + column.Id)
-                                        .Add("data-order-type", GridSorters
-                                            .TypeString(formData, "GridSorters_" + column.Id))
+                                        .Id("DataViewSorters_" + column.Id)
+                                        .Add("data-order-type", OrderBy(
+                                            dataView, column.ColumnName))
                                         .DataAction("GridRows")
                                         .DataMethod("post"),
                                     action: () => hb
                                         .Span(action: () => hb
                                             .Text(text: Displays.Get(column.GridLabelText)))
                                         .SortIcon(
-                                            formData: formData,
-                                            key: "GridSorters_" + column.Id)));
+                                            dataView: dataView,
+                                            key: column.ColumnName)));
                         }
                         else
                         {
@@ -53,6 +53,26 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         }
                     });
                 });
+        }
+
+        private static string OrderBy(DataView dataView, string key)
+        {
+            switch (dataView.ColumnSorter(key))
+            {
+                case SqlOrderBy.Types.asc: return "Desc";
+                case SqlOrderBy.Types.desc: return string.Empty;
+                default: return "Asc";
+            }
+        }
+
+        public static HtmlBuilder SortIcon(this HtmlBuilder hb, DataView dataView, string key)
+        {
+            switch (dataView.ColumnSorter(key))
+            {
+                case SqlOrderBy.Types.asc: return hb.Icon(iconCss: "ui-icon-triangle-1-n");
+                case SqlOrderBy.Types.desc: return hb.Icon(iconCss: "ui-icon-triangle-1-s");
+                default: return hb;
+            }
         }
     }
 }

@@ -236,6 +236,7 @@
     <Compile Include="Libraries\DataViews\TimeSeriesElement.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlBack.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlBreadcrumb.cs" />
+    <Compile Include="Libraries\HtmlParts\HtmlDataView.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlFooter.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlNotes.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlTimes.cs" />
@@ -292,17 +293,16 @@
     <Compile Include="Libraries\Models\Summaries.cs" />
     <Compile Include="Libraries\Models\Titles.cs" />
     <Compile Include="Libraries\Models\Versions.cs" />
-    <Compile Include="Libraries\Requests\DataViewFilters.cs" />
+    <Compile Include="Libraries\Requests\DataViews.cs" />
     <Compile Include="Libraries\Requests\DataViewSelectors.cs" />
-    <Compile Include="Libraries\Requests\FormData.cs" />
     <Compile Include="Libraries\Requests\Forms.cs" />
     <Compile Include="Libraries\Requests\DataViewGrid.cs" />
-    <Compile Include="Libraries\Requests\GridSorters.cs" />
     <Compile Include="Libraries\Requests\QueryStrings.cs" />
     <Compile Include="Libraries\Requests\Request.cs" />
     <Compile Include="Libraries\Requests\Routes.cs" />
     <Compile Include="Libraries\Requests\Url.cs" />
     <Compile Include="Libraries\Responses\ControlData.cs" />
+    <Compile Include="Libraries\Responses\ResponseDataViews.cs" />
     <Compile Include="Libraries\Responses\Displays.cs" />
     <Compile Include="Libraries\Responses\Message.cs" />
     <Compile Include="Libraries\Responses\Messages.cs" />
@@ -314,6 +314,7 @@
     <Compile Include="Libraries\Responses\ResponseFileNames.cs" />
     <Compile Include="Libraries\Responses\ResponseImage.cs" />
     <Compile Include="Libraries\Responses\ResponseSpecials.cs" />
+    <Compile Include="Libraries\Responses\TimePeriod.cs" />
     <Compile Include="Libraries\Scripts\JavaScripts.cs" />
     <Compile Include="Libraries\Search\Indexes.cs" />
     <Compile Include="Libraries\Search\WordBreaker.cs" />
@@ -424,6 +425,8 @@
     <Content Include="Images\logo-corp.png" />
     <Content Include="Scripts\AggregationEvents.js" />
     <Content Include="Scripts\AnchorEvents.js" />
+    <Content Include="Scripts\Basket.js" />
+    <Content Include="Scripts\BasketEvents.js" />
     <Content Include="Scripts\BurnDown.js" />
     <Content Include="Scripts\BurnDownEvents.js" />
     <Content Include="Scripts\DataView.js" />

@@ -28,8 +28,8 @@ namespace Implem.Pleasanter.Models
         public static string Index(SiteSettings ss, Permissions.Types pt)
         {
             var hb = new HtmlBuilder();
-            var formData = DataViewFilters.SessionFormData();
-            var deptCollection = DeptCollection(ss, pt, formData);
+            var dataView = DataViews.GetBySession(ss);
+            var deptCollection = DeptCollection(ss, pt, dataView);
             return hb.Template(
                 pt: pt,
                 verType: Versions.VerTypes.Latest,
@@ -54,7 +54,7 @@ namespace Implem.Pleasanter.Models
                                         deptCollection: deptCollection,
                                         pt: pt,
                                         ss: ss,
-                                        formData: formData))
+                                        dataView: dataView))
                                 .MainCommands(
                                     siteId: ss.SiteId,
                                     pt: pt,
@@ -81,7 +81,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Permissions.Types pt,
             DeptCollection deptCollection,
-            FormData formData,
+            Libraries.Settings.DataView dataView,
             string dataViewName,
             Action dataViewBody)
         {
@@ -94,10 +94,7 @@ namespace Implem.Pleasanter.Models
                 parentId: ss.ParentId,
                 referenceType: "Depts",
                 script: Libraries.Scripts.JavaScripts.DataView(
-                    ss: ss,
-                    pt: pt,
-                    formData: formData,
-                    dataViewName: dataViewName),
+                    ss: ss, pt: pt, dataViewName: dataViewName),
                 userScript: ss.GridScript,
                 userStyle: ss.GridStyle,
                 action: () => hb
@@ -107,7 +104,8 @@ namespace Implem.Pleasanter.Models
                             .Class("main-form")
                             .Action(Locations.ItemAction(ss.SiteId)),
                         action: () => hb
-                            .DataViewFilters(ss: ss)
+                            .DataViewSelector(ss: ss, dataView: dataView)
+                            .DataViewFilters(ss: ss, dataView: dataView)
                             .Aggregations(
                                 ss: ss,
                                 aggregations: deptCollection.Aggregations)
@@ -133,15 +131,15 @@ namespace Implem.Pleasanter.Models
 
         public static string IndexJson(SiteSettings ss, Permissions.Types pt)
         {
-            var formData = DataViewFilters.SessionFormData();
-            var deptCollection = DeptCollection(ss, pt, formData);
+            var dataView = DataViews.GetBySession(ss);
+            var deptCollection = DeptCollection(ss, pt, dataView);
             return new ResponseCollection()
                 .Html("#DataViewContainer", new HtmlBuilder().Grid(
                     ss: ss,
                     deptCollection: deptCollection,
                     pt: pt,
-                    formData: formData))
-                .DataViewFilters(ss: ss)
+                    dataView: dataView))
+                .DataView(ss: ss, dataView: dataView)
                 .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     ss: ss,
                     aggregations: deptCollection.Aggregations))
@@ -151,20 +149,16 @@ namespace Implem.Pleasanter.Models
         private static DeptCollection DeptCollection(
             SiteSettings ss,
             Permissions.Types pt,
-            FormData formData,
+            Libraries.Settings.DataView dataView,
             int offset = 0)
         {
             return new DeptCollection(
                 ss: ss,
                 pt: pt,
                 column: GridSqlColumnCollection(ss),
-                where: DataViewFilters.Get(
-                    ss: ss,
-                    tableName: "Depts",
-                    formData: formData,
-                    where: Rds.DeptsWhere().TenantId(Sessions.TenantId())),
-                orderBy: GridSorters.Get(
-                    formData, Rds.DeptsOrderBy().UpdatedTime(SqlOrderBy.Types.desc)),
+                where: dataView.Where(ss, Rds.DeptsWhere().TenantId(Sessions.TenantId())),
+                orderBy: dataView.OrderBy(ss, Rds.DeptsOrderBy()
+                    .UpdatedTime(SqlOrderBy.Types.desc)),
                 offset: offset,
                 pageSize: ss.GridPageSize.ToInt(),
                 countRecord: true,
@@ -176,7 +170,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Permissions.Types pt,
             DeptCollection deptCollection,
-            FormData formData)
+            Libraries.Settings.DataView dataView)
         {
             return hb
                 .Table(
@@ -189,14 +183,24 @@ namespace Implem.Pleasanter.Models
                         .GridRows(
                             ss: ss,
                             deptCollection: deptCollection,
-                            formData: formData))
+                            dataView: dataView))
                 .Hidden(
                     controlId: "GridOffset",
                     value: ss.GridNextOffset(
                         0,
                         deptCollection.Count(),
                         deptCollection.Aggregations.TotalCount)
-                            .ToString());
+                            .ToString())
+                .Button(
+                    controlId: "DataViewSorter",
+                    controlCss: "hidden",
+                    action: "GridRows",
+                    method: "post")
+                .Button(
+                    controlId: "DataViewSorters_Reset",
+                    controlCss: "hidden",
+                    action: "GridRows",
+                    method: "post");
         }
 
         public static string GridRows(
@@ -207,8 +211,8 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false,
             Message message = null)
         {
-            var formData = DataViewFilters.SessionFormData();
-            var deptCollection = DeptCollection(ss, pt, formData, offset);
+            var dataView = DataViews.GetBySession(ss);
+            var deptCollection = DeptCollection(ss, pt, dataView, offset);
             return (res ?? new ResponseCollection())
                 .Remove(".grid tr", _using: offset == 0)
                 .ClearFormData("GridCheckAll", _using: clearCheck)
@@ -218,7 +222,7 @@ namespace Implem.Pleasanter.Models
                 .Append("#Grid", new HtmlBuilder().GridRows(
                     ss: ss,
                     deptCollection: deptCollection,
-                    formData: formData,
+                    dataView: dataView,
                     addHeader: offset == 0,
                     clearCheck: clearCheck))
                 .Val("#GridOffset", ss.GridNextOffset(
@@ -232,7 +236,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             SiteSettings ss,
             DeptCollection deptCollection,
-            FormData formData,
+            Libraries.Settings.DataView dataView,
             bool addHeader = true,
             bool clearCheck = false)
         {
@@ -244,7 +248,7 @@ namespace Implem.Pleasanter.Models
                     action: () => hb
                         .GridHeader(
                             columnCollection: columns, 
-                            formData: formData,
+                            dataView: dataView,
                             checkAll: checkAll))
                 .TBody(action: () => deptCollection
                     .ForEach(deptModel => hb
@@ -526,18 +530,14 @@ namespace Implem.Pleasanter.Models
 
         public static List<int> GetSwitchTargets(SiteSettings ss, int deptId)
         {
-            var formData = DataViewFilters.SessionFormData();
+            var dataView = DataViews.GetBySession(ss);
             var switchTargets = Rds.ExecuteTable(
                 transactional: false,
                 statements: Rds.SelectDepts(
                     column: Rds.DeptsColumn().DeptId(),
-                    where: DataViewFilters.Get(
-                        ss: ss,
-                        tableName: "Depts",
-                        formData: formData,
-                        where: Rds.DeptsWhere().TenantId(Sessions.TenantId())),
-                    orderBy: GridSorters.Get(
-                        formData, Rds.DeptsOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
+                    where: dataView.Where(
+                        ss: ss, where: Rds.DeptsWhere().TenantId(Sessions.TenantId())),
+                    orderBy: dataView.OrderBy(ss, Rds.DeptsOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
                             .AsEnumerable()
                             .Select(o => o["DeptId"].ToInt())
                             .ToList();

@@ -7,7 +7,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             return
                 Forms.ControlId().StartsWith("DataViewFilters_") ||
-                Forms.Keys().Any(o => o.StartsWith("GridSorters_"))
+                Forms.Keys().Any(o => o.StartsWith("DataViewSorters_"))
                     ? 0
                     : Forms.Int("GridOffset");
         }

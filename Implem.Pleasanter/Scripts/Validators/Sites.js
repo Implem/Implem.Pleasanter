@@ -8,6 +8,14 @@
             Sites_Title: { required:$p.display('ValidateRequired') }
         }
     });
+    $('#DataViewForm').validate({
+        rules: {
+            DataViewName: { required: true }
+        },
+        messages: {
+            DataViewName: { required: $p.display('ValidateRequired') }
+        }
+    });
     $('#NotificationForm').validate({
         rules: {
             NotificationAddress: { required: true }

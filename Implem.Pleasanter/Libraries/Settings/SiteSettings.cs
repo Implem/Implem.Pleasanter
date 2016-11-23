@@ -47,6 +47,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<string> LinkColumns;
         public List<string> HistoryColumns;
         public List<Column> ColumnCollection;
+        public int DataViewLatestId;
+        public List<DataView> DataViews;
         public List<Notification> Notifications;
         public List<Aggregation> AggregationCollection;
         public List<Link> LinkCollection;
@@ -141,6 +143,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (self.LinkColumns.SequenceEqual(def.LinkColumns)) self.LinkColumns = null;
             if (self.HistoryColumns.SequenceEqual(def.HistoryColumns)) self.HistoryColumns = null;
             if (self.ColumnCollection.SequenceEqual(def.ColumnCollection)) self.ColumnCollection = null;
+            if (self.DataViews?.Count == 0) self.DataViews = null;
             if (!self.Notifications.Any()) self.Notifications = null;
             if (self.AggregationCollection.SequenceEqual(def.AggregationCollection)) self.AggregationCollection = null;
             if (self.LinkCollection.SequenceEqual(def.LinkCollection)) self.LinkCollection = null;
@@ -575,6 +578,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(o => o.ColumnName), enabled);
         }
 
+        public Dictionary<string, string> DataViewSelectableOptions()
+        {
+            return DataViews != null
+                ? DataViews.ToDictionary(o => o.Id.ToString(), o => o.Name)
+                : new Dictionary<string, string>();
+        }
+
         public Dictionary<string, string> MonitorChangesSelectableOptions(
             IEnumerable<string> monitorChangesColumns, bool enabled = true)
         {
@@ -767,7 +777,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "Step": column.Step = value.ToDecimal(); break;
                 case "EditorReadOnly": column.EditorReadOnly = value.ToBool(); break;
                 case "FieldCss": column.FieldCss = value; break;
-                case "ChoicesText": SetChoices(column, value); break;
+                case "ChoicesText": column.ChoicesText = value; SetLinks(column); break;
                 case "DefaultInput": column.DefaultInput = value; break;
                 case "GridFormat": column.GridFormat = value; break;
                 case "ControlFormat": column.ControlFormat = value; break;
@@ -830,6 +840,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        public void AddDataView(DataView dataView)
+        {
+            DataViewLatestId++;
+            dataView.Id = DataViewLatestId;
+            if (DataViews == null) DataViews = new List<DataView>();
+            DataViews.Add(dataView);
+        }
+
         public Error.Types AddSummary(
             long siteId,
             string destinationReferenceType,
@@ -867,12 +885,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             SummaryCollection.Remove(SummaryCollection.FirstOrDefault(o => o.Id == id));
         }
 
-        private void SetChoices(Column column, string value)
+        private void SetLinks(Column column)
         {
-            column.ChoicesText = value;
             column.Link = false;
             LinkCollection.RemoveAll(o => o.ColumnName == column.ColumnName);
-            value.SplitReturn()
+            column.ChoicesText.SplitReturn()
                 .Select(o => o.Trim())
                 .Where(o => o.RegexExists(@"^\[\[[0-9]*\]\]$"))
                 .Select(o => o.RegexFirst("[0-9]+").ToLong())
@@ -890,8 +907,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                     }
                 });
         }
-        
-        public void SetChoicesByLinks()
+
+        public void SetChoiceHash(bool withLink = true)
+        {
+            var linkHash = withLink
+                ? LinkHash()
+                : null;
+            ColumnCollection.Where(o => o.HasChoices()).ForEach(column =>
+                column.SetChoiceHash(InheritPermission, linkHash));
+        }
+
+        private Dictionary<string, Dictionary<string, string>> LinkHash()
         {
             if (LinkCollection?.Count > 0)
             {
@@ -910,46 +936,35 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     .Distinct()),
                         orderBy: Rds.ItemsOrderBy()
                             .Title())).AsEnumerable();
-                LinkCollection.ForEach(link =>
-                    SetChoicesByLinks(link, dataRows));
+                return LinkCollection.ToDictionary(
+                    o => "[[" + o.SiteId + "]]",
+                    o => LinkValue(o.SiteId, dataRows));
+            }
+            else
+            {
+                return null;
             }
         }
 
-        private void SetChoicesByLinks(
-            Link link, EnumerableRowCollection<DataRow> dataRows)
+        private static Dictionary<string, string> LinkValue(
+            long siteId, EnumerableRowCollection<DataRow> dataRows)
         {
-            var column = GetColumn(link.ColumnName);
-            column.ChoicesText = column.ChoicesText.SplitReturn()
-                .Select(o => o.Trim())
-                .Where(o => o != string.Empty)
-                .Select(o => LinkedChoices(link.SiteId, dataRows, o))
-                .Join("\n");
-        }
-
-        private static string LinkedChoices(
-            long siteId, EnumerableRowCollection<DataRow> dataRows, string line)
-        {
-            return line != "[[{0}]]".Params(siteId.ToString())
-                ? line
-                : dataRows.Any(o =>
-                    o["SiteId"].ToLong() == siteId &&
-                    o["ReferenceType"].ToString() == "Wikis")
-                        ? Rds.ExecuteScalar_string(statements:
-                            Rds.SelectWikis(
-                                column: Rds.WikisColumn().Body(),
-                                where: Rds.WikisWhere().SiteId(siteId))).Trim()
-                        : dataRows
-                            .Where(p => p["SiteId"].ToLong() == siteId)
-                            .Select(p => "{0},{0}: {1}".Params(
-                                p["ReferenceId"],
-                                p["Title"]))
-                            .Join("\n");
-        }
-
-        public void SetChoicesByPlaceholders()
-        {
-            ColumnCollection.Where(o => o.HasChoices()).ForEach(column =>
-                column.SetChoicesByPlaceholders(InheritPermission));
+            return dataRows.Any(o =>
+                o["SiteId"].ToLong() == siteId &&
+                o["ReferenceType"].ToString() == "Wikis")
+                    ? Rds.ExecuteScalar_string(statements:
+                        Rds.SelectWikis(
+                            column: Rds.WikisColumn().Body(),
+                            where: Rds.WikisWhere().SiteId(siteId)))
+                                .SplitReturn()
+                                .ToDictionary(
+                                    p => p.Split_1st(),
+                                    p => p.Split_2nd())
+                    : dataRows
+                        .Where(p => p["SiteId"].ToLong() == siteId)
+                        .ToDictionary(
+                            p => p["ReferenceId"].ToString(),
+                            p => p["ReferenceId"].ToString() + ": " + p["Title"].ToString());
         }
 
         public EnumerableRowCollection<DataRow> SummarySiteDataRows()

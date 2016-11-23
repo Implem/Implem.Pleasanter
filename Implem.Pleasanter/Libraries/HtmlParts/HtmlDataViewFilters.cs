@@ -1,12 +1,9 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.Classes;
-using Implem.Libraries.Utilities;
+﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,21 +11,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlDataViewFilters
     {
-        public static ResponseCollection DataViewFilters(
-            this ResponseCollection res, SiteSettings ss)
-        {
-            return
-                Forms.ControlId() == "ReduceDataViewFilters" ||
-                Forms.ControlId() == "ExpandDataViewFilters"
-                    ? res.ReplaceAll(
-                        "#DataViewFilters", new HtmlBuilder().DataViewFilters(ss))
-                    : res;
-        }
-
         public static HtmlBuilder DataViewFilters(
-            this HtmlBuilder hb, SiteSettings ss)
+            this HtmlBuilder hb, SiteSettings ss, DataView dataView)
         {
-            var formData = Requests.DataViewFilters.SessionFormData(ss.SiteId);
             return !Reduced(ss.SiteId)
                 ? hb.Div(
                     id: "DataViewFilters",
@@ -37,13 +22,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             id: "ReduceDataViewFilters",
                             icon: "ui-icon-close")
                         .Reset()
-                        .Incomplete(ss: ss, formData: formData)
-                        .Own(ss: ss, formData: formData)
-                        .NearCompletionTime(ss: ss, formData: formData)
-                        .Delay(ss: ss, formData: formData)
-                        .Limit(ss: ss, formData: formData)
-                        .Columns(ss: ss, formData: formData)
-                        .Search(ss: ss, formData: formData))
+                        .Incomplete(ss: ss, dataView: dataView)
+                        .Own(ss: ss, dataView: dataView)
+                        .NearCompletionTime(ss: ss, dataView: dataView)
+                        .Delay(ss: ss, dataView: dataView)
+                        .Limit(ss: ss, dataView: dataView)
+                        .Columns(ss: ss, dataView: dataView)
+                        .Search(ss: ss, dataView: dataView))
                 : hb.Div(
                     id: "DataViewFilters",
                     css: "reduced",
@@ -93,70 +78,70 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder Incomplete(
-            this HtmlBuilder hb, SiteSettings ss, FormData formData)
+            this HtmlBuilder hb, SiteSettings ss, DataView dataView)
         {
             return hb.FieldCheckBox(
                 controlId: "DataViewFilters_Incomplete",
                 fieldCss: "field-auto-thin",
                 controlCss: " auto-postback",
                 labelText: Displays.Incomplete(),
-                _checked: formData.Checked("DataViewFilters_Incomplete"),
+                _checked: dataView.Incomplete == true,
                 method: "post",
                 labelPositionIsRight: true,
                 _using: Visible(ss, "Status"));
         }
 
         private static HtmlBuilder Own(
-            this HtmlBuilder hb, SiteSettings ss, FormData formData)
+            this HtmlBuilder hb, SiteSettings ss, DataView dataView)
         {
             return hb.FieldCheckBox(
                 controlId: "DataViewFilters_Own",
                 fieldCss: "field-auto-thin",
                 controlCss: " auto-postback",
                 labelText: Displays.Own(),
-                _checked: formData.Checked("DataViewFilters_Own"),
+                _checked: dataView.Own == true,
                 method: "post",
                 labelPositionIsRight: true,
                 _using: Visible(ss, "Owner"));
         }
 
         private static HtmlBuilder NearCompletionTime(
-            this HtmlBuilder hb, SiteSettings ss, FormData formData)
+            this HtmlBuilder hb, SiteSettings ss, DataView dataView)
         {
             return hb.FieldCheckBox(
                 controlId: "DataViewFilters_NearCompletionTime",
                 fieldCss: "field-auto-thin",
                 controlCss: " auto-postback",
                 labelText: Displays.NearCompletionTime(),
-                _checked: formData.Checked("DataViewFilters_NearCompletionTime"),
+                _checked: dataView.NearCompletionTime == true,
                 method: "post",
                 labelPositionIsRight: true,
                 _using: Visible(ss, "CompletionTime"));
         }
 
         private static HtmlBuilder Delay(
-            this HtmlBuilder hb, SiteSettings ss, FormData formData)
+            this HtmlBuilder hb, SiteSettings ss, DataView dataView)
         {
             return hb.FieldCheckBox(
                 controlId: "DataViewFilters_Delay",
                 fieldCss: "field-auto-thin",
                 controlCss: " auto-postback",
                 labelText: Displays.Delay(),
-                _checked: formData.Checked("DataViewFilters_Delay"),
+                _checked: dataView.Delay == true,
                 method: "post",
                 labelPositionIsRight: true,
                 _using: Visible(ss, "ProgressRate"));
         }
 
         private static HtmlBuilder Limit(
-            this HtmlBuilder hb, SiteSettings ss, FormData formData)
+            this HtmlBuilder hb, SiteSettings ss, DataView dataView)
         {
             return hb.FieldCheckBox(
                 controlId: "DataViewFilters_Overdue",
                 fieldCss: "field-auto-thin",
                 controlCss: " auto-postback",
                 labelText: Displays.Overdue(),
-                _checked: formData.Checked("DataViewFilters_Overdue"),
+                _checked: dataView.Overdue == true,
                 method: "post",
                 labelPositionIsRight: true,
                 _using: Visible(ss, "CompletionTime"));
@@ -170,7 +155,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder Columns(
-            this HtmlBuilder hb, SiteSettings ss, FormData formData)
+            this HtmlBuilder hb, SiteSettings ss, DataView dataView)
         {
             ss.FilterColumnCollection().ForEach(column =>
             {
@@ -180,14 +165,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         hb.CheckBox(
                             column: column,
                             ss: ss,
-                            formData: formData);
+                            dataView: dataView);
                         break;
                     case Types.CsDateTime:
-                        var timePeriod = TimePeriod(column.RecordedTime);
+                        var timePeriod = TimePeriod.Get(column.RecordedTime);
                         hb.DropDown(
                             ss: ss,
                             column: column,
-                            formData: formData,
+                            dataView: dataView,
                             optionCollection: timePeriod);
                         break;
                     case Types.CsNumeric:
@@ -195,9 +180,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         if (column.HasChoices())
                         {
                             hb.DropDown(
-                            ss: ss,
+                                ss: ss,
                                 column: column,
-                                formData: formData,
+                                dataView: dataView,
                                 optionCollection: column.EditChoices(addNotSet: true));
                         }
                         break;
@@ -209,14 +194,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder CheckBox(
-            this HtmlBuilder hb, SiteSettings ss, Column column, FormData formData)
+            this HtmlBuilder hb, SiteSettings ss, Column column, DataView dataView)
         {
             return hb.FieldCheckBox(
                 controlId: "DataViewFilters_" + column.Id,
                 fieldCss: "field-auto-thin",
                 controlCss: " auto-postback",
                 labelText: Displays.Get(column.GridLabelText),
-                _checked: formData.Get("DataViewFilters_" + column.Id).ToBool(),
+                _checked: dataView.ColumnFilter(column.ColumnName).ToBool(),
                 method: "post",
                 _using:
                     ss.GridColumns.Contains(column.ColumnName) ||
@@ -227,7 +212,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             SiteSettings ss,
             Column column,
-            FormData formData,
+            DataView dataView,
             Dictionary<string, ControlData> optionCollection)
         {
             return hb.FieldDropDown(
@@ -236,7 +221,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 controlCss: " auto-postback",
                 labelText: Displays.Get(column.GridLabelText),
                 optionCollection: optionCollection,
-                selectedValue: formData.Get("DataViewFilters_" + column.Id),
+                selectedValue: dataView.ColumnFilter(column.ColumnName),
                 multiple: true,
                 addSelectedValue: false,
                 method: "post",
@@ -247,123 +232,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder Search(
-            this HtmlBuilder hb, SiteSettings ss, FormData formData)
+            this HtmlBuilder hb, SiteSettings ss, DataView dataView)
         {
             return hb.FieldTextBox(
                 controlId: "DataViewFilters_Search",
                 fieldCss: "field-auto-thin",
                 controlCss: " auto-postback",
                 labelText: Displays.Search(),
-                text: formData.Get("DataViewFilters_Search"),
+                text: dataView.Search,
                 method: "post",
                 _using: Routes.Controller().ToLower() == "items");
-        }
-
-        private static Dictionary<string, ControlData> TimePeriod(bool recordedTime)
-        {
-            var hash = new Dictionary<string, ControlData>();
-            var min = Min();
-            var max = Max();
-            for (var m = min; m <= max; m += 12)
-            {
-                SetFy(hash, DateTime.Now.AddMonths(m), recordedTime);
-            }
-            for (var m = min; m <= max; m += 6)
-            {
-                SetHalf(hash, DateTime.Now.AddMonths(m), recordedTime);
-            }
-            for (var m = min; m <= max; m += 3)
-            {
-                SetQuarter(hash, DateTime.Now.AddMonths(m), recordedTime);
-            }
-            for (var m = min; m <= max; m++)
-            {
-                SetMonth(hash, DateTime.Now.AddMonths(m), recordedTime);
-            }
-            return hash;
-        }
-
-        private static int Min()
-        {
-            return (DateTime.Now.AddYears(Parameters.General.FilterMinSpan).FyFrom() -
-                DateTime.Now).Months();
-        }
-
-        private static int Max()
-        {
-            return (DateTime.Now.AddYears(Parameters.General.FilterMaxSpan + 1).FyFrom() -
-                DateTime.Now).Months();
-        }
-
-        private static void SetMonth(
-            Dictionary<string, ControlData> hash, DateTime current, bool recordedTime)
-        {
-            var timePeriod = new TimePeriod(
-                Implem.Libraries.Classes.TimePeriod.Types.Month, current);
-            if (!recordedTime || timePeriod.From <= DateTime.Now)
-            {
-                hash.Add(
-                    Period(timePeriod),
-                    new ControlData(current.ToString("y", Sessions.CultureInfo()) +
-                        InRange(timePeriod)));
-            }
-        }
-
-        private static void SetQuarter(
-            Dictionary<string, ControlData> hash, DateTime current, bool recordedTime)
-        {
-            var timePeriod = new TimePeriod(
-                Implem.Libraries.Classes.TimePeriod.Types.Quarter, current);
-            if (!recordedTime || timePeriod.From <= DateTime.Now)
-            {
-                hash.Add(
-                   Period(timePeriod),
-                    new ControlData(Displays.Quarter(
-                        current.Fy().ToString(), current.Quarter().ToString()) +
-                            InRange(timePeriod)));
-            }
-        }
-
-        private static void SetHalf(
-            Dictionary<string, ControlData> hash, DateTime current, bool recordedTime)
-        {
-            var timePeriod = new TimePeriod(
-                Implem.Libraries.Classes.TimePeriod.Types.Half, current);
-            if (!recordedTime || timePeriod.From <= DateTime.Now)
-            {
-                hash.Add(
-                    Period(timePeriod),
-                    new ControlData((current.Half() == 1
-                        ? Displays.Half1(current.Fy().ToString())
-                        : Displays.Half2(current.Fy().ToString())) +
-                            InRange(timePeriod)));
-            }
-        }
-
-        private static void SetFy(
-            Dictionary<string, ControlData> hash, DateTime current, bool recordedTime)
-        {
-            var timePeriod = new TimePeriod(Implem.Libraries.Classes.TimePeriod.Types.Fy, current);
-            if (!recordedTime || timePeriod.From <= DateTime.Now)
-            {
-                hash.Add(
-                    Period(timePeriod),
-                    new ControlData(Displays.Fy(current.Fy().ToString()) + InRange(timePeriod)));
-            }
-        }
-
-        private static string Period(TimePeriod timePeriod)
-        {
-            return
-                timePeriod.From.ToString() + "," +
-                timePeriod.To.ToString("yyyy/M/d H:m:s.fff");
-        }
-
-        private static string InRange(TimePeriod timePeriod)
-        {
-            return timePeriod.InRange(DateTime.Now)
-                ? " *"
-                : string.Empty;
         }
     }
 }

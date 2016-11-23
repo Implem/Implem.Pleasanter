@@ -539,6 +539,10 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.EditorSettingsEditor()))
                                 .Li(action: () => hb
                                     .A(
+                                        href: "#DataViewSettingsEditor",
+                                        text: Displays.DataView()))
+                                .Li(action: () => hb
+                                    .A(
                                         href: "#SummarySettingsEditor",
                                         text: Displays.SummarySettingsEditor()))
                                 .Li(action: () => hb
@@ -1047,6 +1051,10 @@ namespace Implem.Pleasanter.Models
                 .CopyDialog("items", siteModel.SiteId)
                 .OutgoingMailDialog()
                 .Div(attributes: new HtmlAttributes()
+                    .Id("DataViewDialog")
+                    .Class("dialog")
+                    .Title(Displays.DataView()))
+                .Div(attributes: new HtmlAttributes()
                     .Id("NotificationDialog")
                     .Class("dialog")
                     .Title(Displays.NotificationSettingsEditor())));
@@ -1139,6 +1147,7 @@ namespace Implem.Pleasanter.Models
                         hb
                             .GridSettingsEditor(siteModel.SiteSettings)
                             .EditorSettingsEditor(siteModel.SiteSettings)
+                            .DataViewSettingsEditor(siteModel.SiteSettings)
                             .NotificationSettingsEditor(siteModel.SiteSettings)
                             .SummarySettingsEditor(siteModel.SiteSettings)
                             .MailerSettingsEditor(siteModel.SiteSettings)
@@ -2131,6 +2140,306 @@ namespace Implem.Pleasanter.Models
                                     action: "SynchronizeFormulas",
                                     method: "put",
                                     confirm: Displays.ConfirmSynchronize()))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder DataViewSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        {
+            return hb.FieldSet(
+                id: "DataViewSettingsEditor",
+                action: () => hb
+                    .FieldSelectable(
+                        controlId: "DataViews",
+                        fieldCss: "field-vertical w400",
+                        controlContainerCss: "container-selectable",
+                        controlWrapperCss: " h350",
+                        listItemCollection: ss.DataViewSelectableOptions(),
+                        commandOptionPositionIsTop: true,
+                        commandOptionAction: () => hb
+                            .Div(css: "command-center", action: () => hb
+                                .Button(
+                                    controlId: "MoveUpDataView",
+                                    text: Displays.MoveUp(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-n",
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    controlId: "MoveDownDataView",
+                                    text: Displays.MoveDown(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-s",
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    controlId: "NewDataView",
+                                    text: Displays.New(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.openDataViewDialog($(this));",
+                                    icon: "ui-icon-gear",
+                                    action: "SetSiteSettings",
+                                    method: "put")
+                                .Button(
+                                    controlId: "EditDataView",
+                                    text: Displays.AdvancedSetting(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.openDataViewDialog($(this));",
+                                    icon: "ui-icon-gear",
+                                    action: "SetSiteSettings",
+                                    method: "put")
+                                .Button(
+                                    controlId: "DeleteDataView",
+                                    text: Displays.Delete(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-e",
+                                    action: "SetSiteSettings",
+                                    method: "put"))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder DataViewDialog(
+            SiteSettings ss,
+            string controlId,
+            Libraries.Settings.DataView dataView)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("DataViewForm")
+                    .Action(Locations.ItemAction(ss.SiteId)),
+                action: () => hb
+                    .FieldText(
+                        controlId: "DataViewId",
+                        controlCss: " must-transport",
+                        labelText: Displays.Id(),
+                        text: dataView.Id.ToString())
+                    .FieldTextBox(
+                        controlId: "DataViewName",
+                        labelText: Displays.Name(),
+                        text: dataView.Name)
+                    .Div(id: "DataViewTabsContainer", action: () => hb
+                        .Ul(id: "DataViewTabs", action: () => hb
+                            .Li(action: () => hb
+                                .A(
+                                    href: "#DataViewFiltersTab",
+                                    text: Displays.Filters()))
+                            .Li(action: () => hb
+                                .A(
+                                    href: "#DataViewSortersTab",
+                                    text: Displays.Sorters())))
+                        .DataViewFiltersTab(ss: ss, dataView: dataView)
+                        .DataViewSortersTab(ss: ss, dataView: dataView))
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "CreateDataView",
+                            text: Displays.Setting(),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "NewDataView")
+                        .Button(
+                            controlId: "UpdateDataView",
+                            text: Displays.Setting(),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "EditDataView")
+                        .Button(
+                            text: Displays.Cancel(),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder DataViewFiltersTab(
+            this HtmlBuilder hb, SiteSettings ss, Libraries.Settings.DataView dataView)
+        {
+            return hb.FieldSet(id: "DataViewFiltersTab", action: () => hb
+                .Div(css: "items", action: () => hb
+                    .FieldCheckBox(
+                        controlId: "DataViewFilters_Incomplete",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.Incomplete(),
+                        _checked: dataView.Incomplete.ToBool(),
+                        labelPositionIsRight: true)
+                    .FieldCheckBox(
+                        controlId: "DataViewFilters_Own",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.Own(),
+                        _checked: dataView.Own.ToBool(),
+                        labelPositionIsRight: true)
+                    .FieldCheckBox(
+                        controlId: "DataViewFilters_NearCompletionTime",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.NearCompletionTime(),
+                        _checked: dataView.NearCompletionTime.ToBool(),
+                        labelPositionIsRight: true)
+                    .FieldCheckBox(
+                        controlId: "DataViewFilters_Delay",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.Delay(),
+                        _checked: dataView.Delay.ToBool(),
+                        labelPositionIsRight: true)
+                    .FieldCheckBox(
+                        controlId: "DataViewFilters_Overdue",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.Overdue(),
+                        _checked: dataView.Overdue.ToBool(),
+                        labelPositionIsRight: true)
+                    .FieldTextBox(
+                        controlId: "DataViewFilters_Search",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.Search(),
+                        text: dataView.Search)
+                    .DataViewColumnFilters(ss: ss, dataView: dataView))
+                .Div(css: "both", action: () => hb
+                    .FieldDropDown(
+                        controlId: "DataViewFilterSelector",
+                        fieldCss: "field-auto-thin",
+                        controlCss: " must-transport",
+                        optionCollection: ColumnUtilities.FilterDefinitions(ss.ReferenceType)
+                            .Where(o => !dataView.FilterContains(o.ColumnName))
+                            .ToDictionary(
+                                o => o.ColumnName,
+                                o => ss.GetColumn(o.ColumnName).LabelText))
+                    .Button(
+                        controlId: "AddDataViewFilter",
+                        controlCss: "button-icon",
+                        text: Displays.Add(),
+                        onClick: "$p.send($(this));",
+                        icon: "ui-icon-plus",
+                        action: "SetSiteSettings",
+                        method: "post")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder DataViewColumnFilters(
+            this HtmlBuilder hb, SiteSettings ss, Libraries.Settings.DataView dataView)
+        {
+            dataView.ColumnFilterHash?.ForEach(data => hb
+                .DataViewFilter(ss.GetColumn(data.Key), data.Value));
+            return hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder DataViewFilter(
+            this HtmlBuilder hb, Column column, string value = null)
+        {
+            switch (column.TypeName.CsTypeSummary())
+            {
+                case Types.CsBool:
+                    return hb.FieldCheckBox(
+                        controlId: "DataViewFilters_" + column.Id,
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.Get(column.GridLabelText),
+                        _checked: value.ToBool());
+                case Types.CsDateTime:
+                    return hb.FieldDropDown(
+                        controlId: "DataViewFilters_" + column.Id,
+                        fieldCss: "field-auto-thin",
+                        controlCss: " auto-postback",
+                        labelText: Displays.Get(column.GridLabelText),
+                        optionCollection: Libraries.Responses.TimePeriod.Get(column.RecordedTime),
+                        selectedValue: value,
+                        multiple: true,
+                        addSelectedValue: false);
+                case Types.CsNumeric:
+                case Types.CsString:
+                    return column.HasChoices()
+                        ? hb.FieldDropDown(
+                            controlId: "DataViewFilters_" + column.Id,
+                            fieldCss: "field-auto-thin",
+                            controlCss: " auto-postback",
+                            labelText: Displays.Get(column.GridLabelText),
+                            optionCollection: column.EditChoices(),
+                            selectedValue: value,
+                            multiple: true,
+                            addSelectedValue: false)
+                        : hb.FieldTextBox(
+                            controlId: "DataViewFilters_" + column.Id,
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.Get(column.GridLabelText),
+                            text: value);
+                default:
+                    return hb;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder DataViewSortersTab(
+            this HtmlBuilder hb, SiteSettings ss, Libraries.Settings.DataView dataView)
+        {
+            return hb.FieldSet(
+                id: "DataViewSortersTab",
+                action: () => hb
+                    .FieldBasket(
+                        controlId: "DataViewSorters",
+                        fieldCss: "field-wide",
+                        controlCss: "control-basket cf",
+                        listItemCollection: dataView.ColumnSorterHash?.ToDictionary(
+                            o => "{0},{1}".Params(o.Key, o.Value),
+                            o => "{0}({1})".Params(
+                                ss.GetColumn(o.Key)?.LabelText,
+                                Displays.Get("Order" + o.Value.ToString().ToUpperFirstChar()))),
+                        labelAction: () => hb
+                            .Displays_Sorters())
+                    .FieldDropDown(
+                        controlId: "DataViewSorterSelector",
+                        fieldCss: "field-auto-thin",
+                        controlCss: " must-transport",
+                        optionCollection: ColumnUtilities.GridDefinitions(ss.ReferenceType)
+                            .Where(o => !dataView.SorterContains(o.ColumnName))
+                            .ToDictionary(
+                                o => o.ColumnName,
+                                o => ss.GetColumn(o.ColumnName).LabelText))
+                    .FieldDropDown(
+                        controlId: "DataViewSorterOrderTypes",
+                        fieldCss: "field-auto-thin",
+                        controlCss: " must-transport",
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            { "Asc", Displays.OrderAsc() },
+                            { "Desc", Displays.OrderDesc() }
+                        })
+                    .Button(
+                        controlId: "AddDataViewSorter",
+                        controlCss: "button-icon",
+                        text: Displays.Add(),
+                        icon: "ui-icon-plus"));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ResponseCollection DataViewResponses(
+            this ResponseCollection res, SiteSettings ss, IEnumerable<int> selected = null)
+        {
+            return res
+                .Html("#DataViews", new HtmlBuilder().SelectableItems(
+                    listItemCollection: ss.DataViewSelectableOptions(),
+                    selectedValueTextCollection: selected?.Select(o => o.ToString())))
+                .SetData("#DataViews");
         }
 
         /// <summary>
