@@ -20,26 +20,29 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public void Send(string url)
         {
- 
-            //文字コードを指定する
-            var enc = Encoding.GetEncoding("UTF-8");
+            Task.Run(() =>
+            {
+                // パラメタのエンコード・構築
+                var postDataBytes = System.Text.Encoding.ASCII.GetBytes("body=" + Uri.EscapeDataString(this.text));
+                var req = WebRequest.Create(url);
+                req.Method = "POST";
+                req.ContentType = "application/x-www-form-urlencoded";
+                req.ContentLength = postDataBytes.Length;
+                req.Headers.Add(string.Format("X-ChatWorkToken: {0}", token));
 
-            // パラメタのエンコード・構築
-            var postData = "body=" + Uri.EscapeDataString(this.text);
-            var postDataBytes = System.Text.Encoding.ASCII.GetBytes(postData);
-            var req = WebRequest.Create(url);
-            req.Method = "POST";
-            req.ContentType = "application/x-www-form-urlencoded";
-            req.ContentLength = postDataBytes.Length;
-            req.Headers.Add(string.Format("X-ChatWorkToken: {0}", token));
-
-            // データをPOST送信するためのStreamを取得
-            var reqStream = req.GetRequestStream();
-            reqStream.Write(postDataBytes, 0, postDataBytes.Length);
-            reqStream.Close();
-
-            //非同期でPOST
-            req.GetResponseAsync();
+                // データをPOST送信
+                using (var reqStream = req.GetRequestStream())
+                {
+                    try
+                    {
+                        reqStream.Write(postDataBytes, 0, postDataBytes.Length);
+                    }
+                    catch
+                    {
+                        throw;
+                    }
+                }
+            });
         }
     }
 }
