@@ -82,8 +82,8 @@ namespace Implem.Pleasanter.Models
             Permissions.Types pt,
             DeptCollection deptCollection,
             Libraries.Settings.DataView dataView,
-            string dataViewName,
-            Action dataViewBody)
+            string viewMode,
+            Action viewModeBody)
         {
             return hb.Template(
                 pt: pt,
@@ -94,7 +94,7 @@ namespace Implem.Pleasanter.Models
                 parentId: ss.ParentId,
                 referenceType: "Depts",
                 script: Libraries.Scripts.JavaScripts.DataView(
-                    ss: ss, pt: pt, dataViewName: dataViewName),
+                    ss: ss, pt: pt, viewMode: viewMode),
                 userScript: ss.GridScript,
                 userStyle: ss.GridStyle,
                 action: () => hb
@@ -109,7 +109,7 @@ namespace Implem.Pleasanter.Models
                             .Aggregations(
                                 ss: ss,
                                 aggregations: deptCollection.Aggregations)
-                            .Div(id: "DataViewContainer", action: () => dataViewBody())
+                            .Div(id: "DataViewContainer", action: () => viewModeBody())
                             .MainCommands(
                                 siteId: ss.SiteId,
                                 pt: pt,

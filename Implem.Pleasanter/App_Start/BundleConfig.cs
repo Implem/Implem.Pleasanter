@@ -36,7 +36,6 @@ namespace Implem.Pleasanter
                 "~/Scripts/BasketEvents.js",
                 "~/Scripts/BurnDown.js",
                 "~/Scripts/BurnDownEvents.js",
-                "~/Scripts/DataView.js",
                 "~/Scripts/Dialog.js",
                 "~/Scripts/DialogEvents.js",
                 "~/Scripts/Display.js",
@@ -78,6 +77,7 @@ namespace Implem.Pleasanter
                 "~/Scripts/StatusEvents.js",
                 "~/Scripts/SubmitEvents.js",
                 "~/Scripts/TimeSeries.js",
+                "~/Scripts/ViewMode.js",
                 "~/Scripts/_Show.js",
                 "~/Scripts/Validators/_Shared.js",
                 "~/Scripts/Validators/Custom.js"

@@ -2206,55 +2206,6 @@ namespace Implem.DefinitionAccessor
             CssTable = new CssTable();
         }
 
-        public static XlsIo DataViewXls;
-        public static List<DataViewDefinition> DataViewDefinitionCollection;
-        public static DataViewColumn2nd DataView;
-        public static DataViewTable DataViewTable;
-
-        public static void SetDataViewDefinition()
-        {
-            ConstructDataViewDefinitions();
-            if (DataViewXls.AccessStatus != Files.AccessStatuses.Read) { return; }
-            DataViewXls.XlsSheet.ForEach(definitionRow =>
-            {
-                switch (definitionRow[0].ToString())
-                {
-                    case "Issues_Index": DataView.Issues_Index = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_Index, definitionRow, DataViewXls); break;
-                    case "Issues_Gantt": DataView.Issues_Gantt = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_Gantt, definitionRow, DataViewXls); break;
-                    case "Issues_BurnDown": DataView.Issues_BurnDown = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_BurnDown, definitionRow, DataViewXls); break;
-                    case "Issues_TimeSeries": DataView.Issues_TimeSeries = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_TimeSeries, definitionRow, DataViewXls); break;
-                    case "Issues_Kamban": DataView.Issues_Kamban = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_Kamban, definitionRow, DataViewXls); break;
-                    case "Results_Index": DataView.Results_Index = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Results_Index, definitionRow, DataViewXls); break;
-                    case "Results_TimeSeries": DataView.Results_TimeSeries = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Results_TimeSeries, definitionRow, DataViewXls); break;
-                    case "Results_Kamban": DataView.Results_Kamban = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Results_Kamban, definitionRow, DataViewXls); break;
-                    default: break;
-                }
-            });
-            DataViewXls.XlsSheet.AsEnumerable().Skip(1).Where(o => o[0].ToString() != string.Empty).ForEach(definitionRow =>
-            {
-                var newDataViewDefinition = new DataViewDefinition();
-                if (definitionRow.ContainsKey("Id")) { newDataViewDefinition.Id = definitionRow["Id"].ToString(); newDataViewDefinition.SavedId = newDataViewDefinition.Id; }
-                if (definitionRow.ContainsKey("ReferenceType")) { newDataViewDefinition.ReferenceType = definitionRow["ReferenceType"].ToString(); newDataViewDefinition.SavedReferenceType = newDataViewDefinition.ReferenceType; }
-                if (definitionRow.ContainsKey("Name")) { newDataViewDefinition.Name = definitionRow["Name"].ToString(); newDataViewDefinition.SavedName = newDataViewDefinition.Name; }
-                DataViewDefinitionCollection.Add(newDataViewDefinition);
-            });
-        }
-
-        private static void SetDataViewTable(DataViewDefinition definition, XlsRow definitionRow, XlsIo dataViewxls)
-        {
-            if (definitionRow.ContainsKey("Id")) { definition.Id = definitionRow["Id"].ToString(); definition.SavedId = definition.Id; }
-            if (definitionRow.ContainsKey("ReferenceType")) { definition.ReferenceType = definitionRow["ReferenceType"].ToString(); definition.SavedReferenceType = definition.ReferenceType; }
-            if (definitionRow.ContainsKey("Name")) { definition.Name = definitionRow["Name"].ToString(); definition.SavedName = definition.Name; }
-        }
-
-        private static void ConstructDataViewDefinitions()
-        {
-            DataViewXls = Initializer.DefinitionFile("definition_DataView.xlsm");
-            DataViewDefinitionCollection = new List<DataViewDefinition>();
-            DataView = new DataViewColumn2nd();
-            DataViewTable = new DataViewTable();
-        }
-
         public static XlsIo DemoXls;
         public static List<DemoDefinition> DemoDefinitionCollection;
         public static DemoColumn2nd Demo;
@@ -3194,6 +3145,55 @@ namespace Implem.DefinitionAccessor
             SqlTable = new SqlTable();
         }
 
+        public static XlsIo ViewModeXls;
+        public static List<ViewModeDefinition> ViewModeDefinitionCollection;
+        public static ViewModeColumn2nd ViewMode;
+        public static ViewModeTable ViewModeTable;
+
+        public static void SetViewModeDefinition()
+        {
+            ConstructViewModeDefinitions();
+            if (ViewModeXls.AccessStatus != Files.AccessStatuses.Read) { return; }
+            ViewModeXls.XlsSheet.ForEach(definitionRow =>
+            {
+                switch (definitionRow[0].ToString())
+                {
+                    case "Issues_Index": ViewMode.Issues_Index = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_Index, definitionRow, ViewModeXls); break;
+                    case "Issues_Gantt": ViewMode.Issues_Gantt = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_Gantt, definitionRow, ViewModeXls); break;
+                    case "Issues_BurnDown": ViewMode.Issues_BurnDown = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_BurnDown, definitionRow, ViewModeXls); break;
+                    case "Issues_TimeSeries": ViewMode.Issues_TimeSeries = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_TimeSeries, definitionRow, ViewModeXls); break;
+                    case "Issues_Kamban": ViewMode.Issues_Kamban = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_Kamban, definitionRow, ViewModeXls); break;
+                    case "Results_Index": ViewMode.Results_Index = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_Index, definitionRow, ViewModeXls); break;
+                    case "Results_TimeSeries": ViewMode.Results_TimeSeries = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_TimeSeries, definitionRow, ViewModeXls); break;
+                    case "Results_Kamban": ViewMode.Results_Kamban = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_Kamban, definitionRow, ViewModeXls); break;
+                    default: break;
+                }
+            });
+            ViewModeXls.XlsSheet.AsEnumerable().Skip(1).Where(o => o[0].ToString() != string.Empty).ForEach(definitionRow =>
+            {
+                var newViewModeDefinition = new ViewModeDefinition();
+                if (definitionRow.ContainsKey("Id")) { newViewModeDefinition.Id = definitionRow["Id"].ToString(); newViewModeDefinition.SavedId = newViewModeDefinition.Id; }
+                if (definitionRow.ContainsKey("ReferenceType")) { newViewModeDefinition.ReferenceType = definitionRow["ReferenceType"].ToString(); newViewModeDefinition.SavedReferenceType = newViewModeDefinition.ReferenceType; }
+                if (definitionRow.ContainsKey("Name")) { newViewModeDefinition.Name = definitionRow["Name"].ToString(); newViewModeDefinition.SavedName = newViewModeDefinition.Name; }
+                ViewModeDefinitionCollection.Add(newViewModeDefinition);
+            });
+        }
+
+        private static void SetViewModeTable(ViewModeDefinition definition, XlsRow definitionRow, XlsIo viewModexls)
+        {
+            if (definitionRow.ContainsKey("Id")) { definition.Id = definitionRow["Id"].ToString(); definition.SavedId = definition.Id; }
+            if (definitionRow.ContainsKey("ReferenceType")) { definition.ReferenceType = definitionRow["ReferenceType"].ToString(); definition.SavedReferenceType = definition.ReferenceType; }
+            if (definitionRow.ContainsKey("Name")) { definition.Name = definitionRow["Name"].ToString(); definition.SavedName = definition.Name; }
+        }
+
+        private static void ConstructViewModeDefinitions()
+        {
+            ViewModeXls = Initializer.DefinitionFile("definition_ViewMode.xlsm");
+            ViewModeDefinitionCollection = new List<ViewModeDefinition>();
+            ViewMode = new ViewModeColumn2nd();
+            ViewModeTable = new ViewModeTable();
+        }
+
         public static void SetCodeDefinitionOption(
             string placeholder, CodeDefinition codeDefinition)
         {
@@ -3455,23 +3455,6 @@ namespace Implem.DefinitionAccessor
                 });
         }
 
-        public static void SetDataViewDefinitionOption(
-            string placeholder, DataViewDefinition dataViewDefinition)
-        {
-            placeholder.RegexFirst("(?<=\\().+(?=\\))").Split(',')
-                .Where(o => !o.IsNullOrEmpty()).ForEach(option =>
-                {
-                    var optionName = option.Split_1st('=').Trim();
-                    var optionValue = option.Split_2nd('=').Trim();
-                    switch (optionName)
-                    {
-                        case "Id": dataViewDefinition.Id = optionValue.ToString(); break;
-                        case "ReferenceType": dataViewDefinition.ReferenceType = optionValue.ToString(); break;
-                        case "Name": dataViewDefinition.Name = optionValue.ToString(); break;
-                    }
-                });
-        }
-
         public static void SetDemoDefinitionOption(
             string placeholder, DemoDefinition demoDefinition)
         {
@@ -3538,6 +3521,23 @@ namespace Implem.DefinitionAccessor
                     {
                         case "Id": sqlDefinition.Id = optionValue.ToString(); break;
                         case "Body": sqlDefinition.Body = optionValue.ToString(); break;
+                    }
+                });
+        }
+
+        public static void SetViewModeDefinitionOption(
+            string placeholder, ViewModeDefinition viewModeDefinition)
+        {
+            placeholder.RegexFirst("(?<=\\().+(?=\\))").Split(',')
+                .Where(o => !o.IsNullOrEmpty()).ForEach(option =>
+                {
+                    var optionName = option.Split_1st('=').Trim();
+                    var optionValue = option.Split_2nd('=').Trim();
+                    switch (optionName)
+                    {
+                        case "Id": viewModeDefinition.Id = optionValue.ToString(); break;
+                        case "ReferenceType": viewModeDefinition.ReferenceType = optionValue.ToString(); break;
+                        case "Name": viewModeDefinition.Name = optionValue.ToString(); break;
                     }
                 });
         }
@@ -7387,68 +7387,6 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_menu_sort_space___space_li_space___space__asterisk_ = new CssDefinition();
     }
 
-    public class DataViewDefinition
-    {
-        public string Id; public string SavedId;
-        public string ReferenceType; public string SavedReferenceType;
-        public string Name; public string SavedName;
-
-        public DataViewDefinition()
-        {
-        }
-
-        public DataViewDefinition(Dictionary<string, string> propertyCollection)
-        {
-            if (propertyCollection.ContainsKey("Id")) Id = propertyCollection["Id"].ToString(); else Id = string.Empty;
-            if (propertyCollection.ContainsKey("ReferenceType")) ReferenceType = propertyCollection["ReferenceType"].ToString(); else ReferenceType = string.Empty;
-            if (propertyCollection.ContainsKey("Name")) Name = propertyCollection["Name"].ToString(); else Name = string.Empty;
-        }
-
-        public object this[string key]
-        {
-            get{
-                switch(key)
-                {
-                    case "Id": return Id;
-                    case "ReferenceType": return ReferenceType;
-                    case "Name": return Name;
-                    default: return null;
-                }
-            }
-        }
-
-        public void RestoreBySavedMemory()
-        {
-            Id = SavedId;
-            ReferenceType = SavedReferenceType;
-            Name = SavedName;
-        }
-    }
-
-    public class DataViewColumn2nd
-    {
-        public string Issues_Index;
-        public string Issues_Gantt;
-        public string Issues_BurnDown;
-        public string Issues_TimeSeries;
-        public string Issues_Kamban;
-        public string Results_Index;
-        public string Results_TimeSeries;
-        public string Results_Kamban;
-    }
-
-    public class DataViewTable
-    {
-        public DataViewDefinition Issues_Index = new DataViewDefinition();
-        public DataViewDefinition Issues_Gantt = new DataViewDefinition();
-        public DataViewDefinition Issues_BurnDown = new DataViewDefinition();
-        public DataViewDefinition Issues_TimeSeries = new DataViewDefinition();
-        public DataViewDefinition Issues_Kamban = new DataViewDefinition();
-        public DataViewDefinition Results_Index = new DataViewDefinition();
-        public DataViewDefinition Results_TimeSeries = new DataViewDefinition();
-        public DataViewDefinition Results_Kamban = new DataViewDefinition();
-    }
-
     public class DemoDefinition
     {
         public string Id; public string SavedId;
@@ -9217,5 +9155,67 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition MigrateTable = new SqlDefinition();
         public SqlDefinition BulkInsert = new SqlDefinition();
         public SqlDefinition Identity = new SqlDefinition();
+    }
+
+    public class ViewModeDefinition
+    {
+        public string Id; public string SavedId;
+        public string ReferenceType; public string SavedReferenceType;
+        public string Name; public string SavedName;
+
+        public ViewModeDefinition()
+        {
+        }
+
+        public ViewModeDefinition(Dictionary<string, string> propertyCollection)
+        {
+            if (propertyCollection.ContainsKey("Id")) Id = propertyCollection["Id"].ToString(); else Id = string.Empty;
+            if (propertyCollection.ContainsKey("ReferenceType")) ReferenceType = propertyCollection["ReferenceType"].ToString(); else ReferenceType = string.Empty;
+            if (propertyCollection.ContainsKey("Name")) Name = propertyCollection["Name"].ToString(); else Name = string.Empty;
+        }
+
+        public object this[string key]
+        {
+            get{
+                switch(key)
+                {
+                    case "Id": return Id;
+                    case "ReferenceType": return ReferenceType;
+                    case "Name": return Name;
+                    default: return null;
+                }
+            }
+        }
+
+        public void RestoreBySavedMemory()
+        {
+            Id = SavedId;
+            ReferenceType = SavedReferenceType;
+            Name = SavedName;
+        }
+    }
+
+    public class ViewModeColumn2nd
+    {
+        public string Issues_Index;
+        public string Issues_Gantt;
+        public string Issues_BurnDown;
+        public string Issues_TimeSeries;
+        public string Issues_Kamban;
+        public string Results_Index;
+        public string Results_TimeSeries;
+        public string Results_Kamban;
+    }
+
+    public class ViewModeTable
+    {
+        public ViewModeDefinition Issues_Index = new ViewModeDefinition();
+        public ViewModeDefinition Issues_Gantt = new ViewModeDefinition();
+        public ViewModeDefinition Issues_BurnDown = new ViewModeDefinition();
+        public ViewModeDefinition Issues_TimeSeries = new ViewModeDefinition();
+        public ViewModeDefinition Issues_Kamban = new ViewModeDefinition();
+        public ViewModeDefinition Results_Index = new ViewModeDefinition();
+        public ViewModeDefinition Results_TimeSeries = new ViewModeDefinition();
+        public ViewModeDefinition Results_Kamban = new ViewModeDefinition();
     }
 }

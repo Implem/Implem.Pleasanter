@@ -57,12 +57,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         css: "sub-menu",
                         action: () => hb
                             .Div(
-                                attributes: new HtmlAttributes().DataId("DataViewMenu"),
+                                attributes: new HtmlAttributes().DataId("ViewModeMenu"),
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-triangle-1-e")
                                     .Displays_View())
-                            .DataViewMenu(siteId: siteId, referenceType: referenceType),
-                        _using: Def.DataViewDefinitionCollection
+                            .ViewModeMenu(siteId: siteId, referenceType: referenceType),
+                        _using: Def.ViewModeDefinitionCollection
                             .Any(o => o.ReferenceType == referenceType))
                     .Li(
                         css: "sub-menu",
@@ -102,16 +102,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
         }
 
-        private static HtmlBuilder DataViewMenu(
+        private static HtmlBuilder ViewModeMenu(
             this HtmlBuilder hb, long siteId, string referenceType)
         {
-            return hb.Ul(id: "DataViewMenu", css: "menu", action: () =>
+            return hb.Ul(id: "ViewModeMenu", css: "menu", action: () =>
             {
-                Def.DataViewDefinitionCollection
+                Def.ViewModeDefinitionCollection
                     .Where(o => o.ReferenceType == referenceType)
                     .Select(o => o.Name)
                     .ForEach(action => hb
-                        .DataViewMenu(
+                        .ViewModeMenu(
                             siteId: siteId,
                             referenceType: referenceType,
                             action: action,
@@ -119,7 +119,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             });
         }
 
-        private static HtmlBuilder DataViewMenu(
+        private static HtmlBuilder ViewModeMenu(
             this HtmlBuilder hb,
             long siteId,
             string referenceType,
@@ -132,7 +132,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ? new HtmlAttributes().OnClick(
                             "location.href='" + Locations.ItemView(siteId, action) + "'")
                         : new HtmlAttributes()
-                            .OnClick("$p.dataView($(this));")
+                            .OnClick("$p.viewMode($(this));")
                             .DataAction(action),
                     action: () => hb
                         .Span(css: "ui-icon ui-icon-triangle-1-e")

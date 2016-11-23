@@ -749,7 +749,7 @@ namespace Implem.Pleasanter.Models
                     return Locations.Get(
                         "Items",
                         siteId.ToString(),
-                        DataViewSelectors.Get(siteId));
+                        ViewModes.GetBySession(siteId));
             }
         }
 

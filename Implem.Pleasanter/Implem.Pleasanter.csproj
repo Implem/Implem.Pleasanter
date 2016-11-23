@@ -294,7 +294,7 @@
     <Compile Include="Libraries\Models\Titles.cs" />
     <Compile Include="Libraries\Models\Versions.cs" />
     <Compile Include="Libraries\Requests\DataViews.cs" />
-    <Compile Include="Libraries\Requests\DataViewSelectors.cs" />
+    <Compile Include="Libraries\Requests\ViewModes.cs" />
     <Compile Include="Libraries\Requests\Forms.cs" />
     <Compile Include="Libraries\Requests\DataViewGrid.cs" />
     <Compile Include="Libraries\Requests\QueryStrings.cs" />
@@ -429,7 +429,7 @@
     <Content Include="Scripts\BasketEvents.js" />
     <Content Include="Scripts\BurnDown.js" />
     <Content Include="Scripts\BurnDownEvents.js" />
-    <Content Include="Scripts\DataView.js" />
+    <Content Include="Scripts\ViewMode.js" />
     <Content Include="Scripts\Dialog.js" />
     <Content Include="Scripts\DialogEvents.js" />
     <Content Include="Scripts\_Dispatch.js" />
@@ -532,7 +532,7 @@
   <ItemGroup>
     <Content Include="App_Data\Definitions\definition_Sql.xlsm" />
     <Content Include="App_Data\Definitions\definition_Display.xlsm" />
-    <Content Include="App_Data\Definitions\definition_DataView.xlsm" />
+    <Content Include="App_Data\Definitions\definition_ViewMode.xlsm" />
     <Content Include="App_Data\Imports\import_Depts.xlsx" />
     <Content Include="App_Data\Imports\import_Issues.xlsx" />
     <Content Include="App_Data\Imports\import_MailAddresses.xlsx" />

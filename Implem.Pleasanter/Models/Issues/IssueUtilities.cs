@@ -27,14 +27,14 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var dataView = DataViews.GetBySession(ss);
             var issueCollection = IssueCollection(ss, pt, dataView);
-            var dataViewName = DataViewSelectors.Get(ss.SiteId);
+            var viewMode = ViewModes.GetBySession(ss.SiteId);
             return hb.DataViewTemplate(
                 ss: ss,
                 pt: pt,
                 issueCollection: issueCollection,
                 dataView: dataView,
-                dataViewName: dataViewName,
-                dataViewBody: () => hb.Grid(
+                viewMode: viewMode,
+                viewModeBody: () => hb.Grid(
                    issueCollection: issueCollection,
                    ss: ss,
                    pt: pt,
@@ -47,8 +47,8 @@ namespace Implem.Pleasanter.Models
             Permissions.Types pt,
             IssueCollection issueCollection,
             Libraries.Settings.DataView dataView,
-            string dataViewName,
-            Action dataViewBody)
+            string viewMode,
+            Action viewModeBody)
         {
             return hb.Template(
                 pt: pt,
@@ -59,7 +59,7 @@ namespace Implem.Pleasanter.Models
                 parentId: ss.ParentId,
                 referenceType: "Issues",
                 script: Libraries.Scripts.JavaScripts.DataView(
-                    ss: ss, pt: pt, dataViewName: dataViewName),
+                    ss: ss, pt: pt, viewMode: viewMode),
                 userScript: ss.GridScript,
                 userStyle: ss.GridStyle,
                 action: () => hb
@@ -74,7 +74,7 @@ namespace Implem.Pleasanter.Models
                             .Aggregations(
                                 ss: ss,
                                 aggregations: issueCollection.Aggregations)
-                            .Div(id: "DataViewContainer", action: () => dataViewBody())
+                            .Div(id: "DataViewContainer", action: () => viewModeBody())
                             .MainCommands(
                                 siteId: ss.SiteId,
                                 pt: pt,
@@ -2150,14 +2150,14 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var dataView = DataViews.GetBySession(ss);
             var issueCollection = IssueCollection(ss, pt, dataView);
-            var dataViewName = DataViewSelectors.Get(ss.SiteId);
+            var viewMode = ViewModes.GetBySession(ss.SiteId);
             return hb.DataViewTemplate(
                 ss: ss,
                 pt: pt,
                 issueCollection: issueCollection,
                 dataView: dataView,
-                dataViewName: dataViewName,
-                dataViewBody: () => hb.Gantt(
+                viewMode: viewMode,
+                viewModeBody: () => hb.Gantt(
                     ss: ss,
                     pt: pt,
                     dataView: dataView,
@@ -2249,14 +2249,14 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var dataView = DataViews.GetBySession(ss);
             var issueCollection = IssueCollection(ss, pt, dataView);
-            var dataViewName = DataViewSelectors.Get(ss.SiteId);
+            var viewMode = ViewModes.GetBySession(ss.SiteId);
             return hb.DataViewTemplate(
                 ss: ss,
                 pt: pt,
                 issueCollection: issueCollection,
                 dataView: dataView,
-                dataViewName: dataViewName,
-                dataViewBody: () => hb.BurnDown(
+                viewMode: viewMode,
+                viewModeBody: () => hb.BurnDown(
                     ss: ss,
                     pt: pt,
                     dataRows: BurnDownDataRows(
@@ -2367,14 +2367,14 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var dataView = DataViews.GetBySession(ss);
             var issueCollection = IssueCollection(ss, pt, dataView);
-            var dataViewName = DataViewSelectors.Get(ss.SiteId);
+            var viewMode = ViewModes.GetBySession(ss.SiteId);
             return hb.DataViewTemplate(
                 ss: ss,
                 pt: pt,
                 issueCollection: issueCollection,
                 dataView: dataView,
-                dataViewName: dataViewName,
-                dataViewBody: () => hb.TimeSeries(
+                viewMode: viewMode,
+                viewModeBody: () => hb.TimeSeries(
                     ss: ss,
                     pt: pt,
                     dataView: dataView,
@@ -2479,14 +2479,14 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var dataView = DataViews.GetBySession(ss);
             var issueCollection = IssueCollection(ss, pt, dataView);
-            var dataViewName = DataViewSelectors.Get(ss.SiteId);
+            var viewMode = ViewModes.GetBySession(ss.SiteId);
             return hb.DataViewTemplate(
                 ss: ss,
                 pt: pt,
                 issueCollection: issueCollection,
                 dataView: dataView,
-                dataViewName: dataViewName,
-                dataViewBody: () => hb.Kamban(
+                viewMode: viewMode,
+                viewModeBody: () => hb.Kamban(
                     ss: ss,
                     pt: pt,
                     dataView: dataView,
