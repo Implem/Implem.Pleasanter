@@ -920,7 +920,8 @@ namespace Implem.Pleasanter.Models
                     column: Rds.ResultsColumn().ResultId(),
                     where: dataView.Where(
                         ss: ss, where: Rds.ResultsWhere().SiteId(siteId)),
-                    orderBy: dataView.OrderBy(ss, Rds.ResultsOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
+                    orderBy: dataView.OrderBy(ss, Rds.ResultsOrderBy()
+                        .UpdatedTime(SqlOrderBy.Types.desc))))
                             .AsEnumerable()
                             .Select(o => o["ResultId"].ToLong())
                             .ToList();

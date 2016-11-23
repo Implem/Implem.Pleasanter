@@ -537,7 +537,8 @@ namespace Implem.Pleasanter.Models
                     column: Rds.DeptsColumn().DeptId(),
                     where: dataView.Where(
                         ss: ss, where: Rds.DeptsWhere().TenantId(Sessions.TenantId())),
-                    orderBy: dataView.OrderBy(ss, Rds.DeptsOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
+                    orderBy: dataView.OrderBy(ss, Rds.DeptsOrderBy()
+                        .UpdatedTime(SqlOrderBy.Types.desc))))
                             .AsEnumerable()
                             .Select(o => o["DeptId"].ToInt())
                             .ToList();

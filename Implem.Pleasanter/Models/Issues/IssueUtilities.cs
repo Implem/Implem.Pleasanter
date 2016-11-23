@@ -955,7 +955,8 @@ namespace Implem.Pleasanter.Models
                     column: Rds.IssuesColumn().IssueId(),
                     where: dataView.Where(
                         ss: ss, where: Rds.IssuesWhere().SiteId(siteId)),
-                    orderBy: dataView.OrderBy(ss, Rds.IssuesOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
+                    orderBy: dataView.OrderBy(ss, Rds.IssuesOrderBy()
+                        .UpdatedTime(SqlOrderBy.Types.desc))))
                             .AsEnumerable()
                             .Select(o => o["IssueId"].ToLong())
                             .ToList();
