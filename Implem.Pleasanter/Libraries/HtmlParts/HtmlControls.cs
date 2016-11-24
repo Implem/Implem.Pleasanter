@@ -239,7 +239,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (insertBlank)
             {
-                optionCollection = InsertBalnk(optionCollection);
+                optionCollection = InsertBlank(optionCollection);
             }
             if (selectedValue.IsNullOrEmpty() || 
                 optionCollection.ContainsKey(selectedValue) ||
@@ -260,7 +260,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
         }
 
-        private static Dictionary<string, ControlData> InsertBalnk(
+        private static Dictionary<string, ControlData> InsertBlank(
             Dictionary<string, ControlData> optionCollection)
         {
             return new Dictionary<string, ControlData>
