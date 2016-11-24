@@ -2199,7 +2199,7 @@ namespace Implem.Pleasanter.Models
                                     action: "SetSiteSettings",
                                     method: "put")
                                 .Button(
-                                    controlId: "DeleteView",
+                                    controlId: "DeleteViews",
                                     text: Displays.Delete(),
                                     controlCss: "button-icon",
                                     onClick: "$p.send($(this));",

@@ -673,8 +673,8 @@ namespace Implem.Pleasanter.Models
                 case "UpdateView":
                     UpdateView(res);
                     break;
-                case "DeleteView":
-                    DeleteView(res);
+                case "DeleteViews":
+                    DeleteViews(res);
                     break;
                 case "NewNotification":
                 case "EditNotification":
@@ -1305,7 +1305,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void DeleteView(ResponseCollection res)
+        private void DeleteViews(ResponseCollection res)
         {
             SiteSettings.Views.RemoveAll(o => Forms.IntList("Views", ';').Contains(o.Id));
             res.ViewResponses(SiteSettings);
