@@ -936,9 +936,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     .Distinct()),
                         orderBy: Rds.ItemsOrderBy()
                             .Title())).AsEnumerable();
-                return LinkCollection.ToDictionary(
-                    o => "[[" + o.SiteId + "]]",
-                    o => LinkValue(o.SiteId, dataRows));
+                return LinkCollection
+                    .Select(o => o.SiteId)
+                    .Distinct()
+                    .ToDictionary(
+                        siteId => "[[" + siteId + "]]",
+                        siteId => LinkValue(siteId, dataRows));
             }
             else
             {
