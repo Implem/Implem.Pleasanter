@@ -656,6 +656,10 @@ namespace Implem.Pleasanter.Models
                 case "DeleteFormulas":
                     DeleteFormulas(res);
                     break;
+                case "MoveUpViews":
+                case "MoveDownViews":
+                    SetViewsOrder(res, controlId);
+                    break;
                 case "NewView":
                 case "EditView":
                     OpenViewDialog(res, controlId);
@@ -1173,6 +1177,23 @@ namespace Implem.Pleasanter.Models
                 .Html("#Formulas", new HtmlBuilder()
                     .SelectableItems(listItemCollection: SiteSettings.FormulaItemCollection()))
                 .ClearFormData("Formulas");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetViewsOrder(ResponseCollection res, string controlId)
+        {
+            var command = ColumnUtilities.ChangeCommand(controlId);
+            var selectedColumns = Forms.IntList("Views", ';');
+            SiteSettings.SetViewsOrder(command, selectedColumns);
+            res
+                .Html(
+                    "#Views",
+                    new HtmlBuilder().SelectableItems(
+                        listItemCollection: SiteSettings.ViewSelectableOptions(),
+                        selectedValueTextCollection: selectedColumns.Select(o => o.ToString())))
+                .SetFormData("Views", selectedColumns.Join(";"));
         }
 
         /// <summary>

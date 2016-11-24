@@ -755,6 +755,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 HistoryColumns, command, selectedColumns, selectedSourceColumns);
         }
 
+        public void SetViewsOrder(string command, IEnumerable<int> selectedColumns)
+        {
+            Views = ColumnUtilities.GetChanged(
+                Views, command, Views.Where(o => selectedColumns.Contains(o.Id)).ToList());
+        }
+
         public void SetColumnProperty(Column column, string propertyName, string value)
         {
             switch (propertyName)

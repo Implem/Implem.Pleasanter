@@ -2167,7 +2167,7 @@ namespace Implem.Pleasanter.Models
                         commandOptionAction: () => hb
                             .Div(css: "command-center", action: () => hb
                                 .Button(
-                                    controlId: "MoveUpView",
+                                    controlId: "MoveUpViews",
                                     text: Displays.MoveUp(),
                                     controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
@@ -2175,7 +2175,7 @@ namespace Implem.Pleasanter.Models
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
-                                    controlId: "MoveDownView",
+                                    controlId: "MoveDownViews",
                                     text: Displays.MoveDown(),
                                     controlCss: "button-icon",
                                     onClick: "$p.send($(this));",
