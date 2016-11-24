@@ -23,10 +23,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? NearCompletionTime;
         public bool? Delay;
         public bool? Overdue;
-        public Dictionary<string, string> ColumnFilterHash = new Dictionary<string, string>();
+        public Dictionary<string, string> ColumnFilterHash;
         public string Search;
-        public Dictionary<string, SqlOrderBy.Types> ColumnSorterHash =
-            new Dictionary<string, SqlOrderBy.Types>();
+        public Dictionary<string, SqlOrderBy.Types> ColumnSorterHash;
 
         public View()
         {
@@ -213,7 +212,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void SetSorters(SiteSettings ss)
         {
-            ColumnSorterHash.Clear();
+            ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>();
             Forms.Data("ViewSorters").Split(';').ForEach(data =>
             {
                 var columnName = data.Split_1st();
