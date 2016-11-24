@@ -263,10 +263,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static Dictionary<string, ControlData> InsertBlank(
             Dictionary<string, ControlData> optionCollection)
         {
-            return new Dictionary<string, ControlData>
-            {
-                { string.Empty, new ControlData(string.Empty) }
-            }.AddRange(optionCollection);
+            return !optionCollection.ContainsKey(string.Empty)
+                ? new Dictionary<string, ControlData>
+                {
+                    { string.Empty, new ControlData(string.Empty) }
+                }.AddRange(optionCollection)
+                : optionCollection;
         }
 
         private static bool Selected(
