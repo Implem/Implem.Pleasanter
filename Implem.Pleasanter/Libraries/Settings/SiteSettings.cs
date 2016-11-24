@@ -38,6 +38,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public decimal? NearCompletionTimeAfterDays;
         public decimal? NearCompletionTimeBeforeDays;
         public int? GridPageSize;
+        public int? GridView;
         public int? FirstDayOfWeek;
         public int? FirstMonth;
         public List<string> GridColumns;
@@ -133,6 +134,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (self.NearCompletionTimeAfterDays == def.NearCompletionTimeAfterDays) self.NearCompletionTimeAfterDays = null;
             if (self.NearCompletionTimeBeforeDays == def.NearCompletionTimeBeforeDays) self.NearCompletionTimeBeforeDays = null;
             if (self.GridPageSize == def.GridPageSize) self.GridPageSize = null;
+            if (self.GridView == 0) self.GridView = null;
             if (self.FirstDayOfWeek == def.FirstDayOfWeek) self.FirstDayOfWeek = null;
             if (self.FirstMonth == def.FirstMonth) self.FirstMonth = null;
             if (self.GridColumns.SequenceEqual(def.GridColumns)) self.GridColumns = null;
@@ -640,6 +642,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "NearCompletionTimeBeforeDays": NearCompletionTimeBeforeDays = value.ToInt(); break;
                 case "NearCompletionTimeAfterDays": NearCompletionTimeAfterDays = value.ToInt(); break;
                 case "GridPageSize": GridPageSize = value.ToInt(); break;
+                case "GridView": GridView = value.ToInt(); break;
                 case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
                 case "TitleSeparator": TitleSeparator = value; break;

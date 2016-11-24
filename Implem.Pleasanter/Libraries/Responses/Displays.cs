@@ -514,6 +514,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string View(params string[] data) { return Get("View", data); }
         public static HtmlBuilder Displays_DataView(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DataView", data)); }
         public static string DataView(params string[] data) { return Get("DataView", data); }
+        public static HtmlBuilder Displays_DefaultView(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DefaultView", data)); }
+        public static string DefaultView(params string[] data) { return Get("DefaultView", data); }
         public static HtmlBuilder Displays_Grid(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Grid", data)); }
         public static string Grid(params string[] data) { return Get("Grid", data); }
         public static HtmlBuilder Displays_Style(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Style", data)); }

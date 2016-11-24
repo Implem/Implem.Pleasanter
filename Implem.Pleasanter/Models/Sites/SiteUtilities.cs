@@ -1225,6 +1225,13 @@ namespace Implem.Pleasanter.Models
                         max: Parameters.General.NearCompletionTimeAfterDaysMax,
                         step: 1,
                         width: 25)
+                    .FieldDropDown(
+                        controlId: "SiteSettings,GridView",
+                        labelText: Displays.DefaultView(),
+                        optionCollection: ss.ViewSelectableOptions(),
+                        selectedValue: ss.GridView?.ToString(),
+                        insertBlank: true,
+                        _using: ss.Views?.Any() == true)
                     .AggregationDetailsDialog(ss));
         }
 

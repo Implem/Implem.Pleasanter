@@ -2837,6 +2837,8 @@ namespace Implem.DefinitionAccessor
                     case "View_ja": Display.View_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.View_ja, definitionRow, DisplayXls); break;
                     case "DataView": Display.DataView = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DataView, definitionRow, DisplayXls); break;
                     case "DataView_ja": Display.DataView_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DataView_ja, definitionRow, DisplayXls); break;
+                    case "DefaultView": Display.DefaultView = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DefaultView, definitionRow, DisplayXls); break;
+                    case "DefaultView_ja": Display.DefaultView_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DefaultView_ja, definitionRow, DisplayXls); break;
                     case "Grid": Display.Grid = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Grid, definitionRow, DisplayXls); break;
                     case "Grid_ja": Display.Grid_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Grid_ja, definitionRow, DisplayXls); break;
                     case "Style": Display.Style = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Style, definitionRow, DisplayXls); break;
@@ -8161,6 +8163,8 @@ namespace Implem.DefinitionAccessor
         public string View_ja;
         public string DataView;
         public string DataView_ja;
+        public string DefaultView;
+        public string DefaultView_ja;
         public string Grid;
         public string Grid_ja;
         public string Style;
@@ -8852,6 +8856,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition View_ja = new DisplayDefinition();
         public DisplayDefinition DataView = new DisplayDefinition();
         public DisplayDefinition DataView_ja = new DisplayDefinition();
+        public DisplayDefinition DefaultView = new DisplayDefinition();
+        public DisplayDefinition DefaultView_ja = new DisplayDefinition();
         public DisplayDefinition Grid = new DisplayDefinition();
         public DisplayDefinition Grid_ja = new DisplayDefinition();
         public DisplayDefinition Style = new DisplayDefinition();

@@ -26,7 +26,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
             else
             {
-                var view = new View(ss);
+                var view = ss.Views?.FirstOrDefault(o => o.Id == ss.GridView) ?? new View(ss);
                 HttpContext.Current.Session[key] = view;
                 return view;
             }
