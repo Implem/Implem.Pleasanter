@@ -100,11 +100,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             return null;
         }
 
-        public static List<string> GetChanged(
-            List<string> order,
+        public static List<T> GetChanged<T>(
+            List<T> order,
             string command,
-            List<string> selectedColumns,
-            List<string> selectedSourceColumns)
+            List<T> selectedColumns,
+            List<T> selectedSourceColumns = null)
         {
             switch (command)
             {
@@ -122,8 +122,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return order;
         }
 
-        private static List<string> Sort(
-            string[] order, string command, List<string> selectedColumns)
+        private static List<T> Sort<T>(T[] order, string command, List<T> selectedColumns)
         {
             if (command == "MoveDown") Array.Reverse(order);
             order.Select((o, i) => new { ColumnName = o, Index = i }).ForEach(data =>
