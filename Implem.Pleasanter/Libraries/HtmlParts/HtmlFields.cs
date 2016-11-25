@@ -148,7 +148,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: column.LabelText,
-                                text: value);
+                                text: value,
+                                validateRequired: column.ValidateRequired ?? false,
+                                validateNumber: column.ValidateNumber ?? false,
+                                validateDate: column.ValidateDate ?? false,
+                                validateEmail: column.ValidateEmail ?? false,
+                                validateEqualTo: column.ValidateEqualTo,
+                                validateMaxLength: column.ValidateMaxLength ?? 0);
                         case ControlTypes.MarkDown:
                             return hb.FieldMarkDown(
                                 fieldId: controlId + "Field",
@@ -173,7 +179,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: column.LabelText,
-                                text: value);
+                                text: value,
+                                validateRequired: column.ValidateRequired ?? false,
+                                validateNumber: column.ValidateNumber ?? false,
+                                validateDate: column.ValidateDate ?? false,
+                                validateEmail: column.ValidateEmail ?? false,
+                                validateEqualTo: column.ValidateEqualTo,
+                                validateMaxLength: column.ValidateMaxLength ?? 0);
                         case ControlTypes.TextBoxNumeric:
                             return hb.FieldTextBox(
                                 textType: HtmlTypes.TextTypes.Normal,
@@ -184,7 +196,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: column.LabelText,
-                                text: value);
+                                text: value,
+                                validateRequired: column.ValidateRequired ?? false,
+                                validateNumber: column.ValidateNumber ?? false,
+                                validateDate: column.ValidateDate ?? false,
+                                validateEmail: column.ValidateEmail ?? false,
+                                validateEqualTo: column.ValidateEqualTo,
+                                validateMaxLength: column.ValidateMaxLength ?? 0);
                         case ControlTypes.TextBoxDateTime:
                             return hb.FieldTextBox(
                                 textType: HtmlTypes.TextTypes.Normal,
@@ -195,7 +213,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: column.LabelText,
-                                text: value);
+                                text: value,
+                                validateRequired: column.ValidateRequired ?? false,
+                                validateNumber: column.ValidateNumber ?? false,
+                                validateDate: column.ValidateDate ?? false,
+                                validateEmail: column.ValidateEmail ?? false,
+                                validateEqualTo: column.ValidateEqualTo,
+                                validateMaxLength: column.ValidateMaxLength ?? 0);
                         case ControlTypes.CheckBox:
                             return hb.FieldCheckBox(
                                 fieldId: controlId + "Field",
@@ -474,6 +498,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelText = null,
             string text = null,
             string onChange = null,
+            bool validateRequired = false,
+            bool validateNumber = false,
+            bool validateDate = false,
+            bool validateEmail = false,
+            string validateEqualTo = null,
+            int validateMaxLength = 0,
             string action = null,
             string method = null, 
             Dictionary<string, string> attributes = null,
@@ -495,6 +525,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             text: text,
                             placeholder: labelText,
                             onChange: onChange,
+                            validateRequired: validateRequired,
+                            validateNumber: validateNumber,
+                            validateDate: validateDate,
+                            validateEmail: validateEmail,
+                            validateEqualTo: validateEqualTo,
+                            validateMaxLength: validateMaxLength,
                             action: action,
                             method: method,
                             attributes: attributes))

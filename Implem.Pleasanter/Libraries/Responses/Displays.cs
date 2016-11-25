@@ -718,10 +718,12 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ValidateNumber(params string[] data) { return Get("ValidateNumber", data); }
         public static HtmlBuilder Displays_ValidateDate(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ValidateDate", data)); }
         public static string ValidateDate(params string[] data) { return Get("ValidateDate", data); }
-        public static HtmlBuilder Displays_ValidateMail(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ValidateMail", data)); }
-        public static string ValidateMail(params string[] data) { return Get("ValidateMail", data); }
+        public static HtmlBuilder Displays_ValidateEmail(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ValidateEmail", data)); }
+        public static string ValidateEmail(params string[] data) { return Get("ValidateEmail", data); }
         public static HtmlBuilder Displays_ValidateEqualTo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ValidateEqualTo", data)); }
         public static string ValidateEqualTo(params string[] data) { return Get("ValidateEqualTo", data); }
+        public static HtmlBuilder Displays_ValidateMaxLength(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ValidateMaxLength", data)); }
+        public static string ValidateMaxLength(params string[] data) { return Get("ValidateMaxLength", data); }
         public static HtmlBuilder Displays_Tenants_TenantId(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Tenants_TenantId", data)); }
         public static string Tenants_TenantId(params string[] data) { return Get("Tenants_TenantId", data); }
         public static HtmlBuilder Displays_Tenants_TenantName(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Tenants_TenantName", data)); }

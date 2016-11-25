@@ -1236,12 +1236,10 @@ namespace Implem.Pleasanter.Models
         private void OpenViewDialog(
             ResponseCollection res, Libraries.Settings.View view)
         {
-            res
-                .Html("#ViewDialog", SiteUtilities.ViewDialog(
-                    ss: SiteSettings,
-                    controlId: Forms.ControlId(),
-                    view: view))
-                .Invoke("validateSites");
+            res.Html("#ViewDialog", SiteUtilities.ViewDialog(
+                ss: SiteSettings,
+                controlId: Forms.ControlId(),
+                view: view));
         }
 
         /// <summary>
@@ -1331,12 +1329,10 @@ namespace Implem.Pleasanter.Models
             else
             {
                 Session_MonitorChangesColumns(notification.MonitorChangesColumns);
-                res
-                    .Html("#NotificationDialog", SiteUtilities.NotificationDialog(
-                        ss: SiteSettings,
-                        controlId: Forms.ControlId(),
-                        notification: notification))
-                    .Invoke("validateSites");
+                res.Html("#NotificationDialog", SiteUtilities.NotificationDialog(
+                    ss: SiteSettings,
+                    controlId: Forms.ControlId(),
+                    notification: notification));
             }
         }
 

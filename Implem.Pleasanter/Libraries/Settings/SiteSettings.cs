@@ -185,6 +185,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     if (column.ExportFormat == columnDefinition.ExportFormat) column.ExportFormat = null;
                     if (column.ControlType == columnDefinition.ControlType) column.ControlType = null;
                     if (column.Format?.Trim() == string.Empty) column.Format = null;
+                    if (column.ValidateRequired == columnDefinition.ValidateRequired) column.ValidateRequired = null;
+                    if (column.ValidateNumber == columnDefinition.ValidateNumber) column.ValidateNumber = null;
+                    if (column.ValidateDate == columnDefinition.ValidateDate) column.ValidateDate = null;
+                    if (column.ValidateEmail == columnDefinition.ValidateEmail) column.ValidateEmail = null;
+                    if (column.ValidateEqualTo == columnDefinition.ValidateEqualTo) column.ValidateEqualTo = null;
+                    if (column.ValidateMaxLength == columnDefinition.MaxLength) column.ValidateMaxLength = null;
                     if (column.DecimalPlaces == columnDefinition.DecimalPlaces) column.DecimalPlaces = null;
                     if (column.Min == columnDefinition.Min) column.Min = null;
                     if (column.Max == DefaultMax(columnDefinition)) column.Max = null;
@@ -354,6 +360,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.ControlFormat = column.ControlFormat ?? columnDefinition.ControlFormat;
                 column.ExportFormat = column.ExportFormat ?? columnDefinition.ExportFormat;
                 column.ControlType = column.ControlType ?? columnDefinition.ControlType;
+                column.ValidateRequired = column.ValidateRequired ?? columnDefinition.ValidateRequired;
+                column.ValidateNumber = column.ValidateNumber ?? columnDefinition.ValidateNumber;
+                column.ValidateDate = column.ValidateDate ?? columnDefinition.ValidateDate;
+                column.ValidateEmail = column.ValidateEmail ?? columnDefinition.ValidateEmail;
+                column.ValidateEqualTo = column.ValidateEqualTo ?? columnDefinition.ValidateEqualTo;
+                column.ValidateMaxLength = column.ValidateMaxLength ?? columnDefinition.MaxLength;
                 column.DecimalPlaces = column.DecimalPlaces ?? columnDefinition.DecimalPlaces;
                 column.Min = column.Min ?? columnDefinition.Min;
                 column.Max = column.Max ?? DefaultMax(columnDefinition);
@@ -391,7 +403,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.GridStyle = columnDefinition.GridStyle;
                 column.Aggregatable = columnDefinition.Aggregatable;
                 column.Computable = columnDefinition.Computable;
-                column.Validators = columnDefinition.Validators;
             }
         }
 
@@ -780,6 +791,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "GridDesign":
                     column.GridDesign = GridDesignRecordingData(column, value);
                     break;
+                case "ValidateRequired": column.ValidateRequired = value.ToBool(); break;
+                case "ValidateNumber": column.ValidateNumber = value.ToBool(); break;
+                case "ValidateDate": column.ValidateDate = value.ToBool(); break;
+                case "ValidateEmail": column.ValidateEmail = value.ToBool(); break;
+                case "ValidateEqualTo": column.ValidateEqualTo = value.ToString(); break;
+                case "ValidateMaxLength": column.ValidateMaxLength = value.ToInt(); break;
                 case "DecimalPlaces": column.DecimalPlaces = value.ToInt(); break;
                 case "Max": column.Max = value.ToDecimal(); break;
                 case "Min": column.Min = value.ToDecimal(); break;

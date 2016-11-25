@@ -91,7 +91,6 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll("#MainContainer", Editor(siteModel))
                 .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
                 .Invoke("setCurrentIndex")
-                .Invoke("validateSites")
                 .Message(message)
                 .ClearFormData();
         }
@@ -1086,6 +1085,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder FieldSetGeneral(this HtmlBuilder hb, SiteModel siteModel)
         {
+            var titleColumn = siteModel.SiteSettings.GetColumn("Title");
             hb.FieldSet(id: "FieldSetGeneral", action: () =>
             {
                 hb
@@ -1104,6 +1104,8 @@ namespace Implem.Pleasanter.Models
                         controlCss: " focus",
                         labelText: Displays.Sites_Title(),
                         text: siteModel.Title.Value.ToString(),
+                        validateRequired: titleColumn.ValidateRequired ?? false,
+                        validateMaxLength: titleColumn.ValidateMaxLength ?? 0,
                         _using: siteModel.ReferenceType != "Wikis")
                     .FieldMarkDown(
                         controlId: "Sites_Body",
@@ -2230,7 +2232,8 @@ namespace Implem.Pleasanter.Models
                     .FieldTextBox(
                         controlId: "ViewName",
                         labelText: Displays.Name(),
-                        text: view.Name)
+                        text: view.Name,
+                        validateRequired: true)
                     .Div(id: "ViewTabsContainer", action: () => hb
                         .Ul(id: "ViewTabs", action: () => hb
                             .Li(action: () => hb
@@ -2510,7 +2513,8 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-wide",
                         controlCss: " must-transport",
                         labelText: Displays.Address(),
-                        text: notification.Address)
+                        text: notification.Address,
+                        validateRequired: true)
                     .FieldSet(
                         css: " enclosed",
                         legendText: Displays.MonitorChangesColumns(),

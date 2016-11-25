@@ -260,8 +260,6 @@ namespace Implem.DefinitionAccessor
                     case "Def_DefinitionClass_DefinitionAccessor": Code.Def_DefinitionClass_DefinitionAccessor = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Def_DefinitionClass_DefinitionAccessor, definitionRow, CodeXls); break;
                     case "Def_DefinitionClass_DefinitionColumn2nd": Code.Def_DefinitionClass_DefinitionColumn2nd = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Def_DefinitionClass_DefinitionColumn2nd, definitionRow, CodeXls); break;
                     case "Def_DefinitionClass_DefinitionTable": Code.Def_DefinitionClass_DefinitionTable = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Def_DefinitionClass_DefinitionTable, definitionRow, CodeXls); break;
-                    case "BundleConfig": Code.BundleConfig = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.BundleConfig, definitionRow, CodeXls); break;
-                    case "BundleConfig_Validators": Code.BundleConfig_Validators = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.BundleConfig_Validators, definitionRow, CodeXls); break;
                     case "Controller": Code.Controller = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Controller, definitionRow, CodeXls); break;
                     case "Base": Code.Base = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base, definitionRow, CodeXls); break;
                     case "Base_Property": Code.Base_Property = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base_Property, definitionRow, CodeXls); break;
@@ -665,11 +663,6 @@ namespace Implem.DefinitionAccessor
                     case "Error": Code.Error = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Error, definitionRow, CodeXls); break;
                     case "Error_Types": Code.Error_Types = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Error_Types, definitionRow, CodeXls); break;
                     case "Error_Messages": Code.Error_Messages = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Error_Messages, definitionRow, CodeXls); break;
-                    case "ClientValidators": Code.ClientValidators = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientValidators, definitionRow, CodeXls); break;
-                    case "ClientValidators_Form": Code.ClientValidators_Form = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientValidators_Form, definitionRow, CodeXls); break;
-                    case "ClientValidators_Rules": Code.ClientValidators_Rules = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientValidators_Rules, definitionRow, CodeXls); break;
-                    case "ClientValidators_Messages": Code.ClientValidators_Messages = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientValidators_Messages, definitionRow, CodeXls); break;
-                    case "ClientValidators_Sites": Code.ClientValidators_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientValidators_Sites, definitionRow, CodeXls); break;
                     case "Css": Code.Css = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Css, definitionRow, CodeXls); break;
                     case "ClientDisplays": Code.ClientDisplays = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientDisplays, definitionRow, CodeXls); break;
                     case "ClientDisplays_Parts": Code.ClientDisplays_Parts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientDisplays_Parts, definitionRow, CodeXls); break;
@@ -1560,7 +1553,11 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("DefaultInput")) { newColumnDefinition.DefaultInput = definitionRow["DefaultInput"].ToString(); newColumnDefinition.SavedDefaultInput = newColumnDefinition.DefaultInput; }
                 if (definitionRow.ContainsKey("Own")) { newColumnDefinition.Own = definitionRow["Own"].ToBool(); newColumnDefinition.SavedOwn = newColumnDefinition.Own; }
                 if (definitionRow.ContainsKey("FormName")) { newColumnDefinition.FormName = definitionRow["FormName"].ToString(); newColumnDefinition.SavedFormName = newColumnDefinition.FormName; }
-                if (definitionRow.ContainsKey("Validators")) { newColumnDefinition.Validators = definitionRow["Validators"].ToString(); newColumnDefinition.SavedValidators = newColumnDefinition.Validators; }
+                if (definitionRow.ContainsKey("ValidateRequired")) { newColumnDefinition.ValidateRequired = definitionRow["ValidateRequired"].ToBool(); newColumnDefinition.SavedValidateRequired = newColumnDefinition.ValidateRequired; }
+                if (definitionRow.ContainsKey("ValidateNumber")) { newColumnDefinition.ValidateNumber = definitionRow["ValidateNumber"].ToBool(); newColumnDefinition.SavedValidateNumber = newColumnDefinition.ValidateNumber; }
+                if (definitionRow.ContainsKey("ValidateDate")) { newColumnDefinition.ValidateDate = definitionRow["ValidateDate"].ToBool(); newColumnDefinition.SavedValidateDate = newColumnDefinition.ValidateDate; }
+                if (definitionRow.ContainsKey("ValidateEmail")) { newColumnDefinition.ValidateEmail = definitionRow["ValidateEmail"].ToBool(); newColumnDefinition.SavedValidateEmail = newColumnDefinition.ValidateEmail; }
+                if (definitionRow.ContainsKey("ValidateEqualTo")) { newColumnDefinition.ValidateEqualTo = definitionRow["ValidateEqualTo"].ToString(); newColumnDefinition.SavedValidateEqualTo = newColumnDefinition.ValidateEqualTo; }
                 if (definitionRow.ContainsKey("DecimalPlaces")) { newColumnDefinition.DecimalPlaces = definitionRow["DecimalPlaces"].ToInt(); newColumnDefinition.SavedDecimalPlaces = newColumnDefinition.DecimalPlaces; }
                 if (definitionRow.ContainsKey("Min")) { newColumnDefinition.Min = definitionRow["Min"].ToDecimal(); newColumnDefinition.SavedMin = newColumnDefinition.Min; }
                 if (definitionRow.ContainsKey("Max")) { newColumnDefinition.Max = definitionRow["Max"].ToDecimal(); newColumnDefinition.SavedMax = newColumnDefinition.Max; }
@@ -1662,7 +1659,11 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("DefaultInput")) { definition.DefaultInput = definitionRow["DefaultInput"].ToString(); definition.SavedDefaultInput = definition.DefaultInput; }
             if (definitionRow.ContainsKey("Own")) { definition.Own = definitionRow["Own"].ToBool(); definition.SavedOwn = definition.Own; }
             if (definitionRow.ContainsKey("FormName")) { definition.FormName = definitionRow["FormName"].ToString(); definition.SavedFormName = definition.FormName; }
-            if (definitionRow.ContainsKey("Validators")) { definition.Validators = definitionRow["Validators"].ToString(); definition.SavedValidators = definition.Validators; }
+            if (definitionRow.ContainsKey("ValidateRequired")) { definition.ValidateRequired = definitionRow["ValidateRequired"].ToBool(); definition.SavedValidateRequired = definition.ValidateRequired; }
+            if (definitionRow.ContainsKey("ValidateNumber")) { definition.ValidateNumber = definitionRow["ValidateNumber"].ToBool(); definition.SavedValidateNumber = definition.ValidateNumber; }
+            if (definitionRow.ContainsKey("ValidateDate")) { definition.ValidateDate = definitionRow["ValidateDate"].ToBool(); definition.SavedValidateDate = definition.ValidateDate; }
+            if (definitionRow.ContainsKey("ValidateEmail")) { definition.ValidateEmail = definitionRow["ValidateEmail"].ToBool(); definition.SavedValidateEmail = definition.ValidateEmail; }
+            if (definitionRow.ContainsKey("ValidateEqualTo")) { definition.ValidateEqualTo = definitionRow["ValidateEqualTo"].ToString(); definition.SavedValidateEqualTo = definition.ValidateEqualTo; }
             if (definitionRow.ContainsKey("DecimalPlaces")) { definition.DecimalPlaces = definitionRow["DecimalPlaces"].ToInt(); definition.SavedDecimalPlaces = definition.DecimalPlaces; }
             if (definitionRow.ContainsKey("Min")) { definition.Min = definitionRow["Min"].ToDecimal(); definition.SavedMin = definition.Min; }
             if (definitionRow.ContainsKey("Max")) { definition.Max = definitionRow["Max"].ToDecimal(); definition.SavedMax = definition.Max; }
@@ -3041,10 +3042,12 @@ namespace Implem.DefinitionAccessor
                     case "ValidateNumber_ja": Display.ValidateNumber_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateNumber_ja, definitionRow, DisplayXls); break;
                     case "ValidateDate": Display.ValidateDate = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateDate, definitionRow, DisplayXls); break;
                     case "ValidateDate_ja": Display.ValidateDate_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateDate_ja, definitionRow, DisplayXls); break;
-                    case "ValidateMail": Display.ValidateMail = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateMail, definitionRow, DisplayXls); break;
-                    case "ValidateMail_ja": Display.ValidateMail_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateMail_ja, definitionRow, DisplayXls); break;
+                    case "ValidateEmail": Display.ValidateEmail = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateEmail, definitionRow, DisplayXls); break;
+                    case "ValidateEmail_ja": Display.ValidateEmail_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateEmail_ja, definitionRow, DisplayXls); break;
                     case "ValidateEqualTo": Display.ValidateEqualTo = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateEqualTo, definitionRow, DisplayXls); break;
                     case "ValidateEqualTo_ja": Display.ValidateEqualTo_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateEqualTo_ja, definitionRow, DisplayXls); break;
+                    case "ValidateMaxLength": Display.ValidateMaxLength = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateMaxLength, definitionRow, DisplayXls); break;
+                    case "ValidateMaxLength_ja": Display.ValidateMaxLength_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateMaxLength_ja, definitionRow, DisplayXls); break;
                     default: break;
                 }
             });
@@ -3373,7 +3376,11 @@ namespace Implem.DefinitionAccessor
                         case "DefaultInput": columnDefinition.DefaultInput = optionValue.ToString(); break;
                         case "Own": columnDefinition.Own = optionValue.ToBool(); break;
                         case "FormName": columnDefinition.FormName = optionValue.ToString(); break;
-                        case "Validators": columnDefinition.Validators = optionValue.ToString(); break;
+                        case "ValidateRequired": columnDefinition.ValidateRequired = optionValue.ToBool(); break;
+                        case "ValidateNumber": columnDefinition.ValidateNumber = optionValue.ToBool(); break;
+                        case "ValidateDate": columnDefinition.ValidateDate = optionValue.ToBool(); break;
+                        case "ValidateEmail": columnDefinition.ValidateEmail = optionValue.ToBool(); break;
+                        case "ValidateEqualTo": columnDefinition.ValidateEqualTo = optionValue.ToString(); break;
                         case "DecimalPlaces": columnDefinition.DecimalPlaces = optionValue.ToInt(); break;
                         case "Min": columnDefinition.Min = optionValue.ToDecimal(); break;
                         case "Max": columnDefinition.Max = optionValue.ToDecimal(); break;
@@ -3861,8 +3868,6 @@ namespace Implem.DefinitionAccessor
         public string Def_DefinitionClass_DefinitionAccessor;
         public string Def_DefinitionClass_DefinitionColumn2nd;
         public string Def_DefinitionClass_DefinitionTable;
-        public string BundleConfig;
-        public string BundleConfig_Validators;
         public string Controller;
         public string Base;
         public string Base_Property;
@@ -4266,11 +4271,6 @@ namespace Implem.DefinitionAccessor
         public string Error;
         public string Error_Types;
         public string Error_Messages;
-        public string ClientValidators;
-        public string ClientValidators_Form;
-        public string ClientValidators_Rules;
-        public string ClientValidators_Messages;
-        public string ClientValidators_Sites;
         public string Css;
         public string ClientDisplays;
         public string ClientDisplays_Parts;
@@ -4296,8 +4296,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Def_DefinitionClass_DefinitionAccessor = new CodeDefinition();
         public CodeDefinition Def_DefinitionClass_DefinitionColumn2nd = new CodeDefinition();
         public CodeDefinition Def_DefinitionClass_DefinitionTable = new CodeDefinition();
-        public CodeDefinition BundleConfig = new CodeDefinition();
-        public CodeDefinition BundleConfig_Validators = new CodeDefinition();
         public CodeDefinition Controller = new CodeDefinition();
         public CodeDefinition Base = new CodeDefinition();
         public CodeDefinition Base_Property = new CodeDefinition();
@@ -4701,11 +4699,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Error = new CodeDefinition();
         public CodeDefinition Error_Types = new CodeDefinition();
         public CodeDefinition Error_Messages = new CodeDefinition();
-        public CodeDefinition ClientValidators = new CodeDefinition();
-        public CodeDefinition ClientValidators_Form = new CodeDefinition();
-        public CodeDefinition ClientValidators_Rules = new CodeDefinition();
-        public CodeDefinition ClientValidators_Messages = new CodeDefinition();
-        public CodeDefinition ClientValidators_Sites = new CodeDefinition();
         public CodeDefinition Css = new CodeDefinition();
         public CodeDefinition ClientDisplays = new CodeDefinition();
         public CodeDefinition ClientDisplays_Parts = new CodeDefinition();
@@ -4800,7 +4793,11 @@ namespace Implem.DefinitionAccessor
         public string DefaultInput; public string SavedDefaultInput;
         public bool Own; public bool SavedOwn;
         public string FormName; public string SavedFormName;
-        public string Validators; public string SavedValidators;
+        public bool ValidateRequired; public bool SavedValidateRequired;
+        public bool ValidateNumber; public bool SavedValidateNumber;
+        public bool ValidateDate; public bool SavedValidateDate;
+        public bool ValidateEmail; public bool SavedValidateEmail;
+        public string ValidateEqualTo; public string SavedValidateEqualTo;
         public int DecimalPlaces; public int SavedDecimalPlaces;
         public decimal Min; public decimal SavedMin;
         public decimal Max; public decimal SavedMax;
@@ -4903,7 +4900,11 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("DefaultInput")) DefaultInput = propertyCollection["DefaultInput"].ToString(); else DefaultInput = string.Empty;
             if (propertyCollection.ContainsKey("Own")) Own = propertyCollection["Own"].ToBool(); else Own = false;
             if (propertyCollection.ContainsKey("FormName")) FormName = propertyCollection["FormName"].ToString(); else FormName = string.Empty;
-            if (propertyCollection.ContainsKey("Validators")) Validators = propertyCollection["Validators"].ToString(); else Validators = string.Empty;
+            if (propertyCollection.ContainsKey("ValidateRequired")) ValidateRequired = propertyCollection["ValidateRequired"].ToBool(); else ValidateRequired = false;
+            if (propertyCollection.ContainsKey("ValidateNumber")) ValidateNumber = propertyCollection["ValidateNumber"].ToBool(); else ValidateNumber = false;
+            if (propertyCollection.ContainsKey("ValidateDate")) ValidateDate = propertyCollection["ValidateDate"].ToBool(); else ValidateDate = false;
+            if (propertyCollection.ContainsKey("ValidateEmail")) ValidateEmail = propertyCollection["ValidateEmail"].ToBool(); else ValidateEmail = false;
+            if (propertyCollection.ContainsKey("ValidateEqualTo")) ValidateEqualTo = propertyCollection["ValidateEqualTo"].ToString(); else ValidateEqualTo = string.Empty;
             if (propertyCollection.ContainsKey("DecimalPlaces")) DecimalPlaces = propertyCollection["DecimalPlaces"].ToInt(); else DecimalPlaces = 0;
             if (propertyCollection.ContainsKey("Min")) Min = propertyCollection["Min"].ToDecimal(); else Min = 0;
             if (propertyCollection.ContainsKey("Max")) Max = propertyCollection["Max"].ToDecimal(); else Max = 0;
@@ -5006,7 +5007,11 @@ namespace Implem.DefinitionAccessor
                     case "DefaultInput": return DefaultInput;
                     case "Own": return Own;
                     case "FormName": return FormName;
-                    case "Validators": return Validators;
+                    case "ValidateRequired": return ValidateRequired;
+                    case "ValidateNumber": return ValidateNumber;
+                    case "ValidateDate": return ValidateDate;
+                    case "ValidateEmail": return ValidateEmail;
+                    case "ValidateEqualTo": return ValidateEqualTo;
                     case "DecimalPlaces": return DecimalPlaces;
                     case "Min": return Min;
                     case "Max": return Max;
@@ -5109,7 +5114,11 @@ namespace Implem.DefinitionAccessor
             DefaultInput = SavedDefaultInput;
             Own = SavedOwn;
             FormName = SavedFormName;
-            Validators = SavedValidators;
+            ValidateRequired = SavedValidateRequired;
+            ValidateNumber = SavedValidateNumber;
+            ValidateDate = SavedValidateDate;
+            ValidateEmail = SavedValidateEmail;
+            ValidateEqualTo = SavedValidateEqualTo;
             DecimalPlaces = SavedDecimalPlaces;
             Min = SavedMin;
             Max = SavedMax;
@@ -8367,10 +8376,12 @@ namespace Implem.DefinitionAccessor
         public string ValidateNumber_ja;
         public string ValidateDate;
         public string ValidateDate_ja;
-        public string ValidateMail;
-        public string ValidateMail_ja;
+        public string ValidateEmail;
+        public string ValidateEmail_ja;
         public string ValidateEqualTo;
         public string ValidateEqualTo_ja;
+        public string ValidateMaxLength;
+        public string ValidateMaxLength_ja;
     }
 
     public class DisplayTable
@@ -9060,10 +9071,12 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition ValidateNumber_ja = new DisplayDefinition();
         public DisplayDefinition ValidateDate = new DisplayDefinition();
         public DisplayDefinition ValidateDate_ja = new DisplayDefinition();
-        public DisplayDefinition ValidateMail = new DisplayDefinition();
-        public DisplayDefinition ValidateMail_ja = new DisplayDefinition();
+        public DisplayDefinition ValidateEmail = new DisplayDefinition();
+        public DisplayDefinition ValidateEmail_ja = new DisplayDefinition();
         public DisplayDefinition ValidateEqualTo = new DisplayDefinition();
         public DisplayDefinition ValidateEqualTo_ja = new DisplayDefinition();
+        public DisplayDefinition ValidateMaxLength = new DisplayDefinition();
+        public DisplayDefinition ValidateMaxLength_ja = new DisplayDefinition();
     }
 
     public class SqlDefinition

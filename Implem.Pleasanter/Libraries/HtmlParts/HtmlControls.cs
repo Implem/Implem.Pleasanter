@@ -18,6 +18,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string text = null,
             string placeholder = null,
             string onChange = null,
+            bool validateRequired = false,
+            bool validateNumber = false,
+            bool validateDate = false,
+            bool validateEmail = false,
+            string validateEqualTo = null,
+            int validateMaxLength = 0,
             string action = null,
             string method = null,
             Dictionary<string, string> attributes = null,
@@ -34,6 +40,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Value(text)
                         .Placeholder(placeholder)
                         .OnChange(onChange)
+                        .DataValidateRequired(validateRequired)
+                        .DataValidateNumber(validateNumber)
+                        .DataValidateDate(validateDate)
+                        .DataValidateEmail(validateEmail)
+                        .DataValidateEqualTo(validateEqualTo)
+                        .DataValidateMaxLength(validateMaxLength)
                         .DataAction(action)
                         .DataMethod(method)
                         .Add(attributes));
@@ -44,6 +56,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Class(Css.Class("control-textarea", controlCss))
                             .Placeholder(placeholder)
                             .OnChange(onChange)
+                            .DataValidateRequired(validateRequired)
+                            .DataValidateNumber(validateNumber)
+                            .DataValidateDate(validateDate)
+                            .DataValidateEmail(validateEmail)
+                            .DataValidateEqualTo(validateEqualTo)
+                            .DataValidateMaxLength(validateMaxLength)
                             .DataAction(action)
                             .DataMethod(method)
                             .Add(attributes),
@@ -57,6 +75,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Value(text)
                         .Placeholder(placeholder)
                         .OnChange(onChange)
+                        .DataValidateRequired(validateRequired)
+                        .DataValidateNumber(validateNumber)
+                        .DataValidateDate(validateDate)
+                        .DataValidateEmail(validateEmail)
+                        .DataValidateEqualTo(validateEqualTo)
+                        .DataValidateMaxLength(validateMaxLength)
                         .Add(attributes));
                 case HtmlTypes.TextTypes.File:
                     return hb.Input(attributes: new HtmlAttributes()
@@ -66,6 +90,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Value(text)
                         .Placeholder(placeholder)
                         .OnChange(onChange)
+                        .DataValidateRequired(validateRequired)
+                        .DataValidateNumber(validateNumber)
+                        .DataValidateDate(validateDate)
+                        .DataValidateEmail(validateEmail)
+                        .DataValidateEqualTo(validateEqualTo)
+                        .DataValidateMaxLength(validateMaxLength)
                         .DataAction(action)
                         .DataMethod(method)
                         .Add(attributes));

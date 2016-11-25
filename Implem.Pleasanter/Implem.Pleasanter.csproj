@@ -429,6 +429,7 @@
     <Content Include="Scripts\BasketEvents.js" />
     <Content Include="Scripts\BurnDown.js" />
     <Content Include="Scripts\BurnDownEvents.js" />
+    <Content Include="Scripts\Validator.js" />
     <Content Include="Scripts\ViewMode.js" />
     <Content Include="Scripts\Dialog.js" />
     <Content Include="Scripts\DialogEvents.js" />
@@ -473,17 +474,6 @@
     <Content Include="Scripts\StatusEvents.js" />
     <Content Include="Scripts\SubmitEvents.js" />
     <Content Include="Scripts\TimeSeries.js" />
-    <Content Include="Scripts\Validators\Custom.js" />
-    <Content Include="Scripts\Validators\Demos.js" />
-    <Content Include="Scripts\Validators\Depts.js" />
-    <Content Include="Scripts\Validators\Issues.js" />
-    <Content Include="Scripts\Validators\OutgoingMails.js" />
-    <Content Include="Scripts\Validators\Results.js" />
-    <Content Include="Scripts\Validators\Sites.js" />
-    <Content Include="Scripts\Validators\Tenants.js" />
-    <Content Include="Scripts\Validators\Users.js" />
-    <Content Include="Scripts\Validators\Wikis.js" />
-    <Content Include="Scripts\Validators\_Shared.js" />
     <Content Include="Scripts\_Ajax.js" />
     <Content Include="Scripts\_Data.js" />
     <Content Include="Scripts\_View.js" />

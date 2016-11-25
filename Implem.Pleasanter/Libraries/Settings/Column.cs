@@ -23,6 +23,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ControlType;
         public string Format;
         public string GridDesign;
+        public bool? ValidateRequired;
+        public bool? ValidateNumber;
+        public bool? ValidateDate;
+        public bool? ValidateEmail;
+        public string ValidateEqualTo;
+        public int? ValidateMaxLength;
         public int? DecimalPlaces;
         public decimal? Min;
         public decimal? Max;
@@ -95,8 +101,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool Aggregatable;
         [NonSerialized]
         public bool Computable;
-        [NonSerialized]
-        public string Validators;
         [NonSerialized]
         public bool? FloatClear;
         [NonSerialized]

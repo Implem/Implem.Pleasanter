@@ -906,7 +906,6 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll("#MainContainer", Editor(siteModel, resultModel))
                 .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
                 .Invoke("setCurrentIndex")
-                .Invoke("validateResults")
                 .Message(message)
                 .ClearFormData();
         }

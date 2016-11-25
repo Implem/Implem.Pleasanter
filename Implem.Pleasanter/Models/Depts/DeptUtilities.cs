@@ -523,7 +523,6 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll("#MainContainer", Editor(deptModel))
                 .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
                 .Invoke("setCurrentIndex")
-                .Invoke("validateDepts")
                 .Message(message)
                 .ClearFormData();
         }

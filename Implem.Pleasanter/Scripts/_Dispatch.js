@@ -9,7 +9,10 @@
             d.Method === 'ReplaceAll' ||
             d.Method === 'Append' ||
             d.Method === 'Prepend';
-    }).length > 0) { $p.apply(); }
+    }).length > 0) {
+        $p.apply();
+        $p.applyValidator();
+    }
 }
 
 $p.setByJsonElement = function (jsonElement, data, $control) {
