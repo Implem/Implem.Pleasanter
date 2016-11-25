@@ -63,10 +63,6 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
                             Form.SetCodeCollection(
                                 codeChildDefinition, codeChildCollection, dataContainer);
                             break;
-                        case "Validator":
-                            Validator.SetCodeCollection(
-                                codeChildDefinition, codeChildCollection, dataContainer);
-                            break;
                         case "Display":
                             Display.SetCodeCollection(
                                 codeChildDefinition, codeChildCollection, dataContainer);

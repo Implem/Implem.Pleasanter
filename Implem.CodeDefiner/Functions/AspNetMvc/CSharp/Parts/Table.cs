@@ -42,7 +42,6 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             if (codeDefinition.HasNotIdentity && Def.ExistsTable(tableName, o => o.Identity)) return true;
             if (codeDefinition.HasTableNameId && tableName.CsTypeIdColumn() == string.Empty) return true;
             if (codeDefinition.HasNotTableNameId && tableName.CsTypeIdColumn() != string.Empty) return true;
-            if (codeDefinition.Validators && !Def.ExistsTable(tableName, o => o.Validators != string.Empty)) return true;
             if (codeDefinition.Exclude.Split(',').Contains(tableName)) return true;
             if (codeDefinition.Include != string.Empty && !codeDefinition.Include.Split(',').Contains(tableName)) return true;
             return false;
