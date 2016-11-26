@@ -83,6 +83,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string value,
             Dictionary<string, ControlData> optionCollection)
         {
+            var required = !column.Nullable || (column.ValidateRequired ?? false);
             switch (columnPermissionType)
             {
                 case Permissions.ColumnPermissionTypes.Read:
@@ -122,11 +123,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 fieldCss: fieldCss,
                                 labelCss: labelCss,
                                 controlContainerCss: controlContainerCss,
-                                controlCss: controlCss,
+                                controlCss: controlCss + (required
+                                    ? " must-transport"
+                                    : string.Empty),
                                 labelText: column.LabelText,
                                 optionCollection: optionCollection,
                                 selectedValue: value,
-                                insertBlank: column.Nullable,
+                                insertBlank: !required,
                                 column: column);
                         case ControlTypes.Text:
                             return hb.FieldText(
@@ -149,7 +152,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlCss: controlCss,
                                 labelText: column.LabelText,
                                 text: value,
-                                validateRequired: column.ValidateRequired ?? false,
+                                validateRequired: required,
                                 validateNumber: column.ValidateNumber ?? false,
                                 validateDate: column.ValidateDate ?? false,
                                 validateEmail: column.ValidateEmail ?? false,
@@ -167,7 +170,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 text: value,
                                 placeholder: column.LabelText,
                                 readOnly: column.EditorReadOnly.ToBool(),
-                                validateRequired: column.ValidateRequired ?? false);
+                                validateRequired: required);
                         case ControlTypes.TextBox:
                             return hb.FieldTextBox(
                                 textType: column.Hash
@@ -181,7 +184,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlCss: controlCss,
                                 labelText: column.LabelText,
                                 text: value,
-                                validateRequired: column.ValidateRequired ?? false,
+                                validateRequired: required,
                                 validateNumber: column.ValidateNumber ?? false,
                                 validateDate: column.ValidateDate ?? false,
                                 validateEmail: column.ValidateEmail ?? false,
@@ -198,7 +201,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlCss: controlCss,
                                 labelText: column.LabelText,
                                 text: value,
-                                validateRequired: column.ValidateRequired ?? false,
+                                validateRequired: required,
                                 validateNumber: column.ValidateNumber ?? false,
                                 validateDate: column.ValidateDate ?? false,
                                 validateEmail: column.ValidateEmail ?? false,
@@ -215,7 +218,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlCss: controlCss,
                                 labelText: column.LabelText,
                                 text: value,
-                                validateRequired: column.ValidateRequired ?? false,
+                                validateRequired: required,
                                 validateNumber: column.ValidateNumber ?? false,
                                 validateDate: column.ValidateDate ?? false,
                                 validateEmail: column.ValidateEmail ?? false,
