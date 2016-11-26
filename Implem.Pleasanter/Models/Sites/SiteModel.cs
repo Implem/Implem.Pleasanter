@@ -778,7 +778,7 @@ namespace Implem.Pleasanter.Models
             var selectedColumns = Forms.List("GridColumns");
             if (selectedColumns.Count() != 1)
             {
-                res.Message(Messages.RequireColumn());
+                res.Message(Messages.SelectOne());
             }
             else
             {
@@ -1012,7 +1012,7 @@ namespace Implem.Pleasanter.Models
             var selectedColumns = Forms.List("EditorColumns");
             if (selectedColumns.Count() != 1)
             {
-                res.Message(Messages.RequireColumn());
+                res.Message(Messages.SelectOne());
             }
             else
             {
@@ -1212,14 +1212,14 @@ namespace Implem.Pleasanter.Models
                 var idList = Forms.IntList("Views", ';');
                 if (idList.Count() != 1)
                 {
-                    OpenViewError(res, Messages.RequireColumn());
+                    OpenViewError(res, Messages.SelectOne());
                 }
                 else
                 {
                     view = SiteSettings.Views.FirstOrDefault(o => o.Id == idList.First());
                     if (view == null)
                     {
-                        OpenViewError(res, Messages.RequireColumn());
+                        OpenViewError(res, Messages.SelectOne());
                     }
                     else
                     {

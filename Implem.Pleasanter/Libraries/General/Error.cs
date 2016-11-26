@@ -19,7 +19,7 @@ namespace Implem.Pleasanter.Libraries.General
             CantSetAtTopOfSite,
             NotFound,
             RequireMailAddresses,
-            RequireColumn,
+            SelectOne,
             ExternalMailAddress,
             BadMailAddress,
             MailAddressHasNotSet,
@@ -66,8 +66,8 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.NotFound(data);
                 case Types.RequireMailAddresses:
                     return Messages.RequireMailAddresses(data);
-                case Types.RequireColumn:
-                    return Messages.RequireColumn(data);
+                case Types.SelectOne:
+                    return Messages.SelectOne(data);
                 case Types.ExternalMailAddress:
                     return Messages.ExternalMailAddress(data);
                 case Types.BadMailAddress:

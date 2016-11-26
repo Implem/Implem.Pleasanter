@@ -622,8 +622,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string NotFound(params string[] data) { return Get("NotFound", data); }
         public static HtmlBuilder Displays_RequireMailAddresses(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("RequireMailAddresses", data)); }
         public static string RequireMailAddresses(params string[] data) { return Get("RequireMailAddresses", data); }
-        public static HtmlBuilder Displays_RequireColumn(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("RequireColumn", data)); }
-        public static string RequireColumn(params string[] data) { return Get("RequireColumn", data); }
+        public static HtmlBuilder Displays_SelectOne(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SelectOne", data)); }
+        public static string SelectOne(params string[] data) { return Get("SelectOne", data); }
         public static HtmlBuilder Displays_ExternalMailAddress(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ExternalMailAddress", data)); }
         public static string ExternalMailAddress(params string[] data) { return Get("ExternalMailAddress", data); }
         public static HtmlBuilder Displays_BadMailAddress(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("BadMailAddress", data)); }

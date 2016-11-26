@@ -2946,8 +2946,8 @@ namespace Implem.DefinitionAccessor
                     case "NotFound_ja": Display.NotFound_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.NotFound_ja, definitionRow, DisplayXls); break;
                     case "RequireMailAddresses": Display.RequireMailAddresses = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.RequireMailAddresses, definitionRow, DisplayXls); break;
                     case "RequireMailAddresses_ja": Display.RequireMailAddresses_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.RequireMailAddresses_ja, definitionRow, DisplayXls); break;
-                    case "RequireColumn": Display.RequireColumn = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.RequireColumn, definitionRow, DisplayXls); break;
-                    case "RequireColumn_ja": Display.RequireColumn_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.RequireColumn_ja, definitionRow, DisplayXls); break;
+                    case "SelectOne": Display.SelectOne = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SelectOne, definitionRow, DisplayXls); break;
+                    case "SelectOne_ja": Display.SelectOne_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SelectOne_ja, definitionRow, DisplayXls); break;
                     case "ExternalMailAddress": Display.ExternalMailAddress = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ExternalMailAddress, definitionRow, DisplayXls); break;
                     case "ExternalMailAddress_ja": Display.ExternalMailAddress_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ExternalMailAddress_ja, definitionRow, DisplayXls); break;
                     case "BadMailAddress": Display.BadMailAddress = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.BadMailAddress, definitionRow, DisplayXls); break;
@@ -8282,8 +8282,8 @@ namespace Implem.DefinitionAccessor
         public string NotFound_ja;
         public string RequireMailAddresses;
         public string RequireMailAddresses_ja;
-        public string RequireColumn;
-        public string RequireColumn_ja;
+        public string SelectOne;
+        public string SelectOne_ja;
         public string ExternalMailAddress;
         public string ExternalMailAddress_ja;
         public string BadMailAddress;
@@ -8979,8 +8979,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition NotFound_ja = new DisplayDefinition();
         public DisplayDefinition RequireMailAddresses = new DisplayDefinition();
         public DisplayDefinition RequireMailAddresses_ja = new DisplayDefinition();
-        public DisplayDefinition RequireColumn = new DisplayDefinition();
-        public DisplayDefinition RequireColumn_ja = new DisplayDefinition();
+        public DisplayDefinition SelectOne = new DisplayDefinition();
+        public DisplayDefinition SelectOne_ja = new DisplayDefinition();
         public DisplayDefinition ExternalMailAddress = new DisplayDefinition();
         public DisplayDefinition ExternalMailAddress_ja = new DisplayDefinition();
         public DisplayDefinition BadMailAddress = new DisplayDefinition();

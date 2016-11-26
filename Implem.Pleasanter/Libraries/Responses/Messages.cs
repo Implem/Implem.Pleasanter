@@ -88,9 +88,9 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.RequireMailAddresses(data), "alert-error");
         }
 
-        public static Message RequireColumn(params string[] data)
+        public static Message SelectOne(params string[] data)
         {
-            return Get(Displays.RequireColumn(data), "alert-error");
+            return Get(Displays.SelectOne(data), "alert-error");
         }
 
         public static Message ExternalMailAddress(params string[] data)
@@ -388,9 +388,9 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(Messages.RequireMailAddresses(data));
         }
 
-        public static ResponseCollection ResponseRequireColumn(params string[] data)
+        public static ResponseCollection ResponseSelectOne(params string[] data)
         {
-            return ResponseMessage(Messages.RequireColumn(data));
+            return ResponseMessage(Messages.SelectOne(data));
         }
 
         public static ResponseCollection ResponseExternalMailAddress(params string[] data)
