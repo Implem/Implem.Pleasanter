@@ -166,7 +166,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelText: column.LabelText,
                                 text: value,
                                 placeholder: column.LabelText,
-                                readOnly: column.EditorReadOnly.ToBool());
+                                readOnly: column.EditorReadOnly.ToBool(),
+                                validateRequired: column.ValidateRequired ?? false);
                         case ControlTypes.TextBox:
                             return hb.FieldTextBox(
                                 textType: column.Hash
@@ -549,6 +550,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string text = null,
             string placeholder = null,
             bool readOnly = false,
+            bool validateRequired = false,
             Dictionary<string, string> attributes = null,
             bool _using = true)
         {
@@ -567,6 +569,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             text: text,
                             placeholder: placeholder,
                             readOnly: readOnly,
+                            validateRequired: validateRequired,
                             attributes: attributes))
                 : hb;
         }

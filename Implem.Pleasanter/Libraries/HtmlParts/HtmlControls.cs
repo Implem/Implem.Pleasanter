@@ -111,6 +111,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string text = null,
             string placeholder = null,
             bool readOnly = false,
+            bool validateRequired = false,
             Dictionary<string, string> attributes = null,
             bool _using = true)
         {
@@ -131,6 +132,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Id(controlId)
                             .Class(Css.Class("control-markdown upload-image", controlCss))
                             .Placeholder(placeholder)
+                            .DataValidateRequired(validateRequired)
                             .Add(attributes),
                         action: () => hb
                             .Text(text: text))

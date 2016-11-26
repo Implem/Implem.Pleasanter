@@ -2405,6 +2405,8 @@ namespace Implem.DefinitionAccessor
                     case "Import_ja": Display.Import_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Import_ja, definitionRow, DisplayXls); break;
                     case "Export": Display.Export = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Export, definitionRow, DisplayXls); break;
                     case "Export_ja": Display.Export_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Export_ja, definitionRow, DisplayXls); break;
+                    case "Required": Display.Required = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Required, definitionRow, DisplayXls); break;
+                    case "Required_ja": Display.Required_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Required_ja, definitionRow, DisplayXls); break;
                     case "Cancel": Display.Cancel = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Cancel, definitionRow, DisplayXls); break;
                     case "Cancel_ja": Display.Cancel_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Cancel_ja, definitionRow, DisplayXls); break;
                     case "GoBack": Display.GoBack = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.GoBack, definitionRow, DisplayXls); break;
@@ -7739,6 +7741,8 @@ namespace Implem.DefinitionAccessor
         public string Import_ja;
         public string Export;
         public string Export_ja;
+        public string Required;
+        public string Required_ja;
         public string Cancel;
         public string Cancel_ja;
         public string GoBack;
@@ -8434,6 +8438,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition Import_ja = new DisplayDefinition();
         public DisplayDefinition Export = new DisplayDefinition();
         public DisplayDefinition Export_ja = new DisplayDefinition();
+        public DisplayDefinition Required = new DisplayDefinition();
+        public DisplayDefinition Required_ja = new DisplayDefinition();
         public DisplayDefinition Cancel = new DisplayDefinition();
         public DisplayDefinition Cancel_ja = new DisplayDefinition();
         public DisplayDefinition GoBack = new DisplayDefinition();

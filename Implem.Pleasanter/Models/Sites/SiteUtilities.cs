@@ -1663,19 +1663,24 @@ namespace Implem.Pleasanter.Models
                         case Types.CsBool:
                             break;
                         default:
-                            if (column.Max != -1)
-                            {
-                                hb.FieldDropDown(
+                            hb
+                                .FieldDropDown(
                                     controlId: "EditorColumnProperty,FieldCss",
                                     labelText: Displays.Style(),
                                     optionCollection: new Dictionary<string, string>
                                     {
-                                        { "field-normal", Displays.Normal() },
-                                        { "field-wide", Displays.Wide() },
-                                        { "field-auto", Displays.Auto() }
+                                            { "field-normal", Displays.Normal() },
+                                            { "field-wide", Displays.Wide() },
+                                            { "field-auto", Displays.Auto() }
                                     },
-                                    selectedValue: column.FieldCss);
-                            }
+                                    selectedValue: column.FieldCss,
+                                    _using: column.MarkDown)
+                                .FieldCheckBox(
+                                    controlId: "EditorColumnProperty,ValidateRequired",
+                                    labelText: Displays.Required(),
+                                    _checked: column.ValidateRequired ?? false,
+                                    disabled: !column.Nullable,
+                                    _using: !column.Id_Ver);
                             break;
                     }
                     hb.FieldCheckBox(

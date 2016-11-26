@@ -76,6 +76,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Import(params string[] data) { return Get("Import", data); }
         public static HtmlBuilder Displays_Export(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Export", data)); }
         public static string Export(params string[] data) { return Get("Export", data); }
+        public static HtmlBuilder Displays_Required(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Required", data)); }
+        public static string Required(params string[] data) { return Get("Required", data); }
         public static HtmlBuilder Displays_Cancel(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Cancel", data)); }
         public static string Cancel(params string[] data) { return Get("Cancel", data); }
         public static HtmlBuilder Displays_GoBack(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("GoBack", data)); }
