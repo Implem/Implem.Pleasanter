@@ -209,7 +209,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 validateMaxLength: column.ValidateMaxLength ?? 0);
                         case ControlTypes.TextBoxDateTime:
                             return hb.FieldTextBox(
-                                textType: HtmlTypes.TextTypes.Normal,
+                                textType: HtmlTypes.TextTypes.DateTime,
                                 fieldId: controlId + "Field",
                                 controlId: controlId,
                                 fieldCss: fieldCss,

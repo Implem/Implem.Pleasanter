@@ -5,6 +5,7 @@
         public enum TextTypes
         {
             Normal,
+            DateTime,
             MultiLine,
             Password,
             File

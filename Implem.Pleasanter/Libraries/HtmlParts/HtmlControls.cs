@@ -49,6 +49,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .DataAction(action)
                         .DataMethod(method)
                         .Add(attributes));
+                case HtmlTypes.TextTypes.DateTime:
+                    return hb.Input(attributes: new HtmlAttributes()
+                        .Id(controlId)
+                        .Class(Css.Class("control-textbox datepicker", controlCss))
+                        .Type("text")
+                        .Value(text)
+                        .Placeholder(placeholder)
+                        .OnChange(onChange)
+                        .DataValidateRequired(validateRequired)
+                        .DataValidateNumber(validateNumber)
+                        .DataValidateDate(validateDate)
+                        .DataValidateEmail(validateEmail)
+                        .DataValidateEqualTo(validateEqualTo)
+                        .DataValidateMaxLength(validateMaxLength)
+                        .DataAction(action)
+                        .DataMethod(method)
+                        .Add(attributes));
                 case HtmlTypes.TextTypes.MultiLine:
                     return hb.TextArea(
                         attributes: new HtmlAttributes()
