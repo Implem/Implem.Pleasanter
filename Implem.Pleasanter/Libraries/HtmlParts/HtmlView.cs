@@ -12,7 +12,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.FieldDropDown(
                 fieldId: "ViewSelectorField",
                 controlId: "ViewSelector",
-                fieldCss: "field-auto-thin",
                 controlCss: " auto-postback",
                 labelText: Displays.DataView(),
                 optionCollection: ss.Views?.ToDictionary(o =>
