@@ -149,7 +149,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Id(controlId)
                             .Class(Css.Class("control-markdown upload-image", controlCss))
                             .Placeholder(placeholder)
-                            .DataValidateRequired(validateRequired)
+                            .DataValidateRequired(validateRequired, _using: !readOnly)
                             .Add(attributes),
                         action: () => hb
                             .Text(text: text))
