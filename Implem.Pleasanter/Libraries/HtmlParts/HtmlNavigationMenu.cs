@@ -149,7 +149,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             href: Locations.ItemEdit(siteId),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-gear")
-                                .Displays_Sites_SiteSettings()),
+                                .Displays_SiteSettings()),
                     _using: siteId != 0 && pt.CanEditSite())
                 .Li(
                     action: () => hb

@@ -2405,6 +2405,8 @@ namespace Implem.DefinitionAccessor
                     case "Import_ja": Display.Import_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Import_ja, definitionRow, DisplayXls); break;
                     case "Export": Display.Export = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Export, definitionRow, DisplayXls); break;
                     case "Export_ja": Display.Export_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Export_ja, definitionRow, DisplayXls); break;
+                    case "SiteSettings": Display.SiteSettings = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SiteSettings, definitionRow, DisplayXls); break;
+                    case "SiteSettings_ja": Display.SiteSettings_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SiteSettings_ja, definitionRow, DisplayXls); break;
                     case "Required": Display.Required = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Required, definitionRow, DisplayXls); break;
                     case "Required_ja": Display.Required_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Required_ja, definitionRow, DisplayXls); break;
                     case "Cancel": Display.Cancel = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Cancel, definitionRow, DisplayXls); break;
@@ -7741,6 +7743,8 @@ namespace Implem.DefinitionAccessor
         public string Import_ja;
         public string Export;
         public string Export_ja;
+        public string SiteSettings;
+        public string SiteSettings_ja;
         public string Required;
         public string Required_ja;
         public string Cancel;
@@ -8438,6 +8442,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition Import_ja = new DisplayDefinition();
         public DisplayDefinition Export = new DisplayDefinition();
         public DisplayDefinition Export_ja = new DisplayDefinition();
+        public DisplayDefinition SiteSettings = new DisplayDefinition();
+        public DisplayDefinition SiteSettings_ja = new DisplayDefinition();
         public DisplayDefinition Required = new DisplayDefinition();
         public DisplayDefinition Required_ja = new DisplayDefinition();
         public DisplayDefinition Cancel = new DisplayDefinition();
