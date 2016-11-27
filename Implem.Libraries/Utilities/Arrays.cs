@@ -53,7 +53,7 @@ namespace Implem.Libraries.Utilities
             return self.Skip(4).FirstOrDefault() ?? string.Empty;
         }
 
-        public static string[] Swap(string[] self, int sourceIndex, int distinationIndex)
+        public static T[] Swap<T>(T[] self, int sourceIndex, int distinationIndex)
         {
             var argsTemp = self;
             var temp = argsTemp[sourceIndex];

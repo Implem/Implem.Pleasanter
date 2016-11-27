@@ -11,11 +11,6 @@
         $p.addMailAddress($('#OutgoingMails_Bcc'));
         showMailEditor();
     });
-    $(document).on('click', '.button-delete-address', function () {
-        var $control = $(this).closest('ol');
-        $(this).parent().remove();
-        $p.setData($control);
-    });
 
     function showMailEditor() {
         $('#MailEditorTabsContainer').tabs('option', 'active', 0);

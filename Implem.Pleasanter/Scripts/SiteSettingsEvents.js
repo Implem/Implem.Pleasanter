@@ -28,18 +28,19 @@
         }
         $p.setData($('[id="EditorColumnProperty,Format"]'));
     });
-    $(document).on('change', '#NotificationType', function () {
-
-        $('#NotificationTokenField').toggle(
-            $('#NotificationTokenEnableList').val()
-                .split(',')
-                .indexOf($('#NotificationType').val()) !== -1);
-
-    });
     $(document).on('click', '#SummarySettings .grid-row button', function () {
         var $control = $($(this).attr('data-selector'))
         $p.getData($control)[$control.attr('id') + "Id"] = $(this).attr('data-id');
         $p.send($control);
+    });
+    $(document).on('click', '#AddViewSorter', function () {
+        var $dataViewSorter = $('#ViewSorterSelector option:selected');
+        var $dataViewSorterOrderType = $('#ViewSorterOrderTypes option:selected');
+        var orderType = $dataViewSorterOrderType.val();
+        $p.addBasket(
+            $('#ViewSorters'),
+            $dataViewSorter.text() + '(' + $p.display('Order' + orderType) + ')',
+            $dataViewSorter.val() + ',' + orderType);
     });
     $(document).on('click', '#CreateNotification,#UpdateNotification', function () {
         var $control = $(this);

@@ -1,5 +1,5 @@
 ﻿$(function () {
-    $(document).on('blur', '.control-markdown', function () {
+    $(document).on('blur', '.control-markdown:not(.error)', function () {
         var $viewer = $('[id="' + this.id + '.viewer"]');
         $viewer.html($p.markup($(this).val()));
         $p.resizeEditor($(this), $viewer);

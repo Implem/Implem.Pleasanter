@@ -91,7 +91,6 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll("#MainContainer", Editor(siteModel))
                 .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
                 .Invoke("setCurrentIndex")
-                .Invoke("validateSites")
                 .Message(message)
                 .ClearFormData();
         }
@@ -539,6 +538,10 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.EditorSettingsEditor()))
                                 .Li(action: () => hb
                                     .A(
+                                        href: "#ViewSettingsEditor",
+                                        text: Displays.DataView()))
+                                .Li(action: () => hb
+                                    .A(
                                         href: "#SummarySettingsEditor",
                                         text: Displays.SummarySettingsEditor()))
                                 .Li(action: () => hb
@@ -745,7 +748,7 @@ namespace Implem.Pleasanter.Models
                     return Locations.Get(
                         "Items",
                         siteId.ToString(),
-                        DataViewSelectors.Get(siteId));
+                        ViewModes.GetBySession(siteId));
             }
         }
 
@@ -1047,6 +1050,10 @@ namespace Implem.Pleasanter.Models
                 .CopyDialog("items", siteModel.SiteId)
                 .OutgoingMailDialog()
                 .Div(attributes: new HtmlAttributes()
+                    .Id("ViewDialog")
+                    .Class("dialog")
+                    .Title(Displays.DataView()))
+                .Div(attributes: new HtmlAttributes()
                     .Id("NotificationDialog")
                     .Class("dialog")
                     .Title(Displays.NotificationSettingsEditor())));
@@ -1078,6 +1085,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder FieldSetGeneral(this HtmlBuilder hb, SiteModel siteModel)
         {
+            var titleColumn = siteModel.SiteSettings.GetColumn("Title");
             hb.FieldSet(id: "FieldSetGeneral", action: () =>
             {
                 hb
@@ -1096,6 +1104,8 @@ namespace Implem.Pleasanter.Models
                         controlCss: " focus",
                         labelText: Displays.Sites_Title(),
                         text: siteModel.Title.Value.ToString(),
+                        validateRequired: titleColumn.ValidateRequired ?? false,
+                        validateMaxLength: titleColumn.ValidateMaxLength ?? 0,
                         _using: siteModel.ReferenceType != "Wikis")
                     .FieldMarkDown(
                         controlId: "Sites_Body",
@@ -1139,6 +1149,7 @@ namespace Implem.Pleasanter.Models
                         hb
                             .GridSettingsEditor(siteModel.SiteSettings)
                             .EditorSettingsEditor(siteModel.SiteSettings)
+                            .ViewSettingsEditor(siteModel.SiteSettings)
                             .NotificationSettingsEditor(siteModel.SiteSettings)
                             .SummarySettingsEditor(siteModel.SiteSettings)
                             .MailerSettingsEditor(siteModel.SiteSettings)
@@ -1216,6 +1227,13 @@ namespace Implem.Pleasanter.Models
                         max: Parameters.General.NearCompletionTimeAfterDaysMax,
                         step: 1,
                         width: 25)
+                    .FieldDropDown(
+                        controlId: "SiteSettings,GridView",
+                        labelText: Displays.DefaultView(),
+                        optionCollection: ss.ViewSelectableOptions(),
+                        selectedValue: ss.GridView?.ToString(),
+                        insertBlank: true,
+                        _using: ss.Views?.Any() == true)
                     .AggregationDetailsDialog(ss));
         }
 
@@ -1645,19 +1663,24 @@ namespace Implem.Pleasanter.Models
                         case Types.CsBool:
                             break;
                         default:
-                            if (column.Max != -1)
-                            {
-                                hb.FieldDropDown(
+                            hb
+                                .FieldDropDown(
                                     controlId: "EditorColumnProperty,FieldCss",
                                     labelText: Displays.Style(),
                                     optionCollection: new Dictionary<string, string>
                                     {
-                                        { "field-normal", Displays.Normal() },
-                                        { "field-wide", Displays.Wide() },
-                                        { "field-auto", Displays.Auto() }
+                                            { "field-normal", Displays.Normal() },
+                                            { "field-wide", Displays.Wide() },
+                                            { "field-auto", Displays.Auto() }
                                     },
-                                    selectedValue: column.FieldCss);
-                            }
+                                    selectedValue: column.FieldCss,
+                                    _using: column.MarkDown)
+                                .FieldCheckBox(
+                                    controlId: "EditorColumnProperty,ValidateRequired",
+                                    labelText: Displays.Required(),
+                                    _checked: column.ValidateRequired ?? false,
+                                    disabled: !column.Nullable,
+                                    _using: !column.Id_Ver);
                             break;
                     }
                     hb.FieldCheckBox(
@@ -2136,6 +2159,307 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static HtmlBuilder ViewSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        {
+            return hb.FieldSet(
+                id: "ViewSettingsEditor",
+                action: () => hb
+                    .FieldSelectable(
+                        controlId: "Views",
+                        fieldCss: "field-vertical w400",
+                        controlContainerCss: "container-selectable",
+                        controlWrapperCss: " h350",
+                        listItemCollection: ss.ViewSelectableOptions(),
+                        commandOptionPositionIsTop: true,
+                        commandOptionAction: () => hb
+                            .Div(css: "command-center", action: () => hb
+                                .Button(
+                                    controlId: "MoveUpViews",
+                                    text: Displays.MoveUp(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-n",
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    controlId: "MoveDownViews",
+                                    text: Displays.MoveDown(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-s",
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    controlId: "NewView",
+                                    text: Displays.New(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.openViewDialog($(this));",
+                                    icon: "ui-icon-gear",
+                                    action: "SetSiteSettings",
+                                    method: "put")
+                                .Button(
+                                    controlId: "EditView",
+                                    text: Displays.AdvancedSetting(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.openViewDialog($(this));",
+                                    icon: "ui-icon-gear",
+                                    action: "SetSiteSettings",
+                                    method: "put")
+                                .Button(
+                                    controlId: "DeleteViews",
+                                    text: Displays.Delete(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($(this));",
+                                    icon: "ui-icon-circle-triangle-e",
+                                    action: "SetSiteSettings",
+                                    method: "put"))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ViewDialog(
+            SiteSettings ss,
+            string controlId,
+            Libraries.Settings.View view)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("ViewForm")
+                    .Action(Locations.ItemAction(ss.SiteId)),
+                action: () => hb
+                    .FieldText(
+                        controlId: "ViewId",
+                        controlCss: " must-transport",
+                        labelText: Displays.Id(),
+                        text: view.Id.ToString())
+                    .FieldTextBox(
+                        controlId: "ViewName",
+                        labelText: Displays.Name(),
+                        text: view.Name,
+                        validateRequired: true)
+                    .Div(id: "ViewTabsContainer", action: () => hb
+                        .Ul(id: "ViewTabs", action: () => hb
+                            .Li(action: () => hb
+                                .A(
+                                    href: "#ViewFiltersTab",
+                                    text: Displays.Filters()))
+                            .Li(action: () => hb
+                                .A(
+                                    href: "#ViewSortersTab",
+                                    text: Displays.Sorters())))
+                        .ViewFiltersTab(ss: ss, view: view)
+                        .ViewSortersTab(ss: ss, view: view))
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "CreateView",
+                            text: Displays.Setting(),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "NewView")
+                        .Button(
+                            controlId: "UpdateView",
+                            text: Displays.Setting(),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "EditView")
+                        .Button(
+                            text: Displays.Cancel(),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ViewFiltersTab(
+            this HtmlBuilder hb, SiteSettings ss, Libraries.Settings.View view)
+        {
+            return hb.FieldSet(id: "ViewFiltersTab", action: () => hb
+                .Div(css: "items", action: () => hb
+                    .FieldCheckBox(
+                        controlId: "ViewFilters_Incomplete",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.Incomplete(),
+                        _checked: view.Incomplete.ToBool(),
+                        labelPositionIsRight: true)
+                    .FieldCheckBox(
+                        controlId: "ViewFilters_Own",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.Own(),
+                        _checked: view.Own.ToBool(),
+                        labelPositionIsRight: true)
+                    .FieldCheckBox(
+                        controlId: "ViewFilters_NearCompletionTime",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.NearCompletionTime(),
+                        _checked: view.NearCompletionTime.ToBool(),
+                        labelPositionIsRight: true)
+                    .FieldCheckBox(
+                        controlId: "ViewFilters_Delay",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.Delay(),
+                        _checked: view.Delay.ToBool(),
+                        labelPositionIsRight: true)
+                    .FieldCheckBox(
+                        controlId: "ViewFilters_Overdue",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.Overdue(),
+                        _checked: view.Overdue.ToBool(),
+                        labelPositionIsRight: true)
+                    .FieldTextBox(
+                        controlId: "ViewFilters_Search",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.Search(),
+                        text: view.Search)
+                    .ViewColumnFilters(ss: ss, view: view))
+                .Div(css: "both", action: () => hb
+                    .FieldDropDown(
+                        controlId: "ViewFilterSelector",
+                        fieldCss: "field-auto-thin",
+                        controlCss: " must-transport",
+                        optionCollection: ColumnUtilities.FilterDefinitions(ss.ReferenceType)
+                            .Where(o => !view.FilterContains(o.ColumnName))
+                            .ToDictionary(
+                                o => o.ColumnName,
+                                o => ss.GetColumn(o.ColumnName).LabelText))
+                    .Button(
+                        controlId: "AddViewFilter",
+                        controlCss: "button-icon",
+                        text: Displays.Add(),
+                        onClick: "$p.send($(this));",
+                        icon: "ui-icon-plus",
+                        action: "SetSiteSettings",
+                        method: "post")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ViewColumnFilters(
+            this HtmlBuilder hb, SiteSettings ss, View view)
+        {
+            view.ColumnFilterHash?.ForEach(data => hb
+                .ViewFilter(ss.GetColumn(data.Key), data.Value));
+            return hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ViewFilter(
+            this HtmlBuilder hb, Column column, string value = null)
+        {
+            switch (column.TypeName.CsTypeSummary())
+            {
+                case Types.CsBool:
+                    return hb.FieldCheckBox(
+                        controlId: "ViewFilters_" + column.Id,
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.Get(column.GridLabelText),
+                        _checked: value.ToBool());
+                case Types.CsDateTime:
+                    return hb.FieldDropDown(
+                        controlId: "ViewFilters_" + column.Id,
+                        fieldCss: "field-auto-thin",
+                        controlCss: " auto-postback",
+                        labelText: Displays.Get(column.GridLabelText),
+                        optionCollection: Libraries.Responses.TimePeriod.Get(column.RecordedTime),
+                        selectedValue: value,
+                        multiple: true,
+                        addSelectedValue: false);
+                case Types.CsNumeric:
+                case Types.CsString:
+                    return column.HasChoices()
+                        ? hb.FieldDropDown(
+                            controlId: "ViewFilters_" + column.Id,
+                            fieldCss: "field-auto-thin",
+                            controlCss: " auto-postback",
+                            labelText: Displays.Get(column.GridLabelText),
+                            optionCollection: column.EditChoices(),
+                            selectedValue: value,
+                            multiple: true,
+                            addSelectedValue: false)
+                        : hb.FieldTextBox(
+                            controlId: "ViewFilters_" + column.Id,
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.Get(column.GridLabelText),
+                            text: value);
+                default:
+                    return hb;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ViewSortersTab(
+            this HtmlBuilder hb, SiteSettings ss, View view)
+        {
+            return hb.FieldSet(
+                id: "ViewSortersTab",
+                action: () => hb
+                    .FieldBasket(
+                        controlId: "ViewSorters",
+                        fieldCss: "field-wide",
+                        controlCss: "control-basket cf",
+                        listItemCollection: view.ColumnSorterHash?.ToDictionary(
+                            o => "{0},{1}".Params(o.Key, o.Value),
+                            o => "{0}({1})".Params(
+                                ss.GetColumn(o.Key)?.LabelText,
+                                Displays.Get("Order" + o.Value.ToString().ToUpperFirstChar()))),
+                        labelAction: () => hb
+                            .Displays_Sorters())
+                    .FieldDropDown(
+                        controlId: "ViewSorterSelector",
+                        fieldCss: "field-auto-thin",
+                        controlCss: " must-transport",
+                        optionCollection: ColumnUtilities.GridDefinitions(ss.ReferenceType)
+                            .Where(o => !view.SorterContains(o.ColumnName))
+                            .ToDictionary(
+                                o => o.ColumnName,
+                                o => ss.GetColumn(o.ColumnName).LabelText))
+                    .FieldDropDown(
+                        controlId: "ViewSorterOrderTypes",
+                        fieldCss: "field-auto-thin",
+                        controlCss: " must-transport",
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            { "Asc", Displays.OrderAsc() },
+                            { "Desc", Displays.OrderDesc() }
+                        })
+                    .Button(
+                        controlId: "AddViewSorter",
+                        controlCss: "button-icon",
+                        text: Displays.Add(),
+                        icon: "ui-icon-plus"));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ResponseCollection ViewResponses(
+            this ResponseCollection res, SiteSettings ss, IEnumerable<int> selected = null)
+        {
+            return res
+                .Html("#Views", new HtmlBuilder().SelectableItems(
+                    listItemCollection: ss.ViewSelectableOptions(),
+                    selectedValueTextCollection: selected?.Select(o => o.ToString())))
+                .SetData("#Views");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder NotificationSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
@@ -2180,8 +2504,7 @@ namespace Implem.Pleasanter.Models
                         optionCollection: new Dictionary<string, string>
                         {
                             { Notification.Types.Mail.ToInt().ToString(), Displays.Mail() },
-                            { Notification.Types.Slack.ToInt().ToString(), Displays.Slack() },
-                            { Notification.Types.ChatWorks.ToInt().ToString(), Displays.ChatWorks() }
+                            { Notification.Types.Slack.ToInt().ToString(), Displays.Slack() }
                         },
                         selectedValue: notification.Type.ToInt().ToString(),
                         disabled: controlId == "EditNotification")
@@ -2195,19 +2518,8 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-wide",
                         controlCss: " must-transport",
                         labelText: Displays.Address(),
-                        text: notification.Address)
-                    .FieldTextBox(
-                        fieldId: "NotificationTokenField",
-                        controlId: "NotificationToken",
-                        fieldCss: "field-wide" + (!TokenList().Contains(notification.Type.ToInt())
-                            ? " hidden"
-                            : string.Empty),
-                        controlCss: " must-transport",
-                        labelText: Displays.Token(),
-                        text: notification.Token)
-                    .Hidden(
-                        controlId: "NotificationTokenEnableList",
-                        value: TokenList().Join())
+                        text: notification.Address,
+                        validateRequired: true)
                     .FieldSet(
                         css: " enclosed",
                         legendText: Displays.MonitorChangesColumns(),
@@ -2295,14 +2607,6 @@ namespace Implem.Pleasanter.Models
                             controlCss: "button-icon",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static IEnumerable<int> TokenList()
-        {
-            return new List<int> { Notification.Types.ChatWorks.ToInt() };
         }
 
         /// <summary>

@@ -18,6 +18,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string text = null,
             string placeholder = null,
             string onChange = null,
+            bool validateRequired = false,
+            bool validateNumber = false,
+            bool validateDate = false,
+            bool validateEmail = false,
+            string validateEqualTo = null,
+            int validateMaxLength = 0,
             string action = null,
             string method = null,
             Dictionary<string, string> attributes = null,
@@ -34,6 +40,29 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Value(text)
                         .Placeholder(placeholder)
                         .OnChange(onChange)
+                        .DataValidateRequired(validateRequired)
+                        .DataValidateNumber(validateNumber)
+                        .DataValidateDate(validateDate)
+                        .DataValidateEmail(validateEmail)
+                        .DataValidateEqualTo(validateEqualTo)
+                        .DataValidateMaxLength(validateMaxLength)
+                        .DataAction(action)
+                        .DataMethod(method)
+                        .Add(attributes));
+                case HtmlTypes.TextTypes.DateTime:
+                    return hb.Input(attributes: new HtmlAttributes()
+                        .Id(controlId)
+                        .Class(Css.Class("control-textbox datepicker", controlCss))
+                        .Type("text")
+                        .Value(text)
+                        .Placeholder(placeholder)
+                        .OnChange(onChange)
+                        .DataValidateRequired(validateRequired)
+                        .DataValidateNumber(validateNumber)
+                        .DataValidateDate(validateDate)
+                        .DataValidateEmail(validateEmail)
+                        .DataValidateEqualTo(validateEqualTo)
+                        .DataValidateMaxLength(validateMaxLength)
                         .DataAction(action)
                         .DataMethod(method)
                         .Add(attributes));
@@ -44,6 +73,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Class(Css.Class("control-textarea", controlCss))
                             .Placeholder(placeholder)
                             .OnChange(onChange)
+                            .DataValidateRequired(validateRequired)
+                            .DataValidateNumber(validateNumber)
+                            .DataValidateDate(validateDate)
+                            .DataValidateEmail(validateEmail)
+                            .DataValidateEqualTo(validateEqualTo)
+                            .DataValidateMaxLength(validateMaxLength)
                             .DataAction(action)
                             .DataMethod(method)
                             .Add(attributes),
@@ -57,6 +92,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Value(text)
                         .Placeholder(placeholder)
                         .OnChange(onChange)
+                        .DataValidateRequired(validateRequired)
+                        .DataValidateNumber(validateNumber)
+                        .DataValidateDate(validateDate)
+                        .DataValidateEmail(validateEmail)
+                        .DataValidateEqualTo(validateEqualTo)
+                        .DataValidateMaxLength(validateMaxLength)
                         .Add(attributes));
                 case HtmlTypes.TextTypes.File:
                     return hb.Input(attributes: new HtmlAttributes()
@@ -66,6 +107,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Value(text)
                         .Placeholder(placeholder)
                         .OnChange(onChange)
+                        .DataValidateRequired(validateRequired)
+                        .DataValidateNumber(validateNumber)
+                        .DataValidateDate(validateDate)
+                        .DataValidateEmail(validateEmail)
+                        .DataValidateEqualTo(validateEqualTo)
+                        .DataValidateMaxLength(validateMaxLength)
                         .DataAction(action)
                         .DataMethod(method)
                         .Add(attributes));
@@ -81,6 +128,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string text = null,
             string placeholder = null,
             bool readOnly = false,
+            bool validateRequired = false,
             Dictionary<string, string> attributes = null,
             bool _using = true)
         {
@@ -101,6 +149,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Id(controlId)
                             .Class(Css.Class("control-markdown upload-image", controlCss))
                             .Placeholder(placeholder)
+                            .DataValidateRequired(validateRequired, _using: !readOnly)
                             .Add(attributes),
                         action: () => hb
                             .Text(text: text))
@@ -239,7 +288,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (insertBlank)
             {
-                optionCollection = InsertBalnk(optionCollection);
+                optionCollection = InsertBlank(optionCollection);
             }
             if (selectedValue.IsNullOrEmpty() || 
                 optionCollection.ContainsKey(selectedValue) ||
@@ -260,13 +309,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
         }
 
-        private static Dictionary<string, ControlData> InsertBalnk(
+        private static Dictionary<string, ControlData> InsertBlank(
             Dictionary<string, ControlData> optionCollection)
         {
-            return new Dictionary<string, ControlData>
-            {
-                { string.Empty, new ControlData(string.Empty) }
-            }.AddRange(optionCollection);
+            return !optionCollection.ContainsKey(string.Empty)
+                ? new Dictionary<string, ControlData>
+                {
+                    { string.Empty, new ControlData(string.Empty) }
+                }.AddRange(optionCollection)
+                : optionCollection;
         }
 
         private static bool Selected(
@@ -547,7 +598,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     action: () => hb
                         .SelectableItems(
                             listItemCollection: listItemCollection,
-                            selectedValueTextCollection: selectedValueCollection))
+                            selectedValueTextCollection: selectedValueCollection,
+                            basket: true))
                 : hb;
         }
 
@@ -555,6 +607,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Dictionary<string, string> listItemCollection = null,
             IEnumerable<string> selectedValueTextCollection = null,
+            bool basket = false,
             bool _using = true)
         {
             if (_using)
@@ -567,9 +620,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 selectedValueTextCollection.Contains(listItem.Key)
                                     ? "ui-widget-content ui-selected"
                                     : "ui-widget-content")
-                            .Value( listItem.Key),
-                        action: () => hb
-                            .Text(text: listItem.Value)));
+                            .Value(listItem.Key),
+                        action: () =>
+                        {
+                            if (basket)
+                            {
+                                hb
+                                    .Span(action: () => hb
+                                        .Text(listItem.Value))
+                                    .Span(css: "ui-icon ui-icon-close delete");
+                            }
+                            else
+                            {
+                                hb.Text(text: listItem.Value);
+                            }
+                        }));
             }
             return hb;
         }

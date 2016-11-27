@@ -92,10 +92,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 case "Tenants": return ResolveBundleUrl("~/bundles/TenantsValidator");
                 case "Demos": return ResolveBundleUrl("~/bundles/DemosValidator");
+                case "SysLogs": return ResolveBundleUrl("~/bundles/SysLogsValidator");
                 case "Depts": return ResolveBundleUrl("~/bundles/DeptsValidator");
                 case "Users": return ResolveBundleUrl("~/bundles/UsersValidator");
+                case "MailAddresses": return ResolveBundleUrl("~/bundles/MailAddressesValidator");
+                case "Permissions": return ResolveBundleUrl("~/bundles/PermissionsValidator");
                 case "OutgoingMails": return ResolveBundleUrl("~/bundles/OutgoingMailsValidator");
+                case "SearchIndexes": return ResolveBundleUrl("~/bundles/SearchIndexesValidator");
+                case "Items": return ResolveBundleUrl("~/bundles/ItemsValidator");
                 case "Sites": return ResolveBundleUrl("~/bundles/SitesValidator");
+                case "Orders": return ResolveBundleUrl("~/bundles/OrdersValidator");
+                case "ExportSettings": return ResolveBundleUrl("~/bundles/ExportSettingsValidator");
+                case "Links": return ResolveBundleUrl("~/bundles/LinksValidator");
+                case "Binaries": return ResolveBundleUrl("~/bundles/BinariesValidator");
                 case "Issues": return ResolveBundleUrl("~/bundles/IssuesValidator");
                 case "Results": return ResolveBundleUrl("~/bundles/ResultsValidator");
                 case "Wikis": return ResolveBundleUrl("~/bundles/WikisValidator");

@@ -2,6 +2,34 @@
     return $control.closest('form').attr('id');
 }
 
+$p.clear = function ($control) {
+    var controlId = $control.attr('id');
+    var data = $p.getData($control);
+    switch ($control.prop('tagName')) {
+        case 'INPUT':
+            switch ($control.prop('type')) {
+                case 'checkbox':
+                    $control.prop('checked', false);
+                    break;
+                case 'text':
+                    $control.val('');
+                    break;
+            }
+            break;
+        case 'SELECT':
+            if ($control.attr('multiple')) {
+                $control
+                    .addClass('no-postback')
+                    .multiselect("uncheckAll")
+                    .removeClass('no-postback');
+            } else {
+                $control.val('');
+            }
+            break;
+    }
+    $p.clearData(controlId, data);
+}
+
 $p.syncSend = function ($control, formId) {
     return $p.send($control, formId, false);
 }

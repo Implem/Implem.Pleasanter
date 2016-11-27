@@ -260,8 +260,6 @@ namespace Implem.DefinitionAccessor
                     case "Def_DefinitionClass_DefinitionAccessor": Code.Def_DefinitionClass_DefinitionAccessor = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Def_DefinitionClass_DefinitionAccessor, definitionRow, CodeXls); break;
                     case "Def_DefinitionClass_DefinitionColumn2nd": Code.Def_DefinitionClass_DefinitionColumn2nd = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Def_DefinitionClass_DefinitionColumn2nd, definitionRow, CodeXls); break;
                     case "Def_DefinitionClass_DefinitionTable": Code.Def_DefinitionClass_DefinitionTable = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Def_DefinitionClass_DefinitionTable, definitionRow, CodeXls); break;
-                    case "BundleConfig": Code.BundleConfig = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.BundleConfig, definitionRow, CodeXls); break;
-                    case "BundleConfig_Validators": Code.BundleConfig_Validators = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.BundleConfig_Validators, definitionRow, CodeXls); break;
                     case "Controller": Code.Controller = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Controller, definitionRow, CodeXls); break;
                     case "Base": Code.Base = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base, definitionRow, CodeXls); break;
                     case "Base_Property": Code.Base_Property = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Base_Property, definitionRow, CodeXls); break;
@@ -375,7 +373,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_EditorCases": Code.Model_EditorCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_EditorCases, definitionRow, CodeXls); break;
                     case "Model_ImportCases": Code.Model_ImportCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ImportCases, definitionRow, CodeXls); break;
                     case "Model_ExportCases": Code.Model_ExportCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportCases, definitionRow, CodeXls); break;
-                    case "Model_DataViewCases": Code.Model_DataViewCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DataViewCases, definitionRow, CodeXls); break;
                     case "Model_GridRowsCases": Code.Model_GridRowsCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GridRowsCases, definitionRow, CodeXls); break;
                     case "Model_CreateCases": Code.Model_CreateCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreateCases, definitionRow, CodeXls); break;
                     case "Model_UpdateCases": Code.Model_UpdateCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateCases, definitionRow, CodeXls); break;
@@ -600,7 +597,6 @@ namespace Implem.DefinitionAccessor
                     case "Rds_ParamDefault_ParamAll": Code.Rds_ParamDefault_ParamAll = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_ParamDefault_ParamAll, definitionRow, CodeXls); break;
                     case "Rds_ParamItemId": Code.Rds_ParamItemId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_ParamItemId, definitionRow, CodeXls); break;
                     case "Rds_SiteId": Code.Rds_SiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SiteId, definitionRow, CodeXls); break;
-                    case "Rds_SiteSettings_SiteId": Code.Rds_SiteSettings_SiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_SiteSettings_SiteId, definitionRow, CodeXls); break;
                     case "Rds_TitleColumn": Code.Rds_TitleColumn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_TitleColumn, definitionRow, CodeXls); break;
                     case "Rds_TitleColumnCases": Code.Rds_TitleColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_TitleColumnCases, definitionRow, CodeXls); break;
                     case "Titles": Code.Titles = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Titles, definitionRow, CodeXls); break;
@@ -619,11 +615,10 @@ namespace Implem.DefinitionAccessor
                     case "SiteSettings_GetModels_Items": Code.SiteSettings_GetModels_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Items_Choices": Code.SiteSettings_GetModels_Items_Choices = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items_Choices, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Includes": Code.SiteSettings_GetModels_Includes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Includes, definitionRow, CodeXls); break;
-                    case "DataViewFilters": Code.DataViewFilters = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.DataViewFilters, definitionRow, CodeXls); break;
-                    case "DataViewFilters_Search_TableCases": Code.DataViewFilters_Search_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.DataViewFilters_Search_TableCases, definitionRow, CodeXls); break;
-                    case "GridSorters": Code.GridSorters = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.GridSorters, definitionRow, CodeXls); break;
-                    case "GridSorters_Model": Code.GridSorters_Model = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.GridSorters_Model, definitionRow, CodeXls); break;
-                    case "GridSorters_Cases": Code.GridSorters_Cases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.GridSorters_Cases, definitionRow, CodeXls); break;
+                    case "View": Code.View = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.View, definitionRow, CodeXls); break;
+                    case "View_Search_TableCases": Code.View_Search_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.View_Search_TableCases, definitionRow, CodeXls); break;
+                    case "View_Sorter_TableCases": Code.View_Sorter_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.View_Sorter_TableCases, definitionRow, CodeXls); break;
+                    case "View_Sorter_ColumnCases": Code.View_Sorter_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.View_Sorter_ColumnCases, definitionRow, CodeXls); break;
                     case "HtmlLinks": Code.HtmlLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks, definitionRow, CodeXls); break;
                     case "HtmlLinks_Contains": Code.HtmlLinks_Contains = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_Contains, definitionRow, CodeXls); break;
                     case "HtmlLinks_DataSetTableCases": Code.HtmlLinks_DataSetTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_DataSetTableCases, definitionRow, CodeXls); break;
@@ -668,11 +663,6 @@ namespace Implem.DefinitionAccessor
                     case "Error": Code.Error = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Error, definitionRow, CodeXls); break;
                     case "Error_Types": Code.Error_Types = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Error_Types, definitionRow, CodeXls); break;
                     case "Error_Messages": Code.Error_Messages = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Error_Messages, definitionRow, CodeXls); break;
-                    case "ClientValidators": Code.ClientValidators = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientValidators, definitionRow, CodeXls); break;
-                    case "ClientValidators_Form": Code.ClientValidators_Form = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientValidators_Form, definitionRow, CodeXls); break;
-                    case "ClientValidators_Rules": Code.ClientValidators_Rules = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientValidators_Rules, definitionRow, CodeXls); break;
-                    case "ClientValidators_Messages": Code.ClientValidators_Messages = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientValidators_Messages, definitionRow, CodeXls); break;
-                    case "ClientValidators_Sites": Code.ClientValidators_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientValidators_Sites, definitionRow, CodeXls); break;
                     case "Css": Code.Css = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Css, definitionRow, CodeXls); break;
                     case "ClientDisplays": Code.ClientDisplays = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientDisplays, definitionRow, CodeXls); break;
                     case "ClientDisplays_Parts": Code.ClientDisplays_Parts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ClientDisplays_Parts, definitionRow, CodeXls); break;
@@ -1563,7 +1553,11 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("DefaultInput")) { newColumnDefinition.DefaultInput = definitionRow["DefaultInput"].ToString(); newColumnDefinition.SavedDefaultInput = newColumnDefinition.DefaultInput; }
                 if (definitionRow.ContainsKey("Own")) { newColumnDefinition.Own = definitionRow["Own"].ToBool(); newColumnDefinition.SavedOwn = newColumnDefinition.Own; }
                 if (definitionRow.ContainsKey("FormName")) { newColumnDefinition.FormName = definitionRow["FormName"].ToString(); newColumnDefinition.SavedFormName = newColumnDefinition.FormName; }
-                if (definitionRow.ContainsKey("Validators")) { newColumnDefinition.Validators = definitionRow["Validators"].ToString(); newColumnDefinition.SavedValidators = newColumnDefinition.Validators; }
+                if (definitionRow.ContainsKey("ValidateRequired")) { newColumnDefinition.ValidateRequired = definitionRow["ValidateRequired"].ToBool(); newColumnDefinition.SavedValidateRequired = newColumnDefinition.ValidateRequired; }
+                if (definitionRow.ContainsKey("ValidateNumber")) { newColumnDefinition.ValidateNumber = definitionRow["ValidateNumber"].ToBool(); newColumnDefinition.SavedValidateNumber = newColumnDefinition.ValidateNumber; }
+                if (definitionRow.ContainsKey("ValidateDate")) { newColumnDefinition.ValidateDate = definitionRow["ValidateDate"].ToBool(); newColumnDefinition.SavedValidateDate = newColumnDefinition.ValidateDate; }
+                if (definitionRow.ContainsKey("ValidateEmail")) { newColumnDefinition.ValidateEmail = definitionRow["ValidateEmail"].ToBool(); newColumnDefinition.SavedValidateEmail = newColumnDefinition.ValidateEmail; }
+                if (definitionRow.ContainsKey("ValidateEqualTo")) { newColumnDefinition.ValidateEqualTo = definitionRow["ValidateEqualTo"].ToString(); newColumnDefinition.SavedValidateEqualTo = newColumnDefinition.ValidateEqualTo; }
                 if (definitionRow.ContainsKey("DecimalPlaces")) { newColumnDefinition.DecimalPlaces = definitionRow["DecimalPlaces"].ToInt(); newColumnDefinition.SavedDecimalPlaces = newColumnDefinition.DecimalPlaces; }
                 if (definitionRow.ContainsKey("Min")) { newColumnDefinition.Min = definitionRow["Min"].ToDecimal(); newColumnDefinition.SavedMin = newColumnDefinition.Min; }
                 if (definitionRow.ContainsKey("Max")) { newColumnDefinition.Max = definitionRow["Max"].ToDecimal(); newColumnDefinition.SavedMax = newColumnDefinition.Max; }
@@ -1665,7 +1659,11 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("DefaultInput")) { definition.DefaultInput = definitionRow["DefaultInput"].ToString(); definition.SavedDefaultInput = definition.DefaultInput; }
             if (definitionRow.ContainsKey("Own")) { definition.Own = definitionRow["Own"].ToBool(); definition.SavedOwn = definition.Own; }
             if (definitionRow.ContainsKey("FormName")) { definition.FormName = definitionRow["FormName"].ToString(); definition.SavedFormName = definition.FormName; }
-            if (definitionRow.ContainsKey("Validators")) { definition.Validators = definitionRow["Validators"].ToString(); definition.SavedValidators = definition.Validators; }
+            if (definitionRow.ContainsKey("ValidateRequired")) { definition.ValidateRequired = definitionRow["ValidateRequired"].ToBool(); definition.SavedValidateRequired = definition.ValidateRequired; }
+            if (definitionRow.ContainsKey("ValidateNumber")) { definition.ValidateNumber = definitionRow["ValidateNumber"].ToBool(); definition.SavedValidateNumber = definition.ValidateNumber; }
+            if (definitionRow.ContainsKey("ValidateDate")) { definition.ValidateDate = definitionRow["ValidateDate"].ToBool(); definition.SavedValidateDate = definition.ValidateDate; }
+            if (definitionRow.ContainsKey("ValidateEmail")) { definition.ValidateEmail = definitionRow["ValidateEmail"].ToBool(); definition.SavedValidateEmail = definition.ValidateEmail; }
+            if (definitionRow.ContainsKey("ValidateEqualTo")) { definition.ValidateEqualTo = definitionRow["ValidateEqualTo"].ToString(); definition.SavedValidateEqualTo = definition.ValidateEqualTo; }
             if (definitionRow.ContainsKey("DecimalPlaces")) { definition.DecimalPlaces = definitionRow["DecimalPlaces"].ToInt(); definition.SavedDecimalPlaces = definition.DecimalPlaces; }
             if (definitionRow.ContainsKey("Min")) { definition.Min = definitionRow["Min"].ToDecimal(); definition.SavedMin = definition.Min; }
             if (definitionRow.ContainsKey("Max")) { definition.Max = definitionRow["Max"].ToDecimal(); definition.SavedMax = definition.Max; }
@@ -1742,11 +1740,12 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_Notes_space___space__asterisk_": Css._sharp_Notes_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Notes_space___space__asterisk_, definitionRow, CssXls); break;
                     case "_sharp_Notes_space___space__dot_history": Css._sharp_Notes_space___space__dot_history = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Notes_space___space__dot_history, definitionRow, CssXls); break;
                     case "_sharp_Notes_space___space__dot_readonly": Css._sharp_Notes_space___space__dot_readonly = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Notes_space___space__dot_readonly, definitionRow, CssXls); break;
-                    case "_sharp_DataViewFilters": Css._sharp_DataViewFilters = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_DataViewFilters, definitionRow, CssXls); break;
-                    case "_sharp_DataViewFilters_dot_reduced": Css._sharp_DataViewFilters_dot_reduced = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_DataViewFilters_dot_reduced, definitionRow, CssXls); break;
-                    case "_sharp_DataViewFilters_space___space__dot_field_auto_thin": Css._sharp_DataViewFilters_space___space__dot_field_auto_thin = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_DataViewFilters_space___space__dot_field_auto_thin, definitionRow, CssXls); break;
-                    case "_sharp_DataViewFilters_Reset": Css._sharp_DataViewFilters_Reset = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_DataViewFilters_Reset, definitionRow, CssXls); break;
-                    case "_sharp_DataViewFilters_space___space__dot_display_control": Css._sharp_DataViewFilters_space___space__dot_display_control = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_DataViewFilters_space___space__dot_display_control, definitionRow, CssXls); break;
+                    case "_sharp_ViewSelectorField": Css._sharp_ViewSelectorField = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ViewSelectorField, definitionRow, CssXls); break;
+                    case "_sharp_ViewFilters": Css._sharp_ViewFilters = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ViewFilters, definitionRow, CssXls); break;
+                    case "_sharp_ViewFilters_dot_reduced": Css._sharp_ViewFilters_dot_reduced = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ViewFilters_dot_reduced, definitionRow, CssXls); break;
+                    case "_sharp_ViewFilters_space___space__dot_field_auto_thin": Css._sharp_ViewFilters_space___space__dot_field_auto_thin = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ViewFilters_space___space__dot_field_auto_thin, definitionRow, CssXls); break;
+                    case "_sharp_ViewFilters_Reset": Css._sharp_ViewFilters_Reset = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ViewFilters_Reset, definitionRow, CssXls); break;
+                    case "_sharp_ViewFilters_space___space__dot_display_control": Css._sharp_ViewFilters_space___space__dot_display_control = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ViewFilters_space___space__dot_display_control, definitionRow, CssXls); break;
                     case "_sharp_Aggregations": Css._sharp_Aggregations = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Aggregations, definitionRow, CssXls); break;
                     case "_sharp_Aggregations_dot_reduced": Css._sharp_Aggregations_dot_reduced = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Aggregations_dot_reduced, definitionRow, CssXls); break;
                     case "_sharp_Aggregations_space__dot_label": Css._sharp_Aggregations_space__dot_label = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_Aggregations_space__dot_label, definitionRow, CssXls); break;
@@ -1815,6 +1814,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_OutgoingMailsForm": Css._sharp_OutgoingMailsForm = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_OutgoingMailsForm, definitionRow, CssXls); break;
                     case "_sharp_OutgoingMailsForm_space___space__dot_item": Css._sharp_OutgoingMailsForm_space___space__dot_item = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_OutgoingMailsForm_space___space__dot_item, definitionRow, CssXls); break;
                     case "_sharp_OutgoingMailsForm_space__dot_content": Css._sharp_OutgoingMailsForm_space__dot_content = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_OutgoingMailsForm_space__dot_content, definitionRow, CssXls); break;
+                    case "_sharp_ViewTabsContainer": Css._sharp_ViewTabsContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ViewTabsContainer, definitionRow, CssXls); break;
                     case "_sharp_SearchResults": Css._sharp_SearchResults = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SearchResults, definitionRow, CssXls); break;
                     case "_sharp_SearchResults_space__dot_count": Css._sharp_SearchResults_space__dot_count = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SearchResults_space__dot_count, definitionRow, CssXls); break;
                     case "_sharp_SearchResults_space__dot_count_space__dot_label": Css._sharp_SearchResults_space__dot_count_space__dot_label = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SearchResults_space__dot_count_space__dot_label, definitionRow, CssXls); break;
@@ -2206,55 +2206,6 @@ namespace Implem.DefinitionAccessor
             CssTable = new CssTable();
         }
 
-        public static XlsIo DataViewXls;
-        public static List<DataViewDefinition> DataViewDefinitionCollection;
-        public static DataViewColumn2nd DataView;
-        public static DataViewTable DataViewTable;
-
-        public static void SetDataViewDefinition()
-        {
-            ConstructDataViewDefinitions();
-            if (DataViewXls.AccessStatus != Files.AccessStatuses.Read) { return; }
-            DataViewXls.XlsSheet.ForEach(definitionRow =>
-            {
-                switch (definitionRow[0].ToString())
-                {
-                    case "Issues_Index": DataView.Issues_Index = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_Index, definitionRow, DataViewXls); break;
-                    case "Issues_Gantt": DataView.Issues_Gantt = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_Gantt, definitionRow, DataViewXls); break;
-                    case "Issues_BurnDown": DataView.Issues_BurnDown = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_BurnDown, definitionRow, DataViewXls); break;
-                    case "Issues_TimeSeries": DataView.Issues_TimeSeries = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_TimeSeries, definitionRow, DataViewXls); break;
-                    case "Issues_Kamban": DataView.Issues_Kamban = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Issues_Kamban, definitionRow, DataViewXls); break;
-                    case "Results_Index": DataView.Results_Index = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Results_Index, definitionRow, DataViewXls); break;
-                    case "Results_TimeSeries": DataView.Results_TimeSeries = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Results_TimeSeries, definitionRow, DataViewXls); break;
-                    case "Results_Kamban": DataView.Results_Kamban = definitionRow[1].ToString(); SetDataViewTable(DataViewTable.Results_Kamban, definitionRow, DataViewXls); break;
-                    default: break;
-                }
-            });
-            DataViewXls.XlsSheet.AsEnumerable().Skip(1).Where(o => o[0].ToString() != string.Empty).ForEach(definitionRow =>
-            {
-                var newDataViewDefinition = new DataViewDefinition();
-                if (definitionRow.ContainsKey("Id")) { newDataViewDefinition.Id = definitionRow["Id"].ToString(); newDataViewDefinition.SavedId = newDataViewDefinition.Id; }
-                if (definitionRow.ContainsKey("ReferenceType")) { newDataViewDefinition.ReferenceType = definitionRow["ReferenceType"].ToString(); newDataViewDefinition.SavedReferenceType = newDataViewDefinition.ReferenceType; }
-                if (definitionRow.ContainsKey("Name")) { newDataViewDefinition.Name = definitionRow["Name"].ToString(); newDataViewDefinition.SavedName = newDataViewDefinition.Name; }
-                DataViewDefinitionCollection.Add(newDataViewDefinition);
-            });
-        }
-
-        private static void SetDataViewTable(DataViewDefinition definition, XlsRow definitionRow, XlsIo dataViewxls)
-        {
-            if (definitionRow.ContainsKey("Id")) { definition.Id = definitionRow["Id"].ToString(); definition.SavedId = definition.Id; }
-            if (definitionRow.ContainsKey("ReferenceType")) { definition.ReferenceType = definitionRow["ReferenceType"].ToString(); definition.SavedReferenceType = definition.ReferenceType; }
-            if (definitionRow.ContainsKey("Name")) { definition.Name = definitionRow["Name"].ToString(); definition.SavedName = definition.Name; }
-        }
-
-        private static void ConstructDataViewDefinitions()
-        {
-            DataViewXls = Initializer.DefinitionFile("definition_DataView.xlsm");
-            DataViewDefinitionCollection = new List<DataViewDefinition>();
-            DataView = new DataViewColumn2nd();
-            DataViewTable = new DataViewTable();
-        }
-
         public static XlsIo DemoXls;
         public static List<DemoDefinition> DemoDefinitionCollection;
         public static DemoColumn2nd Demo;
@@ -2454,6 +2405,8 @@ namespace Implem.DefinitionAccessor
                     case "Import_ja": Display.Import_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Import_ja, definitionRow, DisplayXls); break;
                     case "Export": Display.Export = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Export, definitionRow, DisplayXls); break;
                     case "Export_ja": Display.Export_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Export_ja, definitionRow, DisplayXls); break;
+                    case "Required": Display.Required = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Required, definitionRow, DisplayXls); break;
+                    case "Required_ja": Display.Required_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Required_ja, definitionRow, DisplayXls); break;
                     case "Cancel": Display.Cancel = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Cancel, definitionRow, DisplayXls); break;
                     case "Cancel_ja": Display.Cancel_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Cancel_ja, definitionRow, DisplayXls); break;
                     case "GoBack": Display.GoBack = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.GoBack, definitionRow, DisplayXls); break;
@@ -2486,6 +2439,7 @@ namespace Implem.DefinitionAccessor
                     case "DecimalPlaces_ja": Display.DecimalPlaces_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DecimalPlaces_ja, definitionRow, DisplayXls); break;
                     case "ToParent": Display.ToParent = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ToParent, definitionRow, DisplayXls); break;
                     case "ToParent_ja": Display.ToParent_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ToParent_ja, definitionRow, DisplayXls); break;
+                    case "Id": Display.Id = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Id, definitionRow, DisplayXls); break;
                     case "MoveUp": Display.MoveUp = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.MoveUp, definitionRow, DisplayXls); break;
                     case "MoveUp_ja": Display.MoveUp_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.MoveUp_ja, definitionRow, DisplayXls); break;
                     case "MoveDown": Display.MoveDown = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.MoveDown, definitionRow, DisplayXls); break;
@@ -2633,6 +2587,10 @@ namespace Implem.DefinitionAccessor
                     case "SettingAggregationType_ja": Display.SettingAggregationType_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingAggregationType_ja, definitionRow, DisplayXls); break;
                     case "SettingAggregationTarget": Display.SettingAggregationTarget = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingAggregationTarget, definitionRow, DisplayXls); break;
                     case "SettingAggregationTarget_ja": Display.SettingAggregationTarget_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SettingAggregationTarget_ja, definitionRow, DisplayXls); break;
+                    case "Others": Display.Others = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Others, definitionRow, DisplayXls); break;
+                    case "Others_ja": Display.Others_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Others_ja, definitionRow, DisplayXls); break;
+                    case "Name": Display.Name = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Name, definitionRow, DisplayXls); break;
+                    case "Name_ja": Display.Name_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Name_ja, definitionRow, DisplayXls); break;
                     case "CustomDesign": Display.CustomDesign = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CustomDesign, definitionRow, DisplayXls); break;
                     case "CustomDesign_ja": Display.CustomDesign_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.CustomDesign_ja, definitionRow, DisplayXls); break;
                     case "UseCustomDesign": Display.UseCustomDesign = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.UseCustomDesign, definitionRow, DisplayXls); break;
@@ -2748,6 +2706,8 @@ namespace Implem.DefinitionAccessor
                     case "Aggregations_ja": Display.Aggregations_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Aggregations_ja, definitionRow, DisplayXls); break;
                     case "Filters": Display.Filters = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Filters, definitionRow, DisplayXls); break;
                     case "Filters_ja": Display.Filters_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Filters_ja, definitionRow, DisplayXls); break;
+                    case "Sorters": Display.Sorters = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Sorters, definitionRow, DisplayXls); break;
+                    case "Sorters_ja": Display.Sorters_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Sorters_ja, definitionRow, DisplayXls); break;
                     case "Incomplete": Display.Incomplete = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Incomplete, definitionRow, DisplayXls); break;
                     case "Incomplete_ja": Display.Incomplete_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Incomplete_ja, definitionRow, DisplayXls); break;
                     case "Blank": Display.Blank = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Blank, definitionRow, DisplayXls); break;
@@ -2878,6 +2838,10 @@ namespace Implem.DefinitionAccessor
                     case "Prefix_ja": Display.Prefix_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Prefix_ja, definitionRow, DisplayXls); break;
                     case "View": Display.View = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.View, definitionRow, DisplayXls); break;
                     case "View_ja": Display.View_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.View_ja, definitionRow, DisplayXls); break;
+                    case "DataView": Display.DataView = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DataView, definitionRow, DisplayXls); break;
+                    case "DataView_ja": Display.DataView_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DataView_ja, definitionRow, DisplayXls); break;
+                    case "DefaultView": Display.DefaultView = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DefaultView, definitionRow, DisplayXls); break;
+                    case "DefaultView_ja": Display.DefaultView_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.DefaultView_ja, definitionRow, DisplayXls); break;
                     case "Grid": Display.Grid = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Grid, definitionRow, DisplayXls); break;
                     case "Grid_ja": Display.Grid_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Grid_ja, definitionRow, DisplayXls); break;
                     case "Style": Display.Style = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Style, definitionRow, DisplayXls); break;
@@ -2982,8 +2946,8 @@ namespace Implem.DefinitionAccessor
                     case "NotFound_ja": Display.NotFound_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.NotFound_ja, definitionRow, DisplayXls); break;
                     case "RequireMailAddresses": Display.RequireMailAddresses = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.RequireMailAddresses, definitionRow, DisplayXls); break;
                     case "RequireMailAddresses_ja": Display.RequireMailAddresses_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.RequireMailAddresses_ja, definitionRow, DisplayXls); break;
-                    case "RequireColumn": Display.RequireColumn = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.RequireColumn, definitionRow, DisplayXls); break;
-                    case "RequireColumn_ja": Display.RequireColumn_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.RequireColumn_ja, definitionRow, DisplayXls); break;
+                    case "SelectOne": Display.SelectOne = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SelectOne, definitionRow, DisplayXls); break;
+                    case "SelectOne_ja": Display.SelectOne_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.SelectOne_ja, definitionRow, DisplayXls); break;
                     case "ExternalMailAddress": Display.ExternalMailAddress = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ExternalMailAddress, definitionRow, DisplayXls); break;
                     case "ExternalMailAddress_ja": Display.ExternalMailAddress_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ExternalMailAddress_ja, definitionRow, DisplayXls); break;
                     case "BadMailAddress": Display.BadMailAddress = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.BadMailAddress, definitionRow, DisplayXls); break;
@@ -3080,10 +3044,12 @@ namespace Implem.DefinitionAccessor
                     case "ValidateNumber_ja": Display.ValidateNumber_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateNumber_ja, definitionRow, DisplayXls); break;
                     case "ValidateDate": Display.ValidateDate = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateDate, definitionRow, DisplayXls); break;
                     case "ValidateDate_ja": Display.ValidateDate_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateDate_ja, definitionRow, DisplayXls); break;
-                    case "ValidateMail": Display.ValidateMail = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateMail, definitionRow, DisplayXls); break;
-                    case "ValidateMail_ja": Display.ValidateMail_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateMail_ja, definitionRow, DisplayXls); break;
+                    case "ValidateEmail": Display.ValidateEmail = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateEmail, definitionRow, DisplayXls); break;
+                    case "ValidateEmail_ja": Display.ValidateEmail_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateEmail_ja, definitionRow, DisplayXls); break;
                     case "ValidateEqualTo": Display.ValidateEqualTo = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateEqualTo, definitionRow, DisplayXls); break;
                     case "ValidateEqualTo_ja": Display.ValidateEqualTo_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateEqualTo_ja, definitionRow, DisplayXls); break;
+                    case "ValidateMaxLength": Display.ValidateMaxLength = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateMaxLength, definitionRow, DisplayXls); break;
+                    case "ValidateMaxLength_ja": Display.ValidateMaxLength_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ValidateMaxLength_ja, definitionRow, DisplayXls); break;
                     default: break;
                 }
             });
@@ -3183,6 +3149,55 @@ namespace Implem.DefinitionAccessor
             SqlDefinitionCollection = new List<SqlDefinition>();
             Sql = new SqlColumn2nd();
             SqlTable = new SqlTable();
+        }
+
+        public static XlsIo ViewModeXls;
+        public static List<ViewModeDefinition> ViewModeDefinitionCollection;
+        public static ViewModeColumn2nd ViewMode;
+        public static ViewModeTable ViewModeTable;
+
+        public static void SetViewModeDefinition()
+        {
+            ConstructViewModeDefinitions();
+            if (ViewModeXls.AccessStatus != Files.AccessStatuses.Read) { return; }
+            ViewModeXls.XlsSheet.ForEach(definitionRow =>
+            {
+                switch (definitionRow[0].ToString())
+                {
+                    case "Issues_Index": ViewMode.Issues_Index = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_Index, definitionRow, ViewModeXls); break;
+                    case "Issues_Gantt": ViewMode.Issues_Gantt = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_Gantt, definitionRow, ViewModeXls); break;
+                    case "Issues_BurnDown": ViewMode.Issues_BurnDown = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_BurnDown, definitionRow, ViewModeXls); break;
+                    case "Issues_TimeSeries": ViewMode.Issues_TimeSeries = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_TimeSeries, definitionRow, ViewModeXls); break;
+                    case "Issues_Kamban": ViewMode.Issues_Kamban = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_Kamban, definitionRow, ViewModeXls); break;
+                    case "Results_Index": ViewMode.Results_Index = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_Index, definitionRow, ViewModeXls); break;
+                    case "Results_TimeSeries": ViewMode.Results_TimeSeries = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_TimeSeries, definitionRow, ViewModeXls); break;
+                    case "Results_Kamban": ViewMode.Results_Kamban = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_Kamban, definitionRow, ViewModeXls); break;
+                    default: break;
+                }
+            });
+            ViewModeXls.XlsSheet.AsEnumerable().Skip(1).Where(o => o[0].ToString() != string.Empty).ForEach(definitionRow =>
+            {
+                var newViewModeDefinition = new ViewModeDefinition();
+                if (definitionRow.ContainsKey("Id")) { newViewModeDefinition.Id = definitionRow["Id"].ToString(); newViewModeDefinition.SavedId = newViewModeDefinition.Id; }
+                if (definitionRow.ContainsKey("ReferenceType")) { newViewModeDefinition.ReferenceType = definitionRow["ReferenceType"].ToString(); newViewModeDefinition.SavedReferenceType = newViewModeDefinition.ReferenceType; }
+                if (definitionRow.ContainsKey("Name")) { newViewModeDefinition.Name = definitionRow["Name"].ToString(); newViewModeDefinition.SavedName = newViewModeDefinition.Name; }
+                ViewModeDefinitionCollection.Add(newViewModeDefinition);
+            });
+        }
+
+        private static void SetViewModeTable(ViewModeDefinition definition, XlsRow definitionRow, XlsIo viewModexls)
+        {
+            if (definitionRow.ContainsKey("Id")) { definition.Id = definitionRow["Id"].ToString(); definition.SavedId = definition.Id; }
+            if (definitionRow.ContainsKey("ReferenceType")) { definition.ReferenceType = definitionRow["ReferenceType"].ToString(); definition.SavedReferenceType = definition.ReferenceType; }
+            if (definitionRow.ContainsKey("Name")) { definition.Name = definitionRow["Name"].ToString(); definition.SavedName = definition.Name; }
+        }
+
+        private static void ConstructViewModeDefinitions()
+        {
+            ViewModeXls = Initializer.DefinitionFile("definition_ViewMode.xlsm");
+            ViewModeDefinitionCollection = new List<ViewModeDefinition>();
+            ViewMode = new ViewModeColumn2nd();
+            ViewModeTable = new ViewModeTable();
         }
 
         public static void SetCodeDefinitionOption(
@@ -3363,7 +3378,11 @@ namespace Implem.DefinitionAccessor
                         case "DefaultInput": columnDefinition.DefaultInput = optionValue.ToString(); break;
                         case "Own": columnDefinition.Own = optionValue.ToBool(); break;
                         case "FormName": columnDefinition.FormName = optionValue.ToString(); break;
-                        case "Validators": columnDefinition.Validators = optionValue.ToString(); break;
+                        case "ValidateRequired": columnDefinition.ValidateRequired = optionValue.ToBool(); break;
+                        case "ValidateNumber": columnDefinition.ValidateNumber = optionValue.ToBool(); break;
+                        case "ValidateDate": columnDefinition.ValidateDate = optionValue.ToBool(); break;
+                        case "ValidateEmail": columnDefinition.ValidateEmail = optionValue.ToBool(); break;
+                        case "ValidateEqualTo": columnDefinition.ValidateEqualTo = optionValue.ToString(); break;
                         case "DecimalPlaces": columnDefinition.DecimalPlaces = optionValue.ToInt(); break;
                         case "Min": columnDefinition.Min = optionValue.ToDecimal(); break;
                         case "Max": columnDefinition.Max = optionValue.ToDecimal(); break;
@@ -3446,23 +3465,6 @@ namespace Implem.DefinitionAccessor
                 });
         }
 
-        public static void SetDataViewDefinitionOption(
-            string placeholder, DataViewDefinition dataViewDefinition)
-        {
-            placeholder.RegexFirst("(?<=\\().+(?=\\))").Split(',')
-                .Where(o => !o.IsNullOrEmpty()).ForEach(option =>
-                {
-                    var optionName = option.Split_1st('=').Trim();
-                    var optionValue = option.Split_2nd('=').Trim();
-                    switch (optionName)
-                    {
-                        case "Id": dataViewDefinition.Id = optionValue.ToString(); break;
-                        case "ReferenceType": dataViewDefinition.ReferenceType = optionValue.ToString(); break;
-                        case "Name": dataViewDefinition.Name = optionValue.ToString(); break;
-                    }
-                });
-        }
-
         public static void SetDemoDefinitionOption(
             string placeholder, DemoDefinition demoDefinition)
         {
@@ -3529,6 +3531,23 @@ namespace Implem.DefinitionAccessor
                     {
                         case "Id": sqlDefinition.Id = optionValue.ToString(); break;
                         case "Body": sqlDefinition.Body = optionValue.ToString(); break;
+                    }
+                });
+        }
+
+        public static void SetViewModeDefinitionOption(
+            string placeholder, ViewModeDefinition viewModeDefinition)
+        {
+            placeholder.RegexFirst("(?<=\\().+(?=\\))").Split(',')
+                .Where(o => !o.IsNullOrEmpty()).ForEach(option =>
+                {
+                    var optionName = option.Split_1st('=').Trim();
+                    var optionValue = option.Split_2nd('=').Trim();
+                    switch (optionName)
+                    {
+                        case "Id": viewModeDefinition.Id = optionValue.ToString(); break;
+                        case "ReferenceType": viewModeDefinition.ReferenceType = optionValue.ToString(); break;
+                        case "Name": viewModeDefinition.Name = optionValue.ToString(); break;
                     }
                 });
         }
@@ -3851,8 +3870,6 @@ namespace Implem.DefinitionAccessor
         public string Def_DefinitionClass_DefinitionAccessor;
         public string Def_DefinitionClass_DefinitionColumn2nd;
         public string Def_DefinitionClass_DefinitionTable;
-        public string BundleConfig;
-        public string BundleConfig_Validators;
         public string Controller;
         public string Base;
         public string Base_Property;
@@ -3966,7 +3983,6 @@ namespace Implem.DefinitionAccessor
         public string Model_EditorCases;
         public string Model_ImportCases;
         public string Model_ExportCases;
-        public string Model_DataViewCases;
         public string Model_GridRowsCases;
         public string Model_CreateCases;
         public string Model_UpdateCases;
@@ -4191,7 +4207,6 @@ namespace Implem.DefinitionAccessor
         public string Rds_ParamDefault_ParamAll;
         public string Rds_ParamItemId;
         public string Rds_SiteId;
-        public string Rds_SiteSettings_SiteId;
         public string Rds_TitleColumn;
         public string Rds_TitleColumnCases;
         public string Titles;
@@ -4210,11 +4225,10 @@ namespace Implem.DefinitionAccessor
         public string SiteSettings_GetModels_Items;
         public string SiteSettings_GetModels_Items_Choices;
         public string SiteSettings_GetModels_Includes;
-        public string DataViewFilters;
-        public string DataViewFilters_Search_TableCases;
-        public string GridSorters;
-        public string GridSorters_Model;
-        public string GridSorters_Cases;
+        public string View;
+        public string View_Search_TableCases;
+        public string View_Sorter_TableCases;
+        public string View_Sorter_ColumnCases;
         public string HtmlLinks;
         public string HtmlLinks_Contains;
         public string HtmlLinks_DataSetTableCases;
@@ -4259,11 +4273,6 @@ namespace Implem.DefinitionAccessor
         public string Error;
         public string Error_Types;
         public string Error_Messages;
-        public string ClientValidators;
-        public string ClientValidators_Form;
-        public string ClientValidators_Rules;
-        public string ClientValidators_Messages;
-        public string ClientValidators_Sites;
         public string Css;
         public string ClientDisplays;
         public string ClientDisplays_Parts;
@@ -4289,8 +4298,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Def_DefinitionClass_DefinitionAccessor = new CodeDefinition();
         public CodeDefinition Def_DefinitionClass_DefinitionColumn2nd = new CodeDefinition();
         public CodeDefinition Def_DefinitionClass_DefinitionTable = new CodeDefinition();
-        public CodeDefinition BundleConfig = new CodeDefinition();
-        public CodeDefinition BundleConfig_Validators = new CodeDefinition();
         public CodeDefinition Controller = new CodeDefinition();
         public CodeDefinition Base = new CodeDefinition();
         public CodeDefinition Base_Property = new CodeDefinition();
@@ -4404,7 +4411,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_EditorCases = new CodeDefinition();
         public CodeDefinition Model_ImportCases = new CodeDefinition();
         public CodeDefinition Model_ExportCases = new CodeDefinition();
-        public CodeDefinition Model_DataViewCases = new CodeDefinition();
         public CodeDefinition Model_GridRowsCases = new CodeDefinition();
         public CodeDefinition Model_CreateCases = new CodeDefinition();
         public CodeDefinition Model_UpdateCases = new CodeDefinition();
@@ -4629,7 +4635,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Rds_ParamDefault_ParamAll = new CodeDefinition();
         public CodeDefinition Rds_ParamItemId = new CodeDefinition();
         public CodeDefinition Rds_SiteId = new CodeDefinition();
-        public CodeDefinition Rds_SiteSettings_SiteId = new CodeDefinition();
         public CodeDefinition Rds_TitleColumn = new CodeDefinition();
         public CodeDefinition Rds_TitleColumnCases = new CodeDefinition();
         public CodeDefinition Titles = new CodeDefinition();
@@ -4648,11 +4653,10 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition SiteSettings_GetModels_Items = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Items_Choices = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Includes = new CodeDefinition();
-        public CodeDefinition DataViewFilters = new CodeDefinition();
-        public CodeDefinition DataViewFilters_Search_TableCases = new CodeDefinition();
-        public CodeDefinition GridSorters = new CodeDefinition();
-        public CodeDefinition GridSorters_Model = new CodeDefinition();
-        public CodeDefinition GridSorters_Cases = new CodeDefinition();
+        public CodeDefinition View = new CodeDefinition();
+        public CodeDefinition View_Search_TableCases = new CodeDefinition();
+        public CodeDefinition View_Sorter_TableCases = new CodeDefinition();
+        public CodeDefinition View_Sorter_ColumnCases = new CodeDefinition();
         public CodeDefinition HtmlLinks = new CodeDefinition();
         public CodeDefinition HtmlLinks_Contains = new CodeDefinition();
         public CodeDefinition HtmlLinks_DataSetTableCases = new CodeDefinition();
@@ -4697,11 +4701,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Error = new CodeDefinition();
         public CodeDefinition Error_Types = new CodeDefinition();
         public CodeDefinition Error_Messages = new CodeDefinition();
-        public CodeDefinition ClientValidators = new CodeDefinition();
-        public CodeDefinition ClientValidators_Form = new CodeDefinition();
-        public CodeDefinition ClientValidators_Rules = new CodeDefinition();
-        public CodeDefinition ClientValidators_Messages = new CodeDefinition();
-        public CodeDefinition ClientValidators_Sites = new CodeDefinition();
         public CodeDefinition Css = new CodeDefinition();
         public CodeDefinition ClientDisplays = new CodeDefinition();
         public CodeDefinition ClientDisplays_Parts = new CodeDefinition();
@@ -4796,7 +4795,11 @@ namespace Implem.DefinitionAccessor
         public string DefaultInput; public string SavedDefaultInput;
         public bool Own; public bool SavedOwn;
         public string FormName; public string SavedFormName;
-        public string Validators; public string SavedValidators;
+        public bool ValidateRequired; public bool SavedValidateRequired;
+        public bool ValidateNumber; public bool SavedValidateNumber;
+        public bool ValidateDate; public bool SavedValidateDate;
+        public bool ValidateEmail; public bool SavedValidateEmail;
+        public string ValidateEqualTo; public string SavedValidateEqualTo;
         public int DecimalPlaces; public int SavedDecimalPlaces;
         public decimal Min; public decimal SavedMin;
         public decimal Max; public decimal SavedMax;
@@ -4899,7 +4902,11 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("DefaultInput")) DefaultInput = propertyCollection["DefaultInput"].ToString(); else DefaultInput = string.Empty;
             if (propertyCollection.ContainsKey("Own")) Own = propertyCollection["Own"].ToBool(); else Own = false;
             if (propertyCollection.ContainsKey("FormName")) FormName = propertyCollection["FormName"].ToString(); else FormName = string.Empty;
-            if (propertyCollection.ContainsKey("Validators")) Validators = propertyCollection["Validators"].ToString(); else Validators = string.Empty;
+            if (propertyCollection.ContainsKey("ValidateRequired")) ValidateRequired = propertyCollection["ValidateRequired"].ToBool(); else ValidateRequired = false;
+            if (propertyCollection.ContainsKey("ValidateNumber")) ValidateNumber = propertyCollection["ValidateNumber"].ToBool(); else ValidateNumber = false;
+            if (propertyCollection.ContainsKey("ValidateDate")) ValidateDate = propertyCollection["ValidateDate"].ToBool(); else ValidateDate = false;
+            if (propertyCollection.ContainsKey("ValidateEmail")) ValidateEmail = propertyCollection["ValidateEmail"].ToBool(); else ValidateEmail = false;
+            if (propertyCollection.ContainsKey("ValidateEqualTo")) ValidateEqualTo = propertyCollection["ValidateEqualTo"].ToString(); else ValidateEqualTo = string.Empty;
             if (propertyCollection.ContainsKey("DecimalPlaces")) DecimalPlaces = propertyCollection["DecimalPlaces"].ToInt(); else DecimalPlaces = 0;
             if (propertyCollection.ContainsKey("Min")) Min = propertyCollection["Min"].ToDecimal(); else Min = 0;
             if (propertyCollection.ContainsKey("Max")) Max = propertyCollection["Max"].ToDecimal(); else Max = 0;
@@ -5002,7 +5009,11 @@ namespace Implem.DefinitionAccessor
                     case "DefaultInput": return DefaultInput;
                     case "Own": return Own;
                     case "FormName": return FormName;
-                    case "Validators": return Validators;
+                    case "ValidateRequired": return ValidateRequired;
+                    case "ValidateNumber": return ValidateNumber;
+                    case "ValidateDate": return ValidateDate;
+                    case "ValidateEmail": return ValidateEmail;
+                    case "ValidateEqualTo": return ValidateEqualTo;
                     case "DecimalPlaces": return DecimalPlaces;
                     case "Min": return Min;
                     case "Max": return Max;
@@ -5105,7 +5116,11 @@ namespace Implem.DefinitionAccessor
             DefaultInput = SavedDefaultInput;
             Own = SavedOwn;
             FormName = SavedFormName;
-            Validators = SavedValidators;
+            ValidateRequired = SavedValidateRequired;
+            ValidateNumber = SavedValidateNumber;
+            ValidateDate = SavedValidateDate;
+            ValidateEmail = SavedValidateEmail;
+            ValidateEqualTo = SavedValidateEqualTo;
             DecimalPlaces = SavedDecimalPlaces;
             Min = SavedMin;
             Max = SavedMax;
@@ -6664,11 +6679,12 @@ namespace Implem.DefinitionAccessor
         public string _sharp_Notes_space___space__asterisk_;
         public string _sharp_Notes_space___space__dot_history;
         public string _sharp_Notes_space___space__dot_readonly;
-        public string _sharp_DataViewFilters;
-        public string _sharp_DataViewFilters_dot_reduced;
-        public string _sharp_DataViewFilters_space___space__dot_field_auto_thin;
-        public string _sharp_DataViewFilters_Reset;
-        public string _sharp_DataViewFilters_space___space__dot_display_control;
+        public string _sharp_ViewSelectorField;
+        public string _sharp_ViewFilters;
+        public string _sharp_ViewFilters_dot_reduced;
+        public string _sharp_ViewFilters_space___space__dot_field_auto_thin;
+        public string _sharp_ViewFilters_Reset;
+        public string _sharp_ViewFilters_space___space__dot_display_control;
         public string _sharp_Aggregations;
         public string _sharp_Aggregations_dot_reduced;
         public string _sharp_Aggregations_space__dot_label;
@@ -6737,6 +6753,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_OutgoingMailsForm;
         public string _sharp_OutgoingMailsForm_space___space__dot_item;
         public string _sharp_OutgoingMailsForm_space__dot_content;
+        public string _sharp_ViewTabsContainer;
         public string _sharp_SearchResults;
         public string _sharp_SearchResults_space__dot_count;
         public string _sharp_SearchResults_space__dot_count_space__dot_label;
@@ -7044,11 +7061,12 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_Notes_space___space__asterisk_ = new CssDefinition();
         public CssDefinition _sharp_Notes_space___space__dot_history = new CssDefinition();
         public CssDefinition _sharp_Notes_space___space__dot_readonly = new CssDefinition();
-        public CssDefinition _sharp_DataViewFilters = new CssDefinition();
-        public CssDefinition _sharp_DataViewFilters_dot_reduced = new CssDefinition();
-        public CssDefinition _sharp_DataViewFilters_space___space__dot_field_auto_thin = new CssDefinition();
-        public CssDefinition _sharp_DataViewFilters_Reset = new CssDefinition();
-        public CssDefinition _sharp_DataViewFilters_space___space__dot_display_control = new CssDefinition();
+        public CssDefinition _sharp_ViewSelectorField = new CssDefinition();
+        public CssDefinition _sharp_ViewFilters = new CssDefinition();
+        public CssDefinition _sharp_ViewFilters_dot_reduced = new CssDefinition();
+        public CssDefinition _sharp_ViewFilters_space___space__dot_field_auto_thin = new CssDefinition();
+        public CssDefinition _sharp_ViewFilters_Reset = new CssDefinition();
+        public CssDefinition _sharp_ViewFilters_space___space__dot_display_control = new CssDefinition();
         public CssDefinition _sharp_Aggregations = new CssDefinition();
         public CssDefinition _sharp_Aggregations_dot_reduced = new CssDefinition();
         public CssDefinition _sharp_Aggregations_space__dot_label = new CssDefinition();
@@ -7117,6 +7135,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_OutgoingMailsForm = new CssDefinition();
         public CssDefinition _sharp_OutgoingMailsForm_space___space__dot_item = new CssDefinition();
         public CssDefinition _sharp_OutgoingMailsForm_space__dot_content = new CssDefinition();
+        public CssDefinition _sharp_ViewTabsContainer = new CssDefinition();
         public CssDefinition _sharp_SearchResults = new CssDefinition();
         public CssDefinition _sharp_SearchResults_space__dot_count = new CssDefinition();
         public CssDefinition _sharp_SearchResults_space__dot_count_space__dot_label = new CssDefinition();
@@ -7376,68 +7395,6 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_menu_sort_space___space_li = new CssDefinition();
         public CssDefinition _dot_menu_sort_space___space_li_colon_hover = new CssDefinition();
         public CssDefinition _dot_menu_sort_space___space_li_space___space__asterisk_ = new CssDefinition();
-    }
-
-    public class DataViewDefinition
-    {
-        public string Id; public string SavedId;
-        public string ReferenceType; public string SavedReferenceType;
-        public string Name; public string SavedName;
-
-        public DataViewDefinition()
-        {
-        }
-
-        public DataViewDefinition(Dictionary<string, string> propertyCollection)
-        {
-            if (propertyCollection.ContainsKey("Id")) Id = propertyCollection["Id"].ToString(); else Id = string.Empty;
-            if (propertyCollection.ContainsKey("ReferenceType")) ReferenceType = propertyCollection["ReferenceType"].ToString(); else ReferenceType = string.Empty;
-            if (propertyCollection.ContainsKey("Name")) Name = propertyCollection["Name"].ToString(); else Name = string.Empty;
-        }
-
-        public object this[string key]
-        {
-            get{
-                switch(key)
-                {
-                    case "Id": return Id;
-                    case "ReferenceType": return ReferenceType;
-                    case "Name": return Name;
-                    default: return null;
-                }
-            }
-        }
-
-        public void RestoreBySavedMemory()
-        {
-            Id = SavedId;
-            ReferenceType = SavedReferenceType;
-            Name = SavedName;
-        }
-    }
-
-    public class DataViewColumn2nd
-    {
-        public string Issues_Index;
-        public string Issues_Gantt;
-        public string Issues_BurnDown;
-        public string Issues_TimeSeries;
-        public string Issues_Kamban;
-        public string Results_Index;
-        public string Results_TimeSeries;
-        public string Results_Kamban;
-    }
-
-    public class DataViewTable
-    {
-        public DataViewDefinition Issues_Index = new DataViewDefinition();
-        public DataViewDefinition Issues_Gantt = new DataViewDefinition();
-        public DataViewDefinition Issues_BurnDown = new DataViewDefinition();
-        public DataViewDefinition Issues_TimeSeries = new DataViewDefinition();
-        public DataViewDefinition Issues_Kamban = new DataViewDefinition();
-        public DataViewDefinition Results_Index = new DataViewDefinition();
-        public DataViewDefinition Results_TimeSeries = new DataViewDefinition();
-        public DataViewDefinition Results_Kamban = new DataViewDefinition();
     }
 
     public class DemoDefinition
@@ -7784,6 +7741,8 @@ namespace Implem.DefinitionAccessor
         public string Import_ja;
         public string Export;
         public string Export_ja;
+        public string Required;
+        public string Required_ja;
         public string Cancel;
         public string Cancel_ja;
         public string GoBack;
@@ -7816,6 +7775,7 @@ namespace Implem.DefinitionAccessor
         public string DecimalPlaces_ja;
         public string ToParent;
         public string ToParent_ja;
+        public string Id;
         public string MoveUp;
         public string MoveUp_ja;
         public string MoveDown;
@@ -7963,6 +7923,10 @@ namespace Implem.DefinitionAccessor
         public string SettingAggregationType_ja;
         public string SettingAggregationTarget;
         public string SettingAggregationTarget_ja;
+        public string Others;
+        public string Others_ja;
+        public string Name;
+        public string Name_ja;
         public string CustomDesign;
         public string CustomDesign_ja;
         public string UseCustomDesign;
@@ -8078,6 +8042,8 @@ namespace Implem.DefinitionAccessor
         public string Aggregations_ja;
         public string Filters;
         public string Filters_ja;
+        public string Sorters;
+        public string Sorters_ja;
         public string Incomplete;
         public string Incomplete_ja;
         public string Blank;
@@ -8208,6 +8174,10 @@ namespace Implem.DefinitionAccessor
         public string Prefix_ja;
         public string View;
         public string View_ja;
+        public string DataView;
+        public string DataView_ja;
+        public string DefaultView;
+        public string DefaultView_ja;
         public string Grid;
         public string Grid_ja;
         public string Style;
@@ -8312,8 +8282,8 @@ namespace Implem.DefinitionAccessor
         public string NotFound_ja;
         public string RequireMailAddresses;
         public string RequireMailAddresses_ja;
-        public string RequireColumn;
-        public string RequireColumn_ja;
+        public string SelectOne;
+        public string SelectOne_ja;
         public string ExternalMailAddress;
         public string ExternalMailAddress_ja;
         public string BadMailAddress;
@@ -8410,10 +8380,12 @@ namespace Implem.DefinitionAccessor
         public string ValidateNumber_ja;
         public string ValidateDate;
         public string ValidateDate_ja;
-        public string ValidateMail;
-        public string ValidateMail_ja;
+        public string ValidateEmail;
+        public string ValidateEmail_ja;
         public string ValidateEqualTo;
         public string ValidateEqualTo_ja;
+        public string ValidateMaxLength;
+        public string ValidateMaxLength_ja;
     }
 
     public class DisplayTable
@@ -8466,6 +8438,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition Import_ja = new DisplayDefinition();
         public DisplayDefinition Export = new DisplayDefinition();
         public DisplayDefinition Export_ja = new DisplayDefinition();
+        public DisplayDefinition Required = new DisplayDefinition();
+        public DisplayDefinition Required_ja = new DisplayDefinition();
         public DisplayDefinition Cancel = new DisplayDefinition();
         public DisplayDefinition Cancel_ja = new DisplayDefinition();
         public DisplayDefinition GoBack = new DisplayDefinition();
@@ -8498,6 +8472,7 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition DecimalPlaces_ja = new DisplayDefinition();
         public DisplayDefinition ToParent = new DisplayDefinition();
         public DisplayDefinition ToParent_ja = new DisplayDefinition();
+        public DisplayDefinition Id = new DisplayDefinition();
         public DisplayDefinition MoveUp = new DisplayDefinition();
         public DisplayDefinition MoveUp_ja = new DisplayDefinition();
         public DisplayDefinition MoveDown = new DisplayDefinition();
@@ -8645,6 +8620,10 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition SettingAggregationType_ja = new DisplayDefinition();
         public DisplayDefinition SettingAggregationTarget = new DisplayDefinition();
         public DisplayDefinition SettingAggregationTarget_ja = new DisplayDefinition();
+        public DisplayDefinition Others = new DisplayDefinition();
+        public DisplayDefinition Others_ja = new DisplayDefinition();
+        public DisplayDefinition Name = new DisplayDefinition();
+        public DisplayDefinition Name_ja = new DisplayDefinition();
         public DisplayDefinition CustomDesign = new DisplayDefinition();
         public DisplayDefinition CustomDesign_ja = new DisplayDefinition();
         public DisplayDefinition UseCustomDesign = new DisplayDefinition();
@@ -8760,6 +8739,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition Aggregations_ja = new DisplayDefinition();
         public DisplayDefinition Filters = new DisplayDefinition();
         public DisplayDefinition Filters_ja = new DisplayDefinition();
+        public DisplayDefinition Sorters = new DisplayDefinition();
+        public DisplayDefinition Sorters_ja = new DisplayDefinition();
         public DisplayDefinition Incomplete = new DisplayDefinition();
         public DisplayDefinition Incomplete_ja = new DisplayDefinition();
         public DisplayDefinition Blank = new DisplayDefinition();
@@ -8890,6 +8871,10 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition Prefix_ja = new DisplayDefinition();
         public DisplayDefinition View = new DisplayDefinition();
         public DisplayDefinition View_ja = new DisplayDefinition();
+        public DisplayDefinition DataView = new DisplayDefinition();
+        public DisplayDefinition DataView_ja = new DisplayDefinition();
+        public DisplayDefinition DefaultView = new DisplayDefinition();
+        public DisplayDefinition DefaultView_ja = new DisplayDefinition();
         public DisplayDefinition Grid = new DisplayDefinition();
         public DisplayDefinition Grid_ja = new DisplayDefinition();
         public DisplayDefinition Style = new DisplayDefinition();
@@ -8994,8 +8979,8 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition NotFound_ja = new DisplayDefinition();
         public DisplayDefinition RequireMailAddresses = new DisplayDefinition();
         public DisplayDefinition RequireMailAddresses_ja = new DisplayDefinition();
-        public DisplayDefinition RequireColumn = new DisplayDefinition();
-        public DisplayDefinition RequireColumn_ja = new DisplayDefinition();
+        public DisplayDefinition SelectOne = new DisplayDefinition();
+        public DisplayDefinition SelectOne_ja = new DisplayDefinition();
         public DisplayDefinition ExternalMailAddress = new DisplayDefinition();
         public DisplayDefinition ExternalMailAddress_ja = new DisplayDefinition();
         public DisplayDefinition BadMailAddress = new DisplayDefinition();
@@ -9092,10 +9077,12 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition ValidateNumber_ja = new DisplayDefinition();
         public DisplayDefinition ValidateDate = new DisplayDefinition();
         public DisplayDefinition ValidateDate_ja = new DisplayDefinition();
-        public DisplayDefinition ValidateMail = new DisplayDefinition();
-        public DisplayDefinition ValidateMail_ja = new DisplayDefinition();
+        public DisplayDefinition ValidateEmail = new DisplayDefinition();
+        public DisplayDefinition ValidateEmail_ja = new DisplayDefinition();
         public DisplayDefinition ValidateEqualTo = new DisplayDefinition();
         public DisplayDefinition ValidateEqualTo_ja = new DisplayDefinition();
+        public DisplayDefinition ValidateMaxLength = new DisplayDefinition();
+        public DisplayDefinition ValidateMaxLength_ja = new DisplayDefinition();
     }
 
     public class SqlDefinition
@@ -9190,5 +9177,67 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition MigrateTable = new SqlDefinition();
         public SqlDefinition BulkInsert = new SqlDefinition();
         public SqlDefinition Identity = new SqlDefinition();
+    }
+
+    public class ViewModeDefinition
+    {
+        public string Id; public string SavedId;
+        public string ReferenceType; public string SavedReferenceType;
+        public string Name; public string SavedName;
+
+        public ViewModeDefinition()
+        {
+        }
+
+        public ViewModeDefinition(Dictionary<string, string> propertyCollection)
+        {
+            if (propertyCollection.ContainsKey("Id")) Id = propertyCollection["Id"].ToString(); else Id = string.Empty;
+            if (propertyCollection.ContainsKey("ReferenceType")) ReferenceType = propertyCollection["ReferenceType"].ToString(); else ReferenceType = string.Empty;
+            if (propertyCollection.ContainsKey("Name")) Name = propertyCollection["Name"].ToString(); else Name = string.Empty;
+        }
+
+        public object this[string key]
+        {
+            get{
+                switch(key)
+                {
+                    case "Id": return Id;
+                    case "ReferenceType": return ReferenceType;
+                    case "Name": return Name;
+                    default: return null;
+                }
+            }
+        }
+
+        public void RestoreBySavedMemory()
+        {
+            Id = SavedId;
+            ReferenceType = SavedReferenceType;
+            Name = SavedName;
+        }
+    }
+
+    public class ViewModeColumn2nd
+    {
+        public string Issues_Index;
+        public string Issues_Gantt;
+        public string Issues_BurnDown;
+        public string Issues_TimeSeries;
+        public string Issues_Kamban;
+        public string Results_Index;
+        public string Results_TimeSeries;
+        public string Results_Kamban;
+    }
+
+    public class ViewModeTable
+    {
+        public ViewModeDefinition Issues_Index = new ViewModeDefinition();
+        public ViewModeDefinition Issues_Gantt = new ViewModeDefinition();
+        public ViewModeDefinition Issues_BurnDown = new ViewModeDefinition();
+        public ViewModeDefinition Issues_TimeSeries = new ViewModeDefinition();
+        public ViewModeDefinition Issues_Kamban = new ViewModeDefinition();
+        public ViewModeDefinition Results_Index = new ViewModeDefinition();
+        public ViewModeDefinition Results_TimeSeries = new ViewModeDefinition();
+        public ViewModeDefinition Results_Kamban = new ViewModeDefinition();
     }
 }

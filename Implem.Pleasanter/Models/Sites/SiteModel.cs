@@ -656,6 +656,26 @@ namespace Implem.Pleasanter.Models
                 case "DeleteFormulas":
                     DeleteFormulas(res);
                     break;
+                case "MoveUpViews":
+                case "MoveDownViews":
+                    SetViewsOrder(res, controlId);
+                    break;
+                case "NewView":
+                case "EditView":
+                    OpenViewDialog(res, controlId);
+                    break;
+                case "AddViewFilter":
+                    AddViewFilter(res);
+                    break;
+                case "CreateView":
+                    CreateView(res);
+                    break;
+                case "UpdateView":
+                    UpdateView(res);
+                    break;
+                case "DeleteViews":
+                    DeleteViews(res);
+                    break;
                 case "NewNotification":
                 case "EditNotification":
                     OpenNotificationDialog(res, controlId);
@@ -758,7 +778,7 @@ namespace Implem.Pleasanter.Models
             var selectedColumns = Forms.List("GridColumns");
             if (selectedColumns.Count() != 1)
             {
-                res.Message(Messages.RequireColumn());
+                res.Message(Messages.SelectOne());
             }
             else
             {
@@ -992,7 +1012,7 @@ namespace Implem.Pleasanter.Models
             var selectedColumns = Forms.List("EditorColumns");
             if (selectedColumns.Count() != 1)
             {
-                res.Message(Messages.RequireColumn());
+                res.Message(Messages.SelectOne());
             }
             else
             {
@@ -1162,13 +1182,142 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void SetViewsOrder(ResponseCollection res, string controlId)
+        {
+            var command = ColumnUtilities.ChangeCommand(controlId);
+            var selectedColumns = Forms.IntList("Views", ';');
+            SiteSettings.SetViewsOrder(command, selectedColumns);
+            res
+                .Html(
+                    "#Views",
+                    new HtmlBuilder().SelectableItems(
+                        listItemCollection: SiteSettings.ViewSelectableOptions(),
+                        selectedValueTextCollection: selectedColumns.Select(o => o.ToString())))
+                .SetFormData("Views", selectedColumns.Join(";"));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenViewDialog(ResponseCollection res, string controlId)
+        {
+            Libraries.Settings.View view;
+            if (controlId == "NewView")
+            {
+                view = new Libraries.Settings.View(SiteSettings);
+                OpenViewDialog(res, view);
+            }
+            else
+            {
+                var idList = Forms.IntList("Views", ';');
+                if (idList.Count() != 1)
+                {
+                    OpenViewError(res, Messages.SelectOne());
+                }
+                else
+                {
+                    view = SiteSettings.Views.FirstOrDefault(o => o.Id == idList.First());
+                    if (view == null)
+                    {
+                        OpenViewError(res, Messages.SelectOne());
+                    }
+                    else
+                    {
+                        SiteSettingsUtility.Get(this);
+                        OpenViewDialog(res, view);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenViewDialog(
+            ResponseCollection res, Libraries.Settings.View view)
+        {
+            res.Html("#ViewDialog", SiteUtilities.ViewDialog(
+                ss: SiteSettings,
+                controlId: Forms.ControlId(),
+                view: view));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenViewError(ResponseCollection res, Message message)
+        {
+            res
+                .Message(message)
+                .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AddViewFilter(ResponseCollection res)
+        {
+            SiteSettingsUtility.Get(this);
+            res
+                .Append(
+                    "#ViewFiltersTab .items",
+                    new HtmlBuilder().ViewFilter(
+                        SiteSettings.GetColumn(Forms.Data("ViewFilterSelector"))))
+                .Remove("#ViewFilterSelector option:selected");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CreateView(ResponseCollection res)
+        {
+            SiteSettings.AddView(new Libraries.Settings.View(SiteSettings));
+            res
+                .ViewResponses(SiteSettings, new List<int>
+                {
+                    SiteSettings.ViewLatestId
+                })
+                .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateView(ResponseCollection res)
+        {
+            var selected = Forms.Int("ViewId");
+            var view = SiteSettings.Views.FirstOrDefault(o => o.Id == selected);
+            if (view == null)
+            {
+                res.Message(Messages.NotFound());
+            }
+            else
+            {
+                view.SetByForm(SiteSettings);
+                res
+                    .ViewResponses(SiteSettings, new List<int> { selected })
+                    .CloseDialog();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void DeleteViews(ResponseCollection res)
+        {
+            SiteSettings.Views.RemoveAll(o => Forms.IntList("Views", ';').Contains(o.Id));
+            res.ViewResponses(SiteSettings);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void OpenNotificationDialog(ResponseCollection res, string controlId)
         {
             var notification = controlId == "EditNotification"
                 ? GetNotification(Forms.Int("NotificationId"))
                 : new Notification(
                     Notification.Types.Mail,
-                    string.Empty,
                     string.Empty,
                     string.Empty,
                     SiteSettings.EditorColumns
@@ -1180,12 +1329,10 @@ namespace Implem.Pleasanter.Models
             else
             {
                 Session_MonitorChangesColumns(notification.MonitorChangesColumns);
-                res
-                    .Html("#NotificationDialog", SiteUtilities.NotificationDialog(
-                        ss: SiteSettings,
-                        controlId: Forms.ControlId(),
-                        notification: notification))
-                    .Invoke("validateSites");
+                res.Html("#NotificationDialog", SiteUtilities.NotificationDialog(
+                    ss: SiteSettings,
+                    controlId: Forms.ControlId(),
+                    notification: notification));
             }
         }
 
@@ -1198,7 +1345,6 @@ namespace Implem.Pleasanter.Models
                 (Notification.Types)Forms.Int("NotificationType"),
                 Forms.Data("NotificationPrefix"),
                 Forms.Data("NotificationAddress"),
-                Forms.Data("NotificationToken"),
                 Session_MonitorChangesColumns()));
             SetNotificationsResponseCollection(res);
         }
@@ -1218,7 +1364,6 @@ namespace Implem.Pleasanter.Models
                 notification.Update(
                     Forms.Data("NotificationPrefix"),
                     Forms.Data("NotificationAddress"),
-                    Forms.Data("NotificationToken"),
                     Session_MonitorChangesColumns());
                 SetNotificationsResponseCollection(res);
             }
@@ -1314,7 +1459,7 @@ namespace Implem.Pleasanter.Models
         public string SynchronizeFormulas()
         {
             SetSiteSettingsPropertiesBySession();
-            SiteSettings.SetChoicesByLinks();
+            SiteSettings.SetChoiceHash();
             FormulaUtilities.Synchronize(this);
             return Messages.ResponseSynchronizationCompleted().ToJson();
         }

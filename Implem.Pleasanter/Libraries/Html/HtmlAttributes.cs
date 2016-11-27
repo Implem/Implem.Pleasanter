@@ -384,6 +384,66 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
+        public HtmlAttributes DataValidateRequired(bool value, bool _using = true)
+        {
+            if (value && _using)
+            {
+                Add("data-validate-required");
+                Add("1");
+            }
+            return this;
+        }
+
+        public HtmlAttributes DataValidateNumber(bool value, bool _using = true)
+        {
+            if (value && _using)
+            {
+                Add("data-validate-number");
+                Add("1");
+            }
+            return this;
+        }
+
+        public HtmlAttributes DataValidateDate(bool value, bool _using = true)
+        {
+            if (value && _using)
+            {
+                Add("data-validate-date");
+                Add("1");
+            }
+            return this;
+        }
+
+        public HtmlAttributes DataValidateEmail(bool value, bool _using = true)
+        {
+            if (value && _using)
+            {
+                Add("data-validate-email");
+                Add("1");
+            }
+            return this;
+        }
+
+        public HtmlAttributes DataValidateEqualTo(string value, bool _using = true)
+        {
+            if (!value.IsNullOrEmpty() && _using)
+            {
+                Add("data-validate-equal-to");
+                Add(value);
+            }
+            return this;
+        }
+
+        public HtmlAttributes DataValidateMaxLength(int value, bool _using = true)
+        {
+            if (value > 0 && _using)
+            {
+                Add("data-validate-maxlength");
+                Add(value.ToString());
+            }
+            return this;
+        }
+
         public HtmlAttributes DataClass(string value, bool _using = true)
         {
             if (!value.IsNullOrEmpty() && _using)

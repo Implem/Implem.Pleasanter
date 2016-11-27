@@ -104,11 +104,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 o.Body).Join("\n\n");
         }
 
-        public string ToNotice(
-            string saved,
-            Column column,
-            bool updated,
-            bool update)
+        public string ToNotice(string saved, Column column, bool updated, bool update)
         {
             switch (Routes.Action())
             {

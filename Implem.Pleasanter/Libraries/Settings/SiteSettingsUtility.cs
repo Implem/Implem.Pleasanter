@@ -56,7 +56,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var ss = new SiteSettings();
             ss.ReferenceType = "Depts";
             ss.Init();
-            ss.SetChoicesByPlaceholders();
+            ss.SetChoiceHash(withLink: false);
             return ss;
         }
 
@@ -65,7 +65,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var ss = new SiteSettings();
             ss.ReferenceType = "Users";
             ss.Init();
-            ss.SetChoicesByPlaceholders();
+            ss.SetChoiceHash(withLink: false);
             return ss;
         }
 
@@ -165,8 +165,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.Title = siteModel.Title.Value;
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init();
-            ss.SetChoicesByLinks();
-            ss.SetChoicesByPlaceholders();
+            ss.SetChoiceHash();
             return ss;
         }
 
@@ -176,8 +175,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.ReferenceType = "Issues";
             ss.SiteId = siteId;
             ss.Init();
-            ss.SetChoicesByLinks();
-            ss.SetChoicesByPlaceholders();
+            ss.SetChoiceHash();
             return ss;
         }
 
@@ -191,8 +189,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.Title = siteModel.Title.Value;
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init();
-            ss.SetChoicesByLinks();
-            ss.SetChoicesByPlaceholders();
+            ss.SetChoiceHash();
             return ss;
         }
 
@@ -202,8 +199,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.ReferenceType = "Results";
             ss.SiteId = siteId;
             ss.Init();
-            ss.SetChoicesByLinks();
-            ss.SetChoicesByPlaceholders();
+            ss.SetChoiceHash();
             return ss;
         }
 
@@ -217,8 +213,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.Title = siteModel.Title.Value;
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init();
-            ss.SetChoicesByLinks();
-            ss.SetChoicesByPlaceholders();
+            ss.SetChoiceHash();
             return ss;
         }
 
@@ -228,8 +223,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.ReferenceType = "Wikis";
             ss.SiteId = siteId;
             ss.Init();
-            ss.SetChoicesByLinks();
-            ss.SetChoicesByPlaceholders();
+            ss.SetChoiceHash();
             return ss;
         }
 

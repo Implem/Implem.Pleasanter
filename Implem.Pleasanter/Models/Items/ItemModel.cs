@@ -92,7 +92,7 @@ namespace Implem.Pleasanter.Models
                 return SiteUtilities.SiteTop();
             }
             SetSite();
-            DataViewSelectors.Set(Site.SiteId);
+            ViewModes.Set(Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Sites": return SiteUtilities.SiteMenu(Site);
@@ -109,7 +109,7 @@ namespace Implem.Pleasanter.Models
         public string IndexJson()
         {
             SetSite();
-            DataViewSelectors.Set(Site.SiteId);
+            ViewModes.Set(Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.IndexJson(
@@ -125,7 +125,7 @@ namespace Implem.Pleasanter.Models
         public string Gantt()
         {
             SetSite();
-            DataViewSelectors.Set(Site.SiteId);
+            ViewModes.Set(Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.Gantt(
@@ -138,7 +138,7 @@ namespace Implem.Pleasanter.Models
         public string GanttJson()
         {
             SetSite();
-            DataViewSelectors.Set(Site.SiteId);
+            ViewModes.Set(Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.GanttJson(
@@ -151,7 +151,7 @@ namespace Implem.Pleasanter.Models
         public string BurnDown()
         {
             SetSite();
-            DataViewSelectors.Set(Site.SiteId);
+            ViewModes.Set(Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.BurnDown(
@@ -164,7 +164,7 @@ namespace Implem.Pleasanter.Models
         public string BurnDownJson()
         {
             SetSite();
-            DataViewSelectors.Set(Site.SiteId);
+            ViewModes.Set(Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.BurnDownJson(
@@ -188,7 +188,7 @@ namespace Implem.Pleasanter.Models
         public string TimeSeries()
         {
             SetSite();
-            DataViewSelectors.Set(Site.SiteId);
+            ViewModes.Set(Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.TimeSeries(
@@ -204,7 +204,7 @@ namespace Implem.Pleasanter.Models
         public string TimeSeriesJson()
         {
             SetSite();
-            DataViewSelectors.Set(Site.SiteId);
+            ViewModes.Set(Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.TimeSeriesJson(
@@ -220,7 +220,7 @@ namespace Implem.Pleasanter.Models
         public string Kamban()
         {
             SetSite();
-            DataViewSelectors.Set(Site.SiteId);
+            ViewModes.Set(Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.Kamban(
@@ -236,7 +236,7 @@ namespace Implem.Pleasanter.Models
         public string KambanJson()
         {
             SetSite();
-            DataViewSelectors.Set(Site.SiteId);
+            ViewModes.Set(Site.SiteId);
             switch (Site.ReferenceType)
             {
                 case "Issues": return IssueUtilities.KambanJson(
@@ -271,7 +271,6 @@ namespace Implem.Pleasanter.Models
             return new ResponseCollection()
                 .ReplaceAll("#MainContainer", New())
                 .ReplaceAll("#ItemValidator", new HtmlBuilder().ItemValidator(Site.ReferenceType))
-                .Invoke("validate" + Site.ReferenceType)
                 .WindowScrollTop()
                 .FocusMainForm()
                 .ClearFormData()

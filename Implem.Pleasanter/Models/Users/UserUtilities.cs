@@ -28,11 +28,11 @@ namespace Implem.Pleasanter.Models
         public static string Index(SiteSettings ss, Permissions.Types pt)
         {
             var hb = new HtmlBuilder();
-            var formData = DataViewFilters.SessionFormData();
+            var view = Views.GetBySession(ss);
             var userCollection = UserCollection(
                 ss,
                 Permissions.Admins(),
-                formData);
+                view);
             return hb.Template(
                 pt: pt,
                 verType: Versions.VerTypes.Latest,
@@ -49,16 +49,16 @@ namespace Implem.Pleasanter.Models
                                 .Class("main-form")
                                 .Action(Locations.Action("Users")),
                             action: () => hb
-                                .DataViewFilters(ss)
+                                .ViewFilters(ss: ss, view: view)
                                 .Aggregations(
                                     ss: ss,
                                     aggregations: userCollection.Aggregations)
-                                .Div(id: "DataViewContainer", action: () => hb
+                                .Div(id: "ViewModeContainer", action: () => hb
                                     .Grid(
                                         userCollection: userCollection,
                                         pt: pt,
                                         ss: ss,
-                                        formData: formData))
+                                        view: view))
                                 .MainCommands(
                                     siteId: ss.SiteId,
                                     pt: pt,
@@ -80,14 +80,14 @@ namespace Implem.Pleasanter.Models
                 }).ToString();
         }
 
-        private static string DataViewTemplate(
+        private static string ViewModeTemplate(
             this HtmlBuilder hb,
             SiteSettings ss,
             Permissions.Types pt,
             UserCollection userCollection,
-            FormData formData,
-            string dataViewName,
-            Action dataViewBody)
+            View view,
+            string viewMode,
+            Action viewModeBody)
         {
             return hb.Template(
                 pt: pt,
@@ -97,11 +97,8 @@ namespace Implem.Pleasanter.Models
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Users",
-                script: Libraries.Scripts.JavaScripts.DataView(
-                    ss: ss,
-                    pt: pt,
-                    formData: formData,
-                    dataViewName: dataViewName),
+                script: Libraries.Scripts.JavaScripts.ViewMode(
+                    ss: ss, pt: pt, viewMode: viewMode),
                 userScript: ss.GridScript,
                 userStyle: ss.GridStyle,
                 action: () => hb
@@ -111,11 +108,12 @@ namespace Implem.Pleasanter.Models
                             .Class("main-form")
                             .Action(Locations.ItemAction(ss.SiteId)),
                         action: () => hb
-                            .DataViewFilters(ss: ss)
+                            .ViewSelector(ss: ss, view: view)
+                            .ViewFilters(ss: ss, view: view)
                             .Aggregations(
                                 ss: ss,
                                 aggregations: userCollection.Aggregations)
-                            .Div(id: "DataViewContainer", action: () => dataViewBody())
+                            .Div(id: "ViewModeContainer", action: () => viewModeBody())
                             .MainCommands(
                                 siteId: ss.SiteId,
                                 pt: pt,
@@ -137,15 +135,15 @@ namespace Implem.Pleasanter.Models
 
         public static string IndexJson(SiteSettings ss, Permissions.Types pt)
         {
-            var formData = DataViewFilters.SessionFormData();
-            var userCollection = UserCollection(ss, pt, formData);
+            var view = Views.GetBySession(ss);
+            var userCollection = UserCollection(ss, pt, view);
             return new ResponseCollection()
-                .Html("#DataViewContainer", new HtmlBuilder().Grid(
+                .Html("#ViewModeContainer", new HtmlBuilder().Grid(
                     ss: ss,
                     userCollection: userCollection,
                     pt: pt,
-                    formData: formData))
-                .DataViewFilters(ss: ss)
+                    view: view))
+                .View(ss: ss, view: view)
                 .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
                     ss: ss,
                     aggregations: userCollection.Aggregations))
@@ -155,20 +153,16 @@ namespace Implem.Pleasanter.Models
         private static UserCollection UserCollection(
             SiteSettings ss,
             Permissions.Types pt,
-            FormData formData,
+            View view,
             int offset = 0)
         {
             return new UserCollection(
                 ss: ss,
                 pt: pt,
                 column: GridSqlColumnCollection(ss),
-                where: DataViewFilters.Get(
-                    ss: ss,
-                    tableName: "Users",
-                    formData: formData,
-                    where: Rds.UsersWhere().TenantId(Sessions.TenantId())),
-                orderBy: GridSorters.Get(
-                    formData, Rds.UsersOrderBy().UpdatedTime(SqlOrderBy.Types.desc)),
+                where: view.Where(ss, Rds.UsersWhere().TenantId(Sessions.TenantId())),
+                orderBy: view.OrderBy(ss, Rds.UsersOrderBy()
+                    .UpdatedTime(SqlOrderBy.Types.desc)),
                 offset: offset,
                 pageSize: ss.GridPageSize.ToInt(),
                 countRecord: true,
@@ -180,7 +174,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Permissions.Types pt,
             UserCollection userCollection,
-            FormData formData)
+            View view)
         {
             return hb
                 .Table(
@@ -193,14 +187,24 @@ namespace Implem.Pleasanter.Models
                         .GridRows(
                             ss: ss,
                             userCollection: userCollection,
-                            formData: formData))
+                            view: view))
                 .Hidden(
                     controlId: "GridOffset",
                     value: ss.GridNextOffset(
                         0,
                         userCollection.Count(),
                         userCollection.Aggregations.TotalCount)
-                            .ToString());
+                            .ToString())
+                .Button(
+                    controlId: "ViewSorter",
+                    controlCss: "hidden",
+                    action: "GridRows",
+                    method: "post")
+                .Button(
+                    controlId: "ViewSorters_Reset",
+                    controlCss: "hidden",
+                    action: "GridRows",
+                    method: "post");
         }
 
         public static string GridRows(
@@ -211,8 +215,8 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false,
             Message message = null)
         {
-            var formData = DataViewFilters.SessionFormData();
-            var userCollection = UserCollection(ss, pt, formData, offset);
+            var view = Views.GetBySession(ss);
+            var userCollection = UserCollection(ss, pt, view, offset);
             return (res ?? new ResponseCollection())
                 .Remove(".grid tr", _using: offset == 0)
                 .ClearFormData("GridCheckAll", _using: clearCheck)
@@ -222,7 +226,7 @@ namespace Implem.Pleasanter.Models
                 .Append("#Grid", new HtmlBuilder().GridRows(
                     ss: ss,
                     userCollection: userCollection,
-                    formData: formData,
+                    view: view,
                     addHeader: offset == 0,
                     clearCheck: clearCheck))
                 .Val("#GridOffset", ss.GridNextOffset(
@@ -236,7 +240,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             SiteSettings ss,
             UserCollection userCollection,
-            FormData formData,
+            View view,
             bool addHeader = true,
             bool clearCheck = false)
         {
@@ -248,7 +252,7 @@ namespace Implem.Pleasanter.Models
                     action: () => hb
                         .GridHeader(
                             columnCollection: columns, 
-                            formData: formData,
+                            view: view,
                             checkAll: checkAll))
                 .TBody(action: () => userCollection
                     .ForEach(userModel => hb
@@ -610,7 +614,6 @@ namespace Implem.Pleasanter.Models
                 .ReplaceAll("#MainContainer", Editor(userModel))
                 .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
                 .Invoke("setCurrentIndex")
-                .Invoke("validateUsers")
                 .Message(message)
                 .ClearFormData();
         }
@@ -622,18 +625,14 @@ namespace Implem.Pleasanter.Models
         {
             if (Permissions.Admins().CanEditTenant())
             {
-                var formData = DataViewFilters.SessionFormData();
+                var view = Views.GetBySession(ss);
                 var switchTargets = Rds.ExecuteTable(
                     transactional: false,
                     statements: Rds.SelectUsers(
                         column: Rds.UsersColumn().UserId(),
-                        where: DataViewFilters.Get(
-                            ss: ss,
-                            tableName: "Users",
-                            formData: formData,
-                            where: Rds.UsersWhere().TenantId(Sessions.TenantId())),
-                        orderBy: GridSorters.Get(
-                            formData, Rds.UsersOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
+                        where: view.Where(ss, Rds.UsersWhere().TenantId(Sessions.TenantId())),
+                        orderBy: view.OrderBy(
+                            ss, Rds.UsersOrderBy().UpdatedTime(SqlOrderBy.Types.desc))))
                                 .AsEnumerable()
                                 .Select(o => o["UserId"].ToInt())
                                 .ToList();

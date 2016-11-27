@@ -26,10 +26,12 @@
         ValidateNumber_ja: '数値以外入力不可です。',
         ValidateDate: 'This is an invalid date.',
         ValidateDate_ja: '日付または時刻が不正です。',
-        ValidateMail: 'Doesn’t look like a valid email.',
-        ValidateMail_ja: 'メールアドレスの形式が不正です。',
+        ValidateEmail: 'Doesn’t look like a valid email.',
+        ValidateEmail_ja: 'メールアドレスの形式が不正です。',
         ValidateEqualTo: 'Please enter the same value again.',
-        ValidateEqualTo_ja: '入力した文字列が一致しません。'
+        ValidateEqualTo_ja: '入力した文字列が一致しません。',
+        ValidateMaxLength: 'Entered is too long.',
+        ValidateMaxLength_ja: '入力した文字が長すぎます。'
     };
     var localId = defaultId + '_' + $('#Language').val();
     if (displays[localId]) {

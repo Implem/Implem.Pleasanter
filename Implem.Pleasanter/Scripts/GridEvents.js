@@ -56,8 +56,6 @@ $(function () {
             $(this).append($('<li/>')
                 .addClass('sort')
                 .attr('data-order-type', orderType)
-                .attr('data-action', 'GridRows')
-                .attr('data-method', 'post')
                 .append($('<span/>').addClass('ui-icon ' + iconCss))
                 .append($('<span/>').text($p.display('Order' + orderType))));
             return $(this);
@@ -65,8 +63,6 @@ $(function () {
         addMenuReset: function () {
             $(this).append($('<li/>')
                 .addClass('reset')
-                .attr('data-action', 'GridRows')
-                .attr('data-method', 'post')
                 .append($('<span/>').addClass('ui-icon ui-icon-power'))
                 .append($('<span/>').text($p.display('ResetOrder'))));
             return $(this);
@@ -76,17 +72,17 @@ $(function () {
         var $control = $($(this).parent().attr('data-target'));
         var data = $p.getData($control);
         data[$control.attr('id')] = $(this).attr('data-order-type');
-        $p.send($(this));
+        $p.send($('#ViewSorter'));
         delete data[$control.attr('id')];
         e.stopPropagation();
     });
     $(document).on('click', '.menu-sort > li.reset', function (e) {
         var data = $p.getData($(this));
-        $('[id^="GridSorters_"]').each(function () {
+        $('[id^="ViewSorters_"]').each(function () {
             data[this.id] = '';
         });
-        $p.send($(this));
-        $('[id^="GridSorters_"]').each(function () {
+        $p.send($('#ViewSorters_Reset'));
+        $('[id^="ViewSorters_"]').each(function () {
             delete data[this.id];
         });
         e.stopPropagation();

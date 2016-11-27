@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-namespace Implem.Pleasanter.Libraries.DataViews
+namespace Implem.Pleasanter.Libraries.ViewModes
 {
     public class Gantt : List<GanttElement>
     {
@@ -15,8 +15,7 @@ namespace Implem.Pleasanter.Libraries.DataViews
         [NonSerialized]
         public Column GroupByColumn;
 
-        public Gantt(
-            SiteSettings ss, IEnumerable<DataRow> dataRows, string groupByColumn)
+        public Gantt(SiteSettings ss, IEnumerable<DataRow> dataRows, string groupByColumn)
         {
             SiteSettings = ss;
             GroupByColumn = SiteSettings.GetColumn(groupByColumn);

@@ -5,9 +5,8 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
-using System.Text.RegularExpressions;
-
 namespace Implem.Pleasanter.Libraries.Settings
 {
     public class Column
@@ -24,6 +23,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ControlType;
         public string Format;
         public string GridDesign;
+        public bool? ValidateRequired;
+        public bool? ValidateNumber;
+        public bool? ValidateDate;
+        public bool? ValidateEmail;
+        public string ValidateEqualTo;
+        public int? ValidateMaxLength;
         public int? DecimalPlaces;
         public decimal? Min;
         public decimal? Max;
@@ -97,8 +102,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public bool Computable;
         [NonSerialized]
-        public string Validators;
-        [NonSerialized]
         public bool? FloatClear;
         [NonSerialized]
         public Dictionary<string, Choice> ChoiceHash;
@@ -127,7 +130,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             ColumnName = columnName;
         }
 
-        public void SetChoicesByPlaceholders(long siteId)
+        public void SetChoiceHash(
+            long siteId, Dictionary<string, Dictionary<string, string>> linkHash)
         {
             var tenantId = Sessions.TenantId();
             ChoiceHash = new Dictionary<string, Settings.Choice>();
@@ -165,7 +169,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     o.StandardName));
                             break;
                         default:
-                            if (TypeName != "bit")
+                            if (linkHash != null && linkHash.ContainsKey(data.Line))
+                            {
+                                linkHash[data.Line].ForEach(line =>
+                                    AddToChoiceHash(line.Key, line.Value));
+                            }
+                            else if (TypeName != "bit")
                             {
                                 AddToChoiceHash(data.Line);
                             }

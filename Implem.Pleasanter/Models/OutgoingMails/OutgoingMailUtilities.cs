@@ -176,7 +176,6 @@ namespace Implem.Pleasanter.Models
                                         ss: ss,
                                         referenceId: siteModel.InheritPermission)))))
                 .Invoke("initOutgoingMailDialog")
-                .Invoke("validateOutgoingMails")
                 .Focus("#OutgoingMails_Body")
                 .ToJson();
         }
@@ -190,6 +189,8 @@ namespace Implem.Pleasanter.Models
             OutgoingMailModel outgoingMailModel)
         {
             outgoingMailModel.SiteSettings = SiteSettingsUtility.OutgoingMailsSiteSettings();
+            var titleColumn = outgoingMailModel.SiteSettings.GetColumn("Title");
+            var bodyColumn = outgoingMailModel.SiteSettings.GetColumn("Body");
             return hb
                 .FieldBasket(
                     controlId: "OutgoingMails_To",
@@ -214,14 +215,18 @@ namespace Implem.Pleasanter.Models
                     fieldCss: "field-wide",
                     controlCss: " must-transport",
                     labelText: Displays.OutgoingMails_Title(),
-                    text: ReplyTitle(outgoingMailModel))
+                    text: ReplyTitle(outgoingMailModel),
+                    validateRequired: titleColumn.ValidateRequired ?? false,
+                    validateMaxLength: titleColumn.ValidateMaxLength ?? 0)
                 .FieldTextBox(
                     textType: HtmlTypes.TextTypes.MultiLine,
                     controlId: "OutgoingMails_Body",
                     fieldCss: "field-wide",
                     controlCss: " must-transport h300",
                     labelText: Displays.OutgoingMails_Body(),
-                    text: ReplyBody(outgoingMailModel))
+                    text: ReplyBody(outgoingMailModel),
+                    validateRequired: bodyColumn.ValidateRequired ?? false,
+                    validateMaxLength: bodyColumn.ValidateMaxLength ?? 0)
                 .P(css: "message-dialog")
                 .Div(css: "command-center", action: () => hb
                     .Button(

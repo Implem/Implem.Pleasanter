@@ -8,7 +8,6 @@ namespace Implem.Pleasanter
         public static void RegisterBundles(BundleCollection bundles)
         {
             AddGenerals(bundles);
-            AddValidators(bundles);
             AddStyles(bundles);
         }
 
@@ -33,9 +32,9 @@ namespace Implem.Pleasanter
                 "~/Scripts/AggregationEvents.js",
                 "~/Scripts/AnchorEvents.js",
                 "~/Scripts/Basket.js",
+                "~/Scripts/BasketEvents.js",
                 "~/Scripts/BurnDown.js",
                 "~/Scripts/BurnDownEvents.js",
-                "~/Scripts/DataView.js",
                 "~/Scripts/Dialog.js",
                 "~/Scripts/DialogEvents.js",
                 "~/Scripts/Display.js",
@@ -77,32 +76,10 @@ namespace Implem.Pleasanter
                 "~/Scripts/StatusEvents.js",
                 "~/Scripts/SubmitEvents.js",
                 "~/Scripts/TimeSeries.js",
+                "~/Scripts/ViewMode.js",
                 "~/Scripts/_Show.js",
-                "~/Scripts/Validators/_Shared.js",
-                "~/Scripts/Validators/Custom.js"
+                "~/Scripts/Validator.js"
             };
-        }
-
-        private static void AddValidators(BundleCollection bundles)
-        {
-            bundles.Add(new ScriptBundle("~/bundles/TenantsValidator")
-                .Include("~/Scripts/Validators/Tenants.js"));
-            bundles.Add(new ScriptBundle("~/bundles/DemosValidator")
-                .Include("~/Scripts/Validators/Demos.js"));
-            bundles.Add(new ScriptBundle("~/bundles/DeptsValidator")
-                .Include("~/Scripts/Validators/Depts.js"));
-            bundles.Add(new ScriptBundle("~/bundles/UsersValidator")
-                .Include("~/Scripts/Validators/Users.js"));
-            bundles.Add(new ScriptBundle("~/bundles/OutgoingMailsValidator")
-                .Include("~/Scripts/Validators/OutgoingMails.js"));
-            bundles.Add(new ScriptBundle("~/bundles/SitesValidator")
-                .Include("~/Scripts/Validators/Sites.js"));
-            bundles.Add(new ScriptBundle("~/bundles/IssuesValidator")
-                .Include("~/Scripts/Validators/Issues.js"));
-            bundles.Add(new ScriptBundle("~/bundles/ResultsValidator")
-                .Include("~/Scripts/Validators/Results.js"));
-            bundles.Add(new ScriptBundle("~/bundles/WikisValidator")
-                .Include("~/Scripts/Validators/Wikis.js"));
         }
 
         private static void AddStyles(BundleCollection bundles)
