@@ -1290,37 +1290,37 @@ namespace Implem.Pleasanter.Models
         {
             if (SiteSettings.FormulaHash?.Count > 0)
             {
-                var data = new Dictionary<string, decimal>
-                {
-                    { "NumA", NumA },
-                    { "NumB", NumB },
-                    { "NumC", NumC },
-                    { "NumD", NumD },
-                    { "NumE", NumE },
-                    { "NumF", NumF },
-                    { "NumG", NumG },
-                    { "NumH", NumH },
-                    { "NumI", NumI },
-                    { "NumJ", NumJ },
-                    { "NumK", NumK },
-                    { "NumL", NumL },
-                    { "NumM", NumM },
-                    { "NumN", NumN },
-                    { "NumO", NumO },
-                    { "NumP", NumP },
-                    { "NumQ", NumQ },
-                    { "NumR", NumR },
-                    { "NumS", NumS },
-                    { "NumT", NumT },
-                    { "NumU", NumU },
-                    { "NumV", NumV },
-                    { "NumW", NumW },
-                    { "NumX", NumX },
-                    { "NumY", NumY },
-                    { "NumZ", NumZ }
-                };
                 SiteSettings.FormulaHash.Keys.ForEach(columnName =>
                 {
+                    var data = new Dictionary<string, decimal>
+                    {
+                        { "NumA", NumA },
+                        { "NumB", NumB },
+                        { "NumC", NumC },
+                        { "NumD", NumD },
+                        { "NumE", NumE },
+                        { "NumF", NumF },
+                        { "NumG", NumG },
+                        { "NumH", NumH },
+                        { "NumI", NumI },
+                        { "NumJ", NumJ },
+                        { "NumK", NumK },
+                        { "NumL", NumL },
+                        { "NumM", NumM },
+                        { "NumN", NumN },
+                        { "NumO", NumO },
+                        { "NumP", NumP },
+                        { "NumQ", NumQ },
+                        { "NumR", NumR },
+                        { "NumS", NumS },
+                        { "NumT", NumT },
+                        { "NumU", NumU },
+                        { "NumV", NumV },
+                        { "NumW", NumW },
+                        { "NumX", NumX },
+                        { "NumY", NumY },
+                        { "NumZ", NumZ }
+                    };
                     switch (columnName)
                     {
                         case "NumA": NumA = SiteSettings.FormulaResult(columnName, data); break;

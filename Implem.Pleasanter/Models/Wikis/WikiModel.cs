@@ -385,11 +385,11 @@ namespace Implem.Pleasanter.Models
         {
             if (SiteSettings.FormulaHash?.Count > 0)
             {
-                var data = new Dictionary<string, decimal>
-                {
-                };
                 SiteSettings.FormulaHash.Keys.ForEach(columnName =>
                 {
+                    var data = new Dictionary<string, decimal>
+                    {
+                    };
                     switch (columnName)
                     {
                         default: break;
