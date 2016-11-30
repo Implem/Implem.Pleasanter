@@ -94,26 +94,26 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder Parts(
-           this HtmlBuilder hb, SiteSettings ss, Aggregations aggregations)
+            this HtmlBuilder hb, SiteSettings ss, Aggregations aggregations)
         {
             aggregations.AggregationCollection
                 .Where(o => o.Data.Count > 0)
                 .ForEach(aggregation =>
                 {
                     var html = string.Empty;
-                    var groupByColumn = ss.GetColumn(aggregation.GroupBy);
+                    var groupBy = ss.GetColumn(aggregation.GroupBy);
                     var targetColumn = ss.GetColumn(aggregation.Target);
                     if (aggregation.Data.Count > 0)
                     hb.GroupBy(
-                        groupByColumn: groupByColumn,
+                        groupBy: groupBy,
                         targetColumn: targetColumn,
                         aggregation: aggregation);
                     aggregation.Data.OrderByDescending(o => o.Value).ForEach(data =>
                     {
                         hb.LabelValue(
-                            label: groupByColumn != null
+                            label: groupBy != null
                                 ? Label(
-                                    groupByColumn: groupByColumn,
+                                    groupBy: groupBy,
                                     selectedValue: data.Key)
                                 : string.Empty,
                             value: (targetColumn != null 
@@ -123,7 +123,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         ? targetColumn?.Unit
                                         : string.Empty),
                             attributes: new HtmlAttributes()
-                                .Attributes(ss, aggregation, groupByColumn, data.Key));
+                                .Attributes(ss, aggregation, groupBy, data.Key));
                     });
                 });
             return hb;
@@ -131,12 +131,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder GroupBy(
             this HtmlBuilder hb,
-            Column groupByColumn,
+            Column groupBy,
             Column targetColumn,
             Aggregation aggregation)
         {
-            var text = groupByColumn != null
-                ? groupByColumn.GridLabelText + ": "
+            var text = groupBy != null
+                ? groupBy.GridLabelText + ": "
                 : string.Empty;
             switch (aggregation.Type)
             {
@@ -152,16 +152,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Text(text: text));
         }
 
-        private static string Label(Column groupByColumn, string selectedValue)
+        private static string Label(Column groupBy, string selectedValue)
         {
-            if (groupByColumn.UserColumn)
+            if (groupBy.UserColumn)
             {
                 return SiteInfo.UserFullName(selectedValue.ToInt());
             }
-            else if (groupByColumn.HasChoices())
+            else if (groupBy.HasChoices())
             {
-                var label = groupByColumn.Choice(selectedValue).TextMini;
-                if (groupByColumn.TypeName.CsTypeSummary() == Types.CsNumeric && label == "0")
+                var label = groupBy.Choice(selectedValue).TextMini;
+                if (groupBy.TypeName.CsTypeSummary() == Types.CsNumeric && label == "0")
                 {
                     return Displays.NotSet();
                 }
@@ -184,22 +184,22 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlAttributes attributes,
             SiteSettings ss,
             Aggregation aggregation,
-            Column groupByColumn, string key)
+            Column groupBy, string key)
         {
-            return groupByColumn != null
+            return groupBy != null
                 ? attributes
-                    .Class("data" + (groupByColumn != null
+                    .Class("data" + (groupBy != null
                         ? " link"
                         : string.Empty))
                     .DataSelector(Selector(ss, aggregation.GroupBy))
-                    .DataValue(DataValue(groupByColumn, key))
+                    .DataValue(DataValue(groupBy, key))
                 : attributes
                     .Class("data");
         }
 
-        private static string DataValue(Column groupByColumn, string key)
+        private static string DataValue(Column groupBy, string key)
         {
-            if (groupByColumn.UserColumn)
+            if (groupBy.UserColumn)
             {
                 if (User.UserTypes.Anonymous.ToInt().ToString() == key)
                 {
