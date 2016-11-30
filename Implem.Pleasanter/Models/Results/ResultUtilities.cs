@@ -2102,10 +2102,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static EnumerableRowCollection<DataRow> TimeSeriesDataRows(
-            SiteSettings ss,
-            Libraries.Settings.View view,
-            string groupByColumn,
-            string valueColumn)
+            SiteSettings ss, View view, string groupByColumn, string valueColumn)
         {
             return groupByColumn != string.Empty && valueColumn != string.Empty
                 ? Rds.ExecuteTable(statements:
