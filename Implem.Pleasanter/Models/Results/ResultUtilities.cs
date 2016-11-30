@@ -2068,33 +2068,33 @@ namespace Implem.Pleasanter.Models
             bool bodyOnly)
         {
             var formData = Forms.All();
-            var groupByColumn = formData.Keys.Contains("TimeSeriesGroupByColumn")
-                ? formData["TimeSeriesGroupByColumn"]
+            var groupBy = !view.TimeSeriesGroupBy.IsNullOrEmpty()
+                ? view.TimeSeriesGroupBy
                 : "Owner";
-            var aggregateType = formData.Keys.Contains("TimeSeriesAggregateType")
-                ? formData["TimeSeriesAggregateType"]
+            var aggregateType = !view.TimeSeriesAggregateType.IsNullOrEmpty()
+                ? view.TimeSeriesAggregateType
                 : "Count";
-            var valueColumn = formData.Keys.Contains("TimeSeriesValueColumn")
-                ? formData["TimeSeriesValueColumn"]
+            var value = !view.TimeSeriesValue.IsNullOrEmpty()
+                ? view.TimeSeriesValue
                 : "NumA";
             var dataRows = TimeSeriesDataRows(
                 ss: ss,
                 view: view,
-                groupByColumn: groupByColumn,
-                valueColumn: valueColumn);
+                groupBy: groupBy,
+                value: value);
             return !bodyOnly
                 ? hb.TimeSeries(
                     ss: ss,
-                    groupByColumn: groupByColumn,
+                    groupBy: groupBy,
                     aggregateType: aggregateType,
-                    valueColumn: valueColumn,
+                    value: value,
                     pt: pt,
                     dataRows: dataRows)
                 : hb.TimeSeriesBody(
                     ss: ss,
-                    groupByColumn: groupByColumn,
+                    groupBy: groupBy,
                     aggregateType: aggregateType,
-                    valueColumn: valueColumn,
+                    value: value,
                     dataRows: dataRows);
         }
 
@@ -2102,9 +2102,9 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static EnumerableRowCollection<DataRow> TimeSeriesDataRows(
-            SiteSettings ss, View view, string groupByColumn, string valueColumn)
+            SiteSettings ss, View view, string groupBy, string value)
         {
-            return groupByColumn != string.Empty && valueColumn != string.Empty
+            return groupBy != string.Empty && value != string.Empty
                 ? Rds.ExecuteTable(statements:
                     Rds.SelectResults(
                         tableType: Sqls.TableTypes.NormalAndHistory,
@@ -2112,8 +2112,8 @@ namespace Implem.Pleasanter.Models
                             .ResultId(_as: "Id")
                             .Ver()
                             .UpdatedTime()
-                            .ResultsColumn(groupByColumn, _as: "Index")
-                            .ResultsColumn(valueColumn, _as: "Value"),
+                            .ResultsColumn(groupBy, _as: "Index")
+                            .ResultsColumn(value, _as: "Value"),
                         where: view.Where(ss, Rds.ResultsWhere().SiteId(ss.SiteId))))
                             .AsEnumerable()
                 : null;
@@ -2179,23 +2179,23 @@ namespace Implem.Pleasanter.Models
             long changedItemId = 0)
         {
             var formData = Forms.All();
-            var groupByColumn = formData.Keys.Contains("KambanGroupByColumn")
-                ? formData["KambanGroupByColumn"]
+            var groupBy = !view.KambanGroupBy.IsNullOrEmpty()
+                ? view.KambanGroupBy
                 : "Status";
-            var aggregateType = formData.Keys.Contains("KambanAggregateType")
-                ? formData["KambanAggregateType"]
+            var aggregateType = !view.KambanAggregateType.IsNullOrEmpty()
+                ? view.KambanAggregateType
                 : "Total";
-            var valueColumn = formData.Keys.Contains("KambanValueColumn")
-                ? formData["KambanValueColumn"]
-                : KambanValueColumn(ss);
+            var value = !view.KambanValue.IsNullOrEmpty()
+                ? view.KambanValue
+                : KambanValue(ss);
             var column = Rds.ResultsColumn()
                 .ResultId()
                 .Manager()
                 .Owner();
             ss.TitleColumnCollection().ForEach(titleColumn =>
                 column.ResultsColumn(titleColumn.ColumnName));
-            column.ResultsColumn(groupByColumn);
-            column.ResultsColumn(valueColumn);
+            column.ResultsColumn(groupBy);
+            column.ResultsColumn(value);
             var data = new ResultCollection(
                 ss: ss,
                 pt: pt,
@@ -2209,22 +2209,22 @@ namespace Implem.Pleasanter.Models
                             Title = o.Title.DisplayValue,
                             Manager = o.Manager,
                             Owner = o.Owner,
-                            Group = o.PropertyValue(groupByColumn),
-                            Value = o.PropertyValue(valueColumn).ToDecimal()
+                            Group = o.PropertyValue(groupBy),
+                            Value = o.PropertyValue(value).ToDecimal()
                         });
             return !bodyOnly
                 ? hb.Kamban(
                     ss: ss,
-                    groupByColumn: groupByColumn,
+                    groupBy: groupBy,
                     aggregateType: aggregateType,
-                    valueColumn: valueColumn,
+                    value: value,
                     pt: pt,
                     data: data)
                 : hb.KambanBody(
                     ss: ss,
-                    groupByColumn: ss.GetColumn(groupByColumn),
+                    groupBy: ss.GetColumn(groupBy),
                     aggregateType: aggregateType,
-                    valueColumn: ss.GetColumn(valueColumn),
+                    value: ss.GetColumn(value),
                     data: data,
                     changedItemId: changedItemId);
         }
@@ -2232,7 +2232,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static string KambanValueColumn(SiteSettings ss)
+        private static string KambanValue(SiteSettings ss)
         {
             var column = ss.EditorColumnCollection()
                 .Where(o => o.Computable)

@@ -14,21 +14,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder TimeSeries(
             this HtmlBuilder hb,
             SiteSettings ss,
-            string groupByColumn,
+            string groupBy,
             string aggregateType,
-            string valueColumn,
+            string value,
             Permissions.Types pt,
             IEnumerable<DataRow> dataRows)
         {
             return hb.Div(css: "both", action: () => hb
                 .FieldDropDown(
-                    controlId: "TimeSeriesGroupByColumn",
+                    controlId: "TimeSeriesGroupBy",
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
                     labelText: Displays.GroupBy(),
                     optionCollection: ss.ColumnCollection.Where(o => o.HasChoices())
                         .ToDictionary(o => o.ColumnName, o => o.LabelText),
-                    selectedValue: groupByColumn,
+                    selectedValue: groupBy,
                     method: "post")
                 .FieldDropDown(
                     controlId: "TimeSeriesAggregateType",
@@ -46,8 +46,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     selectedValue: aggregateType,
                     method: "post")
                 .FieldDropDown(
-                    fieldId: "TimeSeriesValueColumnField",
-                    controlId: "TimeSeriesValueColumn",
+                    fieldId: "TimeSeriesValueField",
+                    controlId: "TimeSeriesValue",
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
                     labelText: Displays.SettingAggregationTarget(),
@@ -55,14 +55,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Where(o => o.Computable)
                         .Where(o => o.TypeName != "datetime")
                         .ToDictionary(o => o.ColumnName, o => o.LabelText),
-                    selectedValue: valueColumn,
+                    selectedValue: value,
                     method: "post")
                 .Div(id: "TimeSeriesBody", action: () => hb
                     .TimeSeriesBody(
                         ss: ss,
-                        groupByColumn: groupByColumn,
+                        groupBy: groupBy,
                         aggregateType: aggregateType,
-                        valueColumn: valueColumn,
+                        value: value,
                         dataRows: dataRows))
                 .MainCommands(
                     siteId: ss.SiteId,
@@ -75,15 +75,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder TimeSeriesBody(
             this HtmlBuilder hb,
             SiteSettings ss,
-            string groupByColumn,
+            string groupBy,
             string aggregateType,
-            string valueColumn,
+            string value,
             IEnumerable<DataRow> dataRows)
         {
             if (dataRows != null && dataRows.Any())
             {
                 var timeSeries = new TimeSeries(
-                    ss, groupByColumn, aggregateType, valueColumn, dataRows);
+                    ss, groupBy, aggregateType, value, dataRows);
                 return hb
                     .Svg(id: "TimeSeries")
                     .Hidden(

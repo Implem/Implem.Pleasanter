@@ -2200,19 +2200,19 @@ namespace Implem.Pleasanter.Models
             bool bodyOnly)
         {
             var forms = Forms.All();
-            var groupByColumn = Forms.All().ContainsKey("GanttGroupByColumn")
-                ? Forms.Data("GanttGroupByColumn")
+            var groupBy = !view.GanttGroupBy.IsNullOrEmpty()
+                ? view.GanttGroupBy
                 : string.Empty;
-            var dataRows = GanttDataRows(ss, view, groupByColumn);
+            var dataRows = GanttDataRows(ss, view, groupBy);
             return !bodyOnly
                 ? hb.Gantt(
                     ss: ss,
-                    groupByColumn: groupByColumn,
+                    groupBy: groupBy,
                     pt: pt,
                     dataRows: dataRows)
                 : hb.GanttBody(
                     ss: ss,
-                    groupByColumn: groupByColumn,
+                    groupBy: groupBy,
                     dataRows: dataRows);
         }
 
@@ -2220,7 +2220,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static EnumerableRowCollection<DataRow> GanttDataRows(
-            SiteSettings ss, Libraries.Settings.View view, string groupByColumn)
+            SiteSettings ss, Libraries.Settings.View view, string groupBy)
         {
             return Rds.ExecuteTable(statements:
                 Rds.SelectIssues(
@@ -2236,7 +2236,7 @@ namespace Implem.Pleasanter.Models
                         .Updator()
                         .CreatedTime()
                         .UpdatedTime()
-                        .IssuesColumn(groupByColumn, _as: "GroupBy"),
+                        .IssuesColumn(groupBy, _as: "GroupBy"),
                     where: view.Where(ss, Rds.IssuesWhere().SiteId(ss.SiteId))))
                         .AsEnumerable();
         }
@@ -2269,8 +2269,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string BurnDownJson(
-            SiteSettings ss, Permissions.Types pt)
+        public static string BurnDownJson(SiteSettings ss, Permissions.Types pt)
         {
             var view = Views.GetBySession(ss);
             var issueCollection = IssueCollection(ss, pt, view);
@@ -2317,46 +2316,45 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss, View view)
         {
             var where = view.Where(ss, Rds.IssuesWhere().SiteId(ss.SiteId));
-            return Rds.ExecuteTable(
-                statements: new SqlStatement[]
-                {
-                    Rds.SelectIssues(
-                        column: Rds.IssuesTitleColumn(ss)
-                            .IssueId(_as: "Id")
-                            .Ver()
-                            .Title()
-                            .WorkValue()
-                            .StartTime()
-                            .CompletionTime()
-                            .ProgressRate()
-                            .Status()
-                            .Updator()
-                            .CreatedTime()
-                            .UpdatedTime(),
-                        where: where,
-                        unionType: Sqls.UnionTypes.Union),
-                    Rds.SelectIssues(
-                        tableType: Sqls.TableTypes.HistoryWithoutFlag,
-                        column: Rds.IssuesTitleColumn(ss)
-                            .IssueId(_as: "Id")
-                            .Ver()
-                            .Title()
-                            .WorkValue()
-                            .StartTime()
-                            .CompletionTime()
-                            .ProgressRate()
-                            .Status()
-                            .Updator()
-                            .CreatedTime()
-                            .UpdatedTime(),
-                        where: Rds.IssuesWhere()
-                            .IssueId_In(sub: Rds.SelectIssues(
-                                column: Rds.IssuesColumn().IssueId(),
-                                where: where)),
-                        orderBy: Rds.IssuesOrderBy()
-                            .IssueId()
-                            .Ver())
-                }).AsEnumerable();
+            return Rds.ExecuteTable(statements: new SqlStatement[]
+            {
+                Rds.SelectIssues(
+                    column: Rds.IssuesTitleColumn(ss)
+                        .IssueId(_as: "Id")
+                        .Ver()
+                        .Title()
+                        .WorkValue()
+                        .StartTime()
+                        .CompletionTime()
+                        .ProgressRate()
+                        .Status()
+                        .Updator()
+                        .CreatedTime()
+                        .UpdatedTime(),
+                    where: where,
+                    unionType: Sqls.UnionTypes.Union),
+                Rds.SelectIssues(
+                    tableType: Sqls.TableTypes.HistoryWithoutFlag,
+                    column: Rds.IssuesTitleColumn(ss)
+                        .IssueId(_as: "Id")
+                        .Ver()
+                        .Title()
+                        .WorkValue()
+                        .StartTime()
+                        .CompletionTime()
+                        .ProgressRate()
+                        .Status()
+                        .Updator()
+                        .CreatedTime()
+                        .UpdatedTime(),
+                    where: Rds.IssuesWhere()
+                        .IssueId_In(sub: Rds.SelectIssues(
+                            column: Rds.IssuesColumn().IssueId(),
+                            where: where)),
+                    orderBy: Rds.IssuesOrderBy()
+                        .IssueId()
+                        .Ver())
+            }).AsEnumerable();
         }
 
         /// <summary>
@@ -2417,33 +2415,33 @@ namespace Implem.Pleasanter.Models
             bool bodyOnly)
         {
             var formData = Forms.All();
-            var groupByColumn = formData.Keys.Contains("TimeSeriesGroupByColumn")
-                ? formData["TimeSeriesGroupByColumn"]
+            var groupBy = !view.TimeSeriesGroupBy.IsNullOrEmpty()
+                ? view.TimeSeriesGroupBy
                 : "Status";
-            var aggregateType = formData.Keys.Contains("TimeSeriesAggregateType")
-                ? formData["TimeSeriesAggregateType"]
+            var aggregateType = !view.TimeSeriesAggregateType.IsNullOrEmpty()
+                ? view.TimeSeriesAggregateType
                 : "Count";
-            var valueColumn = formData.Keys.Contains("TimeSeriesValueColumn")
-                ? formData["TimeSeriesValueColumn"]
+            var value = !view.TimeSeriesValue.IsNullOrEmpty()
+                ? view.TimeSeriesValue
                 : "RemainingWorkValue";
             var dataRows = TimeSeriesDataRows(
                 ss: ss,
                 view: view,
-                groupByColumn: groupByColumn,
-                valueColumn: valueColumn);
+                groupBy: groupBy,
+                value: value);
             return !bodyOnly
                 ? hb.TimeSeries(
                     ss: ss,
-                    groupByColumn: groupByColumn,
+                    groupBy: groupBy,
                     aggregateType: aggregateType,
-                    valueColumn: valueColumn,
+                    value: value,
                     pt: pt,
                     dataRows: dataRows)
                 : hb.TimeSeriesBody(
                     ss: ss,
-                    groupByColumn: groupByColumn,
+                    groupBy: groupBy,
                     aggregateType: aggregateType,
-                    valueColumn: valueColumn,
+                    value: value,
                     dataRows: dataRows);
         }
 
@@ -2451,9 +2449,9 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static EnumerableRowCollection<DataRow> TimeSeriesDataRows(
-            SiteSettings ss, View view, string groupByColumn, string valueColumn)
+            SiteSettings ss, View view, string groupBy, string value)
         {
-            return groupByColumn != string.Empty && valueColumn != string.Empty
+            return groupBy != string.Empty && value != string.Empty
                 ? Rds.ExecuteTable(statements:
                     Rds.SelectIssues(
                         tableType: Sqls.TableTypes.NormalAndHistory,
@@ -2461,8 +2459,8 @@ namespace Implem.Pleasanter.Models
                             .IssueId(_as: "Id")
                             .Ver()
                             .UpdatedTime()
-                            .IssuesColumn(groupByColumn, _as: "Index")
-                            .IssuesColumn(valueColumn, _as: "Value"),
+                            .IssuesColumn(groupBy, _as: "Index")
+                            .IssuesColumn(value, _as: "Value"),
                         where: view.Where(ss, Rds.IssuesWhere().SiteId(ss.SiteId))))
                             .AsEnumerable()
                 : null;
@@ -2529,14 +2527,14 @@ namespace Implem.Pleasanter.Models
             long changedItemId = 0)
         {
             var formData = Forms.All();
-            var groupByColumn = formData.Keys.Contains("KambanGroupByColumn")
-                ? formData["KambanGroupByColumn"]
+            var groupBy = !view.KambanGroupBy.IsNullOrEmpty()
+                ? view.KambanGroupBy
                 : "Status";
-            var aggregateType = formData.Keys.Contains("KambanAggregateType")
-                ? formData["KambanAggregateType"]
+            var aggregateType = !view.KambanAggregateType.IsNullOrEmpty()
+                ? view.KambanAggregateType
                 : "Total";
-            var valueColumn = formData.Keys.Contains("KambanValueColumn")
-                ? formData["KambanValueColumn"]
+            var value = !view.KambanValue.IsNullOrEmpty()
+                ? view.KambanValue
                 : "RemainingWorkValue";
             var column = Rds.IssuesColumn()
                 .IssueId()
@@ -2549,8 +2547,8 @@ namespace Implem.Pleasanter.Models
                 .Owner();
             ss.TitleColumnCollection().ForEach(titleColumn =>
                 column.IssuesColumn(titleColumn.ColumnName));
-            column.IssuesColumn(groupByColumn);
-            column.IssuesColumn(valueColumn);
+            column.IssuesColumn(groupBy);
+            column.IssuesColumn(value);
             var data = new IssueCollection(
                 ss: ss,
                 pt: pt,
@@ -2569,22 +2567,22 @@ namespace Implem.Pleasanter.Models
                             RemainingWorkValue = o.RemainingWorkValue,
                             Manager = o.Manager,
                             Owner = o.Owner,
-                            Group = o.PropertyValue(groupByColumn),
-                            Value = o.PropertyValue(valueColumn).ToDecimal()
+                            Group = o.PropertyValue(groupBy),
+                            Value = o.PropertyValue(value).ToDecimal()
                         });
             return !bodyOnly
                 ? hb.Kamban(
                     ss: ss,
-                    groupByColumn: groupByColumn,
+                    groupBy: groupBy,
                     aggregateType: aggregateType,
-                    valueColumn: valueColumn,
+                    value: value,
                     pt: pt,
                     data: data)
                 : hb.KambanBody(
                     ss: ss,
-                    groupByColumn: ss.GetColumn(groupByColumn),
+                    groupBy: ss.GetColumn(groupBy),
                     aggregateType: aggregateType,
-                    valueColumn: ss.GetColumn(valueColumn),
+                    value: ss.GetColumn(value),
                     data: data,
                     changedItemId: changedItemId);
         }

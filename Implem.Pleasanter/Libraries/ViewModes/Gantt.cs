@@ -13,19 +13,18 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         [NonSerialized]
         public SiteSettings SiteSettings;
         [NonSerialized]
-        public Column GroupByColumn;
+        public Column GroupBy;
 
-        public Gantt(SiteSettings ss, IEnumerable<DataRow> dataRows, string groupByColumn)
+        public Gantt(SiteSettings ss, IEnumerable<DataRow> dataRows, string groupBy)
         {
             SiteSettings = ss;
-            GroupByColumn = SiteSettings.GetColumn(groupByColumn);
-            var statusColumn = SiteSettings.GetColumn("Status");
-            var workValueColumn = SiteSettings.GetColumn("WorkValue");
-            var progressRateColumn = SiteSettings.GetColumn("ProgressRate");
-            var groupCount = 0;
+            GroupBy = SiteSettings.GetColumn(groupBy);
+            var status = SiteSettings.GetColumn("Status");
+            var workValue = SiteSettings.GetColumn("WorkValue");
+            var progressRate = SiteSettings.GetColumn("ProgressRate");
             dataRows.ForEach(dataRow =>
                 Add(new GanttElement(
-                    GroupByColumn != null
+                    GroupBy != null
                         ? dataRow["GroupBy"].ToString()
                         : string.Empty,
                     dataRow["Id"].ToLong(),
@@ -39,12 +38,22 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     dataRow["Updator"].ToInt(),
                     dataRow["CreatedTime"].ToDateTime(),
                     dataRow["UpdatedTime"].ToDateTime(),
-                    statusColumn,
-                    workValueColumn,
-                    progressRateColumn)));
-            if (GroupByColumn != null)
+                    status,
+                    workValue,
+                    progressRate)));
+            AddSummary(dataRows, status, workValue, progressRate);
+        }
+
+        private void AddSummary(
+            IEnumerable<DataRow> dataRows,
+            Column status,
+            Column workValue,
+            Column progressRateColumn)
+        {
+            var groupCount = 0;
+            if (GroupBy != null)
             {
-                GroupByColumn.EditChoices(insertBlank: true).ForEach(choice =>
+                GroupBy.EditChoices(insertBlank: true).ForEach(choice =>
                 {
                     var groupBy = dataRows.Where(o => o["GroupBy"].ToString() == choice.Key);
                     if (groupBy.Any())
@@ -53,8 +62,8 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         AddSummary(
                             choice.Key,
                             choice.Value.Text,
-                            statusColumn,
-                            workValueColumn,
+                            status,
+                            workValue,
                             progressRateColumn,
                             groupBy);
                     }
@@ -68,8 +77,8 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     AddSummary(
                         string.Empty,
                         string.Empty,
-                        statusColumn,
-                        workValueColumn,
+                        status,
+                        workValue,
                         progressRateColumn,
                         dataRows);
                 }
@@ -79,24 +88,24 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         private void AddSummary(
             string groupBy,
             string title,
-            Column statusColumn,
-            Column workValueColumn,
-            Column progressRateColumn,
+            Column status,
+            Column workValue,
+            Column progressRate,
             IEnumerable<DataRow> dataRows)
         {
-            var workValue = dataRows.Sum(o => o["WorkValue"].ToDecimal());
+            var workValueData = dataRows.Sum(o => o["WorkValue"].ToDecimal());
             Add(new GanttElement(
                 groupBy,
                 0,
                 Displays.Total() + ": " + title,
-                workValue,
+                workValueData,
                 dataRows.Min(o => o["StartTime"].ToDateTime()),
                 dataRows.Max(o => o["CompletionTime"].ToDateTime()),
-                workValue != 0
+                workValueData != 0
                     ? dataRows.Sum(o =>
                         o["WorkValue"].ToDecimal() *
                         o["ProgressRate"].ToDecimal()) /
-                        workValue
+                        workValueData
                     : 0,
                 dataRows.Select(o => o["Status"]).AllEqual()
                     ? dataRows.FirstOrDefault()["Status"].ToInt()
@@ -109,15 +118,15 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     : 0,
                 dataRows.Min(o => o["CreatedTime"].ToDateTime()),
                 dataRows.Max(o => o["UpdatedTime"].ToDateTime()),
-                statusColumn,
-                workValueColumn,
-                progressRateColumn,
+                status,
+                workValue,
+                progressRate,
                 summary: true));
         }
 
         public string Json()
         {
-            var choices = GroupByColumn?
+            var choices = GroupBy?
                 .EditChoices(insertBlank: true)
                 .Select(o => o.Key)
                 .ToList();

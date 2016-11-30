@@ -13,7 +13,7 @@
         drop: function (e, ui) {
             var data = $p.getData($('.main-form'));
             data["KambanId"] = $(ui.draggable).attr('data-id');
-            data[$('#TableName').val() + '_' + $('#KambanGroupByColumn').val()] =
+            data[$('#TableName').val() + '_' + $('#KambanGroupBy').val()] =
                 $(this).attr('data-value') !== undefined
                     ? $(this).attr('data-value')
                     : '';

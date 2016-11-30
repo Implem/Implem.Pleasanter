@@ -26,6 +26,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, string> ColumnFilterHash;
         public string Search;
         public Dictionary<string, SqlOrderBy.Types> ColumnSorterHash;
+        public string GanttGroupBy;
+        public string TimeSeriesGroupBy;
+        public string TimeSeriesAggregateType;
+        public string TimeSeriesValue;
+        public string KambanGroupBy;
+        public string KambanAggregateType;
+        public string KambanValue;
 
         public View()
         {
@@ -82,6 +89,27 @@ namespace Implem.Pleasanter.Libraries.Settings
                         break;
                     case "ViewSorters":
                         SetSorters(ss);
+                        break;
+                    case "GanttGroupBy":
+                        GanttGroupBy = String(controlId);
+                        break;
+                    case "TimeSeriesGroupBy":
+                        TimeSeriesGroupBy = String(controlId);
+                        break;
+                    case "TimeSeriesAggregateType":
+                        TimeSeriesAggregateType = String(controlId);
+                        break;
+                    case "TimeSeriesValue":
+                        TimeSeriesValue = String(controlId);
+                        break;
+                    case "KambanGroupBy":
+                        KambanGroupBy = String(controlId);
+                        break;
+                    case "KambanAggregateType":
+                        KambanAggregateType = String(controlId);
+                        break;
+                    case "KambanValue":
+                        KambanValue = String(controlId);
                         break;
                     default:
                         if (controlId.StartsWith(columnFilterPrefix))
@@ -253,7 +281,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!Overdue.ToBool()) Overdue = null;
             if (!ColumnFilterHash?.Any() == true) ColumnFilterHash = null;
             if (!ColumnSorterHash?.Any() == true) ColumnSorterHash = null;
-            if (Search.IsNullOrEmpty()) Search = null;
+            if (Search == string.Empty) Search = null;
+            if (GanttGroupBy == string.Empty) GanttGroupBy = null;
+            if (TimeSeriesGroupBy == string.Empty) TimeSeriesGroupBy = null;
+            if (TimeSeriesAggregateType == string.Empty) TimeSeriesAggregateType = null;
+            if (TimeSeriesValue == string.Empty) TimeSeriesValue = null;
+            if (KambanGroupBy == string.Empty) KambanGroupBy = null;
+            if (KambanAggregateType == string.Empty) KambanAggregateType = null;
+            if (KambanValue == string.Empty) KambanValue = null;
         }
 
         public SqlWhereCollection Where(SiteSettings ss, SqlWhereCollection where)
