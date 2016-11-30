@@ -1201,10 +1201,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void OpenViewDialog(ResponseCollection res, string controlId)
         {
-            Libraries.Settings.View view;
+            View view;
             if (controlId == "NewView")
             {
-                view = new Libraries.Settings.View(SiteSettings);
+                view = new View(SiteSettings);
                 OpenViewDialog(res, view);
             }
             else
@@ -1233,8 +1233,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void OpenViewDialog(
-            ResponseCollection res, Libraries.Settings.View view)
+        private void OpenViewDialog(ResponseCollection res, View view)
         {
             res.Html("#ViewDialog", SiteUtilities.ViewDialog(
                 ss: SiteSettings,
@@ -1271,7 +1270,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void CreateView(ResponseCollection res)
         {
-            SiteSettings.AddView(new Libraries.Settings.View(SiteSettings));
+            SiteSettings.AddView(new View(SiteSettings));
             res
                 .ViewResponses(SiteSettings, new List<int>
                 {

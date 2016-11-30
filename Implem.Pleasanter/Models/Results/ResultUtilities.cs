@@ -2064,7 +2064,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             SiteSettings ss,
             Permissions.Types pt,
-            Libraries.Settings.View view,
+            View view,
             bool bodyOnly)
         {
             var formData = Forms.All();
@@ -2174,7 +2174,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             SiteSettings ss,
             Permissions.Types pt,
-            Libraries.Settings.View view,
+            View view,
             bool bodyOnly,
             long changedItemId = 0)
         {

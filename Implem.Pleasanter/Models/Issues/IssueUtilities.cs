@@ -2220,7 +2220,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static EnumerableRowCollection<DataRow> GanttDataRows(
-            SiteSettings ss, Libraries.Settings.View view, string groupBy)
+            SiteSettings ss, View view, string groupBy)
         {
             return Rds.ExecuteTable(statements:
                 Rds.SelectIssues(
@@ -2411,7 +2411,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             SiteSettings ss,
             Permissions.Types pt,
-            Libraries.Settings.View view,
+            View view,
             bool bodyOnly)
         {
             var formData = Forms.All();
@@ -2522,7 +2522,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             SiteSettings ss,
             Permissions.Types pt,
-            Libraries.Settings.View view,
+            View view,
             bool bodyOnly,
             long changedItemId = 0)
         {

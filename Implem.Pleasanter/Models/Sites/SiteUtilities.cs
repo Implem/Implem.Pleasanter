@@ -2221,7 +2221,7 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder ViewDialog(
             SiteSettings ss,
             string controlId,
-            Libraries.Settings.View view)
+            View view)
         {
             var hb = new HtmlBuilder();
             return hb.Form(
@@ -2281,8 +2281,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder ViewFiltersTab(
-            this HtmlBuilder hb, SiteSettings ss, Libraries.Settings.View view)
+        private static HtmlBuilder ViewFiltersTab(this HtmlBuilder hb, SiteSettings ss, View view)
         {
             return hb.FieldSet(id: "ViewFiltersTab", action: () => hb
                 .Div(css: "items", action: () => hb
