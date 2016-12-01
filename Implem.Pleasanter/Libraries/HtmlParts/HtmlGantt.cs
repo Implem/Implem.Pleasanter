@@ -24,9 +24,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
                     labelText: Displays.GroupBy(),
-                    optionCollection: ss.ColumnCollection
-                        .Where(o => o.HasChoices())
-                        .ToDictionary(o => o.ColumnName, o => o.GridLabelText),
+                    optionCollection: ss.GanttGroupByOptions(),
                     selectedValue: groupBy,
                     insertBlank: true,
                     method: "post")

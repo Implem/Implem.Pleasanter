@@ -2218,12 +2218,15 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder ViewDialog(
-            SiteSettings ss,
-            string controlId,
-            View view)
+        public static HtmlBuilder ViewDialog(SiteSettings ss, string controlId, View view)
         {
             var hb = new HtmlBuilder();
+            var hasGantt = Def.ViewModeDefinitionCollection
+                .Any(o => o.Name == "Gantt" && o.ReferenceType == ss.ReferenceType);
+            var hasTimeSeries = Def.ViewModeDefinitionCollection
+                .Any(o => o.Name == "TimeSeries" && o.ReferenceType == ss.ReferenceType);
+            var hasKamban = Def.ViewModeDefinitionCollection
+                .Any(o => o.Name == "Kamban" && o.ReferenceType == ss.ReferenceType);
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("ViewForm")
@@ -2248,9 +2251,30 @@ namespace Implem.Pleasanter.Models
                             .Li(action: () => hb
                                 .A(
                                     href: "#ViewSortersTab",
-                                    text: Displays.Sorters())))
+                                    text: Displays.Sorters()))
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#ViewGanttTab",
+                                        text: Displays.Gantt()),
+                                _using: hasGantt)
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#ViewTimeSeriesTab",
+                                        text: Displays.TimeSeries()),
+                                _using: hasTimeSeries)
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#ViewKambanTab",
+                                        text: Displays.Kamban()),
+                                _using: hasKamban))
                         .ViewFiltersTab(ss: ss, view: view)
-                        .ViewSortersTab(ss: ss, view: view))
+                        .ViewSortersTab(ss: ss, view: view)
+                        .ViewGanttTab(ss: ss, view: view, _using: hasGantt)
+                        .ViewTimeSeriesTab(ss: ss, view: view, _using: hasTimeSeries)
+                        .ViewKambanTab(ss: ss, view: view, _using: hasKamban))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -2401,8 +2425,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder ViewSortersTab(
-            this HtmlBuilder hb, SiteSettings ss, View view)
+        private static HtmlBuilder ViewSortersTab(this HtmlBuilder hb, SiteSettings ss, View view)
         {
             return hb.FieldSet(
                 id: "ViewSortersTab",
@@ -2441,6 +2464,88 @@ namespace Implem.Pleasanter.Models
                         controlCss: "button-icon",
                         text: Displays.Add(),
                         icon: "ui-icon-plus"));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ViewGanttTab(
+            this HtmlBuilder hb, SiteSettings ss, View view, bool _using)
+        {
+            return _using
+                ? hb.FieldSet(
+                    id: "ViewGanttTab",
+                    action: () => hb
+                        .FieldDropDown(
+                            controlId: "GanttGroupBy",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.GroupBy(),
+                            optionCollection: ss.GanttGroupByOptions(),
+                            selectedValue: view.GanttGroupBy,
+                            insertBlank: true))
+                : hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ViewTimeSeriesTab(
+            this HtmlBuilder hb, SiteSettings ss, View view, bool _using)
+        {
+            return _using
+                ? hb.FieldSet(
+                    id: "ViewTimeSeriesTab",
+                    action: () => hb
+                        .FieldDropDown(
+                            controlId: "TimeSeriesGroupBy",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.GroupBy(),
+                            optionCollection: ss.TimeSeriesGroupByOptions(),
+                            selectedValue: view.TimeSeriesGroupBy)
+                        .FieldDropDown(
+                            controlId: "TimeSeriesAggregateType",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.SettingAggregationType(),
+                            optionCollection: ss.TimeSeriesAggregationTypeOptions(),
+                            selectedValue: view.TimeSeriesAggregateType)
+                        .FieldDropDown(
+                            controlId: "TimeSeriesValue",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.SettingAggregationTarget(),
+                            optionCollection: ss.TimeSeriesValueOptions(),
+                            selectedValue: view.TimeSeriesValue))
+                : hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ViewKambanTab(
+            this HtmlBuilder hb, SiteSettings ss, View view, bool _using)
+        {
+            return _using
+                ? hb.FieldSet(
+                    id: "ViewKambanTab",
+                    action: () => hb
+                        .FieldDropDown(
+                            controlId: "KambanGroupBy",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.GroupBy(),
+                            optionCollection: ss.KambanGroupByOptions(),
+                            selectedValue: view.KambanGroupBy)
+                        .FieldDropDown(
+                            controlId: "KambanAggregateType",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.SettingAggregationType(),
+                            optionCollection: ss.KambanAggregationTypeOptions(),
+                            selectedValue: view.KambanAggregateType)
+                        .FieldDropDown(
+                            controlId: "KambanValue",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.SettingAggregationTarget(),
+                            optionCollection: ss.KamvanValueOptions(),
+                            selectedValue: view.KambanValue))
+                : hb;
         }
 
         /// <summary>

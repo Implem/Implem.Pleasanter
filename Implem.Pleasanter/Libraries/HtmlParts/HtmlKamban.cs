@@ -31,22 +31,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
                         labelText: Displays.GroupBy(),
-                        optionCollection: ss.ColumnCollection.Where(o => o.HasChoices())
-                            .ToDictionary(o => o.ColumnName, o => o.GridLabelText),
+                        optionCollection: ss.KambanGroupByOptions(),
                         selectedValue: groupBy,
                         method: "post")
                     .FieldDropDown(
                         controlId: "KambanAggregateType",
                         fieldCss: "field-auto-thin",
-                        controlCss: " auto-postback",
                         labelText: Displays.SettingAggregationType(),
-                        optionCollection: new Dictionary<string, string>
-                        {
-                            { "Total", Displays.Total() },
-                            { "Average", Displays.Average() },
-                            { "Max", Displays.Max() },
-                            { "Min", Displays.Min() }
-                        },
+                        optionCollection: ss.KambanAggregationTypeOptions(),
                         selectedValue: aggregateType,
                         method: "post")
                     .FieldDropDown(
@@ -55,7 +47,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
                         labelText: Displays.SettingAggregationTarget(),
-                        optionCollection: KambanValueOptionCollection(ss),
+                        optionCollection: ss.KamvanValueOptions(),
                         selectedValue: value,
                         method: "post")
                     .KambanBody(
@@ -71,20 +63,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         importButton: true,
                         exportButton: true);
             });
-        }
-
-        private static Dictionary<string, string> KambanValueOptionCollection(
-            SiteSettings ss)
-        {
-            return new Dictionary<string, string>
-            {
-                { string.Empty, string.Empty }
-            }.Concat(ss.ColumnCollection
-                .Where(o => o.Computable)
-                .Where(o => o.TypeName != "datetime")
-                .ToList()
-                .ToDictionary(o => o.ColumnName, o => o.GridLabelText))
-                .ToDictionary(o => o.Key, o => o.Value);
         }
 
         public static HtmlBuilder KambanBody(

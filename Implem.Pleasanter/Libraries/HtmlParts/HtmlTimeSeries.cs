@@ -26,8 +26,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
                     labelText: Displays.GroupBy(),
-                    optionCollection: ss.ColumnCollection.Where(o => o.HasChoices())
-                        .ToDictionary(o => o.ColumnName, o => o.LabelText),
+                    optionCollection: ss.TimeSeriesGroupByOptions(),
                     selectedValue: groupBy,
                     method: "post")
                 .FieldDropDown(
@@ -35,14 +34,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
                     labelText: Displays.SettingAggregationType(),
-                    optionCollection: new Dictionary<string, string>
-                    {
-                        { "Count", Displays.Count() },
-                        { "Total", Displays.Total() },
-                        { "Average", Displays.Average() },
-                        { "Max", Displays.Max() },
-                        { "Min", Displays.Min() }
-                    },
+                    optionCollection: ss.TimeSeriesAggregationTypeOptions(),
                     selectedValue: aggregateType,
                     method: "post")
                 .FieldDropDown(
@@ -51,10 +43,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
                     labelText: Displays.SettingAggregationTarget(),
-                    optionCollection: ss.ColumnCollection
-                        .Where(o => o.Computable)
-                        .Where(o => o.TypeName != "datetime")
-                        .ToDictionary(o => o.ColumnName, o => o.LabelText),
+                    optionCollection: ss.TimeSeriesValueOptions(),
                     selectedValue: value,
                     method: "post")
                 .Div(id: "TimeSeriesBody", action: () => hb

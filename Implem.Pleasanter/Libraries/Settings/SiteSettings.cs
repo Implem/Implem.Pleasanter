@@ -639,6 +639,65 @@ namespace Implem.Pleasanter.Libraries.Settings
                     o => GetColumn(o.ColumnName).LabelText));
         }
 
+        public Dictionary<string, string> GanttGroupByOptions()
+        {
+            return ColumnCollection
+                .Where(o => o.HasChoices())
+                .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
+        }
+
+        public Dictionary<string, string> TimeSeriesGroupByOptions()
+        {
+            return ColumnCollection
+                .Where(o => o.HasChoices())
+                .ToDictionary(o => o.ColumnName, o => o.LabelText);
+        }
+
+        public Dictionary<string, string> TimeSeriesAggregationTypeOptions()
+        {
+            return new Dictionary<string, string>
+            {
+                { "Count", Displays.Count() },
+                { "Total", Displays.Total() },
+                { "Average", Displays.Average() },
+                { "Max", Displays.Max() },
+                { "Min", Displays.Min() }
+            };
+        }
+
+        public Dictionary<string, string> TimeSeriesValueOptions()
+        {
+            return ColumnCollection
+                .Where(o => o.Computable)
+                .Where(o => o.TypeName != "datetime")
+                .ToDictionary(o => o.ColumnName, o => o.LabelText);
+        }
+
+        public Dictionary<string, string> KambanGroupByOptions()
+        {
+            return ColumnCollection.Where(o => o.HasChoices())
+                .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
+        }
+
+        public Dictionary<string, string> KambanAggregationTypeOptions()
+        {
+            return new Dictionary<string, string>
+            {
+                { "Total", Displays.Total() },
+                { "Average", Displays.Average() },
+                { "Max", Displays.Max() },
+                { "Min", Displays.Min() }
+            };
+        }
+
+        public Dictionary<string, string> KamvanValueOptions()
+        {
+            return ColumnCollection
+                .Where(o => o.Computable)
+                .Where(o => o.TypeName != "datetime")
+                .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
+        }
+
         public int GridNextOffset(int offset, int count, int totalCount)
         {
             return offset + count < totalCount
