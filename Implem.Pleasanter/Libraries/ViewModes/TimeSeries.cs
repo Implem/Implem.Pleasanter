@@ -99,6 +99,10 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     User.UserTypes.Anonymous.ToInt().ToString(),
                     new ControlData(Displays.NotSet()));
             }
+            else
+            {
+                choices.Add(string.Empty, new ControlData(Displays.NotSet()));
+            }
             var value = SiteSettings.GetColumn(ValueColumn);
             var choiceKeys = choices.Keys.ToList();
             var indexes = choices.Select((o, i) => new Index
