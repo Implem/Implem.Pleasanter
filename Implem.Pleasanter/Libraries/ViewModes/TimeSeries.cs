@@ -109,9 +109,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             {
                 Id = i,
                 Key = o.Key,
-                Text = o.Value.Text != string.Empty
-                    ? o.Value.Text
-                    : Displays.NotSet(),
+                Text = IndexText(o, value),
                 Style = o.Value.Style
             }).ToList();
             if (this.Any())
@@ -133,7 +131,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         {
                             Index = choiceKeys.IndexOf(index),
                             Day = currentTime.ToLocal(Displays.YmdFormat()),
-                            Value = Types.ToDecimal(value.Display(data)),
+                            Value = data,
                             Y = y
                         });
                     }));
@@ -147,6 +145,13 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     ? value.Unit
                     : string.Empty
             }.ToJson();
+        }
+
+        private string IndexText(KeyValuePair<string, ControlData> index, Column value)
+        {
+            return "{0}({1})".Params(index.Value.Text, value.Display(
+                GetData(Targets(MaxTime).Where(p => p.Index == index.Key)),
+                unit: AggregationType != "Count"));
         }
 
         private IEnumerable<TimeSeriesElement> Targets(DateTime currentTime)
