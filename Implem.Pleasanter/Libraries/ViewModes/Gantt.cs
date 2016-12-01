@@ -2,7 +2,6 @@
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -10,9 +9,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
 {
     public class Gantt : List<GanttElement>
     {
-        [NonSerialized]
         public SiteSettings SiteSettings;
-        [NonSerialized]
         public Column GroupBy;
 
         public Gantt(SiteSettings ss, IEnumerable<DataRow> dataRows, string groupBy)
