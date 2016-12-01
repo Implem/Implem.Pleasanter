@@ -63,7 +63,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     dataRow["Value"].ToDecimal(),
                     dataRow["IsHistory"].ToBool()));
             });
-            if (this.Count > 0)
+            if (this.Any())
             {
                 MinTime = this.Select(o => o.UpdatedTime).Min().AddDays(-1);
                 MaxTime = DateTime.Today;
