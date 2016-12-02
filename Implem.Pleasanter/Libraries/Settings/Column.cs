@@ -281,13 +281,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public string Display(decimal value)
+        public string Display(decimal value, bool unit = false, bool format = true)
         {
-            return !Format.IsNullOrEmpty()
+            return (!Format.IsNullOrEmpty() && format
                 ? value.ToString(Format, Sessions.CultureInfo())
                 : DecimalPlaces.ToInt() == 0
                     ? value.ToString("0", "0")
-                    : TrimZero(value.ToString("0", "0." + new String('0', DecimalPlaces.ToInt())));
+                    : TrimZero(value.ToString("0", "0." + new string('0', DecimalPlaces.ToInt()))))
+                        + (unit ? Unit : string.Empty);
         }
 
         private static string TrimZero(string str)
@@ -300,13 +301,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Display(decimal value, Permissions.Types pt)
         {
             return Display(value) + (EditorReadOnly.ToBool() || !this.CanUpdate(pt)
-                ? Unit
-                : string.Empty);
-        }
-
-        public string Display(decimal value, bool unit)
-        {
-            return Display(value) + (unit
                 ? Unit
                 : string.Empty);
         }
