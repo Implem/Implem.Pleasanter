@@ -71,14 +71,14 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             }
             this.Select(o => o.Id).Distinct().ForEach(id =>
             {
-                var latest = this
+                var element = this
                     .Where(o => o.Id == id)
                     .OrderByDescending(o => o.Ver)
                     .First();
-                latest.Latest = true;
-                if (latest.IsHistory)
+                element.Latest = true;
+                if (element.IsHistory)
                 {
-                    latest.UpdatedTime = latest.UpdatedTime.AddDays(-1);
+                    element.UpdatedTime = element.UpdatedTime.AddDays(-1);
                 }
             });
         }
