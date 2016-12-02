@@ -1050,6 +1050,14 @@ namespace Implem.Pleasanter.Models
                 .CopyDialog("items", siteModel.SiteId)
                 .OutgoingMailDialog()
                 .Div(attributes: new HtmlAttributes()
+                    .Id("GridColumnDialog")
+                    .Class("dialog")
+                    .Title(Displays.AdvancedSetting()))
+                .Div(attributes: new HtmlAttributes()
+                    .Id("EditorColumnDialog")
+                    .Class("dialog")
+                    .Title(Displays.AdvancedSetting()))
+                .Div(attributes: new HtmlAttributes()
                     .Id("ViewDialog")
                     .Class("dialog")
                     .Title(Displays.DataView()))
@@ -1175,7 +1183,7 @@ namespace Implem.Pleasanter.Models
                         action: () => hb
                             .FieldTextBox(
                                 textType: HtmlTypes.TextTypes.File,
-                                controlId: "SiteSettings,SiteImage",
+                                controlId: "SiteImage",
                                 fieldCss: "field-auto-thin",
                                 controlCss: " w400",
                                 labelText: Displays.File())
@@ -1274,10 +1282,10 @@ namespace Implem.Pleasanter.Models
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
-                                    controlId: "OpenGridColumnPropertiesDialog",
+                                    controlId: "OpenGridColumnDialog",
                                     text: Displays.AdvancedSetting(),
                                     controlCss: "button-icon",
-                                    onClick: "$p.openGridColumnPropertiesDialog($(this));",
+                                    onClick: "$p.openGridColumnDialog($(this));",
                                     icon: "ui-icon-gear",
                                     action: "SetSiteSettings",
                                     method: "put")
@@ -1306,45 +1314,56 @@ namespace Implem.Pleasanter.Models
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-circle-triangle-w",
                                     action: "SetSiteSettings",
-                                    method: "put")))
-                    .Div(attributes: new HtmlAttributes()
-                        .Id("GridColumnPropertiesDialog")
-                        .Class("dialog")
-                        .Title(Displays.AdvancedSetting())));
+                                    method: "put"))));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder GridColumnProperties(SiteSettings ss, Column column)
+        public static HtmlBuilder GridColumnDialog(SiteSettings ss, Column column)
         {
             var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("GridColumnForm")
+                    .Action(Locations.ItemAction(ss.SiteId)),
+                action: () => hb
+                    .GridColumnDialog(ss: ss, column: column));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder GridColumnDialog(
+            this HtmlBuilder hb, SiteSettings ss, Column column)
+        {
             hb.FieldSet(
                 css: " enclosed",
                 legendText: column.LabelTextDefault,
                 action: () =>
                 {
                     hb.FieldTextBox(
-                        controlId: "GridColumnProperty,GridLabelText",
+                        controlId: "GridLabelText",
                         labelText: Displays.SettingLabel(),
-                        text: column.GridLabelText);
+                        text: column.GridLabelText,
+                        validateRequired: true);
                     if (column.TypeName == "datetime")
                     {
                         hb
                             .FieldDropDown(
-                                controlId: "GridColumnProperty,GridFormat",
+                                controlId: "GridFormat",
                                 labelText: Displays.SettingGridFormat(),
                                 optionCollection: DateTimeOptions(),
                                 selectedValue: column.GridFormat);
                     }
                     hb
                         .FieldCheckBox(
-                            controlId: "GridColumnProperty,UseGridDesign",
+                            controlId: "UseGridDesign",
                             labelText: Displays.UseCustomDesign(),
                             _checked: !column.GridDesign.IsNullOrEmpty())
                         .FieldMarkDown(
-                            fieldId: "GridColumnProperty,GridDesignField",
-                            controlId: "GridColumnProperty,GridDesign",
+                            fieldId: "GridDesignField",
+                            controlId: "GridDesign",
                             fieldCss: "field-wide" + (!column.GridDesign.IsNullOrEmpty()
                                 ? string.Empty
                                 : " hidden"),
@@ -1353,13 +1372,17 @@ namespace Implem.Pleasanter.Models
                             text: ss.GridDesignEditorText(column));
                 });
             return hb
+                .Hidden(
+                    controlId: "GridColumnName",
+                    css: "must-transport",
+                    value: column.ColumnName)
                 .P(css: "message-dialog")
                 .Div(css: "command-center", action: () => hb
                     .Button(
-                        controlId: "SetGridColumnProperties",
+                        controlId: "SetGridColumn",
                         text: Displays.Setting(),
-                        controlCss: "button-icon",
-                        onClick: "$p.setGridColumnProperties($(this));",
+                        controlCss: "button-icon validate",
+                        onClick: "$p.setGridColumn($(this));",
                         icon: "ui-icon-gear",
                         action: "SetSiteSettings",
                         method: "post")
@@ -1603,10 +1626,10 @@ namespace Implem.Pleasanter.Models
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
-                                    controlId: "OpenEditorColumnPropertiesDialog",
+                                    controlId: "OpenEditorColumnDialog",
                                     text: Displays.AdvancedSetting(),
                                     controlCss: "button-icon",
-                                    onClick: "$p.openEditorColumnPropertiesDialog($(this));",
+                                    onClick: "$p.openEditorColumnDialog($(this));",
                                     icon: "ui-icon-gear",
                                     action: "SetSiteSettings",
                                     method: "put")
@@ -1635,29 +1658,37 @@ namespace Implem.Pleasanter.Models
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-circle-triangle-w",
                                     action: "SetSiteSettings",
-                                    method: "put")))
-                    .Div(attributes: new HtmlAttributes()
-                        .Id("EditorColumnPropertiesDialog")
-                        .Class("dialog")
-                        .Title(Displays.AdvancedSetting())));
+                                    method: "put"))));
+        }
+
+        public static HtmlBuilder EditorColumnDialog(
+            SiteSettings ss, Column column, IEnumerable<string> titleColumns)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("EditorColumnForm")
+                    .Action(Locations.ItemAction(ss.SiteId)),
+                action: () => hb
+                    .EditorColumnDialog(ss: ss, column: column, titleColumns: titleColumns));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder EditorColumnProperties(
-            SiteSettings ss, Column column, IEnumerable<string> titleColumns)
+        public static HtmlBuilder EditorColumnDialog(
+            this HtmlBuilder hb, SiteSettings ss, Column column, IEnumerable<string> titleColumns)
         {
-            var hb = new HtmlBuilder();
             hb.FieldSet(
                 css: " enclosed",
                 legendText: column.LabelTextDefault,
                 action: () =>
                 {
                     hb.FieldTextBox(
-                        controlId: "EditorColumnProperty,LabelText",
+                        controlId: "LabelText",
                         labelText: Displays.SettingLabel(),
-                        text: column.LabelText);
+                        text: column.LabelText,
+                        validateRequired: true);
                     switch (column.TypeName.CsTypeSummary())
                     {
                         case Types.CsBool:
@@ -1665,7 +1696,7 @@ namespace Implem.Pleasanter.Models
                         default:
                             hb
                                 .FieldDropDown(
-                                    controlId: "EditorColumnProperty,FieldCss",
+                                    controlId: "FieldCss",
                                     labelText: Displays.Style(),
                                     optionCollection: new Dictionary<string, string>
                                     {
@@ -1676,7 +1707,7 @@ namespace Implem.Pleasanter.Models
                                     selectedValue: column.FieldCss,
                                     _using: column.MarkDown)
                                 .FieldCheckBox(
-                                    controlId: "EditorColumnProperty,ValidateRequired",
+                                    controlId: "ValidateRequired",
                                     labelText: Displays.Required(),
                                     _checked: column.ValidateRequired ?? false,
                                     disabled: !column.Nullable,
@@ -1684,7 +1715,7 @@ namespace Implem.Pleasanter.Models
                             break;
                     }
                     hb.FieldCheckBox(
-                        controlId: "EditorColumnProperty,EditorReadOnly",
+                        controlId: "EditorReadOnly",
                         labelText: Displays.ReadOnly(),
                         _checked: column.EditorReadOnly.ToBool(),
                         _using: column.Nullable);
@@ -1692,12 +1723,12 @@ namespace Implem.Pleasanter.Models
                     {
                         hb
                             .FieldDropDown(
-                                controlId: "EditorColumnProperty,ControlFormat",
+                                controlId: "ControlFormat",
                                 labelText: Displays.SettingControlFormat(),
                                 optionCollection: DateTimeOptions(forControl: true),
                                 selectedValue: column.ControlFormat)
                             .FieldDropDown(
-                                controlId: "EditorColumnProperty,ExportFormat",
+                                controlId: "ExportFormat",
                                 labelText: Displays.SettingExportFormat(),
                                 optionCollection: DateTimeOptions(),
                                 selectedValue: column.ExportFormat);
@@ -1706,7 +1737,7 @@ namespace Implem.Pleasanter.Models
                     {
                         case Types.CsBool:
                             hb.FieldCheckBox(
-                                controlId: "EditorColumnProperty,DefaultInput",
+                                controlId: "DefaultInput",
                                 labelText: Displays.DefaultInput(),
                                 _checked: column.DefaultInput.ToBool());
                             break;
@@ -1716,19 +1747,20 @@ namespace Implem.Pleasanter.Models
                                 var maxDecimalPlaces = MaxDecimalPlaces(column);
                                 hb
                                     .FieldTextBox(
-                                        controlId: "EditorColumnProperty,DefaultInput",
+                                        controlId: "DefaultInput",
                                         labelText: Displays.DefaultInput(),
                                         text: column.DefaultInput.ToLong().ToString(),
+                                        validateNumber: true,
                                         _using: !column.Id_Ver)
                                     .EditorColumnFormatProperties(column: column)
                                     .FieldTextBox(
-                                        controlId: "EditorColumnProperty,Unit",
+                                        controlId: "Unit",
                                         controlCss: " w50",
                                         labelText: Displays.SettingUnit(),
                                         text: column.Unit,
                                         _using: !column.Id_Ver)
                                     .FieldSpinner(
-                                        controlId: "EditorColumnProperty,DecimalPlaces",
+                                        controlId: "DecimalPlaces",
                                         labelText: Displays.DecimalPlaces(),
                                         value: column.DecimalPlaces.ToDecimal(),
                                         min: 0,
@@ -1742,7 +1774,7 @@ namespace Implem.Pleasanter.Models
                                         : string.Empty;
                                     hb
                                         .FieldDropDown(
-                                            controlId: "EditorColumnProperty,ControlType",
+                                            controlId: "ControlType",
                                             labelText: Displays.ControlType(),
                                             optionCollection: new Dictionary<string, string>
                                             {
@@ -1751,29 +1783,29 @@ namespace Implem.Pleasanter.Models
                                             },
                                             selectedValue: column.ControlType)
                                         .FieldTextBox(
-                                            fieldId: "EditorColumnPropertyField,Min",
-                                            controlId: "EditorColumnProperty,Min",
+                                            fieldId: "MinField",
+                                            controlId: "Min",
                                             fieldCss: " both" + hidden,
                                             labelText: Displays.Min(),
-                                            text: column.Display(column.Min.ToDecimal()))
+                                            text: column.Min.ToString())
                                         .FieldTextBox(
-                                            fieldId: "EditorColumnPropertyField,Max",
-                                            controlId: "EditorColumnProperty,Max",
+                                            fieldId: "MaxField",
+                                            controlId: "Max",
                                             fieldCss: hidden,
                                             labelText: Displays.Max(),
-                                            text: column.Display(column.Max.ToDecimal()))
+                                            text: column.Max.ToString())
                                         .FieldTextBox(
-                                            fieldId: "EditorColumnPropertyField,Step",
-                                            controlId: "EditorColumnProperty,Step",
+                                            fieldId: "StepField",
+                                            controlId: "Step",
                                             fieldCss: hidden,
                                             labelText: Displays.Step(),
-                                            text: column.Display(column.Step.ToDecimal()));
+                                            text: column.Step.ToString());
                                 }
                             }
                             break;
                         case Types.CsDateTime:
                             hb.FieldSpinner(
-                                controlId: "EditorColumnProperty,DefaultInput",
+                                controlId: "DefaultInput",
                                 controlCss: " allow-blank",
                                 labelText: Displays.DefaultInput(),
                                 value: column.DefaultInput != string.Empty
@@ -1789,7 +1821,7 @@ namespace Implem.Pleasanter.Models
                             {
                                 hb.FieldTextBox(
                                     textType: HtmlTypes.TextTypes.MultiLine,
-                                    controlId: "EditorColumnProperty,DefaultInput",
+                                    controlId: "DefaultInput",
                                     fieldCss: column.FieldCss,
                                     labelText: Displays.DefaultInput(),
                                     text: column.DefaultInput);
@@ -1797,7 +1829,7 @@ namespace Implem.Pleasanter.Models
                             else
                             {
                                 hb.FieldTextBox(
-                                    controlId: "EditorColumnProperty,DefaultInput",
+                                    controlId: "DefaultInput",
                                     fieldCss: column.FieldCss,
                                     labelText: Displays.DefaultInput(),
                                     text: column.DefaultInput);
@@ -1809,7 +1841,7 @@ namespace Implem.Pleasanter.Models
                         case "ChoicesText":
                             hb.FieldTextBox(
                                 textType: HtmlTypes.TextTypes.MultiLine,
-                                controlId: "EditorColumnProperty,ChoicesText",
+                                controlId: "ChoicesText",
                                 fieldCss: "field-wide",
                                 labelText: Displays.SettingSelectionList(),
                                 text: column.ChoicesText);
@@ -1823,13 +1855,17 @@ namespace Implem.Pleasanter.Models
                     }
                 });
             return hb
+                .Hidden(
+                    controlId: "EditorColumnName",
+                    css: "must-transport",
+                    value: column.ColumnName)
                 .P(css: "message-dialog")
                 .Div(css: "command-center", action: () => hb
                     .Button(
-                        controlId: "SetEditorColumnProperties",
+                        controlId: "SetEditorColumn",
                         text: Displays.Setting(),
-                        controlCss: "button-icon",
-                        onClick: "$p.sendByDialog($(this));",
+                        controlCss: "button-icon validate",
+                        onClick: "$p.send($(this));",
                         icon: "ui-icon-gear",
                         action: "SetSiteSettings",
                         method: "post")
@@ -1851,7 +1887,7 @@ namespace Implem.Pleasanter.Models
             var other = !column.Format.IsNullOrEmpty() && format == null;
             return hb
                 .FieldDropDown(
-                    controlId: "EditorColumnProperty,FormatSelector",
+                    controlId: "FormatSelector",
                     controlCss: " not-transport",
                     labelText: Displays.SettingFormat(),
                     optionCollection: formats
@@ -1864,8 +1900,8 @@ namespace Implem.Pleasanter.Models
                     insertBlank: true,
                     _using: !column.Id_Ver)
                 .FieldTextBox(
-                    fieldId: "EditorColumnPropertyField,Format",
-                    controlId: "EditorColumnProperty,Format",
+                    fieldId: "FormatField",
+                    controlId: "Format",
                     fieldCss: other ? string.Empty : " hidden",
                     labelText: Displays.Custom(),
                     text: other

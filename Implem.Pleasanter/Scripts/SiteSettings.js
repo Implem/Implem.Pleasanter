@@ -1,6 +1,6 @@
 ﻿$p.uploadSiteImage = function ($control) {
     var data = new FormData();
-    data.append('SiteImage', $('[id=\'SiteSettings,SiteImage\']').prop('files')[0]);
+    data.append('SiteImage', $('#SiteImage').prop('files')[0]);
     $p.upload(
         $('.main-form').attr('action').replace('_action_', $control.attr('data-action')),
         $control.attr('data-method'),
@@ -21,19 +21,20 @@ $p.openSiteSettingsDialog = function ($control, selector, appendTo) {
     }
 }
 
-$p.openGridColumnPropertiesDialog = function ($control) {
-    $p.openSiteSettingsDialog($control, '#GridColumnPropertiesDialog');
+$p.openGridColumnDialog = function ($control) {
+    $p.data['GridColumnForm'] = {};
+    $p.openSiteSettingsDialog($control, '#GridColumnDialog');
 }
 
-$p.setGridColumnProperties = function ($control) {
-    $p.setData($('[id="GridColumnProperty,UseGridDesign"]'));
-    $p.setData($('[id="GridColumnProperty,GridDesign"]'));
+$p.setGridColumn = function ($control) {
+    $p.setData($('#UseGridDesign'));
+    $p.setData($('#GridDesign'));
     $p.send($control);
-    $p.closeDialog($control);
 }
 
-$p.openEditorColumnPropertiesDialog = function ($control) {
-    $p.openSiteSettingsDialog($control, '#EditorColumnPropertiesDialog');
+$p.openEditorColumnDialog = function ($control) {
+    $p.data['EditorColumnForm'] = {};
+    $p.openSiteSettingsDialog($control, '#EditorColumnDialog');
 }
 
 $p.openViewDialog = function ($control) {
@@ -42,6 +43,7 @@ $p.openViewDialog = function ($control) {
 }
 
 $p.openNotificationDialog = function ($control) {
+    $p.data['NotificationForm'] = {};
     $p.openSiteSettingsDialog($control, '#NotificationDialog', 'body');
 }
 

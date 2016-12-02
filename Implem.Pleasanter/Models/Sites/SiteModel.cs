@@ -583,11 +583,11 @@ namespace Implem.Pleasanter.Models
                 case "ToEnableGridColumns":
                     SetGridColumns(res, controlId);
                     break;
-                case "OpenGridColumnPropertiesDialog":
-                    OpenGridColumnPropertiesDialog(res);
+                case "OpenGridColumnDialog":
+                    OpenGridColumnDialog(res);
                     break;
-                case "SetGridColumnProperties":
-                    SetGridColumnProperties(res);
+                case "SetGridColumn":
+                    SetGridColumn(res);
                     break;
                 case "MoveUpFilterColumns":
                 case "MoveDownFilterColumns":
@@ -622,11 +622,11 @@ namespace Implem.Pleasanter.Models
                 case "ToEnableEditorColumns":
                     SetEditorColumns(res, controlId);
                     break;
-                case "OpenEditorColumnPropertiesDialog":
-                    OpenEditorColumnPropertiesDialog(res);
+                case "OpenEditorColumnDialog":
+                    OpenEditorColumnDialog(res);
                     break;
-                case "SetEditorColumnProperties":
-                    SetEditorColumnProperties(res);
+                case "SetEditorColumn":
+                    SetEditorColumn(res);
                     break;
                 case "MoveUpTitleColumns":
                 case "MoveDownTitleColumns":
@@ -713,7 +713,7 @@ namespace Implem.Pleasanter.Models
             {
                 switch (data.Key)
                 {
-                    case "EditorColumnProperty,Format":
+                    case "Format":
                         try
                         {
                             0.ToString(data.Value, Sessions.CultureInfo());
@@ -773,7 +773,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void OpenGridColumnPropertiesDialog(ResponseCollection res)
+        private void OpenGridColumnDialog(ResponseCollection res)
         {
             var selectedColumns = Forms.List("GridColumns");
             if (selectedColumns.Count() != 1)
@@ -790,8 +790,8 @@ namespace Implem.Pleasanter.Models
                 else
                 {
                     res.Html(
-                        "#GridColumnPropertiesDialog",
-                        SiteUtilities.GridColumnProperties(ss: SiteSettings, column: column));
+                        "#GridColumnDialog",
+                        SiteUtilities.GridColumnDialog(ss: SiteSettings, column: column));
                 }
             }
         }
@@ -799,42 +799,35 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetGridColumnProperties(ResponseCollection res)
+        private void SetGridColumn(ResponseCollection res)
         {
-            var selectedColumns = Forms.List("GridColumns");
-            if (selectedColumns.Count() == 1)
+            var columnName = Forms.Data("GridColumnName");
+            var column = SiteSettings.GridColumn(columnName);
+            if (column == null)
             {
-                var column = SiteSettings.GridColumn(selectedColumns.FirstOrDefault());
-                if (column == null)
-                {
-                    res.Message(Messages.InvalidRequest());
-                }
-                else
-                {
-                    Forms.All()
-                        .Where(o => o.Key.StartsWith("GridColumnProperty,"))
-                        .ForEach(data =>
-                            SiteSettings.SetColumnProperty(
-                                column,
-                                data.Key.Split_2nd(),
-                                GridColumnPropertyValue(data.Key, data.Value)));
-                    res.Html("#GridColumns",
-                        new HtmlBuilder().SelectableItems(
-                            listItemCollection: SiteSettings.GridSelectableOptions(),
-                            selectedValueTextCollection: selectedColumns));
-                }
+                res.Message(Messages.InvalidRequest());
+            }
+            else
+            {
+                Forms.All().ForEach(data => SiteSettings.SetColumnProperty(
+                    column, data.Key, GridColumnValue(data.Key, data.Value)));
+                res
+                    .Html("#GridColumns", new HtmlBuilder().SelectableItems(
+                        listItemCollection: SiteSettings.GridSelectableOptions(),
+                        selectedValueTextCollection: new List<string> { columnName }))
+                    .CloseDialog();
             }
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private string GridColumnPropertyValue(string name, string value)
+        private string GridColumnValue(string name, string value)
         {
             switch (name)
             {
-                case "GridColumnProperty,GridDesign":
-                    return Forms.Bool("GridColumnProperty,UseGridDesign")
+                case "GridDesign":
+                    return Forms.Bool("UseGridDesign")
                         ? value
                         : null;
                 default:
@@ -1007,7 +1000,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void OpenEditorColumnPropertiesDialog(ResponseCollection res)
+        private void OpenEditorColumnDialog(ResponseCollection res)
         {
             var selectedColumns = Forms.List("EditorColumns");
             if (selectedColumns.Count() != 1)
@@ -1029,8 +1022,8 @@ namespace Implem.Pleasanter.Models
                         Session_TitleColumns(titleColumns);
                     }
                     res.Html(
-                        "#EditorColumnPropertiesDialog",
-                        SiteUtilities.EditorColumnProperties(
+                        "#EditorColumnDialog",
+                        SiteUtilities.EditorColumnDialog(
                             ss: SiteSettings,
                             column: column,
                             titleColumns: titleColumns));
@@ -1041,34 +1034,27 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetEditorColumnProperties(ResponseCollection res)
+        private void SetEditorColumn(ResponseCollection res)
         {
-            var selectedColumns = Forms.List("EditorColumns");
-            if (selectedColumns.Count() == 1)
+            var columnName = Forms.Data("EditorColumnName");
+            var column = SiteSettings.EditorColumn(columnName);
+            if (column == null)
             {
-                var column = SiteSettings.EditorColumn(selectedColumns.FirstOrDefault());
-                if (column == null)
+                res.Message(Messages.InvalidRequest());
+            }
+            else
+            {
+                if (column.ColumnName == "Title")
                 {
-                    res.Message(Messages.InvalidRequest());
+                    SiteSettings.TitleColumns = Session_TitleColumns();
                 }
-                else
-                {
-                    if (column.ColumnName == "Title")
-                    {
-                        SiteSettings.TitleColumns = Session_TitleColumns();
-                    }
-                    Forms.All()
-                        .Where(o => o.Key.StartsWith("EditorColumnProperty,"))
-                        .ForEach(data =>
-                            SiteSettings.SetColumnProperty(
-                                column,
-                                data.Key.Split_2nd(),
-                                data.Value));
-                    res.Html("#EditorColumns",
-                        new HtmlBuilder().SelectableItems(
-                            listItemCollection: SiteSettings.EditorSelectableOptions(),
-                            selectedValueTextCollection: selectedColumns));
-                }
+                Forms.All().ForEach(data =>
+                    SiteSettings.SetColumnProperty(column, data.Key, data.Value));
+                res
+                    .Html("#EditorColumns", new HtmlBuilder().SelectableItems(
+                        listItemCollection: SiteSettings.EditorSelectableOptions(),
+                        selectedValueTextCollection: new List<string> { columnName }))
+                    .CloseDialog();
             }
         }
 
