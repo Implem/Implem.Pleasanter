@@ -82,7 +82,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         public string Json()
         {
             var elements = new List<Element>();
-            if (this.Count > 0)
+            if (this.Any())
             {
                 var now = DateTime.Now.ToLocal().Date;
                 for (var d = 0; d <= Days; d++)
