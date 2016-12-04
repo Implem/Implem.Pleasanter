@@ -27,28 +27,28 @@ namespace Implem.Libraries.Utilities
                 case "nvarchar":
                 case "text":
                 case "string":
-                    return Types.CsString;
+                    return CsString;
                 case "int":
                 case "smallint":
-                    return Types.CsInt;
+                    return CsInt;
                 case "bigint":
                 case "long":
-                    return Types.CsLong;
+                    return CsLong;
                 case "decimal":
-                    return Types.CsDecimal;
+                    return CsDecimal;
                 case "float":
                 case "real":
-                    return Types.CsDouble;
+                    return CsDouble;
                 case "datetime":
                 case "datetime2":
                 case "date":
                 case "smalldatetime":
-                    return Types.CsDateTime;
+                    return CsDateTime;
                 case "bit":
                 case "bool":
-                    return Types.CsBool;
+                    return CsBool;
                 case "image":
-                    return Types.CsBytes;
+                    return CsBytes;
                 default:
                     return type;
             }
@@ -64,7 +64,7 @@ namespace Implem.Libraries.Utilities
                 case "nchar":
                 case "nvarchar":
                 case "text":
-                    return Types.CsString;
+                    return CsString;
                 case "int":
                 case "long":
                 case "smallint":
@@ -72,17 +72,17 @@ namespace Implem.Libraries.Utilities
                 case "decimal":
                 case "float":
                 case "real":
-                    return Types.CsNumeric;
+                    return CsNumeric;
                 case "datetime":
                 case "datetime2":
                 case "date":
                 case "smalldatetime":
-                    return Types.CsDateTime;
+                    return CsDateTime;
                 case "bit":
                 case "bool":
-                    return Types.CsBool;
+                    return CsBool;
                 case "image":
-                    return Types.CsBytes;
+                    return CsBytes;
                 default:
                     return string.Empty;
             }
