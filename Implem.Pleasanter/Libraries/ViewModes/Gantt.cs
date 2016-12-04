@@ -9,23 +9,21 @@ namespace Implem.Pleasanter.Libraries.ViewModes
 {
     public class Gantt : List<GanttElement>
     {
-        public SiteSettings SiteSettings;
         public Column GroupBy;
 
         public Gantt(SiteSettings ss, IEnumerable<DataRow> dataRows, string groupBy)
         {
-            SiteSettings = ss;
-            GroupBy = SiteSettings.GetColumn(groupBy);
-            var status = SiteSettings.GetColumn("Status");
-            var workValue = SiteSettings.GetColumn("WorkValue");
-            var progressRate = SiteSettings.GetColumn("ProgressRate");
+            GroupBy = ss.GetColumn(groupBy);
+            var status = ss.GetColumn("Status");
+            var workValue = ss.GetColumn("WorkValue");
+            var progressRate = ss.GetColumn("ProgressRate");
             dataRows.ForEach(dataRow =>
                 Add(new GanttElement(
                     GroupBy != null
                         ? dataRow["GroupBy"].ToString()
                         : string.Empty,
                     dataRow["Id"].ToLong(),
-                    Titles.DisplayValue(SiteSettings, dataRow),
+                    Titles.DisplayValue(ss, dataRow),
                     dataRow["WorkValue"].ToDecimal(),
                     dataRow["StartTime"].ToDateTime(),
                     dataRow["CompletionTime"].ToDateTime(),
