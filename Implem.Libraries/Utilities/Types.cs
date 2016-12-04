@@ -145,7 +145,9 @@ namespace Implem.Libraries.Utilities
 
         public static int ToInt(this double self)
         {
-            return Convert.ToInt32(self);
+            return self <= int.MaxValue && self >= int.MinValue
+                ? Convert.ToInt32(self)
+                : 0;
         }
 
         public static int ToInt(this double? self)
