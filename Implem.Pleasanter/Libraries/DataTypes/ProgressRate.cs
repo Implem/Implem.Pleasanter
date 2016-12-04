@@ -121,14 +121,14 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 : CreatedTime;
         }
 
-        private float PlannedValue(DateTime now, DateTime start, int range)
+        private float PlannedValue(DateTime now, DateTime start, double range)
         {
             return start < now && range > 0
                 ? (float)(Elapsed(now, start)) / (float)range
                 : 0;
         }
 
-        private static int Elapsed(DateTime now, DateTime start)
+        private static double Elapsed(DateTime now, DateTime start)
         {
             return Times.DateDiff(Times.Types.Seconds, start, now);
         }

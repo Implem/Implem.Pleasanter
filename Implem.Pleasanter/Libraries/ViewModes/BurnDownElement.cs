@@ -19,7 +19,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         public DateTime UpdatedTime;
         public decimal EarnedValue;
         public decimal EarnedValueAdditions;
-        public int DayCount;
+        public double DayCount;
         public decimal PlannedValueOfDaily;
 
         public BurnDownElement(
@@ -55,7 +55,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             EarnedValueAdditions = earnedValueAddtions;
             DayCount = Times.DateDiff(Times.Types.Days, StartTime, CompletionTime);
             PlannedValueOfDaily = DayCount != 0
-                ? WorkValue / DayCount
+                ? WorkValue / DayCount.ToDecimal()
                 : 0;
         }
 
@@ -67,7 +67,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 {
                     return WorkValue -
                         PlannedValueOfDaily *
-                        Times.DateDiff(Times.Types.Days, StartTime, currentTime);
+                        Times.DateDiff(Times.Types.Days, StartTime, currentTime).ToDecimal();
                 }
                 else
                 {

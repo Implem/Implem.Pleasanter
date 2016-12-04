@@ -17,7 +17,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         public string ValueColumn;
         public DateTime MinTime;
         public DateTime MaxTime;
-        public int Days;
+        public double Days;
 
         private struct Data
         {

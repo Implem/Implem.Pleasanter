@@ -14,7 +14,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         public DateTime MinTime;
         public DateTime MaxTime;
         public DateTime LatestUpdatedTime;
-        public int Days;
+        public double Days;
 
         private struct Element
         {
