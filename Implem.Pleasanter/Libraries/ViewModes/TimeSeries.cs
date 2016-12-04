@@ -119,7 +119,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     decimal y = 0;
                     var currentTime = MinTime.AddDays(d);
                     var targets = Targets(currentTime);
-                    indexes.Select(o => o.Key).ForEach((Action<string>)(index =>
+                    indexes.Select(o => o.Key).ForEach(index =>
                     {
                         var data = GetData(targets.Where(o => o.Index == index));
                         if (!choices.ContainsKey(index))
@@ -134,7 +134,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                             Value = data,
                             Y = y
                         });
-                    }));
+                    });
                 }
             }
             return new Data()
