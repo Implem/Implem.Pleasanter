@@ -246,10 +246,10 @@ namespace Implem.Libraries.Utilities
             return 0;
         }
 
-        public static Decimal ToDecimal(this object self) 
+        public static decimal ToDecimal(this object self) 
         {
-            Decimal data;
-            if (self != null && Decimal.TryParse(self.ToString(), out data))
+            decimal data;
+            if (self != null && decimal.TryParse(self.ToString(), out data))
             {
                 return data;
             }
