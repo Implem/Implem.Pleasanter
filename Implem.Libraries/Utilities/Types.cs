@@ -109,36 +109,42 @@ namespace Implem.Libraries.Utilities
 
         public static int ToInt(this long? self)
         {
-            return self != null
+            return self != null && self <= int.MaxValue && self >= int.MinValue
                 ? Convert.ToInt32(self)
                 : 0;
         }
 
         public static int ToInt(this long self)
         {
-            return Convert.ToInt32(self);
+            return self <= int.MaxValue && self >= int.MinValue
+                ? Convert.ToInt32(self)
+                : 0;
         }
 
         public static int ToInt(this decimal self)
         {
-            return Convert.ToInt32(self);
+            return self <= int.MaxValue && self >= int.MinValue
+                ? Convert.ToInt32(self)
+                : 0;
         }
 
         public static int ToInt(this decimal? self)
         {
-            return self != null
+            return self != null && self <= int.MaxValue && self >= int.MinValue
                 ? Convert.ToInt32(self)
                 : 0;
         }
 
         public static int ToInt(this float self)
         {
-            return Convert.ToInt32(self);
+            return self <= int.MaxValue && self >= int.MinValue
+                ? Convert.ToInt32(self)
+                : 0;
         }
 
         public static int ToInt(this float? self)
         {
-            return self != null
+            return self != null && self <= int.MaxValue && self >= int.MinValue
                 ? Convert.ToInt32(self)
                 : 0;
         }
@@ -152,7 +158,7 @@ namespace Implem.Libraries.Utilities
 
         public static int ToInt(this double? self)
         {
-            return self != null
+            return self != null && self <= int.MaxValue && self >= int.MinValue
                 ? Convert.ToInt32(self)
                 : 0;
         }
@@ -195,36 +201,42 @@ namespace Implem.Libraries.Utilities
 
         public static long ToLong(this decimal self)
         {
-            return Convert.ToInt64(self);
+            return self <= long.MaxValue && self >= long.MinValue
+                ? Convert.ToInt64(self)
+                : 0;
         }
 
         public static long ToLong(this decimal? self)
         {
-            return self != null
+            return self != null && self <= long.MaxValue && self >= long.MinValue
                 ? Convert.ToInt64(self)
                 : 0;
         }
 
         public static long ToLong(this float self)
         {
-            return Convert.ToInt64(self);
+            return self <= long.MaxValue && self >= long.MinValue
+                ? Convert.ToInt64(self)
+                : 0;
         }
 
         public static long ToLong(this float? self)
         {
-            return self != null
+            return self != null && self <= long.MaxValue && self >= long.MinValue
                 ? Convert.ToInt64(self)
                 : 0;
         }
 
         public static long ToLong(this double self)
         {
-            return Convert.ToInt64(self);
+            return self <= long.MaxValue && self >= long.MinValue
+                ? Convert.ToInt64(self)
+                : 0;
         }
 
         public static long ToLong(this double? self)
         {
-            return self != null
+            return self != null && self <= long.MaxValue && self >= long.MinValue
                 ? Convert.ToInt64(self)
                 : 0;
         }
