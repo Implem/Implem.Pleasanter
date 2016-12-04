@@ -49,7 +49,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     dataRow["CreatedTime"].ToDateTime(),
                     dataRow["UpdatedTime"].ToDateTime()));
             });
-            if (this.Count > 0)
+            if (this.Any())
             {
                 var latest = Targets(DateTime.MaxValue);
                 MinTime = latest.Select(o => o.StartTime).Min();
