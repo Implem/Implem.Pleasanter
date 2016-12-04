@@ -131,12 +131,12 @@ namespace Implem.Libraries.Utilities
                 : 0;
         }
 
-        public static int ToInt(this Single self)
+        public static int ToInt(this float self)
         {
             return Convert.ToInt32(self);
         }
 
-        public static int ToInt(this Single? self)
+        public static int ToInt(this float? self)
         {
             return self != null
                 ? Convert.ToInt32(self)
@@ -205,12 +205,12 @@ namespace Implem.Libraries.Utilities
                 : 0;
         }
 
-        public static long ToLong(this Single self)
+        public static long ToLong(this float self)
         {
             return Convert.ToInt64(self);
         }
 
-        public static long ToLong(this Single? self)
+        public static long ToLong(this float? self)
         {
             return self != null
                 ? Convert.ToInt64(self)
@@ -273,10 +273,10 @@ namespace Implem.Libraries.Utilities
             }
         }
 
-        public static Single ToSingle(this object self) 
+        public static float ToSingle(this object self) 
         {
-            Single data;
-            return self != null && Single.TryParse(self.ToString(), out data) ? data : 0;
+            float data;
+            return self != null && float.TryParse(self.ToString(), out data) ? data : 0;
         }
 
         public static double ToDouble(this object obj) 
