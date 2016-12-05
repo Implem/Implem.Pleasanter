@@ -1237,6 +1237,7 @@ namespace Implem.Pleasanter.Models
                         width: 25)
                     .FieldDropDown(
                         controlId: "SiteSettings,GridView",
+                        fieldCss: "field-auto-thin",
                         labelText: Displays.DefaultView(),
                         optionCollection: ss.ViewSelectableOptions(),
                         selectedValue: ss.GridView?.ToString(),
