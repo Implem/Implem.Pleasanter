@@ -43,7 +43,7 @@ http://pleasanter.org
 ![default](https://cloud.githubusercontent.com/assets/12204265/19873860/c35f79f4-a004-11e6-801b-6d3463e34201.gif)
 
 ## 動作条件
-|条件|Windows Server 2012 R2|Windows 10|Microsoft Azure|
+|条件|Windows Server 2012 R2 / 2016|Windows 10|Microsoft Azure|
 |:--|:--:|:--:|:--:|
 |.NET Framework 4.5|導入済|導入済|-|
 |IIS|◯|◯|-|
