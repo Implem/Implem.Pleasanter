@@ -205,9 +205,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public Dictionary<string, ControlData> EditChoices(
-            bool insertBlank = false,
-            bool shorten = false,
-            bool addNotSet = false)
+            bool insertBlank = false, bool shorten = false, bool addNotSet = false)
         {
             var tenantId = Sessions.TenantId();
             var editChoices = new Dictionary<string, ControlData>();
