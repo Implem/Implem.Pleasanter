@@ -22,7 +22,7 @@ $p.openSiteSettingsDialog = function ($control, selector, appendTo) {
 }
 
 $p.openGridColumnDialog = function ($control) {
-    $p.data['GridColumnForm'] = {};
+    $p.data.GridColumnForm = {};
     $p.openSiteSettingsDialog($control, '#GridColumnDialog');
 }
 
@@ -33,17 +33,17 @@ $p.setGridColumn = function ($control) {
 }
 
 $p.openEditorColumnDialog = function ($control) {
-    $p.data['EditorColumnForm'] = {};
+    $p.data.EditorColumnForm = {};
     $p.openSiteSettingsDialog($control, '#EditorColumnDialog');
 }
 
 $p.openViewDialog = function ($control) {
-    $p.data['ViewForm'] = {};
+    $p.data.ViewForm = {};
     $p.openSiteSettingsDialog($control, '#ViewDialog', 'body');
 }
 
 $p.openNotificationDialog = function ($control) {
-    $p.data['NotificationForm'] = {};
+    $p.data.NotificationForm = {};
     $p.openSiteSettingsDialog($control, '#NotificationDialog', 'body');
 }
 
