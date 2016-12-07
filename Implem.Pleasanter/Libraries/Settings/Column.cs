@@ -134,7 +134,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             long siteId, Dictionary<string, Dictionary<string, string>> linkHash)
         {
             var tenantId = Sessions.TenantId();
-            ChoiceHash = new Dictionary<string, Settings.Choice>();
+            ChoiceHash = new Dictionary<string, Choice>();
             ChoicesText.SplitReturn()
                 .Where(o => o.Trim() != string.Empty)
                 .Select((o, i) => new { Line = o.Trim(), Index = i })
