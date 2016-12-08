@@ -1,5 +1,4 @@
 ﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,11 +88,6 @@ namespace Implem.Pleasanter.Libraries.Html
         {
             AppendCloseTagCollection();
             return html.ToString();
-        }
-
-        public ResponseCollection Html(string target)
-        {
-            return new ResponseCollection().Html(target, this);
         }
 
         private void AppendCloseTagCollection(int closeLevel = -1)
