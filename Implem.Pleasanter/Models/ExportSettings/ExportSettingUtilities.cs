@@ -304,9 +304,9 @@ namespace Implem.Pleasanter.Models
                         .ExportSettingId(Forms.Long("ExportSettings_ExportSettingId")));
             SetSessions(exportSettingModel);
             exportSettingModel.Session_ExportColumns(Jsons.ToJson(exportSettingModel.ExportColumns));
-            return new HtmlBuilder()
-                .SelectableItems(listItemCollection: exportSettingModel.ExportColumnHash())
-                .Html("#ExportSettings_Columns")
+            return new ResponseCollection()
+                .Html("#ExportSettings_Columns", new HtmlBuilder()
+                    .SelectableItems(listItemCollection: exportSettingModel.ExportColumnHash()))
                 .Val("#ExportSettings_Title", exportSettingModel.Title.Value)
                 .Val("#ExportSettings_AddHeader", exportSettingModel.AddHeader)
                 .ClearFormData()
