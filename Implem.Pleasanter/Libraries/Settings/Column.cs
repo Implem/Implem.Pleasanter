@@ -37,6 +37,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string FieldCss;
         public string Unit;
         public bool? Link;
+        public decimal? NumFilterMin;
+        public decimal? NumFilterMax;
+        public decimal? NumFilterStep;
         [NonSerialized]
         public int? No;
         [NonSerialized]
@@ -285,8 +288,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? value.ToString(Format, Sessions.CultureInfo())
                 : DecimalPlaces.ToInt() == 0
                     ? value.ToString("0", "0")
-                    : TrimZero(value.ToString("0", "0." + new string('0', DecimalPlaces.ToInt()))))
+                    : DisplayValue(value))
                         + (unit ? Unit : string.Empty);
+        }
+
+        private string DisplayValue(decimal value)
+        {
+            return value.ToString("0", "0." + new string('0', DecimalPlaces.ToInt()))
+                .ToDecimal()
+                .TrimEndZero();
         }
 
         private static string TrimZero(string str)

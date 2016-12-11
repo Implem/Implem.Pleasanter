@@ -32,6 +32,11 @@ $p.setGridColumn = function ($control) {
     $p.send($control);
 }
 
+$p.openFilterColumnDialog = function ($control) {
+    $p.data.FilterColumnForm = {};
+    $p.openSiteSettingsDialog($control, '#FilterColumnDialog');
+}
+
 $p.openEditorColumnDialog = function ($control) {
     $p.data.EditorColumnForm = {};
     $p.openSiteSettingsDialog($control, '#EditorColumnDialog');

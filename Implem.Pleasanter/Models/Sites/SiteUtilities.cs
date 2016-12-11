@@ -1054,6 +1054,10 @@ namespace Implem.Pleasanter.Models
                     .Class("dialog")
                     .Title(Displays.AdvancedSetting()))
                 .Div(attributes: new HtmlAttributes()
+                    .Id("FilterColumnDialog")
+                    .Class("dialog")
+                    .Title(Displays.AdvancedSetting()))
+                .Div(attributes: new HtmlAttributes()
                     .Id("EditorColumnDialog")
                     .Class("dialog")
                     .Title(Displays.AdvancedSetting()))
@@ -1431,6 +1435,14 @@ namespace Implem.Pleasanter.Models
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
+                                    controlId: "OpenFilterColumnDialog",
+                                    text: Displays.AdvancedSetting(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.openFilterColumnDialog($(this));",
+                                    icon: "ui-icon-gear",
+                                    action: "SetSiteSettings",
+                                    method: "put")
+                                .Button(
                                     controlId: "ToDisableFilterColumns",
                                     controlCss: "button-icon",
                                     text: Displays.ToDisable(),
@@ -1456,6 +1468,81 @@ namespace Implem.Pleasanter.Models
                                     icon: "ui-icon-circle-triangle-w",
                                     action: "SetSiteSettings",
                                     method: "put"))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder FilterColumnDialog(SiteSettings ss, Column column)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("FilterColumnForm")
+                    .Action(Locations.ItemAction(ss.SiteId)),
+                action: () => hb
+                    .FilterColumnDialog(ss: ss, column: column));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder FilterColumnDialog(
+            this HtmlBuilder hb, SiteSettings ss, Column column)
+        {
+            hb.FieldSet(
+                css: " enclosed",
+                legendText: column.LabelText,
+                action: () =>
+                {
+                    switch (column.TypeName.CsTypeSummary())
+                    {
+                        case Types.CsNumeric:
+                            hb
+                                .FieldTextBox(
+                                    controlId: "NumFilterMin",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.Min(),
+                                    text: column.NumFilterMin.TrimEndZero(),
+                                    validateRequired: true,
+                                    validateNumber: true)
+                                .FieldTextBox(
+                                    controlId: "NumFilterMax",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.Max(),
+                                    text: column.NumFilterMax.TrimEndZero(),
+                                    validateRequired: true,
+                                    validateNumber: true)
+                                .FieldTextBox(
+                                    controlId: "NumFilterStep",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.Step(),
+                                    text: column.NumFilterStep.TrimEndZero(),
+                                    validateRequired: true,
+                                    validateNumber: true);
+                            break;
+                    }
+                });
+            return hb
+                .Hidden(
+                    controlId: "FilterColumnName",
+                    css: "must-transport",
+                    value: column.ColumnName)
+                .P(css: "message-dialog")
+                .Div(css: "command-center", action: () => hb
+                    .Button(
+                        controlId: "SetFilterColumn",
+                        text: Displays.Setting(),
+                        controlCss: "button-icon validate",
+                        onClick: "$p.send($(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        text: Displays.Cancel(),
+                        controlCss: "button-icon",
+                        onClick: "$p.closeDialog($(this));",
+                        icon: "ui-icon-cancel"));
         }
 
         /// <summary>

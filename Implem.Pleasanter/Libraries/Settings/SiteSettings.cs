@@ -199,6 +199,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     if (column.FieldCss == columnDefinition.FieldCss) column.FieldCss = null;
                     if (column.Unit == columnDefinition.Unit) column.Unit = null;
                     if (column.Link == false) column.Link = null;
+                    if (column.NumFilterMin == Parameters.General.NumFilterMin) column.NumFilterMin = null;
+                    if (column.NumFilterMax == Parameters.General.NumFilterMax) column.NumFilterMax = null;
+                    if (column.NumFilterStep == Parameters.General.NumFilterStep) column.NumFilterStep = null;
                 }
             });
             self.ColumnCollection.RemoveAll(o => removeCollection.Contains(o.ColumnName));
@@ -373,6 +376,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.EditorReadOnly = column.EditorReadOnly ?? false;
                 column.FieldCss = column.FieldCss ?? columnDefinition.FieldCss;
                 column.Unit = column.Unit ?? columnDefinition.Unit;
+                column.NumFilterMin = column.NumFilterMin ?? Parameters.General.NumFilterMin;
+                column.NumFilterMax = column.NumFilterMax ?? Parameters.General.NumFilterMax;
+                column.NumFilterStep = column.NumFilterStep ?? Parameters.General.NumFilterStep;
                 column.Size = columnDefinition.Size;
                 column.Nullable = columnDefinition.Nullable;
                 column.RecordedTime = columnDefinition.Default == "now";
@@ -868,6 +874,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ControlFormat": column.ControlFormat = value; break;
                 case "ExportFormat": column.ExportFormat = value; break;
                 case "Unit": column.Unit = value; break;
+                case "NumFilterMin": column.NumFilterMin = value.ToDecimal(); break;
+                case "NumFilterMax": column.NumFilterMax = value.ToDecimal(); break;
+                case "NumFilterStep": column.NumFilterStep = value.ToDecimal(); break;
             }
         }
 

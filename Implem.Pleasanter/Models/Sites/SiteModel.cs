@@ -595,6 +595,12 @@ namespace Implem.Pleasanter.Models
                 case "ToEnableFilterColumns":
                     SetFilterColumns(res, controlId);
                     break;
+                case "OpenFilterColumnDialog":
+                    OpenFilterColumnDialog(res);
+                    break;
+                case "SetFilterColumn":
+                    SetFilterColumn(res);
+                    break;
                 case "AddAggregations":
                 case "DeleteAggregations":
                 case "MoveUpAggregations":
@@ -852,6 +858,55 @@ namespace Implem.Pleasanter.Models
                 selectedColumns,
                 SiteSettings.FilterSelectableOptions(enabled: false),
                 selectedSourceColumns);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenFilterColumnDialog(ResponseCollection res)
+        {
+            var selectedColumns = Forms.List("FilterColumns");
+            if (selectedColumns.Count() != 1)
+            {
+                res.Message(Messages.SelectOne());
+            }
+            else
+            {
+                var column = SiteSettings.FilterColumn(selectedColumns.FirstOrDefault());
+                if (column == null)
+                {
+                    res.Message(Messages.InvalidRequest());
+                }
+                else
+                {
+                    res.Html(
+                        "#FilterColumnDialog",
+                        SiteUtilities.FilterColumnDialog(ss: SiteSettings, column: column));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetFilterColumn(ResponseCollection res)
+        {
+            var columnName = Forms.Data("FilterColumnName");
+            var column = SiteSettings.FilterColumn(columnName);
+            if (column == null)
+            {
+                res.Message(Messages.InvalidRequest());
+            }
+            else
+            {
+                Forms.All().ForEach(data => SiteSettings.SetColumnProperty(
+                    column, data.Key, data.Value));
+                res
+                    .Html("#FilterColumns", new HtmlBuilder().SelectableItems(
+                        listItemCollection: SiteSettings.FilterSelectableOptions(),
+                        selectedValueTextCollection: new List<string> { columnName }))
+                    .CloseDialog();
+            }
         }
 
         /// <summary>
