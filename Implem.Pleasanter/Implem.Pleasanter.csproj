@@ -219,7 +219,6 @@
     <Compile Include="Libraries\DataTypes\CompletionTime.cs" />
     <Compile Include="Libraries\DataTypes\Dept.cs" />
     <Compile Include="Libraries\DataTypes\ExportColumns.cs" />
-    <Compile Include="Libraries\DataTypes\ImageSettings.cs" />
     <Compile Include="Libraries\DataTypes\ProgressRate.cs" />
     <Compile Include="Libraries\DataTypes\Status.cs" />
     <Compile Include="Libraries\DataTypes\Time.cs" />
