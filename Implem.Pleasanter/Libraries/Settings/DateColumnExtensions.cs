@@ -1,32 +1,33 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using System;
 using System.Collections.Generic;
-namespace Implem.Pleasanter.Libraries.Responses
+namespace Implem.Pleasanter.Libraries.Settings
 {
-    public static class TimePeriod
+    public static class DateColumnExtensions
     {
-        public static Dictionary<string, ControlData> Get(bool recordedTime)
+        public static Dictionary<string, ControlData> DateFilterOptions(this Column column)
         {
             var hash = new Dictionary<string, ControlData>();
             var min = Min();
             var max = Max();
             for (var m = min; m <= max; m += 12)
             {
-                SetFy(hash, DateTime.Now.AddMonths(m), recordedTime);
+                SetFy(hash, DateTime.Now.AddMonths(m), column.RecordedTime);
             }
             for (var m = min; m <= max; m += 6)
             {
-                SetHalf(hash, DateTime.Now.AddMonths(m), recordedTime);
+                SetHalf(hash, DateTime.Now.AddMonths(m), column.RecordedTime);
             }
             for (var m = min; m <= max; m += 3)
             {
-                SetQuarter(hash, DateTime.Now.AddMonths(m), recordedTime);
+                SetQuarter(hash, DateTime.Now.AddMonths(m), column.RecordedTime);
             }
             for (var m = min; m <= max; m++)
             {
-                SetMonth(hash, DateTime.Now.AddMonths(m), recordedTime);
+                SetMonth(hash, DateTime.Now.AddMonths(m), column.RecordedTime);
             }
             return hash;
         }

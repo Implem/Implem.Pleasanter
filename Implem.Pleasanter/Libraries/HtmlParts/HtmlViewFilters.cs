@@ -165,12 +165,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             view: view);
                         break;
                     case Types.CsDateTime:
-                        var timePeriod = TimePeriod.Get(column.RecordedTime);
                         hb.DropDown(
                             ss: ss,
                             column: column,
                             view: view,
-                            optionCollection: timePeriod);
+                            optionCollection: column.DateFilterOptions());
                         break;
                     case Types.CsNumeric:
                         hb.DropDown(

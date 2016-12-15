@@ -2523,7 +2523,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
                         labelText: Displays.Get(column.GridLabelText),
-                        optionCollection: Libraries.Responses.TimePeriod.Get(column.RecordedTime),
+                        optionCollection: column.DateFilterOptions(),
                         selectedValue: value,
                         multiple: true,
                         addSelectedValue: false);
