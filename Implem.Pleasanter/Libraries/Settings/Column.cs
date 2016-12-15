@@ -291,7 +291,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Display(decimal value, bool unit = false, bool format = true)
         {
             return (!Format.IsNullOrEmpty() && format
-                ? value.ToString(Format, Sessions.CultureInfo())
+                ? value.ToString(
+                    Format + (Format == "C" && DecimalPlaces.ToInt() == 0
+                        ? string.Empty
+                        : DecimalPlaces.ToString()),
+                    Sessions.CultureInfo())
                 : DecimalPlaces.ToInt() == 0
                     ? value.ToString("0", "0")
                     : DisplayValue(value))
