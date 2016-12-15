@@ -49,7 +49,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 data.Add(
                     from + "," + to,
-                    new ControlData(fromText + " - " + toText));
+                    new ControlData(Displays.Over(fromText)));
             }
         }
 
