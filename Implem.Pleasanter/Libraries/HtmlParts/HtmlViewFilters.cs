@@ -130,8 +130,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 _using: Visible(ss, "ProgressRate"));
         }
 
-        private static HtmlBuilder Limit(
-            this HtmlBuilder hb, SiteSettings ss, View view)
+        private static HtmlBuilder Limit(this HtmlBuilder hb, SiteSettings ss, View view)
         {
             return hb.FieldCheckBox(
                 controlId: "ViewFilters_Overdue",
