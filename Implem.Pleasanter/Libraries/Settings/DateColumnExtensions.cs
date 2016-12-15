@@ -1,5 +1,4 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.Utilities;
+﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using System;
@@ -11,36 +10,48 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static Dictionary<string, ControlData> DateFilterOptions(this Column column)
         {
             var hash = new Dictionary<string, ControlData>();
-            var min = Min();
-            var max = Max();
-            for (var m = min; m <= max; m += 12)
+            var min = Min(column);
+            var max = Max(column);
+            if (column.DateFilterFy.ToBool())
             {
-                SetFy(hash, DateTime.Now.AddMonths(m), column.RecordedTime);
+                for (var m = min; m <= max; m += 12)
+                {
+                    SetFy(hash, DateTime.Now.AddMonths(m), column.RecordedTime);
+                }
             }
-            for (var m = min; m <= max; m += 6)
+            if (column.DateFilterHalf.ToBool())
             {
-                SetHalf(hash, DateTime.Now.AddMonths(m), column.RecordedTime);
+                for (var m = min; m <= max; m += 6)
+                {
+                    SetHalf(hash, DateTime.Now.AddMonths(m), column.RecordedTime);
+                }
             }
-            for (var m = min; m <= max; m += 3)
+            if (column.DateFilterQuarter.ToBool())
             {
-                SetQuarter(hash, DateTime.Now.AddMonths(m), column.RecordedTime);
+                for (var m = min; m <= max; m += 3)
+                {
+                    SetQuarter(hash, DateTime.Now.AddMonths(m), column.RecordedTime);
+                }
             }
-            for (var m = min; m <= max; m++)
+            if (column.DateFilterMonth.ToBool())
             {
-                SetMonth(hash, DateTime.Now.AddMonths(m), column.RecordedTime);
+                for (var m = min; m <= max; m++)
+                {
+                    SetMonth(hash, DateTime.Now.AddMonths(m), column.RecordedTime);
+                }
             }
             return hash;
         }
 
-        private static int Min()
+        private static int Min(Column column)
         {
-            return (DateTime.Now.AddYears(Parameters.General.FilterMinSpan).FyFrom() -
+            return (DateTime.Now.AddYears(column.DateFilterMinSpan.ToInt()).FyFrom() -
                 DateTime.Now).Months();
         }
 
-        private static int Max()
+        private static int Max(Column column)
         {
-            return (DateTime.Now.AddYears(Parameters.General.FilterMaxSpan + 1).FyFrom() -
+            return (DateTime.Now.AddYears(column.DateFilterMaxSpan.ToInt() + 1).FyFrom() -
                 DateTime.Now).Months();
         }
 

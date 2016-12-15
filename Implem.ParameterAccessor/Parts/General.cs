@@ -50,8 +50,8 @@ namespace Implem.ParameterAccessor.Parts
         public int SeparateMin;
         public int FirstDayOfWeek;
         public int FirstMonth;
-        public int FilterMinSpan;
-        public int FilterMaxSpan;
+        public int DateFilterMinSpan;
+        public int DateFilterMaxSpan;
         public decimal NumFilterMin;
         public decimal NumFilterMax;
         public decimal NumFilterStep;

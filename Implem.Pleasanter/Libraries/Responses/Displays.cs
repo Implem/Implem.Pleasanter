@@ -568,6 +568,14 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Half2(params string[] data) { return Get("Half2", data); }
         public static HtmlBuilder Displays_Quarter(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Quarter", data)); }
         public static string Quarter(params string[] data) { return Get("Quarter", data); }
+        public static HtmlBuilder Displays_UseFy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("UseFy", data)); }
+        public static string UseFy(params string[] data) { return Get("UseFy", data); }
+        public static HtmlBuilder Displays_UseHalf(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("UseHalf", data)); }
+        public static string UseHalf(params string[] data) { return Get("UseHalf", data); }
+        public static HtmlBuilder Displays_UseQuarter(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("UseQuarter", data)); }
+        public static string UseQuarter(params string[] data) { return Get("UseQuarter", data); }
+        public static HtmlBuilder Displays_UseMonth(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("UseMonth", data)); }
+        public static string UseMonth(params string[] data) { return Get("UseMonth", data); }
         public static HtmlBuilder Displays_Ymd(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Ymd", data)); }
         public static string Ymd(params string[] data) { return Get("Ymd", data); }
         public static HtmlBuilder Displays_Ymda(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Ymda", data)); }

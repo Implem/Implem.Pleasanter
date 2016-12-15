@@ -1521,6 +1521,43 @@ namespace Implem.Pleasanter.Models
                                     validateRequired: true,
                                     validateNumber: true);
                             break;
+                        case Types.CsDateTime:
+                            hb
+                                .FieldTextBox(
+                                    controlId: "DateFilterMinSpan",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.Min(),
+                                    text: column.DateFilterMinSpan.ToString(),
+                                    validateRequired: true,
+                                    validateNumber: true)
+                                .FieldTextBox(
+                                    controlId: "DateFilterMaxSpan",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.Max(),
+                                    text: column.DateFilterMaxSpan.ToString(),
+                                    validateRequired: true,
+                                    validateNumber: true)
+                                .FieldCheckBox(
+                                    controlId: "DateFilterFy",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.UseFy(),
+                                    _checked: column.DateFilterFy.ToBool())
+                                .FieldCheckBox(
+                                    controlId: "DateFilterHalf",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.UseHalf(),
+                                    _checked: column.DateFilterHalf.ToBool())
+                                .FieldCheckBox(
+                                    controlId: "DateFilterQuarter",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.UseQuarter(),
+                                    _checked: column.DateFilterQuarter.ToBool())
+                                .FieldCheckBox(
+                                    controlId: "DateFilterMonth",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.UseMonth(),
+                                    _checked: column.DateFilterMonth.ToBool());
+                            break;
                     }
                 });
             return hb

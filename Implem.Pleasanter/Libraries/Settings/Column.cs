@@ -37,6 +37,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string FieldCss;
         public string Unit;
         public bool? Link;
+        public int? DateFilterMinSpan;
+        public int? DateFilterMaxSpan;
+        public bool? DateFilterFy;
+        public bool? DateFilterHalf;
+        public bool? DateFilterQuarter;
+        public bool? DateFilterMonth;
         public decimal? NumFilterMin;
         public decimal? NumFilterMax;
         public decimal? NumFilterStep;

@@ -199,6 +199,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     if (column.FieldCss == columnDefinition.FieldCss) column.FieldCss = null;
                     if (column.Unit == columnDefinition.Unit) column.Unit = null;
                     if (column.Link == false) column.Link = null;
+                    if (column.DateFilterMinSpan == Parameters.General.DateFilterMinSpan) column.DateFilterMinSpan = null;
+                    if (column.DateFilterMaxSpan == Parameters.General.DateFilterMaxSpan) column.DateFilterMaxSpan = null;
+                    if (column.DateFilterFy.ToBool()) column.DateFilterFy = null;
+                    if (column.DateFilterHalf.ToBool()) column.DateFilterHalf = null;
+                    if (column.DateFilterQuarter.ToBool()) column.DateFilterQuarter = null;
+                    if (column.DateFilterMonth.ToBool()) column.DateFilterMonth = null;
                     if (column.NumFilterMin == Parameters.General.NumFilterMin) column.NumFilterMin = null;
                     if (column.NumFilterMax == Parameters.General.NumFilterMax) column.NumFilterMax = null;
                     if (column.NumFilterStep == Parameters.General.NumFilterStep) column.NumFilterStep = null;
@@ -376,6 +382,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.EditorReadOnly = column.EditorReadOnly ?? false;
                 column.FieldCss = column.FieldCss ?? columnDefinition.FieldCss;
                 column.Unit = column.Unit ?? columnDefinition.Unit;
+                column.DateFilterMinSpan = column.DateFilterMinSpan ?? Parameters.General.DateFilterMinSpan;
+                column.DateFilterMaxSpan = column.DateFilterMaxSpan ?? Parameters.General.DateFilterMaxSpan;
+                column.DateFilterFy = column.DateFilterFy ?? true;
+                column.DateFilterHalf = column.DateFilterHalf ?? true;
+                column.DateFilterQuarter = column.DateFilterQuarter ?? true;
+                column.DateFilterMonth = column.DateFilterMonth ?? true;
                 column.NumFilterMin = column.NumFilterMin ?? Parameters.General.NumFilterMin;
                 column.NumFilterMax = column.NumFilterMax ?? Parameters.General.NumFilterMax;
                 column.NumFilterStep = column.NumFilterStep ?? Parameters.General.NumFilterStep;
@@ -874,6 +886,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ControlFormat": column.ControlFormat = value; break;
                 case "ExportFormat": column.ExportFormat = value; break;
                 case "Unit": column.Unit = value; break;
+                case "DateFilterMinSpan": column.DateFilterMinSpan = value.ToInt(); break;
+                case "DateFilterMaxSpan": column.DateFilterMaxSpan = value.ToInt(); break;
+                case "DateFilterFy": column.DateFilterFy = value.ToBool(); break;
+                case "DateFilterHalf": column.DateFilterHalf = value.ToBool(); break;
+                case "DateFilterQuarter": column.DateFilterQuarter = value.ToBool(); break;
+                case "DateFilterMonth": column.DateFilterMonth = value.ToBool(); break;
                 case "NumFilterMin": column.NumFilterMin = value.ToDecimal(); break;
                 case "NumFilterMax": column.NumFilterMax = value.ToDecimal(); break;
                 case "NumFilterStep": column.NumFilterStep = value.ToDecimal(); break;
