@@ -12,6 +12,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             var hash = new Dictionary<string, ControlData>();
             var min = Min(column);
             var max = Max(column);
+            if (column.Nullable)
+            {
+                hash.Add("\t", new ControlData(Displays.NotSet()));
+            }
             if (column.DateFilterFy.ToBool())
             {
                 for (var m = min; m <= max; m += 12)
