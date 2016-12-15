@@ -163,13 +163,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ss: ss,
                             view: view);
                         break;
-                    case Types.CsDateTime:
-                        hb.DropDown(
-                            ss: ss,
-                            column: column,
-                            view: view,
-                            optionCollection: column.DateFilterOptions());
-                        break;
                     case Types.CsNumeric:
                         hb.DropDown(
                             ss: ss,
@@ -178,6 +171,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             optionCollection: column.HasChoices()
                                 ? column.EditChoices(addNotSet: true)
                                 : column.NumFilterOptions());
+                        break;
+                    case Types.CsDateTime:
+                        hb.DropDown(
+                            ss: ss,
+                            column: column,
+                            view: view,
+                            optionCollection: column.DateFilterOptions());
                         break;
                     case Types.CsString:
                         if (column.HasChoices())
