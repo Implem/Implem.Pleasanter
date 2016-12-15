@@ -493,7 +493,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return param.Where(o => o != "\t").Any()
                 ? new SqlWhere(raw: param.Select(range =>
-                    "[t0].[{0}] is null or [t0].[{0}] between '{1}' and '{2}'".Params(
+                    "[t0].[{0}] between '{1}' and '{2}'".Params(
                         columnName,
                         range.Split_1st().ToDateTime().ToUniversal()
                             .ToString("yyyy/M/d H:m:s"),
