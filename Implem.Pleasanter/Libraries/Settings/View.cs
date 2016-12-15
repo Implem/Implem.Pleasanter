@@ -419,7 +419,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private SqlWhere CsNumericColumnsWhere(string columnName, List<string> param)
         {
-            return param.Where(o => o != "\t").Any()
+            return param.Any(o => o != "\t")
                 ? new SqlWhere(
                     columnBrackets: new string[] { "[t0].[{0}]".Params(columnName) },
                     name: columnName,
@@ -491,7 +491,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private SqlWhere CsDateTimeColumnsWhere(string columnName, List<string> param)
         {
-            return param.Where(o => o != "\t").Any()
+            return param.Any(o => o != "\t")
                 ? new SqlWhere(raw: param.Select(range =>
                     "[t0].[{0}] between '{1}' and '{2}'".Params(
                         columnName,
@@ -534,7 +534,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private SqlWhere CsStringColumnsWhere(string columnName, List<string> param)
         {
-            return param.Where(o => o != "\t").Any()
+            return param.Any(o => o != "\t")
                 ? new SqlWhere(
                     columnBrackets: new string[] { "[t0].[{0}]".Params(columnName) },
                     name: columnName,
