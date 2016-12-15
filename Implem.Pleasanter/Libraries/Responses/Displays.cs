@@ -144,6 +144,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string EarnedValue(params string[] data) { return Get("EarnedValue", data); }
         public static HtmlBuilder Displays_Difference(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Difference", data)); }
         public static string Difference(params string[] data) { return Get("Difference", data); }
+        public static HtmlBuilder Displays_Over(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Over", data)); }
+        public static string Over(params string[] data) { return Get("Over", data); }
+        public static HtmlBuilder Displays_LessThan(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LessThan", data)); }
+        public static string LessThan(params string[] data) { return Get("LessThan", data); }
         public static HtmlBuilder Displays_ChangePassword(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ChangePassword", data)); }
         public static string ChangePassword(params string[] data) { return Get("ChangePassword", data); }
         public static HtmlBuilder Displays_ResetPassword(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ResetPassword", data)); }

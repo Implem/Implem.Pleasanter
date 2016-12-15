@@ -2472,6 +2472,10 @@ namespace Implem.DefinitionAccessor
                     case "EarnedValue_ja": Display.EarnedValue_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.EarnedValue_ja, definitionRow, DisplayXls); break;
                     case "Difference": Display.Difference = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Difference, definitionRow, DisplayXls); break;
                     case "Difference_ja": Display.Difference_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Difference_ja, definitionRow, DisplayXls); break;
+                    case "Over": Display.Over = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Over, definitionRow, DisplayXls); break;
+                    case "Over_ja": Display.Over_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.Over_ja, definitionRow, DisplayXls); break;
+                    case "LessThan": Display.LessThan = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.LessThan, definitionRow, DisplayXls); break;
+                    case "LessThan_ja": Display.LessThan_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.LessThan_ja, definitionRow, DisplayXls); break;
                     case "ChangePassword": Display.ChangePassword = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ChangePassword, definitionRow, DisplayXls); break;
                     case "ChangePassword_ja": Display.ChangePassword_ja = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ChangePassword_ja, definitionRow, DisplayXls); break;
                     case "ResetPassword": Display.ResetPassword = definitionRow[1].ToString(); SetDisplayTable(DisplayTable.ResetPassword, definitionRow, DisplayXls); break;
@@ -7810,6 +7814,10 @@ namespace Implem.DefinitionAccessor
         public string EarnedValue_ja;
         public string Difference;
         public string Difference_ja;
+        public string Over;
+        public string Over_ja;
+        public string LessThan;
+        public string LessThan_ja;
         public string ChangePassword;
         public string ChangePassword_ja;
         public string ResetPassword;
@@ -8509,6 +8517,10 @@ namespace Implem.DefinitionAccessor
         public DisplayDefinition EarnedValue_ja = new DisplayDefinition();
         public DisplayDefinition Difference = new DisplayDefinition();
         public DisplayDefinition Difference_ja = new DisplayDefinition();
+        public DisplayDefinition Over = new DisplayDefinition();
+        public DisplayDefinition Over_ja = new DisplayDefinition();
+        public DisplayDefinition LessThan = new DisplayDefinition();
+        public DisplayDefinition LessThan_ja = new DisplayDefinition();
         public DisplayDefinition ChangePassword = new DisplayDefinition();
         public DisplayDefinition ChangePassword_ja = new DisplayDefinition();
         public DisplayDefinition ResetPassword = new DisplayDefinition();

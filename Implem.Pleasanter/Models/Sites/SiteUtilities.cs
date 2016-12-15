@@ -1749,6 +1749,9 @@ namespace Implem.Pleasanter.Models
                                     method: "put"))));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static HtmlBuilder EditorColumnDialog(
             SiteSettings ss, Column column, IEnumerable<string> titleColumns)
         {
@@ -2525,6 +2528,17 @@ namespace Implem.Pleasanter.Models
                         multiple: true,
                         addSelectedValue: false);
                 case Types.CsNumeric:
+                    return hb.FieldDropDown(
+                        controlId: "ViewFilters_" + column.Id,
+                        fieldCss: "field-auto-thin",
+                        controlCss: " auto-postback",
+                        labelText: Displays.Get(column.GridLabelText),
+                        optionCollection: column.HasChoices()
+                            ? column.EditChoices()
+                            : column.NumFilterOptions(),
+                        selectedValue: value,
+                        multiple: true,
+                        addSelectedValue: false);
                 case Types.CsString:
                     return column.HasChoices()
                         ? hb.FieldDropDown(

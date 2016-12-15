@@ -375,7 +375,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                             CsBoolColumns(data.ColumnName, data.Value, where);
                             break;
                         case Types.CsNumeric:
-                            CsNumericColumns(data.Column, data.ColumnName, data.Value, where);
+                            if (data.Value.RegexExists("[0-9]*,[0-9]*"))
+                            {
+                                CsNumericRangeColumns(
+                                    data.Column, data.ColumnName, data.Value, where);
+                            }
+                            else
+                            {
+                                CsNumericColumns(
+                                    data.Column, data.ColumnName, data.Value, where);
+                            }
                             break;
                         case Types.CsDateTime:
                             CsDateTimeColumns(data.Column, data.ColumnName, data.Value, where);
@@ -435,6 +444,37 @@ namespace Implem.Pleasanter.Libraries.Settings
                             ? User.UserTypes.Anonymous.ToInt()
                             : 0))))
                 : null;
+        }
+
+        private void CsNumericRangeColumns(
+            Column column, string columnName, string value, SqlWhereCollection where)
+        {
+            var param = value.Deserialize<List<string>>();
+            var parts = new SqlWhereCollection();
+            param.ForEach(data =>
+            {
+                var from = data.Split_1st();
+                var to = data.Split_2nd();
+                if (from == string.Empty)
+                {
+                    parts.Add(new SqlWhere(
+                        columnBrackets: new string[] { "[t0].[{0}]".Params(columnName) },
+                        _operator: " <{0}".Params(to)));
+                }
+                else if (to == string.Empty)
+                {
+                    parts.Add(new SqlWhere(
+                        columnBrackets: new string[] { "[t0].[{0}]".Params(columnName) },
+                        _operator: " >={0}".Params(from)));
+                }
+                else
+                {
+                    parts.Add(new SqlWhere(
+                        columnBrackets: new string[] { "[t0].[{0}]".Params(columnName) },
+                        _operator: " between {0} and {1}".Params(from, to)));
+                }
+            });
+            where.Add(or: parts);
         }
 
         private void CsDateTimeColumns(

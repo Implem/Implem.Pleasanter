@@ -173,6 +173,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             optionCollection: timePeriod);
                         break;
                     case Types.CsNumeric:
+                        hb.DropDown(
+                            ss: ss,
+                            column: column,
+                            view: view,
+                            optionCollection: column.HasChoices()
+                                ? column.EditChoices(addNotSet: true)
+                                : column.NumFilterOptions());
+                        break;
                     case Types.CsString:
                         if (column.HasChoices())
                         {
