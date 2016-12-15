@@ -512,7 +512,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         _operator: " is null"),
                     new SqlWhere(
                         columnBrackets: new string[] { "[t0].[{0}]".Params(columnName) },
-                        _operator: " not between '{1}' and '{2}'".Params(
+                        _operator: " not between '{0}' and '{1}'".Params(
                             Parameters.General.MinTime.ToUniversal()
                                 .ToString("yyyy/M/d H:m:s"),
                             Parameters.General.MaxTime.ToUniversal()
