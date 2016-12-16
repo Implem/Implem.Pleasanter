@@ -562,10 +562,10 @@ namespace Implem.Pleasanter.Models
         public static void SetPermissionType(
             this ResponseCollection res,
             SiteModel siteModel,
-            List<string> selectedPermissionType_ItemIdCollection,
+            List<string> permissionDestination,
             Permissions.Types pt)
         {
-            selectedPermissionType_ItemIdCollection.ForEach(permissionType_ItemId =>
+            permissionDestination.ForEach(permissionType_ItemId =>
                 siteModel.Session_PermissionDestinationCollection()
                     .Where(o => (o.PermissionId == permissionType_ItemId))
                     .First()
@@ -573,7 +573,7 @@ namespace Implem.Pleasanter.Models
             res.Html("#PermissionDestination", PermissionListItem(
                 siteModel,
                 Types.Destination,
-                selectedPermissionType_ItemIdCollection));
+                permissionDestination));
         }
     }
 }
