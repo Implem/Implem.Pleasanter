@@ -530,7 +530,8 @@ namespace Implem.Pleasanter.Models
                             permissionDestination
                                 .Contains(o.PermissionId));
                         res
-                            .Html("#PermissionDestination", PermissionListItem(siteModel, Types.Destination))
+                            .Html("#PermissionDestination", PermissionListItem(
+                                siteModel, Types.Destination))
                             .Html("#PermissionSource", PermissionListItem(
                                 siteModel, Types.Source,
                                 permissionDestination))
