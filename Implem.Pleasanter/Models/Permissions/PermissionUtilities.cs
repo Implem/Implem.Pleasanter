@@ -463,11 +463,11 @@ namespace Implem.Pleasanter.Models
             var permissionDestination = Forms.Data("PermissionDestination")
                 .SortedSet(';')
                 .Where(o => o != string.Empty)
-                .ToList<string>();
+                .ToList();
             var permissionSource = Forms.Data("PermissionSource")
                 .SortedSet(';')
                 .Where(o => o != string.Empty)
-                .ToList<string>();
+                .ToList();
             if (Forms.Data("command") != "AddPermission" &&
                 permissionDestination.Contains("User," + Sessions.UserId()))
             {
