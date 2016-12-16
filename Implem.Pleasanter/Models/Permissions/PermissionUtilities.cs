@@ -539,7 +539,7 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "SearchText":
                         siteModel.Session_PermissionSourceCollection(
-                            PermissionUtilities.SourceCollection(
+                            SourceCollection(
                                 "Sites",
                                 siteModel.SiteId,
                                 Forms.Data("SearchText")));
