@@ -1,10 +1,11 @@
-﻿using System.Data.SqlClient;
+﻿using Implem.Libraries.Utilities;
+using System.Data.SqlClient;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
 {
     public class SqlSelect : SqlStatement
     {
-        public string DataTableName = string.Empty;
+        public string DataTableName;
         public bool Distinct;
         public int Top;
         public int PageSize;
@@ -85,7 +86,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             int? commandCount)
         {
             if (!Using) return;
-            sqlContainer.DataTableNames.Add(DataTableName);
+            if (!DataTableName.IsNullOrEmpty()) sqlContainer.DataTableNames.Add(DataTableName);
             SqlColumnCollection?.BuildCommandText(commandText, Distinct, Top);
             commandText.Append(from);
             SqlJoinCollection?.BuildCommandText(commandText);
