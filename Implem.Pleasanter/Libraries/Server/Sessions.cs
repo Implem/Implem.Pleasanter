@@ -96,7 +96,7 @@ namespace Implem.Pleasanter.Libraries.Server
         public static TimeZoneInfo TimeZoneInfo()
         {
             return 
-                HttpContext.Current.Session?["TimeZoneInfo"] as TimeZoneInfo ??
+                HttpContext.Current?.Session?["TimeZoneInfo"] as TimeZoneInfo ??
                 Environments.TimeZoneInfoDefault;
         }
 
