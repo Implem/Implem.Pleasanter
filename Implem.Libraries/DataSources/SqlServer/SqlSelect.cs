@@ -37,6 +37,18 @@ namespace Implem.Libraries.DataSources.SqlServer
                         countRecord: CountRecord,
                         commandCount: commandCount);
                     break;
+                case Sqls.TableTypes.NormalAndDeleted:
+                    SqlColumnCollection?.Add(new SqlColumn("0 as [IsDeleted]", adHoc: true));
+                    BuildCommandText(
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        commandText: commandText,
+                        from: "from " + TableBracket + " as [t0]\n",
+                        unionType: Sqls.UnionTypes.Union,
+                        orderBy: false,
+                        countRecord: false,
+                        commandCount: commandCount);
+                    goto case Sqls.TableTypes.Deleted;
                 case Sqls.TableTypes.NormalAndHistory:
                     SqlColumnCollection?.Add(new SqlColumn("0 as [IsHistory]", adHoc: true));
                     BuildCommandText(

@@ -16,6 +16,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             Normal,
             History,
             HistoryWithoutFlag,
+            NormalAndDeleted,
             NormalAndHistory,
             Deleted
         }
