@@ -1008,8 +1008,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Items_SiteId(params string[] data) { return Get("Items_SiteId", data); }
         public static HtmlBuilder Displays_Items_Title(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Items_Title", data)); }
         public static string Items_Title(params string[] data) { return Get("Items_Title", data); }
-        public static HtmlBuilder Displays_Items_MaintenanceTarget(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Items_MaintenanceTarget", data)); }
-        public static string Items_MaintenanceTarget(params string[] data) { return Get("Items_MaintenanceTarget", data); }
         public static HtmlBuilder Displays_Items_Site(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Items_Site", data)); }
         public static string Items_Site(params string[] data) { return Get("Items_Site", data); }
         public static HtmlBuilder Displays_Sites_TenantId(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Sites_TenantId", data)); }

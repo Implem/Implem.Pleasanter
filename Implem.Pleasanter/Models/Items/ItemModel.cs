@@ -26,19 +26,16 @@ namespace Implem.Pleasanter.Models
         public string ReferenceType = string.Empty;
         public long SiteId = 0;
         public string Title = string.Empty;
-        public bool MaintenanceTarget = true;
         public SiteModel Site = null;
         public long SavedReferenceId = 0;
         public string SavedReferenceType = string.Empty;
         public long SavedSiteId = 0;
         public string SavedTitle = string.Empty;
-        public bool SavedMaintenanceTarget = true;
         public SiteModel SavedSite = null;
         public bool ReferenceId_Updated { get { return ReferenceId != SavedReferenceId; } }
         public bool ReferenceType_Updated { get { return ReferenceType != SavedReferenceType && ReferenceType != null; } }
         public bool SiteId_Updated { get { return SiteId != SavedSiteId; } }
         public bool Title_Updated { get { return Title != SavedTitle && Title != null; } }
-        public bool MaintenanceTarget_Updated { get { return MaintenanceTarget != SavedMaintenanceTarget; } }
 
         public ItemModel(
             SiteSettings ss, 
@@ -683,7 +680,6 @@ namespace Implem.Pleasanter.Models
                     case "ReferenceType": ReferenceType = dataRow[name].ToString(); SavedReferenceType = ReferenceType; break;
                     case "SiteId": SiteId = dataRow[name].ToLong(); SavedSiteId = SiteId; break;
                     case "Title": Title = dataRow[name].ToString(); SavedTitle = Title; break;
-                    case "MaintenanceTarget": MaintenanceTarget = dataRow[name].ToBool(); SavedMaintenanceTarget = MaintenanceTarget; break;
                     case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
                     case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;

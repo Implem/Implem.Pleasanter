@@ -48,21 +48,26 @@ namespace Implem.Pleasanter.Libraries.Server
             return UserId() != Implem.Libraries.Classes.RdsUser.UserTypes.Anonymous.ToInt();
         }
 
+        private static int UserIdentity()
+        {
+            return HttpContext.Current?.User.Identity.Name.ToInt() ?? 0;
+        }
+
         public static int UserId()
         {
             return (
-                HttpContext.Current.User != null &&
-                HttpContext.Current.User.Identity.Name != string.Empty)
-                    ? HttpContext.Current.User.Identity.Name.ToInt()
+                HttpContext.Current?.User != null &&
+                HttpContext.Current?.User.Identity.Name != string.Empty)
+                    ? UserIdentity()
                     : Implem.Libraries.Classes.RdsUser.UserTypes.Anonymous.ToInt();
         }
 
         public static int DeptId()
         {
             return (
-                HttpContext.Current.User != null &&
-                HttpContext.Current.User.Identity.Name != string.Empty)
-                    ? SiteInfo.User(HttpContext.Current.User.Identity.Name.ToInt()).DeptId
+                HttpContext.Current?.User != null &&
+                HttpContext.Current?.User.Identity.Name != string.Empty)
+                    ? SiteInfo.User(UserIdentity()).DeptId
                     : 0;
         }
 

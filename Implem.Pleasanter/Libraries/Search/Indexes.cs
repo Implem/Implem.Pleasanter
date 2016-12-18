@@ -1,70 +1,52 @@
 ﻿using Implem.Libraries.DataSources.SqlServer;
 using Implem.Pleasanter.Libraries.DataSources;
-using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 namespace Implem.Pleasanter.Libraries.Search
 {
     public static class Indexes
     {
-        public static void Create(long id)
+        public static void Create(SiteSettings ss, long id)
         {
-            var itemModel = new ItemModel(id);
-            var siteModel = new SiteModel().Get(where: Rds.SitesWhere().SiteId(itemModel.SiteId));
-            if (Exclude(itemModel, siteModel)) return;
-            SearchIndexHash(siteModel, id, itemModel.ReferenceType)?
-                .Buffer(2000)
-                .Select((o, i) => new { SearchIndexCollection = o, First = (i == 0) })
-                .ForEach(data =>
-                {
-                    try
-                    {
-                        Rds.ExecuteNonQuery(statements:
-                            Statements(data.SearchIndexCollection, id, data.First));
-                    }
-                    catch (System.Data.SqlClient.SqlException e)
-                    {
-                        switch (e.Number)
-                        {
-                            case 2627: break;
-                            default: new SysLogModel(e); break;
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        new SysLogModel(e);
-                    }
-                });
+            Task.Run(() =>
+                CreateIndexes(ss, id));
         }
 
-        private static bool Exclude(ItemModel itemModel, SiteModel siteModel)
+        private static void CreateIndexes(SiteSettings ss, long id)
         {
-            switch (itemModel.ReferenceType)
+            var hash = SearchIndexHash(ss, id);
+            Rds.ExecuteNonQuery(statements: Rds.PhysicalDeleteSearchIndexes(
+                where: Rds.SearchIndexesWhere().ReferenceId(id)));
+            hash?.Buffer(2000).ForEach(data =>
             {
-                case "Sites":
-                    switch (siteModel.ReferenceType)
+                try
+                {
+                    Rds.ExecuteNonQuery(statements: Statements(data, id));
+                }
+                catch (System.Data.SqlClient.SqlException e)
+                {
+                    switch (e.Number)
                     {
-                        case "Wikis": return true;
-                        default: return false;
+                        case 2627: break;
+                        default: new SysLogModel(e); break;
                     }
-                default: return false;
-            }
+                }
+                catch (Exception e)
+                {
+                    new SysLogModel(e);
+                }
+            });
         }
 
         private static SqlStatement[] Statements(
-            IList<KeyValuePair<string, int>> searchIndexCollection, long id, bool first)
+            IList<KeyValuePair<string, int>> searchIndexCollection, long id)
         {
             var statements = new List<SqlStatement>();
-            if (first)
-            {
-                statements.Add(Rds.PhysicalDeleteSearchIndexes(
-                    where: Rds.SearchIndexesWhere().ReferenceId(id)));
-            }
             searchIndexCollection.ForEach(word =>
                 statements.Add(Rds.InsertSearchIndexes(
                     param: Rds.SearchIndexesParam()
@@ -74,10 +56,14 @@ namespace Implem.Pleasanter.Libraries.Search
             return statements.ToArray();
         }
 
-        private static Dictionary<string, int> SearchIndexHash(
-            SiteModel siteModel, long id, string referenceType)
+        private static Dictionary<string, int> SearchIndexHash(SiteSettings ss, long id)
         {
-            var ss = SiteSettingsUtility.Get(siteModel);
+            var referenceType = ss.ReferenceType;
+            if (ss.SiteId == id)
+            {
+                referenceType = "Sites";
+                if (ss.ReferenceType == "Wikis") return null;
+            }
             switch (referenceType)
             {
                 case "Sites":

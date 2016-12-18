@@ -22,47 +22,5 @@ namespace Implem.Pleasanter.Models
 {
     public static class ItemUtilities
     {
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static void Maintain()
-        {
-            MaintenanceTargets().ForEach(target =>
-            {
-                Libraries.Search.Indexes.Create(target.Key);
-                UpdateMaintenanceTarget(target.Key);
-            });
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static Dictionary<long, string> MaintenanceTargets()
-        {
-            return Rds.ExecuteTable(statements:
-                Rds.SelectItems(
-                    top: 100,
-                    column: Rds.ItemsColumn()
-                        .ReferenceId()
-                        .ReferenceType(),
-                    where: Rds.ItemsWhere().MaintenanceTarget(true)))
-                        .AsEnumerable()
-                        .ToDictionary(
-                            o => o["ReferenceId"].ToLong(),
-                            o => o["ReferenceType"].ToString());
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static void UpdateMaintenanceTarget(long referenceId)
-        {
-            Rds.ExecuteNonQuery(statements:
-                Rds.UpdateItems(
-                    param: Rds.ItemsParam().MaintenanceTarget(false),
-                    where: Rds.ItemsWhere().ReferenceId(referenceId),
-                    addUpdatedTimeParam: false,
-                    addUpdatorParam: false));
-        }
     }
 }

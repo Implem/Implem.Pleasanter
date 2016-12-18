@@ -293,8 +293,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ItemsWhere().ReferenceId(SiteId),
                         param: Rds.ItemsParam()
                             .SiteId(SiteId)
-                            .Title(SiteUtilities.TitleDisplayValue(SiteSettings, this))
-                            .MaintenanceTarget(true),
+                            .Title(SiteUtilities.TitleDisplayValue(SiteSettings, this)),
                         addUpdatedTimeParam: addUpdatedTimeParam,
                         addUpdatorParam: addUpdatorParam),
                     Rds.PhysicalDeleteLinks(
@@ -304,6 +303,7 @@ namespace Implem.Pleasanter.Models
                         .Distinct()
                         .ToDictionary(o => o, o => SiteId))
                 });
+            Libraries.Search.Indexes.Create(SiteSettings, SiteId);
         }
 
         public Error.Types UpdateOrCreate(
@@ -328,6 +328,7 @@ namespace Implem.Pleasanter.Models
                 });
             SiteId = newId != 0 ? newId : SiteId;
             Get();
+            Libraries.Search.Indexes.Create(SiteSettings, SiteId);
             return Error.Types.None;
         }
 
@@ -373,6 +374,7 @@ namespace Implem.Pleasanter.Models
                     Rds.RestoreSites(
                         where: Rds.SitesWhere().SiteId(SiteId))
                 });
+            Libraries.Search.Indexes.Create(SiteSettings, SiteId);
             return Error.Types.None;
         }
 
@@ -383,6 +385,7 @@ namespace Implem.Pleasanter.Models
                 statements: Rds.PhysicalDeleteSites(
                     tableType: tableType,
                     param: Rds.SitesParam().TenantId(TenantId).SiteId(SiteId)));
+            Libraries.Search.Indexes.Create(SiteSettings, SiteId);
             return Error.Types.None;
         }
 
@@ -520,6 +523,9 @@ namespace Implem.Pleasanter.Models
                         Comments = Comments
                     };
                     wikiModel.Create();
+                    break;
+                default:
+                    Libraries.Search.Indexes.Create(SiteSettings, SiteId);
                     break;
             }
             return Error.Types.None;

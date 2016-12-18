@@ -197,6 +197,7 @@ namespace Implem.Pleasanter.Models
                     param: Rds.ItemsParam()
                         .Title(WikiUtilities.TitleDisplayValue(SiteSettings, this)),
                     where: Rds.ItemsWhere().ReferenceId(WikiId)));
+            Libraries.Search.Indexes.Create(SiteSettings, WikiId);
             return Error.Types.None;
         }
 
@@ -234,8 +235,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ItemsWhere().ReferenceId(WikiId),
                         param: Rds.ItemsParam()
                             .SiteId(SiteId)
-                            .Title(WikiUtilities.TitleDisplayValue(SiteSettings, this))
-                            .MaintenanceTarget(true),
+                            .Title(WikiUtilities.TitleDisplayValue(SiteSettings, this)),
                         addUpdatedTimeParam: addUpdatedTimeParam,
                         addUpdatorParam: addUpdatorParam),
                     Rds.PhysicalDeleteLinks(
@@ -245,6 +245,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ItemsWhere().SiteId(SiteId),
                         param: Rds.ItemsParam().Title(Title.Value))
                 });
+            Libraries.Search.Indexes.Create(SiteSettings, WikiId);
         }
 
         private SqlInsert InsertLinks(SiteSettings ss, bool selectIdentity = false)
@@ -282,6 +283,7 @@ namespace Implem.Pleasanter.Models
                 });
             WikiId = newId != 0 ? newId : WikiId;
             Get();
+            Libraries.Search.Indexes.Create(SiteSettings, WikiId);
             return Error.Types.None;
         }
 
@@ -320,6 +322,7 @@ namespace Implem.Pleasanter.Models
                     Rds.RestoreWikis(
                         where: Rds.WikisWhere().WikiId(WikiId))
                 });
+            Libraries.Search.Indexes.Create(SiteSettings, WikiId);
             return Error.Types.None;
         }
 
@@ -330,6 +333,7 @@ namespace Implem.Pleasanter.Models
                 statements: Rds.PhysicalDeleteWikis(
                     tableType: tableType,
                     param: Rds.WikisParam().SiteId(SiteId).WikiId(WikiId)));
+            Libraries.Search.Indexes.Create(SiteSettings, WikiId);
             return Error.Types.None;
         }
 
