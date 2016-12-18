@@ -14,34 +14,104 @@ namespace Implem.Pleasanter.Libraries.Server
 {
     public static class SiteInfo
     {
-        public static SiteMenu SiteMenu = new SiteMenu();
-        public static Dictionary<long, List<int>> SiteUserIdCollection =
-            new Dictionary<long, List<int>>();
+        public static SiteMenu SiteMenu;
         public static Dictionary<int, Dept> DeptHash;
         public static Dictionary<int, User> UserHash;
+        public static Dictionary<long, List<int>> SiteUserHash;
 
-        public static IEnumerable<int> UserIdCollection(long siteId)
+        public static void Reflesh()
         {
-            if (!SiteUserIdCollection.ContainsKey(siteId))
+            var monitor = new UpdateMonitor();
+            if (monitor.Updated)
             {
-                SetSiteUserIdCollection(siteId, reload: true);
+                var tenantId = Sessions.TenantId();
+                var permission = new SqlWhereCollection().Add(or: new SqlWhereCollection(
+                    new SqlWhere(raw: "[t0].[DeptId] <> 0 and [t0].[DeptId]=" + Sessions.DeptId()),
+                    new SqlWhere(raw: "[t0].[UserId] <> 0 and [t0].[UserId]=" + Sessions.UserId())));
+                var dataSet = Rds.ExecuteDataSet(statements: new SqlStatement[]
+                {
+                    Rds.SelectSites(
+                        dataTableName: "Sites",
+                        column: Rds.SitesColumn()
+                            .TenantId()
+                            .ReferenceType()
+                            .ParentId()
+                            .Title(),
+                        where: Rds.SitesWhere()
+                            .TenantId(tenantId, _using: tenantId != 0)
+                            .InheritPermission_In(sub: Rds.SelectPermissions(
+                                column: Rds.PermissionsColumn().ReferenceId(),
+                                where: permission))),
+                    Rds.SelectDepts(
+                        dataTableName: "Depts",
+                        column: Rds.DeptsColumn()
+                            .TenantId()
+                            .DeptId()
+                            .DeptName(),
+                        _using: monitor.DeptsUpdated),
+                    Rds.SelectUsers(
+                        dataTableName: "Users",
+                        column: Rds.UsersColumn()
+                            .TenantId()
+                            .UserId()
+                            .DeptId()
+                            .FirstName()
+                            .LastName()
+                            .FirstAndLastNameOrder()
+                            .TenantAdmin()
+                            .ServiceAdmin(),
+                        _using: monitor.UsersUpdated)
+                });
+                if (monitor.DeptsUpdated)
+                {
+                    DeptHash = dataSet.Tables["Depts"]
+                        .AsEnumerable()
+                        .ToDictionary(
+                            dataRow => dataRow["DeptId"].ToInt(),
+                            dataRow => new Dept(dataRow));
+                }
+                if (monitor.UsersUpdated)
+                {
+                    UserHash = dataSet.Tables["Users"]
+                        .AsEnumerable()
+                        .ToDictionary(
+                            dataRow => dataRow["UserId"].ToInt(),
+                            dataRow => new User(dataRow));
+                }
+                if (monitor.PermissionsUpdated)
+                {
+                    SiteUserHash = new Dictionary<long, List<int>>();
+                }
+                if (monitor.SitesUpdated)
+                {
+                    SiteMenu = new SiteMenu();
+                }
+                monitor.Update();
             }
-            return SiteUserIdCollection[siteId];
         }
 
-        public static void SetSiteUserIdCollection(long siteId, bool reload = false)
+        public static IEnumerable<int> SiteUsers(long siteId)
         {
-            if (!SiteUserIdCollection.ContainsKey(siteId))
+            if (!SiteUserHash.ContainsKey(siteId))
             {
-                SiteUserIdCollection.Add(siteId, GetSiteUserIdCollection(siteId));
+                SetSiteUserHash(siteId, reload: true);
+            }
+            return SiteUserHash[siteId];
+        }
+
+        public static void SetSiteUserHash(long siteId, bool reload = false)
+        {
+            if (!SiteUserHash.ContainsKey(siteId))
+            {
+                SiteUserHash.Add(siteId, GetSiteUserHash(siteId));
             }
             else if (reload)
             {
-                SiteInfo.SiteUserIdCollection[siteId] = GetSiteUserIdCollection(siteId);
+                SiteUserHash[siteId] = GetSiteUserHash(siteId);
             }
         }
 
-        private static List<int> GetSiteUserIdCollection(long siteId)
+        private static List<int> GetSiteUserHash(long siteId)
         {
             var siteUserCollection = new List<int>();
             foreach (DataRow dataRow in SiteUserDataTable(siteId).Rows)
@@ -60,110 +130,30 @@ namespace Implem.Pleasanter.Libraries.Server
                     .ReferenceId(siteId)));
         }
 
-        public static Dictionary<int, Dept> GetDepts()
-        {
-            if (DeptHash == null) RefreshDepts();
-            return DeptHash;
-        }
-
-        public static void SetDept(DeptModel deptModel)
-        {
-            if (DeptExists(deptModel.DeptId))
-            {
-                DeptHash[deptModel.DeptId] = new Dept(
-                    deptModel.TenantId, deptModel.DeptId, deptModel.DeptName);
-            }
-            else
-            {
-                DeptHash.Add(deptModel.DeptId, new Dept(
-                    deptModel.TenantId, deptModel.DeptId, deptModel.DeptName));
-            }
-        }
-
-        public static void RefreshDepts()
-        {
-            DeptHash = Rds.ExecuteTable(statements:
-                Rds.SelectDepts(
-                    column: Rds.DeptsColumn()
-                        .TenantId()
-                        .DeptId()
-                        .DeptName()))
-                            .AsEnumerable()
-                            .Select(o => new Dept(
-                                o["TenantId"].ToInt(),
-                                o["DeptId"].ToInt(),
-                                o["DeptName"].ToString()))
-                            .ToDictionary(o => o.Id, o => o);
-        }
-
-        public static bool DeptExists(int deptId)
-        {
-            return GetDepts().ContainsKey(deptId);
-        }
-
         public static Dept Dept(int deptId)
         {
-            return GetDepts()
+            return DeptHash?
                 .Where(o => o.Key == deptId)
                 .Select(o => o.Value)
                 .FirstOrDefault();
         }
 
-        public static Dictionary<int, User> GetUsers()
-        {
-            if (UserHash == null) RefreshUsers();
-            return UserHash;
-        }
-
-        public static void SetUser(User user)
-        {
-            if (UserExists(user.Id))
-            {
-                UserHash[user.Id] = user;
-            }
-            else
-            {
-                UserHash.Add(user.Id, user);
-            }
-        }
-
-        public static void RefreshUsers()
-        {
-            UserHash = Rds.ExecuteTable(statements:
-                Rds.SelectUsers(
-                    column: Rds.UsersColumn()
-                        .TenantId()
-                        .UserId()
-                        .DeptId()
-                        .FirstName()
-                        .LastName()
-                        .FirstAndLastNameOrder()
-                        .TenantAdmin()
-                        .ServiceAdmin())).AsEnumerable().ToDictionary(
-                            o => o["UserId"].ToInt(), o => new User(o));
-        }
-
-        public static bool UserExists(int userId)
-        {
-            return GetUsers().ContainsKey(userId);
-        }
-
         public static User User(int userId)
         {
-            if (!UserExists(userId))
-            {
-                var user = new User(userId);
-                UserHash.Add(userId, user);
-            }
-            return GetUsers()
+            return UserHash?
                 .Where(o => o.Key == userId)
                 .Select(o => o.Value)
-                .FirstOrDefault();
+                .FirstOrDefault() ?? Anonymouse();
+        }
+
+        private static User Anonymouse()
+        {
+            return new User(DataTypes.User.UserTypes.Anonymous.ToInt());
         }
 
         public static string UserFullName(int userId, bool notSet = true)
         {
-            var fullName = SiteInfo.User(userId).FullName();
+            var fullName = User(userId).FullName();
             return notSet || fullName != Displays.NotSet()
                 ? fullName
                 : string.Empty;

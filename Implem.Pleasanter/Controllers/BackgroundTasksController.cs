@@ -1,10 +1,12 @@
-﻿using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.Pleasanter.Filters;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 using Implem.Pleasanter.Tools;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
+    [RefleshSiteInfo]
     public class BackgroundTasksController : Controller
     {
         [AllowAnonymous]

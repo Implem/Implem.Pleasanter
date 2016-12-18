@@ -219,7 +219,7 @@ namespace Implem.Pleasanter.Models
             if (notice) Notice("Updated");
             Get();
             UpdateRelatedRecords();
-            SiteInfo.SiteMenu.Set(SiteId);
+            SiteInfo.Reflesh();
             return Error.Types.None;
         }
 

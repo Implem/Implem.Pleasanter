@@ -48,6 +48,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                         orderBy: false,
                         countRecord: false,
                         commandCount: commandCount);
+                    DataTableName = null;
                     goto case Sqls.TableTypes.Deleted;
                 case Sqls.TableTypes.NormalAndHistory:
                     SqlColumnCollection?.Add(new SqlColumn("0 as [IsHistory]", adHoc: true));
@@ -60,6 +61,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                         orderBy: false,
                         countRecord: false,
                         commandCount: commandCount);
+                    DataTableName = null;
                     goto case Sqls.TableTypes.History;
                 case Sqls.TableTypes.Deleted:
                     SqlColumnCollection?.Add(new SqlColumn("1 as [IsDeleted]", adHoc: true));

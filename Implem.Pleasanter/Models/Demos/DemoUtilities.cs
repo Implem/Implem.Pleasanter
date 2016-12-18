@@ -114,7 +114,7 @@ namespace Implem.Pleasanter.Models
                 LoginId = loginId,
                 Password = password
             }.Authenticate(string.Empty);
-            SetSites(idHash);
+            SiteInfo.Reflesh();
         }
 
         /// <summary>
@@ -224,7 +224,6 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ItemsWhere().ReferenceId(siteModel.SiteId),
                         addUpdatorParam: false,
                         addUpdatedTimeParam: false));
-                    SiteInfo.SiteMenu.Set(siteModel.SiteId);
                 });
         }
 
@@ -476,16 +475,6 @@ namespace Implem.Pleasanter.Models
                                 .PermissionType(Permissions.Types.ReadWrite)));
                 });
             });
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static void SetSites(Dictionary<string, long> idHash)
-        {
-            idHash.Where(o => o.Key.StartsWith("Site")).Select(o => o.Value).ForEach(siteId =>
-                SiteInfo.SetSiteUserIdCollection(
-                    new SiteModel(siteId).InheritPermission, reload: true));
         }
 
         /// <summary>

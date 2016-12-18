@@ -1,9 +1,11 @@
-﻿using Implem.Pleasanter.Models;
+﻿using Implem.Pleasanter.Filters;
+using Implem.Pleasanter.Models;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
     [ValidateInput(false)]
+    [RefleshSiteInfo]
     public class PermissionsController : Controller
     {
         [HttpGet]

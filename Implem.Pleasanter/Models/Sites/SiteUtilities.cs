@@ -426,7 +426,7 @@ namespace Implem.Pleasanter.Models
                     .TenantId(Sessions.TenantId())
                     .SiteId(sourceId),
                 param: Rds.SitesParam().ParentId(destinationId)));
-            SiteInfo.SiteMenu.Set(sourceId);
+            SiteInfo.Reflesh();
         }
 
         /// <summary>

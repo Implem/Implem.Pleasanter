@@ -152,14 +152,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                     switch (data.Line)
                     {
                         case "[[Depts]]":
-                            SiteInfo.GetDepts()
+                            SiteInfo.DeptHash
                                 .Where(o => o.Value.TenantId == tenantId)
                                 .ForEach(o => AddToChoiceHash(
                                     o.Key.ToString(),
                                     SiteInfo.Dept(o.Key).Name));
                             break;
                         case "[[Users]]":
-                            SiteInfo.UserIdCollection(siteId)
+                            SiteInfo.SiteUsers(siteId)
                                 .ForEach(o => AddToChoiceHash(
                                     o.ToString(),
                                     SiteInfo.UserFullName(o)));
@@ -261,7 +261,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 recordingData = SiteInfo.UserHash
                     .Where(o => o.Value.FullName() == value)
                     .Select(o => o.Value.Id)
-                    .FirstOrDefault(o => SiteInfo.UserIdCollection(siteId).Any(p => p == o));
+                    .FirstOrDefault(o => SiteInfo.SiteUsers(siteId).Any(p => p == o));
             }
             else if (TypeCs == "Comments")
             {

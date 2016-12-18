@@ -30,10 +30,6 @@ namespace Implem.Pleasanter.Models
             MaintenanceTargets().ForEach(target =>
             {
                 Libraries.Search.Indexes.Create(target.Key);
-                switch (target.Value)
-                {
-                    case "Sites": SiteInfo.SiteMenu.Set(target.Key); break;
-                }
                 UpdateMaintenanceTarget(target.Key);
             });
         }

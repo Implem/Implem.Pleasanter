@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Responses;
+﻿using Implem.Pleasanter.Filters;
+using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -8,6 +9,7 @@ namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
     [ValidateInput(false)]
+    [RefleshSiteInfo]
     public class UsersController : Controller
     {
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]

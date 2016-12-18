@@ -449,8 +449,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetSiteInfo()
         {
-            SiteInfo.SiteUserIdCollection.Clear();
-            SiteInfo.SetUser(User());
+            SiteInfo.Reflesh();
             if (Self()) SetSession();
         }
 

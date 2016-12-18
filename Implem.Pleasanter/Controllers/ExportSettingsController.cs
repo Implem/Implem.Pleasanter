@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Security;
+﻿using Implem.Pleasanter.Filters;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
 using System.Web.Mvc;
@@ -6,6 +7,7 @@ namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
     [ValidateInput(false)]
+    [RefleshSiteInfo]
     public class ExportSettingsController : Controller
     {
         [HttpPut]

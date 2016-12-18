@@ -201,7 +201,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void OnConstructed()
         {
-            SiteInfo.SetSiteUserIdCollection(SiteId);
+            SiteInfo.SetSiteUserHash(SiteId);
         }
 
         public void ClearSessions()
@@ -278,7 +278,7 @@ namespace Implem.Pleasanter.Models
             if (count == 0) return Error.Types.UpdateConflicts;
             Get();
             UpdateRelatedRecords();
-            SiteInfo.SiteMenu.Set(SiteId);
+            SiteInfo.Reflesh();
             return Error.Types.None;
         }
 

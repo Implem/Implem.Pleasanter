@@ -198,6 +198,7 @@
     <Compile Include="Controllers\PermissionsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Filters\HandleErrorExAttribute.cs" />
+    <Compile Include="Filters\RefleshSiteInfoAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -226,6 +227,7 @@
     <Compile Include="Libraries\DataTypes\TitleBody.cs" />
     <Compile Include="Libraries\DataTypes\User.cs" />
     <Compile Include="Libraries\DataTypes\WorkValue.cs" />
+    <Compile Include="Libraries\Server\UpdateMonitor.cs" />
     <Compile Include="Libraries\Settings\DateColumnExtensions.cs" />
     <Compile Include="Libraries\Settings\NumColumnExtensions.cs" />
     <Compile Include="Libraries\ViewModes\BurnDown.cs" />
@@ -277,7 +279,6 @@
     <Compile Include="Libraries\HtmlParts\HtmlVerUps.cs" />
     <Compile Include="Libraries\Images\ImageData.cs" />
     <Compile Include="Libraries\Initializers\ItemsInitializer.cs" />
-    <Compile Include="Libraries\Initializers\SitesInitializer.cs" />
     <Compile Include="Libraries\Initializers\UsersInitializer.cs" />
     <Compile Include="Libraries\Mails\Addresses.cs" />
     <Compile Include="Libraries\Migrators\SiteSettingsMigrator.cs" />
@@ -584,7 +585,6 @@
     <Content Include="App_Data\Parameters\Authentication.json" />
     <Content Include="App_Data\Parameters\BackgroundTask.json" />
     <Content Include="App_Data\Parameters\BinaryStorage.json" />
-    <Content Include="App_Data\Parameters\Cache.json" />
     <Content Include="App_Data\Parameters\General.json" />
     <Content Include="App_Data\Parameters\Mail.json" />
     <Content Include="App_Data\Parameters\Path.json" />

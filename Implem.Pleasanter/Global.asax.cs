@@ -14,7 +14,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 namespace Implem.Pleasanter
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         protected void Application_Start()
         {
@@ -22,9 +22,9 @@ namespace Implem.Pleasanter
             Application["LastAccessTime"] = Application["StartTime"];
             Initialize();
             var log = new SysLogModel();
+            SiteInfo.Reflesh();
             UsersInitializer.Initialize();
             ItemsInitializer.Initialize();
-            SitesInitializer.Initialize();
             SiteSettingsMigrator.Migrate();
             SetConfigrations();
             log.Finish();

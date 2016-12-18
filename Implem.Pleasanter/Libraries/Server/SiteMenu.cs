@@ -4,7 +4,6 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
-using Implem.Pleasanter.Tools;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,6 +12,30 @@ namespace Implem.Pleasanter.Libraries.Server
 {
     public class SiteMenu : Dictionary<long, SiteMenuElement>
     {
+        public SiteMenu()
+        {
+            Get();
+        }
+
+        private void Get()
+        {
+            Rds.ExecuteTable(statements: Rds.SelectSites(
+                column: Rds.SitesColumn()
+                    .TenantId()
+                    .SiteId()
+                    .ReferenceType()
+                    .ParentId()
+                    .Title()))
+                        .AsEnumerable()
+                        .ForEach(dataRow =>
+                            Add(dataRow["SiteId"].ToLong(), new SiteMenuElement(
+                                dataRow["TenantId"].ToInt(),
+                                dataRow["SiteId"].ToLong(),
+                                dataRow["ReferenceType"].ToString(),
+                                dataRow["ParentId"].ToLong(),
+                                dataRow["Title"].ToString())));
+        }
+
         public SiteMenuElement Get(long siteId)
         {
             if (siteId == 0)
@@ -21,7 +44,7 @@ namespace Implem.Pleasanter.Libraries.Server
             }
             else
             {
-                if (!HasAvailableCache(siteId))
+                if (!ContainsKey(siteId))
                 {
                     Set(siteId);
                 }
@@ -31,7 +54,7 @@ namespace Implem.Pleasanter.Libraries.Server
             }
         }
 
-        public void Set(long siteId)
+        private void Set(long siteId)
         {
             var dataRow = SiteMenuElementDataRow(siteId);
             if (dataRow != null)
@@ -182,15 +205,6 @@ namespace Implem.Pleasanter.Libraries.Server
                 .ForEach(child =>
                     ChildHashValues(child.SiteId, data));
             return data;
-        }
-
-        private bool HasAvailableCache(long siteId)
-        {
-            return
-                ContainsKey(siteId) &&
-                (BackgroundTasks.Enabled() ||
-                (DateTime.Now - this[siteId].CreatedTime).Milliseconds <
-                    Parameters.Cache.SiteMenuAvailableTime);
         }
 
         private DataRow SiteMenuElementDataRow(long siteId)
