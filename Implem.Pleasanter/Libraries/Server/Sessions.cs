@@ -33,7 +33,7 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public static int TenantId()
         {
-            if (HttpContext.Current.Session != null)
+            if (HttpContext.Current?.Session != null)
             {
                 return HttpContext.Current.Session["TenantId"].ToInt();
             }
