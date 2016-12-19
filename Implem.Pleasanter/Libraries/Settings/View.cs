@@ -375,16 +375,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                             CsBoolColumns(data.ColumnName, data.Value, where);
                             break;
                         case Types.CsNumeric:
-                            if (data.Value.RegexExists("[0-9]*,[0-9]*"))
-                            {
-                                CsNumericRangeColumns(
-                                    data.Column, data.ColumnName, data.Value, where);
-                            }
-                            else
-                            {
-                                CsNumericColumns(
-                                    data.Column, data.ColumnName, data.Value, where);
-                            }
+                            CsNumericColumns(
+                                data.Column, data.ColumnName, data.Value, where);
                             break;
                         case Types.CsDateTime:
                             CsDateTimeColumns(data.Column, data.ColumnName, data.Value, where);
@@ -409,6 +401,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             Column column, string columnName, string value, SqlWhereCollection where)
         {
             var param = value.Deserialize<List<string>>();
+            if (param.Any())
+            {
+                if (param.All(o => o.RegexExists(@"^[0-9\.]*,[0-9\.]*$")))
+                {
+                    CsNumericRangeColumns(column, columnName, param, where);
+                }
+                else
+                {
+                    CsNumericColumns(column, columnName, param, where);
+                }
+            }
+        }
+
+        private void CsNumericColumns(
+            Column column, string columnName, List<string> param, SqlWhereCollection where)
+        {
             if (param.Any())
             {
                 where.Add(or: new SqlWhereCollection(
@@ -447,9 +455,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private void CsNumericRangeColumns(
-            Column column, string columnName, string value, SqlWhereCollection where)
+            Column column, string columnName, List<string> param, SqlWhereCollection where)
         {
-            var param = value.Deserialize<List<string>>();
             var parts = new SqlWhereCollection();
             param.ForEach(data =>
             {
@@ -459,19 +466,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     parts.Add(new SqlWhere(
                         columnBrackets: new string[] { "[t0].[{0}]".Params(columnName) },
-                        _operator: " <{0}".Params(to)));
+                        _operator: "<{0}".Params(to.ToDecimal())));
                 }
                 else if (to == string.Empty)
                 {
                     parts.Add(new SqlWhere(
                         columnBrackets: new string[] { "[t0].[{0}]".Params(columnName) },
-                        _operator: " >={0}".Params(from)));
+                        _operator: ">={0}".Params(from.ToDecimal())));
                 }
                 else
                 {
                     parts.Add(new SqlWhere(
                         columnBrackets: new string[] { "[t0].[{0}]".Params(columnName) },
-                        _operator: " between {0} and {1}".Params(from, to)));
+                        _operator: " between {0} and {1}".Params(
+                            from.ToDecimal(), to.ToDecimal())));
                 }
             });
             where.Add(or: parts);
