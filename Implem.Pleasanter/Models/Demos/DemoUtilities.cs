@@ -53,6 +53,7 @@ namespace Implem.Pleasanter.Models
                 Bcc = Parameters.Mail.SupportFrom
             };
             outgoingMailModel.Send();
+            demoModel.Initialize();
             return Messages.ResponseSentAcceptanceMail()
                 .Remove("#DemoForm")
                 .ToJson();
@@ -70,8 +71,16 @@ namespace Implem.Pleasanter.Models
                     _operator: ">="));
             if (demoModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
-                System.Web.HttpContext.Current.Session["TenantId"] = demoModel.TenantId;
-                demoModel.Initialize();
+                var loginId = LoginId(demoModel, "User1");
+                var password = Strings.NewGuid().Sha512Cng();
+                Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
+                    param: Rds.UsersParam().Password(password),
+                    where: Rds.UsersWhere().LoginId(loginId)));
+                new UserModel()
+                {
+                    LoginId = loginId,
+                    Password = password
+                }.Authenticate(string.Empty);
                 return Sessions.LoggedIn();
             }
             else
@@ -88,32 +97,25 @@ namespace Implem.Pleasanter.Models
             var idHash = new Dictionary<string, long>();
             var loginId = LoginId(demoModel, "User1");
             var password = Strings.NewGuid().Sha512Cng();
-            if (demoModel.Initialized)
-            {
-                Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
-                    param: Rds.UsersParam().Password(password),
-                    where: Rds.UsersWhere().LoginId(loginId)));
-            }
-            else
-            {
-                demoModel.InitializeTimeLag();
-                InitializeDepts(demoModel, idHash);
-                InitializeUsers(demoModel, idHash, password);
-                InitializeSites(demoModel, idHash);
-                InitializeIssues(demoModel, idHash);
-                InitializeResults(demoModel, idHash);
-                InitializeLinks(demoModel, idHash);
-                InitializePermissions(idHash);
-                Rds.ExecuteNonQuery(statements: Rds.UpdateDemos(
-                    param: Rds.DemosParam().Initialized(true),
-                    where: Rds.DemosWhere().Passphrase(demoModel.Passphrase)));
-                Libraries.Migrators.SiteSettingsMigrator.Migrate();
-            }
-            var userModel = new UserModel()
-            {
-                LoginId = loginId,
-                Password = password
-            }.Authenticate(string.Empty);
+            System.Threading.Tasks.Task.Run(() =>
+                Initialize(demoModel, idHash, password));
+        }
+
+        private static void Initialize(
+            DemoModel demoModel, Dictionary<string, long> idHash, string password)
+        {
+            demoModel.InitializeTimeLag();
+            InitializeDepts(demoModel, idHash);
+            InitializeUsers(demoModel, idHash, password);
+            InitializeSites(demoModel, idHash);
+            InitializeIssues(demoModel, idHash);
+            InitializeResults(demoModel, idHash);
+            InitializeLinks(demoModel, idHash);
+            InitializePermissions(idHash);
+            Rds.ExecuteNonQuery(statements: Rds.UpdateDemos(
+                param: Rds.DemosParam().Initialized(true),
+                where: Rds.DemosWhere().Passphrase(demoModel.Passphrase)));
+            Libraries.Migrators.SiteSettingsMigrator.Migrate();
             SiteInfo.Reflesh();
         }
 
@@ -292,7 +294,8 @@ namespace Implem.Pleasanter.Models
                             addUpdatorParam: false)
                     });
                     idHash.Add(demoDefinition.Id, issueId);
-                    var siteModel = new SiteModel(idHash[demoDefinition.ParentId]);
+                    var siteModel = new SiteModel().Get(
+                        where: Rds.SitesWhere().SiteId(idHash[demoDefinition.ParentId]));
                     var ss = siteModel.IssuesSiteSettings();
                     var issueModel = new IssueModel(ss, issueId);
                     Rds.ExecuteNonQuery(statements:
@@ -411,7 +414,8 @@ namespace Implem.Pleasanter.Models
                             addUpdatorParam: false)
                     });
                     idHash.Add(demoDefinition.Id, resultId);
-                    var siteModel = new SiteModel(idHash[demoDefinition.ParentId]);
+                    var siteModel = new SiteModel().Get(
+                        where: Rds.SitesWhere().SiteId(idHash[demoDefinition.ParentId]));
                     var ss = siteModel.ResultsSiteSettings();
                     var resultModel = new ResultModel(ss, resultId);
                     Rds.ExecuteNonQuery(statements:
