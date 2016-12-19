@@ -101,6 +101,9 @@ namespace Implem.Pleasanter.Models
                 Initialize(demoModel, idHash, password));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static void Initialize(
             DemoModel demoModel, Dictionary<string, long> idHash, string password)
         {
