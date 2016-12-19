@@ -433,7 +433,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     name: columnName,
                     _operator: " in ({0})".Params(param
                         .Where(o => o != "\t")
-                        .Select(o => o.ToLong())
+                        .Select(o => o.ToDecimal())
                         .Join()))
                 : null;
         }
