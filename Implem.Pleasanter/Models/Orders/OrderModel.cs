@@ -36,7 +36,7 @@ namespace Implem.Pleasanter.Models
         public bool Data_Updated { get { return Data.ToJson() != SavedData && Data.ToJson() != null; } }
 
         public OrderModel(
-            SiteSettings ss, 
+            SiteSettings ss,
             Permissions.Types pt,
             DataRow dataRow)
         {

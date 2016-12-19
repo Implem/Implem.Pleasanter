@@ -38,7 +38,7 @@ namespace Implem.Pleasanter.Models
         public bool Title_Updated { get { return Title != SavedTitle && Title != null; } }
 
         public ItemModel(
-            SiteSettings ss, 
+            SiteSettings ss,
             Permissions.Types pt,
             DataRow dataRow)
         {

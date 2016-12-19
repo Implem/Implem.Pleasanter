@@ -25,7 +25,7 @@ namespace Implem.Pleasanter.Models
         public Aggregations Aggregations = new Aggregations();
 
         public TenantCollection(
-            SiteSettings ss, 
+            SiteSettings ss,
             Permissions.Types pt,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
@@ -60,7 +60,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public TenantCollection(
-            SiteSettings ss, 
+            SiteSettings ss,
             Permissions.Types pt,
             DataTable dataTable)
         {
@@ -68,7 +68,7 @@ namespace Implem.Pleasanter.Models
         }
 
         private TenantCollection Set(
-            SiteSettings ss, 
+            SiteSettings ss,
             Permissions.Types pt,
             DataTable dataTable)
         {
@@ -88,7 +88,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public TenantCollection(
-            SiteSettings ss, 
+            SiteSettings ss,
             Permissions.Types pt,
             string commandText,
             SqlParamCollection param = null)

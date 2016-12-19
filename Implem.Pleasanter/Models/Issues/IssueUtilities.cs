@@ -1730,7 +1730,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public static ResponseFile Export(
-            SiteSettings ss, 
+            SiteSettings ss,
             Permissions.Types pt,
             SiteModel siteModel)
         {
