@@ -8,6 +8,36 @@ namespace Implem.Pleasanter.Libraries.Settings
 {
     public static class ColumnUtilities
     {
+        public enum CheckFilterTypes : int
+        {
+            On = 1,
+            Off = 2
+        }
+
+        public static Dictionary<string, string> CheckFilterTypeOptions()
+        {
+            return new Dictionary<string, string>
+            {
+                { CheckFilterTypes.On.ToInt().ToString(), Displays.On() },
+                { CheckFilterTypes.Off.ToInt().ToString(), Displays.Off() }
+            };
+        }
+
+        public enum CheckFilterControlTypes : int
+        {
+            OnOnly = 1,
+            OnAndOff = 2
+        }
+
+        public static Dictionary<string, string> CheckFilterControlTypeOptions()
+        {
+            return new Dictionary<string, string>
+            {
+                { CheckFilterControlTypes.OnOnly.ToInt().ToString(), Displays.OnOnly() },
+                { CheckFilterControlTypes.OnAndOff.ToInt().ToString(), Displays.OnAndOff() }
+            };
+        }
+
         public static IEnumerable<ColumnDefinition> GridDefinitions(
             string referenceType, bool enableOnly = false)
         {

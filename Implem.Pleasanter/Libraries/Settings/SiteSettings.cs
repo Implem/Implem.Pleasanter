@@ -199,6 +199,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     if (column.FieldCss == columnDefinition.FieldCss) column.FieldCss = null;
                     if (column.Unit == columnDefinition.Unit) column.Unit = null;
                     if (column.Link == false) column.Link = null;
+                    if (column.CheckFilterControlType == ColumnUtilities.CheckFilterControlTypes.OnOnly) column.CheckFilterControlType = null;
                     if (column.DateFilterMinSpan == Parameters.General.DateFilterMinSpan) column.DateFilterMinSpan = null;
                     if (column.DateFilterMaxSpan == Parameters.General.DateFilterMaxSpan) column.DateFilterMaxSpan = null;
                     if (column.DateFilterFy.ToBool()) column.DateFilterFy = null;
@@ -382,6 +383,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.EditorReadOnly = column.EditorReadOnly ?? false;
                 column.FieldCss = column.FieldCss ?? columnDefinition.FieldCss;
                 column.Unit = column.Unit ?? columnDefinition.Unit;
+                column.CheckFilterControlType = column.CheckFilterControlType ?? ColumnUtilities.CheckFilterControlTypes.OnOnly;
                 column.DateFilterMinSpan = column.DateFilterMinSpan ?? Parameters.General.DateFilterMinSpan;
                 column.DateFilterMaxSpan = column.DateFilterMaxSpan ?? Parameters.General.DateFilterMaxSpan;
                 column.DateFilterFy = column.DateFilterFy ?? true;
@@ -886,6 +888,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ControlFormat": column.ControlFormat = value; break;
                 case "ExportFormat": column.ExportFormat = value; break;
                 case "Unit": column.Unit = value; break;
+                case "CheckFilterControlType": column.CheckFilterControlType =
+                        (ColumnUtilities.CheckFilterControlTypes)value.ToInt(); break;
                 case "DateFilterMinSpan": column.DateFilterMinSpan = value.ToInt(); break;
                 case "DateFilterMaxSpan": column.DateFilterMaxSpan = value.ToInt(); break;
                 case "DateFilterFy": column.DateFilterFy = value.ToBool(); break;

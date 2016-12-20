@@ -372,7 +372,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     switch (data.Column.TypeName.CsTypeSummary())
                     {
                         case Types.CsBool:
-                            CsBoolColumns(data.ColumnName, data.Value, where);
+                            CsBoolColumns(
+                                data.Column, data.ColumnName, data.Value, where);
                             break;
                         case Types.CsNumeric:
                             CsNumericColumns(
@@ -389,11 +390,29 @@ namespace Implem.Pleasanter.Libraries.Settings
             return where;
         }
 
-        private void CsBoolColumns(string columnName, string value, SqlWhereCollection where)
+        private void CsBoolColumns(
+            Column column, string columnName, string value, SqlWhereCollection where)
         {
-            if (value.ToBool())
+            switch (column.CheckFilterControlType)
             {
-                where.Add(raw: "[t0].[{0}] = 1".Params(columnName));
+                case ColumnUtilities.CheckFilterControlTypes.OnOnly:
+                    if (value.ToBool())
+                    {
+                        where.Add(raw: "[t0].[{0}] = 1".Params(columnName));
+                    }
+                    break;
+                case ColumnUtilities.CheckFilterControlTypes.OnAndOff:
+                    switch ((ColumnUtilities.CheckFilterTypes)value.ToInt())
+                    {
+                        case ColumnUtilities.CheckFilterTypes.On:
+                            where.Add(raw: "[t0].[{0}] = 1".Params(columnName));
+                            break;
+                        case ColumnUtilities.CheckFilterTypes.Off:
+                            where.Add(raw: "([t0].[{0}] is null or [t0].[{0}] = 0)"
+                                .Params(columnName));
+                            break;
+                    }
+                    break;
             }
         }
 

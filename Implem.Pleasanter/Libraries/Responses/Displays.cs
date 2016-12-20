@@ -308,6 +308,14 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string DefaultAddressBook(params string[] data) { return Get("DefaultAddressBook", data); }
         public static HtmlBuilder Displays_DefaultDestinations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DefaultDestinations", data)); }
         public static string DefaultDestinations(params string[] data) { return Get("DefaultDestinations", data); }
+        public static HtmlBuilder Displays_OnOnly(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("OnOnly", data)); }
+        public static string OnOnly(params string[] data) { return Get("OnOnly", data); }
+        public static HtmlBuilder Displays_OnAndOff(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("OnAndOff", data)); }
+        public static string OnAndOff(params string[] data) { return Get("OnAndOff", data); }
+        public static HtmlBuilder Displays_On(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("On", data)); }
+        public static string On(params string[] data) { return Get("On", data); }
+        public static HtmlBuilder Displays_Off(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Off", data)); }
+        public static string Off(params string[] data) { return Get("Off", data); }
         public static HtmlBuilder Displays_LimitJust(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitJust", data)); }
         public static string LimitJust(params string[] data) { return Get("LimitJust", data); }
         public static HtmlBuilder Displays_LimitAfterSecond(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterSecond", data)); }

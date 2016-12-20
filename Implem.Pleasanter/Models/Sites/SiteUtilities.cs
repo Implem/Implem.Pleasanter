@@ -1497,6 +1497,14 @@ namespace Implem.Pleasanter.Models
                 {
                     switch (column.TypeName.CsTypeSummary())
                     {
+                        case Types.CsBool:
+                            hb.FieldDropDown(
+                                controlId: "CheckFilterControlType",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.ControlType(),
+                                optionCollection: ColumnUtilities.CheckFilterControlTypeOptions(),
+                                selectedValue: column.CheckFilterControlType.ToInt().ToString());
+                            break;
                         case Types.CsNumeric:
                             hb
                                 .FieldTextBox(

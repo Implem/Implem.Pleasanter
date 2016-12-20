@@ -199,16 +199,33 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder CheckBox(
             this HtmlBuilder hb, SiteSettings ss, Column column, View view)
         {
-            return hb.FieldCheckBox(
-                controlId: "ViewFilters_" + column.Id,
-                fieldCss: "field-auto-thin",
-                controlCss: " auto-postback",
-                labelText: Displays.Get(column.GridLabelText),
-                _checked: view.ColumnFilter(column.ColumnName).ToBool(),
-                method: "post",
-                _using:
-                    ss.GridColumns.Contains(column.ColumnName) ||
-                    ss.EditorColumns.Contains(column.ColumnName));
+            if (ss.GridColumns.Contains(column.ColumnName) ||
+                ss.EditorColumns.Contains(column.ColumnName))
+            {
+                switch (column.CheckFilterControlType)
+                {
+                    case ColumnUtilities.CheckFilterControlTypes.OnOnly:
+                        return hb.FieldCheckBox(
+                            controlId: "ViewFilters_" + column.Id,
+                            fieldCss: "field-auto-thin",
+                            controlCss: " auto-postback",
+                            labelText: Displays.Get(column.GridLabelText),
+                            _checked: view.ColumnFilter(column.ColumnName).ToBool(),
+                            method: "post");
+                    case ColumnUtilities.CheckFilterControlTypes.OnAndOff:
+                        return hb.FieldDropDown(
+                            controlId: "ViewFilters_" + column.Id,
+                            fieldCss: "field-auto-thin",
+                            controlCss: " auto-postback",
+                            labelText: Displays.Get(column.GridLabelText),
+                            optionCollection: ColumnUtilities.CheckFilterTypeOptions(),
+                            selectedValue: view.ColumnFilter(column.ColumnName),
+                            addSelectedValue: false,
+                            insertBlank: true,
+                            method: "post");
+                }
+            }
+            return hb;
         }
 
         private static HtmlBuilder DropDown(
