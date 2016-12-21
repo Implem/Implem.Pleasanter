@@ -659,8 +659,6 @@ namespace Implem.DefinitionAccessor
                     case "ResponseCollection_ValueColumns": Code.ResponseCollection_ValueColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ResponseCollection_ValueColumns, definitionRow, CodeXls); break;
                     case "Displays": Code.Displays = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Displays, definitionRow, CodeXls); break;
                     case "Displays_Parts": Code.Displays_Parts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Displays_Parts, definitionRow, CodeXls); break;
-                    case "HtmlScripts": Code.HtmlScripts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlScripts, definitionRow, CodeXls); break;
-                    case "HtmlScripts_ValidatorCases": Code.HtmlScripts_ValidatorCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlScripts_ValidatorCases, definitionRow, CodeXls); break;
                     case "Error": Code.Error = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Error, definitionRow, CodeXls); break;
                     case "Error_Types": Code.Error_Types = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Error_Types, definitionRow, CodeXls); break;
                     case "Error_Messages": Code.Error_Messages = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Error_Messages, definitionRow, CodeXls); break;
@@ -1903,6 +1901,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_container_right_space___space__asterisk_": Css._dot_container_right_space___space__asterisk_ = definitionRow[1].ToString(); SetCssTable(CssTable._dot_container_right_space___space__asterisk_, definitionRow, CssXls); break;
                     case "_dot_control_text": Css._dot_control_text = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_text, definitionRow, CssXls); break;
                     case "_dot_control_textbox": Css._dot_control_textbox = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_textbox, definitionRow, CssXls); break;
+                    case "_dot_control_textbox_dot_with_unit": Css._dot_control_textbox_dot_with_unit = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_textbox_dot_with_unit, definitionRow, CssXls); break;
                     case "_dot_control_textarea": Css._dot_control_textarea = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_textarea, definitionRow, CssXls); break;
                     case "_dot_control_markup": Css._dot_control_markup = definitionRow[1].ToString(); SetCssTable(CssTable._dot_control_markup, definitionRow, CssXls); break;
                     case "_dot_md": Css._dot_md = definitionRow[1].ToString(); SetCssTable(CssTable._dot_md, definitionRow, CssXls); break;
@@ -3506,8 +3505,6 @@ namespace Implem.DefinitionAccessor
         public string ResponseCollection_ValueColumns;
         public string Displays;
         public string Displays_Parts;
-        public string HtmlScripts;
-        public string HtmlScripts_ValidatorCases;
         public string Error;
         public string Error_Types;
         public string Error_Messages;
@@ -3935,8 +3932,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition ResponseCollection_ValueColumns = new CodeDefinition();
         public CodeDefinition Displays = new CodeDefinition();
         public CodeDefinition Displays_Parts = new CodeDefinition();
-        public CodeDefinition HtmlScripts = new CodeDefinition();
-        public CodeDefinition HtmlScripts_ValidatorCases = new CodeDefinition();
         public CodeDefinition Error = new CodeDefinition();
         public CodeDefinition Error_Types = new CodeDefinition();
         public CodeDefinition Error_Messages = new CodeDefinition();
@@ -6079,6 +6074,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_container_right_space___space__asterisk_;
         public string _dot_control_text;
         public string _dot_control_textbox;
+        public string _dot_control_textbox_dot_with_unit;
         public string _dot_control_textarea;
         public string _dot_control_markup;
         public string _dot_md;
@@ -6461,6 +6457,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_container_right_space___space__asterisk_ = new CssDefinition();
         public CssDefinition _dot_control_text = new CssDefinition();
         public CssDefinition _dot_control_textbox = new CssDefinition();
+        public CssDefinition _dot_control_textbox_dot_with_unit = new CssDefinition();
         public CssDefinition _dot_control_textarea = new CssDefinition();
         public CssDefinition _dot_control_markup = new CssDefinition();
         public CssDefinition _dot_md = new CssDefinition();

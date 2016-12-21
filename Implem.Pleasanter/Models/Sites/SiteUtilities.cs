@@ -160,9 +160,6 @@ namespace Implem.Pleasanter.Models
                             .ReplaceAll(
                                 "#MainContainer",
                                 WikiUtilities.Editor(siteModel, wikiModel))
-                            .ReplaceAll(
-                                "#ItemValidator",
-                                new HtmlBuilder().ItemValidator(referenceType: "Wikis"))
                             .Val("#BackUrl", Locations.ItemIndex(siteModel.ParentId))
                             .Invoke("setSwitchTargets")
                             .ToJson();
