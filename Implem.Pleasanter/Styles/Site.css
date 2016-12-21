@@ -1335,6 +1335,12 @@ pre{
     border-radius:5px;
 }
 
+.control-textbox.with-unit{
+    width:70%;
+    display:block;
+    float:left;
+}
+
 .control-textarea{
     width:100%;
     height:100px;
