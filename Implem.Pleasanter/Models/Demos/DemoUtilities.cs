@@ -106,7 +106,7 @@ namespace Implem.Pleasanter.Models
             var loginId = LoginId(demoModel, "User1");
             var password = Strings.NewGuid().Sha512Cng();
             System.Threading.Tasks.Task.Run(() =>
-                Initialize(demoModel, idHash, password));
+                demoModel.Initialize(idHash, password));
         }
 
         /// <summary>
