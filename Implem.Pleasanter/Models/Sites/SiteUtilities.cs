@@ -2557,11 +2557,26 @@ namespace Implem.Pleasanter.Models
             switch (column.TypeName.CsTypeSummary())
             {
                 case Types.CsBool:
-                    return hb.FieldCheckBox(
-                        controlId: "ViewFilters_" + column.Id,
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.Get(column.GridLabelText),
-                        _checked: value.ToBool());
+                    switch (column.CheckFilterControlType)
+                    {
+                        case ColumnUtilities.CheckFilterControlTypes.OnOnly:
+                            return hb.FieldCheckBox(
+                                controlId: "ViewFilters_" + column.Id,
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.Get(column.GridLabelText),
+                                _checked: value.ToBool());
+                        case ColumnUtilities.CheckFilterControlTypes.OnAndOff:
+                            return hb.FieldDropDown(
+                                controlId: "ViewFilters_" + column.Id,
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.Get(column.GridLabelText),
+                                optionCollection: ColumnUtilities.CheckFilterTypeOptions(),
+                                selectedValue: value,
+                                addSelectedValue: false,
+                                insertBlank: true);
+                        default:
+                            return hb;
+                    }
                 case Types.CsDateTime:
                     return hb.FieldDropDown(
                         controlId: "ViewFilters_" + column.Id,
