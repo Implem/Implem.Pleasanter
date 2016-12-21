@@ -15,7 +15,6 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
         {
             var code = string.Empty;
             DisplayAccessor.Displays.DisplayHash
-                .OrderBy(o => o.Key)
                 .Select(o => o.Value)
                 .ForEach(display => display.Languages
                     .Where(element => !CheckExclude(codeDefinition, display, element))
