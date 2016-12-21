@@ -73,9 +73,17 @@ namespace Implem.Pleasanter.Models
             {
                 var loginId = LoginId(demoModel, "User1");
                 var password = Strings.NewGuid().Sha512Cng();
-                Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
-                    param: Rds.UsersParam().Password(password),
-                    where: Rds.UsersWhere().LoginId(loginId)));
+                if (!demoModel.Initialized)
+                {
+                    var idHash = new Dictionary<string, long>();
+                    demoModel.Initialize(idHash, password);
+                }
+                else
+                {
+                    Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
+                        param: Rds.UsersParam().Password(password),
+                        where: Rds.UsersWhere().LoginId(loginId)));
+                }
                 new UserModel()
                 {
                     LoginId = loginId,
@@ -105,7 +113,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static void Initialize(
-            DemoModel demoModel, Dictionary<string, long> idHash, string password)
+            this DemoModel demoModel, Dictionary<string, long> idHash, string password)
         {
             demoModel.InitializeTimeLag();
             InitializeDepts(demoModel, idHash);
