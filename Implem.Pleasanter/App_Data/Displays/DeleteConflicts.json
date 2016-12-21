@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DeleteConflicts",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "Not found."
+        },
+        {
+            "Language": "ja",
+            "Body": "レコードが存在しません。削除された可能性があります。"
+        }
+    ]
+}

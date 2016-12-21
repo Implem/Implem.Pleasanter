@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SiteSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Site settings"
+        },
+        {
+            "Language": "ja",
+            "Body": "サイト設定"
+        }
+    ]
+}

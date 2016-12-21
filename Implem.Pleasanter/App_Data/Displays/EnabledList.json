@@ -1,0 +1,13 @@
+﻿{
+    "Id": "EnabledList",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Enabled list"
+        },
+        {
+            "Language": "ja",
+            "Body": "有効一覧"
+        }
+    ]
+}

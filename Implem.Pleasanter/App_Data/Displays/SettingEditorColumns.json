@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SettingEditorColumns",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Editor columns settings"
+        },
+        {
+            "Language": "ja",
+            "Body": "編集項目の設定"
+        }
+    ]
+}

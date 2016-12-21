@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SendMail",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Send"
+        },
+        {
+            "Language": "ja",
+            "Body": "送信"
+        }
+    ]
+}

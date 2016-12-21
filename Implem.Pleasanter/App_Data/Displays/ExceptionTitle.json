@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ExceptionTitle",
+    "Type": 220,
+    "Languages": [
+        {
+            "Body": "Application Error"
+        },
+        {
+            "Language": "ja",
+            "Body": "アプリケーションエラー"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "PermissionSource",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Selection list"
+        },
+        {
+            "Language": "ja",
+            "Body": "選択可能な一覧"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Login",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Login"
+        },
+        {
+            "Language": "ja",
+            "Body": "ログイン"
+        }
+    ]
+}

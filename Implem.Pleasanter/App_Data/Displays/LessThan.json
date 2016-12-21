@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LessThan",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Less than {0}"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 未満"
+        }
+    ]
+}

@@ -90,7 +90,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
                 else
                 {
                     Consoles.Write(
-                        Def.Display.DefinitionNotFound.Params(
+                        DisplayAccessor.Displays.Get("DefinitionNotFound").Params(
                             id, DefinitionFiles.CodeDefinitionFileName),
                         Consoles.Types.Error,
                         abort: true);

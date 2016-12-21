@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Half1",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "FY {0} H1"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0}年度上半期"
+        }
+    ]
+}

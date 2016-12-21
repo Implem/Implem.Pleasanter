@@ -1,0 +1,13 @@
+﻿{
+    "Id": "PermissionSetting",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Permissions"
+        },
+        {
+            "Language": "ja",
+            "Body": "権限設定"
+        }
+    ]
+}

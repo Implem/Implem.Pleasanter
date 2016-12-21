@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ExternalMailAddress",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "You can not send it to an external e-mail address. [{0}]"
+        },
+        {
+            "Language": "ja",
+            "Body": "外部のメールアドレスには送信できません。[{0}]"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SettingHistoryColumns",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "History columns settings"
+        },
+        {
+            "Language": "ja",
+            "Body": "バージョン一覧項目の設定"
+        }
+    ]
+}

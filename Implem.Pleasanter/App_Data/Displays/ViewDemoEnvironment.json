@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ViewDemoEnvironment",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "View demo environment"
+        },
+        {
+            "Language": "ja",
+            "Body": "デモ環境を見る"
+        }
+    ]
+}

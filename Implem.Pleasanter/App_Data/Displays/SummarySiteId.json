@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SummarySiteId",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Summary destination site"
+        },
+        {
+            "Language": "ja",
+            "Body": "データ保存先サイト"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "EditPermissions",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Edit Permissions"
+        },
+        {
+            "Language": "ja",
+            "Body": "権限設定の編集"
+        }
+    ]
+}

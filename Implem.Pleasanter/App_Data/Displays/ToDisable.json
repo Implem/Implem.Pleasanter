@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ToDisable",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "To disable"
+        },
+        {
+            "Language": "ja",
+            "Body": "無効化"
+        }
+    ]
+}

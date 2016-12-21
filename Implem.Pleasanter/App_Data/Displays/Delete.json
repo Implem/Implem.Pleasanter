@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Delete",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Delete"
+        },
+        {
+            "Language": "ja",
+            "Body": "削除"
+        }
+    ]
+}

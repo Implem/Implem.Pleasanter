@@ -72,6 +72,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Implem.DisplayAccessor\Implem.DisplayAccessor.csproj">
+      <Project>{68a8c5c4-db19-4edd-b1c2-7722e19e5d7a}</Project>
+      <Name>Implem.DisplayAccessor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Implem.Libraries\Implem.Libraries.csproj">
       <Project>{cbe3ee93-92e6-4347-842f-de597048da29}</Project>
       <Name>Implem.Libraries</Name>

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SettingLinkColumns",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Link columns settings"
+        },
+        {
+            "Language": "ja",
+            "Body": "リンク一覧項目の設定"
+        }
+    ]
+}

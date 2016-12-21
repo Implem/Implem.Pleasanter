@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Max",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Max"
+        },
+        {
+            "Language": "ja",
+            "Body": "最大"
+        }
+    ]
+}

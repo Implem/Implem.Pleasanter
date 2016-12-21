@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DisabledList",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Disabled list"
+        },
+        {
+            "Language": "ja",
+            "Body": "無効一覧"
+        }
+    ]
+}

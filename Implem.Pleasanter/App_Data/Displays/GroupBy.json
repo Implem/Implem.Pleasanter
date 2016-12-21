@@ -1,0 +1,13 @@
+﻿{
+    "Id": "GroupBy",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Group by"
+        },
+        {
+            "Language": "ja",
+            "Body": "分類"
+        }
+    ]
+}

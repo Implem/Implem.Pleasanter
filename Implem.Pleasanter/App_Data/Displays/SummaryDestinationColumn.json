@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SummaryDestinationColumn",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Summary destination column"
+        },
+        {
+            "Language": "ja",
+            "Body": "データ保存先項目"
+        }
+    ]
+}

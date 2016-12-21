@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Import",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Import"
+        },
+        {
+            "Language": "ja",
+            "Body": "インポート"
+        }
+    ]
+}

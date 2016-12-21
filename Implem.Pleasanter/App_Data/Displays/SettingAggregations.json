@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SettingAggregations",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Aggregations display"
+        },
+        {
+            "Language": "ja",
+            "Body": "集計表示の設定"
+        }
+    ]
+}

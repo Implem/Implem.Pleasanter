@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ToParent",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "To the parent"
+        },
+        {
+            "Language": "ja",
+            "Body": "上へ"
+        }
+    ]
+}

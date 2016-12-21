@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ReEnter",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Re-enter"
+        },
+        {
+            "Language": "ja",
+            "Body": "再入力"
+        }
+    ]
+}

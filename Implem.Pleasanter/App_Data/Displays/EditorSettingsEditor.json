@@ -1,0 +1,13 @@
+﻿{
+    "Id": "EditorSettingsEditor",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Edit screen"
+        },
+        {
+            "Language": "ja",
+            "Body": "編集画面"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "UseHalf",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Use half"
+        },
+        {
+            "Language": "ja",
+            "Body": "半期を使用"
+        }
+    ]
+}

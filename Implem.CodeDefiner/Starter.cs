@@ -58,7 +58,9 @@ namespace Implem.CodeDefiner
             }
             Performances.Record(MethodBase.GetCurrentMethod().Name);
             Performances.PerformanceCollection.Save(Directories.Logs());
-            Consoles.Write(Def.Display.CodeDefinerCompleted, Consoles.Types.Success);
+            Consoles.Write(
+                DisplayAccessor.Displays.Get("CodeDefinerCompleted"),
+                Consoles.Types.Success);
             WaitConsole(args);
         }
 
@@ -97,7 +99,9 @@ namespace Implem.CodeDefiner
             TryOpenConnections();
             Performances.Record(MethodBase.GetCurrentMethod().Name);
             Functions.SqlServer.Configurator.Configure();
-            Consoles.Write(Def.Display.CodeDefinerRdsCompleted, Consoles.Types.Success);
+            Consoles.Write(
+                DisplayAccessor.Displays.Get("CodeDefinerRdsCompleted"),
+                Consoles.Types.Success);
             Performances.Record(MethodBase.GetCurrentMethod().Name);
         }
 
@@ -117,7 +121,9 @@ namespace Implem.CodeDefiner
         {
             Performances.Record(MethodBase.GetCurrentMethod().Name);
             Functions.AspNetMvc.CSharp.DefinitionAccessorCreator.Create();
-            Consoles.Write(Def.Display.CodeDefinerDefCompleted, Consoles.Types.Success);
+            Consoles.Write(
+                DisplayAccessor.Displays.Get("CodeDefinerDefCompleted"),
+                Consoles.Types.Success);
             Performances.Record(MethodBase.GetCurrentMethod().Name);
         }
 
@@ -125,7 +131,9 @@ namespace Implem.CodeDefiner
         {
             Performances.Record(MethodBase.GetCurrentMethod().Name);
             Functions.AspNetMvc.CSharp.MvcCreator.Create(target);
-            Consoles.Write(Def.Display.CodeDefinerMvcCompleted, Consoles.Types.Success);
+            Consoles.Write(
+                DisplayAccessor.Displays.Get("CodeDefinerMvcCompleted"),
+                Consoles.Types.Success);
             Performances.Record(MethodBase.GetCurrentMethod().Name);
         }
 
@@ -133,7 +141,9 @@ namespace Implem.CodeDefiner
         {
             Performances.Record(MethodBase.GetCurrentMethod().Name);
             Functions.Web.Styles.CssCreator.Create();
-            Consoles.Write(Def.Display.CodeDefinerCssCompleted, Consoles.Types.Success);
+            Consoles.Write(
+                DisplayAccessor.Displays.Get("CodeDefinerCssCompleted"),
+                Consoles.Types.Success);
             Performances.Record(MethodBase.GetCurrentMethod().Name);
         }
 
@@ -141,7 +151,9 @@ namespace Implem.CodeDefiner
         {
             Performances.Record(MethodBase.GetCurrentMethod().Name);
             Functions.CodeDefiner.BackupCreater.BackupSolutionFiles();
-            Consoles.Write(Def.Display.CodeDefinerBackupCompleted, Consoles.Types.Success);
+            Consoles.Write(
+                DisplayAccessor.Displays.Get("CodeDefinerBackupCompleted"),
+                Consoles.Types.Success);
             Performances.Record(MethodBase.GetCurrentMethod().Name);
         }
 

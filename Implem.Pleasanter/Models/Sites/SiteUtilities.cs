@@ -2245,14 +2245,12 @@ namespace Implem.Pleasanter.Models
         private static Dictionary<string, string> DateTimeOptions(bool forControl = false)
         {
             return forControl
-                ? Def.DisplayDefinitionCollection
-                    .Where(o => new string[] { "Ymd", "Ymdhm", "Ymdhms" }.Contains(o.Name))
-                    .Where(o => o.Language == string.Empty)
-                    .ToDictionary(o => o.Id, o => Displays.Get(o.Id))
-                : Def.DisplayDefinitionCollection
-                    .Where(o => o.Type == "Date")
-                    .Where(o => o.Language == string.Empty)
-                    .ToDictionary(o => o.Id, o => Displays.Get(o.Id));
+                ? DisplayAccessor.Displays.DisplayHash
+                    .Where(o => new string[] { "Ymd", "Ymdhm", "Ymdhms" }.Contains(o.Key))
+                    .ToDictionary(o => o.Key, o => Displays.Get(o.Key))
+                : DisplayAccessor.Displays.DisplayHash
+                    .Where(o => o.Value.Type == DisplayAccessor.Displays.Types.Date)
+                    .ToDictionary(o => o.Key, o => Displays.Get(o.Key));
         }
 
         /// <summary>

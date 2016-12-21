@@ -1,0 +1,13 @@
+﻿{
+    "Id": "UseFy",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Use fy"
+        },
+        {
+            "Language": "ja",
+            "Body": "年度を使用"
+        }
+    ]
+}

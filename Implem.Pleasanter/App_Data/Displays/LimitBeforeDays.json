@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LimitBeforeDays",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "{0} days excess"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 日超過"
+        }
+    ]
+}

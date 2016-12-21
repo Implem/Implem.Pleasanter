@@ -1,0 +1,13 @@
+﻿{
+    "Id": "WriteComment",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Write your comment"
+        },
+        {
+            "Language": "ja",
+            "Body": "コメントを書いて下さい。"
+        }
+    ]
+}

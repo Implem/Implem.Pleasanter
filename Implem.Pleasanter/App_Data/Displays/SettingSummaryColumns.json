@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SettingSummaryColumns",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Summary columns settings"
+        },
+        {
+            "Language": "ja",
+            "Body": "サマリ項目の設定"
+        }
+    ]
+}

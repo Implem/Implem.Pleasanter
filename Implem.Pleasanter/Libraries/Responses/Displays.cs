@@ -8,8 +8,20 @@ namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class Displays
     {
-        public static Dictionary<string, string> DisplayHash =
-            Def.DisplayDefinitionCollection.ToDictionary(o => o.Id, o => o.Content);
+        public static Dictionary<string, string> DisplayHash = GetDisplayHash();
+
+        private static Dictionary<string, string> GetDisplayHash()
+        {
+            var data = new Dictionary<string, string>();
+            DisplayAccessor.Displays.DisplayHash.ForEach(display =>
+                display.Value.Languages.ForEach(element =>
+                    data.Add(
+                        display.Key + (!element.Language.IsNullOrEmpty()
+                            ? "_" + element.Language
+                            : string.Empty),
+                        element.Body)));
+            return data;
+        }
 
         public static string Get(string id, params string[] data)
         {
@@ -28,718 +40,668 @@ namespace Implem.Pleasanter.Libraries.Responses
                 : screen.Params(data);
         }
 
-        public static HtmlBuilder Displays_ProductName(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ProductName", data)); }
-        public static string ProductName(params string[] data) { return Get("ProductName", data); }
-        public static HtmlBuilder Displays_Login(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Login", data)); }
-        public static string Login(params string[] data) { return Get("Login", data); }
-        public static HtmlBuilder Displays_Top(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Top", data)); }
-        public static string Top(params string[] data) { return Get("Top", data); }
-        public static HtmlBuilder Displays_List(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("List", data)); }
-        public static string List(params string[] data) { return Get("List", data); }
-        public static HtmlBuilder Displays_New(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("New", data)); }
-        public static string New(params string[] data) { return Get("New", data); }
-        public static HtmlBuilder Displays_EditSettings(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EditSettings", data)); }
-        public static string EditSettings(params string[] data) { return Get("EditSettings", data); }
-        public static HtmlBuilder Displays_Create(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Create", data)); }
-        public static string Create(params string[] data) { return Get("Create", data); }
-        public static HtmlBuilder Displays_Update(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Update", data)); }
-        public static string Update(params string[] data) { return Get("Update", data); }
-        public static HtmlBuilder Displays_Save(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Save", data)); }
-        public static string Save(params string[] data) { return Get("Save", data); }
-        public static HtmlBuilder Displays_Change(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Change", data)); }
-        public static string Change(params string[] data) { return Get("Change", data); }
         public static HtmlBuilder Displays_Add(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Add", data)); }
         public static string Add(params string[] data) { return Get("Add", data); }
-        public static HtmlBuilder Displays_Register(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Register", data)); }
-        public static string Register(params string[] data) { return Get("Register", data); }
-        public static HtmlBuilder Displays_Reset(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Reset", data)); }
-        public static string Reset(params string[] data) { return Get("Reset", data); }
-        public static HtmlBuilder Displays_Copy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Copy", data)); }
-        public static string Copy(params string[] data) { return Get("Copy", data); }
-        public static HtmlBuilder Displays_Move(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Move", data)); }
-        public static string Move(params string[] data) { return Get("Move", data); }
-        public static HtmlBuilder Displays_BulkMove(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("BulkMove", data)); }
-        public static string BulkMove(params string[] data) { return Get("BulkMove", data); }
-        public static HtmlBuilder Displays_Mail(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Mail", data)); }
-        public static string Mail(params string[] data) { return Get("Mail", data); }
-        public static HtmlBuilder Displays_MailAddress(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MailAddress", data)); }
-        public static string MailAddress(params string[] data) { return Get("MailAddress", data); }
-        public static HtmlBuilder Displays_SendMail(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SendMail", data)); }
-        public static string SendMail(params string[] data) { return Get("SendMail", data); }
-        public static HtmlBuilder Displays_Delete(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Delete", data)); }
-        public static string Delete(params string[] data) { return Get("Delete", data); }
-        public static HtmlBuilder Displays_Separate(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Separate", data)); }
-        public static string Separate(params string[] data) { return Get("Separate", data); }
-        public static HtmlBuilder Displays_BulkDelete(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("BulkDelete", data)); }
-        public static string BulkDelete(params string[] data) { return Get("BulkDelete", data); }
-        public static HtmlBuilder Displays_Import(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Import", data)); }
-        public static string Import(params string[] data) { return Get("Import", data); }
-        public static HtmlBuilder Displays_Export(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Export", data)); }
-        public static string Export(params string[] data) { return Get("Export", data); }
-        public static HtmlBuilder Displays_SiteSettings(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SiteSettings", data)); }
-        public static string SiteSettings(params string[] data) { return Get("SiteSettings", data); }
-        public static HtmlBuilder Displays_Required(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Required", data)); }
-        public static string Required(params string[] data) { return Get("Required", data); }
-        public static HtmlBuilder Displays_Cancel(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Cancel", data)); }
-        public static string Cancel(params string[] data) { return Get("Cancel", data); }
-        public static HtmlBuilder Displays_GoBack(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("GoBack", data)); }
-        public static string GoBack(params string[] data) { return Get("GoBack", data); }
-        public static HtmlBuilder Displays_Address(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Address", data)); }
-        public static string Address(params string[] data) { return Get("Address", data); }
-        public static HtmlBuilder Displays_Synchronize(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Synchronize", data)); }
-        public static string Synchronize(params string[] data) { return Get("Synchronize", data); }
-        public static HtmlBuilder Displays_Operations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Operations", data)); }
-        public static string Operations(params string[] data) { return Get("Operations", data); }
-        public static HtmlBuilder Displays_GroupBy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("GroupBy", data)); }
-        public static string GroupBy(params string[] data) { return Get("GroupBy", data); }
-        public static HtmlBuilder Displays_Date(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Date", data)); }
-        public static string Date(params string[] data) { return Get("Date", data); }
-        public static HtmlBuilder Displays_Count(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Count", data)); }
-        public static string Count(params string[] data) { return Get("Count", data); }
-        public static HtmlBuilder Displays_Total(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Total", data)); }
-        public static string Total(params string[] data) { return Get("Total", data); }
-        public static HtmlBuilder Displays_Average(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Average", data)); }
-        public static string Average(params string[] data) { return Get("Average", data); }
-        public static HtmlBuilder Displays_Max(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Max", data)); }
-        public static string Max(params string[] data) { return Get("Max", data); }
-        public static HtmlBuilder Displays_Min(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Min", data)); }
-        public static string Min(params string[] data) { return Get("Min", data); }
-        public static HtmlBuilder Displays_Step(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Step", data)); }
-        public static string Step(params string[] data) { return Get("Step", data); }
-        public static HtmlBuilder Displays_Currency(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Currency", data)); }
-        public static string Currency(params string[] data) { return Get("Currency", data); }
-        public static HtmlBuilder Displays_DecimalPlaces(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DecimalPlaces", data)); }
-        public static string DecimalPlaces(params string[] data) { return Get("DecimalPlaces", data); }
-        public static HtmlBuilder Displays_ToParent(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ToParent", data)); }
-        public static string ToParent(params string[] data) { return Get("ToParent", data); }
-        public static HtmlBuilder Displays_Id(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Id", data)); }
-        public static string Id(params string[] data) { return Get("Id", data); }
-        public static HtmlBuilder Displays_MoveUp(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MoveUp", data)); }
-        public static string MoveUp(params string[] data) { return Get("MoveUp", data); }
-        public static HtmlBuilder Displays_MoveDown(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MoveDown", data)); }
-        public static string MoveDown(params string[] data) { return Get("MoveDown", data); }
-        public static HtmlBuilder Displays_Previous(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Previous", data)); }
-        public static string Previous(params string[] data) { return Get("Previous", data); }
-        public static HtmlBuilder Displays_Next(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Next", data)); }
-        public static string Next(params string[] data) { return Get("Next", data); }
-        public static HtmlBuilder Displays_Reload(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Reload", data)); }
-        public static string Reload(params string[] data) { return Get("Reload", data); }
-        public static HtmlBuilder Displays_Newer(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Newer", data)); }
-        public static string Newer(params string[] data) { return Get("Newer", data); }
-        public static HtmlBuilder Displays_Older(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Older", data)); }
-        public static string Older(params string[] data) { return Get("Older", data); }
-        public static HtmlBuilder Displays_Latest(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Latest", data)); }
-        public static string Latest(params string[] data) { return Get("Latest", data); }
-        public static HtmlBuilder Displays_Show(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Show", data)); }
-        public static string Show(params string[] data) { return Get("Show", data); }
-        public static HtmlBuilder Displays_Hide(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Hide", data)); }
-        public static string Hide(params string[] data) { return Get("Hide", data); }
-        public static HtmlBuilder Displays_ShowList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ShowList", data)); }
-        public static string ShowList(params string[] data) { return Get("ShowList", data); }
-        public static HtmlBuilder Displays_HideList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("HideList", data)); }
-        public static string HideList(params string[] data) { return Get("HideList", data); }
-        public static HtmlBuilder Displays_PlannedValue(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("PlannedValue", data)); }
-        public static string PlannedValue(params string[] data) { return Get("PlannedValue", data); }
-        public static HtmlBuilder Displays_EarnedValue(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EarnedValue", data)); }
-        public static string EarnedValue(params string[] data) { return Get("EarnedValue", data); }
-        public static HtmlBuilder Displays_Difference(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Difference", data)); }
-        public static string Difference(params string[] data) { return Get("Difference", data); }
-        public static HtmlBuilder Displays_Over(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Over", data)); }
-        public static string Over(params string[] data) { return Get("Over", data); }
-        public static HtmlBuilder Displays_LessThan(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LessThan", data)); }
-        public static string LessThan(params string[] data) { return Get("LessThan", data); }
-        public static HtmlBuilder Displays_ChangePassword(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ChangePassword", data)); }
-        public static string ChangePassword(params string[] data) { return Get("ChangePassword", data); }
-        public static HtmlBuilder Displays_ResetPassword(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ResetPassword", data)); }
-        public static string ResetPassword(params string[] data) { return Get("ResetPassword", data); }
-        public static HtmlBuilder Displays_ReadOnly(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ReadOnly", data)); }
-        public static string ReadOnly(params string[] data) { return Get("ReadOnly", data); }
-        public static HtmlBuilder Displays_ReadWrite(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ReadWrite", data)); }
-        public static string ReadWrite(params string[] data) { return Get("ReadWrite", data); }
-        public static HtmlBuilder Displays_Leader(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Leader", data)); }
-        public static string Leader(params string[] data) { return Get("Leader", data); }
-        public static HtmlBuilder Displays_Manager(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Manager", data)); }
-        public static string Manager(params string[] data) { return Get("Manager", data); }
-        public static HtmlBuilder Displays_DeletePermission(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DeletePermission", data)); }
-        public static string DeletePermission(params string[] data) { return Get("DeletePermission", data); }
         public static HtmlBuilder Displays_AddPermission(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("AddPermission", data)); }
         public static string AddPermission(params string[] data) { return Get("AddPermission", data); }
-        public static HtmlBuilder Displays_NotInheritPermission(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NotInheritPermission", data)); }
-        public static string NotInheritPermission(params string[] data) { return Get("NotInheritPermission", data); }
-        public static HtmlBuilder Displays_NoTitle(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NoTitle", data)); }
-        public static string NoTitle(params string[] data) { return Get("NoTitle", data); }
-        public static HtmlBuilder Displays_Error(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Error", data)); }
-        public static string Error(params string[] data) { return Get("Error", data); }
-        public static HtmlBuilder Displays_Index(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Index", data)); }
-        public static string Index(params string[] data) { return Get("Index", data); }
-        public static HtmlBuilder Displays_Edit(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Edit", data)); }
-        public static string Edit(params string[] data) { return Get("Edit", data); }
-        public static HtmlBuilder Displays_History(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("History", data)); }
-        public static string History(params string[] data) { return Get("History", data); }
-        public static HtmlBuilder Displays_Histories(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Histories", data)); }
-        public static string Histories(params string[] data) { return Get("Histories", data); }
-        public static HtmlBuilder Displays_Links(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Links", data)); }
-        public static string Links(params string[] data) { return Get("Links", data); }
-        public static HtmlBuilder Displays_LinkDestinations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LinkDestinations", data)); }
-        public static string LinkDestinations(params string[] data) { return Get("LinkDestinations", data); }
-        public static HtmlBuilder Displays_LinkSources(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LinkSources", data)); }
-        public static string LinkSources(params string[] data) { return Get("LinkSources", data); }
-        public static HtmlBuilder Displays_LinkCreations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LinkCreations", data)); }
-        public static string LinkCreations(params string[] data) { return Get("LinkCreations", data); }
-        public static HtmlBuilder Displays_Comments(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Comments", data)); }
-        public static string Comments(params string[] data) { return Get("Comments", data); }
-        public static HtmlBuilder Displays_SentMail(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SentMail", data)); }
-        public static string SentMail(params string[] data) { return Get("SentMail", data); }
-        public static HtmlBuilder Displays_Reply(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Reply", data)); }
-        public static string Reply(params string[] data) { return Get("Reply", data); }
-        public static HtmlBuilder Displays_OriginalMessage(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("OriginalMessage", data)); }
-        public static string OriginalMessage(params string[] data) { return Get("OriginalMessage", data); }
-        public static HtmlBuilder Displays_Logout(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Logout", data)); }
-        public static string Logout(params string[] data) { return Get("Logout", data); }
-        public static HtmlBuilder Displays_EditProfile(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EditProfile", data)); }
-        public static string EditProfile(params string[] data) { return Get("EditProfile", data); }
-        public static HtmlBuilder Displays_CreatedTime(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CreatedTime", data)); }
-        public static string CreatedTime(params string[] data) { return Get("CreatedTime", data); }
-        public static HtmlBuilder Displays_UpdatedTime(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("UpdatedTime", data)); }
-        public static string UpdatedTime(params string[] data) { return Get("UpdatedTime", data); }
-        public static HtmlBuilder Displays_Custom(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Custom", data)); }
-        public static string Custom(params string[] data) { return Get("Custom", data); }
-        public static HtmlBuilder Displays_PermissionDestination(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("PermissionDestination", data)); }
-        public static string PermissionDestination(params string[] data) { return Get("PermissionDestination", data); }
-        public static HtmlBuilder Displays_PermissionSource(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("PermissionSource", data)); }
-        public static string PermissionSource(params string[] data) { return Get("PermissionSource", data); }
-        public static HtmlBuilder Displays_SettingColumnList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingColumnList", data)); }
-        public static string SettingColumnList(params string[] data) { return Get("SettingColumnList", data); }
-        public static HtmlBuilder Displays_SettingTitleColumn(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingTitleColumn", data)); }
-        public static string SettingTitleColumn(params string[] data) { return Get("SettingTitleColumn", data); }
-        public static HtmlBuilder Displays_SettingTitleSeparator(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingTitleSeparator", data)); }
-        public static string SettingTitleSeparator(params string[] data) { return Get("SettingTitleSeparator", data); }
-        public static HtmlBuilder Displays_SettingAggregationList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingAggregationList", data)); }
-        public static string SettingAggregationList(params string[] data) { return Get("SettingAggregationList", data); }
-        public static HtmlBuilder Displays_SettingNotGroupBy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingNotGroupBy", data)); }
-        public static string SettingNotGroupBy(params string[] data) { return Get("SettingNotGroupBy", data); }
-        public static HtmlBuilder Displays_SettingNearCompletionTimeBeforeDays(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingNearCompletionTimeBeforeDays", data)); }
-        public static string SettingNearCompletionTimeBeforeDays(params string[] data) { return Get("SettingNearCompletionTimeBeforeDays", data); }
-        public static HtmlBuilder Displays_SettingNearCompletionTimeAfterDays(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingNearCompletionTimeAfterDays", data)); }
-        public static string SettingNearCompletionTimeAfterDays(params string[] data) { return Get("SettingNearCompletionTimeAfterDays", data); }
-        public static HtmlBuilder Displays_SettingGridPageSize(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingGridPageSize", data)); }
-        public static string SettingGridPageSize(params string[] data) { return Get("SettingGridPageSize", data); }
-        public static HtmlBuilder Displays_SettingLabel(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingLabel", data)); }
-        public static string SettingLabel(params string[] data) { return Get("SettingLabel", data); }
-        public static HtmlBuilder Displays_SettingEnable(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingEnable", data)); }
-        public static string SettingEnable(params string[] data) { return Get("SettingEnable", data); }
-        public static HtmlBuilder Displays_SettingOrder(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingOrder", data)); }
-        public static string SettingOrder(params string[] data) { return Get("SettingOrder", data); }
-        public static HtmlBuilder Displays_SettingFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingFormat", data)); }
-        public static string SettingFormat(params string[] data) { return Get("SettingFormat", data); }
-        public static HtmlBuilder Displays_SettingUnit(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingUnit", data)); }
-        public static string SettingUnit(params string[] data) { return Get("SettingUnit", data); }
-        public static HtmlBuilder Displays_SettingGridFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingGridFormat", data)); }
-        public static string SettingGridFormat(params string[] data) { return Get("SettingGridFormat", data); }
-        public static HtmlBuilder Displays_SettingControlFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingControlFormat", data)); }
-        public static string SettingControlFormat(params string[] data) { return Get("SettingControlFormat", data); }
-        public static HtmlBuilder Displays_SettingExportFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingExportFormat", data)); }
-        public static string SettingExportFormat(params string[] data) { return Get("SettingExportFormat", data); }
-        public static HtmlBuilder Displays_SettingSelectionList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingSelectionList", data)); }
-        public static string SettingSelectionList(params string[] data) { return Get("SettingSelectionList", data); }
-        public static HtmlBuilder Displays_SettingChoicesVisible(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingChoicesVisible", data)); }
-        public static string SettingChoicesVisible(params string[] data) { return Get("SettingChoicesVisible", data); }
-        public static HtmlBuilder Displays_SettingLimitDefault(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingLimitDefault", data)); }
-        public static string SettingLimitDefault(params string[] data) { return Get("SettingLimitDefault", data); }
-        public static HtmlBuilder Displays_SettingGridColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingGridColumns", data)); }
-        public static string SettingGridColumns(params string[] data) { return Get("SettingGridColumns", data); }
-        public static HtmlBuilder Displays_SettingFilterColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingFilterColumns", data)); }
-        public static string SettingFilterColumns(params string[] data) { return Get("SettingFilterColumns", data); }
-        public static HtmlBuilder Displays_SettingSummaryColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingSummaryColumns", data)); }
-        public static string SettingSummaryColumns(params string[] data) { return Get("SettingSummaryColumns", data); }
-        public static HtmlBuilder Displays_SettingEditorColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingEditorColumns", data)); }
-        public static string SettingEditorColumns(params string[] data) { return Get("SettingEditorColumns", data); }
-        public static HtmlBuilder Displays_SettingLinkColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingLinkColumns", data)); }
-        public static string SettingLinkColumns(params string[] data) { return Get("SettingLinkColumns", data); }
-        public static HtmlBuilder Displays_SettingHistoryColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingHistoryColumns", data)); }
-        public static string SettingHistoryColumns(params string[] data) { return Get("SettingHistoryColumns", data); }
-        public static HtmlBuilder Displays_SettingFormulas(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingFormulas", data)); }
-        public static string SettingFormulas(params string[] data) { return Get("SettingFormulas", data); }
-        public static HtmlBuilder Displays_SettingAggregations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingAggregations", data)); }
-        public static string SettingAggregations(params string[] data) { return Get("SettingAggregations", data); }
-        public static HtmlBuilder Displays_SettingAggregationType(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingAggregationType", data)); }
-        public static string SettingAggregationType(params string[] data) { return Get("SettingAggregationType", data); }
-        public static HtmlBuilder Displays_SettingAggregationTarget(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingAggregationTarget", data)); }
-        public static string SettingAggregationTarget(params string[] data) { return Get("SettingAggregationTarget", data); }
-        public static HtmlBuilder Displays_Others(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Others", data)); }
-        public static string Others(params string[] data) { return Get("Others", data); }
-        public static HtmlBuilder Displays_Name(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Name", data)); }
-        public static string Name(params string[] data) { return Get("Name", data); }
-        public static HtmlBuilder Displays_CustomDesign(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CustomDesign", data)); }
-        public static string CustomDesign(params string[] data) { return Get("CustomDesign", data); }
-        public static HtmlBuilder Displays_UseCustomDesign(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("UseCustomDesign", data)); }
-        public static string UseCustomDesign(params string[] data) { return Get("UseCustomDesign", data); }
-        public static HtmlBuilder Displays_CurrentPassword(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CurrentPassword", data)); }
-        public static string CurrentPassword(params string[] data) { return Get("CurrentPassword", data); }
-        public static HtmlBuilder Displays_ReEnter(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ReEnter", data)); }
-        public static string ReEnter(params string[] data) { return Get("ReEnter", data); }
-        public static HtmlBuilder Displays_VerUp(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("VerUp", data)); }
-        public static string VerUp(params string[] data) { return Get("VerUp", data); }
-        public static HtmlBuilder Displays_Hidden(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Hidden", data)); }
-        public static string Hidden(params string[] data) { return Get("Hidden", data); }
-        public static HtmlBuilder Displays_Output(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Output", data)); }
-        public static string Output(params string[] data) { return Get("Output", data); }
-        public static HtmlBuilder Displays_NotOutput(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NotOutput", data)); }
-        public static string NotOutput(params string[] data) { return Get("NotOutput", data); }
-        public static HtmlBuilder Displays_CopyWithComments(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CopyWithComments", data)); }
-        public static string CopyWithComments(params string[] data) { return Get("CopyWithComments", data); }
-        public static HtmlBuilder Displays_Hyphen(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Hyphen", data)); }
-        public static string Hyphen(params string[] data) { return Get("Hyphen", data); }
-        public static HtmlBuilder Displays_Slack(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Slack", data)); }
-        public static string Slack(params string[] data) { return Get("Slack", data); }
-        public static HtmlBuilder Displays_WebHookUrl(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("WebHookUrl", data)); }
-        public static string WebHookUrl(params string[] data) { return Get("WebHookUrl", data); }
-        public static HtmlBuilder Displays_Search(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Search", data)); }
-        public static string Search(params string[] data) { return Get("Search", data); }
-        public static HtmlBuilder Displays_Admin(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Admin", data)); }
-        public static string Admin(params string[] data) { return Get("Admin", data); }
-        public static HtmlBuilder Displays_Default(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Default", data)); }
-        public static string Default(params string[] data) { return Get("Default", data); }
-        public static HtmlBuilder Displays_DefaultInput(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DefaultInput", data)); }
-        public static string DefaultInput(params string[] data) { return Get("DefaultInput", data); }
+        public static HtmlBuilder Displays_Address(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Address", data)); }
+        public static string Address(params string[] data) { return Get("Address", data); }
         public static HtmlBuilder Displays_AddressBook(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("AddressBook", data)); }
         public static string AddressBook(params string[] data) { return Get("AddressBook", data); }
-        public static HtmlBuilder Displays_DefaultAddressBook(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DefaultAddressBook", data)); }
-        public static string DefaultAddressBook(params string[] data) { return Get("DefaultAddressBook", data); }
-        public static HtmlBuilder Displays_DefaultDestinations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DefaultDestinations", data)); }
-        public static string DefaultDestinations(params string[] data) { return Get("DefaultDestinations", data); }
-        public static HtmlBuilder Displays_OnOnly(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("OnOnly", data)); }
-        public static string OnOnly(params string[] data) { return Get("OnOnly", data); }
-        public static HtmlBuilder Displays_OnAndOff(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("OnAndOff", data)); }
-        public static string OnAndOff(params string[] data) { return Get("OnAndOff", data); }
-        public static HtmlBuilder Displays_On(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("On", data)); }
-        public static string On(params string[] data) { return Get("On", data); }
-        public static HtmlBuilder Displays_Off(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Off", data)); }
-        public static string Off(params string[] data) { return Get("Off", data); }
-        public static HtmlBuilder Displays_LimitJust(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitJust", data)); }
-        public static string LimitJust(params string[] data) { return Get("LimitJust", data); }
-        public static HtmlBuilder Displays_LimitAfterSecond(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterSecond", data)); }
-        public static string LimitAfterSecond(params string[] data) { return Get("LimitAfterSecond", data); }
-        public static HtmlBuilder Displays_LimitAfterSeconds(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterSeconds", data)); }
-        public static string LimitAfterSeconds(params string[] data) { return Get("LimitAfterSeconds", data); }
-        public static HtmlBuilder Displays_LimitAfterMinute(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterMinute", data)); }
-        public static string LimitAfterMinute(params string[] data) { return Get("LimitAfterMinute", data); }
-        public static HtmlBuilder Displays_LimitAfterMinutes(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterMinutes", data)); }
-        public static string LimitAfterMinutes(params string[] data) { return Get("LimitAfterMinutes", data); }
-        public static HtmlBuilder Displays_LimitAfterHour(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterHour", data)); }
-        public static string LimitAfterHour(params string[] data) { return Get("LimitAfterHour", data); }
-        public static HtmlBuilder Displays_LimitAfterHours(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterHours", data)); }
-        public static string LimitAfterHours(params string[] data) { return Get("LimitAfterHours", data); }
-        public static HtmlBuilder Displays_LimitAfterDay(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterDay", data)); }
-        public static string LimitAfterDay(params string[] data) { return Get("LimitAfterDay", data); }
-        public static HtmlBuilder Displays_LimitAfterDays(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterDays", data)); }
-        public static string LimitAfterDays(params string[] data) { return Get("LimitAfterDays", data); }
-        public static HtmlBuilder Displays_LimitAfterMonth(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterMonth", data)); }
-        public static string LimitAfterMonth(params string[] data) { return Get("LimitAfterMonth", data); }
-        public static HtmlBuilder Displays_LimitAfterMonths(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterMonths", data)); }
-        public static string LimitAfterMonths(params string[] data) { return Get("LimitAfterMonths", data); }
-        public static HtmlBuilder Displays_LimitAfterYear(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterYear", data)); }
-        public static string LimitAfterYear(params string[] data) { return Get("LimitAfterYear", data); }
-        public static HtmlBuilder Displays_LimitAfterYears(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterYears", data)); }
-        public static string LimitAfterYears(params string[] data) { return Get("LimitAfterYears", data); }
-        public static HtmlBuilder Displays_LimitBeforeSecond(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeSecond", data)); }
-        public static string LimitBeforeSecond(params string[] data) { return Get("LimitBeforeSecond", data); }
-        public static HtmlBuilder Displays_LimitBeforeSeconds(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeSeconds", data)); }
-        public static string LimitBeforeSeconds(params string[] data) { return Get("LimitBeforeSeconds", data); }
-        public static HtmlBuilder Displays_LimitBeforeMinute(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeMinute", data)); }
-        public static string LimitBeforeMinute(params string[] data) { return Get("LimitBeforeMinute", data); }
-        public static HtmlBuilder Displays_LimitBeforeMinutes(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeMinutes", data)); }
-        public static string LimitBeforeMinutes(params string[] data) { return Get("LimitBeforeMinutes", data); }
-        public static HtmlBuilder Displays_LimitBeforeHour(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeHour", data)); }
-        public static string LimitBeforeHour(params string[] data) { return Get("LimitBeforeHour", data); }
-        public static HtmlBuilder Displays_LimitBeforeHours(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeHours", data)); }
-        public static string LimitBeforeHours(params string[] data) { return Get("LimitBeforeHours", data); }
-        public static HtmlBuilder Displays_LimitBeforeDay(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeDay", data)); }
-        public static string LimitBeforeDay(params string[] data) { return Get("LimitBeforeDay", data); }
-        public static HtmlBuilder Displays_LimitBeforeDays(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeDays", data)); }
-        public static string LimitBeforeDays(params string[] data) { return Get("LimitBeforeDays", data); }
-        public static HtmlBuilder Displays_LimitBeforeMonth(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeMonth", data)); }
-        public static string LimitBeforeMonth(params string[] data) { return Get("LimitBeforeMonth", data); }
-        public static HtmlBuilder Displays_LimitBeforeMonths(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeMonths", data)); }
-        public static string LimitBeforeMonths(params string[] data) { return Get("LimitBeforeMonths", data); }
-        public static HtmlBuilder Displays_LimitBeforeYear(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeYear", data)); }
-        public static string LimitBeforeYear(params string[] data) { return Get("LimitBeforeYear", data); }
-        public static HtmlBuilder Displays_LimitBeforeYears(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeYears", data)); }
-        public static string LimitBeforeYears(params string[] data) { return Get("LimitBeforeYears", data); }
-        public static HtmlBuilder Displays_SecondAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SecondAgo", data)); }
-        public static string SecondAgo(params string[] data) { return Get("SecondAgo", data); }
-        public static HtmlBuilder Displays_SecondsAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SecondsAgo", data)); }
-        public static string SecondsAgo(params string[] data) { return Get("SecondsAgo", data); }
-        public static HtmlBuilder Displays_MinuteAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MinuteAgo", data)); }
-        public static string MinuteAgo(params string[] data) { return Get("MinuteAgo", data); }
-        public static HtmlBuilder Displays_MinutesAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MinutesAgo", data)); }
-        public static string MinutesAgo(params string[] data) { return Get("MinutesAgo", data); }
-        public static HtmlBuilder Displays_HourAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("HourAgo", data)); }
-        public static string HourAgo(params string[] data) { return Get("HourAgo", data); }
-        public static HtmlBuilder Displays_HoursAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("HoursAgo", data)); }
-        public static string HoursAgo(params string[] data) { return Get("HoursAgo", data); }
+        public static HtmlBuilder Displays_Admin(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Admin", data)); }
+        public static string Admin(params string[] data) { return Get("Admin", data); }
+        public static HtmlBuilder Displays_AdvancedSetting(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("AdvancedSetting", data)); }
+        public static string AdvancedSetting(params string[] data) { return Get("AdvancedSetting", data); }
+        public static HtmlBuilder Displays_AggregationDetails(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("AggregationDetails", data)); }
+        public static string AggregationDetails(params string[] data) { return Get("AggregationDetails", data); }
+        public static HtmlBuilder Displays_Aggregations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Aggregations", data)); }
+        public static string Aggregations(params string[] data) { return Get("Aggregations", data); }
+        public static HtmlBuilder Displays_All(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("All", data)); }
+        public static string All(params string[] data) { return Get("All", data); }
+        public static HtmlBuilder Displays_AlreadyAdded(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("AlreadyAdded", data)); }
+        public static string AlreadyAdded(params string[] data) { return Get("AlreadyAdded", data); }
+        public static HtmlBuilder Displays_Authentication(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Authentication", data)); }
+        public static string Authentication(params string[] data) { return Get("Authentication", data); }
+        public static HtmlBuilder Displays_Auto(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Auto", data)); }
+        public static string Auto(params string[] data) { return Get("Auto", data); }
+        public static HtmlBuilder Displays_Average(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Average", data)); }
+        public static string Average(params string[] data) { return Get("Average", data); }
+        public static HtmlBuilder Displays_BadFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("BadFormat", data)); }
+        public static string BadFormat(params string[] data) { return Get("BadFormat", data); }
+        public static HtmlBuilder Displays_BadMailAddress(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("BadMailAddress", data)); }
+        public static string BadMailAddress(params string[] data) { return Get("BadMailAddress", data); }
+        public static HtmlBuilder Displays_Basic(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Basic", data)); }
+        public static string Basic(params string[] data) { return Get("Basic", data); }
+        public static HtmlBuilder Displays_Blank(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Blank", data)); }
+        public static string Blank(params string[] data) { return Get("Blank", data); }
+        public static HtmlBuilder Displays_BulkDelete(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("BulkDelete", data)); }
+        public static string BulkDelete(params string[] data) { return Get("BulkDelete", data); }
+        public static HtmlBuilder Displays_BulkDeleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("BulkDeleted", data)); }
+        public static string BulkDeleted(params string[] data) { return Get("BulkDeleted", data); }
+        public static HtmlBuilder Displays_BulkMove(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("BulkMove", data)); }
+        public static string BulkMove(params string[] data) { return Get("BulkMove", data); }
+        public static HtmlBuilder Displays_BulkMoved(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("BulkMoved", data)); }
+        public static string BulkMoved(params string[] data) { return Get("BulkMoved", data); }
+        public static HtmlBuilder Displays_BurnDown(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("BurnDown", data)); }
+        public static string BurnDown(params string[] data) { return Get("BurnDown", data); }
+        public static HtmlBuilder Displays_Cancel(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Cancel", data)); }
+        public static string Cancel(params string[] data) { return Get("Cancel", data); }
+        public static HtmlBuilder Displays_CanNotDisabled(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CanNotDisabled", data)); }
+        public static string CanNotDisabled(params string[] data) { return Get("CanNotDisabled", data); }
+        public static HtmlBuilder Displays_CanNotUpdate(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CanNotUpdate", data)); }
+        public static string CanNotUpdate(params string[] data) { return Get("CanNotUpdate", data); }
+        public static HtmlBuilder Displays_CantSetAtTopOfSite(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CantSetAtTopOfSite", data)); }
+        public static string CantSetAtTopOfSite(params string[] data) { return Get("CantSetAtTopOfSite", data); }
+        public static HtmlBuilder Displays_Change(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Change", data)); }
+        public static string Change(params string[] data) { return Get("Change", data); }
+        public static HtmlBuilder Displays_ChangePassword(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ChangePassword", data)); }
+        public static string ChangePassword(params string[] data) { return Get("ChangePassword", data); }
+        public static HtmlBuilder Displays_ChangingPasswordComplete(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ChangingPasswordComplete", data)); }
+        public static string ChangingPasswordComplete(params string[] data) { return Get("ChangingPasswordComplete", data); }
+        public static HtmlBuilder Displays_CharacterCode(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CharacterCode", data)); }
+        public static string CharacterCode(params string[] data) { return Get("CharacterCode", data); }
+        public static HtmlBuilder Displays_CheckAll(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CheckAll", data)); }
+        public static string CheckAll(params string[] data) { return Get("CheckAll", data); }
+        public static HtmlBuilder Displays_CodeDefinerBackupCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CodeDefinerBackupCompleted", data)); }
+        public static string CodeDefinerBackupCompleted(params string[] data) { return Get("CodeDefinerBackupCompleted", data); }
+        public static HtmlBuilder Displays_CodeDefinerCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CodeDefinerCompleted", data)); }
+        public static string CodeDefinerCompleted(params string[] data) { return Get("CodeDefinerCompleted", data); }
+        public static HtmlBuilder Displays_CodeDefinerCssCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CodeDefinerCssCompleted", data)); }
+        public static string CodeDefinerCssCompleted(params string[] data) { return Get("CodeDefinerCssCompleted", data); }
+        public static HtmlBuilder Displays_CodeDefinerDefCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CodeDefinerDefCompleted", data)); }
+        public static string CodeDefinerDefCompleted(params string[] data) { return Get("CodeDefinerDefCompleted", data); }
+        public static HtmlBuilder Displays_CodeDefinerMvcCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CodeDefinerMvcCompleted", data)); }
+        public static string CodeDefinerMvcCompleted(params string[] data) { return Get("CodeDefinerMvcCompleted", data); }
+        public static HtmlBuilder Displays_CodeDefinerRdsCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CodeDefinerRdsCompleted", data)); }
+        public static string CodeDefinerRdsCompleted(params string[] data) { return Get("CodeDefinerRdsCompleted", data); }
+        public static HtmlBuilder Displays_CommentDeleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CommentDeleted", data)); }
+        public static string CommentDeleted(params string[] data) { return Get("CommentDeleted", data); }
+        public static HtmlBuilder Displays_Comments(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Comments", data)); }
+        public static string Comments(params string[] data) { return Get("Comments", data); }
+        public static HtmlBuilder Displays_ConfirmDelete(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ConfirmDelete", data)); }
+        public static string ConfirmDelete(params string[] data) { return Get("ConfirmDelete", data); }
+        public static HtmlBuilder Displays_ConfirmSendMail(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ConfirmSendMail", data)); }
+        public static string ConfirmSendMail(params string[] data) { return Get("ConfirmSendMail", data); }
+        public static HtmlBuilder Displays_ConfirmSeparate(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ConfirmSeparate", data)); }
+        public static string ConfirmSeparate(params string[] data) { return Get("ConfirmSeparate", data); }
+        public static HtmlBuilder Displays_ConfirmSynchronize(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ConfirmSynchronize", data)); }
+        public static string ConfirmSynchronize(params string[] data) { return Get("ConfirmSynchronize", data); }
+        public static HtmlBuilder Displays_ControlType(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ControlType", data)); }
+        public static string ControlType(params string[] data) { return Get("ControlType", data); }
+        public static HtmlBuilder Displays_Copied(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Copied", data)); }
+        public static string Copied(params string[] data) { return Get("Copied", data); }
+        public static HtmlBuilder Displays_Copy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Copy", data)); }
+        public static string Copy(params string[] data) { return Get("Copy", data); }
+        public static HtmlBuilder Displays_CopySettings(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CopySettings", data)); }
+        public static string CopySettings(params string[] data) { return Get("CopySettings", data); }
+        public static HtmlBuilder Displays_CopyWithComments(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CopyWithComments", data)); }
+        public static string CopyWithComments(params string[] data) { return Get("CopyWithComments", data); }
+        public static HtmlBuilder Displays_Count(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Count", data)); }
+        public static string Count(params string[] data) { return Get("Count", data); }
+        public static HtmlBuilder Displays_Create(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Create", data)); }
+        public static string Create(params string[] data) { return Get("Create", data); }
+        public static HtmlBuilder Displays_Created(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Created", data)); }
+        public static string Created(params string[] data) { return Get("Created", data); }
+        public static HtmlBuilder Displays_CreatedTime(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CreatedTime", data)); }
+        public static string CreatedTime(params string[] data) { return Get("CreatedTime", data); }
+        public static HtmlBuilder Displays_Csv(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Csv", data)); }
+        public static string Csv(params string[] data) { return Get("Csv", data); }
+        public static HtmlBuilder Displays_CsvFile(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CsvFile", data)); }
+        public static string CsvFile(params string[] data) { return Get("CsvFile", data); }
+        public static HtmlBuilder Displays_Currency(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Currency", data)); }
+        public static string Currency(params string[] data) { return Get("Currency", data); }
+        public static HtmlBuilder Displays_CurrentPassword(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CurrentPassword", data)); }
+        public static string CurrentPassword(params string[] data) { return Get("CurrentPassword", data); }
+        public static HtmlBuilder Displays_Custom(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Custom", data)); }
+        public static string Custom(params string[] data) { return Get("Custom", data); }
+        public static HtmlBuilder Displays_CustomDesign(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CustomDesign", data)); }
+        public static string CustomDesign(params string[] data) { return Get("CustomDesign", data); }
+        public static HtmlBuilder Displays_DataView(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DataView", data)); }
+        public static string DataView(params string[] data) { return Get("DataView", data); }
+        public static HtmlBuilder Displays_Date(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Date", data)); }
+        public static string Date(params string[] data) { return Get("Date", data); }
         public static HtmlBuilder Displays_DayAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DayAgo", data)); }
         public static string DayAgo(params string[] data) { return Get("DayAgo", data); }
         public static HtmlBuilder Displays_DaysAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DaysAgo", data)); }
         public static string DaysAgo(params string[] data) { return Get("DaysAgo", data); }
+        public static HtmlBuilder Displays_DecimalPlaces(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DecimalPlaces", data)); }
+        public static string DecimalPlaces(params string[] data) { return Get("DecimalPlaces", data); }
+        public static HtmlBuilder Displays_Default(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Default", data)); }
+        public static string Default(params string[] data) { return Get("Default", data); }
+        public static HtmlBuilder Displays_DefaultAddressBook(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DefaultAddressBook", data)); }
+        public static string DefaultAddressBook(params string[] data) { return Get("DefaultAddressBook", data); }
+        public static HtmlBuilder Displays_DefaultDestinations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DefaultDestinations", data)); }
+        public static string DefaultDestinations(params string[] data) { return Get("DefaultDestinations", data); }
+        public static HtmlBuilder Displays_DefaultInput(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DefaultInput", data)); }
+        public static string DefaultInput(params string[] data) { return Get("DefaultInput", data); }
+        public static HtmlBuilder Displays_DefaultView(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DefaultView", data)); }
+        public static string DefaultView(params string[] data) { return Get("DefaultView", data); }
+        public static HtmlBuilder Displays_DefinitionNotFound(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DefinitionNotFound", data)); }
+        public static string DefinitionNotFound(params string[] data) { return Get("DefinitionNotFound", data); }
+        public static HtmlBuilder Displays_Delay(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Delay", data)); }
+        public static string Delay(params string[] data) { return Get("Delay", data); }
+        public static HtmlBuilder Displays_Delete(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Delete", data)); }
+        public static string Delete(params string[] data) { return Get("Delete", data); }
+        public static HtmlBuilder Displays_DeleteConflicts(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DeleteConflicts", data)); }
+        public static string DeleteConflicts(params string[] data) { return Get("DeleteConflicts", data); }
+        public static HtmlBuilder Displays_Deleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Deleted", data)); }
+        public static string Deleted(params string[] data) { return Get("Deleted", data); }
+        public static HtmlBuilder Displays_DeletePermission(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DeletePermission", data)); }
+        public static string DeletePermission(params string[] data) { return Get("DeletePermission", data); }
+        public static HtmlBuilder Displays_DemoMailBody(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DemoMailBody", data)); }
+        public static string DemoMailBody(params string[] data) { return Get("DemoMailBody", data); }
+        public static HtmlBuilder Displays_DemoMailTitle(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DemoMailTitle", data)); }
+        public static string DemoMailTitle(params string[] data) { return Get("DemoMailTitle", data); }
+        public static HtmlBuilder Displays_Destination(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Destination", data)); }
+        public static string Destination(params string[] data) { return Get("Destination", data); }
+        public static HtmlBuilder Displays_Difference(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Difference", data)); }
+        public static string Difference(params string[] data) { return Get("Difference", data); }
+        public static HtmlBuilder Displays_Disabled(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Disabled", data)); }
+        public static string Disabled(params string[] data) { return Get("Disabled", data); }
+        public static HtmlBuilder Displays_DisabledList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DisabledList", data)); }
+        public static string DisabledList(params string[] data) { return Get("DisabledList", data); }
+        public static HtmlBuilder Displays_EarnedValue(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EarnedValue", data)); }
+        public static string EarnedValue(params string[] data) { return Get("EarnedValue", data); }
+        public static HtmlBuilder Displays_Edit(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Edit", data)); }
+        public static string Edit(params string[] data) { return Get("Edit", data); }
+        public static HtmlBuilder Displays_EditorSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EditorSettingsEditor", data)); }
+        public static string EditorSettingsEditor(params string[] data) { return Get("EditorSettingsEditor", data); }
+        public static HtmlBuilder Displays_EditPermissions(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EditPermissions", data)); }
+        public static string EditPermissions(params string[] data) { return Get("EditPermissions", data); }
+        public static HtmlBuilder Displays_EditProfile(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EditProfile", data)); }
+        public static string EditProfile(params string[] data) { return Get("EditProfile", data); }
+        public static HtmlBuilder Displays_EditScript(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EditScript", data)); }
+        public static string EditScript(params string[] data) { return Get("EditScript", data); }
+        public static HtmlBuilder Displays_EditSettings(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EditSettings", data)); }
+        public static string EditSettings(params string[] data) { return Get("EditSettings", data); }
+        public static HtmlBuilder Displays_EditStyle(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EditStyle", data)); }
+        public static string EditStyle(params string[] data) { return Get("EditStyle", data); }
+        public static HtmlBuilder Displays_Enabled(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Enabled", data)); }
+        public static string Enabled(params string[] data) { return Get("Enabled", data); }
+        public static HtmlBuilder Displays_EnabledList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EnabledList", data)); }
+        public static string EnabledList(params string[] data) { return Get("EnabledList", data); }
+        public static HtmlBuilder Displays_Error(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Error", data)); }
+        public static string Error(params string[] data) { return Get("Error", data); }
+        public static HtmlBuilder Displays_Excel(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Excel", data)); }
+        public static string Excel(params string[] data) { return Get("Excel", data); }
+        public static HtmlBuilder Displays_ExceptionBody(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ExceptionBody", data)); }
+        public static string ExceptionBody(params string[] data) { return Get("ExceptionBody", data); }
+        public static HtmlBuilder Displays_ExceptionTitle(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ExceptionTitle", data)); }
+        public static string ExceptionTitle(params string[] data) { return Get("ExceptionTitle", data); }
+        public static HtmlBuilder Displays_Export(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Export", data)); }
+        public static string Export(params string[] data) { return Get("Export", data); }
+        public static HtmlBuilder Displays_ExternalMailAddress(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ExternalMailAddress", data)); }
+        public static string ExternalMailAddress(params string[] data) { return Get("ExternalMailAddress", data); }
+        public static HtmlBuilder Displays_FailedReadFile(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("FailedReadFile", data)); }
+        public static string FailedReadFile(params string[] data) { return Get("FailedReadFile", data); }
+        public static HtmlBuilder Displays_File(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("File", data)); }
+        public static string File(params string[] data) { return Get("File", data); }
+        public static HtmlBuilder Displays_FileNotFound(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("FileNotFound", data)); }
+        public static string FileNotFound(params string[] data) { return Get("FileNotFound", data); }
+        public static HtmlBuilder Displays_FileUpdateCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("FileUpdateCompleted", data)); }
+        public static string FileUpdateCompleted(params string[] data) { return Get("FileUpdateCompleted", data); }
+        public static HtmlBuilder Displays_Filters(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Filters", data)); }
+        public static string Filters(params string[] data) { return Get("Filters", data); }
+        public static HtmlBuilder Displays_Fy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Fy", data)); }
+        public static string Fy(params string[] data) { return Get("Fy", data); }
+        public static HtmlBuilder Displays_Gantt(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Gantt", data)); }
+        public static string Gantt(params string[] data) { return Get("Gantt", data); }
+        public static HtmlBuilder Displays_GoBack(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("GoBack", data)); }
+        public static string GoBack(params string[] data) { return Get("GoBack", data); }
+        public static HtmlBuilder Displays_Grid(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Grid", data)); }
+        public static string Grid(params string[] data) { return Get("Grid", data); }
+        public static HtmlBuilder Displays_GridScript(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("GridScript", data)); }
+        public static string GridScript(params string[] data) { return Get("GridScript", data); }
+        public static HtmlBuilder Displays_GridSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("GridSettingsEditor", data)); }
+        public static string GridSettingsEditor(params string[] data) { return Get("GridSettingsEditor", data); }
+        public static HtmlBuilder Displays_GridStyle(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("GridStyle", data)); }
+        public static string GridStyle(params string[] data) { return Get("GridStyle", data); }
+        public static HtmlBuilder Displays_GroupBy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("GroupBy", data)); }
+        public static string GroupBy(params string[] data) { return Get("GroupBy", data); }
+        public static HtmlBuilder Displays_Half1(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Half1", data)); }
+        public static string Half1(params string[] data) { return Get("Half1", data); }
+        public static HtmlBuilder Displays_Half2(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Half2", data)); }
+        public static string Half2(params string[] data) { return Get("Half2", data); }
+        public static HtmlBuilder Displays_HasBeenDeleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("HasBeenDeleted", data)); }
+        public static string HasBeenDeleted(params string[] data) { return Get("HasBeenDeleted", data); }
+        public static HtmlBuilder Displays_HasBeenMoved(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("HasBeenMoved", data)); }
+        public static string HasBeenMoved(params string[] data) { return Get("HasBeenMoved", data); }
+        public static HtmlBuilder Displays_HasNotPermission(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("HasNotPermission", data)); }
+        public static string HasNotPermission(params string[] data) { return Get("HasNotPermission", data); }
+        public static HtmlBuilder Displays_Hidden(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Hidden", data)); }
+        public static string Hidden(params string[] data) { return Get("Hidden", data); }
+        public static HtmlBuilder Displays_Hide(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Hide", data)); }
+        public static string Hide(params string[] data) { return Get("Hide", data); }
+        public static HtmlBuilder Displays_HideList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("HideList", data)); }
+        public static string HideList(params string[] data) { return Get("HideList", data); }
+        public static HtmlBuilder Displays_Histories(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Histories", data)); }
+        public static string Histories(params string[] data) { return Get("Histories", data); }
+        public static HtmlBuilder Displays_History(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("History", data)); }
+        public static string History(params string[] data) { return Get("History", data); }
+        public static HtmlBuilder Displays_HourAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("HourAgo", data)); }
+        public static string HourAgo(params string[] data) { return Get("HourAgo", data); }
+        public static HtmlBuilder Displays_HoursAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("HoursAgo", data)); }
+        public static string HoursAgo(params string[] data) { return Get("HoursAgo", data); }
+        public static HtmlBuilder Displays_Hyphen(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Hyphen", data)); }
+        public static string Hyphen(params string[] data) { return Get("Hyphen", data); }
+        public static HtmlBuilder Displays_Icon(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Icon", data)); }
+        public static string Icon(params string[] data) { return Get("Icon", data); }
+        public static HtmlBuilder Displays_Id(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Id", data)); }
+        public static string Id(params string[] data) { return Get("Id", data); }
+        public static HtmlBuilder Displays_Import(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Import", data)); }
+        public static string Import(params string[] data) { return Get("Import", data); }
+        public static HtmlBuilder Displays_Imported(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Imported", data)); }
+        public static string Imported(params string[] data) { return Get("Imported", data); }
+        public static HtmlBuilder Displays_Incomplete(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Incomplete", data)); }
+        public static string Incomplete(params string[] data) { return Get("Incomplete", data); }
+        public static HtmlBuilder Displays_InCompression(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("InCompression", data)); }
+        public static string InCompression(params string[] data) { return Get("InCompression", data); }
+        public static HtmlBuilder Displays_InCopying(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("InCopying", data)); }
+        public static string InCopying(params string[] data) { return Get("InCopying", data); }
+        public static HtmlBuilder Displays_IncorrectCurrentPassword(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("IncorrectCurrentPassword", data)); }
+        public static string IncorrectCurrentPassword(params string[] data) { return Get("IncorrectCurrentPassword", data); }
+        public static HtmlBuilder Displays_Index(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Index", data)); }
+        public static string Index(params string[] data) { return Get("Index", data); }
+        public static HtmlBuilder Displays_InvalidCsvData(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("InvalidCsvData", data)); }
+        public static string InvalidCsvData(params string[] data) { return Get("InvalidCsvData", data); }
+        public static HtmlBuilder Displays_InvalidFormula(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("InvalidFormula", data)); }
+        public static string InvalidFormula(params string[] data) { return Get("InvalidFormula", data); }
+        public static HtmlBuilder Displays_InvalidRequest(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("InvalidRequest", data)); }
+        public static string InvalidRequest(params string[] data) { return Get("InvalidRequest", data); }
+        public static HtmlBuilder Displays_Kamban(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Kamban", data)); }
+        public static string Kamban(params string[] data) { return Get("Kamban", data); }
+        public static HtmlBuilder Displays_Latest(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Latest", data)); }
+        public static string Latest(params string[] data) { return Get("Latest", data); }
+        public static HtmlBuilder Displays_Leader(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Leader", data)); }
+        public static string Leader(params string[] data) { return Get("Leader", data); }
+        public static HtmlBuilder Displays_LessThan(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LessThan", data)); }
+        public static string LessThan(params string[] data) { return Get("LessThan", data); }
+        public static HtmlBuilder Displays_LimitAfterDay(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterDay", data)); }
+        public static string LimitAfterDay(params string[] data) { return Get("LimitAfterDay", data); }
+        public static HtmlBuilder Displays_LimitAfterDays(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterDays", data)); }
+        public static string LimitAfterDays(params string[] data) { return Get("LimitAfterDays", data); }
+        public static HtmlBuilder Displays_LimitAfterHour(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterHour", data)); }
+        public static string LimitAfterHour(params string[] data) { return Get("LimitAfterHour", data); }
+        public static HtmlBuilder Displays_LimitAfterHours(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterHours", data)); }
+        public static string LimitAfterHours(params string[] data) { return Get("LimitAfterHours", data); }
+        public static HtmlBuilder Displays_LimitAfterMinute(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterMinute", data)); }
+        public static string LimitAfterMinute(params string[] data) { return Get("LimitAfterMinute", data); }
+        public static HtmlBuilder Displays_LimitAfterMinutes(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterMinutes", data)); }
+        public static string LimitAfterMinutes(params string[] data) { return Get("LimitAfterMinutes", data); }
+        public static HtmlBuilder Displays_LimitAfterMonth(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterMonth", data)); }
+        public static string LimitAfterMonth(params string[] data) { return Get("LimitAfterMonth", data); }
+        public static HtmlBuilder Displays_LimitAfterMonths(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterMonths", data)); }
+        public static string LimitAfterMonths(params string[] data) { return Get("LimitAfterMonths", data); }
+        public static HtmlBuilder Displays_LimitAfterSecond(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterSecond", data)); }
+        public static string LimitAfterSecond(params string[] data) { return Get("LimitAfterSecond", data); }
+        public static HtmlBuilder Displays_LimitAfterSeconds(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterSeconds", data)); }
+        public static string LimitAfterSeconds(params string[] data) { return Get("LimitAfterSeconds", data); }
+        public static HtmlBuilder Displays_LimitAfterYear(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterYear", data)); }
+        public static string LimitAfterYear(params string[] data) { return Get("LimitAfterYear", data); }
+        public static HtmlBuilder Displays_LimitAfterYears(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitAfterYears", data)); }
+        public static string LimitAfterYears(params string[] data) { return Get("LimitAfterYears", data); }
+        public static HtmlBuilder Displays_LimitBeforeDay(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeDay", data)); }
+        public static string LimitBeforeDay(params string[] data) { return Get("LimitBeforeDay", data); }
+        public static HtmlBuilder Displays_LimitBeforeDays(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeDays", data)); }
+        public static string LimitBeforeDays(params string[] data) { return Get("LimitBeforeDays", data); }
+        public static HtmlBuilder Displays_LimitBeforeHour(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeHour", data)); }
+        public static string LimitBeforeHour(params string[] data) { return Get("LimitBeforeHour", data); }
+        public static HtmlBuilder Displays_LimitBeforeHours(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeHours", data)); }
+        public static string LimitBeforeHours(params string[] data) { return Get("LimitBeforeHours", data); }
+        public static HtmlBuilder Displays_LimitBeforeMinute(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeMinute", data)); }
+        public static string LimitBeforeMinute(params string[] data) { return Get("LimitBeforeMinute", data); }
+        public static HtmlBuilder Displays_LimitBeforeMinutes(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeMinutes", data)); }
+        public static string LimitBeforeMinutes(params string[] data) { return Get("LimitBeforeMinutes", data); }
+        public static HtmlBuilder Displays_LimitBeforeMonth(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeMonth", data)); }
+        public static string LimitBeforeMonth(params string[] data) { return Get("LimitBeforeMonth", data); }
+        public static HtmlBuilder Displays_LimitBeforeMonths(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeMonths", data)); }
+        public static string LimitBeforeMonths(params string[] data) { return Get("LimitBeforeMonths", data); }
+        public static HtmlBuilder Displays_LimitBeforeSecond(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeSecond", data)); }
+        public static string LimitBeforeSecond(params string[] data) { return Get("LimitBeforeSecond", data); }
+        public static HtmlBuilder Displays_LimitBeforeSeconds(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeSeconds", data)); }
+        public static string LimitBeforeSeconds(params string[] data) { return Get("LimitBeforeSeconds", data); }
+        public static HtmlBuilder Displays_LimitBeforeYear(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeYear", data)); }
+        public static string LimitBeforeYear(params string[] data) { return Get("LimitBeforeYear", data); }
+        public static HtmlBuilder Displays_LimitBeforeYears(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitBeforeYears", data)); }
+        public static string LimitBeforeYears(params string[] data) { return Get("LimitBeforeYears", data); }
+        public static HtmlBuilder Displays_LimitJust(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitJust", data)); }
+        public static string LimitJust(params string[] data) { return Get("LimitJust", data); }
+        public static HtmlBuilder Displays_LinkCreations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LinkCreations", data)); }
+        public static string LinkCreations(params string[] data) { return Get("LinkCreations", data); }
+        public static HtmlBuilder Displays_LinkDestinations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LinkDestinations", data)); }
+        public static string LinkDestinations(params string[] data) { return Get("LinkDestinations", data); }
+        public static HtmlBuilder Displays_Links(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Links", data)); }
+        public static string Links(params string[] data) { return Get("Links", data); }
+        public static HtmlBuilder Displays_LinkSources(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LinkSources", data)); }
+        public static string LinkSources(params string[] data) { return Get("LinkSources", data); }
+        public static HtmlBuilder Displays_List(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("List", data)); }
+        public static string List(params string[] data) { return Get("List", data); }
+        public static HtmlBuilder Displays_Login(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Login", data)); }
+        public static string Login(params string[] data) { return Get("Login", data); }
+        public static HtmlBuilder Displays_LoginIn(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LoginIn", data)); }
+        public static string LoginIn(params string[] data) { return Get("LoginIn", data); }
+        public static HtmlBuilder Displays_Logout(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Logout", data)); }
+        public static string Logout(params string[] data) { return Get("Logout", data); }
+        public static HtmlBuilder Displays_Mail(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Mail", data)); }
+        public static string Mail(params string[] data) { return Get("Mail", data); }
+        public static HtmlBuilder Displays_MailAddress(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MailAddress", data)); }
+        public static string MailAddress(params string[] data) { return Get("MailAddress", data); }
+        public static HtmlBuilder Displays_MailAddressHasNotSet(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MailAddressHasNotSet", data)); }
+        public static string MailAddressHasNotSet(params string[] data) { return Get("MailAddressHasNotSet", data); }
+        public static HtmlBuilder Displays_MailerSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MailerSettingsEditor", data)); }
+        public static string MailerSettingsEditor(params string[] data) { return Get("MailerSettingsEditor", data); }
+        public static HtmlBuilder Displays_MailTransmissionCompletion(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MailTransmissionCompletion", data)); }
+        public static string MailTransmissionCompletion(params string[] data) { return Get("MailTransmissionCompletion", data); }
+        public static HtmlBuilder Displays_Manager(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Manager", data)); }
+        public static string Manager(params string[] data) { return Get("Manager", data); }
+        public static HtmlBuilder Displays_Max(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Max", data)); }
+        public static string Max(params string[] data) { return Get("Max", data); }
+        public static HtmlBuilder Displays_Md(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Md", data)); }
+        public static string Md(params string[] data) { return Get("Md", data); }
+        public static HtmlBuilder Displays_MdFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MdFormat", data)); }
+        public static string MdFormat(params string[] data) { return Get("MdFormat", data); }
+        public static HtmlBuilder Displays_Min(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Min", data)); }
+        public static string Min(params string[] data) { return Get("Min", data); }
+        public static HtmlBuilder Displays_MinuteAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MinuteAgo", data)); }
+        public static string MinuteAgo(params string[] data) { return Get("MinuteAgo", data); }
+        public static HtmlBuilder Displays_MinutesAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MinutesAgo", data)); }
+        public static string MinutesAgo(params string[] data) { return Get("MinutesAgo", data); }
+        public static HtmlBuilder Displays_MonitorChangesColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MonitorChangesColumns", data)); }
+        public static string MonitorChangesColumns(params string[] data) { return Get("MonitorChangesColumns", data); }
         public static HtmlBuilder Displays_MonthAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MonthAgo", data)); }
         public static string MonthAgo(params string[] data) { return Get("MonthAgo", data); }
         public static HtmlBuilder Displays_MonthsAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MonthsAgo", data)); }
         public static string MonthsAgo(params string[] data) { return Get("MonthsAgo", data); }
-        public static HtmlBuilder Displays_YearAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("YearAgo", data)); }
-        public static string YearAgo(params string[] data) { return Get("YearAgo", data); }
-        public static HtmlBuilder Displays_YearsAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("YearsAgo", data)); }
-        public static string YearsAgo(params string[] data) { return Get("YearsAgo", data); }
-        public static HtmlBuilder Displays_WriteComment(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("WriteComment", data)); }
-        public static string WriteComment(params string[] data) { return Get("WriteComment", data); }
-        public static HtmlBuilder Displays_Aggregations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Aggregations", data)); }
-        public static string Aggregations(params string[] data) { return Get("Aggregations", data); }
-        public static HtmlBuilder Displays_Filters(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Filters", data)); }
-        public static string Filters(params string[] data) { return Get("Filters", data); }
-        public static HtmlBuilder Displays_Sorters(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Sorters", data)); }
-        public static string Sorters(params string[] data) { return Get("Sorters", data); }
-        public static HtmlBuilder Displays_Incomplete(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Incomplete", data)); }
-        public static string Incomplete(params string[] data) { return Get("Incomplete", data); }
-        public static HtmlBuilder Displays_Blank(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Blank", data)); }
-        public static string Blank(params string[] data) { return Get("Blank", data); }
-        public static HtmlBuilder Displays_Own(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Own", data)); }
-        public static string Own(params string[] data) { return Get("Own", data); }
+        public static HtmlBuilder Displays_Move(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Move", data)); }
+        public static string Move(params string[] data) { return Get("Move", data); }
+        public static HtmlBuilder Displays_Moved(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Moved", data)); }
+        public static string Moved(params string[] data) { return Get("Moved", data); }
+        public static HtmlBuilder Displays_MoveDown(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MoveDown", data)); }
+        public static string MoveDown(params string[] data) { return Get("MoveDown", data); }
+        public static HtmlBuilder Displays_MoveSettings(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MoveSettings", data)); }
+        public static string MoveSettings(params string[] data) { return Get("MoveSettings", data); }
+        public static HtmlBuilder Displays_MoveUp(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MoveUp", data)); }
+        public static string MoveUp(params string[] data) { return Get("MoveUp", data); }
+        public static HtmlBuilder Displays_Name(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Name", data)); }
+        public static string Name(params string[] data) { return Get("Name", data); }
         public static HtmlBuilder Displays_NearCompletionTime(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NearCompletionTime", data)); }
         public static string NearCompletionTime(params string[] data) { return Get("NearCompletionTime", data); }
-        public static HtmlBuilder Displays_Delay(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Delay", data)); }
-        public static string Delay(params string[] data) { return Get("Delay", data); }
-        public static HtmlBuilder Displays_Overdue(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Overdue", data)); }
-        public static string Overdue(params string[] data) { return Get("Overdue", data); }
+        public static HtmlBuilder Displays_New(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("New", data)); }
+        public static string New(params string[] data) { return Get("New", data); }
+        public static HtmlBuilder Displays_Newer(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Newer", data)); }
+        public static string Newer(params string[] data) { return Get("Newer", data); }
+        public static HtmlBuilder Displays_NewScript(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NewScript", data)); }
+        public static string NewScript(params string[] data) { return Get("NewScript", data); }
+        public static HtmlBuilder Displays_NewStyle(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NewStyle", data)); }
+        public static string NewStyle(params string[] data) { return Get("NewStyle", data); }
+        public static HtmlBuilder Displays_Next(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Next", data)); }
+        public static string Next(params string[] data) { return Get("Next", data); }
+        public static HtmlBuilder Displays_NoData(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NoData", data)); }
+        public static string NoData(params string[] data) { return Get("NoData", data); }
+        public static HtmlBuilder Displays_NoLinks(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NoLinks", data)); }
+        public static string NoLinks(params string[] data) { return Get("NoLinks", data); }
+        public static HtmlBuilder Displays_Normal(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Normal", data)); }
+        public static string Normal(params string[] data) { return Get("Normal", data); }
+        public static HtmlBuilder Displays_NotFound(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NotFound", data)); }
+        public static string NotFound(params string[] data) { return Get("NotFound", data); }
+        public static HtmlBuilder Displays_NotificationSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NotificationSettingsEditor", data)); }
+        public static string NotificationSettingsEditor(params string[] data) { return Get("NotificationSettingsEditor", data); }
+        public static HtmlBuilder Displays_NotificationType(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NotificationType", data)); }
+        public static string NotificationType(params string[] data) { return Get("NotificationType", data); }
+        public static HtmlBuilder Displays_NotInheritPermission(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NotInheritPermission", data)); }
+        public static string NotInheritPermission(params string[] data) { return Get("NotInheritPermission", data); }
+        public static HtmlBuilder Displays_NoTitle(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NoTitle", data)); }
+        public static string NoTitle(params string[] data) { return Get("NoTitle", data); }
+        public static HtmlBuilder Displays_NotOutput(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NotOutput", data)); }
+        public static string NotOutput(params string[] data) { return Get("NotOutput", data); }
+        public static HtmlBuilder Displays_NotRequiredColumn(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NotRequiredColumn", data)); }
+        public static string NotRequiredColumn(params string[] data) { return Get("NotRequiredColumn", data); }
+        public static HtmlBuilder Displays_NotSet(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NotSet", data)); }
+        public static string NotSet(params string[] data) { return Get("NotSet", data); }
+        public static HtmlBuilder Displays_Off(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Off", data)); }
+        public static string Off(params string[] data) { return Get("Off", data); }
+        public static HtmlBuilder Displays_Older(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Older", data)); }
+        public static string Older(params string[] data) { return Get("Older", data); }
+        public static HtmlBuilder Displays_On(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("On", data)); }
+        public static string On(params string[] data) { return Get("On", data); }
+        public static HtmlBuilder Displays_OnAndOff(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("OnAndOff", data)); }
+        public static string OnAndOff(params string[] data) { return Get("OnAndOff", data); }
+        public static HtmlBuilder Displays_OnOnly(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("OnOnly", data)); }
+        public static string OnOnly(params string[] data) { return Get("OnOnly", data); }
+        public static HtmlBuilder Displays_Operations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Operations", data)); }
+        public static string Operations(params string[] data) { return Get("Operations", data); }
         public static HtmlBuilder Displays_OrderAsc(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("OrderAsc", data)); }
         public static string OrderAsc(params string[] data) { return Get("OrderAsc", data); }
         public static HtmlBuilder Displays_OrderDesc(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("OrderDesc", data)); }
         public static string OrderDesc(params string[] data) { return Get("OrderDesc", data); }
         public static HtmlBuilder Displays_OrderRelease(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("OrderRelease", data)); }
         public static string OrderRelease(params string[] data) { return Get("OrderRelease", data); }
-        public static HtmlBuilder Displays_ResetOrder(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ResetOrder", data)); }
-        public static string ResetOrder(params string[] data) { return Get("ResetOrder", data); }
-        public static HtmlBuilder Displays_CheckAll(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CheckAll", data)); }
-        public static string CheckAll(params string[] data) { return Get("CheckAll", data); }
-        public static HtmlBuilder Displays_UncheckAll(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("UncheckAll", data)); }
-        public static string UncheckAll(params string[] data) { return Get("UncheckAll", data); }
-        public static HtmlBuilder Displays_Csv(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Csv", data)); }
-        public static string Csv(params string[] data) { return Get("Csv", data); }
-        public static HtmlBuilder Displays_CsvFile(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CsvFile", data)); }
-        public static string CsvFile(params string[] data) { return Get("CsvFile", data); }
-        public static HtmlBuilder Displays_CharacterCode(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CharacterCode", data)); }
-        public static string CharacterCode(params string[] data) { return Get("CharacterCode", data); }
-        public static HtmlBuilder Displays_Excel(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Excel", data)); }
-        public static string Excel(params string[] data) { return Get("Excel", data); }
-        public static HtmlBuilder Displays_Setting(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Setting", data)); }
-        public static string Setting(params string[] data) { return Get("Setting", data); }
-        public static HtmlBuilder Displays_AdvancedSetting(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("AdvancedSetting", data)); }
-        public static string AdvancedSetting(params string[] data) { return Get("AdvancedSetting", data); }
-        public static HtmlBuilder Displays_Basic(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Basic", data)); }
-        public static string Basic(params string[] data) { return Get("Basic", data); }
-        public static HtmlBuilder Displays_Normal(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Normal", data)); }
-        public static string Normal(params string[] data) { return Get("Normal", data); }
-        public static HtmlBuilder Displays_Wide(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Wide", data)); }
-        public static string Wide(params string[] data) { return Get("Wide", data); }
-        public static HtmlBuilder Displays_Auto(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Auto", data)); }
-        public static string Auto(params string[] data) { return Get("Auto", data); }
-        public static HtmlBuilder Displays_ControlType(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ControlType", data)); }
-        public static string ControlType(params string[] data) { return Get("ControlType", data); }
-        public static HtmlBuilder Displays_NotificationType(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NotificationType", data)); }
-        public static string NotificationType(params string[] data) { return Get("NotificationType", data); }
-        public static HtmlBuilder Displays_Spinner(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Spinner", data)); }
-        public static string Spinner(params string[] data) { return Get("Spinner", data); }
-        public static HtmlBuilder Displays_SiteImageSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SiteImageSettingsEditor", data)); }
-        public static string SiteImageSettingsEditor(params string[] data) { return Get("SiteImageSettingsEditor", data); }
-        public static HtmlBuilder Displays_GridSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("GridSettingsEditor", data)); }
-        public static string GridSettingsEditor(params string[] data) { return Get("GridSettingsEditor", data); }
-        public static HtmlBuilder Displays_EditorSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EditorSettingsEditor", data)); }
-        public static string EditorSettingsEditor(params string[] data) { return Get("EditorSettingsEditor", data); }
-        public static HtmlBuilder Displays_NotificationSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NotificationSettingsEditor", data)); }
-        public static string NotificationSettingsEditor(params string[] data) { return Get("NotificationSettingsEditor", data); }
-        public static HtmlBuilder Displays_MailerSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MailerSettingsEditor", data)); }
-        public static string MailerSettingsEditor(params string[] data) { return Get("MailerSettingsEditor", data); }
-        public static HtmlBuilder Displays_StyleSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("StyleSettingsEditor", data)); }
-        public static string StyleSettingsEditor(params string[] data) { return Get("StyleSettingsEditor", data); }
-        public static HtmlBuilder Displays_ScriptSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ScriptSettingsEditor", data)); }
-        public static string ScriptSettingsEditor(params string[] data) { return Get("ScriptSettingsEditor", data); }
-        public static HtmlBuilder Displays_SummarySettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SummarySettingsEditor", data)); }
-        public static string SummarySettingsEditor(params string[] data) { return Get("SummarySettingsEditor", data); }
+        public static HtmlBuilder Displays_OriginalMessage(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("OriginalMessage", data)); }
+        public static string OriginalMessage(params string[] data) { return Get("OriginalMessage", data); }
+        public static HtmlBuilder Displays_Others(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Others", data)); }
+        public static string Others(params string[] data) { return Get("Others", data); }
+        public static HtmlBuilder Displays_OutgoingMail(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("OutgoingMail", data)); }
+        public static string OutgoingMail(params string[] data) { return Get("OutgoingMail", data); }
+        public static HtmlBuilder Displays_Output(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Output", data)); }
+        public static string Output(params string[] data) { return Get("Output", data); }
+        public static HtmlBuilder Displays_Over(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Over", data)); }
+        public static string Over(params string[] data) { return Get("Over", data); }
+        public static HtmlBuilder Displays_Overdue(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Overdue", data)); }
+        public static string Overdue(params string[] data) { return Get("Overdue", data); }
+        public static HtmlBuilder Displays_Own(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Own", data)); }
+        public static string Own(params string[] data) { return Get("Own", data); }
+        public static HtmlBuilder Displays_PasswordNotChanged(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("PasswordNotChanged", data)); }
+        public static string PasswordNotChanged(params string[] data) { return Get("PasswordNotChanged", data); }
+        public static HtmlBuilder Displays_PasswordResetCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("PasswordResetCompleted", data)); }
+        public static string PasswordResetCompleted(params string[] data) { return Get("PasswordResetCompleted", data); }
+        public static HtmlBuilder Displays_PermissionDestination(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("PermissionDestination", data)); }
+        public static string PermissionDestination(params string[] data) { return Get("PermissionDestination", data); }
+        public static HtmlBuilder Displays_PermissionNotSelfChange(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("PermissionNotSelfChange", data)); }
+        public static string PermissionNotSelfChange(params string[] data) { return Get("PermissionNotSelfChange", data); }
         public static HtmlBuilder Displays_PermissionSetting(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("PermissionSetting", data)); }
         public static string PermissionSetting(params string[] data) { return Get("PermissionSetting", data); }
-        public static HtmlBuilder Displays_EditPermissions(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EditPermissions", data)); }
-        public static string EditPermissions(params string[] data) { return Get("EditPermissions", data); }
-        public static HtmlBuilder Displays_CopySettings(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CopySettings", data)); }
-        public static string CopySettings(params string[] data) { return Get("CopySettings", data); }
-        public static HtmlBuilder Displays_AggregationDetails(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("AggregationDetails", data)); }
-        public static string AggregationDetails(params string[] data) { return Get("AggregationDetails", data); }
-        public static HtmlBuilder Displays_MoveSettings(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MoveSettings", data)); }
-        public static string MoveSettings(params string[] data) { return Get("MoveSettings", data); }
-        public static HtmlBuilder Displays_Destination(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Destination", data)); }
-        public static string Destination(params string[] data) { return Get("Destination", data); }
+        public static HtmlBuilder Displays_PermissionSource(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("PermissionSource", data)); }
+        public static string PermissionSource(params string[] data) { return Get("PermissionSource", data); }
+        public static HtmlBuilder Displays_PlannedValue(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("PlannedValue", data)); }
+        public static string PlannedValue(params string[] data) { return Get("PlannedValue", data); }
+        public static HtmlBuilder Displays_Prefix(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Prefix", data)); }
+        public static string Prefix(params string[] data) { return Get("Prefix", data); }
+        public static HtmlBuilder Displays_Previous(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Previous", data)); }
+        public static string Previous(params string[] data) { return Get("Previous", data); }
+        public static HtmlBuilder Displays_ProductName(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ProductName", data)); }
+        public static string ProductName(params string[] data) { return Get("ProductName", data); }
+        public static HtmlBuilder Displays_Quantity(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Quantity", data)); }
+        public static string Quantity(params string[] data) { return Get("Quantity", data); }
+        public static HtmlBuilder Displays_Quarter(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Quarter", data)); }
+        public static string Quarter(params string[] data) { return Get("Quarter", data); }
+        public static HtmlBuilder Displays_ReadOnly(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ReadOnly", data)); }
+        public static string ReadOnly(params string[] data) { return Get("ReadOnly", data); }
+        public static HtmlBuilder Displays_ReadOnlyBecausePreviousVer(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ReadOnlyBecausePreviousVer", data)); }
+        public static string ReadOnlyBecausePreviousVer(params string[] data) { return Get("ReadOnlyBecausePreviousVer", data); }
+        public static HtmlBuilder Displays_ReadWrite(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ReadWrite", data)); }
+        public static string ReadWrite(params string[] data) { return Get("ReadWrite", data); }
+        public static HtmlBuilder Displays_ReEnter(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ReEnter", data)); }
+        public static string ReEnter(params string[] data) { return Get("ReEnter", data); }
+        public static HtmlBuilder Displays_Register(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Register", data)); }
+        public static string Register(params string[] data) { return Get("Register", data); }
+        public static HtmlBuilder Displays_Reload(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Reload", data)); }
+        public static string Reload(params string[] data) { return Get("Reload", data); }
+        public static HtmlBuilder Displays_Reply(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Reply", data)); }
+        public static string Reply(params string[] data) { return Get("Reply", data); }
+        public static HtmlBuilder Displays_Required(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Required", data)); }
+        public static string Required(params string[] data) { return Get("Required", data); }
+        public static HtmlBuilder Displays_RequireMailAddresses(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("RequireMailAddresses", data)); }
+        public static string RequireMailAddresses(params string[] data) { return Get("RequireMailAddresses", data); }
+        public static HtmlBuilder Displays_Reset(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Reset", data)); }
+        public static string Reset(params string[] data) { return Get("Reset", data); }
+        public static HtmlBuilder Displays_ResetOrder(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ResetOrder", data)); }
+        public static string ResetOrder(params string[] data) { return Get("ResetOrder", data); }
+        public static HtmlBuilder Displays_ResetPassword(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ResetPassword", data)); }
+        public static string ResetPassword(params string[] data) { return Get("ResetPassword", data); }
+        public static HtmlBuilder Displays_Save(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Save", data)); }
+        public static string Save(params string[] data) { return Get("Save", data); }
+        public static HtmlBuilder Displays_Script(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Script", data)); }
+        public static string Script(params string[] data) { return Get("Script", data); }
+        public static HtmlBuilder Displays_ScriptSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ScriptSettingsEditor", data)); }
+        public static string ScriptSettingsEditor(params string[] data) { return Get("ScriptSettingsEditor", data); }
+        public static HtmlBuilder Displays_Search(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Search", data)); }
+        public static string Search(params string[] data) { return Get("Search", data); }
+        public static HtmlBuilder Displays_SecondAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SecondAgo", data)); }
+        public static string SecondAgo(params string[] data) { return Get("SecondAgo", data); }
+        public static HtmlBuilder Displays_SecondsAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SecondsAgo", data)); }
+        public static string SecondsAgo(params string[] data) { return Get("SecondsAgo", data); }
+        public static HtmlBuilder Displays_SelectOne(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SelectOne", data)); }
+        public static string SelectOne(params string[] data) { return Get("SelectOne", data); }
+        public static HtmlBuilder Displays_SelectTargets(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SelectTargets", data)); }
+        public static string SelectTargets(params string[] data) { return Get("SelectTargets", data); }
+        public static HtmlBuilder Displays_SendMail(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SendMail", data)); }
+        public static string SendMail(params string[] data) { return Get("SendMail", data); }
+        public static HtmlBuilder Displays_SentAcceptanceMail (this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SentAcceptanceMail ", data)); }
+        public static string SentAcceptanceMail (params string[] data) { return Get("SentAcceptanceMail ", data); }
+        public static HtmlBuilder Displays_SentMail(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SentMail", data)); }
+        public static string SentMail(params string[] data) { return Get("SentMail", data); }
+        public static HtmlBuilder Displays_Separate(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Separate", data)); }
+        public static string Separate(params string[] data) { return Get("Separate", data); }
+        public static HtmlBuilder Displays_Separated(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Separated", data)); }
+        public static string Separated(params string[] data) { return Get("Separated", data); }
+        public static HtmlBuilder Displays_SeparateNumber(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SeparateNumber", data)); }
+        public static string SeparateNumber(params string[] data) { return Get("SeparateNumber", data); }
         public static HtmlBuilder Displays_SeparateSettings(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SeparateSettings", data)); }
         public static string SeparateSettings(params string[] data) { return Get("SeparateSettings", data); }
-        public static HtmlBuilder Displays_SummarySiteId(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SummarySiteId", data)); }
-        public static string SummarySiteId(params string[] data) { return Get("SummarySiteId", data); }
+        public static HtmlBuilder Displays_Setting(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Setting", data)); }
+        public static string Setting(params string[] data) { return Get("Setting", data); }
+        public static HtmlBuilder Displays_SettingAggregationList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingAggregationList", data)); }
+        public static string SettingAggregationList(params string[] data) { return Get("SettingAggregationList", data); }
+        public static HtmlBuilder Displays_SettingAggregations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingAggregations", data)); }
+        public static string SettingAggregations(params string[] data) { return Get("SettingAggregations", data); }
+        public static HtmlBuilder Displays_SettingAggregationTarget(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingAggregationTarget", data)); }
+        public static string SettingAggregationTarget(params string[] data) { return Get("SettingAggregationTarget", data); }
+        public static HtmlBuilder Displays_SettingAggregationType(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingAggregationType", data)); }
+        public static string SettingAggregationType(params string[] data) { return Get("SettingAggregationType", data); }
+        public static HtmlBuilder Displays_SettingChoicesVisible(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingChoicesVisible", data)); }
+        public static string SettingChoicesVisible(params string[] data) { return Get("SettingChoicesVisible", data); }
+        public static HtmlBuilder Displays_SettingColumnList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingColumnList", data)); }
+        public static string SettingColumnList(params string[] data) { return Get("SettingColumnList", data); }
+        public static HtmlBuilder Displays_SettingControlFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingControlFormat", data)); }
+        public static string SettingControlFormat(params string[] data) { return Get("SettingControlFormat", data); }
+        public static HtmlBuilder Displays_SettingEditorColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingEditorColumns", data)); }
+        public static string SettingEditorColumns(params string[] data) { return Get("SettingEditorColumns", data); }
+        public static HtmlBuilder Displays_SettingEnable(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingEnable", data)); }
+        public static string SettingEnable(params string[] data) { return Get("SettingEnable", data); }
+        public static HtmlBuilder Displays_SettingExportFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingExportFormat", data)); }
+        public static string SettingExportFormat(params string[] data) { return Get("SettingExportFormat", data); }
+        public static HtmlBuilder Displays_SettingFilterColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingFilterColumns", data)); }
+        public static string SettingFilterColumns(params string[] data) { return Get("SettingFilterColumns", data); }
+        public static HtmlBuilder Displays_SettingFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingFormat", data)); }
+        public static string SettingFormat(params string[] data) { return Get("SettingFormat", data); }
+        public static HtmlBuilder Displays_SettingFormulas(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingFormulas", data)); }
+        public static string SettingFormulas(params string[] data) { return Get("SettingFormulas", data); }
+        public static HtmlBuilder Displays_SettingGridColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingGridColumns", data)); }
+        public static string SettingGridColumns(params string[] data) { return Get("SettingGridColumns", data); }
+        public static HtmlBuilder Displays_SettingGridFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingGridFormat", data)); }
+        public static string SettingGridFormat(params string[] data) { return Get("SettingGridFormat", data); }
+        public static HtmlBuilder Displays_SettingGridPageSize(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingGridPageSize", data)); }
+        public static string SettingGridPageSize(params string[] data) { return Get("SettingGridPageSize", data); }
+        public static HtmlBuilder Displays_SettingHistoryColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingHistoryColumns", data)); }
+        public static string SettingHistoryColumns(params string[] data) { return Get("SettingHistoryColumns", data); }
+        public static HtmlBuilder Displays_SettingLabel(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingLabel", data)); }
+        public static string SettingLabel(params string[] data) { return Get("SettingLabel", data); }
+        public static HtmlBuilder Displays_SettingLimitDefault(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingLimitDefault", data)); }
+        public static string SettingLimitDefault(params string[] data) { return Get("SettingLimitDefault", data); }
+        public static HtmlBuilder Displays_SettingLinkColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingLinkColumns", data)); }
+        public static string SettingLinkColumns(params string[] data) { return Get("SettingLinkColumns", data); }
+        public static HtmlBuilder Displays_SettingNearCompletionTimeAfterDays(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingNearCompletionTimeAfterDays", data)); }
+        public static string SettingNearCompletionTimeAfterDays(params string[] data) { return Get("SettingNearCompletionTimeAfterDays", data); }
+        public static HtmlBuilder Displays_SettingNearCompletionTimeBeforeDays(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingNearCompletionTimeBeforeDays", data)); }
+        public static string SettingNearCompletionTimeBeforeDays(params string[] data) { return Get("SettingNearCompletionTimeBeforeDays", data); }
+        public static HtmlBuilder Displays_SettingNotGroupBy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingNotGroupBy", data)); }
+        public static string SettingNotGroupBy(params string[] data) { return Get("SettingNotGroupBy", data); }
+        public static HtmlBuilder Displays_SettingOrder(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingOrder", data)); }
+        public static string SettingOrder(params string[] data) { return Get("SettingOrder", data); }
+        public static HtmlBuilder Displays_SettingSelectionList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingSelectionList", data)); }
+        public static string SettingSelectionList(params string[] data) { return Get("SettingSelectionList", data); }
+        public static HtmlBuilder Displays_SettingSummaryColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingSummaryColumns", data)); }
+        public static string SettingSummaryColumns(params string[] data) { return Get("SettingSummaryColumns", data); }
+        public static HtmlBuilder Displays_SettingTitleColumn(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingTitleColumn", data)); }
+        public static string SettingTitleColumn(params string[] data) { return Get("SettingTitleColumn", data); }
+        public static HtmlBuilder Displays_SettingTitleSeparator(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingTitleSeparator", data)); }
+        public static string SettingTitleSeparator(params string[] data) { return Get("SettingTitleSeparator", data); }
+        public static HtmlBuilder Displays_SettingUnit(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingUnit", data)); }
+        public static string SettingUnit(params string[] data) { return Get("SettingUnit", data); }
+        public static HtmlBuilder Displays_Show(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Show", data)); }
+        public static string Show(params string[] data) { return Get("Show", data); }
+        public static HtmlBuilder Displays_ShowList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ShowList", data)); }
+        public static string ShowList(params string[] data) { return Get("ShowList", data); }
+        public static HtmlBuilder Displays_SiteImageSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SiteImageSettingsEditor", data)); }
+        public static string SiteImageSettingsEditor(params string[] data) { return Get("SiteImageSettingsEditor", data); }
+        public static HtmlBuilder Displays_SiteSettings(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SiteSettings", data)); }
+        public static string SiteSettings(params string[] data) { return Get("SiteSettings", data); }
+        public static HtmlBuilder Displays_SiteUser(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SiteUser", data)); }
+        public static string SiteUser(params string[] data) { return Get("SiteUser", data); }
+        public static HtmlBuilder Displays_Slack(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Slack", data)); }
+        public static string Slack(params string[] data) { return Get("Slack", data); }
+        public static HtmlBuilder Displays_Sorters(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Sorters", data)); }
+        public static string Sorters(params string[] data) { return Get("Sorters", data); }
+        public static HtmlBuilder Displays_Spinner(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Spinner", data)); }
+        public static string Spinner(params string[] data) { return Get("Spinner", data); }
+        public static HtmlBuilder Displays_Step(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Step", data)); }
+        public static string Step(params string[] data) { return Get("Step", data); }
+        public static HtmlBuilder Displays_Style(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Style", data)); }
+        public static string Style(params string[] data) { return Get("Style", data); }
+        public static HtmlBuilder Displays_StyleSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("StyleSettingsEditor", data)); }
+        public static string StyleSettingsEditor(params string[] data) { return Get("StyleSettingsEditor", data); }
+        public static HtmlBuilder Displays_SuffixCopy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SuffixCopy", data)); }
+        public static string SuffixCopy(params string[] data) { return Get("SuffixCopy", data); }
         public static HtmlBuilder Displays_SummaryDestinationColumn(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SummaryDestinationColumn", data)); }
         public static string SummaryDestinationColumn(params string[] data) { return Get("SummaryDestinationColumn", data); }
         public static HtmlBuilder Displays_SummaryLinkColumn(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SummaryLinkColumn", data)); }
         public static string SummaryLinkColumn(params string[] data) { return Get("SummaryLinkColumn", data); }
-        public static HtmlBuilder Displays_SummaryType(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SummaryType", data)); }
-        public static string SummaryType(params string[] data) { return Get("SummaryType", data); }
+        public static HtmlBuilder Displays_SummarySettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SummarySettingsEditor", data)); }
+        public static string SummarySettingsEditor(params string[] data) { return Get("SummarySettingsEditor", data); }
+        public static HtmlBuilder Displays_SummarySiteId(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SummarySiteId", data)); }
+        public static string SummarySiteId(params string[] data) { return Get("SummarySiteId", data); }
         public static HtmlBuilder Displays_SummarySourceColumn(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SummarySourceColumn", data)); }
         public static string SummarySourceColumn(params string[] data) { return Get("SummarySourceColumn", data); }
-        public static HtmlBuilder Displays_MonitorChangesColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MonitorChangesColumns", data)); }
-        public static string MonitorChangesColumns(params string[] data) { return Get("MonitorChangesColumns", data); }
-        public static HtmlBuilder Displays_Enabled(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Enabled", data)); }
-        public static string Enabled(params string[] data) { return Get("Enabled", data); }
-        public static HtmlBuilder Displays_Disabled(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Disabled", data)); }
-        public static string Disabled(params string[] data) { return Get("Disabled", data); }
-        public static HtmlBuilder Displays_ToEnable(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ToEnable", data)); }
-        public static string ToEnable(params string[] data) { return Get("ToEnable", data); }
-        public static HtmlBuilder Displays_ToDisable(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ToDisable", data)); }
-        public static string ToDisable(params string[] data) { return Get("ToDisable", data); }
-        public static HtmlBuilder Displays_EnabledList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EnabledList", data)); }
-        public static string EnabledList(params string[] data) { return Get("EnabledList", data); }
-        public static HtmlBuilder Displays_DisabledList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DisabledList", data)); }
-        public static string DisabledList(params string[] data) { return Get("DisabledList", data); }
-        public static HtmlBuilder Displays_Title(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Title", data)); }
-        public static string Title(params string[] data) { return Get("Title", data); }
-        public static HtmlBuilder Displays_WorkValue(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("WorkValue", data)); }
-        public static string WorkValue(params string[] data) { return Get("WorkValue", data); }
-        public static HtmlBuilder Displays_SeparateNumber(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SeparateNumber", data)); }
-        public static string SeparateNumber(params string[] data) { return Get("SeparateNumber", data); }
-        public static HtmlBuilder Displays_OutgoingMail(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("OutgoingMail", data)); }
-        public static string OutgoingMail(params string[] data) { return Get("OutgoingMail", data); }
-        public static HtmlBuilder Displays_Icon(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Icon", data)); }
-        public static string Icon(params string[] data) { return Get("Icon", data); }
-        public static HtmlBuilder Displays_File(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("File", data)); }
-        public static string File(params string[] data) { return Get("File", data); }
-        public static HtmlBuilder Displays_NotSet(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NotSet", data)); }
-        public static string NotSet(params string[] data) { return Get("NotSet", data); }
-        public static HtmlBuilder Displays_SiteUser(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SiteUser", data)); }
-        public static string SiteUser(params string[] data) { return Get("SiteUser", data); }
-        public static HtmlBuilder Displays_All(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("All", data)); }
-        public static string All(params string[] data) { return Get("All", data); }
-        public static HtmlBuilder Displays_Quantity(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Quantity", data)); }
-        public static string Quantity(params string[] data) { return Get("Quantity", data); }
-        public static HtmlBuilder Displays_SuffixCopy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SuffixCopy", data)); }
-        public static string SuffixCopy(params string[] data) { return Get("SuffixCopy", data); }
-        public static HtmlBuilder Displays_Prefix(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Prefix", data)); }
-        public static string Prefix(params string[] data) { return Get("Prefix", data); }
-        public static HtmlBuilder Displays_View(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("View", data)); }
-        public static string View(params string[] data) { return Get("View", data); }
-        public static HtmlBuilder Displays_DataView(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DataView", data)); }
-        public static string DataView(params string[] data) { return Get("DataView", data); }
-        public static HtmlBuilder Displays_DefaultView(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DefaultView", data)); }
-        public static string DefaultView(params string[] data) { return Get("DefaultView", data); }
-        public static HtmlBuilder Displays_Grid(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Grid", data)); }
-        public static string Grid(params string[] data) { return Get("Grid", data); }
-        public static HtmlBuilder Displays_Style(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Style", data)); }
-        public static string Style(params string[] data) { return Get("Style", data); }
-        public static HtmlBuilder Displays_GridStyle(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("GridStyle", data)); }
-        public static string GridStyle(params string[] data) { return Get("GridStyle", data); }
-        public static HtmlBuilder Displays_NewStyle(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NewStyle", data)); }
-        public static string NewStyle(params string[] data) { return Get("NewStyle", data); }
-        public static HtmlBuilder Displays_EditStyle(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EditStyle", data)); }
-        public static string EditStyle(params string[] data) { return Get("EditStyle", data); }
-        public static HtmlBuilder Displays_Script(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Script", data)); }
-        public static string Script(params string[] data) { return Get("Script", data); }
-        public static HtmlBuilder Displays_GridScript(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("GridScript", data)); }
-        public static string GridScript(params string[] data) { return Get("GridScript", data); }
-        public static HtmlBuilder Displays_NewScript(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NewScript", data)); }
-        public static string NewScript(params string[] data) { return Get("NewScript", data); }
-        public static HtmlBuilder Displays_EditScript(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EditScript", data)); }
-        public static string EditScript(params string[] data) { return Get("EditScript", data); }
-        public static HtmlBuilder Displays_BurnDown(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("BurnDown", data)); }
-        public static string BurnDown(params string[] data) { return Get("BurnDown", data); }
-        public static HtmlBuilder Displays_Gantt(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Gantt", data)); }
-        public static string Gantt(params string[] data) { return Get("Gantt", data); }
+        public static HtmlBuilder Displays_SummaryType(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SummaryType", data)); }
+        public static string SummaryType(params string[] data) { return Get("SummaryType", data); }
+        public static HtmlBuilder Displays_SynchronizationCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SynchronizationCompleted", data)); }
+        public static string SynchronizationCompleted(params string[] data) { return Get("SynchronizationCompleted", data); }
+        public static HtmlBuilder Displays_Synchronize(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Synchronize", data)); }
+        public static string Synchronize(params string[] data) { return Get("Synchronize", data); }
         public static HtmlBuilder Displays_TimeSeries(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("TimeSeries", data)); }
         public static string TimeSeries(params string[] data) { return Get("TimeSeries", data); }
-        public static HtmlBuilder Displays_Kamban(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Kamban", data)); }
-        public static string Kamban(params string[] data) { return Get("Kamban", data); }
-        public static HtmlBuilder Displays_NoData(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NoData", data)); }
-        public static string NoData(params string[] data) { return Get("NoData", data); }
-        public static HtmlBuilder Displays_NoLinks(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NoLinks", data)); }
-        public static string NoLinks(params string[] data) { return Get("NoLinks", data); }
-        public static HtmlBuilder Displays_ViewDemoEnvironment(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ViewDemoEnvironment", data)); }
-        public static string ViewDemoEnvironment(params string[] data) { return Get("ViewDemoEnvironment", data); }
-        public static HtmlBuilder Displays_DemoMailTitle(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DemoMailTitle", data)); }
-        public static string DemoMailTitle(params string[] data) { return Get("DemoMailTitle", data); }
-        public static HtmlBuilder Displays_DemoMailBody(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DemoMailBody", data)); }
-        public static string DemoMailBody(params string[] data) { return Get("DemoMailBody", data); }
-        public static HtmlBuilder Displays_Fy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Fy", data)); }
-        public static string Fy(params string[] data) { return Get("Fy", data); }
-        public static HtmlBuilder Displays_Half1(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Half1", data)); }
-        public static string Half1(params string[] data) { return Get("Half1", data); }
-        public static HtmlBuilder Displays_Half2(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Half2", data)); }
-        public static string Half2(params string[] data) { return Get("Half2", data); }
-        public static HtmlBuilder Displays_Quarter(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Quarter", data)); }
-        public static string Quarter(params string[] data) { return Get("Quarter", data); }
+        public static HtmlBuilder Displays_Title(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Title", data)); }
+        public static string Title(params string[] data) { return Get("Title", data); }
+        public static HtmlBuilder Displays_ToDisable(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ToDisable", data)); }
+        public static string ToDisable(params string[] data) { return Get("ToDisable", data); }
+        public static HtmlBuilder Displays_ToEnable(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ToEnable", data)); }
+        public static string ToEnable(params string[] data) { return Get("ToEnable", data); }
+        public static HtmlBuilder Displays_Top(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Top", data)); }
+        public static string Top(params string[] data) { return Get("Top", data); }
+        public static HtmlBuilder Displays_ToParent(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ToParent", data)); }
+        public static string ToParent(params string[] data) { return Get("ToParent", data); }
+        public static HtmlBuilder Displays_Total(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Total", data)); }
+        public static string Total(params string[] data) { return Get("Total", data); }
+        public static HtmlBuilder Displays_UncheckAll(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("UncheckAll", data)); }
+        public static string UncheckAll(params string[] data) { return Get("UncheckAll", data); }
+        public static HtmlBuilder Displays_Update(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Update", data)); }
+        public static string Update(params string[] data) { return Get("Update", data); }
+        public static HtmlBuilder Displays_UpdateConflicts(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("UpdateConflicts", data)); }
+        public static string UpdateConflicts(params string[] data) { return Get("UpdateConflicts", data); }
+        public static HtmlBuilder Displays_Updated(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Updated", data)); }
+        public static string Updated(params string[] data) { return Get("Updated", data); }
+        public static HtmlBuilder Displays_UpdatedTime(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("UpdatedTime", data)); }
+        public static string UpdatedTime(params string[] data) { return Get("UpdatedTime", data); }
+        public static HtmlBuilder Displays_UseCustomDesign(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("UseCustomDesign", data)); }
+        public static string UseCustomDesign(params string[] data) { return Get("UseCustomDesign", data); }
         public static HtmlBuilder Displays_UseFy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("UseFy", data)); }
         public static string UseFy(params string[] data) { return Get("UseFy", data); }
         public static HtmlBuilder Displays_UseHalf(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("UseHalf", data)); }
         public static string UseHalf(params string[] data) { return Get("UseHalf", data); }
-        public static HtmlBuilder Displays_UseQuarter(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("UseQuarter", data)); }
-        public static string UseQuarter(params string[] data) { return Get("UseQuarter", data); }
         public static HtmlBuilder Displays_UseMonth(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("UseMonth", data)); }
         public static string UseMonth(params string[] data) { return Get("UseMonth", data); }
-        public static HtmlBuilder Displays_Ymd(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Ymd", data)); }
-        public static string Ymd(params string[] data) { return Get("Ymd", data); }
-        public static HtmlBuilder Displays_Ymda(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Ymda", data)); }
-        public static string Ymda(params string[] data) { return Get("Ymda", data); }
-        public static HtmlBuilder Displays_Ym(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Ym", data)); }
-        public static string Ym(params string[] data) { return Get("Ym", data); }
-        public static HtmlBuilder Displays_Md(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Md", data)); }
-        public static string Md(params string[] data) { return Get("Md", data); }
-        public static HtmlBuilder Displays_Ymdhms(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Ymdhms", data)); }
-        public static string Ymdhms(params string[] data) { return Get("Ymdhms", data); }
-        public static HtmlBuilder Displays_Ymdahms(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Ymdahms", data)); }
-        public static string Ymdahms(params string[] data) { return Get("Ymdahms", data); }
-        public static HtmlBuilder Displays_Ymdhm(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Ymdhm", data)); }
-        public static string Ymdhm(params string[] data) { return Get("Ymdhm", data); }
-        public static HtmlBuilder Displays_Ymdahm(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Ymdahm", data)); }
-        public static string Ymdahm(params string[] data) { return Get("Ymdahm", data); }
-        public static HtmlBuilder Displays_YmdFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("YmdFormat", data)); }
-        public static string YmdFormat(params string[] data) { return Get("YmdFormat", data); }
-        public static HtmlBuilder Displays_YmdaFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("YmdaFormat", data)); }
-        public static string YmdaFormat(params string[] data) { return Get("YmdaFormat", data); }
-        public static HtmlBuilder Displays_YmFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("YmFormat", data)); }
-        public static string YmFormat(params string[] data) { return Get("YmFormat", data); }
-        public static HtmlBuilder Displays_MdFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MdFormat", data)); }
-        public static string MdFormat(params string[] data) { return Get("MdFormat", data); }
-        public static HtmlBuilder Displays_YmdhmsFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("YmdhmsFormat", data)); }
-        public static string YmdhmsFormat(params string[] data) { return Get("YmdhmsFormat", data); }
-        public static HtmlBuilder Displays_YmdahmsFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("YmdahmsFormat", data)); }
-        public static string YmdahmsFormat(params string[] data) { return Get("YmdahmsFormat", data); }
-        public static HtmlBuilder Displays_YmdhmFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("YmdhmFormat", data)); }
-        public static string YmdhmFormat(params string[] data) { return Get("YmdhmFormat", data); }
-        public static HtmlBuilder Displays_YmdahmFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("YmdahmFormat", data)); }
-        public static string YmdahmFormat(params string[] data) { return Get("YmdahmFormat", data); }
-        public static HtmlBuilder Displays_ExceptionTitle(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ExceptionTitle", data)); }
-        public static string ExceptionTitle(params string[] data) { return Get("ExceptionTitle", data); }
-        public static HtmlBuilder Displays_ExceptionBody(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ExceptionBody", data)); }
-        public static string ExceptionBody(params string[] data) { return Get("ExceptionBody", data); }
-        public static HtmlBuilder Displays_InvalidRequest(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("InvalidRequest", data)); }
-        public static string InvalidRequest(params string[] data) { return Get("InvalidRequest", data); }
-        public static HtmlBuilder Displays_Authentication(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Authentication", data)); }
-        public static string Authentication(params string[] data) { return Get("Authentication", data); }
-        public static HtmlBuilder Displays_PasswordNotChanged(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("PasswordNotChanged", data)); }
-        public static string PasswordNotChanged(params string[] data) { return Get("PasswordNotChanged", data); }
-        public static HtmlBuilder Displays_UpdateConflicts(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("UpdateConflicts", data)); }
-        public static string UpdateConflicts(params string[] data) { return Get("UpdateConflicts", data); }
-        public static HtmlBuilder Displays_DeleteConflicts(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DeleteConflicts", data)); }
-        public static string DeleteConflicts(params string[] data) { return Get("DeleteConflicts", data); }
-        public static HtmlBuilder Displays_HasNotPermission(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("HasNotPermission", data)); }
-        public static string HasNotPermission(params string[] data) { return Get("HasNotPermission", data); }
-        public static HtmlBuilder Displays_IncorrectCurrentPassword(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("IncorrectCurrentPassword", data)); }
-        public static string IncorrectCurrentPassword(params string[] data) { return Get("IncorrectCurrentPassword", data); }
-        public static HtmlBuilder Displays_PermissionNotSelfChange(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("PermissionNotSelfChange", data)); }
-        public static string PermissionNotSelfChange(params string[] data) { return Get("PermissionNotSelfChange", data); }
-        public static HtmlBuilder Displays_DefinitionNotFound(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DefinitionNotFound", data)); }
-        public static string DefinitionNotFound(params string[] data) { return Get("DefinitionNotFound", data); }
-        public static HtmlBuilder Displays_CantSetAtTopOfSite(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CantSetAtTopOfSite", data)); }
-        public static string CantSetAtTopOfSite(params string[] data) { return Get("CantSetAtTopOfSite", data); }
-        public static HtmlBuilder Displays_NotFound(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NotFound", data)); }
-        public static string NotFound(params string[] data) { return Get("NotFound", data); }
-        public static HtmlBuilder Displays_RequireMailAddresses(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("RequireMailAddresses", data)); }
-        public static string RequireMailAddresses(params string[] data) { return Get("RequireMailAddresses", data); }
-        public static HtmlBuilder Displays_SelectOne(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SelectOne", data)); }
-        public static string SelectOne(params string[] data) { return Get("SelectOne", data); }
-        public static HtmlBuilder Displays_ExternalMailAddress(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ExternalMailAddress", data)); }
-        public static string ExternalMailAddress(params string[] data) { return Get("ExternalMailAddress", data); }
-        public static HtmlBuilder Displays_BadMailAddress(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("BadMailAddress", data)); }
-        public static string BadMailAddress(params string[] data) { return Get("BadMailAddress", data); }
-        public static HtmlBuilder Displays_MailAddressHasNotSet(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MailAddressHasNotSet", data)); }
-        public static string MailAddressHasNotSet(params string[] data) { return Get("MailAddressHasNotSet", data); }
-        public static HtmlBuilder Displays_BadFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("BadFormat", data)); }
-        public static string BadFormat(params string[] data) { return Get("BadFormat", data); }
-        public static HtmlBuilder Displays_FileNotFound(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("FileNotFound", data)); }
-        public static string FileNotFound(params string[] data) { return Get("FileNotFound", data); }
-        public static HtmlBuilder Displays_NotRequiredColumn(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NotRequiredColumn", data)); }
-        public static string NotRequiredColumn(params string[] data) { return Get("NotRequiredColumn", data); }
-        public static HtmlBuilder Displays_InvalidCsvData(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("InvalidCsvData", data)); }
-        public static string InvalidCsvData(params string[] data) { return Get("InvalidCsvData", data); }
-        public static HtmlBuilder Displays_FailedReadFile(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("FailedReadFile", data)); }
-        public static string FailedReadFile(params string[] data) { return Get("FailedReadFile", data); }
-        public static HtmlBuilder Displays_CanNotDisabled(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CanNotDisabled", data)); }
-        public static string CanNotDisabled(params string[] data) { return Get("CanNotDisabled", data); }
-        public static HtmlBuilder Displays_AlreadyAdded(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("AlreadyAdded", data)); }
-        public static string AlreadyAdded(params string[] data) { return Get("AlreadyAdded", data); }
-        public static HtmlBuilder Displays_InvalidFormula(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("InvalidFormula", data)); }
-        public static string InvalidFormula(params string[] data) { return Get("InvalidFormula", data); }
-        public static HtmlBuilder Displays_SelectTargets(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SelectTargets", data)); }
-        public static string SelectTargets(params string[] data) { return Get("SelectTargets", data); }
-        public static HtmlBuilder Displays_LoginIn(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LoginIn", data)); }
-        public static string LoginIn(params string[] data) { return Get("LoginIn", data); }
-        public static HtmlBuilder Displays_Deleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Deleted", data)); }
-        public static string Deleted(params string[] data) { return Get("Deleted", data); }
-        public static HtmlBuilder Displays_Moved(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Moved", data)); }
-        public static string Moved(params string[] data) { return Get("Moved", data); }
-        public static HtmlBuilder Displays_BulkMoved(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("BulkMoved", data)); }
-        public static string BulkMoved(params string[] data) { return Get("BulkMoved", data); }
-        public static HtmlBuilder Displays_BulkDeleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("BulkDeleted", data)); }
-        public static string BulkDeleted(params string[] data) { return Get("BulkDeleted", data); }
-        public static HtmlBuilder Displays_Separated(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Separated", data)); }
-        public static string Separated(params string[] data) { return Get("Separated", data); }
-        public static HtmlBuilder Displays_Imported(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Imported", data)); }
-        public static string Imported(params string[] data) { return Get("Imported", data); }
-        public static HtmlBuilder Displays_Created(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Created", data)); }
-        public static string Created(params string[] data) { return Get("Created", data); }
-        public static HtmlBuilder Displays_Updated(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Updated", data)); }
-        public static string Updated(params string[] data) { return Get("Updated", data); }
-        public static HtmlBuilder Displays_CommentDeleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CommentDeleted", data)); }
-        public static string CommentDeleted(params string[] data) { return Get("CommentDeleted", data); }
-        public static HtmlBuilder Displays_Copied(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Copied", data)); }
-        public static string Copied(params string[] data) { return Get("Copied", data); }
-        public static HtmlBuilder Displays_CodeDefinerCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CodeDefinerCompleted", data)); }
-        public static string CodeDefinerCompleted(params string[] data) { return Get("CodeDefinerCompleted", data); }
-        public static HtmlBuilder Displays_CodeDefinerRdsCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CodeDefinerRdsCompleted", data)); }
-        public static string CodeDefinerRdsCompleted(params string[] data) { return Get("CodeDefinerRdsCompleted", data); }
-        public static HtmlBuilder Displays_CodeDefinerDefCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CodeDefinerDefCompleted", data)); }
-        public static string CodeDefinerDefCompleted(params string[] data) { return Get("CodeDefinerDefCompleted", data); }
-        public static HtmlBuilder Displays_CodeDefinerMvcCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CodeDefinerMvcCompleted", data)); }
-        public static string CodeDefinerMvcCompleted(params string[] data) { return Get("CodeDefinerMvcCompleted", data); }
-        public static HtmlBuilder Displays_CodeDefinerCssCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CodeDefinerCssCompleted", data)); }
-        public static string CodeDefinerCssCompleted(params string[] data) { return Get("CodeDefinerCssCompleted", data); }
-        public static HtmlBuilder Displays_CodeDefinerBackupCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CodeDefinerBackupCompleted", data)); }
-        public static string CodeDefinerBackupCompleted(params string[] data) { return Get("CodeDefinerBackupCompleted", data); }
-        public static HtmlBuilder Displays_MailTransmissionCompletion(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MailTransmissionCompletion", data)); }
-        public static string MailTransmissionCompletion(params string[] data) { return Get("MailTransmissionCompletion", data); }
-        public static HtmlBuilder Displays_ChangingPasswordComplete(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ChangingPasswordComplete", data)); }
-        public static string ChangingPasswordComplete(params string[] data) { return Get("ChangingPasswordComplete", data); }
-        public static HtmlBuilder Displays_PasswordResetCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("PasswordResetCompleted", data)); }
-        public static string PasswordResetCompleted(params string[] data) { return Get("PasswordResetCompleted", data); }
-        public static HtmlBuilder Displays_FileUpdateCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("FileUpdateCompleted", data)); }
-        public static string FileUpdateCompleted(params string[] data) { return Get("FileUpdateCompleted", data); }
-        public static HtmlBuilder Displays_SynchronizationCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SynchronizationCompleted", data)); }
-        public static string SynchronizationCompleted(params string[] data) { return Get("SynchronizationCompleted", data); }
-        public static HtmlBuilder Displays_SentAcceptanceMail (this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SentAcceptanceMail ", data)); }
-        public static string SentAcceptanceMail (params string[] data) { return Get("SentAcceptanceMail ", data); }
-        public static HtmlBuilder Displays_ConfirmDelete(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ConfirmDelete", data)); }
-        public static string ConfirmDelete(params string[] data) { return Get("ConfirmDelete", data); }
-        public static HtmlBuilder Displays_ConfirmSeparate(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ConfirmSeparate", data)); }
-        public static string ConfirmSeparate(params string[] data) { return Get("ConfirmSeparate", data); }
-        public static HtmlBuilder Displays_ConfirmSendMail(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ConfirmSendMail", data)); }
-        public static string ConfirmSendMail(params string[] data) { return Get("ConfirmSendMail", data); }
-        public static HtmlBuilder Displays_ConfirmSynchronize(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ConfirmSynchronize", data)); }
-        public static string ConfirmSynchronize(params string[] data) { return Get("ConfirmSynchronize", data); }
-        public static HtmlBuilder Displays_CanNotUpdate(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CanNotUpdate", data)); }
-        public static string CanNotUpdate(params string[] data) { return Get("CanNotUpdate", data); }
-        public static HtmlBuilder Displays_ReadOnlyBecausePreviousVer(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ReadOnlyBecausePreviousVer", data)); }
-        public static string ReadOnlyBecausePreviousVer(params string[] data) { return Get("ReadOnlyBecausePreviousVer", data); }
-        public static HtmlBuilder Displays_InCopying(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("InCopying", data)); }
-        public static string InCopying(params string[] data) { return Get("InCopying", data); }
-        public static HtmlBuilder Displays_InCompression(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("InCompression", data)); }
-        public static string InCompression(params string[] data) { return Get("InCompression", data); }
-        public static HtmlBuilder Displays_HasBeenMoved(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("HasBeenMoved", data)); }
-        public static string HasBeenMoved(params string[] data) { return Get("HasBeenMoved", data); }
-        public static HtmlBuilder Displays_HasBeenDeleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("HasBeenDeleted", data)); }
-        public static string HasBeenDeleted(params string[] data) { return Get("HasBeenDeleted", data); }
-        public static HtmlBuilder Displays_ValidateRequired(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ValidateRequired", data)); }
-        public static string ValidateRequired(params string[] data) { return Get("ValidateRequired", data); }
-        public static HtmlBuilder Displays_ValidateNumber(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ValidateNumber", data)); }
-        public static string ValidateNumber(params string[] data) { return Get("ValidateNumber", data); }
+        public static HtmlBuilder Displays_UseQuarter(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("UseQuarter", data)); }
+        public static string UseQuarter(params string[] data) { return Get("UseQuarter", data); }
         public static HtmlBuilder Displays_ValidateDate(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ValidateDate", data)); }
         public static string ValidateDate(params string[] data) { return Get("ValidateDate", data); }
         public static HtmlBuilder Displays_ValidateEmail(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ValidateEmail", data)); }
@@ -748,6 +710,56 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ValidateEqualTo(params string[] data) { return Get("ValidateEqualTo", data); }
         public static HtmlBuilder Displays_ValidateMaxLength(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ValidateMaxLength", data)); }
         public static string ValidateMaxLength(params string[] data) { return Get("ValidateMaxLength", data); }
+        public static HtmlBuilder Displays_ValidateNumber(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ValidateNumber", data)); }
+        public static string ValidateNumber(params string[] data) { return Get("ValidateNumber", data); }
+        public static HtmlBuilder Displays_ValidateRequired(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ValidateRequired", data)); }
+        public static string ValidateRequired(params string[] data) { return Get("ValidateRequired", data); }
+        public static HtmlBuilder Displays_VerUp(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("VerUp", data)); }
+        public static string VerUp(params string[] data) { return Get("VerUp", data); }
+        public static HtmlBuilder Displays_View(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("View", data)); }
+        public static string View(params string[] data) { return Get("View", data); }
+        public static HtmlBuilder Displays_ViewDemoEnvironment(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ViewDemoEnvironment", data)); }
+        public static string ViewDemoEnvironment(params string[] data) { return Get("ViewDemoEnvironment", data); }
+        public static HtmlBuilder Displays_WebHookUrl(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("WebHookUrl", data)); }
+        public static string WebHookUrl(params string[] data) { return Get("WebHookUrl", data); }
+        public static HtmlBuilder Displays_Wide(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Wide", data)); }
+        public static string Wide(params string[] data) { return Get("Wide", data); }
+        public static HtmlBuilder Displays_WorkValue(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("WorkValue", data)); }
+        public static string WorkValue(params string[] data) { return Get("WorkValue", data); }
+        public static HtmlBuilder Displays_WriteComment(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("WriteComment", data)); }
+        public static string WriteComment(params string[] data) { return Get("WriteComment", data); }
+        public static HtmlBuilder Displays_YearAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("YearAgo", data)); }
+        public static string YearAgo(params string[] data) { return Get("YearAgo", data); }
+        public static HtmlBuilder Displays_YearsAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("YearsAgo", data)); }
+        public static string YearsAgo(params string[] data) { return Get("YearsAgo", data); }
+        public static HtmlBuilder Displays_Ym(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Ym", data)); }
+        public static string Ym(params string[] data) { return Get("Ym", data); }
+        public static HtmlBuilder Displays_Ymd(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Ymd", data)); }
+        public static string Ymd(params string[] data) { return Get("Ymd", data); }
+        public static HtmlBuilder Displays_Ymda(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Ymda", data)); }
+        public static string Ymda(params string[] data) { return Get("Ymda", data); }
+        public static HtmlBuilder Displays_YmdaFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("YmdaFormat", data)); }
+        public static string YmdaFormat(params string[] data) { return Get("YmdaFormat", data); }
+        public static HtmlBuilder Displays_Ymdahm(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Ymdahm", data)); }
+        public static string Ymdahm(params string[] data) { return Get("Ymdahm", data); }
+        public static HtmlBuilder Displays_YmdahmFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("YmdahmFormat", data)); }
+        public static string YmdahmFormat(params string[] data) { return Get("YmdahmFormat", data); }
+        public static HtmlBuilder Displays_Ymdahms(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Ymdahms", data)); }
+        public static string Ymdahms(params string[] data) { return Get("Ymdahms", data); }
+        public static HtmlBuilder Displays_YmdahmsFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("YmdahmsFormat", data)); }
+        public static string YmdahmsFormat(params string[] data) { return Get("YmdahmsFormat", data); }
+        public static HtmlBuilder Displays_YmdFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("YmdFormat", data)); }
+        public static string YmdFormat(params string[] data) { return Get("YmdFormat", data); }
+        public static HtmlBuilder Displays_Ymdhm(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Ymdhm", data)); }
+        public static string Ymdhm(params string[] data) { return Get("Ymdhm", data); }
+        public static HtmlBuilder Displays_YmdhmFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("YmdhmFormat", data)); }
+        public static string YmdhmFormat(params string[] data) { return Get("YmdhmFormat", data); }
+        public static HtmlBuilder Displays_Ymdhms(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Ymdhms", data)); }
+        public static string Ymdhms(params string[] data) { return Get("Ymdhms", data); }
+        public static HtmlBuilder Displays_YmdhmsFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("YmdhmsFormat", data)); }
+        public static string YmdhmsFormat(params string[] data) { return Get("YmdhmsFormat", data); }
+        public static HtmlBuilder Displays_YmFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("YmFormat", data)); }
+        public static string YmFormat(params string[] data) { return Get("YmFormat", data); }
         public static HtmlBuilder Displays_Tenants_TenantId(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Tenants_TenantId", data)); }
         public static string Tenants_TenantId(params string[] data) { return Get("Tenants_TenantId", data); }
         public static HtmlBuilder Displays_Tenants_TenantName(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Tenants_TenantName", data)); }

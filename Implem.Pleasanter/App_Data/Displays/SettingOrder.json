@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SettingOrder",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Display order"
+        },
+        {
+            "Language": "ja",
+            "Body": "表示順"
+        }
+    ]
+}

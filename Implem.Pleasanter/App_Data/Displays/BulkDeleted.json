@@ -1,0 +1,13 @@
+﻿{
+    "Id": "BulkDeleted",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "{0} it was deleted."
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 件 削除しました。"
+        }
+    ]
+}

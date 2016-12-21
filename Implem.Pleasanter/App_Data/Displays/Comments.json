@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Comments",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Comments"
+        },
+        {
+            "Language": "ja",
+            "Body": "コメント"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Manager",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Manager"
+        },
+        {
+            "Language": "ja",
+            "Body": "管理者"
+        }
+    ]
+}

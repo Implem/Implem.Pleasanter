@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Change",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Change"
+        },
+        {
+            "Language": "ja",
+            "Body": "変更"
+        }
+    ]
+}

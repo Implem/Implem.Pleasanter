@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DemoMailTitle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "About the use of Purizanta demo environment"
+        },
+        {
+            "Language": "ja",
+            "Body": "プリザンター デモ環境のご利用について"
+        }
+    ]
+}

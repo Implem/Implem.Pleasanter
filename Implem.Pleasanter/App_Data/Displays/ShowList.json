@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ShowList",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Show list"
+        },
+        {
+            "Language": "ja",
+            "Body": "表示一覧"
+        }
+    ]
+}
