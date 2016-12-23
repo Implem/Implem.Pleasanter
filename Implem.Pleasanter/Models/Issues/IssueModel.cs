@@ -1408,30 +1408,33 @@ namespace Implem.Pleasanter.Models
 
         private void CheckNotificationConditions(bool before = false)
         {
-            var data = Rds.ExecuteDataSet(statements:
-                SiteSettings.Notifications.Select((o, i) =>
-                    Rds.SelectIssues(
-                        column: Rds.IssuesColumn().IssueId(),
-                        where: SiteSettings.Views.FirstOrDefault(p => p.Id == (before
-                            ? o.BeforeCondition
-                            : o.AfterCondition))?
-                                .Where(SiteSettings, Rds.IssuesWhere().IssueId(IssueId))
-                                    ?? Rds.IssuesWhere().IssueId(IssueId))).ToArray());
-            SiteSettings.Notifications
-                .Select((o, i) => new
-                {
-                    Notification = o,
-                    Exists = data.Tables[i].Rows.Count == 1
-                })
-                .ForEach(o =>
-                    o.Notification.Enabled =
-                        before ||
-                        o.Notification.Expression == Notification.Expressions.And ||
-                        SiteSettings.Views.FirstOrDefault(p => p.Id == (before
-                            ? o.Notification.BeforeCondition
-                            : o.Notification.AfterCondition)) == null
-                                ? o.Notification.Enabled && o.Exists
-                                : o.Notification.Enabled || o.Exists);
+            if (SiteSettings.Notifications.Any())
+            {
+                var data = Rds.ExecuteDataSet(statements:
+                    SiteSettings.Notifications.Select((o, i) =>
+                        Rds.SelectIssues(
+                            column: Rds.IssuesColumn().IssueId(),
+                            where: SiteSettings.Views.FirstOrDefault(p => p.Id == (before
+                                ? o.BeforeCondition
+                                : o.AfterCondition))?
+                                    .Where(SiteSettings, Rds.IssuesWhere().IssueId(IssueId))
+                                        ?? Rds.IssuesWhere().IssueId(IssueId))).ToArray());
+                SiteSettings.Notifications
+                    .Select((o, i) => new
+                    {
+                        Notification = o,
+                        Exists = data.Tables[i].Rows.Count == 1
+                    })
+                    .ForEach(o =>
+                        o.Notification.Enabled =
+                            before ||
+                            o.Notification.Expression == Notification.Expressions.And ||
+                            SiteSettings.Views.FirstOrDefault(p => p.Id == (before
+                                ? o.Notification.BeforeCondition
+                                : o.Notification.AfterCondition)) == null
+                                    ? o.Notification.Enabled && o.Exists
+                                    : o.Notification.Enabled || o.Exists);
+            }
         }
 
         private void Notice(string type)
