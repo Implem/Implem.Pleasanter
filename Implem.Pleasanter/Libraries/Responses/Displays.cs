@@ -52,6 +52,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Admin(params string[] data) { return Get("Admin", data); }
         public static HtmlBuilder Displays_AdvancedSetting(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("AdvancedSetting", data)); }
         public static string AdvancedSetting(params string[] data) { return Get("AdvancedSetting", data); }
+        public static HtmlBuilder Displays_AfterCondition(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("AfterCondition", data)); }
+        public static string AfterCondition(params string[] data) { return Get("AfterCondition", data); }
         public static HtmlBuilder Displays_AggregationDetails(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("AggregationDetails", data)); }
         public static string AggregationDetails(params string[] data) { return Get("AggregationDetails", data); }
         public static HtmlBuilder Displays_Aggregations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Aggregations", data)); }
@@ -60,6 +62,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string All(params string[] data) { return Get("All", data); }
         public static HtmlBuilder Displays_AlreadyAdded(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("AlreadyAdded", data)); }
         public static string AlreadyAdded(params string[] data) { return Get("AlreadyAdded", data); }
+        public static HtmlBuilder Displays_And(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("And", data)); }
+        public static string And(params string[] data) { return Get("And", data); }
         public static HtmlBuilder Displays_Authentication(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Authentication", data)); }
         public static string Authentication(params string[] data) { return Get("Authentication", data); }
         public static HtmlBuilder Displays_Auto(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Auto", data)); }
@@ -72,6 +76,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string BadMailAddress(params string[] data) { return Get("BadMailAddress", data); }
         public static HtmlBuilder Displays_Basic(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Basic", data)); }
         public static string Basic(params string[] data) { return Get("Basic", data); }
+        public static HtmlBuilder Displays_BeforeCondition(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("BeforeCondition", data)); }
+        public static string BeforeCondition(params string[] data) { return Get("BeforeCondition", data); }
         public static HtmlBuilder Displays_Blank(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Blank", data)); }
         public static string Blank(params string[] data) { return Get("Blank", data); }
         public static HtmlBuilder Displays_BulkDelete(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("BulkDelete", data)); }
@@ -230,6 +236,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ExceptionTitle(params string[] data) { return Get("ExceptionTitle", data); }
         public static HtmlBuilder Displays_Export(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Export", data)); }
         public static string Export(params string[] data) { return Get("Export", data); }
+        public static HtmlBuilder Displays_Expression(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Expression", data)); }
+        public static string Expression(params string[] data) { return Get("Expression", data); }
         public static HtmlBuilder Displays_ExternalMailAddress(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ExternalMailAddress", data)); }
         public static string ExternalMailAddress(params string[] data) { return Get("ExternalMailAddress", data); }
         public static HtmlBuilder Displays_FailedReadFile(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("FailedReadFile", data)); }
@@ -470,6 +478,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string OnOnly(params string[] data) { return Get("OnOnly", data); }
         public static HtmlBuilder Displays_Operations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Operations", data)); }
         public static string Operations(params string[] data) { return Get("Operations", data); }
+        public static HtmlBuilder Displays_Or(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Or", data)); }
+        public static string Or(params string[] data) { return Get("Or", data); }
         public static HtmlBuilder Displays_OrderAsc(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("OrderAsc", data)); }
         public static string OrderAsc(params string[] data) { return Get("OrderAsc", data); }
         public static HtmlBuilder Displays_OrderDesc(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("OrderDesc", data)); }

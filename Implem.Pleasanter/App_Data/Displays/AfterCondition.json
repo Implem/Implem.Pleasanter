@@ -1,0 +1,13 @@
+﻿{
+    "Id": "AfterCondition",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "After condition"
+        },
+        {
+            "Language": "ja",
+            "Body": "変更後の条件"
+        }
+    ]
+}

@@ -956,6 +956,11 @@
     <Content Include="App_Data\Displays\Ymdhms.json" />
     <Content Include="App_Data\Displays\YmdhmsFormat.json" />
     <Content Include="App_Data\Displays\YmFormat.json" />
+    <Content Include="App_Data\Displays\And.json" />
+    <Content Include="App_Data\Displays\Or.json" />
+    <Content Include="App_Data\Displays\BeforeCondition.json" />
+    <Content Include="App_Data\Displays\AfterCondition.json" />
+    <Content Include="App_Data\Displays\Expression.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

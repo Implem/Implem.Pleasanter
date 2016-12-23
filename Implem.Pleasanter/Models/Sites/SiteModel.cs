@@ -1391,7 +1391,10 @@ namespace Implem.Pleasanter.Models
                 (Notification.Types)Forms.Int("NotificationType"),
                 Forms.Data("NotificationPrefix"),
                 Forms.Data("NotificationAddress"),
-                Session_MonitorChangesColumns()));
+                Session_MonitorChangesColumns(),
+                Forms.Int("BeforeCondition"),
+                Forms.Int("AfterCondition"),
+                (Notification.Expressions)Forms.Int("Expression")));
             SetNotificationsResponseCollection(res);
         }
 
@@ -1410,7 +1413,10 @@ namespace Implem.Pleasanter.Models
                 notification.Update(
                     Forms.Data("NotificationPrefix"),
                     Forms.Data("NotificationAddress"),
-                    Session_MonitorChangesColumns());
+                    Session_MonitorChangesColumns(),
+                    Forms.Int("BeforeCondition"),
+                    Forms.Int("AfterCondition"),
+                    (Notification.Expressions)Forms.Int("Expression"));
                 SetNotificationsResponseCollection(res);
             }
         }

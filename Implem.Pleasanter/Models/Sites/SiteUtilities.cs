@@ -2817,70 +2817,98 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Address(),
                         text: notification.Address,
                         validateRequired: true)
+                    .Div(_using: ss.Views.Any(), action: () => hb
+                        .FieldDropDown(
+                            controlId: "BeforeCondition",
+                            controlCss: " must-transport",
+                            labelText: Displays.BeforeCondition(),
+                            optionCollection: ss.ViewSelectableOptions(),
+                            selectedValue: notification.BeforeCondition.ToString(),
+                            insertBlank: true)
+                        .FieldDropDown(
+                            controlId: "Expression",
+                            controlCss: " must-transport",
+                            labelText: Displays.Expression(),
+                            optionCollection: new Dictionary<string, string>
+                            {
+                                {
+                                    Notification.Expressions.Or.ToInt().ToString(),
+                                    Displays.Or()
+                                },
+                                {
+                                    Notification.Expressions.And.ToInt().ToString(),
+                                    Displays.And()
+                                }
+                            },
+                            selectedValue: notification.Expression.ToInt().ToString())
+                        .FieldDropDown(
+                            controlId: "AfterCondition",
+                            controlCss: " must-transport",
+                            labelText: Displays.AfterCondition(),
+                            optionCollection: ss.ViewSelectableOptions(),
+                            selectedValue: notification.AfterCondition.ToString(),
+                            insertBlank: true))
                     .FieldSet(
                         css: " enclosed",
                         legendText: Displays.MonitorChangesColumns(),
-                        action: () =>
-                        {
-                            hb
-                                .FieldSelectable(
-                                    controlId: "MonitorChangesColumns",
-                                    fieldCss: "field-vertical",
-                                    controlContainerCss: "container-selectable",
-                                    controlWrapperCss: " h200",
-                                    labelText: Displays.EnabledList(),
-                                    listItemCollection: ss
-                                        .MonitorChangesSelectableOptions(
-                                            notification.MonitorChangesColumns),
-                                    commandOptionPositionIsTop: true,
-                                    commandOptionAction: () => hb
-                                        .Div(css: "command-center", action: () => hb
-                                            .Button(
-                                                controlId: "MoveUpMonitorChangesColumns",
-                                                text: Displays.MoveUp(),
-                                                controlCss: "button-icon",
-                                                onClick: "$p.send($(this));",
-                                                icon: "ui-icon-circle-triangle-n",
-                                                action: "SetSiteSettings",
-                                                method: "post")
-                                            .Button(
-                                                controlId: "MoveDownMonitorChangesColumns",
-                                                text: Displays.MoveDown(),
-                                                controlCss: "button-icon",
-                                                onClick: "$p.send($(this));",
-                                                icon: "ui-icon-circle-triangle-s",
-                                                action: "SetSiteSettings",
-                                                method: "post")
-                                            .Button(
-                                                controlId: "ToDisableMonitorChangesColumns",
-                                                text: Displays.ToDisable(),
-                                                controlCss: "button-icon",
-                                                onClick: "$p.send($(this));",
-                                                icon: "ui-icon-circle-triangle-e",
-                                                action: "SetSiteSettings",
-                                                method: "put")))
-                                .FieldSelectable(
-                                    controlId: "MonitorChangesSourceColumns",
-                                    fieldCss: "field-vertical",
-                                    controlContainerCss: "container-selectable",
-                                    controlWrapperCss: " h200",
-                                    labelText: Displays.DisabledList(),
-                                    listItemCollection: ss
-                                        .MonitorChangesSelectableOptions(
-                                            notification.MonitorChangesColumns,
-                                            enabled: false),
-                                    commandOptionPositionIsTop: true,
-                                    commandOptionAction: () => hb
-                                        .Div(css: "command-center", action: () => hb
-                                            .Button(
-                                                controlId: "ToEnableMonitorChangesColumns",
-                                                text: Displays.ToEnable(),
-                                                controlCss: "button-icon",
-                                                onClick: "$p.send($(this));",
-                                                icon: "ui-icon-circle-triangle-w",
-                                                action: "SetSiteSettings",
-                                                method: "put")));
-                        })
+                        action: () => hb
+                            .FieldSelectable(
+                                controlId: "MonitorChangesColumns",
+                                fieldCss: "field-vertical",
+                                controlContainerCss: "container-selectable",
+                                controlWrapperCss: " h200",
+                                labelText: Displays.EnabledList(),
+                                listItemCollection: ss
+                                    .MonitorChangesSelectableOptions(
+                                        notification.MonitorChangesColumns),
+                                commandOptionPositionIsTop: true,
+                                commandOptionAction: () => hb
+                                    .Div(css: "command-center", action: () => hb
+                                        .Button(
+                                            controlId: "MoveUpMonitorChangesColumns",
+                                            text: Displays.MoveUp(),
+                                            controlCss: "button-icon",
+                                            onClick: "$p.send($(this));",
+                                            icon: "ui-icon-circle-triangle-n",
+                                            action: "SetSiteSettings",
+                                            method: "post")
+                                        .Button(
+                                            controlId: "MoveDownMonitorChangesColumns",
+                                            text: Displays.MoveDown(),
+                                            controlCss: "button-icon",
+                                            onClick: "$p.send($(this));",
+                                            icon: "ui-icon-circle-triangle-s",
+                                            action: "SetSiteSettings",
+                                            method: "post")
+                                        .Button(
+                                            controlId: "ToDisableMonitorChangesColumns",
+                                            text: Displays.ToDisable(),
+                                            controlCss: "button-icon",
+                                            onClick: "$p.send($(this));",
+                                            icon: "ui-icon-circle-triangle-e",
+                                            action: "SetSiteSettings",
+                                            method: "put")))
+                            .FieldSelectable(
+                                controlId: "MonitorChangesSourceColumns",
+                                fieldCss: "field-vertical",
+                                controlContainerCss: "container-selectable",
+                                controlWrapperCss: " h200",
+                                labelText: Displays.DisabledList(),
+                                listItemCollection: ss
+                                    .MonitorChangesSelectableOptions(
+                                        notification.MonitorChangesColumns,
+                                        enabled: false),
+                                commandOptionPositionIsTop: true,
+                                commandOptionAction: () => hb
+                                    .Div(css: "command-center", action: () => hb
+                                        .Button(
+                                            controlId: "ToEnableMonitorChangesColumns",
+                                            text: Displays.ToEnable(),
+                                            controlCss: "button-icon",
+                                            onClick: "$p.send($(this));",
+                                            icon: "ui-icon-circle-triangle-w",
+                                            action: "SetSiteSettings",
+                                            method: "put"))))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -2923,6 +2951,12 @@ namespace Implem.Pleasanter.Models
                         .Th(action: () => hb
                             .Text(text: Displays.NotificationSettingsEditor()))
                         .Th(action: () => hb
+                            .Text(text: Displays.BeforeCondition()))
+                        .Th(action: () => hb
+                            .Text(text: Displays.Expression()))
+                        .Th(action: () => hb
+                            .Text(text: Displays.AfterCondition()))
+                        .Th(action: () => hb
                             .Text(text: Displays.Operations()))))
                 .NotificationSettingsTBody(ss: ss));
         }
@@ -2953,6 +2987,15 @@ namespace Implem.Pleasanter.Models
                                     .Text(text: data.Notification.MonitorChangesColumns
                                         .Select(o => ss.GetColumn(o).LabelText)
                                         .Join(", ")))
+                                .Td(action: () => hb
+                                    .Text(text: ss.Views.FirstOrDefault(o =>
+                                        o.Id == data.Notification.AfterCondition)?.Name))
+                                .Td(action: () => hb
+                                    .Text(text: Displays.Get(
+                                        data.Notification.Expression.ToString())))
+                                .Td(action: () => hb
+                                    .Text(text: ss.Views.FirstOrDefault(o =>
+                                        o.Id == data.Notification.BeforeCondition)?.Name))
                                 .Td(action: () => hb
                                     .Button(
                                         controlCss: "button-icon delete",

@@ -836,7 +836,11 @@ namespace Implem.Pleasanter.Models
                 });
             ResultId = newId != 0 ? newId : ResultId;
             SynchronizeSummary();
-            if (notice) Notice("Created");
+            if (notice)
+            {
+                CheckNotificationConditions();
+                Notice("Created");
+            }
             Get();
             Rds.ExecuteNonQuery(statements:
                 Rds.UpdateItems(
@@ -849,6 +853,7 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types Update(bool notice = false, bool paramAll = false)
         {
+            if (notice) CheckNotificationConditions(before: true);
             SetBySession();
             var timestamp = Timestamp.ToDateTime();
             var count = Rds.ExecuteScalar_int(
@@ -864,7 +869,11 @@ namespace Implem.Pleasanter.Models
                 });
             if (count == 0) return Error.Types.UpdateConflicts;
             SynchronizeSummary();
-            if (notice) Notice("Updated");
+            if (notice)
+            {
+                CheckNotificationConditions();
+                Notice("Updated");
+            }
             Get();
             UpdateRelatedRecords();
             return Error.Types.None;
@@ -976,6 +985,7 @@ namespace Implem.Pleasanter.Models
 
         public Error.Types Delete(bool notice = false)
         {
+            if (notice) CheckNotificationConditions(before: true);
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: new SqlStatement[]
@@ -986,7 +996,11 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ResultsWhere().SiteId(SiteId).ResultId(ResultId))
                 });
             SynchronizeSummary();
-            if (notice) Notice("Deleted");
+            if (notice)
+            {
+                CheckNotificationConditions();
+                Notice("Deleted");
+            }
             Libraries.Search.Indexes.Create(SiteSettings, ResultId);
             return Error.Types.None;
         }
@@ -1361,23 +1375,50 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        private void CheckNotificationConditions(bool before = false)
+        {
+            var data = Rds.ExecuteDataSet(statements:
+                SiteSettings.Notifications.Select((o, i) =>
+                    Rds.SelectResults(
+                        column: Rds.ResultsColumn().ResultId(),
+                        where: SiteSettings.Views.FirstOrDefault(p => p.Id == (before
+                            ? o.BeforeCondition
+                            : o.AfterCondition))?
+                                .Where(SiteSettings, Rds.ResultsWhere().ResultId(ResultId))
+                                    ?? Rds.ResultsWhere().ResultId(ResultId))).ToArray());
+            SiteSettings.Notifications
+                .Select((o, i) => new
+                {
+                    Notification = o,
+                    Exists = data.Tables[i].Rows.Count == 1
+                })
+                .ForEach(o =>
+                    o.Notification.Enabled =
+                        before ||
+                        o.Notification.Expression == Notification.Expressions.And ||
+                        SiteSettings.Views.FirstOrDefault(p => p.Id == (before
+                            ? o.Notification.BeforeCondition
+                            : o.Notification.AfterCondition)) == null
+                                ? o.Notification.Enabled && o.Exists
+                                : o.Notification.Enabled || o.Exists);
+        }
+
         private void Notice(string type)
         {
             var title = ResultUtilities.TitleDisplayValue(SiteSettings, this);
             var url = Url.AbsoluteUri().Replace(
                 Url.AbsolutePath(), Locations.ItemEdit(ResultId));
-            switch (type)
+            SiteSettings.Notifications.Where(o => o.Enabled).ForEach(notification =>
             {
-                case "Created":
-                    SiteSettings.Notifications.ForEach(notification =>
+                switch (type)
+                {
+                    case "Created":
                         notification.Send(
                             Displays.Created(title).ToString(),
                             url,
-                            NoticeBody(notification)));
-                    break;
-                case "Updated":
-                    SiteSettings.Notifications.ForEach(notification =>
-                    {
+                            NoticeBody(notification));
+                        break;
+                    case "Updated":
                         var body = NoticeBody(notification, update: true);
                         if (body.Length > 0)
                         {
@@ -1386,16 +1427,15 @@ namespace Implem.Pleasanter.Models
                                 url,
                                 body);
                         }
-                    });
-                    break;
-                case "Deleted":
-                    SiteSettings.Notifications.ForEach(notification =>
+                        break;
+                    case "Deleted":
                         notification.Send(
                             Displays.Deleted(title).ToString(),
                             url,
-                            NoticeBody(notification)));
-                    break;
-            }
+                            NoticeBody(notification));
+                        break;
+                }
+            });
         }
 
         private string NoticeBody(Notification notification, bool update = false)
