@@ -1644,8 +1644,7 @@ namespace Implem.Pleasanter.Models
             return new ResponseFile(csv.ToString(), ResponseFileNames.Csv(siteModel));
         }
 
-        private static string CsvColumn(
-            ResultModel resultModel, string columnName, Column column)
+        private static string CsvColumn(ResultModel resultModel, string columnName, Column column)
         {
             var value = string.Empty;
             switch (columnName)
