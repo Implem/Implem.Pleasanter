@@ -2989,13 +2989,13 @@ namespace Implem.Pleasanter.Models
                                         .Join(", ")))
                                 .Td(action: () => hb
                                     .Text(text: ss.Views.FirstOrDefault(o =>
-                                        o.Id == data.Notification.AfterCondition)?.Name))
+                                        o.Id == data.Notification.BeforeCondition)?.Name))
                                 .Td(action: () => hb
                                     .Text(text: Displays.Get(
                                         data.Notification.Expression.ToString())))
                                 .Td(action: () => hb
                                     .Text(text: ss.Views.FirstOrDefault(o =>
-                                        o.Id == data.Notification.BeforeCondition)?.Name))
+                                        o.Id == data.Notification.AfterCondition)?.Name))
                                 .Td(action: () => hb
                                     .Button(
                                         controlCss: "button-icon delete",
