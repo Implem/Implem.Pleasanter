@@ -1395,14 +1395,24 @@ namespace Implem.Pleasanter.Models
                         Exists = data.Tables[i].Rows.Count == 1
                     })
                     .ForEach(o =>
-                        o.Notification.Enabled =
-                            before ||
-                            o.Notification.Expression == Notification.Expressions.And ||
-                            SiteSettings.Views.FirstOrDefault(p => p.Id == (before
-                                ? o.Notification.BeforeCondition
-                                : o.Notification.AfterCondition)) == null
-                                    ? o.Notification.Enabled && o.Exists
-                                    : o.Notification.Enabled || o.Exists);
+                    {
+                        if (before)
+                        {
+                            o.Notification.Enabled = o.Exists;
+                        }
+                        else if (SiteSettings.Views.Any(p =>
+                            p.Id == o.Notification.AfterCondition))
+                        {
+                            if (o.Notification.Expression == Notification.Expressions.And)
+                            {
+                                o.Notification.Enabled &= o.Exists;
+                            }
+                            else
+                            {
+                                o.Notification.Enabled |= o.Exists;
+                            }
+                        }
+                    });
             }
         }
 
