@@ -2656,16 +2656,14 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, SiteSettings ss, View view, bool _using)
         {
             return _using
-                ? hb.FieldSet(
-                    id: "ViewGanttTab",
-                    action: () => hb
-                        .FieldDropDown(
-                            controlId: "GanttGroupBy",
-                            fieldCss: "field-auto-thin",
-                            labelText: Displays.GroupBy(),
-                            optionCollection: ss.GanttGroupByOptions(),
-                            selectedValue: view.GanttGroupBy,
-                            insertBlank: true))
+                ? hb.FieldSet(id: "ViewGanttTab", action: () => hb
+                    .FieldDropDown(
+                        controlId: "GanttGroupBy",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.GroupBy(),
+                        optionCollection: ss.GanttGroupByOptions(),
+                        selectedValue: view.GanttGroupBy,
+                        insertBlank: true))
                 : hb;
         }
 
