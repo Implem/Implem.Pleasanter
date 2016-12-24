@@ -3013,46 +3013,44 @@ namespace Implem.Pleasanter.Models
             var summarySiteIdHash = SummarySiteIdHash(siteDataRows, ss);
             var firstSiteId = summarySiteIdHash.Select(o => o.Key.ToLong()).FirstOrDefault();
             return siteDataRows.Any()
-                ? hb.FieldSet(
-                    id: "SummarySettingsEditor",
-                    action: () =>
-                        hb.FieldSet(
-                            legendText: Displays.SettingSummaryColumns(),
-                            css: " enclosed",
-                            action: () => hb
-                                .FieldDropDown(
-                                    controlId: "SummarySiteId",
-                                    controlCss: " auto-postback",
-                                    labelText: Displays.SummarySiteId(),
-                                    optionCollection: summarySiteIdHash,
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .SummaryDestinationColumn(
-                                    siteId: firstSiteId,
-                                    referenceType: ss.ReferenceType,
-                                    siteDataRows: siteDataRows)
-                                .SummaryLinkColumn(
-                                    ss: ss,
-                                    siteId: firstSiteId)
-                                .FieldDropDown(
-                                    controlId: "SummaryType",
-                                    controlCss: " auto-postback",
-                                    labelText: Displays.SummaryType(),
-                                    optionCollection: SummaryTypeCollection(),
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .SummarySourceColumn(ss)
-                                .FieldContainer(actionOptions: () => hb
-                                    .Div(css: "buttons", action: () => hb
-                                        .Button(
-                                            controlId: "AddSummary",
-                                            text: Displays.Add(),
-                                            controlCss: "button-icon",
-                                            onClick: "$p.addSummary($(this));",
-                                            icon: "ui-icon-plus",
-                                            action: "SetSiteSettings",
-                                            method: "put")))
-                                .SummarySettings(sourceSiteSettings: ss)))
+                ? hb.FieldSet(id: "SummarySettingsEditor", action: () => hb
+                    .FieldSet(
+                        legendText: Displays.SettingSummaryColumns(),
+                        css: " enclosed",
+                        action: () => hb
+                            .FieldDropDown(
+                                controlId: "SummarySiteId",
+                                controlCss: " auto-postback",
+                                labelText: Displays.SummarySiteId(),
+                                optionCollection: summarySiteIdHash,
+                                action: "SetSiteSettings",
+                                method: "post")
+                            .SummaryDestinationColumn(
+                                siteId: firstSiteId,
+                                referenceType: ss.ReferenceType,
+                                siteDataRows: siteDataRows)
+                            .SummaryLinkColumn(
+                                ss: ss,
+                                siteId: firstSiteId)
+                            .FieldDropDown(
+                                controlId: "SummaryType",
+                                controlCss: " auto-postback",
+                                labelText: Displays.SummaryType(),
+                                optionCollection: SummaryTypeCollection(),
+                                action: "SetSiteSettings",
+                                method: "post")
+                            .SummarySourceColumn(ss)
+                            .FieldContainer(actionOptions: () => hb
+                                .Div(css: "buttons", action: () => hb
+                                    .Button(
+                                        controlId: "AddSummary",
+                                        text: Displays.Add(),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.addSummary($(this));",
+                                        icon: "ui-icon-plus",
+                                        action: "SetSiteSettings",
+                                        method: "put")))
+                            .SummarySettings(sourceSiteSettings: ss)))
                 : hb.SummarySettingsEditorNoLinks();
         }
 
