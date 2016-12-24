@@ -2715,27 +2715,25 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, SiteSettings ss, View view, bool _using)
         {
             return _using
-                ? hb.FieldSet(
-                    id: "ViewKambanTab",
-                    action: () => hb
-                        .FieldDropDown(
-                            controlId: "KambanGroupBy",
-                            fieldCss: "field-auto-thin",
-                            labelText: Displays.GroupBy(),
-                            optionCollection: ss.KambanGroupByOptions(),
-                            selectedValue: view.KambanGroupBy)
-                        .FieldDropDown(
-                            controlId: "KambanAggregateType",
-                            fieldCss: "field-auto-thin",
-                            labelText: Displays.SettingAggregationType(),
-                            optionCollection: ss.KambanAggregationTypeOptions(),
-                            selectedValue: view.KambanAggregateType)
-                        .FieldDropDown(
-                            controlId: "KambanValue",
-                            fieldCss: "field-auto-thin",
-                            labelText: Displays.SettingAggregationTarget(),
-                            optionCollection: ss.KamvanValueOptions(),
-                            selectedValue: view.KambanValue))
+                ? hb.FieldSet(id: "ViewKambanTab", action: () => hb
+                    .FieldDropDown(
+                        controlId: "KambanGroupBy",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.GroupBy(),
+                        optionCollection: ss.KambanGroupByOptions(),
+                        selectedValue: view.KambanGroupBy)
+                    .FieldDropDown(
+                        controlId: "KambanAggregateType",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.SettingAggregationType(),
+                        optionCollection: ss.KambanAggregationTypeOptions(),
+                        selectedValue: view.KambanAggregateType)
+                    .FieldDropDown(
+                        controlId: "KambanValue",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.SettingAggregationTarget(),
+                        optionCollection: ss.KamvanValueOptions(),
+                        selectedValue: view.KambanValue))
                 : hb;
         }
 
