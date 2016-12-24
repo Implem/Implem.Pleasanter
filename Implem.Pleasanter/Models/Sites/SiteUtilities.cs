@@ -3356,27 +3356,25 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder ScriptSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(
-                id: "ScriptSettingsEditor",
-                action: () => hb
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
-                        controlId: "SiteSettings,GridScript",
-                        fieldCss: "field-wide",
-                        labelText: Displays.GridScript(),
-                        text: ss.GridScript.ToStr())
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
-                        controlId: "SiteSettings,NewScript",
-                        fieldCss: "field-wide",
-                        labelText: Displays.NewScript(),
-                        text: ss.NewScript.ToStr())
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
-                        controlId: "SiteSettings,EditScript",
-                        fieldCss: "field-wide",
-                        labelText: Displays.EditScript(),
-                        text: ss.EditScript.ToStr()));
+            return hb.FieldSet(id: "ScriptSettingsEditor", action: () => hb
+                .FieldTextBox(
+                    textType: HtmlTypes.TextTypes.MultiLine,
+                    controlId: "SiteSettings,GridScript",
+                    fieldCss: "field-wide",
+                    labelText: Displays.GridScript(),
+                    text: ss.GridScript.ToStr())
+                .FieldTextBox(
+                    textType: HtmlTypes.TextTypes.MultiLine,
+                    controlId: "SiteSettings,NewScript",
+                    fieldCss: "field-wide",
+                    labelText: Displays.NewScript(),
+                    text: ss.NewScript.ToStr())
+                .FieldTextBox(
+                    textType: HtmlTypes.TextTypes.MultiLine,
+                    controlId: "SiteSettings,EditScript",
+                    fieldCss: "field-wide",
+                    labelText: Displays.EditScript(),
+                    text: ss.EditScript.ToStr()));
         }
     }
 }
