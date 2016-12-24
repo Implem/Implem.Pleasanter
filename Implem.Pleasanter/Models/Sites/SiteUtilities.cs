@@ -1707,13 +1707,11 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder EditorSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(
-                id: "EditorSettingsEditor",
-                action: () => hb
-                    .EditorColumns(ss)
-                    .LinkColumns(ss)
-                    .HistoryColumns(ss)
-                    .Formulas(ss));
+            return hb.FieldSet(id: "EditorSettingsEditor", action: () => hb
+                .EditorColumns(ss)
+                .LinkColumns(ss)
+                .HistoryColumns(ss)
+                .Formulas(ss));
         }
 
         /// <summary>
