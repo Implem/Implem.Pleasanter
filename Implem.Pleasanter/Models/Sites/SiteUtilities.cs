@@ -1720,8 +1720,8 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder EditorColumns(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
-                legendText: Displays.SettingEditorColumns(),
                 css: " enclosed",
+                legendText: Displays.SettingEditorColumns(),
                 action: () => hb
                     .FieldSelectable(
                         controlId: "EditorColumns",
@@ -2110,8 +2110,8 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder LinkColumns(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
-                legendText: Displays.SettingLinkColumns(),
                 css: " enclosed",
+                legendText: Displays.SettingLinkColumns(),
                 action: () => hb
                     .FieldSelectable(
                         controlId: "LinkColumns",
@@ -2173,8 +2173,8 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder HistoryColumns(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
-                legendText: Displays.SettingHistoryColumns(),
                 css: " enclosed",
+                legendText: Displays.SettingHistoryColumns(),
                 action: () => hb
                     .FieldSelectable(
                         controlId: "HistoryColumns",
@@ -2258,8 +2258,8 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder Formulas(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
-                legendText: Displays.SettingFormulas(),
                 css: " enclosed",
+                legendText: Displays.SettingFormulas(),
                 action: () => hb
                     .FieldSelectable(
                         controlId: "Formulas",
@@ -3003,8 +3003,8 @@ namespace Implem.Pleasanter.Models
             return siteDataRows.Any()
                 ? hb.FieldSet(id: "SummarySettingsEditor", action: () => hb
                     .FieldSet(
-                        legendText: Displays.SettingSummaryColumns(),
                         css: " enclosed",
+                        legendText: Displays.SettingSummaryColumns(),
                         action: () => hb
                             .FieldDropDown(
                                 controlId: "SummarySiteId",
@@ -3290,8 +3290,8 @@ namespace Implem.Pleasanter.Models
                     labelText: Displays.DefaultAddressBook(),
                     text: ss.AddressBook.ToStr())
                 .FieldSet(
-                    legendText: Displays.DefaultDestinations(),
                     css: " enclosed-thin",
+                    legendText: Displays.DefaultDestinations(),
                     action: () => hb
                         .FieldTextBox(
                             textType: HtmlTypes.TextTypes.MultiLine,
