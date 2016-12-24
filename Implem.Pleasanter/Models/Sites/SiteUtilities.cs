@@ -1201,48 +1201,46 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder GridSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(
-                id: "GridSettingsEditor",
-                action: () => hb
-                    .GridColumns(ss)
-                    .FilterColumns(ss)
-                    .Aggregations(ss)
-                    .FieldSpinner(
-                        controlId: "SiteSettings,GridPageSize",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.SettingGridPageSize(),
-                        value: ss.GridPageSize.ToDecimal(),
-                        min: Parameters.General.GridPageSizeMin,
-                        max: Parameters.General.GridPageSizeMax,
-                        step: 1,
-                        width: 25)
-                    .FieldSpinner(
-                        controlId: "SiteSettings,NearCompletionTimeBeforeDays",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.SettingNearCompletionTimeBeforeDays(),
-                        value: ss.NearCompletionTimeBeforeDays.ToDecimal(),
-                        min: Parameters.General.NearCompletionTimeBeforeDaysMin,
-                        max: Parameters.General.NearCompletionTimeBeforeDaysMax,
-                        step: 1,
-                        width: 25)
-                    .FieldSpinner(
-                        controlId: "SiteSettings,NearCompletionTimeAfterDays",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.SettingNearCompletionTimeAfterDays(),
-                        value: ss.NearCompletionTimeAfterDays.ToDecimal(),
-                        min: Parameters.General.NearCompletionTimeAfterDaysMin,
-                        max: Parameters.General.NearCompletionTimeAfterDaysMax,
-                        step: 1,
-                        width: 25)
-                    .FieldDropDown(
-                        controlId: "SiteSettings,GridView",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.DefaultView(),
-                        optionCollection: ss.ViewSelectableOptions(),
-                        selectedValue: ss.GridView?.ToString(),
-                        insertBlank: true,
-                        _using: ss.Views?.Any() == true)
-                    .AggregationDetailsDialog(ss));
+            return hb.FieldSet(id: "GridSettingsEditor", action: () => hb
+                .GridColumns(ss)
+                .FilterColumns(ss)
+                .Aggregations(ss)
+                .FieldSpinner(
+                    controlId: "SiteSettings,GridPageSize",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.SettingGridPageSize(),
+                    value: ss.GridPageSize.ToDecimal(),
+                    min: Parameters.General.GridPageSizeMin,
+                    max: Parameters.General.GridPageSizeMax,
+                    step: 1,
+                    width: 25)
+                .FieldSpinner(
+                    controlId: "SiteSettings,NearCompletionTimeBeforeDays",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.SettingNearCompletionTimeBeforeDays(),
+                    value: ss.NearCompletionTimeBeforeDays.ToDecimal(),
+                    min: Parameters.General.NearCompletionTimeBeforeDaysMin,
+                    max: Parameters.General.NearCompletionTimeBeforeDaysMax,
+                    step: 1,
+                    width: 25)
+                .FieldSpinner(
+                    controlId: "SiteSettings,NearCompletionTimeAfterDays",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.SettingNearCompletionTimeAfterDays(),
+                    value: ss.NearCompletionTimeAfterDays.ToDecimal(),
+                    min: Parameters.General.NearCompletionTimeAfterDaysMin,
+                    max: Parameters.General.NearCompletionTimeAfterDaysMax,
+                    step: 1,
+                    width: 25)
+                .FieldDropDown(
+                    controlId: "SiteSettings,GridView",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.DefaultView(),
+                    optionCollection: ss.ViewSelectableOptions(),
+                    selectedValue: ss.GridView?.ToString(),
+                    insertBlank: true,
+                    _using: ss.Views?.Any() == true)
+                .AggregationDetailsDialog(ss));
         }
 
         /// <summary>
