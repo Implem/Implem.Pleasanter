@@ -287,9 +287,9 @@
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_004.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_003.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_002.cs" />
-    <Compile Include="Libraries\Models\Aggregation.cs" />
+    <Compile Include="Libraries\Settings\Aggregation.cs" />
     <Compile Include="Libraries\Models\Aggregations.cs" />
-    <Compile Include="Libraries\Models\Formula.cs" />
+    <Compile Include="Libraries\Settings\Formula.cs" />
     <Compile Include="Libraries\Models\FormulaBuilder.cs" />
     <Compile Include="Libraries\Models\FormulaUtilities.cs" />
     <Compile Include="Libraries\Models\Imports.cs" />

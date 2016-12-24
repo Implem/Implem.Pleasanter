@@ -1,9 +1,8 @@
 ﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-namespace Implem.Pleasanter.Libraries.Models
+namespace Implem.Pleasanter.Libraries.Settings
 {
     public class Formula
     {
