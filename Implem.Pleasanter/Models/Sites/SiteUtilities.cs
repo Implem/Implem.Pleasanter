@@ -3330,27 +3330,25 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder StyleSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(
-                id: "StyleSettingsEditor",
-                action: () => hb
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
-                        controlId: "SiteSettings,GridStyle",
-                        fieldCss: "field-wide",
-                        labelText: Displays.GridStyle(),
-                        text: ss.GridStyle.ToStr())
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
-                        controlId: "SiteSettings,NewStyle",
-                        fieldCss: "field-wide",
-                        labelText: Displays.NewStyle(),
-                        text: ss.NewStyle.ToStr())
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
-                        controlId: "SiteSettings,EditStyle",
-                        fieldCss: "field-wide",
-                        labelText: Displays.EditStyle(),
-                        text: ss.EditStyle.ToStr()));
+            return hb.FieldSet(id: "StyleSettingsEditor", action: () => hb
+                .FieldTextBox(
+                    textType: HtmlTypes.TextTypes.MultiLine,
+                    controlId: "SiteSettings,GridStyle",
+                    fieldCss: "field-wide",
+                    labelText: Displays.GridStyle(),
+                    text: ss.GridStyle.ToStr())
+                .FieldTextBox(
+                    textType: HtmlTypes.TextTypes.MultiLine,
+                    controlId: "SiteSettings,NewStyle",
+                    fieldCss: "field-wide",
+                    labelText: Displays.NewStyle(),
+                    text: ss.NewStyle.ToStr())
+                .FieldTextBox(
+                    textType: HtmlTypes.TextTypes.MultiLine,
+                    controlId: "SiteSettings,EditStyle",
+                    fieldCss: "field-wide",
+                    labelText: Displays.EditStyle(),
+                    text: ss.EditStyle.ToStr()));
         }
 
         /// <summary>
