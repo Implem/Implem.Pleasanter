@@ -2322,58 +2322,56 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder ViewSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(
-                id: "ViewSettingsEditor",
-                action: () => hb
-                    .FieldSelectable(
-                        controlId: "Views",
-                        fieldCss: "field-vertical w400",
-                        controlContainerCss: "container-selectable",
-                        controlWrapperCss: " h350",
-                        listItemCollection: ss.ViewSelectableOptions(),
-                        commandOptionPositionIsTop: true,
-                        commandOptionAction: () => hb
-                            .Div(css: "command-center", action: () => hb
-                                .Button(
-                                    controlId: "MoveUpViews",
-                                    text: Displays.MoveUp(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-n",
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .Button(
-                                    controlId: "MoveDownViews",
-                                    text: Displays.MoveDown(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-s",
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .Button(
-                                    controlId: "NewView",
-                                    text: Displays.New(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.openViewDialog($(this));",
-                                    icon: "ui-icon-gear",
-                                    action: "SetSiteSettings",
-                                    method: "put")
-                                .Button(
-                                    controlId: "EditView",
-                                    text: Displays.AdvancedSetting(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.openViewDialog($(this));",
-                                    icon: "ui-icon-gear",
-                                    action: "SetSiteSettings",
-                                    method: "put")
-                                .Button(
-                                    controlId: "DeleteViews",
-                                    text: Displays.Delete(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-e",
-                                    action: "SetSiteSettings",
-                                    method: "put"))));
+            return hb.FieldSet(id: "ViewSettingsEditor", action: () => hb
+                .FieldSelectable(
+                    controlId: "Views",
+                    fieldCss: "field-vertical w400",
+                    controlContainerCss: "container-selectable",
+                    controlWrapperCss: " h350",
+                    listItemCollection: ss.ViewSelectableOptions(),
+                    commandOptionPositionIsTop: true,
+                    commandOptionAction: () => hb
+                        .Div(css: "command-center", action: () => hb
+                            .Button(
+                                controlId: "MoveUpViews",
+                                text: Displays.MoveUp(),
+                                controlCss: "button-icon",
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-circle-triangle-n",
+                                action: "SetSiteSettings",
+                                method: "post")
+                            .Button(
+                                controlId: "MoveDownViews",
+                                text: Displays.MoveDown(),
+                                controlCss: "button-icon",
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-circle-triangle-s",
+                                action: "SetSiteSettings",
+                                method: "post")
+                            .Button(
+                                controlId: "NewView",
+                                text: Displays.New(),
+                                controlCss: "button-icon",
+                                onClick: "$p.openViewDialog($(this));",
+                                icon: "ui-icon-gear",
+                                action: "SetSiteSettings",
+                                method: "put")
+                            .Button(
+                                controlId: "EditView",
+                                text: Displays.AdvancedSetting(),
+                                controlCss: "button-icon",
+                                onClick: "$p.openViewDialog($(this));",
+                                icon: "ui-icon-gear",
+                                action: "SetSiteSettings",
+                                method: "put")
+                            .Button(
+                                controlId: "DeleteViews",
+                                text: Displays.Delete(),
+                                controlCss: "button-icon",
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-circle-triangle-e",
+                                action: "SetSiteSettings",
+                                method: "put"))));
         }
 
         /// <summary>
