@@ -2674,27 +2674,25 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, SiteSettings ss, View view, bool _using)
         {
             return _using
-                ? hb.FieldSet(
-                    id: "ViewTimeSeriesTab",
-                    action: () => hb
-                        .FieldDropDown(
-                            controlId: "TimeSeriesGroupBy",
-                            fieldCss: "field-auto-thin",
-                            labelText: Displays.GroupBy(),
-                            optionCollection: ss.TimeSeriesGroupByOptions(),
-                            selectedValue: view.TimeSeriesGroupBy)
-                        .FieldDropDown(
-                            controlId: "TimeSeriesAggregateType",
-                            fieldCss: "field-auto-thin",
-                            labelText: Displays.SettingAggregationType(),
-                            optionCollection: ss.TimeSeriesAggregationTypeOptions(),
-                            selectedValue: view.TimeSeriesAggregateType)
-                        .FieldDropDown(
-                            controlId: "TimeSeriesValue",
-                            fieldCss: "field-auto-thin",
-                            labelText: Displays.SettingAggregationTarget(),
-                            optionCollection: ss.TimeSeriesValueOptions(),
-                            selectedValue: view.TimeSeriesValue))
+                ? hb.FieldSet(id: "ViewTimeSeriesTab", action: () => hb
+                    .FieldDropDown(
+                        controlId: "TimeSeriesGroupBy",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.GroupBy(),
+                        optionCollection: ss.TimeSeriesGroupByOptions(),
+                        selectedValue: view.TimeSeriesGroupBy)
+                    .FieldDropDown(
+                        controlId: "TimeSeriesAggregateType",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.SettingAggregationType(),
+                        optionCollection: ss.TimeSeriesAggregationTypeOptions(),
+                        selectedValue: view.TimeSeriesAggregateType)
+                    .FieldDropDown(
+                        controlId: "TimeSeriesValue",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.SettingAggregationTarget(),
+                        optionCollection: ss.TimeSeriesValueOptions(),
+                        selectedValue: view.TimeSeriesValue))
                 : hb;
         }
 
