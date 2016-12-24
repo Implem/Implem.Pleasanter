@@ -3059,11 +3059,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder SummarySettingsEditorNoLinks(this HtmlBuilder hb)
         {
-            return hb.FieldSet(
-                id: "SummarySettingsEditor",
-                action: () => hb
-                    .P(action: () => hb
-                        .Text(text: Displays.NoLinks())));
+            return hb.FieldSet(id: "SummarySettingsEditor", action: () => hb
+                .P(action: () => hb
+                    .Text(text: Displays.NoLinks())));
         }
 
         /// <summary>
