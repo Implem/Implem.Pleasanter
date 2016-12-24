@@ -3294,37 +3294,35 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder MailerSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(
-                id: "MailerSettingsEditor",
-                action: () => hb
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
-                        controlId: "SiteSettings,AddressBook",
-                        fieldCss: "field-wide",
-                        labelText: Displays.DefaultAddressBook(),
-                        text: ss.AddressBook.ToStr())
-                    .FieldSet(
-                        legendText: Displays.DefaultDestinations(),
-                        css: " enclosed-thin",
-                        action: () => hb
-                            .FieldTextBox(
-                                textType: HtmlTypes.TextTypes.MultiLine,
-                                controlId: "SiteSettings,MailToDefault",
-                                fieldCss: "field-wide",
-                                labelText: Displays.OutgoingMails_To(),
-                                text: ss.MailToDefault.ToStr())
-                            .FieldTextBox(
-                                textType: HtmlTypes.TextTypes.MultiLine,
-                                controlId: "SiteSettings,MailCcDefault",
-                                fieldCss: "field-wide",
-                                labelText: Displays.OutgoingMails_Cc(),
-                                text: ss.MailCcDefault.ToStr())
-                            .FieldTextBox(
-                                textType: HtmlTypes.TextTypes.MultiLine,
-                                controlId: "SiteSettings,MailBccDefault",
-                                fieldCss: "field-wide",
-                                labelText: Displays.OutgoingMails_Bcc(),
-                                text: ss.MailBccDefault.ToStr())));
+            return hb.FieldSet(id: "MailerSettingsEditor", action: () => hb
+                .FieldTextBox(
+                    textType: HtmlTypes.TextTypes.MultiLine,
+                    controlId: "SiteSettings,AddressBook",
+                    fieldCss: "field-wide",
+                    labelText: Displays.DefaultAddressBook(),
+                    text: ss.AddressBook.ToStr())
+                .FieldSet(
+                    legendText: Displays.DefaultDestinations(),
+                    css: " enclosed-thin",
+                    action: () => hb
+                        .FieldTextBox(
+                            textType: HtmlTypes.TextTypes.MultiLine,
+                            controlId: "SiteSettings,MailToDefault",
+                            fieldCss: "field-wide",
+                            labelText: Displays.OutgoingMails_To(),
+                            text: ss.MailToDefault.ToStr())
+                        .FieldTextBox(
+                            textType: HtmlTypes.TextTypes.MultiLine,
+                            controlId: "SiteSettings,MailCcDefault",
+                            fieldCss: "field-wide",
+                            labelText: Displays.OutgoingMails_Cc(),
+                            text: ss.MailCcDefault.ToStr())
+                        .FieldTextBox(
+                            textType: HtmlTypes.TextTypes.MultiLine,
+                            controlId: "SiteSettings,MailBccDefault",
+                            fieldCss: "field-wide",
+                            labelText: Displays.OutgoingMails_Bcc(),
+                            text: ss.MailBccDefault.ToStr())));
         }
 
         /// <summary>
