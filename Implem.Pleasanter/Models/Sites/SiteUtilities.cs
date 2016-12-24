@@ -2755,27 +2755,25 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder NotificationSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(
-                id: "NotificationSettingsEditor",
-                action: () => hb
-                    .NotificationSettings(ss)
-                    .Button(
-                        controlId: "NewNotification",
-                        text: Displays.New(),
-                        controlCss: "button-icon",
-                        onClick: "$p.openNotificationDialog($(this));",
-                        icon: "ui-icon-gear",
-                        action: "SetSiteSettings",
-                        method: "put")
-                    .Div(attributes: new HtmlAttributes()
-                        .Id("EditNotification")
-                        .DataAction("SetSiteSettings")
-                        .DataMethod("post"))
-                    .Div(attributes: new HtmlAttributes()
-                        .Id("DeleteNotification")
-                        .DataAction("SetSiteSettings")
-                        .DataMethod("post")
-                        .DataConfirm("ConfirmDelete")));
+            return hb.FieldSet(id: "NotificationSettingsEditor", action: () => hb
+                .NotificationSettings(ss)
+                .Button(
+                    controlId: "NewNotification",
+                    text: Displays.New(),
+                    controlCss: "button-icon",
+                    onClick: "$p.openNotificationDialog($(this));",
+                    icon: "ui-icon-gear",
+                    action: "SetSiteSettings",
+                    method: "put")
+                .Div(attributes: new HtmlAttributes()
+                    .Id("EditNotification")
+                    .DataAction("SetSiteSettings")
+                    .DataMethod("post"))
+                .Div(attributes: new HtmlAttributes()
+                    .Id("DeleteNotification")
+                    .DataAction("SetSiteSettings")
+                    .DataMethod("post")
+                    .DataConfirm("ConfirmDelete")));
         }
 
         /// <summary>
