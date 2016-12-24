@@ -1175,27 +1175,25 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder SiteImageSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(
-                id: "SiteImageSettingsEditor",
-                action: () => hb
-                    .FieldSet(
-                        css: " enclosed",
-                        legendText: Displays.Icon(),
-                        action: () => hb
-                            .FieldTextBox(
-                                textType: HtmlTypes.TextTypes.File,
-                                controlId: "SiteImage",
-                                fieldCss: "field-auto-thin",
-                                controlCss: " w400",
-                                labelText: Displays.File())
-                            .Button(
-                                controlId: "SetSiteImage",
-                                controlCss: "button-icon",
-                                text: Displays.Setting(),
-                                onClick: "$p.uploadSiteImage($(this));",
-                                icon: "ui-icon-disk",
-                                action: "binaries/updatesiteimage",
-                                method: "post")));
+            return hb.FieldSet(id: "SiteImageSettingsEditor", action: () => hb
+                .FieldSet(
+                    css: " enclosed",
+                    legendText: Displays.Icon(),
+                    action: () => hb
+                        .FieldTextBox(
+                            textType: HtmlTypes.TextTypes.File,
+                            controlId: "SiteImage",
+                            fieldCss: "field-auto-thin",
+                            controlCss: " w400",
+                            labelText: Displays.File())
+                        .Button(
+                            controlId: "SetSiteImage",
+                            controlCss: "button-icon",
+                            text: Displays.Setting(),
+                            onClick: "$p.uploadSiteImage($(this));",
+                            icon: "ui-icon-disk",
+                            action: "binaries/updatesiteimage",
+                            method: "post")));
         }
 
         /// <summary>
