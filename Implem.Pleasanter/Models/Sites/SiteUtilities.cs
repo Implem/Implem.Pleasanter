@@ -2620,43 +2620,41 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder ViewSortersTab(this HtmlBuilder hb, SiteSettings ss, View view)
         {
-            return hb.FieldSet(
-                id: "ViewSortersTab",
-                action: () => hb
-                    .FieldBasket(
-                        controlId: "ViewSorters",
-                        fieldCss: "field-wide",
-                        controlCss: "control-basket cf",
-                        listItemCollection: view.ColumnSorterHash?.ToDictionary(
-                            o => "{0},{1}".Params(o.Key, o.Value),
-                            o => "{0}({1})".Params(
-                                ss.GetColumn(o.Key)?.LabelText,
-                                Displays.Get("Order" + o.Value.ToString().ToUpperFirstChar()))),
-                        labelAction: () => hb
-                            .Displays_Sorters())
-                    .FieldDropDown(
-                        controlId: "ViewSorterSelector",
-                        fieldCss: "field-auto-thin",
-                        controlCss: " must-transport",
-                        optionCollection: ColumnUtilities.GridDefinitions(ss.ReferenceType)
-                            .Where(o => !view.SorterContains(o.ColumnName))
-                            .ToDictionary(
-                                o => o.ColumnName,
-                                o => ss.GetColumn(o.ColumnName).LabelText))
-                    .FieldDropDown(
-                        controlId: "ViewSorterOrderTypes",
-                        fieldCss: "field-auto-thin",
-                        controlCss: " must-transport",
-                        optionCollection: new Dictionary<string, string>
-                        {
-                            { "Asc", Displays.OrderAsc() },
-                            { "Desc", Displays.OrderDesc() }
-                        })
-                    .Button(
-                        controlId: "AddViewSorter",
-                        controlCss: "button-icon",
-                        text: Displays.Add(),
-                        icon: "ui-icon-plus"));
+            return hb.FieldSet(id: "ViewSortersTab", action: () => hb
+                .FieldBasket(
+                    controlId: "ViewSorters",
+                    fieldCss: "field-wide",
+                    controlCss: "control-basket cf",
+                    listItemCollection: view.ColumnSorterHash?.ToDictionary(
+                        o => "{0},{1}".Params(o.Key, o.Value),
+                        o => "{0}({1})".Params(
+                            ss.GetColumn(o.Key)?.LabelText,
+                            Displays.Get("Order" + o.Value.ToString().ToUpperFirstChar()))),
+                    labelAction: () => hb
+                        .Displays_Sorters())
+                .FieldDropDown(
+                    controlId: "ViewSorterSelector",
+                    fieldCss: "field-auto-thin",
+                    controlCss: " must-transport",
+                    optionCollection: ColumnUtilities.GridDefinitions(ss.ReferenceType)
+                        .Where(o => !view.SorterContains(o.ColumnName))
+                        .ToDictionary(
+                            o => o.ColumnName,
+                            o => ss.GetColumn(o.ColumnName).LabelText))
+                .FieldDropDown(
+                    controlId: "ViewSorterOrderTypes",
+                    fieldCss: "field-auto-thin",
+                    controlCss: " must-transport",
+                    optionCollection: new Dictionary<string, string>
+                    {
+                        { "Asc", Displays.OrderAsc() },
+                        { "Desc", Displays.OrderDesc() }
+                    })
+                .Button(
+                    controlId: "AddViewSorter",
+                    controlCss: "button-icon",
+                    text: Displays.Add(),
+                    icon: "ui-icon-plus"));
         }
 
         /// <summary>
