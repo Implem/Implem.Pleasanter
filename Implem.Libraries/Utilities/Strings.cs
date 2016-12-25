@@ -14,7 +14,7 @@ namespace Implem.Libraries.Utilities
 
         public static bool IsNullOrEmpty(this string self) 
         {
-            return String.IsNullOrEmpty(self); 
+            return string.IsNullOrEmpty(self); 
         }
 
         public static string IsNotEmpty(this string self, string trueStr = null)
@@ -52,7 +52,7 @@ namespace Implem.Libraries.Utilities
             return !self.IsNullOrEmpty()
                 ? strTemp.Length == 1
                     ? strTemp = strTemp.ToLower()
-                    : strTemp = Char.ToLower(strTemp[0]) + strTemp.Substring(1)
+                    : strTemp = char.ToLower(strTemp[0]) + strTemp.Substring(1)
                 : strTemp;
         }
 
@@ -61,7 +61,7 @@ namespace Implem.Libraries.Utilities
             return !self.IsNullOrEmpty()
                 ? self.Length == 1
                     ? self.ToUpper()
-                    : Char.ToUpper(self[0]) + self.Substring(1)
+                    : char.ToUpper(self[0]) + self.Substring(1)
                 : self;
         }
 
