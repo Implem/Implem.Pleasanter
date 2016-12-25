@@ -26,13 +26,6 @@ namespace Implem.Libraries.Utilities
                 : string.Empty;
         }
 
-        public static string IsNotEmpty(this string self, string trueStr, string falseStr)
-        {
-            return !self.IsNullOrEmpty()
-                ? trueStr
-                : falseStr;
-        }
-
         public static string NewGuid()
         {
             return "_{0}_".Params(Guid.NewGuid()
