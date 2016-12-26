@@ -107,6 +107,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             if (codeDefinition.History && columnDefinition.History == 0) return true;
             if (codeDefinition.PkHistory && columnDefinition.PkHistory == 0) return true;
             if (codeDefinition.GridColumn && columnDefinition.GridColumn == 0) return true;
+            if (codeDefinition.FilterColumn && columnDefinition.FilterColumn == 0) return true;
             if (codeDefinition.EditorColumn && !columnDefinition.EditorColumn) return true;
             if (codeDefinition.TitleColumn && columnDefinition.TitleColumn == 0) return true;
             if (codeDefinition.UserColumn && !columnDefinition.UserColumn) return true;
