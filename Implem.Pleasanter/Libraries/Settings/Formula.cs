@@ -119,7 +119,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             if (RawValue != null)
             {
-                formula += RawValue;
+                formula += RawValue.TrimEndZero();
             }
             if (Children != null)
             {
