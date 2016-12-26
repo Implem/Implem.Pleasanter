@@ -40,19 +40,19 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (lessThan)
             {
                 data.Add(
-                    "," + to,
+                    "," + to.TrimEndZero(),
                     new ControlData(Displays.LessThan(fromText)));
             }
             else if (over)
             {
                 data.Add(
-                    from + ",",
+                    from.TrimEndZero() + ",",
                     new ControlData(Displays.Over(fromText)));
             }
             else
             {
                 data.Add(
-                    from + "," + to,
+                    from.TrimEndZero() + "," + to.TrimEndZero(),
                     new ControlData(Displays.Over(fromText)));
             }
         }
