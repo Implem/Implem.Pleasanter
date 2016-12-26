@@ -966,7 +966,6 @@
     <Content Include="App_Data\Displays\Expression.json" />
     <Content Include="App_Data\Displays\Condition.json" />
     <Content Include="App_Data\Displays\OutOfCondition.json" />
-    <Content Include="App_Data\Displays\ToZero.json" />
     <Content Include="App_Data\Displays\Formula.json" />
     <Content Include="App_Data\Displays\Target.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
