@@ -1059,6 +1059,10 @@ namespace Implem.Pleasanter.Models
                     .Class("dialog")
                     .Title(Displays.AdvancedSetting()))
                 .Div(attributes: new HtmlAttributes()
+                    .Id("FormulaDialog")
+                    .Class("dialog")
+                    .Title(Displays.AdvancedSetting()))
+                .Div(attributes: new HtmlAttributes()
                     .Id("ViewDialog")
                     .Class("dialog")
                     .Title(Displays.DataView()))
@@ -2268,19 +2272,9 @@ namespace Implem.Pleasanter.Models
                         controlWrapperCss: " h200",
                         labelText: Displays.SettingColumnList(),
                         listItemCollection: ss.FormulaItemCollection(),
+                        commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-left", action: () => hb
-                                .TextBox(
-                                    controlId: "Formula",
-                                    controlCss: " w250")
-                                .Button(
-                                    controlId: "AddFormula",
-                                    controlCss: "button-icon",
-                                    text: Displays.Add(),
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-plus",
-                                    action: "SetSiteSettings",
-                                    method: "post")
                                 .Button(
                                     controlId: "MoveUpFormulas",
                                     controlCss: "button-icon",
@@ -2297,6 +2291,22 @@ namespace Implem.Pleasanter.Models
                                     icon: "ui-icon-circle-triangle-s",
                                     action: "SetSiteSettings",
                                     method: "post")
+                                .Button(
+                                    controlId: "NewFormula",
+                                    text: Displays.New(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.openFormulaDialog($(this));",
+                                    icon: "ui-icon-gear",
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    controlId: "EditFormula",
+                                    text: Displays.AdvancedSetting(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.openFormulaDialog($(this));",
+                                    icon: "ui-icon-gear",
+                                    action: "SetSiteSettings",
+                                    method: "put")
                                 .Button(
                                     controlId: "DeleteFormulas",
                                     controlCss: "button-icon",
@@ -2315,6 +2325,80 @@ namespace Implem.Pleasanter.Models
                                     action: "SynchronizeFormulas",
                                     method: "put",
                                     confirm: Displays.ConfirmSynchronize()))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder FormulaDialog(
+            SiteSettings ss, string controlId, FormulaSet formulaSet)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("FormulaForm")
+                    .Action(Locations.ItemAction(ss.SiteId)),
+                action: () => hb
+                    .FieldText(
+                        controlId: "FormulaId",
+                        controlCss: " must-transport",
+                        labelText: Displays.Id(),
+                        text: formulaSet.Id.ToString(),
+                        _using: controlId == "EditFormula")
+                    .FieldDropDown(
+                        controlId: "FormulaTarget",
+                        controlCss: " must-transport",
+                        labelText: Displays.Target(),
+                        optionCollection: ss.FormulaTargetSelectableOptions(),
+                        selectedValue: formulaSet.Target?.ToString())
+                    .FieldTextBox(
+                        controlId: "Formula",
+                        controlCss: " must-transport",
+                        fieldCss: "field-wide",
+                        labelText: Displays.Formula(),
+                        text: formulaSet.Formula?.ToString(ss),
+                        validateRequired: true)
+                    .FieldDropDown(
+                        controlId: "FormulaCondition",
+                        controlCss: " must-transport",
+                        labelText: Displays.Condition(),
+                        optionCollection: ss.ViewSelectableOptions(),
+                        selectedValue: formulaSet.Condition?.ToString(),
+                        insertBlank: true)
+                    .FieldTextBox(
+                        fieldId: "FormulaOutOfConditionField",
+                        controlId: "FormulaOutOfCondition",
+                        controlCss: " must-transport",
+                        fieldCss: "field-wide" + (ss.Views.Any(o => o.Id == formulaSet.Condition)
+                            ? string.Empty
+                            : " hidden"),
+                        labelText: Displays.OutOfCondition(),
+                        text: formulaSet.OutOfCondition?.ToString(ss))
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "CreateFormula",
+                            text: Displays.Setting(),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "NewFormula")
+                        .Button(
+                            controlId: "UpdateFormula",
+                            text: Displays.Setting(),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "EditFormula")
+                        .Button(
+                            text: Displays.Cancel(),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
         }
 
         /// <summary>

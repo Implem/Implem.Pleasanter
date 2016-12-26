@@ -3,6 +3,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.HtmlParts;
+using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
@@ -53,7 +54,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<Aggregation> AggregationCollection;
         public List<Link> LinkCollection;
         public List<Summary> SummaryCollection;
-        public Dictionary<string, Formula> FormulaHash;
+        public List<FormulaSet> Formulas;
         public string TitleSeparator = ")";
         public string AddressBook;
         public string MailToDefault;
@@ -74,6 +75,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<string> TitleColumnsOrder;
         public List<string> LinkColumnsOrder;
         public List<string> HistoryColumnsOrder;
+        // compatibility Version 1.004
+        public Dictionary<string, Formula> FormulaHash;
 
         public SiteSettings()
         {
@@ -107,7 +110,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (AggregationCollection == null) AggregationCollection = new List<Aggregation>();
             if (LinkCollection == null) LinkCollection = new List<Link>();
             if (SummaryCollection == null) SummaryCollection = new List<Summary>();
-            if (FormulaHash == null) FormulaHash = new Dictionary<string, Formula>();
+            if (Formulas == null) Formulas = new List<FormulaSet>();
         }
 
         [OnDeserialized]
@@ -149,7 +152,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (self.AggregationCollection.SequenceEqual(def.AggregationCollection)) self.AggregationCollection = null;
             if (self.LinkCollection.SequenceEqual(def.LinkCollection)) self.LinkCollection = null;
             if (self.SummaryCollection.SequenceEqual(def.SummaryCollection)) self.SummaryCollection = null;
-            if (self.FormulaHash.SequenceEqual(def.FormulaHash)) self.FormulaHash = null;
+            if (self.Formulas.SequenceEqual(def.Formulas)) self.Formulas = null;
             if (AddressBook == string.Empty) self.AddressBook = null;
             if (MailToDefault == string.Empty) self.MailToDefault = null;
             if (MailCcDefault == string.Empty) self.MailCcDefault = null;
@@ -487,6 +490,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                 o.ColumnName == columnName && o.HistoryColumn);
         }
 
+        public Column FormulaColumn(string name)
+        {
+            return ColumnCollection
+                .Where(o => o.ColumnName == name || o.LabelText == name)
+                .Where(o => o.Computable)
+                .Where(o => !o.NotUpdate)
+                .Where(o => o.TypeName != "datetime")
+                .FirstOrDefault();
+        }
+
         public IEnumerable<Column> GridColumnCollection()
         {
             return GridColumns
@@ -608,6 +621,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                     this, ColumnUtilities.HistoryDefinitions(ReferenceType)
                         .Where(o => !HistoryColumns.Contains(o.ColumnName))
                         .Select(o => o.ColumnName), enabled);
+        }
+
+        public Dictionary<string, string> FormulaTargetSelectableOptions()
+        {
+            return ColumnCollection
+                .Where(o => o.Computable)
+                .Where(o => !o.NotUpdate)
+                .Where(o => o.TypeName != "datetime")
+                .ToDictionary(o => o.ColumnName, o => o.LabelText);
         }
 
         public Dictionary<string, string> ViewSelectableOptions()
@@ -1100,9 +1122,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .AsEnumerable();
         }
 
-        public void SetFormulas(string controlId, IEnumerable<string> selectedColumns)
+        public void SetFormulas(string controlId, IEnumerable<int> selected)
         {
-            var order = FormulaHash.Keys.ToArray();
+            var order = Formulas.Select(o => o.Id).ToArray();
             switch (controlId)
             {
                 case "MoveUpFormulas":
@@ -1110,49 +1132,42 @@ namespace Implem.Pleasanter.Libraries.Settings
                     if (controlId == "MoveDownFormulas") Array.Reverse(order);
                     order.Select((o, i) => new { ColumnName = o, Index = i }).ForEach(data =>
                     {
-                        if (selectedColumns.Contains(data.ColumnName))
+                        if (selected.Contains(data.ColumnName))
                         {
                             if (data.Index > 0 &&
-                                !selectedColumns.Contains(order[data.Index - 1]))
+                                !selected.Contains(order[data.Index - 1]))
                             {
                                 order = Arrays.Swap(order, data.Index, data.Index - 1);
                             }
                         }
                     });
                     if (controlId == "MoveDownFormulas") Array.Reverse(order);
-                    FormulaHash = order
-                        .Where(o => FormulaHash.Keys.Contains(o))
-                        .ToDictionary(o => o, o => FormulaHash[o]);
+                    Formulas = order
+                        .Select(o => Formulas.FirstOrDefault(p => p.Id == o ))
+                        .Where(o => o != null)
+                        .ToList();
                     break;
             }
         }
 
-        public void DeleteFormulas(IEnumerable<string> selected)
+        public void DeleteFormulas(IEnumerable<int> selected)
         {
-            FormulaHash.RemoveAll((key, value) => selected.Contains(key));
-        }
-
-        public Column FormulaColumn(string name)
-        {
-            return ColumnCollection
-                .Where(o => o.ColumnName == name || o.LabelText == name)
-                .Where(o => o.Computable)
-                .Where(o => o.TypeName != "datetime")
-                .FirstOrDefault();
+            Formulas.RemoveAll(o => selected.Contains(o.Id));
         }
 
         public Dictionary<string, string> FormulaItemCollection()
         {
-            return FormulaHash.ToDictionary(
-                o => o.Key,
-                o =>
-                    FormulaColumn(o.Key).LabelText + " = " +
-                    o.Value.ToString(this));
+            return Formulas?.ToDictionary(
+                o => o.Id.ToString(),
+                o => o.ToString(this));
         }
 
-        public decimal FormulaResult(string columnName, Dictionary<string, decimal> data)
+        public decimal FormulaResult(
+            string columnName, Formula formula, Dictionary<string, decimal> data)
         {
-            return GetColumn(columnName).Round(FormulaHash[columnName].GetResult(data));
+            return formula != null
+                ? GetColumn(columnName).Round(formula.GetResult(data))
+                : data[columnName];
         }
     }
 }

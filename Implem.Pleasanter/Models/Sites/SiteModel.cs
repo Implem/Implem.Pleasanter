@@ -420,6 +420,22 @@ namespace Implem.Pleasanter.Models
             SetSiteSettings();
         }
 
+        private bool Matched(View view)
+        {
+            foreach (var filter in view.ColumnFilterHash)
+            {
+                var match = true;
+                var column = SiteSettings.GetColumn(filter.Key);
+                switch (filter.Key)
+                {
+                    case "UpdatedTime": match = UpdatedTime.Value.Matched(column, filter.Value); break;
+                    case "CreatedTime": match = CreatedTime.Value.Matched(column, filter.Value); break;
+                }
+                if (!match) return false;
+            }
+            return true;
+        }
+
         private void SetBySession()
         {
             if (!Forms.HasData("Sites_SiteSettings")) SiteSettings = Session_SiteSettings();
@@ -662,8 +678,15 @@ namespace Implem.Pleasanter.Models
                 case "MoveDownFormulas":
                     SetFormulas(res, controlId);
                     break;
-                case "AddFormula":
-                    AddFormula(res);
+                case "NewFormula":
+                case "EditFormula":
+                    OpenFormulaDialog(res, controlId);
+                    break;
+                case "CreateFormula":
+                    CreateFormula(res);
+                    break;
+                case "UpdateFormula":
+                    UpdateFormula(res);
                     break;
                 case "DeleteFormulas":
                     DeleteFormulas(res);
@@ -1187,20 +1210,71 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetFormulas(ResponseCollection res, string controlId)
         {
-            var selectedColumns = Forms.List("Formulas");
-            SiteSettings.SetFormulas(controlId, selectedColumns);
+            var selected = Forms.IntList("Formulas");
+            SiteSettings.SetFormulas(controlId, selected);
             res.Html("#Formulas", new HtmlBuilder()
                 .SelectableItems(
                     listItemCollection: SiteSettings.FormulaItemCollection(),
-                    selectedValueTextCollection: selectedColumns));
+                    selectedValueTextCollection: selected.Select(o => o.ToString())));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void AddFormula(ResponseCollection res)
+        private void OpenFormulaDialog(ResponseCollection res, string controlId)
         {
-            var error = SiteSettings.AddFormula(Forms.Data("Formula"));
+            FormulaSet formulaSet;
+            if (controlId == "NewFormula")
+            {
+                formulaSet = new FormulaSet();
+                OpenFormulaDialog(res, formulaSet);
+            }
+            else
+            {
+                var idList = Forms.IntList("Formulas", ';');
+                if (idList.Count() != 1)
+                {
+                    OpenDialogError(res, Messages.SelectOne());
+                }
+                else
+                {
+                    formulaSet = SiteSettings.Formulas
+                        .FirstOrDefault(o => o.Id == idList.First());
+                    if (formulaSet == null)
+                    {
+                        OpenDialogError(res, Messages.SelectOne());
+                    }
+                    else
+                    {
+                        SiteSettingsUtility.Get(this);
+                        OpenFormulaDialog(res, formulaSet);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenFormulaDialog(ResponseCollection res, FormulaSet formulaSet)
+        {
+            res.Html("#FormulaDialog", SiteUtilities.FormulaDialog(
+                ss: SiteSettings, controlId: Forms.ControlId(), formulaSet: formulaSet));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CreateFormula(ResponseCollection res)
+        {
+            var outOfCondition = Forms.Data("FormulaOutOfCondition").Trim();
+            var error = SiteSettings.AddFormula(
+                Forms.Data("FormulaTarget"),
+                Forms.Int("FormulaCondition"),
+                Forms.Data("Formula"),
+                outOfCondition != string.Empty
+                    ? outOfCondition
+                    : null);
             if (error.Has())
             {
                 res.Message(error.Message());
@@ -1210,7 +1284,39 @@ namespace Implem.Pleasanter.Models
                 res
                     .Html("#Formulas", new HtmlBuilder()
                         .SelectableItems(listItemCollection: SiteSettings.FormulaItemCollection()))
-                    .Val("#Formula", string.Empty);
+                    .Val("#Formula", string.Empty)
+                    .CloseDialog();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateFormula(ResponseCollection res)
+        {
+            var id = Forms.Int("FormulaId");
+            var outOfCondition = Forms.Data("FormulaOutOfCondition").Trim();
+            var error = SiteSettings.UpdateFormula(
+                id,
+                Forms.Data("FormulaTarget"),
+                Forms.Int("FormulaCondition"),
+                Forms.Data("Formula"),
+                outOfCondition != string.Empty
+                    ? outOfCondition
+                    : null);
+            if (error.Has())
+            {
+                res.Message(error.Message());
+            }
+            else
+            {
+                res
+                    .Html("#Formulas", new HtmlBuilder()
+                        .SelectableItems(
+                            listItemCollection: SiteSettings.FormulaItemCollection(),
+                            selectedValueTextCollection: new List<string> { id.ToString() }))
+                    .Val("#Formula", string.Empty)
+                    .CloseDialog();
             }
         }
 
@@ -1219,7 +1325,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void DeleteFormulas(ResponseCollection res)
         {
-            SiteSettings.DeleteFormulas(Forms.Data("Formulas").Split(';'));
+            SiteSettings.DeleteFormulas(Forms.IntList("Formulas", ';'));
             res
                 .Html("#Formulas", new HtmlBuilder()
                     .SelectableItems(listItemCollection: SiteSettings.FormulaItemCollection()))
@@ -1259,14 +1365,14 @@ namespace Implem.Pleasanter.Models
                 var idList = Forms.IntList("Views", ';');
                 if (idList.Count() != 1)
                 {
-                    OpenViewError(res, Messages.SelectOne());
+                    OpenDialogError(res, Messages.SelectOne());
                 }
                 else
                 {
                     view = SiteSettings.Views.FirstOrDefault(o => o.Id == idList.First());
                     if (view == null)
                     {
-                        OpenViewError(res, Messages.SelectOne());
+                        OpenDialogError(res, Messages.SelectOne());
                     }
                     else
                     {
@@ -1286,16 +1392,6 @@ namespace Implem.Pleasanter.Models
                 ss: SiteSettings,
                 controlId: Forms.ControlId(),
                 view: view));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void OpenViewError(ResponseCollection res, Message message)
-        {
-            res
-                .Message(message)
-                .CloseDialog();
         }
 
         /// <summary>
@@ -1566,6 +1662,16 @@ namespace Implem.Pleasanter.Models
             destinations.Clear();
             destinations.AddRange(sources);
             sources.Clear();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenDialogError(ResponseCollection res, Message message)
+        {
+            res
+                .Message(message)
+                .CloseDialog();
         }
     }
 }

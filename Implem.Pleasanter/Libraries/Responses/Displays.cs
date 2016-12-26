@@ -124,6 +124,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string CommentDeleted(params string[] data) { return Get("CommentDeleted", data); }
         public static HtmlBuilder Displays_Comments(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Comments", data)); }
         public static string Comments(params string[] data) { return Get("Comments", data); }
+        public static HtmlBuilder Displays_Condition(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Condition", data)); }
+        public static string Condition(params string[] data) { return Get("Condition", data); }
         public static HtmlBuilder Displays_ConfirmDelete(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ConfirmDelete", data)); }
         public static string ConfirmDelete(params string[] data) { return Get("ConfirmDelete", data); }
         public static HtmlBuilder Displays_ConfirmSendMail(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ConfirmSendMail", data)); }
@@ -250,6 +252,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string FileUpdateCompleted(params string[] data) { return Get("FileUpdateCompleted", data); }
         public static HtmlBuilder Displays_Filters(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Filters", data)); }
         public static string Filters(params string[] data) { return Get("Filters", data); }
+        public static HtmlBuilder Displays_Formula(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Formula", data)); }
+        public static string Formula(params string[] data) { return Get("Formula", data); }
         public static HtmlBuilder Displays_Fy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Fy", data)); }
         public static string Fy(params string[] data) { return Get("Fy", data); }
         public static HtmlBuilder Displays_Gantt(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Gantt", data)); }
@@ -492,6 +496,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Others(params string[] data) { return Get("Others", data); }
         public static HtmlBuilder Displays_OutgoingMail(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("OutgoingMail", data)); }
         public static string OutgoingMail(params string[] data) { return Get("OutgoingMail", data); }
+        public static HtmlBuilder Displays_OutOfCondition(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("OutOfCondition", data)); }
+        public static string OutOfCondition(params string[] data) { return Get("OutOfCondition", data); }
         public static HtmlBuilder Displays_Output(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Output", data)); }
         public static string Output(params string[] data) { return Get("Output", data); }
         public static HtmlBuilder Displays_Over(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Over", data)); }
@@ -678,6 +684,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SynchronizationCompleted(params string[] data) { return Get("SynchronizationCompleted", data); }
         public static HtmlBuilder Displays_Synchronize(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Synchronize", data)); }
         public static string Synchronize(params string[] data) { return Get("Synchronize", data); }
+        public static HtmlBuilder Displays_Target(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Target", data)); }
+        public static string Target(params string[] data) { return Get("Target", data); }
         public static HtmlBuilder Displays_TimeSeries(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("TimeSeries", data)); }
         public static string TimeSeries(params string[] data) { return Get("TimeSeries", data); }
         public static HtmlBuilder Displays_Title(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Title", data)); }

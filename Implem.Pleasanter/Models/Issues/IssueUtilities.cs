@@ -1013,41 +1013,43 @@ namespace Implem.Pleasanter.Models
             Permissions.Types pt,
             IssueModel issueModel)
         {
-            issueModel.SiteSettings.FormulaHash?.Keys.ForEach(columnName =>
-            {
-                var column = issueModel.SiteSettings.GetColumn(columnName);
-                switch (columnName)
+            issueModel.SiteSettings.Formulas
+                .Select(o => issueModel.SiteSettings.GetColumn(o.Target))
+                .Where(o => o != null)
+                .ForEach(column =>
                 {
-                    case "WorkValue": res.Val("#Issues_WorkValue", issueModel.WorkValue.ToControl(column, pt)); break;
-                    case "NumA": res.Val("#Issues_NumA", issueModel.NumA.ToControl(column, pt)); break;
-                    case "NumB": res.Val("#Issues_NumB", issueModel.NumB.ToControl(column, pt)); break;
-                    case "NumC": res.Val("#Issues_NumC", issueModel.NumC.ToControl(column, pt)); break;
-                    case "NumD": res.Val("#Issues_NumD", issueModel.NumD.ToControl(column, pt)); break;
-                    case "NumE": res.Val("#Issues_NumE", issueModel.NumE.ToControl(column, pt)); break;
-                    case "NumF": res.Val("#Issues_NumF", issueModel.NumF.ToControl(column, pt)); break;
-                    case "NumG": res.Val("#Issues_NumG", issueModel.NumG.ToControl(column, pt)); break;
-                    case "NumH": res.Val("#Issues_NumH", issueModel.NumH.ToControl(column, pt)); break;
-                    case "NumI": res.Val("#Issues_NumI", issueModel.NumI.ToControl(column, pt)); break;
-                    case "NumJ": res.Val("#Issues_NumJ", issueModel.NumJ.ToControl(column, pt)); break;
-                    case "NumK": res.Val("#Issues_NumK", issueModel.NumK.ToControl(column, pt)); break;
-                    case "NumL": res.Val("#Issues_NumL", issueModel.NumL.ToControl(column, pt)); break;
-                    case "NumM": res.Val("#Issues_NumM", issueModel.NumM.ToControl(column, pt)); break;
-                    case "NumN": res.Val("#Issues_NumN", issueModel.NumN.ToControl(column, pt)); break;
-                    case "NumO": res.Val("#Issues_NumO", issueModel.NumO.ToControl(column, pt)); break;
-                    case "NumP": res.Val("#Issues_NumP", issueModel.NumP.ToControl(column, pt)); break;
-                    case "NumQ": res.Val("#Issues_NumQ", issueModel.NumQ.ToControl(column, pt)); break;
-                    case "NumR": res.Val("#Issues_NumR", issueModel.NumR.ToControl(column, pt)); break;
-                    case "NumS": res.Val("#Issues_NumS", issueModel.NumS.ToControl(column, pt)); break;
-                    case "NumT": res.Val("#Issues_NumT", issueModel.NumT.ToControl(column, pt)); break;
-                    case "NumU": res.Val("#Issues_NumU", issueModel.NumU.ToControl(column, pt)); break;
-                    case "NumV": res.Val("#Issues_NumV", issueModel.NumV.ToControl(column, pt)); break;
-                    case "NumW": res.Val("#Issues_NumW", issueModel.NumW.ToControl(column, pt)); break;
-                    case "NumX": res.Val("#Issues_NumX", issueModel.NumX.ToControl(column, pt)); break;
-                    case "NumY": res.Val("#Issues_NumY", issueModel.NumY.ToControl(column, pt)); break;
-                    case "NumZ": res.Val("#Issues_NumZ", issueModel.NumZ.ToControl(column, pt)); break;
-                    default: break;
-                }
-            });
+                    switch (column.ColumnName)
+                    {
+                        case "WorkValue": res.Val("#Issues_WorkValue", issueModel.WorkValue.ToControl(column, pt)); break;
+                        case "NumA": res.Val("#Issues_NumA", issueModel.NumA.ToControl(column, pt)); break;
+                        case "NumB": res.Val("#Issues_NumB", issueModel.NumB.ToControl(column, pt)); break;
+                        case "NumC": res.Val("#Issues_NumC", issueModel.NumC.ToControl(column, pt)); break;
+                        case "NumD": res.Val("#Issues_NumD", issueModel.NumD.ToControl(column, pt)); break;
+                        case "NumE": res.Val("#Issues_NumE", issueModel.NumE.ToControl(column, pt)); break;
+                        case "NumF": res.Val("#Issues_NumF", issueModel.NumF.ToControl(column, pt)); break;
+                        case "NumG": res.Val("#Issues_NumG", issueModel.NumG.ToControl(column, pt)); break;
+                        case "NumH": res.Val("#Issues_NumH", issueModel.NumH.ToControl(column, pt)); break;
+                        case "NumI": res.Val("#Issues_NumI", issueModel.NumI.ToControl(column, pt)); break;
+                        case "NumJ": res.Val("#Issues_NumJ", issueModel.NumJ.ToControl(column, pt)); break;
+                        case "NumK": res.Val("#Issues_NumK", issueModel.NumK.ToControl(column, pt)); break;
+                        case "NumL": res.Val("#Issues_NumL", issueModel.NumL.ToControl(column, pt)); break;
+                        case "NumM": res.Val("#Issues_NumM", issueModel.NumM.ToControl(column, pt)); break;
+                        case "NumN": res.Val("#Issues_NumN", issueModel.NumN.ToControl(column, pt)); break;
+                        case "NumO": res.Val("#Issues_NumO", issueModel.NumO.ToControl(column, pt)); break;
+                        case "NumP": res.Val("#Issues_NumP", issueModel.NumP.ToControl(column, pt)); break;
+                        case "NumQ": res.Val("#Issues_NumQ", issueModel.NumQ.ToControl(column, pt)); break;
+                        case "NumR": res.Val("#Issues_NumR", issueModel.NumR.ToControl(column, pt)); break;
+                        case "NumS": res.Val("#Issues_NumS", issueModel.NumS.ToControl(column, pt)); break;
+                        case "NumT": res.Val("#Issues_NumT", issueModel.NumT.ToControl(column, pt)); break;
+                        case "NumU": res.Val("#Issues_NumU", issueModel.NumU.ToControl(column, pt)); break;
+                        case "NumV": res.Val("#Issues_NumV", issueModel.NumV.ToControl(column, pt)); break;
+                        case "NumW": res.Val("#Issues_NumW", issueModel.NumW.ToControl(column, pt)); break;
+                        case "NumX": res.Val("#Issues_NumX", issueModel.NumX.ToControl(column, pt)); break;
+                        case "NumY": res.Val("#Issues_NumY", issueModel.NumY.ToControl(column, pt)); break;
+                        case "NumZ": res.Val("#Issues_NumZ", issueModel.NumZ.ToControl(column, pt)); break;
+                        default: break;
+                    }
+                });
             return res;
         }
 

@@ -227,10 +227,13 @@
     <Compile Include="Libraries\DataTypes\TitleBody.cs" />
     <Compile Include="Libraries\DataTypes\User.cs" />
     <Compile Include="Libraries\DataTypes\WorkValue.cs" />
+    <Compile Include="Libraries\Migrators\SiteSettings\Version1_005.cs" />
     <Compile Include="Libraries\Responses\Displays.cs" />
     <Compile Include="Libraries\Server\UpdateMonitor.cs" />
     <Compile Include="Libraries\Settings\DateColumnExtensions.cs" />
+    <Compile Include="Libraries\Settings\FormulaSet.cs" />
     <Compile Include="Libraries\Settings\NumColumnExtensions.cs" />
+    <Compile Include="Libraries\Converts\MatchExtensions.cs" />
     <Compile Include="Libraries\ViewModes\BurnDown.cs" />
     <Compile Include="Libraries\ViewModes\BurnDownElement.cs" />
     <Compile Include="Libraries\ViewModes\Gantt.cs" />
@@ -290,7 +293,7 @@
     <Compile Include="Libraries\Settings\Aggregation.cs" />
     <Compile Include="Libraries\Models\Aggregations.cs" />
     <Compile Include="Libraries\Settings\Formula.cs" />
-    <Compile Include="Libraries\Models\FormulaBuilder.cs" />
+    <Compile Include="Libraries\Settings\FormulaBuilder.cs" />
     <Compile Include="Libraries\Models\FormulaUtilities.cs" />
     <Compile Include="Libraries\Models\Imports.cs" />
     <Compile Include="Libraries\Models\Summaries.cs" />
@@ -961,6 +964,11 @@
     <Content Include="App_Data\Displays\BeforeCondition.json" />
     <Content Include="App_Data\Displays\AfterCondition.json" />
     <Content Include="App_Data\Displays\Expression.json" />
+    <Content Include="App_Data\Displays\Condition.json" />
+    <Content Include="App_Data\Displays\OutOfCondition.json" />
+    <Content Include="App_Data\Displays\ToZero.json" />
+    <Content Include="App_Data\Displays\Formula.json" />
+    <Content Include="App_Data\Displays\Target.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

@@ -346,25 +346,6 @@ namespace Implem.Pleasanter.Models
             return Error.Types.None;
         }
 
-        public void UpdateFormulaColumns()
-        {
-            SetByFormula();
-            var param = Rds.WikisParam();
-            SiteSettings.FormulaHash.Keys.ForEach(columnName =>
-            {
-                switch (columnName)
-                {
-                    default: break;
-                }
-            });
-            Rds.ExecuteNonQuery(statements:
-                Rds.UpdateWikis(
-                    param: param,
-                    where: Rds.WikisWhereDefault(this),
-                    addUpdatedTimeParam: false,
-                    addUpdatorParam: false));
-        }
-
         private void SetByForm()
         {
             Forms.Keys().ForEach(controlId =>
@@ -394,12 +375,46 @@ namespace Implem.Pleasanter.Models
             SetByFormula();
         }
 
+        public void UpdateFormulaColumns()
+        {
+            SetByFormula();
+            var param = Rds.WikisParam();
+            SiteSettings.Formulas.ForEach(formulaSet =>
+            {
+                switch (formulaSet.Target)
+                {
+                    default: break;
+                }
+            });
+            Rds.ExecuteNonQuery(statements:
+                Rds.UpdateWikis(
+                    param: param,
+                    where: Rds.WikisWhereDefault(this),
+                    addUpdatedTimeParam: false,
+                    addUpdatorParam: false));
+        }
+
         private void SetByFormula()
         {
-            if (SiteSettings.FormulaHash?.Count > 0)
+            if (SiteSettings.Formulas?.Count > 0)
             {
-                SiteSettings.FormulaHash.Keys.ForEach(columnName =>
+                SiteSettings.Formulas.ForEach(formulaSet =>
                 {
+                    var columnName = formulaSet.Target;
+                    var formula = formulaSet.Formula;
+                    var view = SiteSettings.Views?.FirstOrDefault(o =>
+                        o.Id == formulaSet.Condition);
+                    if (view != null && !Matched(view))
+                    {
+                        if (formulaSet.OutOfCondition != null)
+                        {
+                            formula = formulaSet.OutOfCondition;
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
                     var data = new Dictionary<string, decimal>
                     {
                     };
@@ -409,6 +424,22 @@ namespace Implem.Pleasanter.Models
                     }
                 });
             }
+        }
+
+        private bool Matched(View view)
+        {
+            foreach (var filter in view.ColumnFilterHash)
+            {
+                var match = true;
+                var column = SiteSettings.GetColumn(filter.Key);
+                switch (filter.Key)
+                {
+                    case "UpdatedTime": match = UpdatedTime.Value.Matched(column, filter.Value); break;
+                    case "CreatedTime": match = CreatedTime.Value.Matched(column, filter.Value); break;
+                }
+                if (!match) return false;
+            }
+            return true;
         }
 
         private void CheckNotificationConditions(bool before = false)

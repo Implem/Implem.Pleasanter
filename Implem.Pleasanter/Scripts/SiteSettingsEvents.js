@@ -27,6 +27,9 @@
         $p.getData($control)[$control.attr('id') + "Id"] = $(this).attr('data-id');
         $p.send($control);
     });
+    $(document).on('change', '#FormulaCondition', function () {
+        $('#FormulaOutOfConditionField').toggle($(this).val() !== '');
+    });
     $(document).on('click', '#AddViewSorter', function () {
         var $dataViewSorter = $('#ViewSorterSelector option:selected');
         var $dataViewSorterOrderType = $('#ViewSorterOrderTypes option:selected');

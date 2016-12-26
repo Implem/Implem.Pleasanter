@@ -42,6 +42,11 @@ $p.openEditorColumnDialog = function ($control) {
     $p.openSiteSettingsDialog($control, '#EditorColumnDialog');
 }
 
+$p.openFormulaDialog = function ($control) {
+    $p.data.FormulaForm = {};
+    $p.openSiteSettingsDialog($control, '#FormulaDialog', 'body');
+}
+
 $p.openViewDialog = function ($control) {
     $p.data.ViewForm = {};
     $p.openSiteSettingsDialog($control, '#ViewDialog', 'body');
