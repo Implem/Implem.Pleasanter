@@ -11,6 +11,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public OperatorTypes OperatorType = OperatorTypes.NotSet;
         public List<Formula> Children;
         [NonSerialized]
+        private bool Processed;
+        [NonSerialized]
         private decimal Result = 0;
 
         public enum OperatorTypes
@@ -38,58 +40,55 @@ namespace Implem.Pleasanter.Libraries.Settings
             return formula;
         }
 
-        public decimal GetResult(Dictionary<string, decimal> data, bool children = false)
+        public decimal GetResult(Dictionary<string, decimal> data, bool root = true)
         {
-            if (!children)
+            if (root) ClearResults();
+            if (!Processed)
             {
-                Children?.ForEach(formula => formula.SetValue(data));
+                Result = ColumnName != null && data.ContainsKey(ColumnName)
+                    ? data[ColumnName]
+                    : RawValue.ToDecimal();
+                Formula before = null;
+                Children?.ForEach(formula =>
+                {
+                    var result = formula.GetResult(data, root: false);
+                    switch (formula.OperatorType)
+                    {
+                        case OperatorTypes.Multiplication:
+                            before.Result *= result;
+                            break;
+                        case OperatorTypes.Division:
+                            before.Result = result != 0
+                                ? before.Result / result
+                                : 0;
+                            break;
+                        default:
+                            before = formula;
+                            break;
+                    }
+                });
+                Children?.ForEach(formula =>
+                {
+                    var result = formula.GetResult(data, root: false);
+                    switch (formula.OperatorType)
+                    {
+                        case OperatorTypes.NotSet:
+                        case OperatorTypes.Addition:
+                            Result += result;
+                            break;
+                        case OperatorTypes.Subtraction:
+                            Result -= result;
+                            break;
+                    }
+                });
+                Processed = true;
             }
-            Formula before = null;
-            Children?.ForEach(formula =>
-            {
-                var childResult = formula.GetResult(data, children: true);
-                switch (formula.OperatorType)
-                {
-                    case OperatorTypes.Multiplication:
-                        before.Result *= childResult;
-                        break;
-                    case OperatorTypes.Division:
-                        before.Result = childResult != 0
-                            ? before.Result / childResult
-                            : 0;
-                        break;
-                    default:
-                        before = formula;
-                        break;
-                }
-            });
-            Children?.ForEach(formula =>
-            {
-                switch (formula.OperatorType)
-                {
-                    case OperatorTypes.NotSet:
-                    case OperatorTypes.Addition:
-                        Result += formula.GetResult(data, children: true);
-                        break;
-                    case OperatorTypes.Subtraction:
-                        Result -= formula.GetResult(data, children: true);
-                        break;
-                }
-            });
-            var result = Result;
-            if (!children) ClearResults();
-            return result;
-        }
-
-        private void SetValue(Dictionary<string, decimal> data)
-        {
-            Result = ColumnName != null && data.ContainsKey(ColumnName)
-                ? data[ColumnName]
-                : RawValue.ToDecimal();
+            return Result;
         }
 
         private void ClearResults()
         {
+            Processed = false;
             Result = 0;
             Children?.ForEach(formula => formula.ClearResults());
         }
