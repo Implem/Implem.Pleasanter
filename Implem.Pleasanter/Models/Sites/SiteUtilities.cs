@@ -2369,9 +2369,10 @@ namespace Implem.Pleasanter.Models
                         fieldId: "FormulaOutOfConditionField",
                         controlId: "FormulaOutOfCondition",
                         controlCss: " must-transport",
-                        fieldCss: "field-wide" + (ss.Views.Any(o => o.Id == formulaSet.Condition)
-                            ? string.Empty
-                            : " hidden"),
+                        fieldCss: "field-wide" + (ss.Views?
+                            .Any(o => o.Id == formulaSet.Condition) == true
+                                ? string.Empty
+                                : " hidden"),
                         labelText: Displays.OutOfCondition(),
                         text: formulaSet.OutOfCondition?.ToString(ss))
                     .P(css: "message-dialog")
