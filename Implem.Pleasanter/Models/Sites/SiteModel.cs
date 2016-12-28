@@ -422,16 +422,19 @@ namespace Implem.Pleasanter.Models
 
         private bool Matched(View view)
         {
-            foreach (var filter in view.ColumnFilterHash)
+            if (view.ColumnFilterHash != null)
             {
-                var match = true;
-                var column = SiteSettings.GetColumn(filter.Key);
-                switch (filter.Key)
+                foreach (var filter in view.ColumnFilterHash)
                 {
-                    case "UpdatedTime": match = UpdatedTime.Value.Matched(column, filter.Value); break;
-                    case "CreatedTime": match = CreatedTime.Value.Matched(column, filter.Value); break;
+                    var match = true;
+                    var column = SiteSettings.GetColumn(filter.Key);
+                    switch (filter.Key)
+                    {
+                        case "UpdatedTime": match = UpdatedTime.Value.Matched(column, filter.Value); break;
+                        case "CreatedTime": match = CreatedTime.Value.Matched(column, filter.Value); break;
+                    }
+                    if (!match) return false;
                 }
-                if (!match) return false;
             }
             return true;
         }
