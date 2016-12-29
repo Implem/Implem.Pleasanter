@@ -1465,6 +1465,7 @@ namespace Implem.Pleasanter.Models
                     Notification.Types.Mail,
                     string.Empty,
                     string.Empty,
+                    string.Empty,
                     SiteSettings.EditorColumns
                         .Concat(new List<string> { "Comments" }).ToList());
             if (notification == null)
@@ -1490,6 +1491,7 @@ namespace Implem.Pleasanter.Models
                 (Notification.Types)Forms.Int("NotificationType"),
                 Forms.Data("NotificationPrefix"),
                 Forms.Data("NotificationAddress"),
+                Forms.Data("NotificationToken"),
                 Session_MonitorChangesColumns(),
                 Forms.Int("BeforeCondition"),
                 Forms.Int("AfterCondition"),
@@ -1512,6 +1514,7 @@ namespace Implem.Pleasanter.Models
                 notification.Update(
                     Forms.Data("NotificationPrefix"),
                     Forms.Data("NotificationAddress"),
+                    Forms.Data("NotificationToken"),
                     Session_MonitorChangesColumns(),
                     Forms.Int("BeforeCondition"),
                     Forms.Int("AfterCondition"),

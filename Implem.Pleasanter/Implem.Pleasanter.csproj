@@ -210,6 +210,7 @@
     <Compile Include="Libraries\Converts\ToControlExtensions.cs" />
     <Compile Include="Libraries\Converts\ToExportExtensions.cs" />
     <Compile Include="Libraries\Converts\ToResponseExtensions.cs" />
+    <Compile Include="Libraries\DataSources\ChatWork.cs" />
     <Compile Include="Libraries\DataSources\Ldap.cs" />
     <Compile Include="Libraries\DataSources\Rds.cs" />
     <Compile Include="Libraries\DataSources\SendGridMail.cs" />
@@ -968,6 +969,8 @@
     <Content Include="App_Data\Displays\OutOfCondition.json" />
     <Content Include="App_Data\Displays\Formula.json" />
     <Content Include="App_Data\Displays\Target.json" />
+    <Content Include="App_Data\Displays\ChatWork.json" />
+    <Content Include="App_Data\Displays\Token.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

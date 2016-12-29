@@ -2867,8 +2867,18 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.NotificationType(),
                         optionCollection: new Dictionary<string, string>
                         {
-                            { Notification.Types.Mail.ToInt().ToString(), Displays.Mail() },
-                            { Notification.Types.Slack.ToInt().ToString(), Displays.Slack() }
+                            {
+                                Notification.Types.Mail.ToInt().ToString(),
+                                Displays.Mail()
+                            },
+                            {
+                                Notification.Types.Slack.ToInt().ToString(),
+                                Displays.Slack()
+                            },
+                            {
+                                Notification.Types.ChatWork.ToInt().ToString(),
+                                Displays.ChatWork()
+                            }
                         },
                         selectedValue: notification.Type.ToInt().ToString(),
                         disabled: controlId == "EditNotification")
@@ -2884,7 +2894,19 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Address(),
                         text: notification.Address,
                         validateRequired: true)
-                    .Div(_using: ss.Views.Any(), action: () => hb
+                    .FieldTextBox(
+                        fieldId: "NotificationTokenField",
+                        controlId: "NotificationToken",
+                        fieldCss: "field-wide" + (!TokenList().Contains(notification.Type.ToInt())
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " must-transport",
+                        labelText: Displays.Token(),
+                        text: notification.Token)
+                    .Hidden(
+                        controlId: "NotificationTokenEnableList",
+                        value: TokenList().Join())
+                    .Div(_using: ss.Views?.Any() == true, action: () => hb
                         .FieldDropDown(
                             controlId: "BeforeCondition",
                             controlCss: " must-transport",
@@ -3004,6 +3026,14 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static IEnumerable<int> TokenList()
+        {
+            return new List<int> { Notification.Types.ChatWork.ToInt() };
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static HtmlBuilder NotificationSettings(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.Table(id: "NotificationSettings", css: "grid", action: () => hb
@@ -3051,17 +3081,17 @@ namespace Implem.Pleasanter.Models
                                 .Td(action: () => hb
                                     .Text(text: data.Notification.Address))
                                 .Td(action: () => hb
-                                    .Text(text: data.Notification.MonitorChangesColumns
+                                    .Text(text: data.Notification.MonitorChangesColumns?
                                         .Select(o => ss.GetColumn(o).LabelText)
                                         .Join(", ")))
                                 .Td(action: () => hb
-                                    .Text(text: ss.Views.FirstOrDefault(o =>
+                                    .Text(text: ss.Views?.FirstOrDefault(o =>
                                         o.Id == data.Notification.BeforeCondition)?.Name))
                                 .Td(action: () => hb
                                     .Text(text: Displays.Get(
                                         data.Notification.Expression.ToString())))
                                 .Td(action: () => hb
-                                    .Text(text: ss.Views.FirstOrDefault(o =>
+                                    .Text(text: ss.Views?.FirstOrDefault(o =>
                                         o.Id == data.Notification.AfterCondition)?.Name))
                                 .Td(action: () => hb
                                     .Button(

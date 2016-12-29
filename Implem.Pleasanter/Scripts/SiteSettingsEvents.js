@@ -22,6 +22,14 @@
         }
         $p.setData($('#Format'));
     });
+    $(document).on('change', '#NotificationType', function () {
+
+        $('#NotificationTokenField').toggle(
+            $('#NotificationTokenEnableList').val()
+                .split(',')
+                .indexOf($('#NotificationType').val()) !== -1);
+
+    });
     $(document).on('click', '#SummarySettings .grid-row button', function () {
         var $control = $($(this).attr('data-selector'))
         $p.getData($control)[$control.attr('id') + "Id"] = $(this).attr('data-id');

@@ -106,6 +106,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ChangingPasswordComplete(params string[] data) { return Get("ChangingPasswordComplete", data); }
         public static HtmlBuilder Displays_CharacterCode(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CharacterCode", data)); }
         public static string CharacterCode(params string[] data) { return Get("CharacterCode", data); }
+        public static HtmlBuilder Displays_ChatWork(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ChatWork", data)); }
+        public static string ChatWork(params string[] data) { return Get("ChatWork", data); }
         public static HtmlBuilder Displays_CheckAll(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CheckAll", data)); }
         public static string CheckAll(params string[] data) { return Get("CheckAll", data); }
         public static HtmlBuilder Displays_CodeDefinerBackupCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CodeDefinerBackupCompleted", data)); }
@@ -694,6 +696,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ToDisable(params string[] data) { return Get("ToDisable", data); }
         public static HtmlBuilder Displays_ToEnable(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ToEnable", data)); }
         public static string ToEnable(params string[] data) { return Get("ToEnable", data); }
+        public static HtmlBuilder Displays_Token(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Token", data)); }
+        public static string Token(params string[] data) { return Get("Token", data); }
         public static HtmlBuilder Displays_Top(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Top", data)); }
         public static string Top(params string[] data) { return Get("Top", data); }
         public static HtmlBuilder Displays_ToParent(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ToParent", data)); }

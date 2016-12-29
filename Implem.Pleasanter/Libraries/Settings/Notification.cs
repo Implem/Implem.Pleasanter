@@ -15,6 +15,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Types Type;
         public string Prefix;
         public string Address;
+        public string Token;
         public List<string> MonitorChangesColumns;
         public int BeforeCondition;
         public int AfterCondition;
@@ -25,7 +26,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public enum Types : int
         {
             Mail = 1,
-            Slack = 2
+            Slack = 2,
+            ChatWork = 3
         }
 
         public enum Expressions : int
@@ -38,6 +40,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Types type,
             string prefix,
             string address,
+            string token,
             List<string> monitorChangesColumns,
             int beforeCondition = 0,
             int afterCondition = 0,
@@ -46,6 +49,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Type = type;
             Prefix = prefix;
             Address = address;
+            Token = token;
             MonitorChangesColumns = monitorChangesColumns;
             MonitorChangesColumns = monitorChangesColumns;
             BeforeCondition = beforeCondition;
@@ -66,6 +70,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void Update(
             string prefix,
             string address,
+            string token,
             List<string> monitorChangesColumns,
             int beforeCondition = 0,
             int afterCondition = 0,
@@ -73,6 +78,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             Prefix = prefix;
             Address = address;
+            Token = token;
             MonitorChangesColumns = monitorChangesColumns;
             BeforeCondition = beforeCondition;
             AfterCondition = afterCondition;
@@ -98,8 +104,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                     }.Send();
                     break;
                 case Types.Slack:
-                    new Slack("*{0}{1}*\n{2}\n{3}".Params(Prefix, title, url, body), from)
-                        .Send(Address);
+                    new Slack(
+                        "*{0}{1}*\n{2}\n{3}".Params(Prefix, title, url, body),
+                        from)
+                            .Send(Address);
+                    break;
+                case Types.ChatWork:
+                    new ChatWork(
+                        "*{0}{1}*\n{2}\n{3}".Params(Prefix, title, url, body),
+                        from,
+                        Token)
+                            .Send(Address);
                     break;
                 default:
                     break;
