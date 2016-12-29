@@ -23,7 +23,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     data += Formula.ToString(ss);
                 }
-                var view = ss.Views.FirstOrDefault(o => o.Id == Condition);
+                var view = ss.Views?.FirstOrDefault(o => o.Id == Condition);
                 if (view != null)
                 {
                     data += " | " + view.Name;
@@ -38,7 +38,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Formula GetFormula(SiteSettings ss, SqlSelect sqlSelect, SqlWhereCollection where)
         {
-            var view = ss.Views.FirstOrDefault(o => o.Id == Condition);
+            var view = ss.Views?.FirstOrDefault(o => o.Id == Condition);
             if (view != null)
             {
                 sqlSelect.SqlWhereCollection = view.Where(ss, where);

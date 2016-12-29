@@ -1372,7 +1372,7 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
-                    view = SiteSettings.Views.FirstOrDefault(o => o.Id == idList.First());
+                    view = SiteSettings.Views?.FirstOrDefault(o => o.Id == idList.First());
                     if (view == null)
                     {
                         OpenDialogError(res, Messages.SelectOne());
@@ -1431,7 +1431,7 @@ namespace Implem.Pleasanter.Models
         private void UpdateView(ResponseCollection res)
         {
             var selected = Forms.Int("ViewId");
-            var view = SiteSettings.Views.FirstOrDefault(o => o.Id == selected);
+            var view = SiteSettings.Views?.FirstOrDefault(o => o.Id == selected);
             if (view == null)
             {
                 res.Message(Messages.NotFound());
@@ -1450,7 +1450,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void DeleteViews(ResponseCollection res)
         {
-            SiteSettings.Views.RemoveAll(o => Forms.IntList("Views", ';').Contains(o.Id));
+            SiteSettings.Views?.RemoveAll(o => Forms.IntList("Views", ';').Contains(o.Id));
             res.ViewResponses(SiteSettings);
         }
 

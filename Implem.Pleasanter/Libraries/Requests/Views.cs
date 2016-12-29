@@ -13,7 +13,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 : ss.SiteId.ToString());
             if (Forms.ControlId() == "ViewSelector")
             {
-                var view = ss.Views.FirstOrDefault(o =>
+                var view = ss.Views?.FirstOrDefault(o =>
                     o.Id == Forms.Int("ViewSelector")) ?? new View(ss);
                 HttpContext.Current.Session[key] = view;
                 return view;
