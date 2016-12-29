@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Newer",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Newer"
+        },
+        {
+            "Language": "ja",
+            "Body": "新"
+        }
+    ]
+}

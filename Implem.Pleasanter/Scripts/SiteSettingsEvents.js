@@ -1,37 +1,34 @@
 ﻿$(function () {
-    $(document).on('selectableselected', '#GridColumns, #GridSourceColumns', function () {
-        $p.clearData('GridColumnProperty,', $p.getData($(this)), 'startsWith');
+    $(document).on('change', '#UseGridDesign', function () {
+        $('#GridDesignField').toggle($(this).prop('checked'));
     });
-    $(document).on('change', '[id="GridColumnProperty,UseGridDesign"]', function () {
-        $('[id="GridColumnProperty,GridDesignField"]').toggle($(this).prop('checked'));
-    });
-    $(document).on('selectableselected', '#EditorColumns, #EditorSourceColumns', function () {
-        $p.clearData('EditorColumnProperty,', $p.getData($(this)), 'startsWith');
-    });
-    $(document).on('change', '[id="EditorColumnProperty,ControlType"]', function () {
+    $(document).on('change', '#ControlType', function () {
         var visibility = $(this).val() === 'Spinner';
-        $('[id="EditorColumnPropertyField,Min"]').toggle(visibility);
-        $('[id="EditorColumnPropertyField,Max"]').toggle(visibility);
-        $('[id="EditorColumnPropertyField,Step"]').toggle(visibility);
+        $('#MinField').toggle(visibility);
+        $('#MaxField').toggle(visibility);
+        $('#StepField').toggle(visibility);
     });
-    $(document).on('change', '[id="EditorColumnProperty,FormatSelector"]', function () {
+    $(document).on('change', '#FormatSelector', function () {
         var $control = $(this);
         switch ($control.val()) {
             case '\t':
-                $('[id="EditorColumnPropertyField,Format"]').toggle(true);
-                $('[id="EditorColumnProperty,Format"]').val('');
+                $('#FormatField').toggle(true);
+                $('#Format').val('');
                 break;
             default:
-                $('[id="EditorColumnPropertyField,Format"]').toggle(false);
-                $('[id="EditorColumnProperty,Format"]').val($control.val());
+                $('#FormatField').toggle(false);
+                $('#Format').val($control.val());
                 break;
         }
-        $p.setData($('[id="EditorColumnProperty,Format"]'));
+        $p.setData($('#Format'));
     });
     $(document).on('click', '#SummarySettings .grid-row button', function () {
         var $control = $($(this).attr('data-selector'))
         $p.getData($control)[$control.attr('id') + "Id"] = $(this).attr('data-id');
         $p.send($control);
+    });
+    $(document).on('change', '#FormulaCondition', function () {
+        $('#FormulaOutOfConditionField').toggle($(this).val() !== '');
     });
     $(document).on('click', '#AddViewSorter', function () {
         var $dataViewSorter = $('#ViewSorterSelector option:selected');

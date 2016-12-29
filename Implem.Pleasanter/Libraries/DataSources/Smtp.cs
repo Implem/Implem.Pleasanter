@@ -39,17 +39,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             Task.Run(() =>
             {
-                var mailMessage = new System.Net.Mail.MailMessage();
+                var mailMessage = new MailMessage();
                 mailMessage.From = From;
                 Addresses.GetEnumerable(To).ForEach(to => mailMessage.To.Add(to));
                 Addresses.GetEnumerable(Cc).ForEach(cc => mailMessage.CC.Add(cc));
                 Addresses.GetEnumerable(Bcc).ForEach(bcc => mailMessage.Bcc.Add(bcc));
                 mailMessage.Subject = Subject;
                 mailMessage.Body = Body;
-                var smtpClient = new System.Net.Mail.SmtpClient();
+                var smtpClient = new SmtpClient();
                 smtpClient.Host = Host;
                 smtpClient.Port = Port;
-                smtpClient.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
+                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtpClient.Send(mailMessage);
                 smtpClient.Dispose();
             });

@@ -14,7 +14,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         public DateTime MinTime;
         public DateTime MaxTime;
         public DateTime LatestUpdatedTime;
-        public int Days;
+        public double Days;
 
         private struct Element
         {
@@ -49,7 +49,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     dataRow["CreatedTime"].ToDateTime(),
                     dataRow["UpdatedTime"].ToDateTime()));
             });
-            if (this.Count > 0)
+            if (this.Any())
             {
                 var latest = Targets(DateTime.MaxValue);
                 MinTime = latest.Select(o => o.StartTime).Min();
@@ -82,7 +82,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         public string Json()
         {
             var elements = new List<Element>();
-            if (this.Count > 0)
+            if (this.Any())
             {
                 var now = DateTime.Now.ToLocal().Date;
                 for (var d = 0; d <= Days; d++)

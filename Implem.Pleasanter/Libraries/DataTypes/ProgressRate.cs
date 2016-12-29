@@ -78,6 +78,20 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return hb.Td(action: () => Svg(hb, column));
         }
 
+        public bool Delay(Status status)
+        {
+            if (!status.Incomplete()) return false;
+            var now = VerType == Versions.VerTypes.Latest
+                ? DateTime.Now.ToLocal()
+                : UpdatedTime.ToLocal();
+            var start = Start().ToLocal();
+            var end = CompletionTime.ToLocal();
+            var range = Times.DateDiff(Times.Types.Seconds, start, end);
+            var plannedValue = PlannedValue(now, start, range);
+            var earnedValue = EarnedValue();
+            return plannedValue > earnedValue && Value < 100;
+        }
+
         private HtmlBuilder Svg(HtmlBuilder hb, Column column)
         {
             var now = VerType == Versions.VerTypes.Latest
@@ -121,14 +135,14 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 : CreatedTime;
         }
 
-        private float PlannedValue(DateTime now, DateTime start, int range)
+        private double PlannedValue(DateTime now, DateTime start, double range)
         {
             return start < now && range > 0
-                ? (float)(Elapsed(now, start)) / (float)range
+                ? (Elapsed(now, start)) / range
                 : 0;
         }
 
-        private static int Elapsed(DateTime now, DateTime start)
+        private static double Elapsed(DateTime now, DateTime start)
         {
             return Times.DateDiff(Times.Types.Seconds, start, now);
         }

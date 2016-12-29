@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ReadWrite",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Write"
+        },
+        {
+            "Language": "ja",
+            "Body": "書き込み"
+        }
+    ]
+}

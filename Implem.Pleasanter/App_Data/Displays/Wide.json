@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Wide",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Wide"
+        },
+        {
+            "Language": "ja",
+            "Body": "ワイド"
+        }
+    ]
+}

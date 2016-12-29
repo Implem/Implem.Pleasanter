@@ -1,0 +1,13 @@
+﻿{
+    "Id": "MonitorChangesColumns",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Monitor changes column"
+        },
+        {
+            "Language": "ja",
+            "Body": "変更を監視する項目"
+        }
+    ]
+}

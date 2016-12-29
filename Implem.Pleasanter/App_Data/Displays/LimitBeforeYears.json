@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LimitBeforeYears",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "{0} years excess"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 年超過"
+        }
+    ]
+}

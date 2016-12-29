@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SeparateSettings",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Separate settings"
+        },
+        {
+            "Language": "ja",
+            "Body": "分割設定"
+        }
+    ]
+}

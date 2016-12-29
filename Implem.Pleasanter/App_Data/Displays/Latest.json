@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Latest",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Latest"
+        },
+        {
+            "Language": "ja",
+            "Body": "最新"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Excel",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Excel"
+        },
+        {
+            "Language": "ja",
+            "Body": "Excel"
+        }
+    ]
+}

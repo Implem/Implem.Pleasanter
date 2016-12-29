@@ -52,9 +52,11 @@ namespace Implem.Pleasanter.Libraries.Converts
         public static string ToControl(
             this decimal self, Column column, Permissions.Types pt)
         {
-            return self != 0
-                ? column.Display(self, pt)
-                : string.Empty;
+            return column.ControlType == "Spinner"
+                ? column.Display(self, format: false)
+                : self != 0
+                    ? column.Display(self, pt)
+                    : string.Empty;
         }
 
         public static string ToControl<T>(

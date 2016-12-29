@@ -17,9 +17,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Kamban(
             this HtmlBuilder hb,
             SiteSettings ss,
-            string groupByColumn,
+            string groupBy,
             string aggregateType,
-            string valueColumn,
+            string value,
             Permissions.Types pt,
             IEnumerable<KambanElement> data)
         {
@@ -27,42 +27,34 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 hb
                     .FieldDropDown(
-                        controlId: "KambanGroupByColumn",
+                        controlId: "KambanGroupBy",
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
                         labelText: Displays.GroupBy(),
-                        optionCollection: ss.ColumnCollection.Where(o => o.HasChoices())
-                            .ToDictionary(o => o.ColumnName, o => o.GridLabelText),
-                        selectedValue: groupByColumn,
+                        optionCollection: ss.KambanGroupByOptions(),
+                        selectedValue: groupBy,
                         method: "post")
                     .FieldDropDown(
                         controlId: "KambanAggregateType",
                         fieldCss: "field-auto-thin",
-                        controlCss: " auto-postback",
                         labelText: Displays.SettingAggregationType(),
-                        optionCollection: new Dictionary<string, string>
-                        {
-                            { "Total", Displays.Total() },
-                            { "Average", Displays.Average() },
-                            { "Max", Displays.Max() },
-                            { "Min", Displays.Min() }
-                        },
+                        optionCollection: ss.KambanAggregationTypeOptions(),
                         selectedValue: aggregateType,
                         method: "post")
                     .FieldDropDown(
-                        fieldId: "KambanValueColumnField",
-                        controlId: "KambanValueColumn",
+                        fieldId: "KambanValueField",
+                        controlId: "KambanValue",
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
                         labelText: Displays.SettingAggregationTarget(),
-                        optionCollection: KambanValueColumnOptionCollection(ss),
-                        selectedValue: valueColumn,
+                        optionCollection: ss.KamvanValueOptions(),
+                        selectedValue: value,
                         method: "post")
                     .KambanBody(
                         ss: ss,
-                        groupByColumn: ss.GetColumn(groupByColumn),
+                        groupBy: ss.GetColumn(groupBy),
                         aggregateType: aggregateType,
-                        valueColumn: ss.GetColumn(valueColumn),
+                        value: ss.GetColumn(value),
                         data: data)
                     .MainCommands(
                         siteId: ss.SiteId,
@@ -73,26 +65,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             });
         }
 
-        private static Dictionary<string, string> KambanValueColumnOptionCollection(
-            SiteSettings ss)
-        {
-            return new Dictionary<string, string>
-            {
-                { string.Empty, string.Empty }
-            }.Concat(ss.ColumnCollection
-                .Where(o => o.Computable)
-                .Where(o => o.TypeName != "datetime")
-                .ToList()
-                .ToDictionary(o => o.ColumnName, o => o.GridLabelText))
-                .ToDictionary(o => o.Key, o => o.Value);
-        }
-
         public static HtmlBuilder KambanBody(
             this HtmlBuilder hb,
             SiteSettings ss,
-            Column groupByColumn,
+            Column groupBy,
             string aggregateType,
-            Column valueColumn,
+            Column value,
             IEnumerable<KambanElement> data,
             long changedItemId = 0)
         {
@@ -101,23 +79,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Id("KambanBody")
                     .DataAction("UpdateByKamban")
                     .DataMethod("post"),
-                action: () => groupByColumn.EditChoices(
-                    insertBlank: groupByColumn.Nullable)
+                action: () => groupBy.EditChoices(
+                    insertBlank: groupBy.Nullable)
                         .Chunk(Parameters.General.KambanChunk)
                         .ForEach(choices => hb
                             .Table(
                                 ss: ss,
-                                choices: CorrectedChoices(groupByColumn, choices),
+                                choices: CorrectedChoices(groupBy, choices),
                                 aggregateType: aggregateType,
-                                valueColumn: valueColumn,
+                                value: value,
                                 data: data,
                                 changedItemId: changedItemId)));
         }
 
         private static IEnumerable<KeyValuePair<string, ControlData>> CorrectedChoices(
-            Column groupByColumn, IEnumerable<KeyValuePair<string, ControlData>> choices)
+            Column groupBy, IEnumerable<KeyValuePair<string, ControlData>> choices)
         {
-            return groupByColumn.TypeName.CsTypeSummary() != Types.CsNumeric
+            return groupBy.TypeName.CsTypeSummary() != Types.CsNumeric
                 ? choices
                 : choices.ToDictionary(
                     o => o.Key != string.Empty ? o.Key : "0",
@@ -129,7 +107,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             IEnumerable<KeyValuePair<string, ControlData>> choices,
             string aggregateType,
-            Column valueColumn,
+            Column value,
             IEnumerable<KambanElement> data,
             long changedItemId)
         {
@@ -143,7 +121,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .HeaderText(
                                         ss: ss,
                                         aggregateType: aggregateType,
-                                        valueColumn: valueColumn,
+                                        value: value,
                                         data: data,
                                         choice: choice)))))
                     .TBody(action: () => hb
@@ -152,7 +130,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .TBody(
                                     ss: ss,
                                     choice: choice,
-                                    valueColumn: valueColumn,
+                                    value: value,
                                     data: data,
                                     changedItemId: changedItemId)))));
 
@@ -162,7 +140,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             SiteSettings ss,
             KeyValuePair<string, ControlData> choice,
-            Column valueColumn,
+            Column value,
             IEnumerable<KambanElement> data,
             long changedItemId)
         {
@@ -176,7 +154,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .ForEach(o => hb
                                 .Element(
                                     ss: ss,
-                                    valueColumn: valueColumn,
+                                    value: value,
                                     data: o,
                                     changedItemId: changedItemId))));
         }
@@ -185,7 +163,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             SiteSettings ss,
             string aggregateType,
-            Column valueColumn,
+            Column value,
             IEnumerable<KambanElement> data,
             KeyValuePair<string, ControlData> choice)
         {
@@ -195,8 +173,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ? choice.Value.Text
                     : Displays.NotSet(),
                 targets.Count(),
-                valueColumn != null && targets.Any()
-                    ? " : " + valueColumn.Display(Summary(targets, aggregateType), unit: true)
+                value != null && targets.Any()
+                    ? " : " + value.Display(Summary(targets, aggregateType), unit: true)
                     : string.Empty));
         }
 
@@ -215,7 +193,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder Element(
             this HtmlBuilder hb,
             SiteSettings ss,
-            Column valueColumn,
+            Column value,
             KambanElement data,
             long changedItemId)
         {
@@ -225,16 +203,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .DataId(data.Id.ToString()),
                 action: () => hb
                     .Span(css: "ui-icon ui-icon-pencil")
-                    .Text(text: ItemText(valueColumn, data)));
+                    .Text(text: ItemText(value, data)));
         }
 
-        private static string ItemText(Column valueColumn, KambanElement data)
+        private static string ItemText(Column value, KambanElement data)
         {
-            return valueColumn == null
+            return value == null
                 ? data.Title
                 : "{0} : {1}".Params(
                     data.Title,
-                    valueColumn.Display(data.Value, unit: true));
+                    value.Display(data.Value, unit: true));
         }
 
         private static string ItemChanged(long id, long changedItemId)

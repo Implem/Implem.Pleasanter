@@ -65,6 +65,22 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             });
         }
 
+        public bool Near(SiteSettings ss)
+        {
+            return
+                DateTime.Now.ToLocal().Date.AddDays(
+                    ss.NearCompletionTimeBeforeDays.ToInt() * (-1))
+                        <= DisplayValue &&
+                DateTime.Now.ToLocal().Date.AddDays(
+                    ss.NearCompletionTimeAfterDays.ToInt() + 1).AddMilliseconds(-1)
+                        >= DisplayValue;
+        }
+
+        public bool Overdue()
+        {
+            return Status.Incomplete() && Value < DateTime.Now;
+        }
+
         private HtmlBuilder LimitText(HtmlBuilder hb)
         {
             var value = Value.ToLocal();

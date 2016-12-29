@@ -1,10 +1,12 @@
-﻿using Implem.Pleasanter.Libraries.Responses;
+﻿using Implem.Pleasanter.Filters;
+using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Models;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
     [ValidateInput(false)]
+    [RefleshSiteInfo]
     public class DemosController : Controller
     {
         [AllowAnonymous]

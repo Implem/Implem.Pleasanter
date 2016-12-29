@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Classes;
+﻿using Implem.DisplayAccessor;
+using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using System;
@@ -73,8 +74,6 @@ namespace Implem.DefinitionAccessor
                 .Deserialize<ParameterAccessor.Parts.BackgroundTask>();
             Parameters.BinaryStorage = Files.Read(ParametersPath("BinaryStorage"))
                 .Deserialize<ParameterAccessor.Parts.BinaryStorage>();
-            Parameters.Cache = Files.Read(ParametersPath("Cache"))
-                .Deserialize<ParameterAccessor.Parts.Cache>();
             Parameters.Formats = Files.Read(ParametersPath("Formats"))
                 .Deserialize<List<ParameterAccessor.Parts.Format>>();
             Parameters.General = Files.Read(ParametersPath("General"))
@@ -121,9 +120,8 @@ namespace Implem.DefinitionAccessor
             Def.SetCssDefinition();
             Def.SetViewModeDefinition();
             Def.SetDemoDefinition();
-            Def.SetDisplayDefinition();
             Def.SetSqlDefinition();
-            SetDisplayDefinitionAdditional();
+            SetDisplayAccessor();
         }
 
         public static XlsIo DefinitionFile(string fileName)
@@ -216,21 +214,37 @@ namespace Implem.DefinitionAccessor
                 o["ColumnName"].ToString() == commonColumnDefinition["ColumnName"].ToString());
         }
 
-        private static void SetDisplayDefinitionAdditional()
+        private static void SetDisplayAccessor()
         {
+            Displays.DisplayHash = DisplayHash();
             Def.ColumnDefinitionCollection
                 .Where(o => !o.Base)
-                .Select(o => new { Id = o.Id, Content = o.ColumnLabel })
+                .Select(o => new { Id = o.Id, Body = o.ColumnLabel })
                 .Union(Def.ColumnDefinitionCollection
-                .Where(o => !o.Base)
-                .Select(o => new { Id = o.TableName, Content = o.Label })
-                .Distinct())
-                .Where(o => !Def.DisplayDefinitionCollection.Any(p => p.Id == o.Id))
-                .ForEach(data => Def.DisplayDefinitionCollection.Add(new DisplayDefinition()
-                {
-                    Id = data.Id,
-                    Content = data.Content
-                }));
+                    .Where(o => !o.Base)
+                    .Select(o => new { Id = o.TableName, Body = o.Label })
+                    .Distinct())
+                .Where(o => !Displays.DisplayHash.ContainsKey(o.Id))
+                .ForEach(o => Displays.DisplayHash.Add(
+                    o.Id, new Display
+                    {
+                        Id = o.Id,
+                        Languages = new List<DisplayElement>
+                        {
+                            new DisplayElement { Body = o.Body }
+                        }
+                    }));
+        }
+
+        private static Dictionary<string, Display> DisplayHash()
+        {
+            var hash = new Dictionary<string, Display>();
+            new DirectoryInfo(Directories.Displays()).GetFiles("*.json").ForEach(file =>
+            {
+                var data = Files.Read(file.FullName).Deserialize<Display>();
+                hash.Add(data.Id, data);
+            });
+            return hash;
         }
 
         private static void SetSqls()

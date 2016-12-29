@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Add",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Add"
+        },
+        {
+            "Language": "ja",
+            "Body": "追加"
+        }
+    ]
+}

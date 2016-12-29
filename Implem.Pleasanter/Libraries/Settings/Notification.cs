@@ -16,6 +16,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Prefix;
         public string Address;
         public List<string> MonitorChangesColumns;
+        public int BeforeCondition;
+        public int AfterCondition;
+        public Expressions Expression;
+        [NonSerialized]
+        public bool Enabled = true;
 
         public enum Types : int
         {
@@ -23,14 +28,29 @@ namespace Implem.Pleasanter.Libraries.Settings
             Slack = 2
         }
 
+        public enum Expressions : int
+        {
+            Or = 1,
+            And = 2
+        }
+
         public Notification(
-            Types type, string prefix, string address, List<string> monitorChangesColumns)
+            Types type,
+            string prefix,
+            string address,
+            List<string> monitorChangesColumns,
+            int beforeCondition = 0,
+            int afterCondition = 0,
+            Expressions expression = Expressions.Or)
         {
             Type = type;
             Prefix = prefix;
             Address = address;
             MonitorChangesColumns = monitorChangesColumns;
             MonitorChangesColumns = monitorChangesColumns;
+            BeforeCondition = beforeCondition;
+            AfterCondition = afterCondition;
+            Expression = expression;
         }
 
         [OnDeserialized]
@@ -43,11 +63,20 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
         }
 
-        public void Update(string prefix, string address, List<string> columns)
+        public void Update(
+            string prefix,
+            string address,
+            List<string> monitorChangesColumns,
+            int beforeCondition = 0,
+            int afterCondition = 0,
+            Expressions expression = Expressions.Or)
         {
             Prefix = prefix;
             Address = address;
-            MonitorChangesColumns = columns;
+            MonitorChangesColumns = monitorChangesColumns;
+            BeforeCondition = beforeCondition;
+            AfterCondition = afterCondition;
+            Expression = expression;
         }
 
         public void Send(string title, string url, string body)

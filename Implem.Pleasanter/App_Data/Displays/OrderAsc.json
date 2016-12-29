@@ -1,0 +1,14 @@
+﻿{
+    "Id": "OrderAsc",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Asc"
+        },
+        {
+            "Language": "ja",
+            "Body": "昇順"
+        }
+    ]
+}

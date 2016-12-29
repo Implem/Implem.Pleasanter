@@ -1,10 +1,11 @@
-﻿using System.Data.SqlClient;
+﻿using Implem.Libraries.Utilities;
+using System.Data.SqlClient;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
 {
     public class SqlSelect : SqlStatement
     {
-        public string DataTableName = string.Empty;
+        public string DataTableName;
         public bool Distinct;
         public int Top;
         public int PageSize;
@@ -36,6 +37,19 @@ namespace Implem.Libraries.DataSources.SqlServer
                         countRecord: CountRecord,
                         commandCount: commandCount);
                     break;
+                case Sqls.TableTypes.NormalAndDeleted:
+                    SqlColumnCollection?.Add(new SqlColumn("0 as [IsDeleted]", adHoc: true));
+                    BuildCommandText(
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        commandText: commandText,
+                        from: "from " + TableBracket + " as [t0]\n",
+                        unionType: Sqls.UnionTypes.Union,
+                        orderBy: false,
+                        countRecord: false,
+                        commandCount: commandCount);
+                    DataTableName = null;
+                    goto case Sqls.TableTypes.Deleted;
                 case Sqls.TableTypes.NormalAndHistory:
                     SqlColumnCollection?.Add(new SqlColumn("0 as [IsHistory]", adHoc: true));
                     BuildCommandText(
@@ -47,6 +61,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                         orderBy: false,
                         countRecord: false,
                         commandCount: commandCount);
+                    DataTableName = null;
                     goto case Sqls.TableTypes.History;
                 case Sqls.TableTypes.Deleted:
                     SqlColumnCollection?.Add(new SqlColumn("1 as [IsDeleted]", adHoc: true));
@@ -85,7 +100,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             int? commandCount)
         {
             if (!Using) return;
-            sqlContainer.DataTableNames.Add(DataTableName);
+            if (!DataTableName.IsNullOrEmpty()) sqlContainer.DataTableNames.Add(DataTableName);
             SqlColumnCollection?.BuildCommandText(commandText, Distinct, Top);
             commandText.Append(from);
             SqlJoinCollection?.BuildCommandText(commandText);

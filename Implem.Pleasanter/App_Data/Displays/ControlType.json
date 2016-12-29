@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ControlType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Control type"
+        },
+        {
+            "Language": "ja",
+            "Body": "コントロール種別"
+        }
+    ]
+}

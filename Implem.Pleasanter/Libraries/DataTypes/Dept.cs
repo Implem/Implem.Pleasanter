@@ -1,8 +1,10 @@
-﻿using Implem.Pleasanter.Interfaces;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
+using System.Data;
 namespace Implem.Pleasanter.Libraries.DataTypes
 {
     public class Dept : IConvertable
@@ -16,6 +18,13 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             TenantId = tenantId;
             Id = id;
             Name = name;
+        }
+
+        public Dept(DataRow dataRow)
+        {
+            TenantId = dataRow["TenantId"].ToInt();
+            Id = dataRow["DeptId"].ToInt();
+            Name = dataRow["DeptName"].ToString();
         }
 
         public string ToControl(Column column, Permissions.Types pt)

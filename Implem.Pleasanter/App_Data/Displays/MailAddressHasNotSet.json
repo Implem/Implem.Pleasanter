@@ -1,0 +1,13 @@
+﻿{
+    "Id": "MailAddressHasNotSet",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "E-mail address has not been set."
+        },
+        {
+            "Language": "ja",
+            "Body": "メールアドレスが設定されていません。"
+        }
+    ]
+}

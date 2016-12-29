@@ -52,6 +52,14 @@ namespace Implem.DefinitionAccessor
                 : path;
         }
 
+        public static string Displays()
+        {
+            var path = Parameters.Path.Displays;
+            return path.IsNullOrEmpty()
+                ? Outputs("App_Data", "Displays")
+                : path;
+        }
+
         public static string Imports()
         {
             var path = Parameters.Path.Imports;

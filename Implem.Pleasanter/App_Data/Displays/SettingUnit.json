@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SettingUnit",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Unit"
+        },
+        {
+            "Language": "ja",
+            "Body": "単位"
+        }
+    ]
+}

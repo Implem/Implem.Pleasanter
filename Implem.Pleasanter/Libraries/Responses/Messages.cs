@@ -18,19 +18,9 @@ namespace Implem.Pleasanter.Libraries.Responses
             return new ResponseCollection().Message(message);
         }
 
-        public static Message ExceptionTitle(params string[] data)
+        public static Message AlreadyAdded(params string[] data)
         {
-            return Get(Displays.ExceptionTitle(data), "alert-error");
-        }
-
-        public static Message ExceptionBody(params string[] data)
-        {
-            return Get(Displays.ExceptionBody(data), "alert-error");
-        }
-
-        public static Message InvalidRequest(params string[] data)
-        {
-            return Get(Displays.InvalidRequest(data), "alert-error");
+            return Get(Displays.AlreadyAdded(data), "alert-error");
         }
 
         public static Message Authentication(params string[] data)
@@ -38,64 +28,9 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.Authentication(data), "alert-error");
         }
 
-        public static Message PasswordNotChanged(params string[] data)
+        public static Message BadFormat(params string[] data)
         {
-            return Get(Displays.PasswordNotChanged(data), "alert-error");
-        }
-
-        public static Message UpdateConflicts(params string[] data)
-        {
-            return Get(Displays.UpdateConflicts(data), "alert-error");
-        }
-
-        public static Message DeleteConflicts(params string[] data)
-        {
-            return Get(Displays.DeleteConflicts(data), "alert-error");
-        }
-
-        public static Message HasNotPermission(params string[] data)
-        {
-            return Get(Displays.HasNotPermission(data), "alert-error");
-        }
-
-        public static Message IncorrectCurrentPassword(params string[] data)
-        {
-            return Get(Displays.IncorrectCurrentPassword(data), "alert-error");
-        }
-
-        public static Message PermissionNotSelfChange(params string[] data)
-        {
-            return Get(Displays.PermissionNotSelfChange(data), "alert-error");
-        }
-
-        public static Message DefinitionNotFound(params string[] data)
-        {
-            return Get(Displays.DefinitionNotFound(data), "alert-error");
-        }
-
-        public static Message CantSetAtTopOfSite(params string[] data)
-        {
-            return Get(Displays.CantSetAtTopOfSite(data), "alert-error");
-        }
-
-        public static Message NotFound(params string[] data)
-        {
-            return Get(Displays.NotFound(data), "alert-error");
-        }
-
-        public static Message RequireMailAddresses(params string[] data)
-        {
-            return Get(Displays.RequireMailAddresses(data), "alert-error");
-        }
-
-        public static Message SelectOne(params string[] data)
-        {
-            return Get(Displays.SelectOne(data), "alert-error");
-        }
-
-        public static Message ExternalMailAddress(params string[] data)
-        {
-            return Get(Displays.ExternalMailAddress(data), "alert-error");
+            return Get(Displays.BadFormat(data), "alert-error");
         }
 
         public static Message BadMailAddress(params string[] data)
@@ -103,69 +38,9 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.BadMailAddress(data), "alert-error");
         }
 
-        public static Message MailAddressHasNotSet(params string[] data)
+        public static Message BulkDeleted(params string[] data)
         {
-            return Get(Displays.MailAddressHasNotSet(data), "alert-error");
-        }
-
-        public static Message BadFormat(params string[] data)
-        {
-            return Get(Displays.BadFormat(data), "alert-error");
-        }
-
-        public static Message FileNotFound(params string[] data)
-        {
-            return Get(Displays.FileNotFound(data), "alert-error");
-        }
-
-        public static Message NotRequiredColumn(params string[] data)
-        {
-            return Get(Displays.NotRequiredColumn(data), "alert-error");
-        }
-
-        public static Message InvalidCsvData(params string[] data)
-        {
-            return Get(Displays.InvalidCsvData(data), "alert-error");
-        }
-
-        public static Message FailedReadFile(params string[] data)
-        {
-            return Get(Displays.FailedReadFile(data), "alert-error");
-        }
-
-        public static Message CanNotDisabled(params string[] data)
-        {
-            return Get(Displays.CanNotDisabled(data), "alert-error");
-        }
-
-        public static Message AlreadyAdded(params string[] data)
-        {
-            return Get(Displays.AlreadyAdded(data), "alert-error");
-        }
-
-        public static Message InvalidFormula(params string[] data)
-        {
-            return Get(Displays.InvalidFormula(data), "alert-error");
-        }
-
-        public static Message SelectTargets(params string[] data)
-        {
-            return Get(Displays.SelectTargets(data), "alert-warning");
-        }
-
-        public static Message LoginIn(params string[] data)
-        {
-            return Get(Displays.LoginIn(data), "alert-success");
-        }
-
-        public static Message Deleted(params string[] data)
-        {
-            return Get(Displays.Deleted(data), "alert-success");
-        }
-
-        public static Message Moved(params string[] data)
-        {
-            return Get(Displays.Moved(data), "alert-success");
+            return Get(Displays.BulkDeleted(data), "alert-success");
         }
 
         public static Message BulkMoved(params string[] data)
@@ -173,39 +48,29 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.BulkMoved(data), "alert-success");
         }
 
-        public static Message BulkDeleted(params string[] data)
+        public static Message CanNotDisabled(params string[] data)
         {
-            return Get(Displays.BulkDeleted(data), "alert-success");
+            return Get(Displays.CanNotDisabled(data), "alert-error");
         }
 
-        public static Message Separated(params string[] data)
+        public static Message CanNotUpdate(params string[] data)
         {
-            return Get(Displays.Separated(data), "alert-success");
+            return Get(Displays.CanNotUpdate(data), "alert-info");
         }
 
-        public static Message Imported(params string[] data)
+        public static Message CantSetAtTopOfSite(params string[] data)
         {
-            return Get(Displays.Imported(data), "alert-success");
+            return Get(Displays.CantSetAtTopOfSite(data), "alert-error");
         }
 
-        public static Message Created(params string[] data)
+        public static Message ChangingPasswordComplete(params string[] data)
         {
-            return Get(Displays.Created(data), "alert-success");
+            return Get(Displays.ChangingPasswordComplete(data), "alert-success");
         }
 
-        public static Message Updated(params string[] data)
+        public static Message CodeDefinerBackupCompleted(params string[] data)
         {
-            return Get(Displays.Updated(data), "alert-success");
-        }
-
-        public static Message CommentDeleted(params string[] data)
-        {
-            return Get(Displays.CommentDeleted(data), "alert-success");
-        }
-
-        public static Message Copied(params string[] data)
-        {
-            return Get(Displays.Copied(data), "alert-success");
+            return Get(Displays.CodeDefinerBackupCompleted(data), "alert-success");
         }
 
         public static Message CodeDefinerCompleted(params string[] data)
@@ -213,9 +78,9 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.CodeDefinerCompleted(data), "alert-success");
         }
 
-        public static Message CodeDefinerRdsCompleted(params string[] data)
+        public static Message CodeDefinerCssCompleted(params string[] data)
         {
-            return Get(Displays.CodeDefinerRdsCompleted(data), "alert-success");
+            return Get(Displays.CodeDefinerCssCompleted(data), "alert-success");
         }
 
         public static Message CodeDefinerDefCompleted(params string[] data)
@@ -228,29 +93,64 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.CodeDefinerMvcCompleted(data), "alert-success");
         }
 
-        public static Message CodeDefinerCssCompleted(params string[] data)
+        public static Message CodeDefinerRdsCompleted(params string[] data)
         {
-            return Get(Displays.CodeDefinerCssCompleted(data), "alert-success");
+            return Get(Displays.CodeDefinerRdsCompleted(data), "alert-success");
         }
 
-        public static Message CodeDefinerBackupCompleted(params string[] data)
+        public static Message CommentDeleted(params string[] data)
         {
-            return Get(Displays.CodeDefinerBackupCompleted(data), "alert-success");
+            return Get(Displays.CommentDeleted(data), "alert-success");
         }
 
-        public static Message MailTransmissionCompletion(params string[] data)
+        public static Message Copied(params string[] data)
         {
-            return Get(Displays.MailTransmissionCompletion(data), "alert-success");
+            return Get(Displays.Copied(data), "alert-success");
         }
 
-        public static Message ChangingPasswordComplete(params string[] data)
+        public static Message Created(params string[] data)
         {
-            return Get(Displays.ChangingPasswordComplete(data), "alert-success");
+            return Get(Displays.Created(data), "alert-success");
         }
 
-        public static Message PasswordResetCompleted(params string[] data)
+        public static Message DefinitionNotFound(params string[] data)
         {
-            return Get(Displays.PasswordResetCompleted(data), "alert-success");
+            return Get(Displays.DefinitionNotFound(data), "alert-error");
+        }
+
+        public static Message DeleteConflicts(params string[] data)
+        {
+            return Get(Displays.DeleteConflicts(data), "alert-error");
+        }
+
+        public static Message Deleted(params string[] data)
+        {
+            return Get(Displays.Deleted(data), "alert-success");
+        }
+
+        public static Message ExceptionBody(params string[] data)
+        {
+            return Get(Displays.ExceptionBody(data), "alert-info");
+        }
+
+        public static Message ExceptionTitle(params string[] data)
+        {
+            return Get(Displays.ExceptionTitle(data), "alert-info");
+        }
+
+        public static Message ExternalMailAddress(params string[] data)
+        {
+            return Get(Displays.ExternalMailAddress(data), "alert-error");
+        }
+
+        public static Message FailedReadFile(params string[] data)
+        {
+            return Get(Displays.FailedReadFile(data), "alert-error");
+        }
+
+        public static Message FileNotFound(params string[] data)
+        {
+            return Get(Displays.FileNotFound(data), "alert-error");
         }
 
         public static Message FileUpdateCompleted(params string[] data)
@@ -258,54 +158,9 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.FileUpdateCompleted(data), "alert-success");
         }
 
-        public static Message SynchronizationCompleted(params string[] data)
+        public static Message HasBeenDeleted(params string[] data)
         {
-            return Get(Displays.SynchronizationCompleted(data), "alert-success");
-        }
-
-        public static Message SentAcceptanceMail (params string[] data)
-        {
-            return Get(Displays.SentAcceptanceMail (data), "alert-success");
-        }
-
-        public static Message ConfirmDelete(params string[] data)
-        {
-            return Get(Displays.ConfirmDelete(data), "alert-confirm");
-        }
-
-        public static Message ConfirmSeparate(params string[] data)
-        {
-            return Get(Displays.ConfirmSeparate(data), "alert-confirm");
-        }
-
-        public static Message ConfirmSendMail(params string[] data)
-        {
-            return Get(Displays.ConfirmSendMail(data), "alert-confirm");
-        }
-
-        public static Message ConfirmSynchronize(params string[] data)
-        {
-            return Get(Displays.ConfirmSynchronize(data), "alert-confirm");
-        }
-
-        public static Message CanNotUpdate(params string[] data)
-        {
-            return Get(Displays.CanNotUpdate(data), "alert-info");
-        }
-
-        public static Message ReadOnlyBecausePreviousVer(params string[] data)
-        {
-            return Get(Displays.ReadOnlyBecausePreviousVer(data), "alert-info");
-        }
-
-        public static Message InCopying(params string[] data)
-        {
-            return Get(Displays.InCopying(data), "alert-info");
-        }
-
-        public static Message InCompression(params string[] data)
-        {
-            return Get(Displays.InCompression(data), "alert-info");
+            return Get(Displays.HasBeenDeleted(data), "alert-info");
         }
 
         public static Message HasBeenMoved(params string[] data)
@@ -313,129 +168,134 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.HasBeenMoved(data), "alert-info");
         }
 
-        public static Message HasBeenDeleted(params string[] data)
+        public static Message HasNotPermission(params string[] data)
         {
-            return Get(Displays.HasBeenDeleted(data), "alert-info");
+            return Get(Displays.HasNotPermission(data), "alert-error");
         }
 
-        public static ResponseCollection ResponseExceptionTitle(params string[] data)
+        public static Message Imported(params string[] data)
         {
-            return ResponseMessage(Messages.ExceptionTitle(data));
+            return Get(Displays.Imported(data), "alert-success");
         }
 
-        public static ResponseCollection ResponseExceptionBody(params string[] data)
+        public static Message InCompression(params string[] data)
         {
-            return ResponseMessage(Messages.ExceptionBody(data));
+            return Get(Displays.InCompression(data), "alert-info");
         }
 
-        public static ResponseCollection ResponseInvalidRequest(params string[] data)
+        public static Message InCopying(params string[] data)
         {
-            return ResponseMessage(Messages.InvalidRequest(data));
+            return Get(Displays.InCopying(data), "alert-info");
         }
 
-        public static ResponseCollection ResponseAuthentication(params string[] data)
+        public static Message IncorrectCurrentPassword(params string[] data)
         {
-            return ResponseMessage(Messages.Authentication(data));
+            return Get(Displays.IncorrectCurrentPassword(data), "alert-error");
         }
 
-        public static ResponseCollection ResponsePasswordNotChanged(params string[] data)
+        public static Message InvalidCsvData(params string[] data)
         {
-            return ResponseMessage(Messages.PasswordNotChanged(data));
+            return Get(Displays.InvalidCsvData(data), "alert-error");
         }
 
-        public static ResponseCollection ResponseUpdateConflicts(params string[] data)
+        public static Message InvalidFormula(params string[] data)
         {
-            return ResponseMessage(Messages.UpdateConflicts(data));
+            return Get(Displays.InvalidFormula(data), "alert-error");
         }
 
-        public static ResponseCollection ResponseDeleteConflicts(params string[] data)
+        public static Message InvalidRequest(params string[] data)
         {
-            return ResponseMessage(Messages.DeleteConflicts(data));
+            return Get(Displays.InvalidRequest(data), "alert-error");
         }
 
-        public static ResponseCollection ResponseHasNotPermission(params string[] data)
+        public static Message LoginIn(params string[] data)
         {
-            return ResponseMessage(Messages.HasNotPermission(data));
+            return Get(Displays.LoginIn(data), "alert-success");
         }
 
-        public static ResponseCollection ResponseIncorrectCurrentPassword(params string[] data)
+        public static Message MailAddressHasNotSet(params string[] data)
         {
-            return ResponseMessage(Messages.IncorrectCurrentPassword(data));
+            return Get(Displays.MailAddressHasNotSet(data), "alert-error");
         }
 
-        public static ResponseCollection ResponsePermissionNotSelfChange(params string[] data)
+        public static Message MailTransmissionCompletion(params string[] data)
         {
-            return ResponseMessage(Messages.PermissionNotSelfChange(data));
+            return Get(Displays.MailTransmissionCompletion(data), "alert-success");
         }
 
-        public static ResponseCollection ResponseDefinitionNotFound(params string[] data)
+        public static Message Moved(params string[] data)
         {
-            return ResponseMessage(Messages.DefinitionNotFound(data));
+            return Get(Displays.Moved(data), "alert-success");
         }
 
-        public static ResponseCollection ResponseCantSetAtTopOfSite(params string[] data)
+        public static Message NotFound(params string[] data)
         {
-            return ResponseMessage(Messages.CantSetAtTopOfSite(data));
+            return Get(Displays.NotFound(data), "alert-error");
         }
 
-        public static ResponseCollection ResponseNotFound(params string[] data)
+        public static Message NotRequiredColumn(params string[] data)
         {
-            return ResponseMessage(Messages.NotFound(data));
+            return Get(Displays.NotRequiredColumn(data), "alert-error");
         }
 
-        public static ResponseCollection ResponseRequireMailAddresses(params string[] data)
+        public static Message PasswordNotChanged(params string[] data)
         {
-            return ResponseMessage(Messages.RequireMailAddresses(data));
+            return Get(Displays.PasswordNotChanged(data), "alert-error");
         }
 
-        public static ResponseCollection ResponseSelectOne(params string[] data)
+        public static Message PasswordResetCompleted(params string[] data)
         {
-            return ResponseMessage(Messages.SelectOne(data));
+            return Get(Displays.PasswordResetCompleted(data), "alert-success");
         }
 
-        public static ResponseCollection ResponseExternalMailAddress(params string[] data)
+        public static Message PermissionNotSelfChange(params string[] data)
         {
-            return ResponseMessage(Messages.ExternalMailAddress(data));
+            return Get(Displays.PermissionNotSelfChange(data), "alert-error");
         }
 
-        public static ResponseCollection ResponseBadMailAddress(params string[] data)
+        public static Message ReadOnlyBecausePreviousVer(params string[] data)
         {
-            return ResponseMessage(Messages.BadMailAddress(data));
+            return Get(Displays.ReadOnlyBecausePreviousVer(data), "alert-info");
         }
 
-        public static ResponseCollection ResponseMailAddressHasNotSet(params string[] data)
+        public static Message RequireMailAddresses(params string[] data)
         {
-            return ResponseMessage(Messages.MailAddressHasNotSet(data));
+            return Get(Displays.RequireMailAddresses(data), "alert-error");
         }
 
-        public static ResponseCollection ResponseBadFormat(params string[] data)
+        public static Message SelectOne(params string[] data)
         {
-            return ResponseMessage(Messages.BadFormat(data));
+            return Get(Displays.SelectOne(data), "alert-error");
         }
 
-        public static ResponseCollection ResponseFileNotFound(params string[] data)
+        public static Message SelectTargets(params string[] data)
         {
-            return ResponseMessage(Messages.FileNotFound(data));
+            return Get(Displays.SelectTargets(data), "alert-warning");
         }
 
-        public static ResponseCollection ResponseNotRequiredColumn(params string[] data)
+        public static Message SentAcceptanceMail (params string[] data)
         {
-            return ResponseMessage(Messages.NotRequiredColumn(data));
+            return Get(Displays.SentAcceptanceMail (data), "alert-success");
         }
 
-        public static ResponseCollection ResponseInvalidCsvData(params string[] data)
+        public static Message Separated(params string[] data)
         {
-            return ResponseMessage(Messages.InvalidCsvData(data));
+            return Get(Displays.Separated(data), "alert-success");
         }
 
-        public static ResponseCollection ResponseFailedReadFile(params string[] data)
+        public static Message SynchronizationCompleted(params string[] data)
         {
-            return ResponseMessage(Messages.FailedReadFile(data));
+            return Get(Displays.SynchronizationCompleted(data), "alert-success");
         }
 
-        public static ResponseCollection ResponseCanNotDisabled(params string[] data)
+        public static Message UpdateConflicts(params string[] data)
         {
-            return ResponseMessage(Messages.CanNotDisabled(data));
+            return Get(Displays.UpdateConflicts(data), "alert-error");
+        }
+
+        public static Message Updated(params string[] data)
+        {
+            return Get(Displays.Updated(data), "alert-success");
         }
 
         public static ResponseCollection ResponseAlreadyAdded(params string[] data)
@@ -443,34 +303,19 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(Messages.AlreadyAdded(data));
         }
 
-        public static ResponseCollection ResponseInvalidFormula(params string[] data)
+        public static ResponseCollection ResponseAuthentication(params string[] data)
         {
-            return ResponseMessage(Messages.InvalidFormula(data));
+            return ResponseMessage(Messages.Authentication(data));
         }
 
-        public static ResponseCollection ResponseSelectTargets(params string[] data)
+        public static ResponseCollection ResponseBadFormat(params string[] data)
         {
-            return ResponseMessage(Messages.SelectTargets(data));
+            return ResponseMessage(Messages.BadFormat(data));
         }
 
-        public static ResponseCollection ResponseLoginIn(params string[] data)
+        public static ResponseCollection ResponseBadMailAddress(params string[] data)
         {
-            return ResponseMessage(Messages.LoginIn(data));
-        }
-
-        public static ResponseCollection ResponseDeleted(params string[] data)
-        {
-            return ResponseMessage(Messages.Deleted(data));
-        }
-
-        public static ResponseCollection ResponseMoved(params string[] data)
-        {
-            return ResponseMessage(Messages.Moved(data));
-        }
-
-        public static ResponseCollection ResponseBulkMoved(params string[] data)
-        {
-            return ResponseMessage(Messages.BulkMoved(data));
+            return ResponseMessage(Messages.BadMailAddress(data));
         }
 
         public static ResponseCollection ResponseBulkDeleted(params string[] data)
@@ -478,34 +323,34 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(Messages.BulkDeleted(data));
         }
 
-        public static ResponseCollection ResponseSeparated(params string[] data)
+        public static ResponseCollection ResponseBulkMoved(params string[] data)
         {
-            return ResponseMessage(Messages.Separated(data));
+            return ResponseMessage(Messages.BulkMoved(data));
         }
 
-        public static ResponseCollection ResponseImported(params string[] data)
+        public static ResponseCollection ResponseCanNotDisabled(params string[] data)
         {
-            return ResponseMessage(Messages.Imported(data));
+            return ResponseMessage(Messages.CanNotDisabled(data));
         }
 
-        public static ResponseCollection ResponseCreated(params string[] data)
+        public static ResponseCollection ResponseCanNotUpdate(params string[] data)
         {
-            return ResponseMessage(Messages.Created(data));
+            return ResponseMessage(Messages.CanNotUpdate(data));
         }
 
-        public static ResponseCollection ResponseUpdated(params string[] data)
+        public static ResponseCollection ResponseCantSetAtTopOfSite(params string[] data)
         {
-            return ResponseMessage(Messages.Updated(data));
+            return ResponseMessage(Messages.CantSetAtTopOfSite(data));
         }
 
-        public static ResponseCollection ResponseCommentDeleted(params string[] data)
+        public static ResponseCollection ResponseChangingPasswordComplete(params string[] data)
         {
-            return ResponseMessage(Messages.CommentDeleted(data));
+            return ResponseMessage(Messages.ChangingPasswordComplete(data));
         }
 
-        public static ResponseCollection ResponseCopied(params string[] data)
+        public static ResponseCollection ResponseCodeDefinerBackupCompleted(params string[] data)
         {
-            return ResponseMessage(Messages.Copied(data));
+            return ResponseMessage(Messages.CodeDefinerBackupCompleted(data));
         }
 
         public static ResponseCollection ResponseCodeDefinerCompleted(params string[] data)
@@ -513,9 +358,9 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(Messages.CodeDefinerCompleted(data));
         }
 
-        public static ResponseCollection ResponseCodeDefinerRdsCompleted(params string[] data)
+        public static ResponseCollection ResponseCodeDefinerCssCompleted(params string[] data)
         {
-            return ResponseMessage(Messages.CodeDefinerRdsCompleted(data));
+            return ResponseMessage(Messages.CodeDefinerCssCompleted(data));
         }
 
         public static ResponseCollection ResponseCodeDefinerDefCompleted(params string[] data)
@@ -528,29 +373,64 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(Messages.CodeDefinerMvcCompleted(data));
         }
 
-        public static ResponseCollection ResponseCodeDefinerCssCompleted(params string[] data)
+        public static ResponseCollection ResponseCodeDefinerRdsCompleted(params string[] data)
         {
-            return ResponseMessage(Messages.CodeDefinerCssCompleted(data));
+            return ResponseMessage(Messages.CodeDefinerRdsCompleted(data));
         }
 
-        public static ResponseCollection ResponseCodeDefinerBackupCompleted(params string[] data)
+        public static ResponseCollection ResponseCommentDeleted(params string[] data)
         {
-            return ResponseMessage(Messages.CodeDefinerBackupCompleted(data));
+            return ResponseMessage(Messages.CommentDeleted(data));
         }
 
-        public static ResponseCollection ResponseMailTransmissionCompletion(params string[] data)
+        public static ResponseCollection ResponseCopied(params string[] data)
         {
-            return ResponseMessage(Messages.MailTransmissionCompletion(data));
+            return ResponseMessage(Messages.Copied(data));
         }
 
-        public static ResponseCollection ResponseChangingPasswordComplete(params string[] data)
+        public static ResponseCollection ResponseCreated(params string[] data)
         {
-            return ResponseMessage(Messages.ChangingPasswordComplete(data));
+            return ResponseMessage(Messages.Created(data));
         }
 
-        public static ResponseCollection ResponsePasswordResetCompleted(params string[] data)
+        public static ResponseCollection ResponseDefinitionNotFound(params string[] data)
         {
-            return ResponseMessage(Messages.PasswordResetCompleted(data));
+            return ResponseMessage(Messages.DefinitionNotFound(data));
+        }
+
+        public static ResponseCollection ResponseDeleteConflicts(params string[] data)
+        {
+            return ResponseMessage(Messages.DeleteConflicts(data));
+        }
+
+        public static ResponseCollection ResponseDeleted(params string[] data)
+        {
+            return ResponseMessage(Messages.Deleted(data));
+        }
+
+        public static ResponseCollection ResponseExceptionBody(params string[] data)
+        {
+            return ResponseMessage(Messages.ExceptionBody(data));
+        }
+
+        public static ResponseCollection ResponseExceptionTitle(params string[] data)
+        {
+            return ResponseMessage(Messages.ExceptionTitle(data));
+        }
+
+        public static ResponseCollection ResponseExternalMailAddress(params string[] data)
+        {
+            return ResponseMessage(Messages.ExternalMailAddress(data));
+        }
+
+        public static ResponseCollection ResponseFailedReadFile(params string[] data)
+        {
+            return ResponseMessage(Messages.FailedReadFile(data));
+        }
+
+        public static ResponseCollection ResponseFileNotFound(params string[] data)
+        {
+            return ResponseMessage(Messages.FileNotFound(data));
         }
 
         public static ResponseCollection ResponseFileUpdateCompleted(params string[] data)
@@ -558,54 +438,9 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(Messages.FileUpdateCompleted(data));
         }
 
-        public static ResponseCollection ResponseSynchronizationCompleted(params string[] data)
+        public static ResponseCollection ResponseHasBeenDeleted(params string[] data)
         {
-            return ResponseMessage(Messages.SynchronizationCompleted(data));
-        }
-
-        public static ResponseCollection ResponseSentAcceptanceMail (params string[] data)
-        {
-            return ResponseMessage(Messages.SentAcceptanceMail (data));
-        }
-
-        public static ResponseCollection ResponseConfirmDelete(params string[] data)
-        {
-            return ResponseMessage(Messages.ConfirmDelete(data));
-        }
-
-        public static ResponseCollection ResponseConfirmSeparate(params string[] data)
-        {
-            return ResponseMessage(Messages.ConfirmSeparate(data));
-        }
-
-        public static ResponseCollection ResponseConfirmSendMail(params string[] data)
-        {
-            return ResponseMessage(Messages.ConfirmSendMail(data));
-        }
-
-        public static ResponseCollection ResponseConfirmSynchronize(params string[] data)
-        {
-            return ResponseMessage(Messages.ConfirmSynchronize(data));
-        }
-
-        public static ResponseCollection ResponseCanNotUpdate(params string[] data)
-        {
-            return ResponseMessage(Messages.CanNotUpdate(data));
-        }
-
-        public static ResponseCollection ResponseReadOnlyBecausePreviousVer(params string[] data)
-        {
-            return ResponseMessage(Messages.ReadOnlyBecausePreviousVer(data));
-        }
-
-        public static ResponseCollection ResponseInCopying(params string[] data)
-        {
-            return ResponseMessage(Messages.InCopying(data));
-        }
-
-        public static ResponseCollection ResponseInCompression(params string[] data)
-        {
-            return ResponseMessage(Messages.InCompression(data));
+            return ResponseMessage(Messages.HasBeenDeleted(data));
         }
 
         public static ResponseCollection ResponseHasBeenMoved(params string[] data)
@@ -613,9 +448,134 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(Messages.HasBeenMoved(data));
         }
 
-        public static ResponseCollection ResponseHasBeenDeleted(params string[] data)
+        public static ResponseCollection ResponseHasNotPermission(params string[] data)
         {
-            return ResponseMessage(Messages.HasBeenDeleted(data));
+            return ResponseMessage(Messages.HasNotPermission(data));
+        }
+
+        public static ResponseCollection ResponseImported(params string[] data)
+        {
+            return ResponseMessage(Messages.Imported(data));
+        }
+
+        public static ResponseCollection ResponseInCompression(params string[] data)
+        {
+            return ResponseMessage(Messages.InCompression(data));
+        }
+
+        public static ResponseCollection ResponseInCopying(params string[] data)
+        {
+            return ResponseMessage(Messages.InCopying(data));
+        }
+
+        public static ResponseCollection ResponseIncorrectCurrentPassword(params string[] data)
+        {
+            return ResponseMessage(Messages.IncorrectCurrentPassword(data));
+        }
+
+        public static ResponseCollection ResponseInvalidCsvData(params string[] data)
+        {
+            return ResponseMessage(Messages.InvalidCsvData(data));
+        }
+
+        public static ResponseCollection ResponseInvalidFormula(params string[] data)
+        {
+            return ResponseMessage(Messages.InvalidFormula(data));
+        }
+
+        public static ResponseCollection ResponseInvalidRequest(params string[] data)
+        {
+            return ResponseMessage(Messages.InvalidRequest(data));
+        }
+
+        public static ResponseCollection ResponseLoginIn(params string[] data)
+        {
+            return ResponseMessage(Messages.LoginIn(data));
+        }
+
+        public static ResponseCollection ResponseMailAddressHasNotSet(params string[] data)
+        {
+            return ResponseMessage(Messages.MailAddressHasNotSet(data));
+        }
+
+        public static ResponseCollection ResponseMailTransmissionCompletion(params string[] data)
+        {
+            return ResponseMessage(Messages.MailTransmissionCompletion(data));
+        }
+
+        public static ResponseCollection ResponseMoved(params string[] data)
+        {
+            return ResponseMessage(Messages.Moved(data));
+        }
+
+        public static ResponseCollection ResponseNotFound(params string[] data)
+        {
+            return ResponseMessage(Messages.NotFound(data));
+        }
+
+        public static ResponseCollection ResponseNotRequiredColumn(params string[] data)
+        {
+            return ResponseMessage(Messages.NotRequiredColumn(data));
+        }
+
+        public static ResponseCollection ResponsePasswordNotChanged(params string[] data)
+        {
+            return ResponseMessage(Messages.PasswordNotChanged(data));
+        }
+
+        public static ResponseCollection ResponsePasswordResetCompleted(params string[] data)
+        {
+            return ResponseMessage(Messages.PasswordResetCompleted(data));
+        }
+
+        public static ResponseCollection ResponsePermissionNotSelfChange(params string[] data)
+        {
+            return ResponseMessage(Messages.PermissionNotSelfChange(data));
+        }
+
+        public static ResponseCollection ResponseReadOnlyBecausePreviousVer(params string[] data)
+        {
+            return ResponseMessage(Messages.ReadOnlyBecausePreviousVer(data));
+        }
+
+        public static ResponseCollection ResponseRequireMailAddresses(params string[] data)
+        {
+            return ResponseMessage(Messages.RequireMailAddresses(data));
+        }
+
+        public static ResponseCollection ResponseSelectOne(params string[] data)
+        {
+            return ResponseMessage(Messages.SelectOne(data));
+        }
+
+        public static ResponseCollection ResponseSelectTargets(params string[] data)
+        {
+            return ResponseMessage(Messages.SelectTargets(data));
+        }
+
+        public static ResponseCollection ResponseSentAcceptanceMail (params string[] data)
+        {
+            return ResponseMessage(Messages.SentAcceptanceMail (data));
+        }
+
+        public static ResponseCollection ResponseSeparated(params string[] data)
+        {
+            return ResponseMessage(Messages.Separated(data));
+        }
+
+        public static ResponseCollection ResponseSynchronizationCompleted(params string[] data)
+        {
+            return ResponseMessage(Messages.SynchronizationCompleted(data));
+        }
+
+        public static ResponseCollection ResponseUpdateConflicts(params string[] data)
+        {
+            return ResponseMessage(Messages.UpdateConflicts(data));
+        }
+
+        public static ResponseCollection ResponseUpdated(params string[] data)
+        {
+            return ResponseMessage(Messages.Updated(data));
         }
     }
 }

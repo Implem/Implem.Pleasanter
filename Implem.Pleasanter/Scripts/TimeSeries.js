@@ -1,5 +1,5 @@
 ﻿$p.drawTimeSeries = function () {
-    $('#TimeSeriesValueColumnField').toggle($('#TimeSeriesAggregateType').val() !== 'Count');
+    $('#TimeSeriesValueField').toggle($('#TimeSeriesAggregateType').val() !== 'Count');
     var $svg = $('#TimeSeries');
     if ($svg.length !== 1) {
         return;
@@ -15,11 +15,12 @@
     $svg.show();
     var svg = d3.select('#TimeSeries');
     var padding = 40;
-    var axisPadding = 70;
+    var axisPaddingX = 130;
+    var axisPaddingY = 50;
     var width = parseInt(svg.style('width'));
     var height = parseInt(svg.style('height'));
-    var bodyWidth = width - axisPadding - (padding);
-    var bodyHeight = height - axisPadding - (padding);
+    var bodyWidth = width - axisPaddingX - (padding);
+    var bodyHeight = height - axisPaddingY - (padding);
     var minDate = new Date(d3.min(elements, function (d) { return d.Day; }));
     var maxDate = new Date(d3.max(elements, function (d) { return d.Day; }));
     var dayWidth = (bodyWidth - padding) / $p.dateDiff('d', maxDate, minDate);
@@ -41,7 +42,7 @@
         .orient('left');
     svg.append('g')
         .attr('class', 'axis')
-        .attr('transform', 'translate(' + axisPadding + ', ' + (height - axisPadding) + ')')
+        .attr('transform', 'translate(' + axisPaddingX + ', ' + (height - axisPaddingY) + ')')
         .call(xAxis)
         .selectAll('text')
         .attr('x', -20)
@@ -49,7 +50,7 @@
         .style('text-anchor', 'start');
     svg.append('g')
         .attr('class', 'axis')
-        .attr('transform', 'translate(' + axisPadding + ', 0)')
+        .attr('transform', 'translate(' + axisPaddingX + ', 0)')
         .call(yAxis)
         .selectAll('text')
         .attr('x', -20);
@@ -65,12 +66,11 @@
             g.append('text')
                 .attr('class', 'index')
                 .attr('x', ($p.dateDiff('d', new Date(last.Day), minDate) * dayWidth)
-                    + axisPadding + padding - 10)
+                    + axisPaddingX + padding - 10)
                 .attr('y', yScale(last.Y - (last.Value / 2)))
                 .attr('text-anchor', 'end')
                 .attr('dominant-baseline', 'middle')
-                .text(indexes.filter(function (d) { return d.Id === last.Index })[0].Text
-                    + ' (' + last.Value + json.Unit + ')');
+                .text(indexes.filter(function (d) { return d.Id === last.Index })[0].Text);
         }
     });
 
@@ -78,7 +78,7 @@
         var area = d3.svg.area()
             .x(function (d) {
                 return ($p.dateDiff('d', new Date(d.Day), minDate) * dayWidth)
-                    + axisPadding + padding;
+                    + axisPaddingX + padding;
             })
             .y0(function (d) {
                 return yScale(0);

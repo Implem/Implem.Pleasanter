@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SettingExportFormat",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Export the date and time"
+        },
+        {
+            "Language": "ja",
+            "Body": "エクスポートの書式"
+        }
+    ]
+}

@@ -131,7 +131,7 @@ namespace Implem.Pleasanter.Models
         public bool AssemblyVersion_Updated { get { return AssemblyVersion != SavedAssemblyVersion && AssemblyVersion != null; } }
 
         public SysLogModel(
-            SiteSettings ss, 
+            SiteSettings ss,
             Permissions.Types pt,
             DataRow dataRow)
         {

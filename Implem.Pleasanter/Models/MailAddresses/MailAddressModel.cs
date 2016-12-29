@@ -41,7 +41,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public MailAddressModel(
-            SiteSettings ss, 
+            SiteSettings ss,
             bool setByForm = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public MailAddressModel(
-            SiteSettings ss, 
+            SiteSettings ss,
             long mailAddressId,
             bool clearSessions = false,
             bool setByForm = false,
@@ -70,7 +70,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public MailAddressModel(
-            SiteSettings ss, 
+            SiteSettings ss,
             Permissions.Types pt,
             DataRow dataRow)
         {

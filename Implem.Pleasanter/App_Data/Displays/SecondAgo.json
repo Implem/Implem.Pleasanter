@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SecondAgo",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "1 second ago"
+        },
+        {
+            "Language": "ja",
+            "Body": "1 秒前"
+        }
+    ]
+}

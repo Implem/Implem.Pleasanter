@@ -1,0 +1,13 @@
+﻿{
+    "Id": "File",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "File"
+        },
+        {
+            "Language": "ja",
+            "Body": "ファイル"
+        }
+    ]
+}

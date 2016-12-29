@@ -425,7 +425,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.SitesWhere().SiteId(siteModel.SiteId),
                     param: Rds.SitesParam().InheritPermission(siteModel.InheritPermission)));
                 Rds.ExecuteNonQuery(transactional: true, statements: statements.ToArray());
-                SiteInfo.SetSiteUserIdCollection(siteModel.InheritPermission, reload: true);
+                SiteInfo.SetSiteUserHash(siteModel.InheritPermission, reload: true);
                 return Messages.ResponseUpdated("permissions").ToJson();
             }
             else
@@ -460,16 +460,16 @@ namespace Implem.Pleasanter.Models
         {
             var siteModel = new SiteModel(siteId, setByForm: true);
             var res = new ResponseCollection();
-            var selectedDestinationPermissionType_ItemIdCollection = Forms.Data("PermissionDestination")
+            var permissionDestination = Forms.Data("PermissionDestination")
                 .SortedSet(';')
                 .Where(o => o != string.Empty)
-                .ToList<string>();
-            var selectedSourcePermissionType_ItemIdCollection = Forms.Data("PermissionSource")
+                .ToList();
+            var permissionSource = Forms.Data("PermissionSource")
                 .SortedSet(';')
                 .Where(o => o != string.Empty)
-                .ToList<string>();
+                .ToList();
             if (Forms.Data("command") != "AddPermission" &&
-                selectedDestinationPermissionType_ItemIdCollection.Contains("User," + Sessions.UserId()))
+                permissionDestination.Contains("User," + Sessions.UserId()))
             {
                 res.Message(Messages.PermissionNotSelfChange());
             }
@@ -480,66 +480,67 @@ namespace Implem.Pleasanter.Models
                     case "ReadOnly":
                         res.SetPermissionType(
                             siteModel,
-                            selectedDestinationPermissionType_ItemIdCollection,
+                            permissionDestination,
                             Permissions.Types.ReadOnly);
                         break;
                     case "ReadWrite":
                         res.SetPermissionType(
                             siteModel,
-                            selectedDestinationPermissionType_ItemIdCollection,
+                            permissionDestination,
                             Permissions.Types.ReadWrite);
                         break;
                     case "Leader":
                         res.SetPermissionType(
                             siteModel,
-                            selectedDestinationPermissionType_ItemIdCollection,
+                            permissionDestination,
                             Permissions.Types.Leader);
                         break;
                     case "Manager":
                         res.SetPermissionType(
                             siteModel,
-                            selectedDestinationPermissionType_ItemIdCollection,
+                            permissionDestination,
                             Permissions.Types.Manager);
                         break;
                     case "Add":
                         siteModel.Session_PermissionDestinationCollection().AddRange(
                             siteModel.Session_PermissionSourceCollection().Where(o =>
-                                selectedSourcePermissionType_ItemIdCollection
+                                permissionSource
                                     .Contains(o.PermissionId)));
                         siteModel.Session_PermissionDestinationCollection().Where(o =>
-                            selectedSourcePermissionType_ItemIdCollection.Contains(o.PermissionId))
+                            permissionSource.Contains(o.PermissionId))
                             .ForEach(o =>
                                 o.PermissionType = Permissions.Types.ReadWrite);
                         siteModel.Session_PermissionSourceCollection().RemoveAll(o =>
-                            selectedSourcePermissionType_ItemIdCollection
+                            permissionSource
                                 .Contains(o.PermissionId));
                         res
                             .Html("#PermissionDestination", PermissionListItem(
                                 siteModel, Types.Destination,
-                                selectedSourcePermissionType_ItemIdCollection))
+                                permissionSource))
                             .Html("#PermissionSource", PermissionListItem(siteModel, Types.Source))
-                            .SetFormData("PermissionDestination", selectedSourcePermissionType_ItemIdCollection.Join(";"))
+                            .SetFormData("PermissionDestination", permissionSource.Join(";"))
                             .SetFormData("PermissionSource", string.Empty);
                         break;
                     case "Delete":
                         siteModel.Session_PermissionSourceCollection().AddRange(
                             siteModel.Session_PermissionDestinationCollection().Where(o =>
-                                selectedDestinationPermissionType_ItemIdCollection
+                                permissionDestination
                                     .Contains(o.PermissionId)));
                         siteModel.Session_PermissionDestinationCollection().RemoveAll(o =>
-                            selectedDestinationPermissionType_ItemIdCollection
+                            permissionDestination
                                 .Contains(o.PermissionId));
                         res
-                            .Html("#PermissionDestination", PermissionListItem(siteModel, Types.Destination))
+                            .Html("#PermissionDestination", PermissionListItem(
+                                siteModel, Types.Destination))
                             .Html("#PermissionSource", PermissionListItem(
                                 siteModel, Types.Source,
-                                selectedDestinationPermissionType_ItemIdCollection))
+                                permissionDestination))
                             .SetFormData("PermissionDestination", string.Empty)
-                            .SetFormData("PermissionSource", selectedDestinationPermissionType_ItemIdCollection.Join(";"));
+                            .SetFormData("PermissionSource", permissionDestination.Join(";"));
                         break;
                     case "SearchText":
                         siteModel.Session_PermissionSourceCollection(
-                            PermissionUtilities.SourceCollection(
+                            SourceCollection(
                                 "Sites",
                                 siteModel.SiteId,
                                 Forms.Data("SearchText")));
@@ -548,7 +549,7 @@ namespace Implem.Pleasanter.Models
                                 .Any(p => p.PermissionId == o.PermissionId));
                         res.Html("#PermissionSource", PermissionListItem(
                             siteModel, Types.Source,
-                            selectedDestinationPermissionType_ItemIdCollection));
+                            permissionDestination));
                         break;
                 }
             }
@@ -561,10 +562,10 @@ namespace Implem.Pleasanter.Models
         public static void SetPermissionType(
             this ResponseCollection res,
             SiteModel siteModel,
-            List<string> selectedPermissionType_ItemIdCollection,
+            List<string> permissionDestination,
             Permissions.Types pt)
         {
-            selectedPermissionType_ItemIdCollection.ForEach(permissionType_ItemId =>
+            permissionDestination.ForEach(permissionType_ItemId =>
                 siteModel.Session_PermissionDestinationCollection()
                     .Where(o => (o.PermissionId == permissionType_ItemId))
                     .First()
@@ -572,7 +573,7 @@ namespace Implem.Pleasanter.Models
             res.Html("#PermissionDestination", PermissionListItem(
                 siteModel,
                 Types.Destination,
-                selectedPermissionType_ItemIdCollection));
+                permissionDestination));
         }
     }
 }

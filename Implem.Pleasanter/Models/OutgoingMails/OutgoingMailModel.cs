@@ -170,17 +170,11 @@ namespace Implem.Pleasanter.Models
                         where: Rds.OutgoingMailsWhereDefault(this)
                             .UpdatedTime(timestamp, _using: timestamp.InRange()),
                         param: Rds.OutgoingMailsParamDefault(this, paramAll: paramAll),
-                        countRecord: true),
-                    Rds.If("@@rowcount = 1"),
-                    Rds.UpdateItems(
-                        where: Rds.ItemsWhere()
-                            .ReferenceType(ReferenceType)
-                            .ReferenceId(ReferenceId),
-                        param: Rds.ItemsParam().MaintenanceTarget(true)),
-                    Rds.End()
+                        countRecord: true)
                 });
             if (count == 0) return Error.Types.UpdateConflicts;
             Get();
+            Libraries.Search.Indexes.Create(SiteSettings, ReferenceId);
             return Error.Types.None;
         }
 

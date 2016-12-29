@@ -1,0 +1,13 @@
+﻿{
+    "Id": "HideList",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Hide list"
+        },
+        {
+            "Language": "ja",
+            "Body": "非表示一覧"
+        }
+    ]
+}

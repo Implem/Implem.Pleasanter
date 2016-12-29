@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Imported",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "{0} it was imported."
+        },
+        {
+            "Language": "ja",
+            "Body": "{0} 件 インポートしました。"
+        }
+    ]
+}

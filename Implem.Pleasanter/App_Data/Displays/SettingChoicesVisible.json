@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SettingChoicesVisible",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Show selection list"
+        },
+        {
+            "Language": "ja",
+            "Body": "選択肢一覧を表示する"
+        }
+    ]
+}

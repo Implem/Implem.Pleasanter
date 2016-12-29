@@ -17,7 +17,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         public string ValueColumn;
         public DateTime MinTime;
         public DateTime MaxTime;
-        public int Days;
+        public double Days;
 
         private struct Data
         {
@@ -44,15 +44,15 @@ namespace Implem.Pleasanter.Libraries.ViewModes
 
         public TimeSeries(
             SiteSettings ss,
-            string groupByColumn,
+            string groupBy,
             string aggregationType,
-            string valueColumn,
+            string value,
             IEnumerable<DataRow> dataRows)
         {
             SiteSettings = ss;
-            GroupByColumn = groupByColumn;
+            GroupByColumn = groupBy;
             AggregationType = aggregationType;
-            ValueColumn = valueColumn;
+            ValueColumn = value;
             dataRows.ForEach(dataRow =>
             {
                 Add(new TimeSeriesElement(
@@ -63,7 +63,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     dataRow["Value"].ToDecimal(),
                     dataRow["IsHistory"].ToBool()));
             });
-            if (this.Count > 0)
+            if (this.Any())
             {
                 MinTime = this.Select(o => o.UpdatedTime).Min().AddDays(-1);
                 MaxTime = DateTime.Today;
@@ -71,14 +71,14 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             }
             this.Select(o => o.Id).Distinct().ForEach(id =>
             {
-                var latest = this
+                var element = this
                     .Where(o => o.Id == id)
                     .OrderByDescending(o => o.Ver)
                     .First();
-                latest.Latest = true;
-                if (latest.IsHistory)
+                element.Latest = true;
+                if (element.IsHistory)
                 {
-                    latest.UpdatedTime = latest.UpdatedTime.AddDays(-1);
+                    element.UpdatedTime = element.UpdatedTime.AddDays(-1);
                 }
             });
         }
@@ -99,18 +99,20 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     User.UserTypes.Anonymous.ToInt().ToString(),
                     new ControlData(Displays.NotSet()));
             }
-            var valueColumn = SiteSettings.GetColumn(ValueColumn);
+            else
+            {
+                choices.Add(string.Empty, new ControlData(Displays.NotSet()));
+            }
+            var value = SiteSettings.GetColumn(ValueColumn);
             var choiceKeys = choices.Keys.ToList();
             var indexes = choices.Select((o, i) => new Index
             {
                 Id = i,
                 Key = o.Key,
-                Text = o.Value.Text != string.Empty
-                    ? o.Value.Text
-                    : Displays.NotSet(),
+                Text = IndexText(o, value),
                 Style = o.Value.Style
             }).ToList();
-            if (this.Count > 0)
+            if (this.Any())
             {
                 for (var d = 0; d <= Days; d++)
                 {
@@ -119,17 +121,17 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     var targets = Targets(currentTime);
                     indexes.Select(o => o.Key).ForEach(index =>
                     {
-                        var value = GetValue(targets.Where(o => o.Index == index));
+                        var data = GetData(targets.Where(o => o.Index == index));
                         if (!choices.ContainsKey(index))
                         {
                             choices.Add(index, new ControlData("? " + index));
                         }
-                        y += value;
+                        y += data;
                         elements.Add(new Element()
                         {
                             Index = choiceKeys.IndexOf(index),
                             Day = currentTime.ToLocal(Displays.YmdFormat()),
-                            Value = valueColumn.Display(value).ToDecimal(),
+                            Value = data,
                             Y = y
                         });
                     });
@@ -140,9 +142,16 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 Indexes = indexes.OrderByDescending(o => o.Id).ToList(),
                 Elements = elements,
                 Unit = AggregationType != "Count"
-                    ? valueColumn.Unit
+                    ? value.Unit
                     : string.Empty
             }.ToJson();
+        }
+
+        private string IndexText(KeyValuePair<string, ControlData> index, Column value)
+        {
+            return "{0}({1})".Params(index.Value.Text, value.Display(
+                GetData(Targets(MaxTime).Where(p => p.Index == index.Key)),
+                unit: AggregationType != "Count"));
         }
 
         private IEnumerable<TimeSeriesElement> Targets(DateTime currentTime)
@@ -166,7 +175,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             return ret;
         }
 
-        private decimal GetValue(IEnumerable<TimeSeriesElement> targets)
+        private decimal GetData(IEnumerable<TimeSeriesElement> targets)
         {
             if (targets.Any())
             {

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implem.Pleasanter", "Implem
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implem.ParameterAccessor", "Implem.ParameterAccessor\Implem.ParameterAccessor.csproj", "{43CA1830-2E4D-4137-898E-9C3C1B104BAF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implem.DisplayAccessor", "Implem.DisplayAccessor\Implem.DisplayAccessor.csproj", "{68A8C5C4-DB19-4EDD-B1C2-7722E19E5D7A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -72,12 +74,22 @@ Global
 		{43CA1830-2E4D-4137-898E-9C3C1B104BAF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{43CA1830-2E4D-4137-898E-9C3C1B104BAF}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{43CA1830-2E4D-4137-898E-9C3C1B104BAF}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{68A8C5C4-DB19-4EDD-B1C2-7722E19E5D7A}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{68A8C5C4-DB19-4EDD-B1C2-7722E19E5D7A}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{68A8C5C4-DB19-4EDD-B1C2-7722E19E5D7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68A8C5C4-DB19-4EDD-B1C2-7722E19E5D7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68A8C5C4-DB19-4EDD-B1C2-7722E19E5D7A}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{68A8C5C4-DB19-4EDD-B1C2-7722E19E5D7A}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{68A8C5C4-DB19-4EDD-B1C2-7722E19E5D7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68A8C5C4-DB19-4EDD-B1C2-7722E19E5D7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68A8C5C4-DB19-4EDD-B1C2-7722E19E5D7A}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{68A8C5C4-DB19-4EDD-B1C2-7722E19E5D7A}.SingleImage|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 6
+		SccNumberOfProjects = 7
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://pleasantstudio.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
@@ -96,5 +108,8 @@ Global
 		SccProjectUniqueName5 = Implem.ParameterAccessor\\Implem.ParameterAccessor.csproj
 		SccProjectName5 = Implem.ParameterAccessor
 		SccLocalPath5 = Implem.ParameterAccessor
+		SccProjectUniqueName6 = Implem.DisplayAccessor\\Implem.DisplayAccessor.csproj
+		SccProjectName6 = Implem.DisplayAccessor
+		SccLocalPath6 = Implem.DisplayAccessor
 	EndGlobalSection
 EndGlobal

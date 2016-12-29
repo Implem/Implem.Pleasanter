@@ -620,7 +620,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public IssueModel(
-            SiteSettings ss, 
+            SiteSettings ss,
             bool setByForm = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
@@ -635,7 +635,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public IssueModel(
-            SiteSettings ss, 
+            SiteSettings ss,
             long issueId,
             bool clearSessions = false,
             bool setByForm = false,
@@ -655,7 +655,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public IssueModel(
-            SiteSettings ss, 
+            SiteSettings ss,
             Permissions.Types pt,
             DataRow dataRow)
         {
@@ -859,18 +859,24 @@ namespace Implem.Pleasanter.Models
                 });
             IssueId = newId != 0 ? newId : IssueId;
             SynchronizeSummary();
-            if (notice) Notice("Created");
+            if (notice)
+            {
+                CheckNotificationConditions();
+                Notice("Created");
+            }
             Get();
             Rds.ExecuteNonQuery(statements:
                 Rds.UpdateItems(
                     param: Rds.ItemsParam()
                         .Title(IssueUtilities.TitleDisplayValue(SiteSettings, this)),
                     where: Rds.ItemsWhere().ReferenceId(IssueId)));
+            Libraries.Search.Indexes.Create(SiteSettings, IssueId);
             return Error.Types.None;
         }
 
         public Error.Types Update(bool notice = false, bool paramAll = false)
         {
+            if (notice) CheckNotificationConditions(before: true);
             SetBySession();
             var timestamp = Timestamp.ToDateTime();
             var count = Rds.ExecuteScalar_int(
@@ -886,7 +892,11 @@ namespace Implem.Pleasanter.Models
                 });
             if (count == 0) return Error.Types.UpdateConflicts;
             SynchronizeSummary();
-            if (notice) Notice("Updated");
+            if (notice)
+            {
+                CheckNotificationConditions();
+                Notice("Updated");
+            }
             Get();
             UpdateRelatedRecords();
             return Error.Types.None;
@@ -903,14 +913,14 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ItemsWhere().ReferenceId(IssueId),
                         param: Rds.ItemsParam()
                             .SiteId(SiteId)
-                            .Title(IssueUtilities.TitleDisplayValue(SiteSettings, this))
-                            .MaintenanceTarget(true),
+                            .Title(IssueUtilities.TitleDisplayValue(SiteSettings, this)),
                         addUpdatedTimeParam: addUpdatedTimeParam,
                         addUpdatorParam: addUpdatorParam),
                     Rds.PhysicalDeleteLinks(
                         where: Rds.LinksWhere().SourceId(IssueId)),
                     InsertLinks(SiteSettings)
                 });
+            Libraries.Search.Indexes.Create(SiteSettings, IssueId);
         }
 
         private SqlInsert InsertLinks(SiteSettings ss, bool selectIdentity = false)
@@ -974,6 +984,7 @@ namespace Implem.Pleasanter.Models
                 });
             IssueId = newId != 0 ? newId : IssueId;
             Get();
+            Libraries.Search.Indexes.Create(SiteSettings, IssueId);
             return Error.Types.None;
         }
 
@@ -991,11 +1002,13 @@ namespace Implem.Pleasanter.Models
             });
             SiteSettings = new SiteModel(siteId).IssuesSiteSettings();
             Get();
+            Libraries.Search.Indexes.Create(SiteSettings, IssueId);
             return Error.Types.None;
         }
 
         public Error.Types Delete(bool notice = false)
         {
+            if (notice) CheckNotificationConditions(before: true);
             Rds.ExecuteNonQuery(
                 transactional: true,
                 statements: new SqlStatement[]
@@ -1006,7 +1019,12 @@ namespace Implem.Pleasanter.Models
                         where: Rds.IssuesWhere().SiteId(SiteId).IssueId(IssueId))
                 });
             SynchronizeSummary();
-            if (notice) Notice("Deleted");
+            if (notice)
+            {
+                CheckNotificationConditions();
+                Notice("Deleted");
+            }
+            Libraries.Search.Indexes.Create(SiteSettings, IssueId);
             return Error.Types.None;
         }
 
@@ -1023,6 +1041,7 @@ namespace Implem.Pleasanter.Models
                     Rds.RestoreIssues(
                         where: Rds.IssuesWhere().IssueId(IssueId))
                 });
+            Libraries.Search.Indexes.Create(SiteSettings, IssueId);
             return Error.Types.None;
         }
 
@@ -1033,119 +1052,8 @@ namespace Implem.Pleasanter.Models
                 statements: Rds.PhysicalDeleteIssues(
                     tableType: tableType,
                     param: Rds.IssuesParam().SiteId(SiteId).IssueId(IssueId)));
+            Libraries.Search.Indexes.Create(SiteSettings, IssueId);
             return Error.Types.None;
-        }
-
-        private void SynchronizeSummary()
-        {
-            SiteSettings.SummaryCollection.ForEach(summary =>
-            {
-                var id = SynchronizeSummaryDestinationId(summary.LinkColumn);
-                var savedId = SynchronizeSummaryDestinationId(summary.LinkColumn, saved: true);
-                if (id != 0)
-                {
-                    SynchronizeSummary(summary, id);
-                }
-                if (savedId != 0 && id != savedId)
-                {
-                    SynchronizeSummary(summary, savedId);
-                }
-            });
-        }
-
-        private void SynchronizeSummary(Summary summary, long id)
-        {
-            Summaries.Synchronize(
-                summary.SiteId,
-                summary.DestinationReferenceType,
-                summary.DestinationColumn,
-                SiteId,
-                "Issues",
-                summary.LinkColumn,
-                summary.Type,
-                summary.SourceColumn,
-                id);
-            FormulaUtilities.Update(id);
-        }
-
-        private long SynchronizeSummaryDestinationId(string linkColumn, bool saved = false)
-        {
-            switch (linkColumn)
-            {
-                case "ClassA": return saved ? SavedClassA.ToLong() : ClassA.ToLong();
-                case "ClassB": return saved ? SavedClassB.ToLong() : ClassB.ToLong();
-                case "ClassC": return saved ? SavedClassC.ToLong() : ClassC.ToLong();
-                case "ClassD": return saved ? SavedClassD.ToLong() : ClassD.ToLong();
-                case "ClassE": return saved ? SavedClassE.ToLong() : ClassE.ToLong();
-                case "ClassF": return saved ? SavedClassF.ToLong() : ClassF.ToLong();
-                case "ClassG": return saved ? SavedClassG.ToLong() : ClassG.ToLong();
-                case "ClassH": return saved ? SavedClassH.ToLong() : ClassH.ToLong();
-                case "ClassI": return saved ? SavedClassI.ToLong() : ClassI.ToLong();
-                case "ClassJ": return saved ? SavedClassJ.ToLong() : ClassJ.ToLong();
-                case "ClassK": return saved ? SavedClassK.ToLong() : ClassK.ToLong();
-                case "ClassL": return saved ? SavedClassL.ToLong() : ClassL.ToLong();
-                case "ClassM": return saved ? SavedClassM.ToLong() : ClassM.ToLong();
-                case "ClassN": return saved ? SavedClassN.ToLong() : ClassN.ToLong();
-                case "ClassO": return saved ? SavedClassO.ToLong() : ClassO.ToLong();
-                case "ClassP": return saved ? SavedClassP.ToLong() : ClassP.ToLong();
-                case "ClassQ": return saved ? SavedClassQ.ToLong() : ClassQ.ToLong();
-                case "ClassR": return saved ? SavedClassR.ToLong() : ClassR.ToLong();
-                case "ClassS": return saved ? SavedClassS.ToLong() : ClassS.ToLong();
-                case "ClassT": return saved ? SavedClassT.ToLong() : ClassT.ToLong();
-                case "ClassU": return saved ? SavedClassU.ToLong() : ClassU.ToLong();
-                case "ClassV": return saved ? SavedClassV.ToLong() : ClassV.ToLong();
-                case "ClassW": return saved ? SavedClassW.ToLong() : ClassW.ToLong();
-                case "ClassX": return saved ? SavedClassX.ToLong() : ClassX.ToLong();
-                case "ClassY": return saved ? SavedClassY.ToLong() : ClassY.ToLong();
-                case "ClassZ": return saved ? SavedClassZ.ToLong() : ClassZ.ToLong();
-                default: return 0;
-            }
-        }
-
-        public void UpdateFormulaColumns()
-        {
-            SetByFormula();
-            var param = Rds.IssuesParam();
-            SiteSettings.FormulaHash.Keys.ForEach(columnName =>
-            {
-                switch (columnName)
-                {
-                    case "WorkValue": param.WorkValue(WorkValue.Value); break;
-                    case "NumA": param.NumA(NumA); break;
-                    case "NumB": param.NumB(NumB); break;
-                    case "NumC": param.NumC(NumC); break;
-                    case "NumD": param.NumD(NumD); break;
-                    case "NumE": param.NumE(NumE); break;
-                    case "NumF": param.NumF(NumF); break;
-                    case "NumG": param.NumG(NumG); break;
-                    case "NumH": param.NumH(NumH); break;
-                    case "NumI": param.NumI(NumI); break;
-                    case "NumJ": param.NumJ(NumJ); break;
-                    case "NumK": param.NumK(NumK); break;
-                    case "NumL": param.NumL(NumL); break;
-                    case "NumM": param.NumM(NumM); break;
-                    case "NumN": param.NumN(NumN); break;
-                    case "NumO": param.NumO(NumO); break;
-                    case "NumP": param.NumP(NumP); break;
-                    case "NumQ": param.NumQ(NumQ); break;
-                    case "NumR": param.NumR(NumR); break;
-                    case "NumS": param.NumS(NumS); break;
-                    case "NumT": param.NumT(NumT); break;
-                    case "NumU": param.NumU(NumU); break;
-                    case "NumV": param.NumV(NumV); break;
-                    case "NumW": param.NumW(NumW); break;
-                    case "NumX": param.NumX(NumX); break;
-                    case "NumY": param.NumY(NumY); break;
-                    case "NumZ": param.NumZ(NumZ); break;
-                    default: break;
-                }
-            });
-            Rds.ExecuteNonQuery(statements:
-                Rds.UpdateIssues(
-                    param: param,
-                    where: Rds.IssuesWhereDefault(this),
-                    addUpdatedTimeParam: false,
-                    addUpdatorParam: false));
         }
 
         private void SetByForm()
@@ -1314,75 +1222,394 @@ namespace Implem.Pleasanter.Models
             SetByFormula();
         }
 
+        private void SynchronizeSummary()
+        {
+            SiteSettings.SummaryCollection.ForEach(summary =>
+            {
+                var id = SynchronizeSummaryDestinationId(summary.LinkColumn);
+                var savedId = SynchronizeSummaryDestinationId(summary.LinkColumn, saved: true);
+                if (id != 0)
+                {
+                    SynchronizeSummary(summary, id);
+                }
+                if (savedId != 0 && id != savedId)
+                {
+                    SynchronizeSummary(summary, savedId);
+                }
+            });
+        }
+
+        private void SynchronizeSummary(Summary summary, long id)
+        {
+            Summaries.Synchronize(
+                summary.SiteId,
+                summary.DestinationReferenceType,
+                summary.DestinationColumn,
+                SiteId,
+                "Issues",
+                summary.LinkColumn,
+                summary.Type,
+                summary.SourceColumn,
+                id);
+            FormulaUtilities.Update(id);
+        }
+
+        private long SynchronizeSummaryDestinationId(string linkColumn, bool saved = false)
+        {
+            switch (linkColumn)
+            {
+                case "ClassA": return saved ? SavedClassA.ToLong() : ClassA.ToLong();
+                case "ClassB": return saved ? SavedClassB.ToLong() : ClassB.ToLong();
+                case "ClassC": return saved ? SavedClassC.ToLong() : ClassC.ToLong();
+                case "ClassD": return saved ? SavedClassD.ToLong() : ClassD.ToLong();
+                case "ClassE": return saved ? SavedClassE.ToLong() : ClassE.ToLong();
+                case "ClassF": return saved ? SavedClassF.ToLong() : ClassF.ToLong();
+                case "ClassG": return saved ? SavedClassG.ToLong() : ClassG.ToLong();
+                case "ClassH": return saved ? SavedClassH.ToLong() : ClassH.ToLong();
+                case "ClassI": return saved ? SavedClassI.ToLong() : ClassI.ToLong();
+                case "ClassJ": return saved ? SavedClassJ.ToLong() : ClassJ.ToLong();
+                case "ClassK": return saved ? SavedClassK.ToLong() : ClassK.ToLong();
+                case "ClassL": return saved ? SavedClassL.ToLong() : ClassL.ToLong();
+                case "ClassM": return saved ? SavedClassM.ToLong() : ClassM.ToLong();
+                case "ClassN": return saved ? SavedClassN.ToLong() : ClassN.ToLong();
+                case "ClassO": return saved ? SavedClassO.ToLong() : ClassO.ToLong();
+                case "ClassP": return saved ? SavedClassP.ToLong() : ClassP.ToLong();
+                case "ClassQ": return saved ? SavedClassQ.ToLong() : ClassQ.ToLong();
+                case "ClassR": return saved ? SavedClassR.ToLong() : ClassR.ToLong();
+                case "ClassS": return saved ? SavedClassS.ToLong() : ClassS.ToLong();
+                case "ClassT": return saved ? SavedClassT.ToLong() : ClassT.ToLong();
+                case "ClassU": return saved ? SavedClassU.ToLong() : ClassU.ToLong();
+                case "ClassV": return saved ? SavedClassV.ToLong() : ClassV.ToLong();
+                case "ClassW": return saved ? SavedClassW.ToLong() : ClassW.ToLong();
+                case "ClassX": return saved ? SavedClassX.ToLong() : ClassX.ToLong();
+                case "ClassY": return saved ? SavedClassY.ToLong() : ClassY.ToLong();
+                case "ClassZ": return saved ? SavedClassZ.ToLong() : ClassZ.ToLong();
+                default: return 0;
+            }
+        }
+
+        public void UpdateFormulaColumns()
+        {
+            SetByFormula();
+            var param = Rds.IssuesParam();
+            SiteSettings.Formulas.ForEach(formulaSet =>
+            {
+                switch (formulaSet.Target)
+                {
+                    case "WorkValue": param.WorkValue(WorkValue.Value); break;
+                    case "NumA": param.NumA(NumA); break;
+                    case "NumB": param.NumB(NumB); break;
+                    case "NumC": param.NumC(NumC); break;
+                    case "NumD": param.NumD(NumD); break;
+                    case "NumE": param.NumE(NumE); break;
+                    case "NumF": param.NumF(NumF); break;
+                    case "NumG": param.NumG(NumG); break;
+                    case "NumH": param.NumH(NumH); break;
+                    case "NumI": param.NumI(NumI); break;
+                    case "NumJ": param.NumJ(NumJ); break;
+                    case "NumK": param.NumK(NumK); break;
+                    case "NumL": param.NumL(NumL); break;
+                    case "NumM": param.NumM(NumM); break;
+                    case "NumN": param.NumN(NumN); break;
+                    case "NumO": param.NumO(NumO); break;
+                    case "NumP": param.NumP(NumP); break;
+                    case "NumQ": param.NumQ(NumQ); break;
+                    case "NumR": param.NumR(NumR); break;
+                    case "NumS": param.NumS(NumS); break;
+                    case "NumT": param.NumT(NumT); break;
+                    case "NumU": param.NumU(NumU); break;
+                    case "NumV": param.NumV(NumV); break;
+                    case "NumW": param.NumW(NumW); break;
+                    case "NumX": param.NumX(NumX); break;
+                    case "NumY": param.NumY(NumY); break;
+                    case "NumZ": param.NumZ(NumZ); break;
+                    default: break;
+                }
+            });
+            Rds.ExecuteNonQuery(statements:
+                Rds.UpdateIssues(
+                    param: param,
+                    where: Rds.IssuesWhereDefault(this),
+                    addUpdatedTimeParam: false,
+                    addUpdatorParam: false));
+        }
+
         private void SetByFormula()
         {
-            if (SiteSettings.FormulaHash?.Count > 0)
+            if (SiteSettings.Formulas?.Count > 0)
             {
-                var data = new Dictionary<string, decimal>
+                SiteSettings.Formulas.ForEach(formulaSet =>
                 {
-                    { "WorkValue", WorkValue.Value },
-                    { "RemainingWorkValue", RemainingWorkValue },
-                    { "NumA", NumA },
-                    { "NumB", NumB },
-                    { "NumC", NumC },
-                    { "NumD", NumD },
-                    { "NumE", NumE },
-                    { "NumF", NumF },
-                    { "NumG", NumG },
-                    { "NumH", NumH },
-                    { "NumI", NumI },
-                    { "NumJ", NumJ },
-                    { "NumK", NumK },
-                    { "NumL", NumL },
-                    { "NumM", NumM },
-                    { "NumN", NumN },
-                    { "NumO", NumO },
-                    { "NumP", NumP },
-                    { "NumQ", NumQ },
-                    { "NumR", NumR },
-                    { "NumS", NumS },
-                    { "NumT", NumT },
-                    { "NumU", NumU },
-                    { "NumV", NumV },
-                    { "NumW", NumW },
-                    { "NumX", NumX },
-                    { "NumY", NumY },
-                    { "NumZ", NumZ }
-                };
-                SiteSettings.FormulaHash.Keys.ForEach(columnName =>
-                {
+                    var columnName = formulaSet.Target;
+                    var formula = formulaSet.Formula;
+                    var view = SiteSettings.Views?.FirstOrDefault(o =>
+                        o.Id == formulaSet.Condition);
+                    if (view != null && !Matched(view))
+                    {
+                        if (formulaSet.OutOfCondition != null)
+                        {
+                            formula = formulaSet.OutOfCondition;
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    var data = new Dictionary<string, decimal>
+                    {
+                        { "WorkValue", WorkValue.Value },
+                        { "RemainingWorkValue", RemainingWorkValue },
+                        { "NumA", NumA },
+                        { "NumB", NumB },
+                        { "NumC", NumC },
+                        { "NumD", NumD },
+                        { "NumE", NumE },
+                        { "NumF", NumF },
+                        { "NumG", NumG },
+                        { "NumH", NumH },
+                        { "NumI", NumI },
+                        { "NumJ", NumJ },
+                        { "NumK", NumK },
+                        { "NumL", NumL },
+                        { "NumM", NumM },
+                        { "NumN", NumN },
+                        { "NumO", NumO },
+                        { "NumP", NumP },
+                        { "NumQ", NumQ },
+                        { "NumR", NumR },
+                        { "NumS", NumS },
+                        { "NumT", NumT },
+                        { "NumU", NumU },
+                        { "NumV", NumV },
+                        { "NumW", NumW },
+                        { "NumX", NumX },
+                        { "NumY", NumY },
+                        { "NumZ", NumZ }
+                    };
                     switch (columnName)
                     {
-                        case "WorkValue": WorkValue.Value = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumA": NumA = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumB": NumB = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumC": NumC = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumD": NumD = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumE": NumE = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumF": NumF = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumG": NumG = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumH": NumH = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumI": NumI = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumJ": NumJ = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumK": NumK = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumL": NumL = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumM": NumM = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumN": NumN = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumO": NumO = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumP": NumP = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumQ": NumQ = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumR": NumR = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumS": NumS = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumT": NumT = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumU": NumU = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumV": NumV = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumW": NumW = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumX": NumX = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumY": NumY = SiteSettings.FormulaResult(columnName, data); break;
-                        case "NumZ": NumZ = SiteSettings.FormulaResult(columnName, data); break;
+                        case "WorkValue": WorkValue.Value = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumA": NumA = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumB": NumB = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumC": NumC = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumD": NumD = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumE": NumE = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumF": NumF = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumG": NumG = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumH": NumH = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumI": NumI = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumJ": NumJ = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumK": NumK = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumL": NumL = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumM": NumM = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumN": NumN = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumO": NumO = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumP": NumP = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumQ": NumQ = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumR": NumR = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumS": NumS = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumT": NumT = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumU": NumU = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumV": NumV = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumW": NumW = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumX": NumX = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumY": NumY = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "NumZ": NumZ = SiteSettings.FormulaResult(columnName, formula, data); break;
                         default: break;
                     }
                 });
+            }
+        }
+
+        private bool Matched(View view)
+        {
+            if (view.Incomplete == true && !Status.Incomplete())
+            {
+                return false;
+            }
+            var userId = Sessions.UserId();
+            if (view.Own == true && !(Manager.Id == userId || Owner.Id == userId))
+            {
+                return false;
+            }
+            if (view.NearCompletionTime == true && !CompletionTime.Near(SiteSettings))
+            {
+                return false;
+            }
+            if (view.Delay == true && !ProgressRate.Delay(Status))
+            {
+                return false;
+            }
+            if (view.Overdue == true && CompletionTime.Overdue())
+            {
+                return false;
+            }
+            if (view.ColumnFilterHash != null)
+            {
+                foreach (var filter in view.ColumnFilterHash)
+                {
+                    var match = true;
+                    var column = SiteSettings.GetColumn(filter.Key);
+                    switch (filter.Key)
+                    {
+                        case "UpdatedTime": match = UpdatedTime.Value.Matched(column, filter.Value); break;
+                        case "StartTime": match = StartTime.Matched(column, filter.Value); break;
+                        case "CompletionTime": match = CompletionTime.Value.Matched(column, filter.Value); break;
+                        case "WorkValue": match = WorkValue.Value.Matched(column, filter.Value); break;
+                        case "ProgressRate": match = ProgressRate.Value.Matched(column, filter.Value); break;
+                        case "Status": match = Status.Value.Matched(column, filter.Value); break;
+                        case "Manager": match = Manager.Id.Matched(column, filter.Value); break;
+                        case "Owner": match = Owner.Id.Matched(column, filter.Value); break;
+                        case "ClassA": match = ClassA.Matched(column, filter.Value); break;
+                        case "ClassB": match = ClassB.Matched(column, filter.Value); break;
+                        case "ClassC": match = ClassC.Matched(column, filter.Value); break;
+                        case "ClassD": match = ClassD.Matched(column, filter.Value); break;
+                        case "ClassE": match = ClassE.Matched(column, filter.Value); break;
+                        case "ClassF": match = ClassF.Matched(column, filter.Value); break;
+                        case "ClassG": match = ClassG.Matched(column, filter.Value); break;
+                        case "ClassH": match = ClassH.Matched(column, filter.Value); break;
+                        case "ClassI": match = ClassI.Matched(column, filter.Value); break;
+                        case "ClassJ": match = ClassJ.Matched(column, filter.Value); break;
+                        case "ClassK": match = ClassK.Matched(column, filter.Value); break;
+                        case "ClassL": match = ClassL.Matched(column, filter.Value); break;
+                        case "ClassM": match = ClassM.Matched(column, filter.Value); break;
+                        case "ClassN": match = ClassN.Matched(column, filter.Value); break;
+                        case "ClassO": match = ClassO.Matched(column, filter.Value); break;
+                        case "ClassP": match = ClassP.Matched(column, filter.Value); break;
+                        case "ClassQ": match = ClassQ.Matched(column, filter.Value); break;
+                        case "ClassR": match = ClassR.Matched(column, filter.Value); break;
+                        case "ClassS": match = ClassS.Matched(column, filter.Value); break;
+                        case "ClassT": match = ClassT.Matched(column, filter.Value); break;
+                        case "ClassU": match = ClassU.Matched(column, filter.Value); break;
+                        case "ClassV": match = ClassV.Matched(column, filter.Value); break;
+                        case "ClassW": match = ClassW.Matched(column, filter.Value); break;
+                        case "ClassX": match = ClassX.Matched(column, filter.Value); break;
+                        case "ClassY": match = ClassY.Matched(column, filter.Value); break;
+                        case "ClassZ": match = ClassZ.Matched(column, filter.Value); break;
+                        case "NumA": match = NumA.Matched(column, filter.Value); break;
+                        case "NumB": match = NumB.Matched(column, filter.Value); break;
+                        case "NumC": match = NumC.Matched(column, filter.Value); break;
+                        case "NumD": match = NumD.Matched(column, filter.Value); break;
+                        case "NumE": match = NumE.Matched(column, filter.Value); break;
+                        case "NumF": match = NumF.Matched(column, filter.Value); break;
+                        case "NumG": match = NumG.Matched(column, filter.Value); break;
+                        case "NumH": match = NumH.Matched(column, filter.Value); break;
+                        case "NumI": match = NumI.Matched(column, filter.Value); break;
+                        case "NumJ": match = NumJ.Matched(column, filter.Value); break;
+                        case "NumK": match = NumK.Matched(column, filter.Value); break;
+                        case "NumL": match = NumL.Matched(column, filter.Value); break;
+                        case "NumM": match = NumM.Matched(column, filter.Value); break;
+                        case "NumN": match = NumN.Matched(column, filter.Value); break;
+                        case "NumO": match = NumO.Matched(column, filter.Value); break;
+                        case "NumP": match = NumP.Matched(column, filter.Value); break;
+                        case "NumQ": match = NumQ.Matched(column, filter.Value); break;
+                        case "NumR": match = NumR.Matched(column, filter.Value); break;
+                        case "NumS": match = NumS.Matched(column, filter.Value); break;
+                        case "NumT": match = NumT.Matched(column, filter.Value); break;
+                        case "NumU": match = NumU.Matched(column, filter.Value); break;
+                        case "NumV": match = NumV.Matched(column, filter.Value); break;
+                        case "NumW": match = NumW.Matched(column, filter.Value); break;
+                        case "NumX": match = NumX.Matched(column, filter.Value); break;
+                        case "NumY": match = NumY.Matched(column, filter.Value); break;
+                        case "NumZ": match = NumZ.Matched(column, filter.Value); break;
+                        case "DateA": match = DateA.Matched(column, filter.Value); break;
+                        case "DateB": match = DateB.Matched(column, filter.Value); break;
+                        case "DateC": match = DateC.Matched(column, filter.Value); break;
+                        case "DateD": match = DateD.Matched(column, filter.Value); break;
+                        case "DateE": match = DateE.Matched(column, filter.Value); break;
+                        case "DateF": match = DateF.Matched(column, filter.Value); break;
+                        case "DateG": match = DateG.Matched(column, filter.Value); break;
+                        case "DateH": match = DateH.Matched(column, filter.Value); break;
+                        case "DateI": match = DateI.Matched(column, filter.Value); break;
+                        case "DateJ": match = DateJ.Matched(column, filter.Value); break;
+                        case "DateK": match = DateK.Matched(column, filter.Value); break;
+                        case "DateL": match = DateL.Matched(column, filter.Value); break;
+                        case "DateM": match = DateM.Matched(column, filter.Value); break;
+                        case "DateN": match = DateN.Matched(column, filter.Value); break;
+                        case "DateO": match = DateO.Matched(column, filter.Value); break;
+                        case "DateP": match = DateP.Matched(column, filter.Value); break;
+                        case "DateQ": match = DateQ.Matched(column, filter.Value); break;
+                        case "DateR": match = DateR.Matched(column, filter.Value); break;
+                        case "DateS": match = DateS.Matched(column, filter.Value); break;
+                        case "DateT": match = DateT.Matched(column, filter.Value); break;
+                        case "DateU": match = DateU.Matched(column, filter.Value); break;
+                        case "DateV": match = DateV.Matched(column, filter.Value); break;
+                        case "DateW": match = DateW.Matched(column, filter.Value); break;
+                        case "DateX": match = DateX.Matched(column, filter.Value); break;
+                        case "DateY": match = DateY.Matched(column, filter.Value); break;
+                        case "DateZ": match = DateZ.Matched(column, filter.Value); break;
+                        case "CheckA": match = CheckA.Matched(column, filter.Value); break;
+                        case "CheckB": match = CheckB.Matched(column, filter.Value); break;
+                        case "CheckC": match = CheckC.Matched(column, filter.Value); break;
+                        case "CheckD": match = CheckD.Matched(column, filter.Value); break;
+                        case "CheckE": match = CheckE.Matched(column, filter.Value); break;
+                        case "CheckF": match = CheckF.Matched(column, filter.Value); break;
+                        case "CheckG": match = CheckG.Matched(column, filter.Value); break;
+                        case "CheckH": match = CheckH.Matched(column, filter.Value); break;
+                        case "CheckI": match = CheckI.Matched(column, filter.Value); break;
+                        case "CheckJ": match = CheckJ.Matched(column, filter.Value); break;
+                        case "CheckK": match = CheckK.Matched(column, filter.Value); break;
+                        case "CheckL": match = CheckL.Matched(column, filter.Value); break;
+                        case "CheckM": match = CheckM.Matched(column, filter.Value); break;
+                        case "CheckN": match = CheckN.Matched(column, filter.Value); break;
+                        case "CheckO": match = CheckO.Matched(column, filter.Value); break;
+                        case "CheckP": match = CheckP.Matched(column, filter.Value); break;
+                        case "CheckQ": match = CheckQ.Matched(column, filter.Value); break;
+                        case "CheckR": match = CheckR.Matched(column, filter.Value); break;
+                        case "CheckS": match = CheckS.Matched(column, filter.Value); break;
+                        case "CheckT": match = CheckT.Matched(column, filter.Value); break;
+                        case "CheckU": match = CheckU.Matched(column, filter.Value); break;
+                        case "CheckV": match = CheckV.Matched(column, filter.Value); break;
+                        case "CheckW": match = CheckW.Matched(column, filter.Value); break;
+                        case "CheckX": match = CheckX.Matched(column, filter.Value); break;
+                        case "CheckY": match = CheckY.Matched(column, filter.Value); break;
+                        case "CheckZ": match = CheckZ.Matched(column, filter.Value); break;
+                        case "CreatedTime": match = CreatedTime.Value.Matched(column, filter.Value); break;
+                    }
+                    if (!match) return false;
+                }
+            }
+            return true;
+        }
+
+        private void CheckNotificationConditions(bool before = false)
+        {
+            if (SiteSettings.Notifications.Any())
+            {
+                var data = Rds.ExecuteDataSet(statements:
+                    SiteSettings.Notifications.Select((o, i) =>
+                        Rds.SelectIssues(
+                            column: Rds.IssuesColumn().IssueId(),
+                            where: SiteSettings.Views.FirstOrDefault(p => p.Id == (before
+                                ? o.BeforeCondition
+                                : o.AfterCondition))?
+                                    .Where(SiteSettings, Rds.IssuesWhere().IssueId(IssueId))
+                                        ?? Rds.IssuesWhere().IssueId(IssueId))).ToArray());
+                SiteSettings.Notifications
+                    .Select((o, i) => new
+                    {
+                        Notification = o,
+                        Exists = data.Tables[i].Rows.Count == 1
+                    })
+                    .ForEach(o =>
+                    {
+                        if (before)
+                        {
+                            o.Notification.Enabled = o.Exists;
+                        }
+                        else if (SiteSettings.Views.Any(p =>
+                            p.Id == o.Notification.AfterCondition))
+                        {
+                            if (o.Notification.Expression == Notification.Expressions.And)
+                            {
+                                o.Notification.Enabled &= o.Exists;
+                            }
+                            else
+                            {
+                                o.Notification.Enabled |= o.Exists;
+                            }
+                        }
+                    });
             }
         }
 
@@ -1391,18 +1618,17 @@ namespace Implem.Pleasanter.Models
             var title = IssueUtilities.TitleDisplayValue(SiteSettings, this);
             var url = Url.AbsoluteUri().Replace(
                 Url.AbsolutePath(), Locations.ItemEdit(IssueId));
-            switch (type)
+            SiteSettings.Notifications.Where(o => o.Enabled).ForEach(notification =>
             {
-                case "Created":
-                    SiteSettings.Notifications.ForEach(notification =>
+                switch (type)
+                {
+                    case "Created":
                         notification.Send(
                             Displays.Created(title).ToString(),
                             url,
-                            NoticeBody(notification)));
-                    break;
-                case "Updated":
-                    SiteSettings.Notifications.ForEach(notification =>
-                    {
+                            NoticeBody(notification));
+                        break;
+                    case "Updated":
                         var body = NoticeBody(notification, update: true);
                         if (body.Length > 0)
                         {
@@ -1411,16 +1637,15 @@ namespace Implem.Pleasanter.Models
                                 url,
                                 body);
                         }
-                    });
-                    break;
-                case "Deleted":
-                    SiteSettings.Notifications.ForEach(notification =>
+                        break;
+                    case "Deleted":
                         notification.Send(
                             Displays.Deleted(title).ToString(),
                             url,
-                            NoticeBody(notification)));
-                    break;
-            }
+                            NoticeBody(notification));
+                        break;
+                }
+            });
         }
 
         private string NoticeBody(Notification notification, bool update = false)

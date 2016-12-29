@@ -1,0 +1,13 @@
+﻿{
+    "Id": "EditProfile",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Edit profile"
+        },
+        {
+            "Language": "ja",
+            "Body": "プロファイル編集"
+        }
+    ]
+}

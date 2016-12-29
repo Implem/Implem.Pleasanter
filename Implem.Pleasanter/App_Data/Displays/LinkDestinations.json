@@ -1,0 +1,13 @@
+﻿{
+    "Id": "LinkDestinations",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Link destinations"
+        },
+        {
+            "Language": "ja",
+            "Body": "リンク先"
+        }
+    ]
+}

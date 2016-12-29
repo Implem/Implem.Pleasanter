@@ -1054,8 +1054,8 @@ namespace Implem.Pleasanter.Models
                         action: () => hb
                             .Div(id: "Demo", action: () => hb
                                 .FieldSet(
-                                    legendText: Displays.ViewDemoEnvironment(),
                                     css: " enclosed-thin",
+                                    legendText: Displays.ViewDemoEnvironment(),
                                     action: () => hb
                                         .Div(id: "DemoFields", action: () => hb
                                             .Field(

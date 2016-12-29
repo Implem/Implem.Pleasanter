@@ -130,8 +130,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 _using: Visible(ss, "ProgressRate"));
         }
 
-        private static HtmlBuilder Limit(
-            this HtmlBuilder hb, SiteSettings ss, View view)
+        private static HtmlBuilder Limit(this HtmlBuilder hb, SiteSettings ss, View view)
         {
             return hb.FieldCheckBox(
                 controlId: "ViewFilters_Overdue",
@@ -164,15 +163,22 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ss: ss,
                             view: view);
                         break;
-                    case Types.CsDateTime:
-                        var timePeriod = TimePeriod.Get(column.RecordedTime);
+                    case Types.CsNumeric:
                         hb.DropDown(
                             ss: ss,
                             column: column,
                             view: view,
-                            optionCollection: timePeriod);
+                            optionCollection: column.HasChoices()
+                                ? column.EditChoices(addNotSet: true)
+                                : column.NumFilterOptions());
                         break;
-                    case Types.CsNumeric:
+                    case Types.CsDateTime:
+                        hb.DropDown(
+                            ss: ss,
+                            column: column,
+                            view: view,
+                            optionCollection: column.DateFilterOptions());
+                        break;
                     case Types.CsString:
                         if (column.HasChoices())
                         {
@@ -193,16 +199,33 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder CheckBox(
             this HtmlBuilder hb, SiteSettings ss, Column column, View view)
         {
-            return hb.FieldCheckBox(
-                controlId: "ViewFilters_" + column.Id,
-                fieldCss: "field-auto-thin",
-                controlCss: " auto-postback",
-                labelText: Displays.Get(column.GridLabelText),
-                _checked: view.ColumnFilter(column.ColumnName).ToBool(),
-                method: "post",
-                _using:
-                    ss.GridColumns.Contains(column.ColumnName) ||
-                    ss.EditorColumns.Contains(column.ColumnName));
+            if (ss.GridColumns.Contains(column.ColumnName) ||
+                ss.EditorColumns.Contains(column.ColumnName))
+            {
+                switch (column.CheckFilterControlType)
+                {
+                    case ColumnUtilities.CheckFilterControlTypes.OnOnly:
+                        return hb.FieldCheckBox(
+                            controlId: "ViewFilters_" + column.Id,
+                            fieldCss: "field-auto-thin",
+                            controlCss: " auto-postback",
+                            labelText: Displays.Get(column.GridLabelText),
+                            _checked: view.ColumnFilter(column.ColumnName).ToBool(),
+                            method: "post");
+                    case ColumnUtilities.CheckFilterControlTypes.OnAndOff:
+                        return hb.FieldDropDown(
+                            controlId: "ViewFilters_" + column.Id,
+                            fieldCss: "field-auto-thin",
+                            controlCss: " auto-postback",
+                            labelText: Displays.Get(column.GridLabelText),
+                            optionCollection: ColumnUtilities.CheckFilterTypeOptions(),
+                            selectedValue: view.ColumnFilter(column.ColumnName),
+                            addSelectedValue: false,
+                            insertBlank: true,
+                            method: "post");
+                }
+            }
+            return hb;
         }
 
         private static HtmlBuilder DropDown(

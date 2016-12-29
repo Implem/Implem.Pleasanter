@@ -1,0 +1,13 @@
+﻿{
+    "Id": "CodeDefinerMvcCompleted",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Mvc codes creation completion."
+        },
+        {
+            "Language": "ja",
+            "Body": "MVCコードの作成処理が完了しました。"
+        }
+    ]
+}

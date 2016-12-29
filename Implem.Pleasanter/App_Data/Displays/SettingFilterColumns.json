@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SettingFilterColumns",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Filter columns settings"
+        },
+        {
+            "Language": "ja",
+            "Body": "フィルタ項目の設定"
+        }
+    ]
+}

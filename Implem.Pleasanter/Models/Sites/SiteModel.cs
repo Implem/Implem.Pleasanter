@@ -201,7 +201,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void OnConstructed()
         {
-            SiteInfo.SetSiteUserIdCollection(SiteId);
+            SiteInfo.SetSiteUserHash(SiteId);
         }
 
         public void ClearSessions()
@@ -278,7 +278,7 @@ namespace Implem.Pleasanter.Models
             if (count == 0) return Error.Types.UpdateConflicts;
             Get();
             UpdateRelatedRecords();
-            SiteInfo.SiteMenu.Set(SiteId);
+            SiteInfo.Reflesh();
             return Error.Types.None;
         }
 
@@ -293,8 +293,7 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ItemsWhere().ReferenceId(SiteId),
                         param: Rds.ItemsParam()
                             .SiteId(SiteId)
-                            .Title(SiteUtilities.TitleDisplayValue(SiteSettings, this))
-                            .MaintenanceTarget(true),
+                            .Title(SiteUtilities.TitleDisplayValue(SiteSettings, this)),
                         addUpdatedTimeParam: addUpdatedTimeParam,
                         addUpdatorParam: addUpdatorParam),
                     Rds.PhysicalDeleteLinks(
@@ -304,6 +303,7 @@ namespace Implem.Pleasanter.Models
                         .Distinct()
                         .ToDictionary(o => o, o => SiteId))
                 });
+            Libraries.Search.Indexes.Create(SiteSettings, SiteId);
         }
 
         public Error.Types UpdateOrCreate(
@@ -328,6 +328,7 @@ namespace Implem.Pleasanter.Models
                 });
             SiteId = newId != 0 ? newId : SiteId;
             Get();
+            Libraries.Search.Indexes.Create(SiteSettings, SiteId);
             return Error.Types.None;
         }
 
@@ -373,6 +374,7 @@ namespace Implem.Pleasanter.Models
                     Rds.RestoreSites(
                         where: Rds.SitesWhere().SiteId(SiteId))
                 });
+            Libraries.Search.Indexes.Create(SiteSettings, SiteId);
             return Error.Types.None;
         }
 
@@ -383,6 +385,7 @@ namespace Implem.Pleasanter.Models
                 statements: Rds.PhysicalDeleteSites(
                     tableType: tableType,
                     param: Rds.SitesParam().TenantId(TenantId).SiteId(SiteId)));
+            Libraries.Search.Indexes.Create(SiteSettings, SiteId);
             return Error.Types.None;
         }
 
@@ -415,6 +418,25 @@ namespace Implem.Pleasanter.Models
                 }
             });
             SetSiteSettings();
+        }
+
+        private bool Matched(View view)
+        {
+            if (view.ColumnFilterHash != null)
+            {
+                foreach (var filter in view.ColumnFilterHash)
+                {
+                    var match = true;
+                    var column = SiteSettings.GetColumn(filter.Key);
+                    switch (filter.Key)
+                    {
+                        case "UpdatedTime": match = UpdatedTime.Value.Matched(column, filter.Value); break;
+                        case "CreatedTime": match = CreatedTime.Value.Matched(column, filter.Value); break;
+                    }
+                    if (!match) return false;
+                }
+            }
+            return true;
         }
 
         private void SetBySession()
@@ -521,6 +543,9 @@ namespace Implem.Pleasanter.Models
                     };
                     wikiModel.Create();
                     break;
+                default:
+                    Libraries.Search.Indexes.Create(SiteSettings, SiteId);
+                    break;
             }
             return Error.Types.None;
         }
@@ -583,17 +608,23 @@ namespace Implem.Pleasanter.Models
                 case "ToEnableGridColumns":
                     SetGridColumns(res, controlId);
                     break;
-                case "OpenGridColumnPropertiesDialog":
-                    OpenGridColumnPropertiesDialog(res);
+                case "OpenGridColumnDialog":
+                    OpenGridColumnDialog(res);
                     break;
-                case "SetGridColumnProperties":
-                    SetGridColumnProperties(res);
+                case "SetGridColumn":
+                    SetGridColumn(res);
                     break;
                 case "MoveUpFilterColumns":
                 case "MoveDownFilterColumns":
                 case "ToDisableFilterColumns":
                 case "ToEnableFilterColumns":
                     SetFilterColumns(res, controlId);
+                    break;
+                case "OpenFilterColumnDialog":
+                    OpenFilterColumnDialog(res);
+                    break;
+                case "SetFilterColumn":
+                    SetFilterColumn(res);
                     break;
                 case "AddAggregations":
                 case "DeleteAggregations":
@@ -622,11 +653,11 @@ namespace Implem.Pleasanter.Models
                 case "ToEnableEditorColumns":
                     SetEditorColumns(res, controlId);
                     break;
-                case "OpenEditorColumnPropertiesDialog":
-                    OpenEditorColumnPropertiesDialog(res);
+                case "OpenEditorColumnDialog":
+                    OpenEditorColumnDialog(res);
                     break;
-                case "SetEditorColumnProperties":
-                    SetEditorColumnProperties(res);
+                case "SetEditorColumn":
+                    SetEditorColumn(res);
                     break;
                 case "MoveUpTitleColumns":
                 case "MoveDownTitleColumns":
@@ -650,8 +681,15 @@ namespace Implem.Pleasanter.Models
                 case "MoveDownFormulas":
                     SetFormulas(res, controlId);
                     break;
-                case "AddFormula":
-                    AddFormula(res);
+                case "NewFormula":
+                case "EditFormula":
+                    OpenFormulaDialog(res, controlId);
+                    break;
+                case "CreateFormula":
+                    CreateFormula(res);
+                    break;
+                case "UpdateFormula":
+                    UpdateFormula(res);
                     break;
                 case "DeleteFormulas":
                     DeleteFormulas(res);
@@ -713,7 +751,7 @@ namespace Implem.Pleasanter.Models
             {
                 switch (data.Key)
                 {
-                    case "EditorColumnProperty,Format":
+                    case "Format":
                         try
                         {
                             0.ToString(data.Value, Sessions.CultureInfo());
@@ -773,7 +811,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void OpenGridColumnPropertiesDialog(ResponseCollection res)
+        private void OpenGridColumnDialog(ResponseCollection res)
         {
             var selectedColumns = Forms.List("GridColumns");
             if (selectedColumns.Count() != 1)
@@ -790,8 +828,8 @@ namespace Implem.Pleasanter.Models
                 else
                 {
                     res.Html(
-                        "#GridColumnPropertiesDialog",
-                        SiteUtilities.GridColumnProperties(ss: SiteSettings, column: column));
+                        "#GridColumnDialog",
+                        SiteUtilities.GridColumnDialog(ss: SiteSettings, column: column));
                 }
             }
         }
@@ -799,42 +837,35 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetGridColumnProperties(ResponseCollection res)
+        private void SetGridColumn(ResponseCollection res)
         {
-            var selectedColumns = Forms.List("GridColumns");
-            if (selectedColumns.Count() == 1)
+            var columnName = Forms.Data("GridColumnName");
+            var column = SiteSettings.GridColumn(columnName);
+            if (column == null)
             {
-                var column = SiteSettings.GridColumn(selectedColumns.FirstOrDefault());
-                if (column == null)
-                {
-                    res.Message(Messages.InvalidRequest());
-                }
-                else
-                {
-                    Forms.All()
-                        .Where(o => o.Key.StartsWith("GridColumnProperty,"))
-                        .ForEach(data =>
-                            SiteSettings.SetColumnProperty(
-                                column,
-                                data.Key.Split_2nd(),
-                                GridColumnPropertyValue(data.Key, data.Value)));
-                    res.Html("#GridColumns",
-                        new HtmlBuilder().SelectableItems(
-                            listItemCollection: SiteSettings.GridSelectableOptions(),
-                            selectedValueTextCollection: selectedColumns));
-                }
+                res.Message(Messages.InvalidRequest());
+            }
+            else
+            {
+                Forms.All().ForEach(data => SiteSettings.SetColumnProperty(
+                    column, data.Key, GridColumnValue(data.Key, data.Value)));
+                res
+                    .Html("#GridColumns", new HtmlBuilder().SelectableItems(
+                        listItemCollection: SiteSettings.GridSelectableOptions(),
+                        selectedValueTextCollection: new List<string> { columnName }))
+                    .CloseDialog();
             }
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private string GridColumnPropertyValue(string name, string value)
+        private string GridColumnValue(string name, string value)
         {
             switch (name)
             {
-                case "GridColumnProperty,GridDesign":
-                    return Forms.Bool("GridColumnProperty,UseGridDesign")
+                case "GridDesign":
+                    return Forms.Bool("UseGridDesign")
                         ? value
                         : null;
                 default:
@@ -859,6 +890,55 @@ namespace Implem.Pleasanter.Models
                 selectedColumns,
                 SiteSettings.FilterSelectableOptions(enabled: false),
                 selectedSourceColumns);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenFilterColumnDialog(ResponseCollection res)
+        {
+            var selectedColumns = Forms.List("FilterColumns");
+            if (selectedColumns.Count() != 1)
+            {
+                res.Message(Messages.SelectOne());
+            }
+            else
+            {
+                var column = SiteSettings.FilterColumn(selectedColumns.FirstOrDefault());
+                if (column == null)
+                {
+                    res.Message(Messages.InvalidRequest());
+                }
+                else
+                {
+                    res.Html(
+                        "#FilterColumnDialog",
+                        SiteUtilities.FilterColumnDialog(ss: SiteSettings, column: column));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetFilterColumn(ResponseCollection res)
+        {
+            var columnName = Forms.Data("FilterColumnName");
+            var column = SiteSettings.FilterColumn(columnName);
+            if (column == null)
+            {
+                res.Message(Messages.InvalidRequest());
+            }
+            else
+            {
+                Forms.All().ForEach(data => SiteSettings.SetColumnProperty(
+                    column, data.Key, data.Value));
+                res
+                    .Html("#FilterColumns", new HtmlBuilder().SelectableItems(
+                        listItemCollection: SiteSettings.FilterSelectableOptions(),
+                        selectedValueTextCollection: new List<string> { columnName }))
+                    .CloseDialog();
+            }
         }
 
         /// <summary>
@@ -1007,7 +1087,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void OpenEditorColumnPropertiesDialog(ResponseCollection res)
+        private void OpenEditorColumnDialog(ResponseCollection res)
         {
             var selectedColumns = Forms.List("EditorColumns");
             if (selectedColumns.Count() != 1)
@@ -1029,8 +1109,8 @@ namespace Implem.Pleasanter.Models
                         Session_TitleColumns(titleColumns);
                     }
                     res.Html(
-                        "#EditorColumnPropertiesDialog",
-                        SiteUtilities.EditorColumnProperties(
+                        "#EditorColumnDialog",
+                        SiteUtilities.EditorColumnDialog(
                             ss: SiteSettings,
                             column: column,
                             titleColumns: titleColumns));
@@ -1041,34 +1121,27 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetEditorColumnProperties(ResponseCollection res)
+        private void SetEditorColumn(ResponseCollection res)
         {
-            var selectedColumns = Forms.List("EditorColumns");
-            if (selectedColumns.Count() == 1)
+            var columnName = Forms.Data("EditorColumnName");
+            var column = SiteSettings.EditorColumn(columnName);
+            if (column == null)
             {
-                var column = SiteSettings.EditorColumn(selectedColumns.FirstOrDefault());
-                if (column == null)
+                res.Message(Messages.InvalidRequest());
+            }
+            else
+            {
+                if (column.ColumnName == "Title")
                 {
-                    res.Message(Messages.InvalidRequest());
+                    SiteSettings.TitleColumns = Session_TitleColumns();
                 }
-                else
-                {
-                    if (column.ColumnName == "Title")
-                    {
-                        SiteSettings.TitleColumns = Session_TitleColumns();
-                    }
-                    Forms.All()
-                        .Where(o => o.Key.StartsWith("EditorColumnProperty,"))
-                        .ForEach(data =>
-                            SiteSettings.SetColumnProperty(
-                                column,
-                                data.Key.Split_2nd(),
-                                data.Value));
-                    res.Html("#EditorColumns",
-                        new HtmlBuilder().SelectableItems(
-                            listItemCollection: SiteSettings.EditorSelectableOptions(),
-                            selectedValueTextCollection: selectedColumns));
-                }
+                Forms.All().ForEach(data =>
+                    SiteSettings.SetColumnProperty(column, data.Key, data.Value));
+                res
+                    .Html("#EditorColumns", new HtmlBuilder().SelectableItems(
+                        listItemCollection: SiteSettings.EditorSelectableOptions(),
+                        selectedValueTextCollection: new List<string> { columnName }))
+                    .CloseDialog();
             }
         }
 
@@ -1140,20 +1213,71 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetFormulas(ResponseCollection res, string controlId)
         {
-            var selectedColumns = Forms.List("Formulas");
-            SiteSettings.SetFormulas(controlId, selectedColumns);
+            var selected = Forms.IntList("Formulas");
+            SiteSettings.SetFormulas(controlId, selected);
             res.Html("#Formulas", new HtmlBuilder()
                 .SelectableItems(
                     listItemCollection: SiteSettings.FormulaItemCollection(),
-                    selectedValueTextCollection: selectedColumns));
+                    selectedValueTextCollection: selected.Select(o => o.ToString())));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void AddFormula(ResponseCollection res)
+        private void OpenFormulaDialog(ResponseCollection res, string controlId)
         {
-            var error = SiteSettings.AddFormula(Forms.Data("Formula"));
+            FormulaSet formulaSet;
+            if (controlId == "NewFormula")
+            {
+                formulaSet = new FormulaSet();
+                OpenFormulaDialog(res, formulaSet);
+            }
+            else
+            {
+                var idList = Forms.IntList("Formulas", ';');
+                if (idList.Count() != 1)
+                {
+                    OpenDialogError(res, Messages.SelectOne());
+                }
+                else
+                {
+                    formulaSet = SiteSettings.Formulas
+                        .FirstOrDefault(o => o.Id == idList.First());
+                    if (formulaSet == null)
+                    {
+                        OpenDialogError(res, Messages.SelectOne());
+                    }
+                    else
+                    {
+                        SiteSettingsUtility.Get(this);
+                        OpenFormulaDialog(res, formulaSet);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenFormulaDialog(ResponseCollection res, FormulaSet formulaSet)
+        {
+            res.Html("#FormulaDialog", SiteUtilities.FormulaDialog(
+                ss: SiteSettings, controlId: Forms.ControlId(), formulaSet: formulaSet));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CreateFormula(ResponseCollection res)
+        {
+            var outOfCondition = Forms.Data("FormulaOutOfCondition").Trim();
+            var error = SiteSettings.AddFormula(
+                Forms.Data("FormulaTarget"),
+                Forms.Int("FormulaCondition"),
+                Forms.Data("Formula"),
+                outOfCondition != string.Empty
+                    ? outOfCondition
+                    : null);
             if (error.Has())
             {
                 res.Message(error.Message());
@@ -1163,7 +1287,39 @@ namespace Implem.Pleasanter.Models
                 res
                     .Html("#Formulas", new HtmlBuilder()
                         .SelectableItems(listItemCollection: SiteSettings.FormulaItemCollection()))
-                    .Val("#Formula", string.Empty);
+                    .Val("#Formula", string.Empty)
+                    .CloseDialog();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateFormula(ResponseCollection res)
+        {
+            var id = Forms.Int("FormulaId");
+            var outOfCondition = Forms.Data("FormulaOutOfCondition").Trim();
+            var error = SiteSettings.UpdateFormula(
+                id,
+                Forms.Data("FormulaTarget"),
+                Forms.Int("FormulaCondition"),
+                Forms.Data("Formula"),
+                outOfCondition != string.Empty
+                    ? outOfCondition
+                    : null);
+            if (error.Has())
+            {
+                res.Message(error.Message());
+            }
+            else
+            {
+                res
+                    .Html("#Formulas", new HtmlBuilder()
+                        .SelectableItems(
+                            listItemCollection: SiteSettings.FormulaItemCollection(),
+                            selectedValueTextCollection: new List<string> { id.ToString() }))
+                    .Val("#Formula", string.Empty)
+                    .CloseDialog();
             }
         }
 
@@ -1172,7 +1328,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void DeleteFormulas(ResponseCollection res)
         {
-            SiteSettings.DeleteFormulas(Forms.Data("Formulas").Split(';'));
+            SiteSettings.DeleteFormulas(Forms.IntList("Formulas", ';'));
             res
                 .Html("#Formulas", new HtmlBuilder()
                     .SelectableItems(listItemCollection: SiteSettings.FormulaItemCollection()))
@@ -1201,10 +1357,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void OpenViewDialog(ResponseCollection res, string controlId)
         {
-            Libraries.Settings.View view;
+            View view;
             if (controlId == "NewView")
             {
-                view = new Libraries.Settings.View(SiteSettings);
+                view = new View(SiteSettings);
                 OpenViewDialog(res, view);
             }
             else
@@ -1212,14 +1368,14 @@ namespace Implem.Pleasanter.Models
                 var idList = Forms.IntList("Views", ';');
                 if (idList.Count() != 1)
                 {
-                    OpenViewError(res, Messages.SelectOne());
+                    OpenDialogError(res, Messages.SelectOne());
                 }
                 else
                 {
                     view = SiteSettings.Views.FirstOrDefault(o => o.Id == idList.First());
                     if (view == null)
                     {
-                        OpenViewError(res, Messages.SelectOne());
+                        OpenDialogError(res, Messages.SelectOne());
                     }
                     else
                     {
@@ -1233,23 +1389,12 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void OpenViewDialog(
-            ResponseCollection res, Libraries.Settings.View view)
+        private void OpenViewDialog(ResponseCollection res, View view)
         {
             res.Html("#ViewDialog", SiteUtilities.ViewDialog(
                 ss: SiteSettings,
                 controlId: Forms.ControlId(),
                 view: view));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void OpenViewError(ResponseCollection res, Message message)
-        {
-            res
-                .Message(message)
-                .CloseDialog();
         }
 
         /// <summary>
@@ -1271,7 +1416,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void CreateView(ResponseCollection res)
         {
-            SiteSettings.AddView(new Libraries.Settings.View(SiteSettings));
+            SiteSettings.AddView(new View(SiteSettings));
             res
                 .ViewResponses(SiteSettings, new List<int>
                 {
@@ -1345,7 +1490,10 @@ namespace Implem.Pleasanter.Models
                 (Notification.Types)Forms.Int("NotificationType"),
                 Forms.Data("NotificationPrefix"),
                 Forms.Data("NotificationAddress"),
-                Session_MonitorChangesColumns()));
+                Session_MonitorChangesColumns(),
+                Forms.Int("BeforeCondition"),
+                Forms.Int("AfterCondition"),
+                (Notification.Expressions)Forms.Int("Expression")));
             SetNotificationsResponseCollection(res);
         }
 
@@ -1364,7 +1512,10 @@ namespace Implem.Pleasanter.Models
                 notification.Update(
                     Forms.Data("NotificationPrefix"),
                     Forms.Data("NotificationAddress"),
-                    Session_MonitorChangesColumns());
+                    Session_MonitorChangesColumns(),
+                    Forms.Int("BeforeCondition"),
+                    Forms.Int("AfterCondition"),
+                    (Notification.Expressions)Forms.Int("Expression"));
                 SetNotificationsResponseCollection(res);
             }
         }
@@ -1514,6 +1665,16 @@ namespace Implem.Pleasanter.Models
             destinations.Clear();
             destinations.AddRange(sources);
             sources.Clear();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenDialogError(ResponseCollection res, Message message)
+        {
+            res
+                .Message(message)
+                .CloseDialog();
         }
     }
 }

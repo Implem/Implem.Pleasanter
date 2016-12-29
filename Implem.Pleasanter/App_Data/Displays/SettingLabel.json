@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SettingLabel",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Display Label"
+        },
+        {
+            "Language": "ja",
+            "Body": "項目名"
+        }
+    ]
+}

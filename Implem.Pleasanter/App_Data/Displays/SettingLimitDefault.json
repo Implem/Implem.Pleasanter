@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SettingLimitDefault",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Initial period"
+        },
+        {
+            "Language": "ja",
+            "Body": "期限の規定値"
+        }
+    ]
+}

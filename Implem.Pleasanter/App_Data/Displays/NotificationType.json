@@ -1,0 +1,13 @@
+﻿{
+    "Id": "NotificationType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Notification type"
+        },
+        {
+            "Language": "ja",
+            "Body": "通知種別"
+        }
+    ]
+}

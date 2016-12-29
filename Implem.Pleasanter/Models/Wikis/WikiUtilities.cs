@@ -298,14 +298,16 @@ namespace Implem.Pleasanter.Models
             Permissions.Types pt,
             WikiModel wikiModel)
         {
-            wikiModel.SiteSettings.FormulaHash?.Keys.ForEach(columnName =>
-            {
-                var column = wikiModel.SiteSettings.GetColumn(columnName);
-                switch (columnName)
+            wikiModel.SiteSettings.Formulas
+                .Select(o => wikiModel.SiteSettings.GetColumn(o.Target))
+                .Where(o => o != null)
+                .ForEach(column =>
                 {
-                    default: break;
-                }
-            });
+                    switch (column.ColumnName)
+                    {
+                        default: break;
+                    }
+                });
             return res;
         }
 

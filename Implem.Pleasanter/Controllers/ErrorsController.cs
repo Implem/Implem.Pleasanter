@@ -1,8 +1,10 @@
-﻿using System.Net;
+﻿using Implem.Pleasanter.Filters;
+using System.Net;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
+    [RefleshSiteInfo]
     public class ErrorsController : Controller
     {
         [AllowAnonymous]

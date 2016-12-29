@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ScriptSettingsEditor",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Script"
+        },
+        {
+            "Language": "ja",
+            "Body": "スクリプト"
+        }
+    ]
+}

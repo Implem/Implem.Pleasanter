@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SentAcceptanceMail ",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "We sent an acceptance e-mail."
+        },
+        {
+            "Language": "ja",
+            "Body": "ログイン用のURLを送信しますので、しばらくお待ち下さい。"
+        }
+    ]
+}

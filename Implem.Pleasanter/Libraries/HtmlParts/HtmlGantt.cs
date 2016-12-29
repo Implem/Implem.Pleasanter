@@ -14,26 +14,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Gantt(
             this HtmlBuilder hb,
             SiteSettings ss,
-            string groupByColumn,
+            string groupBy,
             Permissions.Types pt,
             IEnumerable<DataRow> dataRows)
         {
             return hb.Div(css: "both", action: () => hb
                 .FieldDropDown(
-                    controlId: "GanttGroupByColumn",
+                    controlId: "GanttGroupBy",
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
                     labelText: Displays.GroupBy(),
-                    optionCollection: ss.ColumnCollection
-                        .Where(o => o.HasChoices())
-                        .ToDictionary(o => o.ColumnName, o => o.GridLabelText),
-                    selectedValue: groupByColumn,
+                    optionCollection: ss.GanttGroupByOptions(),
+                    selectedValue: groupBy,
                     insertBlank: true,
                     method: "post")
                 .Div(id: "GanttBody", action: () => hb
                     .GanttBody(
                         ss: ss,
-                        groupByColumn: groupByColumn,
+                        groupBy: groupBy,
                         dataRows: dataRows))
                 .MainCommands(
                     siteId: ss.SiteId,
@@ -46,10 +44,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder GanttBody(
             this HtmlBuilder hb,
             SiteSettings ss,
-            string groupByColumn,
+            string groupBy,
             IEnumerable<DataRow> dataRows)
         {
-            var gantt = new Gantt(ss, dataRows, groupByColumn);
+            var gantt = new Gantt(ss, dataRows, groupBy);
             return hb
                 .Svg(id: "Gantt")
                 .Svg(id: "GanttAxis")

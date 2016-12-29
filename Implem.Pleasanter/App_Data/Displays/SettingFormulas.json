@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SettingFormulas",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Formula settings"
+        },
+        {
+            "Language": "ja",
+            "Body": "計算式の設定"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "OnOnly",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "On only"
+        },
+        {
+            "Language": "ja",
+            "Body": "オンのみ"
+        }
+    ]
+}

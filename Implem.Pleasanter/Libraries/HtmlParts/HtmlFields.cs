@@ -201,6 +201,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlCss: controlCss,
                                 labelText: column.LabelText,
                                 text: value,
+                                unit: column.Unit,
                                 validateRequired: required,
                                 validateNumber: column.ValidateNumber ?? false,
                                 validateDate: column.ValidateDate ?? false,
@@ -501,6 +502,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlCss = null,
             string labelText = null,
             string text = null,
+            string unit = null,
             string onChange = null,
             bool validateRequired = false,
             bool validateNumber = false,
@@ -525,7 +527,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .TextBox(
                             textType: textType,
                             controlId: controlId,
-                            controlCss: controlCss,
+                            controlCss: controlCss +
+                                (!unit.IsNullOrEmpty()
+                                    ? " with-unit"
+                                    : string.Empty),
                             text: text,
                             placeholder: labelText,
                             onChange: onChange,
@@ -537,7 +542,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             validateMaxLength: validateMaxLength,
                             action: action,
                             method: method,
-                            attributes: attributes))
+                            attributes: attributes)
+                        .Span(css: "unit", _using: !unit.IsNullOrEmpty(), action: () => hb
+                            .Text(unit)))
                 : hb;
         }
 

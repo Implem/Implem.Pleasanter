@@ -977,40 +977,42 @@ namespace Implem.Pleasanter.Models
             Permissions.Types pt,
             ResultModel resultModel)
         {
-            resultModel.SiteSettings.FormulaHash?.Keys.ForEach(columnName =>
-            {
-                var column = resultModel.SiteSettings.GetColumn(columnName);
-                switch (columnName)
+            resultModel.SiteSettings.Formulas
+                .Select(o => resultModel.SiteSettings.GetColumn(o.Target))
+                .Where(o => o != null)
+                .ForEach(column =>
                 {
-                    case "NumA": res.Val("#Results_NumA", resultModel.NumA.ToControl(column, pt)); break;
-                    case "NumB": res.Val("#Results_NumB", resultModel.NumB.ToControl(column, pt)); break;
-                    case "NumC": res.Val("#Results_NumC", resultModel.NumC.ToControl(column, pt)); break;
-                    case "NumD": res.Val("#Results_NumD", resultModel.NumD.ToControl(column, pt)); break;
-                    case "NumE": res.Val("#Results_NumE", resultModel.NumE.ToControl(column, pt)); break;
-                    case "NumF": res.Val("#Results_NumF", resultModel.NumF.ToControl(column, pt)); break;
-                    case "NumG": res.Val("#Results_NumG", resultModel.NumG.ToControl(column, pt)); break;
-                    case "NumH": res.Val("#Results_NumH", resultModel.NumH.ToControl(column, pt)); break;
-                    case "NumI": res.Val("#Results_NumI", resultModel.NumI.ToControl(column, pt)); break;
-                    case "NumJ": res.Val("#Results_NumJ", resultModel.NumJ.ToControl(column, pt)); break;
-                    case "NumK": res.Val("#Results_NumK", resultModel.NumK.ToControl(column, pt)); break;
-                    case "NumL": res.Val("#Results_NumL", resultModel.NumL.ToControl(column, pt)); break;
-                    case "NumM": res.Val("#Results_NumM", resultModel.NumM.ToControl(column, pt)); break;
-                    case "NumN": res.Val("#Results_NumN", resultModel.NumN.ToControl(column, pt)); break;
-                    case "NumO": res.Val("#Results_NumO", resultModel.NumO.ToControl(column, pt)); break;
-                    case "NumP": res.Val("#Results_NumP", resultModel.NumP.ToControl(column, pt)); break;
-                    case "NumQ": res.Val("#Results_NumQ", resultModel.NumQ.ToControl(column, pt)); break;
-                    case "NumR": res.Val("#Results_NumR", resultModel.NumR.ToControl(column, pt)); break;
-                    case "NumS": res.Val("#Results_NumS", resultModel.NumS.ToControl(column, pt)); break;
-                    case "NumT": res.Val("#Results_NumT", resultModel.NumT.ToControl(column, pt)); break;
-                    case "NumU": res.Val("#Results_NumU", resultModel.NumU.ToControl(column, pt)); break;
-                    case "NumV": res.Val("#Results_NumV", resultModel.NumV.ToControl(column, pt)); break;
-                    case "NumW": res.Val("#Results_NumW", resultModel.NumW.ToControl(column, pt)); break;
-                    case "NumX": res.Val("#Results_NumX", resultModel.NumX.ToControl(column, pt)); break;
-                    case "NumY": res.Val("#Results_NumY", resultModel.NumY.ToControl(column, pt)); break;
-                    case "NumZ": res.Val("#Results_NumZ", resultModel.NumZ.ToControl(column, pt)); break;
-                    default: break;
-                }
-            });
+                    switch (column.ColumnName)
+                    {
+                        case "NumA": res.Val("#Results_NumA", resultModel.NumA.ToControl(column, pt)); break;
+                        case "NumB": res.Val("#Results_NumB", resultModel.NumB.ToControl(column, pt)); break;
+                        case "NumC": res.Val("#Results_NumC", resultModel.NumC.ToControl(column, pt)); break;
+                        case "NumD": res.Val("#Results_NumD", resultModel.NumD.ToControl(column, pt)); break;
+                        case "NumE": res.Val("#Results_NumE", resultModel.NumE.ToControl(column, pt)); break;
+                        case "NumF": res.Val("#Results_NumF", resultModel.NumF.ToControl(column, pt)); break;
+                        case "NumG": res.Val("#Results_NumG", resultModel.NumG.ToControl(column, pt)); break;
+                        case "NumH": res.Val("#Results_NumH", resultModel.NumH.ToControl(column, pt)); break;
+                        case "NumI": res.Val("#Results_NumI", resultModel.NumI.ToControl(column, pt)); break;
+                        case "NumJ": res.Val("#Results_NumJ", resultModel.NumJ.ToControl(column, pt)); break;
+                        case "NumK": res.Val("#Results_NumK", resultModel.NumK.ToControl(column, pt)); break;
+                        case "NumL": res.Val("#Results_NumL", resultModel.NumL.ToControl(column, pt)); break;
+                        case "NumM": res.Val("#Results_NumM", resultModel.NumM.ToControl(column, pt)); break;
+                        case "NumN": res.Val("#Results_NumN", resultModel.NumN.ToControl(column, pt)); break;
+                        case "NumO": res.Val("#Results_NumO", resultModel.NumO.ToControl(column, pt)); break;
+                        case "NumP": res.Val("#Results_NumP", resultModel.NumP.ToControl(column, pt)); break;
+                        case "NumQ": res.Val("#Results_NumQ", resultModel.NumQ.ToControl(column, pt)); break;
+                        case "NumR": res.Val("#Results_NumR", resultModel.NumR.ToControl(column, pt)); break;
+                        case "NumS": res.Val("#Results_NumS", resultModel.NumS.ToControl(column, pt)); break;
+                        case "NumT": res.Val("#Results_NumT", resultModel.NumT.ToControl(column, pt)); break;
+                        case "NumU": res.Val("#Results_NumU", resultModel.NumU.ToControl(column, pt)); break;
+                        case "NumV": res.Val("#Results_NumV", resultModel.NumV.ToControl(column, pt)); break;
+                        case "NumW": res.Val("#Results_NumW", resultModel.NumW.ToControl(column, pt)); break;
+                        case "NumX": res.Val("#Results_NumX", resultModel.NumX.ToControl(column, pt)); break;
+                        case "NumY": res.Val("#Results_NumY", resultModel.NumY.ToControl(column, pt)); break;
+                        case "NumZ": res.Val("#Results_NumZ", resultModel.NumZ.ToControl(column, pt)); break;
+                        default: break;
+                    }
+                });
             return res;
         }
 
@@ -1602,7 +1604,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public static ResponseFile Export(
-            SiteSettings ss, 
+            SiteSettings ss,
             Permissions.Types pt,
             SiteModel siteModel)
         {
@@ -1644,8 +1646,7 @@ namespace Implem.Pleasanter.Models
             return new ResponseFile(csv.ToString(), ResponseFileNames.Csv(siteModel));
         }
 
-        private static string CsvColumn(
-            ResultModel resultModel, string columnName, Column column)
+        private static string CsvColumn(ResultModel resultModel, string columnName, Column column)
         {
             var value = string.Empty;
             switch (columnName)
@@ -2064,37 +2065,37 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             SiteSettings ss,
             Permissions.Types pt,
-            Libraries.Settings.View view,
+            View view,
             bool bodyOnly)
         {
             var formData = Forms.All();
-            var groupByColumn = formData.Keys.Contains("TimeSeriesGroupByColumn")
-                ? formData["TimeSeriesGroupByColumn"]
+            var groupBy = !view.TimeSeriesGroupBy.IsNullOrEmpty()
+                ? view.TimeSeriesGroupBy
                 : "Owner";
-            var aggregateType = formData.Keys.Contains("TimeSeriesAggregateType")
-                ? formData["TimeSeriesAggregateType"]
+            var aggregateType = !view.TimeSeriesAggregateType.IsNullOrEmpty()
+                ? view.TimeSeriesAggregateType
                 : "Count";
-            var valueColumn = formData.Keys.Contains("TimeSeriesValueColumn")
-                ? formData["TimeSeriesValueColumn"]
+            var value = !view.TimeSeriesValue.IsNullOrEmpty()
+                ? view.TimeSeriesValue
                 : "NumA";
             var dataRows = TimeSeriesDataRows(
                 ss: ss,
                 view: view,
-                groupByColumn: groupByColumn,
-                valueColumn: valueColumn);
+                groupBy: groupBy,
+                value: value);
             return !bodyOnly
                 ? hb.TimeSeries(
                     ss: ss,
-                    groupByColumn: groupByColumn,
+                    groupBy: groupBy,
                     aggregateType: aggregateType,
-                    valueColumn: valueColumn,
+                    value: value,
                     pt: pt,
                     dataRows: dataRows)
                 : hb.TimeSeriesBody(
                     ss: ss,
-                    groupByColumn: groupByColumn,
+                    groupBy: groupBy,
                     aggregateType: aggregateType,
-                    valueColumn: valueColumn,
+                    value: value,
                     dataRows: dataRows);
         }
 
@@ -2102,12 +2103,9 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static EnumerableRowCollection<DataRow> TimeSeriesDataRows(
-            SiteSettings ss,
-            Libraries.Settings.View view,
-            string groupByColumn,
-            string valueColumn)
+            SiteSettings ss, View view, string groupBy, string value)
         {
-            return groupByColumn != string.Empty && valueColumn != string.Empty
+            return groupBy != string.Empty && value != string.Empty
                 ? Rds.ExecuteTable(statements:
                     Rds.SelectResults(
                         tableType: Sqls.TableTypes.NormalAndHistory,
@@ -2115,8 +2113,8 @@ namespace Implem.Pleasanter.Models
                             .ResultId(_as: "Id")
                             .Ver()
                             .UpdatedTime()
-                            .ResultsColumn(groupByColumn, _as: "Index")
-                            .ResultsColumn(valueColumn, _as: "Value"),
+                            .ResultsColumn(groupBy, _as: "Index")
+                            .ResultsColumn(value, _as: "Value"),
                         where: view.Where(ss, Rds.ResultsWhere().SiteId(ss.SiteId))))
                             .AsEnumerable()
                 : null;
@@ -2177,28 +2175,28 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             SiteSettings ss,
             Permissions.Types pt,
-            Libraries.Settings.View view,
+            View view,
             bool bodyOnly,
             long changedItemId = 0)
         {
             var formData = Forms.All();
-            var groupByColumn = formData.Keys.Contains("KambanGroupByColumn")
-                ? formData["KambanGroupByColumn"]
+            var groupBy = !view.KambanGroupBy.IsNullOrEmpty()
+                ? view.KambanGroupBy
                 : "Status";
-            var aggregateType = formData.Keys.Contains("KambanAggregateType")
-                ? formData["KambanAggregateType"]
+            var aggregateType = !view.KambanAggregateType.IsNullOrEmpty()
+                ? view.KambanAggregateType
                 : "Total";
-            var valueColumn = formData.Keys.Contains("KambanValueColumn")
-                ? formData["KambanValueColumn"]
-                : KambanValueColumn(ss);
+            var value = !view.KambanValue.IsNullOrEmpty()
+                ? view.KambanValue
+                : KambanValue(ss);
             var column = Rds.ResultsColumn()
                 .ResultId()
                 .Manager()
                 .Owner();
             ss.TitleColumnCollection().ForEach(titleColumn =>
                 column.ResultsColumn(titleColumn.ColumnName));
-            column.ResultsColumn(groupByColumn);
-            column.ResultsColumn(valueColumn);
+            column.ResultsColumn(groupBy);
+            column.ResultsColumn(value);
             var data = new ResultCollection(
                 ss: ss,
                 pt: pt,
@@ -2212,22 +2210,22 @@ namespace Implem.Pleasanter.Models
                             Title = o.Title.DisplayValue,
                             Manager = o.Manager,
                             Owner = o.Owner,
-                            Group = o.PropertyValue(groupByColumn),
-                            Value = o.PropertyValue(valueColumn).ToDecimal()
+                            Group = o.PropertyValue(groupBy),
+                            Value = o.PropertyValue(value).ToDecimal()
                         });
             return !bodyOnly
                 ? hb.Kamban(
                     ss: ss,
-                    groupByColumn: groupByColumn,
+                    groupBy: groupBy,
                     aggregateType: aggregateType,
-                    valueColumn: valueColumn,
+                    value: value,
                     pt: pt,
                     data: data)
                 : hb.KambanBody(
                     ss: ss,
-                    groupByColumn: ss.GetColumn(groupByColumn),
+                    groupBy: ss.GetColumn(groupBy),
                     aggregateType: aggregateType,
-                    valueColumn: ss.GetColumn(valueColumn),
+                    value: ss.GetColumn(value),
                     data: data,
                     changedItemId: changedItemId);
         }
@@ -2235,7 +2233,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static string KambanValueColumn(SiteSettings ss)
+        private static string KambanValue(SiteSettings ss)
         {
             var column = ss.EditorColumnCollection()
                 .Where(o => o.Computable)

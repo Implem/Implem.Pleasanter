@@ -1,0 +1,9 @@
+﻿{
+    "Id": "WebHookUrl",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Web hook url"
+        }
+    ]
+}

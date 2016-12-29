@@ -53,6 +53,7 @@ namespace Implem.Pleasanter.Models
                 Bcc = Parameters.Mail.SupportFrom
             };
             outgoingMailModel.Send();
+            demoModel.Initialize();
             return Messages.ResponseSentAcceptanceMail()
                 .Remove("#DemoForm")
                 .ToJson();
@@ -70,8 +71,24 @@ namespace Implem.Pleasanter.Models
                     _operator: ">="));
             if (demoModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
-                System.Web.HttpContext.Current.Session["TenantId"] = demoModel.TenantId;
-                demoModel.Initialize();
+                var loginId = LoginId(demoModel, "User1");
+                var password = Strings.NewGuid().Sha512Cng();
+                if (!demoModel.Initialized)
+                {
+                    var idHash = new Dictionary<string, long>();
+                    demoModel.Initialize(idHash, password);
+                }
+                else
+                {
+                    Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
+                        param: Rds.UsersParam().Password(password),
+                        where: Rds.UsersWhere().LoginId(loginId)));
+                }
+                new UserModel()
+                {
+                    LoginId = loginId,
+                    Password = password
+                }.Authenticate(string.Empty);
                 return Sessions.LoggedIn();
             }
             else
@@ -88,33 +105,29 @@ namespace Implem.Pleasanter.Models
             var idHash = new Dictionary<string, long>();
             var loginId = LoginId(demoModel, "User1");
             var password = Strings.NewGuid().Sha512Cng();
-            if (demoModel.Initialized)
-            {
-                Rds.ExecuteNonQuery(statements: Rds.UpdateUsers(
-                    param: Rds.UsersParam().Password(password),
-                    where: Rds.UsersWhere().LoginId(loginId)));
-            }
-            else
-            {
-                demoModel.InitializeTimeLag();
-                InitializeDepts(demoModel, idHash);
-                InitializeUsers(demoModel, idHash, password);
-                InitializeSites(demoModel, idHash);
-                InitializeIssues(demoModel, idHash);
-                InitializeResults(demoModel, idHash);
-                InitializeLinks(demoModel, idHash);
-                InitializePermissions(idHash);
-                Rds.ExecuteNonQuery(statements: Rds.UpdateDemos(
-                    param: Rds.DemosParam().Initialized(true),
-                    where: Rds.DemosWhere().Passphrase(demoModel.Passphrase)));
-                Libraries.Migrators.SiteSettingsMigrator.Migrate();
-            }
-            var userModel = new UserModel()
-            {
-                LoginId = loginId,
-                Password = password
-            }.Authenticate(string.Empty);
-            SetSites(idHash);
+            System.Threading.Tasks.Task.Run(() =>
+                demoModel.Initialize(idHash, password));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void Initialize(
+            this DemoModel demoModel, Dictionary<string, long> idHash, string password)
+        {
+            demoModel.InitializeTimeLag();
+            InitializeDepts(demoModel, idHash);
+            InitializeUsers(demoModel, idHash, password);
+            InitializeSites(demoModel, idHash);
+            InitializeIssues(demoModel, idHash);
+            InitializeResults(demoModel, idHash);
+            InitializeLinks(demoModel, idHash);
+            InitializePermissions(idHash);
+            Rds.ExecuteNonQuery(statements: Rds.UpdateDemos(
+                param: Rds.DemosParam().Initialized(true),
+                where: Rds.DemosWhere().Passphrase(demoModel.Passphrase)));
+            Libraries.Migrators.SiteSettingsMigrator.Migrate();
+            SiteInfo.Reflesh();
         }
 
         /// <summary>
@@ -224,7 +237,6 @@ namespace Implem.Pleasanter.Models
                         where: Rds.ItemsWhere().ReferenceId(siteModel.SiteId),
                         addUpdatorParam: false,
                         addUpdatedTimeParam: false));
-                    SiteInfo.SiteMenu.Set(siteModel.SiteId);
                 });
         }
 
@@ -293,7 +305,8 @@ namespace Implem.Pleasanter.Models
                             addUpdatorParam: false)
                     });
                     idHash.Add(demoDefinition.Id, issueId);
-                    var siteModel = new SiteModel(idHash[demoDefinition.ParentId]);
+                    var siteModel = new SiteModel().Get(
+                        where: Rds.SitesWhere().SiteId(idHash[demoDefinition.ParentId]));
                     var ss = siteModel.IssuesSiteSettings();
                     var issueModel = new IssueModel(ss, issueId);
                     Rds.ExecuteNonQuery(statements:
@@ -412,7 +425,8 @@ namespace Implem.Pleasanter.Models
                             addUpdatorParam: false)
                     });
                     idHash.Add(demoDefinition.Id, resultId);
-                    var siteModel = new SiteModel(idHash[demoDefinition.ParentId]);
+                    var siteModel = new SiteModel().Get(
+                        where: Rds.SitesWhere().SiteId(idHash[demoDefinition.ParentId]));
                     var ss = siteModel.ResultsSiteSettings();
                     var resultModel = new ResultModel(ss, resultId);
                     Rds.ExecuteNonQuery(statements:
@@ -476,16 +490,6 @@ namespace Implem.Pleasanter.Models
                                 .PermissionType(Permissions.Types.ReadWrite)));
                 });
             });
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static void SetSites(Dictionary<string, long> idHash)
-        {
-            idHash.Where(o => o.Key.StartsWith("Site")).Select(o => o.Value).ForEach(siteId =>
-                SiteInfo.SetSiteUserIdCollection(
-                    new SiteModel(siteId).InheritPermission, reload: true));
         }
 
         /// <summary>

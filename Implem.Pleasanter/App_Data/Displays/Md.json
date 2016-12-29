@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Md",
+    "Type": 120,
+    "Languages": [
+        {
+            "Body": "Month and date"
+        },
+        {
+            "Language": "ja",
+            "Body": "月日"
+        }
+    ]
+}

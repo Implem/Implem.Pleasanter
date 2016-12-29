@@ -1,5 +1,6 @@
 ﻿using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Models;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.Models
 {
     public static class FormulaUtilities
@@ -16,7 +17,7 @@ namespace Implem.Pleasanter.Libraries.Models
 
         private static void Update(SiteModel siteModel, long id)
         {
-            var hasFormula = siteModel.SiteSettings.FormulaHash?.Count > 0;
+            var hasFormula = siteModel.SiteSettings.Formulas?.Any() ?? false;
             switch (siteModel.ReferenceType)
             {
                 case "Issues": UpdateIssues(siteModel, id, hasFormula: hasFormula); break;

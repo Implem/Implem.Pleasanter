@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SettingControlFormat",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Input the date and time"
+        },
+        {
+            "Language": "ja",
+            "Body": "編集画面の書式"
+        }
+    ]
+}

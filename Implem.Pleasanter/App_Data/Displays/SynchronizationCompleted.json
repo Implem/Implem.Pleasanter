@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SynchronizationCompleted",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Synchronization has completed."
+        },
+        {
+            "Language": "ja",
+            "Body": "同期が完了しました。"
+        }
+    ]
+}

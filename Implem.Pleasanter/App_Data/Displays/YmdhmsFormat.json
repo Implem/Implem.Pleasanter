@@ -1,0 +1,13 @@
+﻿{
+    "Id": "YmdhmsFormat",
+    "Type": 130,
+    "Languages": [
+        {
+            "Body": "MM/dd/yyyy HH:mm:ss"
+        },
+        {
+            "Language": "ja",
+            "Body": "yyyy/MM/dd HH:mm:ss"
+        }
+    ]
+}

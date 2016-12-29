@@ -41,7 +41,7 @@ namespace Implem.Pleasanter.Models
         public bool Priority_Updated { get { return Priority != SavedPriority; } }
 
         public SearchIndexModel(
-            SiteSettings ss, 
+            SiteSettings ss,
             Permissions.Types pt,
             DataRow dataRow)
         {

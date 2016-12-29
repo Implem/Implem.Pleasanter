@@ -3,7 +3,6 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.HtmlParts;
-using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
@@ -54,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<Aggregation> AggregationCollection;
         public List<Link> LinkCollection;
         public List<Summary> SummaryCollection;
-        public Dictionary<string, Formula> FormulaHash;
+        public List<FormulaSet> Formulas;
         public string TitleSeparator = ")";
         public string AddressBook;
         public string MailToDefault;
@@ -75,6 +74,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<string> TitleColumnsOrder;
         public List<string> LinkColumnsOrder;
         public List<string> HistoryColumnsOrder;
+        // compatibility Version 1.004
+        public Dictionary<string, Formula> FormulaHash;
 
         public SiteSettings()
         {
@@ -108,7 +109,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (AggregationCollection == null) AggregationCollection = new List<Aggregation>();
             if (LinkCollection == null) LinkCollection = new List<Link>();
             if (SummaryCollection == null) SummaryCollection = new List<Summary>();
-            if (FormulaHash == null) FormulaHash = new Dictionary<string, Formula>();
+            if (Formulas == null) Formulas = new List<FormulaSet>();
         }
 
         [OnDeserialized]
@@ -150,7 +151,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (self.AggregationCollection.SequenceEqual(def.AggregationCollection)) self.AggregationCollection = null;
             if (self.LinkCollection.SequenceEqual(def.LinkCollection)) self.LinkCollection = null;
             if (self.SummaryCollection.SequenceEqual(def.SummaryCollection)) self.SummaryCollection = null;
-            if (self.FormulaHash.SequenceEqual(def.FormulaHash)) self.FormulaHash = null;
+            if (self.Formulas.SequenceEqual(def.Formulas)) self.Formulas = null;
             if (AddressBook == string.Empty) self.AddressBook = null;
             if (MailToDefault == string.Empty) self.MailToDefault = null;
             if (MailCcDefault == string.Empty) self.MailCcDefault = null;
@@ -199,6 +200,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                     if (column.FieldCss == columnDefinition.FieldCss) column.FieldCss = null;
                     if (column.Unit == columnDefinition.Unit) column.Unit = null;
                     if (column.Link == false) column.Link = null;
+                    if (column.CheckFilterControlType == ColumnUtilities.CheckFilterControlTypes.OnOnly) column.CheckFilterControlType = null;
+                    if (column.NumFilterMin == Parameters.General.NumFilterMin) column.NumFilterMin = null;
+                    if (column.NumFilterMax == Parameters.General.NumFilterMax) column.NumFilterMax = null;
+                    if (column.NumFilterStep == Parameters.General.NumFilterStep) column.NumFilterStep = null;
+                    if (column.DateFilterMinSpan == Parameters.General.DateFilterMinSpan) column.DateFilterMinSpan = null;
+                    if (column.DateFilterMaxSpan == Parameters.General.DateFilterMaxSpan) column.DateFilterMaxSpan = null;
+                    if (column.DateFilterFy.ToBool()) column.DateFilterFy = null;
+                    if (column.DateFilterHalf.ToBool()) column.DateFilterHalf = null;
+                    if (column.DateFilterQuarter.ToBool()) column.DateFilterQuarter = null;
+                    if (column.DateFilterMonth.ToBool()) column.DateFilterMonth = null;
                 }
             });
             self.ColumnCollection.RemoveAll(o => removeCollection.Contains(o.ColumnName));
@@ -373,6 +384,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.EditorReadOnly = column.EditorReadOnly ?? false;
                 column.FieldCss = column.FieldCss ?? columnDefinition.FieldCss;
                 column.Unit = column.Unit ?? columnDefinition.Unit;
+                column.CheckFilterControlType = column.CheckFilterControlType ?? ColumnUtilities.CheckFilterControlTypes.OnOnly;
+                column.NumFilterMin = column.NumFilterMin ?? Parameters.General.NumFilterMin;
+                column.NumFilterMax = column.NumFilterMax ?? Parameters.General.NumFilterMax;
+                column.NumFilterStep = column.NumFilterStep ?? Parameters.General.NumFilterStep;
+                column.DateFilterMinSpan = column.DateFilterMinSpan ?? Parameters.General.DateFilterMinSpan;
+                column.DateFilterMaxSpan = column.DateFilterMaxSpan ?? Parameters.General.DateFilterMaxSpan;
+                column.DateFilterFy = column.DateFilterFy ?? true;
+                column.DateFilterHalf = column.DateFilterHalf ?? true;
+                column.DateFilterQuarter = column.DateFilterQuarter ?? true;
+                column.DateFilterMonth = column.DateFilterMonth ?? true;
                 column.Size = columnDefinition.Size;
                 column.Nullable = columnDefinition.Nullable;
                 column.RecordedTime = columnDefinition.Default == "now";
@@ -466,6 +487,16 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return ColumnCollection.FirstOrDefault(o =>
                 o.ColumnName == columnName && o.HistoryColumn);
+        }
+
+        public Column FormulaColumn(string name)
+        {
+            return ColumnCollection
+                .Where(o => o.ColumnName == name || o.LabelText == name)
+                .Where(o => o.Computable)
+                .Where(o => !o.NotUpdate)
+                .Where(o => o.TypeName != "datetime")
+                .FirstOrDefault();
         }
 
         public IEnumerable<Column> GridColumnCollection()
@@ -591,6 +622,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(o => o.ColumnName), enabled);
         }
 
+        public Dictionary<string, string> FormulaTargetSelectableOptions()
+        {
+            return ColumnCollection
+                .Where(o => o.Computable)
+                .Where(o => !o.NotUpdate)
+                .Where(o => o.TypeName != "datetime")
+                .ToDictionary(o => o.ColumnName, o => o.LabelText);
+        }
+
         public Dictionary<string, string> ViewSelectableOptions()
         {
             return Views != null
@@ -637,6 +677,65 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToDictionary(
                     o => o.ColumnName,
                     o => GetColumn(o.ColumnName).LabelText));
+        }
+
+        public Dictionary<string, string> GanttGroupByOptions()
+        {
+            return ColumnCollection
+                .Where(o => o.HasChoices())
+                .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
+        }
+
+        public Dictionary<string, string> TimeSeriesGroupByOptions()
+        {
+            return ColumnCollection
+                .Where(o => o.HasChoices())
+                .ToDictionary(o => o.ColumnName, o => o.LabelText);
+        }
+
+        public Dictionary<string, string> TimeSeriesAggregationTypeOptions()
+        {
+            return new Dictionary<string, string>
+            {
+                { "Count", Displays.Count() },
+                { "Total", Displays.Total() },
+                { "Average", Displays.Average() },
+                { "Max", Displays.Max() },
+                { "Min", Displays.Min() }
+            };
+        }
+
+        public Dictionary<string, string> TimeSeriesValueOptions()
+        {
+            return ColumnCollection
+                .Where(o => o.Computable)
+                .Where(o => o.TypeName != "datetime")
+                .ToDictionary(o => o.ColumnName, o => o.LabelText);
+        }
+
+        public Dictionary<string, string> KambanGroupByOptions()
+        {
+            return ColumnCollection.Where(o => o.HasChoices())
+                .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
+        }
+
+        public Dictionary<string, string> KambanAggregationTypeOptions()
+        {
+            return new Dictionary<string, string>
+            {
+                { "Total", Displays.Total() },
+                { "Average", Displays.Average() },
+                { "Max", Displays.Max() },
+                { "Min", Displays.Min() }
+            };
+        }
+
+        public Dictionary<string, string> KamvanValueOptions()
+        {
+            return ColumnCollection
+                .Where(o => o.Computable)
+                .Where(o => o.TypeName != "datetime")
+                .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
         }
 
         public int GridNextOffset(int offset, int count, int totalCount)
@@ -809,6 +908,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ControlFormat": column.ControlFormat = value; break;
                 case "ExportFormat": column.ExportFormat = value; break;
                 case "Unit": column.Unit = value; break;
+                case "CheckFilterControlType": column.CheckFilterControlType =
+                        (ColumnUtilities.CheckFilterControlTypes)value.ToInt(); break;
+                case "NumFilterMin": column.NumFilterMin = value.ToDecimal(); break;
+                case "NumFilterMax": column.NumFilterMax = value.ToDecimal(); break;
+                case "NumFilterStep": column.NumFilterStep = value.ToDecimal(); break;
+                case "DateFilterMinSpan": column.DateFilterMinSpan = value.ToInt(); break;
+                case "DateFilterMaxSpan": column.DateFilterMaxSpan = value.ToInt(); break;
+                case "DateFilterFy": column.DateFilterFy = value.ToBool(); break;
+                case "DateFilterHalf": column.DateFilterHalf = value.ToBool(); break;
+                case "DateFilterQuarter": column.DateFilterQuarter = value.ToBool(); break;
+                case "DateFilterMonth": column.DateFilterMonth = value.ToBool(); break;
             }
         }
 
@@ -1011,9 +1121,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .AsEnumerable();
         }
 
-        public void SetFormulas(string controlId, IEnumerable<string> selectedColumns)
+        public void SetFormulas(string controlId, IEnumerable<int> selected)
         {
-            var order = FormulaHash.Keys.ToArray();
+            var order = Formulas.Select(o => o.Id).ToArray();
             switch (controlId)
             {
                 case "MoveUpFormulas":
@@ -1021,49 +1131,42 @@ namespace Implem.Pleasanter.Libraries.Settings
                     if (controlId == "MoveDownFormulas") Array.Reverse(order);
                     order.Select((o, i) => new { ColumnName = o, Index = i }).ForEach(data =>
                     {
-                        if (selectedColumns.Contains(data.ColumnName))
+                        if (selected.Contains(data.ColumnName))
                         {
                             if (data.Index > 0 &&
-                                !selectedColumns.Contains(order[data.Index - 1]))
+                                !selected.Contains(order[data.Index - 1]))
                             {
                                 order = Arrays.Swap(order, data.Index, data.Index - 1);
                             }
                         }
                     });
                     if (controlId == "MoveDownFormulas") Array.Reverse(order);
-                    FormulaHash = order
-                        .Where(o => FormulaHash.Keys.Contains(o))
-                        .ToDictionary(o => o, o => FormulaHash[o]);
+                    Formulas = order
+                        .Select(o => Formulas.FirstOrDefault(p => p.Id == o ))
+                        .Where(o => o != null)
+                        .ToList();
                     break;
             }
         }
 
-        public void DeleteFormulas(IEnumerable<string> selected)
+        public void DeleteFormulas(IEnumerable<int> selected)
         {
-            FormulaHash.RemoveAll((key, value) => selected.Contains(key));
-        }
-
-        public Column FormulaColumn(string name)
-        {
-            return ColumnCollection
-                .Where(o => o.ColumnName == name || o.LabelText == name)
-                .Where(o => o.Computable)
-                .Where(o => o.TypeName != "datetime")
-                .FirstOrDefault();
+            Formulas.RemoveAll(o => selected.Contains(o.Id));
         }
 
         public Dictionary<string, string> FormulaItemCollection()
         {
-            return FormulaHash.ToDictionary(
-                o => o.Key,
-                o =>
-                    FormulaColumn(o.Key).LabelText + " = " +
-                    o.Value.ToString(this));
+            return Formulas?.ToDictionary(
+                o => o.Id.ToString(),
+                o => o.ToString(this));
         }
 
-        public decimal FormulaResult(string columnName, Dictionary<string, decimal> data)
+        public decimal FormulaResult(
+            string columnName, Formula formula, Dictionary<string, decimal> data)
         {
-            return GetColumn(columnName).Round(FormulaHash[columnName].GetResult(data));
+            return formula != null
+                ? GetColumn(columnName).Round(formula.GetResult(data))
+                : data[columnName];
         }
     }
 }

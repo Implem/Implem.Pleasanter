@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Converts;
 using Implem.Pleasanter.Libraries.Html;
@@ -49,6 +50,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     selectedValue: Value != 0
                         ? Value.ToString()
                         : string.Empty));
+        }
+
+        public bool Incomplete()
+        {
+            return Value < Parameters.General.CompletionCode;
         }
 
         public string GridText(Column column)

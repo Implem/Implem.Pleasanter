@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SuffixCopy",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": " - Copy"
+        },
+        {
+            "Language": "ja",
+            "Body": " - コピー"
+        }
+    ]
+}

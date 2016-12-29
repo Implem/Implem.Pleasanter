@@ -37,6 +37,16 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string FieldCss;
         public string Unit;
         public bool? Link;
+        public ColumnUtilities.CheckFilterControlTypes? CheckFilterControlType;
+        public decimal? NumFilterMin;
+        public decimal? NumFilterMax;
+        public decimal? NumFilterStep;
+        public int? DateFilterMinSpan;
+        public int? DateFilterMaxSpan;
+        public bool? DateFilterFy;
+        public bool? DateFilterHalf;
+        public bool? DateFilterQuarter;
+        public bool? DateFilterMonth;
         [NonSerialized]
         public int? No;
         [NonSerialized]
@@ -134,7 +144,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             long siteId, Dictionary<string, Dictionary<string, string>> linkHash)
         {
             var tenantId = Sessions.TenantId();
-            ChoiceHash = new Dictionary<string, Settings.Choice>();
+            ChoiceHash = new Dictionary<string, Choice>();
             ChoicesText.SplitReturn()
                 .Where(o => o.Trim() != string.Empty)
                 .Select((o, i) => new { Line = o.Trim(), Index = i })
@@ -143,14 +153,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                     switch (data.Line)
                     {
                         case "[[Depts]]":
-                            SiteInfo.GetDepts()
+                            SiteInfo.DeptHash
                                 .Where(o => o.Value.TenantId == tenantId)
                                 .ForEach(o => AddToChoiceHash(
                                     o.Key.ToString(),
                                     SiteInfo.Dept(o.Key).Name));
                             break;
                         case "[[Users]]":
-                            SiteInfo.UserIdCollection(siteId)
+                            SiteInfo.SiteUsers(siteId)
                                 .ForEach(o => AddToChoiceHash(
                                     o.ToString(),
                                     SiteInfo.UserFullName(o)));
@@ -205,9 +215,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public Dictionary<string, ControlData> EditChoices(
-            bool insertBlank = false,
-            bool shorten = false,
-            bool addNotSet = false)
+            bool insertBlank = false, bool shorten = false, bool addNotSet = false)
         {
             var tenantId = Sessions.TenantId();
             var editChoices = new Dictionary<string, ControlData>();
@@ -254,7 +262,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 recordingData = SiteInfo.UserHash
                     .Where(o => o.Value.FullName() == value)
                     .Select(o => o.Value.Id)
-                    .FirstOrDefault(o => SiteInfo.UserIdCollection(siteId).Any(p => p == o));
+                    .FirstOrDefault(o => SiteInfo.SiteUsers(siteId).Any(p => p == o));
             }
             else if (TypeCs == "Comments")
             {
@@ -281,13 +289,25 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public string Display(decimal value)
+        public string Display(decimal value, bool unit = false, bool format = true)
         {
-            return !Format.IsNullOrEmpty()
-                ? value.ToString(Format, Sessions.CultureInfo())
+            return (!Format.IsNullOrEmpty() && format
+                ? value.ToString(
+                    Format + (Format == "C" && DecimalPlaces.ToInt() == 0
+                        ? string.Empty
+                        : DecimalPlaces.ToString()),
+                    Sessions.CultureInfo())
                 : DecimalPlaces.ToInt() == 0
                     ? value.ToString("0", "0")
-                    : TrimZero(value.ToString("0", "0." + new String('0', DecimalPlaces.ToInt())));
+                    : DisplayValue(value))
+                        + (unit ? Unit : string.Empty);
+        }
+
+        private string DisplayValue(decimal value)
+        {
+            return value.ToString("0", "0." + new string('0', DecimalPlaces.ToInt()))
+                .ToDecimal()
+                .TrimEndZero();
         }
 
         private static string TrimZero(string str)
@@ -300,13 +320,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Display(decimal value, Permissions.Types pt)
         {
             return Display(value) + (EditorReadOnly.ToBool() || !this.CanUpdate(pt)
-                ? Unit
-                : string.Empty);
-        }
-
-        public string Display(decimal value, bool unit)
-        {
-            return Display(value) + (unit
                 ? Unit
                 : string.Empty);
         }

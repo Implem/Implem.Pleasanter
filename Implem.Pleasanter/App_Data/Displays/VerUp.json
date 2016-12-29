@@ -1,0 +1,13 @@
+﻿{
+    "Id": "VerUp",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Save the previous data"
+        },
+        {
+            "Language": "ja",
+            "Body": "新バージョンとして保存"
+        }
+    ]
+}

@@ -160,9 +160,6 @@ namespace Implem.Pleasanter.Models
                             .ReplaceAll(
                                 "#MainContainer",
                                 WikiUtilities.Editor(siteModel, wikiModel))
-                            .ReplaceAll(
-                                "#ItemValidator",
-                                new HtmlBuilder().ItemValidator(referenceType: "Wikis"))
                             .Val("#BackUrl", Locations.ItemIndex(siteModel.ParentId))
                             .Invoke("setSwitchTargets")
                             .ToJson();
@@ -426,7 +423,7 @@ namespace Implem.Pleasanter.Models
                     .TenantId(Sessions.TenantId())
                     .SiteId(sourceId),
                 param: Rds.SitesParam().ParentId(destinationId)));
-            SiteInfo.SiteMenu.Set(sourceId);
+            SiteInfo.Reflesh();
         }
 
         /// <summary>
@@ -1050,6 +1047,22 @@ namespace Implem.Pleasanter.Models
                 .CopyDialog("items", siteModel.SiteId)
                 .OutgoingMailDialog()
                 .Div(attributes: new HtmlAttributes()
+                    .Id("GridColumnDialog")
+                    .Class("dialog")
+                    .Title(Displays.AdvancedSetting()))
+                .Div(attributes: new HtmlAttributes()
+                    .Id("FilterColumnDialog")
+                    .Class("dialog")
+                    .Title(Displays.AdvancedSetting()))
+                .Div(attributes: new HtmlAttributes()
+                    .Id("EditorColumnDialog")
+                    .Class("dialog")
+                    .Title(Displays.AdvancedSetting()))
+                .Div(attributes: new HtmlAttributes()
+                    .Id("FormulaDialog")
+                    .Class("dialog")
+                    .Title(Displays.AdvancedSetting()))
+                .Div(attributes: new HtmlAttributes()
                     .Id("ViewDialog")
                     .Class("dialog")
                     .Title(Displays.DataView()))
@@ -1166,27 +1179,25 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder SiteImageSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(
-                id: "SiteImageSettingsEditor",
-                action: () => hb
-                    .FieldSet(
-                        css: " enclosed",
-                        legendText: Displays.Icon(),
-                        action: () => hb
-                            .FieldTextBox(
-                                textType: HtmlTypes.TextTypes.File,
-                                controlId: "SiteSettings,SiteImage",
-                                fieldCss: "field-auto-thin",
-                                controlCss: " w400",
-                                labelText: Displays.File())
-                            .Button(
-                                controlId: "SetSiteImage",
-                                controlCss: "button-icon",
-                                text: Displays.Setting(),
-                                onClick: "$p.uploadSiteImage($(this));",
-                                icon: "ui-icon-disk",
-                                action: "binaries/updatesiteimage",
-                                method: "post")));
+            return hb.FieldSet(id: "SiteImageSettingsEditor", action: () => hb
+                .FieldSet(
+                    css: " enclosed",
+                    legendText: Displays.Icon(),
+                    action: () => hb
+                        .FieldTextBox(
+                            textType: HtmlTypes.TextTypes.File,
+                            controlId: "SiteImage",
+                            fieldCss: "field-auto-thin",
+                            controlCss: " w400",
+                            labelText: Displays.File())
+                        .Button(
+                            controlId: "SetSiteImage",
+                            controlCss: "button-icon",
+                            text: Displays.Setting(),
+                            onClick: "$p.uploadSiteImage($(this));",
+                            icon: "ui-icon-disk",
+                            action: "binaries/updatesiteimage",
+                            method: "post")));
         }
 
         /// <summary>
@@ -1194,47 +1205,46 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder GridSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(
-                id: "GridSettingsEditor",
-                action: () => hb
-                    .GridColumns(ss)
-                    .FilterColumns(ss)
-                    .Aggregations(ss)
-                    .FieldSpinner(
-                        controlId: "SiteSettings,GridPageSize",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.SettingGridPageSize(),
-                        value: ss.GridPageSize.ToDecimal(),
-                        min: Parameters.General.GridPageSizeMin,
-                        max: Parameters.General.GridPageSizeMax,
-                        step: 1,
-                        width: 25)
-                    .FieldSpinner(
-                        controlId: "SiteSettings,NearCompletionTimeBeforeDays",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.SettingNearCompletionTimeBeforeDays(),
-                        value: ss.NearCompletionTimeBeforeDays.ToDecimal(),
-                        min: Parameters.General.NearCompletionTimeBeforeDaysMin,
-                        max: Parameters.General.NearCompletionTimeBeforeDaysMax,
-                        step: 1,
-                        width: 25)
-                    .FieldSpinner(
-                        controlId: "SiteSettings,NearCompletionTimeAfterDays",
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.SettingNearCompletionTimeAfterDays(),
-                        value: ss.NearCompletionTimeAfterDays.ToDecimal(),
-                        min: Parameters.General.NearCompletionTimeAfterDaysMin,
-                        max: Parameters.General.NearCompletionTimeAfterDaysMax,
-                        step: 1,
-                        width: 25)
-                    .FieldDropDown(
-                        controlId: "SiteSettings,GridView",
-                        labelText: Displays.DefaultView(),
-                        optionCollection: ss.ViewSelectableOptions(),
-                        selectedValue: ss.GridView?.ToString(),
-                        insertBlank: true,
-                        _using: ss.Views?.Any() == true)
-                    .AggregationDetailsDialog(ss));
+            return hb.FieldSet(id: "GridSettingsEditor", action: () => hb
+                .GridColumns(ss)
+                .FilterColumns(ss)
+                .Aggregations(ss)
+                .FieldSpinner(
+                    controlId: "SiteSettings,GridPageSize",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.SettingGridPageSize(),
+                    value: ss.GridPageSize.ToDecimal(),
+                    min: Parameters.General.GridPageSizeMin,
+                    max: Parameters.General.GridPageSizeMax,
+                    step: 1,
+                    width: 25)
+                .FieldSpinner(
+                    controlId: "SiteSettings,NearCompletionTimeBeforeDays",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.SettingNearCompletionTimeBeforeDays(),
+                    value: ss.NearCompletionTimeBeforeDays.ToDecimal(),
+                    min: Parameters.General.NearCompletionTimeBeforeDaysMin,
+                    max: Parameters.General.NearCompletionTimeBeforeDaysMax,
+                    step: 1,
+                    width: 25)
+                .FieldSpinner(
+                    controlId: "SiteSettings,NearCompletionTimeAfterDays",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.SettingNearCompletionTimeAfterDays(),
+                    value: ss.NearCompletionTimeAfterDays.ToDecimal(),
+                    min: Parameters.General.NearCompletionTimeAfterDaysMin,
+                    max: Parameters.General.NearCompletionTimeAfterDaysMax,
+                    step: 1,
+                    width: 25)
+                .FieldDropDown(
+                    controlId: "SiteSettings,GridView",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.DefaultView(),
+                    optionCollection: ss.ViewSelectableOptions(),
+                    selectedValue: ss.GridView?.ToString(),
+                    insertBlank: true,
+                    _using: ss.Views?.Any() == true)
+                .AggregationDetailsDialog(ss));
         }
 
         /// <summary>
@@ -1274,10 +1284,10 @@ namespace Implem.Pleasanter.Models
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
-                                    controlId: "OpenGridColumnPropertiesDialog",
+                                    controlId: "OpenGridColumnDialog",
                                     text: Displays.AdvancedSetting(),
                                     controlCss: "button-icon",
-                                    onClick: "$p.openGridColumnPropertiesDialog($(this));",
+                                    onClick: "$p.openGridColumnDialog($(this));",
                                     icon: "ui-icon-gear",
                                     action: "SetSiteSettings",
                                     method: "put")
@@ -1306,45 +1316,56 @@ namespace Implem.Pleasanter.Models
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-circle-triangle-w",
                                     action: "SetSiteSettings",
-                                    method: "put")))
-                    .Div(attributes: new HtmlAttributes()
-                        .Id("GridColumnPropertiesDialog")
-                        .Class("dialog")
-                        .Title(Displays.AdvancedSetting())));
+                                    method: "put"))));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder GridColumnProperties(SiteSettings ss, Column column)
+        public static HtmlBuilder GridColumnDialog(SiteSettings ss, Column column)
         {
             var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("GridColumnForm")
+                    .Action(Locations.ItemAction(ss.SiteId)),
+                action: () => hb
+                    .GridColumnDialog(ss: ss, column: column));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder GridColumnDialog(
+            this HtmlBuilder hb, SiteSettings ss, Column column)
+        {
             hb.FieldSet(
                 css: " enclosed",
                 legendText: column.LabelTextDefault,
                 action: () =>
                 {
                     hb.FieldTextBox(
-                        controlId: "GridColumnProperty,GridLabelText",
+                        controlId: "GridLabelText",
                         labelText: Displays.SettingLabel(),
-                        text: column.GridLabelText);
+                        text: column.GridLabelText,
+                        validateRequired: true);
                     if (column.TypeName == "datetime")
                     {
                         hb
                             .FieldDropDown(
-                                controlId: "GridColumnProperty,GridFormat",
+                                controlId: "GridFormat",
                                 labelText: Displays.SettingGridFormat(),
                                 optionCollection: DateTimeOptions(),
                                 selectedValue: column.GridFormat);
                     }
                     hb
                         .FieldCheckBox(
-                            controlId: "GridColumnProperty,UseGridDesign",
+                            controlId: "UseGridDesign",
                             labelText: Displays.UseCustomDesign(),
                             _checked: !column.GridDesign.IsNullOrEmpty())
                         .FieldMarkDown(
-                            fieldId: "GridColumnProperty,GridDesignField",
-                            controlId: "GridColumnProperty,GridDesign",
+                            fieldId: "GridDesignField",
+                            controlId: "GridDesign",
                             fieldCss: "field-wide" + (!column.GridDesign.IsNullOrEmpty()
                                 ? string.Empty
                                 : " hidden"),
@@ -1353,13 +1374,17 @@ namespace Implem.Pleasanter.Models
                             text: ss.GridDesignEditorText(column));
                 });
             return hb
+                .Hidden(
+                    controlId: "GridColumnName",
+                    css: "must-transport",
+                    value: column.ColumnName)
                 .P(css: "message-dialog")
                 .Div(css: "command-center", action: () => hb
                     .Button(
-                        controlId: "SetGridColumnProperties",
+                        controlId: "SetGridColumn",
                         text: Displays.Setting(),
-                        controlCss: "button-icon",
-                        onClick: "$p.setGridColumnProperties($(this));",
+                        controlCss: "button-icon validate",
+                        onClick: "$p.setGridColumn($(this));",
                         icon: "ui-icon-gear",
                         action: "SetSiteSettings",
                         method: "post")
@@ -1407,6 +1432,14 @@ namespace Implem.Pleasanter.Models
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
+                                    controlId: "OpenFilterColumnDialog",
+                                    text: Displays.AdvancedSetting(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.openFilterColumnDialog($(this));",
+                                    icon: "ui-icon-gear",
+                                    action: "SetSiteSettings",
+                                    method: "put")
+                                .Button(
                                     controlId: "ToDisableFilterColumns",
                                     controlCss: "button-icon",
                                     text: Displays.ToDisable(),
@@ -1432,6 +1465,126 @@ namespace Implem.Pleasanter.Models
                                     icon: "ui-icon-circle-triangle-w",
                                     action: "SetSiteSettings",
                                     method: "put"))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder FilterColumnDialog(SiteSettings ss, Column column)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("FilterColumnForm")
+                    .Action(Locations.ItemAction(ss.SiteId)),
+                action: () => hb
+                    .FilterColumnDialog(ss: ss, column: column));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder FilterColumnDialog(
+            this HtmlBuilder hb, SiteSettings ss, Column column)
+        {
+            hb.FieldSet(
+                css: " enclosed",
+                legendText: column.LabelText,
+                action: () =>
+                {
+                    switch (column.TypeName.CsTypeSummary())
+                    {
+                        case Types.CsBool:
+                            hb.FieldDropDown(
+                                controlId: "CheckFilterControlType",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.ControlType(),
+                                optionCollection: ColumnUtilities.CheckFilterControlTypeOptions(),
+                                selectedValue: column.CheckFilterControlType.ToInt().ToString());
+                            break;
+                        case Types.CsNumeric:
+                            hb
+                                .FieldTextBox(
+                                    controlId: "NumFilterMin",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.Min(),
+                                    text: column.NumFilterMin.TrimEndZero(),
+                                    validateRequired: true,
+                                    validateNumber: true)
+                                .FieldTextBox(
+                                    controlId: "NumFilterMax",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.Max(),
+                                    text: column.NumFilterMax.TrimEndZero(),
+                                    validateRequired: true,
+                                    validateNumber: true)
+                                .FieldTextBox(
+                                    controlId: "NumFilterStep",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.Step(),
+                                    text: column.NumFilterStep.TrimEndZero(),
+                                    validateRequired: true,
+                                    validateNumber: true);
+                            break;
+                        case Types.CsDateTime:
+                            hb
+                                .FieldTextBox(
+                                    controlId: "DateFilterMinSpan",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.Min(),
+                                    text: column.DateFilterMinSpan.ToString(),
+                                    validateRequired: true,
+                                    validateNumber: true)
+                                .FieldTextBox(
+                                    controlId: "DateFilterMaxSpan",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.Max(),
+                                    text: column.DateFilterMaxSpan.ToString(),
+                                    validateRequired: true,
+                                    validateNumber: true)
+                                .FieldCheckBox(
+                                    controlId: "DateFilterFy",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.UseFy(),
+                                    _checked: column.DateFilterFy.ToBool())
+                                .FieldCheckBox(
+                                    controlId: "DateFilterHalf",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.UseHalf(),
+                                    _checked: column.DateFilterHalf.ToBool())
+                                .FieldCheckBox(
+                                    controlId: "DateFilterQuarter",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.UseQuarter(),
+                                    _checked: column.DateFilterQuarter.ToBool())
+                                .FieldCheckBox(
+                                    controlId: "DateFilterMonth",
+                                    fieldCss: "field-auto-thin",
+                                    labelText: Displays.UseMonth(),
+                                    _checked: column.DateFilterMonth.ToBool());
+                            break;
+                    }
+                });
+            return hb
+                .Hidden(
+                    controlId: "FilterColumnName",
+                    css: "must-transport",
+                    value: column.ColumnName)
+                .P(css: "message-dialog")
+                .Div(css: "command-center", action: () => hb
+                    .Button(
+                        controlId: "SetFilterColumn",
+                        text: Displays.Setting(),
+                        controlCss: "button-icon validate",
+                        onClick: "$p.send($(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        text: Displays.Cancel(),
+                        controlCss: "button-icon",
+                        onClick: "$p.closeDialog($(this));",
+                        icon: "ui-icon-cancel"));
         }
 
         /// <summary>
@@ -1558,13 +1711,11 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder EditorSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(
-                id: "EditorSettingsEditor",
-                action: () => hb
-                    .EditorColumns(ss)
-                    .LinkColumns(ss)
-                    .HistoryColumns(ss)
-                    .Formulas(ss));
+            return hb.FieldSet(id: "EditorSettingsEditor", action: () => hb
+                .EditorColumns(ss)
+                .LinkColumns(ss)
+                .HistoryColumns(ss)
+                .Formulas(ss));
         }
 
         /// <summary>
@@ -1573,8 +1724,8 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder EditorColumns(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
-                legendText: Displays.SettingEditorColumns(),
                 css: " enclosed",
+                legendText: Displays.SettingEditorColumns(),
                 action: () => hb
                     .FieldSelectable(
                         controlId: "EditorColumns",
@@ -1603,10 +1754,10 @@ namespace Implem.Pleasanter.Models
                                     action: "SetSiteSettings",
                                     method: "post")
                                 .Button(
-                                    controlId: "OpenEditorColumnPropertiesDialog",
+                                    controlId: "OpenEditorColumnDialog",
                                     text: Displays.AdvancedSetting(),
                                     controlCss: "button-icon",
-                                    onClick: "$p.openEditorColumnPropertiesDialog($(this));",
+                                    onClick: "$p.openEditorColumnDialog($(this));",
                                     icon: "ui-icon-gear",
                                     action: "SetSiteSettings",
                                     method: "put")
@@ -1635,29 +1786,40 @@ namespace Implem.Pleasanter.Models
                                     onClick: "$p.send($(this));",
                                     icon: "ui-icon-circle-triangle-w",
                                     action: "SetSiteSettings",
-                                    method: "put")))
-                    .Div(attributes: new HtmlAttributes()
-                        .Id("EditorColumnPropertiesDialog")
-                        .Class("dialog")
-                        .Title(Displays.AdvancedSetting())));
+                                    method: "put"))));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder EditorColumnProperties(
+        public static HtmlBuilder EditorColumnDialog(
             SiteSettings ss, Column column, IEnumerable<string> titleColumns)
         {
             var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("EditorColumnForm")
+                    .Action(Locations.ItemAction(ss.SiteId)),
+                action: () => hb
+                    .EditorColumnDialog(ss: ss, column: column, titleColumns: titleColumns));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditorColumnDialog(
+            this HtmlBuilder hb, SiteSettings ss, Column column, IEnumerable<string> titleColumns)
+        {
             hb.FieldSet(
                 css: " enclosed",
                 legendText: column.LabelTextDefault,
                 action: () =>
                 {
                     hb.FieldTextBox(
-                        controlId: "EditorColumnProperty,LabelText",
+                        controlId: "LabelText",
                         labelText: Displays.SettingLabel(),
-                        text: column.LabelText);
+                        text: column.LabelText,
+                        validateRequired: true);
                     switch (column.TypeName.CsTypeSummary())
                     {
                         case Types.CsBool:
@@ -1665,7 +1827,7 @@ namespace Implem.Pleasanter.Models
                         default:
                             hb
                                 .FieldDropDown(
-                                    controlId: "EditorColumnProperty,FieldCss",
+                                    controlId: "FieldCss",
                                     labelText: Displays.Style(),
                                     optionCollection: new Dictionary<string, string>
                                     {
@@ -1676,7 +1838,7 @@ namespace Implem.Pleasanter.Models
                                     selectedValue: column.FieldCss,
                                     _using: column.MarkDown)
                                 .FieldCheckBox(
-                                    controlId: "EditorColumnProperty,ValidateRequired",
+                                    controlId: "ValidateRequired",
                                     labelText: Displays.Required(),
                                     _checked: column.ValidateRequired ?? false,
                                     disabled: !column.Nullable,
@@ -1684,7 +1846,7 @@ namespace Implem.Pleasanter.Models
                             break;
                     }
                     hb.FieldCheckBox(
-                        controlId: "EditorColumnProperty,EditorReadOnly",
+                        controlId: "EditorReadOnly",
                         labelText: Displays.ReadOnly(),
                         _checked: column.EditorReadOnly.ToBool(),
                         _using: column.Nullable);
@@ -1692,12 +1854,12 @@ namespace Implem.Pleasanter.Models
                     {
                         hb
                             .FieldDropDown(
-                                controlId: "EditorColumnProperty,ControlFormat",
+                                controlId: "ControlFormat",
                                 labelText: Displays.SettingControlFormat(),
                                 optionCollection: DateTimeOptions(forControl: true),
                                 selectedValue: column.ControlFormat)
                             .FieldDropDown(
-                                controlId: "EditorColumnProperty,ExportFormat",
+                                controlId: "ExportFormat",
                                 labelText: Displays.SettingExportFormat(),
                                 optionCollection: DateTimeOptions(),
                                 selectedValue: column.ExportFormat);
@@ -1706,7 +1868,7 @@ namespace Implem.Pleasanter.Models
                     {
                         case Types.CsBool:
                             hb.FieldCheckBox(
-                                controlId: "EditorColumnProperty,DefaultInput",
+                                controlId: "DefaultInput",
                                 labelText: Displays.DefaultInput(),
                                 _checked: column.DefaultInput.ToBool());
                             break;
@@ -1716,19 +1878,20 @@ namespace Implem.Pleasanter.Models
                                 var maxDecimalPlaces = MaxDecimalPlaces(column);
                                 hb
                                     .FieldTextBox(
-                                        controlId: "EditorColumnProperty,DefaultInput",
+                                        controlId: "DefaultInput",
                                         labelText: Displays.DefaultInput(),
                                         text: column.DefaultInput.ToLong().ToString(),
+                                        validateNumber: true,
                                         _using: !column.Id_Ver)
                                     .EditorColumnFormatProperties(column: column)
                                     .FieldTextBox(
-                                        controlId: "EditorColumnProperty,Unit",
+                                        controlId: "Unit",
                                         controlCss: " w50",
                                         labelText: Displays.SettingUnit(),
                                         text: column.Unit,
                                         _using: !column.Id_Ver)
                                     .FieldSpinner(
-                                        controlId: "EditorColumnProperty,DecimalPlaces",
+                                        controlId: "DecimalPlaces",
                                         labelText: Displays.DecimalPlaces(),
                                         value: column.DecimalPlaces.ToDecimal(),
                                         min: 0,
@@ -1742,7 +1905,7 @@ namespace Implem.Pleasanter.Models
                                         : string.Empty;
                                     hb
                                         .FieldDropDown(
-                                            controlId: "EditorColumnProperty,ControlType",
+                                            controlId: "ControlType",
                                             labelText: Displays.ControlType(),
                                             optionCollection: new Dictionary<string, string>
                                             {
@@ -1751,29 +1914,29 @@ namespace Implem.Pleasanter.Models
                                             },
                                             selectedValue: column.ControlType)
                                         .FieldTextBox(
-                                            fieldId: "EditorColumnPropertyField,Min",
-                                            controlId: "EditorColumnProperty,Min",
+                                            fieldId: "MinField",
+                                            controlId: "Min",
                                             fieldCss: " both" + hidden,
                                             labelText: Displays.Min(),
-                                            text: column.Display(column.Min.ToDecimal()))
+                                            text: column.Min.ToString())
                                         .FieldTextBox(
-                                            fieldId: "EditorColumnPropertyField,Max",
-                                            controlId: "EditorColumnProperty,Max",
+                                            fieldId: "MaxField",
+                                            controlId: "Max",
                                             fieldCss: hidden,
                                             labelText: Displays.Max(),
-                                            text: column.Display(column.Max.ToDecimal()))
+                                            text: column.Max.ToString())
                                         .FieldTextBox(
-                                            fieldId: "EditorColumnPropertyField,Step",
-                                            controlId: "EditorColumnProperty,Step",
+                                            fieldId: "StepField",
+                                            controlId: "Step",
                                             fieldCss: hidden,
                                             labelText: Displays.Step(),
-                                            text: column.Display(column.Step.ToDecimal()));
+                                            text: column.Step.ToString());
                                 }
                             }
                             break;
                         case Types.CsDateTime:
                             hb.FieldSpinner(
-                                controlId: "EditorColumnProperty,DefaultInput",
+                                controlId: "DefaultInput",
                                 controlCss: " allow-blank",
                                 labelText: Displays.DefaultInput(),
                                 value: column.DefaultInput != string.Empty
@@ -1789,7 +1952,7 @@ namespace Implem.Pleasanter.Models
                             {
                                 hb.FieldTextBox(
                                     textType: HtmlTypes.TextTypes.MultiLine,
-                                    controlId: "EditorColumnProperty,DefaultInput",
+                                    controlId: "DefaultInput",
                                     fieldCss: column.FieldCss,
                                     labelText: Displays.DefaultInput(),
                                     text: column.DefaultInput);
@@ -1797,7 +1960,7 @@ namespace Implem.Pleasanter.Models
                             else
                             {
                                 hb.FieldTextBox(
-                                    controlId: "EditorColumnProperty,DefaultInput",
+                                    controlId: "DefaultInput",
                                     fieldCss: column.FieldCss,
                                     labelText: Displays.DefaultInput(),
                                     text: column.DefaultInput);
@@ -1809,7 +1972,7 @@ namespace Implem.Pleasanter.Models
                         case "ChoicesText":
                             hb.FieldTextBox(
                                 textType: HtmlTypes.TextTypes.MultiLine,
-                                controlId: "EditorColumnProperty,ChoicesText",
+                                controlId: "ChoicesText",
                                 fieldCss: "field-wide",
                                 labelText: Displays.SettingSelectionList(),
                                 text: column.ChoicesText);
@@ -1823,13 +1986,17 @@ namespace Implem.Pleasanter.Models
                     }
                 });
             return hb
+                .Hidden(
+                    controlId: "EditorColumnName",
+                    css: "must-transport",
+                    value: column.ColumnName)
                 .P(css: "message-dialog")
                 .Div(css: "command-center", action: () => hb
                     .Button(
-                        controlId: "SetEditorColumnProperties",
+                        controlId: "SetEditorColumn",
                         text: Displays.Setting(),
-                        controlCss: "button-icon",
-                        onClick: "$p.sendByDialog($(this));",
+                        controlCss: "button-icon validate",
+                        onClick: "$p.send($(this));",
                         icon: "ui-icon-gear",
                         action: "SetSiteSettings",
                         method: "post")
@@ -1851,7 +2018,7 @@ namespace Implem.Pleasanter.Models
             var other = !column.Format.IsNullOrEmpty() && format == null;
             return hb
                 .FieldDropDown(
-                    controlId: "EditorColumnProperty,FormatSelector",
+                    controlId: "FormatSelector",
                     controlCss: " not-transport",
                     labelText: Displays.SettingFormat(),
                     optionCollection: formats
@@ -1864,8 +2031,8 @@ namespace Implem.Pleasanter.Models
                     insertBlank: true,
                     _using: !column.Id_Ver)
                 .FieldTextBox(
-                    fieldId: "EditorColumnPropertyField,Format",
-                    controlId: "EditorColumnProperty,Format",
+                    fieldId: "FormatField",
+                    controlId: "Format",
                     fieldCss: other ? string.Empty : " hidden",
                     labelText: Displays.Custom(),
                     text: other
@@ -1947,8 +2114,8 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder LinkColumns(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
-                legendText: Displays.SettingLinkColumns(),
                 css: " enclosed",
+                legendText: Displays.SettingLinkColumns(),
                 action: () => hb
                     .FieldSelectable(
                         controlId: "LinkColumns",
@@ -2010,8 +2177,8 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder HistoryColumns(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
-                legendText: Displays.SettingHistoryColumns(),
                 css: " enclosed",
+                legendText: Displays.SettingHistoryColumns(),
                 action: () => hb
                     .FieldSelectable(
                         controlId: "HistoryColumns",
@@ -2073,14 +2240,12 @@ namespace Implem.Pleasanter.Models
         private static Dictionary<string, string> DateTimeOptions(bool forControl = false)
         {
             return forControl
-                ? Def.DisplayDefinitionCollection
-                    .Where(o => new string[] { "Ymd", "Ymdhm", "Ymdhms" }.Contains(o.Name))
-                    .Where(o => o.Language == string.Empty)
-                    .ToDictionary(o => o.Id, o => Displays.Get(o.Id))
-                : Def.DisplayDefinitionCollection
-                    .Where(o => o.Type == "Date")
-                    .Where(o => o.Language == string.Empty)
-                    .ToDictionary(o => o.Id, o => Displays.Get(o.Id));
+                ? DisplayAccessor.Displays.DisplayHash
+                    .Where(o => new string[] { "Ymd", "Ymdhm", "Ymdhms" }.Contains(o.Key))
+                    .ToDictionary(o => o.Key, o => Displays.Get(o.Key))
+                : DisplayAccessor.Displays.DisplayHash
+                    .Where(o => o.Value.Type == DisplayAccessor.Displays.Types.Date)
+                    .ToDictionary(o => o.Key, o => Displays.Get(o.Key));
         }
 
         /// <summary>
@@ -2097,8 +2262,8 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder Formulas(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(
-                legendText: Displays.SettingFormulas(),
                 css: " enclosed",
+                legendText: Displays.SettingFormulas(),
                 action: () => hb
                     .FieldSelectable(
                         controlId: "Formulas",
@@ -2107,19 +2272,9 @@ namespace Implem.Pleasanter.Models
                         controlWrapperCss: " h200",
                         labelText: Displays.SettingColumnList(),
                         listItemCollection: ss.FormulaItemCollection(),
+                        commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
                             .Div(css: "command-left", action: () => hb
-                                .TextBox(
-                                    controlId: "Formula",
-                                    controlCss: " w250")
-                                .Button(
-                                    controlId: "AddFormula",
-                                    controlCss: "button-icon",
-                                    text: Displays.Add(),
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-plus",
-                                    action: "SetSiteSettings",
-                                    method: "post")
                                 .Button(
                                     controlId: "MoveUpFormulas",
                                     controlCss: "button-icon",
@@ -2136,6 +2291,22 @@ namespace Implem.Pleasanter.Models
                                     icon: "ui-icon-circle-triangle-s",
                                     action: "SetSiteSettings",
                                     method: "post")
+                                .Button(
+                                    controlId: "NewFormula",
+                                    text: Displays.New(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.openFormulaDialog($(this));",
+                                    icon: "ui-icon-gear",
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    controlId: "EditFormula",
+                                    text: Displays.AdvancedSetting(),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.openFormulaDialog($(this));",
+                                    icon: "ui-icon-gear",
+                                    action: "SetSiteSettings",
+                                    method: "put")
                                 .Button(
                                     controlId: "DeleteFormulas",
                                     controlCss: "button-icon",
@@ -2159,71 +2330,147 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder ViewSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        public static HtmlBuilder FormulaDialog(
+            SiteSettings ss, string controlId, FormulaSet formulaSet)
         {
-            return hb.FieldSet(
-                id: "ViewSettingsEditor",
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("FormulaForm")
+                    .Action(Locations.ItemAction(ss.SiteId)),
                 action: () => hb
-                    .FieldSelectable(
-                        controlId: "Views",
-                        fieldCss: "field-vertical w400",
-                        controlContainerCss: "container-selectable",
-                        controlWrapperCss: " h350",
-                        listItemCollection: ss.ViewSelectableOptions(),
-                        commandOptionPositionIsTop: true,
-                        commandOptionAction: () => hb
-                            .Div(css: "command-center", action: () => hb
-                                .Button(
-                                    controlId: "MoveUpViews",
-                                    text: Displays.MoveUp(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-n",
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .Button(
-                                    controlId: "MoveDownViews",
-                                    text: Displays.MoveDown(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-s",
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .Button(
-                                    controlId: "NewView",
-                                    text: Displays.New(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.openViewDialog($(this));",
-                                    icon: "ui-icon-gear",
-                                    action: "SetSiteSettings",
-                                    method: "put")
-                                .Button(
-                                    controlId: "EditView",
-                                    text: Displays.AdvancedSetting(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.openViewDialog($(this));",
-                                    icon: "ui-icon-gear",
-                                    action: "SetSiteSettings",
-                                    method: "put")
-                                .Button(
-                                    controlId: "DeleteViews",
-                                    text: Displays.Delete(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-e",
-                                    action: "SetSiteSettings",
-                                    method: "put"))));
+                    .FieldText(
+                        controlId: "FormulaId",
+                        controlCss: " must-transport",
+                        labelText: Displays.Id(),
+                        text: formulaSet.Id.ToString(),
+                        _using: controlId == "EditFormula")
+                    .FieldDropDown(
+                        controlId: "FormulaTarget",
+                        controlCss: " must-transport",
+                        labelText: Displays.Target(),
+                        optionCollection: ss.FormulaTargetSelectableOptions(),
+                        selectedValue: formulaSet.Target?.ToString())
+                    .FieldTextBox(
+                        controlId: "Formula",
+                        controlCss: " must-transport",
+                        fieldCss: "field-wide",
+                        labelText: Displays.Formula(),
+                        text: formulaSet.Formula?.ToString(ss),
+                        validateRequired: true)
+                    .FieldDropDown(
+                        controlId: "FormulaCondition",
+                        controlCss: " must-transport",
+                        labelText: Displays.Condition(),
+                        optionCollection: ss.ViewSelectableOptions(),
+                        selectedValue: formulaSet.Condition?.ToString(),
+                        insertBlank: true)
+                    .FieldTextBox(
+                        fieldId: "FormulaOutOfConditionField",
+                        controlId: "FormulaOutOfCondition",
+                        controlCss: " must-transport",
+                        fieldCss: "field-wide" + (ss.Views?
+                            .Any(o => o.Id == formulaSet.Condition) == true
+                                ? string.Empty
+                                : " hidden"),
+                        labelText: Displays.OutOfCondition(),
+                        text: formulaSet.OutOfCondition?.ToString(ss))
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "CreateFormula",
+                            text: Displays.Setting(),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "NewFormula")
+                        .Button(
+                            controlId: "UpdateFormula",
+                            text: Displays.Setting(),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "EditFormula")
+                        .Button(
+                            text: Displays.Cancel(),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder ViewDialog(
-            SiteSettings ss,
-            string controlId,
-            Libraries.Settings.View view)
+        private static HtmlBuilder ViewSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        {
+            return hb.FieldSet(id: "ViewSettingsEditor", action: () => hb
+                .FieldSelectable(
+                    controlId: "Views",
+                    fieldCss: "field-vertical w400",
+                    controlContainerCss: "container-selectable",
+                    controlWrapperCss: " h350",
+                    listItemCollection: ss.ViewSelectableOptions(),
+                    commandOptionPositionIsTop: true,
+                    commandOptionAction: () => hb
+                        .Div(css: "command-center", action: () => hb
+                            .Button(
+                                controlId: "MoveUpViews",
+                                text: Displays.MoveUp(),
+                                controlCss: "button-icon",
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-circle-triangle-n",
+                                action: "SetSiteSettings",
+                                method: "post")
+                            .Button(
+                                controlId: "MoveDownViews",
+                                text: Displays.MoveDown(),
+                                controlCss: "button-icon",
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-circle-triangle-s",
+                                action: "SetSiteSettings",
+                                method: "post")
+                            .Button(
+                                controlId: "NewView",
+                                text: Displays.New(),
+                                controlCss: "button-icon",
+                                onClick: "$p.openViewDialog($(this));",
+                                icon: "ui-icon-gear",
+                                action: "SetSiteSettings",
+                                method: "put")
+                            .Button(
+                                controlId: "EditView",
+                                text: Displays.AdvancedSetting(),
+                                controlCss: "button-icon",
+                                onClick: "$p.openViewDialog($(this));",
+                                icon: "ui-icon-gear",
+                                action: "SetSiteSettings",
+                                method: "put")
+                            .Button(
+                                controlId: "DeleteViews",
+                                text: Displays.Delete(),
+                                controlCss: "button-icon",
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-circle-triangle-e",
+                                action: "SetSiteSettings",
+                                method: "put"))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ViewDialog(SiteSettings ss, string controlId, View view)
         {
             var hb = new HtmlBuilder();
+            var hasGantt = Def.ViewModeDefinitionCollection
+                .Any(o => o.Name == "Gantt" && o.ReferenceType == ss.ReferenceType);
+            var hasTimeSeries = Def.ViewModeDefinitionCollection
+                .Any(o => o.Name == "TimeSeries" && o.ReferenceType == ss.ReferenceType);
+            var hasKamban = Def.ViewModeDefinitionCollection
+                .Any(o => o.Name == "Kamban" && o.ReferenceType == ss.ReferenceType);
             return hb.Form(
                 attributes: new HtmlAttributes()
                     .Id("ViewForm")
@@ -2248,9 +2495,30 @@ namespace Implem.Pleasanter.Models
                             .Li(action: () => hb
                                 .A(
                                     href: "#ViewSortersTab",
-                                    text: Displays.Sorters())))
+                                    text: Displays.Sorters()))
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#ViewGanttTab",
+                                        text: Displays.Gantt()),
+                                _using: hasGantt)
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#ViewTimeSeriesTab",
+                                        text: Displays.TimeSeries()),
+                                _using: hasTimeSeries)
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#ViewKambanTab",
+                                        text: Displays.Kamban()),
+                                _using: hasKamban))
                         .ViewFiltersTab(ss: ss, view: view)
-                        .ViewSortersTab(ss: ss, view: view))
+                        .ViewSortersTab(ss: ss, view: view)
+                        .ViewGanttTab(ss: ss, view: view, _using: hasGantt)
+                        .ViewTimeSeriesTab(ss: ss, view: view, _using: hasTimeSeries)
+                        .ViewKambanTab(ss: ss, view: view, _using: hasKamban))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -2281,8 +2549,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder ViewFiltersTab(
-            this HtmlBuilder hb, SiteSettings ss, Libraries.Settings.View view)
+        private static HtmlBuilder ViewFiltersTab(this HtmlBuilder hb, SiteSettings ss, View view)
         {
             return hb.FieldSet(id: "ViewFiltersTab", action: () => hb
                 .Div(css: "items", action: () => hb
@@ -2362,22 +2629,48 @@ namespace Implem.Pleasanter.Models
             switch (column.TypeName.CsTypeSummary())
             {
                 case Types.CsBool:
-                    return hb.FieldCheckBox(
-                        controlId: "ViewFilters_" + column.Id,
-                        fieldCss: "field-auto-thin",
-                        labelText: Displays.Get(column.GridLabelText),
-                        _checked: value.ToBool());
+                    switch (column.CheckFilterControlType)
+                    {
+                        case ColumnUtilities.CheckFilterControlTypes.OnOnly:
+                            return hb.FieldCheckBox(
+                                controlId: "ViewFilters_" + column.Id,
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.Get(column.GridLabelText),
+                                _checked: value.ToBool());
+                        case ColumnUtilities.CheckFilterControlTypes.OnAndOff:
+                            return hb.FieldDropDown(
+                                controlId: "ViewFilters_" + column.Id,
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.Get(column.GridLabelText),
+                                optionCollection: ColumnUtilities.CheckFilterTypeOptions(),
+                                selectedValue: value,
+                                addSelectedValue: false,
+                                insertBlank: true);
+                        default:
+                            return hb;
+                    }
                 case Types.CsDateTime:
                     return hb.FieldDropDown(
                         controlId: "ViewFilters_" + column.Id,
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
                         labelText: Displays.Get(column.GridLabelText),
-                        optionCollection: Libraries.Responses.TimePeriod.Get(column.RecordedTime),
+                        optionCollection: column.DateFilterOptions(),
                         selectedValue: value,
                         multiple: true,
                         addSelectedValue: false);
                 case Types.CsNumeric:
+                    return hb.FieldDropDown(
+                        controlId: "ViewFilters_" + column.Id,
+                        fieldCss: "field-auto-thin",
+                        controlCss: " auto-postback",
+                        labelText: Displays.Get(column.GridLabelText),
+                        optionCollection: column.HasChoices()
+                            ? column.EditChoices()
+                            : column.NumFilterOptions(),
+                        selectedValue: value,
+                        multiple: true,
+                        addSelectedValue: false);
                 case Types.CsString:
                     return column.HasChoices()
                         ? hb.FieldDropDown(
@@ -2402,46 +2695,119 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder ViewSortersTab(
-            this HtmlBuilder hb, SiteSettings ss, View view)
+        private static HtmlBuilder ViewSortersTab(this HtmlBuilder hb, SiteSettings ss, View view)
         {
-            return hb.FieldSet(
-                id: "ViewSortersTab",
-                action: () => hb
-                    .FieldBasket(
-                        controlId: "ViewSorters",
-                        fieldCss: "field-wide",
-                        controlCss: "control-basket cf",
-                        listItemCollection: view.ColumnSorterHash?.ToDictionary(
-                            o => "{0},{1}".Params(o.Key, o.Value),
-                            o => "{0}({1})".Params(
-                                ss.GetColumn(o.Key)?.LabelText,
-                                Displays.Get("Order" + o.Value.ToString().ToUpperFirstChar()))),
-                        labelAction: () => hb
-                            .Displays_Sorters())
+            return hb.FieldSet(id: "ViewSortersTab", action: () => hb
+                .FieldBasket(
+                    controlId: "ViewSorters",
+                    fieldCss: "field-wide",
+                    controlCss: "control-basket cf",
+                    listItemCollection: view.ColumnSorterHash?.ToDictionary(
+                        o => "{0},{1}".Params(o.Key, o.Value),
+                        o => "{0}({1})".Params(
+                            ss.GetColumn(o.Key)?.LabelText,
+                            Displays.Get("Order" + o.Value.ToString().ToUpperFirstChar()))),
+                    labelAction: () => hb
+                        .Displays_Sorters())
+                .FieldDropDown(
+                    controlId: "ViewSorterSelector",
+                    fieldCss: "field-auto-thin",
+                    controlCss: " must-transport",
+                    optionCollection: ColumnUtilities.GridDefinitions(ss.ReferenceType)
+                        .Where(o => !view.SorterContains(o.ColumnName))
+                        .ToDictionary(
+                            o => o.ColumnName,
+                            o => ss.GetColumn(o.ColumnName).LabelText))
+                .FieldDropDown(
+                    controlId: "ViewSorterOrderTypes",
+                    fieldCss: "field-auto-thin",
+                    controlCss: " must-transport",
+                    optionCollection: new Dictionary<string, string>
+                    {
+                        { "Asc", Displays.OrderAsc() },
+                        { "Desc", Displays.OrderDesc() }
+                    })
+                .Button(
+                    controlId: "AddViewSorter",
+                    controlCss: "button-icon",
+                    text: Displays.Add(),
+                    icon: "ui-icon-plus"));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ViewGanttTab(
+            this HtmlBuilder hb, SiteSettings ss, View view, bool _using)
+        {
+            return _using
+                ? hb.FieldSet(id: "ViewGanttTab", action: () => hb
                     .FieldDropDown(
-                        controlId: "ViewSorterSelector",
+                        controlId: "GanttGroupBy",
                         fieldCss: "field-auto-thin",
-                        controlCss: " must-transport",
-                        optionCollection: ColumnUtilities.GridDefinitions(ss.ReferenceType)
-                            .Where(o => !view.SorterContains(o.ColumnName))
-                            .ToDictionary(
-                                o => o.ColumnName,
-                                o => ss.GetColumn(o.ColumnName).LabelText))
+                        labelText: Displays.GroupBy(),
+                        optionCollection: ss.GanttGroupByOptions(),
+                        selectedValue: view.GanttGroupBy,
+                        insertBlank: true))
+                : hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ViewTimeSeriesTab(
+            this HtmlBuilder hb, SiteSettings ss, View view, bool _using)
+        {
+            return _using
+                ? hb.FieldSet(id: "ViewTimeSeriesTab", action: () => hb
                     .FieldDropDown(
-                        controlId: "ViewSorterOrderTypes",
+                        controlId: "TimeSeriesGroupBy",
                         fieldCss: "field-auto-thin",
-                        controlCss: " must-transport",
-                        optionCollection: new Dictionary<string, string>
-                        {
-                            { "Asc", Displays.OrderAsc() },
-                            { "Desc", Displays.OrderDesc() }
-                        })
-                    .Button(
-                        controlId: "AddViewSorter",
-                        controlCss: "button-icon",
-                        text: Displays.Add(),
-                        icon: "ui-icon-plus"));
+                        labelText: Displays.GroupBy(),
+                        optionCollection: ss.TimeSeriesGroupByOptions(),
+                        selectedValue: view.TimeSeriesGroupBy)
+                    .FieldDropDown(
+                        controlId: "TimeSeriesAggregateType",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.SettingAggregationType(),
+                        optionCollection: ss.TimeSeriesAggregationTypeOptions(),
+                        selectedValue: view.TimeSeriesAggregateType)
+                    .FieldDropDown(
+                        controlId: "TimeSeriesValue",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.SettingAggregationTarget(),
+                        optionCollection: ss.TimeSeriesValueOptions(),
+                        selectedValue: view.TimeSeriesValue))
+                : hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ViewKambanTab(
+            this HtmlBuilder hb, SiteSettings ss, View view, bool _using)
+        {
+            return _using
+                ? hb.FieldSet(id: "ViewKambanTab", action: () => hb
+                    .FieldDropDown(
+                        controlId: "KambanGroupBy",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.GroupBy(),
+                        optionCollection: ss.KambanGroupByOptions(),
+                        selectedValue: view.KambanGroupBy)
+                    .FieldDropDown(
+                        controlId: "KambanAggregateType",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.SettingAggregationType(),
+                        optionCollection: ss.KambanAggregationTypeOptions(),
+                        selectedValue: view.KambanAggregateType)
+                    .FieldDropDown(
+                        controlId: "KambanValue",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.SettingAggregationTarget(),
+                        optionCollection: ss.KamvanValueOptions(),
+                        selectedValue: view.KambanValue))
+                : hb;
         }
 
         /// <summary>
@@ -2462,27 +2828,25 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder NotificationSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(
-                id: "NotificationSettingsEditor",
-                action: () => hb
-                    .NotificationSettings(ss)
-                    .Button(
-                        controlId: "NewNotification",
-                        text: Displays.New(),
-                        controlCss: "button-icon",
-                        onClick: "$p.openNotificationDialog($(this));",
-                        icon: "ui-icon-gear",
-                        action: "SetSiteSettings",
-                        method: "put")
-                    .Div(attributes: new HtmlAttributes()
-                        .Id("EditNotification")
-                        .DataAction("SetSiteSettings")
-                        .DataMethod("post"))
-                    .Div(attributes: new HtmlAttributes()
-                        .Id("DeleteNotification")
-                        .DataAction("SetSiteSettings")
-                        .DataMethod("post")
-                        .DataConfirm("ConfirmDelete")));
+            return hb.FieldSet(id: "NotificationSettingsEditor", action: () => hb
+                .NotificationSettings(ss)
+                .Button(
+                    controlId: "NewNotification",
+                    text: Displays.New(),
+                    controlCss: "button-icon",
+                    onClick: "$p.openNotificationDialog($(this));",
+                    icon: "ui-icon-gear",
+                    action: "SetSiteSettings",
+                    method: "put")
+                .Div(attributes: new HtmlAttributes()
+                    .Id("EditNotification")
+                    .DataAction("SetSiteSettings")
+                    .DataMethod("post"))
+                .Div(attributes: new HtmlAttributes()
+                    .Id("DeleteNotification")
+                    .DataAction("SetSiteSettings")
+                    .DataMethod("post")
+                    .DataConfirm("ConfirmDelete")));
         }
 
         /// <summary>
@@ -2520,70 +2884,98 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Address(),
                         text: notification.Address,
                         validateRequired: true)
+                    .Div(_using: ss.Views.Any(), action: () => hb
+                        .FieldDropDown(
+                            controlId: "BeforeCondition",
+                            controlCss: " must-transport",
+                            labelText: Displays.BeforeCondition(),
+                            optionCollection: ss.ViewSelectableOptions(),
+                            selectedValue: notification.BeforeCondition.ToString(),
+                            insertBlank: true)
+                        .FieldDropDown(
+                            controlId: "Expression",
+                            controlCss: " must-transport",
+                            labelText: Displays.Expression(),
+                            optionCollection: new Dictionary<string, string>
+                            {
+                                {
+                                    Notification.Expressions.Or.ToInt().ToString(),
+                                    Displays.Or()
+                                },
+                                {
+                                    Notification.Expressions.And.ToInt().ToString(),
+                                    Displays.And()
+                                }
+                            },
+                            selectedValue: notification.Expression.ToInt().ToString())
+                        .FieldDropDown(
+                            controlId: "AfterCondition",
+                            controlCss: " must-transport",
+                            labelText: Displays.AfterCondition(),
+                            optionCollection: ss.ViewSelectableOptions(),
+                            selectedValue: notification.AfterCondition.ToString(),
+                            insertBlank: true))
                     .FieldSet(
                         css: " enclosed",
                         legendText: Displays.MonitorChangesColumns(),
-                        action: () =>
-                        {
-                            hb
-                                .FieldSelectable(
-                                    controlId: "MonitorChangesColumns",
-                                    fieldCss: "field-vertical",
-                                    controlContainerCss: "container-selectable",
-                                    controlWrapperCss: " h200",
-                                    labelText: Displays.EnabledList(),
-                                    listItemCollection: ss
-                                        .MonitorChangesSelectableOptions(
-                                            notification.MonitorChangesColumns),
-                                    commandOptionPositionIsTop: true,
-                                    commandOptionAction: () => hb
-                                        .Div(css: "command-center", action: () => hb
-                                            .Button(
-                                                controlId: "MoveUpMonitorChangesColumns",
-                                                text: Displays.MoveUp(),
-                                                controlCss: "button-icon",
-                                                onClick: "$p.send($(this));",
-                                                icon: "ui-icon-circle-triangle-n",
-                                                action: "SetSiteSettings",
-                                                method: "post")
-                                            .Button(
-                                                controlId: "MoveDownMonitorChangesColumns",
-                                                text: Displays.MoveDown(),
-                                                controlCss: "button-icon",
-                                                onClick: "$p.send($(this));",
-                                                icon: "ui-icon-circle-triangle-s",
-                                                action: "SetSiteSettings",
-                                                method: "post")
-                                            .Button(
-                                                controlId: "ToDisableMonitorChangesColumns",
-                                                text: Displays.ToDisable(),
-                                                controlCss: "button-icon",
-                                                onClick: "$p.send($(this));",
-                                                icon: "ui-icon-circle-triangle-e",
-                                                action: "SetSiteSettings",
-                                                method: "put")))
-                                .FieldSelectable(
-                                    controlId: "MonitorChangesSourceColumns",
-                                    fieldCss: "field-vertical",
-                                    controlContainerCss: "container-selectable",
-                                    controlWrapperCss: " h200",
-                                    labelText: Displays.DisabledList(),
-                                    listItemCollection: ss
-                                        .MonitorChangesSelectableOptions(
-                                            notification.MonitorChangesColumns,
-                                            enabled: false),
-                                    commandOptionPositionIsTop: true,
-                                    commandOptionAction: () => hb
-                                        .Div(css: "command-center", action: () => hb
-                                            .Button(
-                                                controlId: "ToEnableMonitorChangesColumns",
-                                                text: Displays.ToEnable(),
-                                                controlCss: "button-icon",
-                                                onClick: "$p.send($(this));",
-                                                icon: "ui-icon-circle-triangle-w",
-                                                action: "SetSiteSettings",
-                                                method: "put")));
-                        })
+                        action: () => hb
+                            .FieldSelectable(
+                                controlId: "MonitorChangesColumns",
+                                fieldCss: "field-vertical",
+                                controlContainerCss: "container-selectable",
+                                controlWrapperCss: " h200",
+                                labelText: Displays.EnabledList(),
+                                listItemCollection: ss
+                                    .MonitorChangesSelectableOptions(
+                                        notification.MonitorChangesColumns),
+                                commandOptionPositionIsTop: true,
+                                commandOptionAction: () => hb
+                                    .Div(css: "command-center", action: () => hb
+                                        .Button(
+                                            controlId: "MoveUpMonitorChangesColumns",
+                                            text: Displays.MoveUp(),
+                                            controlCss: "button-icon",
+                                            onClick: "$p.send($(this));",
+                                            icon: "ui-icon-circle-triangle-n",
+                                            action: "SetSiteSettings",
+                                            method: "post")
+                                        .Button(
+                                            controlId: "MoveDownMonitorChangesColumns",
+                                            text: Displays.MoveDown(),
+                                            controlCss: "button-icon",
+                                            onClick: "$p.send($(this));",
+                                            icon: "ui-icon-circle-triangle-s",
+                                            action: "SetSiteSettings",
+                                            method: "post")
+                                        .Button(
+                                            controlId: "ToDisableMonitorChangesColumns",
+                                            text: Displays.ToDisable(),
+                                            controlCss: "button-icon",
+                                            onClick: "$p.send($(this));",
+                                            icon: "ui-icon-circle-triangle-e",
+                                            action: "SetSiteSettings",
+                                            method: "put")))
+                            .FieldSelectable(
+                                controlId: "MonitorChangesSourceColumns",
+                                fieldCss: "field-vertical",
+                                controlContainerCss: "container-selectable",
+                                controlWrapperCss: " h200",
+                                labelText: Displays.DisabledList(),
+                                listItemCollection: ss
+                                    .MonitorChangesSelectableOptions(
+                                        notification.MonitorChangesColumns,
+                                        enabled: false),
+                                commandOptionPositionIsTop: true,
+                                commandOptionAction: () => hb
+                                    .Div(css: "command-center", action: () => hb
+                                        .Button(
+                                            controlId: "ToEnableMonitorChangesColumns",
+                                            text: Displays.ToEnable(),
+                                            controlCss: "button-icon",
+                                            onClick: "$p.send($(this));",
+                                            icon: "ui-icon-circle-triangle-w",
+                                            action: "SetSiteSettings",
+                                            method: "put"))))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -2626,6 +3018,12 @@ namespace Implem.Pleasanter.Models
                         .Th(action: () => hb
                             .Text(text: Displays.NotificationSettingsEditor()))
                         .Th(action: () => hb
+                            .Text(text: Displays.BeforeCondition()))
+                        .Th(action: () => hb
+                            .Text(text: Displays.Expression()))
+                        .Th(action: () => hb
+                            .Text(text: Displays.AfterCondition()))
+                        .Th(action: () => hb
                             .Text(text: Displays.Operations()))))
                 .NotificationSettingsTBody(ss: ss));
         }
@@ -2657,6 +3055,15 @@ namespace Implem.Pleasanter.Models
                                         .Select(o => ss.GetColumn(o).LabelText)
                                         .Join(", ")))
                                 .Td(action: () => hb
+                                    .Text(text: ss.Views.FirstOrDefault(o =>
+                                        o.Id == data.Notification.BeforeCondition)?.Name))
+                                .Td(action: () => hb
+                                    .Text(text: Displays.Get(
+                                        data.Notification.Expression.ToString())))
+                                .Td(action: () => hb
+                                    .Text(text: ss.Views.FirstOrDefault(o =>
+                                        o.Id == data.Notification.AfterCondition)?.Name))
+                                .Td(action: () => hb
                                     .Button(
                                         controlCss: "button-icon delete",
                                         text: Displays.Delete(),
@@ -2679,46 +3086,44 @@ namespace Implem.Pleasanter.Models
             var summarySiteIdHash = SummarySiteIdHash(siteDataRows, ss);
             var firstSiteId = summarySiteIdHash.Select(o => o.Key.ToLong()).FirstOrDefault();
             return siteDataRows.Any()
-                ? hb.FieldSet(
-                    id: "SummarySettingsEditor",
-                    action: () =>
-                        hb.FieldSet(
-                            legendText: Displays.SettingSummaryColumns(),
-                            css: " enclosed",
-                            action: () => hb
-                                .FieldDropDown(
-                                    controlId: "SummarySiteId",
-                                    controlCss: " auto-postback",
-                                    labelText: Displays.SummarySiteId(),
-                                    optionCollection: summarySiteIdHash,
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .SummaryDestinationColumn(
-                                    siteId: firstSiteId,
-                                    referenceType: ss.ReferenceType,
-                                    siteDataRows: siteDataRows)
-                                .SummaryLinkColumn(
-                                    ss: ss,
-                                    siteId: firstSiteId)
-                                .FieldDropDown(
-                                    controlId: "SummaryType",
-                                    controlCss: " auto-postback",
-                                    labelText: Displays.SummaryType(),
-                                    optionCollection: SummaryTypeCollection(),
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .SummarySourceColumn(ss)
-                                .FieldContainer(actionOptions: () => hb
-                                    .Div(css: "buttons", action: () => hb
-                                        .Button(
-                                            controlId: "AddSummary",
-                                            text: Displays.Add(),
-                                            controlCss: "button-icon",
-                                            onClick: "$p.addSummary($(this));",
-                                            icon: "ui-icon-plus",
-                                            action: "SetSiteSettings",
-                                            method: "put")))
-                                .SummarySettings(sourceSiteSettings: ss)))
+                ? hb.FieldSet(id: "SummarySettingsEditor", action: () => hb
+                    .FieldSet(
+                        css: " enclosed",
+                        legendText: Displays.SettingSummaryColumns(),
+                        action: () => hb
+                            .FieldDropDown(
+                                controlId: "SummarySiteId",
+                                controlCss: " auto-postback",
+                                labelText: Displays.SummarySiteId(),
+                                optionCollection: summarySiteIdHash,
+                                action: "SetSiteSettings",
+                                method: "post")
+                            .SummaryDestinationColumn(
+                                siteId: firstSiteId,
+                                referenceType: ss.ReferenceType,
+                                siteDataRows: siteDataRows)
+                            .SummaryLinkColumn(
+                                ss: ss,
+                                siteId: firstSiteId)
+                            .FieldDropDown(
+                                controlId: "SummaryType",
+                                controlCss: " auto-postback",
+                                labelText: Displays.SummaryType(),
+                                optionCollection: SummaryTypeCollection(),
+                                action: "SetSiteSettings",
+                                method: "post")
+                            .SummarySourceColumn(ss)
+                            .FieldContainer(actionOptions: () => hb
+                                .Div(css: "buttons", action: () => hb
+                                    .Button(
+                                        controlId: "AddSummary",
+                                        text: Displays.Add(),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.addSummary($(this));",
+                                        icon: "ui-icon-plus",
+                                        action: "SetSiteSettings",
+                                        method: "put")))
+                            .SummarySettings(sourceSiteSettings: ss)))
                 : hb.SummarySettingsEditorNoLinks();
         }
 
@@ -2727,11 +3132,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder SummarySettingsEditorNoLinks(this HtmlBuilder hb)
         {
-            return hb.FieldSet(
-                id: "SummarySettingsEditor",
-                action: () => hb
-                    .P(action: () => hb
-                        .Text(text: Displays.NoLinks())));
+            return hb.FieldSet(id: "SummarySettingsEditor", action: () => hb
+                .P(action: () => hb
+                    .Text(text: Displays.NoLinks())));
         }
 
         /// <summary>
@@ -2964,37 +3367,35 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder MailerSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(
-                id: "MailerSettingsEditor",
-                action: () => hb
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
-                        controlId: "SiteSettings,AddressBook",
-                        fieldCss: "field-wide",
-                        labelText: Displays.DefaultAddressBook(),
-                        text: ss.AddressBook.ToStr())
-                    .FieldSet(
-                        legendText: Displays.DefaultDestinations(),
-                        css: " enclosed-thin",
-                        action: () => hb
-                            .FieldTextBox(
-                                textType: HtmlTypes.TextTypes.MultiLine,
-                                controlId: "SiteSettings,MailToDefault",
-                                fieldCss: "field-wide",
-                                labelText: Displays.OutgoingMails_To(),
-                                text: ss.MailToDefault.ToStr())
-                            .FieldTextBox(
-                                textType: HtmlTypes.TextTypes.MultiLine,
-                                controlId: "SiteSettings,MailCcDefault",
-                                fieldCss: "field-wide",
-                                labelText: Displays.OutgoingMails_Cc(),
-                                text: ss.MailCcDefault.ToStr())
-                            .FieldTextBox(
-                                textType: HtmlTypes.TextTypes.MultiLine,
-                                controlId: "SiteSettings,MailBccDefault",
-                                fieldCss: "field-wide",
-                                labelText: Displays.OutgoingMails_Bcc(),
-                                text: ss.MailBccDefault.ToStr())));
+            return hb.FieldSet(id: "MailerSettingsEditor", action: () => hb
+                .FieldTextBox(
+                    textType: HtmlTypes.TextTypes.MultiLine,
+                    controlId: "SiteSettings,AddressBook",
+                    fieldCss: "field-wide",
+                    labelText: Displays.DefaultAddressBook(),
+                    text: ss.AddressBook.ToStr())
+                .FieldSet(
+                    css: " enclosed-thin",
+                    legendText: Displays.DefaultDestinations(),
+                    action: () => hb
+                        .FieldTextBox(
+                            textType: HtmlTypes.TextTypes.MultiLine,
+                            controlId: "SiteSettings,MailToDefault",
+                            fieldCss: "field-wide",
+                            labelText: Displays.OutgoingMails_To(),
+                            text: ss.MailToDefault.ToStr())
+                        .FieldTextBox(
+                            textType: HtmlTypes.TextTypes.MultiLine,
+                            controlId: "SiteSettings,MailCcDefault",
+                            fieldCss: "field-wide",
+                            labelText: Displays.OutgoingMails_Cc(),
+                            text: ss.MailCcDefault.ToStr())
+                        .FieldTextBox(
+                            textType: HtmlTypes.TextTypes.MultiLine,
+                            controlId: "SiteSettings,MailBccDefault",
+                            fieldCss: "field-wide",
+                            labelText: Displays.OutgoingMails_Bcc(),
+                            text: ss.MailBccDefault.ToStr())));
         }
 
         /// <summary>
@@ -3002,27 +3403,25 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder StyleSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(
-                id: "StyleSettingsEditor",
-                action: () => hb
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
-                        controlId: "SiteSettings,GridStyle",
-                        fieldCss: "field-wide",
-                        labelText: Displays.GridStyle(),
-                        text: ss.GridStyle.ToStr())
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
-                        controlId: "SiteSettings,NewStyle",
-                        fieldCss: "field-wide",
-                        labelText: Displays.NewStyle(),
-                        text: ss.NewStyle.ToStr())
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
-                        controlId: "SiteSettings,EditStyle",
-                        fieldCss: "field-wide",
-                        labelText: Displays.EditStyle(),
-                        text: ss.EditStyle.ToStr()));
+            return hb.FieldSet(id: "StyleSettingsEditor", action: () => hb
+                .FieldTextBox(
+                    textType: HtmlTypes.TextTypes.MultiLine,
+                    controlId: "SiteSettings,GridStyle",
+                    fieldCss: "field-wide",
+                    labelText: Displays.GridStyle(),
+                    text: ss.GridStyle.ToStr())
+                .FieldTextBox(
+                    textType: HtmlTypes.TextTypes.MultiLine,
+                    controlId: "SiteSettings,NewStyle",
+                    fieldCss: "field-wide",
+                    labelText: Displays.NewStyle(),
+                    text: ss.NewStyle.ToStr())
+                .FieldTextBox(
+                    textType: HtmlTypes.TextTypes.MultiLine,
+                    controlId: "SiteSettings,EditStyle",
+                    fieldCss: "field-wide",
+                    labelText: Displays.EditStyle(),
+                    text: ss.EditStyle.ToStr()));
         }
 
         /// <summary>
@@ -3030,27 +3429,25 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder ScriptSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(
-                id: "ScriptSettingsEditor",
-                action: () => hb
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
-                        controlId: "SiteSettings,GridScript",
-                        fieldCss: "field-wide",
-                        labelText: Displays.GridScript(),
-                        text: ss.GridScript.ToStr())
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
-                        controlId: "SiteSettings,NewScript",
-                        fieldCss: "field-wide",
-                        labelText: Displays.NewScript(),
-                        text: ss.NewScript.ToStr())
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
-                        controlId: "SiteSettings,EditScript",
-                        fieldCss: "field-wide",
-                        labelText: Displays.EditScript(),
-                        text: ss.EditScript.ToStr()));
+            return hb.FieldSet(id: "ScriptSettingsEditor", action: () => hb
+                .FieldTextBox(
+                    textType: HtmlTypes.TextTypes.MultiLine,
+                    controlId: "SiteSettings,GridScript",
+                    fieldCss: "field-wide",
+                    labelText: Displays.GridScript(),
+                    text: ss.GridScript.ToStr())
+                .FieldTextBox(
+                    textType: HtmlTypes.TextTypes.MultiLine,
+                    controlId: "SiteSettings,NewScript",
+                    fieldCss: "field-wide",
+                    labelText: Displays.NewScript(),
+                    text: ss.NewScript.ToStr())
+                .FieldTextBox(
+                    textType: HtmlTypes.TextTypes.MultiLine,
+                    controlId: "SiteSettings,EditScript",
+                    fieldCss: "field-wide",
+                    labelText: Displays.EditScript(),
+                    text: ss.EditScript.ToStr()));
         }
     }
 }

@@ -1013,41 +1013,43 @@ namespace Implem.Pleasanter.Models
             Permissions.Types pt,
             IssueModel issueModel)
         {
-            issueModel.SiteSettings.FormulaHash?.Keys.ForEach(columnName =>
-            {
-                var column = issueModel.SiteSettings.GetColumn(columnName);
-                switch (columnName)
+            issueModel.SiteSettings.Formulas
+                .Select(o => issueModel.SiteSettings.GetColumn(o.Target))
+                .Where(o => o != null)
+                .ForEach(column =>
                 {
-                    case "WorkValue": res.Val("#Issues_WorkValue", issueModel.WorkValue.ToControl(column, pt)); break;
-                    case "NumA": res.Val("#Issues_NumA", issueModel.NumA.ToControl(column, pt)); break;
-                    case "NumB": res.Val("#Issues_NumB", issueModel.NumB.ToControl(column, pt)); break;
-                    case "NumC": res.Val("#Issues_NumC", issueModel.NumC.ToControl(column, pt)); break;
-                    case "NumD": res.Val("#Issues_NumD", issueModel.NumD.ToControl(column, pt)); break;
-                    case "NumE": res.Val("#Issues_NumE", issueModel.NumE.ToControl(column, pt)); break;
-                    case "NumF": res.Val("#Issues_NumF", issueModel.NumF.ToControl(column, pt)); break;
-                    case "NumG": res.Val("#Issues_NumG", issueModel.NumG.ToControl(column, pt)); break;
-                    case "NumH": res.Val("#Issues_NumH", issueModel.NumH.ToControl(column, pt)); break;
-                    case "NumI": res.Val("#Issues_NumI", issueModel.NumI.ToControl(column, pt)); break;
-                    case "NumJ": res.Val("#Issues_NumJ", issueModel.NumJ.ToControl(column, pt)); break;
-                    case "NumK": res.Val("#Issues_NumK", issueModel.NumK.ToControl(column, pt)); break;
-                    case "NumL": res.Val("#Issues_NumL", issueModel.NumL.ToControl(column, pt)); break;
-                    case "NumM": res.Val("#Issues_NumM", issueModel.NumM.ToControl(column, pt)); break;
-                    case "NumN": res.Val("#Issues_NumN", issueModel.NumN.ToControl(column, pt)); break;
-                    case "NumO": res.Val("#Issues_NumO", issueModel.NumO.ToControl(column, pt)); break;
-                    case "NumP": res.Val("#Issues_NumP", issueModel.NumP.ToControl(column, pt)); break;
-                    case "NumQ": res.Val("#Issues_NumQ", issueModel.NumQ.ToControl(column, pt)); break;
-                    case "NumR": res.Val("#Issues_NumR", issueModel.NumR.ToControl(column, pt)); break;
-                    case "NumS": res.Val("#Issues_NumS", issueModel.NumS.ToControl(column, pt)); break;
-                    case "NumT": res.Val("#Issues_NumT", issueModel.NumT.ToControl(column, pt)); break;
-                    case "NumU": res.Val("#Issues_NumU", issueModel.NumU.ToControl(column, pt)); break;
-                    case "NumV": res.Val("#Issues_NumV", issueModel.NumV.ToControl(column, pt)); break;
-                    case "NumW": res.Val("#Issues_NumW", issueModel.NumW.ToControl(column, pt)); break;
-                    case "NumX": res.Val("#Issues_NumX", issueModel.NumX.ToControl(column, pt)); break;
-                    case "NumY": res.Val("#Issues_NumY", issueModel.NumY.ToControl(column, pt)); break;
-                    case "NumZ": res.Val("#Issues_NumZ", issueModel.NumZ.ToControl(column, pt)); break;
-                    default: break;
-                }
-            });
+                    switch (column.ColumnName)
+                    {
+                        case "WorkValue": res.Val("#Issues_WorkValue", issueModel.WorkValue.ToControl(column, pt)); break;
+                        case "NumA": res.Val("#Issues_NumA", issueModel.NumA.ToControl(column, pt)); break;
+                        case "NumB": res.Val("#Issues_NumB", issueModel.NumB.ToControl(column, pt)); break;
+                        case "NumC": res.Val("#Issues_NumC", issueModel.NumC.ToControl(column, pt)); break;
+                        case "NumD": res.Val("#Issues_NumD", issueModel.NumD.ToControl(column, pt)); break;
+                        case "NumE": res.Val("#Issues_NumE", issueModel.NumE.ToControl(column, pt)); break;
+                        case "NumF": res.Val("#Issues_NumF", issueModel.NumF.ToControl(column, pt)); break;
+                        case "NumG": res.Val("#Issues_NumG", issueModel.NumG.ToControl(column, pt)); break;
+                        case "NumH": res.Val("#Issues_NumH", issueModel.NumH.ToControl(column, pt)); break;
+                        case "NumI": res.Val("#Issues_NumI", issueModel.NumI.ToControl(column, pt)); break;
+                        case "NumJ": res.Val("#Issues_NumJ", issueModel.NumJ.ToControl(column, pt)); break;
+                        case "NumK": res.Val("#Issues_NumK", issueModel.NumK.ToControl(column, pt)); break;
+                        case "NumL": res.Val("#Issues_NumL", issueModel.NumL.ToControl(column, pt)); break;
+                        case "NumM": res.Val("#Issues_NumM", issueModel.NumM.ToControl(column, pt)); break;
+                        case "NumN": res.Val("#Issues_NumN", issueModel.NumN.ToControl(column, pt)); break;
+                        case "NumO": res.Val("#Issues_NumO", issueModel.NumO.ToControl(column, pt)); break;
+                        case "NumP": res.Val("#Issues_NumP", issueModel.NumP.ToControl(column, pt)); break;
+                        case "NumQ": res.Val("#Issues_NumQ", issueModel.NumQ.ToControl(column, pt)); break;
+                        case "NumR": res.Val("#Issues_NumR", issueModel.NumR.ToControl(column, pt)); break;
+                        case "NumS": res.Val("#Issues_NumS", issueModel.NumS.ToControl(column, pt)); break;
+                        case "NumT": res.Val("#Issues_NumT", issueModel.NumT.ToControl(column, pt)); break;
+                        case "NumU": res.Val("#Issues_NumU", issueModel.NumU.ToControl(column, pt)); break;
+                        case "NumV": res.Val("#Issues_NumV", issueModel.NumV.ToControl(column, pt)); break;
+                        case "NumW": res.Val("#Issues_NumW", issueModel.NumW.ToControl(column, pt)); break;
+                        case "NumX": res.Val("#Issues_NumX", issueModel.NumX.ToControl(column, pt)); break;
+                        case "NumY": res.Val("#Issues_NumY", issueModel.NumY.ToControl(column, pt)); break;
+                        case "NumZ": res.Val("#Issues_NumZ", issueModel.NumZ.ToControl(column, pt)); break;
+                        default: break;
+                    }
+                });
             return res;
         }
 
@@ -1730,7 +1732,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public static ResponseFile Export(
-            SiteSettings ss, 
+            SiteSettings ss,
             Permissions.Types pt,
             SiteModel siteModel)
         {
@@ -1772,8 +1774,7 @@ namespace Implem.Pleasanter.Models
             return new ResponseFile(csv.ToString(), ResponseFileNames.Csv(siteModel));
         }
 
-        private static string CsvColumn(
-            IssueModel issueModel, string columnName, Column column)
+        private static string CsvColumn(IssueModel issueModel, string columnName, Column column)
         {
             var value = string.Empty;
             switch (columnName)
@@ -2200,19 +2201,19 @@ namespace Implem.Pleasanter.Models
             bool bodyOnly)
         {
             var forms = Forms.All();
-            var groupByColumn = Forms.All().ContainsKey("GanttGroupByColumn")
-                ? Forms.Data("GanttGroupByColumn")
+            var groupBy = !view.GanttGroupBy.IsNullOrEmpty()
+                ? view.GanttGroupBy
                 : string.Empty;
-            var dataRows = GanttDataRows(ss, view, groupByColumn);
+            var dataRows = GanttDataRows(ss, view, groupBy);
             return !bodyOnly
                 ? hb.Gantt(
                     ss: ss,
-                    groupByColumn: groupByColumn,
+                    groupBy: groupBy,
                     pt: pt,
                     dataRows: dataRows)
                 : hb.GanttBody(
                     ss: ss,
-                    groupByColumn: groupByColumn,
+                    groupBy: groupBy,
                     dataRows: dataRows);
         }
 
@@ -2220,7 +2221,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static EnumerableRowCollection<DataRow> GanttDataRows(
-            SiteSettings ss, Libraries.Settings.View view, string groupByColumn)
+            SiteSettings ss, View view, string groupBy)
         {
             return Rds.ExecuteTable(statements:
                 Rds.SelectIssues(
@@ -2236,7 +2237,7 @@ namespace Implem.Pleasanter.Models
                         .Updator()
                         .CreatedTime()
                         .UpdatedTime()
-                        .IssuesColumn(groupByColumn, _as: "GroupBy"),
+                        .IssuesColumn(groupBy, _as: "GroupBy"),
                     where: view.Where(ss, Rds.IssuesWhere().SiteId(ss.SiteId))))
                         .AsEnumerable();
         }
@@ -2269,8 +2270,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string BurnDownJson(
-            SiteSettings ss, Permissions.Types pt)
+        public static string BurnDownJson(SiteSettings ss, Permissions.Types pt)
         {
             var view = Views.GetBySession(ss);
             var issueCollection = IssueCollection(ss, pt, view);
@@ -2317,46 +2317,45 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss, View view)
         {
             var where = view.Where(ss, Rds.IssuesWhere().SiteId(ss.SiteId));
-            return Rds.ExecuteTable(
-                statements: new SqlStatement[]
-                {
-                    Rds.SelectIssues(
-                        column: Rds.IssuesTitleColumn(ss)
-                            .IssueId(_as: "Id")
-                            .Ver()
-                            .Title()
-                            .WorkValue()
-                            .StartTime()
-                            .CompletionTime()
-                            .ProgressRate()
-                            .Status()
-                            .Updator()
-                            .CreatedTime()
-                            .UpdatedTime(),
-                        where: where,
-                        unionType: Sqls.UnionTypes.Union),
-                    Rds.SelectIssues(
-                        tableType: Sqls.TableTypes.HistoryWithoutFlag,
-                        column: Rds.IssuesTitleColumn(ss)
-                            .IssueId(_as: "Id")
-                            .Ver()
-                            .Title()
-                            .WorkValue()
-                            .StartTime()
-                            .CompletionTime()
-                            .ProgressRate()
-                            .Status()
-                            .Updator()
-                            .CreatedTime()
-                            .UpdatedTime(),
-                        where: Rds.IssuesWhere()
-                            .IssueId_In(sub: Rds.SelectIssues(
-                                column: Rds.IssuesColumn().IssueId(),
-                                where: where)),
-                        orderBy: Rds.IssuesOrderBy()
-                            .IssueId()
-                            .Ver())
-                }).AsEnumerable();
+            return Rds.ExecuteTable(statements: new SqlStatement[]
+            {
+                Rds.SelectIssues(
+                    column: Rds.IssuesTitleColumn(ss)
+                        .IssueId(_as: "Id")
+                        .Ver()
+                        .Title()
+                        .WorkValue()
+                        .StartTime()
+                        .CompletionTime()
+                        .ProgressRate()
+                        .Status()
+                        .Updator()
+                        .CreatedTime()
+                        .UpdatedTime(),
+                    where: where,
+                    unionType: Sqls.UnionTypes.Union),
+                Rds.SelectIssues(
+                    tableType: Sqls.TableTypes.HistoryWithoutFlag,
+                    column: Rds.IssuesTitleColumn(ss)
+                        .IssueId(_as: "Id")
+                        .Ver()
+                        .Title()
+                        .WorkValue()
+                        .StartTime()
+                        .CompletionTime()
+                        .ProgressRate()
+                        .Status()
+                        .Updator()
+                        .CreatedTime()
+                        .UpdatedTime(),
+                    where: Rds.IssuesWhere()
+                        .IssueId_In(sub: Rds.SelectIssues(
+                            column: Rds.IssuesColumn().IssueId(),
+                            where: where)),
+                    orderBy: Rds.IssuesOrderBy()
+                        .IssueId()
+                        .Ver())
+            }).AsEnumerable();
         }
 
         /// <summary>
@@ -2413,37 +2412,37 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             SiteSettings ss,
             Permissions.Types pt,
-            Libraries.Settings.View view,
+            View view,
             bool bodyOnly)
         {
             var formData = Forms.All();
-            var groupByColumn = formData.Keys.Contains("TimeSeriesGroupByColumn")
-                ? formData["TimeSeriesGroupByColumn"]
+            var groupBy = !view.TimeSeriesGroupBy.IsNullOrEmpty()
+                ? view.TimeSeriesGroupBy
                 : "Status";
-            var aggregateType = formData.Keys.Contains("TimeSeriesAggregateType")
-                ? formData["TimeSeriesAggregateType"]
+            var aggregateType = !view.TimeSeriesAggregateType.IsNullOrEmpty()
+                ? view.TimeSeriesAggregateType
                 : "Count";
-            var valueColumn = formData.Keys.Contains("TimeSeriesValueColumn")
-                ? formData["TimeSeriesValueColumn"]
+            var value = !view.TimeSeriesValue.IsNullOrEmpty()
+                ? view.TimeSeriesValue
                 : "RemainingWorkValue";
             var dataRows = TimeSeriesDataRows(
                 ss: ss,
                 view: view,
-                groupByColumn: groupByColumn,
-                valueColumn: valueColumn);
+                groupBy: groupBy,
+                value: value);
             return !bodyOnly
                 ? hb.TimeSeries(
                     ss: ss,
-                    groupByColumn: groupByColumn,
+                    groupBy: groupBy,
                     aggregateType: aggregateType,
-                    valueColumn: valueColumn,
+                    value: value,
                     pt: pt,
                     dataRows: dataRows)
                 : hb.TimeSeriesBody(
                     ss: ss,
-                    groupByColumn: groupByColumn,
+                    groupBy: groupBy,
                     aggregateType: aggregateType,
-                    valueColumn: valueColumn,
+                    value: value,
                     dataRows: dataRows);
         }
 
@@ -2451,12 +2450,9 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static EnumerableRowCollection<DataRow> TimeSeriesDataRows(
-            SiteSettings ss,
-            Libraries.Settings.View view,
-            string groupByColumn,
-            string valueColumn)
+            SiteSettings ss, View view, string groupBy, string value)
         {
-            return groupByColumn != string.Empty && valueColumn != string.Empty
+            return groupBy != string.Empty && value != string.Empty
                 ? Rds.ExecuteTable(statements:
                     Rds.SelectIssues(
                         tableType: Sqls.TableTypes.NormalAndHistory,
@@ -2464,8 +2460,8 @@ namespace Implem.Pleasanter.Models
                             .IssueId(_as: "Id")
                             .Ver()
                             .UpdatedTime()
-                            .IssuesColumn(groupByColumn, _as: "Index")
-                            .IssuesColumn(valueColumn, _as: "Value"),
+                            .IssuesColumn(groupBy, _as: "Index")
+                            .IssuesColumn(value, _as: "Value"),
                         where: view.Where(ss, Rds.IssuesWhere().SiteId(ss.SiteId))))
                             .AsEnumerable()
                 : null;
@@ -2527,19 +2523,19 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             SiteSettings ss,
             Permissions.Types pt,
-            Libraries.Settings.View view,
+            View view,
             bool bodyOnly,
             long changedItemId = 0)
         {
             var formData = Forms.All();
-            var groupByColumn = formData.Keys.Contains("KambanGroupByColumn")
-                ? formData["KambanGroupByColumn"]
+            var groupBy = !view.KambanGroupBy.IsNullOrEmpty()
+                ? view.KambanGroupBy
                 : "Status";
-            var aggregateType = formData.Keys.Contains("KambanAggregateType")
-                ? formData["KambanAggregateType"]
+            var aggregateType = !view.KambanAggregateType.IsNullOrEmpty()
+                ? view.KambanAggregateType
                 : "Total";
-            var valueColumn = formData.Keys.Contains("KambanValueColumn")
-                ? formData["KambanValueColumn"]
+            var value = !view.KambanValue.IsNullOrEmpty()
+                ? view.KambanValue
                 : "RemainingWorkValue";
             var column = Rds.IssuesColumn()
                 .IssueId()
@@ -2552,8 +2548,8 @@ namespace Implem.Pleasanter.Models
                 .Owner();
             ss.TitleColumnCollection().ForEach(titleColumn =>
                 column.IssuesColumn(titleColumn.ColumnName));
-            column.IssuesColumn(groupByColumn);
-            column.IssuesColumn(valueColumn);
+            column.IssuesColumn(groupBy);
+            column.IssuesColumn(value);
             var data = new IssueCollection(
                 ss: ss,
                 pt: pt,
@@ -2572,22 +2568,22 @@ namespace Implem.Pleasanter.Models
                             RemainingWorkValue = o.RemainingWorkValue,
                             Manager = o.Manager,
                             Owner = o.Owner,
-                            Group = o.PropertyValue(groupByColumn),
-                            Value = o.PropertyValue(valueColumn).ToDecimal()
+                            Group = o.PropertyValue(groupBy),
+                            Value = o.PropertyValue(value).ToDecimal()
                         });
             return !bodyOnly
                 ? hb.Kamban(
                     ss: ss,
-                    groupByColumn: groupByColumn,
+                    groupBy: groupBy,
                     aggregateType: aggregateType,
-                    valueColumn: valueColumn,
+                    value: value,
                     pt: pt,
                     data: data)
                 : hb.KambanBody(
                     ss: ss,
-                    groupByColumn: ss.GetColumn(groupByColumn),
+                    groupBy: ss.GetColumn(groupBy),
                     aggregateType: aggregateType,
-                    valueColumn: ss.GetColumn(valueColumn),
+                    value: ss.GetColumn(value),
                     data: data,
                     changedItemId: changedItemId);
         }

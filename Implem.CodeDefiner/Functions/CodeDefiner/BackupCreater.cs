@@ -15,18 +15,21 @@ namespace Implem.CodeDefiner.Functions.CodeDefiner
 
         private static string CopyToTemp()
         {
-            Consoles.Write(text: Def.Display.InCopying, type: Consoles.Types.Info);
+            Consoles.Write(
+                text: DisplayAccessor.Displays.Get("InCopying"), type: Consoles.Types.Info);
             var tempPath = TempPath();
             Files.CopyDirectory(
                 sourcePath: Directories.ServicePath(),
                 destinationPath: tempPath,
-                excludePathCollection: Parameters.General.SolutionBackupExcludeDirectories.Split(','));
+                excludePathCollection: Parameters.General.SolutionBackupExcludeDirectories
+                    .Split(','));
             return tempPath;
         }
 
         private static void CreateZipFile(string tempPath)
         {
-            Consoles.Write(text: Def.Display.InCompression, type: Consoles.Types.Info);
+            Consoles.Write(
+                text: DisplayAccessor.Displays.Get("InCompression"), type: Consoles.Types.Info);
             var zipFileName = ZipFileName();
             Archives.Zip(
                 zipFilePath: tempPath,

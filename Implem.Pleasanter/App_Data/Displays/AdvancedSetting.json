@@ -1,0 +1,13 @@
+﻿{
+    "Id": "AdvancedSetting",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Advanced setting"
+        },
+        {
+            "Language": "ja",
+            "Body": "詳細設定"
+        }
+    ]
+}

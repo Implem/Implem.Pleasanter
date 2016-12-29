@@ -1,0 +1,13 @@
+﻿{
+    "Id": "GridSettingsEditor",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "List screen"
+        },
+        {
+            "Language": "ja",
+            "Body": "一覧画面"
+        }
+    ]
+}

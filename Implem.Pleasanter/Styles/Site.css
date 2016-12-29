@@ -321,7 +321,6 @@ pre{
 }
 
 #HeaderTitleContainer{
-    height:30px;
     float:left;
 }
 
@@ -1334,6 +1333,12 @@ pre{
     padding:4px;
     border:solid 1px silver;
     border-radius:5px;
+}
+
+.control-textbox.with-unit{
+    width:70%;
+    display:block;
+    float:left;
 }
 
 .control-textarea{

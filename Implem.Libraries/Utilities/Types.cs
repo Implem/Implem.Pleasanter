@@ -27,28 +27,28 @@ namespace Implem.Libraries.Utilities
                 case "nvarchar":
                 case "text":
                 case "string":
-                    return Types.CsString;
+                    return CsString;
                 case "int":
                 case "smallint":
-                    return Types.CsInt;
+                    return CsInt;
                 case "bigint":
                 case "long":
-                    return Types.CsLong;
+                    return CsLong;
                 case "decimal":
-                    return Types.CsDecimal;
+                    return CsDecimal;
                 case "float":
                 case "real":
-                    return Types.CsDouble;
+                    return CsDouble;
                 case "datetime":
                 case "datetime2":
                 case "date":
                 case "smalldatetime":
-                    return Types.CsDateTime;
+                    return CsDateTime;
                 case "bit":
                 case "bool":
-                    return Types.CsBool;
+                    return CsBool;
                 case "image":
-                    return Types.CsBytes;
+                    return CsBytes;
                 default:
                     return type;
             }
@@ -64,7 +64,7 @@ namespace Implem.Libraries.Utilities
                 case "nchar":
                 case "nvarchar":
                 case "text":
-                    return Types.CsString;
+                    return CsString;
                 case "int":
                 case "long":
                 case "smallint":
@@ -72,17 +72,17 @@ namespace Implem.Libraries.Utilities
                 case "decimal":
                 case "float":
                 case "real":
-                    return Types.CsNumeric;
+                    return CsNumeric;
                 case "datetime":
                 case "datetime2":
                 case "date":
                 case "smalldatetime":
-                    return Types.CsDateTime;
+                    return CsDateTime;
                 case "bit":
                 case "bool":
-                    return Types.CsBool;
+                    return CsBool;
                 case "image":
-                    return Types.CsBytes;
+                    return CsBytes;
                 default:
                     return string.Empty;
             }
@@ -109,48 +109,56 @@ namespace Implem.Libraries.Utilities
 
         public static int ToInt(this long? self)
         {
-            return self != null
+            return self != null && self <= int.MaxValue && self >= int.MinValue
                 ? Convert.ToInt32(self)
                 : 0;
         }
 
         public static int ToInt(this long self)
         {
-            return Convert.ToInt32(self);
-        }
-
-        public static int ToInt(this decimal self)
-        {
-            return Convert.ToInt32(self);
-        }
-
-        public static int ToInt(this decimal? self)
-        {
-            return self != null
+            return self <= int.MaxValue && self >= int.MinValue
                 ? Convert.ToInt32(self)
                 : 0;
         }
 
-        public static int ToInt(this Single self)
+        public static int ToInt(this decimal self)
         {
-            return Convert.ToInt32(self);
+            return self <= int.MaxValue && self >= int.MinValue
+                ? Convert.ToInt32(self)
+                : 0;
         }
 
-        public static int ToInt(this Single? self)
+        public static int ToInt(this decimal? self)
         {
-            return self != null
+            return self != null && self <= int.MaxValue && self >= int.MinValue
+                ? Convert.ToInt32(self)
+                : 0;
+        }
+
+        public static int ToInt(this float self)
+        {
+            return self <= int.MaxValue && self >= int.MinValue
+                ? Convert.ToInt32(self)
+                : 0;
+        }
+
+        public static int ToInt(this float? self)
+        {
+            return self != null && self <= int.MaxValue && self >= int.MinValue
                 ? Convert.ToInt32(self)
                 : 0;
         }
 
         public static int ToInt(this double self)
         {
-            return Convert.ToInt32(self);
+            return self <= int.MaxValue && self >= int.MinValue
+                ? Convert.ToInt32(self)
+                : 0;
         }
 
         public static int ToInt(this double? self)
         {
-            return self != null
+            return self != null && self <= int.MaxValue && self >= int.MinValue
                 ? Convert.ToInt32(self)
                 : 0;
         }
@@ -193,36 +201,42 @@ namespace Implem.Libraries.Utilities
 
         public static long ToLong(this decimal self)
         {
-            return Convert.ToInt64(self);
-        }
-
-        public static long ToLong(this decimal? self)
-        {
-            return self != null
+            return self <= long.MaxValue && self >= long.MinValue
                 ? Convert.ToInt64(self)
                 : 0;
         }
 
-        public static long ToLong(this Single self)
+        public static long ToLong(this decimal? self)
         {
-            return Convert.ToInt64(self);
+            return self != null && self <= long.MaxValue && self >= long.MinValue
+                ? Convert.ToInt64(self)
+                : 0;
         }
 
-        public static long ToLong(this Single? self)
+        public static long ToLong(this float self)
         {
-            return self != null
+            return self <= long.MaxValue && self >= long.MinValue
+                ? Convert.ToInt64(self)
+                : 0;
+        }
+
+        public static long ToLong(this float? self)
+        {
+            return self != null && self <= long.MaxValue && self >= long.MinValue
                 ? Convert.ToInt64(self)
                 : 0;
         }
 
         public static long ToLong(this double self)
         {
-            return Convert.ToInt64(self);
+            return self <= long.MaxValue && self >= long.MinValue
+                ? Convert.ToInt64(self)
+                : 0;
         }
 
         public static long ToLong(this double? self)
         {
-            return self != null
+            return self != null && self <= long.MaxValue && self >= long.MinValue
                 ? Convert.ToInt64(self)
                 : 0;
         }
@@ -244,10 +258,10 @@ namespace Implem.Libraries.Utilities
             return 0;
         }
 
-        public static Decimal ToDecimal(this object self) 
+        public static decimal ToDecimal(this object self) 
         {
-            Decimal data;
-            if (self != null && Decimal.TryParse(self.ToString(), out data))
+            decimal data;
+            if (self != null && decimal.TryParse(self.ToString(), out data))
             {
                 return data;
             }
@@ -271,10 +285,10 @@ namespace Implem.Libraries.Utilities
             }
         }
 
-        public static Single ToSingle(this object self) 
+        public static float ToSingle(this object self) 
         {
-            Single data;
-            return self != null && Single.TryParse(self.ToString(), out data) ? data : 0;
+            float data;
+            return self != null && float.TryParse(self.ToString(), out data) ? data : 0;
         }
 
         public static double ToDouble(this object obj) 
