@@ -1,7 +1,4 @@
-﻿using Implem.Libraries.DataSources.SqlServer;
-using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.DataSources;
-using System.Linq;
+﻿using System.Linq;
 namespace Implem.Pleasanter.Libraries.Settings
 {
     public class FormulaSet
@@ -34,27 +31,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
             }
             return data;
-        }
-
-        public Formula GetFormula(SiteSettings ss, SqlSelect sqlSelect, SqlWhereCollection where)
-        {
-            var view = ss.Views?.FirstOrDefault(o => o.Id == Condition);
-            if (view != null)
-            {
-                sqlSelect.SqlWhereCollection = view.Where(ss, where);
-                if (Rds.ExecuteTable(statements: sqlSelect).Rows.Count == 1)
-                {
-                    return Formula;
-                }
-                else
-                {
-                    return OutOfCondition;
-                }
-            }
-            else
-            {
-                return Formula;
-            }
         }
     }
 }
