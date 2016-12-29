@@ -453,7 +453,7 @@ namespace Implem.Pleasanter.Models
                     SiteSettings.Notifications.Select((o, i) =>
                         Rds.SelectWikis(
                             column: Rds.WikisColumn().WikiId(),
-                            where: SiteSettings.Views.FirstOrDefault(p => p.Id == (before
+                            where: SiteSettings.Views?.FirstOrDefault(p => p.Id == (before
                                 ? o.BeforeCondition
                                 : o.AfterCondition))?
                                     .Where(SiteSettings, Rds.WikisWhere().WikiId(WikiId))
@@ -470,8 +470,8 @@ namespace Implem.Pleasanter.Models
                         {
                             o.Notification.Enabled = o.Exists;
                         }
-                        else if (SiteSettings.Views.Any(p =>
-                            p.Id == o.Notification.AfterCondition))
+                        else if (SiteSettings.Views?.Any(p =>
+                            p.Id == o.Notification.AfterCondition) == true)
                         {
                             if (o.Notification.Expression == Notification.Expressions.And)
                             {
