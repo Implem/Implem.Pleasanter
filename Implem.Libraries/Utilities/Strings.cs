@@ -98,11 +98,6 @@ namespace Implem.Libraries.Utilities
             return CultureInfo.CurrentCulture.CompareInfo.IndexOf(self, value, compareOptions);
         }
 
-        public static string IfBlank(this string self, string data)
-        {
-            return self.IsNullOrEmpty() ? data : self;
-        }
-
         public static string Before(this string self, string find)
         {
             return self.IndexOf(find) != -1
