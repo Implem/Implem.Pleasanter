@@ -877,7 +877,6 @@
     <Content Include="App_Data\Displays\SettingExportFormat.json" />
     <Content Include="App_Data\Displays\SettingFilterColumns.json" />
     <Content Include="App_Data\Displays\SettingFormat.json" />
-    <Content Include="App_Data\Displays\SettingFormulas.json" />
     <Content Include="App_Data\Displays\SettingGridColumns.json" />
     <Content Include="App_Data\Displays\SettingGridFormat.json" />
     <Content Include="App_Data\Displays\SettingGridPageSize.json" />

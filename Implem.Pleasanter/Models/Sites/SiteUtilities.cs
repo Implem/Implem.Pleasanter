@@ -535,6 +535,10 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.EditorSettingsEditor()))
                                 .Li(action: () => hb
                                     .A(
+                                        href: "#FormulaSettingsEditor",
+                                        text: Displays.Formula()))
+                                .Li(action: () => hb
+                                    .A(
                                         href: "#ViewSettingsEditor",
                                         text: Displays.DataView()))
                                 .Li(action: () => hb
@@ -1162,6 +1166,7 @@ namespace Implem.Pleasanter.Models
                         hb
                             .GridSettingsEditor(siteModel.SiteSettings)
                             .EditorSettingsEditor(siteModel.SiteSettings)
+                            .FormulaSettingsEditor(siteModel.SiteSettings)
                             .ViewSettingsEditor(siteModel.SiteSettings)
                             .NotificationSettingsEditor(siteModel.SiteSettings)
                             .SummarySettingsEditor(siteModel.SiteSettings)
@@ -1714,7 +1719,15 @@ namespace Implem.Pleasanter.Models
             return hb.FieldSet(id: "EditorSettingsEditor", action: () => hb
                 .EditorColumns(ss)
                 .LinkColumns(ss)
-                .HistoryColumns(ss)
+                .HistoryColumns(ss));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder FormulaSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        {
+            return hb.FieldSet(id: "FormulaSettingsEditor", action: () => hb
                 .Formulas(ss));
         }
 
@@ -2261,70 +2274,65 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder Formulas(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(
-                css: " enclosed",
-                legendText: Displays.SettingFormulas(),
-                action: () => hb
-                    .FieldSelectable(
-                        controlId: "Formulas",
-                        fieldCss: "field-vertical w600",
-                        controlContainerCss: "container-selectable",
-                        controlWrapperCss: " h200",
-                        labelText: Displays.SettingColumnList(),
-                        listItemCollection: ss.FormulaItemCollection(),
-                        commandOptionPositionIsTop: true,
-                        commandOptionAction: () => hb
-                            .Div(css: "command-left", action: () => hb
-                                .Button(
-                                    controlId: "MoveUpFormulas",
-                                    controlCss: "button-icon",
-                                    text: Displays.MoveUp(),
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-n",
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .Button(
-                                    controlId: "MoveDownFormulas",
-                                    controlCss: "button-icon",
-                                    text: Displays.MoveDown(),
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-s",
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .Button(
-                                    controlId: "NewFormula",
-                                    text: Displays.New(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.openFormulaDialog($(this));",
-                                    icon: "ui-icon-gear",
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .Button(
-                                    controlId: "EditFormula",
-                                    text: Displays.AdvancedSetting(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.openFormulaDialog($(this));",
-                                    icon: "ui-icon-gear",
-                                    action: "SetSiteSettings",
-                                    method: "put")
-                                .Button(
-                                    controlId: "DeleteFormulas",
-                                    controlCss: "button-icon",
-                                    text: Displays.Delete(),
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-trash",
-                                    action: "SetSiteSettings",
-                                    method: "post",
-                                    confirm: Displays.ConfirmDelete())
-                                .Button(
-                                    controlId: "SynchronizeFormulas",
-                                    controlCss: "button-icon",
-                                    text: Displays.Synchronize(),
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-refresh",
-                                    action: "SynchronizeFormulas",
-                                    method: "put",
-                                    confirm: Displays.ConfirmSynchronize()))));
+            return hb.FieldSelectable(
+                controlId: "Formulas",
+                fieldCss: "field-vertical w600",
+                controlContainerCss: "container-selectable",
+                controlWrapperCss: " h200",
+                listItemCollection: ss.FormulaItemCollection(),
+                commandOptionPositionIsTop: true,
+                commandOptionAction: () => hb
+                    .Div(css: "command-left", action: () => hb
+                        .Button(
+                            controlId: "MoveUpFormulas",
+                            controlCss: "button-icon",
+                            text: Displays.MoveUp(),
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-circle-triangle-n",
+                            action: "SetSiteSettings",
+                            method: "post")
+                        .Button(
+                            controlId: "MoveDownFormulas",
+                            controlCss: "button-icon",
+                            text: Displays.MoveDown(),
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-circle-triangle-s",
+                            action: "SetSiteSettings",
+                            method: "post")
+                        .Button(
+                            controlId: "NewFormula",
+                            text: Displays.New(),
+                            controlCss: "button-icon",
+                            onClick: "$p.openFormulaDialog($(this));",
+                            icon: "ui-icon-gear",
+                            action: "SetSiteSettings",
+                            method: "post")
+                        .Button(
+                            controlId: "EditFormula",
+                            text: Displays.AdvancedSetting(),
+                            controlCss: "button-icon",
+                            onClick: "$p.openFormulaDialog($(this));",
+                            icon: "ui-icon-gear",
+                            action: "SetSiteSettings",
+                            method: "put")
+                        .Button(
+                            controlId: "DeleteFormulas",
+                            controlCss: "button-icon",
+                            text: Displays.Delete(),
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-trash",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            confirm: Displays.ConfirmDelete())
+                        .Button(
+                            controlId: "SynchronizeFormulas",
+                            controlCss: "button-icon",
+                            text: Displays.Synchronize(),
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-refresh",
+                            action: "SynchronizeFormulas",
+                            method: "put",
+                            confirm: Displays.ConfirmSynchronize())));
         }
 
         /// <summary>
