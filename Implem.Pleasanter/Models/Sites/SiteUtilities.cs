@@ -2372,7 +2372,8 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Condition(),
                         optionCollection: ss.ViewSelectableOptions(),
                         selectedValue: formulaSet.Condition?.ToString(),
-                        insertBlank: true)
+                        insertBlank: true,
+                        _using: ss.Views?.Any() == true)
                     .FieldTextBox(
                         fieldId: "FormulaOutOfConditionField",
                         controlId: "FormulaOutOfCondition",
