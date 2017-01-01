@@ -590,8 +590,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SettingAggregationList(params string[] data) { return Get("SettingAggregationList", data); }
         public static HtmlBuilder Displays_SettingAggregations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingAggregations", data)); }
         public static string SettingAggregations(params string[] data) { return Get("SettingAggregations", data); }
-        public static HtmlBuilder Displays_SettingChoicesVisible(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingChoicesVisible", data)); }
-        public static string SettingChoicesVisible(params string[] data) { return Get("SettingChoicesVisible", data); }
         public static HtmlBuilder Displays_SettingColumnList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingColumnList", data)); }
         public static string SettingColumnList(params string[] data) { return Get("SettingColumnList", data); }
         public static HtmlBuilder Displays_SettingControlFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingControlFormat", data)); }
