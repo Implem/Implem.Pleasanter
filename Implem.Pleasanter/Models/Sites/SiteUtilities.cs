@@ -535,7 +535,7 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.Filters()))
                                 .Li(action: () => hb
                                     .A(
-                                        href: "#AggregationSettingsEditor",
+                                        href: "#AggregationsSettingsEditor",
                                         text: Displays.Aggregations()))
                                 .Li(action: () => hb
                                     .A(
@@ -1182,7 +1182,7 @@ namespace Implem.Pleasanter.Models
                         hb
                             .GridSettingsEditor(siteModel.SiteSettings)
                             .FiltersSettingsEditor(siteModel.SiteSettings)
-                            .AggregationSettingsEditor(siteModel.SiteSettings)
+                            .AggregationsSettingsEditor(siteModel.SiteSettings)
                             .EditorSettingsEditor(siteModel.SiteSettings)
                             .LinkSettingsEditor(siteModel.SiteSettings)
                             .HistorySettingsEditor(siteModel.SiteSettings)
@@ -1268,15 +1268,6 @@ namespace Implem.Pleasanter.Models
                     insertBlank: true,
                     _using: ss.Views?.Any() == true)
                 .AggregationDetailsDialog(ss));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static HtmlBuilder AggregationSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
-        {
-            return hb.FieldSet(id: "AggregationSettingsEditor", action: () => hb
-                .Aggregations(ss));
         }
 
         /// <summary>
@@ -1623,72 +1614,73 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder Aggregations(this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder AggregationsSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(
-                css: " enclosed-thin",
-                legendText: Displays.SettingAggregations(),
-                action: () => hb
-                    .FieldSelectable(
-                        controlId: "AggregationDestination",
-                        fieldCss: "field-vertical both",
-                        controlContainerCss: "container-selectable",
-                        controlWrapperCss: " h350",
-                        labelText: Displays.SettingAggregationList(),
-                        listItemCollection: ss.AggregationDestination(),
-                        selectedValueCollection: new List<string>(),
-                        commandOptionPositionIsTop: true,
-                        commandOptionAction: () => hb
-                            .Div(css: "command-center", action: () => hb
-                                .Button(
-                                    controlId: "MoveUpAggregations",
-                                    controlCss: "button-icon",
-                                    text: Displays.MoveUp(),
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-n",
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .Button(
-                                    controlId: "MoveDownAggregations",
-                                    controlCss: "button-icon",
-                                    text: Displays.MoveDown(),
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-s",
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .Button(
-                                    text: Displays.AdvancedSetting(),
-                                    controlCss: "button-icon open-dialog",
-                                    onClick: "$p.openDialog($(this), '.main-form');",
-                                    icon: "ui-icon-gear",
-                                    selector: "#AggregationDetailsDialog")
-                                .Button(
-                                    controlId: "DeleteAggregations",
-                                    controlCss: "button-icon",
-                                    text: Displays.Delete(),
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-e",
-                                    action: "SetSiteSettings",
-                                    method: "put")))
-                    .FieldSelectable(
-                        controlId: "AggregationSource",
-                        fieldCss: "field-vertical",
-                        controlContainerCss: "container-selectable",
-                        controlWrapperCss: " h350",
-                        labelText: Displays.SettingSelectionList(),
-                        listItemCollection: ss.AggregationSource(),
-                        selectedValueCollection: new List<string>(),
-                        commandOptionPositionIsTop: true,
-                        commandOptionAction: () => hb
-                            .Div(css: "command-center", action: () => hb
-                                .Button(
-                                    controlId: "AddAggregations",
-                                    controlCss: "button-icon",
-                                    text: Displays.Add(),
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-w",
-                                    action: "SetSiteSettings",
-                                    method: "post"))));
+            return hb.FieldSet(id: "AggregationsSettingsEditor", action: () => hb
+                .FieldSet(
+                    css: " enclosed-thin",
+                    legendText: Displays.SettingAggregations(),
+                    action: () => hb
+                        .FieldSelectable(
+                            controlId: "AggregationDestination",
+                            fieldCss: "field-vertical both",
+                            controlContainerCss: "container-selectable",
+                            controlWrapperCss: " h350",
+                            labelText: Displays.SettingAggregationList(),
+                            listItemCollection: ss.AggregationDestination(),
+                            selectedValueCollection: new List<string>(),
+                            commandOptionPositionIsTop: true,
+                            commandOptionAction: () => hb
+                                .Div(css: "command-center", action: () => hb
+                                    .Button(
+                                        controlId: "MoveUpAggregations",
+                                        controlCss: "button-icon",
+                                        text: Displays.MoveUp(),
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-circle-triangle-n",
+                                        action: "SetSiteSettings",
+                                        method: "post")
+                                    .Button(
+                                        controlId: "MoveDownAggregations",
+                                        controlCss: "button-icon",
+                                        text: Displays.MoveDown(),
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-circle-triangle-s",
+                                        action: "SetSiteSettings",
+                                        method: "post")
+                                    .Button(
+                                        text: Displays.AdvancedSetting(),
+                                        controlCss: "button-icon open-dialog",
+                                        onClick: "$p.openDialog($(this), '.main-form');",
+                                        icon: "ui-icon-gear",
+                                        selector: "#AggregationDetailsDialog")
+                                    .Button(
+                                        controlId: "DeleteAggregations",
+                                        controlCss: "button-icon",
+                                        text: Displays.Delete(),
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-circle-triangle-e",
+                                        action: "SetSiteSettings",
+                                        method: "put")))
+                        .FieldSelectable(
+                            controlId: "AggregationSource",
+                            fieldCss: "field-vertical",
+                            controlContainerCss: "container-selectable",
+                            controlWrapperCss: " h350",
+                            labelText: Displays.SettingSelectionList(),
+                            listItemCollection: ss.AggregationSource(),
+                            selectedValueCollection: new List<string>(),
+                            commandOptionPositionIsTop: true,
+                            commandOptionAction: () => hb
+                                .Div(css: "command-center", action: () => hb
+                                    .Button(
+                                        controlId: "AddAggregations",
+                                        controlCss: "button-icon",
+                                        text: Displays.Add(),
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-circle-triangle-w",
+                                        action: "SetSiteSettings",
+                                        method: "post")))));
         }
 
         /// <summary>
