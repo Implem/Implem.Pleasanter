@@ -1,9 +1,9 @@
 ﻿{
-    "Id": "ScriptSettingsEditor",
+    "Id": "Scripts",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Script"
+            "Body": "Scripts"
         },
         {
             "Language": "ja",

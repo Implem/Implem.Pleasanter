@@ -1,13 +1,13 @@
 ﻿{
-    "Id": "StyleSettingsEditor",
+    "Id": "Notifications",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Style"
+            "Body": "Notifications"
         },
         {
             "Language": "ja",
-            "Body": "スタイル"
+            "Body": "通知"
         }
     ]
 }

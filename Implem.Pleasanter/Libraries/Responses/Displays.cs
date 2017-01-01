@@ -214,8 +214,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string EarnedValue(params string[] data) { return Get("EarnedValue", data); }
         public static HtmlBuilder Displays_Edit(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Edit", data)); }
         public static string Edit(params string[] data) { return Get("Edit", data); }
-        public static HtmlBuilder Displays_EditorSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EditorSettingsEditor", data)); }
-        public static string EditorSettingsEditor(params string[] data) { return Get("EditorSettingsEditor", data); }
+        public static HtmlBuilder Displays_Editor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Editor", data)); }
+        public static string Editor(params string[] data) { return Get("Editor", data); }
         public static HtmlBuilder Displays_EditPermissions(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EditPermissions", data)); }
         public static string EditPermissions(params string[] data) { return Get("EditPermissions", data); }
         public static HtmlBuilder Displays_EditProfile(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EditProfile", data)); }
@@ -252,12 +252,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string FileNotFound(params string[] data) { return Get("FileNotFound", data); }
         public static HtmlBuilder Displays_FileUpdateCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("FileUpdateCompleted", data)); }
         public static string FileUpdateCompleted(params string[] data) { return Get("FileUpdateCompleted", data); }
-        public static HtmlBuilder Displays_Filter(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Filter", data)); }
-        public static string Filter(params string[] data) { return Get("Filter", data); }
         public static HtmlBuilder Displays_Filters(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Filters", data)); }
         public static string Filters(params string[] data) { return Get("Filters", data); }
-        public static HtmlBuilder Displays_Formula(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Formula", data)); }
-        public static string Formula(params string[] data) { return Get("Formula", data); }
+        public static HtmlBuilder Displays_Formulas(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Formulas", data)); }
+        public static string Formulas(params string[] data) { return Get("Formulas", data); }
         public static HtmlBuilder Displays_Fy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Fy", data)); }
         public static string Fy(params string[] data) { return Get("Fy", data); }
         public static HtmlBuilder Displays_Gantt(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Gantt", data)); }
@@ -268,8 +266,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Grid(params string[] data) { return Get("Grid", data); }
         public static HtmlBuilder Displays_GridScript(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("GridScript", data)); }
         public static string GridScript(params string[] data) { return Get("GridScript", data); }
-        public static HtmlBuilder Displays_GridSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("GridSettingsEditor", data)); }
-        public static string GridSettingsEditor(params string[] data) { return Get("GridSettingsEditor", data); }
         public static HtmlBuilder Displays_GridStyle(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("GridStyle", data)); }
         public static string GridStyle(params string[] data) { return Get("GridStyle", data); }
         public static HtmlBuilder Displays_GroupBy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("GroupBy", data)); }
@@ -292,8 +288,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string HideList(params string[] data) { return Get("HideList", data); }
         public static HtmlBuilder Displays_Histories(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Histories", data)); }
         public static string Histories(params string[] data) { return Get("Histories", data); }
-        public static HtmlBuilder Displays_History(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("History", data)); }
-        public static string History(params string[] data) { return Get("History", data); }
         public static HtmlBuilder Displays_HourAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("HourAgo", data)); }
         public static string HourAgo(params string[] data) { return Get("HourAgo", data); }
         public static HtmlBuilder Displays_HoursAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("HoursAgo", data)); }
@@ -382,8 +376,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string LimitBeforeYears(params string[] data) { return Get("LimitBeforeYears", data); }
         public static HtmlBuilder Displays_LimitJust(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitJust", data)); }
         public static string LimitJust(params string[] data) { return Get("LimitJust", data); }
-        public static HtmlBuilder Displays_Link(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Link", data)); }
-        public static string Link(params string[] data) { return Get("Link", data); }
         public static HtmlBuilder Displays_LinkCreations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LinkCreations", data)); }
         public static string LinkCreations(params string[] data) { return Get("LinkCreations", data); }
         public static HtmlBuilder Displays_LinkDestinations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LinkDestinations", data)); }
@@ -406,8 +398,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string MailAddress(params string[] data) { return Get("MailAddress", data); }
         public static HtmlBuilder Displays_MailAddressHasNotSet(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MailAddressHasNotSet", data)); }
         public static string MailAddressHasNotSet(params string[] data) { return Get("MailAddressHasNotSet", data); }
-        public static HtmlBuilder Displays_MailerSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MailerSettingsEditor", data)); }
-        public static string MailerSettingsEditor(params string[] data) { return Get("MailerSettingsEditor", data); }
         public static HtmlBuilder Displays_MailTransmissionCompletion(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("MailTransmissionCompletion", data)); }
         public static string MailTransmissionCompletion(params string[] data) { return Get("MailTransmissionCompletion", data); }
         public static HtmlBuilder Displays_Manager(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Manager", data)); }
@@ -462,8 +452,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Normal(params string[] data) { return Get("Normal", data); }
         public static HtmlBuilder Displays_NotFound(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NotFound", data)); }
         public static string NotFound(params string[] data) { return Get("NotFound", data); }
-        public static HtmlBuilder Displays_NotificationSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NotificationSettingsEditor", data)); }
-        public static string NotificationSettingsEditor(params string[] data) { return Get("NotificationSettingsEditor", data); }
+        public static HtmlBuilder Displays_Notifications(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Notifications", data)); }
+        public static string Notifications(params string[] data) { return Get("Notifications", data); }
         public static HtmlBuilder Displays_NotificationType(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NotificationType", data)); }
         public static string NotificationType(params string[] data) { return Get("NotificationType", data); }
         public static HtmlBuilder Displays_NotInheritPermission(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NotInheritPermission", data)); }
@@ -564,8 +554,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Save(params string[] data) { return Get("Save", data); }
         public static HtmlBuilder Displays_Script(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Script", data)); }
         public static string Script(params string[] data) { return Get("Script", data); }
-        public static HtmlBuilder Displays_ScriptSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ScriptSettingsEditor", data)); }
-        public static string ScriptSettingsEditor(params string[] data) { return Get("ScriptSettingsEditor", data); }
+        public static HtmlBuilder Displays_Scripts(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Scripts", data)); }
+        public static string Scripts(params string[] data) { return Get("Scripts", data); }
         public static HtmlBuilder Displays_Search(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Search", data)); }
         public static string Search(params string[] data) { return Get("Search", data); }
         public static HtmlBuilder Displays_SecondAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SecondAgo", data)); }
@@ -664,16 +654,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Step(params string[] data) { return Get("Step", data); }
         public static HtmlBuilder Displays_Style(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Style", data)); }
         public static string Style(params string[] data) { return Get("Style", data); }
-        public static HtmlBuilder Displays_StyleSettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("StyleSettingsEditor", data)); }
-        public static string StyleSettingsEditor(params string[] data) { return Get("StyleSettingsEditor", data); }
+        public static HtmlBuilder Displays_Styles(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Styles", data)); }
+        public static string Styles(params string[] data) { return Get("Styles", data); }
         public static HtmlBuilder Displays_SuffixCopy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SuffixCopy", data)); }
         public static string SuffixCopy(params string[] data) { return Get("SuffixCopy", data); }
+        public static HtmlBuilder Displays_Summaries(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Summaries", data)); }
+        public static string Summaries(params string[] data) { return Get("Summaries", data); }
         public static HtmlBuilder Displays_SummaryDestinationColumn(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SummaryDestinationColumn", data)); }
         public static string SummaryDestinationColumn(params string[] data) { return Get("SummaryDestinationColumn", data); }
         public static HtmlBuilder Displays_SummaryLinkColumn(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SummaryLinkColumn", data)); }
         public static string SummaryLinkColumn(params string[] data) { return Get("SummaryLinkColumn", data); }
-        public static HtmlBuilder Displays_SummarySettingsEditor(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SummarySettingsEditor", data)); }
-        public static string SummarySettingsEditor(params string[] data) { return Get("SummarySettingsEditor", data); }
         public static HtmlBuilder Displays_SummarySiteId(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SummarySiteId", data)); }
         public static string SummarySiteId(params string[] data) { return Get("SummarySiteId", data); }
         public static HtmlBuilder Displays_SummarySourceColumn(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SummarySourceColumn", data)); }

@@ -1,13 +1,13 @@
 ﻿{
-    "Id": "Link",
+    "Id": "Summaries",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Link"
+            "Body": "Summaries"
         },
         {
             "Language": "ja",
-            "Body": "リンク"
+            "Body": "サマリ"
         }
     ]
 }

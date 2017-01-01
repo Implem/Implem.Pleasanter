@@ -682,7 +682,7 @@
     <Content Include="App_Data\Displays\DisabledList.json" />
     <Content Include="App_Data\Displays\EarnedValue.json" />
     <Content Include="App_Data\Displays\Edit.json" />
-    <Content Include="App_Data\Displays\EditorSettingsEditor.json" />
+    <Content Include="App_Data\Displays\Editor.json" />
     <Content Include="App_Data\Displays\EditPermissions.json" />
     <Content Include="App_Data\Displays\EditProfile.json" />
     <Content Include="App_Data\Displays\EditScript.json" />
@@ -706,7 +706,6 @@
     <Content Include="App_Data\Displays\GoBack.json" />
     <Content Include="App_Data\Displays\Grid.json" />
     <Content Include="App_Data\Displays\GridScript.json" />
-    <Content Include="App_Data\Displays\GridSettingsEditor.json" />
     <Content Include="App_Data\Displays\GridStyle.json" />
     <Content Include="App_Data\Displays\GroupBy.json" />
     <Content Include="App_Data\Displays\Half1.json" />
@@ -718,7 +717,6 @@
     <Content Include="App_Data\Displays\Hide.json" />
     <Content Include="App_Data\Displays\HideList.json" />
     <Content Include="App_Data\Displays\Histories.json" />
-    <Content Include="App_Data\Displays\History.json" />
     <Content Include="App_Data\Displays\HourAgo.json" />
     <Content Include="App_Data\Displays\HoursAgo.json" />
     <Content Include="App_Data\Displays\Hyphen.json" />
@@ -774,7 +772,6 @@
     <Content Include="App_Data\Displays\Mail.json" />
     <Content Include="App_Data\Displays\MailAddress.json" />
     <Content Include="App_Data\Displays\MailAddressHasNotSet.json" />
-    <Content Include="App_Data\Displays\MailerSettingsEditor.json" />
     <Content Include="App_Data\Displays\MailTransmissionCompletion.json" />
     <Content Include="App_Data\Displays\Manager.json" />
     <Content Include="App_Data\Displays\Max.json" />
@@ -802,7 +799,7 @@
     <Content Include="App_Data\Displays\NoLinks.json" />
     <Content Include="App_Data\Displays\Normal.json" />
     <Content Include="App_Data\Displays\NotFound.json" />
-    <Content Include="App_Data\Displays\NotificationSettingsEditor.json" />
+    <Content Include="App_Data\Displays\Notifications.json" />
     <Content Include="App_Data\Displays\NotificationType.json" />
     <Content Include="App_Data\Displays\NotInheritPermission.json" />
     <Content Include="App_Data\Displays\NoTitle.json" />
@@ -851,7 +848,7 @@
     <Content Include="App_Data\Displays\ResetPassword.json" />
     <Content Include="App_Data\Displays\Save.json" />
     <Content Include="App_Data\Displays\Script.json" />
-    <Content Include="App_Data\Displays\ScriptSettingsEditor.json" />
+    <Content Include="App_Data\Displays\Scripts.json" />
     <Content Include="App_Data\Displays\Search.json" />
     <Content Include="App_Data\Displays\SecondAgo.json" />
     <Content Include="App_Data\Displays\SecondsAgo.json" />
@@ -900,11 +897,11 @@
     <Content Include="App_Data\Displays\Spinner.json" />
     <Content Include="App_Data\Displays\Step.json" />
     <Content Include="App_Data\Displays\Style.json" />
-    <Content Include="App_Data\Displays\StyleSettingsEditor.json" />
+    <Content Include="App_Data\Displays\Styles.json" />
     <Content Include="App_Data\Displays\SuffixCopy.json" />
     <Content Include="App_Data\Displays\SummaryDestinationColumn.json" />
     <Content Include="App_Data\Displays\SummaryLinkColumn.json" />
-    <Content Include="App_Data\Displays\SummarySettingsEditor.json" />
+    <Content Include="App_Data\Displays\Summaries.json" />
     <Content Include="App_Data\Displays\SummarySiteId.json" />
     <Content Include="App_Data\Displays\SummarySourceColumn.json" />
     <Content Include="App_Data\Displays\SummaryType.json" />
@@ -963,12 +960,11 @@
     <Content Include="App_Data\Displays\Expression.json" />
     <Content Include="App_Data\Displays\Condition.json" />
     <Content Include="App_Data\Displays\OutOfCondition.json" />
-    <Content Include="App_Data\Displays\Formula.json" />
+    <Content Include="App_Data\Displays\Formulas.json" />
     <Content Include="App_Data\Displays\Target.json" />
     <Content Include="App_Data\Displays\ChatWork.json" />
     <Content Include="App_Data\Displays\Token.json" />
     <Content Include="App_Data\Displays\SettingListItems.json" />
-    <Content Include="App_Data\Displays\Link.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

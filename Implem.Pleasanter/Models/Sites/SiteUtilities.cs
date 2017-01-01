@@ -508,27 +508,27 @@ namespace Implem.Pleasanter.Models
                             hb
                                 .Li(action: () => hb
                                     .A(
-                                        href: "#MailerSettingsEditor",
-                                        text: Displays.MailerSettingsEditor()))
+                                        href: "#MailSettingsEditor",
+                                        text: Displays.Mail()))
                                 .Li(action: () => hb
                                     .A(
-                                        href: "#NotificationSettingsEditor",
-                                        text: Displays.NotificationSettingsEditor()))
+                                        href: "#NotificationsSettingsEditor",
+                                        text: Displays.Notifications()))
                                 .Li(action: () => hb
                                     .A(
-                                        href: "#StyleSettingsEditor",
-                                        text: Displays.StyleSettingsEditor()))
+                                        href: "#StylesSettingsEditor",
+                                        text: Displays.Styles()))
                                 .Li(action: () => hb
                                     .A(
-                                        href: "#ScriptSettingsEditor",
-                                        text: Displays.ScriptSettingsEditor()));
+                                        href: "#ScriptsSettingsEditor",
+                                        text: Displays.Scripts()));
                             break;
                         default:
                             hb
                                 .Li(action: () => hb
                                     .A(
                                         href: "#GridSettingsEditor",
-                                        text: Displays.GridSettingsEditor()))
+                                        text: Displays.Grid()))
                                 .Li(action: () => hb
                                     .A(
                                         href: "#FiltersSettingsEditor",
@@ -540,43 +540,43 @@ namespace Implem.Pleasanter.Models
                                 .Li(action: () => hb
                                     .A(
                                         href: "#EditorSettingsEditor",
-                                        text: Displays.EditorSettingsEditor()))
+                                        text: Displays.Editor()))
                                 .Li(action: () => hb
                                     .A(
-                                        href: "#LinkSettingsEditor",
-                                        text: Displays.Link()))
+                                        href: "#LinksSettingsEditor",
+                                        text: Displays.Links()))
                                 .Li(action: () => hb
                                     .A(
-                                        href: "#HistorySettingsEditor",
-                                        text: Displays.History()))
+                                        href: "#HistoriesSettingsEditor",
+                                        text: Displays.Histories()))
                                 .Li(action: () => hb
                                     .A(
-                                        href: "#FormulaSettingsEditor",
-                                        text: Displays.Formula()))
+                                        href: "#FormulasSettingsEditor",
+                                        text: Displays.Formulas()))
                                 .Li(action: () => hb
                                     .A(
-                                        href: "#ViewSettingsEditor",
+                                        href: "#ViewsSettingsEditor",
                                         text: Displays.DataView()))
                                 .Li(action: () => hb
                                     .A(
-                                        href: "#SummarySettingsEditor",
-                                        text: Displays.SummarySettingsEditor()))
+                                        href: "#SummariesSettingsEditor",
+                                        text: Displays.Summaries()))
                                 .Li(action: () => hb
                                     .A(
-                                        href: "#NotificationSettingsEditor",
-                                        text: Displays.NotificationSettingsEditor()))
+                                        href: "#NotificationsSettingsEditor",
+                                        text: Displays.Notifications()))
                                 .Li(action: () => hb
                                     .A(
-                                        href: "#MailerSettingsEditor",
-                                        text: Displays.MailerSettingsEditor()))
+                                        href: "#MailSettingsEditor",
+                                        text: Displays.Mail()))
                                 .Li(action: () => hb
                                     .A(
-                                        href: "#StyleSettingsEditor",
-                                        text: Displays.StyleSettingsEditor()))
+                                        href: "#StylesSettingsEditor",
+                                        text: Displays.Styles()))
                                 .Li(action: () => hb
                                     .A(
-                                        href: "#ScriptSettingsEditor",
-                                        text: Displays.ScriptSettingsEditor()));
+                                        href: "#ScriptsSettingsEditor",
+                                        text: Displays.Scripts()));
                             break;
                     }
                     hb.Li(action: () => hb
@@ -1089,7 +1089,7 @@ namespace Implem.Pleasanter.Models
                 .Div(attributes: new HtmlAttributes()
                     .Id("NotificationDialog")
                     .Class("dialog")
-                    .Title(Displays.NotificationSettingsEditor())));
+                    .Title(Displays.Notifications())));
         }
 
         /// <summary>
@@ -1173,10 +1173,10 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "Wikis":
                         hb
-                            .NotificationSettingsEditor(siteModel.SiteSettings)
-                            .MailerSettingsEditor(siteModel.SiteSettings)
-                            .StyleSettingsEditor(siteModel.SiteSettings)
-                            .ScriptSettingsEditor(siteModel.SiteSettings);
+                            .NotificationsSettingsEditor(siteModel.SiteSettings)
+                            .MailSettingsEditor(siteModel.SiteSettings)
+                            .StylesSettingsEditor(siteModel.SiteSettings)
+                            .ScriptsSettingsEditor(siteModel.SiteSettings);
                         break;
                     default:
                         hb
@@ -1184,15 +1184,15 @@ namespace Implem.Pleasanter.Models
                             .FiltersSettingsEditor(siteModel.SiteSettings)
                             .AggregationsSettingsEditor(siteModel.SiteSettings)
                             .EditorSettingsEditor(siteModel.SiteSettings)
-                            .LinkSettingsEditor(siteModel.SiteSettings)
-                            .HistorySettingsEditor(siteModel.SiteSettings)
-                            .FormulaSettingsEditor(siteModel.SiteSettings)
-                            .ViewSettingsEditor(siteModel.SiteSettings)
-                            .NotificationSettingsEditor(siteModel.SiteSettings)
-                            .SummarySettingsEditor(siteModel.SiteSettings)
-                            .MailerSettingsEditor(siteModel.SiteSettings)
-                            .StyleSettingsEditor(siteModel.SiteSettings)
-                            .ScriptSettingsEditor(siteModel.SiteSettings);
+                            .LinksSettingsEditor(siteModel.SiteSettings)
+                            .HistoriesSettingsEditor(siteModel.SiteSettings)
+                            .FormulasSettingsEditor(siteModel.SiteSettings)
+                            .ViewsSettingsEditor(siteModel.SiteSettings)
+                            .NotificationsSettingsEditor(siteModel.SiteSettings)
+                            .SummariesSettingsEditor(siteModel.SiteSettings)
+                            .MailSettingsEditor(siteModel.SiteSettings)
+                            .StylesSettingsEditor(siteModel.SiteSettings)
+                            .ScriptsSettingsEditor(siteModel.SiteSettings);
                         break;
                 }
             }
@@ -1737,105 +1737,70 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder EditorSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(id: "EditorSettingsEditor", action: () => hb
-                .EditorColumns(ss));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static HtmlBuilder LinkSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
-        {
-            return hb.FieldSet(id: "LinkSettingsEditor", action: () => hb
-                .LinkColumns(ss));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static HtmlBuilder HistorySettingsEditor(this HtmlBuilder hb, SiteSettings ss)
-        {
-            return hb.FieldSet(id: "HistorySettingsEditor", action: () => hb
-                .HistoryColumns(ss));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static HtmlBuilder FormulaSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
-        {
-            return hb.FieldSet(id: "FormulaSettingsEditor", action: () => hb
-                .Formulas(ss));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static HtmlBuilder EditorColumns(this HtmlBuilder hb, SiteSettings ss)
-        {
-            return hb.FieldSet(
-                css: " enclosed",
-                legendText: Displays.SettingEditorColumns(),
-                action: () => hb
-                    .FieldSelectable(
-                        controlId: "EditorColumns",
-                        fieldCss: "field-vertical",
-                        controlContainerCss: "container-selectable",
-                        controlWrapperCss: " h350",
-                        labelText: Displays.EnabledList(),
-                        listItemCollection: ss.EditorSelectableOptions(),
-                        commandOptionPositionIsTop: true,
-                        commandOptionAction: () => hb
-                            .Div(css: "command-center", action: () => hb
-                                .Button(
-                                    controlId: "MoveUpEditorColumns",
-                                    text: Displays.MoveUp(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-n",
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .Button(
-                                    controlId: "MoveDownEditorColumns",
-                                    text: Displays.MoveDown(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-s",
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .Button(
-                                    controlId: "OpenEditorColumnDialog",
-                                    text: Displays.AdvancedSetting(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.openEditorColumnDialog($(this));",
-                                    icon: "ui-icon-gear",
-                                    action: "SetSiteSettings",
-                                    method: "put")
-                                .Button(
-                                    controlId: "ToDisableEditorColumns",
-                                    text: Displays.ToDisable(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-e",
-                                    action: "SetSiteSettings",
-                                    method: "put")))
-                    .FieldSelectable(
-                        controlId: "EditorSourceColumns",
-                        fieldCss: "field-vertical",
-                        controlContainerCss: "container-selectable",
-                        controlWrapperCss: " h350",
-                        labelText: Displays.DisabledList(),
-                        listItemCollection: ss.EditorSelectableOptions(enabled: false),
-                        commandOptionPositionIsTop: true,
-                        commandOptionAction: () => hb
-                            .Div(css: "command-center", action: () => hb
-                                .Button(
-                                    controlId: "ToEnableEditorColumns",
-                                    text: Displays.ToEnable(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-w",
-                                    action: "SetSiteSettings",
-                                    method: "put"))));
+                .FieldSet(
+                    css: " enclosed",
+                    legendText: Displays.SettingEditorColumns(),
+                    action: () => hb
+                        .FieldSelectable(
+                            controlId: "EditorColumns",
+                            fieldCss: "field-vertical",
+                            controlContainerCss: "container-selectable",
+                            controlWrapperCss: " h350",
+                            labelText: Displays.EnabledList(),
+                            listItemCollection: ss.EditorSelectableOptions(),
+                            commandOptionPositionIsTop: true,
+                            commandOptionAction: () => hb
+                                .Div(css: "command-center", action: () => hb
+                                    .Button(
+                                        controlId: "MoveUpEditorColumns",
+                                        text: Displays.MoveUp(),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-circle-triangle-n",
+                                        action: "SetSiteSettings",
+                                        method: "post")
+                                    .Button(
+                                        controlId: "MoveDownEditorColumns",
+                                        text: Displays.MoveDown(),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-circle-triangle-s",
+                                        action: "SetSiteSettings",
+                                        method: "post")
+                                    .Button(
+                                        controlId: "OpenEditorColumnDialog",
+                                        text: Displays.AdvancedSetting(),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.openEditorColumnDialog($(this));",
+                                        icon: "ui-icon-gear",
+                                        action: "SetSiteSettings",
+                                        method: "put")
+                                    .Button(
+                                        controlId: "ToDisableEditorColumns",
+                                        text: Displays.ToDisable(),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-circle-triangle-e",
+                                        action: "SetSiteSettings",
+                                        method: "put")))
+                        .FieldSelectable(
+                            controlId: "EditorSourceColumns",
+                            fieldCss: "field-vertical",
+                            controlContainerCss: "container-selectable",
+                            controlWrapperCss: " h350",
+                            labelText: Displays.DisabledList(),
+                            listItemCollection: ss.EditorSelectableOptions(enabled: false),
+                            commandOptionPositionIsTop: true,
+                            commandOptionAction: () => hb
+                                .Div(css: "command-center", action: () => hb
+                                    .Button(
+                                        controlId: "ToEnableEditorColumns",
+                                        text: Displays.ToEnable(),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-circle-triangle-w",
+                                        action: "SetSiteSettings",
+                                        method: "put")))));
         }
 
         /// <summary>
@@ -2160,127 +2125,129 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder LinkColumns(this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder LinksSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(
-                css: " enclosed",
-                legendText: Displays.SettingListItems(),
-                action: () => hb
-                    .FieldSelectable(
-                        controlId: "LinkColumns",
-                        fieldCss: "field-vertical",
-                        controlContainerCss: "container-selectable",
-                        controlWrapperCss: " h350",
-                        labelText: Displays.EnabledList(),
-                        listItemCollection: ss.LinkSelectableOptions(),
-                        commandOptionPositionIsTop: true,
-                        commandOptionAction: () => hb
-                            .Div(css: "command-center", action: () => hb
-                                .Button(
-                                    controlId: "MoveUpLinkColumns",
-                                    text: Displays.MoveUp(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-n",
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .Button(
-                                    controlId: "MoveDownLinkColumns",
-                                    text: Displays.MoveDown(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-s",
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .Button(
-                                    controlId: "ToDisableLinkColumns",
-                                    text: Displays.ToDisable(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-e",
-                                    action: "SetSiteSettings",
-                                    method: "put")))
-                    .FieldSelectable(
-                        controlId: "LinkSourceColumns",
-                        fieldCss: "field-vertical",
-                        controlContainerCss: "container-selectable",
-                        controlWrapperCss: " h350",
-                        labelText: Displays.DisabledList(),
-                        listItemCollection: ss.LinkSelectableOptions(enabled: false),
-                        commandOptionPositionIsTop: true,
-                        commandOptionAction: () => hb
-                            .Div(css: "command-center", action: () => hb
-                                .Button(
-                                    controlId: "ToEnableLinkColumns",
-                                    text: Displays.ToEnable(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-w",
-                                    action: "SetSiteSettings",
-                                    method: "put"))));
+            return hb.FieldSet(id: "LinksSettingsEditor", action: () => hb
+                .FieldSet(
+                    css: " enclosed",
+                    legendText: Displays.SettingListItems(),
+                    action: () => hb
+                        .FieldSelectable(
+                            controlId: "LinkColumns",
+                            fieldCss: "field-vertical",
+                            controlContainerCss: "container-selectable",
+                            controlWrapperCss: " h350",
+                            labelText: Displays.EnabledList(),
+                            listItemCollection: ss.LinkSelectableOptions(),
+                            commandOptionPositionIsTop: true,
+                            commandOptionAction: () => hb
+                                .Div(css: "command-center", action: () => hb
+                                    .Button(
+                                        controlId: "MoveUpLinkColumns",
+                                        text: Displays.MoveUp(),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-circle-triangle-n",
+                                        action: "SetSiteSettings",
+                                        method: "post")
+                                    .Button(
+                                        controlId: "MoveDownLinkColumns",
+                                        text: Displays.MoveDown(),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-circle-triangle-s",
+                                        action: "SetSiteSettings",
+                                        method: "post")
+                                    .Button(
+                                        controlId: "ToDisableLinkColumns",
+                                        text: Displays.ToDisable(),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-circle-triangle-e",
+                                        action: "SetSiteSettings",
+                                        method: "put")))
+                        .FieldSelectable(
+                            controlId: "LinkSourceColumns",
+                            fieldCss: "field-vertical",
+                            controlContainerCss: "container-selectable",
+                            controlWrapperCss: " h350",
+                            labelText: Displays.DisabledList(),
+                            listItemCollection: ss.LinkSelectableOptions(enabled: false),
+                            commandOptionPositionIsTop: true,
+                            commandOptionAction: () => hb
+                                .Div(css: "command-center", action: () => hb
+                                    .Button(
+                                        controlId: "ToEnableLinkColumns",
+                                        text: Displays.ToEnable(),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-circle-triangle-w",
+                                        action: "SetSiteSettings",
+                                        method: "put")))));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder HistoryColumns(this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder HistoriesSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(
-                css: " enclosed",
-                legendText: Displays.SettingListItems(),
-                action: () => hb
-                    .FieldSelectable(
-                        controlId: "HistoryColumns",
-                        fieldCss: "field-vertical",
-                        controlContainerCss: "container-selectable",
-                        controlWrapperCss: " h350",
-                        labelText: Displays.EnabledList(),
-                        listItemCollection: ss.HistorySelectableOptions(),
-                        commandOptionPositionIsTop: true,
-                        commandOptionAction: () => hb
-                            .Div(css: "command-center", action: () => hb
-                                .Button(
-                                    controlId: "MoveUpHistoryColumns",
-                                    text: Displays.MoveUp(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-n",
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .Button(
-                                    controlId: "MoveDownHistoryColumns",
-                                    text: Displays.MoveDown(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-s",
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .Button(
-                                    controlId: "ToDisableHistoryColumns",
-                                    text: Displays.ToDisable(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-e",
-                                    action: "SetSiteSettings",
-                                    method: "put")))
-                    .FieldSelectable(
-                        controlId: "HistorySourceColumns",
-                        fieldCss: "field-vertical",
-                        controlContainerCss: "container-selectable",
-                        controlWrapperCss: " h350",
-                        labelText: Displays.DisabledList(),
-                        listItemCollection: ss.HistorySelectableOptions(enabled: false),
-                        commandOptionPositionIsTop: true,
-                        commandOptionAction: () => hb
-                            .Div(css: "command-center", action: () => hb
-                                .Button(
-                                    controlId: "ToEnableHistoryColumns",
-                                    text: Displays.ToEnable(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-w",
-                                    action: "SetSiteSettings",
-                                    method: "put"))));
+            return hb.FieldSet(id: "HistoriesSettingsEditor", action: () => hb
+                .FieldSet(
+                    css: " enclosed",
+                    legendText: Displays.SettingListItems(),
+                    action: () => hb
+                        .FieldSelectable(
+                            controlId: "HistoryColumns",
+                            fieldCss: "field-vertical",
+                            controlContainerCss: "container-selectable",
+                            controlWrapperCss: " h350",
+                            labelText: Displays.EnabledList(),
+                            listItemCollection: ss.HistorySelectableOptions(),
+                            commandOptionPositionIsTop: true,
+                            commandOptionAction: () => hb
+                                .Div(css: "command-center", action: () => hb
+                                    .Button(
+                                        controlId: "MoveUpHistoryColumns",
+                                        text: Displays.MoveUp(),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-circle-triangle-n",
+                                        action: "SetSiteSettings",
+                                        method: "post")
+                                    .Button(
+                                        controlId: "MoveDownHistoryColumns",
+                                        text: Displays.MoveDown(),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-circle-triangle-s",
+                                        action: "SetSiteSettings",
+                                        method: "post")
+                                    .Button(
+                                        controlId: "ToDisableHistoryColumns",
+                                        text: Displays.ToDisable(),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-circle-triangle-e",
+                                        action: "SetSiteSettings",
+                                        method: "put")))
+                        .FieldSelectable(
+                            controlId: "HistorySourceColumns",
+                            fieldCss: "field-vertical",
+                            controlContainerCss: "container-selectable",
+                            controlWrapperCss: " h350",
+                            labelText: Displays.DisabledList(),
+                            listItemCollection: ss.HistorySelectableOptions(enabled: false),
+                            commandOptionPositionIsTop: true,
+                            commandOptionAction: () => hb
+                                .Div(css: "command-center", action: () => hb
+                                    .Button(
+                                        controlId: "ToEnableHistoryColumns",
+                                        text: Displays.ToEnable(),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-circle-triangle-w",
+                                        action: "SetSiteSettings",
+                                        method: "put")))));
         }
 
         /// <summary>
@@ -2308,67 +2275,68 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder Formulas(this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder FormulasSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSelectable(
-                controlId: "Formulas",
-                fieldCss: "field-vertical w600",
-                controlContainerCss: "container-selectable",
-                controlWrapperCss: " h200",
-                listItemCollection: ss.FormulaItemCollection(),
-                commandOptionPositionIsTop: true,
-                commandOptionAction: () => hb
-                    .Div(css: "command-left", action: () => hb
-                        .Button(
-                            controlId: "MoveUpFormulas",
-                            controlCss: "button-icon",
-                            text: Displays.MoveUp(),
-                            onClick: "$p.send($(this));",
-                            icon: "ui-icon-circle-triangle-n",
-                            action: "SetSiteSettings",
-                            method: "post")
-                        .Button(
-                            controlId: "MoveDownFormulas",
-                            controlCss: "button-icon",
-                            text: Displays.MoveDown(),
-                            onClick: "$p.send($(this));",
-                            icon: "ui-icon-circle-triangle-s",
-                            action: "SetSiteSettings",
-                            method: "post")
-                        .Button(
-                            controlId: "NewFormula",
-                            text: Displays.New(),
-                            controlCss: "button-icon",
-                            onClick: "$p.openFormulaDialog($(this));",
-                            icon: "ui-icon-gear",
-                            action: "SetSiteSettings",
-                            method: "post")
-                        .Button(
-                            controlId: "EditFormula",
-                            text: Displays.AdvancedSetting(),
-                            controlCss: "button-icon",
-                            onClick: "$p.openFormulaDialog($(this));",
-                            icon: "ui-icon-gear",
-                            action: "SetSiteSettings",
-                            method: "put")
-                        .Button(
-                            controlId: "DeleteFormulas",
-                            controlCss: "button-icon",
-                            text: Displays.Delete(),
-                            onClick: "$p.send($(this));",
-                            icon: "ui-icon-trash",
-                            action: "SetSiteSettings",
-                            method: "post",
-                            confirm: Displays.ConfirmDelete())
-                        .Button(
-                            controlId: "SynchronizeFormulas",
-                            controlCss: "button-icon",
-                            text: Displays.Synchronize(),
-                            onClick: "$p.send($(this));",
-                            icon: "ui-icon-refresh",
-                            action: "SynchronizeFormulas",
-                            method: "put",
-                            confirm: Displays.ConfirmSynchronize())));
+            return hb.FieldSet(id: "FormulasSettingsEditor", action: () => hb
+                .FieldSelectable(
+                    controlId: "Formulas",
+                    fieldCss: "field-vertical w600",
+                    controlContainerCss: "container-selectable",
+                    controlWrapperCss: " h200",
+                    listItemCollection: ss.FormulaItemCollection(),
+                    commandOptionPositionIsTop: true,
+                    commandOptionAction: () => hb
+                        .Div(css: "command-left", action: () => hb
+                            .Button(
+                                controlId: "MoveUpFormulas",
+                                controlCss: "button-icon",
+                                text: Displays.MoveUp(),
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-circle-triangle-n",
+                                action: "SetSiteSettings",
+                                method: "post")
+                            .Button(
+                                controlId: "MoveDownFormulas",
+                                controlCss: "button-icon",
+                                text: Displays.MoveDown(),
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-circle-triangle-s",
+                                action: "SetSiteSettings",
+                                method: "post")
+                            .Button(
+                                controlId: "NewFormula",
+                                text: Displays.New(),
+                                controlCss: "button-icon",
+                                onClick: "$p.openFormulaDialog($(this));",
+                                icon: "ui-icon-gear",
+                                action: "SetSiteSettings",
+                                method: "post")
+                            .Button(
+                                controlId: "EditFormula",
+                                text: Displays.AdvancedSetting(),
+                                controlCss: "button-icon",
+                                onClick: "$p.openFormulaDialog($(this));",
+                                icon: "ui-icon-gear",
+                                action: "SetSiteSettings",
+                                method: "put")
+                            .Button(
+                                controlId: "DeleteFormulas",
+                                controlCss: "button-icon",
+                                text: Displays.Delete(),
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-trash",
+                                action: "SetSiteSettings",
+                                method: "post",
+                                confirm: Displays.ConfirmDelete())
+                            .Button(
+                                controlId: "SynchronizeFormulas",
+                                controlCss: "button-icon",
+                                text: Displays.Synchronize(),
+                                onClick: "$p.send($(this));",
+                                icon: "ui-icon-refresh",
+                                action: "SynchronizeFormulas",
+                                method: "put",
+                                confirm: Displays.ConfirmSynchronize()))));
         }
 
         /// <summary>
@@ -2399,7 +2367,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "Formula",
                         controlCss: " must-transport",
                         fieldCss: "field-wide",
-                        labelText: Displays.Formula(),
+                        labelText: Displays.Formulas(),
                         text: formulaSet.Formula?.ToString(ss),
                         validateRequired: true)
                     .FieldDropDown(
@@ -2450,9 +2418,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder ViewSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder ViewsSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(id: "ViewSettingsEditor", action: () => hb
+            return hb.FieldSet(id: "ViewsSettingsEditor", action: () => hb
                 .FieldSelectable(
                     controlId: "Views",
                     fieldCss: "field-vertical w400",
@@ -2871,9 +2839,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder NotificationSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder NotificationsSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(id: "NotificationSettingsEditor", action: () => hb
+            return hb.FieldSet(id: "NotificationsSettingsEditor", action: () => hb
                 .NotificationSettings(ss)
                 .Button(
                     controlId: "NewNotification",
@@ -3091,7 +3059,7 @@ namespace Implem.Pleasanter.Models
                         .Th(action: () => hb
                             .Text(text: Displays.Address()))
                         .Th(action: () => hb
-                            .Text(text: Displays.NotificationSettingsEditor()))
+                            .Text(text: Displays.Notifications()))
                         .Th(action: () => hb
                             .Text(text: Displays.BeforeCondition()))
                         .Th(action: () => hb
@@ -3151,17 +3119,17 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder SummarySettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder SummariesSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
             var siteDataRows = ss.SummarySiteDataRows();
             if (siteDataRows == null)
             {
-                return hb.SummarySettingsEditorNoLinks();
+                return hb.SummariesSettingsEditorNoLinks();
             }
             var summarySiteIdHash = SummarySiteIdHash(siteDataRows, ss);
             var firstSiteId = summarySiteIdHash.Select(o => o.Key.ToLong()).FirstOrDefault();
             return siteDataRows.Any()
-                ? hb.FieldSet(id: "SummarySettingsEditor", action: () => hb
+                ? hb.FieldSet(id: "SummariesSettingsEditor", action: () => hb
                     .FieldSet(
                         css: " enclosed",
                         legendText: Displays.SettingSummaryColumns(),
@@ -3199,15 +3167,15 @@ namespace Implem.Pleasanter.Models
                                         action: "SetSiteSettings",
                                         method: "put")))
                             .SummarySettings(sourceSiteSettings: ss)))
-                : hb.SummarySettingsEditorNoLinks();
+                : hb.SummariesSettingsEditorNoLinks();
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder SummarySettingsEditorNoLinks(this HtmlBuilder hb)
+        private static HtmlBuilder SummariesSettingsEditorNoLinks(this HtmlBuilder hb)
         {
-            return hb.FieldSet(id: "SummarySettingsEditor", action: () => hb
+            return hb.FieldSet(id: "SummariesSettingsEditor", action: () => hb
                 .P(action: () => hb
                     .Text(text: Displays.NoLinks())));
         }
@@ -3440,9 +3408,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder MailerSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder MailSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(id: "MailerSettingsEditor", action: () => hb
+            return hb.FieldSet(id: "MailSettingsEditor", action: () => hb
                 .FieldTextBox(
                     textType: HtmlTypes.TextTypes.MultiLine,
                     controlId: "SiteSettings,AddressBook",
@@ -3476,9 +3444,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder StyleSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder StylesSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(id: "StyleSettingsEditor", action: () => hb
+            return hb.FieldSet(id: "StylesSettingsEditor", action: () => hb
                 .FieldTextBox(
                     textType: HtmlTypes.TextTypes.MultiLine,
                     controlId: "SiteSettings,GridStyle",
@@ -3502,9 +3470,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder ScriptSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder ScriptsSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(id: "ScriptSettingsEditor", action: () => hb
+            return hb.FieldSet(id: "ScriptsSettingsEditor", action: () => hb
                 .FieldTextBox(
                     textType: HtmlTypes.TextTypes.MultiLine,
                     controlId: "SiteSettings,GridScript",

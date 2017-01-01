@@ -1,13 +1,13 @@
 ﻿{
-    "Id": "MailerSettingsEditor",
+    "Id": "Editor",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Mail"
+            "Body": "Editor"
         },
         {
             "Language": "ja",
-            "Body": "メール"
+            "Body": "エディター"
         }
     ]
 }

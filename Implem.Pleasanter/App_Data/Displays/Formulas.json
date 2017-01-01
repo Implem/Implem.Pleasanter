@@ -1,13 +1,13 @@
 ﻿{
-    "Id": "GridSettingsEditor",
+    "Id": "Formulas",
     "Type": 110,
     "Languages": [
         {
-            "Body": "List screen"
+            "Body": "Formulas"
         },
         {
             "Language": "ja",
-            "Body": "一覧画面"
+            "Body": "計算式"
         }
     ]
 }

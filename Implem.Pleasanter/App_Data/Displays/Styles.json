@@ -1,13 +1,13 @@
 ﻿{
-    "Id": "EditorSettingsEditor",
+    "Id": "Styles",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Edit screen"
+            "Body": "Styles"
         },
         {
             "Language": "ja",
-            "Body": "編集画面"
+            "Body": "スタイル"
         }
     ]
 }
