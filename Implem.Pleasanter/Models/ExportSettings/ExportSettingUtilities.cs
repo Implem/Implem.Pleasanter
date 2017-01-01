@@ -161,7 +161,7 @@ namespace Implem.Pleasanter.Models
         {
             return hb.FieldSet(
                 css: "fieldset enclosed-auto w500 h400",
-                legendText: Displays.SettingColumnList(),
+                legendText: Displays.ColumnList(),
                 action: () => hb
                     .FieldSelectable(
                         controlId: "ExportSettings_Columns",

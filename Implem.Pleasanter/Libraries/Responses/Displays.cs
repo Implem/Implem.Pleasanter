@@ -126,6 +126,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string CodeDefinerMvcCompleted(params string[] data) { return Get("CodeDefinerMvcCompleted", data); }
         public static HtmlBuilder Displays_CodeDefinerRdsCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CodeDefinerRdsCompleted", data)); }
         public static string CodeDefinerRdsCompleted(params string[] data) { return Get("CodeDefinerRdsCompleted", data); }
+        public static HtmlBuilder Displays_ColumnList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ColumnList", data)); }
+        public static string ColumnList(params string[] data) { return Get("ColumnList", data); }
         public static HtmlBuilder Displays_CommentDeleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CommentDeleted", data)); }
         public static string CommentDeleted(params string[] data) { return Get("CommentDeleted", data); }
         public static HtmlBuilder Displays_Comments(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Comments", data)); }
@@ -590,8 +592,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SettingAggregationList(params string[] data) { return Get("SettingAggregationList", data); }
         public static HtmlBuilder Displays_SettingAggregations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingAggregations", data)); }
         public static string SettingAggregations(params string[] data) { return Get("SettingAggregations", data); }
-        public static HtmlBuilder Displays_SettingColumnList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingColumnList", data)); }
-        public static string SettingColumnList(params string[] data) { return Get("SettingColumnList", data); }
         public static HtmlBuilder Displays_SettingControlFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingControlFormat", data)); }
         public static string SettingControlFormat(params string[] data) { return Get("SettingControlFormat", data); }
         public static HtmlBuilder Displays_SettingEditorColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingEditorColumns", data)); }
