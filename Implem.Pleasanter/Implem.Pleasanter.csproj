@@ -882,7 +882,6 @@
     <Content Include="App_Data\Displays\SettingGridPageSize.json" />
     <Content Include="App_Data\Displays\SettingLabel.json" />
     <Content Include="App_Data\Displays\SettingLimitDefault.json" />
-    <Content Include="App_Data\Displays\SettingLinkColumns.json" />
     <Content Include="App_Data\Displays\SettingNearCompletionTimeAfterDays.json" />
     <Content Include="App_Data\Displays\SettingNearCompletionTimeBeforeDays.json" />
     <Content Include="App_Data\Displays\SettingNotGroupBy.json" />
@@ -970,6 +969,7 @@
     <Content Include="App_Data\Displays\ChatWork.json" />
     <Content Include="App_Data\Displays\Token.json" />
     <Content Include="App_Data\Displays\SettingListItems.json" />
+    <Content Include="App_Data\Displays\Link.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

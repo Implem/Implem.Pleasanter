@@ -535,6 +535,10 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.EditorSettingsEditor()))
                                 .Li(action: () => hb
                                     .A(
+                                        href: "#LinkSettingsEditor",
+                                        text: Displays.Link()))
+                                .Li(action: () => hb
+                                    .A(
                                         href: "#HistorySettingsEditor",
                                         text: Displays.History()))
                                 .Li(action: () => hb
@@ -1170,6 +1174,7 @@ namespace Implem.Pleasanter.Models
                         hb
                             .GridSettingsEditor(siteModel.SiteSettings)
                             .EditorSettingsEditor(siteModel.SiteSettings)
+                            .LinkSettingsEditor(siteModel.SiteSettings)
                             .HistorySettingsEditor(siteModel.SiteSettings)
                             .FormulaSettingsEditor(siteModel.SiteSettings)
                             .ViewSettingsEditor(siteModel.SiteSettings)
@@ -1722,7 +1727,15 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder EditorSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(id: "EditorSettingsEditor", action: () => hb
-                .EditorColumns(ss)
+                .EditorColumns(ss));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder LinkSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        {
+            return hb.FieldSet(id: "LinkSettingsEditor", action: () => hb
                 .LinkColumns(ss));
         }
 
@@ -2141,7 +2154,7 @@ namespace Implem.Pleasanter.Models
         {
             return hb.FieldSet(
                 css: " enclosed",
-                legendText: Displays.SettingLinkColumns(),
+                legendText: Displays.SettingListItems(),
                 action: () => hb
                     .FieldSelectable(
                         controlId: "LinkColumns",

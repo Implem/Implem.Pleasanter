@@ -380,6 +380,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string LimitBeforeYears(params string[] data) { return Get("LimitBeforeYears", data); }
         public static HtmlBuilder Displays_LimitJust(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LimitJust", data)); }
         public static string LimitJust(params string[] data) { return Get("LimitJust", data); }
+        public static HtmlBuilder Displays_Link(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Link", data)); }
+        public static string Link(params string[] data) { return Get("Link", data); }
         public static HtmlBuilder Displays_LinkCreations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LinkCreations", data)); }
         public static string LinkCreations(params string[] data) { return Get("LinkCreations", data); }
         public static HtmlBuilder Displays_LinkDestinations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("LinkDestinations", data)); }
@@ -622,8 +624,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SettingLabel(params string[] data) { return Get("SettingLabel", data); }
         public static HtmlBuilder Displays_SettingLimitDefault(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingLimitDefault", data)); }
         public static string SettingLimitDefault(params string[] data) { return Get("SettingLimitDefault", data); }
-        public static HtmlBuilder Displays_SettingLinkColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingLinkColumns", data)); }
-        public static string SettingLinkColumns(params string[] data) { return Get("SettingLinkColumns", data); }
         public static HtmlBuilder Displays_SettingListItems(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingListItems", data)); }
         public static string SettingListItems(params string[] data) { return Get("SettingListItems", data); }
         public static HtmlBuilder Displays_SettingNearCompletionTimeAfterDays(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingNearCompletionTimeAfterDays", data)); }
