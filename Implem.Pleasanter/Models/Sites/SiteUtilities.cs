@@ -531,8 +531,8 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.GridSettingsEditor()))
                                 .Li(action: () => hb
                                     .A(
-                                        href: "#FilterSettingsEditor",
-                                        text: Displays.Filter()))
+                                        href: "#FiltersSettingsEditor",
+                                        text: Displays.Filters()))
                                 .Li(action: () => hb
                                     .A(
                                         href: "#AggregationSettingsEditor",
@@ -1181,7 +1181,7 @@ namespace Implem.Pleasanter.Models
                     default:
                         hb
                             .GridSettingsEditor(siteModel.SiteSettings)
-                            .FilterSettingsEditor(siteModel.SiteSettings)
+                            .FiltersSettingsEditor(siteModel.SiteSettings)
                             .AggregationSettingsEditor(siteModel.SiteSettings)
                             .EditorSettingsEditor(siteModel.SiteSettings)
                             .LinkSettingsEditor(siteModel.SiteSettings)
@@ -1268,15 +1268,6 @@ namespace Implem.Pleasanter.Models
                     insertBlank: true,
                     _using: ss.Views?.Any() == true)
                 .AggregationDetailsDialog(ss));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static HtmlBuilder FilterSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
-        {
-            return hb.FieldSet(id: "FilterSettingsEditor", action: () => hb
-                .FilterColumns(ss));
         }
 
         /// <summary>
@@ -1439,73 +1430,74 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder FilterColumns(this HtmlBuilder hb, SiteSettings ss)
+        private static HtmlBuilder FiltersSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
-            return hb.FieldSet(
-                css: " enclosed-thin",
-                legendText: Displays.SettingListItems(),
-                action: () => hb
-                    .FieldSelectable(
-                        controlId: "FilterColumns",
-                        fieldCss: "field-vertical",
-                        controlContainerCss: "container-selectable",
-                        controlWrapperCss: " h350",
-                        labelText: Displays.EnabledList(),
-                        listItemCollection: ss.FilterSelectableOptions(),
-                        selectedValueCollection: new List<string>(),
-                        commandOptionPositionIsTop: true,
-                        commandOptionAction: () => hb
-                            .Div(css: "command-center", action: () => hb
-                                .Button(
-                                    controlId: "MoveUpFilterColumns",
-                                    controlCss: "button-icon",
-                                    text: Displays.MoveUp(),
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-n",
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .Button(
-                                    controlId: "MoveDownFilterColumns",
-                                    controlCss: "button-icon",
-                                    text: Displays.MoveDown(),
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-s",
-                                    action: "SetSiteSettings",
-                                    method: "post")
-                                .Button(
-                                    controlId: "OpenFilterColumnDialog",
-                                    text: Displays.AdvancedSetting(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.openFilterColumnDialog($(this));",
-                                    icon: "ui-icon-gear",
-                                    action: "SetSiteSettings",
-                                    method: "put")
-                                .Button(
-                                    controlId: "ToDisableFilterColumns",
-                                    controlCss: "button-icon",
-                                    text: Displays.ToDisable(),
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-e",
-                                    action: "SetSiteSettings",
-                                    method: "put")))
-                    .FieldSelectable(
-                        controlId: "FilterSourceColumns",
-                        fieldCss: "field-vertical",
-                        controlContainerCss: "container-selectable",
-                        controlWrapperCss: " h350",
-                        labelText: Displays.DisabledList(),
-                        listItemCollection: ss.FilterSelectableOptions(enabled: false),
-                        commandOptionPositionIsTop: true,
-                        commandOptionAction: () => hb
-                            .Div(css: "command-center", action: () => hb
-                                .Button(
-                                    controlId: "ToEnableFilterColumns",
-                                    text: Displays.ToEnable(),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.send($(this));",
-                                    icon: "ui-icon-circle-triangle-w",
-                                    action: "SetSiteSettings",
-                                    method: "put"))));
+            return hb.FieldSet(id: "FiltersSettingsEditor", action: () => hb
+                .FieldSet(
+                    css: " enclosed-thin",
+                    legendText: Displays.SettingListItems(),
+                    action: () => hb
+                        .FieldSelectable(
+                            controlId: "FilterColumns",
+                            fieldCss: "field-vertical",
+                            controlContainerCss: "container-selectable",
+                            controlWrapperCss: " h350",
+                            labelText: Displays.EnabledList(),
+                            listItemCollection: ss.FilterSelectableOptions(),
+                            selectedValueCollection: new List<string>(),
+                            commandOptionPositionIsTop: true,
+                            commandOptionAction: () => hb
+                                .Div(css: "command-center", action: () => hb
+                                    .Button(
+                                        controlId: "MoveUpFilterColumns",
+                                        controlCss: "button-icon",
+                                        text: Displays.MoveUp(),
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-circle-triangle-n",
+                                        action: "SetSiteSettings",
+                                        method: "post")
+                                    .Button(
+                                        controlId: "MoveDownFilterColumns",
+                                        controlCss: "button-icon",
+                                        text: Displays.MoveDown(),
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-circle-triangle-s",
+                                        action: "SetSiteSettings",
+                                        method: "post")
+                                    .Button(
+                                        controlId: "OpenFilterColumnDialog",
+                                        text: Displays.AdvancedSetting(),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.openFilterColumnDialog($(this));",
+                                        icon: "ui-icon-gear",
+                                        action: "SetSiteSettings",
+                                        method: "put")
+                                    .Button(
+                                        controlId: "ToDisableFilterColumns",
+                                        controlCss: "button-icon",
+                                        text: Displays.ToDisable(),
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-circle-triangle-e",
+                                        action: "SetSiteSettings",
+                                        method: "put")))
+                        .FieldSelectable(
+                            controlId: "FilterSourceColumns",
+                            fieldCss: "field-vertical",
+                            controlContainerCss: "container-selectable",
+                            controlWrapperCss: " h350",
+                            labelText: Displays.DisabledList(),
+                            listItemCollection: ss.FilterSelectableOptions(enabled: false),
+                            commandOptionPositionIsTop: true,
+                            commandOptionAction: () => hb
+                                .Div(css: "command-center", action: () => hb
+                                    .Button(
+                                        controlId: "ToEnableFilterColumns",
+                                        text: Displays.ToEnable(),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-circle-triangle-w",
+                                        action: "SetSiteSettings",
+                                        method: "put")))));
         }
 
         /// <summary>
