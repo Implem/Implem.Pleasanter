@@ -881,11 +881,11 @@
     <Content Include="App_Data\Displays\SettingNearCompletionTimeBeforeDays.json" />
     <Content Include="App_Data\Displays\SettingNotGroupBy.json" />
     <Content Include="App_Data\Displays\SettingOrder.json" />
-    <Content Include="App_Data\Displays\SettingSelectionList.json" />
+    <Content Include="App_Data\Displays\SelectionList.json" />
     <Content Include="App_Data\Displays\SettingSummaryColumns.json" />
     <Content Include="App_Data\Displays\SettingTitleColumn.json" />
     <Content Include="App_Data\Displays\SettingTitleSeparator.json" />
-    <Content Include="App_Data\Displays\SettingUnit.json" />
+    <Content Include="App_Data\Displays\Unit.json" />
     <Content Include="App_Data\Displays\Show.json" />
     <Content Include="App_Data\Displays\ShowList.json" />
     <Content Include="App_Data\Displays\SiteImageSettingsEditor.json" />

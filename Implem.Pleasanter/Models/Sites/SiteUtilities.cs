@@ -1667,7 +1667,7 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-vertical",
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h350",
-                            labelText: Displays.SettingSelectionList(),
+                            labelText: Displays.SelectionList(),
                             listItemCollection: ss.AggregationSource(),
                             selectedValueCollection: new List<string>(),
                             commandOptionPositionIsTop: true,
@@ -1901,7 +1901,7 @@ namespace Implem.Pleasanter.Models
                                     .FieldTextBox(
                                         controlId: "Unit",
                                         controlCss: " w50",
-                                        labelText: Displays.SettingUnit(),
+                                        labelText: Displays.Unit(),
                                         text: column.Unit,
                                         _using: !column.Id_Ver)
                                     .FieldSpinner(
@@ -1988,7 +1988,7 @@ namespace Implem.Pleasanter.Models
                                 textType: HtmlTypes.TextTypes.MultiLine,
                                 controlId: "ChoicesText",
                                 fieldCss: "field-wide",
-                                labelText: Displays.SettingSelectionList(),
+                                labelText: Displays.SelectionList(),
                                 text: column.ChoicesText);
                             break;
                         default:

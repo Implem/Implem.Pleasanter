@@ -568,6 +568,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SecondAgo(params string[] data) { return Get("SecondAgo", data); }
         public static HtmlBuilder Displays_SecondsAgo(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SecondsAgo", data)); }
         public static string SecondsAgo(params string[] data) { return Get("SecondsAgo", data); }
+        public static HtmlBuilder Displays_SelectionList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SelectionList", data)); }
+        public static string SelectionList(params string[] data) { return Get("SelectionList", data); }
         public static HtmlBuilder Displays_SelectOne(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SelectOne", data)); }
         public static string SelectOne(params string[] data) { return Get("SelectOne", data); }
         public static HtmlBuilder Displays_SelectTargets(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SelectTargets", data)); }
@@ -622,16 +624,12 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SettingNotGroupBy(params string[] data) { return Get("SettingNotGroupBy", data); }
         public static HtmlBuilder Displays_SettingOrder(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingOrder", data)); }
         public static string SettingOrder(params string[] data) { return Get("SettingOrder", data); }
-        public static HtmlBuilder Displays_SettingSelectionList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingSelectionList", data)); }
-        public static string SettingSelectionList(params string[] data) { return Get("SettingSelectionList", data); }
         public static HtmlBuilder Displays_SettingSummaryColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingSummaryColumns", data)); }
         public static string SettingSummaryColumns(params string[] data) { return Get("SettingSummaryColumns", data); }
         public static HtmlBuilder Displays_SettingTitleColumn(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingTitleColumn", data)); }
         public static string SettingTitleColumn(params string[] data) { return Get("SettingTitleColumn", data); }
         public static HtmlBuilder Displays_SettingTitleSeparator(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingTitleSeparator", data)); }
         public static string SettingTitleSeparator(params string[] data) { return Get("SettingTitleSeparator", data); }
-        public static HtmlBuilder Displays_SettingUnit(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingUnit", data)); }
-        public static string SettingUnit(params string[] data) { return Get("SettingUnit", data); }
         public static HtmlBuilder Displays_Show(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Show", data)); }
         public static string Show(params string[] data) { return Get("Show", data); }
         public static HtmlBuilder Displays_ShowList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ShowList", data)); }
@@ -692,6 +690,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Total(params string[] data) { return Get("Total", data); }
         public static HtmlBuilder Displays_UncheckAll(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("UncheckAll", data)); }
         public static string UncheckAll(params string[] data) { return Get("UncheckAll", data); }
+        public static HtmlBuilder Displays_Unit(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Unit", data)); }
+        public static string Unit(params string[] data) { return Get("Unit", data); }
         public static HtmlBuilder Displays_Update(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Update", data)); }
         public static string Update(params string[] data) { return Get("Update", data); }
         public static HtmlBuilder Displays_UpdateConflicts(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("UpdateConflicts", data)); }
