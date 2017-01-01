@@ -531,6 +531,10 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.GridSettingsEditor()))
                                 .Li(action: () => hb
                                     .A(
+                                        href: "#AggregationSettingsEditor",
+                                        text: Displays.Aggregations()))
+                                .Li(action: () => hb
+                                    .A(
                                         href: "#EditorSettingsEditor",
                                         text: Displays.EditorSettingsEditor()))
                                 .Li(action: () => hb
@@ -1173,6 +1177,7 @@ namespace Implem.Pleasanter.Models
                     default:
                         hb
                             .GridSettingsEditor(siteModel.SiteSettings)
+                            .AggregationSettingsEditor(siteModel.SiteSettings)
                             .EditorSettingsEditor(siteModel.SiteSettings)
                             .LinkSettingsEditor(siteModel.SiteSettings)
                             .HistorySettingsEditor(siteModel.SiteSettings)
@@ -1223,7 +1228,6 @@ namespace Implem.Pleasanter.Models
             return hb.FieldSet(id: "GridSettingsEditor", action: () => hb
                 .GridColumns(ss)
                 .FilterColumns(ss)
-                .Aggregations(ss)
                 .FieldSpinner(
                     controlId: "SiteSettings,GridPageSize",
                     fieldCss: "field-auto-thin",
@@ -1260,6 +1264,15 @@ namespace Implem.Pleasanter.Models
                     insertBlank: true,
                     _using: ss.Views?.Any() == true)
                 .AggregationDetailsDialog(ss));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder AggregationSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        {
+            return hb.FieldSet(id: "AggregationSettingsEditor", action: () => hb
+                .Aggregations(ss));
         }
 
         /// <summary>
