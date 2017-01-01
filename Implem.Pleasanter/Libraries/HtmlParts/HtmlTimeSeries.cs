@@ -33,7 +33,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlId: "TimeSeriesAggregateType",
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
-                    labelText: Displays.SettingAggregationType(),
+                    labelText: Displays.AggregationType(),
                     optionCollection: ss.TimeSeriesAggregationTypeOptions(),
                     selectedValue: aggregateType,
                     method: "post")
@@ -42,7 +42,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlId: "TimeSeriesValue",
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
-                    labelText: Displays.SettingAggregationTarget(),
+                    labelText: Displays.AggregationTarget(),
                     optionCollection: ss.TimeSeriesValueOptions(),
                     selectedValue: value,
                     method: "post")

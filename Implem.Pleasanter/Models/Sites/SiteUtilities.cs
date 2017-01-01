@@ -1696,7 +1696,7 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .FieldDropDown(
                         controlId: "AggregationType",
-                        labelText: Displays.SettingAggregationType(),
+                        labelText: Displays.AggregationType(),
                         optionCollection: new Dictionary<string, string>
                         {
                             { "Count", Displays.Count() },
@@ -1706,7 +1706,7 @@ namespace Implem.Pleasanter.Models
                     .FieldDropDown(
                         controlId: "AggregationTarget",
                         fieldCss: " hidden togglable",
-                        labelText: Displays.SettingAggregationTarget(),
+                        labelText: Displays.AggregationTarget(),
                         optionCollection: Def.ColumnDefinitionCollection
                             .Where(o => o.TableName == ss.ReferenceType)
                             .Where(o => o.Computable)
@@ -2782,13 +2782,13 @@ namespace Implem.Pleasanter.Models
                     .FieldDropDown(
                         controlId: "TimeSeriesAggregateType",
                         fieldCss: "field-auto-thin",
-                        labelText: Displays.SettingAggregationType(),
+                        labelText: Displays.AggregationType(),
                         optionCollection: ss.TimeSeriesAggregationTypeOptions(),
                         selectedValue: view.TimeSeriesAggregateType)
                     .FieldDropDown(
                         controlId: "TimeSeriesValue",
                         fieldCss: "field-auto-thin",
-                        labelText: Displays.SettingAggregationTarget(),
+                        labelText: Displays.AggregationTarget(),
                         optionCollection: ss.TimeSeriesValueOptions(),
                         selectedValue: view.TimeSeriesValue))
                 : hb;
@@ -2811,13 +2811,13 @@ namespace Implem.Pleasanter.Models
                     .FieldDropDown(
                         controlId: "KambanAggregateType",
                         fieldCss: "field-auto-thin",
-                        labelText: Displays.SettingAggregationType(),
+                        labelText: Displays.AggregationType(),
                         optionCollection: ss.KambanAggregationTypeOptions(),
                         selectedValue: view.KambanAggregateType)
                     .FieldDropDown(
                         controlId: "KambanValue",
                         fieldCss: "field-auto-thin",
-                        labelText: Displays.SettingAggregationTarget(),
+                        labelText: Displays.AggregationTarget(),
                         optionCollection: ss.KamvanValueOptions(),
                         selectedValue: view.KambanValue))
                 : hb;

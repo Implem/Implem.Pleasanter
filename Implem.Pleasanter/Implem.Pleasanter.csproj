@@ -864,8 +864,8 @@
     <Content Include="App_Data\Displays\Setting.json" />
     <Content Include="App_Data\Displays\SettingAggregationList.json" />
     <Content Include="App_Data\Displays\SettingAggregations.json" />
-    <Content Include="App_Data\Displays\SettingAggregationTarget.json" />
-    <Content Include="App_Data\Displays\SettingAggregationType.json" />
+    <Content Include="App_Data\Displays\AggregationTarget.json" />
+    <Content Include="App_Data\Displays\AggregationType.json" />
     <Content Include="App_Data\Displays\SettingChoicesVisible.json" />
     <Content Include="App_Data\Displays\SettingColumnList.json" />
     <Content Include="App_Data\Displays\SettingControlFormat.json" />

@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .FieldDropDown(
                         controlId: "KambanAggregateType",
                         fieldCss: "field-auto-thin",
-                        labelText: Displays.SettingAggregationType(),
+                        labelText: Displays.AggregationType(),
                         optionCollection: ss.KambanAggregationTypeOptions(),
                         selectedValue: aggregateType,
                         method: "post")
@@ -46,7 +46,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlId: "KambanValue",
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
-                        labelText: Displays.SettingAggregationTarget(),
+                        labelText: Displays.AggregationTarget(),
                         optionCollection: ss.KamvanValueOptions(),
                         selectedValue: value,
                         method: "post")

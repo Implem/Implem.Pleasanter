@@ -58,6 +58,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string AggregationDetails(params string[] data) { return Get("AggregationDetails", data); }
         public static HtmlBuilder Displays_Aggregations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Aggregations", data)); }
         public static string Aggregations(params string[] data) { return Get("Aggregations", data); }
+        public static HtmlBuilder Displays_AggregationTarget(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("AggregationTarget", data)); }
+        public static string AggregationTarget(params string[] data) { return Get("AggregationTarget", data); }
+        public static HtmlBuilder Displays_AggregationType(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("AggregationType", data)); }
+        public static string AggregationType(params string[] data) { return Get("AggregationType", data); }
         public static HtmlBuilder Displays_All(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("All", data)); }
         public static string All(params string[] data) { return Get("All", data); }
         public static HtmlBuilder Displays_AlreadyAdded(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("AlreadyAdded", data)); }
@@ -586,10 +590,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SettingAggregationList(params string[] data) { return Get("SettingAggregationList", data); }
         public static HtmlBuilder Displays_SettingAggregations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingAggregations", data)); }
         public static string SettingAggregations(params string[] data) { return Get("SettingAggregations", data); }
-        public static HtmlBuilder Displays_SettingAggregationTarget(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingAggregationTarget", data)); }
-        public static string SettingAggregationTarget(params string[] data) { return Get("SettingAggregationTarget", data); }
-        public static HtmlBuilder Displays_SettingAggregationType(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingAggregationType", data)); }
-        public static string SettingAggregationType(params string[] data) { return Get("SettingAggregationType", data); }
         public static HtmlBuilder Displays_SettingChoicesVisible(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingChoicesVisible", data)); }
         public static string SettingChoicesVisible(params string[] data) { return Get("SettingChoicesVisible", data); }
         public static HtmlBuilder Displays_SettingColumnList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingColumnList", data)); }
