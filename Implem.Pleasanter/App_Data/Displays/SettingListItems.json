@@ -1,0 +1,13 @@
+﻿{
+    "Id": "SettingListItems",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Setting list items"
+        },
+        {
+            "Language": "ja",
+            "Body": "一覧表の項目の設定"
+        }
+    ]
+}

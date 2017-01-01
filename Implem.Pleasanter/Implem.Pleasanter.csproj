@@ -970,6 +970,7 @@
     <Content Include="App_Data\Displays\Target.json" />
     <Content Include="App_Data\Displays\ChatWork.json" />
     <Content Include="App_Data\Displays\Token.json" />
+    <Content Include="App_Data\Displays\SettingListItems.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

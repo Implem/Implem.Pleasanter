@@ -535,6 +535,10 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.EditorSettingsEditor()))
                                 .Li(action: () => hb
                                     .A(
+                                        href: "#HistorySettingsEditor",
+                                        text: Displays.History()))
+                                .Li(action: () => hb
+                                    .A(
                                         href: "#FormulaSettingsEditor",
                                         text: Displays.Formula()))
                                 .Li(action: () => hb
@@ -1166,6 +1170,7 @@ namespace Implem.Pleasanter.Models
                         hb
                             .GridSettingsEditor(siteModel.SiteSettings)
                             .EditorSettingsEditor(siteModel.SiteSettings)
+                            .HistorySettingsEditor(siteModel.SiteSettings)
                             .FormulaSettingsEditor(siteModel.SiteSettings)
                             .ViewSettingsEditor(siteModel.SiteSettings)
                             .NotificationSettingsEditor(siteModel.SiteSettings)
@@ -1718,7 +1723,15 @@ namespace Implem.Pleasanter.Models
         {
             return hb.FieldSet(id: "EditorSettingsEditor", action: () => hb
                 .EditorColumns(ss)
-                .LinkColumns(ss)
+                .LinkColumns(ss));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder HistorySettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        {
+            return hb.FieldSet(id: "HistorySettingsEditor", action: () => hb
                 .HistoryColumns(ss));
         }
 
@@ -2191,7 +2204,7 @@ namespace Implem.Pleasanter.Models
         {
             return hb.FieldSet(
                 css: " enclosed",
-                legendText: Displays.SettingHistoryColumns(),
+                legendText: Displays.SettingListItems(),
                 action: () => hb
                     .FieldSelectable(
                         controlId: "HistoryColumns",
