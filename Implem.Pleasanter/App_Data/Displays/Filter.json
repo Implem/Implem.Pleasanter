@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Filter",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Filter"
+        },
+        {
+            "Language": "ja",
+            "Body": "フィルタ"
+        }
+    ]
+}

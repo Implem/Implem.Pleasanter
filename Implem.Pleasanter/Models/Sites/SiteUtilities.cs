@@ -531,6 +531,10 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.GridSettingsEditor()))
                                 .Li(action: () => hb
                                     .A(
+                                        href: "#FilterSettingsEditor",
+                                        text: Displays.Filter()))
+                                .Li(action: () => hb
+                                    .A(
                                         href: "#AggregationSettingsEditor",
                                         text: Displays.Aggregations()))
                                 .Li(action: () => hb
@@ -1177,6 +1181,7 @@ namespace Implem.Pleasanter.Models
                     default:
                         hb
                             .GridSettingsEditor(siteModel.SiteSettings)
+                            .FilterSettingsEditor(siteModel.SiteSettings)
                             .AggregationSettingsEditor(siteModel.SiteSettings)
                             .EditorSettingsEditor(siteModel.SiteSettings)
                             .LinkSettingsEditor(siteModel.SiteSettings)
@@ -1227,7 +1232,6 @@ namespace Implem.Pleasanter.Models
         {
             return hb.FieldSet(id: "GridSettingsEditor", action: () => hb
                 .GridColumns(ss)
-                .FilterColumns(ss)
                 .FieldSpinner(
                     controlId: "SiteSettings,GridPageSize",
                     fieldCss: "field-auto-thin",
@@ -1264,6 +1268,15 @@ namespace Implem.Pleasanter.Models
                     insertBlank: true,
                     _using: ss.Views?.Any() == true)
                 .AggregationDetailsDialog(ss));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder FilterSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
+        {
+            return hb.FieldSet(id: "FilterSettingsEditor", action: () => hb
+                .FilterColumns(ss));
         }
 
         /// <summary>
@@ -1430,7 +1443,7 @@ namespace Implem.Pleasanter.Models
         {
             return hb.FieldSet(
                 css: " enclosed-thin",
-                legendText: Displays.SettingFilterColumns(),
+                legendText: Displays.SettingListItems(),
                 action: () => hb
                     .FieldSelectable(
                         controlId: "FilterColumns",

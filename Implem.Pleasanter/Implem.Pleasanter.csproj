@@ -875,7 +875,6 @@
     <Content Include="App_Data\Displays\SettingEditorColumns.json" />
     <Content Include="App_Data\Displays\SettingEnable.json" />
     <Content Include="App_Data\Displays\SettingExportFormat.json" />
-    <Content Include="App_Data\Displays\SettingFilterColumns.json" />
     <Content Include="App_Data\Displays\SettingFormat.json" />
     <Content Include="App_Data\Displays\SettingGridColumns.json" />
     <Content Include="App_Data\Displays\SettingGridFormat.json" />
@@ -970,6 +969,7 @@
     <Content Include="App_Data\Displays\Token.json" />
     <Content Include="App_Data\Displays\SettingListItems.json" />
     <Content Include="App_Data\Displays\Link.json" />
+    <Content Include="App_Data\Displays\Filter.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

@@ -252,6 +252,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string FileNotFound(params string[] data) { return Get("FileNotFound", data); }
         public static HtmlBuilder Displays_FileUpdateCompleted(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("FileUpdateCompleted", data)); }
         public static string FileUpdateCompleted(params string[] data) { return Get("FileUpdateCompleted", data); }
+        public static HtmlBuilder Displays_Filter(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Filter", data)); }
+        public static string Filter(params string[] data) { return Get("Filter", data); }
         public static HtmlBuilder Displays_Filters(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Filters", data)); }
         public static string Filters(params string[] data) { return Get("Filters", data); }
         public static HtmlBuilder Displays_Formula(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Formula", data)); }
@@ -610,8 +612,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SettingEnable(params string[] data) { return Get("SettingEnable", data); }
         public static HtmlBuilder Displays_SettingExportFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingExportFormat", data)); }
         public static string SettingExportFormat(params string[] data) { return Get("SettingExportFormat", data); }
-        public static HtmlBuilder Displays_SettingFilterColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingFilterColumns", data)); }
-        public static string SettingFilterColumns(params string[] data) { return Get("SettingFilterColumns", data); }
         public static HtmlBuilder Displays_SettingFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingFormat", data)); }
         public static string SettingFormat(params string[] data) { return Get("SettingFormat", data); }
         public static HtmlBuilder Displays_SettingGridColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingGridColumns", data)); }
