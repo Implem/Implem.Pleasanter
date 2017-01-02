@@ -869,7 +869,6 @@
     <Content Include="App_Data\Displays\ColumnList.json" />
     <Content Include="App_Data\Displays\SettingControlFormat.json" />
     <Content Include="App_Data\Displays\SettingEditorColumns.json" />
-    <Content Include="App_Data\Displays\SettingEnable.json" />
     <Content Include="App_Data\Displays\SettingExportFormat.json" />
     <Content Include="App_Data\Displays\SettingFormat.json" />
     <Content Include="App_Data\Displays\SettingGridFormat.json" />

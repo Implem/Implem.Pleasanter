@@ -600,8 +600,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SettingControlFormat(params string[] data) { return Get("SettingControlFormat", data); }
         public static HtmlBuilder Displays_SettingEditorColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingEditorColumns", data)); }
         public static string SettingEditorColumns(params string[] data) { return Get("SettingEditorColumns", data); }
-        public static HtmlBuilder Displays_SettingEnable(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingEnable", data)); }
-        public static string SettingEnable(params string[] data) { return Get("SettingEnable", data); }
         public static HtmlBuilder Displays_SettingExportFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingExportFormat", data)); }
         public static string SettingExportFormat(params string[] data) { return Get("SettingExportFormat", data); }
         public static HtmlBuilder Displays_SettingFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingFormat", data)); }
