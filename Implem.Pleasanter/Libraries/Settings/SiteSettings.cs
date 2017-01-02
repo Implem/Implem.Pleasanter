@@ -655,7 +655,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return AggregationCollection?.ToDictionary(
                 o => o.Id.ToString(),
                 o => (o.GroupBy == "[NotGroupBy]"
-                    ? Displays.SettingNotGroupBy() 
+                    ? Displays.NoClassification() 
                     : GetColumn(o.GroupBy).LabelText) +
                         " (" +
                         Displays.Get(o.Type.ToString()) +
@@ -669,7 +669,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var aggregationSource = new Dictionary<string, string>
             {
-                { "[NotGroupBy]", Displays.SettingNotGroupBy() }
+                { "[NotGroupBy]", Displays.NoClassification() }
             };
             return aggregationSource.AddRange(Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == ReferenceType)

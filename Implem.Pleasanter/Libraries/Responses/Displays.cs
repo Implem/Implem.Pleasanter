@@ -458,6 +458,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string NewStyle(params string[] data) { return Get("NewStyle", data); }
         public static HtmlBuilder Displays_Next(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Next", data)); }
         public static string Next(params string[] data) { return Get("Next", data); }
+        public static HtmlBuilder Displays_NoClassification(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NoClassification", data)); }
+        public static string NoClassification(params string[] data) { return Get("NoClassification", data); }
         public static HtmlBuilder Displays_NoData(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NoData", data)); }
         public static string NoData(params string[] data) { return Get("NoData", data); }
         public static HtmlBuilder Displays_NoLinks(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NoLinks", data)); }
@@ -614,8 +616,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SettingGridFormat(params string[] data) { return Get("SettingGridFormat", data); }
         public static HtmlBuilder Displays_SettingListItems(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingListItems", data)); }
         public static string SettingListItems(params string[] data) { return Get("SettingListItems", data); }
-        public static HtmlBuilder Displays_SettingNotGroupBy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingNotGroupBy", data)); }
-        public static string SettingNotGroupBy(params string[] data) { return Get("SettingNotGroupBy", data); }
         public static HtmlBuilder Displays_SettingOrder(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingOrder", data)); }
         public static string SettingOrder(params string[] data) { return Get("SettingOrder", data); }
         public static HtmlBuilder Displays_SettingSummaryColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingSummaryColumns", data)); }

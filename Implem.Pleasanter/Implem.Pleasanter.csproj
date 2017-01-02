@@ -876,7 +876,7 @@
     <Content Include="App_Data\Displays\DisplayName.json" />
     <Content Include="App_Data\Displays\NearCompletionTimeAfterDays.json" />
     <Content Include="App_Data\Displays\NearCompletionTimeBeforeDays.json" />
-    <Content Include="App_Data\Displays\SettingNotGroupBy.json" />
+    <Content Include="App_Data\Displays\NoClassification.json" />
     <Content Include="App_Data\Displays\SettingOrder.json" />
     <Content Include="App_Data\Displays\SelectionList.json" />
     <Content Include="App_Data\Displays\SettingSummaryColumns.json" />
