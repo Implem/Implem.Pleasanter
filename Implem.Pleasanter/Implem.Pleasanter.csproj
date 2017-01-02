@@ -872,11 +872,11 @@
     <Content Include="App_Data\Displays\SettingExportFormat.json" />
     <Content Include="App_Data\Displays\SettingFormat.json" />
     <Content Include="App_Data\Displays\SettingGridFormat.json" />
-    <Content Include="App_Data\Displays\SettingGridPageSize.json" />
+    <Content Include="App_Data\Displays\GridPageSize.json" />
     <Content Include="App_Data\Displays\DisplayName.json" />
     <Content Include="App_Data\Displays\SettingLimitDefault.json" />
-    <Content Include="App_Data\Displays\SettingNearCompletionTimeAfterDays.json" />
-    <Content Include="App_Data\Displays\SettingNearCompletionTimeBeforeDays.json" />
+    <Content Include="App_Data\Displays\NearCompletionTimeAfterDays.json" />
+    <Content Include="App_Data\Displays\NearCompletionTimeBeforeDays.json" />
     <Content Include="App_Data\Displays\SettingNotGroupBy.json" />
     <Content Include="App_Data\Displays\SettingOrder.json" />
     <Content Include="App_Data\Displays\SelectionList.json" />

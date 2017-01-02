@@ -1,5 +1,5 @@
 ﻿{
-    "Id": "SettingNearCompletionTimeBeforeDays",
+    "Id": "NearCompletionTimeBeforeDays",
     "Type": 110,
     "Languages": [
         {

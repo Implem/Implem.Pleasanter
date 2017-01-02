@@ -272,6 +272,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string GoBack(params string[] data) { return Get("GoBack", data); }
         public static HtmlBuilder Displays_Grid(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Grid", data)); }
         public static string Grid(params string[] data) { return Get("Grid", data); }
+        public static HtmlBuilder Displays_GridPageSize(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("GridPageSize", data)); }
+        public static string GridPageSize(params string[] data) { return Get("GridPageSize", data); }
         public static HtmlBuilder Displays_GridScript(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("GridScript", data)); }
         public static string GridScript(params string[] data) { return Get("GridScript", data); }
         public static HtmlBuilder Displays_GridStyle(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("GridStyle", data)); }
@@ -442,6 +444,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Name(params string[] data) { return Get("Name", data); }
         public static HtmlBuilder Displays_NearCompletionTime(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NearCompletionTime", data)); }
         public static string NearCompletionTime(params string[] data) { return Get("NearCompletionTime", data); }
+        public static HtmlBuilder Displays_NearCompletionTimeAfterDays(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NearCompletionTimeAfterDays", data)); }
+        public static string NearCompletionTimeAfterDays(params string[] data) { return Get("NearCompletionTimeAfterDays", data); }
+        public static HtmlBuilder Displays_NearCompletionTimeBeforeDays(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("NearCompletionTimeBeforeDays", data)); }
+        public static string NearCompletionTimeBeforeDays(params string[] data) { return Get("NearCompletionTimeBeforeDays", data); }
         public static HtmlBuilder Displays_New(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("New", data)); }
         public static string New(params string[] data) { return Get("New", data); }
         public static HtmlBuilder Displays_Newer(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Newer", data)); }
@@ -606,16 +612,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SettingFormat(params string[] data) { return Get("SettingFormat", data); }
         public static HtmlBuilder Displays_SettingGridFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingGridFormat", data)); }
         public static string SettingGridFormat(params string[] data) { return Get("SettingGridFormat", data); }
-        public static HtmlBuilder Displays_SettingGridPageSize(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingGridPageSize", data)); }
-        public static string SettingGridPageSize(params string[] data) { return Get("SettingGridPageSize", data); }
         public static HtmlBuilder Displays_SettingLimitDefault(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingLimitDefault", data)); }
         public static string SettingLimitDefault(params string[] data) { return Get("SettingLimitDefault", data); }
         public static HtmlBuilder Displays_SettingListItems(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingListItems", data)); }
         public static string SettingListItems(params string[] data) { return Get("SettingListItems", data); }
-        public static HtmlBuilder Displays_SettingNearCompletionTimeAfterDays(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingNearCompletionTimeAfterDays", data)); }
-        public static string SettingNearCompletionTimeAfterDays(params string[] data) { return Get("SettingNearCompletionTimeAfterDays", data); }
-        public static HtmlBuilder Displays_SettingNearCompletionTimeBeforeDays(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingNearCompletionTimeBeforeDays", data)); }
-        public static string SettingNearCompletionTimeBeforeDays(params string[] data) { return Get("SettingNearCompletionTimeBeforeDays", data); }
         public static HtmlBuilder Displays_SettingNotGroupBy(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingNotGroupBy", data)); }
         public static string SettingNotGroupBy(params string[] data) { return Get("SettingNotGroupBy", data); }
         public static HtmlBuilder Displays_SettingOrder(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingOrder", data)); }

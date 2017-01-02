@@ -1235,7 +1235,7 @@ namespace Implem.Pleasanter.Models
                 .FieldSpinner(
                     controlId: "SiteSettings,GridPageSize",
                     fieldCss: "field-auto-thin",
-                    labelText: Displays.SettingGridPageSize(),
+                    labelText: Displays.GridPageSize(),
                     value: ss.GridPageSize.ToDecimal(),
                     min: Parameters.General.GridPageSizeMin,
                     max: Parameters.General.GridPageSizeMax,
@@ -1244,7 +1244,7 @@ namespace Implem.Pleasanter.Models
                 .FieldSpinner(
                     controlId: "SiteSettings,NearCompletionTimeBeforeDays",
                     fieldCss: "field-auto-thin",
-                    labelText: Displays.SettingNearCompletionTimeBeforeDays(),
+                    labelText: Displays.NearCompletionTimeBeforeDays(),
                     value: ss.NearCompletionTimeBeforeDays.ToDecimal(),
                     min: Parameters.General.NearCompletionTimeBeforeDaysMin,
                     max: Parameters.General.NearCompletionTimeBeforeDaysMax,
@@ -1253,7 +1253,7 @@ namespace Implem.Pleasanter.Models
                 .FieldSpinner(
                     controlId: "SiteSettings,NearCompletionTimeAfterDays",
                     fieldCss: "field-auto-thin",
-                    labelText: Displays.SettingNearCompletionTimeAfterDays(),
+                    labelText: Displays.NearCompletionTimeAfterDays(),
                     value: ss.NearCompletionTimeAfterDays.ToDecimal(),
                     min: Parameters.General.NearCompletionTimeAfterDaysMin,
                     max: Parameters.General.NearCompletionTimeAfterDaysMax,
