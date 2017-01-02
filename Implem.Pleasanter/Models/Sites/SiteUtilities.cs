@@ -1284,7 +1284,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-vertical",
                         controlContainerCss: "container-selectable",
                         controlWrapperCss: " h350",
-                        labelText: Displays.EnabledList(),
+                        labelText: Displays.CurrentSettings(),
                         listItemCollection: ss.GridSelectableOptions(),
                         selectedValueCollection: new List<string>(),
                         commandOptionPositionIsTop: true,
@@ -1327,7 +1327,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-vertical",
                         controlContainerCss: "container-selectable",
                         controlWrapperCss: " h350",
-                        labelText: Displays.DisabledList(),
+                        labelText: Displays.OptionList(),
                         listItemCollection: ss.GridSelectableOptions(enabled: false),
                         commandOptionPositionIsTop: true,
                         commandOptionAction: () => hb
@@ -1433,7 +1433,7 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-vertical",
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h350",
-                            labelText: Displays.EnabledList(),
+                            labelText: Displays.CurrentSettings(),
                             listItemCollection: ss.FilterSelectableOptions(),
                             selectedValueCollection: new List<string>(),
                             commandOptionPositionIsTop: true,
@@ -1476,7 +1476,7 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-vertical",
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h350",
-                            labelText: Displays.DisabledList(),
+                            labelText: Displays.OptionList(),
                             listItemCollection: ss.FilterSelectableOptions(enabled: false),
                             commandOptionPositionIsTop: true,
                             commandOptionAction: () => hb
@@ -1746,7 +1746,7 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-vertical",
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h350",
-                            labelText: Displays.EnabledList(),
+                            labelText: Displays.CurrentSettings(),
                             listItemCollection: ss.EditorSelectableOptions(),
                             commandOptionPositionIsTop: true,
                             commandOptionAction: () => hb
@@ -1788,7 +1788,7 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-vertical",
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h350",
-                            labelText: Displays.DisabledList(),
+                            labelText: Displays.OptionList(),
                             listItemCollection: ss.EditorSelectableOptions(enabled: false),
                             commandOptionPositionIsTop: true,
                             commandOptionAction: () => hb
@@ -2066,7 +2066,7 @@ namespace Implem.Pleasanter.Models
                     fieldCss: "field-vertical",
                     controlContainerCss: "container-selectable",
                     controlWrapperCss: " h200",
-                    labelText: Displays.EnabledList(),
+                    labelText: Displays.CurrentSettings(),
                     listItemCollection: ss
                         .TitleSelectableOptions(titleColumns),
                     commandOptionPositionIsTop: true,
@@ -2101,7 +2101,7 @@ namespace Implem.Pleasanter.Models
                     fieldCss: "field-vertical",
                     controlContainerCss: "container-selectable",
                     controlWrapperCss: " h200",
-                    labelText: Displays.DisabledList(),
+                    labelText: Displays.OptionList(),
                     listItemCollection: ss
                         .TitleSelectableOptions(titleColumns, enabled: false),
                     commandOptionPositionIsTop: true,
@@ -2137,7 +2137,7 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-vertical",
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h350",
-                            labelText: Displays.EnabledList(),
+                            labelText: Displays.CurrentSettings(),
                             listItemCollection: ss.LinkSelectableOptions(),
                             commandOptionPositionIsTop: true,
                             commandOptionAction: () => hb
@@ -2171,7 +2171,7 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-vertical",
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h350",
-                            labelText: Displays.DisabledList(),
+                            labelText: Displays.OptionList(),
                             listItemCollection: ss.LinkSelectableOptions(enabled: false),
                             commandOptionPositionIsTop: true,
                             commandOptionAction: () => hb
@@ -2201,7 +2201,7 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-vertical",
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h350",
-                            labelText: Displays.EnabledList(),
+                            labelText: Displays.CurrentSettings(),
                             listItemCollection: ss.HistorySelectableOptions(),
                             commandOptionPositionIsTop: true,
                             commandOptionAction: () => hb
@@ -2235,7 +2235,7 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-vertical",
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h350",
-                            labelText: Displays.DisabledList(),
+                            labelText: Displays.OptionList(),
                             listItemCollection: ss.HistorySelectableOptions(enabled: false),
                             commandOptionPositionIsTop: true,
                             commandOptionAction: () => hb
@@ -2959,7 +2959,7 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: "field-vertical",
                                 controlContainerCss: "container-selectable",
                                 controlWrapperCss: " h200",
-                                labelText: Displays.EnabledList(),
+                                labelText: Displays.CurrentSettings(),
                                 listItemCollection: ss
                                     .MonitorChangesSelectableOptions(
                                         notification.MonitorChangesColumns),
@@ -2995,7 +2995,7 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: "field-vertical",
                                 controlContainerCss: "container-selectable",
                                 controlWrapperCss: " h200",
-                                labelText: Displays.DisabledList(),
+                                labelText: Displays.OptionList(),
                                 listItemCollection: ss
                                     .MonitorChangesSelectableOptions(
                                         notification.MonitorChangesColumns,

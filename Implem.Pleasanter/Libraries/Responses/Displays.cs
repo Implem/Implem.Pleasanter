@@ -168,6 +168,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Currency(params string[] data) { return Get("Currency", data); }
         public static HtmlBuilder Displays_CurrentPassword(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CurrentPassword", data)); }
         public static string CurrentPassword(params string[] data) { return Get("CurrentPassword", data); }
+        public static HtmlBuilder Displays_CurrentSettings(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CurrentSettings", data)); }
+        public static string CurrentSettings(params string[] data) { return Get("CurrentSettings", data); }
         public static HtmlBuilder Displays_Custom(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Custom", data)); }
         public static string Custom(params string[] data) { return Get("Custom", data); }
         public static HtmlBuilder Displays_CustomDesign(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("CustomDesign", data)); }
@@ -214,8 +216,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Difference(params string[] data) { return Get("Difference", data); }
         public static HtmlBuilder Displays_Disabled(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Disabled", data)); }
         public static string Disabled(params string[] data) { return Get("Disabled", data); }
-        public static HtmlBuilder Displays_DisabledList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DisabledList", data)); }
-        public static string DisabledList(params string[] data) { return Get("DisabledList", data); }
+        public static HtmlBuilder Displays_xDisabledList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("xDisabledList", data)); }
+        public static string xDisabledList(params string[] data) { return Get("xDisabledList", data); }
         public static HtmlBuilder Displays_DisplayName(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DisplayName", data)); }
         public static string DisplayName(params string[] data) { return Get("DisplayName", data); }
         public static HtmlBuilder Displays_EarnedValue(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EarnedValue", data)); }
@@ -236,8 +238,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string EditStyle(params string[] data) { return Get("EditStyle", data); }
         public static HtmlBuilder Displays_Enabled(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Enabled", data)); }
         public static string Enabled(params string[] data) { return Get("Enabled", data); }
-        public static HtmlBuilder Displays_EnabledList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EnabledList", data)); }
-        public static string EnabledList(params string[] data) { return Get("EnabledList", data); }
+        public static HtmlBuilder Displays_xEnabledList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("xEnabledList", data)); }
+        public static string xEnabledList(params string[] data) { return Get("xEnabledList", data); }
         public static HtmlBuilder Displays_Error(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Error", data)); }
         public static string Error(params string[] data) { return Get("Error", data); }
         public static HtmlBuilder Displays_Excel(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Excel", data)); }
@@ -494,6 +496,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string OnOnly(params string[] data) { return Get("OnOnly", data); }
         public static HtmlBuilder Displays_Operations(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Operations", data)); }
         public static string Operations(params string[] data) { return Get("Operations", data); }
+        public static HtmlBuilder Displays_OptionList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("OptionList", data)); }
+        public static string OptionList(params string[] data) { return Get("OptionList", data); }
         public static HtmlBuilder Displays_Or(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Or", data)); }
         public static string Or(params string[] data) { return Get("Or", data); }
         public static HtmlBuilder Displays_OrderAsc(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("OrderAsc", data)); }

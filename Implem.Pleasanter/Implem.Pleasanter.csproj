@@ -679,7 +679,6 @@
     <Content Include="App_Data\Displays\Destination.json" />
     <Content Include="App_Data\Displays\Difference.json" />
     <Content Include="App_Data\Displays\Disabled.json" />
-    <Content Include="App_Data\Displays\DisabledList.json" />
     <Content Include="App_Data\Displays\EarnedValue.json" />
     <Content Include="App_Data\Displays\Edit.json" />
     <Content Include="App_Data\Displays\Editor.json" />
@@ -689,7 +688,6 @@
     <Content Include="App_Data\Displays\EditSettings.json" />
     <Content Include="App_Data\Displays\EditStyle.json" />
     <Content Include="App_Data\Displays\Enabled.json" />
-    <Content Include="App_Data\Displays\EnabledList.json" />
     <Content Include="App_Data\Displays\Error.json" />
     <Content Include="App_Data\Displays\Excel.json" />
     <Content Include="App_Data\Displays\ExceptionBody.json" />
@@ -960,6 +958,8 @@
     <Content Include="App_Data\Displays\ChatWork.json" />
     <Content Include="App_Data\Displays\Token.json" />
     <Content Include="App_Data\Displays\SettingListItems.json" />
+    <Content Include="App_Data\Displays\CurrentSettings.json" />
+    <Content Include="App_Data\Displays\OptionList.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

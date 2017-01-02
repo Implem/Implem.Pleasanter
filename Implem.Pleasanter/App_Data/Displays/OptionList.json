@@ -1,13 +1,13 @@
 ﻿{
-    "Id": "EnabledList",
+    "Id": "OptionList",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Enabled list"
+            "Body": "Option list"
         },
         {
             "Language": "ja",
-            "Body": "有効一覧"
+            "Body": "選択肢一覧"
         }
     ]
 }

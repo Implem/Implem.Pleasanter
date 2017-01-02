@@ -1,13 +1,13 @@
 ﻿{
-    "Id": "DisabledList",
+    "Id": "CurrentSettings",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Disabled list"
+            "Body": "Current settings"
         },
         {
             "Language": "ja",
-            "Body": "無効一覧"
+            "Body": "現在の設定"
         }
     ]
 }
