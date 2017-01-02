@@ -1369,7 +1369,7 @@ namespace Implem.Pleasanter.Models
                 {
                     hb.FieldTextBox(
                         controlId: "GridLabelText",
-                        labelText: Displays.SettingLabel(),
+                        labelText: Displays.DisplayName(),
                         text: column.GridLabelText,
                         validateRequired: true);
                     if (column.TypeName == "datetime")
@@ -1831,7 +1831,7 @@ namespace Implem.Pleasanter.Models
                 {
                     hb.FieldTextBox(
                         controlId: "LabelText",
-                        labelText: Displays.SettingLabel(),
+                        labelText: Displays.DisplayName(),
                         text: column.LabelText,
                         validateRequired: true);
                     switch (column.TypeName.CsTypeSummary())

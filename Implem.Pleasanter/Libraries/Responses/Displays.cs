@@ -216,6 +216,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Disabled(params string[] data) { return Get("Disabled", data); }
         public static HtmlBuilder Displays_DisabledList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DisabledList", data)); }
         public static string DisabledList(params string[] data) { return Get("DisabledList", data); }
+        public static HtmlBuilder Displays_DisplayName(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DisplayName", data)); }
+        public static string DisplayName(params string[] data) { return Get("DisplayName", data); }
         public static HtmlBuilder Displays_EarnedValue(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EarnedValue", data)); }
         public static string EarnedValue(params string[] data) { return Get("EarnedValue", data); }
         public static HtmlBuilder Displays_Edit(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Edit", data)); }
@@ -608,8 +610,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SettingGridFormat(params string[] data) { return Get("SettingGridFormat", data); }
         public static HtmlBuilder Displays_SettingGridPageSize(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingGridPageSize", data)); }
         public static string SettingGridPageSize(params string[] data) { return Get("SettingGridPageSize", data); }
-        public static HtmlBuilder Displays_SettingLabel(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingLabel", data)); }
-        public static string SettingLabel(params string[] data) { return Get("SettingLabel", data); }
         public static HtmlBuilder Displays_SettingLimitDefault(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingLimitDefault", data)); }
         public static string SettingLimitDefault(params string[] data) { return Get("SettingLimitDefault", data); }
         public static HtmlBuilder Displays_SettingListItems(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingListItems", data)); }
