@@ -604,8 +604,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SettingExportFormat(params string[] data) { return Get("SettingExportFormat", data); }
         public static HtmlBuilder Displays_SettingFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingFormat", data)); }
         public static string SettingFormat(params string[] data) { return Get("SettingFormat", data); }
-        public static HtmlBuilder Displays_SettingGridColumns(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingGridColumns", data)); }
-        public static string SettingGridColumns(params string[] data) { return Get("SettingGridColumns", data); }
         public static HtmlBuilder Displays_SettingGridFormat(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingGridFormat", data)); }
         public static string SettingGridFormat(params string[] data) { return Get("SettingGridFormat", data); }
         public static HtmlBuilder Displays_SettingGridPageSize(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("SettingGridPageSize", data)); }

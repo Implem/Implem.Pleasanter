@@ -1277,7 +1277,7 @@ namespace Implem.Pleasanter.Models
         {
             return hb.FieldSet(
                 css: " enclosed-thin",
-                legendText: Displays.SettingGridColumns(),
+                legendText: Displays.SettingListItems(),
                 action: () => hb
                     .FieldSelectable(
                         controlId: "GridColumns",
