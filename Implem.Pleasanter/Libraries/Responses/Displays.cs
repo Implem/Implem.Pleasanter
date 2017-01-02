@@ -104,6 +104,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string CantSetAtTopOfSite(params string[] data) { return Get("CantSetAtTopOfSite", data); }
         public static HtmlBuilder Displays_Change(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Change", data)); }
         public static string Change(params string[] data) { return Get("Change", data); }
+        public static HtmlBuilder Displays_ChangeHistoryList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ChangeHistoryList", data)); }
+        public static string ChangeHistoryList(params string[] data) { return Get("ChangeHistoryList", data); }
         public static HtmlBuilder Displays_ChangePassword(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ChangePassword", data)); }
         public static string ChangePassword(params string[] data) { return Get("ChangePassword", data); }
         public static HtmlBuilder Displays_ChangingPasswordComplete(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("ChangingPasswordComplete", data)); }
@@ -216,8 +218,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Difference(params string[] data) { return Get("Difference", data); }
         public static HtmlBuilder Displays_Disabled(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Disabled", data)); }
         public static string Disabled(params string[] data) { return Get("Disabled", data); }
-        public static HtmlBuilder Displays_xDisabledList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("xDisabledList", data)); }
-        public static string xDisabledList(params string[] data) { return Get("xDisabledList", data); }
         public static HtmlBuilder Displays_DisplayName(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("DisplayName", data)); }
         public static string DisplayName(params string[] data) { return Get("DisplayName", data); }
         public static HtmlBuilder Displays_EarnedValue(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("EarnedValue", data)); }
@@ -238,8 +238,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string EditStyle(params string[] data) { return Get("EditStyle", data); }
         public static HtmlBuilder Displays_Enabled(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Enabled", data)); }
         public static string Enabled(params string[] data) { return Get("Enabled", data); }
-        public static HtmlBuilder Displays_xEnabledList(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("xEnabledList", data)); }
-        public static string xEnabledList(params string[] data) { return Get("xEnabledList", data); }
         public static HtmlBuilder Displays_Error(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Error", data)); }
         public static string Error(params string[] data) { return Get("Error", data); }
         public static HtmlBuilder Displays_Excel(this HtmlBuilder hb, params string[] data) { return hb.Text(Get("Excel", data)); }

@@ -464,7 +464,7 @@ namespace Implem.Pleasanter.Models
                     action: () => hb
                         .A(
                             href: "#FieldSetHistories",
-                            text: Displays.Histories())));
+                            text: Displays.ChangeHistoryList())));
         }
 
         private static HtmlBuilder FieldSetGeneral(

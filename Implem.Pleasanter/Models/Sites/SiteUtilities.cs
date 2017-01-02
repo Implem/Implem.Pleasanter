@@ -582,7 +582,7 @@ namespace Implem.Pleasanter.Models
                     hb.Li(action: () => hb
                         .A(
                             href: "#FieldSetHistories",
-                            text: Displays.Histories()));
+                            text: Displays.ChangeHistoryList()));
                 }
                 hb.Hidden(controlId: "TableName", value: "Sites");
             });

@@ -1,13 +1,13 @@
 ﻿{
-    "Id": "Histories",
+    "Id": "ChangeHistoryList",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Histories"
+            "Body": "Change history list"
         },
         {
             "Language": "ja",
-            "Body": "履歴"
+            "Body": "変更履歴の一覧"
         }
     ]
 }

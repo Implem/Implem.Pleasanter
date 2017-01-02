@@ -960,6 +960,7 @@
     <Content Include="App_Data\Displays\SettingListItems.json" />
     <Content Include="App_Data\Displays\CurrentSettings.json" />
     <Content Include="App_Data\Displays\OptionList.json" />
+    <Content Include="App_Data\Displays\ChangeHistoryList.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />
