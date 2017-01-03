@@ -969,51 +969,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public void AddView(View view)
-        {
-            ViewLatestId++;
-            view.Id = ViewLatestId;
-            if (Views == null) Views = new List<View>();
-            Views.Add(view);
-        }
-
-        public Error.Types AddSummary(
-            long siteId,
-            string destinationReferenceType,
-            string destinationColumn,
-            string linkColumn,
-            string type,
-            string sourceColumn)
-        {
-            if (!SummaryCollection.Any(o =>
-                o.SiteId == siteId &&
-                o.DestinationColumn == destinationColumn &&
-                o.LinkColumn == linkColumn))
-            {
-                var id = SummaryCollection.Any()
-                    ? SummaryCollection.Select(o => o.Id).Max() + 1
-                    : 1;
-                SummaryCollection.Add(new Summary(
-                    id,
-                    siteId,
-                    destinationReferenceType,
-                    destinationColumn,
-                    linkColumn,
-                    type,
-                    sourceColumn));
-                return Error.Types.None;
-            }
-            else
-            {
-                return Error.Types.AlreadyAdded;
-            }
-        }
-
-        public void DeleteSummary(long id)
-        {
-            SummaryCollection.Remove(SummaryCollection.FirstOrDefault(o => o.Id == id));
-        }
-
         private void SetLinks(Column column)
         {
             column.Link = false;
@@ -1114,6 +1069,43 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .AsEnumerable();
         }
 
+        public Error.Types AddSummary(
+            long siteId,
+            string destinationReferenceType,
+            string destinationColumn,
+            string linkColumn,
+            string type,
+            string sourceColumn)
+        {
+            if (!SummaryCollection.Any(o =>
+                o.SiteId == siteId &&
+                o.DestinationColumn == destinationColumn &&
+                o.LinkColumn == linkColumn))
+            {
+                var id = SummaryCollection.Any()
+                    ? SummaryCollection.Select(o => o.Id).Max() + 1
+                    : 1;
+                SummaryCollection.Add(new Summary(
+                    id,
+                    siteId,
+                    destinationReferenceType,
+                    destinationColumn,
+                    linkColumn,
+                    type,
+                    sourceColumn));
+                return Error.Types.None;
+            }
+            else
+            {
+                return Error.Types.AlreadyAdded;
+            }
+        }
+
+        public void DeleteSummary(long id)
+        {
+            SummaryCollection.Remove(SummaryCollection.FirstOrDefault(o => o.Id == id));
+        }
+
         public void SetFormulas(string controlId, IEnumerable<int> selected)
         {
             var order = Formulas.Select(o => o.Id).ToArray();
@@ -1160,6 +1152,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             return formula != null
                 ? GetColumn(columnName).Round(formula.GetResult(data))
                 : data[columnName];
+        }
+
+        public void AddView(View view)
+        {
+            ViewLatestId++;
+            view.Id = ViewLatestId;
+            if (Views == null) Views = new List<View>();
+            Views.Add(view);
         }
     }
 }
