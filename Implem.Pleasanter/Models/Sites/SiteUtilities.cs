@@ -2118,7 +2118,7 @@ namespace Implem.Pleasanter.Models
                 .FieldTextBox(
                     controlId: "SiteSettings,TitleSeparator",
                     fieldCss: " both",
-                    labelText: Displays.SettingTitleSeparator(),
+                    labelText: Displays.TitleSeparator(),
                     text: ss.TitleSeparator);
         }
 

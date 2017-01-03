@@ -871,7 +871,7 @@
     <Content Include="App_Data\Displays\NearCompletionTimeBeforeDays.json" />
     <Content Include="App_Data\Displays\NoClassification.json" />
     <Content Include="App_Data\Displays\SelectionList.json" />
-    <Content Include="App_Data\Displays\SettingTitleSeparator.json" />
+    <Content Include="App_Data\Displays\TitleSeparator.json" />
     <Content Include="App_Data\Displays\Unit.json" />
     <Content Include="App_Data\Displays\SiteImageSettingsEditor.json" />
     <Content Include="App_Data\Displays\SiteSettings.json" />
