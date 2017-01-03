@@ -61,7 +61,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string BadMailAddress(params string[] data) { return Get("BadMailAddress", data); }
         public static string Basic(params string[] data) { return Get("Basic", data); }
         public static string BeforeCondition(params string[] data) { return Get("BeforeCondition", data); }
-        public static string Blank(params string[] data) { return Get("Blank", data); }
         public static string BulkDelete(params string[] data) { return Get("BulkDelete", data); }
         public static string BulkDeleted(params string[] data) { return Get("BulkDeleted", data); }
         public static string BulkMove(params string[] data) { return Get("BulkMove", data); }
@@ -295,7 +294,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ReadOnly(params string[] data) { return Get("ReadOnly", data); }
         public static string ReadOnlyBecausePreviousVer(params string[] data) { return Get("ReadOnlyBecausePreviousVer", data); }
         public static string ReadWrite(params string[] data) { return Get("ReadWrite", data); }
-        public static string ReEnter(params string[] data) { return Get("ReEnter", data); }
         public static string Register(params string[] data) { return Get("Register", data); }
         public static string Reload(params string[] data) { return Get("Reload", data); }
         public static string Reply(params string[] data) { return Get("Reply", data); }
@@ -305,10 +303,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ResetOrder(params string[] data) { return Get("ResetOrder", data); }
         public static string ResetPassword(params string[] data) { return Get("ResetPassword", data); }
         public static string Save(params string[] data) { return Get("Save", data); }
-        public static string Script(params string[] data) { return Get("Script", data); }
         public static string Scripts(params string[] data) { return Get("Scripts", data); }
         public static string Search(params string[] data) { return Get("Search", data); }
-        public static string SecondAgo(params string[] data) { return Get("SecondAgo", data); }
         public static string SecondsAgo(params string[] data) { return Get("SecondsAgo", data); }
         public static string SelectionList(params string[] data) { return Get("SelectionList", data); }
         public static string SelectOne(params string[] data) { return Get("SelectOne", data); }
@@ -329,11 +325,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SettingFormat(params string[] data) { return Get("SettingFormat", data); }
         public static string SettingGridFormat(params string[] data) { return Get("SettingGridFormat", data); }
         public static string SettingListItems(params string[] data) { return Get("SettingListItems", data); }
-        public static string SettingSummaryColumns(params string[] data) { return Get("SettingSummaryColumns", data); }
-        public static string SettingTitleColumn(params string[] data) { return Get("SettingTitleColumn", data); }
         public static string SettingTitleSeparator(params string[] data) { return Get("SettingTitleSeparator", data); }
-        public static string Show(params string[] data) { return Get("Show", data); }
-        public static string ShowList(params string[] data) { return Get("ShowList", data); }
         public static string SiteImageSettingsEditor(params string[] data) { return Get("SiteImageSettingsEditor", data); }
         public static string SiteSettings(params string[] data) { return Get("SiteSettings", data); }
         public static string SiteUser(params string[] data) { return Get("SiteUser", data); }
@@ -381,11 +373,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string VerUp(params string[] data) { return Get("VerUp", data); }
         public static string View(params string[] data) { return Get("View", data); }
         public static string ViewDemoEnvironment(params string[] data) { return Get("ViewDemoEnvironment", data); }
-        public static string WebHookUrl(params string[] data) { return Get("WebHookUrl", data); }
         public static string Wide(params string[] data) { return Get("Wide", data); }
         public static string WorkValue(params string[] data) { return Get("WorkValue", data); }
-        public static string WriteComment(params string[] data) { return Get("WriteComment", data); }
-        public static string YearAgo(params string[] data) { return Get("YearAgo", data); }
         public static string YearsAgo(params string[] data) { return Get("YearsAgo", data); }
         public static string Ym(params string[] data) { return Get("Ym", data); }
         public static string Ymd(params string[] data) { return Get("Ymd", data); }
