@@ -1233,7 +1233,7 @@ namespace Implem.Pleasanter.Models
             return hb.FieldSet(id: "GridSettingsEditor", action: () => hb
                 .GridColumns(ss)
                 .FieldSpinner(
-                    controlId: "SiteSettings,GridPageSize",
+                    controlId: "GridPageSize",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.GridPageSize(),
                     value: ss.GridPageSize.ToDecimal(),
@@ -1242,7 +1242,7 @@ namespace Implem.Pleasanter.Models
                     step: 1,
                     width: 25)
                 .FieldSpinner(
-                    controlId: "SiteSettings,NearCompletionTimeBeforeDays",
+                    controlId: "NearCompletionTimeBeforeDays",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.NearCompletionTimeBeforeDays(),
                     value: ss.NearCompletionTimeBeforeDays.ToDecimal(),
@@ -1251,7 +1251,7 @@ namespace Implem.Pleasanter.Models
                     step: 1,
                     width: 25)
                 .FieldSpinner(
-                    controlId: "SiteSettings,NearCompletionTimeAfterDays",
+                    controlId: "NearCompletionTimeAfterDays",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.NearCompletionTimeAfterDays(),
                     value: ss.NearCompletionTimeAfterDays.ToDecimal(),
@@ -1260,7 +1260,7 @@ namespace Implem.Pleasanter.Models
                     step: 1,
                     width: 25)
                 .FieldDropDown(
-                    controlId: "SiteSettings,GridView",
+                    controlId: "GridView",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.DefaultView(),
                     optionCollection: ss.ViewSelectableOptions(),
@@ -2116,7 +2116,7 @@ namespace Implem.Pleasanter.Models
                                 action: "SetSiteSettings",
                                 method: "put")))
                 .FieldTextBox(
-                    controlId: "SiteSettings,TitleSeparator",
+                    controlId: "TitleSeparator",
                     fieldCss: " both",
                     labelText: Displays.TitleSeparator(),
                     text: ss.TitleSeparator);
@@ -3409,7 +3409,7 @@ namespace Implem.Pleasanter.Models
             return hb.FieldSet(id: "MailSettingsEditor", action: () => hb
                 .FieldTextBox(
                     textType: HtmlTypes.TextTypes.MultiLine,
-                    controlId: "SiteSettings,AddressBook",
+                    controlId: "AddressBook",
                     fieldCss: "field-wide",
                     labelText: Displays.DefaultAddressBook(),
                     text: ss.AddressBook.ToStr())
@@ -3419,19 +3419,19 @@ namespace Implem.Pleasanter.Models
                     action: () => hb
                         .FieldTextBox(
                             textType: HtmlTypes.TextTypes.MultiLine,
-                            controlId: "SiteSettings,MailToDefault",
+                            controlId: "MailToDefault",
                             fieldCss: "field-wide",
                             labelText: Displays.OutgoingMails_To(),
                             text: ss.MailToDefault.ToStr())
                         .FieldTextBox(
                             textType: HtmlTypes.TextTypes.MultiLine,
-                            controlId: "SiteSettings,MailCcDefault",
+                            controlId: "MailCcDefault",
                             fieldCss: "field-wide",
                             labelText: Displays.OutgoingMails_Cc(),
                             text: ss.MailCcDefault.ToStr())
                         .FieldTextBox(
                             textType: HtmlTypes.TextTypes.MultiLine,
-                            controlId: "SiteSettings,MailBccDefault",
+                            controlId: "MailBccDefault",
                             fieldCss: "field-wide",
                             labelText: Displays.OutgoingMails_Bcc(),
                             text: ss.MailBccDefault.ToStr())));
@@ -3445,19 +3445,19 @@ namespace Implem.Pleasanter.Models
             return hb.FieldSet(id: "StylesSettingsEditor", action: () => hb
                 .FieldTextBox(
                     textType: HtmlTypes.TextTypes.MultiLine,
-                    controlId: "SiteSettings,GridStyle",
+                    controlId: "GridStyle",
                     fieldCss: "field-wide",
                     labelText: Displays.GridStyle(),
                     text: ss.GridStyle.ToStr())
                 .FieldTextBox(
                     textType: HtmlTypes.TextTypes.MultiLine,
-                    controlId: "SiteSettings,NewStyle",
+                    controlId: "NewStyle",
                     fieldCss: "field-wide",
                     labelText: Displays.NewStyle(),
                     text: ss.NewStyle.ToStr())
                 .FieldTextBox(
                     textType: HtmlTypes.TextTypes.MultiLine,
-                    controlId: "SiteSettings,EditStyle",
+                    controlId: "EditStyle",
                     fieldCss: "field-wide",
                     labelText: Displays.EditStyle(),
                     text: ss.EditStyle.ToStr()));
@@ -3471,19 +3471,19 @@ namespace Implem.Pleasanter.Models
             return hb.FieldSet(id: "ScriptsSettingsEditor", action: () => hb
                 .FieldTextBox(
                     textType: HtmlTypes.TextTypes.MultiLine,
-                    controlId: "SiteSettings,GridScript",
+                    controlId: "GridScript",
                     fieldCss: "field-wide",
                     labelText: Displays.GridScript(),
                     text: ss.GridScript.ToStr())
                 .FieldTextBox(
                     textType: HtmlTypes.TextTypes.MultiLine,
-                    controlId: "SiteSettings,NewScript",
+                    controlId: "NewScript",
                     fieldCss: "field-wide",
                     labelText: Displays.NewScript(),
                     text: ss.NewScript.ToStr())
                 .FieldTextBox(
                     textType: HtmlTypes.TextTypes.MultiLine,
-                    controlId: "SiteSettings,EditScript",
+                    controlId: "EditScript",
                     fieldCss: "field-wide",
                     labelText: Displays.EditScript(),
                     text: ss.EditScript.ToStr()));

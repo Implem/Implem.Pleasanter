@@ -735,9 +735,9 @@ namespace Implem.Pleasanter.Models
                     break;
                 default:
                     Forms.All()
-                        .Where(o => o.Key.StartsWith("SiteSettings,"))
+                        .Where(o => o.Key != controlId)
                         .ForEach(data =>
-                            SiteSettings.Set(data.Key.Split_2nd(), data.Value));
+                            SiteSettings.Set(data.Key, data.Value));
                     break;
             }
         }
