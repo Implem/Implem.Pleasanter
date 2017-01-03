@@ -855,7 +855,6 @@
     <Content Include="App_Data\Displays\SeparateNumber.json" />
     <Content Include="App_Data\Displays\SeparateSettings.json" />
     <Content Include="App_Data\Displays\Setting.json" />
-    <Content Include="App_Data\Displays\SettingAggregationList.json" />
     <Content Include="App_Data\Displays\SettingAggregations.json" />
     <Content Include="App_Data\Displays\AggregationTarget.json" />
     <Content Include="App_Data\Displays\AggregationType.json" />
@@ -870,7 +869,6 @@
     <Content Include="App_Data\Displays\NearCompletionTimeAfterDays.json" />
     <Content Include="App_Data\Displays\NearCompletionTimeBeforeDays.json" />
     <Content Include="App_Data\Displays\NoClassification.json" />
-    <Content Include="App_Data\Displays\SelectionList.json" />
     <Content Include="App_Data\Displays\TitleSeparator.json" />
     <Content Include="App_Data\Displays\Unit.json" />
     <Content Include="App_Data\Displays\SiteImageSettingsEditor.json" />

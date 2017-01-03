@@ -1626,7 +1626,7 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-vertical both",
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h350",
-                            labelText: Displays.SettingAggregationList(),
+                            labelText: Displays.CurrentSettings(),
                             listItemCollection: ss.AggregationDestination(),
                             selectedValueCollection: new List<string>(),
                             commandOptionPositionIsTop: true,
@@ -1667,7 +1667,7 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-vertical",
                             controlContainerCss: "container-selectable",
                             controlWrapperCss: " h350",
-                            labelText: Displays.SelectionList(),
+                            labelText: Displays.OptionList(),
                             listItemCollection: ss.AggregationSource(),
                             selectedValueCollection: new List<string>(),
                             commandOptionPositionIsTop: true,
@@ -1988,7 +1988,7 @@ namespace Implem.Pleasanter.Models
                                 textType: HtmlTypes.TextTypes.MultiLine,
                                 controlId: "ChoicesText",
                                 fieldCss: "field-wide",
-                                labelText: Displays.SelectionList(),
+                                labelText: Displays.OptionList(),
                                 text: column.ChoicesText);
                             break;
                         default:

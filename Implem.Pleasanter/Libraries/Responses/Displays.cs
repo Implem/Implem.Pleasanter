@@ -306,7 +306,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Scripts(params string[] data) { return Get("Scripts", data); }
         public static string Search(params string[] data) { return Get("Search", data); }
         public static string SecondsAgo(params string[] data) { return Get("SecondsAgo", data); }
-        public static string SelectionList(params string[] data) { return Get("SelectionList", data); }
         public static string SelectOne(params string[] data) { return Get("SelectOne", data); }
         public static string SelectTargets(params string[] data) { return Get("SelectTargets", data); }
         public static string SendMail(params string[] data) { return Get("SendMail", data); }
@@ -317,7 +316,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SeparateNumber(params string[] data) { return Get("SeparateNumber", data); }
         public static string SeparateSettings(params string[] data) { return Get("SeparateSettings", data); }
         public static string Setting(params string[] data) { return Get("Setting", data); }
-        public static string SettingAggregationList(params string[] data) { return Get("SettingAggregationList", data); }
         public static string SettingAggregations(params string[] data) { return Get("SettingAggregations", data); }
         public static string SettingControlFormat(params string[] data) { return Get("SettingControlFormat", data); }
         public static string SettingEditorColumns(params string[] data) { return Get("SettingEditorColumns", data); }
