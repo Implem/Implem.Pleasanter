@@ -748,7 +748,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "GridView": GridView = value.ToInt(); break;
                 case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
-                case "TitleSeparator": TitleSeparator = value; break;
                 case "AddressBook": AddressBook = value; break;
                 case "MailToDefault": MailToDefault = value; break;
                 case "MailCcDefault": MailCcDefault = value; break;
@@ -912,6 +911,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "DateFilterHalf": column.DateFilterHalf = value.ToBool(); break;
                 case "DateFilterQuarter": column.DateFilterQuarter = value.ToBool(); break;
                 case "DateFilterMonth": column.DateFilterMonth = value.ToBool(); break;
+                case "TitleSeparator": TitleSeparator = value; break;
             }
         }
 
