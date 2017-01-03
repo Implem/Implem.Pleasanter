@@ -49,6 +49,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string AfterCondition(params string[] data) { return Get("AfterCondition", data); }
         public static string AggregationDetails(params string[] data) { return Get("AggregationDetails", data); }
         public static string Aggregations(params string[] data) { return Get("Aggregations", data); }
+        public static string AggregationSettings(params string[] data) { return Get("AggregationSettings", data); }
         public static string AggregationTarget(params string[] data) { return Get("AggregationTarget", data); }
         public static string AggregationType(params string[] data) { return Get("AggregationType", data); }
         public static string All(params string[] data) { return Get("All", data); }
@@ -316,7 +317,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SeparateNumber(params string[] data) { return Get("SeparateNumber", data); }
         public static string SeparateSettings(params string[] data) { return Get("SeparateSettings", data); }
         public static string Setting(params string[] data) { return Get("Setting", data); }
-        public static string SettingAggregations(params string[] data) { return Get("SettingAggregations", data); }
         public static string SettingControlFormat(params string[] data) { return Get("SettingControlFormat", data); }
         public static string SettingEditorColumns(params string[] data) { return Get("SettingEditorColumns", data); }
         public static string SettingExportFormat(params string[] data) { return Get("SettingExportFormat", data); }

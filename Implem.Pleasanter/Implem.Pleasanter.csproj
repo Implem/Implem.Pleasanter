@@ -855,7 +855,7 @@
     <Content Include="App_Data\Displays\SeparateNumber.json" />
     <Content Include="App_Data\Displays\SeparateSettings.json" />
     <Content Include="App_Data\Displays\Setting.json" />
-    <Content Include="App_Data\Displays\SettingAggregations.json" />
+    <Content Include="App_Data\Displays\AggregationSettings.json" />
     <Content Include="App_Data\Displays\AggregationTarget.json" />
     <Content Include="App_Data\Displays\AggregationType.json" />
     <Content Include="App_Data\Displays\ColumnList.json" />

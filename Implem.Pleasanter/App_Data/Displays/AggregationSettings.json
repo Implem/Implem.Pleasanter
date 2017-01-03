@@ -1,9 +1,9 @@
 ﻿{
-    "Id": "SettingAggregations",
+    "Id": "AggregationSettings",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Setting aggregations"
+            "Body": "Aggregation settings"
         },
         {
             "Language": "ja",

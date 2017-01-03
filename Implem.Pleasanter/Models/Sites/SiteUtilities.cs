@@ -1619,7 +1619,7 @@ namespace Implem.Pleasanter.Models
             return hb.FieldSet(id: "AggregationsSettingsEditor", action: () => hb
                 .FieldSet(
                     css: " enclosed-thin",
-                    legendText: Displays.SettingAggregations(),
+                    legendText: Displays.AggregationSettings(),
                     action: () => hb
                         .FieldSelectable(
                             controlId: "AggregationDestination",
