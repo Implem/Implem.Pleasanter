@@ -23,7 +23,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 id: "CorpLogo",
                                 src: Locations.Images("logo-corp.png"))
                             .Span(id: "ProductLogo", action: () => hb
-                                .Displays_ProductName())))
+                                .Text(text: Displays.ProductName()))))
                 .NavigationMenu(
                     pt: pt,
                     siteId: siteId,

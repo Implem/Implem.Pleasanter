@@ -97,57 +97,57 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             {
                 return years > 0
                     ? hb.P(css: css, action: () => hb
-                        .Displays_LimitAfterYears(years.ToString()))
+                        .Text(text: Displays.LimitAfterYears(years.ToString())))
                     : hb.P(css: css, action: () => hb
-                        .Displays_LimitBeforeYears((years * -1).ToString()));
+                        .Text(text: Displays.LimitBeforeYears((years * -1).ToString())));
             }
             var months = Times.DateDiff(Times.Types.Months, now, value);
             if (Math.Abs(months) >= 2)
             {
                 return months > 0
                     ? hb.P(css: css, action: () => hb
-                        .Displays_LimitAfterMonths(months.ToString()))
+                        .Text(text: Displays.LimitAfterMonths(months.ToString())))
                     : hb.P(css: css, action: () => hb
-                        .Displays_LimitBeforeMonths((months * -1).ToString()));
+                        .Text(text: Displays.LimitBeforeMonths((months * -1).ToString())));
             }
             var days = Times.DateDiff(Times.Types.Days, now, value);
             if ((days >= 0 && days >= 2) || (days < 0))
             {
                 return days > 0
                     ? hb.P(css: css, action: () => hb
-                        .Displays_LimitAfterDays((days - 1).ToString()))
+                        .Text(text: Displays.LimitAfterDays((days - 1).ToString())))
                     : hb.P(css: css, action: () => hb
-                        .Displays_LimitBeforeDays(((days * -1) + 1).ToString()));
+                        .Text(text: Displays.LimitBeforeDays(((days * -1) + 1).ToString())));
             }
             var hours = Times.DateDiff(Times.Types.Hours, now, value);
             if (Math.Abs(hours) >= 3)
             {
                 return hours > 0
                     ? hb.P(css: css, action: () => hb
-                        .Displays_LimitAfterHours(hours.ToString()))
+                        .Text(text: Displays.LimitAfterHours(hours.ToString())))
                     : hb.P(css: css, action: () => hb
-                        .Displays_LimitBeforeHours((hours * -1).ToString()));
+                        .Text(text: Displays.LimitBeforeHours((hours * -1).ToString())));
             }
             var minutes = Times.DateDiff(Times.Types.Minutes, now, value);
             if (Math.Abs(minutes) >= 3)
             {
                 return minutes > 0
                     ? hb.P(css: css, action: () => hb
-                        .Displays_LimitAfterMinutes(minutes.ToString()))
+                        .Text(text: Displays.LimitAfterMinutes(minutes.ToString())))
                     : hb.P(css: css, action: () => hb
-                        .Displays_LimitBeforeMinutes((minutes * -1).ToString()));
+                        .Text(text: Displays.LimitBeforeMinutes((minutes * -1).ToString())));
             }
             var seconds = Times.DateDiff(Times.Types.Seconds, now, value);
             if (Math.Abs(seconds) >= 1)
             {
                 return seconds > 0
                     ? hb.P(css: css, action: () => hb
-                        .Displays_LimitAfterSeconds(seconds.ToString()))
+                        .Text(text: Displays.LimitAfterSeconds(seconds.ToString())))
                     : hb.P(css: css, action: () => hb
-                        .Displays_LimitBeforeSeconds((seconds * -1).ToString()));
+                        .Text(text: Displays.LimitBeforeSeconds((seconds * -1).ToString())));
             }
             return hb.P(css: "Display-just", action: () => hb
-                .Displays_LimitJust());
+                .Text(text: Displays.LimitJust()));
         }
 
         private static string LimitCss(DateTime now, DateTime limit)

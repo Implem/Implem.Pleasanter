@@ -2721,7 +2721,7 @@ namespace Implem.Pleasanter.Models
                             ss.GetColumn(o.Key)?.LabelText,
                             Displays.Get("Order" + o.Value.ToString().ToUpperFirstChar()))),
                     labelAction: () => hb
-                        .Displays_Sorters())
+                        .Text(text: Displays.Sorters()))
                 .FieldDropDown(
                     controlId: "ViewSorterSelector",
                     fieldCss: "field-auto-thin",

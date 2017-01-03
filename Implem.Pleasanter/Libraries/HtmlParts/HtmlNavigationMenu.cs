@@ -51,7 +51,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     href: NewHref(siteId),
                                     action: () => hb
                                         .Span(css: "ui-icon ui-icon-plus")
-                                        .Displays_New())),
+                                        .Text(text: Displays.New()))),
                         _using: !Routes.Action("new", "create", "edit", "history"))
                     .Li(
                         css: "sub-menu",
@@ -60,7 +60,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 attributes: new HtmlAttributes().DataId("ViewModeMenu"),
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-triangle-1-e")
-                                    .Displays_View())
+                                    .Text(text: Displays.View()))
                             .ViewModeMenu(siteId: siteId, referenceType: referenceType),
                         _using: Def.ViewModeDefinitionCollection
                             .Any(o => o.ReferenceType == referenceType))
@@ -71,7 +71,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 attributes: new HtmlAttributes().DataId("SettingsMenu"),
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-gear")
-                                    .Displays_Setting())
+                                    .Text(text: Displays.Setting()))
                             .SettingsMenu(siteId: siteId, pt: pt),
                         _using: (
                             (siteId != 0 && pt.CanEditSite()) ||
@@ -149,7 +149,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             href: Locations.ItemEdit(siteId),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-gear")
-                                .Displays_SiteSettings()),
+                                .Text(text: Displays.SiteSettings())),
                     _using: siteId != 0 && pt.CanEditSite())
                 .Li(
                     action: () => hb
@@ -157,7 +157,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             href: Locations.ItemEdit(siteId, "Permissions"),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-locked")
-                                .Displays_EditPermissions()),
+                                .Text(text: Displays.EditPermissions())),
                     _using: siteId != 0 && pt.CanEditPermission())
                 .Li(
                     action: () => hb
@@ -165,7 +165,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             href: Locations.Index("Admins"),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-gear")
-                                .Displays_Admin()),
+                                .Text(text: Displays.Admin())),
                     _using: pt.CanEditTenant()));
         }
 
@@ -177,13 +177,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         href: Locations.Edit("Users", Sessions.UserId()),
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-wrench")
-                            .Displays_EditProfile()))
+                            .Text(text: Displays.EditProfile())))
                 .Li(action: () => hb
                     .A(
                         href: Locations.Logout(),
                         action: () => hb
                             .Span(css: "ui-icon ui-icon-locked")
-                            .Displays_Logout())));
+                            .Text(text: Displays.Logout()))));
         }
 
         private static HtmlBuilder Search(this HtmlBuilder hb, bool _using)

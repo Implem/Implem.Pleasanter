@@ -67,7 +67,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             else
             {
                 return hb.P(action: () => hb
-                    .Displays_Hyphen());
+                    .Text(text: Displays.Hyphen()));
             }
         }
     }

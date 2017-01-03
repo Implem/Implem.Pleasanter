@@ -55,7 +55,7 @@ namespace Implem.Pleasanter.Models
                 css: "item",
                 action: () => hb
                     .H(number: 3, css: "title-header", action: () => hb
-                        .Displays_SentMail())
+                        .Text(text: Displays.SentMail()))
                     .Div(css: "content", action: () => hb
                         .FieldText(
                             controlId: string.Empty,
@@ -197,19 +197,19 @@ namespace Implem.Pleasanter.Models
                     fieldCss: "field-wide",
                     controlCss: "control-basket cf",
                     labelAction: () => hb
-                        .Displays_OutgoingMails_To())
+                        .Text(text: Displays.OutgoingMails_To()))
                 .FieldBasket(
                     controlId: "OutgoingMails_Cc",
                     fieldCss: "field-wide",
                     controlCss: "control-basket cf",
                     labelAction: () => hb
-                        .Displays_OutgoingMails_Cc())
+                        .Text(text: Displays.OutgoingMails_Cc()))
                 .FieldBasket(
                     controlId: "OutgoingMails_Bcc",
                     fieldCss: "field-wide",
                     controlCss: "control-basket cf",
                     labelAction: () => hb
-                        .Displays_OutgoingMails_Bcc())
+                        .Text(text: Displays.OutgoingMails_Bcc()))
                 .FieldTextBox(
                     controlId: "OutgoingMails_Title",
                     fieldCss: "field-wide",
