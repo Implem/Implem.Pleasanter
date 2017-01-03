@@ -133,6 +133,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string EarnedValue(params string[] data) { return Get("EarnedValue", data); }
         public static string Edit(params string[] data) { return Get("Edit", data); }
         public static string Editor(params string[] data) { return Get("Editor", data); }
+        public static string EditorSettings(params string[] data) { return Get("EditorSettings", data); }
         public static string EditPermissions(params string[] data) { return Get("EditPermissions", data); }
         public static string EditProfile(params string[] data) { return Get("EditProfile", data); }
         public static string EditScript(params string[] data) { return Get("EditScript", data); }
@@ -318,7 +319,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SeparateSettings(params string[] data) { return Get("SeparateSettings", data); }
         public static string Setting(params string[] data) { return Get("Setting", data); }
         public static string SettingControlFormat(params string[] data) { return Get("SettingControlFormat", data); }
-        public static string SettingEditorColumns(params string[] data) { return Get("SettingEditorColumns", data); }
         public static string SettingExportFormat(params string[] data) { return Get("SettingExportFormat", data); }
         public static string SettingFormat(params string[] data) { return Get("SettingFormat", data); }
         public static string SettingGridFormat(params string[] data) { return Get("SettingGridFormat", data); }

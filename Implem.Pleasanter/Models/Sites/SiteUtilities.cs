@@ -1739,7 +1739,7 @@ namespace Implem.Pleasanter.Models
             return hb.FieldSet(id: "EditorSettingsEditor", action: () => hb
                 .FieldSet(
                     css: " enclosed",
-                    legendText: Displays.SettingEditorColumns(),
+                    legendText: Displays.EditorSettings(),
                     action: () => hb
                         .FieldSelectable(
                             controlId: "EditorColumns",
