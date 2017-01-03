@@ -219,6 +219,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Links(params string[] data) { return Get("Links", data); }
         public static string LinkSources(params string[] data) { return Get("LinkSources", data); }
         public static string List(params string[] data) { return Get("List", data); }
+        public static string ListSettings(params string[] data) { return Get("ListSettings", data); }
         public static string Login(params string[] data) { return Get("Login", data); }
         public static string LoginIn(params string[] data) { return Get("LoginIn", data); }
         public static string Logout(params string[] data) { return Get("Logout", data); }
@@ -322,7 +323,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SettingExportFormat(params string[] data) { return Get("SettingExportFormat", data); }
         public static string SettingFormat(params string[] data) { return Get("SettingFormat", data); }
         public static string SettingGridFormat(params string[] data) { return Get("SettingGridFormat", data); }
-        public static string SettingListItems(params string[] data) { return Get("SettingListItems", data); }
         public static string SiteImageSettingsEditor(params string[] data) { return Get("SiteImageSettingsEditor", data); }
         public static string SiteSettings(params string[] data) { return Get("SiteSettings", data); }
         public static string SiteUser(params string[] data) { return Get("SiteUser", data); }

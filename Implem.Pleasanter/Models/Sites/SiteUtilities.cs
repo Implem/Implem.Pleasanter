@@ -1277,7 +1277,7 @@ namespace Implem.Pleasanter.Models
         {
             return hb.FieldSet(
                 css: " enclosed-thin",
-                legendText: Displays.SettingListItems(),
+                legendText: Displays.ListSettings(),
                 action: () => hb
                     .FieldSelectable(
                         controlId: "GridColumns",
@@ -1426,7 +1426,7 @@ namespace Implem.Pleasanter.Models
             return hb.FieldSet(id: "FiltersSettingsEditor", action: () => hb
                 .FieldSet(
                     css: " enclosed-thin",
-                    legendText: Displays.SettingListItems(),
+                    legendText: Displays.ListSettings(),
                     action: () => hb
                         .FieldSelectable(
                             controlId: "FilterColumns",
@@ -2152,7 +2152,7 @@ namespace Implem.Pleasanter.Models
             return hb.FieldSet(id: "LinksSettingsEditor", action: () => hb
                 .FieldSet(
                     css: " enclosed",
-                    legendText: Displays.SettingListItems(),
+                    legendText: Displays.ListSettings(),
                     action: () => hb
                         .FieldSelectable(
                             controlId: "LinkColumns",
@@ -2216,7 +2216,7 @@ namespace Implem.Pleasanter.Models
             return hb.FieldSet(id: "HistoriesSettingsEditor", action: () => hb
                 .FieldSet(
                     css: " enclosed",
-                    legendText: Displays.SettingListItems(),
+                    legendText: Displays.ListSettings(),
                     action: () => hb
                         .FieldSelectable(
                             controlId: "HistoryColumns",

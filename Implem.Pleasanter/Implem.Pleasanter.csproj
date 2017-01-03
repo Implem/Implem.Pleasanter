@@ -943,7 +943,7 @@
     <Content Include="App_Data\Displays\Target.json" />
     <Content Include="App_Data\Displays\ChatWork.json" />
     <Content Include="App_Data\Displays\Token.json" />
-    <Content Include="App_Data\Displays\SettingListItems.json" />
+    <Content Include="App_Data\Displays\ListSettings.json" />
     <Content Include="App_Data\Displays\CurrentSettings.json" />
     <Content Include="App_Data\Displays\OptionList.json" />
     <Content Include="App_Data\Displays\ChangeHistoryList.json" />
