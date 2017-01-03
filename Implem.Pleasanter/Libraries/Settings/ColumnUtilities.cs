@@ -111,14 +111,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public static Dictionary<string, string> SelectableOptions(
-            SiteSettings ss, IEnumerable<string> columns, bool enabled = true)
+            SiteSettings ss, IEnumerable<string> columns)
         {
             return columns.ToDictionary(
                 o => o,
-                o => enabled
-                    ? Displays.Get(ss.GetColumn(o).LabelText)
-                    : Displays.Get(ss.GetColumn(o).LabelText) +
-                        " (" + Displays.Disabled() + ")");
+                o => Displays.Get(ss.GetColumn(o).LabelText));
         }
 
         public static string ChangeCommand(string controlId)

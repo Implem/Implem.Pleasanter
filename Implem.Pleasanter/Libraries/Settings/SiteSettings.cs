@@ -558,68 +558,62 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, string> GridSelectableOptions(bool enabled = true)
         {
             return enabled
-                ? ColumnUtilities.SelectableOptions(
-                    this, GridColumns, enabled)
+                ? ColumnUtilities.SelectableOptions(this, GridColumns)
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnUtilities.GridDefinitions(ReferenceType)
                         .Where(o => !GridColumns.Contains(o.ColumnName))
-                        .Select(o => o.ColumnName), enabled);
+                        .Select(o => o.ColumnName));
         }
 
         public Dictionary<string, string> FilterSelectableOptions(bool enabled = true)
         {
             return enabled
-                ? ColumnUtilities.SelectableOptions(
-                    this, FilterColumns, enabled)
+                ? ColumnUtilities.SelectableOptions(this, FilterColumns)
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnUtilities.FilterDefinitions(ReferenceType)
                         .Where(o => !FilterColumns.Contains(o.ColumnName))
-                        .Select(o => o.ColumnName), enabled);
+                        .Select(o => o.ColumnName));
         }
 
         public Dictionary<string, string> EditorSelectableOptions(bool enabled = true)
         {
             return enabled
-                ? ColumnUtilities.SelectableOptions(
-                    this, EditorColumns, enabled)
+                ? ColumnUtilities.SelectableOptions(this, EditorColumns)
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnUtilities.EditorDefinitions(ReferenceType)
                         .Where(o => !EditorColumns.Contains(o.ColumnName))
-                        .Select(o => o.ColumnName), enabled);
+                        .Select(o => o.ColumnName));
         }
 
         public Dictionary<string, string> TitleSelectableOptions(
             IEnumerable<string> titleColumns, bool enabled = true)
         {
             return enabled
-                ? ColumnUtilities.SelectableOptions(
-                    this, titleColumns, enabled)
+                ? ColumnUtilities.SelectableOptions(this, titleColumns)
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnUtilities.TitleDefinitions(ReferenceType)
                         .Where(o => !titleColumns.Contains(o.ColumnName))
-                        .Select(o => o.ColumnName), enabled);
+                        .Select(o => o.ColumnName));
         }
 
         public Dictionary<string, string> LinkSelectableOptions(bool enabled = true)
         {
             return enabled
-                ? ColumnUtilities.SelectableOptions(
-                    this, LinkColumns, enabled)
+                ? ColumnUtilities.SelectableOptions(this, LinkColumns)
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnUtilities.LinkDefinitions(ReferenceType)
                         .Where(o => !LinkColumns.Contains(o.ColumnName))
-                        .Select(o => o.ColumnName), enabled);
+                        .Select(o => o.ColumnName));
         }
 
         public Dictionary<string, string> HistorySelectableOptions(bool enabled = true)
         {
             return enabled
-                ? ColumnUtilities.SelectableOptions(
-                    this, HistoryColumns, enabled)
+                ? ColumnUtilities.SelectableOptions(this, HistoryColumns)
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnUtilities.HistoryDefinitions(ReferenceType)
                         .Where(o => !HistoryColumns.Contains(o.ColumnName))
-                        .Select(o => o.ColumnName), enabled);
+                        .Select(o => o.ColumnName));
         }
 
         public Dictionary<string, string> FormulaTargetSelectableOptions()
@@ -642,12 +636,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             IEnumerable<string> monitorChangesColumns, bool enabled = true)
         {
             return enabled
-                ? ColumnUtilities.SelectableOptions(
-                    this, monitorChangesColumns, enabled)
+                ? ColumnUtilities.SelectableOptions(this, monitorChangesColumns)
                 : ColumnUtilities.SelectableOptions(
                     this, ColumnUtilities.MonitorChangesDefinitions(ReferenceType)
                         .Where(o => !monitorChangesColumns.Contains(o.ColumnName))
-                        .Select(o => o.ColumnName), enabled);
+                        .Select(o => o.ColumnName));
         }
 
         public Dictionary<string, string> AggregationDestination()
