@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implem.CodeDefiner", "Implem.CodeDefiner\Implem.CodeDefiner.csproj", "{247DB097-3184-41E0-9FAC-F3453A23BF97}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implem.DefinitionAccessor", "Implem.DefinitionAccessor\Implem.DefinitionAccessor.csproj", "{C082A0D7-13C6-4D8A-9735-3C302E81B280}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implem.ParameterAccessor", "Implem.ParameterAccessor\Implem.ParameterAccessor.csproj", "{43CA1830-2E4D-4137-898E-9C3C1B104BAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implem.DisplayAccessor", "Implem.DisplayAccessor\Implem.DisplayAccessor.csproj", "{68A8C5C4-DB19-4EDD-B1C2-7722E19E5D7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{43CA1830-2E4D-4137-898E-9C3C1B104BAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43CA1830-2E4D-4137-898E-9C3C1B104BAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43CA1830-2E4D-4137-898E-9C3C1B104BAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68A8C5C4-DB19-4EDD-B1C2-7722E19E5D7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68A8C5C4-DB19-4EDD-B1C2-7722E19E5D7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68A8C5C4-DB19-4EDD-B1C2-7722E19E5D7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68A8C5C4-DB19-4EDD-B1C2-7722E19E5D7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,7 +47,7 @@ Global
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
+		SccNumberOfProjects = 5
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://pleasantstudio.visualstudio.com/defaultcollection
 		SccProjectUniqueName0 = Implem.Libraries\\Implem.Libraries.csproj
@@ -59,5 +65,15 @@ Global
 		SccAuxPath2 = https://pleasantstudio.visualstudio.com/defaultcollection
 		SccLocalPath2 = Implem.CodeDefiner
 		SccProvider2 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName3 = Implem.ParameterAccessor\\Implem.ParameterAccessor.csproj
+		SccProjectName3 = Implem.ParameterAccessor
+		SccAuxPath3 = https://pleasantstudio.visualstudio.com/defaultcollection
+		SccLocalPath3 = Implem.ParameterAccessor
+		SccProvider3 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName4 = Implem.DisplayAccessor\\Implem.DisplayAccessor.csproj
+		SccProjectName4 = Implem.DisplayAccessor
+		SccAuxPath4 = https://pleasantstudio.visualstudio.com/defaultcollection
+		SccLocalPath4 = Implem.DisplayAccessor
+		SccProvider4 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 	EndGlobalSection
 EndGlobal
