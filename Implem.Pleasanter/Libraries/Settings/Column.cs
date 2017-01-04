@@ -18,7 +18,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ChoicesText;
         public string DefaultInput;
         public string GridFormat;
-        public string ControlFormat;
+        public string EditorFormat;
         public string ExportFormat;
         public string ControlType;
         public string Format;
@@ -125,6 +125,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         // compatibility Version 1.001
         public string GridDateTime;
         public string ControlDateTime;
+        // compatibility Version 1.005
+        public string ControlFormat;
 
         public bool HasChoices()
         {
@@ -331,7 +333,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public string DisplayControl(DateTime value)
         {
-            return Display(value, ControlFormat);
+            return Display(value, EditorFormat);
         }
 
         public string DisplayExport(DateTime value)

@@ -92,7 +92,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ConfirmSendMail(params string[] data) { return Get("ConfirmSendMail", data); }
         public static string ConfirmSeparate(params string[] data) { return Get("ConfirmSeparate", data); }
         public static string ConfirmSynchronize(params string[] data) { return Get("ConfirmSynchronize", data); }
-        public static string ControlFormat(params string[] data) { return Get("ControlFormat", data); }
         public static string ControlType(params string[] data) { return Get("ControlType", data); }
         public static string Copied(params string[] data) { return Get("Copied", data); }
         public static string Copy(params string[] data) { return Get("Copy", data); }
@@ -134,6 +133,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string EarnedValue(params string[] data) { return Get("EarnedValue", data); }
         public static string Edit(params string[] data) { return Get("Edit", data); }
         public static string Editor(params string[] data) { return Get("Editor", data); }
+        public static string EditorFormat(params string[] data) { return Get("EditorFormat", data); }
         public static string EditorSettings(params string[] data) { return Get("EditorSettings", data); }
         public static string EditPermissions(params string[] data) { return Get("EditPermissions", data); }
         public static string EditProfile(params string[] data) { return Get("EditProfile", data); }

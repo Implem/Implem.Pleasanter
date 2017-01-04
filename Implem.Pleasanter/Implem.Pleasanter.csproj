@@ -228,6 +228,7 @@
     <Compile Include="Libraries\DataTypes\TitleBody.cs" />
     <Compile Include="Libraries\DataTypes\User.cs" />
     <Compile Include="Libraries\DataTypes\WorkValue.cs" />
+    <Compile Include="Libraries\Migrators\SiteSettings\Version1_006.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_005.cs" />
     <Compile Include="Libraries\Responses\Displays.cs" />
     <Compile Include="Libraries\Server\UpdateMonitor.cs" />
@@ -859,7 +860,7 @@
     <Content Include="App_Data\Displays\AggregationTarget.json" />
     <Content Include="App_Data\Displays\AggregationType.json" />
     <Content Include="App_Data\Displays\ColumnList.json" />
-    <Content Include="App_Data\Displays\ControlFormat.json" />
+    <Content Include="App_Data\Displays\EditorFormat.json" />
     <Content Include="App_Data\Displays\EditorSettings.json" />
     <Content Include="App_Data\Displays\ExportFormat.json" />
     <Content Include="App_Data\Displays\SettingFormat.json" />

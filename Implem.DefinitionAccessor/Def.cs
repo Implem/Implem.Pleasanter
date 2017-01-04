@@ -1551,7 +1551,7 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("NotEditorSettings")) { newColumnDefinition.NotEditorSettings = definitionRow["NotEditorSettings"].ToBool(); newColumnDefinition.SavedNotEditorSettings = newColumnDefinition.NotEditorSettings; }
                 if (definitionRow.ContainsKey("ControlType")) { newColumnDefinition.ControlType = definitionRow["ControlType"].ToString(); newColumnDefinition.SavedControlType = newColumnDefinition.ControlType; }
                 if (definitionRow.ContainsKey("GridFormat")) { newColumnDefinition.GridFormat = definitionRow["GridFormat"].ToString(); newColumnDefinition.SavedGridFormat = newColumnDefinition.GridFormat; }
-                if (definitionRow.ContainsKey("ControlFormat")) { newColumnDefinition.ControlFormat = definitionRow["ControlFormat"].ToString(); newColumnDefinition.SavedControlFormat = newColumnDefinition.ControlFormat; }
+                if (definitionRow.ContainsKey("EditorFormat")) { newColumnDefinition.EditorFormat = definitionRow["EditorFormat"].ToString(); newColumnDefinition.SavedEditorFormat = newColumnDefinition.EditorFormat; }
                 if (definitionRow.ContainsKey("ExportFormat")) { newColumnDefinition.ExportFormat = definitionRow["ExportFormat"].ToString(); newColumnDefinition.SavedExportFormat = newColumnDefinition.ExportFormat; }
                 if (definitionRow.ContainsKey("Aggregatable")) { newColumnDefinition.Aggregatable = definitionRow["Aggregatable"].ToBool(); newColumnDefinition.SavedAggregatable = newColumnDefinition.Aggregatable; }
                 if (definitionRow.ContainsKey("Computable")) { newColumnDefinition.Computable = definitionRow["Computable"].ToBool(); newColumnDefinition.SavedComputable = newColumnDefinition.Computable; }
@@ -1657,7 +1657,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("NotEditorSettings")) { definition.NotEditorSettings = definitionRow["NotEditorSettings"].ToBool(); definition.SavedNotEditorSettings = definition.NotEditorSettings; }
             if (definitionRow.ContainsKey("ControlType")) { definition.ControlType = definitionRow["ControlType"].ToString(); definition.SavedControlType = definition.ControlType; }
             if (definitionRow.ContainsKey("GridFormat")) { definition.GridFormat = definitionRow["GridFormat"].ToString(); definition.SavedGridFormat = definition.GridFormat; }
-            if (definitionRow.ContainsKey("ControlFormat")) { definition.ControlFormat = definitionRow["ControlFormat"].ToString(); definition.SavedControlFormat = definition.ControlFormat; }
+            if (definitionRow.ContainsKey("EditorFormat")) { definition.EditorFormat = definitionRow["EditorFormat"].ToString(); definition.SavedEditorFormat = definition.EditorFormat; }
             if (definitionRow.ContainsKey("ExportFormat")) { definition.ExportFormat = definitionRow["ExportFormat"].ToString(); definition.SavedExportFormat = definition.ExportFormat; }
             if (definitionRow.ContainsKey("Aggregatable")) { definition.Aggregatable = definitionRow["Aggregatable"].ToBool(); definition.SavedAggregatable = definition.Aggregatable; }
             if (definitionRow.ContainsKey("Computable")) { definition.Computable = definitionRow["Computable"].ToBool(); definition.SavedComputable = definition.Computable; }
@@ -2636,7 +2636,7 @@ namespace Implem.DefinitionAccessor
                         case "NotEditorSettings": columnDefinition.NotEditorSettings = optionValue.ToBool(); break;
                         case "ControlType": columnDefinition.ControlType = optionValue.ToString(); break;
                         case "GridFormat": columnDefinition.GridFormat = optionValue.ToString(); break;
-                        case "ControlFormat": columnDefinition.ControlFormat = optionValue.ToString(); break;
+                        case "EditorFormat": columnDefinition.EditorFormat = optionValue.ToString(); break;
                         case "ExportFormat": columnDefinition.ExportFormat = optionValue.ToString(); break;
                         case "Aggregatable": columnDefinition.Aggregatable = optionValue.ToBool(); break;
                         case "Computable": columnDefinition.Computable = optionValue.ToBool(); break;
@@ -4046,7 +4046,7 @@ namespace Implem.DefinitionAccessor
         public bool NotEditorSettings; public bool SavedNotEditorSettings;
         public string ControlType; public string SavedControlType;
         public string GridFormat; public string SavedGridFormat;
-        public string ControlFormat; public string SavedControlFormat;
+        public string EditorFormat; public string SavedEditorFormat;
         public string ExportFormat; public string SavedExportFormat;
         public bool Aggregatable; public bool SavedAggregatable;
         public bool Computable; public bool SavedComputable;
@@ -4153,7 +4153,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("NotEditorSettings")) NotEditorSettings = propertyCollection["NotEditorSettings"].ToBool(); else NotEditorSettings = false;
             if (propertyCollection.ContainsKey("ControlType")) ControlType = propertyCollection["ControlType"].ToString(); else ControlType = string.Empty;
             if (propertyCollection.ContainsKey("GridFormat")) GridFormat = propertyCollection["GridFormat"].ToString(); else GridFormat = string.Empty;
-            if (propertyCollection.ContainsKey("ControlFormat")) ControlFormat = propertyCollection["ControlFormat"].ToString(); else ControlFormat = string.Empty;
+            if (propertyCollection.ContainsKey("EditorFormat")) EditorFormat = propertyCollection["EditorFormat"].ToString(); else EditorFormat = string.Empty;
             if (propertyCollection.ContainsKey("ExportFormat")) ExportFormat = propertyCollection["ExportFormat"].ToString(); else ExportFormat = string.Empty;
             if (propertyCollection.ContainsKey("Aggregatable")) Aggregatable = propertyCollection["Aggregatable"].ToBool(); else Aggregatable = false;
             if (propertyCollection.ContainsKey("Computable")) Computable = propertyCollection["Computable"].ToBool(); else Computable = false;
@@ -4260,7 +4260,7 @@ namespace Implem.DefinitionAccessor
                     case "NotEditorSettings": return NotEditorSettings;
                     case "ControlType": return ControlType;
                     case "GridFormat": return GridFormat;
-                    case "ControlFormat": return ControlFormat;
+                    case "EditorFormat": return EditorFormat;
                     case "ExportFormat": return ExportFormat;
                     case "Aggregatable": return Aggregatable;
                     case "Computable": return Computable;
@@ -4367,7 +4367,7 @@ namespace Implem.DefinitionAccessor
             NotEditorSettings = SavedNotEditorSettings;
             ControlType = SavedControlType;
             GridFormat = SavedGridFormat;
-            ControlFormat = SavedControlFormat;
+            EditorFormat = SavedEditorFormat;
             ExportFormat = SavedExportFormat;
             Aggregatable = SavedAggregatable;
             Computable = SavedComputable;

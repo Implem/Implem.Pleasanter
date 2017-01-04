@@ -7,7 +7,7 @@
             ss.ColumnCollection.ForEach(column =>
             {
                 column.GridFormat = column.GridDateTime;
-                column.ControlFormat = column.ControlDateTime;
+                column.EditorFormat = column.ControlDateTime;
             });
             ss.Migrated = true;
         }

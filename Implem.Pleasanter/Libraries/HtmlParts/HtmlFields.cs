@@ -292,7 +292,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ? DateTime.Now
                                 .ToLocal()
                                 .AddDays(column.DefaultInput.ToInt())
-                                .ToString(Displays.Get(column.ControlFormat + "Format"))
+                                .ToString(Displays.Get(column.EditorFormat + "Format"))
                             : self;
                     default:
                         return column.DefaultInput;

@@ -1868,10 +1868,10 @@ namespace Implem.Pleasanter.Models
                     {
                         hb
                             .FieldDropDown(
-                                controlId: "ControlFormat",
-                                labelText: Displays.ControlFormat(),
+                                controlId: "EditorFormat",
+                                labelText: Displays.EditorFormat(),
                                 optionCollection: DateTimeOptions(forControl: true),
-                                selectedValue: column.ControlFormat)
+                                selectedValue: column.EditorFormat)
                             .FieldDropDown(
                                 controlId: "ExportFormat",
                                 labelText: Displays.ExportFormat(),

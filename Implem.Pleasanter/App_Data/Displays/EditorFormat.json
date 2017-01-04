@@ -1,9 +1,9 @@
 ﻿{
-    "Id": "ControlFormat",
+    "Id": "EditorFormat",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Input format"
+            "Body": "Editor format"
         },
         {
             "Language": "ja",

@@ -15,13 +15,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .RecordedTime(
                     controlId: tableName + "_CreatedTime",
                     labelText: Displays.CreatedTime(),
-                    format: Def.ColumnTable._Bases_CreatedTime.ControlFormat,
+                    format: Def.ColumnTable._Bases_CreatedTime.EditorFormat,
                     userId: baseModel.Creator.Id,
                     time: baseModel.CreatedTime)
                 .RecordedTime(
                     controlId: tableName + "_UpdatedTime",
                     labelText: Displays.UpdatedTime(),
-                    format: Def.ColumnTable._Bases_UpdatedTime.ControlFormat,
+                    format: Def.ColumnTable._Bases_UpdatedTime.EditorFormat,
                     userId: baseModel.Updator.Id,
                     time: baseModel.UpdatedTime);
         }

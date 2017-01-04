@@ -182,7 +182,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     if (column.ChoicesText == columnDefinition.ChoicesText) column.ChoicesText = null;
                     if (column.DefaultInput == columnDefinition.DefaultInput) column.DefaultInput = null;
                     if (column.GridFormat == columnDefinition.GridFormat) column.GridFormat = null;
-                    if (column.ControlFormat == columnDefinition.ControlFormat) column.ControlFormat = null;
+                    if (column.EditorFormat == columnDefinition.EditorFormat) column.EditorFormat = null;
                     if (column.ExportFormat == columnDefinition.ExportFormat) column.ExportFormat = null;
                     if (column.ControlType == columnDefinition.ControlType) column.ControlType = null;
                     if (column.Format?.Trim() == string.Empty) column.Format = null;
@@ -368,7 +368,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.ChoicesText = column.ChoicesText ?? columnDefinition.ChoicesText;
                 column.DefaultInput = column.DefaultInput ?? columnDefinition.DefaultInput;
                 column.GridFormat = column.GridFormat ?? columnDefinition.GridFormat;
-                column.ControlFormat = column.ControlFormat ?? columnDefinition.ControlFormat;
+                column.EditorFormat = column.EditorFormat ?? columnDefinition.EditorFormat;
                 column.ExportFormat = column.ExportFormat ?? columnDefinition.ExportFormat;
                 column.ControlType = column.ControlType ?? columnDefinition.ControlType;
                 column.ValidateRequired = column.ValidateRequired ?? columnDefinition.ValidateRequired;
@@ -897,7 +897,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ChoicesText": column.ChoicesText = value; SetLinks(column); break;
                 case "DefaultInput": column.DefaultInput = value; break;
                 case "GridFormat": column.GridFormat = value; break;
-                case "ControlFormat": column.ControlFormat = value; break;
+                case "EditorFormat": column.EditorFormat = value; break;
                 case "ExportFormat": column.ExportFormat = value; break;
                 case "Unit": column.Unit = value; break;
                 case "CheckFilterControlType": column.CheckFilterControlType =
