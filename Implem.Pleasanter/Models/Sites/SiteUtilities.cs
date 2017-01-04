@@ -1377,7 +1377,7 @@ namespace Implem.Pleasanter.Models
                         hb
                             .FieldDropDown(
                                 controlId: "GridFormat",
-                                labelText: Displays.SettingGridFormat(),
+                                labelText: Displays.GridFormat(),
                                 optionCollection: DateTimeOptions(),
                                 selectedValue: column.GridFormat);
                     }
@@ -1869,12 +1869,12 @@ namespace Implem.Pleasanter.Models
                         hb
                             .FieldDropDown(
                                 controlId: "ControlFormat",
-                                labelText: Displays.SettingControlFormat(),
+                                labelText: Displays.ControlFormat(),
                                 optionCollection: DateTimeOptions(forControl: true),
                                 selectedValue: column.ControlFormat)
                             .FieldDropDown(
                                 controlId: "ExportFormat",
-                                labelText: Displays.SettingExportFormat(),
+                                labelText: Displays.ExportFormat(),
                                 optionCollection: DateTimeOptions(),
                                 selectedValue: column.ExportFormat);
                     }

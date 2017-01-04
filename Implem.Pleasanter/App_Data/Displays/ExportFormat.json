@@ -1,9 +1,9 @@
 ﻿{
-    "Id": "SettingExportFormat",
+    "Id": "ExportFormat",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Export the date and time"
+            "Body": "Export format"
         },
         {
             "Language": "ja",

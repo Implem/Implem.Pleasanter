@@ -1,0 +1,13 @@
+﻿{
+    "Id": "ControlFormat",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Input format"
+        },
+        {
+            "Language": "ja",
+            "Body": "エディタの書式"
+        }
+    ]
+}

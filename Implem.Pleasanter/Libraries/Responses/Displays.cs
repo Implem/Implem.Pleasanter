@@ -92,6 +92,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ConfirmSendMail(params string[] data) { return Get("ConfirmSendMail", data); }
         public static string ConfirmSeparate(params string[] data) { return Get("ConfirmSeparate", data); }
         public static string ConfirmSynchronize(params string[] data) { return Get("ConfirmSynchronize", data); }
+        public static string ControlFormat(params string[] data) { return Get("ControlFormat", data); }
         public static string ControlType(params string[] data) { return Get("ControlType", data); }
         public static string Copied(params string[] data) { return Get("Copied", data); }
         public static string Copy(params string[] data) { return Get("Copy", data); }
@@ -145,6 +146,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string ExceptionBody(params string[] data) { return Get("ExceptionBody", data); }
         public static string ExceptionTitle(params string[] data) { return Get("ExceptionTitle", data); }
         public static string Export(params string[] data) { return Get("Export", data); }
+        public static string ExportFormat(params string[] data) { return Get("ExportFormat", data); }
         public static string Expression(params string[] data) { return Get("Expression", data); }
         public static string ExternalMailAddress(params string[] data) { return Get("ExternalMailAddress", data); }
         public static string FailedReadFile(params string[] data) { return Get("FailedReadFile", data); }
@@ -157,6 +159,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Gantt(params string[] data) { return Get("Gantt", data); }
         public static string GoBack(params string[] data) { return Get("GoBack", data); }
         public static string Grid(params string[] data) { return Get("Grid", data); }
+        public static string GridFormat(params string[] data) { return Get("GridFormat", data); }
         public static string GridPageSize(params string[] data) { return Get("GridPageSize", data); }
         public static string GridScript(params string[] data) { return Get("GridScript", data); }
         public static string GridStyle(params string[] data) { return Get("GridStyle", data); }
@@ -319,10 +322,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SeparateNumber(params string[] data) { return Get("SeparateNumber", data); }
         public static string SeparateSettings(params string[] data) { return Get("SeparateSettings", data); }
         public static string Setting(params string[] data) { return Get("Setting", data); }
-        public static string SettingControlFormat(params string[] data) { return Get("SettingControlFormat", data); }
-        public static string SettingExportFormat(params string[] data) { return Get("SettingExportFormat", data); }
         public static string SettingFormat(params string[] data) { return Get("SettingFormat", data); }
-        public static string SettingGridFormat(params string[] data) { return Get("SettingGridFormat", data); }
         public static string SiteImageSettingsEditor(params string[] data) { return Get("SiteImageSettingsEditor", data); }
         public static string SiteSettings(params string[] data) { return Get("SiteSettings", data); }
         public static string SiteUser(params string[] data) { return Get("SiteUser", data); }
