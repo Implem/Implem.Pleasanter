@@ -154,6 +154,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string FileNotFound(params string[] data) { return Get("FileNotFound", data); }
         public static string FileUpdateCompleted(params string[] data) { return Get("FileUpdateCompleted", data); }
         public static string Filters(params string[] data) { return Get("Filters", data); }
+        public static string Format(params string[] data) { return Get("Format", data); }
         public static string Formulas(params string[] data) { return Get("Formulas", data); }
         public static string Fy(params string[] data) { return Get("Fy", data); }
         public static string Gantt(params string[] data) { return Get("Gantt", data); }
@@ -322,7 +323,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SeparateNumber(params string[] data) { return Get("SeparateNumber", data); }
         public static string SeparateSettings(params string[] data) { return Get("SeparateSettings", data); }
         public static string Setting(params string[] data) { return Get("Setting", data); }
-        public static string SettingFormat(params string[] data) { return Get("SettingFormat", data); }
         public static string SiteImageSettingsEditor(params string[] data) { return Get("SiteImageSettingsEditor", data); }
         public static string SiteSettings(params string[] data) { return Get("SiteSettings", data); }
         public static string SiteUser(params string[] data) { return Get("SiteUser", data); }

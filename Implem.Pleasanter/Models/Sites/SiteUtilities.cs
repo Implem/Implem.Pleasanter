@@ -2034,7 +2034,7 @@ namespace Implem.Pleasanter.Models
                 .FieldDropDown(
                     controlId: "FormatSelector",
                     controlCss: " not-transport",
-                    labelText: Displays.SettingFormat(),
+                    labelText: Displays.Format(),
                     optionCollection: formats
                         .ToDictionary(o => o.String, o => Displays.Get(o.Name)),
                     selectedValue: format != null

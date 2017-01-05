@@ -863,7 +863,7 @@
     <Content Include="App_Data\Displays\EditorFormat.json" />
     <Content Include="App_Data\Displays\EditorSettings.json" />
     <Content Include="App_Data\Displays\ExportFormat.json" />
-    <Content Include="App_Data\Displays\SettingFormat.json" />
+    <Content Include="App_Data\Displays\Format.json" />
     <Content Include="App_Data\Displays\GridFormat.json" />
     <Content Include="App_Data\Displays\GridPageSize.json" />
     <Content Include="App_Data\Displays\DisplayName.json" />
