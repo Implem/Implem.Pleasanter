@@ -289,7 +289,7 @@ namespace Implem.Pleasanter.Models
         {
             var ss = siteModel.SitesSiteSettings();
             var pt = siteModel.PermissionType;
-            var columns = ss.HistoryColumnCollection();
+            var columns = ss.GetHistoryColumns();
             var hb = new HtmlBuilder();
             hb.Table(
                 attributes: new HtmlAttributes().Class("grid"),
@@ -340,7 +340,7 @@ namespace Implem.Pleasanter.Models
 
         public static string TitleDisplayValue(SiteSettings ss, SiteModel siteModel)
         {
-            var displayValue = ss.TitleColumnCollection()
+            var displayValue = ss.GetTitleColumns()
                 .Select(column => TitleDisplayValue(column, siteModel))
                 .Where(o => o != string.Empty)
                 .Join(ss.TitleSeparator);
@@ -362,7 +362,7 @@ namespace Implem.Pleasanter.Models
 
         public static string TitleDisplayValue(SiteSettings ss, DataRow dataRow)
         {
-            var displayValue = ss.TitleColumnCollection()
+            var displayValue = ss.GetTitleColumns()
                 .Select(column => TitleDisplayValue(column, dataRow))
                 .Where(o => o != string.Empty)
                 .Join(ss.TitleSeparator);
@@ -2345,7 +2345,7 @@ namespace Implem.Pleasanter.Models
                 fieldId: "SummaryDestinationColumnField",
                 controlId: "SummaryDestinationColumn",
                 labelText: Displays.SummaryDestinationColumn(),
-                optionCollection: SummaryDestinationColumnCollection(
+                optionCollection: SummaryDestinationColumns(
                     siteDataRows, siteId, referenceType),
                 action: "SetSiteSettings",
                 method: "post");
@@ -2354,7 +2354,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static Dictionary<string, string> SummaryDestinationColumnCollection(
+        private static Dictionary<string, string> SummaryDestinationColumns(
             EnumerableRowCollection<DataRow> siteDataRows,
             long siteId,
             string referenceType)
@@ -2363,7 +2363,7 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o["SiteId"].ToLong() == siteId)
                 .Select(o => (
                     o["SiteSettings"].ToString().Deserialize<SiteSettings>() ??
-                    SiteSettingsUtility.Get(siteId, referenceType)).ColumnCollection)
+                    SiteSettingsUtility.Get(siteId, referenceType)).Columns)
                 .FirstOrDefault()?
                 .Where(o => o.Computable)
                 .Where(o => o.TypeName != "datetime")
@@ -2413,7 +2413,7 @@ namespace Implem.Pleasanter.Models
                 fieldId: "SummaryLinkColumnField",
                 controlId: "SummaryLinkColumn",
                 labelText: Displays.SummaryLinkColumn(),
-                optionCollection: ss.LinkCollection
+                optionCollection: ss.Links
                     .Where(o => o.SiteId == siteId)
                     .ToDictionary(
                         o => o.ColumnName,
@@ -2439,7 +2439,7 @@ namespace Implem.Pleasanter.Models
                         fieldId: "SummarySourceColumnField",
                         controlId: "SummarySourceColumn",
                         labelText: Displays.SummarySourceColumn(),
-                        optionCollection: ss.ColumnCollection
+                        optionCollection: ss.Columns
                             .Where(o => o.Computable)
                             .ToDictionary(o => o.ColumnName, o => o.LabelText),
                         action: "SetSiteSettings",
@@ -2470,7 +2470,7 @@ namespace Implem.Pleasanter.Models
                                 .Text(Displays.SummarySourceColumn()))
                             .Th(action: () => hb
                                 .Text(Displays.Operations()))));
-                    if (sourceSiteSettings.SummaryCollection.Count > 0)
+                    if (sourceSiteSettings.Summaries.Count > 0)
                     {
                         var dataRows = Rds.ExecuteTable(statements:
                             Rds.SelectSites(
@@ -2481,11 +2481,11 @@ namespace Implem.Pleasanter.Models
                                     .SiteSettings(),
                                 where: Rds.SitesWhere()
                                     .TenantId(Sessions.TenantId())
-                                    .SiteId_In(sourceSiteSettings.SummaryCollection
+                                    .SiteId_In(sourceSiteSettings.Summaries
                                         .Select(o => o.SiteId)))).AsEnumerable();
                         hb.TBody(action: () =>
                         {
-                            sourceSiteSettings.SummaryCollection.ForEach(summary =>
+                            sourceSiteSettings.Summaries.ForEach(summary =>
                             {
                                 var dataRow = dataRows.FirstOrDefault(o =>
                                     o["SiteId"].ToLong() == summary.SiteId);

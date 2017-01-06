@@ -188,7 +188,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ColumnFilterHash = new Dictionary<string, string>();
             }
-            if (ss.ColumnCollection.Any(o => o.ColumnName == columnName))
+            if (ss.Columns.Any(o => o.ColumnName == columnName))
             {
                 if (value != string.Empty)
                 {
@@ -215,7 +215,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>();
             }
-            if (ss.ColumnCollection.Any(o => o.ColumnName == columnName))
+            if (ss.Columns.Any(o => o.ColumnName == columnName))
             {
                 if (value != SqlOrderBy.Types.release)
                 {

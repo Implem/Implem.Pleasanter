@@ -128,7 +128,7 @@ namespace Implem.Pleasanter.Models
                 offset: offset,
                 pageSize: ss.GridPageSize.ToInt(),
                 countRecord: true,
-                aggregationCollection: ss.AggregationCollection);
+                aggregationCollection: ss.Aggregations);
         }
 
         private static HtmlBuilder Grid(
@@ -207,7 +207,7 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false)
         {
             var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
-            var columns = ss.GridColumnCollection();
+            var columns = ss.GetGridColumns();
             return hb
                 .THead(
                     _using: addHeader,
@@ -728,7 +728,7 @@ namespace Implem.Pleasanter.Models
         {
             return hb.FieldSet(id: "FieldSetGeneral", action: () =>
             {
-                ss.EditorColumnCollection().ForEach(column =>
+                ss.GetEditorColumns().ForEach(column =>
                 {
                     switch (column.ColumnName)
                     {
@@ -1233,7 +1233,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss, Permissions.Types pt, long issueId)
         {
             var issueModel = new IssueModel(ss, issueId);
-            var columns = ss.HistoryColumnCollection();
+            var columns = ss.GetHistoryColumns();
             var hb = new HtmlBuilder();
             hb.Table(
                 attributes: new HtmlAttributes().Class("grid"),
@@ -1523,7 +1523,7 @@ namespace Implem.Pleasanter.Models
                 var columnHash = new Dictionary<int, Column>();
                 csv.Headers.Select((o, i) => new { Header = o, Index = i }).ForEach(data =>
                 {
-                    var column = ss.ColumnCollection
+                    var column = ss.Columns
                         .Where(o => o.LabelText == data.Header)
                         .FirstOrDefault();
                     if (column != null) columnHash.Add(data.Index, column);
@@ -1935,7 +1935,7 @@ namespace Implem.Pleasanter.Models
 
         public static string TitleDisplayValue(SiteSettings ss, IssueModel issueModel)
         {
-            var displayValue = ss.TitleColumnCollection()
+            var displayValue = ss.GetTitleColumns()
                 .Select(column => TitleDisplayValue(column, issueModel))
                 .Where(o => o != string.Empty)
                 .Join(ss.TitleSeparator);
@@ -2035,7 +2035,7 @@ namespace Implem.Pleasanter.Models
 
         public static string TitleDisplayValue(SiteSettings ss, DataRow dataRow)
         {
-            var displayValue = ss.TitleColumnCollection()
+            var displayValue = ss.GetTitleColumns()
                 .Select(column => TitleDisplayValue(column, dataRow))
                 .Where(o => o != string.Empty)
                 .Join(ss.TitleSeparator);
@@ -2546,7 +2546,7 @@ namespace Implem.Pleasanter.Models
                 .RemainingWorkValue()
                 .Manager()
                 .Owner();
-            ss.TitleColumnCollection().ForEach(titleColumn =>
+            ss.GetTitleColumns().ForEach(titleColumn =>
                 column.IssuesColumn(titleColumn.ColumnName));
             column.IssuesColumn(groupBy);
             column.IssuesColumn(value);

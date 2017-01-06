@@ -153,7 +153,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder Columns(
             this HtmlBuilder hb, SiteSettings ss, View view)
         {
-            ss.FilterColumnCollection().ForEach(column =>
+            ss.GetFilterColumns().ForEach(column =>
             {
                 switch (column.TypeName.CsTypeSummary())
                 {

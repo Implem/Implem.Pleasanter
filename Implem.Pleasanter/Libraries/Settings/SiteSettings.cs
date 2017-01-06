@@ -46,13 +46,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<string> TitleColumns;
         public List<string> LinkColumns;
         public List<string> HistoryColumns;
-        public List<Column> ColumnCollection;
+        public List<Column> Columns;
         public int ViewLatestId;
         public List<View> Views;
         public List<Notification> Notifications;
-        public List<Aggregation> AggregationCollection;
-        public List<Link> LinkCollection;
-        public List<Summary> SummaryCollection;
+        public List<Aggregation> Aggregations;
+        public List<Link> Links;
+        public List<Summary> Summaries;
         public List<FormulaSet> Formulas;
         public string TitleSeparator = ")";
         public string AddressBook;
@@ -76,6 +76,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<string> HistoryColumnsOrder;
         // compatibility Version 1.004
         public Dictionary<string, Formula> FormulaHash;
+        // compatibility Version 1.006
+        public List<Column> ColumnCollection;
+        public List<Aggregation> AggregationCollection;
+        public List<Link> LinkCollection;
+        public List<Summary> SummaryCollection;
 
         public SiteSettings()
         {
@@ -103,12 +108,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             UpdateTitleColumnsOrder();
             UpdateLinkColumnsOrder();
             UpdateHistoryColumnsOrder();
-            UpdateColumnCollection();
+            UpdateColumns();
             UpdateColumnHash();
             if (Notifications == null) Notifications = new List<Notification>();
-            if (AggregationCollection == null) AggregationCollection = new List<Aggregation>();
-            if (LinkCollection == null) LinkCollection = new List<Link>();
-            if (SummaryCollection == null) SummaryCollection = new List<Summary>();
+            if (Aggregations == null) Aggregations = new List<Aggregation>();
+            if (Links == null) Links = new List<Link>();
+            if (Summaries == null) Summaries = new List<Summary>();
             if (Formulas == null) Formulas = new List<FormulaSet>();
         }
 
@@ -125,7 +130,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         [OnSerializing]
         private void OnSerializing(StreamingContext streamingContext)
         {
-            UpdateColumnCollection(onSerializing: true);
+            UpdateColumns(onSerializing: true);
         }
 
         public string RecordingJson()
@@ -145,12 +150,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (self.TitleSeparator == def.TitleSeparator) self.TitleSeparator = null;
             if (self.LinkColumns.SequenceEqual(def.LinkColumns)) self.LinkColumns = null;
             if (self.HistoryColumns.SequenceEqual(def.HistoryColumns)) self.HistoryColumns = null;
-            if (self.ColumnCollection.SequenceEqual(def.ColumnCollection)) self.ColumnCollection = null;
+            if (self.Columns.SequenceEqual(def.Columns)) self.Columns = null;
             if (self.Views?.Count == 0) self.Views = null;
             if (!self.Notifications.Any()) self.Notifications = null;
-            if (self.AggregationCollection.SequenceEqual(def.AggregationCollection)) self.AggregationCollection = null;
-            if (self.LinkCollection.SequenceEqual(def.LinkCollection)) self.LinkCollection = null;
-            if (self.SummaryCollection.SequenceEqual(def.SummaryCollection)) self.SummaryCollection = null;
+            if (self.Aggregations.SequenceEqual(def.Aggregations)) self.Aggregations = null;
+            if (self.Links.SequenceEqual(def.Links)) self.Links = null;
+            if (self.Summaries.SequenceEqual(def.Summaries)) self.Summaries = null;
             if (self.Formulas.SequenceEqual(def.Formulas)) self.Formulas = null;
             if (AddressBook == string.Empty) self.AddressBook = null;
             if (MailToDefault == string.Empty) self.MailToDefault = null;
@@ -163,13 +168,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (NewScript == string.Empty) self.NewScript = null;
             if (EditScript == string.Empty) self.EditScript = null;
             var removeCollection = new HashSet<string>();
-            self.ColumnCollection.ForEach(column =>
+            self.Columns.ForEach(column =>
             {
                 var columnDefinition = Def.ColumnDefinitionCollection
                     .Where(o => o.TableName == ReferenceType)
                     .Where(o => o.ColumnName == column.ColumnName)
                     .FirstOrDefault();
-                if (column.ToJson() == def.ColumnCollection.FirstOrDefault(o =>
+                if (column.ToJson() == def.Columns.FirstOrDefault(o =>
                     o.ColumnName == column.ColumnName)?.ToJson())
                 {
                     removeCollection.Add(column.ColumnName);
@@ -212,7 +217,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     if (column.DateFilterMonth.ToBool()) column.DateFilterMonth = null;
                 }
             });
-            self.ColumnCollection.RemoveAll(o => removeCollection.Contains(o.ColumnName));
+            self.Columns.RemoveAll(o => removeCollection.Contains(o.ColumnName));
             return self.ToJson();
         }
 
@@ -332,31 +337,31 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private void UpdateColumnCollection(bool onSerializing = false)
+        private void UpdateColumns(bool onSerializing = false)
         {
-            if (ColumnCollection == null) ColumnCollection = new List<Column>();
+            if (Columns == null) Columns = new List<Column>();
             Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == ReferenceType)
                 .ForEach(columnDefinition =>
                 {
                     if (!onSerializing)
                     {
-                        if (!ColumnCollection.Exists(o =>
+                        if (!Columns.Exists(o =>
                             o.ColumnName == columnDefinition.ColumnName))
                         {
-                            ColumnCollection.Add(new Column(columnDefinition.ColumnName));
+                            Columns.Add(new Column(columnDefinition.ColumnName));
                         }
                         UpdateColumn(columnDefinition);
                     }
                 });
-            ColumnCollection.RemoveAll(o =>
+            Columns.RemoveAll(o =>
                 !Def.ColumnDefinitionCollection.Any(p =>
                     p.TableName == ReferenceType && p.ColumnName == o.ColumnName));
         }
 
         private void UpdateColumn(ColumnDefinition columnDefinition)
         {
-            var column = ColumnCollection.Find(o => o.ColumnName == columnDefinition.ColumnName);
+            var column = Columns.Find(o => o.ColumnName == columnDefinition.ColumnName);
             if (column != null)
             {
                 column.Id = column.Id ?? columnDefinition.Id;
@@ -429,7 +434,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void UpdateColumnHash()
         {
-            ColumnHash = ColumnCollection.ToDictionary(o => o.ColumnName, o => o);
+            ColumnHash = Columns.ToDictionary(o => o.ColumnName, o => o);
         }
 
         private decimal DefaultMax(ColumnDefinition columnDefinition)
@@ -455,43 +460,43 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Column GridColumn(string columnName)
         {
-            return ColumnCollection.FirstOrDefault(o =>
+            return Columns.FirstOrDefault(o =>
                 o.ColumnName == columnName && o.GridColumn);
         }
 
         public Column FilterColumn(string columnName)
         {
-            return ColumnCollection.FirstOrDefault(o =>
+            return Columns.FirstOrDefault(o =>
                 o.ColumnName == columnName && o.FilterColumn);
         }
 
         public Column EditorColumn(string columnName)
         {
-            return ColumnCollection.FirstOrDefault(o =>
+            return Columns.FirstOrDefault(o =>
                 o.ColumnName == columnName && o.EditorColumn);
         }
 
         public Column TitleColumn(string columnName)
         {
-            return ColumnCollection.FirstOrDefault(o =>
+            return Columns.FirstOrDefault(o =>
                 o.ColumnName == columnName && o.TitleColumn);
         }
 
         public Column LinkColumn(string columnName)
         {
-            return ColumnCollection.FirstOrDefault(o =>
+            return Columns.FirstOrDefault(o =>
                 o.ColumnName == columnName && o.LinkColumn);
         }
 
         public Column HistoryColumn(string columnName)
         {
-            return ColumnCollection.FirstOrDefault(o =>
+            return Columns.FirstOrDefault(o =>
                 o.ColumnName == columnName && o.HistoryColumn);
         }
 
         public Column FormulaColumn(string name)
         {
-            return ColumnCollection
+            return Columns
                 .Where(o => o.ColumnName == name || o.LabelText == name)
                 .Where(o => o.Computable)
                 .Where(o => !o.NotUpdate)
@@ -499,7 +504,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .FirstOrDefault();
         }
 
-        public IEnumerable<Column> GridColumnCollection()
+        public IEnumerable<Column> GetGridColumns()
         {
             return GridColumns
                 .Select(o => GetColumn(o))
@@ -507,7 +512,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
-        public IEnumerable<Column> FilterColumnCollection()
+        public IEnumerable<Column> GetFilterColumns()
         {
             return FilterColumns
                 .Select(o => GetColumn(o))
@@ -515,7 +520,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
-        public IEnumerable<Column> EditorColumnCollection()
+        public IEnumerable<Column> GetEditorColumns()
         {
             return EditorColumns
                 .Select(o => GetColumn(o))
@@ -523,7 +528,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
-        public IEnumerable<Column> TitleColumnCollection()
+        public IEnumerable<Column> GetTitleColumns()
         {
             return TitleColumns
                 .Select(o => GetColumn(o))
@@ -531,7 +536,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
-        public IEnumerable<Column> LinkColumnCollection()
+        public IEnumerable<Column> GetLinkColumns()
         {
             return LinkColumns
                 .Select(o => GetColumn(o))
@@ -539,7 +544,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
-        public IEnumerable<Column> HistoryColumnCollection()
+        public IEnumerable<Column> GetHistoryColumns()
         {
             return HistoryColumns
                 .Select(o => GetColumn(o))
@@ -547,9 +552,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
-        public IEnumerable<Column> SelectColumnCollection()
+        public IEnumerable<Column> SelectColumns()
         {
-            return ColumnCollection.Where(o =>
+            return Columns.Where(o =>
                 !o.Nullable.ToBool() ||
                 EditorColumns.Contains(o.ColumnName) ||
                 EditorColumns.Contains(o.ColumnName));
@@ -618,7 +623,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Dictionary<string, string> FormulaTargetSelectableOptions()
         {
-            return ColumnCollection
+            return Columns
                 .Where(o => o.Computable)
                 .Where(o => !o.NotUpdate)
                 .Where(o => o.TypeName != "datetime")
@@ -645,7 +650,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Dictionary<string, string> AggregationDestination()
         {
-            return AggregationCollection?.ToDictionary(
+            return Aggregations?.ToDictionary(
                 o => o.Id.ToString(),
                 o => (o.GroupBy == "[NotGroupBy]"
                     ? Displays.NoClassification() 
@@ -674,14 +679,14 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Dictionary<string, string> GanttGroupByOptions()
         {
-            return ColumnCollection
+            return Columns
                 .Where(o => o.HasChoices())
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
         }
 
         public Dictionary<string, string> TimeSeriesGroupByOptions()
         {
-            return ColumnCollection
+            return Columns
                 .Where(o => o.HasChoices())
                 .ToDictionary(o => o.ColumnName, o => o.LabelText);
         }
@@ -700,7 +705,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Dictionary<string, string> TimeSeriesValueOptions()
         {
-            return ColumnCollection
+            return Columns
                 .Where(o => o.Computable)
                 .Where(o => o.TypeName != "datetime")
                 .ToDictionary(o => o.ColumnName, o => o.LabelText);
@@ -708,7 +713,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Dictionary<string, string> KambanGroupByOptions()
         {
-            return ColumnCollection.Where(o => o.HasChoices())
+            return Columns.Where(o => o.HasChoices())
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
         }
 
@@ -725,7 +730,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Dictionary<string, string> KamvanValueOptions()
         {
-            return ColumnCollection
+            return Columns
                 .Where(o => o.Computable)
                 .Where(o => o.TypeName != "datetime")
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
@@ -772,24 +777,24 @@ namespace Implem.Pleasanter.Libraries.Settings
                     var idCollection = new List<string>();
                     selectedSourceColumns.ForEach(groupBy =>
                     {
-                        var id = AggregationCollection.Count > 0
-                            ? AggregationCollection.Max(o => o.Id) + 1
+                        var id = Aggregations.Count > 0
+                            ? Aggregations.Max(o => o.Id) + 1
                             : 1;
                         idCollection.Add(id.ToString());
-                        AggregationCollection.Add(new Aggregation(id, groupBy));
+                        Aggregations.Add(new Aggregation(id, groupBy));
                     });
                     selectedColumns = idCollection;
                     selectedSourceColumns = null;
                     break;
                 case "DeleteAggregations":
-                    AggregationCollection
+                    Aggregations
                         .RemoveAll(o => selectedColumns.Contains(o.Id.ToString()));
                     selectedSourceColumns = selectedColumns;
                     selectedColumns = null;
                     break;
                 case "MoveUpAggregations":
                 case "MoveDownAggregations":
-                    var order = AggregationCollection.Select(o => o.Id.ToString()).ToArray();
+                    var order = Aggregations.Select(o => o.Id.ToString()).ToArray();
                     if (controlId == "MoveDownAggregations") Array.Reverse(order);
                     order.Select((o, i) => new { Id = o, Index = i }).ForEach(data =>
                     {
@@ -801,7 +806,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                     });
                     if (controlId == "MoveDownAggregations") Array.Reverse(order);
-                    AggregationCollection = order.ToList().Select(id => AggregationCollection
+                    Aggregations = order.ToList().Select(id => Aggregations
                         .FirstOrDefault(o => o.Id.ToString() == id)).ToList();
                     break;
             }
@@ -813,7 +818,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             IEnumerable<string> selectedColumns,
             IEnumerable<string> selectedSourceColumns)
         {
-            AggregationCollection
+            Aggregations
                 .Where(o => selectedColumns.Contains(o.Id.ToString()))
                 .ForEach(aggregation =>
                 {
@@ -949,7 +954,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public IEnumerable<string> IncludedColumns()
         {
-            return IncludedColumns(ColumnCollection
+            return IncludedColumns(Columns
                 .Where(o => !o.GridDesign.IsNullOrEmpty())
                 .Select(o => o.GridDesign)
                 .Join(string.Empty))
@@ -961,9 +966,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             foreach (Match match in value.RegexMatches(@"(?<=\[).+?(?=\])"))
             {
                 var column = labelText
-                    ? ColumnCollection.FirstOrDefault(o =>
+                    ? Columns.FirstOrDefault(o =>
                         o.LabelText == match.Value)
-                    : ColumnCollection.FirstOrDefault(o =>
+                    : Columns.FirstOrDefault(o =>
                         o.ColumnName == match.Value);
                 if (column != null) yield return column;
             }
@@ -972,7 +977,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         private void SetLinks(Column column)
         {
             column.Link = false;
-            LinkCollection.RemoveAll(o => o.ColumnName == column.ColumnName);
+            Links.RemoveAll(o => o.ColumnName == column.ColumnName);
             column.ChoicesText.SplitReturn()
                 .Select(o => o.Trim())
                 .Where(o => o.RegexExists(@"^\[\[[0-9]*\]\]$"))
@@ -980,13 +985,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ForEach(siteId =>
                 {
                     column.Link = true;
-                    if (!LinkCollection.Any(o =>
+                    if (!Links.Any(o =>
                         o.ColumnName == column.ColumnName && o.SiteId == siteId))
                     {
                         if (new SiteModel(siteId).AccessStatus ==
                             Databases.AccessStatuses.Selected)
                         {
-                            LinkCollection.Add(new Link(column.ColumnName, siteId));
+                            Links.Add(new Link(column.ColumnName, siteId));
                         }
                     }
                 });
@@ -997,13 +1002,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             var linkHash = withLink
                 ? LinkHash()
                 : null;
-            ColumnCollection.Where(o => o.HasChoices()).ForEach(column =>
+            Columns.Where(o => o.HasChoices()).ForEach(column =>
                 column.SetChoiceHash(InheritPermission, linkHash));
         }
 
         private Dictionary<string, Dictionary<string, string>> LinkHash()
         {
-            if (LinkCollection?.Count > 0)
+            if (Links?.Count > 0)
             {
                 var dataRows = Rds.ExecuteTable(
                     statements: Rds.SelectItems(
@@ -1015,12 +1020,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         where: Rds.ItemsWhere()
                             .ReferenceType("Sites", _operator: "<>")
                             .SiteId_In(
-                                value: LinkCollection
+                                value: Links
                                     .Select(o => o.SiteId)
                                     .Distinct()),
                         orderBy: Rds.ItemsOrderBy()
                             .Title())).AsEnumerable();
-                return LinkCollection
+                return Links
                     .Select(o => o.SiteId)
                     .Distinct()
                     .ToDictionary(
@@ -1056,7 +1061,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public EnumerableRowCollection<DataRow> SummarySiteDataRows()
         {
-            if (LinkCollection == null) return null;
+            if (Links == null) return null;
             return Rds.ExecuteTable(statements: Rds.SelectSites(
                 column: Rds.SitesColumn()
                     .SiteId()
@@ -1065,7 +1070,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .SiteSettings(),
                 where: Rds.SitesWhere()
                     .TenantId(Sessions.TenantId())
-                    .SiteId_In(LinkCollection.Select(o => o.SiteId))))
+                    .SiteId_In(Links.Select(o => o.SiteId))))
                         .AsEnumerable();
         }
 
@@ -1077,15 +1082,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             string type,
             string sourceColumn)
         {
-            if (!SummaryCollection.Any(o =>
+            if (!Summaries.Any(o =>
                 o.SiteId == siteId &&
                 o.DestinationColumn == destinationColumn &&
                 o.LinkColumn == linkColumn))
             {
-                var id = SummaryCollection.Any()
-                    ? SummaryCollection.Select(o => o.Id).Max() + 1
+                var id = Summaries.Any()
+                    ? Summaries.Select(o => o.Id).Max() + 1
                     : 1;
-                SummaryCollection.Add(new Summary(
+                Summaries.Add(new Summary(
                     id,
                     siteId,
                     destinationReferenceType,
@@ -1103,7 +1108,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void DeleteSummary(long id)
         {
-            SummaryCollection.Remove(SummaryCollection.FirstOrDefault(o => o.Id == id));
+            Summaries.Remove(Summaries.FirstOrDefault(o => o.Id == id));
         }
 
         public void SetFormulas(string controlId, IEnumerable<int> selected)

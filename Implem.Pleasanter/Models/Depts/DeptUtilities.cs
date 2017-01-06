@@ -162,7 +162,7 @@ namespace Implem.Pleasanter.Models
                 offset: offset,
                 pageSize: ss.GridPageSize.ToInt(),
                 countRecord: true,
-                aggregationCollection: ss.AggregationCollection);
+                aggregationCollection: ss.Aggregations);
         }
 
         private static HtmlBuilder Grid(
@@ -241,7 +241,7 @@ namespace Implem.Pleasanter.Models
             bool clearCheck = false)
         {
             var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
-            var columns = ss.GridColumnCollection();
+            var columns = ss.GetGridColumns();
             return hb
                 .THead(
                     _using: addHeader,
@@ -475,7 +475,7 @@ namespace Implem.Pleasanter.Models
         {
             return hb.FieldSet(id: "FieldSetGeneral", action: () =>
             {
-                ss.EditorColumnCollection().ForEach(column =>
+                ss.GetEditorColumns().ForEach(column =>
                 {
                     switch (column.ColumnName)
                     {
@@ -681,7 +681,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss, Permissions.Types pt, int deptId)
         {
             var deptModel = new DeptModel(ss, deptId);
-            var columns = ss.HistoryColumnCollection();
+            var columns = ss.GetHistoryColumns();
             var hb = new HtmlBuilder();
             hb.Table(
                 attributes: new HtmlAttributes().Class("grid"),

@@ -75,7 +75,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public string ExportColumn(SiteSettings ss, string columnName)
         {
-            return ss.ColumnCollection
+            return ss.Columns
                 .FirstOrDefault(o => o.ColumnName == columnName && o.Export).LabelText;
         }
 

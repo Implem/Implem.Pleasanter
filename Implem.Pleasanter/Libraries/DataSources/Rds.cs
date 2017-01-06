@@ -24687,7 +24687,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     .SiteId()
                     .IssueId()
                     .Comments();
-                ss.SelectColumnCollection()
+                ss.SelectColumns()
                     .ForEach(column => ret.IssuesColumn(column.ColumnName));
                 return ret;
             }
@@ -25014,7 +25014,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     .SiteId()
                     .ResultId()
                     .Comments();
-                ss.SelectColumnCollection()
+                ss.SelectColumns()
                     .ForEach(column => ret.ResultsColumn(column.ColumnName));
                 return ret;
             }
@@ -25204,7 +25204,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     .SiteId()
                     .WikiId()
                     .Comments();
-                ss.SelectColumnCollection()
+                ss.SelectColumns()
                     .ForEach(column => ret.WikisColumn(column.ColumnName));
                 return ret;
             }
@@ -25240,7 +25240,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static IssuesColumnCollection IssuesTitleColumn(SiteSettings ss)
         {
             var column = IssuesColumn();
-            ss.TitleColumnCollection().Select(o => o.ColumnName).ForEach(columnName =>
+            ss.GetTitleColumns().Select(o => o.ColumnName).ForEach(columnName =>
             {
                 switch (columnName)
                 {
@@ -25279,7 +25279,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static ResultsColumnCollection ResultsTitleColumn(SiteSettings ss)
         {
             var column = ResultsColumn();
-            ss.TitleColumnCollection().Select(o => o.ColumnName).ForEach(columnName =>
+            ss.GetTitleColumns().Select(o => o.ColumnName).ForEach(columnName =>
             {
                 switch (columnName)
                 {
@@ -25318,7 +25318,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static WikisColumnCollection WikisTitleColumn(SiteSettings ss)
         {
             var column = WikisColumn();
-            ss.TitleColumnCollection().Select(o => o.ColumnName).ForEach(columnName =>
+            ss.GetTitleColumns().Select(o => o.ColumnName).ForEach(columnName =>
             {
                 switch (columnName)
                 {

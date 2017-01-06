@@ -298,7 +298,7 @@ namespace Implem.Pleasanter.Models
                         addUpdatorParam: addUpdatorParam),
                     Rds.PhysicalDeleteLinks(
                         where: Rds.LinksWhere().SourceId(SiteId)),
-                    LinkUtilities.Insert(SiteSettings.LinkCollection
+                    LinkUtilities.Insert(SiteSettings.Links
                         .Select(o => o.SiteId)
                         .Distinct()
                         .ToDictionary(o => o, o => SiteId))
@@ -1201,7 +1201,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void DeleteSummary(ResponseCollection res)
         {
-            var summary = SiteSettings.SummaryCollection.FirstOrDefault(
+            var summary = SiteSettings.Summaries.FirstOrDefault(
                 o => o.Id == Forms.Long("DeleteSummaryId"));
             SiteSettings.DeleteSummary(summary.Id);
             res.ReplaceAll("#SummarySettings", new HtmlBuilder()

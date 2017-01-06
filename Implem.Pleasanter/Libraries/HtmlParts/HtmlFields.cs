@@ -306,7 +306,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var fromSiteId = Forms.Long("FromSiteId");
             return
                 fromSiteId != 0 &&
-                ss.LinkCollection.Any(o =>
+                ss.Links.Any(o =>
                     o.ColumnName == column.ColumnName && o.SiteId == fromSiteId);
         }
 
