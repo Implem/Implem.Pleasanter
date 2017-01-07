@@ -1850,7 +1850,7 @@ namespace Implem.Pleasanter.Models
                                             { "field-auto", Displays.Auto() }
                                     },
                                     selectedValue: column.FieldCss,
-                                    _using: column.MarkDown)
+                                    _using: !column.MarkDown)
                                 .FieldCheckBox(
                                     controlId: "ValidateRequired",
                                     labelText: Displays.Required(),
