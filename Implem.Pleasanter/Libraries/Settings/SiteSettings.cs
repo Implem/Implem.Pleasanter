@@ -102,12 +102,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             GridPageSize = GridPageSize ?? Parameters.General.GridPageSize;
             FirstDayOfWeek = FirstDayOfWeek ?? Parameters.General.FirstDayOfWeek;
             FirstMonth = FirstMonth ?? Parameters.General.FirstMonth;
-            UpdateGridColumnsOrder();
-            UpdateFilterColumnsOrder();
-            UpdateEditorColumnsOrder();
-            UpdateTitleColumnsOrder();
-            UpdateLinkColumnsOrder();
-            UpdateHistoryColumnsOrder();
+            UpdateGridColumns();
+            UpdateFilterColumns();
+            UpdateEditorColumns();
+            UpdateTitleColumns();
+            UpdateLinkColumns();
+            UpdateHistoryColumns();
             UpdateColumns();
             UpdateColumnHash();
             if (Notifications == null) Notifications = new List<Notification>();
@@ -221,7 +221,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return self.ToJson();
         }
 
-        private void UpdateGridColumnsOrder()
+        private void UpdateGridColumns()
         {
             if (GridColumns == null)
             {
@@ -240,7 +240,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private void UpdateFilterColumnsOrder()
+        private void UpdateFilterColumns()
         {
             if (FilterColumns == null)
             {
@@ -259,7 +259,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private void UpdateEditorColumnsOrder()
+        private void UpdateEditorColumns()
         {
             if (EditorColumns == null)
             {
@@ -279,7 +279,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private void UpdateTitleColumnsOrder()
+        private void UpdateTitleColumns()
         {
             if (TitleColumns == null)
             {
@@ -299,7 +299,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private void UpdateLinkColumnsOrder()
+        private void UpdateLinkColumns()
         {
             if (LinkColumns == null)
             {
@@ -318,7 +318,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private void UpdateHistoryColumnsOrder()
+        private void UpdateHistoryColumns()
         {
             if (HistoryColumns == null)
             {
