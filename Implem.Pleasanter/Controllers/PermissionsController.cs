@@ -27,6 +27,15 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
+        [HttpPost]
+        public string Search(string table, long id)
+        {
+            var log = new SysLogModel();
+            var json = PermissionUtilities.Search(id);
+            log.Finish(json.Length);
+            return json;
+        }
+
         [AcceptVerbs(HttpVerbs.Put | HttpVerbs.Post | HttpVerbs.Delete)]
         public string Set(string table, long id)
         {

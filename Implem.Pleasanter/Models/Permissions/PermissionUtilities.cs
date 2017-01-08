@@ -269,8 +269,8 @@ namespace Implem.Pleasanter.Models
                             controlId: "SearchText",
                             controlCss: " auto-postback w100",
                             placeholder: Displays.Search(),
-                            action: "Set",
-                            method: "put")));
+                            action: "Search",
+                            method: "post")));
         }
 
         /// <summary>
@@ -538,21 +538,30 @@ namespace Implem.Pleasanter.Models
                             .SetFormData("PermissionDestination", string.Empty)
                             .SetFormData("PermissionSource", permissionDestination.Join(";"));
                         break;
-                    case "SearchText":
-                        siteModel.Session_PermissionSourceCollection(
-                            SourceCollection(
-                                "Sites",
-                                siteModel.SiteId,
-                                Forms.Data("SearchText")));
-                        siteModel.Session_PermissionSourceCollection().RemoveAll(o =>
-                            siteModel.Session_PermissionDestinationCollection()
-                                .Any(p => p.PermissionId == o.PermissionId));
-                        res.Html("#PermissionSource", PermissionListItem(
-                            siteModel, Types.Source,
-                            permissionDestination));
-                        break;
                 }
             }
+            return res.ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string Search(long siteId)
+        {
+            var siteModel = new SiteModel(siteId, setByForm: true);
+            var res = new ResponseCollection();
+            var permissionDestination = Forms.Data("PermissionDestination")
+                .SortedSet(';')
+                .Where(o => o != string.Empty)
+                .ToList();
+            siteModel.Session_PermissionSourceCollection(
+                SourceCollection("Sites", siteModel.SiteId, Forms.Data("SearchText")));
+            siteModel.Session_PermissionSourceCollection().RemoveAll(o =>
+                siteModel.Session_PermissionDestinationCollection()
+                    .Any(p => p.PermissionId == o.PermissionId));
+            res.Html("#PermissionSource", PermissionListItem(
+                siteModel, Types.Source,
+                permissionDestination));
             return res.ToJson();
         }
 
