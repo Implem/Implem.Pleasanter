@@ -468,7 +468,7 @@ namespace Implem.Pleasanter.Models
                 .SortedSet(';')
                 .Where(o => o != string.Empty)
                 .ToList();
-            if (Forms.Data("command") != "AddPermission" &&
+            if (Forms.ControlId() != "Add" &&
                 permissionDestination.Contains("User," + Sessions.UserId()))
             {
                 res.Message(Messages.PermissionNotSelfChange());
