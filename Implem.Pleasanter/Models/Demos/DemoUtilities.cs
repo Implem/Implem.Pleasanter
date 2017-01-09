@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.Models
                 MailAddress = mailAddress
             };
             demoModel.Create();
-            var outgoingMailModel = new OutgoingMailModel()
+            demoModel.Initialize(new OutgoingMailModel()
             {
                 SiteSettings = SiteSettingsUtility.OutgoingMailsSiteSettings(),
                 Title = new Title(Displays.DemoMailTitle()),
@@ -51,9 +51,7 @@ namespace Implem.Pleasanter.Models
                 From = new System.Net.Mail.MailAddress(Parameters.Mail.SupportFrom),
                 To = mailAddress,
                 Bcc = Parameters.Mail.SupportFrom
-            };
-            outgoingMailModel.Send();
-            demoModel.Initialize();
+            });
             return Messages.ResponseSentAcceptanceMail()
                 .Remove("#DemoForm")
                 .ToJson();
@@ -100,13 +98,17 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static void Initialize(this DemoModel demoModel)
+        private static void Initialize(
+            this DemoModel demoModel, OutgoingMailModel outgoingMailModel)
         {
             var idHash = new Dictionary<string, long>();
             var loginId = LoginId(demoModel, "User1");
             var password = Strings.NewGuid().Sha512Cng();
             System.Threading.Tasks.Task.Run(() =>
-                demoModel.Initialize(idHash, password));
+            {
+                demoModel.Initialize(idHash, password);
+                outgoingMailModel.Send();
+            });
         }
 
         /// <summary>
