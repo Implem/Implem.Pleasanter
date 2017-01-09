@@ -52,9 +52,6 @@ namespace Implem.ParameterAccessor.Parts
         public int FirstMonth;
         public int DateFilterMinSpan;
         public int DateFilterMaxSpan;
-        public decimal NumFilterMin;
-        public decimal NumFilterMax;
-        public decimal NumFilterStep;
         public DateTime MinTime;
         public DateTime MaxTime;
     }

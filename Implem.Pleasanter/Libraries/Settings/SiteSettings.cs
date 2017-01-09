@@ -206,9 +206,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     if (column.Unit == columnDefinition.Unit) column.Unit = null;
                     if (column.Link == false) column.Link = null;
                     if (column.CheckFilterControlType == ColumnUtilities.CheckFilterControlTypes.OnOnly) column.CheckFilterControlType = null;
-                    if (column.NumFilterMin == Parameters.General.NumFilterMin) column.NumFilterMin = null;
-                    if (column.NumFilterMax == Parameters.General.NumFilterMax) column.NumFilterMax = null;
-                    if (column.NumFilterStep == Parameters.General.NumFilterStep) column.NumFilterStep = null;
+                    if (column.NumFilterMin == columnDefinition.NumFilterMin) column.NumFilterMin = null;
+                    if (column.NumFilterMax == columnDefinition.NumFilterMax) column.NumFilterMax = null;
+                    if (column.NumFilterStep == columnDefinition.NumFilterStep) column.NumFilterStep = null;
                     if (column.DateFilterMinSpan == Parameters.General.DateFilterMinSpan) column.DateFilterMinSpan = null;
                     if (column.DateFilterMaxSpan == Parameters.General.DateFilterMaxSpan) column.DateFilterMaxSpan = null;
                     if (column.DateFilterFy.ToBool()) column.DateFilterFy = null;
@@ -390,9 +390,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.FieldCss = column.FieldCss ?? columnDefinition.FieldCss;
                 column.Unit = column.Unit ?? columnDefinition.Unit;
                 column.CheckFilterControlType = column.CheckFilterControlType ?? ColumnUtilities.CheckFilterControlTypes.OnOnly;
-                column.NumFilterMin = column.NumFilterMin ?? Parameters.General.NumFilterMin;
-                column.NumFilterMax = column.NumFilterMax ?? Parameters.General.NumFilterMax;
-                column.NumFilterStep = column.NumFilterStep ?? Parameters.General.NumFilterStep;
+                column.NumFilterMin = column.NumFilterMin ?? columnDefinition.NumFilterMin;
+                column.NumFilterMax = column.NumFilterMax ?? columnDefinition.NumFilterMax;
+                column.NumFilterStep = column.NumFilterStep ?? columnDefinition.NumFilterStep;
                 column.DateFilterMinSpan = column.DateFilterMinSpan ?? Parameters.General.DateFilterMinSpan;
                 column.DateFilterMaxSpan = column.DateFilterMaxSpan ?? Parameters.General.DateFilterMaxSpan;
                 column.DateFilterFy = column.DateFilterFy ?? true;

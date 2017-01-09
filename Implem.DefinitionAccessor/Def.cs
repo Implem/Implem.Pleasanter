@@ -1570,6 +1570,9 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("Step")) { newColumnDefinition.Step = definitionRow["Step"].ToDecimal(); newColumnDefinition.SavedStep = newColumnDefinition.Step; }
                 if (definitionRow.ContainsKey("StringFormat")) { newColumnDefinition.StringFormat = definitionRow["StringFormat"].ToString(); newColumnDefinition.SavedStringFormat = newColumnDefinition.StringFormat; }
                 if (definitionRow.ContainsKey("Unit")) { newColumnDefinition.Unit = definitionRow["Unit"].ToString(); newColumnDefinition.SavedUnit = newColumnDefinition.Unit; }
+                if (definitionRow.ContainsKey("NumFilterMin")) { newColumnDefinition.NumFilterMin = definitionRow["NumFilterMin"].ToDecimal(); newColumnDefinition.SavedNumFilterMin = newColumnDefinition.NumFilterMin; }
+                if (definitionRow.ContainsKey("NumFilterMax")) { newColumnDefinition.NumFilterMax = definitionRow["NumFilterMax"].ToDecimal(); newColumnDefinition.SavedNumFilterMax = newColumnDefinition.NumFilterMax; }
+                if (definitionRow.ContainsKey("NumFilterStep")) { newColumnDefinition.NumFilterStep = definitionRow["NumFilterStep"].ToDecimal(); newColumnDefinition.SavedNumFilterStep = newColumnDefinition.NumFilterStep; }
                 if (definitionRow.ContainsKey("Width")) { newColumnDefinition.Width = definitionRow["Width"].ToInt(); newColumnDefinition.SavedWidth = newColumnDefinition.Width; }
                 if (definitionRow.ContainsKey("SettingEnable")) { newColumnDefinition.SettingEnable = definitionRow["SettingEnable"].ToBool(); newColumnDefinition.SavedSettingEnable = newColumnDefinition.SettingEnable; }
                 if (definitionRow.ContainsKey("OldColumnName")) { newColumnDefinition.OldColumnName = definitionRow["OldColumnName"].ToString(); newColumnDefinition.SavedOldColumnName = newColumnDefinition.OldColumnName; }
@@ -1676,6 +1679,9 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("Step")) { definition.Step = definitionRow["Step"].ToDecimal(); definition.SavedStep = definition.Step; }
             if (definitionRow.ContainsKey("StringFormat")) { definition.StringFormat = definitionRow["StringFormat"].ToString(); definition.SavedStringFormat = definition.StringFormat; }
             if (definitionRow.ContainsKey("Unit")) { definition.Unit = definitionRow["Unit"].ToString(); definition.SavedUnit = definition.Unit; }
+            if (definitionRow.ContainsKey("NumFilterMin")) { definition.NumFilterMin = definitionRow["NumFilterMin"].ToDecimal(); definition.SavedNumFilterMin = definition.NumFilterMin; }
+            if (definitionRow.ContainsKey("NumFilterMax")) { definition.NumFilterMax = definitionRow["NumFilterMax"].ToDecimal(); definition.SavedNumFilterMax = definition.NumFilterMax; }
+            if (definitionRow.ContainsKey("NumFilterStep")) { definition.NumFilterStep = definitionRow["NumFilterStep"].ToDecimal(); definition.SavedNumFilterStep = definition.NumFilterStep; }
             if (definitionRow.ContainsKey("Width")) { definition.Width = definitionRow["Width"].ToInt(); definition.SavedWidth = definition.Width; }
             if (definitionRow.ContainsKey("SettingEnable")) { definition.SettingEnable = definitionRow["SettingEnable"].ToBool(); definition.SavedSettingEnable = definition.SettingEnable; }
             if (definitionRow.ContainsKey("OldColumnName")) { definition.OldColumnName = definitionRow["OldColumnName"].ToString(); definition.SavedOldColumnName = definition.OldColumnName; }
@@ -2655,6 +2661,9 @@ namespace Implem.DefinitionAccessor
                         case "Step": columnDefinition.Step = optionValue.ToDecimal(); break;
                         case "StringFormat": columnDefinition.StringFormat = optionValue.ToString(); break;
                         case "Unit": columnDefinition.Unit = optionValue.ToString(); break;
+                        case "NumFilterMin": columnDefinition.NumFilterMin = optionValue.ToDecimal(); break;
+                        case "NumFilterMax": columnDefinition.NumFilterMax = optionValue.ToDecimal(); break;
+                        case "NumFilterStep": columnDefinition.NumFilterStep = optionValue.ToDecimal(); break;
                         case "Width": columnDefinition.Width = optionValue.ToInt(); break;
                         case "SettingEnable": columnDefinition.SettingEnable = optionValue.ToBool(); break;
                         case "OldColumnName": columnDefinition.OldColumnName = optionValue.ToString(); break;
@@ -4065,6 +4074,9 @@ namespace Implem.DefinitionAccessor
         public decimal Step; public decimal SavedStep;
         public string StringFormat; public string SavedStringFormat;
         public string Unit; public string SavedUnit;
+        public decimal NumFilterMin; public decimal SavedNumFilterMin;
+        public decimal NumFilterMax; public decimal SavedNumFilterMax;
+        public decimal NumFilterStep; public decimal SavedNumFilterStep;
         public int Width; public int SavedWidth;
         public bool SettingEnable; public bool SavedSettingEnable;
         public string OldColumnName; public string SavedOldColumnName;
@@ -4172,6 +4184,9 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("Step")) Step = propertyCollection["Step"].ToDecimal(); else Step = 0;
             if (propertyCollection.ContainsKey("StringFormat")) StringFormat = propertyCollection["StringFormat"].ToString(); else StringFormat = string.Empty;
             if (propertyCollection.ContainsKey("Unit")) Unit = propertyCollection["Unit"].ToString(); else Unit = string.Empty;
+            if (propertyCollection.ContainsKey("NumFilterMin")) NumFilterMin = propertyCollection["NumFilterMin"].ToDecimal(); else NumFilterMin = 0;
+            if (propertyCollection.ContainsKey("NumFilterMax")) NumFilterMax = propertyCollection["NumFilterMax"].ToDecimal(); else NumFilterMax = 0;
+            if (propertyCollection.ContainsKey("NumFilterStep")) NumFilterStep = propertyCollection["NumFilterStep"].ToDecimal(); else NumFilterStep = 0;
             if (propertyCollection.ContainsKey("Width")) Width = propertyCollection["Width"].ToInt(); else Width = 0;
             if (propertyCollection.ContainsKey("SettingEnable")) SettingEnable = propertyCollection["SettingEnable"].ToBool(); else SettingEnable = false;
             if (propertyCollection.ContainsKey("OldColumnName")) OldColumnName = propertyCollection["OldColumnName"].ToString(); else OldColumnName = string.Empty;
@@ -4279,6 +4294,9 @@ namespace Implem.DefinitionAccessor
                     case "Step": return Step;
                     case "StringFormat": return StringFormat;
                     case "Unit": return Unit;
+                    case "NumFilterMin": return NumFilterMin;
+                    case "NumFilterMax": return NumFilterMax;
+                    case "NumFilterStep": return NumFilterStep;
                     case "Width": return Width;
                     case "SettingEnable": return SettingEnable;
                     case "OldColumnName": return OldColumnName;
@@ -4386,6 +4404,9 @@ namespace Implem.DefinitionAccessor
             Step = SavedStep;
             StringFormat = SavedStringFormat;
             Unit = SavedUnit;
+            NumFilterMin = SavedNumFilterMin;
+            NumFilterMax = SavedNumFilterMax;
+            NumFilterStep = SavedNumFilterStep;
             Width = SavedWidth;
             SettingEnable = SavedSettingEnable;
             OldColumnName = SavedOldColumnName;
