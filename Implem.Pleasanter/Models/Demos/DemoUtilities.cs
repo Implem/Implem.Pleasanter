@@ -249,14 +249,9 @@ namespace Implem.Pleasanter.Models
              string topId,
              string parentId)
         {
-            if (parentId == string.Empty)
-            {
-                return self.InheritPermission(raw: Def.Sql.Identity);
-            }
-            else
-            {
-                return self.InheritPermission(idHash[topId]);
-            }
+            return parentId == string.Empty
+                ? self.InheritPermission(raw: Def.Sql.Identity)
+                : self.InheritPermission(idHash[topId]);
         }
 
         /// <summary>
