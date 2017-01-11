@@ -1,6 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Initializers;
 using Implem.Pleasanter.Libraries.Migrators;
 using Implem.Pleasanter.Libraries.Security;
@@ -83,10 +82,7 @@ namespace Implem.Pleasanter
             if (Sessions.LoggedIn())
             {
                 var userId = HttpContext.Current.User.Identity.Name.ToInt();
-                Session["TenantId"] = Rds.ExecuteScalar_int(statements:
-                    Rds.SelectUsers(
-                        column: Rds.UsersColumn().TenantId(),
-                        where: Rds.UsersWhere().UserId(userId)));
+                Sessions.SetTenantId(userId);
                 var userModel = new UserModel(
                     SiteSettingsUtility.UsersSiteSettings(),
                     userId);

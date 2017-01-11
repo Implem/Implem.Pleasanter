@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Classes;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Models;
 using System;
@@ -29,6 +30,14 @@ namespace Implem.Pleasanter.Libraries.Server
         public static bool Created()
         {
             return HttpContext.Current?.Session != null;
+        }
+
+        public static void SetTenantId(int userId)
+        {
+            HttpContext.Current.Session["TenantId"] = Rds.ExecuteScalar_int(statements:
+                Rds.SelectUsers(
+                    column: Rds.UsersColumn().TenantId(),
+                    where: Rds.UsersWhere().UserId(userId)));
         }
 
         public static int TenantId()
