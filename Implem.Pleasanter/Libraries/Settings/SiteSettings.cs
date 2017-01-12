@@ -1049,9 +1049,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                             column: Rds.WikisColumn().Body(),
                             where: Rds.WikisWhere().SiteId(siteId)))
                                 .SplitReturn()
+                                .GroupBy(o => o.Split_1st())
                                 .ToDictionary(
-                                    p => p.Split_1st(),
-                                    p => p.Split_2nd())
+                                    p => p.Key,
+                                    p => p.First().Split_2nd())
                     : dataRows
                         .Where(p => p["SiteId"].ToLong() == siteId)
                         .ToDictionary(
