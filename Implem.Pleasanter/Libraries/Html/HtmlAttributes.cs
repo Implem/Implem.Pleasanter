@@ -294,6 +294,16 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
+        public HtmlAttributes DataName(string value, bool _using = true)
+        {
+            if (!value.IsNullOrEmpty() && _using)
+            {
+                Add("data-name");
+                Add(value);
+            }
+            return this;
+        }
+
         public HtmlAttributes DataType(string value, bool _using = true)
         {
             if (!value.IsNullOrEmpty() && _using)
@@ -304,11 +314,11 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
-        public HtmlAttributes DataMethod(string value, bool _using = true)
+        public HtmlAttributes DataFunc(string value, bool _using = true)
         {
             if (!value.IsNullOrEmpty() && _using)
             {
-                Add("data-method");
+                Add("data-func");
                 Add(value);
             }
             return this;
@@ -319,6 +329,16 @@ namespace Implem.Pleasanter.Libraries.Html
             if (!value.IsNullOrEmpty() && _using)
             {
                 Add("data-action");
+                Add(value);
+            }
+            return this;
+        }
+
+        public HtmlAttributes DataMethod(string value, bool _using = true)
+        {
+            if (!value.IsNullOrEmpty() && _using)
+            {
+                Add("data-method");
                 Add(value);
             }
             return this;
