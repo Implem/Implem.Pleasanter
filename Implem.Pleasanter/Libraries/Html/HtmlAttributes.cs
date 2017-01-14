@@ -274,6 +274,16 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
+        public HtmlAttributes Rowspan(int value, bool _using = true)
+        {
+            if (value != 0 && _using)
+            {
+                Add("rowspan");
+                Add(value.ToString());
+            }
+            return this;
+        }
+
         public HtmlAttributes DateTime(DateTime value, bool _using = true)
         {
             if (value.InRange() && _using)
