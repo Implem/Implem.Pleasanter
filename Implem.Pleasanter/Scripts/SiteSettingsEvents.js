@@ -50,11 +50,6 @@
             $dataViewSorter.text() + '(' + $p.display('Order' + orderType) + ')',
             $dataViewSorter.val() + ',' + orderType);
     });
-    $(document).on('click', '#AddNotification,#UpdateNotification', function () {
-        var $control = $(this);
-        $p.getData($control).NotificationType = $('#NotificationType').val();
-        $p.send($control);
-    });
     $(document).on('click', '#NotificationSettings .grid-row', function () {
         var $control = $(this);
         $p.getData($control).NotificationId = $control.attr('data-id');

@@ -67,6 +67,11 @@ $p.openNotificationDialog = function ($control) {
     $p.openSiteSettingsDialog($control, '#NotificationDialog', 'body');
 }
 
+$p.setNotification = function ($control) {
+    $p.setData($('#NotificationType'), $p.getData($control));
+    $p.send($control);
+}
+
 $p.setAggregationDetails = function ($control) {
     var data = $p.getData($control);
     data.AggregationType = $('#AggregationType').val();

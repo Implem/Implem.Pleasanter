@@ -3419,6 +3419,7 @@ namespace Implem.Pleasanter.Models
                             text: Displays.Setting(),
                             controlCss: "button-icon validate",
                             icon: "ui-icon-disk",
+                            onClick: "$p.setNotification($(this));",
                             action: "SetSiteSettings",
                             method: "post",
                             _using: controlId == "NewNotification")
@@ -3426,6 +3427,7 @@ namespace Implem.Pleasanter.Models
                             controlId: "UpdateNotification",
                             text: Displays.Setting(),
                             controlCss: "button-icon validate",
+                            onClick: "$p.setNotification($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
                             method: "post",
