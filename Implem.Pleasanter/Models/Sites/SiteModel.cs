@@ -696,8 +696,8 @@ namespace Implem.Pleasanter.Models
                 case "EditFormula":
                     OpenFormulaDialog(res, controlId);
                     break;
-                case "CreateFormula":
-                    CreateFormula(res);
+                case "AddFormula":
+                    AddFormula(res);
                     break;
                 case "UpdateFormula":
                     UpdateFormula(res);
@@ -716,8 +716,8 @@ namespace Implem.Pleasanter.Models
                 case "AddViewFilter":
                     AddViewFilter(res);
                     break;
-                case "CreateView":
-                    CreateView(res);
+                case "AddView":
+                    AddView(res);
                     break;
                 case "UpdateView":
                     UpdateView(res);
@@ -729,8 +729,8 @@ namespace Implem.Pleasanter.Models
                 case "EditNotification":
                     OpenNotificationDialog(res, controlId);
                     break;
-                case "CreateNotification":
-                    CreateNotification(res, controlId);
+                case "AddNotification":
+                    AddNotification(res, controlId);
                     break;
                 case "UpdateNotification":
                     UpdateNotification(res, controlId);
@@ -1409,7 +1409,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void CreateFormula(ResponseCollection res)
+        private void AddFormula(ResponseCollection res)
         {
             var outOfCondition = Forms.Data("FormulaOutOfCondition").Trim();
             var error = SiteSettings.AddFormula(
@@ -1555,7 +1555,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void CreateView(ResponseCollection res)
+        private void AddView(ResponseCollection res)
         {
             SiteSettings.AddView(new View(SiteSettings));
             res
@@ -1626,7 +1626,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void CreateNotification(ResponseCollection res, string controlId)
+        private void AddNotification(ResponseCollection res, string controlId)
         {
             SiteSettings.Notifications.Add(new Notification(
                 (Notification.Types)Forms.Int("NotificationType"),

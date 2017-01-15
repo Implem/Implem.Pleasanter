@@ -2792,7 +2792,7 @@ namespace Implem.Pleasanter.Models
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
-                            controlId: "CreateFormula",
+                            controlId: "AddFormula",
                             text: Displays.Setting(),
                             controlCss: "button-icon validate",
                             onClick: "$p.send($(this));",
@@ -2936,7 +2936,7 @@ namespace Implem.Pleasanter.Models
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
-                            controlId: "CreateView",
+                            controlId: "AddView",
                             text: Displays.Setting(),
                             controlCss: "button-icon validate",
                             onClick: "$p.send($(this));",
@@ -3415,7 +3415,7 @@ namespace Implem.Pleasanter.Models
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
-                            controlId: "CreateNotification",
+                            controlId: "AddNotification",
                             text: Displays.Setting(),
                             controlCss: "button-icon validate",
                             icon: "ui-icon-disk",

@@ -50,7 +50,7 @@
             $dataViewSorter.text() + '(' + $p.display('Order' + orderType) + ')',
             $dataViewSorter.val() + ',' + orderType);
     });
-    $(document).on('click', '#CreateNotification,#UpdateNotification', function () {
+    $(document).on('click', '#AddNotification,#UpdateNotification', function () {
         var $control = $(this);
         $p.getData($control).NotificationType = $('#NotificationType').val();
         $p.send($control);
