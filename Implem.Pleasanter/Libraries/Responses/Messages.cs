@@ -305,287 +305,287 @@ namespace Implem.Pleasanter.Libraries.Responses
 
         public static ResponseCollection ResponseAlreadyAdded(params string[] data)
         {
-            return ResponseMessage(Messages.AlreadyAdded(data));
+            return ResponseMessage(AlreadyAdded(data));
         }
 
         public static ResponseCollection ResponseAuthentication(params string[] data)
         {
-            return ResponseMessage(Messages.Authentication(data));
+            return ResponseMessage(Authentication(data));
         }
 
         public static ResponseCollection ResponseBadFormat(params string[] data)
         {
-            return ResponseMessage(Messages.BadFormat(data));
+            return ResponseMessage(BadFormat(data));
         }
 
         public static ResponseCollection ResponseBadMailAddress(params string[] data)
         {
-            return ResponseMessage(Messages.BadMailAddress(data));
+            return ResponseMessage(BadMailAddress(data));
         }
 
         public static ResponseCollection ResponseBulkDeleted(params string[] data)
         {
-            return ResponseMessage(Messages.BulkDeleted(data));
+            return ResponseMessage(BulkDeleted(data));
         }
 
         public static ResponseCollection ResponseBulkMoved(params string[] data)
         {
-            return ResponseMessage(Messages.BulkMoved(data));
+            return ResponseMessage(BulkMoved(data));
         }
 
         public static ResponseCollection ResponseCanNotDisabled(params string[] data)
         {
-            return ResponseMessage(Messages.CanNotDisabled(data));
+            return ResponseMessage(CanNotDisabled(data));
         }
 
         public static ResponseCollection ResponseCanNotUpdate(params string[] data)
         {
-            return ResponseMessage(Messages.CanNotUpdate(data));
+            return ResponseMessage(CanNotUpdate(data));
         }
 
         public static ResponseCollection ResponseCantSetAtTopOfSite(params string[] data)
         {
-            return ResponseMessage(Messages.CantSetAtTopOfSite(data));
+            return ResponseMessage(CantSetAtTopOfSite(data));
         }
 
         public static ResponseCollection ResponseChangingPasswordComplete(params string[] data)
         {
-            return ResponseMessage(Messages.ChangingPasswordComplete(data));
+            return ResponseMessage(ChangingPasswordComplete(data));
         }
 
         public static ResponseCollection ResponseCodeDefinerBackupCompleted(params string[] data)
         {
-            return ResponseMessage(Messages.CodeDefinerBackupCompleted(data));
+            return ResponseMessage(CodeDefinerBackupCompleted(data));
         }
 
         public static ResponseCollection ResponseCodeDefinerCompleted(params string[] data)
         {
-            return ResponseMessage(Messages.CodeDefinerCompleted(data));
+            return ResponseMessage(CodeDefinerCompleted(data));
         }
 
         public static ResponseCollection ResponseCodeDefinerCssCompleted(params string[] data)
         {
-            return ResponseMessage(Messages.CodeDefinerCssCompleted(data));
+            return ResponseMessage(CodeDefinerCssCompleted(data));
         }
 
         public static ResponseCollection ResponseCodeDefinerDefCompleted(params string[] data)
         {
-            return ResponseMessage(Messages.CodeDefinerDefCompleted(data));
+            return ResponseMessage(CodeDefinerDefCompleted(data));
         }
 
         public static ResponseCollection ResponseCodeDefinerMvcCompleted(params string[] data)
         {
-            return ResponseMessage(Messages.CodeDefinerMvcCompleted(data));
+            return ResponseMessage(CodeDefinerMvcCompleted(data));
         }
 
         public static ResponseCollection ResponseCodeDefinerRdsCompleted(params string[] data)
         {
-            return ResponseMessage(Messages.CodeDefinerRdsCompleted(data));
+            return ResponseMessage(CodeDefinerRdsCompleted(data));
         }
 
         public static ResponseCollection ResponseCommentDeleted(params string[] data)
         {
-            return ResponseMessage(Messages.CommentDeleted(data));
+            return ResponseMessage(CommentDeleted(data));
         }
 
         public static ResponseCollection ResponseCopied(params string[] data)
         {
-            return ResponseMessage(Messages.Copied(data));
+            return ResponseMessage(Copied(data));
         }
 
         public static ResponseCollection ResponseCreated(params string[] data)
         {
-            return ResponseMessage(Messages.Created(data));
+            return ResponseMessage(Created(data));
         }
 
         public static ResponseCollection ResponseDefinitionNotFound(params string[] data)
         {
-            return ResponseMessage(Messages.DefinitionNotFound(data));
+            return ResponseMessage(DefinitionNotFound(data));
         }
 
         public static ResponseCollection ResponseDeleteConflicts(params string[] data)
         {
-            return ResponseMessage(Messages.DeleteConflicts(data));
+            return ResponseMessage(DeleteConflicts(data));
         }
 
         public static ResponseCollection ResponseDeleted(params string[] data)
         {
-            return ResponseMessage(Messages.Deleted(data));
+            return ResponseMessage(Deleted(data));
         }
 
         public static ResponseCollection ResponseExceptionBody(params string[] data)
         {
-            return ResponseMessage(Messages.ExceptionBody(data));
+            return ResponseMessage(ExceptionBody(data));
         }
 
         public static ResponseCollection ResponseExceptionTitle(params string[] data)
         {
-            return ResponseMessage(Messages.ExceptionTitle(data));
+            return ResponseMessage(ExceptionTitle(data));
         }
 
         public static ResponseCollection ResponseExternalMailAddress(params string[] data)
         {
-            return ResponseMessage(Messages.ExternalMailAddress(data));
+            return ResponseMessage(ExternalMailAddress(data));
         }
 
         public static ResponseCollection ResponseFailedReadFile(params string[] data)
         {
-            return ResponseMessage(Messages.FailedReadFile(data));
+            return ResponseMessage(FailedReadFile(data));
         }
 
         public static ResponseCollection ResponseFileNotFound(params string[] data)
         {
-            return ResponseMessage(Messages.FileNotFound(data));
+            return ResponseMessage(FileNotFound(data));
         }
 
         public static ResponseCollection ResponseFileUpdateCompleted(params string[] data)
         {
-            return ResponseMessage(Messages.FileUpdateCompleted(data));
+            return ResponseMessage(FileUpdateCompleted(data));
         }
 
         public static ResponseCollection ResponseHasBeenDeleted(params string[] data)
         {
-            return ResponseMessage(Messages.HasBeenDeleted(data));
+            return ResponseMessage(HasBeenDeleted(data));
         }
 
         public static ResponseCollection ResponseHasBeenMoved(params string[] data)
         {
-            return ResponseMessage(Messages.HasBeenMoved(data));
+            return ResponseMessage(HasBeenMoved(data));
         }
 
         public static ResponseCollection ResponseHasNotPermission(params string[] data)
         {
-            return ResponseMessage(Messages.HasNotPermission(data));
+            return ResponseMessage(HasNotPermission(data));
         }
 
         public static ResponseCollection ResponseImported(params string[] data)
         {
-            return ResponseMessage(Messages.Imported(data));
+            return ResponseMessage(Imported(data));
         }
 
         public static ResponseCollection ResponseInCompression(params string[] data)
         {
-            return ResponseMessage(Messages.InCompression(data));
+            return ResponseMessage(InCompression(data));
         }
 
         public static ResponseCollection ResponseInCopying(params string[] data)
         {
-            return ResponseMessage(Messages.InCopying(data));
+            return ResponseMessage(InCopying(data));
         }
 
         public static ResponseCollection ResponseIncorrectCurrentPassword(params string[] data)
         {
-            return ResponseMessage(Messages.IncorrectCurrentPassword(data));
+            return ResponseMessage(IncorrectCurrentPassword(data));
         }
 
         public static ResponseCollection ResponseInvalidCsvData(params string[] data)
         {
-            return ResponseMessage(Messages.InvalidCsvData(data));
+            return ResponseMessage(InvalidCsvData(data));
         }
 
         public static ResponseCollection ResponseInvalidFormula(params string[] data)
         {
-            return ResponseMessage(Messages.InvalidFormula(data));
+            return ResponseMessage(InvalidFormula(data));
         }
 
         public static ResponseCollection ResponseInvalidRequest(params string[] data)
         {
-            return ResponseMessage(Messages.InvalidRequest(data));
+            return ResponseMessage(InvalidRequest(data));
         }
 
         public static ResponseCollection ResponseLoginIn(params string[] data)
         {
-            return ResponseMessage(Messages.LoginIn(data));
+            return ResponseMessage(LoginIn(data));
         }
 
         public static ResponseCollection ResponseMailAddressHasNotSet(params string[] data)
         {
-            return ResponseMessage(Messages.MailAddressHasNotSet(data));
+            return ResponseMessage(MailAddressHasNotSet(data));
         }
 
         public static ResponseCollection ResponseMailTransmissionCompletion(params string[] data)
         {
-            return ResponseMessage(Messages.MailTransmissionCompletion(data));
+            return ResponseMessage(MailTransmissionCompletion(data));
         }
 
         public static ResponseCollection ResponseMoved(params string[] data)
         {
-            return ResponseMessage(Messages.Moved(data));
+            return ResponseMessage(Moved(data));
         }
 
         public static ResponseCollection ResponseNoLinks(params string[] data)
         {
-            return ResponseMessage(Messages.NoLinks(data));
+            return ResponseMessage(NoLinks(data));
         }
 
         public static ResponseCollection ResponseNotFound(params string[] data)
         {
-            return ResponseMessage(Messages.NotFound(data));
+            return ResponseMessage(NotFound(data));
         }
 
         public static ResponseCollection ResponseNotRequiredColumn(params string[] data)
         {
-            return ResponseMessage(Messages.NotRequiredColumn(data));
+            return ResponseMessage(NotRequiredColumn(data));
         }
 
         public static ResponseCollection ResponsePasswordNotChanged(params string[] data)
         {
-            return ResponseMessage(Messages.PasswordNotChanged(data));
+            return ResponseMessage(PasswordNotChanged(data));
         }
 
         public static ResponseCollection ResponsePasswordResetCompleted(params string[] data)
         {
-            return ResponseMessage(Messages.PasswordResetCompleted(data));
+            return ResponseMessage(PasswordResetCompleted(data));
         }
 
         public static ResponseCollection ResponsePermissionNotSelfChange(params string[] data)
         {
-            return ResponseMessage(Messages.PermissionNotSelfChange(data));
+            return ResponseMessage(PermissionNotSelfChange(data));
         }
 
         public static ResponseCollection ResponseReadOnlyBecausePreviousVer(params string[] data)
         {
-            return ResponseMessage(Messages.ReadOnlyBecausePreviousVer(data));
+            return ResponseMessage(ReadOnlyBecausePreviousVer(data));
         }
 
         public static ResponseCollection ResponseRequireMailAddresses(params string[] data)
         {
-            return ResponseMessage(Messages.RequireMailAddresses(data));
+            return ResponseMessage(RequireMailAddresses(data));
         }
 
         public static ResponseCollection ResponseSelectOne(params string[] data)
         {
-            return ResponseMessage(Messages.SelectOne(data));
+            return ResponseMessage(SelectOne(data));
         }
 
         public static ResponseCollection ResponseSelectTargets(params string[] data)
         {
-            return ResponseMessage(Messages.SelectTargets(data));
+            return ResponseMessage(SelectTargets(data));
         }
 
         public static ResponseCollection ResponseSentAcceptanceMail (params string[] data)
         {
-            return ResponseMessage(Messages.SentAcceptanceMail (data));
+            return ResponseMessage(SentAcceptanceMail (data));
         }
 
         public static ResponseCollection ResponseSeparated(params string[] data)
         {
-            return ResponseMessage(Messages.Separated(data));
+            return ResponseMessage(Separated(data));
         }
 
         public static ResponseCollection ResponseSynchronizationCompleted(params string[] data)
         {
-            return ResponseMessage(Messages.SynchronizationCompleted(data));
+            return ResponseMessage(SynchronizationCompleted(data));
         }
 
         public static ResponseCollection ResponseUpdateConflicts(params string[] data)
         {
-            return ResponseMessage(Messages.UpdateConflicts(data));
+            return ResponseMessage(UpdateConflicts(data));
         }
 
         public static ResponseCollection ResponseUpdated(params string[] data)
         {
-            return ResponseMessage(Messages.Updated(data));
+            return ResponseMessage(Updated(data));
         }
     }
 }
