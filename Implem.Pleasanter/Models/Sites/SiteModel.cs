@@ -1653,6 +1653,7 @@ namespace Implem.Pleasanter.Models
             else
             {
                 notification.Update(
+                    (Notification.Types)Forms.Int("NotificationType"),
                     Forms.Data("NotificationPrefix"),
                     Forms.Data("NotificationAddress"),
                     Forms.Data("NotificationToken"),

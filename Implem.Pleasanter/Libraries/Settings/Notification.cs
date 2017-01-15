@@ -68,6 +68,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public void Update(
+            Types type,
             string prefix,
             string address,
             string token,
@@ -76,6 +77,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             int afterCondition = 0,
             Expressions expression = Expressions.Or)
         {
+            Type = type;
             Prefix = prefix;
             Address = address;
             Token = token;

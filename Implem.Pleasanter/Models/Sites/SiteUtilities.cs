@@ -3294,8 +3294,7 @@ namespace Implem.Pleasanter.Models
                                 Displays.ChatWork()
                             }
                         },
-                        selectedValue: notification.Type.ToInt().ToString(),
-                        disabled: controlId == "EditNotification")
+                        selectedValue: notification.Type.ToInt().ToString())
                     .FieldTextBox(
                         controlId: "NotificationPrefix",
                         controlCss: " must-transport",
