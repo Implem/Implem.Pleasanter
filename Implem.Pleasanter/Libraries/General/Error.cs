@@ -24,12 +24,14 @@ namespace Implem.Pleasanter.Libraries.General
             InvalidFormula,
             InvalidRequest,
             MailAddressHasNotSet,
+            NoLinks,
             NotFound,
             NotRequiredColumn,
             PasswordNotChanged,
             PermissionNotSelfChange,
             RequireMailAddresses,
             SelectOne,
+            SelectTargets,
             UpdateConflicts
         }
 
@@ -76,6 +78,8 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.InvalidRequest(data);
                 case Types.MailAddressHasNotSet:
                     return Messages.MailAddressHasNotSet(data);
+                case Types.NoLinks:
+                    return Messages.NoLinks(data);
                 case Types.NotFound:
                     return Messages.NotFound(data);
                 case Types.NotRequiredColumn:
@@ -88,6 +92,8 @@ namespace Implem.Pleasanter.Libraries.General
                     return Messages.RequireMailAddresses(data);
                 case Types.SelectOne:
                     return Messages.SelectOne(data);
+                case Types.SelectTargets:
+                    return Messages.SelectTargets(data);
                 case Types.UpdateConflicts:
                     return Messages.UpdateConflicts(data);
                 default: return null;

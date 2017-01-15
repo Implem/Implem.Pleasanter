@@ -366,10 +366,10 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPut]
-        public string SynchronizeSummary(long id)
+        public string SynchronizeSummaries(long id)
         {
             var log = new SysLogModel();
-            var json = new ItemModel(id).SynchronizeSummary();
+            var json = new ItemModel(id).SynchronizeSummaries();
             log.Finish(json.Length);
             return json;
         }

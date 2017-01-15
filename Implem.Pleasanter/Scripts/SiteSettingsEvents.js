@@ -35,6 +35,9 @@
         $p.getData($control)[$control.attr('id') + "Id"] = $(this).attr('data-id');
         $p.send($control);
     });
+    $(document).on('change', '#SummaryDestinationCondition', function () {
+        $('#SummarySetZeroWhenOutOfConditionField').toggle($(this).val() !== '');
+    });
     $(document).on('change', '#FormulaCondition', function () {
         $('#FormulaOutOfConditionField').toggle($(this).val() !== '');
     });

@@ -931,54 +931,13 @@ namespace Implem.Pleasanter.Models
             return switchTargets;
         }
 
-        public static ResponseCollection FormResponse(
+        public static ResponseCollection FieldResponse(
             this ResponseCollection res,
             Permissions.Types pt,
             ResultModel resultModel)
         {
-            Forms.All().Keys.ForEach(key =>
-            {
-                switch (key)
-                {
-                    case "Results_NumA": res.Val("#" + key, resultModel.NumA.ToControl(resultModel.SiteSettings.GetColumn("NumA"), pt)); break;
-                    case "Results_NumB": res.Val("#" + key, resultModel.NumB.ToControl(resultModel.SiteSettings.GetColumn("NumB"), pt)); break;
-                    case "Results_NumC": res.Val("#" + key, resultModel.NumC.ToControl(resultModel.SiteSettings.GetColumn("NumC"), pt)); break;
-                    case "Results_NumD": res.Val("#" + key, resultModel.NumD.ToControl(resultModel.SiteSettings.GetColumn("NumD"), pt)); break;
-                    case "Results_NumE": res.Val("#" + key, resultModel.NumE.ToControl(resultModel.SiteSettings.GetColumn("NumE"), pt)); break;
-                    case "Results_NumF": res.Val("#" + key, resultModel.NumF.ToControl(resultModel.SiteSettings.GetColumn("NumF"), pt)); break;
-                    case "Results_NumG": res.Val("#" + key, resultModel.NumG.ToControl(resultModel.SiteSettings.GetColumn("NumG"), pt)); break;
-                    case "Results_NumH": res.Val("#" + key, resultModel.NumH.ToControl(resultModel.SiteSettings.GetColumn("NumH"), pt)); break;
-                    case "Results_NumI": res.Val("#" + key, resultModel.NumI.ToControl(resultModel.SiteSettings.GetColumn("NumI"), pt)); break;
-                    case "Results_NumJ": res.Val("#" + key, resultModel.NumJ.ToControl(resultModel.SiteSettings.GetColumn("NumJ"), pt)); break;
-                    case "Results_NumK": res.Val("#" + key, resultModel.NumK.ToControl(resultModel.SiteSettings.GetColumn("NumK"), pt)); break;
-                    case "Results_NumL": res.Val("#" + key, resultModel.NumL.ToControl(resultModel.SiteSettings.GetColumn("NumL"), pt)); break;
-                    case "Results_NumM": res.Val("#" + key, resultModel.NumM.ToControl(resultModel.SiteSettings.GetColumn("NumM"), pt)); break;
-                    case "Results_NumN": res.Val("#" + key, resultModel.NumN.ToControl(resultModel.SiteSettings.GetColumn("NumN"), pt)); break;
-                    case "Results_NumO": res.Val("#" + key, resultModel.NumO.ToControl(resultModel.SiteSettings.GetColumn("NumO"), pt)); break;
-                    case "Results_NumP": res.Val("#" + key, resultModel.NumP.ToControl(resultModel.SiteSettings.GetColumn("NumP"), pt)); break;
-                    case "Results_NumQ": res.Val("#" + key, resultModel.NumQ.ToControl(resultModel.SiteSettings.GetColumn("NumQ"), pt)); break;
-                    case "Results_NumR": res.Val("#" + key, resultModel.NumR.ToControl(resultModel.SiteSettings.GetColumn("NumR"), pt)); break;
-                    case "Results_NumS": res.Val("#" + key, resultModel.NumS.ToControl(resultModel.SiteSettings.GetColumn("NumS"), pt)); break;
-                    case "Results_NumT": res.Val("#" + key, resultModel.NumT.ToControl(resultModel.SiteSettings.GetColumn("NumT"), pt)); break;
-                    case "Results_NumU": res.Val("#" + key, resultModel.NumU.ToControl(resultModel.SiteSettings.GetColumn("NumU"), pt)); break;
-                    case "Results_NumV": res.Val("#" + key, resultModel.NumV.ToControl(resultModel.SiteSettings.GetColumn("NumV"), pt)); break;
-                    case "Results_NumW": res.Val("#" + key, resultModel.NumW.ToControl(resultModel.SiteSettings.GetColumn("NumW"), pt)); break;
-                    case "Results_NumX": res.Val("#" + key, resultModel.NumX.ToControl(resultModel.SiteSettings.GetColumn("NumX"), pt)); break;
-                    case "Results_NumY": res.Val("#" + key, resultModel.NumY.ToControl(resultModel.SiteSettings.GetColumn("NumY"), pt)); break;
-                    case "Results_NumZ": res.Val("#" + key, resultModel.NumZ.ToControl(resultModel.SiteSettings.GetColumn("NumZ"), pt)); break;
-                    default: break;
-                }
-            });
-            return res;
-        }
-
-        public static ResponseCollection Formula(
-            this ResponseCollection res,
-            Permissions.Types pt,
-            ResultModel resultModel)
-        {
-            resultModel.SiteSettings.Formulas
-                .Select(o => resultModel.SiteSettings.GetColumn(o.Target))
+            resultModel.SiteSettings.EditorColumns
+                .Select(o => resultModel.SiteSettings.GetColumn(o))
                 .Where(o => o != null)
                 .ForEach(column =>
                 {
@@ -1077,8 +1036,7 @@ namespace Implem.Pleasanter.Models
                 .Ver()
                 .Timestamp()
                 .Val("#VerUp", false)
-                .FormResponse(pt, resultModel)
-                .Formula(pt, resultModel)
+                    .FieldResponse(pt, resultModel)
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", resultModel.Title.DisplayValue)
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(

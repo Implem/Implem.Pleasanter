@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.General;
@@ -20,15 +21,21 @@ namespace Implem.Pleasanter.Libraries.Settings
     {
         public decimal Version;
         [NonSerialized]
+        public List<SiteSettings> Destinations;
+        [NonSerialized]
+        public List<SiteSettings> Sources;
+        [NonSerialized]
         public bool Migrated;
         [NonSerialized]
         public long SiteId;
         [NonSerialized]
-        public long InheritPermission;
+        public string Title;
         [NonSerialized]
         public long ParentId;
         [NonSerialized]
-        public string Title;
+        public long InheritPermission;
+        [NonSerialized]
+        public Permissions.Types PermissionType;
         [NonSerialized]
         public Databases.AccessStatuses AccessStatus;
         [NonSerialized]
@@ -47,13 +54,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<string> LinkColumns;
         public List<string> HistoryColumns;
         public List<Column> Columns;
-        public int ViewLatestId;
-        public List<View> Views;
-        public List<Notification> Notifications;
         public List<Aggregation> Aggregations;
         public List<Link> Links;
         public List<Summary> Summaries;
         public List<FormulaSet> Formulas;
+        public int ViewLatestId;
+        public List<View> Views;
+        public List<Notification> Notifications;
         public string TitleSeparator = ")";
         public string AddressBook;
         public string MailToDefault;
@@ -115,6 +122,62 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Links == null) Links = new List<Link>();
             if (Summaries == null) Summaries = new List<Summary>();
             if (Formulas == null) Formulas = new List<FormulaSet>();
+        }
+
+        public void SetLinkedSiteSettings()
+        {
+            var dataSet = Rds.ExecuteDataSet(statements: new SqlStatement[]
+            {
+                Rds.SelectSites(
+                    dataTableName: "Destinations",
+                    column: Rds.SitesColumn()
+                        .SiteId()
+                        .Title()
+                        .ReferenceType()
+                        .ParentId()
+                        .InheritPermission()
+                        .PermissionType()
+                        .SiteSettings(),
+                    where: Rds.SitesWhere()
+                        .SiteId_In(sub: Rds.SelectLinks(
+                            column: Rds.LinksColumn().DestinationId(),
+                            where: Rds.LinksWhere().SourceId(SiteId)))),
+                Rds.SelectSites(
+                    dataTableName: "Sources",
+                    column: Rds.SitesColumn()
+                        .SiteId()
+                        .Title()
+                        .ReferenceType()
+                        .ParentId()
+                        .InheritPermission()
+                        .PermissionType()
+                        .SiteSettings(),
+                    where: Rds.SitesWhere()
+                        .SiteId_In(sub: Rds.SelectLinks(
+                            column: Rds.LinksColumn().SourceId(),
+                            where: Rds.LinksWhere().DestinationId(SiteId)))),
+            });
+            Destinations = SiteSettingsList(dataSet.Tables["Destinations"]);
+            Sources = SiteSettingsList(dataSet.Tables["Sources"]);
+        }
+
+        private List<SiteSettings> SiteSettingsList(DataTable dataTable)
+        {
+            var ssList = new List<SiteSettings>();
+            dataTable.AsEnumerable().ForEach(dataRow =>
+            {
+                var ss = dataRow["SiteSettings"].ToString()
+                    .Deserialize<SiteSettings>() ?? new SiteSettings();
+                ss.SiteId = dataRow["SiteId"].ToLong();
+                ss.Title = dataRow["Title"].ToString();
+                ss.ReferenceType = dataRow["ReferenceType"].ToString();
+                ss.ParentId = dataRow["ParentId"].ToLong();
+                ss.InheritPermission = dataRow["InheritPermission"].ToLong();
+                ss.PermissionType = (Permissions.Types)dataRow["InheritPermission"];
+                ss.SetChoiceHash();
+                ssList.Add(ss);
+            });
+            return ssList;
         }
 
         [OnDeserialized]
@@ -453,7 +516,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Column GetColumn(string columnName)
         {
-            return ColumnHash.Keys.Contains(columnName)
+            return columnName != null && ColumnHash.Keys.Contains(columnName)
                 ? ColumnHash[columnName]
                 : null;
         }
@@ -1060,56 +1123,98 @@ namespace Implem.Pleasanter.Libraries.Settings
                             p => p["ReferenceId"].ToString() + ": " + p["Title"].ToString());
         }
 
-        public EnumerableRowCollection<DataRow> SummarySiteDataRows()
-        {
-            if (Links == null) return null;
-            return Rds.ExecuteTable(statements: Rds.SelectSites(
-                column: Rds.SitesColumn()
-                    .SiteId()
-                    .ReferenceType()
-                    .Title()
-                    .SiteSettings(),
-                where: Rds.SitesWhere()
-                    .TenantId(Sessions.TenantId())
-                    .SiteId_In(Links.Select(o => o.SiteId))))
-                        .AsEnumerable();
-        }
-
         public Error.Types AddSummary(
             long siteId,
             string destinationReferenceType,
             string destinationColumn,
+            int? destinationCondition,
+            bool? setZeroWhenOutOfCondition,
             string linkColumn,
             string type,
-            string sourceColumn)
+            string sourceColumn,
+            int? sourceCondition)
         {
-            if (!Summaries.Any(o =>
-                o.SiteId == siteId &&
-                o.DestinationColumn == destinationColumn &&
-                o.LinkColumn == linkColumn))
+            var id = Summaries.Any()
+                ? Summaries.Select(o => o.Id).Max() + 1
+                : 1;
+            Summaries.Add(new Summary(
+                id,
+                siteId,
+                destinationReferenceType,
+                destinationColumn,
+                destinationCondition,
+                setZeroWhenOutOfCondition,
+                linkColumn,
+                type,
+                sourceColumn,
+                sourceCondition));
+            return Error.Types.None;
+        }
+
+        public Error.Types UpdateSummary(
+            int id,
+            long siteId,
+            string destinationReferenceType,
+            string destinationColumn,
+            int? destinationCondition,
+            bool? setZeroWhenOutOfCondition,
+            string linkColumn,
+            string type,
+            string sourceColumn,
+            int? sourceCondition)
+        {
+            var summary = Summaries.FirstOrDefault(o => o.Id == id);
+            if (summary != null)
             {
-                var id = Summaries.Any()
-                    ? Summaries.Select(o => o.Id).Max() + 1
-                    : 1;
-                Summaries.Add(new Summary(
-                    id,
+                summary.Update(
                     siteId,
                     destinationReferenceType,
                     destinationColumn,
+                    destinationCondition,
+                    setZeroWhenOutOfCondition,
                     linkColumn,
                     type,
-                    sourceColumn));
+                    sourceColumn,
+                    sourceCondition);
                 return Error.Types.None;
             }
             else
             {
-                return Error.Types.AlreadyAdded;
+                return Error.Types.NotFound;
             }
         }
 
-        public void DeleteSummary(long id)
+        public void SetSummaries(string controlId, IEnumerable<int> selected)
         {
-            Summaries.Remove(Summaries.FirstOrDefault(o => o.Id == id));
+            var order = Summaries.Select(o => o.Id).ToArray();
+            switch (controlId)
+            {
+                case "MoveUpSummaries":
+                case "MoveDownSummaries":
+                    if (controlId == "MoveDownSummaries") Array.Reverse(order);
+                    order.Select((o, i) => new { ColumnName = o, Index = i }).ForEach(data =>
+                    {
+                        if (selected.Contains(data.ColumnName))
+                        {
+                            if (data.Index > 0 &&
+                                !selected.Contains(order[data.Index - 1]))
+                            {
+                                order = Arrays.Swap(order, data.Index, data.Index - 1);
+                            }
+                        }
+                    });
+                    if (controlId == "MoveDownSummaries") Array.Reverse(order);
+                    Summaries = order
+                        .Select(o => Summaries.FirstOrDefault(p => p.Id == o))
+                        .Where(o => o != null)
+                        .ToList();
+                    break;
+            }
+        }
+
+        public void DeleteSummaries(IEnumerable<int> selected)
+        {
+            Summaries.RemoveAll(o => selected?.Contains(o.Id) == true);
         }
 
         public void SetFormulas(string controlId, IEnumerable<int> selected)

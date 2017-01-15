@@ -6,10 +6,10 @@
     return $p.data[formId];
 }
 
-$p.setData = function ($control) {
+$p.setData = function ($control, data) {
     var controlId = $control.attr('id');
     if (!$control.hasClass('not-transport')) {
-        var data = $p.getData($control);
+        if (data === undefined) data = $p.getData($control);
         switch ($control.prop('type')) {
             case 'checkbox':
                 data[controlId] = $control.prop('checked');
@@ -41,6 +41,15 @@ $p.setData = function ($control) {
                                 return unescape($(this).attr('data-value'));
                             }).get().join(';');
                         }
+                        break;
+                    case 'TABLE':
+                        data[controlId] = JSON.stringify($control
+                            .find('.select')
+                            .filter(':checked')
+                            .map(function () {
+                                return $(this).closest('.grid-row').attr('data-id');
+                            })
+                            .toArray());
                         break;
                     default:
                         data[controlId] = $control.val();

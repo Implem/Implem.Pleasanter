@@ -84,6 +84,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string CodeDefinerDefCompleted(params string[] data) { return Get("CodeDefinerDefCompleted", data); }
         public static string CodeDefinerMvcCompleted(params string[] data) { return Get("CodeDefinerMvcCompleted", data); }
         public static string CodeDefinerRdsCompleted(params string[] data) { return Get("CodeDefinerRdsCompleted", data); }
+        public static string Column(params string[] data) { return Get("Column", data); }
         public static string ColumnList(params string[] data) { return Get("ColumnList", data); }
         public static string CommentDeleted(params string[] data) { return Get("CommentDeleted", data); }
         public static string Comments(params string[] data) { return Get("Comments", data); }
@@ -108,6 +109,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string CurrentSettings(params string[] data) { return Get("CurrentSettings", data); }
         public static string Custom(params string[] data) { return Get("Custom", data); }
         public static string CustomDesign(params string[] data) { return Get("CustomDesign", data); }
+        public static string DataStorageDestination(params string[] data) { return Get("DataStorageDestination", data); }
         public static string DataView(params string[] data) { return Get("DataView", data); }
         public static string Date(params string[] data) { return Get("Date", data); }
         public static string DayAgo(params string[] data) { return Get("DayAgo", data); }
@@ -323,6 +325,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string SeparateNumber(params string[] data) { return Get("SeparateNumber", data); }
         public static string SeparateSettings(params string[] data) { return Get("SeparateSettings", data); }
         public static string Setting(params string[] data) { return Get("Setting", data); }
+        public static string SetZeroWhenOutOfCondition(params string[] data) { return Get("SetZeroWhenOutOfCondition", data); }
         public static string SiteImageSettingsEditor(params string[] data) { return Get("SiteImageSettingsEditor", data); }
         public static string SiteSettings(params string[] data) { return Get("SiteSettings", data); }
         public static string SiteUser(params string[] data) { return Get("SiteUser", data); }
@@ -334,9 +337,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Styles(params string[] data) { return Get("Styles", data); }
         public static string SuffixCopy(params string[] data) { return Get("SuffixCopy", data); }
         public static string Summaries(params string[] data) { return Get("Summaries", data); }
-        public static string SummaryDestinationColumn(params string[] data) { return Get("SummaryDestinationColumn", data); }
         public static string SummaryLinkColumn(params string[] data) { return Get("SummaryLinkColumn", data); }
-        public static string SummarySiteId(params string[] data) { return Get("SummarySiteId", data); }
         public static string SummarySourceColumn(params string[] data) { return Get("SummarySourceColumn", data); }
         public static string SummaryType(params string[] data) { return Get("SummaryType", data); }
         public static string SynchronizationCompleted(params string[] data) { return Get("SynchronizationCompleted", data); }

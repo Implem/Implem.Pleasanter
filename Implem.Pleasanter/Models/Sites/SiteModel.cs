@@ -665,6 +665,14 @@ namespace Implem.Pleasanter.Models
                 case "ToEnableHistoryColumns":
                     SetHistoryColumns(res, controlId);
                     break;
+                case "MoveUpSummaries":
+                case "MoveDownSummaries":
+                    SetSummaries(res, controlId);
+                    break;
+                case "NewSummary":
+                case "EditSummary":
+                    OpenSummaryDialog(res, controlId);
+                    break;
                 case "SummarySiteId":
                     SetSummarySiteId(res);
                     break;
@@ -674,8 +682,11 @@ namespace Implem.Pleasanter.Models
                 case "AddSummary":
                     AddSummary(res);
                     break;
-                case "DeleteSummary":
-                    DeleteSummary(res);
+                case "UpdateSummary":
+                    UpdateSummary(res);
+                    break;
+                case "DeleteSummaries":
+                    DeleteSummaries(res);
                     break;
                 case "MoveUpFormulas":
                 case "MoveDownFormulas":
@@ -1147,21 +1158,79 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void SetSummaries(ResponseCollection res, string controlId)
+        {
+            var selected = Forms.Data("EditSummary").Deserialize<IEnumerable<int>>();
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets()).ToJson();
+            }
+            else
+            {
+                SiteSettings.SetSummaries(controlId, selected);
+                res.Html("#EditSummary", new HtmlBuilder()
+                    .EditSummary(ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenSummaryDialog(ResponseCollection res, string controlId)
+        {
+            SiteSettings.SetLinkedSiteSettings();
+            if (SiteSettings.Destinations?.Any() != true)
+            {
+                res.Message(Messages.NoLinks());
+            }
+            else
+            {
+                if (controlId == "NewSummary")
+                {
+                    OpenSummaryDialog(
+                        res, new Summary(SiteSettings.Destinations.FirstOrDefault().SiteId));
+                }
+                else
+                {
+                    var summary = SiteSettings.Summaries?.Get(Forms.Int("SummaryId"));
+                    if (summary == null)
+                    {
+                        OpenDialogError(res, Messages.SelectOne());
+                    }
+                    else
+                    {
+                        SiteSettingsUtility.Get(this);
+                        OpenSummaryDialog(res, summary);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenSummaryDialog(ResponseCollection res, Summary summary)
+        {
+            res.Html("#SummaryDialog", SiteUtilities.SummaryDialog(
+                ss: SiteSettings,
+                controlId: Forms.ControlId(),
+                summary: summary));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void SetSummarySiteId(ResponseCollection res)
         {
-            var destinationSiteId = Forms.Long("SummarySiteId");
-            var destinationSiteSettings = new SiteModel(destinationSiteId);
-            var siteDataRows = SiteSettings.SummarySiteDataRows();
+            var siteId = Forms.Long("SummarySiteId");
+            var destinationSiteModel = new SiteModel(siteId);
             res
                 .ReplaceAll("#SummaryDestinationColumnField", new HtmlBuilder()
-                    .SummaryDestinationColumn(
-                        referenceType: destinationSiteSettings.ReferenceType,
-                        siteId: destinationSiteSettings.SiteId,
-                        siteDataRows: siteDataRows))
+                    .SummaryDestinationColumn(destinationSiteModel.SiteSettings))
                 .ReplaceAll("#SummaryLinkColumnField", new HtmlBuilder()
                     .SummaryLinkColumn(
                         ss: SiteSettings,
-                        siteId: destinationSiteId));
+                        siteId: siteId));
         }
 
         /// <summary>
@@ -1178,34 +1247,106 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void AddSummary(ResponseCollection res)
         {
+            int? destinationCondition = Forms.Int("SummaryDestinationCondition");
+            int? sourceCondition = Forms.Int("SummarySourceCondition");
             var error = SiteSettings.AddSummary(
                 Forms.Long("SummarySiteId"),
                 new SiteModel(Forms.Long("SummarySiteId")).ReferenceType,
                 Forms.Data("SummaryDestinationColumn"),
+                SiteSettings.Views?.Any(o => o.Id == destinationCondition) == true
+                    ? destinationCondition
+                    : null,
+                Forms.Bool("SummarySetZeroWhenOutOfCondition"),
                 Forms.Data("SummaryLinkColumn"),
                 Forms.Data("SummaryType"),
-                Forms.Data("SummarySourceColumn"));
+                Forms.Data("SummarySourceColumn"),
+                SiteSettings.Views?.Any(o => o.Id == sourceCondition) == true
+                    ? sourceCondition
+                    : null);
             if (error.Has())
             {
                 res.Message(error.Message());
             }
             else
             {
-                res.ReplaceAll("#SummarySettings", new HtmlBuilder()
-                    .SummarySettings(sourceSiteSettings: SiteSettings));
+                res
+                    .ReplaceAll("#EditSummary", new HtmlBuilder()
+                        .EditSummary(ss: SiteSettings))
+                    .CloseDialog();
             }
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void DeleteSummary(ResponseCollection res)
+        private void UpdateSummary(ResponseCollection res)
         {
-            var summary = SiteSettings.Summaries.FirstOrDefault(
-                o => o.Id == Forms.Long("DeleteSummaryId"));
-            SiteSettings.DeleteSummary(summary.Id);
-            res.ReplaceAll("#SummarySettings", new HtmlBuilder()
-                .SummarySettings(sourceSiteSettings: SiteSettings));
+            int? destinationCondition = Forms.Int("SummaryDestinationCondition");
+            int? sourceCondition = Forms.Int("SummarySourceCondition");
+            var outOfCondition = Forms.Data("SummaryOutOfCondition").Trim();
+            var error = SiteSettings.UpdateSummary(
+                Forms.Int("SummaryId"),
+                Forms.Long("SummarySiteId"),
+                new SiteModel(Forms.Long("SummarySiteId")).ReferenceType,
+                Forms.Data("SummaryDestinationColumn"),
+                SiteSettings.Views?.Any(o => o.Id == destinationCondition) == true
+                    ? destinationCondition
+                    : null,
+                Forms.Bool("SummarySetZeroWhenOutOfCondition"),
+                Forms.Data("SummaryLinkColumn"),
+                Forms.Data("SummaryType"),
+                Forms.Data("SummarySourceColumn"),
+                SiteSettings.Views?.Any(o => o.Id == sourceCondition) == true
+                    ? sourceCondition
+                    : null);
+            if (error.Has())
+            {
+                res.Message(error.Message());
+            }
+            else
+            {
+                res
+                    .Html("#EditSummary", new HtmlBuilder()
+                        .EditSummary(ss: SiteSettings))
+                    .CloseDialog();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void DeleteSummaries(ResponseCollection res)
+        {
+            var selected = Forms.Data("EditSummary").Deserialize<IEnumerable<int>>();
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets()).ToJson();
+            }
+            else
+            {
+                SiteSettings.DeleteSummaries(selected);
+                res.ReplaceAll("#EditSummary", new HtmlBuilder()
+                    .EditSummary(ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string SynchronizeSummaries()
+        {
+            SetSiteSettingsPropertiesBySession();
+            var selected = Forms.Data("EditSummary").Deserialize<IEnumerable<int>>();
+            if (selected?.Any() != true)
+            {
+                return Messages.ResponseSelectTargets().ToJson();
+            }
+            else
+            {
+                selected.ForEach(id =>
+                    Summaries.Synchronize(SiteSettings, id));
+                return Messages.ResponseSynchronizationCompleted().ToJson();
+            }
         }
 
         /// <summary>
@@ -1596,15 +1737,6 @@ namespace Implem.Pleasanter.Models
                     selectedSourceColumns);
                 Session_MonitorChangesColumns(MonitorChangesColumns);
             }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public string SynchronizeSummary()
-        {
-            SetSiteSettingsPropertiesBySession();
-            return Summaries.Synchronize(SiteSettings, SiteId);
         }
 
         /// <summary>

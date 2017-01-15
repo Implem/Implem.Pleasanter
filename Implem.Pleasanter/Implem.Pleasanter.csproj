@@ -883,10 +883,8 @@
     <Content Include="App_Data\Displays\Style.json" />
     <Content Include="App_Data\Displays\Styles.json" />
     <Content Include="App_Data\Displays\SuffixCopy.json" />
-    <Content Include="App_Data\Displays\SummaryDestinationColumn.json" />
     <Content Include="App_Data\Displays\SummaryLinkColumn.json" />
     <Content Include="App_Data\Displays\Summaries.json" />
-    <Content Include="App_Data\Displays\SummarySiteId.json" />
     <Content Include="App_Data\Displays\SummarySourceColumn.json" />
     <Content Include="App_Data\Displays\SummaryType.json" />
     <Content Include="App_Data\Displays\SynchronizationCompleted.json" />
@@ -950,6 +948,9 @@
     <Content Include="App_Data\Displays\OptionList.json" />
     <Content Include="App_Data\Displays\ChangeHistoryList.json" />
     <Content Include="App_Data\Displays\ResetOrder.json" />
+    <Content Include="App_Data\Displays\DataStorageDestination.json" />
+    <Content Include="App_Data\Displays\Column.json" />
+    <Content Include="App_Data\Displays\SetZeroWhenOutOfCondition.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

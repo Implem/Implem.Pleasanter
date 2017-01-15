@@ -1,8 +1,25 @@
 ﻿using Implem.Pleasanter.Models;
+using System.Collections.Generic;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.Settings
 {
     public static class SiteSettingsUtility
     {
+        public static SiteSettings Get(this List<SiteSettings> ssList, long siteId)
+        {
+            return ssList.FirstOrDefault(o => o.SiteId == siteId);
+        }
+
+        public static Summary Get(this List<Summary> summaries, int? id)
+        {
+            return summaries?.FirstOrDefault(o => o.Id == id);
+        }
+
+        public static View Get(this List<View> views, int? id)
+        {
+            return views?.FirstOrDefault(o => o.Id == id);
+        }
+
         public static SiteSettings Get(long siteId, string referenceType)
         {
             switch (referenceType)
@@ -136,13 +153,15 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static SiteSettings SitesSiteSettings(this SiteModel siteModel)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
-            ss.ReferenceType = "Sites";
             ss.SiteId = siteModel.SiteId;
-            ss.InheritPermission = siteModel.InheritPermission;
-            ss.ParentId = siteModel.ParentId;
             ss.Title = siteModel.Title.Value;
+            ss.ReferenceType = "Sites";
+            ss.ParentId = siteModel.ParentId;
+            ss.InheritPermission = siteModel.InheritPermission;
+            ss.PermissionType = siteModel.PermissionType;
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init();
+            ss.SetLinkedSiteSettings();
             return ss;
         }
 
@@ -158,13 +177,15 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static SiteSettings IssuesSiteSettings(this SiteModel siteModel)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
-            ss.ReferenceType = "Issues";
             ss.SiteId = siteModel.SiteId;
-            ss.InheritPermission = siteModel.InheritPermission;
-            ss.ParentId = siteModel.ParentId;
             ss.Title = siteModel.Title.Value;
+            ss.ReferenceType = "Issues";
+            ss.ParentId = siteModel.ParentId;
+            ss.InheritPermission = siteModel.InheritPermission;
+            ss.PermissionType = siteModel.PermissionType;
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init();
+            ss.SetLinkedSiteSettings();
             ss.SetChoiceHash();
             return ss;
         }
@@ -182,13 +203,15 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static SiteSettings ResultsSiteSettings(this SiteModel siteModel)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
-            ss.ReferenceType = "Results";
             ss.SiteId = siteModel.SiteId;
-            ss.InheritPermission = siteModel.InheritPermission;
-            ss.ParentId = siteModel.ParentId;
             ss.Title = siteModel.Title.Value;
+            ss.ReferenceType = "Results";
+            ss.ParentId = siteModel.ParentId;
+            ss.InheritPermission = siteModel.InheritPermission;
+            ss.PermissionType = siteModel.PermissionType;
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init();
+            ss.SetLinkedSiteSettings();
             ss.SetChoiceHash();
             return ss;
         }
@@ -206,13 +229,15 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static SiteSettings WikisSiteSettings(this SiteModel siteModel)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
-            ss.ReferenceType = "Wikis";
             ss.SiteId = siteModel.SiteId;
-            ss.InheritPermission = siteModel.InheritPermission;
-            ss.ParentId = siteModel.ParentId;
             ss.Title = siteModel.Title.Value;
+            ss.ReferenceType = "Wikis";
+            ss.ParentId = siteModel.ParentId;
+            ss.InheritPermission = siteModel.InheritPermission;
+            ss.PermissionType = siteModel.PermissionType;
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init();
+            ss.SetLinkedSiteSettings();
             ss.SetChoiceHash();
             return ss;
         }

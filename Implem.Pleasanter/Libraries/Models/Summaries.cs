@@ -1,379 +1,936 @@
 ﻿using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
-using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
-using System.Linq;
+using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.Models
 {
     public static class Summaries
     {
-        public static string Synchronize(SiteSettings ss, long siteId)
+        public static void Synchronize(SiteSettings ss, int id)
         {
-            var summary = ss.Summaries.FirstOrDefault(
-                o => o.Id == Forms.Long("SynchronizeSummaryId"));
-            var destinationSiteModel = new SiteModel(summary.SiteId);
-            var json = Synchronize(
-                summary.SiteId,
-                destinationSiteModel.ReferenceType,
-                summary.DestinationColumn,
-                siteId,
-                ss.ReferenceType,
-                summary.LinkColumn,
-                summary.Type,
-                summary.SourceColumn);
-            FormulaUtilities.Synchronize(destinationSiteModel);
-            return json;
+            var destinationSs = ss.Destinations?.Get(ss.SiteId);
+            var summary = ss.Summaries?.Get(id);
+            if (destinationSs != null && summary != null)
+            {
+                Synchronize(
+                    ss,
+                    summary.SiteId,
+                    summary.DestinationReferenceType,
+                    summary.DestinationColumn,
+                    destinationSs.Views?.Get(summary.DestinationCondition),
+                    summary.SetZeroWhenOutOfCondition == true,
+                    ss.SiteId,
+                    ss.ReferenceType,
+                    summary.LinkColumn,
+                    summary.Type,
+                    summary.SourceColumn,
+                    ss.Views?.Get(summary.SourceCondition));
+                FormulaUtilities.Synchronize(new SiteModel(summary.SiteId));
+            }
         }
 
         public static string Synchronize(
+            SiteSettings ss,
             long destinationSiteId,
             string destinationReferenceType,
-            string destination,
+            string destinationColumn,
+            View destinationCondition,
+            bool setZeroWhenOutOfCondition,
             long sourceSiteId,
             string sourceReferenceType,
-            string link,
+            string linkColumn,
             string type,
-            string source,
+            string sourceColumn,
+            View sourceCondition,
             long id = 0)
         {
             switch (destinationReferenceType)
             {
-                case "Issues": SynchronizeIssues(
-                    destinationSiteId,
-                    destination,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    link,
-                    type,
-                    source,
-                    id); break;
-                case "Results": SynchronizeResults(
-                    destinationSiteId,
-                    destination,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    link,
-                    type,
-                    source,
-                    id); break;
-                case "Wikis": SynchronizeWikis(
-                    destinationSiteId,
-                    destination,
-                    sourceSiteId,
-                    sourceReferenceType,
-                    link,
-                    type,
-                    source,
-                    id); break;
+                case "Issues":
+                    SynchronizeIssues(
+                        ss,
+                        destinationSiteId,
+                        destinationColumn,
+                        destinationCondition,
+                        setZeroWhenOutOfCondition,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition,
+                        id);
+                    break;
+                case "Results":
+                    SynchronizeResults(
+                        ss,
+                        destinationSiteId,
+                        destinationColumn,
+                        destinationCondition,
+                        setZeroWhenOutOfCondition,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition,
+                        id);
+                    break;
             }
-            return Messages.ResponseSynchronizationCompleted().ToJson();        
+            return Messages.ResponseSynchronizationCompleted().ToJson();
         }
 
         private static void SynchronizeIssues(
+            SiteSettings ss,
             long destinationSiteId,
-            string destination,
+            string destinationColumn,
+            View destinationCondition,
+            bool setZeroWhenOutOfCondition,
             long sourceSiteId,
             string sourceReferenceType,
-            string link,
+            string linkColumn,
             string type,
-            string source,
+            string sourceColumn,
+            View sourceCondition,
             long issueId = 0)
         {
-            Rds.ExecuteNonQuery(statements:
+            var statements = new List<SqlStatement>
+            {
                 Rds.UpdateIssues(
-                    param: IssuesParamCollection(
-                        destination,
+                    param: IssuesParam(
+                        ss,
+                        destinationColumn,
                         "convert(nvarchar, [Issues].[IssueId])",
                         sourceSiteId,
                         sourceReferenceType,
-                        link,
+                        linkColumn,
                         type,
-                        source),
+                        sourceColumn,
+                        sourceCondition),
+                    where: Where(
+                        ss,
+                        destinationCondition,
+                        Rds.IssuesWhere()
+                            .SiteId(destinationSiteId)
+                            .IssueId(issueId, _using: issueId != 0)),
+                    addUpdatedTimeParam: false,
+                    addUpdatorParam: false)
+            };
+            if (destinationCondition != null && setZeroWhenOutOfCondition)
+            {
+                statements.Add(Rds.UpdateIssues(
+                    param: IssuesZeroParam(destinationColumn),
                     where: Rds.IssuesWhere()
                         .SiteId(destinationSiteId)
-                        .IssueId(issueId, _using: issueId != 0),
+                        .IssueId(issueId, _using: issueId != 0)
+                        .IssueId_In(
+                            sub: Rds.SelectIssues(
+                                column: Rds.IssuesColumn().IssueId(),
+                                where: destinationCondition.Where(ss)),
+                            negative: true),
                     addUpdatedTimeParam: false,
                     addUpdatorParam: false));
+            }
+            Rds.ExecuteNonQuery(transactional: true, statements: statements.ToArray());
         }
 
-        private static Rds.IssuesParamCollection IssuesParamCollection(
-            string destination,
+        private static Rds.IssuesParamCollection IssuesParam(
+            SiteSettings ss,
+            string destinationColumn,
             string destinationPk,
             long sourceSiteId,
             string sourceReferenceType,
-            string link,
+            string linkColumn,
             string type,
-            string source)
+            string sourceColumn,
+            View sourceCondition)
         {
-            switch (destination)
+            switch (destinationColumn)
             {
                 case "WorkValue": return Rds.IssuesParam().WorkValue(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumA": return Rds.IssuesParam().NumA(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumB": return Rds.IssuesParam().NumB(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumC": return Rds.IssuesParam().NumC(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumD": return Rds.IssuesParam().NumD(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumE": return Rds.IssuesParam().NumE(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumF": return Rds.IssuesParam().NumF(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumG": return Rds.IssuesParam().NumG(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumH": return Rds.IssuesParam().NumH(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumI": return Rds.IssuesParam().NumI(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumJ": return Rds.IssuesParam().NumJ(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumK": return Rds.IssuesParam().NumK(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumL": return Rds.IssuesParam().NumL(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumM": return Rds.IssuesParam().NumM(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumN": return Rds.IssuesParam().NumN(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumO": return Rds.IssuesParam().NumO(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumP": return Rds.IssuesParam().NumP(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumQ": return Rds.IssuesParam().NumQ(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumR": return Rds.IssuesParam().NumR(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumS": return Rds.IssuesParam().NumS(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumT": return Rds.IssuesParam().NumT(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumU": return Rds.IssuesParam().NumU(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumV": return Rds.IssuesParam().NumV(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumW": return Rds.IssuesParam().NumW(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumX": return Rds.IssuesParam().NumX(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumY": return Rds.IssuesParam().NumY(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumZ": return Rds.IssuesParam().NumZ(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
+                default: return null;
+            }
+        }
+
+        private static Rds.IssuesParamCollection IssuesZeroParam(
+            string destinationColumn)
+        {
+            switch (destinationColumn)
+            {
+                case "WorkValue": return Rds.IssuesParam().WorkValue(0);
+                case "NumA": return Rds.IssuesParam().NumA(0);
+                case "NumB": return Rds.IssuesParam().NumB(0);
+                case "NumC": return Rds.IssuesParam().NumC(0);
+                case "NumD": return Rds.IssuesParam().NumD(0);
+                case "NumE": return Rds.IssuesParam().NumE(0);
+                case "NumF": return Rds.IssuesParam().NumF(0);
+                case "NumG": return Rds.IssuesParam().NumG(0);
+                case "NumH": return Rds.IssuesParam().NumH(0);
+                case "NumI": return Rds.IssuesParam().NumI(0);
+                case "NumJ": return Rds.IssuesParam().NumJ(0);
+                case "NumK": return Rds.IssuesParam().NumK(0);
+                case "NumL": return Rds.IssuesParam().NumL(0);
+                case "NumM": return Rds.IssuesParam().NumM(0);
+                case "NumN": return Rds.IssuesParam().NumN(0);
+                case "NumO": return Rds.IssuesParam().NumO(0);
+                case "NumP": return Rds.IssuesParam().NumP(0);
+                case "NumQ": return Rds.IssuesParam().NumQ(0);
+                case "NumR": return Rds.IssuesParam().NumR(0);
+                case "NumS": return Rds.IssuesParam().NumS(0);
+                case "NumT": return Rds.IssuesParam().NumT(0);
+                case "NumU": return Rds.IssuesParam().NumU(0);
+                case "NumV": return Rds.IssuesParam().NumV(0);
+                case "NumW": return Rds.IssuesParam().NumW(0);
+                case "NumX": return Rds.IssuesParam().NumX(0);
+                case "NumY": return Rds.IssuesParam().NumY(0);
+                case "NumZ": return Rds.IssuesParam().NumZ(0);
                 default: return null;
             }
         }
 
         private static void SynchronizeResults(
+            SiteSettings ss,
             long destinationSiteId,
-            string destination,
+            string destinationColumn,
+            View destinationCondition,
+            bool setZeroWhenOutOfCondition,
             long sourceSiteId,
             string sourceReferenceType,
-            string link,
+            string linkColumn,
             string type,
-            string source,
+            string sourceColumn,
+            View sourceCondition,
             long resultId = 0)
         {
-            Rds.ExecuteNonQuery(statements:
+            var statements = new List<SqlStatement>
+            {
                 Rds.UpdateResults(
-                    param: ResultsParamCollection(
-                        destination,
+                    param: ResultsParam(
+                        ss,
+                        destinationColumn,
                         "convert(nvarchar, [Results].[ResultId])",
                         sourceSiteId,
                         sourceReferenceType,
-                        link,
+                        linkColumn,
                         type,
-                        source),
+                        sourceColumn,
+                        sourceCondition),
+                    where: Where(
+                        ss,
+                        destinationCondition,
+                        Rds.ResultsWhere()
+                            .SiteId(destinationSiteId)
+                            .ResultId(resultId, _using: resultId != 0)),
+                    addUpdatedTimeParam: false,
+                    addUpdatorParam: false)
+            };
+            if (destinationCondition != null && setZeroWhenOutOfCondition)
+            {
+                statements.Add(Rds.UpdateResults(
+                    param: ResultsZeroParam(destinationColumn),
                     where: Rds.ResultsWhere()
                         .SiteId(destinationSiteId)
-                        .ResultId(resultId, _using: resultId != 0),
+                        .ResultId(resultId, _using: resultId != 0)
+                        .ResultId_In(
+                            sub: Rds.SelectResults(
+                                column: Rds.ResultsColumn().ResultId(),
+                                where: destinationCondition.Where(ss)),
+                            negative: true),
                     addUpdatedTimeParam: false,
                     addUpdatorParam: false));
+            }
+            Rds.ExecuteNonQuery(transactional: true, statements: statements.ToArray());
         }
 
-        private static Rds.ResultsParamCollection ResultsParamCollection(
-            string destination,
+        private static Rds.ResultsParamCollection ResultsParam(
+            SiteSettings ss,
+            string destinationColumn,
             string destinationPk,
             long sourceSiteId,
             string sourceReferenceType,
-            string link,
+            string linkColumn,
             string type,
-            string source)
+            string sourceColumn,
+            View sourceCondition)
         {
-            switch (destination)
+            switch (destinationColumn)
             {
                 case "NumA": return Rds.ResultsParam().NumA(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumB": return Rds.ResultsParam().NumB(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumC": return Rds.ResultsParam().NumC(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumD": return Rds.ResultsParam().NumD(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumE": return Rds.ResultsParam().NumE(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumF": return Rds.ResultsParam().NumF(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumG": return Rds.ResultsParam().NumG(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumH": return Rds.ResultsParam().NumH(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumI": return Rds.ResultsParam().NumI(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumJ": return Rds.ResultsParam().NumJ(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumK": return Rds.ResultsParam().NumK(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumL": return Rds.ResultsParam().NumL(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumM": return Rds.ResultsParam().NumM(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumN": return Rds.ResultsParam().NumN(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumO": return Rds.ResultsParam().NumO(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumP": return Rds.ResultsParam().NumP(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumQ": return Rds.ResultsParam().NumQ(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumR": return Rds.ResultsParam().NumR(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumS": return Rds.ResultsParam().NumS(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumT": return Rds.ResultsParam().NumT(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumU": return Rds.ResultsParam().NumU(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumV": return Rds.ResultsParam().NumV(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumW": return Rds.ResultsParam().NumW(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumX": return Rds.ResultsParam().NumX(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumY": return Rds.ResultsParam().NumY(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 case "NumZ": return Rds.ResultsParam().NumZ(sub:
-                    Select(destinationPk, sourceSiteId, sourceReferenceType, link, type, source));
+                    Select(
+                        ss,
+                        destinationPk,
+                        sourceSiteId,
+                        sourceReferenceType,
+                        linkColumn,
+                        type,
+                        sourceColumn,
+                        sourceCondition));
                 default: return null;
             }
         }
 
-        private static void SynchronizeWikis(
-            long destinationSiteId,
-            string destination,
-            long sourceSiteId,
-            string sourceReferenceType,
-            string link,
-            string type,
-            string source,
-            long wikiId = 0)
+        private static Rds.ResultsParamCollection ResultsZeroParam(
+            string destinationColumn)
         {
-            Rds.ExecuteNonQuery(statements:
-                Rds.UpdateWikis(
-                    param: WikisParamCollection(
-                        destination,
-                        "convert(nvarchar, [Wikis].[WikiId])",
-                        sourceSiteId,
-                        sourceReferenceType,
-                        link,
-                        type,
-                        source),
-                    where: Rds.WikisWhere()
-                        .SiteId(destinationSiteId)
-                        .WikiId(wikiId, _using: wikiId != 0),
-                    addUpdatedTimeParam: false,
-                    addUpdatorParam: false));
-        }
-
-        private static Rds.WikisParamCollection WikisParamCollection(
-            string destination,
-            string destinationPk,
-            long sourceSiteId,
-            string sourceReferenceType,
-            string link,
-            string type,
-            string source)
-        {
-            switch (destination)
+            switch (destinationColumn)
             {
+                case "NumA": return Rds.ResultsParam().NumA(0);
+                case "NumB": return Rds.ResultsParam().NumB(0);
+                case "NumC": return Rds.ResultsParam().NumC(0);
+                case "NumD": return Rds.ResultsParam().NumD(0);
+                case "NumE": return Rds.ResultsParam().NumE(0);
+                case "NumF": return Rds.ResultsParam().NumF(0);
+                case "NumG": return Rds.ResultsParam().NumG(0);
+                case "NumH": return Rds.ResultsParam().NumH(0);
+                case "NumI": return Rds.ResultsParam().NumI(0);
+                case "NumJ": return Rds.ResultsParam().NumJ(0);
+                case "NumK": return Rds.ResultsParam().NumK(0);
+                case "NumL": return Rds.ResultsParam().NumL(0);
+                case "NumM": return Rds.ResultsParam().NumM(0);
+                case "NumN": return Rds.ResultsParam().NumN(0);
+                case "NumO": return Rds.ResultsParam().NumO(0);
+                case "NumP": return Rds.ResultsParam().NumP(0);
+                case "NumQ": return Rds.ResultsParam().NumQ(0);
+                case "NumR": return Rds.ResultsParam().NumR(0);
+                case "NumS": return Rds.ResultsParam().NumS(0);
+                case "NumT": return Rds.ResultsParam().NumT(0);
+                case "NumU": return Rds.ResultsParam().NumU(0);
+                case "NumV": return Rds.ResultsParam().NumV(0);
+                case "NumW": return Rds.ResultsParam().NumW(0);
+                case "NumX": return Rds.ResultsParam().NumX(0);
+                case "NumY": return Rds.ResultsParam().NumY(0);
+                case "NumZ": return Rds.ResultsParam().NumZ(0);
                 default: return null;
             }
         }
 
         private static SqlSelect Select(
+            SiteSettings ss,
             string destinationPk,
             long sourceSiteId,
             string sourceReferenceType,
-            string link,
+            string linkColumn,
             string type,
-            string source)
+            string sourceColumn,
+            View sourceCondition)
         {
             switch (type)
             {
                 case "Count": return SelectCount(
-                    destinationPk, sourceSiteId, sourceReferenceType, link);
+                    ss,
+                    destinationPk,
+                    sourceSiteId,
+                    sourceReferenceType,
+                    linkColumn,
+                    sourceCondition);
                 case "Total": return SelectTotal(
-                    destinationPk, sourceSiteId, sourceReferenceType, link, source);
+                    ss,
+                    destinationPk,
+                    sourceSiteId,
+                    sourceReferenceType,
+                    linkColumn,
+                    sourceColumn,
+                    sourceCondition);
                 case "Average": return SelectAverage(
-                    destinationPk, sourceSiteId, sourceReferenceType, link, source);
-                case "Max": return SelectMax(
-                    destinationPk, sourceSiteId, sourceReferenceType, link, source);
+                    ss,
+                    destinationPk,
+                    sourceSiteId,
+                    sourceReferenceType,
+                    linkColumn,
+                    sourceColumn,
+                    sourceCondition);
                 case "Min": return SelectMin(
-                    destinationPk, sourceSiteId, sourceReferenceType, link, source);
+                    ss,
+                    destinationPk,
+                    sourceSiteId,
+                    sourceReferenceType,
+                    linkColumn,
+                    sourceColumn,
+                    sourceCondition);
+                case "Max": return SelectMax(
+                    ss,
+                    destinationPk,
+                    sourceSiteId,
+                    sourceReferenceType,
+                    linkColumn,
+                    sourceColumn,
+                    sourceCondition);
                 default: return null;
             }
         }
 
         private static SqlSelect SelectCount(
+            SiteSettings ss,
             string destinationPk,
             long sourceSiteId,
             string sourceReferenceType,
-            string link)
+            string linkColumn,
+            View sourceCondition)
         {
             switch (sourceReferenceType)
             {
                 case "Issues": return Rds.SelectIssues(
                     column: Rds.IssuesColumn().IssuesCount(),
-                    where: IssuesWhere(destinationPk, sourceSiteId, link));
+                    where: IssuesWhere(destinationPk, sourceSiteId, linkColumn));
                 case "Results": return Rds.SelectResults(
                     column: Rds.ResultsColumn().ResultsCount(),
-                    where: ResultsWhere(destinationPk, sourceSiteId, link));
-                case "Wikis": return Rds.SelectWikis(
-                    column: Rds.WikisColumn().WikisCount(),
-                    where: WikisWhere(destinationPk, sourceSiteId, link));
+                    where: ResultsWhere(destinationPk, sourceSiteId, linkColumn));
                 default: return null;
             }
         }
 
         private static SqlSelect SelectTotal(
+            SiteSettings ss,
             string destinationPk,
             long sourceSiteId,
             string sourceReferenceType,
-            string link,
-            string source)
+            string linkColumn,
+            string sourceColumn,
+            View sourceCondition)
         {
             switch (sourceReferenceType)
             {
                 case "Issues": return Rds.SelectIssues(
-                    column: IssuesTotalColumn(source),
-                    where: IssuesWhere(destinationPk, sourceSiteId, link));
+                    column: IssuesTotalColumn(sourceColumn),
+                    where: Where(
+                        ss,
+                        sourceCondition,
+                        IssuesWhere(destinationPk, sourceSiteId, linkColumn)));
                 case "Results": return Rds.SelectResults(
-                    column: ResultsTotalColumn(source),
-                    where: ResultsWhere(destinationPk, sourceSiteId, link));
-                case "Wikis": return Rds.SelectWikis(
-                    column: WikisTotalColumn(source),
-                    where: WikisWhere(destinationPk, sourceSiteId, link));
+                    column: ResultsTotalColumn(sourceColumn),
+                    where: Where(
+                        ss,
+                        sourceCondition,
+                        ResultsWhere(destinationPk, sourceSiteId, linkColumn)));
                 default: return null;
             }
         }
 
-        private static SqlColumnCollection IssuesTotalColumn(string source)
+        private static SqlColumnCollection IssuesTotalColumn(string sourceColumn)
         {
-            switch (source)
+            switch (sourceColumn)
             {
                 case "WorkValue": return Rds.IssuesColumn().WorkValueTotal();
                 case "RemainingWorkValue": return Rds.IssuesColumn().RemainingWorkValueTotal();
@@ -407,9 +964,9 @@ namespace Implem.Pleasanter.Libraries.Models
             }
         }
 
-        private static SqlColumnCollection ResultsTotalColumn(string source)
+        private static SqlColumnCollection ResultsTotalColumn(string sourceColumn)
         {
-            switch (source)
+            switch (sourceColumn)
             {
                 case "NumA": return Rds.ResultsColumn().NumATotal();
                 case "NumB": return Rds.ResultsColumn().NumBTotal();
@@ -441,239 +998,63 @@ namespace Implem.Pleasanter.Libraries.Models
             }
         }
 
-        private static SqlColumnCollection WikisTotalColumn(string source)
-        {
-            switch (source)
-            {
-                default: return null;
-            }
-        }
-
         private static SqlSelect SelectAverage(
+            SiteSettings ss,
             string destinationPk,
             long sourceSiteId,
             string sourceReferenceType,
-            string link,
-            string source)
+            string linkColumn,
+            string sourceColumn,
+            View sourceCondition)
         {
             switch (sourceReferenceType)
             {
                 case "Issues": return Rds.SelectIssues(
-                    column: IssuesAverageColumn(source),
-                    where: IssuesWhere(destinationPk, sourceSiteId, link));
+                    column: IssuesAverageColumn(sourceColumn),
+                    where: Where(
+                        ss,
+                        sourceCondition,
+                        IssuesWhere(destinationPk, sourceSiteId, linkColumn)));
                 case "Results": return Rds.SelectResults(
-                    column: ResultsAverageColumn(source),
-                    where: ResultsWhere(destinationPk, sourceSiteId, link));
-                case "Wikis": return Rds.SelectWikis(
-                    column: WikisAverageColumn(source),
-                    where: WikisWhere(destinationPk, sourceSiteId, link));
-                default: return null;
-            }
-        }
-
-        private static SqlColumnCollection IssuesAverageColumn(string source)
-        {
-            switch (source)
-            {
-                case "WorkValue": return Rds.IssuesColumn().WorkValueAverage();
-                case "RemainingWorkValue": return Rds.IssuesColumn().RemainingWorkValueAverage();
-                case "NumA": return Rds.IssuesColumn().NumAAverage();
-                case "NumB": return Rds.IssuesColumn().NumBAverage();
-                case "NumC": return Rds.IssuesColumn().NumCAverage();
-                case "NumD": return Rds.IssuesColumn().NumDAverage();
-                case "NumE": return Rds.IssuesColumn().NumEAverage();
-                case "NumF": return Rds.IssuesColumn().NumFAverage();
-                case "NumG": return Rds.IssuesColumn().NumGAverage();
-                case "NumH": return Rds.IssuesColumn().NumHAverage();
-                case "NumI": return Rds.IssuesColumn().NumIAverage();
-                case "NumJ": return Rds.IssuesColumn().NumJAverage();
-                case "NumK": return Rds.IssuesColumn().NumKAverage();
-                case "NumL": return Rds.IssuesColumn().NumLAverage();
-                case "NumM": return Rds.IssuesColumn().NumMAverage();
-                case "NumN": return Rds.IssuesColumn().NumNAverage();
-                case "NumO": return Rds.IssuesColumn().NumOAverage();
-                case "NumP": return Rds.IssuesColumn().NumPAverage();
-                case "NumQ": return Rds.IssuesColumn().NumQAverage();
-                case "NumR": return Rds.IssuesColumn().NumRAverage();
-                case "NumS": return Rds.IssuesColumn().NumSAverage();
-                case "NumT": return Rds.IssuesColumn().NumTAverage();
-                case "NumU": return Rds.IssuesColumn().NumUAverage();
-                case "NumV": return Rds.IssuesColumn().NumVAverage();
-                case "NumW": return Rds.IssuesColumn().NumWAverage();
-                case "NumX": return Rds.IssuesColumn().NumXAverage();
-                case "NumY": return Rds.IssuesColumn().NumYAverage();
-                case "NumZ": return Rds.IssuesColumn().NumZAverage();
-                default: return null;
-            }
-        }
-
-        private static SqlColumnCollection ResultsAverageColumn(string source)
-        {
-            switch (source)
-            {
-                case "NumA": return Rds.ResultsColumn().NumAAverage();
-                case "NumB": return Rds.ResultsColumn().NumBAverage();
-                case "NumC": return Rds.ResultsColumn().NumCAverage();
-                case "NumD": return Rds.ResultsColumn().NumDAverage();
-                case "NumE": return Rds.ResultsColumn().NumEAverage();
-                case "NumF": return Rds.ResultsColumn().NumFAverage();
-                case "NumG": return Rds.ResultsColumn().NumGAverage();
-                case "NumH": return Rds.ResultsColumn().NumHAverage();
-                case "NumI": return Rds.ResultsColumn().NumIAverage();
-                case "NumJ": return Rds.ResultsColumn().NumJAverage();
-                case "NumK": return Rds.ResultsColumn().NumKAverage();
-                case "NumL": return Rds.ResultsColumn().NumLAverage();
-                case "NumM": return Rds.ResultsColumn().NumMAverage();
-                case "NumN": return Rds.ResultsColumn().NumNAverage();
-                case "NumO": return Rds.ResultsColumn().NumOAverage();
-                case "NumP": return Rds.ResultsColumn().NumPAverage();
-                case "NumQ": return Rds.ResultsColumn().NumQAverage();
-                case "NumR": return Rds.ResultsColumn().NumRAverage();
-                case "NumS": return Rds.ResultsColumn().NumSAverage();
-                case "NumT": return Rds.ResultsColumn().NumTAverage();
-                case "NumU": return Rds.ResultsColumn().NumUAverage();
-                case "NumV": return Rds.ResultsColumn().NumVAverage();
-                case "NumW": return Rds.ResultsColumn().NumWAverage();
-                case "NumX": return Rds.ResultsColumn().NumXAverage();
-                case "NumY": return Rds.ResultsColumn().NumYAverage();
-                case "NumZ": return Rds.ResultsColumn().NumZAverage();
-                default: return null;
-            }
-        }
-
-        private static SqlColumnCollection WikisAverageColumn(string source)
-        {
-            switch (source)
-            {
-                default: return null;
-            }
-        }
-
-        private static SqlSelect SelectMax(
-            string destinationPk,
-            long sourceSiteId,
-            string sourceReferenceType,
-            string link,
-            string source)
-        {
-            switch (sourceReferenceType)
-            {
-                case "Issues": return Rds.SelectIssues(
-                    column: IssuesMaxColumn(source),
-                    where: IssuesWhere(destinationPk, sourceSiteId, link));
-                case "Results": return Rds.SelectResults(
-                    column: ResultsMaxColumn(source),
-                    where: ResultsWhere(destinationPk, sourceSiteId, link));
-                case "Wikis": return Rds.SelectWikis(
-                    column: WikisMaxColumn(source),
-                    where: WikisWhere(destinationPk, sourceSiteId, link));
-                default: return null;
-            }
-        }
-
-        private static SqlColumnCollection IssuesMaxColumn(string source)
-        {
-            switch (source)
-            {
-                case "WorkValue": return Rds.IssuesColumn().WorkValueMax();
-                case "RemainingWorkValue": return Rds.IssuesColumn().RemainingWorkValueMax();
-                case "NumA": return Rds.IssuesColumn().NumAMax();
-                case "NumB": return Rds.IssuesColumn().NumBMax();
-                case "NumC": return Rds.IssuesColumn().NumCMax();
-                case "NumD": return Rds.IssuesColumn().NumDMax();
-                case "NumE": return Rds.IssuesColumn().NumEMax();
-                case "NumF": return Rds.IssuesColumn().NumFMax();
-                case "NumG": return Rds.IssuesColumn().NumGMax();
-                case "NumH": return Rds.IssuesColumn().NumHMax();
-                case "NumI": return Rds.IssuesColumn().NumIMax();
-                case "NumJ": return Rds.IssuesColumn().NumJMax();
-                case "NumK": return Rds.IssuesColumn().NumKMax();
-                case "NumL": return Rds.IssuesColumn().NumLMax();
-                case "NumM": return Rds.IssuesColumn().NumMMax();
-                case "NumN": return Rds.IssuesColumn().NumNMax();
-                case "NumO": return Rds.IssuesColumn().NumOMax();
-                case "NumP": return Rds.IssuesColumn().NumPMax();
-                case "NumQ": return Rds.IssuesColumn().NumQMax();
-                case "NumR": return Rds.IssuesColumn().NumRMax();
-                case "NumS": return Rds.IssuesColumn().NumSMax();
-                case "NumT": return Rds.IssuesColumn().NumTMax();
-                case "NumU": return Rds.IssuesColumn().NumUMax();
-                case "NumV": return Rds.IssuesColumn().NumVMax();
-                case "NumW": return Rds.IssuesColumn().NumWMax();
-                case "NumX": return Rds.IssuesColumn().NumXMax();
-                case "NumY": return Rds.IssuesColumn().NumYMax();
-                case "NumZ": return Rds.IssuesColumn().NumZMax();
-                default: return null;
-            }
-        }
-
-        private static SqlColumnCollection ResultsMaxColumn(string source)
-        {
-            switch (source)
-            {
-                case "NumA": return Rds.ResultsColumn().NumAMax();
-                case "NumB": return Rds.ResultsColumn().NumBMax();
-                case "NumC": return Rds.ResultsColumn().NumCMax();
-                case "NumD": return Rds.ResultsColumn().NumDMax();
-                case "NumE": return Rds.ResultsColumn().NumEMax();
-                case "NumF": return Rds.ResultsColumn().NumFMax();
-                case "NumG": return Rds.ResultsColumn().NumGMax();
-                case "NumH": return Rds.ResultsColumn().NumHMax();
-                case "NumI": return Rds.ResultsColumn().NumIMax();
-                case "NumJ": return Rds.ResultsColumn().NumJMax();
-                case "NumK": return Rds.ResultsColumn().NumKMax();
-                case "NumL": return Rds.ResultsColumn().NumLMax();
-                case "NumM": return Rds.ResultsColumn().NumMMax();
-                case "NumN": return Rds.ResultsColumn().NumNMax();
-                case "NumO": return Rds.ResultsColumn().NumOMax();
-                case "NumP": return Rds.ResultsColumn().NumPMax();
-                case "NumQ": return Rds.ResultsColumn().NumQMax();
-                case "NumR": return Rds.ResultsColumn().NumRMax();
-                case "NumS": return Rds.ResultsColumn().NumSMax();
-                case "NumT": return Rds.ResultsColumn().NumTMax();
-                case "NumU": return Rds.ResultsColumn().NumUMax();
-                case "NumV": return Rds.ResultsColumn().NumVMax();
-                case "NumW": return Rds.ResultsColumn().NumWMax();
-                case "NumX": return Rds.ResultsColumn().NumXMax();
-                case "NumY": return Rds.ResultsColumn().NumYMax();
-                case "NumZ": return Rds.ResultsColumn().NumZMax();
-                default: return null;
-            }
-        }
-
-        private static SqlColumnCollection WikisMaxColumn(string source)
-        {
-            switch (source)
-            {
+                    column: ResultsAverageColumn(sourceColumn),
+                    where: Where(
+                        ss,
+                        sourceCondition,
+                        ResultsWhere(destinationPk, sourceSiteId, linkColumn)));
                 default: return null;
             }
         }
 
         private static SqlSelect SelectMin(
+            SiteSettings ss,
             string destinationPk,
             long sourceSiteId,
             string sourceReferenceType,
-            string link,
-            string source)
+            string linkColumn,
+            string sourceColumn,
+            View sourceCondition)
         {
             switch (sourceReferenceType)
             {
                 case "Issues": return Rds.SelectIssues(
-                    column: IssuesMinColumn(source),
-                    where: IssuesWhere(destinationPk, sourceSiteId, link));
+                    column: IssuesMinColumn(sourceColumn),
+                    where: Where(
+                        ss,
+                        sourceCondition,
+                        IssuesWhere(destinationPk, sourceSiteId, linkColumn)));
                 case "Results": return Rds.SelectResults(
-                    column: ResultsMinColumn(source),
-                    where: ResultsWhere(destinationPk, sourceSiteId, link));
-                case "Wikis": return Rds.SelectWikis(
-                    column: WikisMinColumn(source),
-                    where: WikisWhere(destinationPk, sourceSiteId, link));
+                    column: ResultsMinColumn(sourceColumn),
+                    where: Where(
+                        ss,
+                        sourceCondition,
+                        ResultsWhere(destinationPk, sourceSiteId, linkColumn)));
                 default: return null;
             }
         }
 
-        private static SqlColumnCollection IssuesMinColumn(string source)
+        private static SqlColumnCollection IssuesMinColumn(string sourceColumn)
         {
-            switch (source)
+            switch (sourceColumn)
             {
                 case "WorkValue": return Rds.IssuesColumn().WorkValueMin();
                 case "RemainingWorkValue": return Rds.IssuesColumn().RemainingWorkValueMin();
@@ -707,9 +1088,9 @@ namespace Implem.Pleasanter.Libraries.Models
             }
         }
 
-        private static SqlColumnCollection ResultsMinColumn(string source)
+        private static SqlColumnCollection ResultsMinColumn(string sourceColumn)
         {
-            switch (source)
+            switch (sourceColumn)
             {
                 case "NumA": return Rds.ResultsColumn().NumAMin();
                 case "NumB": return Rds.ResultsColumn().NumBMin();
@@ -741,17 +1122,177 @@ namespace Implem.Pleasanter.Libraries.Models
             }
         }
 
-        private static SqlColumnCollection WikisMinColumn(string source)
+        private static SqlColumnCollection IssuesAverageColumn(string sourceColumn)
         {
-            switch (source)
+            switch (sourceColumn)
             {
+                case "WorkValue": return Rds.IssuesColumn().WorkValueAverage();
+                case "RemainingWorkValue": return Rds.IssuesColumn().RemainingWorkValueAverage();
+                case "NumA": return Rds.IssuesColumn().NumAAverage();
+                case "NumB": return Rds.IssuesColumn().NumBAverage();
+                case "NumC": return Rds.IssuesColumn().NumCAverage();
+                case "NumD": return Rds.IssuesColumn().NumDAverage();
+                case "NumE": return Rds.IssuesColumn().NumEAverage();
+                case "NumF": return Rds.IssuesColumn().NumFAverage();
+                case "NumG": return Rds.IssuesColumn().NumGAverage();
+                case "NumH": return Rds.IssuesColumn().NumHAverage();
+                case "NumI": return Rds.IssuesColumn().NumIAverage();
+                case "NumJ": return Rds.IssuesColumn().NumJAverage();
+                case "NumK": return Rds.IssuesColumn().NumKAverage();
+                case "NumL": return Rds.IssuesColumn().NumLAverage();
+                case "NumM": return Rds.IssuesColumn().NumMAverage();
+                case "NumN": return Rds.IssuesColumn().NumNAverage();
+                case "NumO": return Rds.IssuesColumn().NumOAverage();
+                case "NumP": return Rds.IssuesColumn().NumPAverage();
+                case "NumQ": return Rds.IssuesColumn().NumQAverage();
+                case "NumR": return Rds.IssuesColumn().NumRAverage();
+                case "NumS": return Rds.IssuesColumn().NumSAverage();
+                case "NumT": return Rds.IssuesColumn().NumTAverage();
+                case "NumU": return Rds.IssuesColumn().NumUAverage();
+                case "NumV": return Rds.IssuesColumn().NumVAverage();
+                case "NumW": return Rds.IssuesColumn().NumWAverage();
+                case "NumX": return Rds.IssuesColumn().NumXAverage();
+                case "NumY": return Rds.IssuesColumn().NumYAverage();
+                case "NumZ": return Rds.IssuesColumn().NumZAverage();
                 default: return null;
             }
         }
 
-        private static SqlWhereCollection IssuesWhere(string destinationPk, long sourceSiteId, string link)
+        private static SqlColumnCollection ResultsAverageColumn(string sourceColumn)
         {
-            switch (link)
+            switch (sourceColumn)
+            {
+                case "NumA": return Rds.ResultsColumn().NumAAverage();
+                case "NumB": return Rds.ResultsColumn().NumBAverage();
+                case "NumC": return Rds.ResultsColumn().NumCAverage();
+                case "NumD": return Rds.ResultsColumn().NumDAverage();
+                case "NumE": return Rds.ResultsColumn().NumEAverage();
+                case "NumF": return Rds.ResultsColumn().NumFAverage();
+                case "NumG": return Rds.ResultsColumn().NumGAverage();
+                case "NumH": return Rds.ResultsColumn().NumHAverage();
+                case "NumI": return Rds.ResultsColumn().NumIAverage();
+                case "NumJ": return Rds.ResultsColumn().NumJAverage();
+                case "NumK": return Rds.ResultsColumn().NumKAverage();
+                case "NumL": return Rds.ResultsColumn().NumLAverage();
+                case "NumM": return Rds.ResultsColumn().NumMAverage();
+                case "NumN": return Rds.ResultsColumn().NumNAverage();
+                case "NumO": return Rds.ResultsColumn().NumOAverage();
+                case "NumP": return Rds.ResultsColumn().NumPAverage();
+                case "NumQ": return Rds.ResultsColumn().NumQAverage();
+                case "NumR": return Rds.ResultsColumn().NumRAverage();
+                case "NumS": return Rds.ResultsColumn().NumSAverage();
+                case "NumT": return Rds.ResultsColumn().NumTAverage();
+                case "NumU": return Rds.ResultsColumn().NumUAverage();
+                case "NumV": return Rds.ResultsColumn().NumVAverage();
+                case "NumW": return Rds.ResultsColumn().NumWAverage();
+                case "NumX": return Rds.ResultsColumn().NumXAverage();
+                case "NumY": return Rds.ResultsColumn().NumYAverage();
+                case "NumZ": return Rds.ResultsColumn().NumZAverage();
+                default: return null;
+            }
+        }
+
+        private static SqlSelect SelectMax(
+            SiteSettings ss,
+            string destinationPk,
+            long sourceSiteId,
+            string sourceReferenceType,
+            string linkColumn,
+            string sourceColumn,
+            View sourceCondition)
+        {
+            switch (sourceReferenceType)
+            {
+                case "Issues": return Rds.SelectIssues(
+                    column: IssuesMaxColumn(sourceColumn),
+                    where: Where(
+                        ss,
+                        sourceCondition,
+                        IssuesWhere(destinationPk, sourceSiteId, linkColumn)));
+                case "Results": return Rds.SelectResults(
+                    column: ResultsMaxColumn(sourceColumn),
+                    where: Where(
+                        ss,
+                        sourceCondition,
+                        ResultsWhere(destinationPk, sourceSiteId, linkColumn)));
+                default: return null;
+            }
+        }
+
+        private static SqlColumnCollection IssuesMaxColumn(string sourceColumn)
+        {
+            switch (sourceColumn)
+            {
+                case "WorkValue": return Rds.IssuesColumn().WorkValueMax();
+                case "RemainingWorkValue": return Rds.IssuesColumn().RemainingWorkValueMax();
+                case "NumA": return Rds.IssuesColumn().NumAMax();
+                case "NumB": return Rds.IssuesColumn().NumBMax();
+                case "NumC": return Rds.IssuesColumn().NumCMax();
+                case "NumD": return Rds.IssuesColumn().NumDMax();
+                case "NumE": return Rds.IssuesColumn().NumEMax();
+                case "NumF": return Rds.IssuesColumn().NumFMax();
+                case "NumG": return Rds.IssuesColumn().NumGMax();
+                case "NumH": return Rds.IssuesColumn().NumHMax();
+                case "NumI": return Rds.IssuesColumn().NumIMax();
+                case "NumJ": return Rds.IssuesColumn().NumJMax();
+                case "NumK": return Rds.IssuesColumn().NumKMax();
+                case "NumL": return Rds.IssuesColumn().NumLMax();
+                case "NumM": return Rds.IssuesColumn().NumMMax();
+                case "NumN": return Rds.IssuesColumn().NumNMax();
+                case "NumO": return Rds.IssuesColumn().NumOMax();
+                case "NumP": return Rds.IssuesColumn().NumPMax();
+                case "NumQ": return Rds.IssuesColumn().NumQMax();
+                case "NumR": return Rds.IssuesColumn().NumRMax();
+                case "NumS": return Rds.IssuesColumn().NumSMax();
+                case "NumT": return Rds.IssuesColumn().NumTMax();
+                case "NumU": return Rds.IssuesColumn().NumUMax();
+                case "NumV": return Rds.IssuesColumn().NumVMax();
+                case "NumW": return Rds.IssuesColumn().NumWMax();
+                case "NumX": return Rds.IssuesColumn().NumXMax();
+                case "NumY": return Rds.IssuesColumn().NumYMax();
+                case "NumZ": return Rds.IssuesColumn().NumZMax();
+                default: return null;
+            }
+        }
+
+        private static SqlColumnCollection ResultsMaxColumn(string sourceColumn)
+        {
+            switch (sourceColumn)
+            {
+                case "NumA": return Rds.ResultsColumn().NumAMax();
+                case "NumB": return Rds.ResultsColumn().NumBMax();
+                case "NumC": return Rds.ResultsColumn().NumCMax();
+                case "NumD": return Rds.ResultsColumn().NumDMax();
+                case "NumE": return Rds.ResultsColumn().NumEMax();
+                case "NumF": return Rds.ResultsColumn().NumFMax();
+                case "NumG": return Rds.ResultsColumn().NumGMax();
+                case "NumH": return Rds.ResultsColumn().NumHMax();
+                case "NumI": return Rds.ResultsColumn().NumIMax();
+                case "NumJ": return Rds.ResultsColumn().NumJMax();
+                case "NumK": return Rds.ResultsColumn().NumKMax();
+                case "NumL": return Rds.ResultsColumn().NumLMax();
+                case "NumM": return Rds.ResultsColumn().NumMMax();
+                case "NumN": return Rds.ResultsColumn().NumNMax();
+                case "NumO": return Rds.ResultsColumn().NumOMax();
+                case "NumP": return Rds.ResultsColumn().NumPMax();
+                case "NumQ": return Rds.ResultsColumn().NumQMax();
+                case "NumR": return Rds.ResultsColumn().NumRMax();
+                case "NumS": return Rds.ResultsColumn().NumSMax();
+                case "NumT": return Rds.ResultsColumn().NumTMax();
+                case "NumU": return Rds.ResultsColumn().NumUMax();
+                case "NumV": return Rds.ResultsColumn().NumVMax();
+                case "NumW": return Rds.ResultsColumn().NumWMax();
+                case "NumX": return Rds.ResultsColumn().NumXMax();
+                case "NumY": return Rds.ResultsColumn().NumYMax();
+                case "NumZ": return Rds.ResultsColumn().NumZMax();
+                default: return null;
+            }
+        }
+
+        private static SqlWhereCollection IssuesWhere(
+            string destinationPk, long sourceSiteId, string linkColumn)
+        {
+            switch (linkColumn)
             {
                 case "ClassA": return Rds.IssuesWhere()
                     .SiteId(sourceSiteId)
@@ -835,9 +1376,10 @@ namespace Implem.Pleasanter.Libraries.Models
             }
         }
 
-        private static SqlWhereCollection ResultsWhere(string destinationPk, long sourceSiteId, string link)
+        private static SqlWhereCollection ResultsWhere(
+            string destinationPk, long sourceSiteId, string linkColumn)
         {
-            switch (link)
+            switch (linkColumn)
             {
                 case "ClassA": return Rds.ResultsWhere()
                     .SiteId(sourceSiteId)
@@ -921,12 +1463,12 @@ namespace Implem.Pleasanter.Libraries.Models
             }
         }
 
-        private static SqlWhereCollection WikisWhere(string destinationPk, long sourceSiteId, string link)
+        private static SqlWhereCollection Where(
+            SiteSettings ss, View view, SqlWhereCollection where)
         {
-            switch (link)
-            {
-                default: return null;
-            }
+            return view != null
+                ? view.Where(ss, where)
+                : where;
         }
     }
 }

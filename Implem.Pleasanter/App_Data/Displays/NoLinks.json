@@ -1,6 +1,6 @@
 ﻿{
     "Id": "NoLinks",
-    "Type": 110,
+    "Type": 240,
     "Languages": [
         {
             "Body": "There is no link to that column."

@@ -21,10 +21,28 @@
                     .join(',');
         }
     });
+    $(document).on('change', '.grid .select', function () {
+        $p.setData($(this).closest('.grid'))
+    });
+    $(document).on('change', '.grid .select-all', function () {
+        $control = $(this);
+        $grid = $(this).closest('.grid');
+        $grid.find('.select').prop('checked', $control.prop('checked'));
+        $p.setData($grid);
+    });
     $(document).on('click', '.grid-row:not(.not-link) td', function () {
-        var $control = $(this).find('.grid-check');
+        var $control = $(this).find('.grid-check,.select');
         if ($control.length === 0) {
-            location.href = $('#BaseUrl').val() + $(this).closest('.grid-row').attr('data-id');
+            var $grid = $(this).closest('.grid');
+            var func = $grid.attr('data-func');
+            var dataId = $(this).closest('.grid-row').attr('data-id');
+            if (func) {
+                $p.getData($grid)[$grid.attr('data-name')] = dataId;
+                $p[func]($grid);
+            }
+            else {
+                location.href = $('#BaseUrl').val() + dataId;
+            }
         } else if (!$p.hoverd($control)) {
             $control.trigger('click');
         }

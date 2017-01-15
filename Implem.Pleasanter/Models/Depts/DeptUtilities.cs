@@ -548,21 +548,6 @@ namespace Implem.Pleasanter.Models
             return switchTargets;
         }
 
-        public static ResponseCollection FormResponse(
-            this ResponseCollection res,
-            Permissions.Types pt,
-            DeptModel deptModel)
-        {
-            Forms.All().Keys.ForEach(key =>
-            {
-                switch (key)
-                {
-                    default: break;
-                }
-            });
-            return res;
-        }
-
         public static string Create(SiteSettings ss, Permissions.Types pt)
         {
             var deptModel = new DeptModel(ss, 0, setByForm: true);
@@ -622,7 +607,6 @@ namespace Implem.Pleasanter.Models
                 .Ver()
                 .Timestamp()
                 .Val("#VerUp", false)
-                .FormResponse(pt, deptModel)
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", deptModel.Title.Value)
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(

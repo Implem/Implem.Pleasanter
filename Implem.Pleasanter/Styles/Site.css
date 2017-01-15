@@ -1082,6 +1082,14 @@ pre{
     clear:both;
 }
 
+.fieldset.enclosed-half{
+    width:380px;
+    float:left;
+    margin:0px 0px 10px 0px;
+    padding:10px;
+    border:solid 1px silver;
+}
+
 .fieldset.enclosed-thin{
     margin:0px 0px 10px 0px;
     padding:5px 5px 5px 10px;
@@ -1455,15 +1463,11 @@ pre{
 }
 
 .control-checkbox{
-    display:block;
-    float:left;
-    margin:8px 0px;
+
 }
 
 .control-checkbox + label{
-    display:block;
-    float:left;
-    margin:7px 5px 0px 7px;
+    padding:0px 0px 0px 5px;
 }
 
 .control-radio{
@@ -1648,11 +1652,11 @@ pre{
     float:left;
 }
 
-.grid > thead > tr > th:first-child{
+.grid > thead > tr:first-child > th:first-child{
     border-radius:10px 0px 0px 0px / 10px 0px 0px 0px;
 }
 
-.grid > thead > tr > th:last-child{
+.grid > thead > tr:first-child > th:last-child{
     border-right:solid 1px transparent;
     border-radius:0px 10px 0px 0px / 0px 10px 0px 0px;
 }

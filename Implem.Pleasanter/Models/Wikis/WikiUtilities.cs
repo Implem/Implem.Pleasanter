@@ -278,28 +278,13 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData();
         }
 
-        public static ResponseCollection FormResponse(
+        public static ResponseCollection FieldResponse(
             this ResponseCollection res,
             Permissions.Types pt,
             WikiModel wikiModel)
         {
-            Forms.All().Keys.ForEach(key =>
-            {
-                switch (key)
-                {
-                    default: break;
-                }
-            });
-            return res;
-        }
-
-        public static ResponseCollection Formula(
-            this ResponseCollection res,
-            Permissions.Types pt,
-            WikiModel wikiModel)
-        {
-            wikiModel.SiteSettings.Formulas
-                .Select(o => wikiModel.SiteSettings.GetColumn(o.Target))
+            wikiModel.SiteSettings.EditorColumns
+                .Select(o => wikiModel.SiteSettings.GetColumn(o))
                 .Where(o => o != null)
                 .ForEach(column =>
                 {
@@ -349,8 +334,7 @@ namespace Implem.Pleasanter.Models
                 .Ver()
                 .Timestamp()
                 .Val("#VerUp", false)
-                .FormResponse(pt, wikiModel)
-                .Formula(pt, wikiModel)
+                    .FieldResponse(pt, wikiModel)
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", wikiModel.Title.DisplayValue)
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(

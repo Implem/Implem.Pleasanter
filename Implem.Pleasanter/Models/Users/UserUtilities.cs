@@ -648,21 +648,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static ResponseCollection FormResponse(
-            this ResponseCollection res,
-            Permissions.Types pt,
-            UserModel userModel)
-        {
-            Forms.All().Keys.ForEach(key =>
-            {
-                switch (key)
-                {
-                    default: break;
-                }
-            });
-            return res;
-        }
-
         public static string Create(SiteSettings ss, Permissions.Types pt)
         {
             var userModel = new UserModel(ss, 0, setByForm: true);
@@ -727,7 +712,6 @@ namespace Implem.Pleasanter.Models
                 .Ver()
                 .Timestamp()
                 .Val("#VerUp", false)
-                .FormResponse(pt, userModel)
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", userModel.Title.Value)
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(

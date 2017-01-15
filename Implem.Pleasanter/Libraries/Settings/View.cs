@@ -293,8 +293,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (KambanValue == string.Empty) KambanValue = null;
         }
 
-        public SqlWhereCollection Where(SiteSettings ss, SqlWhereCollection where)
+        public SqlWhereCollection Where(SiteSettings ss, SqlWhereCollection where = null)
         {
+            if (where == null) where = new SqlWhereCollection();
             GeneralsWhere(ss, where);
             ColumnsWhere(ss, where);
             SearchWhere(ss, where);

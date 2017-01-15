@@ -1210,21 +1210,57 @@ namespace Implem.Pleasanter.Models
                     SynchronizeSummary(summary, savedId);
                 }
             });
+            SynchronizeSourceSummary();
         }
 
         private void SynchronizeSummary(Summary summary, long id)
         {
-            Summaries.Synchronize(
-                summary.SiteId,
-                summary.DestinationReferenceType,
-                summary.DestinationColumn,
-                SiteId,
-                "Results",
-                summary.LinkColumn,
-                summary.Type,
-                summary.SourceColumn,
-                id);
-            FormulaUtilities.Update(id);
+            var destinationSs = SiteSettings.Destinations?.Get(summary.SiteId);
+            if (destinationSs != null)
+            {
+                Summaries.Synchronize(
+                    SiteSettings,
+                    summary.SiteId,
+                    summary.DestinationReferenceType,
+                    summary.DestinationColumn,
+                    destinationSs.Views?.Get(summary.DestinationCondition),
+                    summary.SetZeroWhenOutOfCondition == true,
+                    SiteId,
+                    "Results",
+                    summary.LinkColumn,
+                    summary.Type,
+                    summary.SourceColumn,
+                    SiteSettings.Views?.Get(summary.SourceCondition),
+                    id);
+                FormulaUtilities.Update(id);
+            }
+        }
+
+        private void SynchronizeSourceSummary()
+        {
+            var executed = false;
+            SiteSettings.Sources.ForEach(sourceSs =>
+                sourceSs.Summaries
+                    .Where(o => sourceSs.Views?.Any(p => p.Id == o.DestinationCondition) == true)
+                    .ForEach(summary =>
+                    {
+                        Summaries.Synchronize(
+                            sourceSs,
+                            summary.SiteId,
+                            summary.DestinationReferenceType,
+                            summary.DestinationColumn,
+                            SiteSettings.Views?.Get(summary.DestinationCondition),
+                            summary.SetZeroWhenOutOfCondition == true,
+                            sourceSs.SiteId,
+                            "Results",
+                            summary.LinkColumn,
+                            summary.Type,
+                            summary.SourceColumn,
+                            sourceSs.Views?.Get(summary.SourceCondition),
+                            ResultId);
+                         executed = true;
+                    }));
+            if (executed) FormulaUtilities.Update(ResultId);
         }
 
         private long SynchronizeSummaryDestinationId(string linkColumn, bool saved = false)

@@ -228,6 +228,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(Displays.Moved(data), "alert-success");
         }
 
+        public static Message NoLinks(params string[] data)
+        {
+            return Get(Displays.NoLinks(data), "alert-error");
+        }
+
         public static Message NotFound(params string[] data)
         {
             return Get(Displays.NotFound(data), "alert-error");
@@ -270,7 +275,7 @@ namespace Implem.Pleasanter.Libraries.Responses
 
         public static Message SelectTargets(params string[] data)
         {
-            return Get(Displays.SelectTargets(data), "alert-warning");
+            return Get(Displays.SelectTargets(data), "alert-error");
         }
 
         public static Message SentAcceptanceMail (params string[] data)
@@ -506,6 +511,11 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static ResponseCollection ResponseMoved(params string[] data)
         {
             return ResponseMessage(Messages.Moved(data));
+        }
+
+        public static ResponseCollection ResponseNoLinks(params string[] data)
+        {
+            return ResponseMessage(Messages.NoLinks(data));
         }
 
         public static ResponseCollection ResponseNotFound(params string[] data)

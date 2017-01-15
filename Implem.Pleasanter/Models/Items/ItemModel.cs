@@ -628,10 +628,10 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public string SynchronizeSummary()
+        public string SynchronizeSummaries()
         {
             SetSite();
-            return Site.SynchronizeSummary();
+            return Site.SynchronizeSummaries();
         }
 
         public string SynchronizeFormulas()

@@ -42,6 +42,16 @@ $p.openEditorColumnDialog = function ($control) {
     $p.openSiteSettingsDialog($control, '#EditorColumnDialog');
 }
 
+$p.openSummaryDialog = function ($control) {
+    $p.data.SummaryForm = {};
+    $p.openSiteSettingsDialog($control, '#SummaryDialog', 'body');
+}
+
+$p.setSummary = function ($control) {
+    $p.setData($('#EditSummary'), $p.getData($control));
+    $p.send($control);
+}
+
 $p.openFormulaDialog = function ($control) {
     $p.data.FormulaForm = {};
     $p.openSiteSettingsDialog($control, '#FormulaDialog', 'body');

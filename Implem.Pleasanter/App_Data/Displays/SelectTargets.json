@@ -1,6 +1,6 @@
 ﻿{
     "Id": "SelectTargets",
-    "Type": 230,
+    "Type": 240,
     "Languages": [
         {
             "Body": "Please select targets"

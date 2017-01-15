@@ -966,55 +966,13 @@ namespace Implem.Pleasanter.Models
             return switchTargets;
         }
 
-        public static ResponseCollection FormResponse(
+        public static ResponseCollection FieldResponse(
             this ResponseCollection res,
             Permissions.Types pt,
             IssueModel issueModel)
         {
-            Forms.All().Keys.ForEach(key =>
-            {
-                switch (key)
-                {
-                    case "Issues_WorkValue": res.Val("#" + key, issueModel.WorkValue.ToControl(issueModel.SiteSettings.GetColumn("WorkValue"), pt)); break;
-                    case "Issues_NumA": res.Val("#" + key, issueModel.NumA.ToControl(issueModel.SiteSettings.GetColumn("NumA"), pt)); break;
-                    case "Issues_NumB": res.Val("#" + key, issueModel.NumB.ToControl(issueModel.SiteSettings.GetColumn("NumB"), pt)); break;
-                    case "Issues_NumC": res.Val("#" + key, issueModel.NumC.ToControl(issueModel.SiteSettings.GetColumn("NumC"), pt)); break;
-                    case "Issues_NumD": res.Val("#" + key, issueModel.NumD.ToControl(issueModel.SiteSettings.GetColumn("NumD"), pt)); break;
-                    case "Issues_NumE": res.Val("#" + key, issueModel.NumE.ToControl(issueModel.SiteSettings.GetColumn("NumE"), pt)); break;
-                    case "Issues_NumF": res.Val("#" + key, issueModel.NumF.ToControl(issueModel.SiteSettings.GetColumn("NumF"), pt)); break;
-                    case "Issues_NumG": res.Val("#" + key, issueModel.NumG.ToControl(issueModel.SiteSettings.GetColumn("NumG"), pt)); break;
-                    case "Issues_NumH": res.Val("#" + key, issueModel.NumH.ToControl(issueModel.SiteSettings.GetColumn("NumH"), pt)); break;
-                    case "Issues_NumI": res.Val("#" + key, issueModel.NumI.ToControl(issueModel.SiteSettings.GetColumn("NumI"), pt)); break;
-                    case "Issues_NumJ": res.Val("#" + key, issueModel.NumJ.ToControl(issueModel.SiteSettings.GetColumn("NumJ"), pt)); break;
-                    case "Issues_NumK": res.Val("#" + key, issueModel.NumK.ToControl(issueModel.SiteSettings.GetColumn("NumK"), pt)); break;
-                    case "Issues_NumL": res.Val("#" + key, issueModel.NumL.ToControl(issueModel.SiteSettings.GetColumn("NumL"), pt)); break;
-                    case "Issues_NumM": res.Val("#" + key, issueModel.NumM.ToControl(issueModel.SiteSettings.GetColumn("NumM"), pt)); break;
-                    case "Issues_NumN": res.Val("#" + key, issueModel.NumN.ToControl(issueModel.SiteSettings.GetColumn("NumN"), pt)); break;
-                    case "Issues_NumO": res.Val("#" + key, issueModel.NumO.ToControl(issueModel.SiteSettings.GetColumn("NumO"), pt)); break;
-                    case "Issues_NumP": res.Val("#" + key, issueModel.NumP.ToControl(issueModel.SiteSettings.GetColumn("NumP"), pt)); break;
-                    case "Issues_NumQ": res.Val("#" + key, issueModel.NumQ.ToControl(issueModel.SiteSettings.GetColumn("NumQ"), pt)); break;
-                    case "Issues_NumR": res.Val("#" + key, issueModel.NumR.ToControl(issueModel.SiteSettings.GetColumn("NumR"), pt)); break;
-                    case "Issues_NumS": res.Val("#" + key, issueModel.NumS.ToControl(issueModel.SiteSettings.GetColumn("NumS"), pt)); break;
-                    case "Issues_NumT": res.Val("#" + key, issueModel.NumT.ToControl(issueModel.SiteSettings.GetColumn("NumT"), pt)); break;
-                    case "Issues_NumU": res.Val("#" + key, issueModel.NumU.ToControl(issueModel.SiteSettings.GetColumn("NumU"), pt)); break;
-                    case "Issues_NumV": res.Val("#" + key, issueModel.NumV.ToControl(issueModel.SiteSettings.GetColumn("NumV"), pt)); break;
-                    case "Issues_NumW": res.Val("#" + key, issueModel.NumW.ToControl(issueModel.SiteSettings.GetColumn("NumW"), pt)); break;
-                    case "Issues_NumX": res.Val("#" + key, issueModel.NumX.ToControl(issueModel.SiteSettings.GetColumn("NumX"), pt)); break;
-                    case "Issues_NumY": res.Val("#" + key, issueModel.NumY.ToControl(issueModel.SiteSettings.GetColumn("NumY"), pt)); break;
-                    case "Issues_NumZ": res.Val("#" + key, issueModel.NumZ.ToControl(issueModel.SiteSettings.GetColumn("NumZ"), pt)); break;
-                    default: break;
-                }
-            });
-            return res;
-        }
-
-        public static ResponseCollection Formula(
-            this ResponseCollection res,
-            Permissions.Types pt,
-            IssueModel issueModel)
-        {
-            issueModel.SiteSettings.Formulas
-                .Select(o => issueModel.SiteSettings.GetColumn(o.Target))
+            issueModel.SiteSettings.EditorColumns
+                .Select(o => issueModel.SiteSettings.GetColumn(o))
                 .Where(o => o != null)
                 .ForEach(column =>
                 {
@@ -1118,8 +1076,7 @@ namespace Implem.Pleasanter.Models
                 .Ver()
                 .Timestamp()
                 .Val("#VerUp", false)
-                .FormResponse(pt, issueModel)
-                .Formula(pt, issueModel)
+                    .FieldResponse(pt, issueModel)
                 .Disabled("#VerUp", false)
                 .Html("#HeaderTitle", issueModel.Title.DisplayValue)
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
