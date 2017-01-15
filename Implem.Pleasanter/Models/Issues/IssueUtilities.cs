@@ -884,7 +884,7 @@ namespace Implem.Pleasanter.Models
                             linkId: issueModel.IssueId,
                             methodType: issueModel.MethodType))
                     .Div(id: "Links", css: "links", action: () => hb
-                        .Links(linkId: issueModel.IssueId));
+                        .Links(ss: ss, id: issueModel.IssueId));
             });
         }
 
@@ -1081,7 +1081,9 @@ namespace Implem.Pleasanter.Models
                 .Html("#HeaderTitle", issueModel.Title.DisplayValue)
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                     baseModel: issueModel, tableName: "Issues"))
-                .Html("#Links", new HtmlBuilder().Links(issueModel.IssueId))
+                .Html("#Links", new HtmlBuilder().Links(
+                    ss: issueModel.SiteSettings,
+                    id: issueModel.IssueId))
                 .Message(Messages.Updated(issueModel.Title.ToString()))
                 .RemoveComment(issueModel.DeleteCommentId, _using: issueModel.DeleteCommentId != 0)
                 .ClearFormData();

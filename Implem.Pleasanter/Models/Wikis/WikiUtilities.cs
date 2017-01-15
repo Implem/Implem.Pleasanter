@@ -339,7 +339,9 @@ namespace Implem.Pleasanter.Models
                 .Html("#HeaderTitle", wikiModel.Title.DisplayValue)
                 .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                     baseModel: wikiModel, tableName: "Wikis"))
-                .Html("#Links", new HtmlBuilder().Links(wikiModel.WikiId))
+                .Html("#Links", new HtmlBuilder().Links(
+                    ss: wikiModel.SiteSettings,
+                    id: wikiModel.WikiId))
                 .Message(Messages.Updated(wikiModel.Title.ToString()))
                 .RemoveComment(wikiModel.DeleteCommentId, _using: wikiModel.DeleteCommentId != 0)
                 .ClearFormData();

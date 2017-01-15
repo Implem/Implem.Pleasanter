@@ -41,16 +41,5 @@ namespace Implem.Pleasanter.Models
                                 .Join("union ") + ";\n"),
                 _using: link.Count > 0);
         }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        /// <returns></returns>
-        public static SqlJoinCollection JoinByDestination()
-        {
-            return Rds.LinksJoin()
-                .Add("inner join [Items] as [t1] on [t0].[DestinationId]=[t1].[ReferenceId]")
-                .Add("inner join [Sites] as [t2] on [t1].[SiteId]=[t2].[SiteId]");
-        }
     }
 }

@@ -15,11 +15,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlLinks
     {
-        public static HtmlBuilder Links(this HtmlBuilder hb, long linkId)
+        public static HtmlBuilder Links(this HtmlBuilder hb, SiteSettings ss, long id)
         {
-            var targets = Targets(linkId);
-            var siteCollection = new SiteCollection(where: Rds.SitesWhere()
-                .SiteId_In(targets.Select(o => o["SiteId"].ToLong()).Distinct()));
+            var targets = Targets(id);
             var dataSet = DataSet(targets.Select(o => o["Id"].ToLong()));
             return Contains(dataSet)
                 ? hb.FieldSet(
@@ -28,7 +26,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     action: () => hb
                         .Links(
                             targets: targets,
-                            siteCollection: siteCollection,
+                            ss: ss,
                             dataSet: dataSet))
                 : hb;
         }
@@ -38,19 +36,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return Rds.ExecuteTable(statements: new SqlStatement[]
             {
                 Rds.SelectLinks(
-                    column: Rds.LinksColumn()
-                        .SourceId(_as: "Id")
-                        .SiteId()
-                        .Add("0 as [Destination]"),
-                    join: Rds.LinksJoinDefault(),
+                    column: Rds.LinksColumn().SourceId(_as: "Id"),
                     where: Rds.LinksWhere().DestinationId(linkId),
                     unionType: Sqls.UnionTypes.UnionAll),
                 Rds.SelectLinks(
-                    column: Rds.LinksColumn()
-                        .DestinationId(_as: "Id")
-                        .SiteId()
-                        .Add("1 as [Destination]"),
-                    join: LinkUtilities.JoinByDestination(),
+                    column: Rds.LinksColumn().DestinationId(_as: "Id"),
                     where: Rds.LinksWhere().SourceId(linkId))
             }).AsEnumerable();
         }
@@ -92,93 +82,67 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder Links(
             this HtmlBuilder hb,
             EnumerableRowCollection<DataRow> targets,
-            IEnumerable<SiteModel> siteCollection,
+            SiteSettings ss,
             DataSet dataSet)
         {
             return hb.Div(action: () => hb
                 .LinkTables(
-                    siteCollection: siteCollection.Where(o =>
-                        targets.Any(p =>
-                            p["Destination"].ToBool() &&
-                            p["SiteId"].ToLong() == o.SiteId)),
+                    ssList: ss.Destinations,
                     dataSet: dataSet,
                     caption: Displays.LinkDestinations())
                 .LinkTables(
-                    siteCollection: siteCollection.Where(o =>
-                        targets.Any(p =>
-                            !p["Destination"].ToBool() &&
-                            p["SiteId"].ToLong() == o.SiteId)),
+                    ssList: ss.Sources,
                     dataSet: dataSet,
                     caption: Displays.LinkSources()));
         }
 
         private static HtmlBuilder LinkTables(
             this HtmlBuilder hb,
-            IEnumerable<SiteModel> siteCollection,
+            IEnumerable<SiteSettings> ssList,
             DataSet dataSet,
             string caption)
         {
-            siteCollection.ForEach(siteModel => hb.Table(css: "grid", action: () =>
+            ssList.ForEach(ss => hb.Table(css: "grid", action: () =>
             {
-                var dataRows = dataSet.Tables[siteModel.ReferenceType]?
+                var dataRows = dataSet.Tables[ss.ReferenceType]?
                     .AsEnumerable()
-                    .Where(o => o["SiteId"].ToLong() == siteModel.SiteId);
+                    .Where(o => o["SiteId"].ToLong() == ss.SiteId);
                 if (dataRows != null && dataRows.Any())
                 {
-                    switch (siteModel.ReferenceType)
+                    switch (ss.ReferenceType)
                     {
                         case "Issues":
-                            var issuesSiteSettings = siteModel.IssuesSiteSettings();
                             hb
                                 .Caption(caption: "{0} : {1} - {2} {3}".Params(
                                     caption,
-                                    SiteInfo.SiteMenu.Breadcrumb(siteModel.SiteId)
+                                    SiteInfo.SiteMenu.Breadcrumb(ss.SiteId)
                                         .Select(o => o.Title)
                                         .Join(" > "),
                                     Displays.Quantity(),
                                     dataRows.Count()))
                                 .THead(action: () => hb
-                                    .IssuesHeader(ss: issuesSiteSettings))
+                                    .IssuesHeader(ss: ss))
                                 .TBody(action: () => hb
                                     .Issues(
-                                        ss: issuesSiteSettings,
-                                        pt: siteModel.PermissionType,
+                                        ss: ss,
+                                        pt: ss.PermissionType,
                                         dataRows: dataRows));
                             break;
                         case "Results":
-                            var resultsSiteSettings = siteModel.ResultsSiteSettings();
                             hb
                                 .Caption(caption: "{0} : {1} - {2} {3}".Params(
                                     caption,
-                                    SiteInfo.SiteMenu.Breadcrumb(siteModel.SiteId)
+                                    SiteInfo.SiteMenu.Breadcrumb(ss.SiteId)
                                         .Select(o => o.Title)
                                         .Join(" > "),
                                     Displays.Quantity(),
                                     dataRows.Count()))
                                 .THead(action: () => hb
-                                    .ResultsHeader(ss: resultsSiteSettings))
+                                    .ResultsHeader(ss: ss))
                                 .TBody(action: () => hb
                                     .Results(
-                                        ss: resultsSiteSettings,
-                                        pt: siteModel.PermissionType,
-                                        dataRows: dataRows));
-                            break;
-                        case "Wikis":
-                            var wikisSiteSettings = siteModel.WikisSiteSettings();
-                            hb
-                                .Caption(caption: "{0} : {1} - {2} {3}".Params(
-                                    caption,
-                                    SiteInfo.SiteMenu.Breadcrumb(siteModel.SiteId)
-                                        .Select(o => o.Title)
-                                        .Join(" > "),
-                                    Displays.Quantity(),
-                                    dataRows.Count()))
-                                .THead(action: () => hb
-                                    .WikisHeader(ss: wikisSiteSettings))
-                                .TBody(action: () => hb
-                                    .Wikis(
-                                        ss: wikisSiteSettings,
-                                        pt: siteModel.PermissionType,
+                                        ss: ss,
+                                        pt: ss.PermissionType,
                                         dataRows: dataRows));
                             break;
                     }
@@ -197,15 +161,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder ResultsHeader(this HtmlBuilder hb, SiteSettings ss)
-        {
-            return hb.Tr(css: "ui-widget-header", action: () => ss
-                .GetLinkColumns()
-                .ForEach(column => hb
-                    .Th(action: () => hb
-                        .Text(text: column.GridLabelText))));
-        }
-
-        private static HtmlBuilder WikisHeader(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.Tr(css: "ui-widget-header", action: () => ss
                 .GetLinkColumns()
@@ -1742,96 +1697,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 	hb.Td(
                                 	    column: ss.LinkColumn("Timestamp"),
                                 	    value: resultModel.Timestamp);
-                                	break;
-                            }
-                        }));
-            });
-            return hb;
-        }
-
-        private static HtmlBuilder Wikis(
-            this HtmlBuilder hb,
-            SiteSettings ss,
-            Permissions.Types pt,
-            EnumerableRowCollection<DataRow> dataRows)
-        {
-            dataRows.ForEach(dataRow =>
-            {
-                var wikiModel = new WikiModel(ss, pt, dataRow);
-                hb.Tr(
-                    attributes: new HtmlAttributes()
-                        .Class("grid-row")
-                        .DataId(wikiModel.WikiId.ToString()),
-                    action: () => ss
-                        .GetLinkColumns()
-                        .ForEach(column =>
-                        {
-                            switch (column.ColumnName)
-                            {
-                                case "SiteId":
-                                	hb.Td(
-                                	    column: ss.LinkColumn("SiteId"),
-                                	    value: wikiModel.SiteId);
-                                	break;
-                                case "UpdatedTime":
-                                	hb.Td(
-                                	    column: ss.LinkColumn("UpdatedTime"),
-                                	    value: wikiModel.UpdatedTime);
-                                	break;
-                                case "WikiId":
-                                	hb.Td(
-                                	    column: ss.LinkColumn("WikiId"),
-                                	    value: wikiModel.WikiId);
-                                	break;
-                                case "Ver":
-                                	hb.Td(
-                                	    column: ss.LinkColumn("Ver"),
-                                	    value: wikiModel.Ver);
-                                	break;
-                                case "Title":
-                                	hb.Td(
-                                	    column: ss.LinkColumn("Title"),
-                                	    value: wikiModel.Title);
-                                	break;
-                                case "Body":
-                                	hb.Td(
-                                	    column: ss.LinkColumn("Body"),
-                                	    value: wikiModel.Body);
-                                	break;
-                                case "TitleBody":
-                                	hb.Td(
-                                	    column: ss.LinkColumn("TitleBody"),
-                                	    value: wikiModel.TitleBody);
-                                	break;
-                                case "Comments":
-                                	hb.Td(
-                                	    column: ss.LinkColumn("Comments"),
-                                	    value: wikiModel.Comments);
-                                	break;
-                                case "Creator":
-                                	hb.Td(
-                                	    column: ss.LinkColumn("Creator"),
-                                	    value: wikiModel.Creator);
-                                	break;
-                                case "Updator":
-                                	hb.Td(
-                                	    column: ss.LinkColumn("Updator"),
-                                	    value: wikiModel.Updator);
-                                	break;
-                                case "CreatedTime":
-                                	hb.Td(
-                                	    column: ss.LinkColumn("CreatedTime"),
-                                	    value: wikiModel.CreatedTime);
-                                	break;
-                                case "VerUp":
-                                	hb.Td(
-                                	    column: ss.LinkColumn("VerUp"),
-                                	    value: wikiModel.VerUp);
-                                	break;
-                                case "Timestamp":
-                                	hb.Td(
-                                	    column: ss.LinkColumn("Timestamp"),
-                                	    value: wikiModel.Timestamp);
                                 	break;
                             }
                         }));
