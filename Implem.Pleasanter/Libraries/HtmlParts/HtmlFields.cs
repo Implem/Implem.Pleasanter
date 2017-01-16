@@ -398,7 +398,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     id: fieldId,
                     css: Css.Class("field-normal", fieldCss), action: () =>
                     {
-                        if (actionOptions != null) actionOptions();
+                        actionOptions?.Invoke();
                     })
                 : hb;
         }
