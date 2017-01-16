@@ -1634,7 +1634,11 @@ namespace Implem.Pleasanter.Models
                         }
                         else if (SiteSettings.Views?.Get(o.Notification.AfterCondition) != null)
                         {
-                            if (o.Notification.Expression == Notification.Expressions.And)
+                            if (SiteSettings.Views?.Get(o.Notification.BeforeCondition) == null)
+                            {
+                                o.Notification.Enabled = o.Exists;
+                            }
+                            else if (o.Notification.Expression == Notification.Expressions.And)
                             {
                                 o.Notification.Enabled &= o.Exists;
                             }
