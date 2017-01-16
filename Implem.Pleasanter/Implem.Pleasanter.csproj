@@ -344,7 +344,7 @@
     <Compile Include="Libraries\Settings\Link.cs" />
     <Compile Include="Libraries\Settings\Notification.cs" />
     <Compile Include="Libraries\Settings\SiteSettings.cs" />
-    <Compile Include="Libraries\Settings\SiteSettingsUtility.cs" />
+    <Compile Include="Libraries\Settings\SiteSettingsUtilities.cs" />
     <Compile Include="Libraries\Settings\Summary.cs" />
     <Compile Include="Libraries\Styles\Css.cs" />
     <Compile Include="Libraries\General\Error.cs" />

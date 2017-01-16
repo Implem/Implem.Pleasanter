@@ -368,19 +368,19 @@ namespace Implem.Pleasanter.Models
         public static string EditorNew()
         {
             return Editor(new UserModel(
-                SiteSettingsUtility.UsersSiteSettings(),
+                SiteSettingsUtilities.UsersSiteSettings(),
                 methodType: BaseModel.MethodTypes.New));
         }
 
         public static string Editor(int userId, bool clearSessions)
         {
             var userModel = new UserModel(
-                SiteSettingsUtility.UsersSiteSettings(),
+                SiteSettingsUtilities.UsersSiteSettings(),
                 userId: userId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
             userModel.SwitchTargets = GetSwitchTargets(
-                SiteSettingsUtility.UsersSiteSettings(), userModel.UserId);
+                SiteSettingsUtilities.UsersSiteSettings(), userModel.UserId);
             return Editor(userModel);
         }
 
@@ -827,7 +827,7 @@ namespace Implem.Pleasanter.Models
         public static string AddMailAddresses(
             SiteSettings ss, Permissions.Types pt, int userId)
         {
-            var userModel = new UserModel(SiteSettingsUtility.UsersSiteSettings(), userId);
+            var userModel = new UserModel(SiteSettingsUtilities.UsersSiteSettings(), userId);
             var mailAddress = Forms.Data("MailAddress").Trim();
             var selected = Forms.Data("MailAddresses").Split(';');
             var badMailAddress = string.Empty;
@@ -854,7 +854,7 @@ namespace Implem.Pleasanter.Models
         public static string DeleteMailAddresses(
             SiteSettings ss, Permissions.Types pt, int userId)
         {
-            var userModel = new UserModel(SiteSettingsUtility.UsersSiteSettings(), userId);
+            var userModel = new UserModel(SiteSettingsUtilities.UsersSiteSettings(), userId);
             var invalid = UserValidators.OnUpdating(ss, pt, userModel);
             switch (invalid)
             {
@@ -976,7 +976,7 @@ namespace Implem.Pleasanter.Models
         public static string GridRows()
         {
             return GridRows(
-                SiteSettingsUtility.UsersSiteSettings(),
+                SiteSettingsUtilities.UsersSiteSettings(),
                 Permissions.Admins(),
                 offset: DataViewGrid.Offset());
         }
@@ -987,7 +987,7 @@ namespace Implem.Pleasanter.Models
         public static string HtmlLogin(string returnUrl)
         {
             var hb = new HtmlBuilder();
-            var ss = SiteSettingsUtility.UsersSiteSettings();
+            var ss = SiteSettingsUtilities.UsersSiteSettings();
             return hb.Template(
                 pt: Permissions.Admins(),
                 verType: Versions.VerTypes.Latest,

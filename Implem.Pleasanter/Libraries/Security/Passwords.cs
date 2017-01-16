@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.Libraries.Security
         public static string Change(int id)
         {
             return new UserModel(
-                SiteSettingsUtility.UsersSiteSettings(),
+                SiteSettingsUtilities.UsersSiteSettings(),
                 id,
                 setByForm: true)
                     .ChangePassword();
@@ -30,7 +30,7 @@ namespace Implem.Pleasanter.Libraries.Security
             SiteSettings ss, Permissions.Types pt, int userId)
         {
             var userModel = new UserModel(
-                SiteSettingsUtility.UsersSiteSettings(), userId, setByForm: true);
+                SiteSettingsUtilities.UsersSiteSettings(), userId, setByForm: true);
             var invalid = UserValidators.OnUpdating(ss, pt, userModel);
             switch (invalid)
             {

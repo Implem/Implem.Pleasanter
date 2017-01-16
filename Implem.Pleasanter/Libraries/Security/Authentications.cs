@@ -8,7 +8,7 @@ namespace Implem.Pleasanter.Libraries.Security
         public static string SignIn(string returnUrl)
         {
             return new UserModel(
-                SiteSettingsUtility.UsersSiteSettings(),
+                SiteSettingsUtilities.UsersSiteSettings(),
                 setByForm: true)
                     .Authenticate(returnUrl);
         }

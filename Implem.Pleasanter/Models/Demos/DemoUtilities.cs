@@ -31,13 +31,13 @@ namespace Implem.Pleasanter.Models
             var mailAddress = Forms.Data("Users_DemoMailAddress");
             var tenantModel = new TenantModel()
             {
-                SiteSettings = SiteSettingsUtility.TenantsSiteSettings(),
+                SiteSettings = SiteSettingsUtilities.TenantsSiteSettings(),
                 TenantName = mailAddress
             };
             tenantModel.Create();
             var demoModel = new DemoModel()
             {
-                SiteSettings = SiteSettingsUtility.DemosSiteSettings(),
+                SiteSettings = SiteSettingsUtilities.DemosSiteSettings(),
                 TenantId = tenantModel.TenantId,
                 Passphrase = passphrase,
                 MailAddress = mailAddress
@@ -45,7 +45,7 @@ namespace Implem.Pleasanter.Models
             demoModel.Create();
             demoModel.Initialize(new OutgoingMailModel()
             {
-                SiteSettings = SiteSettingsUtility.OutgoingMailsSiteSettings(),
+                SiteSettings = SiteSettingsUtilities.OutgoingMailsSiteSettings(),
                 Title = new Title(Displays.DemoMailTitle()),
                 Body = Displays.DemoMailBody(Url.Server(), passphrase),
                 From = new System.Net.Mail.MailAddress(Parameters.Mail.SupportFrom),

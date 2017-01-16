@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Settings
 {
-    public static class SiteSettingsUtility
+    public static class SiteSettingsUtilities
     {
         public static SiteSettings Get(this List<SiteSettings> ssList, long siteId)
         {

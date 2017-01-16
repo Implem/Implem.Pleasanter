@@ -653,7 +653,7 @@ namespace Implem.Pleasanter.Models
         {
             var ss = siteModel != null
                 ? siteModel.SiteSettings
-                : SiteSettingsUtility.SitesSiteSettings(0);
+                : SiteSettingsUtilities.SitesSiteSettings(0);
             var pt = siteModel != null
                 ? siteModel.PermissionType
                 : Permissions.Admins() | Permissions.Types.Manager;
@@ -2615,7 +2615,7 @@ namespace Implem.Pleasanter.Models
                         var destinationSs = dataRow?["SiteSettings"]
                             .ToString()
                             .Deserialize<SiteSettings>() ??
-                                SiteSettingsUtility.Get(
+                                SiteSettingsUtilities.Get(
                                     dataRow["SiteId"].ToLong(),
                                     dataRow["ReferenceType"].ToString());
                         if (destinationSs != null)

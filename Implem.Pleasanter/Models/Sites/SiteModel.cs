@@ -530,7 +530,7 @@ namespace Implem.Pleasanter.Models
                 });
             SiteId = newId != 0 ? newId : SiteId;
             Get();
-            SiteSettings = SiteSettingsUtility.Get(SiteId, ReferenceType);
+            SiteSettings = SiteSettingsUtilities.Get(SiteId, ReferenceType);
             switch (ReferenceType)
             {
                 case "Wikis":
@@ -573,7 +573,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public void SetSiteSettingsProperties()
         {
-            if (SiteSettings == null) SiteSettings = SiteSettingsUtility.SitesSiteSettings(SiteId);
+            if (SiteSettings == null)
+            {
+                SiteSettings = SiteSettingsUtilities.SitesSiteSettings(SiteId);
+            }
             SiteSettings.SiteId = SiteId;
             SiteSettings.ParentId = ParentId;
             SiteSettings.Title = Title.Value;
@@ -1199,7 +1202,7 @@ namespace Implem.Pleasanter.Models
                     }
                     else
                     {
-                        SiteSettingsUtility.Get(this);
+                        SiteSettingsUtilities.Get(this);
                         OpenSummaryDialog(res, summary);
                     }
                 }
@@ -1390,7 +1393,7 @@ namespace Implem.Pleasanter.Models
                     }
                     else
                     {
-                        SiteSettingsUtility.Get(this);
+                        SiteSettingsUtilities.Get(this);
                         OpenFormulaDialog(res, formulaSet);
                     }
                 }
@@ -1520,7 +1523,7 @@ namespace Implem.Pleasanter.Models
                     }
                     else
                     {
-                        SiteSettingsUtility.Get(this);
+                        SiteSettingsUtilities.Get(this);
                         OpenViewDialog(res, view);
                     }
                 }
@@ -1543,7 +1546,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void AddViewFilter(ResponseCollection res)
         {
-            SiteSettingsUtility.Get(this);
+            SiteSettingsUtilities.Get(this);
             res
                 .Append(
                     "#ViewFiltersTab .items",

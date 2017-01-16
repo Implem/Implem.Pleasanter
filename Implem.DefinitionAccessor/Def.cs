@@ -433,7 +433,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_GridSqlWhereTenantId": Code.Model_Utilities_GridSqlWhereTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridSqlWhereTenantId, definitionRow, CodeXls); break;
                     case "Model_Utilities_GridSqlWhereSiteId": Code.Model_Utilities_GridSqlWhereSiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridSqlWhereSiteId, definitionRow, CodeXls); break;
                     case "Model_Utilities_Editor": Code.Model_Utilities_Editor = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Editor, definitionRow, CodeXls); break;
-                    case "Model_Utilities_SiteSettingsUtility": Code.Model_Utilities_SiteSettingsUtility = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SiteSettingsUtility, definitionRow, CodeXls); break;
+                    case "Model_Utilities_SiteSettingsUtilities": Code.Model_Utilities_SiteSettingsUtilities = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SiteSettingsUtilities, definitionRow, CodeXls); break;
                     case "Model_Utilities_PermissionTypesAdmins": Code.Model_Utilities_PermissionTypesAdmins = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_PermissionTypesAdmins, definitionRow, CodeXls); break;
                     case "Model_Utilities_UserSelf": Code.Model_Utilities_UserSelf = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UserSelf, definitionRow, CodeXls); break;
                     case "Model_Utilities_EditorItem": Code.Model_Utilities_EditorItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorItem, definitionRow, CodeXls); break;
@@ -3301,7 +3301,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_GridSqlWhereTenantId;
         public string Model_Utilities_GridSqlWhereSiteId;
         public string Model_Utilities_Editor;
-        public string Model_Utilities_SiteSettingsUtility;
+        public string Model_Utilities_SiteSettingsUtilities;
         public string Model_Utilities_PermissionTypesAdmins;
         public string Model_Utilities_UserSelf;
         public string Model_Utilities_EditorItem;
@@ -3733,7 +3733,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_GridSqlWhereTenantId = new CodeDefinition();
         public CodeDefinition Model_Utilities_GridSqlWhereSiteId = new CodeDefinition();
         public CodeDefinition Model_Utilities_Editor = new CodeDefinition();
-        public CodeDefinition Model_Utilities_SiteSettingsUtility = new CodeDefinition();
+        public CodeDefinition Model_Utilities_SiteSettingsUtilities = new CodeDefinition();
         public CodeDefinition Model_Utilities_PermissionTypesAdmins = new CodeDefinition();
         public CodeDefinition Model_Utilities_UserSelf = new CodeDefinition();
         public CodeDefinition Model_Utilities_EditorItem = new CodeDefinition();

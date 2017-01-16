@@ -318,7 +318,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public OutgoingMailModel(string reference, long referenceId)
         {
-            SiteSettings = SiteSettingsUtility.OutgoingMailsSiteSettings();
+            SiteSettings = SiteSettingsUtilities.OutgoingMailsSiteSettings();
             if (reference.ToLower() == "items")
             {
                 var itemModel = new ItemModel(referenceId);

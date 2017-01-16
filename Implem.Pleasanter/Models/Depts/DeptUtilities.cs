@@ -342,19 +342,19 @@ namespace Implem.Pleasanter.Models
         public static string EditorNew()
         {
             return Editor(new DeptModel(
-                SiteSettingsUtility.DeptsSiteSettings(),
+                SiteSettingsUtilities.DeptsSiteSettings(),
                 methodType: BaseModel.MethodTypes.New));
         }
 
         public static string Editor(int deptId, bool clearSessions)
         {
             var deptModel = new DeptModel(
-                SiteSettingsUtility.DeptsSiteSettings(),
+                SiteSettingsUtilities.DeptsSiteSettings(),
                 deptId: deptId,
                 clearSessions: clearSessions,
                 methodType: BaseModel.MethodTypes.Edit);
             deptModel.SwitchTargets = GetSwitchTargets(
-                SiteSettingsUtility.DeptsSiteSettings(), deptModel.DeptId);
+                SiteSettingsUtilities.DeptsSiteSettings(), deptModel.DeptId);
             return Editor(deptModel);
         }
 
@@ -722,7 +722,7 @@ namespace Implem.Pleasanter.Models
         public static string GridRows()
         {
             return GridRows(
-                SiteSettingsUtility.DeptsSiteSettings(),
+                SiteSettingsUtilities.DeptsSiteSettings(),
                 Permissions.Admins(),
                 offset: DataViewGrid.Offset());
         }

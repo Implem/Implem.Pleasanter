@@ -84,7 +84,7 @@ namespace Implem.Pleasanter
                 var userId = HttpContext.Current.User.Identity.Name.ToInt();
                 Sessions.SetTenantId(userId);
                 var userModel = new UserModel(
-                    SiteSettingsUtility.UsersSiteSettings(),
+                    SiteSettingsUtilities.UsersSiteSettings(),
                     userId);
                 if (userModel.AccessStatus == Databases.AccessStatuses.Selected &&
                     !userModel.Disabled)
@@ -115,7 +115,7 @@ namespace Implem.Pleasanter
         private void SetAnonymouseSession()
         {
             var userModel = new UserModel(
-                SiteSettingsUtility.UsersSiteSettings(),
+                SiteSettingsUtilities.UsersSiteSettings(),
                 HttpContext.Current.User?.Identity.Name.ToInt() ?? 0);
             Session["Language"] = userModel.Language;
             Session["RdsUser"] = userModel.RdsUser();

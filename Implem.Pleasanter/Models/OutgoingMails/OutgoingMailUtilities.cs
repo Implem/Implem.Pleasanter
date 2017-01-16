@@ -188,7 +188,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             OutgoingMailModel outgoingMailModel)
         {
-            outgoingMailModel.SiteSettings = SiteSettingsUtility.OutgoingMailsSiteSettings();
+            outgoingMailModel.SiteSettings = SiteSettingsUtilities.OutgoingMailsSiteSettings();
             var titleColumn = outgoingMailModel.SiteSettings.GetColumn("Title");
             var bodyColumn = outgoingMailModel.SiteSettings.GetColumn("Body");
             return hb

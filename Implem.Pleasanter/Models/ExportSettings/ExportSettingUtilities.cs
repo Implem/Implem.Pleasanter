@@ -44,7 +44,7 @@ namespace Implem.Pleasanter.Models
             {
                 exportSettingModel.Title = new Title(0, Unique.New(
                     new ExportSettingCollection(
-                        SiteSettingsUtility.ExportSettingsSiteSettings(),
+                        SiteSettingsUtilities.ExportSettingsSiteSettings(),
                         Permissions.Types.NotSet,
                         where: Rds.ExportSettingsWhere()
                             .ReferenceId(exportSettingModel.ReferenceId))
@@ -144,7 +144,7 @@ namespace Implem.Pleasanter.Models
         public static ExportSettingCollection Collection(string referenceType, long referenceId)
         {
             return new ExportSettingCollection(
-                SiteSettingsUtility.ExportSettingsSiteSettings(),
+                SiteSettingsUtilities.ExportSettingsSiteSettings(),
                 Permissions.Types.NotSet,
                 where: Rds.ExportSettingsWhere()
                     .ReferenceType(referenceType)
@@ -212,7 +212,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder Settings(this HtmlBuilder hb, string referenceType, long referenceId)
         {
             var exportSettingCollection = new ExportSettingCollection(
-                SiteSettingsUtility.ExportSettingsSiteSettings(),
+                SiteSettingsUtilities.ExportSettingsSiteSettings(),
                 Permissions.Types.NotSet,
                 where: Rds.ExportSettingsWhere()
                     .ReferenceType(referenceType)
@@ -299,7 +299,7 @@ namespace Implem.Pleasanter.Models
         public static string Change()
         {
             var exportSettingModel = new ExportSettingModel(
-                SiteSettingsUtility.ExportSettingsSiteSettings())
+                SiteSettingsUtilities.ExportSettingsSiteSettings())
                     .Get(where: Rds.ExportSettingsWhere()
                         .ExportSettingId(Forms.Long("ExportSettings_ExportSettingId")));
             SetSessions(exportSettingModel);
