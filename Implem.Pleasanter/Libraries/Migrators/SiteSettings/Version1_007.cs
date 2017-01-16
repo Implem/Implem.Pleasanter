@@ -1,4 +1,5 @@
-﻿namespace Implem.Pleasanter.Libraries.Migrators
+﻿using Implem.Pleasanter.Libraries.Settings;
+namespace Implem.Pleasanter.Libraries.Migrators
 {
     public static class Version1_007
     {
@@ -10,7 +11,7 @@
             ss.AggregationCollection = null;
             ss.Links = ss.LinkCollection;
             ss.LinkCollection = null;
-            ss.Summaries = ss.SummaryCollection;
+            ss.Summaries = (SettingList<Summary>)ss.SummaryCollection;
             ss.SummaryCollection = null;
             ss.Migrated = true;
         }

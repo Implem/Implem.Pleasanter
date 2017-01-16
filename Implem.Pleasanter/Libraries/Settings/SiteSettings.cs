@@ -55,7 +55,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<Column> Columns;
         public List<Aggregation> Aggregations;
         public List<Link> Links;
-        public List<Summary> Summaries;
+        public SettingList<Summary> Summaries;
         public List<FormulaSet> Formulas;
         public int ViewLatestId;
         public List<View> Views;
@@ -119,7 +119,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Notifications == null) Notifications = new List<Notification>();
             if (Aggregations == null) Aggregations = new List<Aggregation>();
             if (Links == null) Links = new List<Link>();
-            if (Summaries == null) Summaries = new List<Summary>();
+            if (Summaries == null) Summaries = new SettingList<Summary>();
             if (Formulas == null) Formulas = new List<FormulaSet>();
         }
 
@@ -1164,7 +1164,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string sourceColumn,
             int? sourceCondition)
         {
-            var summary = Summaries.FirstOrDefault(o => o.Id == id);
+            var summary = Summaries?.Get(id);
             if (summary != null)
             {
                 summary.Update(
@@ -1183,39 +1183,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return Error.Types.NotFound;
             }
-        }
-
-        public void SetSummaries(string controlId, IEnumerable<int> selected)
-        {
-            var order = Summaries.Select(o => o.Id).ToArray();
-            switch (controlId)
-            {
-                case "MoveUpSummaries":
-                case "MoveDownSummaries":
-                    if (controlId == "MoveDownSummaries") Array.Reverse(order);
-                    order.Select((o, i) => new { ColumnName = o, Index = i }).ForEach(data =>
-                    {
-                        if (selected.Contains(data.ColumnName))
-                        {
-                            if (data.Index > 0 &&
-                                !selected.Contains(order[data.Index - 1]))
-                            {
-                                order = Arrays.Swap(order, data.Index, data.Index - 1);
-                            }
-                        }
-                    });
-                    if (controlId == "MoveDownSummaries") Array.Reverse(order);
-                    Summaries = order
-                        .Select(o => Summaries.FirstOrDefault(p => p.Id == o))
-                        .Where(o => o != null)
-                        .ToList();
-                    break;
-            }
-        }
-
-        public void DeleteSummaries(IEnumerable<int> selected)
-        {
-            Summaries.RemoveAll(o => selected?.Contains(o.Id) == true);
         }
 
         public void SetFormulas(string controlId, IEnumerable<int> selected)

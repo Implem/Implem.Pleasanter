@@ -203,6 +203,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IConvertable.cs" />
+    <Compile Include="Interfaces\ISettingListItem.cs" />
     <Compile Include="Libraries\Converts\GridTextExtensions.cs" />
     <Compile Include="Libraries\Converts\ToNoticeExtensions.cs" />
     <Compile Include="Libraries\Converts\SearchIndexExtensions.cs" />
@@ -237,6 +238,7 @@
     <Compile Include="Libraries\Settings\FormulaSet.cs" />
     <Compile Include="Libraries\Settings\NumColumnExtensions.cs" />
     <Compile Include="Libraries\Converts\MatchExtensions.cs" />
+    <Compile Include="Libraries\Settings\SettingList.cs" />
     <Compile Include="Libraries\ViewModes\BurnDown.cs" />
     <Compile Include="Libraries\ViewModes\BurnDownElement.cs" />
     <Compile Include="Libraries\ViewModes\Gantt.cs" />

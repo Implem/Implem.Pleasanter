@@ -1170,7 +1170,8 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                SiteSettings.SetSummaries(controlId, selected);
+                SiteSettings.Summaries.MoveUpOrDown(
+                    ColumnUtilities.ChangeCommand(controlId), selected);
                 res.Html("#EditSummary", new HtmlBuilder()
                     .EditSummary(ss: SiteSettings));
             }
@@ -1327,7 +1328,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                SiteSettings.DeleteSummaries(selected);
+                SiteSettings.Summaries.Delete(selected);
                 res.ReplaceAll("#EditSummary", new HtmlBuilder()
                     .EditSummary(ss: SiteSettings));
             }

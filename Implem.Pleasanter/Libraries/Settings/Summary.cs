@@ -1,8 +1,9 @@
-﻿namespace Implem.Pleasanter.Libraries.Settings
+﻿using Implem.Pleasanter.Interfaces;
+namespace Implem.Pleasanter.Libraries.Settings
 {
-    public class Summary
+    public class Summary : ISettingListItem
     {
-        public int Id;
+        public int Id { get; set; }
         public long SiteId;
         public string DestinationReferenceType;
         public string DestinationColumn;

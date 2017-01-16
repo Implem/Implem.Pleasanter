@@ -10,11 +10,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ssList.FirstOrDefault(o => o.SiteId == siteId);
         }
 
-        public static Summary Get(this List<Summary> summaries, int? id)
-        {
-            return summaries?.FirstOrDefault(o => o.Id == id);
-        }
-
         public static View Get(this List<View> views, int? id)
         {
             return views?.FirstOrDefault(o => o.Id == id);
