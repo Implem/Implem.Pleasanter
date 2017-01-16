@@ -1,5 +1,4 @@
-﻿using System.Linq;
-namespace Implem.Pleasanter.Libraries.Settings
+﻿namespace Implem.Pleasanter.Libraries.Settings
 {
     public class FormulaSet
     {
@@ -20,7 +19,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     data += Formula.ToString(ss);
                 }
-                var view = ss.Views?.FirstOrDefault(o => o.Id == Condition);
+                var view = ss.Views?.Get(Condition);
                 if (view != null)
                 {
                     data += " | " + view.Name;
