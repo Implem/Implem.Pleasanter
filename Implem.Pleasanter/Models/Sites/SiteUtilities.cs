@@ -3503,9 +3503,9 @@ namespace Implem.Pleasanter.Models
                                 .Td(action: () => hb
                                     .Text(text: beforeCondition?.Name))
                                 .Td(action: () => hb
-                                    .Text(
-                                        text: Displays.Get(
-                                            data.Notification.Expression.ToString()) ))
+                                    .Text(text: beforeCondition != null && afterCondition != null
+                                        ? Displays.Get(data.Notification.Expression.ToString())
+                                        : null))
                                 .Td(action: () => hb
                                     .Text(text: afterCondition?.Name))
                                 .Td(action: () => hb
