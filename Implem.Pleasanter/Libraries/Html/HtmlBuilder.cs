@@ -60,7 +60,7 @@ namespace Implem.Pleasanter.Libraries.Html
             Append(tag: tag, attributes: (attributes ?? new HtmlAttributes())
                 .Id(id)
                 .Class(css));
-            if (action != null) action();
+            action?.Invoke();
             AppendClose();
             return this;
         }
