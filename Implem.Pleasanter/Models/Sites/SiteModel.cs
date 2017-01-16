@@ -1251,22 +1251,21 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void AddSummary(ResponseCollection res)
         {
+            SiteSettings.SetLinkedSiteSettings();
+            var siteId = Forms.Long("SummarySiteId");
+            var destinationSs = SiteSettings.Destinations.Get(siteId);
             int? destinationCondition = Forms.Int("SummaryDestinationCondition");
             int? sourceCondition = Forms.Int("SummarySourceCondition");
             var error = SiteSettings.AddSummary(
-                Forms.Long("SummarySiteId"),
+                siteId,
                 new SiteModel(Forms.Long("SummarySiteId")).ReferenceType,
                 Forms.Data("SummaryDestinationColumn"),
-                SiteSettings.Views?.Any(o => o.Id == destinationCondition) == true
-                    ? destinationCondition
-                    : null,
+                destinationSs?.Views?.Get(destinationCondition)?.Id,
                 Forms.Bool("SummarySetZeroWhenOutOfCondition"),
                 Forms.Data("SummaryLinkColumn"),
                 Forms.Data("SummaryType"),
                 Forms.Data("SummarySourceColumn"),
-                SiteSettings.Views?.Any(o => o.Id == sourceCondition) == true
-                    ? sourceCondition
-                    : null);
+                SiteSettings.Views?.Get(sourceCondition)?.Id);
             if (error.Has())
             {
                 res.Message(error.Message());
@@ -1285,24 +1284,23 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void UpdateSummary(ResponseCollection res)
         {
+            SiteSettings.SetLinkedSiteSettings();
+            var siteId = Forms.Long("SummarySiteId");
+            var destinationSs = SiteSettings.Destinations.Get(siteId);
             int? destinationCondition = Forms.Int("SummaryDestinationCondition");
             int? sourceCondition = Forms.Int("SummarySourceCondition");
             var outOfCondition = Forms.Data("SummaryOutOfCondition").Trim();
             var error = SiteSettings.UpdateSummary(
                 Forms.Int("SummaryId"),
-                Forms.Long("SummarySiteId"),
+                siteId,
                 new SiteModel(Forms.Long("SummarySiteId")).ReferenceType,
                 Forms.Data("SummaryDestinationColumn"),
-                SiteSettings.Views?.Any(o => o.Id == destinationCondition) == true
-                    ? destinationCondition
-                    : null,
+                destinationSs?.Views?.Get(destinationCondition)?.Id,
                 Forms.Bool("SummarySetZeroWhenOutOfCondition"),
                 Forms.Data("SummaryLinkColumn"),
                 Forms.Data("SummaryType"),
                 Forms.Data("SummarySourceColumn"),
-                SiteSettings.Views?.Any(o => o.Id == sourceCondition) == true
-                    ? sourceCondition
-                    : null);
+                SiteSettings.Views?.Get(sourceCondition)?.Id);
             if (error.Has())
             {
                 res.Message(error.Message());
