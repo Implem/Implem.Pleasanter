@@ -2637,8 +2637,8 @@ namespace Implem.Pleasanter.Models
                                         .Text(text: destinationSs.GetColumn(
                                             summary.DestinationColumn)?.LabelText))
                                     .Td(action: () => hb
-                                        .Text(text: destinationSs.Views?.FirstOrDefault(o =>
-                                            o.Id == summary.DestinationCondition)?.Name))
+                                        .Text(text: destinationSs.Views?.Get(
+                                            summary.DestinationCondition)?.Name))
                                     .Td(action: () => hb
                                         .Text(text: ss.GetColumn(
                                             summary.LinkColumn)?.LabelText))
@@ -2648,8 +2648,8 @@ namespace Implem.Pleasanter.Models
                                         .Text(text: ss.GetColumn(
                                             summary.SourceColumn)?.LabelText))
                                     .Td(action: () => hb
-                                        .Text(text: ss.Views?.FirstOrDefault(o =>
-                                            o.Id == summary.SourceCondition)?.Name)));
+                                        .Text(text: ss.Views?.Get(
+                                            summary.SourceCondition)?.Name)));
                         }
                     });
                 });

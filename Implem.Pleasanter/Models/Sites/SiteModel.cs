@@ -1513,7 +1513,7 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
-                    view = SiteSettings.Views?.FirstOrDefault(o => o.Id == idList.First());
+                    view = SiteSettings.Views?.Get(idList.First());
                     if (view == null)
                     {
                         OpenDialogError(res, Messages.SelectOne());
@@ -1572,7 +1572,7 @@ namespace Implem.Pleasanter.Models
         private void UpdateView(ResponseCollection res)
         {
             var selected = Forms.Int("ViewId");
-            var view = SiteSettings.Views?.FirstOrDefault(o => o.Id == selected);
+            var view = SiteSettings.Views?.Get(selected);
             if (view == null)
             {
                 res.Message(Messages.NotFound());
