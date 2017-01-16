@@ -1268,7 +1268,7 @@ namespace Implem.Pleasanter.Models
             var executed = false;
             SiteSettings.Sources.ForEach(sourceSs =>
                 sourceSs.Summaries
-                    .Where(o => sourceSs.Views?.Any(p => p.Id == o.DestinationCondition) == true)
+                    .Where(o => sourceSs.Views?.Get(o.DestinationCondition) != null)
                     .ForEach(summary =>
                     {
                         Summaries.Synchronize(
@@ -1378,8 +1378,7 @@ namespace Implem.Pleasanter.Models
                 {
                     var columnName = formulaSet.Target;
                     var formula = formulaSet.Formula;
-                    var view = SiteSettings.Views?.FirstOrDefault(o =>
-                        o.Id == formulaSet.Condition);
+                    var view = SiteSettings.Views?.Get(formulaSet.Condition);
                     if (view != null && !Matched(view))
                     {
                         if (formulaSet.OutOfCondition != null)
@@ -1616,9 +1615,9 @@ namespace Implem.Pleasanter.Models
                     SiteSettings.Notifications.Select((o, i) =>
                         Rds.SelectIssues(
                             column: Rds.IssuesColumn().IssueId(),
-                            where: SiteSettings.Views?.FirstOrDefault(p => p.Id == (before
+                            where: SiteSettings.Views?.Get(before
                                 ? o.BeforeCondition
-                                : o.AfterCondition))?
+                                : o.AfterCondition)?
                                     .Where(SiteSettings, Rds.IssuesWhere().IssueId(IssueId))
                                         ?? Rds.IssuesWhere().IssueId(IssueId))).ToArray());
                 SiteSettings.Notifications
@@ -1633,8 +1632,7 @@ namespace Implem.Pleasanter.Models
                         {
                             o.Notification.Enabled = o.Exists;
                         }
-                        else if (SiteSettings.Views?.Any(p =>
-                            p.Id == o.Notification.AfterCondition) == true)
+                        else if (SiteSettings.Views?.Get(o.Notification.AfterCondition) != null)
                         {
                             if (o.Notification.Expression == Notification.Expressions.And)
                             {
