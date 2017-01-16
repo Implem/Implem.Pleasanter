@@ -141,7 +141,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     where: Rds.SitesWhere()
                         .SiteId_In(sub: Rds.SelectLinks(
                             column: Rds.LinksColumn().DestinationId(),
-                            where: Rds.LinksWhere().SourceId(SiteId)))),
+                            where: Rds.LinksWhere().SourceId(SiteId)))
+                        .ReferenceType("Wikis", _operator: "<>")),
                 Rds.SelectSites(
                     dataTableName: "Sources",
                     column: Rds.SitesColumn()
@@ -155,7 +156,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     where: Rds.SitesWhere()
                         .SiteId_In(sub: Rds.SelectLinks(
                             column: Rds.LinksColumn().SourceId(),
-                            where: Rds.LinksWhere().DestinationId(SiteId)))),
+                            where: Rds.LinksWhere().DestinationId(SiteId)))
+                        .ReferenceType("Wikis", _operator: "<>"))
             });
             Destinations = SiteSettingsList(dataSet.Tables["Destinations"]);
             Sources = SiteSettingsList(dataSet.Tables["Sources"]);
