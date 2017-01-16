@@ -13,8 +13,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 : ss.SiteId.ToString());
             if (Forms.ControlId() == "ViewSelector")
             {
-                var view = ss.Views?.FirstOrDefault(o =>
-                    o.Id == Forms.Int("ViewSelector")) ?? new View(ss);
+                var view = ss.Views?.Get(Forms.Int("ViewSelector")) ?? new View(ss);
                 HttpContext.Current.Session[key] = view;
                 return view;
             }
@@ -26,7 +25,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
             else
             {
-                var view = ss.Views?.FirstOrDefault(o => o.Id == ss.GridView) ?? new View(ss);
+                var view = ss.Views?.Get(ss.GridView) ?? new View(ss);
                 HttpContext.Current.Session[key] = view;
                 return view;
             }
