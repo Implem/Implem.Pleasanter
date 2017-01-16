@@ -19,10 +19,10 @@ namespace Implem.Pleasanter.Libraries.Server
         public static Dictionary<int, User> UserHash;
         public static Dictionary<long, List<int>> SiteUserHash;
 
-        public static void Reflesh()
+        public static void Reflesh(bool force = false)
         {
             var monitor = new UpdateMonitor();
-            if (monitor.Updated)
+            if (monitor.Updated || force)
             {
                 var tenantId = Sessions.TenantId();
                 var permission = new SqlWhereCollection().Add(or: new SqlWhereCollection(
@@ -48,7 +48,7 @@ namespace Implem.Pleasanter.Libraries.Server
                             .TenantId()
                             .DeptId()
                             .DeptName(),
-                        _using: monitor.DeptsUpdated),
+                        _using: monitor.DeptsUpdated || force),
                     Rds.SelectUsers(
                         dataTableName: "Users",
                         column: Rds.UsersColumn()
@@ -60,9 +60,9 @@ namespace Implem.Pleasanter.Libraries.Server
                             .FirstAndLastNameOrder()
                             .TenantAdmin()
                             .ServiceAdmin(),
-                        _using: monitor.UsersUpdated)
+                        _using: monitor.UsersUpdated || force)
                 });
-                if (monitor.DeptsUpdated)
+                if (monitor.DeptsUpdated || force)
                 {
                     DeptHash = dataSet.Tables["Depts"]
                         .AsEnumerable()
@@ -70,7 +70,7 @@ namespace Implem.Pleasanter.Libraries.Server
                             dataRow => dataRow["DeptId"].ToInt(),
                             dataRow => new Dept(dataRow));
                 }
-                if (monitor.UsersUpdated)
+                if (monitor.UsersUpdated || force)
                 {
                     UserHash = dataSet.Tables["Users"]
                         .AsEnumerable()
@@ -78,11 +78,11 @@ namespace Implem.Pleasanter.Libraries.Server
                             dataRow => dataRow["UserId"].ToInt(),
                             dataRow => new User(dataRow));
                 }
-                if (monitor.PermissionsUpdated)
+                if (monitor.PermissionsUpdated || force)
                 {
                     SiteUserHash = new Dictionary<long, List<int>>();
                 }
-                if (monitor.SitesUpdated)
+                if (monitor.SitesUpdated || force)
                 {
                     SiteMenu = new SiteMenu();
                 }

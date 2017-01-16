@@ -87,6 +87,7 @@ namespace Implem.Pleasanter.Models
                     LoginId = loginId,
                     Password = password
                 }.Authenticate(string.Empty);
+                SiteInfo.Reflesh(force: true);
                 return Sessions.LoggedIn();
             }
             else
