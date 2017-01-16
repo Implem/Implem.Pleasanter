@@ -3479,11 +3479,12 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder NotificationSettingsTBody(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.TBody(action: () =>
-            {
                 ss.Notifications
                     .Select((o, i) => new { Notification = o, Id = i })
                     .ForEach(data =>
                     {
+                        var beforeCondition = ss.Views?.Get(data.Notification.BeforeCondition);
+                        var afterCondition = ss.Views?.Get(data.Notification.AfterCondition);
                         hb.Tr(
                             attributes: new HtmlAttributes()
                                 .Class("grid-row not-link")
@@ -3500,22 +3501,20 @@ namespace Implem.Pleasanter.Models
                                         .Select(o => ss.GetColumn(o).LabelText)
                                         .Join(", ")))
                                 .Td(action: () => hb
-                                    .Text(text: ss.Views?.FirstOrDefault(o =>
-                                        o.Id == data.Notification.BeforeCondition)?.Name))
+                                    .Text(text: beforeCondition?.Name))
                                 .Td(action: () => hb
-                                    .Text(text: Displays.Get(
-                                        data.Notification.Expression.ToString())))
+                                    .Text(
+                                        text: Displays.Get(
+                                            data.Notification.Expression.ToString()) ))
                                 .Td(action: () => hb
-                                    .Text(text: ss.Views?.FirstOrDefault(o =>
-                                        o.Id == data.Notification.AfterCondition)?.Name))
+                                    .Text(text: afterCondition?.Name))
                                 .Td(action: () => hb
                                     .Button(
                                         controlCss: "button-icon delete",
                                         text: Displays.Delete(),
                                         dataId: data.Id.ToString(),
                                         icon: "ui-icon-trash")));
-                    });
-            });
+                    }));
         }
 
         /// <summary>
