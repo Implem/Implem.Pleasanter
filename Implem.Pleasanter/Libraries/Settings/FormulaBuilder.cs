@@ -23,7 +23,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ? ss.Formulas.Max(o => o.Id) + 1
                     : 1,
                 Target = target,
-                Condition = (ss.Views?.Any(o => o.Id == condition)).ToBool()
+                Condition = ss.Views?.Get(condition) != null
                     ? condition
                     : null
             };
@@ -67,7 +67,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 return Error.Types.InvalidFormula;
             }
             formulaSet.Target = target;
-            formulaSet.Condition = (ss.Views?.Any(o => o.Id == condition)).ToBool()
+            formulaSet.Condition = ss.Views?.Get(condition) != null
                 ? condition
                 : null;
             var formulaParts = Parts(formula);
