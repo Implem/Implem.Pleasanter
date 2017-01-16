@@ -448,43 +448,20 @@ namespace Implem.Pleasanter.Models
         {
             if (SiteSettings.Notifications.Any())
             {
-                var data = Rds.ExecuteDataSet(statements:
-                    SiteSettings.Notifications.Select((o, i) =>
-                        Rds.SelectWikis(
-                            column: Rds.WikisColumn().WikiId(),
-                            where: SiteSettings.Views?.Get(before
-                                ? o.BeforeCondition
-                                : o.AfterCondition)?
-                                    .Where(SiteSettings, Rds.WikisWhere().WikiId(WikiId))
-                                        ?? Rds.WikisWhere().WikiId(WikiId))).ToArray());
-                SiteSettings.Notifications
-                    .Select((o, i) => new
-                    {
-                        Notification = o,
-                        Exists = data.Tables[i].Rows.Count == 1
-                    })
-                    .ForEach(o =>
-                    {
-                        if (before)
-                        {
-                            o.Notification.Enabled = o.Exists;
-                        }
-                        else if (SiteSettings.Views?.Get(o.Notification.AfterCondition) != null)
-                        {
-                            if (SiteSettings.Views?.Get(o.Notification.BeforeCondition) == null)
-                            {
-                                o.Notification.Enabled = o.Exists;
-                            }
-                            else if (o.Notification.Expression == Notification.Expressions.And)
-                            {
-                                o.Notification.Enabled &= o.Exists;
-                            }
-                            else
-                            {
-                                o.Notification.Enabled |= o.Exists;
-                            }
-                        }
-                    });
+                SiteSettings.EnableNotifications(
+                    before: before,
+                    dataSet: Rds.ExecuteDataSet(statements:
+                        SiteSettings.Notifications.Select((o, i) =>
+                            Rds.SelectWikis(
+                                column: Rds.WikisColumn().WikiId(),
+                                where: SiteSettings.Views?.Get(before
+                                    ? o.BeforeCondition
+                                    : o.AfterCondition)?
+                                        .Where(
+                                            SiteSettings,
+                                            Rds.WikisWhere().WikiId(WikiId)) ??
+                                                Rds.WikisWhere().WikiId(WikiId)))
+                                                    .ToArray()));
             }
         }
 

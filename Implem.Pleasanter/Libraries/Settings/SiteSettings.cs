@@ -1272,5 +1272,37 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Views == null) Views = new List<View>();
             Views.Add(view);
         }
+
+        public void EnableNotifications(bool before, DataSet dataSet)
+        {
+            Notifications
+                .Select((o, i) => new
+                {
+                    Notification = o,
+                    Exists = dataSet.Tables[i].Rows.Count == 1
+                })
+                .ForEach(o =>
+                {
+                    if (before)
+                    {
+                        o.Notification.Enabled = o.Exists;
+                    }
+                    else if (Views?.Get(o.Notification.AfterCondition) != null)
+                    {
+                        if (Views?.Get(o.Notification.BeforeCondition) == null)
+                        {
+                            o.Notification.Enabled = o.Exists;
+                        }
+                        else if (o.Notification.Expression == Notification.Expressions.And)
+                        {
+                            o.Notification.Enabled &= o.Exists;
+                        }
+                        else
+                        {
+                            o.Notification.Enabled |= o.Exists;
+                        }
+                    }
+                });
+        }
     }
 }
