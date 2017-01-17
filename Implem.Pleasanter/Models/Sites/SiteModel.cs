@@ -728,6 +728,10 @@ namespace Implem.Pleasanter.Models
                 case "DeleteViews":
                     DeleteViews(res);
                     break;
+                case "MoveUpNotifications":
+                case "MoveDownNotifications":
+                    SetNotifications(res, controlId);
+                    break;
                 case "NewNotification":
                 case "EditNotification":
                     OpenNotificationDialog(res, controlId);
@@ -738,8 +742,8 @@ namespace Implem.Pleasanter.Models
                 case "UpdateNotification":
                     UpdateNotification(res, controlId);
                     break;
-                case "DeleteNotification":
-                    DeleteNotification(res, controlId);
+                case "DeleteNotifications":
+                    DeleteNotifications(res);
                     break;
                 case "MoveUpMonitorChangesColumns":
                 case "MoveDownMonitorChangesColumns":
@@ -1602,27 +1606,38 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void OpenNotificationDialog(ResponseCollection res, string controlId)
         {
-            var notification = controlId == "EditNotification"
-                ? GetNotification(Forms.Int("NotificationId"))
-                : new Notification(
-                    Notification.Types.Mail,
-                    string.Empty,
-                    string.Empty,
-                    string.Empty,
-                    SiteSettings.EditorColumns
-                        .Concat(new List<string> { "Comments" }).ToList());
-            if (notification == null)
+            if (controlId == "NewNotification")
             {
-                res.Message(Messages.NotFound());
+                OpenNotificationDialog(res, new Notification(
+                    Notification.Types.Mail,
+                    SiteSettings.EditorColumns
+                        .Concat(new List<string> { "Comments" }).ToList()));
             }
             else
             {
-                Session_MonitorChangesColumns(notification.MonitorChangesColumns);
-                res.Html("#NotificationDialog", SiteUtilities.NotificationDialog(
-                    ss: SiteSettings,
-                    controlId: Forms.ControlId(),
-                    notification: notification));
+                var notification = SiteSettings.Notifications?.Get(Forms.Int("NotificationId"));
+                if (notification == null)
+                {
+                    OpenDialogError(res, Messages.SelectOne());
+                }
+                else
+                {
+                    SiteSettingsUtilities.Get(this);
+                    OpenNotificationDialog(res, notification);
+                }
             }
+        }
+        
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenNotificationDialog(ResponseCollection res, Notification notification)
+        {
+            Session_MonitorChangesColumns(notification.MonitorChangesColumns);
+            res.Html("#NotificationDialog", SiteUtilities.NotificationDialog(
+                ss: SiteSettings,
+                controlId: Forms.ControlId(),
+                notification: notification));
         }
 
         /// <summary>
@@ -1631,6 +1646,9 @@ namespace Implem.Pleasanter.Models
         private void AddNotification(ResponseCollection res, string controlId)
         {
             SiteSettings.Notifications.Add(new Notification(
+                SiteSettings.Notifications?.Any() == true
+                    ? SiteSettings.Notifications.Select(o => o.Id).Max() + 1
+                    : 1,
                 (Notification.Types)Forms.Int("NotificationType"),
                 Forms.Data("NotificationPrefix"),
                 Forms.Data("NotificationAddress"),
@@ -1647,7 +1665,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void UpdateNotification(ResponseCollection res, string controlId)
         {
-            var notification = GetNotification(Forms.Int("NotificationId"));
+            var notification = SiteSettings.Notifications.Get(Forms.Int("NotificationId"));
             if (notification == null)
             {
                 res.Message(Messages.NotFound());
@@ -1670,28 +1688,20 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void DeleteNotification(ResponseCollection res, string controlId)
+        private void SetNotifications(ResponseCollection res, string controlId)
         {
-            var notification = GetNotification(Forms.Int("NotificationId"));
-            if (notification == null)
+            var selected = Forms.Data("EditNotification").Deserialize<IEnumerable<int>>();
+            if (selected?.Any() != true)
             {
-                res.Message(Messages.NotFound());
+                res.Message(Messages.SelectTargets()).ToJson();
             }
             else
             {
-                SiteSettings.Notifications.Remove(notification);
-                SetNotificationsResponseCollection(res);
+                SiteSettings.Notifications.MoveUpOrDown(
+                    ColumnUtilities.ChangeCommand(controlId), selected);
+                res.Html("#EditNotification", new HtmlBuilder()
+                    .EditNotification(ss: SiteSettings));
             }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private Notification GetNotification(int id)
-        {
-            return SiteSettings.Notifications.Count > id
-                ? SiteSettings.Notifications[id]
-                : null;
         }
 
         /// <summary>
@@ -1700,19 +1710,17 @@ namespace Implem.Pleasanter.Models
         private void SetNotificationsResponseCollection(ResponseCollection res)
         {
             res
-                .ReplaceAll(
-                    "#NotificationSettings",
-                    new HtmlBuilder().NotificationSettings(ss: SiteSettings))
+                .ReplaceAll("#EditNotification", new HtmlBuilder()
+                    .EditNotification(ss: SiteSettings))
                 .CloseDialog();
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetMonitorChangesColumns(
-            ResponseCollection res, string controlId)
+        private void SetMonitorChangesColumns(ResponseCollection res, string controlId)
         {
-            var notification = GetNotification(Forms.Int("NotificationId"));
+            var notification = SiteSettings.Notifications.Get(Forms.Int("NotificationId"));
             MonitorChangesColumns = Session_MonitorChangesColumns();
             if (notification == null && controlId == "EditNotification")
             {
@@ -1739,6 +1747,24 @@ namespace Implem.Pleasanter.Models
                         MonitorChangesColumns, enabled: false),
                     selectedSourceColumns);
                 Session_MonitorChangesColumns(MonitorChangesColumns);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void DeleteNotifications(ResponseCollection res)
+        {
+            var selected = Forms.Data("EditNotification").Deserialize<IEnumerable<int>>();
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets()).ToJson();
+            }
+            else
+            {
+                SiteSettings.Notifications.Delete(selected);
+                res.ReplaceAll("#EditNotification", new HtmlBuilder()
+                    .EditNotification(ss: SiteSettings));
             }
         }
 

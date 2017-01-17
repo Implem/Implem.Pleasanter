@@ -68,7 +68,7 @@ $p.openNotificationDialog = function ($control) {
 }
 
 $p.setNotification = function ($control) {
-    $p.setData($('#NotificationType'), $p.getData($control));
+    $p.setData($('#EditNotification'), $p.getData($control));
     $p.send($control);
 }
 

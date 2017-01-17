@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Models;
@@ -10,8 +11,9 @@ using System.Runtime.Serialization;
 namespace Implem.Pleasanter.Libraries.Settings
 {
     [Serializable()]
-    public class Notification
+    public class Notification : ISettingListItem
     {
+        public int Id { get; set; }
         public Types Type;
         public string Prefix;
         public string Address;
@@ -36,7 +38,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             And = 2
         }
 
+        public Notification()
+        {
+        }
+
+        public Notification(Types type, List<string> monitorChangesColumns)
+        {
+            Type = type;
+            MonitorChangesColumns = monitorChangesColumns;
+        }
+
         public Notification(
+            int id,
             Types type,
             string prefix,
             string address,
@@ -46,11 +59,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             int afterCondition = 0,
             Expressions expression = Expressions.Or)
         {
+            Id = id;
             Type = type;
             Prefix = prefix;
             Address = address;
             Token = token;
-            MonitorChangesColumns = monitorChangesColumns;
             MonitorChangesColumns = monitorChangesColumns;
             BeforeCondition = beforeCondition;
             AfterCondition = afterCondition;

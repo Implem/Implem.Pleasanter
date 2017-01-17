@@ -59,7 +59,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<FormulaSet> Formulas;
         public int ViewLatestId;
         public List<View> Views;
-        public List<Notification> Notifications;
+        public SettingList<Notification> Notifications;
         public string TitleSeparator = ")";
         public string AddressBook;
         public string MailToDefault;
@@ -116,11 +116,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             UpdateHistoryColumns();
             UpdateColumns();
             UpdateColumnHash();
-            if (Notifications == null) Notifications = new List<Notification>();
             if (Aggregations == null) Aggregations = new List<Aggregation>();
             if (Links == null) Links = new List<Link>();
             if (Summaries == null) Summaries = new SettingList<Summary>();
             if (Formulas == null) Formulas = new List<FormulaSet>();
+            if (Notifications == null) Notifications = new SettingList<Notification>();
         }
 
         public void SetLinkedSiteSettings()
