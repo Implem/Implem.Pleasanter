@@ -892,9 +892,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder MainCommandExtensions(
-            this HtmlBuilder hb,
-            SiteSettings ss,
-            IssueModel issueModel)
+            this HtmlBuilder hb, SiteSettings ss, IssueModel issueModel)
         {
             return
                 issueModel.MethodType != BaseModel.MethodTypes.New &&

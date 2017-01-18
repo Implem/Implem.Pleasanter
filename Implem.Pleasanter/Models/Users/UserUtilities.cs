@@ -555,9 +555,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder MainCommandExtensions(
-            this HtmlBuilder hb,
-            SiteSettings ss,
-            UserModel userModel)
+            this HtmlBuilder hb, SiteSettings ss, UserModel userModel)
         {
             if (userModel.VerType == Versions.VerTypes.Latest &&
                 userModel.MethodType != BaseModel.MethodTypes.New &&

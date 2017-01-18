@@ -242,9 +242,7 @@ namespace Implem.Pleasanter.Models
         }
 
         private static HtmlBuilder MainCommandExtensions(
-            this HtmlBuilder hb,
-            SiteSettings ss,
-            WikiModel wikiModel)
+            this HtmlBuilder hb, SiteSettings ss, WikiModel wikiModel)
         {
             return hb;
         }

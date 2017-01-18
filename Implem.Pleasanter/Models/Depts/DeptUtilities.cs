@@ -492,9 +492,7 @@ namespace Implem.Pleasanter.Models
         }
 
         private static HtmlBuilder MainCommandExtensions(
-            this HtmlBuilder hb,
-            SiteSettings ss,
-            DeptModel deptModel)
+            this HtmlBuilder hb, SiteSettings ss, DeptModel deptModel)
         {
             return hb;
         }
