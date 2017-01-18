@@ -7,16 +7,14 @@
         data);
 }
 
-$p.openSiteSettingsDialog = function ($control, selector, appendTo) {
+$p.openSiteSettingsDialog = function ($control, selector) {
     var error = $p.syncSend($control);
     if (error === 0) {
         $(selector).dialog({
             modal: true,
             width: '90%',
             height: 'auto',
-            appendTo: appendTo !== undefined
-                ? appendTo
-                : '.main-form'
+            appendTo: '#Editor'
         });
     }
 }
@@ -44,7 +42,7 @@ $p.openEditorColumnDialog = function ($control) {
 
 $p.openSummaryDialog = function ($control) {
     $p.data.SummaryForm = {};
-    $p.openSiteSettingsDialog($control, '#SummaryDialog', 'body');
+    $p.openSiteSettingsDialog($control, '#SummaryDialog');
 }
 
 $p.setSummary = function ($control) {
@@ -54,17 +52,17 @@ $p.setSummary = function ($control) {
 
 $p.openFormulaDialog = function ($control) {
     $p.data.FormulaForm = {};
-    $p.openSiteSettingsDialog($control, '#FormulaDialog', 'body');
+    $p.openSiteSettingsDialog($control, '#FormulaDialog');
 }
 
 $p.openViewDialog = function ($control) {
     $p.data.ViewForm = {};
-    $p.openSiteSettingsDialog($control, '#ViewDialog', 'body');
+    $p.openSiteSettingsDialog($control, '#ViewDialog');
 }
 
 $p.openNotificationDialog = function ($control) {
     $p.data.NotificationForm = {};
-    $p.openSiteSettingsDialog($control, '#NotificationDialog', 'body');
+    $p.openSiteSettingsDialog($control, '#NotificationDialog');
 }
 
 $p.setNotification = function ($control) {
