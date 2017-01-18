@@ -3489,6 +3489,9 @@ namespace Implem.Pleasanter.Models
                 .EditNotificationBody(ss: ss, selected: selected));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder EditNotificationHeader(
             this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
         {
