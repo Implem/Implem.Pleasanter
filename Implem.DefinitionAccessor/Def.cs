@@ -1960,6 +1960,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_dept_space___space_span": Css._dot_dept_space___space_span = definitionRow[1].ToString(); SetCssTable(CssTable._dot_dept_space___space_span, definitionRow, CssXls); break;
                     case "_dot_both": Css._dot_both = definitionRow[1].ToString(); SetCssTable(CssTable._dot_both, definitionRow, CssXls); break;
                     case "_dot_hidden": Css._dot_hidden = definitionRow[1].ToString(); SetCssTable(CssTable._dot_hidden, definitionRow, CssXls); break;
+                    case "_dot_right": Css._dot_right = definitionRow[1].ToString(); SetCssTable(CssTable._dot_right, definitionRow, CssXls); break;
                     case "_dot_tooltip": Css._dot_tooltip = definitionRow[1].ToString(); SetCssTable(CssTable._dot_tooltip, definitionRow, CssXls); break;
                     case "_dot_no_border": Css._dot_no_border = definitionRow[1].ToString(); SetCssTable(CssTable._dot_no_border, definitionRow, CssXls); break;
                     case "_dot_grid": Css._dot_grid = definitionRow[1].ToString(); SetCssTable(CssTable._dot_grid, definitionRow, CssXls); break;
@@ -6164,6 +6165,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_dept_space___space_span;
         public string _dot_both;
         public string _dot_hidden;
+        public string _dot_right;
         public string _dot_tooltip;
         public string _dot_no_border;
         public string _dot_grid;
@@ -6548,6 +6550,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_dept_space___space_span = new CssDefinition();
         public CssDefinition _dot_both = new CssDefinition();
         public CssDefinition _dot_hidden = new CssDefinition();
+        public CssDefinition _dot_right = new CssDefinition();
         public CssDefinition _dot_tooltip = new CssDefinition();
         public CssDefinition _dot_no_border = new CssDefinition();
         public CssDefinition _dot_grid = new CssDefinition();

@@ -1463,11 +1463,15 @@ pre{
 }
 
 .control-checkbox{
-
+    display:block;
+    float:left;
+    margin:8px 0px;
 }
 
 .control-checkbox + label{
-    padding:0px 0px 0px 5px;
+    display:block;
+    float:left;
+    margin:7px 5px 0px 7px;
 }
 
 .control-radio{
@@ -1608,6 +1612,10 @@ pre{
 
 .hidden{
     display:none;
+}
+
+.right{
+    float:right;
 }
 
 .tooltip{

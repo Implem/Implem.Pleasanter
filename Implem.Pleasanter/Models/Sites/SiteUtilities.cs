@@ -2357,10 +2357,11 @@ namespace Implem.Pleasanter.Models
                             .FieldCheckBox(
                                 fieldId: "SummarySetZeroWhenOutOfConditionField",
                                 controlId: "SummarySetZeroWhenOutOfCondition",
-                                fieldCss: destinationSs.Views?.Any(o =>
-                                    o.Id == summary.DestinationCondition) == true
-                                        ? null
-                                        : " hidden",
+                                fieldCss: "field-auto-thin right" +
+                                    (destinationSs.Views?.Any(o =>
+                                        o.Id == summary.DestinationCondition) == true
+                                            ? null
+                                            : " hidden"),
                                 controlCss: " must-transport",
                                 labelText: Displays.SetZeroWhenOutOfCondition(),
                                 _checked: summary.SetZeroWhenOutOfCondition == true))
