@@ -9,7 +9,7 @@ namespace Implem.Pleasanter.Libraries.Migrators
                 .Select((o, i) => new { Notification = o, Index = i + 1 })
                 .ForEach(data =>
                     data.Notification.Id = data.Index);
-            ss.Migrated = ss.Notifications?.Any() == true;
+            ss.Migrated = true;
         }
     }
 }
