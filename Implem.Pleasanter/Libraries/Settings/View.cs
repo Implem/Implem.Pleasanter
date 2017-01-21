@@ -279,8 +279,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!NearCompletionTime.ToBool()) NearCompletionTime = null;
             if (!Delay.ToBool()) Delay = null;
             if (!Overdue.ToBool()) Overdue = null;
-            ColumnFilterHash?.RemoveAll((key, value) =>
-                !(value.Deserialize<IEnumerable<string>>() ?? new List<string>()).Any());
+            ColumnFilterHash?.RemoveAll((key, value) => value == "[]");
             if (!ColumnFilterHash?.Any() == true) ColumnFilterHash = null;
             if (!ColumnSorterHash?.Any() == true) ColumnSorterHash = null;
             if (Search == string.Empty) Search = null;
