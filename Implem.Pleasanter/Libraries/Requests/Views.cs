@@ -1,6 +1,5 @@
 ﻿using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
-using System.Linq;
 using System.Web;
 namespace Implem.Pleasanter.Libraries.Requests
 {
