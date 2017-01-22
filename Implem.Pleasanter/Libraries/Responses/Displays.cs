@@ -332,6 +332,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Slack(params string[] data) { return Get("Slack", data); }
         public static string Sorters(params string[] data) { return Get("Sorters", data); }
         public static string Spinner(params string[] data) { return Get("Spinner", data); }
+        public static string Standard(params string[] data) { return Get("Standard", data); }
         public static string Step(params string[] data) { return Get("Step", data); }
         public static string Style(params string[] data) { return Get("Style", data); }
         public static string Styles(params string[] data) { return Get("Styles", data); }

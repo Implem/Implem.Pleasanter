@@ -2029,7 +2029,6 @@ namespace Implem.Pleasanter.Models
                         : other
                             ? "\t"
                             : string.Empty,
-                    insertBlank: true,
                     _using: !column.Id_Ver)
                 .FieldTextBox(
                     fieldId: "FormatField",

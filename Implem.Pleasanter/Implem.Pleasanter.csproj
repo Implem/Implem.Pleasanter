@@ -954,6 +954,7 @@
     <Content Include="App_Data\Displays\DataStorageDestination.json" />
     <Content Include="App_Data\Displays\Column.json" />
     <Content Include="App_Data\Displays\SetZeroWhenOutOfCondition.json" />
+    <Content Include="App_Data\Displays\Standard.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />
