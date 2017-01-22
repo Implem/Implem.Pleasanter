@@ -1834,8 +1834,7 @@ namespace Implem.Pleasanter.Models
                                     optionCollection: new Dictionary<string, string>
                                     {
                                             { "field-normal", Displays.Normal() },
-                                            { "field-wide", Displays.Wide() },
-                                            { "field-auto", Displays.Auto() }
+                                            { "field-wide", Displays.Wide() }
                                     },
                                     selectedValue: column.FieldCss,
                                     _using: !column.MarkDown)
