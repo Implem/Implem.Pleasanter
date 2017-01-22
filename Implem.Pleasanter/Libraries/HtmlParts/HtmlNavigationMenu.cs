@@ -115,7 +115,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             siteId: siteId,
                             referenceType: referenceType,
                             action: action,
-                            editor: Routes.Action(
+                            ajax: Routes.Action(
                                 "new",
                                 "create",
                                 "edit",
@@ -130,11 +130,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long siteId,
             string referenceType,
             string action,
-            bool editor)
+            bool ajax)
         {
             return hb.Li(action: () => hb
                 .A(
-                    attributes: editor
+                    attributes: ajax
                         ? new HtmlAttributes().OnClick(
                             "location.href='" + Locations.ItemView(siteId, action) + "'")
                         : new HtmlAttributes()
