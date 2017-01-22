@@ -30,11 +30,18 @@ $p.clear = function ($control) {
     $p.clearData(controlId, data);
 }
 
+$p.outsideDialog = function ($control) {
+    var $dialog = $('.ui-dialog:visible');
+    return $dialog.length !== 0 &&
+        $control.closest($('#' + $dialog.attr('aria-describedby'))).length === 0;
+}
+
 $p.syncSend = function ($control, formId) {
     return $p.send($control, formId, false);
 }
 
 $p.send = function ($control, formId, async) {
+    if ($p.outsideDialog($control)) return false;
     $form = formId !== undefined
         ? $('#' + formId)
         : $control.closest('form');
