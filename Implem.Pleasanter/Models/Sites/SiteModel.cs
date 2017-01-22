@@ -693,7 +693,7 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "MoveUpFormulas":
                 case "MoveDownFormulas":
-                    SetFormulas(res, controlId);
+                    SetFormulasOrder(res, controlId);
                     break;
                 case "NewFormula":
                 case "EditFormula":
@@ -1358,7 +1358,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetFormulas(ResponseCollection res, string controlId)
+        private void SetFormulasOrder(ResponseCollection res, string controlId)
         {
             var selected = Forms.IntList("Formulas");
             SiteSettings.SetFormulas(controlId, selected);
