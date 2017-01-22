@@ -26,12 +26,9 @@ namespace Implem.Pleasanter.Libraries.Converts
         }
 
         public static string ToControl(
-            this DateTime self, Column column, Permissions.Types pt, bool displayValue = false)
+            this DateTime self, Column column, Permissions.Types pt)
         {
-            return column.DisplayControl(
-                displayValue
-                    ? self
-                    : self.ToLocal());
+            return column.DisplayControl(self.ToLocal());
         }
 
         public static string ToControl(
