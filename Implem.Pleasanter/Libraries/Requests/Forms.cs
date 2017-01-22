@@ -51,6 +51,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             return Data(name)
                 .Split(delimiter)
+                .Where(o => o != string.Empty)
                 .Select(o => o.ToInt())
                 .Distinct();
         }
@@ -59,6 +60,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             return Data(name)
                 .Split(delimiter)
+                .Where(o => o != string.Empty)
                 .Select(o => o.ToLong())
                 .Distinct();
         }
