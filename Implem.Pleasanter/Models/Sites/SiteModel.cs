@@ -730,7 +730,7 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "MoveUpNotifications":
                 case "MoveDownNotifications":
-                    SetNotifications(res, controlId);
+                    SetNotificationsOrder(res, controlId);
                     break;
                 case "NewNotification":
                 case "EditNotification":
@@ -1696,7 +1696,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetNotifications(ResponseCollection res, string controlId)
+        private void SetNotificationsOrder(ResponseCollection res, string controlId)
         {
             var selected = Forms.Data("EditNotification").Deserialize<IEnumerable<int>>();
             if (selected?.Any() != true)
