@@ -1475,11 +1475,19 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void DeleteFormulas(ResponseCollection res)
         {
-            SiteSettings.DeleteFormulas(Forms.IntList("Formulas", ';'));
-            res
-                .Html("#Formulas", new HtmlBuilder()
-                    .SelectableItems(listItemCollection: SiteSettings.FormulaItemCollection()))
-                .ClearFormData("Formulas");
+            var selected = Forms.IntList("Formulas", ';');
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets()).ToJson();
+            }
+            else
+            {
+                SiteSettings.DeleteFormulas(selected);
+                res
+                    .Html("#Formulas", new HtmlBuilder()
+                        .SelectableItems(listItemCollection: SiteSettings.FormulaItemCollection()))
+                    .ClearFormData("Formulas");
+            }
         }
 
         /// <summary>
