@@ -670,7 +670,7 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "MoveUpSummaries":
                 case "MoveDownSummaries":
-                    SetSummaries(res, controlId);
+                    SetSummariesOrder(res, controlId);
                     break;
                 case "NewSummary":
                 case "EditSummary":
@@ -1165,7 +1165,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetSummaries(ResponseCollection res, string controlId)
+        private void SetSummariesOrder(ResponseCollection res, string controlId)
         {
             var selected = Forms.Data("EditSummary").Deserialize<IEnumerable<int>>();
             if (selected?.Any() != true)
