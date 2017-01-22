@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         public virtual string ToControl(Column column, Permissions.Types pt)
         {
             return Value.InRange()
-                ? DisplayValue.ToControl(column, pt)
+                ? DisplayValue.ToControl(column, pt, displayValue: true)
                 : string.Empty;
         }
 
