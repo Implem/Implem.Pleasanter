@@ -8,8 +8,7 @@ namespace Implem.Pleasanter.Libraries.Converts
 {
     public static class ToControlExtensions
     {
-        public static string ToControl(
-            this Enum self, Column column, Permissions.Types pt)
+        public static string ToControl(this Enum self, Column column, Permissions.Types pt)
         {
             switch (column.TypeName)
             {
@@ -19,38 +18,32 @@ namespace Implem.Pleasanter.Libraries.Converts
             }
         }
 
-        public static string ToControl(
-            this bool self, Column column, Permissions.Types pt)
+        public static string ToControl(this bool self, Column column, Permissions.Types pt)
         {
             return self.ToString();
         }
 
-        public static string ToControl(
-            this DateTime self, Column column, Permissions.Types pt)
+        public static string ToControl(this DateTime self, Column column, Permissions.Types pt)
         {
             return column.DisplayControl(self.ToLocal());
         }
 
-        public static string ToControl(
-            this string self, Column column, Permissions.Types pt)
+        public static string ToControl(this string self, Column column, Permissions.Types pt)
         {
             return self;
         }
 
-        public static string ToControl(
-            this int self, Column column, Permissions.Types pt)
+        public static string ToControl(this int self, Column column, Permissions.Types pt)
         {
             return self.ToString(column.StringFormat);
         }
 
-        public static string ToControl(
-            this long self, Column column, Permissions.Types pt)
+        public static string ToControl(this long self, Column column, Permissions.Types pt)
         {
             return self.ToString(column.StringFormat);
         }
 
-        public static string ToControl(
-            this decimal self, Column column, Permissions.Types pt)
+        public static string ToControl(this decimal self, Column column, Permissions.Types pt)
         {
             return column.ControlType == "Spinner"
                 ? column.Display(self, format: false)
