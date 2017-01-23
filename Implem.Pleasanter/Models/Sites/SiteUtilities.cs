@@ -2313,6 +2313,140 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static HtmlBuilder EditSummary(this HtmlBuilder hb, SiteSettings ss)
+        {
+            var selected = Forms.Data("EditSummary").Deserialize<IEnumerable<int>>();
+            return hb
+                .Table(
+                    id: "EditSummary",
+                    css: "grid",
+                    attributes: new HtmlAttributes()
+                        .DataName("SummaryId")
+                        .DataFunc("openSummaryDialog")
+                        .DataAction("SetSiteSettings")
+                        .DataMethod("post"),
+                    action: () => hb
+                        .SummariesHeader(ss: ss, selected: selected)
+                        .SummariesBody(ss: ss, selected: selected));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder SummariesHeader(
+            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
+        {
+            return hb.THead(action: () => hb
+                .Tr(css: "ui-widget-header", action: () => hb
+                    .Th(attributes: new HtmlAttributes()
+                            .Rowspan(2),
+                        action: () => hb
+                            .CheckBox(
+                                controlCss: "select-all",
+                                _checked: ss.Summaries?.All(o =>
+                                    selected?.Contains(o.Id) == true) == true))
+                    .Th(attributes: new HtmlAttributes()
+                            .Rowspan(2),
+                        action: () => hb
+                            .Text(text: Displays.Id()))
+                    .Th(attributes: new HtmlAttributes()
+                            .Colspan(3),
+                        action: () => hb
+                            .Text(text: Displays.DataStorageDestination()))
+                    .Th(attributes: new HtmlAttributes()
+                            .Colspan(4),
+                        action: () => hb
+                            .Text(text: ss.Title)))
+                .Tr(css: "ui-widget-header", action: () => hb
+                    .Th(action: () => hb
+                        .Text(text: Displays.Sites()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Column()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Condition()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.SummaryLinkColumn()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.SummaryType()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.SummarySourceColumn()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Condition()))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder SummariesBody(
+            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
+        {
+            if (ss.Summaries?.Any() == true)
+            {
+                var dataRows = Rds.ExecuteTable(statements:
+                    Rds.SelectSites(
+                        column: Rds.SitesColumn()
+                            .SiteId()
+                            .ReferenceType()
+                            .Title()
+                            .SiteSettings(),
+                        where: Rds.SitesWhere()
+                            .TenantId(Sessions.TenantId())
+                            .SiteId_In(ss.Summaries?
+                                .Select(o => o.SiteId)))).AsEnumerable();
+                hb.TBody(action: () =>
+                {
+                    ss.Summaries?.ForEach(summary =>
+                    {
+                        var dataRow = dataRows.FirstOrDefault(o =>
+                            o["SiteId"].ToLong() == summary.SiteId);
+                        var destinationSs = dataRow?["SiteSettings"]
+                            .ToString()
+                            .Deserialize<SiteSettings>() ??
+                                SiteSettingsUtilities.Get(
+                                    dataRow["SiteId"].ToLong(),
+                                    dataRow["ReferenceType"].ToString());
+                        if (destinationSs != null)
+                        {
+                            hb.Tr(
+                                css: "grid-row",
+                                attributes: new HtmlAttributes()
+                                    .DataId(summary.Id.ToString()),
+                                action: () => hb
+                                    .Td(action: () => hb
+                                        .CheckBox(
+                                            controlCss: "select",
+                                            _checked: selected?.Contains(summary.Id) == true))
+                                    .Td(action: () => hb
+                                        .Text(text: summary.Id.ToString()))
+                                    .Td(action: () => hb
+                                        .Text(text: dataRow["Title"].ToString()))
+                                    .Td(action: () => hb
+                                        .Text(text: destinationSs.GetColumn(
+                                            summary.DestinationColumn)?.LabelText))
+                                    .Td(action: () => hb
+                                        .Text(text: destinationSs.Views?.Get(
+                                            summary.DestinationCondition)?.Name))
+                                    .Td(action: () => hb
+                                        .Text(text: ss.GetColumn(
+                                            summary.LinkColumn)?.LabelText))
+                                    .Td(action: () => hb
+                                        .Text(text: SummaryType(summary.Type)))
+                                    .Td(action: () => hb
+                                        .Text(text: ss.GetColumn(
+                                            summary.SourceColumn)?.LabelText))
+                                    .Td(action: () => hb
+                                        .Text(text: ss.Views?.Get(
+                                            summary.SourceCondition)?.Name)));
+                        }
+                    });
+                });
+            }
+            return hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static HtmlBuilder SummaryDialog(SiteSettings ss, string controlId, Summary summary)
         {
             var hb = new HtmlBuilder();
@@ -2520,140 +2654,6 @@ namespace Implem.Pleasanter.Models
                         fieldId: "SummarySourceColumnField",
                         fieldCss: " hidden");
             }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static HtmlBuilder EditSummary(this HtmlBuilder hb, SiteSettings ss)
-        {
-            var selected = Forms.Data("EditSummary").Deserialize<IEnumerable<int>>();
-            return hb
-                .Table(
-                    id: "EditSummary",
-                    css: "grid",
-                    attributes: new HtmlAttributes()
-                        .DataName("SummaryId")
-                        .DataFunc("openSummaryDialog")
-                        .DataAction("SetSiteSettings")
-                        .DataMethod("post"),
-                    action: () => hb
-                        .SummariesHeader(ss: ss, selected: selected)
-                        .SummariesBody(ss: ss, selected: selected));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static HtmlBuilder SummariesHeader(
-            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
-        {
-            return hb.THead(action: () => hb
-                .Tr(css: "ui-widget-header", action: () => hb
-                    .Th(attributes: new HtmlAttributes()
-                            .Rowspan(2),
-                        action: () => hb
-                            .CheckBox(
-                                controlCss: "select-all",
-                                _checked: ss.Summaries?.All(o =>
-                                    selected?.Contains(o.Id) == true) == true))
-                    .Th(attributes: new HtmlAttributes()
-                            .Rowspan(2),
-                        action: () => hb
-                            .Text(text: Displays.Id()))
-                    .Th(attributes: new HtmlAttributes()
-                            .Colspan(3),
-                        action: () => hb
-                            .Text(text: Displays.DataStorageDestination()))
-                    .Th(attributes: new HtmlAttributes()
-                            .Colspan(4),
-                        action: () => hb
-                            .Text(text: ss.Title)))
-                .Tr(css: "ui-widget-header", action: () => hb
-                    .Th(action: () => hb
-                        .Text(text: Displays.Sites()))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Column()))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Condition()))
-                    .Th(action: () => hb
-                        .Text(text: Displays.SummaryLinkColumn()))
-                    .Th(action: () => hb
-                        .Text(text: Displays.SummaryType()))
-                    .Th(action: () => hb
-                        .Text(text: Displays.SummarySourceColumn()))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Condition()))));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static HtmlBuilder SummariesBody(
-            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
-        {
-            if (ss.Summaries?.Any() == true)
-            {
-                var dataRows = Rds.ExecuteTable(statements:
-                    Rds.SelectSites(
-                        column: Rds.SitesColumn()
-                            .SiteId()
-                            .ReferenceType()
-                            .Title()
-                            .SiteSettings(),
-                        where: Rds.SitesWhere()
-                            .TenantId(Sessions.TenantId())
-                            .SiteId_In(ss.Summaries?
-                                .Select(o => o.SiteId)))).AsEnumerable();
-                hb.TBody(action: () =>
-                {
-                    ss.Summaries?.ForEach(summary =>
-                    {
-                        var dataRow = dataRows.FirstOrDefault(o =>
-                            o["SiteId"].ToLong() == summary.SiteId);
-                        var destinationSs = dataRow?["SiteSettings"]
-                            .ToString()
-                            .Deserialize<SiteSettings>() ??
-                                SiteSettingsUtilities.Get(
-                                    dataRow["SiteId"].ToLong(),
-                                    dataRow["ReferenceType"].ToString());
-                        if (destinationSs != null)
-                        {
-                            hb.Tr(
-                                css: "grid-row",
-                                attributes: new HtmlAttributes()
-                                    .DataId(summary.Id.ToString()),
-                                action: () => hb
-                                    .Td(action: () => hb
-                                        .CheckBox(
-                                            controlCss: "select",
-                                            _checked: selected?.Contains(summary.Id) == true))
-                                    .Td(action: () => hb
-                                        .Text(text: summary.Id.ToString()))
-                                    .Td(action: () => hb
-                                        .Text(text: dataRow["Title"].ToString()))
-                                    .Td(action: () => hb
-                                        .Text(text: destinationSs.GetColumn(
-                                            summary.DestinationColumn)?.LabelText))
-                                    .Td(action: () => hb
-                                        .Text(text: destinationSs.Views?.Get(
-                                            summary.DestinationCondition)?.Name))
-                                    .Td(action: () => hb
-                                        .Text(text: ss.GetColumn(
-                                            summary.LinkColumn)?.LabelText))
-                                    .Td(action: () => hb
-                                        .Text(text: SummaryType(summary.Type)))
-                                    .Td(action: () => hb
-                                        .Text(text: ss.GetColumn(
-                                            summary.SourceColumn)?.LabelText))
-                                    .Td(action: () => hb
-                                        .Text(text: ss.Views?.Get(
-                                            summary.SourceCondition)?.Name)));
-                        }
-                    });
-                });
-            }
-            return hb;
         }
 
         /// <summary>
