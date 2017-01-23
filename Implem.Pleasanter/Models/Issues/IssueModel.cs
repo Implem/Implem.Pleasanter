@@ -903,7 +903,9 @@ namespace Implem.Pleasanter.Models
         }
 
         public void UpdateRelatedRecords(
-            bool addUpdatedTimeParam = true, bool addUpdatorParam = true)
+            bool addUpdatedTimeParam = true,
+            bool addUpdatorParam = true,
+            bool updateItems = true)
         {
             Rds.ExecuteNonQuery(
                 transactional: true,
@@ -915,7 +917,8 @@ namespace Implem.Pleasanter.Models
                             .SiteId(SiteId)
                             .Title(IssueUtilities.TitleDisplayValue(SiteSettings, this)),
                         addUpdatedTimeParam: addUpdatedTimeParam,
-                        addUpdatorParam: addUpdatorParam),
+                        addUpdatorParam: addUpdatorParam,
+                        _using: updateItems),
                     Rds.PhysicalDeleteLinks(
                         where: Rds.LinksWhere().SourceId(IssueId)),
                     InsertLinks(SiteSettings)

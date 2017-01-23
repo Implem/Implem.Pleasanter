@@ -47,7 +47,9 @@ namespace Implem.Pleasanter.Libraries.Models
                         {
                             if (hasFormula) issueModel.UpdateFormulaColumns(selected);
                             issueModel.UpdateRelatedRecords(
-                                addUpdatedTimeParam: false, addUpdatorParam: false);
+                                addUpdatedTimeParam: false,
+                                addUpdatorParam: false,
+                                updateItems: false);
                         });
         }
 
@@ -64,7 +66,9 @@ namespace Implem.Pleasanter.Libraries.Models
                         {
                             if (hasFormula) resultModel.UpdateFormulaColumns(selected);
                             resultModel.UpdateRelatedRecords(
-                                addUpdatedTimeParam: false, addUpdatorParam: false);
+                                addUpdatedTimeParam: false,
+                                addUpdatorParam: false,
+                                updateItems: false);
                         });
         }
 
@@ -81,7 +85,9 @@ namespace Implem.Pleasanter.Libraries.Models
                         {
                             if (hasFormula) wikiModel.UpdateFormulaColumns(selected);
                             wikiModel.UpdateRelatedRecords(
-                                addUpdatedTimeParam: false, addUpdatorParam: false);
+                                addUpdatedTimeParam: false,
+                                addUpdatorParam: false,
+                                updateItems: false);
                         });
         }
     }
