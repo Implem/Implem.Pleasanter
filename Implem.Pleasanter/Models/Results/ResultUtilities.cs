@@ -1964,7 +1964,7 @@ namespace Implem.Pleasanter.Models
             var resultModel = new ResultModel(
                 ss, Forms.Long("KambanId"), setByForm: true);
             resultModel.VerUp = Versions.MustVerUp(resultModel);
-            resultModel.Update();
+            resultModel.Update(notice: true);
             return KambanJson(ss, siteModel.PermissionType);
         }
 

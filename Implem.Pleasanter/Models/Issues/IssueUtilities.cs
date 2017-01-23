@@ -2096,7 +2096,7 @@ namespace Implem.Pleasanter.Models
             var issueModel = new IssueModel(
                 ss, Forms.Long("KambanId"), setByForm: true);
             issueModel.VerUp = Versions.MustVerUp(issueModel);
-            issueModel.Update();
+            issueModel.Update(notice: true);
             return KambanJson(ss, siteModel.PermissionType);
         }
 
