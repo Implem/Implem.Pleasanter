@@ -47,9 +47,7 @@ namespace Implem.Pleasanter.Libraries.Converts
         {
             return column.ControlType == "Spinner"
                 ? column.Display(self, format: false)
-                : self != 0
-                    ? column.Display(self, pt)
-                    : string.Empty;
+                : column.Display(self, pt);
         }
     }
 }
