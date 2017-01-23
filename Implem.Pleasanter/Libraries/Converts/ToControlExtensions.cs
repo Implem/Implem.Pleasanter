@@ -51,11 +51,5 @@ namespace Implem.Pleasanter.Libraries.Converts
                     ? column.Display(self, pt)
                     : string.Empty;
         }
-
-        public static string ToControl<T>(
-            this IEnumerable<T> self, Column column, Permissions.Types pt)
-        {
-            return self?.Join() ?? string.Empty;
-        }
     }
 }
