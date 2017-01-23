@@ -398,33 +398,30 @@ namespace Implem.Pleasanter.Models
 
         private void SetByFormula()
         {
-            if (SiteSettings.Formulas?.Count > 0)
+            SiteSettings.Formulas?.ForEach(formulaSet =>
             {
-                SiteSettings.Formulas.ForEach(formulaSet =>
+                var columnName = formulaSet.Target;
+                var formula = formulaSet.Formula;
+                var view = SiteSettings.Views?.Get(formulaSet.Condition);
+                if (view != null && !Matched(view))
                 {
-                    var columnName = formulaSet.Target;
-                    var formula = formulaSet.Formula;
-                    var view = SiteSettings.Views?.Get(formulaSet.Condition);
-                    if (view != null && !Matched(view))
+                    if (formulaSet.OutOfCondition != null)
                     {
-                        if (formulaSet.OutOfCondition != null)
-                        {
-                            formula = formulaSet.OutOfCondition;
-                        }
-                        else
-                        {
-                            return;
-                        }
+                        formula = formulaSet.OutOfCondition;
                     }
-                    var data = new Dictionary<string, decimal>
+                    else
                     {
-                    };
-                    switch (columnName)
-                    {
-                        default: break;
+                        return;
                     }
-                });
-            }
+                }
+                var data = new Dictionary<string, decimal>
+                {
+                };
+                switch (columnName)
+                {
+                    default: break;
+                }
+            });
         }
 
         private bool Matched(View view)
