@@ -40,6 +40,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             return formula;
         }
 
+        public decimal GetResult(Dictionary<string, decimal> data, Column column)
+        {
+            return column != null
+                ? column.Round(GetResult(data))
+                : 0;
+        }
+
         public decimal GetResult(Dictionary<string, decimal> data, bool root = true)
         {
             if (root) ClearResults();

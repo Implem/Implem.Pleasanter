@@ -1425,33 +1425,114 @@ namespace Implem.Pleasanter.Models
                     };
                     switch (columnName)
                     {
-                        case "WorkValue": WorkValue.Value = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumA": NumA = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumB": NumB = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumC": NumC = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumD": NumD = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumE": NumE = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumF": NumF = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumG": NumG = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumH": NumH = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumI": NumI = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumJ": NumJ = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumK": NumK = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumL": NumL = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumM": NumM = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumN": NumN = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumO": NumO = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumP": NumP = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumQ": NumQ = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumR": NumR = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumS": NumS = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumT": NumT = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumU": NumU = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumV": NumV = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumW": NumW = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumX": NumX = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumY": NumY = SiteSettings.FormulaResult(columnName, formula, data); break;
-                        case "NumZ": NumZ = SiteSettings.FormulaResult(columnName, formula, data); break;
+                        case "WorkValue":
+                            WorkValue.Value = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumA":
+                            NumA = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumB":
+                            NumB = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumC":
+                            NumC = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumD":
+                            NumD = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumE":
+                            NumE = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumF":
+                            NumF = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumG":
+                            NumG = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumH":
+                            NumH = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumI":
+                            NumI = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumJ":
+                            NumJ = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumK":
+                            NumK = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumL":
+                            NumL = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumM":
+                            NumM = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumN":
+                            NumN = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumO":
+                            NumO = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumP":
+                            NumP = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumQ":
+                            NumQ = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumR":
+                            NumR = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumS":
+                            NumS = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumT":
+                            NumT = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumU":
+                            NumU = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumV":
+                            NumV = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumW":
+                            NumW = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumX":
+                            NumX = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumY":
+                            NumY = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
+                        case "NumZ":
+                            NumZ = formula?.GetResult(
+                                data, SiteSettings.GetColumn(columnName)) ?? 0;
+                            break;
                         default: break;
                     }
                 });

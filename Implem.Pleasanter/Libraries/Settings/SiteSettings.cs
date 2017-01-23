@@ -1185,14 +1185,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public decimal FormulaResult(
-            string columnName, Formula formula, Dictionary<string, decimal> data)
-        {
-            return formula != null
-                ? GetColumn(columnName).Round(formula.GetResult(data))
-                : data[columnName];
-        }
-
         public void AddView(View view)
         {
             ViewLatestId++;
