@@ -3335,6 +3335,100 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static HtmlBuilder EditNotification(this HtmlBuilder hb, SiteSettings ss)
+        {
+            var selected = Forms.Data("EditNotification").Deserialize<IEnumerable<int>>();
+            return hb.Table(
+                id: "EditNotification",
+                css: "grid",
+                attributes: new HtmlAttributes()
+                    .DataName("NotificationId")
+                    .DataFunc("openNotificationDialog")
+                    .DataAction("SetSiteSettings")
+                    .DataMethod("post"),
+                action: () => hb
+                .EditNotificationHeader(ss: ss, selected: selected)
+                .EditNotificationBody(ss: ss, selected: selected));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditNotificationHeader(
+            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
+        {
+            return hb.THead(action: () => hb
+                .Tr(css: "ui-widget-header", action: () => hb
+                    .Th(action: () => hb
+                        .CheckBox(
+                            controlCss: "select-all",
+                            _checked: ss.Summaries?.All(o =>
+                                selected?.Contains(o.Id) == true) == true))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Id()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.NotificationType()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Prefix()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Address()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Notifications()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.BeforeCondition()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Expression()))
+                    .Th(action: () => hb
+                        .Text(text: Displays.AfterCondition()))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditNotificationBody(
+            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
+        {
+            return hb.TBody(action: () => ss
+                .Notifications?.ForEach(notification =>
+                {
+                    var beforeCondition = ss.Views?.Get(notification.BeforeCondition);
+                    var afterCondition = ss.Views?.Get(notification.AfterCondition);
+                    hb.Tr(
+                        css: "grid-row",
+                        attributes: new HtmlAttributes()
+                            .DataId(notification.Id.ToString()),
+                        action: () => hb
+                            .Td(action: () => hb
+                                .CheckBox(
+                                    controlCss: "select",
+                                    _checked: selected?
+                                        .Contains(notification.Id) == true))
+                            .Td(action: () => hb
+                                .Text(text: notification.Id.ToString()))
+                            .Td(action: () => hb
+                                .Text(text: Displays.Get(notification.Type.ToString())))
+                            .Td(action: () => hb
+                                .Text(text: notification.Prefix))
+                            .Td(action: () => hb
+                                .Text(text: notification.Address))
+                            .Td(action: () => hb
+                                .Text(text: notification.MonitorChangesColumns?
+                                    .Select(o => ss.GetColumn(o).LabelText)
+                                    .Join(", ")))
+                            .Td(action: () => hb
+                                .Text(text: beforeCondition?.Name))
+                            .Td(action: () => hb
+                                .Text(text: beforeCondition != null && afterCondition != null
+                                    ? Displays.Get(notification.Expression.ToString())
+                                    : null))
+                            .Td(action: () => hb
+                                .Text(text: afterCondition?.Name)));
+                }));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static HtmlBuilder NotificationDialog(
             SiteSettings ss, string controlId, Notification notification)
         {
@@ -3519,100 +3613,6 @@ namespace Implem.Pleasanter.Models
         private static IEnumerable<int> TokenList()
         {
             return new List<int> { Notification.Types.ChatWork.ToInt() };
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static HtmlBuilder EditNotification(this HtmlBuilder hb, SiteSettings ss)
-        {
-            var selected = Forms.Data("EditNotification").Deserialize<IEnumerable<int>>();
-            return hb.Table(
-                id: "EditNotification",
-                css: "grid",
-                attributes: new HtmlAttributes()
-                    .DataName("NotificationId")
-                    .DataFunc("openNotificationDialog")
-                    .DataAction("SetSiteSettings")
-                    .DataMethod("post"),
-                action: () => hb
-                .EditNotificationHeader(ss: ss, selected: selected)
-                .EditNotificationBody(ss: ss, selected: selected));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static HtmlBuilder EditNotificationHeader(
-            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
-        {
-            return hb.THead(action: () => hb
-                .Tr(css: "ui-widget-header", action: () => hb
-                    .Th(action: () => hb
-                        .CheckBox(
-                            controlCss: "select-all",
-                            _checked: ss.Summaries?.All(o =>
-                                selected?.Contains(o.Id) == true) == true))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Id()))
-                    .Th(action: () => hb
-                        .Text(text: Displays.NotificationType()))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Prefix()))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Address()))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Notifications()))
-                    .Th(action: () => hb
-                        .Text(text: Displays.BeforeCondition()))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Expression()))
-                    .Th(action: () => hb
-                        .Text(text: Displays.AfterCondition()))));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static HtmlBuilder EditNotificationBody(
-            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
-        {
-            return hb.TBody(action: () => ss
-                .Notifications?.ForEach(notification =>
-                {
-                    var beforeCondition = ss.Views?.Get(notification.BeforeCondition);
-                    var afterCondition = ss.Views?.Get(notification.AfterCondition);
-                    hb.Tr(
-                        css: "grid-row",
-                        attributes: new HtmlAttributes()
-                            .DataId(notification.Id.ToString()),
-                        action: () => hb
-                            .Td(action: () => hb
-                                .CheckBox(
-                                    controlCss: "select",
-                                    _checked: selected?
-                                        .Contains(notification.Id) == true))
-                            .Td(action: () => hb
-                                .Text(text: notification.Id.ToString()))
-                            .Td(action: () => hb
-                                .Text(text: Displays.Get(notification.Type.ToString())))
-                            .Td(action: () => hb
-                                .Text(text: notification.Prefix))
-                            .Td(action: () => hb
-                                .Text(text: notification.Address))
-                            .Td(action: () => hb
-                                .Text(text: notification.MonitorChangesColumns?
-                                    .Select(o => ss.GetColumn(o).LabelText)
-                                    .Join(", ")))
-                            .Td(action: () => hb
-                                .Text(text: beforeCondition?.Name))
-                            .Td(action: () => hb
-                                .Text(text: beforeCondition != null && afterCondition != null
-                                    ? Displays.Get(notification.Expression.ToString())
-                                    : null))
-                            .Td(action: () => hb
-                                .Text(text: afterCondition?.Name)));
-                }));
         }
 
         /// <summary>
