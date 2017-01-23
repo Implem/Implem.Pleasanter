@@ -10,5 +10,6 @@
         public int SqlCommandTimeOut;
         public int SqlAzureRetryCount;
         public int SqlAzureRetryInterval;
+        public int MinimumTime;
     }
 }

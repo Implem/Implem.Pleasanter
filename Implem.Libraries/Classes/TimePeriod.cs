@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using System;
 namespace Implem.Libraries.Classes
 {
@@ -19,7 +20,7 @@ namespace Implem.Libraries.Classes
             Fy
         }
 
-        public TimePeriod(Types type, DateTime referenceTime)
+        public TimePeriod(Types type, DateTime referenceTime, int diff)
         {
             Type = type;
             ReferenceDate = referenceTime.Date;
@@ -33,6 +34,8 @@ namespace Implem.Libraries.Classes
                 case Types.Fy: Fy(); break;
                 default: break;
             }
+            From = From.AddDays(diff);
+            To = To.AddDays(diff);
         }
 
         public bool InRange(DateTime time)
@@ -43,37 +46,37 @@ namespace Implem.Libraries.Classes
         private void Day()
         {
             From = ReferenceDate.Date;
-            To = From.AddDays(1).AddMilliseconds(-1);
+            To = From.AddDays(1).AddMilliseconds(Parameters.Rds.MinimumTime * -1);
         }
 
         private void Week()
         {
             From = ReferenceDate.WeekFrom();
-            To = From.AddDays(7).AddMilliseconds(-1);
+            To = From.AddDays(7).AddMilliseconds(Parameters.Rds.MinimumTime * -1);
         }
 
         private void Month()
         {
             From = ReferenceDate.MonthFrom();
-            To = From.AddMonths(1).AddMilliseconds(-1);
+            To = From.AddMonths(1).AddMilliseconds(Parameters.Rds.MinimumTime * -1);
         }
 
         private void Quarter()
         {
             From = ReferenceDate.QuarterFrom();
-            To = From.AddMonths(3).AddMilliseconds(-1);
+            To = From.AddMonths(3).AddMilliseconds(Parameters.Rds.MinimumTime * -1);
         }
 
         private void Half()
         {
             From = ReferenceDate.HalfFrom();
-            To = From.AddMonths(6).AddMilliseconds(-1);
+            To = From.AddMonths(6).AddMilliseconds(Parameters.Rds.MinimumTime * -1);
         }
 
         private void Fy()
         {
             From = ReferenceDate.FyFrom();
-            To = From.AddYears(1).AddMilliseconds(-1);
+            To = From.AddYears(1).AddMilliseconds(Parameters.Rds.MinimumTime * -1);
         }
     }
 }

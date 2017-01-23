@@ -6,5 +6,6 @@
     "UserConnectionString": "Server=(local);Database=#ServiceName#;UID=#ServiceName#_User;PWD=SetUsersPWD;Connection Timeout=30;",
     "SqlCommandTimeOut": 600,
     "SqlAzureRetryCount": 4,
-    "SqlAzureRetryInterval": 3
+    "SqlAzureRetryInterval": 3,
+    "MinimumTime": 3
 }

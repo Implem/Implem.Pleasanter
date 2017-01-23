@@ -199,6 +199,12 @@
   <ItemGroup>
     <Folder Include="App_Start\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Implem.ParameterAccessor\Implem.ParameterAccessor.csproj">
+      <Project>{43CA1830-2E4D-4137-898E-9C3C1B104BAF}</Project>
+      <Name>Implem.ParameterAccessor</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
