@@ -1324,44 +1324,46 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public void UpdateFormulaColumns()
+        public void UpdateFormulaColumns(IEnumerable<int> selected = null)
         {
             SetByFormula();
             var param = Rds.IssuesParam();
-            SiteSettings.Formulas.ForEach(formulaSet =>
-            {
-                switch (formulaSet.Target)
+            SiteSettings.Formulas?
+                .Where(o => selected == null || selected.Contains(o.Id))
+                .ForEach(formulaSet =>
                 {
-                    case "WorkValue": param.WorkValue(WorkValue.Value); break;
-                    case "NumA": param.NumA(NumA); break;
-                    case "NumB": param.NumB(NumB); break;
-                    case "NumC": param.NumC(NumC); break;
-                    case "NumD": param.NumD(NumD); break;
-                    case "NumE": param.NumE(NumE); break;
-                    case "NumF": param.NumF(NumF); break;
-                    case "NumG": param.NumG(NumG); break;
-                    case "NumH": param.NumH(NumH); break;
-                    case "NumI": param.NumI(NumI); break;
-                    case "NumJ": param.NumJ(NumJ); break;
-                    case "NumK": param.NumK(NumK); break;
-                    case "NumL": param.NumL(NumL); break;
-                    case "NumM": param.NumM(NumM); break;
-                    case "NumN": param.NumN(NumN); break;
-                    case "NumO": param.NumO(NumO); break;
-                    case "NumP": param.NumP(NumP); break;
-                    case "NumQ": param.NumQ(NumQ); break;
-                    case "NumR": param.NumR(NumR); break;
-                    case "NumS": param.NumS(NumS); break;
-                    case "NumT": param.NumT(NumT); break;
-                    case "NumU": param.NumU(NumU); break;
-                    case "NumV": param.NumV(NumV); break;
-                    case "NumW": param.NumW(NumW); break;
-                    case "NumX": param.NumX(NumX); break;
-                    case "NumY": param.NumY(NumY); break;
-                    case "NumZ": param.NumZ(NumZ); break;
-                    default: break;
-                }
-            });
+                    switch (formulaSet.Target)
+                    {
+                        case "WorkValue": param.WorkValue(WorkValue.Value); break;
+                        case "NumA": param.NumA(NumA); break;
+                        case "NumB": param.NumB(NumB); break;
+                        case "NumC": param.NumC(NumC); break;
+                        case "NumD": param.NumD(NumD); break;
+                        case "NumE": param.NumE(NumE); break;
+                        case "NumF": param.NumF(NumF); break;
+                        case "NumG": param.NumG(NumG); break;
+                        case "NumH": param.NumH(NumH); break;
+                        case "NumI": param.NumI(NumI); break;
+                        case "NumJ": param.NumJ(NumJ); break;
+                        case "NumK": param.NumK(NumK); break;
+                        case "NumL": param.NumL(NumL); break;
+                        case "NumM": param.NumM(NumM); break;
+                        case "NumN": param.NumN(NumN); break;
+                        case "NumO": param.NumO(NumO); break;
+                        case "NumP": param.NumP(NumP); break;
+                        case "NumQ": param.NumQ(NumQ); break;
+                        case "NumR": param.NumR(NumR); break;
+                        case "NumS": param.NumS(NumS); break;
+                        case "NumT": param.NumT(NumT); break;
+                        case "NumU": param.NumU(NumU); break;
+                        case "NumV": param.NumV(NumV); break;
+                        case "NumW": param.NumW(NumW); break;
+                        case "NumX": param.NumX(NumX); break;
+                        case "NumY": param.NumY(NumY); break;
+                        case "NumZ": param.NumZ(NumZ); break;
+                        default: break;
+                    }
+                });
             Rds.ExecuteNonQuery(statements:
                 Rds.UpdateIssues(
                     param: param,

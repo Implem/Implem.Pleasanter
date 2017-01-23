@@ -1,5 +1,4 @@
 ﻿using Implem.Pleasanter.Libraries.Settings;
-using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Migrators
 {
@@ -10,7 +9,7 @@ namespace Implem.Pleasanter.Libraries.Migrators
             var id = 1;
             ss.FormulaHash?.ForEach(data =>
             {
-                if (ss.Formulas == null) ss.Formulas = new List<FormulaSet>();
+                if (ss.Formulas == null) ss.Formulas = new SettingList<FormulaSet>();
                 ss.Formulas.Add(new FormulaSet()
                 {
                     Id = id,

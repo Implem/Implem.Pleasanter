@@ -2678,65 +2678,132 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder FormulasSettingsEditor(this HtmlBuilder hb, SiteSettings ss)
         {
             return hb.FieldSet(id: "FormulasSettingsEditor", action: () => hb
-                .FieldSelectable(
-                    controlId: "Formulas",
-                    fieldCss: "field-vertical w600",
-                    controlContainerCss: "container-selectable",
-                    controlWrapperCss: " h200",
-                    listItemCollection: ss.FormulaItemCollection(),
-                    commandOptionPositionIsTop: true,
-                    commandOptionAction: () => hb
-                        .Div(css: "command-left", action: () => hb
-                            .Button(
-                                controlId: "MoveUpFormulas",
-                                controlCss: "button-icon",
-                                text: Displays.MoveUp(),
-                                onClick: "$p.send($(this));",
-                                icon: "ui-icon-circle-triangle-n",
-                                action: "SetSiteSettings",
-                                method: "post")
-                            .Button(
-                                controlId: "MoveDownFormulas",
-                                controlCss: "button-icon",
-                                text: Displays.MoveDown(),
-                                onClick: "$p.send($(this));",
-                                icon: "ui-icon-circle-triangle-s",
-                                action: "SetSiteSettings",
-                                method: "post")
-                            .Button(
-                                controlId: "NewFormula",
-                                text: Displays.New(),
-                                controlCss: "button-icon",
-                                onClick: "$p.openFormulaDialog($(this));",
-                                icon: "ui-icon-gear",
-                                action: "SetSiteSettings",
-                                method: "post")
-                            .Button(
-                                controlId: "EditFormula",
-                                text: Displays.AdvancedSetting(),
-                                controlCss: "button-icon",
-                                onClick: "$p.openFormulaDialog($(this));",
-                                icon: "ui-icon-gear",
-                                action: "SetSiteSettings",
-                                method: "put")
-                            .Button(
-                                controlId: "DeleteFormulas",
-                                controlCss: "button-icon",
-                                text: Displays.Delete(),
-                                onClick: "$p.send($(this));",
-                                icon: "ui-icon-trash",
-                                action: "SetSiteSettings",
-                                method: "post",
-                                confirm: Displays.ConfirmDelete())
-                            .Button(
-                                controlId: "SynchronizeFormulas",
-                                controlCss: "button-icon",
-                                text: Displays.Synchronize(),
-                                onClick: "$p.send($(this));",
-                                icon: "ui-icon-refresh",
-                                action: "SynchronizeFormulas",
-                                method: "put",
-                                confirm: Displays.ConfirmSynchronize()))));
+                .Div(css: "command-left", action: () => hb
+                    .Button(
+                        controlId: "MoveUpFormulas",
+                        controlCss: "button-icon",
+                        text: Displays.MoveUp(),
+                        onClick: "$p.send($(this));",
+                        icon: "ui-icon-circle-triangle-n",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "MoveDownFormulas",
+                        controlCss: "button-icon",
+                        text: Displays.MoveDown(),
+                        onClick: "$p.send($(this));",
+                        icon: "ui-icon-circle-triangle-s",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "NewFormula",
+                        text: Displays.New(),
+                        controlCss: "button-icon",
+                        onClick: "$p.openFormulaDialog($(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "DeleteFormulas",
+                        controlCss: "button-icon",
+                        text: Displays.Delete(),
+                        onClick: "$p.send($(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "post",
+                        confirm: Displays.ConfirmDelete())
+                    .Button(
+                        controlId: "SynchronizeFormulas",
+                        controlCss: "button-icon",
+                        text: Displays.Synchronize(),
+                        onClick: "$p.send($(this));",
+                        icon: "ui-icon-refresh",
+                        action: "SynchronizeFormulas",
+                        method: "put",
+                        confirm: Displays.ConfirmSynchronize()))
+                .EditFormula(ss: ss));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditFormula(this HtmlBuilder hb, SiteSettings ss)
+        {
+            var selected = Forms.Data("EditFormula").Deserialize<IEnumerable<int>>();
+            return hb
+                .Table(
+                    id: "EditFormula",
+                    css: "grid",
+                    attributes: new HtmlAttributes()
+                        .DataName("FormulaId")
+                        .DataFunc("openFormulaDialog")
+                        .DataAction("SetSiteSettings")
+                        .DataMethod("post"),
+                    action: () => hb
+                        .FormulasHeader(ss: ss, selected: selected)
+                        .FormulasBody(ss: ss, selected: selected));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder FormulasHeader(
+            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
+        {
+            return hb.THead(action: () => hb
+                .Tr(css: "ui-widget-header", action: () => hb
+                    .Th(action: () => hb
+                        .CheckBox(
+                            controlCss: "select-all",
+                            _checked: ss.Formulas?.All(o =>
+                                selected?.Contains(o.Id) == true) == true))
+                    .Th(action: () => hb
+                            .Text(text: Displays.Id()))
+                    .Th(action: () => hb
+                            .Text(text: Displays.Target()))
+                    .Th(action: () => hb
+                            .Text(text: Displays.Formulas()))
+                    .Th(action: () => hb
+                            .Text(text: Displays.Condition()))
+                    .Th(action: () => hb
+                            .Text(text: Displays.OutOfCondition()))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder FormulasBody(
+            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
+        {
+            if (ss.Formulas?.Any() == true)
+            {
+                hb.TBody(action: () =>
+                {
+                    ss.Formulas?.ForEach(formulaSet =>
+                    {
+                        hb.Tr(
+                            css: "grid-row",
+                            attributes: new HtmlAttributes()
+                                .DataId(formulaSet.Id.ToString()),
+                            action: () => hb
+                                .Td(action: () => hb
+                                    .CheckBox(
+                                        controlCss: "select",
+                                        _checked: selected?.Contains(formulaSet.Id) == true))
+                                .Td(action: () => hb
+                                    .Text(text: formulaSet.Id.ToString()))
+                                .Td(action: () => hb
+                                    .Text(text: ss.GetColumn(formulaSet.Target)?.ColumnName))
+                                .Td(action: () => hb
+                                    .Text(text: formulaSet.Formula?.ToString(ss)))
+                                .Td(action: () => hb
+                                    .Text(text: ss.Views?.Get(formulaSet.Condition)?.Name))
+                                .Td(action: () => hb
+                                    .Text(text: formulaSet.OutOfCondition?.ToString(ss))));
+                    });
+                });
+            }
+            return hb;
         }
 
         /// <summary>

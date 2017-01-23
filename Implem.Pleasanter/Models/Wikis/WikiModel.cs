@@ -375,17 +375,19 @@ namespace Implem.Pleasanter.Models
             SetByFormula();
         }
 
-        public void UpdateFormulaColumns()
+        public void UpdateFormulaColumns(IEnumerable<int> selected = null)
         {
             SetByFormula();
             var param = Rds.WikisParam();
-            SiteSettings.Formulas.ForEach(formulaSet =>
-            {
-                switch (formulaSet.Target)
+            SiteSettings.Formulas?
+                .Where(o => selected == null || selected.Contains(o.Id))
+                .ForEach(formulaSet =>
                 {
-                    default: break;
-                }
-            });
+                    switch (formulaSet.Target)
+                    {
+                        default: break;
+                    }
+                });
             Rds.ExecuteNonQuery(statements:
                 Rds.UpdateWikis(
                     param: param,

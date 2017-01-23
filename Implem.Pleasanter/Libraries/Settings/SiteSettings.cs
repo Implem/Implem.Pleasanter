@@ -56,7 +56,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<Aggregation> Aggregations;
         public List<Link> Links;
         public SettingList<Summary> Summaries;
-        public List<FormulaSet> Formulas;
+        public SettingList<FormulaSet> Formulas;
         public int ViewLatestId;
         public List<View> Views;
         public SettingList<Notification> Notifications;
@@ -119,7 +119,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Aggregations == null) Aggregations = new List<Aggregation>();
             if (Links == null) Links = new List<Link>();
             if (Summaries == null) Summaries = new SettingList<Summary>();
-            if (Formulas == null) Formulas = new List<FormulaSet>();
+            if (Formulas == null) Formulas = new SettingList<FormulaSet>();
             if (Notifications == null) Notifications = new SettingList<Notification>();
         }
 
@@ -1183,46 +1183,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return Error.Types.NotFound;
             }
-        }
-
-        public void SetFormulas(string controlId, IEnumerable<int> selected)
-        {
-            var order = Formulas.Select(o => o.Id).ToArray();
-            switch (controlId)
-            {
-                case "MoveUpFormulas":
-                case "MoveDownFormulas":
-                    if (controlId == "MoveDownFormulas") Array.Reverse(order);
-                    order.Select((o, i) => new { ColumnName = o, Index = i }).ForEach(data =>
-                    {
-                        if (selected.Contains(data.ColumnName))
-                        {
-                            if (data.Index > 0 &&
-                                !selected.Contains(order[data.Index - 1]))
-                            {
-                                order = Arrays.Swap(order, data.Index, data.Index - 1);
-                            }
-                        }
-                    });
-                    if (controlId == "MoveDownFormulas") Array.Reverse(order);
-                    Formulas = order
-                        .Select(o => Formulas.FirstOrDefault(p => p.Id == o ))
-                        .Where(o => o != null)
-                        .ToList();
-                    break;
-            }
-        }
-
-        public void DeleteFormulas(IEnumerable<int> selected)
-        {
-            Formulas.RemoveAll(o => selected.Contains(o.Id));
-        }
-
-        public Dictionary<string, string> FormulaItemCollection()
-        {
-            return Formulas?.ToDictionary(
-                o => o.Id.ToString(),
-                o => o.ToString(this));
         }
 
         public decimal FormulaResult(

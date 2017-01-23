@@ -1,35 +1,12 @@
-﻿namespace Implem.Pleasanter.Libraries.Settings
+﻿using Implem.Pleasanter.Interfaces;
+namespace Implem.Pleasanter.Libraries.Settings
 {
-    public class FormulaSet
+    public class FormulaSet : ISettingListItem
     {
-        public int Id;
+        public int Id { get; set; }
         public string Target;
         public int? Condition;
         public Formula Formula;
         public Formula OutOfCondition;
-
-        public string ToString(SiteSettings ss)
-        {
-            var data = string.Empty;
-            var target = ss.FormulaColumn(Target);
-            if (target != null)
-            {
-                data = target.LabelText + " = ";
-                if (Formula != null)
-                {
-                    data += Formula.ToString(ss);
-                }
-                var view = ss.Views?.Get(Condition);
-                if (view != null)
-                {
-                    data += " | " + view.Name;
-                    if (OutOfCondition != null)
-                    {
-                        data += " | " + OutOfCondition.ToString(ss);
-                    }
-                }
-            }
-            return data;
-        }
     }
 }

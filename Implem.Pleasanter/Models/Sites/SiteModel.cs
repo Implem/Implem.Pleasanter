@@ -1360,12 +1360,18 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetFormulasOrder(ResponseCollection res, string controlId)
         {
-            var selected = Forms.IntList("Formulas");
-            SiteSettings.SetFormulas(controlId, selected);
-            res.Html("#Formulas", new HtmlBuilder()
-                .SelectableItems(
-                    listItemCollection: SiteSettings.FormulaItemCollection(),
-                    selectedValueTextCollection: selected.Select(o => o.ToString())));
+            var selected = Forms.Data("EditFormula").Deserialize<IEnumerable<int>>();
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets()).ToJson();
+            }
+            else
+            {
+                SiteSettings.Formulas.MoveUpOrDown(
+                    ColumnUtilities.ChangeCommand(controlId), selected);
+                res.Html("#EditFormula", new HtmlBuilder()
+                    .EditFormula(ss: SiteSettings));
+            }
         }
 
         /// <summary>
@@ -1373,32 +1379,22 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void OpenFormulaDialog(ResponseCollection res, string controlId)
         {
-            FormulaSet formulaSet;
             if (controlId == "NewFormula")
             {
-                formulaSet = new FormulaSet();
+                var formulaSet = new FormulaSet();
                 OpenFormulaDialog(res, formulaSet);
             }
             else
             {
-                var idList = Forms.IntList("Formulas", ';');
-                if (idList.Count() != 1)
+                var formulaSet = SiteSettings.Formulas?.Get(Forms.Int("FormulaId"));
+                if (formulaSet == null)
                 {
                     OpenDialogError(res, Messages.SelectOne());
                 }
                 else
                 {
-                    formulaSet = SiteSettings.Formulas
-                        .FirstOrDefault(o => o.Id == idList.First());
-                    if (formulaSet == null)
-                    {
-                        OpenDialogError(res, Messages.SelectOne());
-                    }
-                    else
-                    {
-                        SiteSettingsUtilities.Get(this);
-                        OpenFormulaDialog(res, formulaSet);
-                    }
+                    SiteSettingsUtilities.Get(this);
+                    OpenFormulaDialog(res, formulaSet);
                 }
             }
         }
@@ -1432,9 +1428,8 @@ namespace Implem.Pleasanter.Models
             else
             {
                 res
-                    .Html("#Formulas", new HtmlBuilder()
-                        .SelectableItems(listItemCollection: SiteSettings.FormulaItemCollection()))
-                    .Val("#Formula", string.Empty)
+                    .ReplaceAll("#EditFormula", new HtmlBuilder()
+                        .EditFormula(ss: SiteSettings))
                     .CloseDialog();
             }
         }
@@ -1461,11 +1456,8 @@ namespace Implem.Pleasanter.Models
             else
             {
                 res
-                    .Html("#Formulas", new HtmlBuilder()
-                        .SelectableItems(
-                            listItemCollection: SiteSettings.FormulaItemCollection(),
-                            selectedValueTextCollection: new List<string> { id.ToString() }))
-                    .Val("#Formula", string.Empty)
+                    .Html("#EditFormula", new HtmlBuilder()
+                        .EditFormula(ss: SiteSettings))
                     .CloseDialog();
             }
         }
@@ -1475,18 +1467,35 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void DeleteFormulas(ResponseCollection res)
         {
-            var selected = Forms.IntList("Formulas", ';');
+            var selected = Forms.Data("EditFormula").Deserialize<IEnumerable<int>>();
             if (selected?.Any() != true)
             {
                 res.Message(Messages.SelectTargets()).ToJson();
             }
             else
             {
-                SiteSettings.DeleteFormulas(selected);
-                res
-                    .Html("#Formulas", new HtmlBuilder()
-                        .SelectableItems(listItemCollection: SiteSettings.FormulaItemCollection()))
-                    .ClearFormData("Formulas");
+                SiteSettings.Formulas.Delete(selected);
+                res.ReplaceAll("#EditFormula", new HtmlBuilder()
+                    .EditFormula(ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string SynchronizeFormulas()
+        {
+            SetSiteSettingsPropertiesBySession();
+            var selected = Forms.Data("EditFormula").Deserialize<IEnumerable<int>>();
+            if (selected?.Any() != true)
+            {
+                return Messages.ResponseSelectTargets().ToJson();
+            }
+            else
+            {
+                SiteSettings.SetChoiceHash();
+                FormulaUtilities.Synchronize(this, selected);
+                return Messages.ResponseSynchronizationCompleted().ToJson();
             }
         }
 
@@ -1635,7 +1644,7 @@ namespace Implem.Pleasanter.Models
                 }
             }
         }
-        
+
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -1774,17 +1783,6 @@ namespace Implem.Pleasanter.Models
                 res.ReplaceAll("#EditNotification", new HtmlBuilder()
                     .EditNotification(ss: SiteSettings));
             }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public string SynchronizeFormulas()
-        {
-            SetSiteSettingsPropertiesBySession();
-            SiteSettings.SetChoiceHash();
-            FormulaUtilities.Synchronize(this);
-            return Messages.ResponseSynchronizationCompleted().ToJson();
         }
 
         /// <summary>

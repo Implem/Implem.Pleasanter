@@ -44,7 +44,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 var error2 = Get(ss, outOfConditionParts, out formulaSet.OutOfCondition);
                 if (error2.Has()) return error2;
             }
-            if (ss.Formulas == null) ss.Formulas = new List<FormulaSet>();
+            if (ss.Formulas == null) ss.Formulas = new SettingList<FormulaSet>();
             ss.Formulas.Add(formulaSet);
             return Error.Types.None;
         }

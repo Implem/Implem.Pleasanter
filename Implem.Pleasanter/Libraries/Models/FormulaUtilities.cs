@@ -1,13 +1,14 @@
 ﻿using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Models;
+using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Models
 {
     public static class FormulaUtilities
     {
-        public static void Synchronize(SiteModel siteModel)
+        public static void Synchronize(SiteModel siteModel, IEnumerable<int> selected = null)
         {
-            Update(siteModel, 0);
+            Update(siteModel, 0, selected);
         }
 
         public static void Update(long id)
@@ -15,19 +16,26 @@ namespace Implem.Pleasanter.Libraries.Models
             Update(new SiteModel(new ItemModel(id).SiteId), id);
         }
 
-        private static void Update(SiteModel siteModel, long id)
+        private static void Update(SiteModel siteModel, long id, IEnumerable<int> selected = null)
         {
             var hasFormula = siteModel.SiteSettings.Formulas?.Any() ?? false;
             switch (siteModel.ReferenceType)
             {
-                case "Issues": UpdateIssues(siteModel, id, hasFormula: hasFormula); break;
-                case "Results": UpdateResults(siteModel, id, hasFormula: hasFormula); break;
-                case "Wikis": UpdateWikis(siteModel, id, hasFormula: hasFormula); break;
+                case "Issues":
+                    UpdateIssues(siteModel, id, selected, hasFormula: hasFormula);
+                    break;
+                case "Results":
+                    UpdateResults(siteModel, id, selected, hasFormula: hasFormula);
+                    break;
+                case "Wikis":
+                    UpdateWikis(siteModel, id, selected, hasFormula: hasFormula);
+                    break;
                 default: break;
             }
         }
 
-        private static void UpdateIssues(SiteModel siteModel, long id, bool hasFormula = false)
+        private static void UpdateIssues(
+            SiteModel siteModel, long id, IEnumerable<int> selected = null, bool hasFormula = false)
         {
             new IssueCollection(
                 ss: siteModel.SiteSettings,
@@ -37,13 +45,14 @@ namespace Implem.Pleasanter.Libraries.Models
                     .IssueId(id, _using: id != 0))
                         .ForEach(issueModel =>
                         {
-                            if (hasFormula) issueModel.UpdateFormulaColumns();
+                            if (hasFormula) issueModel.UpdateFormulaColumns(selected);
                             issueModel.UpdateRelatedRecords(
                                 addUpdatedTimeParam: false, addUpdatorParam: false);
                         });
         }
 
-        private static void UpdateResults(SiteModel siteModel, long id, bool hasFormula = false)
+        private static void UpdateResults(
+            SiteModel siteModel, long id, IEnumerable<int> selected = null, bool hasFormula = false)
         {
             new ResultCollection(
                 ss: siteModel.SiteSettings,
@@ -53,13 +62,14 @@ namespace Implem.Pleasanter.Libraries.Models
                     .ResultId(id, _using: id != 0))
                         .ForEach(resultModel =>
                         {
-                            if (hasFormula) resultModel.UpdateFormulaColumns();
+                            if (hasFormula) resultModel.UpdateFormulaColumns(selected);
                             resultModel.UpdateRelatedRecords(
                                 addUpdatedTimeParam: false, addUpdatorParam: false);
                         });
         }
 
-        private static void UpdateWikis(SiteModel siteModel, long id, bool hasFormula = false)
+        private static void UpdateWikis(
+            SiteModel siteModel, long id, IEnumerable<int> selected = null, bool hasFormula = false)
         {
             new WikiCollection(
                 ss: siteModel.SiteSettings,
@@ -69,7 +79,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     .WikiId(id, _using: id != 0))
                         .ForEach(wikiModel =>
                         {
-                            if (hasFormula) wikiModel.UpdateFormulaColumns();
+                            if (hasFormula) wikiModel.UpdateFormulaColumns(selected);
                             wikiModel.UpdateRelatedRecords(
                                 addUpdatedTimeParam: false, addUpdatorParam: false);
                         });
