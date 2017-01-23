@@ -2779,7 +2779,7 @@ namespace Implem.Pleasanter.Models
                                 .Td(action: () => hb
                                     .Text(text: formulaSet.Id.ToString()))
                                 .Td(action: () => hb
-                                    .Text(text: ss.GetColumn(formulaSet.Target)?.ColumnName))
+                                    .Text(text: ss.GetColumn(formulaSet.Target)?.LabelText))
                                 .Td(action: () => hb
                                     .Text(text: formulaSet.Formula?.ToString(ss)))
                                 .Td(action: () => hb
