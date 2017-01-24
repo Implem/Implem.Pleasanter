@@ -230,18 +230,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                         : string.Empty,
                     new ControlData(string.Empty));
             }
-            ChoiceHash.Values.ForEach(choice =>
-            {
-                if (!editChoices.ContainsKey(choice.Value))
-                {
+            ChoiceHash.Values
+                .GroupBy(o => o.Value)
+                .Select(o => o.FirstOrDefault())
+                .ForEach(choice =>
                     editChoices.Add(
                         choice.Value,
                         new ControlData(
                             text: choice.Text,
                             css: choice.CssClass,
-                            style: choice.Style));
-                }
-            });
+                            style: choice.Style)));
             if (addNotSet && Nullable)
             {
                 editChoices.Add("\t", new ControlData(Displays.NotSet()));
