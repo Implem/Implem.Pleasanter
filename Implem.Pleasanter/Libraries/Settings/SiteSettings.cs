@@ -1066,7 +1066,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var linkHash = withLink
                 ? LinkHash()
                 : null;
-            Columns.Where(o => o.HasChoices()).ForEach(column =>
+            Columns?.Where(o => o.HasChoices()).ForEach(column =>
                 column.SetChoiceHash(InheritPermission, linkHash));
         }
 
