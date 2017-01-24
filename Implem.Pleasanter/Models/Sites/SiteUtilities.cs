@@ -2399,12 +2399,14 @@ namespace Implem.Pleasanter.Models
                     {
                         var dataRow = dataRows.FirstOrDefault(o =>
                             o["SiteId"].ToLong() == summary.SiteId);
-                        var destinationSs = dataRow?["SiteSettings"]
-                            .ToString()
-                            .Deserialize<SiteSettings>() ??
-                                SiteSettingsUtilities.Get(
-                                    dataRow["SiteId"].ToLong(),
-                                    dataRow["ReferenceType"].ToString());
+                        var destinationSs = dataRow != null
+                            ? dataRow["SiteSettings"]
+                                .ToString()
+                                .Deserialize<SiteSettings>() ??
+                                    SiteSettingsUtilities.Get(
+                                        dataRow["SiteId"].ToLong(),
+                                        dataRow["ReferenceType"].ToString())
+                            : null;
                         if (destinationSs != null)
                         {
                             hb.Tr(
