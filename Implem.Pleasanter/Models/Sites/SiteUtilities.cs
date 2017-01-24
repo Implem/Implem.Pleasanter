@@ -2562,7 +2562,7 @@ namespace Implem.Pleasanter.Models
                 controlId: "SummaryDestinationColumn",
                 controlCss: " must-transport",
                 labelText: Displays.Column(),
-                optionCollection: destinationSs?.Columns
+                optionCollection: destinationSs?.Columns?
                     .Where(o => o.Computable)
                     .Where(o => o.TypeName != "datetime")
                     .Where(o => !o.NotUpdate)
