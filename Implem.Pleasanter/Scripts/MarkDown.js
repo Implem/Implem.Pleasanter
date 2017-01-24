@@ -37,57 +37,22 @@ $p.markup = function (markdownValue, encoded) {
     text = replaceUnc(text);
     return text.indexOf('[md]') === 0
         ? '<div class="md">' + marked(text.substring(4)) + '</div>'
-        : replaceUrl(getMarkedUpHtml(text));
+        : replaceUrl(markedUp(text));
 
     function cutBrackets(str, start) {
         return str.substring(start, str.length - 1);
     }
 
-    function getMarkedUpHtml(markdownValue) {
-        var paragraphsNumber = [0, 0, 0, 0, 0];
-        var paragraphLevel = 0;
-        var beforeIndex = 0;
-        var header = false;
-        var inSection = false;
-        var $elements = $('<pre/>')
-        markdownValue.split(/\r\n|\r|\n/).forEach(function (e) {
-            paragraphLevel = /^\++|^\*+|^\+*/.exec(e)[0].length;
-            var index = paragraphLevel - 1;
-            var tag = 'h' + (paragraphLevel + 1);
-            if (0 < paragraphLevel && paragraphLevel < 6) {
-                var paragraphType = e.substring(0, 1);
-                if (index < beforeIndex) {
-                    paragraphsNumber[beforeIndex] = 0;
-                }
-                if (paragraphType === '+') {
-                    paragraphsNumber[index]++;
-                }
-                $elements
-                    .append($('<section/>').addClass(tag)
-                        .append($('<' + tag + '/>').text(
-                            joinParagraphNumber(paragraphType, paragraphsNumber, index) +
-                            e.substring(paragraphLevel)))
-                        .append($('<p/>').addClass('paragraph')));
-                beforeIndex = index;
-                header = true;
-                inSection = true;
+    function markedUp(text) {
+        var $html = $('<pre/>')
+        text.split(/\r\n|\r|\n/).forEach(function (line) {
+            if (line !== '') {
+                $html.append($('<span/>').append(line));
             }
-            else {
-                if (!header && $elements.length > 0) {
-                    $elements.find('.paragraph').filter(':last').append($('<br/>'));
-                }
-                if ($elements.find('.paragraph').length !== 0) {
-                    $elements.find('.paragraph').filter(':last').append(e);
-                }
-                else {
-                    $elements.append(e).append($('<br/>'));
-                }
-                header = false;
-            }
+            $html.append($('<br/>'));
         });
-        return $elements[0].outerHTML;
+        return $html[0].outerHTML;
     }
-
 
     function replaceUrl(text) {
         var regex_t = /(\[[^\]]+\]\(\b(https?|ftp):\/\/((?!\*|"|<|>|\||&gt;|&lt;).)+)/gi;
@@ -123,18 +88,5 @@ $p.markup = function (markdownValue, encoded) {
 
     function getEncordedHtml(value) {
         return $('<div/>').text(value).html();
-    }
-
-    function joinParagraphNumber(paragraphType, paragraphsNumber, paragraphLevel) {
-        if (paragraphType === '+') {
-            var sum = [];
-            for (var i = 0; i <= paragraphLevel; ++i) {
-                sum[i] = paragraphsNumber[i];
-            }
-            return sum.join('.') + '. ';
-        }
-        else {
-            return '';
-        }
     }
 }
