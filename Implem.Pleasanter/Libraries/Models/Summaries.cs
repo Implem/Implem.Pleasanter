@@ -11,7 +11,7 @@ namespace Implem.Pleasanter.Libraries.Models
     {
         public static void Synchronize(SiteSettings ss, int id)
         {
-            var destinationSs = ss.Destinations?.Get(ss.SiteId);
+            var destinationSs = ss.Destinations?.Get(ss.Summaries?.Get(id)?.SiteId ?? 0);
             var summary = ss.Summaries?.Get(id);
             if (destinationSs != null && summary != null)
             {

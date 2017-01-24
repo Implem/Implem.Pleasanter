@@ -1345,6 +1345,7 @@ namespace Implem.Pleasanter.Models
         public string SynchronizeSummaries()
         {
             SetSiteSettingsPropertiesBySession();
+            SiteSettings.SetLinkedSiteSettings();
             var selected = Forms.Data("EditSummary").Deserialize<IEnumerable<int>>();
             if (selected?.Any() != true)
             {
