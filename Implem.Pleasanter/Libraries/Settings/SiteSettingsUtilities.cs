@@ -1,10 +1,23 @@
-﻿using Implem.Pleasanter.Models;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Models;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Settings
 {
     public static class SiteSettingsUtilities
     {
+        public static SiteSettings Get(DataRow dataRow)
+        {
+            return dataRow != null
+                ? dataRow["SiteSettings"]
+                    .ToString()
+                    .Deserialize<SiteSettings>() ??
+                        Get(dataRow["SiteId"].ToLong(),
+                            dataRow["ReferenceType"].ToString())
+                : null;
+        }
+
         public static SiteSettings Get(this List<SiteSettings> ssList, long siteId)
         {
             return ssList.FirstOrDefault(o => o.SiteId == siteId);
