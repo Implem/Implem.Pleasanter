@@ -167,8 +167,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var ssList = new List<SiteSettings>();
             dataTable.AsEnumerable().ForEach(dataRow =>
             {
-                var ss = dataRow["SiteSettings"].ToString()
-                    .Deserialize<SiteSettings>() ?? new SiteSettings();
+                var ss = SiteSettingsUtilities.Get(dataRow);
                 ss.SiteId = dataRow["SiteId"].ToLong();
                 ss.Title = dataRow["Title"].ToString();
                 ss.ReferenceType = dataRow["ReferenceType"].ToString();
