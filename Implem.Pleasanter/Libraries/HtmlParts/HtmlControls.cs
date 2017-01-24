@@ -290,8 +290,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 optionCollection = InsertBlank(optionCollection);
             }
-            if (selectedValue.IsNullOrEmpty() || 
-                optionCollection.ContainsKey(selectedValue) ||
+            if (selectedValue == null ||
+                selectedValue == string.Empty ||
+                optionCollection?.ContainsKey(selectedValue) == true ||
                 selectedValue == "0" ||
                 !addSelectedValue)
             {
@@ -300,7 +301,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             else
             {
                 var userId = selectedValue.ToInt();
-                optionCollection.Add(
+                optionCollection?.Add(
                     selectedValue,
                     column != null && column.UserColumn
                         ? new ControlData(SiteInfo.UserFullName(userId))
