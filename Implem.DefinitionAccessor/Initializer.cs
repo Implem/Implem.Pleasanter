@@ -162,6 +162,8 @@ namespace Implem.DefinitionAccessor
             }
             Environments.RdsTimeZoneInfo = TimeZoneInfo.GetSystemTimeZones()
                 .FirstOrDefault(o => o.Id == Parameters.Rds.TimeZoneInfo);
+            Environments.DeadlockRetryCount = Parameters.Rds.DeadlockRetryCount;
+            Environments.DeadlockRetryInterval = Parameters.Rds.DeadlockRetryInterval;
         }
 
         private static void SetColumnDefinitionAdditional(XlsIo definitionFile)

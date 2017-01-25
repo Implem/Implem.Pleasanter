@@ -11,5 +11,7 @@
         public int SqlAzureRetryCount;
         public int SqlAzureRetryInterval;
         public int MinimumTime;
+        public int DeadlockRetryCount;
+        public int DeadlockRetryInterval;
     }
 }

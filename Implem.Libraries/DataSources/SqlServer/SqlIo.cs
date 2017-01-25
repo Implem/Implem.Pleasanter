@@ -92,15 +92,18 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             SetCommand();
             SqlCommand.Connection.Open();
-            switch (SqlContainer.RdsProvider)
+            Try(action: () =>
             {
-                case "Azure":
-                    SqlCommand.ExecuteNonQueryWithRetry();
-                    break;
-                default:
-                    SqlCommand.ExecuteNonQuery();
-                    break;
-            }
+                switch (SqlContainer.RdsProvider)
+                {
+                    case "Azure":
+                        SqlCommand.ExecuteNonQueryWithRetry();
+                        break;
+                    default:
+                        SqlCommand.ExecuteNonQuery();
+                        break;
+                }
+            });
             SqlCommand.Connection.Close();
             Clear();
         }
@@ -110,15 +113,18 @@ namespace Implem.Libraries.DataSources.SqlServer
             object command = null;
             SetCommand();
             SqlCommand.Connection.Open();
-            switch (SqlContainer.RdsProvider)
+            Try(action: () =>
             {
-                case "Azure":
-                    command = SqlCommand.ExecuteScalarWithRetry();
-                    break;
-                default:
-                    command = SqlCommand.ExecuteScalar();
-                    break;
-            }
+                switch (SqlContainer.RdsProvider)
+                {
+                    case "Azure":
+                        command = SqlCommand.ExecuteScalarWithRetry();
+                        break;
+                    default:
+                        command = SqlCommand.ExecuteScalar();
+                        break;
+                }
+            });
             SqlCommand.Connection.Close();
             Clear();
             return command;
@@ -128,25 +134,28 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             var dataTable = new DataTable();
             SetCommand();
-            switch (SqlContainer.RdsProvider)
+            Try(action: () =>
             {
-                case "Azure":
-                    var retryPolicy = Azures.RetryPolicy();
-                    retryPolicy.ExecuteAction(() =>
-                    {
-                        using (var con = new ReliableSqlConnection(
-                            SqlCommand.Connection.ConnectionString))
+                switch (SqlContainer.RdsProvider)
+                {
+                    case "Azure":
+                        var retryPolicy = Azures.RetryPolicy();
+                        retryPolicy.ExecuteAction(() =>
                         {
-                            con.Open(retryPolicy);
-                            SqlCommand.Connection = con.Current;
-                            new SqlDataAdapter(SqlCommand).Fill(dataTable);
-                        }
-                    });
-                    break;
-                default:
-                    new SqlDataAdapter(SqlCommand).Fill(dataTable);
-                    break;
-            }
+                            using (var con = new ReliableSqlConnection(
+                                SqlCommand.Connection.ConnectionString))
+                            {
+                                con.Open(retryPolicy);
+                                SqlCommand.Connection = con.Current;
+                                new SqlDataAdapter(SqlCommand).Fill(dataTable);
+                            }
+                        });
+                        break;
+                    default:
+                        new SqlDataAdapter(SqlCommand).Fill(dataTable);
+                        break;
+                }
+            });
             Clear();
             return dataTable;
         }
@@ -155,27 +164,53 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             var dataSet = new DataSet();
             SetCommand();
-            switch (SqlContainer.RdsProvider)
+            Try(action: () =>
             {
-                case "Azure":
-                    var retryPolicy = Azures.RetryPolicy();
-                    retryPolicy.ExecuteAction(() =>
-                    {
-                        using (var con = new ReliableSqlConnection(
-                            SqlCommand.Connection.ConnectionString))
+                switch (SqlContainer.RdsProvider)
+                {
+                    case "Azure":
+                        var retryPolicy = Azures.RetryPolicy();
+                        retryPolicy.ExecuteAction(() =>
                         {
-                            con.Open(retryPolicy);
-                            SqlCommand.Connection = con.Current;
-                            SqlContainer.SqlDataAdapter(SqlCommand).Fill(dataSet);
-                        }
-                    });
-                    break;
-                default:
-                    SqlContainer.SqlDataAdapter(SqlCommand).Fill(dataSet);
-                    break;
-            }
+                            using (var con = new ReliableSqlConnection(
+                                SqlCommand.Connection.ConnectionString))
+                            {
+                                con.Open(retryPolicy);
+                                SqlCommand.Connection = con.Current;
+                                SqlContainer.SqlDataAdapter(SqlCommand).Fill(dataSet);
+                            }
+                        });
+                        break;
+                    default:
+                        SqlContainer.SqlDataAdapter(SqlCommand).Fill(dataSet);
+                        break;
+                }
+            });
             Clear();
             return dataSet;
+        }
+
+        private void Try(Action action)
+        {
+            for (int i = 0; i <= Environments.DeadlockRetryCount; i++)
+            {
+                try
+                {
+                    action();
+                    break;
+                }
+                catch (SqlException e)
+                {
+                    if (e.Number == 1205)
+                    {
+                        System.Threading.Thread.Sleep(Environments.DeadlockRetryInterval);
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
         }
 
         public void ExecuteNonQuery(SqlStatement sqlStatement)
