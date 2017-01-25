@@ -1071,7 +1071,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private Dictionary<string, Dictionary<string, string>> LinkHash()
         {
-            if (Links?.Count > 0)
+            if (Links?.Any() == true)
             {
                 var dataRows = Rds.ExecuteTable(
                     statements: Rds.SelectItems(
