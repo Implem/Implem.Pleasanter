@@ -5756,14 +5756,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[TenantId]" },
                     "TenantId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -5771,8 +5774,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[TenantId]" },
                     "TenantId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -5789,14 +5791,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -5804,8 +5809,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -5822,14 +5826,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -5837,8 +5844,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -5855,14 +5861,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -5870,8 +5879,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -6253,14 +6261,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[DemoId]" },
                     "DemoId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -6268,8 +6279,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[DemoId]" },
                     "DemoId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -6286,14 +6296,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -6301,8 +6314,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -6319,14 +6331,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[TenantId]" },
                     "TenantId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -6334,8 +6349,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[TenantId]" },
                     "TenantId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -6352,14 +6366,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -6367,8 +6384,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -6385,14 +6401,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -6400,8 +6419,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -6934,14 +6952,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[SysLogId]" },
                     "SysLogId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -6949,8 +6970,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[SysLogId]" },
                     "SysLogId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -6967,14 +6987,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -6982,8 +7005,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -7000,14 +7022,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[SysLogType]" },
                     "SysLogType",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -7015,8 +7040,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[SysLogType]" },
                     "SysLogType",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -7033,14 +7057,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[RequestSize]" },
                     "RequestSize",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -7048,8 +7075,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[RequestSize]" },
                     "RequestSize",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -7066,14 +7092,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[ResponseSize]" },
                     "ResponseSize",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -7081,8 +7110,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[ResponseSize]" },
                     "ResponseSize",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -7099,14 +7127,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[WorkingSet64]" },
                     "WorkingSet64",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -7114,8 +7145,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[WorkingSet64]" },
                     "WorkingSet64",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -7132,14 +7162,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[VirtualMemorySize64]" },
                     "VirtualMemorySize64",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -7147,8 +7180,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[VirtualMemorySize64]" },
                     "VirtualMemorySize64",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -7165,14 +7197,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[ProcessId]" },
                     "ProcessId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -7180,8 +7215,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[ProcessId]" },
                     "ProcessId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -7198,14 +7232,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[BasePriority]" },
                     "BasePriority",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -7213,8 +7250,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[BasePriority]" },
                     "BasePriority",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -7231,14 +7267,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -7246,8 +7285,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -7264,14 +7302,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -7279,8 +7320,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -7881,14 +7921,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[TenantId]" },
                     "TenantId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -7896,8 +7939,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[TenantId]" },
                     "TenantId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -7914,14 +7956,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[DeptId]" },
                     "DeptId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -7929,8 +7974,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[DeptId]" },
                     "DeptId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -7947,14 +7991,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -7962,8 +8009,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -7980,14 +8026,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -7995,8 +8044,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -8013,14 +8061,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -8028,8 +8079,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -8513,14 +8563,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[TenantId]" },
                     "TenantId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -8528,8 +8581,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[TenantId]" },
                     "TenantId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -8546,14 +8598,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[UserId]" },
                     "UserId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -8561,8 +8616,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[UserId]" },
                     "UserId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -8579,14 +8633,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -8594,8 +8651,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -8612,14 +8668,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[DeptId]" },
                     "DeptId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -8627,8 +8686,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[DeptId]" },
                     "DeptId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -8645,14 +8703,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[FirstAndLastNameOrder]" },
                     "FirstAndLastNameOrder",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -8660,8 +8721,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[FirstAndLastNameOrder]" },
                     "FirstAndLastNameOrder",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -8678,14 +8738,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumberOfLogins]" },
                     "NumberOfLogins",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -8693,8 +8756,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumberOfLogins]" },
                     "NumberOfLogins",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -8711,14 +8773,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumberOfDenial]" },
                     "NumberOfDenial",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -8726,8 +8791,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumberOfDenial]" },
                     "NumberOfDenial",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -8744,14 +8808,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -8759,8 +8826,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -8777,14 +8843,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -8792,8 +8861,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -9314,14 +9382,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[OwnerId]" },
                     "OwnerId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -9329,8 +9400,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[OwnerId]" },
                     "OwnerId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -9347,14 +9417,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[MailAddressId]" },
                     "MailAddressId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -9362,8 +9435,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[MailAddressId]" },
                     "MailAddressId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -9380,14 +9452,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -9395,8 +9470,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -9413,14 +9487,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -9428,8 +9505,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -9446,14 +9522,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -9461,8 +9540,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -9873,14 +9951,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[ReferenceId]" },
                     "ReferenceId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -9888,8 +9969,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[ReferenceId]" },
                     "ReferenceId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -9906,14 +9986,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[DeptId]" },
                     "DeptId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -9921,8 +10004,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[DeptId]" },
                     "DeptId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -9939,14 +10021,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[UserId]" },
                     "UserId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -9954,8 +10039,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[UserId]" },
                     "UserId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -9972,14 +10056,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -9987,8 +10074,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -10005,14 +10091,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t2].[FirstAndLastNameOrder]" },
                     "FirstAndLastNameOrder",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -10020,8 +10109,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t2].[FirstAndLastNameOrder]" },
                     "FirstAndLastNameOrder",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -10038,14 +10126,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[PermissionType]" },
                     "PermissionType",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -10053,8 +10144,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[PermissionType]" },
                     "PermissionType",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -10071,14 +10161,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -10086,8 +10179,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -10104,14 +10196,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -10119,8 +10214,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -10591,14 +10685,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[ReferenceId]" },
                     "ReferenceId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -10606,8 +10703,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[ReferenceId]" },
                     "ReferenceId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -10624,14 +10720,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[ReferenceVer]" },
                     "ReferenceVer",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -10639,8 +10738,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[ReferenceVer]" },
                     "ReferenceVer",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -10657,14 +10755,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[OutgoingMailId]" },
                     "OutgoingMailId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -10672,8 +10773,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[OutgoingMailId]" },
                     "OutgoingMailId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -10690,14 +10790,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -10705,8 +10808,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -10723,14 +10825,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Port]" },
                     "Port",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -10738,8 +10843,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Port]" },
                     "Port",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -10756,14 +10860,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -10771,8 +10878,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -10789,14 +10895,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -10804,8 +10913,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -11274,14 +11382,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[ReferenceId]" },
                     "ReferenceId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -11289,8 +11400,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[ReferenceId]" },
                     "ReferenceId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -11307,14 +11417,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -11322,8 +11435,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -11340,14 +11452,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Priority]" },
                     "Priority",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -11355,8 +11470,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Priority]" },
                     "Priority",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -11373,14 +11487,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t2].[PermissionType]" },
                     "PermissionType",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -11388,8 +11505,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t2].[PermissionType]" },
                     "PermissionType",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -11406,14 +11522,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -11421,8 +11540,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -11439,14 +11557,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -11454,8 +11575,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -11859,14 +11979,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[ReferenceId]" },
                     "ReferenceId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -11874,8 +11997,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[ReferenceId]" },
                     "ReferenceId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -11892,14 +12014,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -11907,8 +12032,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -11925,14 +12049,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[SiteId]" },
                     "SiteId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -11940,8 +12067,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[SiteId]" },
                     "SiteId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -11958,14 +12084,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -11973,8 +12102,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -11991,14 +12119,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -12006,8 +12137,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -12408,14 +12538,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[TenantId]" },
                     "TenantId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -12423,8 +12556,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[TenantId]" },
                     "TenantId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -12441,14 +12573,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[SiteId]" },
                     "SiteId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -12456,8 +12591,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[SiteId]" },
                     "SiteId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -12474,14 +12608,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -12489,8 +12626,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -12507,14 +12643,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[ParentId]" },
                     "ParentId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -12522,8 +12661,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[ParentId]" },
                     "ParentId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -12540,14 +12678,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[InheritPermission]" },
                     "InheritPermission",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -12555,8 +12696,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[InheritPermission]" },
                     "InheritPermission",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -12573,14 +12713,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[PermissionType]" },
                     "PermissionType",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -12588,8 +12731,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[PermissionType]" },
                     "PermissionType",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -12606,14 +12748,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -12621,8 +12766,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -12639,14 +12783,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -12654,8 +12801,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -13077,14 +13223,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[ReferenceId]" },
                     "ReferenceId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -13092,8 +13241,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[ReferenceId]" },
                     "ReferenceId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -13110,14 +13258,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[OwnerId]" },
                     "OwnerId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -13125,8 +13276,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[OwnerId]" },
                     "OwnerId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -13143,14 +13293,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -13158,8 +13311,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -13176,14 +13328,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -13191,8 +13346,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -13209,14 +13363,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -13224,8 +13381,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -13608,14 +13764,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[ReferenceId]" },
                     "ReferenceId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -13623,8 +13782,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[ReferenceId]" },
                     "ReferenceId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -13641,14 +13799,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[ExportSettingId]" },
                     "ExportSettingId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -13656,8 +13817,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[ExportSettingId]" },
                     "ExportSettingId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -13674,14 +13834,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -13689,8 +13852,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -13707,14 +13869,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -13722,8 +13887,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -13740,14 +13904,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -13755,8 +13922,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -14158,14 +14324,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[DestinationId]" },
                     "DestinationId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -14173,8 +14342,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[DestinationId]" },
                     "DestinationId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -14191,14 +14359,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[SourceId]" },
                     "SourceId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -14206,8 +14377,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[SourceId]" },
                     "SourceId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -14224,14 +14394,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -14239,8 +14412,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -14257,14 +14429,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t1].[SiteId]" },
                     "SiteId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -14272,8 +14447,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t1].[SiteId]" },
                     "SiteId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -14290,14 +14464,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -14305,8 +14482,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -14323,14 +14499,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -14338,8 +14517,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -14766,14 +14944,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[ReferenceId]" },
                     "ReferenceId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -14781,8 +14962,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[ReferenceId]" },
                     "ReferenceId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -14799,14 +14979,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[BinaryId]" },
                     "BinaryId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -14814,8 +14997,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[BinaryId]" },
                     "BinaryId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -14832,14 +15014,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -14847,8 +15032,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -14865,14 +15049,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Size]" },
                     "Size",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -14880,8 +15067,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Size]" },
                     "Size",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -14898,14 +15084,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -14913,8 +15102,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -14931,14 +15119,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -14946,8 +15137,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -16433,14 +16623,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[SiteId]" },
                     "SiteId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -16448,8 +16641,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[SiteId]" },
                     "SiteId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -16466,14 +16658,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[IssueId]" },
                     "IssueId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -16481,8 +16676,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[IssueId]" },
                     "IssueId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -16499,14 +16693,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -16514,8 +16711,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -16532,14 +16728,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[WorkValue]" },
                     "WorkValue",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -16547,8 +16746,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[WorkValue]" },
                     "WorkValue",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -16565,14 +16763,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[ProgressRate]" },
                     "ProgressRate",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -16580,8 +16781,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[ProgressRate]" },
                     "ProgressRate",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -16598,14 +16798,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[RemainingWorkValue]" },
                     "RemainingWorkValue",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -16613,8 +16816,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[RemainingWorkValue]" },
                     "RemainingWorkValue",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -16631,14 +16833,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Status]" },
                     "Status",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -16646,8 +16851,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Status]" },
                     "Status",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -16664,14 +16868,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Manager]" },
                     "Manager",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -16679,8 +16886,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Manager]" },
                     "Manager",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -16697,14 +16903,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Owner]" },
                     "Owner",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -16712,8 +16921,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Owner]" },
                     "Owner",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -16730,14 +16938,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumA]" },
                     "NumA",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -16745,8 +16956,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumA]" },
                     "NumA",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -16763,14 +16973,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumB]" },
                     "NumB",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -16778,8 +16991,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumB]" },
                     "NumB",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -16796,14 +17008,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumC]" },
                     "NumC",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -16811,8 +17026,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumC]" },
                     "NumC",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -16829,14 +17043,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumD]" },
                     "NumD",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -16844,8 +17061,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumD]" },
                     "NumD",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -16862,14 +17078,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumE]" },
                     "NumE",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -16877,8 +17096,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumE]" },
                     "NumE",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -16895,14 +17113,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumF]" },
                     "NumF",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -16910,8 +17131,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumF]" },
                     "NumF",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -16928,14 +17148,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumG]" },
                     "NumG",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -16943,8 +17166,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumG]" },
                     "NumG",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -16961,14 +17183,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumH]" },
                     "NumH",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -16976,8 +17201,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumH]" },
                     "NumH",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -16994,14 +17218,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumI]" },
                     "NumI",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -17009,8 +17236,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumI]" },
                     "NumI",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -17027,14 +17253,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumJ]" },
                     "NumJ",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -17042,8 +17271,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumJ]" },
                     "NumJ",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -17060,14 +17288,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumK]" },
                     "NumK",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -17075,8 +17306,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumK]" },
                     "NumK",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -17093,14 +17323,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumL]" },
                     "NumL",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -17108,8 +17341,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumL]" },
                     "NumL",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -17126,14 +17358,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumM]" },
                     "NumM",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -17141,8 +17376,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumM]" },
                     "NumM",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -17159,14 +17393,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumN]" },
                     "NumN",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -17174,8 +17411,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumN]" },
                     "NumN",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -17192,14 +17428,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumO]" },
                     "NumO",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -17207,8 +17446,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumO]" },
                     "NumO",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -17225,14 +17463,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumP]" },
                     "NumP",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -17240,8 +17481,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumP]" },
                     "NumP",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -17258,14 +17498,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumQ]" },
                     "NumQ",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -17273,8 +17516,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumQ]" },
                     "NumQ",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -17291,14 +17533,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumR]" },
                     "NumR",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -17306,8 +17551,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumR]" },
                     "NumR",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -17324,14 +17568,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumS]" },
                     "NumS",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -17339,8 +17586,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumS]" },
                     "NumS",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -17357,14 +17603,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumT]" },
                     "NumT",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -17372,8 +17621,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumT]" },
                     "NumT",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -17390,14 +17638,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumU]" },
                     "NumU",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -17405,8 +17656,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumU]" },
                     "NumU",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -17423,14 +17673,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumV]" },
                     "NumV",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -17438,8 +17691,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumV]" },
                     "NumV",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -17456,14 +17708,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumW]" },
                     "NumW",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -17471,8 +17726,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumW]" },
                     "NumW",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -17489,14 +17743,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumX]" },
                     "NumX",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -17504,8 +17761,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumX]" },
                     "NumX",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -17522,14 +17778,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumY]" },
                     "NumY",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -17537,8 +17796,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumY]" },
                     "NumY",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -17555,14 +17813,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumZ]" },
                     "NumZ",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -17570,8 +17831,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumZ]" },
                     "NumZ",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -17588,14 +17848,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -17603,8 +17866,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -17621,14 +17883,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -17636,8 +17901,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -20558,14 +20822,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[SiteId]" },
                     "SiteId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -20573,8 +20840,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[SiteId]" },
                     "SiteId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -20591,14 +20857,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[ResultId]" },
                     "ResultId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -20606,8 +20875,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[ResultId]" },
                     "ResultId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -20624,14 +20892,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -20639,8 +20910,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -20657,14 +20927,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Status]" },
                     "Status",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -20672,8 +20945,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Status]" },
                     "Status",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -20690,14 +20962,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Manager]" },
                     "Manager",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -20705,8 +20980,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Manager]" },
                     "Manager",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -20723,14 +20997,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Owner]" },
                     "Owner",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -20738,8 +21015,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Owner]" },
                     "Owner",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -20756,14 +21032,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumA]" },
                     "NumA",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -20771,8 +21050,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumA]" },
                     "NumA",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -20789,14 +21067,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumB]" },
                     "NumB",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -20804,8 +21085,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumB]" },
                     "NumB",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -20822,14 +21102,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumC]" },
                     "NumC",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -20837,8 +21120,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumC]" },
                     "NumC",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -20855,14 +21137,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumD]" },
                     "NumD",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -20870,8 +21155,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumD]" },
                     "NumD",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -20888,14 +21172,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumE]" },
                     "NumE",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -20903,8 +21190,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumE]" },
                     "NumE",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -20921,14 +21207,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumF]" },
                     "NumF",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -20936,8 +21225,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumF]" },
                     "NumF",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -20954,14 +21242,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumG]" },
                     "NumG",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -20969,8 +21260,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumG]" },
                     "NumG",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -20987,14 +21277,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumH]" },
                     "NumH",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -21002,8 +21295,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumH]" },
                     "NumH",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -21020,14 +21312,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumI]" },
                     "NumI",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -21035,8 +21330,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumI]" },
                     "NumI",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -21053,14 +21347,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumJ]" },
                     "NumJ",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -21068,8 +21365,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumJ]" },
                     "NumJ",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -21086,14 +21382,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumK]" },
                     "NumK",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -21101,8 +21400,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumK]" },
                     "NumK",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -21119,14 +21417,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumL]" },
                     "NumL",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -21134,8 +21435,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumL]" },
                     "NumL",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -21152,14 +21452,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumM]" },
                     "NumM",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -21167,8 +21470,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumM]" },
                     "NumM",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -21185,14 +21487,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumN]" },
                     "NumN",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -21200,8 +21505,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumN]" },
                     "NumN",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -21218,14 +21522,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumO]" },
                     "NumO",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -21233,8 +21540,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumO]" },
                     "NumO",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -21251,14 +21557,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumP]" },
                     "NumP",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -21266,8 +21575,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumP]" },
                     "NumP",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -21284,14 +21592,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumQ]" },
                     "NumQ",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -21299,8 +21610,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumQ]" },
                     "NumQ",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -21317,14 +21627,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumR]" },
                     "NumR",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -21332,8 +21645,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumR]" },
                     "NumR",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -21350,14 +21662,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumS]" },
                     "NumS",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -21365,8 +21680,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumS]" },
                     "NumS",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -21383,14 +21697,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumT]" },
                     "NumT",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -21398,8 +21715,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumT]" },
                     "NumT",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -21416,14 +21732,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumU]" },
                     "NumU",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -21431,8 +21750,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumU]" },
                     "NumU",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -21449,14 +21767,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumV]" },
                     "NumV",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -21464,8 +21785,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumV]" },
                     "NumV",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -21482,14 +21802,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumW]" },
                     "NumW",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -21497,8 +21820,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumW]" },
                     "NumW",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -21515,14 +21837,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumX]" },
                     "NumX",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -21530,8 +21855,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumX]" },
                     "NumX",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -21548,14 +21872,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumY]" },
                     "NumY",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -21563,8 +21890,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumY]" },
                     "NumY",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -21581,14 +21907,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[NumZ]" },
                     "NumZ",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -21596,8 +21925,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[NumZ]" },
                     "NumZ",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -21614,14 +21942,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -21629,8 +21960,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -21647,14 +21977,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -21662,8 +21995,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -23506,14 +23838,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[SiteId]" },
                     "SiteId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -23521,8 +23856,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[SiteId]" },
                     "SiteId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -23539,14 +23873,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[WikiId]" },
                     "WikiId",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -23554,8 +23891,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[WikiId]" },
                     "WikiId",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -23572,14 +23908,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -23587,8 +23926,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Ver]" },
                     "Ver",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -23605,14 +23943,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -23620,8 +23961,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Creator]" },
                     "Creator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
@@ -23638,14 +23978,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
             bool negative = false,
             bool _using = true)
         {
+            if (!_using)
+            {
+                return self;
+            }
             if (sub != null)
             {
                 return self.Add(
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    sub: sub,
-                    _using: _using);
+                    sub: sub);
             }
             else if (value != null && value.Any())
             {
@@ -23653,8 +23996,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new string[] { "[t0].[Updator]" },
                     "Updator",
                     _operator: !negative ? " in " : " not in ",
-                    raw: "({0})".Params(value.Join()),
-                    _using: _using);
+                    raw: "({0})".Params(value.Join()));
             }
             else
             {
