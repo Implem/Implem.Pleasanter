@@ -229,6 +229,7 @@
     <Compile Include="Libraries\DataTypes\TitleBody.cs" />
     <Compile Include="Libraries\DataTypes\User.cs" />
     <Compile Include="Libraries\DataTypes\WorkValue.cs" />
+    <Compile Include="Libraries\HtmlParts\HtmlDropDownSearches.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_008.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_007.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_006.cs" />
@@ -439,6 +440,8 @@
     <Content Include="Scripts\BasketEvents.js" />
     <Content Include="Scripts\BurnDown.js" />
     <Content Include="Scripts\BurnDownEvents.js" />
+    <Content Include="Scripts\DropDownSearch.js" />
+    <Content Include="Scripts\DropDownSearchEvents.js" />
     <Content Include="Scripts\Validator.js" />
     <Content Include="Scripts\ViewMode.js" />
     <Content Include="Scripts\Dialog.js" />
@@ -955,6 +958,9 @@
     <Content Include="App_Data\Displays\Column.json" />
     <Content Include="App_Data\Displays\SetZeroWhenOutOfCondition.json" />
     <Content Include="App_Data\Displays\Standard.json" />
+    <Content Include="App_Data\Displays\UseSearch.json" />
+    <Content Include="App_Data\Displays\Select.json" />
+    <Content Include="App_Data\Displays\Upload.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

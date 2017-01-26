@@ -110,12 +110,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .OrderBy(o => o.No);
         }
 
-        public static Dictionary<string, string> SelectableOptions(
+        public static Dictionary<string, ControlData> SelectableOptions(
             SiteSettings ss, IEnumerable<string> columns)
         {
             return columns.ToDictionary(
                 o => o,
-                o => Displays.Get(ss.GetColumn(o).LabelText));
+                o => new ControlData(Displays.Get(ss.GetColumn(o).LabelText)));
         }
 
         public static string ChangeCommand(string controlId)

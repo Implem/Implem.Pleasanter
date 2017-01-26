@@ -38,6 +38,8 @@ namespace Implem.Pleasanter
                 "~/Scripts/Dialog.js",
                 "~/Scripts/DialogEvents.js",
                 "~/Scripts/Display.js",
+                "~/Scripts/DropDownSearch.js",
+                "~/Scripts/DropDownSearchEvents.js",
                 "~/Scripts/Export.js",
                 "~/Scripts/FilterEvents.js",
                 "~/Scripts/Focus.js",

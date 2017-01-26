@@ -22,5 +22,14 @@ namespace Implem.Pleasanter.Models
 {
     public static class ItemUtilities
     {
+        public static string Title(long referenceId, List<Link> links)
+        {
+            return Rds.ExecuteScalar_string(statements:
+                Rds.SelectItems(
+                    column: Rds.ItemsColumn().Title(),
+                    where: Rds.ItemsWhere()
+                        .ReferenceId(referenceId)
+                        .SiteId_In(links?.Select(o => o.SiteId))));
+        }
     }
 }

@@ -41,6 +41,7 @@
     "ImageSizeIcon": 26,
     "SearchConcordanceRate": 0.7,
     "SearchPageSize": 20,
+    "DropDownSearchLimit": 100,
     "BackgroundTaskSpan": 30,
     "SeparateMax": 10,
     "SeparateMin": 2,

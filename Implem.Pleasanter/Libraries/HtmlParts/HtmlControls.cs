@@ -213,37 +213,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder OptionCollection(
             this HtmlBuilder hb,
-            Dictionary<string, string> optionCollection = null,
-            string selectedValue = null,
-            bool addSelectedValue = true,
-            bool insertBlank = false,
-            Column column = null,
-            bool _using = true)
-        {
-            if (_using)
-            {
-                OptionCollection(
-                    optionCollection: optionCollection?
-                        .ToDictionary(o => o.Key, o => new ControlData(o.Value)),
-                    selectedValue: selectedValue,
-                    addSelectedValue: addSelectedValue,
-                    insertBlank: insertBlank,
-                    column: column)?
-                        .ForEach(htmlData => hb.Option(
-                            attributes: new HtmlAttributes()
-                                .Value(htmlData.Key)
-                                .DataClass(htmlData.Value.Css)
-                                .DataStyle(htmlData.Value.Style)
-                                .Selected(selectedValue == htmlData.Key),
-                            action: () => hb
-                                .Text(text: Strings.CoalesceEmpty(
-                                    htmlData.Value.Text, htmlData.Key))));
-            }
-            return hb;
-        }
-
-        public static HtmlBuilder OptionCollection(
-            this HtmlBuilder hb,
             Dictionary<string, ControlData> optionCollection = null,
             string selectedValue = null,
             bool multiple = false,
@@ -294,6 +263,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 selectedValue == string.Empty ||
                 optionCollection?.ContainsKey(selectedValue) == true ||
                 selectedValue == "0" ||
+                multiple ||
                 !addSelectedValue)
             {
                 return optionCollection;
@@ -559,12 +529,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
-        public static HtmlBuilder Selectable(
+        public static HtmlBuilder SelectableWrapper(
             this HtmlBuilder hb,
             string controlId,
             string controlWrapperCss = null,
             string controlCss = null,
-            Dictionary<string, string> listItemCollection = null,
+            Dictionary<string, ControlData> listItemCollection = null,
             IEnumerable<string> selectedValueCollection = null,
             bool _using = true)
         {
@@ -572,14 +542,29 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 ? hb.Div(
                     css: Css.Class("wrapper", controlWrapperCss),
                     action: () => hb
-                        .Ol(
-                            attributes: new HtmlAttributes()
-                                .Id(controlId)
-                                .Class(Css.Class("control-selectable", controlCss)),
-                            action: () => hb
-                                .SelectableItems(
-                                    listItemCollection: listItemCollection,
-                                    selectedValueTextCollection: selectedValueCollection)))
+                        .Selectable(
+                            controlId: controlId,
+                            controlCss: Css.Class("control-selectable", controlCss),
+                            listItemCollection: listItemCollection,
+                            selectedValueCollection: selectedValueCollection))
+                : hb;
+        }
+
+        public static HtmlBuilder Selectable(
+            this HtmlBuilder hb,
+            string controlId,
+            string controlCss = null,
+            Dictionary<string, ControlData> listItemCollection = null,
+            IEnumerable<string> selectedValueCollection = null,
+            bool _using = true)
+        {
+            return _using
+                ? hb.Ol(id: controlId,
+                    css: Css.Class("control-selectable", controlCss),
+                    action: () => hb
+                        .SelectableItems(
+                            listItemCollection: listItemCollection,
+                            selectedValueTextCollection: selectedValueCollection))
                 : hb;
         }
 
@@ -587,7 +572,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string controlId,
             string controlCss = null,
-            Dictionary<string, string> listItemCollection = null,
+            Dictionary<string, ControlData> listItemCollection = null,
             IEnumerable<string> selectedValueCollection = null,
             bool _using = true)
         {
@@ -606,19 +591,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static HtmlBuilder SelectableItems(
             this HtmlBuilder hb,
-            Dictionary<string, string> listItemCollection = null,
+            Dictionary<string, ControlData> listItemCollection = null,
             IEnumerable<string> selectedValueTextCollection = null,
             bool basket = false,
             bool _using = true)
         {
             if (_using)
             {
-                selectedValueTextCollection = selectedValueTextCollection ?? new List<string>();
-                listItemCollection.ForEach(listItem => hb
+                listItemCollection?.ForEach(listItem => hb
                     .Li(
                         attributes: new HtmlAttributes()
                             .Class(
-                                selectedValueTextCollection.Contains(listItem.Key)
+                                selectedValueTextCollection?.Contains(listItem.Key) == true
                                     ? "ui-widget-content ui-selected"
                                     : "ui-widget-content")
                             .Value(listItem.Key),
@@ -628,12 +612,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             {
                                 hb
                                     .Span(action: () => hb
-                                        .Text(listItem.Value))
+                                        .Text(listItem.Value.Text))
                                     .Span(css: "ui-icon ui-icon-close delete");
                             }
                             else
                             {
-                                hb.Text(text: listItem.Value);
+                                hb.Text(text: listItem.Value.Text);
                             }
                         }));
             }

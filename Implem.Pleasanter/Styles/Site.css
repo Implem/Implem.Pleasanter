@@ -772,6 +772,11 @@ pre{
     border-radius:0px 0px 10px 10px / 0px 0px 10px 10px;
 }
 
+#DropDownSearchDialogForm{
+    width:100%;
+    padding:0px 20px;
+}
+
 #ViewTabsContainer{
     margin:0px 20px 10px 20px;
     clear:both;
@@ -1327,11 +1332,13 @@ pre{
 
 .control-text{
     width:100%;
+    height:30px;
     min-height:30px;
     display:block;
     padding:6px 4px 2px 4px;
     background:whitesmoke;
     border:solid 1px silver;
+    overflow:hidden;
     border-radius:5px;
 }
 

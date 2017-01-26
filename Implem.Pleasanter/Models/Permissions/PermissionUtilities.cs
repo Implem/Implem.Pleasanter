@@ -190,7 +190,8 @@ namespace Implem.Pleasanter.Models
                 listItemCollection: permissionCollection.OrderBy(o => o.PermissionId)
                     .ToDictionary(
                         o => o.PermissionId,
-                        o => o.PermissionTitle + " - [" + o.PermissionTypeName + "]"),
+                        o => new ControlData(
+                            o.PermissionTitle + " - [" + o.PermissionTypeName + "]")),
                 selectedValueCollection: new List<string>(),
                 commandOptionPositionIsTop: true,
                 commandOptionAction: () => hb
@@ -251,7 +252,9 @@ namespace Implem.Pleasanter.Models
                 labelText: Displays.PermissionSource(),
                 listItemCollection: permissionCollection
                     .OrderBy(o => o.PermissionId)
-                    .ToDictionary(o => o.PermissionId, o => o.PermissionTitle),
+                    .ToDictionary(
+                        o => o.PermissionId,
+                        o => new ControlData(o.PermissionTitle)),
                 selectedValueCollection: new List<string>(),
                 commandOptionPositionIsTop: true,
                 commandOptionAction: () => hb
@@ -370,14 +373,17 @@ namespace Implem.Pleasanter.Models
                             .OrderBy(o => o.PermissionId)
                             .ToDictionary(
                                 o => o.PermissionId,
-                                o => o.PermissionTitle + " - [" + o.PermissionTypeName + "]"),
+                                o => new ControlData(
+                                    o.PermissionTitle + " - [" + o.PermissionTypeName + "]")),
                         selectedValueTextCollection:
                             selectedValueTextCollection ?? new List<string>()).ToString();
                 case Types.Source:
                     return new HtmlBuilder().SelectableItems(
                         listItemCollection: siteModel.Session_PermissionSourceCollection()
                             .OrderBy(o => o.PermissionId)
-                            .ToDictionary(o => o.PermissionId, o => o.PermissionTitle),
+                            .ToDictionary(
+                                o => o.PermissionId,
+                                o => new ControlData(o.PermissionTitle)),
                         selectedValueTextCollection:
                             selectedValueTextCollection ?? new List<string>()).ToString();
                 default:

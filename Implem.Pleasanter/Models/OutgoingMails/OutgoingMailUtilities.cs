@@ -388,20 +388,20 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static Dictionary<string, string> AddressBook(SiteSettings ss)
+        public static Dictionary<string, ControlData> AddressBook(SiteSettings ss)
         {
             return ss.AddressBook
                 .SplitReturn()
                 .Select(o => o.Trim())
                 .Where(o => o != string.Empty)
-                .ToDictionary(o => o, o => o);
+                .ToDictionary(o => o, o => new ControlData(o));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         private static Dictionary<string, ControlData> SearchRangeOptionCollection(
-            string searchRangeDefault, Dictionary<string, string> addressBook)
+            string searchRangeDefault, Dictionary<string, ControlData> addressBook)
         {
             switch (searchRangeDefault)
             {
@@ -429,9 +429,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static Dictionary<string, string> Destinations(
+        public static Dictionary<string, ControlData> Destinations(
             long referenceId,
-            Dictionary<string, string> addressBook,
+            Dictionary<string, ControlData> addressBook,
             string searchRange,
             string searchText = "")
         {
@@ -443,11 +443,11 @@ namespace Implem.Pleasanter.Models
                     return searchText == string.Empty
                         ? addressBook
                         : addressBook
-                            .Where(o => o.Value.IndexOf(searchText,
+                            .Where(o => o.Value.Text.IndexOf(searchText,
                                 System.Globalization.CompareOptions.IgnoreCase |
                                 System.Globalization.CompareOptions.IgnoreKanaType |
                                 System.Globalization.CompareOptions.IgnoreWidth) != -1)
-                            .ToDictionary(o => o.Key, o => o.Value);
+                            .ToDictionary(o => o.Key, o => new ControlData(o.Value.Text));
                 case "SiteUser":
                     var joinPermissions = new SqlJoin(
                         "inner join [Permissions] on " +
@@ -470,7 +470,7 @@ namespace Implem.Pleasanter.Models
                                 .MailAddresses_OwnerType("Users")
                                 .SearchText(searchText)
                                 .Users_TenantId(Sessions.TenantId(), "t0"))
-                        : new Dictionary<string, string>();
+                        : new Dictionary<string, ControlData>();
             }
         }
 
@@ -491,7 +491,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static Dictionary<string, string> DestinationCollection(
+        private static Dictionary<string, ControlData> DestinationCollection(
             SqlJoinCollection join, SqlWhereCollection where)
         {
             return Rds.ExecuteTable(
@@ -516,7 +516,7 @@ namespace Implem.Pleasanter.Models
                         })
                         .ToDictionary(
                             o => o.Index.ToString(),
-                            o => o.Name);
+                            o => new ControlData(o.Name));
         }
 
         /// <summary>

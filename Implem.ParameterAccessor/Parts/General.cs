@@ -45,6 +45,7 @@ namespace Implem.ParameterAccessor.Parts
         public int ImageSizeIcon;
         public decimal SearchConcordanceRate;
         public int SearchPageSize;
+        public int DropDownSearchLimit;
         public int BackgroundTaskSpan;
         public int SeparateMax;
         public int SeparateMin;

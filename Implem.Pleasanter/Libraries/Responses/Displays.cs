@@ -315,6 +315,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Scripts(params string[] data) { return Get("Scripts", data); }
         public static string Search(params string[] data) { return Get("Search", data); }
         public static string SecondsAgo(params string[] data) { return Get("SecondsAgo", data); }
+        public static string Select(params string[] data) { return Get("Select", data); }
         public static string SelectOne(params string[] data) { return Get("SelectOne", data); }
         public static string SelectTargets(params string[] data) { return Get("SelectTargets", data); }
         public static string SendMail(params string[] data) { return Get("SendMail", data); }
@@ -359,11 +360,13 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string UpdateConflicts(params string[] data) { return Get("UpdateConflicts", data); }
         public static string Updated(params string[] data) { return Get("Updated", data); }
         public static string UpdatedTime(params string[] data) { return Get("UpdatedTime", data); }
+        public static string Upload(params string[] data) { return Get("Upload", data); }
         public static string UseCustomDesign(params string[] data) { return Get("UseCustomDesign", data); }
         public static string UseFy(params string[] data) { return Get("UseFy", data); }
         public static string UseHalf(params string[] data) { return Get("UseHalf", data); }
         public static string UseMonth(params string[] data) { return Get("UseMonth", data); }
         public static string UseQuarter(params string[] data) { return Get("UseQuarter", data); }
+        public static string UseSearch(params string[] data) { return Get("UseSearch", data); }
         public static string ValidateDate(params string[] data) { return Get("ValidateDate", data); }
         public static string ValidateEmail(params string[] data) { return Get("ValidateEmail", data); }
         public static string ValidateEqualTo(params string[] data) { return Get("ValidateEqualTo", data); }

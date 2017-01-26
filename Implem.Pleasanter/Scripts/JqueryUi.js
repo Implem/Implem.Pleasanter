@@ -18,6 +18,12 @@
             checkAllText: $p.display('CheckAll'),
             uncheckAllText: $p.display('UncheckAll'),
             noneSelectedText: '',
+            beforeopen: function (){
+                if ($(this).hasClass('search')) {
+                    $p.openDropDownSearchDialog($(this));
+                    return false;
+                }
+            },
             click: function () {
                 $p.changeMultiSelect($(this))
             },

@@ -65,12 +65,12 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 !Def.ColumnDefinitionCollection.Any(p => p.ColumnName == key && p.Export > 0));
         }
 
-        public Dictionary<string, string> ExportColumnHash(SiteSettings ss)
+        public Dictionary<string, ControlData> ExportColumnHash(SiteSettings ss)
         {
             return Columns.ToDictionary(
                 o => o.Key,
-                o => Displays.Get(ExportColumn(ss, o.Key)) +
-                    (o.Value ? " (" + Displays.Output() + ")" : string.Empty));
+                o => new ControlData(Displays.Get(ExportColumn(ss, o.Key)) +
+                    (o.Value ? " (" + Displays.Output() + ")" : string.Empty)));
         }
 
         public string ExportColumn(SiteSettings ss, string columnName)

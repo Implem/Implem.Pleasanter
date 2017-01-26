@@ -315,6 +315,81 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string SearchDropDown()
+        {
+            SetSite();
+            var ss = Site.SiteSettings;
+            ss.InheritPermission = ss.SiteId;
+            ss.Init();
+            var controlId = Forms.Data("DropDownSearchTarget");
+            var column = ss.Columns.FirstOrDefault(o =>
+                controlId.EndsWith(ss.ReferenceType + "_" + o.ColumnName));
+            ss.SetChoiceHash(
+                targetColumn: column,
+                searchIndexes: Forms.Data("DropDownSearchText").SearchIndexes());
+            return new ResponseCollection()
+                .ReplaceAll(
+                    "#DropDownSearchResults",
+                    new HtmlBuilder().Selectable(
+                        controlId: "DropDownSearchResults",
+                        listItemCollection: column?.EditChoices()))
+                .ClearFormData("DropDownSearchResults")
+                .ToJson();
+        }
+
+        public string SelectSearchDropDown()
+        {
+            SetSite();
+            var ss = Site.SiteSettings;
+            ss.InheritPermission = ss.SiteId;
+            ss.Init();
+            var controlId = Forms.Data("DropDownSearchTarget");
+            var column = ss.Columns.FirstOrDefault(o =>
+                controlId.EndsWith(ss.ReferenceType + "_" + o.ColumnName));
+            ss.SetChoiceHash(
+                targetColumn: column,
+                searchIndexes: Forms.Data("DropDownSearchText").SearchIndexes());
+            var selected = Forms.List("DropDownSearchResults", ';');
+            var multiple = Forms.Bool("DropDownSearchMultiple");
+            if (multiple)
+            {
+                return SelectSearchDropDownResponse(controlId, column, selected, multiple);
+            }
+            else if (selected.Count() != 1)
+            {
+                return new ResponseCollection()
+                    .Message(Messages.SelectOne())
+                    .ToJson();
+            }
+            else
+            {
+                return SelectSearchDropDownResponse(controlId, column, selected, multiple);
+            }
+        }
+
+        private static string SelectSearchDropDownResponse(
+            string controlId, Column column, List<string> selected, bool multiple)
+        {
+            var optionCollection = column.EditChoices()?
+                .Where(o => selected.Contains(o.Key))
+                .ToDictionary(o => o.Key, o => o.Value);
+            return optionCollection?.Any() == true
+                ? new ResponseCollection()
+                    .CloseDialog()
+                    .Html("#" + controlId, new HtmlBuilder()
+                        .OptionCollection(
+                            optionCollection: optionCollection,
+                            selectedValue: multiple
+                                ? selected.ToJson()
+                                : selected.FirstOrDefault(),
+                            multiple: multiple))
+                    .Invoke("setDropDownSearch")
+                    .ToJson()
+                : new ResponseCollection()
+                    .Message(Messages.NotFound())
+                    .ToJson();
+        }
+
         public string GridRows()
         {
             SetSite();

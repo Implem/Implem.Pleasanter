@@ -104,12 +104,12 @@ namespace Implem.Pleasanter.Models
                         .Id("Sites_ReferenceType")
                         .Class("control-dropdown"),
                     action: () => hb
-                        .OptionCollection(optionCollection: new Dictionary<string, string>
+                        .OptionCollection(optionCollection: new Dictionary<string, ControlData>
                         {
-                            { "Sites", Displays.Sites() },
-                            { "Issues", Displays.Issues() },
-                            { "Results", Displays.Results() },
-                            { "Wikis", Displays.Wikis() }
+                            { "Sites", new ControlData(Displays.Sites()) },
+                            { "Issues", new ControlData(Displays.Issues()) },
+                            { "Results", new ControlData(Displays.Results()) },
+                            { "Wikis", new ControlData(Displays.Wikis()) }
                         },
                         selectedValue: selectedValue))
                 : hb.Span(css: "control-text", action: () => hb
@@ -1206,7 +1206,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "SetSiteImage",
                             controlCss: "button-icon",
-                            text: Displays.Update(),
+                            text: Displays.Upload(),
                             onClick: "$p.uploadSiteImage($(this));",
                             icon: "ui-icon-disk",
                             action: "binaries/updatesiteimage",
@@ -1971,12 +1971,17 @@ namespace Implem.Pleasanter.Models
                     switch (column.ControlType)
                     {
                         case "ChoicesText":
-                            hb.FieldTextBox(
-                                textType: HtmlTypes.TextTypes.MultiLine,
-                                controlId: "ChoicesText",
-                                fieldCss: "field-wide",
-                                labelText: Displays.OptionList(),
-                                text: column.ChoicesText);
+                            hb
+                                .FieldTextBox(
+                                    textType: HtmlTypes.TextTypes.MultiLine,
+                                    controlId: "ChoicesText",
+                                    fieldCss: "field-wide",
+                                    labelText: Displays.OptionList(),
+                                    text: column.ChoicesText)
+                                .FieldCheckBox(
+                                    controlId: "UseSearch",
+                                    labelText: Displays.UseSearch(),
+                                    _checked: column.UseSearch == true);
                             break;
                         default:
                             break;
@@ -3165,9 +3170,9 @@ namespace Implem.Pleasanter.Models
                     controlCss: "control-basket cf",
                     listItemCollection: view.ColumnSorterHash?.ToDictionary(
                         o => "{0},{1}".Params(o.Key, o.Value),
-                        o => "{0}({1})".Params(
+                        o => new ControlData("{0}({1})".Params(
                             ss.GetColumn(o.Key)?.LabelText,
-                            Displays.Get("Order" + o.Value.ToString().ToUpperFirstChar()))),
+                            Displays.Get("Order" + o.Value.ToString().ToUpperFirstChar())))),
                     labelAction: () => hb
                         .Text(text: Displays.Sorters()))
                 .FieldDropDown(

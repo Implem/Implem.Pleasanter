@@ -86,6 +86,7 @@ namespace Implem.Pleasanter.Models
                             .Div(css: "margin-bottom")
                             .Hidden(controlId: "TableName", value: "Issues")
                             .Hidden(controlId: "BaseUrl", value: Locations.BaseUrl()))
+                    .DropDownSearchDialog("items", ss.SiteId)
                     .MoveDialog(bulk: true)
                     .ImportSettingsDialog()
                     .Div(attributes: new HtmlAttributes()
@@ -699,6 +700,7 @@ namespace Implem.Pleasanter.Models
                             value: issueModel.SwitchTargets?.Join(),
                             _using: !Request.IsAjax()))
                 .OutgoingMailsForm("Issues", issueModel.IssueId, issueModel.Ver)
+                .DropDownSearchDialog("items", issueModel.IssueId)
                 .CopyDialog("items", issueModel.IssueId)
                 .MoveDialog()
                 .OutgoingMailDialog()

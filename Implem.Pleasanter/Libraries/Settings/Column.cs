@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
@@ -16,6 +17,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string LabelText;
         public string GridLabelText;
         public string ChoicesText;
+        public bool? UseSearch;
         public string DefaultInput;
         public string GridFormat;
         public string EditorFormat;
@@ -143,7 +145,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public void SetChoiceHash(
-            long siteId, Dictionary<string, Dictionary<string, string>> linkHash)
+            long siteId,
+            Dictionary<string, Dictionary<string, string>> linkHash,
+            IEnumerable<string> searchIndexes)
         {
             var tenantId = Sessions.TenantId();
             ChoiceHash = new Dictionary<string, Choice>();
@@ -151,52 +155,83 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => o.Trim() != string.Empty)
                 .Select((o, i) => new { Line = o.Trim(), Index = i })
                 .ForEach(data =>
-                {
-                    switch (data.Line)
+                    SetChoiceHash(
+                        tenantId,
+                        siteId,
+                        linkHash,
+                        searchIndexes,
+                        data.Index,
+                        data.Line));
+            if (searchIndexes?.Any() == true)
+            {
+                ChoiceHash = ChoiceHash.Take(Parameters.General.DropDownSearchLimit)
+                    .ToDictionary(o => o.Key, o => o.Value);
+            }
+        }
+
+        private void SetChoiceHash(
+            int tenantId,
+            long siteId,
+            Dictionary<string, Dictionary<string, string>> linkHash,
+            IEnumerable<string> searchIndexes,
+            int index,
+            string line)
+        {
+            switch (line)
+            {
+                case "[[Depts]]":
+                    SiteInfo.DeptHash
+                        .Where(o => o.Value.TenantId == tenantId)
+                        .ForEach(o => AddToChoiceHash(
+                            o.Key.ToString(),
+                            SiteInfo.Dept(o.Key).Name));
+                    break;
+                case "[[Users]]":
+                    SiteInfo.SiteUsers(siteId)
+                        .ToDictionary(o => o.ToString(), o => SiteInfo.UserFullName(o))
+                        .Where(o => searchIndexes?.Any() != true ||
+                            searchIndexes.All(p =>
+                                o.Key.Contains(p) ||
+                                o.Value.Contains(p)))
+                        .ForEach(o => AddToChoiceHash(o.Key, o.Value));
+                    break;
+                case "[[Users*]]":
+                    SiteInfo.UserHash
+                        .Where(o => o.Value.TenantId == tenantId)
+                        .ToDictionary(o => o.Key.ToString(), o => o.Value.FullName())
+                        .Where(o => searchIndexes?.Any() != true ||
+                            searchIndexes.All(p =>
+                                o.Key.Contains(p) ||
+                                o.Value.Contains(p)))
+                        .ForEach(o => AddToChoiceHash(o.Key, o.Value));
+                    break;
+                case "[[TimeZones]]":
+                    TimeZoneInfo.GetSystemTimeZones()
+                        .ForEach(o => AddToChoiceHash(
+                            o.Id,
+                            o.StandardName));
+                    break;
+                default:
+                    if (linkHash != null && linkHash.ContainsKey(line))
                     {
-                        case "[[Depts]]":
-                            SiteInfo.DeptHash
-                                .Where(o => o.Value.TenantId == tenantId)
-                                .ForEach(o => AddToChoiceHash(
-                                    o.Key.ToString(),
-                                    SiteInfo.Dept(o.Key).Name));
-                            break;
-                        case "[[Users]]":
-                            SiteInfo.SiteUsers(siteId)
-                                .ForEach(o => AddToChoiceHash(
-                                    o.ToString(),
-                                    SiteInfo.UserFullName(o)));
-                            break;
-                        case "[[Users*]]":
-                            SiteInfo.UserHash
-                                .Where(o => o.Value.TenantId == tenantId)
-                                .ForEach(o => AddToChoiceHash(
-                                    o.Key.ToString(),
-                                    o.Value.FullName()));
-                            break;
-                        case "[[TimeZones]]":
-                            TimeZoneInfo.GetSystemTimeZones()
-                                .ForEach(o => AddToChoiceHash(
-                                    o.Id,
-                                    o.StandardName));
-                            break;
-                        default:
-                            if (linkHash != null && linkHash.ContainsKey(data.Line))
-                            {
-                                linkHash[data.Line].ForEach(line =>
-                                    AddToChoiceHash(line.Key, line.Value));
-                            }
-                            else if (TypeName != "bit")
-                            {
-                                AddToChoiceHash(data.Line);
-                            }
-                            else
-                            {
-                                AddToChoiceHash((data.Index == 0).ToOneOrZeroString(), data.Line);
-                            }
-                            break;
+                        linkHash[line].ForEach(data =>
+                            AddToChoiceHash(data.Key, data.Value));
                     }
-                });
+                    else if (TypeName != "bit")
+                    {
+                        if (searchIndexes == null ||
+                            searchIndexes.All(o => line.Contains(o)))
+                        {
+                            AddToChoiceHash(line);
+                        }
+                    }
+                    else
+                    {
+                        AddToChoiceHash((index == 0).ToOneOrZeroString(), line);
+                    }
+                    break;
+            }
+
         }
 
         private void AddToChoiceHash(string value, string text)
@@ -230,7 +265,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         : string.Empty,
                     new ControlData(string.Empty));
             }
-            ChoiceHash.Values
+            ChoiceHash?.Values
                 .GroupBy(o => o.Value)
                 .Select(o => o.FirstOrDefault())
                 .ForEach(choice =>

@@ -506,6 +506,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_SetNoticeParam": Code.Model_Utilities_SetNoticeParam = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetNoticeParam, definitionRow, CodeXls); break;
                     case "Model_Utilities_SearchIndexes": Code.Model_Utilities_SearchIndexes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SearchIndexes, definitionRow, CodeXls); break;
                     case "Model_Utilities_SearchIndexes_TableCases": Code.Model_Utilities_SearchIndexes_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SearchIndexes_TableCases, definitionRow, CodeXls); break;
+                    case "Model_Utilities_ItemTitle": Code.Model_Utilities_ItemTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ItemTitle, definitionRow, CodeXls); break;
                     case "Model_Validator": Code.Model_Validator = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator, definitionRow, CodeXls); break;
                     case "Model_ValidatorMethods": Code.Model_ValidatorMethods = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidatorMethods, definitionRow, CodeXls); break;
                     case "Model_Validator_OnMoving": Code.Model_Validator_OnMoving = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_OnMoving, definitionRow, CodeXls); break;
@@ -1555,6 +1556,7 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("Aggregatable")) { newColumnDefinition.Aggregatable = definitionRow["Aggregatable"].ToBool(); newColumnDefinition.SavedAggregatable = newColumnDefinition.Aggregatable; }
                 if (definitionRow.ContainsKey("Computable")) { newColumnDefinition.Computable = definitionRow["Computable"].ToBool(); newColumnDefinition.SavedComputable = newColumnDefinition.Computable; }
                 if (definitionRow.ContainsKey("ChoicesText")) { newColumnDefinition.ChoicesText = definitionRow["ChoicesText"].ToString(); newColumnDefinition.SavedChoicesText = newColumnDefinition.ChoicesText; }
+                if (definitionRow.ContainsKey("UseSearch")) { newColumnDefinition.UseSearch = definitionRow["UseSearch"].ToBool(); newColumnDefinition.SavedUseSearch = newColumnDefinition.UseSearch; }
                 if (definitionRow.ContainsKey("DefaultInput")) { newColumnDefinition.DefaultInput = definitionRow["DefaultInput"].ToString(); newColumnDefinition.SavedDefaultInput = newColumnDefinition.DefaultInput; }
                 if (definitionRow.ContainsKey("Own")) { newColumnDefinition.Own = definitionRow["Own"].ToBool(); newColumnDefinition.SavedOwn = newColumnDefinition.Own; }
                 if (definitionRow.ContainsKey("FormName")) { newColumnDefinition.FormName = definitionRow["FormName"].ToString(); newColumnDefinition.SavedFormName = newColumnDefinition.FormName; }
@@ -1664,6 +1666,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("Aggregatable")) { definition.Aggregatable = definitionRow["Aggregatable"].ToBool(); definition.SavedAggregatable = definition.Aggregatable; }
             if (definitionRow.ContainsKey("Computable")) { definition.Computable = definitionRow["Computable"].ToBool(); definition.SavedComputable = definition.Computable; }
             if (definitionRow.ContainsKey("ChoicesText")) { definition.ChoicesText = definitionRow["ChoicesText"].ToString(); definition.SavedChoicesText = definition.ChoicesText; }
+            if (definitionRow.ContainsKey("UseSearch")) { definition.UseSearch = definitionRow["UseSearch"].ToBool(); definition.SavedUseSearch = definition.UseSearch; }
             if (definitionRow.ContainsKey("DefaultInput")) { definition.DefaultInput = definitionRow["DefaultInput"].ToString(); definition.SavedDefaultInput = definition.DefaultInput; }
             if (definitionRow.ContainsKey("Own")) { definition.Own = definitionRow["Own"].ToBool(); definition.SavedOwn = definition.Own; }
             if (definitionRow.ContainsKey("FormName")) { definition.FormName = definitionRow["FormName"].ToString(); definition.SavedFormName = definition.FormName; }
@@ -1825,6 +1828,7 @@ namespace Implem.DefinitionAccessor
                     case "_sharp_OutgoingMailsForm": Css._sharp_OutgoingMailsForm = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_OutgoingMailsForm, definitionRow, CssXls); break;
                     case "_sharp_OutgoingMailsForm_space___space__dot_item": Css._sharp_OutgoingMailsForm_space___space__dot_item = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_OutgoingMailsForm_space___space__dot_item, definitionRow, CssXls); break;
                     case "_sharp_OutgoingMailsForm_space__dot_content": Css._sharp_OutgoingMailsForm_space__dot_content = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_OutgoingMailsForm_space__dot_content, definitionRow, CssXls); break;
+                    case "_sharp_DropDownSearchDialogForm": Css._sharp_DropDownSearchDialogForm = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_DropDownSearchDialogForm, definitionRow, CssXls); break;
                     case "_sharp_ViewTabsContainer": Css._sharp_ViewTabsContainer = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_ViewTabsContainer, definitionRow, CssXls); break;
                     case "_sharp_SearchResults": Css._sharp_SearchResults = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SearchResults, definitionRow, CssXls); break;
                     case "_sharp_SearchResults_space__dot_count": Css._sharp_SearchResults_space__dot_count = definitionRow[1].ToString(); SetCssTable(CssTable._sharp_SearchResults_space__dot_count, definitionRow, CssXls); break;
@@ -2648,6 +2652,7 @@ namespace Implem.DefinitionAccessor
                         case "Aggregatable": columnDefinition.Aggregatable = optionValue.ToBool(); break;
                         case "Computable": columnDefinition.Computable = optionValue.ToBool(); break;
                         case "ChoicesText": columnDefinition.ChoicesText = optionValue.ToString(); break;
+                        case "UseSearch": columnDefinition.UseSearch = optionValue.ToBool(); break;
                         case "DefaultInput": columnDefinition.DefaultInput = optionValue.ToString(); break;
                         case "Own": columnDefinition.Own = optionValue.ToBool(); break;
                         case "FormName": columnDefinition.FormName = optionValue.ToString(); break;
@@ -3375,6 +3380,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_SetNoticeParam;
         public string Model_Utilities_SearchIndexes;
         public string Model_Utilities_SearchIndexes_TableCases;
+        public string Model_Utilities_ItemTitle;
         public string Model_Validator;
         public string Model_ValidatorMethods;
         public string Model_Validator_OnMoving;
@@ -3807,6 +3813,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_SetNoticeParam = new CodeDefinition();
         public CodeDefinition Model_Utilities_SearchIndexes = new CodeDefinition();
         public CodeDefinition Model_Utilities_SearchIndexes_TableCases = new CodeDefinition();
+        public CodeDefinition Model_Utilities_ItemTitle = new CodeDefinition();
         public CodeDefinition Model_Validator = new CodeDefinition();
         public CodeDefinition Model_ValidatorMethods = new CodeDefinition();
         public CodeDefinition Model_Validator_OnMoving = new CodeDefinition();
@@ -4059,6 +4066,7 @@ namespace Implem.DefinitionAccessor
         public bool Aggregatable; public bool SavedAggregatable;
         public bool Computable; public bool SavedComputable;
         public string ChoicesText; public string SavedChoicesText;
+        public bool UseSearch; public bool SavedUseSearch;
         public string DefaultInput; public string SavedDefaultInput;
         public bool Own; public bool SavedOwn;
         public string FormName; public string SavedFormName;
@@ -4169,6 +4177,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("Aggregatable")) Aggregatable = propertyCollection["Aggregatable"].ToBool(); else Aggregatable = false;
             if (propertyCollection.ContainsKey("Computable")) Computable = propertyCollection["Computable"].ToBool(); else Computable = false;
             if (propertyCollection.ContainsKey("ChoicesText")) ChoicesText = propertyCollection["ChoicesText"].ToString(); else ChoicesText = string.Empty;
+            if (propertyCollection.ContainsKey("UseSearch")) UseSearch = propertyCollection["UseSearch"].ToBool(); else UseSearch = false;
             if (propertyCollection.ContainsKey("DefaultInput")) DefaultInput = propertyCollection["DefaultInput"].ToString(); else DefaultInput = string.Empty;
             if (propertyCollection.ContainsKey("Own")) Own = propertyCollection["Own"].ToBool(); else Own = false;
             if (propertyCollection.ContainsKey("FormName")) FormName = propertyCollection["FormName"].ToString(); else FormName = string.Empty;
@@ -4279,6 +4288,7 @@ namespace Implem.DefinitionAccessor
                     case "Aggregatable": return Aggregatable;
                     case "Computable": return Computable;
                     case "ChoicesText": return ChoicesText;
+                    case "UseSearch": return UseSearch;
                     case "DefaultInput": return DefaultInput;
                     case "Own": return Own;
                     case "FormName": return FormName;
@@ -4389,6 +4399,7 @@ namespace Implem.DefinitionAccessor
             Aggregatable = SavedAggregatable;
             Computable = SavedComputable;
             ChoicesText = SavedChoicesText;
+            UseSearch = SavedUseSearch;
             DefaultInput = SavedDefaultInput;
             Own = SavedOwn;
             FormName = SavedFormName;
@@ -6030,6 +6041,7 @@ namespace Implem.DefinitionAccessor
         public string _sharp_OutgoingMailsForm;
         public string _sharp_OutgoingMailsForm_space___space__dot_item;
         public string _sharp_OutgoingMailsForm_space__dot_content;
+        public string _sharp_DropDownSearchDialogForm;
         public string _sharp_ViewTabsContainer;
         public string _sharp_SearchResults;
         public string _sharp_SearchResults_space__dot_count;
@@ -6415,6 +6427,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _sharp_OutgoingMailsForm = new CssDefinition();
         public CssDefinition _sharp_OutgoingMailsForm_space___space__dot_item = new CssDefinition();
         public CssDefinition _sharp_OutgoingMailsForm_space__dot_content = new CssDefinition();
+        public CssDefinition _sharp_DropDownSearchDialogForm = new CssDefinition();
         public CssDefinition _sharp_ViewTabsContainer = new CssDefinition();
         public CssDefinition _sharp_SearchResults = new CssDefinition();
         public CssDefinition _sharp_SearchResults_space__dot_count = new CssDefinition();

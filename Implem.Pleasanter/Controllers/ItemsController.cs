@@ -187,6 +187,24 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        public ActionResult SearchDropDown(long id = 0)
+        {
+            var log = new SysLogModel();
+            var json = new ItemModel(id).SearchDropDown();
+            log.Finish(json.Length);
+            return Content(json);
+        }
+
+        [HttpPost]
+        public ActionResult SelectSearchDropDown(long id = 0)
+        {
+            var log = new SysLogModel();
+            var json = new ItemModel(id).SelectSearchDropDown();
+            log.Finish(json.Length);
+            return Content(json);
+        }
+
+        [HttpPost]
         public string GridRows(long id)
         {
             var log = new SysLogModel();

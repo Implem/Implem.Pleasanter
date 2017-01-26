@@ -876,7 +876,8 @@ namespace Implem.Pleasanter.Models
                 .Html(
                     "#MailAddresses",
                     new HtmlBuilder().SelectableItems(
-                        listItemCollection: userModel.MailAddresses.ToDictionary(o => o, o => o),
+                        listItemCollection: userModel.MailAddresses.ToDictionary(
+                            o => o, o => new ControlData(o)),
                         selectedValueTextCollection: selected))
                 .Val("#MailAddress", string.Empty)
                 .Focus("#MailAddress")
@@ -1112,8 +1113,8 @@ namespace Implem.Pleasanter.Models
                             .AsEnumerable()
                             .ToDictionary(
                                 o => o["MailAddress"].ToString(),
-                                o => o["MailAddress"].ToString());
-            userModel.Session_MailAddresses(listItemCollection.Values.ToList<string>());
+                                o => new ControlData(o["MailAddress"].ToString()));
+            userModel.Session_MailAddresses(listItemCollection.Values.Select(o => o.Text));
             return hb.FieldSet(id: "FieldSetMailAddresses", action: () => hb
                 .FieldSelectable(
                     controlId: "MailAddresses",

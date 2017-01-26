@@ -1806,9 +1806,9 @@ namespace Implem.Pleasanter.Models
             ResponseCollection res,
             string command,
             string typeName,
-            Dictionary<string, string> selectableOptions,
+            Dictionary<string, ControlData> selectableOptions,
             List<string> selectedColumns,
-            Dictionary<string, string> selectableSourceOptions,
+            Dictionary<string, ControlData> selectableSourceOptions,
             List<string> selectedSourceColumns)
         {
             switch (command)

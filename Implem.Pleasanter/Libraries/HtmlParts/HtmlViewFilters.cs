@@ -182,6 +182,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     case Types.CsString:
                         if (column.HasChoices())
                         {
+                            if (view.ColumnFilterHash?.ContainsKey(column.ColumnName) == true &&
+                                column.UseSearch == true &&
+                                ss.Links?.Any(o => o.ColumnName == column.ColumnName) == true)
+                            {
+                                ss.SetChoiceHash(
+                                    targetColumn: column,
+                                    selectedValues: view.ColumnFilter(column.ColumnName)
+                                        .Select(o => o.ToLong()));
+                            }
                             hb.DropDown(
                                 ss: ss,
                                 column: column,
@@ -238,7 +247,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.FieldDropDown(
                 controlId: "ViewFilters_" + column.Id,
                 fieldCss: "field-auto-thin",
-                controlCss: " auto-postback",
+                controlCss: " auto-postback" + (column.UseSearch == true
+                    ? " search"
+                    : string.Empty),
                 labelText: Displays.Get(column.GridLabelText),
                 optionCollection: optionCollection,
                 selectedValue: view.ColumnFilter(column.ColumnName),

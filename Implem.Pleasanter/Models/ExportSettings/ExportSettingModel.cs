@@ -390,7 +390,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public Dictionary<string, string> ExportColumnHash()
+        public Dictionary<string, ControlData> ExportColumnHash()
         {
             return ExportColumns.ExportColumnHash(GetSiteSettings());
         }

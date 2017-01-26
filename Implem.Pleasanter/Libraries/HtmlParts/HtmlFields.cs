@@ -62,11 +62,46 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     value: methodType == BaseModel.MethodTypes.New
                         ? value.ToDefault(ss, column)
                         : value,
-                    optionCollection: column.EditChoices());
+                    optionCollection: EditChoices(ss, column, value));
             }
             else
             {
                 return hb;
+            }
+        }
+
+        private static Dictionary<string, ControlData> EditChoices(
+            SiteSettings ss, Column column, string value)
+        {
+            var editChoices = column.EditChoices();
+            if (column.UseSearch != true)
+            {
+                return editChoices;
+            }
+            else if (editChoices.ContainsKey(value))
+            {
+                return new Dictionary<string, ControlData>()
+                {
+                    { value, editChoices[value] }
+                };
+            }
+            else {
+                var referenceId = value.ToLong();
+                if (referenceId > 0 && ss.Links?.Any() == true)
+                {
+                    return new Dictionary<string, ControlData>()
+                    {
+                        {
+                            value,
+                            new ControlData(
+                                value + ": " + ItemUtilities.Title(referenceId, ss.Links))
+                        }
+                    };
+                }
+                else
+                {
+                    return new Dictionary<string, ControlData>();
+                }
             }
         }
 
@@ -123,13 +158,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 fieldCss: fieldCss,
                                 labelCss: labelCss,
                                 controlContainerCss: controlContainerCss,
-                                controlCss: controlCss + (required
-                                    ? " must-transport"
-                                    : string.Empty),
+                                controlCss: controlCss +
+                                    (required
+                                        ? " must-transport"
+                                        : string.Empty) +
+                                    (column.UseSearch == true
+                                        ? " search"
+                                        : string.Empty),
                                 labelText: column.LabelText,
                                 optionCollection: optionCollection,
                                 selectedValue: value,
-                                insertBlank: !required,
+                                insertBlank: !required && column.UseSearch != true,
                                 column: column);
                         case ControlTypes.Text:
                             return hb.FieldText(
@@ -484,6 +523,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             attributes: new HtmlAttributes()
                                 .Id(controlId)
                                 .Class(Css.Class("control-text", controlCss))
+                                .Title(text)
                                 .DataValue(dataValue),
                             action: () => hb
                                 .Text(text: text)),
@@ -928,7 +968,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlWrapperCss = null,
             string controlCss = null,
             string labelText = null,
-            Dictionary<string, string> listItemCollection = null,
+            Dictionary<string, ControlData> listItemCollection = null,
             IEnumerable<string> selectedValueCollection = null,
             bool commandOptionPositionIsTop = false,
             bool _using = true,
@@ -945,14 +985,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlContainerCss: controlContainerCss,
                     labelText: labelText,
                     controlAction: () => hb
-                        .Selectable(
+                        .SelectableWrapper(
                             controlId: controlId,
                             controlWrapperCss: controlWrapperCss,
                             controlCss: controlCss,
-                            listItemCollection: 
-                                listItemCollection ?? new Dictionary<string, string>(),
-                            selectedValueCollection: 
-                                selectedValueCollection ?? new List<string>()),
+                            listItemCollection: listItemCollection,
+                            selectedValueCollection: selectedValueCollection),
                     actionOptions: commandOptionAction);
             }
             else
@@ -967,14 +1005,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlAction: () => 
                     {
                         commandOptionAction();
-                        hb.Selectable(
+                        hb.SelectableWrapper(
                             controlId: controlId,
                             controlWrapperCss: controlWrapperCss,
                             controlCss: controlCss,
-                            listItemCollection: 
-                                listItemCollection ?? new Dictionary<string, string>(),
-                            selectedValueCollection: 
-                                selectedValueCollection ?? new List<string>());
+                            listItemCollection: listItemCollection,
+                            selectedValueCollection: selectedValueCollection);
                     });
             }
         }
@@ -988,7 +1024,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlContainerCss = null,
             string controlCss = null,
             Action labelAction = null,
-            Dictionary<string, string> listItemCollection = null,
+            Dictionary<string, ControlData> listItemCollection = null,
             IEnumerable<string> selectedValueCollection = null,
             bool _using = true,
             Action actionOptions = null)
@@ -1003,10 +1039,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Basket(
                             controlId: controlId,
                             controlCss: controlCss,
-                            listItemCollection: 
-                                listItemCollection ?? new Dictionary<string, string>(),
-                            selectedValueCollection: 
-                                selectedValueCollection ?? new List<string>()),
+                            listItemCollection: listItemCollection,
+                            selectedValueCollection: selectedValueCollection),
                     actionOptions: actionOptions)
                 : hb;
         }
