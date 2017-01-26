@@ -690,7 +690,7 @@ namespace Implem.Pleasanter.Models
                             value: resultModel.SwitchTargets?.Join(),
                             _using: !Request.IsAjax()))
                 .OutgoingMailsForm("Results", resultModel.ResultId, resultModel.Ver)
-                .DropDownSearchDialog("items", resultModel.ResultId)
+                .DropDownSearchDialog("items", ss.SiteId)
                 .CopyDialog("items", resultModel.ResultId)
                 .MoveDialog()
                 .OutgoingMailDialog()

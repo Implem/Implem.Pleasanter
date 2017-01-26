@@ -50,6 +50,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
             if (columnPermissionType != Permissions.ColumnPermissionTypes.Deny && _using)
             {
+                value = methodType == BaseModel.MethodTypes.New
+                    ? value.ToDefault(ss, column)
+                    : value;
                 return hb.SwitchField(
                     column: column,
                     columnPermissionType: columnPermissionType,
@@ -59,9 +62,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlContainerCss: controlContainerCss,
                     controlCss: Strings.CoalesceEmpty(controlCss, column.ControlCss),
                     controlType: ControlType(column),
-                    value: methodType == BaseModel.MethodTypes.New
-                        ? value.ToDefault(ss, column)
-                        : value,
+                    value: value,
                     optionCollection: EditChoices(ss, column, value));
             }
             else
@@ -316,7 +317,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (IsLinked(ss, column))
             {
-                return Forms.Data("LinkId");
+                var id = Forms.Long("LinkId");
+                ss.SetChoiceHash(
+                    targetColumn: column,
+                    selectedValues: new List<long>() { id });
+                return id.ToString();
             }
             if (column.DefaultInput != string.Empty)
             {
