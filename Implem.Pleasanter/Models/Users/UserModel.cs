@@ -435,7 +435,7 @@ namespace Implem.Pleasanter.Models
                         .OwnerId(UserId)
                         .OwnerType("Users"))
             };
-            Session_MailAddresses().ForEach(mailAddress =>
+            Session_MailAddresses()?.ForEach(mailAddress =>
                 statements.Add(Rds.InsertMailAddresses(
                     param: Rds.MailAddressesParam()
                         .OwnerId(UserId)
