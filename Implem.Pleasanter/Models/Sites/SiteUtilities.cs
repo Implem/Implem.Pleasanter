@@ -1229,24 +1229,6 @@ namespace Implem.Pleasanter.Models
                     max: Parameters.General.GridPageSizeMax,
                     step: 1,
                     width: 25)
-                .FieldSpinner(
-                    controlId: "NearCompletionTimeBeforeDays",
-                    fieldCss: "field-auto-thin",
-                    labelText: Displays.NearCompletionTimeBeforeDays(),
-                    value: ss.NearCompletionTimeBeforeDays.ToDecimal(),
-                    min: Parameters.General.NearCompletionTimeBeforeDaysMin,
-                    max: Parameters.General.NearCompletionTimeBeforeDaysMax,
-                    step: 1,
-                    width: 25)
-                .FieldSpinner(
-                    controlId: "NearCompletionTimeAfterDays",
-                    fieldCss: "field-auto-thin",
-                    labelText: Displays.NearCompletionTimeAfterDays(),
-                    value: ss.NearCompletionTimeAfterDays.ToDecimal(),
-                    min: Parameters.General.NearCompletionTimeAfterDaysMin,
-                    max: Parameters.General.NearCompletionTimeAfterDaysMax,
-                    step: 1,
-                    width: 25)
                 .FieldDropDown(
                     controlId: "GridView",
                     fieldCss: "field-auto-thin",
@@ -1476,7 +1458,25 @@ namespace Implem.Pleasanter.Models
                                         onClick: "$p.send($(this));",
                                         icon: "ui-icon-circle-triangle-w",
                                         action: "SetSiteSettings",
-                                        method: "put")))));
+                                        method: "put"))))
+                .FieldSpinner(
+                    controlId: "NearCompletionTimeAfterDays",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.NearCompletionTimeAfterDays(),
+                    value: ss.NearCompletionTimeAfterDays.ToDecimal(),
+                    min: Parameters.General.NearCompletionTimeAfterDaysMin,
+                    max: Parameters.General.NearCompletionTimeAfterDaysMax,
+                    step: 1,
+                    width: 25)
+                .FieldSpinner(
+                    controlId: "NearCompletionTimeBeforeDays",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.NearCompletionTimeBeforeDays(),
+                    value: ss.NearCompletionTimeBeforeDays.ToDecimal(),
+                    min: Parameters.General.NearCompletionTimeBeforeDaysMin,
+                    max: Parameters.General.NearCompletionTimeBeforeDaysMax,
+                    step: 1,
+                    width: 25));
         }
 
         /// <summary>
