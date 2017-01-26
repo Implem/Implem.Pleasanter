@@ -618,6 +618,7 @@ namespace Implem.Pleasanter.Models
                 title: issueModel.MethodType == BaseModel.MethodTypes.New
                     ? siteModel.Title.DisplayValue + " - " + Displays.New()
                     : issueModel.Title.DisplayValue,
+                useTitle: siteModel.SiteSettings.EditorColumns.Contains("Title"),
                 userScript: issueModel.MethodType == BaseModel.MethodTypes.New
                     ? issueModel.SiteSettings.NewScript
                     : issueModel.SiteSettings.EditScript,

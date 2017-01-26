@@ -120,6 +120,7 @@ namespace Implem.Pleasanter.Models
                 title: wikiModel.MethodType == BaseModel.MethodTypes.New
                     ? siteModel.Title.DisplayValue + " - " + Displays.New()
                     : wikiModel.Title.DisplayValue,
+                useTitle: siteModel.SiteSettings.EditorColumns.Contains("Title"),
                 userScript: wikiModel.MethodType == BaseModel.MethodTypes.New
                     ? wikiModel.SiteSettings.NewScript
                     : wikiModel.SiteSettings.EditScript,
