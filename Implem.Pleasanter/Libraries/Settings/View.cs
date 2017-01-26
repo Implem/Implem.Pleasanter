@@ -327,7 +327,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             .AddDays(ss.NearCompletionTimeBeforeDays.ToInt() * (-1)),
                         DateTime.Now.ToLocal().Date
                             .AddDays(ss.NearCompletionTimeAfterDays.ToInt() + 1)
-                            .AddMilliseconds(-1)
+                            .AddMilliseconds(Parameters.Rds.MinimumTime * -1)
                             .ToString("yyyy/M/d H:m:s.fff")));
             }
             if (Delay == true)
