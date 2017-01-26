@@ -1633,7 +1633,7 @@ namespace Implem.Pleasanter.Models
                     Notification.Types.Mail,
                     ColumnUtilities.MonitorChangesDefinitions(ReferenceType)
                         .Select(o => o.ColumnName)
-                        .Where(o => SiteSettings.EditorColumns.Contains(o))
+                        .Where(o => SiteSettings.EditorColumns.Contains(o) || o == "Comments")
                         .ToList()));
             }
             else
