@@ -88,7 +88,7 @@ namespace Implem.Pleasanter.Libraries.Html
 
         public HtmlAttributes Value(string value, bool _using = true)
         {
-            if (!value.IsNullOrEmpty() && _using)
+            if (value != null && _using)
             {
                 Add("value");
                 Add(HttpUtility.HtmlEncode(value));
