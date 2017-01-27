@@ -318,9 +318,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             if (IsLinked(ss, column))
             {
                 var id = Forms.Long("LinkId");
-                ss.SetChoiceHash(
-                    targetColumn: column,
-                    selectedValues: new List<long>() { id });
+                if (column.UseSearch == true)
+                {
+                    ss.SetChoiceHash(
+                        targetColumn: column,
+                        selectedValues: new List<long>() { id });
+                }
                 return id.ToString();
             }
             if (column.DefaultInput != string.Empty)
