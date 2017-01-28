@@ -32,9 +32,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder Details(this HtmlBuilder hb, ExceptionContext error)
         {
-            if (HttpContext.Current.Request.UserHostAddress == "::1" && Sessions.Developer())
-            {
-                hb
+            return HttpContext.Current.Request.UserHostAddress == "::1" && Sessions.Developer()
+                ? hb
                     .P(css: "error-page-action", action: () => hb
                         .Em(action: () => hb
                             .Text(error.RouteData.Values["controller"].ToString()))
@@ -45,9 +44,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Em(action: () => hb
                             .Text(error.Exception.HResult.ToString())))
                     .P(css: "error-page-stacktrace", action: () => hb
-                        .Text(error.Exception.StackTrace));
-            }
-            return hb;
+                        .Text(error.Exception.StackTrace))
+                : hb;
         }
     }
 }
