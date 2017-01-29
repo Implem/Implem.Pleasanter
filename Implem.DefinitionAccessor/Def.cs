@@ -423,6 +423,7 @@ namespace Implem.DefinitionAccessor
                     case "Collection_ItemAggregation": Code.Collection_ItemAggregation = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Collection_ItemAggregation, definitionRow, CodeXls); break;
                     case "Model_Utilities": Code.Model_Utilities = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities, definitionRow, CodeXls); break;
                     case "Model_Utilities_Index": Code.Model_Utilities_Index = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Index, definitionRow, CodeXls); break;
+                    case "Model_Utilities_DropDownSearchDialog": Code.Model_Utilities_DropDownSearchDialog = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_DropDownSearchDialog, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportSettings": Code.Model_Utilities_ImportSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportSettings, definitionRow, CodeXls); break;
                     case "Model_Utilities_GridRows_OnClick": Code.Model_Utilities_GridRows_OnClick = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridRows_OnClick, definitionRow, CodeXls); break;
                     case "Model_Utilities_GridRows_OnClickItem": Code.Model_Utilities_GridRows_OnClickItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridRows_OnClickItem, definitionRow, CodeXls); break;
@@ -626,7 +627,6 @@ namespace Implem.DefinitionAccessor
                     case "View_Sorter_TableCases": Code.View_Sorter_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.View_Sorter_TableCases, definitionRow, CodeXls); break;
                     case "View_Sorter_ColumnCases": Code.View_Sorter_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.View_Sorter_ColumnCases, definitionRow, CodeXls); break;
                     case "HtmlLinks": Code.HtmlLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks, definitionRow, CodeXls); break;
-                    case "HtmlLinks_Contains": Code.HtmlLinks_Contains = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_Contains, definitionRow, CodeXls); break;
                     case "HtmlLinks_DataSetTableCases": Code.HtmlLinks_DataSetTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_DataSetTableCases, definitionRow, CodeXls); break;
                     case "HtmlLinks_SelectStatementTableCases": Code.HtmlLinks_SelectStatementTableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_SelectStatementTableCases, definitionRow, CodeXls); break;
                     case "HtmlLinks_TableCases": Code.HtmlLinks_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.HtmlLinks_TableCases, definitionRow, CodeXls); break;
@@ -3297,6 +3297,7 @@ namespace Implem.DefinitionAccessor
         public string Collection_ItemAggregation;
         public string Model_Utilities;
         public string Model_Utilities_Index;
+        public string Model_Utilities_DropDownSearchDialog;
         public string Model_Utilities_ImportSettings;
         public string Model_Utilities_GridRows_OnClick;
         public string Model_Utilities_GridRows_OnClickItem;
@@ -3500,7 +3501,6 @@ namespace Implem.DefinitionAccessor
         public string View_Sorter_TableCases;
         public string View_Sorter_ColumnCases;
         public string HtmlLinks;
-        public string HtmlLinks_Contains;
         public string HtmlLinks_DataSetTableCases;
         public string HtmlLinks_SelectStatementTableCases;
         public string HtmlLinks_TableCases;
@@ -3730,6 +3730,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Collection_ItemAggregation = new CodeDefinition();
         public CodeDefinition Model_Utilities = new CodeDefinition();
         public CodeDefinition Model_Utilities_Index = new CodeDefinition();
+        public CodeDefinition Model_Utilities_DropDownSearchDialog = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportSettings = new CodeDefinition();
         public CodeDefinition Model_Utilities_GridRows_OnClick = new CodeDefinition();
         public CodeDefinition Model_Utilities_GridRows_OnClickItem = new CodeDefinition();
@@ -3933,7 +3934,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition View_Sorter_TableCases = new CodeDefinition();
         public CodeDefinition View_Sorter_ColumnCases = new CodeDefinition();
         public CodeDefinition HtmlLinks = new CodeDefinition();
-        public CodeDefinition HtmlLinks_Contains = new CodeDefinition();
         public CodeDefinition HtmlLinks_DataSetTableCases = new CodeDefinition();
         public CodeDefinition HtmlLinks_SelectStatementTableCases = new CodeDefinition();
         public CodeDefinition HtmlLinks_TableCases = new CodeDefinition();
