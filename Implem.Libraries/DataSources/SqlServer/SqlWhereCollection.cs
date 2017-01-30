@@ -12,7 +12,7 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         public SqlWhereCollection(params SqlWhere[] sqlWhereCollection)
         {
-            this.AddRange(sqlWhereCollection);
+            AddRange(sqlWhereCollection);
         }
 
         public SqlWhereCollection Add(
@@ -27,7 +27,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             SqlWhereCollection or = null,
             bool _using = true)
         {
-            base.Add(new SqlWhere(
+            Add(new SqlWhere(
                 columnBrackets: columnBrackets,
                 name: name,
                 value: value,
@@ -74,7 +74,7 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         public void Prefix(string prefix)
         {
-            this.ForEach(o => o.Name += prefix);
+            ForEach(o => o.Name += prefix);
         }
     }
 }
