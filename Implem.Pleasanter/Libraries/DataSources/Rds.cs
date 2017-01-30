@@ -5518,9 +5518,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 return this;
             }
 
-            public new TenantsColumnCollection Add(bool duplicates = false, params string[] columnBrackets)
+            public new TenantsColumnCollection Add(
+                bool duplicates = false, params string[] columnBrackets)
             {
                 base.Add(duplicates, columnBrackets);
+                return this;
+            }
+
+            public new TenantsColumnCollection Add(SqlStatement sub, string _as = null)
+            {
+                base.Add(sub, _as);
                 return this;
             }
         }
@@ -6015,9 +6022,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 return this;
             }
 
-            public new DemosColumnCollection Add(bool duplicates = false, params string[] columnBrackets)
+            public new DemosColumnCollection Add(
+                bool duplicates = false, params string[] columnBrackets)
             {
                 base.Add(duplicates, columnBrackets);
+                return this;
+            }
+
+            public new DemosColumnCollection Add(SqlStatement sub, string _as = null)
+            {
+                base.Add(sub, _as);
                 return this;
             }
         }
@@ -6571,9 +6585,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 return this;
             }
 
-            public new SysLogsColumnCollection Add(bool duplicates = false, params string[] columnBrackets)
+            public new SysLogsColumnCollection Add(
+                bool duplicates = false, params string[] columnBrackets)
             {
                 base.Add(duplicates, columnBrackets);
+                return this;
+            }
+
+            public new SysLogsColumnCollection Add(SqlStatement sub, string _as = null)
+            {
+                base.Add(sub, _as);
                 return this;
             }
         }
@@ -7672,9 +7693,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 return this;
             }
 
-            public new DeptsColumnCollection Add(bool duplicates = false, params string[] columnBrackets)
+            public new DeptsColumnCollection Add(
+                bool duplicates = false, params string[] columnBrackets)
             {
                 base.Add(duplicates, columnBrackets);
+                return this;
+            }
+
+            public new DeptsColumnCollection Add(SqlStatement sub, string _as = null)
+            {
+                base.Add(sub, _as);
                 return this;
             }
         }
@@ -8229,9 +8257,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 return this;
             }
 
-            public new UsersColumnCollection Add(bool duplicates = false, params string[] columnBrackets)
+            public new UsersColumnCollection Add(
+                bool duplicates = false, params string[] columnBrackets)
             {
                 base.Add(duplicates, columnBrackets);
+                return this;
+            }
+
+            public new UsersColumnCollection Add(SqlStatement sub, string _as = null)
+            {
+                base.Add(sub, _as);
                 return this;
             }
         }
@@ -9146,9 +9181,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 return this;
             }
 
-            public new MailAddressesColumnCollection Add(bool duplicates = false, params string[] columnBrackets)
+            public new MailAddressesColumnCollection Add(
+                bool duplicates = false, params string[] columnBrackets)
             {
                 base.Add(duplicates, columnBrackets);
+                return this;
+            }
+
+            public new MailAddressesColumnCollection Add(SqlStatement sub, string _as = null)
+            {
+                base.Add(sub, _as);
                 return this;
             }
         }
@@ -9678,9 +9720,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 return this;
             }
 
-            public new PermissionsColumnCollection Add(bool duplicates = false, params string[] columnBrackets)
+            public new PermissionsColumnCollection Add(
+                bool duplicates = false, params string[] columnBrackets)
             {
                 base.Add(duplicates, columnBrackets);
+                return this;
+            }
+
+            public new PermissionsColumnCollection Add(SqlStatement sub, string _as = null)
+            {
+                base.Add(sub, _as);
                 return this;
             }
         }
@@ -10405,9 +10454,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 return this;
             }
 
-            public new OutgoingMailsColumnCollection Add(bool duplicates = false, params string[] columnBrackets)
+            public new OutgoingMailsColumnCollection Add(
+                bool duplicates = false, params string[] columnBrackets)
             {
                 base.Add(duplicates, columnBrackets);
+                return this;
+            }
+
+            public new OutgoingMailsColumnCollection Add(SqlStatement sub, string _as = null)
+            {
+                base.Add(sub, _as);
                 return this;
             }
         }
@@ -11120,9 +11176,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 return this;
             }
 
-            public new SearchIndexesColumnCollection Add(bool duplicates = false, params string[] columnBrackets)
+            public new SearchIndexesColumnCollection Add(
+                bool duplicates = false, params string[] columnBrackets)
             {
                 base.Add(duplicates, columnBrackets);
+                return this;
+            }
+
+            public new SearchIndexesColumnCollection Add(SqlStatement sub, string _as = null)
+            {
+                base.Add(sub, _as);
                 return this;
             }
         }
@@ -11744,9 +11807,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 return this;
             }
 
-            public new ItemsColumnCollection Add(bool duplicates = false, params string[] columnBrackets)
+            public new ItemsColumnCollection Add(
+                bool duplicates = false, params string[] columnBrackets)
             {
                 base.Add(duplicates, columnBrackets);
+                return this;
+            }
+
+            public new ItemsColumnCollection Add(SqlStatement sub, string _as = null)
+            {
+                base.Add(sub, _as);
                 return this;
             }
         }
@@ -12275,9 +12345,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 return this;
             }
 
-            public new SitesColumnCollection Add(bool duplicates = false, params string[] columnBrackets)
+            public new SitesColumnCollection Add(
+                bool duplicates = false, params string[] columnBrackets)
             {
                 base.Add(duplicates, columnBrackets);
+                return this;
+            }
+
+            public new SitesColumnCollection Add(SqlStatement sub, string _as = null)
+            {
+                base.Add(sub, _as);
                 return this;
             }
         }
@@ -12988,9 +13065,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 return this;
             }
 
-            public new OrdersColumnCollection Add(bool duplicates = false, params string[] columnBrackets)
+            public new OrdersColumnCollection Add(
+                bool duplicates = false, params string[] columnBrackets)
             {
                 base.Add(duplicates, columnBrackets);
+                return this;
+            }
+
+            public new OrdersColumnCollection Add(SqlStatement sub, string _as = null)
+            {
+                base.Add(sub, _as);
                 return this;
             }
         }
@@ -13519,9 +13603,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 return this;
             }
 
-            public new ExportSettingsColumnCollection Add(bool duplicates = false, params string[] columnBrackets)
+            public new ExportSettingsColumnCollection Add(
+                bool duplicates = false, params string[] columnBrackets)
             {
                 base.Add(duplicates, columnBrackets);
+                return this;
+            }
+
+            public new ExportSettingsColumnCollection Add(SqlStatement sub, string _as = null)
+            {
+                base.Add(sub, _as);
                 return this;
             }
         }
@@ -14074,9 +14165,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 return this;
             }
 
-            public new LinksColumnCollection Add(bool duplicates = false, params string[] columnBrackets)
+            public new LinksColumnCollection Add(
+                bool duplicates = false, params string[] columnBrackets)
             {
                 base.Add(duplicates, columnBrackets);
+                return this;
+            }
+
+            public new LinksColumnCollection Add(SqlStatement sub, string _as = null)
+            {
+                base.Add(sub, _as);
                 return this;
             }
         }
@@ -14668,9 +14766,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 return this;
             }
 
-            public new BinariesColumnCollection Add(bool duplicates = false, params string[] columnBrackets)
+            public new BinariesColumnCollection Add(
+                bool duplicates = false, params string[] columnBrackets)
             {
                 base.Add(duplicates, columnBrackets);
+                return this;
+            }
+
+            public new BinariesColumnCollection Add(SqlStatement sub, string _as = null)
+            {
+                base.Add(sub, _as);
                 return this;
             }
         }
@@ -15333,9 +15438,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 return this;
             }
 
-            public new IssuesColumnCollection Add(bool duplicates = false, params string[] columnBrackets)
+            public new IssuesColumnCollection Add(
+                bool duplicates = false, params string[] columnBrackets)
             {
                 base.Add(duplicates, columnBrackets);
+                return this;
+            }
+
+            public new IssuesColumnCollection Add(SqlStatement sub, string _as = null)
+            {
+                base.Add(sub, _as);
                 return this;
             }
         }
@@ -19581,9 +19693,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 return this;
             }
 
-            public new ResultsColumnCollection Add(bool duplicates = false, params string[] columnBrackets)
+            public new ResultsColumnCollection Add(
+                bool duplicates = false, params string[] columnBrackets)
             {
                 base.Add(duplicates, columnBrackets);
+                return this;
+            }
+
+            public new ResultsColumnCollection Add(SqlStatement sub, string _as = null)
+            {
+                base.Add(sub, _as);
                 return this;
             }
         }
@@ -23600,9 +23719,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 return this;
             }
 
-            public new WikisColumnCollection Add(bool duplicates = false, params string[] columnBrackets)
+            public new WikisColumnCollection Add(
+                bool duplicates = false, params string[] columnBrackets)
             {
                 base.Add(duplicates, columnBrackets);
+                return this;
+            }
+
+            public new WikisColumnCollection Add(SqlStatement sub, string _as = null)
+            {
+                base.Add(sub, _as);
                 return this;
             }
         }

@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Classes;
 using Implem.Libraries.Utilities;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
@@ -18,13 +19,25 @@ namespace Implem.Libraries.DataSources.SqlServer
             return this;
         }
 
-        public void BuildCommandText(StringBuilder commandText, bool distinct, int top)
+        public SqlColumnCollection Add(SqlStatement sub, string _as)
+        {
+            Add(new SqlColumn(sub, _as));
+            return this;
+        }
+
+        public void BuildCommandText(
+            SqlContainer sqlContainer,
+            SqlCommand sqlCommand,
+            StringBuilder commandText,
+            int? commandCount,
+            bool distinct,
+            int top)
         {
             commandText.Append("select ");
             Build_DistinctClause(commandText, distinct);
             Build_TopClause(commandText, top);
             commandText.Append(this
-                .Select(o => o.ColumnBracket)
+                .Select(o => o.CommandText(sqlContainer, sqlCommand, commandCount))
                 .Join(), " ");
             RemoveAll(o => o.AdHoc);
         }

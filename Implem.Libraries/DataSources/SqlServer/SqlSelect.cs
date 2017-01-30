@@ -101,7 +101,13 @@ namespace Implem.Libraries.DataSources.SqlServer
         {
             if (!Using) return;
             if (!DataTableName.IsNullOrEmpty()) sqlContainer.DataTableNames.Add(DataTableName);
-            SqlColumnCollection?.BuildCommandText(commandText, Distinct, Top);
+            SqlColumnCollection?.BuildCommandText(
+                sqlContainer,
+                sqlCommand,
+                commandText,
+                commandCount,
+                Distinct,
+                Top);
             commandText.Append(from);
             SqlJoinCollection?.BuildCommandText(commandText);
             SqlWhereCollection?.BuildCommandText(
