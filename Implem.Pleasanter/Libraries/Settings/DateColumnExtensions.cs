@@ -38,7 +38,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     SetHalf(
                         hash,
-                        DateTime.Now.AddMonths(m).AddDays(diff),
+                        DateTime.Now.AddMonths(m),
                         column.RecordedTime,
                         diff);
                 }
@@ -49,7 +49,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     SetQuarter(
                         hash,
-                        DateTime.Now.AddMonths(m).AddDays(diff),
+                        DateTime.Now.AddMonths(m),
                         column.RecordedTime,
                         diff);
                 }
@@ -60,7 +60,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     SetMonth(
                         hash,
-                        DateTime.Now.AddMonths(m).AddDays(diff),
+                        DateTime.Now.AddMonths(m),
                         column.RecordedTime,
                         diff);
                 }
