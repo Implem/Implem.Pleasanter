@@ -12,7 +12,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             {
                 if (duplicates || !this.Any(o => o.ColumnBracket == columnBracket))
                 {
-                    base.Add(new SqlColumn(columnBracket));
+                    Add(new SqlColumn(columnBracket));
                 }
             });
             return this;
