@@ -102,7 +102,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!recordedTime || timePeriod.From <= DateTime.Now)
             {
                 hash.Add(
-                   Period(timePeriod),
+                    Period(timePeriod),
                     new ControlData(Displays.Quarter(
                         current.Fy().ToString(), current.Quarter().ToString()) +
                             InRange(timePeriod)));
