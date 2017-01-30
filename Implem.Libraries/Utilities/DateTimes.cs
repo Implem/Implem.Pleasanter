@@ -46,12 +46,12 @@ namespace Implem.Libraries.Utilities
 
         public static int Years(this TimeSpan self)
         {
-            return (int)((double)self.Days / 365.2425);
+            return (int)(self.Days / 365.2425);
         }
 
         public static int Months(this TimeSpan self)
         {
-            return (int)((double)self.Days / 30.436875);
+            return (int)(self.Days / 30.436875);
         }
 
         public static DateTime WeekFrom(this DateTime self)
