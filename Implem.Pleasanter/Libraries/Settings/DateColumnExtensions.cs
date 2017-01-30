@@ -118,7 +118,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 hash.Add(
                     Period(timePeriod),
-                    new ControlData((current.Half() == 1
+                    new ControlData((current.Half() == 0
                         ? Displays.Half1(current.Fy().ToString())
                         : Displays.Half2(current.Fy().ToString())) +
                             InRange(timePeriod)));
