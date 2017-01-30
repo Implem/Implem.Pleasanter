@@ -70,13 +70,13 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private static int Min(Column column)
         {
-            return (DateTime.Now.AddYears(column.DateFilterMinSpan.ToInt()).FyFrom() -
+            return (DateTime.Now.AddYears(column.DateFilterMinSpan.ToInt()) -
                 DateTime.Now).Months();
         }
 
         private static int Max(Column column)
         {
-            return (DateTime.Now.AddYears(column.DateFilterMaxSpan.ToInt() + 1).FyFrom() -
+            return (DateTime.Now.AddYears(column.DateFilterMaxSpan.ToInt() + 1) -
                 DateTime.Now).Months();
         }
 
