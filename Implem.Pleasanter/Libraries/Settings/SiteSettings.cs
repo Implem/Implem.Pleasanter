@@ -1083,9 +1083,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         private Dictionary<string, Dictionary<string, string>> LinkHash()
         {
             var links = Links?.Where(o => GetColumn(o.ColumnName)?.UseSearch != true).ToList();
+            var allowSites = Permissions.AllowSites(Links?.Select(o => o.SiteId));
             return links?.Any() == true
                 ? links
                     .Select(o => o.SiteId)
+                    .Where(o => allowSites.Contains(o))
                     .Distinct()
                     .ToDictionary(
                         siteId => "[[" + siteId + "]]",
@@ -1110,6 +1112,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             IEnumerable<long> selectedValues)
         {
             var hash = new Dictionary<string, Dictionary<string, string>>();
+            var allowSites = Permissions.AllowSites(Links?.Select(o => o.SiteId));
             Links?
                 .Where(o => GetColumn(o.ColumnName)?.UseSearch == true)
                 .Where(o => o.ColumnName == column?.ColumnName)
@@ -1143,7 +1146,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 .ReferenceType("Sites", _operator: "<>")
                                 .SiteId(link.SiteId)))
                                     .AsEnumerable();
-                    if (dataRows != null)
+                    if (dataRows != null && allowSites?.Contains(link.SiteId) == true)
                     {
                         hash.Add("[[" + link.SiteId + "]]", LinkValue(link.SiteId, dataRows));
                     }

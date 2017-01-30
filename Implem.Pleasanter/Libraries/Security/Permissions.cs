@@ -4,6 +4,9 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.Security
 {
     public static class Permissions
@@ -112,6 +115,38 @@ namespace Implem.Pleasanter.Libraries.Security
                                 .SiteId(siteId)))
                         .Add(raw: "([t0].[DeptId]={0} or [t0].[UserId]={1})".Params(
                             user.DeptId, user.Id))))).Admins();
+        }
+
+        public static Dictionary<long, Types> GetBySites(IEnumerable<long> sites)
+        {
+            var user = Sessions.User();
+            return Rds.ExecuteTable(statements: 
+                Rds.SelectSites(
+                    column: Rds.SitesColumn()
+                        .SiteId()
+                        .Add(sub: Rds.SelectPermissions(
+                            column: Rds.PermissionsColumn()
+                                .PermissionTypeMax(),
+                            where: Rds.PermissionsWhere()
+                                .ReferenceType("Sites")
+                                .ReferenceId(_operator: "=[InheritPermission]")
+                                .Add(raw: "([DeptId]={0} or [UserId]={1})".Params(
+                                    user.DeptId, user.Id))), _as: "PermissionType"),
+                    where: Rds.SitesWhere()
+                        .TenantId(Sessions.TenantId())
+                        .SiteId_In(sites)))
+                            .AsEnumerable()
+                            .ToDictionary(
+                                o => o["SiteId"].ToLong(),
+                                o => (Types)o["PermissionType"].ToLong());
+        }
+
+        public static List<long> AllowSites(IEnumerable<long> sites)
+        {
+            return GetBySites(sites)
+                .Where(o => o.Value.CanRead())
+                .Select(o => o.Key)
+                .ToList();
         }
 
         public static bool CanRead(this Types self)
