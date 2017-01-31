@@ -8,12 +8,12 @@ namespace Implem.Libraries.DataSources.SqlServer
     {
         public SqlJoinCollection(params SqlJoin[] sqlJoinCollection)
         {
-            this.AddRange(sqlJoinCollection);
+            AddRange(sqlJoinCollection);
         }
 
         public SqlJoinCollection Add(params string[] columnBrackets)
         {
-            columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
+            columnBrackets.ForEach(columnBracket => Add(new SqlJoin(columnBracket)));
             return this;
         }
 
