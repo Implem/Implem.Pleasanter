@@ -9,7 +9,7 @@ namespace Implem.Libraries.DataSources.SqlServer
     {
         public SqlOrderByCollection(params SqlOrderBy[] sqlOrderByCollection)
         {
-            this.AddRange(sqlOrderByCollection.Where(o =>
+            AddRange(sqlOrderByCollection.Where(o =>
                 o.OrderType != SqlOrderBy.Types.release));
         }
 
@@ -18,17 +18,17 @@ namespace Implem.Libraries.DataSources.SqlServer
             if (type != SqlOrderBy.Types.release)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlOrderBy(columnBracket, type)));
+                    Add(new SqlOrderBy(columnBracket, type)));
             }
             return this;
         }
 
         public void BuildCommandText(StringBuilder commandText, int pageSize, int? commandCount)
         {
-            if (this.Count > 0)
+            if (Count > 0)
             {
                 var orderBy = new Dictionary<string, string>();
-                this.ForEach(o =>
+                ForEach(o =>
                 {
                     if (!orderBy.ContainsKey(o.ColumnBracket))
                     {
