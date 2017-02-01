@@ -782,7 +782,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public Error.Types AddMailAddress(string mailAddress, IEnumerable<string> selected)
         {
-            MailAddresses = Session_MailAddresses();
+            MailAddresses = Session_MailAddresses() ?? new List<string>();
             if (MailAddresses.Contains(mailAddress))
             {
                 return Error.Types.AlreadyAdded;
@@ -800,7 +800,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public Error.Types DeleteMailAddresses(IEnumerable<string> selected)
         {
-            MailAddresses = Session_MailAddresses();
+            MailAddresses = Session_MailAddresses() ?? new List<string>();
             MailAddresses.RemoveAll(o => selected.Contains(o));
             Session_MailAddresses(MailAddresses);
             return Error.Types.None;
