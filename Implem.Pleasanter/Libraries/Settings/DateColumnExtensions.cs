@@ -22,7 +22,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 hash.Add("\t", new ControlData(Displays.NotSet()));
             }
-            if (column.DateFilterFy.ToBool())
+            if (column.DateFilterFy == true)
             {
                 for (var m = min; m <= max; m += 12)
                 {
@@ -34,7 +34,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         diff);
                 }
             }
-            if (column.DateFilterHalf.ToBool())
+            if (column.DateFilterHalf == true)
             {
                 for (var m = min; m <= max; m += 6)
                 {
@@ -46,7 +46,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         diff);
                 }
             }
-            if (column.DateFilterQuarter.ToBool())
+            if (column.DateFilterQuarter == true)
             {
                 for (var m = min; m <= max; m += 3)
                 {
@@ -58,7 +58,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         diff);
                 }
             }
-            if (column.DateFilterMonth.ToBool())
+            if (column.DateFilterMonth == true)
             {
                 for (var m = min; m <= max; m++)
                 {
