@@ -12,14 +12,14 @@ namespace Implem.Pleasanter.Libraries.Converts
             switch (column.CheckFilterControlType)
             {
                 case ColumnUtilities.CheckFilterControlTypes.OnOnly:
-                    return value.ToBool();
+                    return value;
                 case ColumnUtilities.CheckFilterControlTypes.OnAndOff:
                     switch ((ColumnUtilities.CheckFilterTypes)condition.ToInt())
                     {
                         case ColumnUtilities.CheckFilterTypes.On:
-                            return value.ToBool();
+                            return value;
                         case ColumnUtilities.CheckFilterTypes.Off:
-                            return !value.ToBool();
+                            return !value;
                     }
                     break;
             }
