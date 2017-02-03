@@ -115,14 +115,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             siteId: siteId,
                             referenceType: referenceType,
                             action: action,
-                            ajax: Routes.Action(
-                                "new",
-                                "create",
-                                "edit",
-                                "copy",
-                                "move",
-                                "history")));
+                            ajax: EditorActions()));
             });
+        }
+
+        private static bool EditorActions()
+        {
+            return Routes.Action(
+                "new",
+                "create",
+                "edit",
+                "copy",
+                "move",
+                "separate",
+                "history");
         }
 
         private static HtmlBuilder ViewModeMenu(
