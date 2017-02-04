@@ -3278,7 +3278,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "KambanValue",
                         fieldCss: "field-auto-thin",
                         labelText: Displays.AggregationTarget(),
-                        optionCollection: ss.KamvanValueOptions(),
+                        optionCollection: ss.KambanValueOptions(),
                         selectedValue: view.KambanValue)
                     .FieldDropDown(
                         controlId: "KambanColumns",

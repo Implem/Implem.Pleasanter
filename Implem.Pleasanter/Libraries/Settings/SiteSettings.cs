@@ -794,7 +794,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             };
         }
 
-        public Dictionary<string, string> KamvanValueOptions()
+        public Dictionary<string, string> KambanValueOptions()
         {
             return Columns
                 .Where(o => o.Computable)
