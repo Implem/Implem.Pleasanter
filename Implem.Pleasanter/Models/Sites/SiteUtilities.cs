@@ -3256,11 +3256,18 @@ namespace Implem.Pleasanter.Models
             return _using
                 ? hb.FieldSet(id: "ViewKambanTab", action: () => hb
                     .FieldDropDown(
-                        controlId: "KambanGroupBy",
+                        controlId: "KambanGroupByX",
                         fieldCss: "field-auto-thin",
-                        labelText: Displays.GroupBy(),
+                        labelText: Displays.GroupByX(),
                         optionCollection: ss.KambanGroupByOptions(),
-                        selectedValue: view.KambanGroupBy)
+                        selectedValue: view.KambanGroupByX)
+                    .FieldDropDown(
+                        controlId: "KambanGroupByY",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.GroupByY(),
+                        optionCollection: ss.KambanGroupByOptions(),
+                        selectedValue: view.KambanGroupByY,
+                        insertBlank: true)
                     .FieldDropDown(
                         controlId: "KambanAggregateType",
                         fieldCss: "field-auto-thin",
@@ -3272,7 +3279,16 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-auto-thin",
                         labelText: Displays.AggregationTarget(),
                         optionCollection: ss.KamvanValueOptions(),
-                        selectedValue: view.KambanValue))
+                        selectedValue: view.KambanValue)
+                    .FieldDropDown(
+                        controlId: "KambanColumns",
+                        fieldCss: "field-auto-thin",
+                        labelText: Displays.MaxColumns(),
+                        optionCollection: Enumerable.Range(
+                            Parameters.General.KambanMinColumns,
+                            Parameters.General.KambanMaxColumns)
+                                .ToDictionary(o => o.ToString(), o => o.ToString()),
+                        selectedValue: view.KambanColumns?.ToString()))
                 : hb;
         }
 

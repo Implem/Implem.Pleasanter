@@ -12,11 +12,16 @@
         tolerance: 'pointer',
         drop: function (e, ui) {
             var data = $p.getData($('.main-form'));
+            var tableNamePrefix = $('#TableName').val() + '_';
+            var dataX = $(this).attr('data-x');
+            var dataY = $(this).attr('data-y');
             data["KambanId"] = $(ui.draggable).attr('data-id');
-            data[$('#TableName').val() + '_' + $('#KambanGroupBy').val()] =
-                $(this).attr('data-value') !== undefined
-                    ? $(this).attr('data-value')
-                    : '';
+            if (dataX !== undefined){
+                data[tableNamePrefix + $('#KambanGroupByX').val()] = dataX;
+            }
+            if (dataY !== undefined) {
+                data[tableNamePrefix + $('#KambanGroupByY').val()] = dataY;
+            }
             $p.send($('#KambanBody'));
         }
     });

@@ -2141,53 +2141,50 @@ namespace Implem.Pleasanter.Models
             long changedItemId = 0)
         {
             var formData = Forms.All();
-            var groupBy = !view.KambanGroupBy.IsNullOrEmpty()
-                ? view.KambanGroupBy
+            var groupByX = !view.KambanGroupByX.IsNullOrEmpty()
+                ? view.KambanGroupByX
                 : "Status";
+            var groupByY = !view.KambanGroupByY.IsNullOrEmpty()
+                ? view.KambanGroupByY
+                : string.Empty;
             var aggregateType = !view.KambanAggregateType.IsNullOrEmpty()
                 ? view.KambanAggregateType
                 : "Total";
             var value = !view.KambanValue.IsNullOrEmpty()
                 ? view.KambanValue
                 : KambanValue(ss);
-            var column = Rds.ResultsColumn()
-                .ResultId()
-                .Manager()
-                .Owner();
-            ss.GetTitleColumns().ForEach(titleColumn =>
-                column.ResultsColumn(titleColumn.ColumnName));
-            column.ResultsColumn(groupBy);
-            column.ResultsColumn(value);
-            var data = new ResultCollection(
-                ss: ss,
-                pt: pt,
-                column: column,
-                where: view.Where(ss, Rds.ResultsWhere().SiteId(ss.SiteId)),
-                orderBy: view.OrderBy(ss, Rds.IssuesOrderBy()
-                    .UpdatedTime(SqlOrderBy.Types.desc)))
-                        .Select(o => new Libraries.ViewModes.KambanElement()
-                        {
-                            Id = o.Id,
-                            Title = o.Title.DisplayValue,
-                            Manager = o.Manager,
-                            Owner = o.Owner,
-                            Group = o.PropertyValue(groupBy),
-                            Value = o.PropertyValue(value).ToDecimal()
-                        });
             return !bodyOnly
                 ? hb.Kamban(
                     ss: ss,
-                    groupBy: groupBy,
+                    groupByX: groupByX,
+                    groupByY: groupByY,
                     aggregateType: aggregateType,
                     value: value,
+                    columns: view.KambanColumns,
                     pt: pt,
-                    data: data)
+                    data: KambanElements(
+                        ss,
+                        pt,
+                        view,
+                        groupByX,
+                        groupByY,
+                        value,
+                        KambanColumns(ss, groupByX, groupByY, value)))
                 : hb.KambanBody(
                     ss: ss,
-                    groupBy: ss.GetColumn(groupBy),
+                    groupByX: ss.GetColumn(groupByX),
+                    groupByY: ss.GetColumn(groupByY),
                     aggregateType: aggregateType,
                     value: ss.GetColumn(value),
-                    data: data,
+                    columns: view.KambanColumns,
+                    data: KambanElements(
+                        ss,
+                        pt,
+                        view,
+                        groupByX,
+                        groupByY,
+                        value,
+                        KambanColumns(ss, groupByX, groupByY, value)),
                     changedItemId: changedItemId);
         }
 
@@ -2203,6 +2200,55 @@ namespace Implem.Pleasanter.Models
             return column != null
                 ? column.ColumnName
                 : string.Empty;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static Rds.ResultsColumnCollection KambanColumns(
+            SiteSettings ss, string groupByX, string groupByY, string value)
+        {
+            var column = Rds.ResultsColumn()
+                .ResultId()
+                .Manager()
+                .Owner();
+            ss.GetTitleColumns().ForEach(titleColumn =>
+                column.ResultsColumn(titleColumn.ColumnName));
+            return column
+                .ResultsColumn(groupByX)
+                .ResultsColumn(groupByY)
+                .ResultsColumn(value);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static IEnumerable<Libraries.ViewModes.KambanElement> KambanElements(
+            SiteSettings ss,
+            Permissions.Types pt,
+            View view,
+            string groupByX,
+            string groupByY,
+            string value,
+            Rds.ResultsColumnCollection column)
+        {
+            return new ResultCollection(
+                ss: ss,
+                pt: pt,
+                column: column,
+                where: view.Where(ss, Rds.ResultsWhere().SiteId(ss.SiteId)),
+                orderBy: view.OrderBy(ss, Rds.IssuesOrderBy()
+                    .UpdatedTime(SqlOrderBy.Types.desc)))
+                        .Select(o => new Libraries.ViewModes.KambanElement()
+                        {
+                            Id = o.Id,
+                            Title = o.Title.DisplayValue,
+                            Manager = o.Manager,
+                            Owner = o.Owner,
+                            GroupX = o.PropertyValue(groupByX),
+                            GroupY = o.PropertyValue(groupByY),
+                            Value = o.PropertyValue(value).ToDecimal()
+                        });
         }
     }
 }

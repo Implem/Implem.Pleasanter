@@ -17,9 +17,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Kamban(
             this HtmlBuilder hb,
             SiteSettings ss,
-            string groupBy,
+            string groupByX,
+            string groupByY,
             string aggregateType,
             string value,
+            int? columns,
             Permissions.Types pt,
             IEnumerable<KambanElement> data)
         {
@@ -27,12 +29,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 hb
                     .FieldDropDown(
-                        controlId: "KambanGroupBy",
+                        controlId: "KambanGroupByX",
                         fieldCss: "field-auto-thin",
                         controlCss: " auto-postback",
-                        labelText: Displays.GroupBy(),
+                        labelText: Displays.GroupByX(),
                         optionCollection: ss.KambanGroupByOptions(),
-                        selectedValue: groupBy,
+                        selectedValue: groupByX,
+                        method: "post")
+                    .FieldDropDown(
+                        controlId: "KambanGroupByY",
+                        fieldCss: "field-auto-thin",
+                        controlCss: " auto-postback",
+                        labelText: Displays.GroupByY(),
+                        optionCollection: ss.KambanGroupByOptions(),
+                        selectedValue: groupByY,
+                        insertBlank: true,
                         method: "post")
                     .FieldDropDown(
                         controlId: "KambanAggregateType",
@@ -50,11 +61,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         optionCollection: ss.KamvanValueOptions(),
                         selectedValue: value,
                         method: "post")
+                    .FieldDropDown(
+                        controlId: "KambanColumns",
+                        fieldCss: "field-auto-thin",
+                        controlCss: " auto-postback",
+                        labelText: Displays.MaxColumns(),
+                        optionCollection: Enumerable.Range(
+                            Parameters.General.KambanMinColumns,
+                            Parameters.General.KambanMaxColumns)
+                                .ToDictionary(o => o.ToString(), o => o.ToString()),
+                        selectedValue: columns?.ToString(),
+                        method: "post")
                     .KambanBody(
                         ss: ss,
-                        groupBy: ss.GetColumn(groupBy),
+                        groupByX: ss.GetColumn(groupByX),
+                        groupByY: ss.GetColumn(groupByY),
                         aggregateType: aggregateType,
                         value: ss.GetColumn(value),
+                        columns: columns,
                         data: data)
                     .MainCommands(
                         siteId: ss.SiteId,
@@ -68,44 +92,52 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder KambanBody(
             this HtmlBuilder hb,
             SiteSettings ss,
-            Column groupBy,
+            Column groupByX,
+            Column groupByY,
             string aggregateType,
             Column value,
+            int? columns,
             IEnumerable<KambanElement> data,
             long changedItemId = 0)
         {
+            var choicesY = CorrectedChoices(
+                groupByY, groupByY?.EditChoices(insertBlank: groupByY.Nullable));
             return hb.Div(
                 attributes: new HtmlAttributes()
                     .Id("KambanBody")
                     .DataAction("UpdateByKamban")
                     .DataMethod("post"),
-                action: () => groupBy.EditChoices(
-                    insertBlank: groupBy.Nullable)
-                        .Chunk(Parameters.General.KambanChunk)
-                        .ForEach(choices => hb
+                action: () => groupByX.EditChoices(
+                    insertBlank: groupByX.Nullable)
+                        .Chunk(columns.ToInt())
+                        .ForEach(choicesX => hb
                             .Table(
                                 ss: ss,
-                                choices: CorrectedChoices(groupBy, choices),
+                                choicesX: CorrectedChoices(groupByX, choicesX),
+                                choicesY: choicesY,
                                 aggregateType: aggregateType,
                                 value: value,
                                 data: data,
                                 changedItemId: changedItemId)));
         }
 
-        private static IEnumerable<KeyValuePair<string, ControlData>> CorrectedChoices(
+        private static Dictionary<string, ControlData> CorrectedChoices(
             Column groupBy, IEnumerable<KeyValuePair<string, ControlData>> choices)
         {
-            return groupBy.TypeName.CsTypeSummary() != Types.CsNumeric
-                ? choices
-                : choices.ToDictionary(
-                    o => o.Key != string.Empty ? o.Key : "0",
-                    o => o.Value);
+            return groupBy != null
+                ? groupBy.TypeName.CsTypeSummary() != Types.CsNumeric
+                    ? choices.ToDictionary(o => o.Key, o => o.Value)
+                    : choices.ToDictionary(
+                        o => o.Key != string.Empty ? o.Key : "0",
+                        o => o.Value)
+                : null;
         }
 
         private static HtmlBuilder Table(
             this HtmlBuilder hb,
             SiteSettings ss,
-            IEnumerable<KeyValuePair<string, ControlData>> choices,
+            Dictionary<string, ControlData> choicesX,
+            Dictionary<string, ControlData> choicesY,
             string aggregateType,
             Column value,
             IEnumerable<KambanElement> data,
@@ -115,31 +147,68 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 css: "grid fixed",
                 action: () => hb
                     .THead(action: () => hb
-                        .Tr(css: "ui-widget-header", action: () => choices
-                            .ForEach(choice => hb
+                        .Tr(css: "ui-widget-header", action: () =>
+                        {
+                            if (choicesY != null)
+                            {
+                                hb.Th();
+                            }
+                            choicesX.ForEach(choice => hb
                                 .Th(action: () => hb
                                     .HeaderText(
                                         ss: ss,
                                         aggregateType: aggregateType,
                                         value: value,
+                                        data: data.Where(o => o.GroupX == choice.Key),
+                                        choice: choice)));
+                        }))
+                    .TBody(action: () =>
+                    {
+                        if (choicesY != null)
+                        {
+                            choicesY.ForEach(choiceY =>
+                            {
+                                hb.Tr(css: "kamban-row", action: () =>
+                                {
+                                    hb.Th(action: () => hb
+                                        .HeaderText(
+                                        ss: ss,
+                                        aggregateType: aggregateType,
+                                        value: value,
+                                        data: data.Where(o => o.GroupY == choiceY.Key),
+                                        choice: choiceY));
+                                    choicesX.ForEach(choiceX => hb
+                                        .TBody(
+                                            ss: ss,
+                                            choiceX: choiceX.Key,
+                                            choiceY: choiceY.Key,
+                                            value: value,
+                                            data: data,
+                                            changedItemId: changedItemId));
+                                });
+                            });
+                        }
+                        else
+                        {
+                            hb.Tr(css: "kamban-row", action: () =>
+                               choicesX.ForEach(choiceX => hb
+                                    .TBody(
+                                        ss: ss,
+                                        choiceX: choiceX.Key,
+                                        choiceY: null,
+                                        value: value,
                                         data: data,
-                                        choice: choice)))))
-                    .TBody(action: () => hb
-                        .Tr(css: "kamban-row", action: () => choices
-                            .ForEach(choice => hb
-                                .TBody(
-                                    ss: ss,
-                                    choice: choice,
-                                    value: value,
-                                    data: data,
-                                    changedItemId: changedItemId)))));
+                                        changedItemId: changedItemId)));
+                        }
+                    }));
 
         }
 
         private static HtmlBuilder TBody(
             this HtmlBuilder hb,
             SiteSettings ss,
-            KeyValuePair<string, ControlData> choice,
+            string choiceX,
+            string choiceY,
             Column value,
             IEnumerable<KambanElement> data,
             long changedItemId)
@@ -147,10 +216,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Td(
                 attributes: new HtmlAttributes()
                     .Class("kamban-container")
-                    .DataValue(HttpUtility.HtmlEncode(choice.Key)),
+                    .DataX(HttpUtility.HtmlEncode(choiceX))
+                    .DataY(HttpUtility.HtmlEncode(choiceY)),
                 action: () => hb
                     .Div(action: () => 
-                        data.Where(o => o.Group == choice.Key)
+                        data
+                            .Where(o => o.GroupX == choiceX)
+                            .Where(o => choiceY == null || o.GroupY == choiceY)
                             .ForEach(o => hb
                                 .Element(
                                     ss: ss,
@@ -167,14 +239,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             IEnumerable<KambanElement> data,
             KeyValuePair<string, ControlData> choice)
         {
-            var targets = data.Where(o => o.Group == choice.Key);
             return hb.Text(text: "{0}({1}){2}".Params(
                 choice.Value.Text != string.Empty
                     ? choice.Value.Text
                     : Displays.NotSet(),
-                targets.Count(),
-                value != null && targets.Any()
-                    ? " : " + value.Display(Summary(targets, aggregateType), unit: true)
+                data.Count(),
+                value != null && data.Any()
+                    ? " : " + value.Display(Summary(data, aggregateType), unit: true)
                     : string.Empty));
         }
 

@@ -214,6 +214,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (self.LinkColumns.SequenceEqual(def.LinkColumns)) self.LinkColumns = null;
             if (self.HistoryColumns.SequenceEqual(def.HistoryColumns)) self.HistoryColumns = null;
             if (self.Columns.SequenceEqual(def.Columns)) self.Columns = null;
+            self.Views?.ForEach(view => view.SetRecordingData());
             if (self.Views?.Count == 0) self.Views = null;
             if (!self.Notifications.Any()) self.Notifications = null;
             if (self.Aggregations.SequenceEqual(def.Aggregations)) self.Aggregations = null;

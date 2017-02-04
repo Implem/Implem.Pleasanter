@@ -30,9 +30,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string TimeSeriesGroupBy;
         public string TimeSeriesAggregateType;
         public string TimeSeriesValue;
-        public string KambanGroupBy;
+        public string KambanGroupByX;
+        public string KambanGroupByY;
         public string KambanAggregateType;
         public string KambanValue;
+        public int? KambanColumns;
+        // compatibility Version 1.008
+        public string KambanGroupBy;
 
         public View()
         {
@@ -102,14 +106,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                     case "TimeSeriesValue":
                         TimeSeriesValue = String(controlId);
                         break;
-                    case "KambanGroupBy":
-                        KambanGroupBy = String(controlId);
+                    case "KambanGroupByX":
+                        KambanGroupByX = String(controlId);
+                        break;
+                    case "KambanGroupByY":
+                        KambanGroupByY = String(controlId);
                         break;
                     case "KambanAggregateType":
                         KambanAggregateType = String(controlId);
                         break;
                     case "KambanValue":
                         KambanValue = String(controlId);
+                        break;
+                    case "KambanColumns":
+                        KambanColumns = Forms.Int(controlId);
                         break;
                     default:
                         if (controlId.StartsWith(columnFilterPrefix))
@@ -129,7 +139,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         break;
                 }
             }
-            SetRecordingData();
+            KambanColumns = KambanColumns ?? Parameters.General.KambanColumns;
         }
 
         private bool? Bool(string controlId)
@@ -272,7 +282,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private void SetRecordingData()
+        public void SetRecordingData()
         {
             if (!Incomplete.ToBool()) Incomplete = null;
             if (!Own.ToBool()) Own = null;
@@ -287,9 +297,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (TimeSeriesGroupBy == string.Empty) TimeSeriesGroupBy = null;
             if (TimeSeriesAggregateType == string.Empty) TimeSeriesAggregateType = null;
             if (TimeSeriesValue == string.Empty) TimeSeriesValue = null;
-            if (KambanGroupBy == string.Empty) KambanGroupBy = null;
+            if (KambanGroupByX == string.Empty) KambanGroupByX = null;
+            if (KambanGroupByY == string.Empty) KambanGroupByY = null;
             if (KambanAggregateType == string.Empty) KambanAggregateType = null;
             if (KambanValue == string.Empty) KambanValue = null;
+            if (KambanColumns == Parameters.General.KambanColumns) KambanColumns = null;
         }
 
         public SqlWhereCollection Where(SiteSettings ss, SqlWhereCollection where = null)

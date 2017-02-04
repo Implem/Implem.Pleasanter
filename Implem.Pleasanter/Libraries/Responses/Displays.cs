@@ -167,6 +167,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string GridScript(params string[] data) { return Get("GridScript", data); }
         public static string GridStyle(params string[] data) { return Get("GridStyle", data); }
         public static string GroupBy(params string[] data) { return Get("GroupBy", data); }
+        public static string GroupByX(params string[] data) { return Get("GroupByX", data); }
+        public static string GroupByY(params string[] data) { return Get("GroupByY", data); }
         public static string Half1(params string[] data) { return Get("Half1", data); }
         public static string Half2(params string[] data) { return Get("Half2", data); }
         public static string HasBeenDeleted(params string[] data) { return Get("HasBeenDeleted", data); }
@@ -235,6 +237,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string MailTransmissionCompletion(params string[] data) { return Get("MailTransmissionCompletion", data); }
         public static string Manager(params string[] data) { return Get("Manager", data); }
         public static string Max(params string[] data) { return Get("Max", data); }
+        public static string MaxColumns(params string[] data) { return Get("MaxColumns", data); }
         public static string Md(params string[] data) { return Get("Md", data); }
         public static string MdFormat(params string[] data) { return Get("MdFormat", data); }
         public static string Min(params string[] data) { return Get("Min", data); }

@@ -384,6 +384,26 @@ namespace Implem.Pleasanter.Libraries.Html
             return this;
         }
 
+        public HtmlAttributes DataX(string value, bool _using = true)
+        {
+            if (value != null && _using)
+            {
+                Add("data-x");
+                Add(value);
+            }
+            return this;
+        }
+
+        public HtmlAttributes DataY(string value, bool _using = true)
+        {
+            if (value != null && _using)
+            {
+                Add("data-y");
+                Add(value);
+            }
+            return this;
+        }
+
         public HtmlAttributes DataVer(int value, bool _using = true)
         {
             if (_using)

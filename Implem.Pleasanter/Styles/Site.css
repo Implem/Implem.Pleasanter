@@ -624,11 +624,11 @@ pre{
 }
 
 #KambanBody .kamban-row{
-    min-height:30px;
+    border-bottom:dotted 1px silver;
 }
 
 #KambanBody .kamban-container > div{
-    min-height:300px;
+    min-height:30px;
 }
 
 #KambanBody .kamban-container.hover{
@@ -1694,6 +1694,17 @@ pre{
     font-weight:bold;
     border:solid 1px silver;
     border-radius:3px;
+}
+
+.grid > tbody > tr > th{
+    padding:6px;
+    vertical-align:middle;
+    font-weight:normal;
+    background-color:gainsboro;
+    border-top:solid 1px white;
+    border-bottom:solid 1px white;
+    border-left:solid 1px transparent;
+    border-right:solid 1px transparent;
 }
 
 .grid-row{

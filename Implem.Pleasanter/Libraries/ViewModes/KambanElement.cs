@@ -14,7 +14,8 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         public Status Status;
         public User Manager;
         public User Owner;
-        public string Group;
+        public string GroupX;
+        public string GroupY;
         public decimal Value;
 
         public KambanElement()

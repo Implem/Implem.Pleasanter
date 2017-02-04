@@ -2488,15 +2488,59 @@ namespace Implem.Pleasanter.Models
             long changedItemId = 0)
         {
             var formData = Forms.All();
-            var groupBy = !view.KambanGroupBy.IsNullOrEmpty()
-                ? view.KambanGroupBy
+            var groupByX = !view.KambanGroupByX.IsNullOrEmpty()
+                ? view.KambanGroupByX
                 : "Status";
+            var groupByY = !view.KambanGroupByY.IsNullOrEmpty()
+                ? view.KambanGroupByY
+                : string.Empty;
             var aggregateType = !view.KambanAggregateType.IsNullOrEmpty()
                 ? view.KambanAggregateType
                 : "Total";
             var value = !view.KambanValue.IsNullOrEmpty()
                 ? view.KambanValue
                 : "RemainingWorkValue";
+            return !bodyOnly
+                ? hb.Kamban(
+                    ss: ss,
+                    groupByX: groupByX,
+                    groupByY: groupByY,
+                    aggregateType: aggregateType,
+                    value: value,
+                    columns: view.KambanColumns,
+                    pt: pt,
+                    data: KambanElements(
+                        ss,
+                        pt,
+                        view,
+                        groupByX,
+                        groupByY,
+                        value,
+                        KambanColumns(ss, groupByX, groupByY, value)))
+                : hb.KambanBody(
+                    ss: ss,
+                    groupByX: ss.GetColumn(groupByX),
+                    groupByY: ss.GetColumn(groupByY),
+                    aggregateType: aggregateType,
+                    value: ss.GetColumn(value),
+                    columns: view.KambanColumns,
+                    data: KambanElements(
+                        ss,
+                        pt,
+                        view,
+                        groupByX,
+                        groupByY,
+                        value,
+                        KambanColumns(ss, groupByX, groupByY, value)),
+                    changedItemId: changedItemId);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static Rds.IssuesColumnCollection KambanColumns(
+            SiteSettings ss, string groupByX, string groupByY, string value)
+        {
             var column = Rds.IssuesColumn()
                 .IssueId()
                 .StartTime()
@@ -2508,9 +2552,25 @@ namespace Implem.Pleasanter.Models
                 .Owner();
             ss.GetTitleColumns().ForEach(titleColumn =>
                 column.IssuesColumn(titleColumn.ColumnName));
-            column.IssuesColumn(groupBy);
-            column.IssuesColumn(value);
-            var data = new IssueCollection(
+            return column
+                .IssuesColumn(groupByX)
+                .IssuesColumn(groupByY)
+                .IssuesColumn(value);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static IEnumerable<Libraries.ViewModes.KambanElement> KambanElements(
+            SiteSettings ss,
+            Permissions.Types pt,
+            View view,
+            string groupByX,
+            string groupByY,
+            string value,
+            Rds.IssuesColumnCollection column)
+        {
+            return new IssueCollection(
                 ss: ss,
                 pt: pt,
                 column: column,
@@ -2528,24 +2588,10 @@ namespace Implem.Pleasanter.Models
                             RemainingWorkValue = o.RemainingWorkValue,
                             Manager = o.Manager,
                             Owner = o.Owner,
-                            Group = o.PropertyValue(groupBy),
+                            GroupX = o.PropertyValue(groupByX),
+                            GroupY = o.PropertyValue(groupByY),
                             Value = o.PropertyValue(value).ToDecimal()
                         });
-            return !bodyOnly
-                ? hb.Kamban(
-                    ss: ss,
-                    groupBy: groupBy,
-                    aggregateType: aggregateType,
-                    value: value,
-                    pt: pt,
-                    data: data)
-                : hb.KambanBody(
-                    ss: ss,
-                    groupBy: ss.GetColumn(groupBy),
-                    aggregateType: aggregateType,
-                    value: ss.GetColumn(value),
-                    data: data,
-                    changedItemId: changedItemId);
         }
     }
 }
