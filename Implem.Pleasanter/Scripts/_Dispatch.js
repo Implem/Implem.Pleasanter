@@ -85,6 +85,7 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
             break;
         case 'Invoke':
             $p[target]();
+            break;
         case 'WindowScrollTop':
             $(window).scrollTop(value);
             break;
