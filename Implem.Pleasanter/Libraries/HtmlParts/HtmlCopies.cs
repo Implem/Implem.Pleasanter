@@ -23,7 +23,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 _checked: true,
                                 fieldCss: "field-wide",
                                 controlContainerCss: "m-l50",
-                                controlCss: " must-transport",
+                                controlCss: " always-send",
                                 labelPositionIsRight: true)
                             .P(css: "message-dialog")
                             .Div(css: "command-center", action: () => hb

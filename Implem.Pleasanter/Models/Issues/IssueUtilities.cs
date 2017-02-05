@@ -693,11 +693,11 @@ namespace Implem.Pleasanter.Models
                             value: issueModel.MethodType.ToString().ToLower())
                         .Hidden(
                             controlId: "Issues_Timestamp",
-                            css: "must-transport",
+                            css: "always-send",
                             value: issueModel.Timestamp)
                         .Hidden(
                             controlId: "SwitchTargets",
-                            css: "must-transport",
+                            css: "always-send",
                             value: issueModel.SwitchTargets?.Join(),
                             _using: !Request.IsAjax()))
                 .OutgoingMailsForm("Issues", issueModel.IssueId, issueModel.Ver)

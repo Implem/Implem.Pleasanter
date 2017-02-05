@@ -161,7 +161,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss +
                                     (required
-                                        ? " must-transport"
+                                        ? " always-send"
                                         : string.Empty) +
                                     (column.UseSearch == true
                                         ? " search"

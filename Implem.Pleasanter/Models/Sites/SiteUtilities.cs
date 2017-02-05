@@ -1044,7 +1044,7 @@ namespace Implem.Pleasanter.Models
                             value: siteModel.MethodType.ToString().ToLower())
                         .Hidden(
                             controlId: "Sites_Timestamp",
-                            css: "control-hidden must-transport",
+                            css: "control-hidden always-send",
                             value: siteModel.Timestamp)
                         .Hidden(controlId: "Id", value: siteModel.SiteId.ToString()))
                 .OutgoingMailsForm("Sites", siteModel.SiteId, siteModel.Ver)
@@ -1369,7 +1369,7 @@ namespace Implem.Pleasanter.Models
             return hb
                 .Hidden(
                     controlId: "GridColumnName",
-                    css: "must-transport",
+                    css: "always-send",
                     value: column.ColumnName)
                 .P(css: "message-dialog")
                 .Div(css: "command-center", action: () => hb
@@ -1580,7 +1580,7 @@ namespace Implem.Pleasanter.Models
             return hb
                 .Hidden(
                     controlId: "FilterColumnName",
-                    css: "must-transport",
+                    css: "always-send",
                     value: column.ColumnName)
                 .P(css: "message-dialog")
                 .Div(css: "command-center", action: () => hb
@@ -1994,7 +1994,7 @@ namespace Implem.Pleasanter.Models
             return hb
                 .Hidden(
                     controlId: "EditorColumnName",
-                    css: "must-transport",
+                    css: "always-send",
                     value: column.ColumnName)
                 .P(css: "message-dialog")
                 .Div(css: "command-center", action: () => hb
@@ -2460,7 +2460,7 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .FieldText(
                         controlId: "SummaryId",
-                        controlCss: " must-transport",
+                        controlCss: " always-send",
                         labelText: Displays.Id(),
                         text: summary.Id.ToString(),
                         _using: controlId == "EditSummary")
@@ -2470,7 +2470,7 @@ namespace Implem.Pleasanter.Models
                         action: () => hb
                             .FieldDropDown(
                                 controlId: "SummarySiteId",
-                                controlCss: " auto-postback must-transport",
+                                controlCss: " auto-postback always-send",
                                 labelText: Displays.Sites(),
                                 optionCollection: destinationSiteHash,
                                 action: "SetSiteSettings",
@@ -2480,7 +2480,7 @@ namespace Implem.Pleasanter.Models
                                 destinationColumn: summary.DestinationColumn)
                             .FieldDropDown(
                                 controlId: "SummaryDestinationCondition",
-                                controlCss: " must-transport",
+                                controlCss: " always-send",
                                 labelText: Displays.Condition(),
                                 optionCollection: destinationSs.ViewSelectableOptions(),
                                 selectedValue: summary.DestinationCondition.ToString(),
@@ -2494,7 +2494,7 @@ namespace Implem.Pleasanter.Models
                                         o.Id == summary.DestinationCondition) == true
                                             ? null
                                             : " hidden"),
-                                controlCss: " must-transport",
+                                controlCss: " always-send",
                                 labelText: Displays.SetZeroWhenOutOfCondition(),
                                 _checked: summary.SetZeroWhenOutOfCondition == true))
                     .FieldSet(
@@ -2507,7 +2507,7 @@ namespace Implem.Pleasanter.Models
                                 linkColumn: summary.LinkColumn)
                             .FieldDropDown(
                                 controlId: "SummaryType",
-                                controlCss: " auto-postback must-transport",
+                                controlCss: " auto-postback always-send",
                                 labelText: Displays.SummaryType(),
                                 optionCollection: SummaryTypeCollection(),
                                 selectedValue: summary.Type,
@@ -2516,7 +2516,7 @@ namespace Implem.Pleasanter.Models
                             .SummarySourceColumn(ss, summary.Type, summary.SourceColumn)
                             .FieldDropDown(
                                 controlId: "SummarySourceCondition",
-                                controlCss: " must-transport",
+                                controlCss: " always-send",
                                 labelText: Displays.Condition(),
                                 optionCollection: ss.ViewSelectableOptions(),
                                 selectedValue: summary.SourceCondition.ToString(),
@@ -2558,7 +2558,7 @@ namespace Implem.Pleasanter.Models
             return hb.FieldDropDown(
                 fieldId: "SummaryDestinationColumnField",
                 controlId: "SummaryDestinationColumn",
-                controlCss: " must-transport",
+                controlCss: " always-send",
                 labelText: Displays.Column(),
                 optionCollection: destinationSs?.Columns?
                     .Where(o => o.Computable)
@@ -2597,7 +2597,7 @@ namespace Implem.Pleasanter.Models
             return hb.FieldDropDown(
                 fieldId: "SummaryLinkColumnField",
                 controlId: "SummaryLinkColumn",
-                controlCss: " must-transport",
+                controlCss: " always-send",
                 labelText: Displays.SummaryLinkColumn(),
                 optionCollection: ss.Links
                     .Where(o => o.SiteId == siteId)
@@ -2627,7 +2627,7 @@ namespace Implem.Pleasanter.Models
                     return hb.FieldDropDown(
                         fieldId: "SummarySourceColumnField",
                         controlId: "SummarySourceColumn",
-                        controlCss: " must-transport",
+                        controlCss: " always-send",
                         labelText: Displays.SummarySourceColumn(),
                         optionCollection: ss.Columns
                             .Where(o => o.Computable)
@@ -2806,26 +2806,26 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .FieldText(
                         controlId: "FormulaId",
-                        controlCss: " must-transport",
+                        controlCss: " always-send",
                         labelText: Displays.Id(),
                         text: formulaSet.Id.ToString(),
                         _using: controlId == "EditFormula")
                     .FieldDropDown(
                         controlId: "FormulaTarget",
-                        controlCss: " must-transport",
+                        controlCss: " always-send",
                         labelText: Displays.Target(),
                         optionCollection: ss.FormulaTargetSelectableOptions(),
                         selectedValue: formulaSet.Target?.ToString())
                     .FieldTextBox(
                         controlId: "Formula",
-                        controlCss: " must-transport",
+                        controlCss: " always-send",
                         fieldCss: "field-wide",
                         labelText: Displays.Formulas(),
                         text: formulaSet.Formula?.ToString(ss),
                         validateRequired: true)
                     .FieldDropDown(
                         controlId: "FormulaCondition",
-                        controlCss: " must-transport",
+                        controlCss: " always-send",
                         labelText: Displays.Condition(),
                         optionCollection: ss.ViewSelectableOptions(),
                         selectedValue: formulaSet.Condition?.ToString(),
@@ -2834,7 +2834,7 @@ namespace Implem.Pleasanter.Models
                     .FieldTextBox(
                         fieldId: "FormulaOutOfConditionField",
                         controlId: "FormulaOutOfCondition",
-                        controlCss: " must-transport",
+                        controlCss: " always-send",
                         fieldCss: "field-wide" + (ss.Views?
                             .Any(o => o.Id == formulaSet.Condition) == true
                                 ? string.Empty
@@ -2944,7 +2944,7 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .FieldText(
                         controlId: "ViewId",
-                        controlCss: " must-transport",
+                        controlCss: " always-send",
                         labelText: Displays.Id(),
                         text: view.Id.ToString())
                     .FieldTextBox(
@@ -3059,7 +3059,7 @@ namespace Implem.Pleasanter.Models
                     .FieldDropDown(
                         controlId: "ViewFilterSelector",
                         fieldCss: "field-auto-thin",
-                        controlCss: " must-transport",
+                        controlCss: " always-send",
                         optionCollection: ColumnUtilities.FilterDefinitions(ss.ReferenceType)
                             .Where(o => !view.FilterContains(o.ColumnName))
                             .ToDictionary(
@@ -3178,7 +3178,7 @@ namespace Implem.Pleasanter.Models
                 .FieldDropDown(
                     controlId: "ViewSorterSelector",
                     fieldCss: "field-auto-thin",
-                    controlCss: " must-transport",
+                    controlCss: " always-send",
                     optionCollection: ColumnUtilities.GridDefinitions(ss.ReferenceType)
                         .Where(o => !view.SorterContains(o.ColumnName))
                         .ToDictionary(
@@ -3187,7 +3187,7 @@ namespace Implem.Pleasanter.Models
                 .FieldDropDown(
                     controlId: "ViewSorterOrderTypes",
                     fieldCss: "field-auto-thin",
-                    controlCss: " must-transport",
+                    controlCss: " always-send",
                     optionCollection: new Dictionary<string, string>
                     {
                         { "Asc", Displays.OrderAsc() },
@@ -3456,13 +3456,13 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .FieldText(
                         controlId: "NotificationId",
-                        controlCss: " must-transport",
+                        controlCss: " always-send",
                         labelText: Displays.Id(),
                         text: notification.Id.ToString(),
                         _using: controlId == "EditNotification")
                     .FieldDropDown(
                         controlId: "NotificationType",
-                        controlCss: " must-transport",
+                        controlCss: " always-send",
                         labelText: Displays.NotificationType(),
                         optionCollection: new Dictionary<string, string>
                         {
@@ -3482,13 +3482,13 @@ namespace Implem.Pleasanter.Models
                         selectedValue: notification.Type.ToInt().ToString())
                     .FieldTextBox(
                         controlId: "NotificationPrefix",
-                        controlCss: " must-transport",
+                        controlCss: " always-send",
                         labelText: Displays.Prefix(),
                         text: notification.Prefix)
                     .FieldTextBox(
                         controlId: "NotificationAddress",
                         fieldCss: "field-wide",
-                        controlCss: " must-transport",
+                        controlCss: " always-send",
                         labelText: Displays.Address(),
                         text: notification.Address,
                         validateRequired: true)
@@ -3498,7 +3498,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-wide" + (!TokenList().Contains(notification.Type.ToInt())
                             ? " hidden"
                             : string.Empty),
-                        controlCss: " must-transport",
+                        controlCss: " always-send",
                         labelText: Displays.Token(),
                         text: notification.Token)
                     .Hidden(
@@ -3507,14 +3507,14 @@ namespace Implem.Pleasanter.Models
                     .Div(_using: ss.Views?.Any() == true, action: () => hb
                         .FieldDropDown(
                             controlId: "BeforeCondition",
-                            controlCss: " must-transport",
+                            controlCss: " always-send",
                             labelText: Displays.BeforeCondition(),
                             optionCollection: ss.ViewSelectableOptions(),
                             selectedValue: notification.BeforeCondition.ToString(),
                             insertBlank: true)
                         .FieldDropDown(
                             controlId: "Expression",
-                            controlCss: " must-transport",
+                            controlCss: " always-send",
                             labelText: Displays.Expression(),
                             optionCollection: new Dictionary<string, string>
                             {
@@ -3530,7 +3530,7 @@ namespace Implem.Pleasanter.Models
                             selectedValue: notification.Expression.ToInt().ToString())
                         .FieldDropDown(
                             controlId: "AfterCondition",
-                            controlCss: " must-transport",
+                            controlCss: " always-send",
                             labelText: Displays.AfterCondition(),
                             optionCollection: ss.ViewSelectableOptions(),
                             selectedValue: notification.AfterCondition.ToString(),

@@ -469,11 +469,11 @@ namespace Implem.Pleasanter.Models
                             value: userModel.MethodType.ToString().ToLower())
                         .Hidden(
                             controlId: "Users_Timestamp",
-                            css: "must-transport",
+                            css: "always-send",
                             value: userModel.Timestamp)
                         .Hidden(
                             controlId: "SwitchTargets",
-                            css: "must-transport",
+                            css: "always-send",
                             value: userModel.SwitchTargets?.Join(),
                             _using: !Request.IsAjax()))
                 .OutgoingMailsForm("Users", userModel.UserId, userModel.Ver)
@@ -1011,12 +1011,12 @@ namespace Implem.Pleasanter.Models
                                     .Field(
                                         ss: ss,
                                         column: ss.GetColumn("LoginId"),
-                                        controlCss: " must-transport focus")
+                                        controlCss: " always-send focus")
                                     .Field(
                                         ss: ss,
                                         column: ss.GetColumn("Password"),
                                         fieldCss: "field-wide",
-                                        controlCss: " must-transport")
+                                        controlCss: " always-send")
                                     .Field(
                                         ss: ss,
                                         column: ss.GetColumn("RememberMe")))

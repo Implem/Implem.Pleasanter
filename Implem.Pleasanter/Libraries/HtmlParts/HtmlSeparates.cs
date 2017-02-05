@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .FieldSpinner(
                     controlId: "SeparateNumber",
                     fieldCss: "field-auto",
-                    controlCss: " must-transport",
+                    controlCss: " always-send",
                     labelText: Displays.SeparateNumber(),
                     value: min,
                     min: min,
@@ -38,14 +38,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .FieldCheckBox(
                     controlId: "SeparateCopyWithComments",
                     fieldCss: "field-auto-thin",
-                    controlCss: " must-transport",
+                    controlCss: " always-send",
                     labelText: Displays.CopyWithComments(),
                     _checked: true)
                 .Div(css: "item both", action: () => hb
                     .FieldTextBox(
                         controlId: "SeparateTitle_1",
                         fieldCss: " w500",
-                        controlCss: " must-transport",
+                        controlCss: " always-send",
                         labelText: Displays.Title() + "-1",
                         text: title + "-1")
                     .FieldText(
@@ -118,13 +118,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .FieldTextBox(
                         controlId: "SeparateTitle_" + number,
                         fieldCss: " both w500",
-                        controlCss: " must-transport",
+                        controlCss: " always-send",
                         labelText: Displays.Title() + "-" + number,
                         text: title + "-" + number)
                     .FieldSpinner(
                         controlId: "SeparateWorkValue_" + number,
                         fieldCss: "field-auto-thin",
-                        controlCss: " must-transport",
+                        controlCss: " always-send",
                         labelText: Displays.WorkValue() + "-" + number,
                         value: 0,
                         min: 0,

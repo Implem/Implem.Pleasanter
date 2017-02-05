@@ -439,11 +439,11 @@ namespace Implem.Pleasanter.Models
                             value: deptModel.MethodType.ToString().ToLower())
                         .Hidden(
                             controlId: "Depts_Timestamp",
-                            css: "must-transport",
+                            css: "always-send",
                             value: deptModel.Timestamp)
                         .Hidden(
                             controlId: "SwitchTargets",
-                            css: "must-transport",
+                            css: "always-send",
                             value: deptModel.SwitchTargets?.Join(),
                             _using: !Request.IsAjax()))
                 .OutgoingMailsForm("Depts", deptModel.DeptId, deptModel.Ver)

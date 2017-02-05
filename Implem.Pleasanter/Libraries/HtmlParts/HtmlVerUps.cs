@@ -18,7 +18,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         _checked: mustVerUp,
                         disabled: mustVerUp,
                         fieldCss: " w400 both",
-                        controlCss: " must-transport",
+                        controlCss: " always-send",
                         labelPositionIsRight: true)
                     : hb;
         }

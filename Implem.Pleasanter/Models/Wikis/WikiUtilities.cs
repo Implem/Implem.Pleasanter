@@ -192,11 +192,11 @@ namespace Implem.Pleasanter.Models
                         .Hidden(controlId: "MethodType", value: "edit")
                         .Hidden(
                             controlId: "Wikis_Timestamp",
-                            css: "must-transport",
+                            css: "always-send",
                             value: wikiModel.Timestamp)
                         .Hidden(
                             controlId: "SwitchTargets",
-                            css: "must-transport",
+                            css: "always-send",
                             value: wikiModel.WikiId.ToString(),
                             _using: !Request.IsAjax() || Routes.Action() == "create"))
                 .OutgoingMailsForm("Wikis", wikiModel.WikiId, wikiModel.Ver)

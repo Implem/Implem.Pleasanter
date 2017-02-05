@@ -29,16 +29,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     .FieldTextBox(
                                         controlId: "DropDownSearchText",
                                         fieldCss: "field-auto-thin",
-                                        controlCss: " auto-postback must-transport",
+                                        controlCss: " auto-postback always-send",
                                         labelText: Displays.Search(),
                                         action: "SearchDropDown",
                                         method: "post"))
                             .Hidden(
                                 controlId: "DropDownSearchTarget",
-                                css: "must-transport")
+                                css: "always-send")
                             .Hidden(
                                 controlId: "DropDownSearchMultiple",
-                                css: "must-transport")
+                                css: "always-send")
                             .P(css: "message-dialog")
                             .Div(css: "command-center", action: () => hb
                                 .Button(

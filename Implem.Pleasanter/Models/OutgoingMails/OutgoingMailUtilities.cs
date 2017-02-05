@@ -213,7 +213,7 @@ namespace Implem.Pleasanter.Models
                 .FieldTextBox(
                     controlId: "OutgoingMails_Title",
                     fieldCss: "field-wide",
-                    controlCss: " must-transport",
+                    controlCss: " always-send",
                     labelText: Displays.OutgoingMails_Title(),
                     text: ReplyTitle(outgoingMailModel),
                     validateRequired: titleColumn.ValidateRequired ?? false,
@@ -222,7 +222,7 @@ namespace Implem.Pleasanter.Models
                     textType: HtmlTypes.TextTypes.MultiLine,
                     controlId: "OutgoingMails_Body",
                     fieldCss: "field-wide",
-                    controlCss: " must-transport h300",
+                    controlCss: " always-send h300",
                     labelText: Displays.OutgoingMails_Body(),
                     text: ReplyBody(outgoingMailModel),
                     validateRequired: bodyColumn.ValidateRequired ?? false,
@@ -346,7 +346,7 @@ namespace Implem.Pleasanter.Models
                         optionCollection: SearchRangeOptionCollection(
                             searchRangeDefault: searchRangeDefault,
                             addressBook: addressBook),
-                        controlCss: " auto-postback must-transport",
+                        controlCss: " auto-postback always-send",
                         action: "GetDestinations",
                         method: "put")
                     .FieldTextBox(

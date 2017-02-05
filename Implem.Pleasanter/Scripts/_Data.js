@@ -72,7 +72,7 @@ $p.setMustData = function ($form, action) {
             $p.setData($(this));
         });
     } else {
-        $form.find('.must-transport').each(function () {
+        $form.find('.always-send').each(function () {
             $p.setData($(this));
         });
     }

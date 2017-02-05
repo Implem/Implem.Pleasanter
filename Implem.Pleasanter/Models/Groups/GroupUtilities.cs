@@ -444,11 +444,11 @@ namespace Implem.Pleasanter.Models
                             value: groupModel.MethodType.ToString().ToLower())
                         .Hidden(
                             controlId: "Groups_Timestamp",
-                            css: "must-transport",
+                            css: "always-send",
                             value: groupModel.Timestamp)
                         .Hidden(
                             controlId: "SwitchTargets",
-                            css: "must-transport",
+                            css: "always-send",
                             value: groupModel.SwitchTargets?.Join(),
                             _using: !Request.IsAjax()))
                 .OutgoingMailsForm("Groups", groupModel.GroupId, groupModel.Ver)
@@ -757,7 +757,7 @@ namespace Implem.Pleasanter.Models
                 fieldCss: "field-vertical both",
                 controlContainerCss: "container-selectable",
                 controlWrapperCss: " h300",
-                controlCss: " must-transport send-all",
+                controlCss: " always-send send-all",
                 labelText: Displays.CurrentMembers(),
                 listItemCollection: CurrentMembers(groupModel),
                 selectedValueCollection: null,
@@ -829,7 +829,7 @@ namespace Implem.Pleasanter.Models
                         .Span(css: "ui-icon ui-icon-search")
                         .TextBox(
                             controlId: "SearchMemberText",
-                            controlCss: " must-transport auto-postback w100",
+                            controlCss: " always-send auto-postback w100",
                             placeholder: Displays.Search(),
                             action: "SelectableMembers",
                             method: "post")));

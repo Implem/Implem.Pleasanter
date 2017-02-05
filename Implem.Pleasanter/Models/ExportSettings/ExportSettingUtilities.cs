@@ -233,14 +233,14 @@ namespace Implem.Pleasanter.Models
                         method: "put")
                     .FieldTextBox(
                         controlId: "ExportSettings_Title",
-                        controlCss: " must-transport",
+                        controlCss: " always-send",
                         labelText: Displays.ExportSettings_Title(),
                         text: exportSettingModel != null
                             ? exportSettingModel.Title.Value
                             : string.Empty)
                     .FieldCheckBox(
                         controlId: "ExportSettings_AddHeader",
-                        controlCss: " must-transport",
+                        controlCss: " always-send",
                         labelText: Displays.ExportSettings_AddHeader(),
                         _checked: exportSettingModel != null
                             ? exportSettingModel.AddHeader
