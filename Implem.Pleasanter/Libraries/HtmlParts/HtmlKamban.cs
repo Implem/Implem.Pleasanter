@@ -178,8 +178,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         data: data.Where(o => o.GroupY == choiceY.Key),
                                         choice: choiceY));
                                     choicesX.ForEach(choiceX => hb
-                                        .TBody(
-                                            ss: ss,
+                                        .Td(ss: ss,
                                             choiceX: choiceX.Key,
                                             choiceY: choiceY.Key,
                                             value: value,
@@ -192,8 +191,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         {
                             hb.Tr(css: "kamban-row", action: () =>
                                choicesX.ForEach(choiceX => hb
-                                    .TBody(
-                                        ss: ss,
+                                    .Td(ss: ss,
                                         choiceX: choiceX.Key,
                                         choiceY: null,
                                         value: value,
@@ -204,7 +202,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         }
 
-        private static HtmlBuilder TBody(
+        private static HtmlBuilder Td(
             this HtmlBuilder hb,
             SiteSettings ss,
             string choiceX,
