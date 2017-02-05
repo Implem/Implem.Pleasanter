@@ -43,7 +43,7 @@
         $('.radio:not(.applied)').buttonset().addClass('applied');
         $('.control-selectable:not(.applied)').selectable({
             stop: function () {
-                $p.onSelectableSelected($(this));
+                $p.setData($(this));
             }
         }).addClass('applied');
         $('.control-slider-ui').each(function () {
