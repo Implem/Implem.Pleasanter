@@ -172,11 +172,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 {
                                     hb.Th(action: () => hb
                                         .HeaderText(
-                                        ss: ss,
-                                        aggregateType: aggregateType,
-                                        value: value,
-                                        data: data.Where(o => o.GroupY == choiceY.Key),
-                                        choice: choiceY));
+                                            ss: ss,
+                                            aggregateType: aggregateType,
+                                            value: value,
+                                            data: data.Where(o => o.GroupY == choiceY.Key),
+                                            choice: choiceY));
                                     choicesX.ForEach(choiceX => hb
                                         .Td(ss: ss,
                                             choiceX: choiceX.Key,
