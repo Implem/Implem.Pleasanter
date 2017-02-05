@@ -662,7 +662,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Depts_Creator": orderBy.Depts_Creator(type); break;
                         case "Depts_Updator": orderBy.Depts_Updator(type); break;
                         case "Depts_CreatedTime": orderBy.Depts_CreatedTime(type); break;
-                        case "Depts_UpdatedTime": orderBy.Depts_UpdatedTime(type); break;                        case "Users_TenantId": orderBy.Users_TenantId(type); break;
+                        case "Depts_UpdatedTime": orderBy.Depts_UpdatedTime(type); break;                        case "Groups_TenantId": orderBy.Groups_TenantId(type); break;
+                        case "Groups_GroupId": orderBy.Groups_GroupId(type); break;
+                        case "Groups_Ver": orderBy.Groups_Ver(type); break;
+                        case "Groups_GroupName": orderBy.Groups_GroupName(type); break;
+                        case "Groups_Body": orderBy.Groups_Body(type); break;
+                        case "Groups_Comments": orderBy.Groups_Comments(type); break;
+                        case "Groups_Creator": orderBy.Groups_Creator(type); break;
+                        case "Groups_Updator": orderBy.Groups_Updator(type); break;
+                        case "Groups_CreatedTime": orderBy.Groups_CreatedTime(type); break;
+                        case "Groups_UpdatedTime": orderBy.Groups_UpdatedTime(type); break;                        case "Users_TenantId": orderBy.Users_TenantId(type); break;
                         case "Users_UserId": orderBy.Users_UserId(type); break;
                         case "Users_Ver": orderBy.Users_Ver(type); break;
                         case "Users_LoginId": orderBy.Users_LoginId(type); break;

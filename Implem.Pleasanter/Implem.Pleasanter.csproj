@@ -190,6 +190,7 @@
     <Compile Include="Controllers\BackgroundTasksController.cs" />
     <Compile Include="Controllers\BinariesController.cs" />
     <Compile Include="Controllers\DemosController.cs" />
+    <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\DeptsController.cs" />
     <Compile Include="Controllers\ErrorsController.cs" />
     <Compile Include="Controllers\ExportSettingsController.cs" />
@@ -370,6 +371,14 @@
     <Compile Include="Models\ExportSettings\ExportSettingModel.cs" />
     <Compile Include="Models\ExportSettings\ExportSettingUtilities.cs" />
     <Compile Include="Models\ExportSettings\ExportSettingValidator.cs" />
+    <Compile Include="Models\GroupMembers\GroupMemberCollection.cs" />
+    <Compile Include="Models\GroupMembers\GroupMemberModel.cs" />
+    <Compile Include="Models\GroupMembers\GroupMemberUtilities.cs" />
+    <Compile Include="Models\GroupMembers\GroupMemberValidators.cs" />
+    <Compile Include="Models\Groups\GroupCollection.cs" />
+    <Compile Include="Models\Groups\GroupModel.cs" />
+    <Compile Include="Models\Groups\GroupUtilities.cs" />
+    <Compile Include="Models\Groups\GroupValidators.cs" />
     <Compile Include="Models\Issues\IssueCollection.cs" />
     <Compile Include="Models\Issues\IssueModel.cs" />
     <Compile Include="Models\Issues\IssueUtilities.cs" />
@@ -965,11 +974,17 @@
     <Content Include="App_Data\Displays\GroupByX.json" />
     <Content Include="App_Data\Displays\GroupByY.json" />
     <Content Include="App_Data\Displays\MaxColumns.json" />
+    <Content Include="App_Data\Displays\Members.json" />
+    <Content Include="App_Data\Displays\CurrentMembers.json" />
+    <Content Include="App_Data\Displays\SelectableMembers.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />
     <Content Include="Views\Items\TimeSeries.cshtml" />
     <Content Include="Views\Items\Kamban.cshtml" />
+    <Content Include="Views\Groups\Edit.cshtml" />
+    <Content Include="Views\Groups\Index.cshtml" />
+    <Content Include="Views\Groups\New.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

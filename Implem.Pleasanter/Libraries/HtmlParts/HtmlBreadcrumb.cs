@@ -19,36 +19,42 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var controller = Url.RouteData("controller").ToLower();
             switch (controller)
             {
+                case "admins":
+                    return Breadcrumb(hb, controller);
+                case "depts":
+                    return Breadcrumb(hb, controller, Displays.Depts());
+                case "groups":
+                    return Breadcrumb(hb, controller, Displays.Groups());
+                case "users":
+                    return pt.CanEditTenant()
+                        ? Breadcrumb(hb, controller, Displays.Users())
+                        : Breadcrumb(hb);
                 case "items":
                 case "permissions":
                     return hb.Breadcrumb(siteId);
-                case "admins":
-                    return hb.Breadcrumb(new Dictionary<string, string>
-                    {
-                        { Locations.Index("Admins"), Displays.Admin() }
-                    });
-                case "users":
-                    return pt.CanEditTenant()
-                        ? hb.Breadcrumb(new Dictionary<string, string>
-                        {
-                            { Locations.Index("Admins"), Displays.Admin() },
-                            { Locations.Index(controller), Displays.Users() }
-                        })
-                        : hb.Breadcrumb();
-                case "depts":
-                    return hb.Breadcrumb(new Dictionary<string, string>
-                    {
-                        { Locations.Index("Admins"), Displays.Admin() },
-                        { Locations.Index(controller), Displays.Depts() }
-                    });
                 default:
                     return hb;
             }
         }
 
+        private static HtmlBuilder Breadcrumb(
+            HtmlBuilder hb, string controller, string display = null)
+        {
+            return display != null
+                ? hb.Breadcrumb(new Dictionary<string, string>
+                {
+                    { Locations.Index("Admins"), Displays.Admin() },
+                    { Locations.Index(controller), display }
+                })
+                : hb.Breadcrumb(new Dictionary<string, string>
+                {
+                    { Locations.Index("Admins"), Displays.Admin() }
+                });
+        }
+
         public static HtmlBuilder Breadcrumb(this HtmlBuilder hb, long siteId)
         {
-            return hb.Breadcrumb(SiteInfo.SiteMenu.Breadcrumb(siteId)
+            return hb.Breadcrumb(data: SiteInfo.SiteMenu.Breadcrumb(siteId)
                 .ToDictionary(
                     o => !o.HasOnlyOneChild()
                         ? Locations.ItemIndex(o.SiteId)
@@ -57,19 +63,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         private static HtmlBuilder Breadcrumb(
-            this HtmlBuilder hb, Dictionary<string, string> breadcrumb = null)
+            this HtmlBuilder hb, Dictionary<string, string> data = null)
         {
             return hb.Ul(id: "Breadcrumb", action: () =>
             {
-                hb.BreadcrumbItem(Locations.Top(), Displays.Top());
-                breadcrumb?.ForEach(item => hb
-                    .BreadcrumbItem(
-                        href: item.Key,
-                        text: item.Value));
+                hb.Li(Locations.Top(), Displays.Top());
+                data?.ForEach(item => hb
+                    .Li(href: item.Key, text: item.Value));
             });
         }
 
-        private static HtmlBuilder BreadcrumbItem(this HtmlBuilder hb, string href, string text)
+        private static HtmlBuilder Li(this HtmlBuilder hb, string href, string text)
         {
             return hb.Li(css: "item", action: () => hb
                 .A(href: href, text: text)

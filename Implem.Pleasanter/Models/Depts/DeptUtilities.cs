@@ -479,7 +479,6 @@ namespace Implem.Pleasanter.Models
                 {
                     switch (column.ColumnName)
                     {
-                        case "TenantId": hb.Field(ss, column, deptModel.MethodType, deptModel.TenantId.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
                         case "DeptId": hb.Field(ss, column, deptModel.MethodType, deptModel.DeptId.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
                         case "Ver": hb.Field(ss, column, deptModel.MethodType, deptModel.Ver.ToControl(column, pt), column.ColumnPermissionType(pt)); break;
                         case "DeptCode": hb.Field(ss, column, deptModel.MethodType, deptModel.DeptCode.ToControl(column, pt), column.ColumnPermissionType(pt)); break;

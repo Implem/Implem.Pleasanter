@@ -32,6 +32,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Li(css: "nav-site", action: () => hb
                                 .A(
                                     attributes: new HtmlAttributes()
+                                        .Href(Locations.Index("Groups")),
+                                    action: () => hb
+                                        .Div(action: () => hb
+                                            .Text(Displays.Groups()))
+                                        .Div(css: "stacking1")
+                                        .Div(css: "stacking2")))
+                            .Li(css: "nav-site", action: () => hb
+                                .A(
+                                    attributes: new HtmlAttributes()
                                         .Href(Locations.Index("Users")),
                                     action: () => hb
                                         .Div(action: () => hb

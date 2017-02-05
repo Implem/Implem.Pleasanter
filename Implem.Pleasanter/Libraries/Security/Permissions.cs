@@ -154,6 +154,7 @@ namespace Implem.Pleasanter.Libraries.Security
             switch (Routes.Controller().ToLower())
             {
                 case "depts":
+                case "groups":
                     return self.CanEditTenant();
                 case "users":
                     return self.CanEditTenant() ||
@@ -168,6 +169,7 @@ namespace Implem.Pleasanter.Libraries.Security
             switch (Routes.Controller().ToLower())
             {
                 case "depts":
+                case "groups":
                 case "users":
                     return self.CanEditTenant();
                 default:
@@ -180,6 +182,7 @@ namespace Implem.Pleasanter.Libraries.Security
             switch (Routes.Controller().ToLower())
             {
                 case "depts":
+                case "groups":
                     return self.CanEditTenant();
                 case "users":
                     return self.CanEditTenant() ||
@@ -199,6 +202,7 @@ namespace Implem.Pleasanter.Libraries.Security
             switch (Routes.Controller().ToLower())
             {
                 case "depts":
+                case "groups":
                     return self.CanEditTenant();
                 case "users":
                     return self.CanEditTenant() &&

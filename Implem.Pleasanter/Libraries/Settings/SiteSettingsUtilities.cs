@@ -85,6 +85,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ss;
         }
 
+        public static SiteSettings GroupsSiteSettings()
+        {
+            var ss = new SiteSettings();
+            ss.ReferenceType = "Groups";
+            ss.Init();
+            return ss;
+        }
+
+        public static SiteSettings GroupMembersSiteSettings()
+        {
+            var ss = new SiteSettings();
+            ss.ReferenceType = "GroupMembers";
+            ss.Init();
+            return ss;
+        }
+
         public static SiteSettings UsersSiteSettings()
         {
             var ss = new SiteSettings();

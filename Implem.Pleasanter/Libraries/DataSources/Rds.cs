@@ -219,6 +219,28 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlStatement GroupsStatement(
+            string commandText,
+            SqlParamCollection param = null)
+        {
+            return new SqlStatement
+            {
+                CommandText = commandText,
+                SqlParamCollection = param
+            };
+        }
+
+        public static SqlStatement GroupMembersStatement(
+            string commandText,
+            SqlParamCollection param = null)
+        {
+            return new SqlStatement
+            {
+                CommandText = commandText,
+                SqlParamCollection = param
+            };
+        }
+
         public static SqlStatement UsersStatement(
             string commandText,
             SqlParamCollection param = null)
@@ -524,6 +546,90 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "[Depts]",
                 HistoryTableBracket = "[Depts_history]",
                 DeletedTableBracket = "[Depts_deleted]",
+                SqlColumnCollection = column,
+                SqlJoinCollection = join,
+                SqlWhereCollection = where,
+                SqlGroupByCollection = groupBy,
+                SqlHavingCollection = having,
+                SqlOrderByCollection = orderBy,
+                SqlParamCollection = param,
+                Distinct = distinct,
+                Top = top,
+                Offset = offset,
+                PageSize = pageSize,
+                CountRecord = countRecord,
+                UnionType = unionType,
+                Using = _using
+            };
+        }
+
+        public static SqlSelect SelectGroups(
+            string dataTableName = "",
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlColumnCollection column = null,
+            SqlJoinCollection join = null,
+            SqlWhereCollection where = null,
+            SqlGroupByCollection groupBy = null,
+            SqlHavingCollection having = null,
+            SqlOrderByCollection orderBy = null,
+            SqlParamCollection param = null,
+            bool distinct = false,
+            int top = 0,
+            int offset = 0,
+            int pageSize = 0,
+            bool countRecord = false,
+            Sqls.UnionTypes unionType = Sqls.UnionTypes.None,
+            bool _using = true)
+        {
+            return new SqlSelect
+            {
+                DataTableName = dataTableName,
+                TableType = tableType,
+                TableBracket = "[Groups]",
+                HistoryTableBracket = "[Groups_history]",
+                DeletedTableBracket = "[Groups_deleted]",
+                SqlColumnCollection = column,
+                SqlJoinCollection = join,
+                SqlWhereCollection = where,
+                SqlGroupByCollection = groupBy,
+                SqlHavingCollection = having,
+                SqlOrderByCollection = orderBy,
+                SqlParamCollection = param,
+                Distinct = distinct,
+                Top = top,
+                Offset = offset,
+                PageSize = pageSize,
+                CountRecord = countRecord,
+                UnionType = unionType,
+                Using = _using
+            };
+        }
+
+        public static SqlSelect SelectGroupMembers(
+            string dataTableName = "",
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlColumnCollection column = null,
+            SqlJoinCollection join = null,
+            SqlWhereCollection where = null,
+            SqlGroupByCollection groupBy = null,
+            SqlHavingCollection having = null,
+            SqlOrderByCollection orderBy = null,
+            SqlParamCollection param = null,
+            bool distinct = false,
+            int top = 0,
+            int offset = 0,
+            int pageSize = 0,
+            bool countRecord = false,
+            Sqls.UnionTypes unionType = Sqls.UnionTypes.None,
+            bool _using = true)
+        {
+            return new SqlSelect
+            {
+                DataTableName = dataTableName,
+                TableType = tableType,
+                TableBracket = "[GroupMembers]",
+                HistoryTableBracket = "[GroupMembers_history]",
+                DeletedTableBracket = "[GroupMembers_deleted]",
                 SqlColumnCollection = column,
                 SqlJoinCollection = join,
                 SqlWhereCollection = where,
@@ -1209,6 +1315,46 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlExists ExistsGroups(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool not = false,
+            SqlJoinCollection join = null,
+            SqlWhereCollection where = null,
+            bool _using = true)
+        {
+            return new SqlExists
+            {
+                TableType = tableType,
+                Not = not,
+                TableBracket = "[Groups]",
+                HistoryTableBracket = "[Groups_history]",
+                DeletedTableBracket = "[Groups_deleted]",
+                SqlJoinCollection = join,
+                SqlWhereCollection = where,
+                Using = _using
+            };
+        }
+
+        public static SqlExists ExistsGroupMembers(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool not = false,
+            SqlJoinCollection join = null,
+            SqlWhereCollection where = null,
+            bool _using = true)
+        {
+            return new SqlExists
+            {
+                TableType = tableType,
+                Not = not,
+                TableBracket = "[GroupMembers]",
+                HistoryTableBracket = "[GroupMembers_history]",
+                DeletedTableBracket = "[GroupMembers_deleted]",
+                SqlJoinCollection = join,
+                SqlWhereCollection = where,
+                Using = _using
+            };
+        }
+
         public static SqlExists ExistsUsers(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             bool not = false,
@@ -1667,6 +1813,96 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return on
                 ? new SqlStatement("set identity_insert [Depts_History] on;")
                 : new SqlStatement("set identity_insert [Depts_History] off;");
+        }
+
+        public static SqlInsert InsertGroups(
+            bool selectIdentity = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlParamCollection param = null,
+            SqlStatement select = null,
+            bool addUpdatorParam = true,
+            string _if = "",
+            bool _using = true)
+        {
+            return new SqlInsert
+            {
+                TableType = tableType,
+                TableBracket = "[Groups]",
+                HistoryTableBracket = "[Groups_history]",
+                DeletedTableBracket = "[Groups_deleted]",
+                SelectIdentity = selectIdentity,
+                SqlParamCollection = param,
+                Select = select,
+                AddUpdatorParam = addUpdatorParam,
+                If = _if,
+                Using = _using
+            };
+        }
+
+        public static SqlStatement IdentityInsertGroups(bool on)
+        {
+            return on
+                ? new SqlStatement("set identity_insert [Groups] on;")
+                : new SqlStatement("set identity_insert [Groups] off;");
+        }
+
+        public static SqlStatement IdentityInsertGroups_Deleted(bool on)
+        {
+            return on
+                ? new SqlStatement("set identity_insert [Groups_Deleted] on;")
+                : new SqlStatement("set identity_insert [Groups_Deleted] off;");
+        }
+
+        public static SqlStatement IdentityInsertGroups_History(bool on)
+        {
+            return on
+                ? new SqlStatement("set identity_insert [Groups_History] on;")
+                : new SqlStatement("set identity_insert [Groups_History] off;");
+        }
+
+        public static SqlInsert InsertGroupMembers(
+            bool selectIdentity = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlParamCollection param = null,
+            SqlStatement select = null,
+            bool addUpdatorParam = true,
+            string _if = "",
+            bool _using = true)
+        {
+            return new SqlInsert
+            {
+                TableType = tableType,
+                TableBracket = "[GroupMembers]",
+                HistoryTableBracket = "[GroupMembers_history]",
+                DeletedTableBracket = "[GroupMembers_deleted]",
+                SelectIdentity = selectIdentity,
+                SqlParamCollection = param,
+                Select = select,
+                AddUpdatorParam = addUpdatorParam,
+                If = _if,
+                Using = _using
+            };
+        }
+
+        public static SqlStatement IdentityInsertGroupMembers(bool on)
+        {
+            return on
+                ? new SqlStatement("set identity_insert [GroupMembers] on;")
+                : new SqlStatement("set identity_insert [GroupMembers] off;");
+        }
+
+        public static SqlStatement IdentityInsertGroupMembers_Deleted(bool on)
+        {
+            return on
+                ? new SqlStatement("set identity_insert [GroupMembers_Deleted] on;")
+                : new SqlStatement("set identity_insert [GroupMembers_Deleted] off;");
+        }
+
+        public static SqlStatement IdentityInsertGroupMembers_History(bool on)
+        {
+            return on
+                ? new SqlStatement("set identity_insert [GroupMembers_History] on;")
+                : new SqlStatement("set identity_insert [GroupMembers_History] off;");
         }
 
         public static SqlInsert InsertUsers(
@@ -2411,6 +2647,62 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlUpdate UpdateGroups(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool verUp = false,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool addUpdatorParam = true,
+            bool addUpdatedTimeParam = true,
+            bool countRecord = false,
+            string _if = "",
+            bool _using = true)
+        {
+            return new SqlUpdate
+            {
+                TableType = tableType,
+                TableBracket = "[Groups]",
+                HistoryTableBracket = "[Groups_history]",
+                DeletedTableBracket = "[Groups_deleted]",
+                SaveHistoryCommandText = verUp ? SaveGroupsHistoryStatement : string.Empty,
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                AddUpdatorParam = addUpdatorParam,
+                AddUpdatedTimeParam = addUpdatedTimeParam,
+                CountRecord = countRecord,
+                If = _if,
+                Using = _using
+            };
+        }
+
+        public static SqlUpdate UpdateGroupMembers(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool verUp = false,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool addUpdatorParam = true,
+            bool addUpdatedTimeParam = true,
+            bool countRecord = false,
+            string _if = "",
+            bool _using = true)
+        {
+            return new SqlUpdate
+            {
+                TableType = tableType,
+                TableBracket = "[GroupMembers]",
+                HistoryTableBracket = "[GroupMembers_history]",
+                DeletedTableBracket = "[GroupMembers_deleted]",
+                SaveHistoryCommandText = verUp ? SaveGroupMembersHistoryStatement : string.Empty,
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                AddUpdatorParam = addUpdatorParam,
+                AddUpdatedTimeParam = addUpdatedTimeParam,
+                CountRecord = countRecord,
+                If = _if,
+                Using = _using
+            };
+        }
+
         public static SqlUpdate UpdateUsers(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             bool verUp = false,
@@ -2915,6 +3207,62 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlUpdateOrInsert UpdateOrInsertGroups(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool selectIdentity = false,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool addUpdatorParam = true,
+            bool addUpdatedTimeParam = true,
+            bool countRecord = false,
+            string _if = "",
+            bool _using = true)
+        {
+            return new SqlUpdateOrInsert
+            {
+                TableType = tableType,
+                TableBracket = "[Groups]",
+                HistoryTableBracket = "[Groups_history]",
+                DeletedTableBracket = "[Groups_deleted]",
+                SelectIdentity = selectIdentity,
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                AddUpdatorParam = addUpdatorParam,
+                AddUpdatedTimeParam = addUpdatedTimeParam,
+                CountRecord = countRecord,
+                If = _if,
+                Using = _using
+            };
+        }
+
+        public static SqlUpdateOrInsert UpdateOrInsertGroupMembers(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool selectIdentity = false,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool addUpdatorParam = true,
+            bool addUpdatedTimeParam = true,
+            bool countRecord = false,
+            string _if = "",
+            bool _using = true)
+        {
+            return new SqlUpdateOrInsert
+            {
+                TableType = tableType,
+                TableBracket = "[GroupMembers]",
+                HistoryTableBracket = "[GroupMembers_history]",
+                DeletedTableBracket = "[GroupMembers_deleted]",
+                SelectIdentity = selectIdentity,
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                AddUpdatorParam = addUpdatorParam,
+                AddUpdatedTimeParam = addUpdatedTimeParam,
+                CountRecord = countRecord,
+                If = _if,
+                Using = _using
+            };
+        }
+
         public static SqlUpdateOrInsert UpdateOrInsertUsers(
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             bool selectIdentity = false,
@@ -3391,6 +3739,48 @@ namespace Implem.Pleasanter.Libraries.DataSources
             };
         }
 
+        public static SqlDelete DeleteGroups(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string _if = "",
+            bool _using = true)
+        {
+            return new SqlDelete()
+            {
+                CommandText = DeleteGroupsStatement, 
+                TableBracket = "[Groups]",
+                HistoryTableBracket = "[Groups_history]",
+                DeletedTableBracket = "[Groups_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                If = _if,
+                Using = _using
+            };
+        }
+
+        public static SqlDelete DeleteGroupMembers(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string _if = "",
+            bool _using = true)
+        {
+            return new SqlDelete()
+            {
+                CommandText = DeleteGroupMembersStatement, 
+                TableBracket = "[GroupMembers]",
+                HistoryTableBracket = "[GroupMembers_history]",
+                DeletedTableBracket = "[GroupMembers_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                If = _if,
+                Using = _using
+            };
+        }
+
         public static SqlDelete DeleteUsers(
             SqlWhereCollection where = null,
             SqlParamCollection param = null,
@@ -3772,6 +4162,54 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "[Depts]",
                 HistoryTableBracket = "[Depts_history]",
                 DeletedTableBracket = "[Depts_deleted]",
+                SelectIdentity = selectIdentity,
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                If = _if,
+                Using = _using
+            };
+        }
+
+        public static SqlPhysicalDelete PhysicalDeleteGroups(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool selectIdentity = false,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string _if = "",
+            bool _using = true)
+        {
+            return new SqlPhysicalDelete()
+            {
+                TableType = tableType,
+                TableBracket = "[Groups]",
+                HistoryTableBracket = "[Groups_history]",
+                DeletedTableBracket = "[Groups_deleted]",
+                SelectIdentity = selectIdentity,
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                If = _if,
+                Using = _using
+            };
+        }
+
+        public static SqlPhysicalDelete PhysicalDeleteGroupMembers(
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            bool selectIdentity = false,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string _if = "",
+            bool _using = true)
+        {
+            return new SqlPhysicalDelete()
+            {
+                TableType = tableType,
+                TableBracket = "[GroupMembers]",
+                HistoryTableBracket = "[GroupMembers_history]",
+                DeletedTableBracket = "[GroupMembers_deleted]",
                 SelectIdentity = selectIdentity,
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
@@ -4193,6 +4631,48 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "[Depts]",
                 HistoryTableBracket = "[Depts_history]",
                 DeletedTableBracket = "[Depts_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                If = _if,
+                Using = _using
+            };
+        }
+
+        public static SqlRestore RestoreGroups(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string _if = "",
+            bool _using = true)
+        {
+            return new SqlRestore()
+            {
+                CommandText = RestoreGroupsStatement, 
+                TableBracket = "[Groups]",
+                HistoryTableBracket = "[Groups_history]",
+                DeletedTableBracket = "[Groups_deleted]",
+                SqlWhereCollection = where,
+                SqlParamCollection = param,
+                CountRecord = countRecord,
+                If = _if,
+                Using = _using
+            };
+        }
+
+        public static SqlRestore RestoreGroupMembers(
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool countRecord = false,
+            string _if = "",
+            bool _using = true)
+        {
+            return new SqlRestore()
+            {
+                CommandText = RestoreGroupMembersStatement, 
+                TableBracket = "[GroupMembers]",
+                HistoryTableBracket = "[GroupMembers_history]",
+                DeletedTableBracket = "[GroupMembers_deleted]",
                 SqlWhereCollection = where,
                 SqlParamCollection = param,
                 CountRecord = countRecord,
@@ -4658,6 +5138,92 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         default: break;
                     }
                     var statement = SelectDepts(
+                        dataTableName: "Aggregation" + data.Index,
+                        column: column,
+                        where: where,
+                        groupBy: groupBy);
+                    statementCollection.Add(statement);
+                });
+            return statementCollection;
+        }
+
+        public static IEnumerable<SqlStatement> GroupsAggregations(
+            IEnumerable<Aggregation> aggregationCollection,
+            SqlWhereCollection where)
+        {
+            var statementCollection = new List<SqlStatement>();
+            aggregationCollection
+                .Select((o, i) => new { Aggregation = o, Index = i })
+                .ForEach(data =>
+                {
+                    var groupBy = GroupsGroupBy();
+                    var column = GroupsColumn();
+                    switch (data.Aggregation.GroupBy)
+                    {
+                        default: break;
+                    }
+                    switch (data.Aggregation.Type)
+                    {
+                        case Aggregation.Types.Count:
+                            column.GroupsCount(); break;
+                        case Aggregation.Types.Total:
+                            switch (data.Aggregation.Target)
+                            {
+                                default: break;
+                            }
+                            break;
+                        case Aggregation.Types.Average:
+                            switch (data.Aggregation.Target)
+                            {
+                                default: break;
+                            }
+                            break;
+                        default: break;
+                    }
+                    var statement = SelectGroups(
+                        dataTableName: "Aggregation" + data.Index,
+                        column: column,
+                        where: where,
+                        groupBy: groupBy);
+                    statementCollection.Add(statement);
+                });
+            return statementCollection;
+        }
+
+        public static IEnumerable<SqlStatement> GroupMembersAggregations(
+            IEnumerable<Aggregation> aggregationCollection,
+            SqlWhereCollection where)
+        {
+            var statementCollection = new List<SqlStatement>();
+            aggregationCollection
+                .Select((o, i) => new { Aggregation = o, Index = i })
+                .ForEach(data =>
+                {
+                    var groupBy = GroupMembersGroupBy();
+                    var column = GroupMembersColumn();
+                    switch (data.Aggregation.GroupBy)
+                    {
+                        default: break;
+                    }
+                    switch (data.Aggregation.Type)
+                    {
+                        case Aggregation.Types.Count:
+                            column.GroupMembersCount(); break;
+                        case Aggregation.Types.Total:
+                            switch (data.Aggregation.Target)
+                            {
+                                default: break;
+                            }
+                            break;
+                        case Aggregation.Types.Average:
+                            switch (data.Aggregation.Target)
+                            {
+                                default: break;
+                            }
+                            break;
+                        default: break;
+                    }
+                    var statement = SelectGroupMembers(
                         dataTableName: "Aggregation" + data.Index,
                         column: column,
                         where: where,
@@ -5454,6 +6020,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public const string SaveDemosHistoryStatement = "insert into [Demos_history]([Demos_history].[DemoId], [Demos_history].[Ver], [Demos_history].[TenantId], [Demos_history].[Title], [Demos_history].[Passphrase], [Demos_history].[MailAddress], [Demos_history].[Initialized], [Demos_history].[Comments], [Demos_history].[Creator], [Demos_history].[Updator], [Demos_history].[CreatedTime], [Demos_history].[UpdatedTime]) (select [Demos].[DemoId], [Demos].[Ver], [Demos].[TenantId], [Demos].[Title], [Demos].[Passphrase], [Demos].[MailAddress], [Demos].[Initialized], [Demos].[Comments], [Demos].[Creator], [Demos].[Updator], [Demos].[CreatedTime], [Demos].[UpdatedTime] from [Demos] where  and [Demos].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
         public const string SaveSysLogsHistoryStatement = "insert into [SysLogs_history]([SysLogs_history].[CreatedTime], [SysLogs_history].[SysLogId], [SysLogs_history].[Ver], [SysLogs_history].[SysLogType], [SysLogs_history].[OnAzure], [SysLogs_history].[MachineName], [SysLogs_history].[ServiceName], [SysLogs_history].[TenantName], [SysLogs_history].[Application], [SysLogs_history].[Class], [SysLogs_history].[Method], [SysLogs_history].[RequestData], [SysLogs_history].[HttpMethod], [SysLogs_history].[RequestSize], [SysLogs_history].[ResponseSize], [SysLogs_history].[Elapsed], [SysLogs_history].[ApplicationAge], [SysLogs_history].[ApplicationRequestInterval], [SysLogs_history].[SessionAge], [SysLogs_history].[SessionRequestInterval], [SysLogs_history].[WorkingSet64], [SysLogs_history].[VirtualMemorySize64], [SysLogs_history].[ProcessId], [SysLogs_history].[ProcessName], [SysLogs_history].[BasePriority], [SysLogs_history].[Url], [SysLogs_history].[UrlReferer], [SysLogs_history].[UserHostName], [SysLogs_history].[UserHostAddress], [SysLogs_history].[UserLanguage], [SysLogs_history].[UserAgent], [SysLogs_history].[SessionGuid], [SysLogs_history].[ErrMessage], [SysLogs_history].[ErrStackTrace], [SysLogs_history].[InDebug], [SysLogs_history].[AssemblyVersion], [SysLogs_history].[Comments], [SysLogs_history].[Creator], [SysLogs_history].[Updator], [SysLogs_history].[UpdatedTime]) (select [SysLogs].[CreatedTime], [SysLogs].[SysLogId], [SysLogs].[Ver], [SysLogs].[SysLogType], [SysLogs].[OnAzure], [SysLogs].[MachineName], [SysLogs].[ServiceName], [SysLogs].[TenantName], [SysLogs].[Application], [SysLogs].[Class], [SysLogs].[Method], [SysLogs].[RequestData], [SysLogs].[HttpMethod], [SysLogs].[RequestSize], [SysLogs].[ResponseSize], [SysLogs].[Elapsed], [SysLogs].[ApplicationAge], [SysLogs].[ApplicationRequestInterval], [SysLogs].[SessionAge], [SysLogs].[SessionRequestInterval], [SysLogs].[WorkingSet64], [SysLogs].[VirtualMemorySize64], [SysLogs].[ProcessId], [SysLogs].[ProcessName], [SysLogs].[BasePriority], [SysLogs].[Url], [SysLogs].[UrlReferer], [SysLogs].[UserHostName], [SysLogs].[UserHostAddress], [SysLogs].[UserLanguage], [SysLogs].[UserAgent], [SysLogs].[SessionGuid], [SysLogs].[ErrMessage], [SysLogs].[ErrStackTrace], [SysLogs].[InDebug], [SysLogs].[AssemblyVersion], [SysLogs].[Comments], [SysLogs].[Creator], [SysLogs].[Updator], [SysLogs].[UpdatedTime] from [SysLogs] where [SysLogs].[CreatedTime]=@CreatedTime[[CommandCount]] and [SysLogs].[SysLogId]=@SysLogId[[CommandCount]] and [SysLogs].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
         public const string SaveDeptsHistoryStatement = "insert into [Depts_history]([Depts_history].[TenantId], [Depts_history].[DeptId], [Depts_history].[Ver], [Depts_history].[DeptCode], [Depts_history].[DeptName], [Depts_history].[Body], [Depts_history].[Comments], [Depts_history].[Creator], [Depts_history].[Updator], [Depts_history].[CreatedTime], [Depts_history].[UpdatedTime]) (select [Depts].[TenantId], [Depts].[DeptId], [Depts].[Ver], [Depts].[DeptCode], [Depts].[DeptName], [Depts].[Body], [Depts].[Comments], [Depts].[Creator], [Depts].[Updator], [Depts].[CreatedTime], [Depts].[UpdatedTime] from [Depts] where [Depts].[TenantId]=@TenantId[[CommandCount]] and [Depts].[DeptId]=@DeptId[[CommandCount]] and [Depts].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
+        public const string SaveGroupsHistoryStatement = "insert into [Groups_history]([Groups_history].[TenantId], [Groups_history].[GroupId], [Groups_history].[Ver], [Groups_history].[GroupName], [Groups_history].[Body], [Groups_history].[Comments], [Groups_history].[Creator], [Groups_history].[Updator], [Groups_history].[CreatedTime], [Groups_history].[UpdatedTime]) (select [Groups].[TenantId], [Groups].[GroupId], [Groups].[Ver], [Groups].[GroupName], [Groups].[Body], [Groups].[Comments], [Groups].[Creator], [Groups].[Updator], [Groups].[CreatedTime], [Groups].[UpdatedTime] from [Groups] where [Groups].[TenantId]=@TenantId[[CommandCount]] and [Groups].[GroupId]=@GroupId[[CommandCount]] and [Groups].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
+        public const string SaveGroupMembersHistoryStatement = "insert into [GroupMembers_history]([GroupMembers_history].[GroupId], [GroupMembers_history].[DeptId], [GroupMembers_history].[UserId], [GroupMembers_history].[Ver], [GroupMembers_history].[Comments], [GroupMembers_history].[Creator], [GroupMembers_history].[Updator], [GroupMembers_history].[CreatedTime], [GroupMembers_history].[UpdatedTime]) (select [GroupMembers].[GroupId], [GroupMembers].[DeptId], [GroupMembers].[UserId], [GroupMembers].[Ver], [GroupMembers].[Comments], [GroupMembers].[Creator], [GroupMembers].[Updator], [GroupMembers].[CreatedTime], [GroupMembers].[UpdatedTime] from [GroupMembers] where [GroupMembers].[GroupId]=@GroupId[[CommandCount]] and [GroupMembers].[DeptId]=@DeptId[[CommandCount]] and [GroupMembers].[UserId]=@UserId[[CommandCount]] and [GroupMembers].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
         public const string SaveUsersHistoryStatement = "insert into [Users_history]([Users_history].[TenantId], [Users_history].[UserId], [Users_history].[Ver], [Users_history].[LoginId], [Users_history].[Disabled], [Users_history].[UserCode], [Users_history].[Password], [Users_history].[LastName], [Users_history].[FirstName], [Users_history].[Birthday], [Users_history].[Gender], [Users_history].[Language], [Users_history].[TimeZone], [Users_history].[DeptId], [Users_history].[FirstAndLastNameOrder], [Users_history].[LastLoginTime], [Users_history].[PasswordExpirationTime], [Users_history].[PasswordChangeTime], [Users_history].[NumberOfLogins], [Users_history].[NumberOfDenial], [Users_history].[TenantAdmin], [Users_history].[ServiceAdmin], [Users_history].[Developer], [Users_history].[Comments], [Users_history].[Creator], [Users_history].[Updator], [Users_history].[CreatedTime], [Users_history].[UpdatedTime]) (select [Users].[TenantId], [Users].[UserId], [Users].[Ver], [Users].[LoginId], [Users].[Disabled], [Users].[UserCode], [Users].[Password], [Users].[LastName], [Users].[FirstName], [Users].[Birthday], [Users].[Gender], [Users].[Language], [Users].[TimeZone], [Users].[DeptId], [Users].[FirstAndLastNameOrder], [Users].[LastLoginTime], [Users].[PasswordExpirationTime], [Users].[PasswordChangeTime], [Users].[NumberOfLogins], [Users].[NumberOfDenial], [Users].[TenantAdmin], [Users].[ServiceAdmin], [Users].[Developer], [Users].[Comments], [Users].[Creator], [Users].[Updator], [Users].[CreatedTime], [Users].[UpdatedTime] from [Users] where [Users].[TenantId]=@TenantId[[CommandCount]] and [Users].[UserId]=@UserId[[CommandCount]] and [Users].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
         public const string SaveMailAddressesHistoryStatement = "insert into [MailAddresses_history]([MailAddresses_history].[OwnerId], [MailAddresses_history].[OwnerType], [MailAddresses_history].[MailAddressId], [MailAddresses_history].[Ver], [MailAddresses_history].[MailAddress], [MailAddresses_history].[Comments], [MailAddresses_history].[Creator], [MailAddresses_history].[Updator], [MailAddresses_history].[CreatedTime], [MailAddresses_history].[UpdatedTime]) (select [MailAddresses].[OwnerId], [MailAddresses].[OwnerType], [MailAddresses].[MailAddressId], [MailAddresses].[Ver], [MailAddresses].[MailAddress], [MailAddresses].[Comments], [MailAddresses].[Creator], [MailAddresses].[Updator], [MailAddresses].[CreatedTime], [MailAddresses].[UpdatedTime] from [MailAddresses] where [MailAddresses].[OwnerId]=@OwnerId[[CommandCount]] and [MailAddresses].[OwnerType]=@OwnerType[[CommandCount]] and [MailAddresses].[MailAddressId]=@MailAddressId[[CommandCount]] and [MailAddresses].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
         public const string SavePermissionsHistoryStatement = "insert into [Permissions_history]([Permissions_history].[ReferenceType], [Permissions_history].[ReferenceId], [Permissions_history].[DeptId], [Permissions_history].[UserId], [Permissions_history].[Ver], [Permissions_history].[PermissionType], [Permissions_history].[Comments], [Permissions_history].[Creator], [Permissions_history].[Updator], [Permissions_history].[CreatedTime], [Permissions_history].[UpdatedTime]) (select [Permissions].[ReferenceType], [Permissions].[ReferenceId], [Permissions].[DeptId], [Permissions].[UserId], [Permissions].[Ver], [Permissions].[PermissionType], [Permissions].[Comments], [Permissions].[Creator], [Permissions].[Updator], [Permissions].[CreatedTime], [Permissions].[UpdatedTime] from [Permissions] where [Permissions].[ReferenceType]=@ReferenceType[[CommandCount]] and [Permissions].[ReferenceId]=@ReferenceId[[CommandCount]] and [Permissions].[DeptId]=@DeptId[[CommandCount]] and [Permissions].[UserId]=@UserId[[CommandCount]] and [Permissions].[UpdatedTime]=@UpdatedTime[[CommandCount]])";
@@ -5472,6 +6040,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public const string DeleteDemosStatement = "update [Demos] set [Demos].[UpdatedTime] = getdate() {0}; insert into [Demos_deleted]([Demos_deleted].[DemoId], [Demos_deleted].[Ver], [Demos_deleted].[TenantId], [Demos_deleted].[Title], [Demos_deleted].[Passphrase], [Demos_deleted].[MailAddress], [Demos_deleted].[Initialized], [Demos_deleted].[Comments], [Demos_deleted].[Creator], [Demos_deleted].[Updator], [Demos_deleted].[CreatedTime], [Demos_deleted].[UpdatedTime]) (select [Demos].[DemoId], [Demos].[Ver], [Demos].[TenantId], [Demos].[Title], [Demos].[Passphrase], [Demos].[MailAddress], [Demos].[Initialized], [Demos].[Comments], [Demos].[Creator], [Demos].[Updator], [Demos].[CreatedTime], [Demos].[UpdatedTime] from [Demos] {0}); delete from [Demos] {0}";
         public const string DeleteSysLogsStatement = "update [SysLogs] set [SysLogs].[UpdatedTime] = getdate() {0}; insert into [SysLogs_deleted]([SysLogs_deleted].[CreatedTime], [SysLogs_deleted].[SysLogId], [SysLogs_deleted].[Ver], [SysLogs_deleted].[SysLogType], [SysLogs_deleted].[OnAzure], [SysLogs_deleted].[MachineName], [SysLogs_deleted].[ServiceName], [SysLogs_deleted].[TenantName], [SysLogs_deleted].[Application], [SysLogs_deleted].[Class], [SysLogs_deleted].[Method], [SysLogs_deleted].[RequestData], [SysLogs_deleted].[HttpMethod], [SysLogs_deleted].[RequestSize], [SysLogs_deleted].[ResponseSize], [SysLogs_deleted].[Elapsed], [SysLogs_deleted].[ApplicationAge], [SysLogs_deleted].[ApplicationRequestInterval], [SysLogs_deleted].[SessionAge], [SysLogs_deleted].[SessionRequestInterval], [SysLogs_deleted].[WorkingSet64], [SysLogs_deleted].[VirtualMemorySize64], [SysLogs_deleted].[ProcessId], [SysLogs_deleted].[ProcessName], [SysLogs_deleted].[BasePriority], [SysLogs_deleted].[Url], [SysLogs_deleted].[UrlReferer], [SysLogs_deleted].[UserHostName], [SysLogs_deleted].[UserHostAddress], [SysLogs_deleted].[UserLanguage], [SysLogs_deleted].[UserAgent], [SysLogs_deleted].[SessionGuid], [SysLogs_deleted].[ErrMessage], [SysLogs_deleted].[ErrStackTrace], [SysLogs_deleted].[InDebug], [SysLogs_deleted].[AssemblyVersion], [SysLogs_deleted].[Comments], [SysLogs_deleted].[Creator], [SysLogs_deleted].[Updator], [SysLogs_deleted].[UpdatedTime]) (select [SysLogs].[CreatedTime], [SysLogs].[SysLogId], [SysLogs].[Ver], [SysLogs].[SysLogType], [SysLogs].[OnAzure], [SysLogs].[MachineName], [SysLogs].[ServiceName], [SysLogs].[TenantName], [SysLogs].[Application], [SysLogs].[Class], [SysLogs].[Method], [SysLogs].[RequestData], [SysLogs].[HttpMethod], [SysLogs].[RequestSize], [SysLogs].[ResponseSize], [SysLogs].[Elapsed], [SysLogs].[ApplicationAge], [SysLogs].[ApplicationRequestInterval], [SysLogs].[SessionAge], [SysLogs].[SessionRequestInterval], [SysLogs].[WorkingSet64], [SysLogs].[VirtualMemorySize64], [SysLogs].[ProcessId], [SysLogs].[ProcessName], [SysLogs].[BasePriority], [SysLogs].[Url], [SysLogs].[UrlReferer], [SysLogs].[UserHostName], [SysLogs].[UserHostAddress], [SysLogs].[UserLanguage], [SysLogs].[UserAgent], [SysLogs].[SessionGuid], [SysLogs].[ErrMessage], [SysLogs].[ErrStackTrace], [SysLogs].[InDebug], [SysLogs].[AssemblyVersion], [SysLogs].[Comments], [SysLogs].[Creator], [SysLogs].[Updator], [SysLogs].[UpdatedTime] from [SysLogs] {0}); delete from [SysLogs] {0}";
         public const string DeleteDeptsStatement = "update [Depts] set [Depts].[UpdatedTime] = getdate() {0}; insert into [Depts_deleted]([Depts_deleted].[TenantId], [Depts_deleted].[DeptId], [Depts_deleted].[Ver], [Depts_deleted].[DeptCode], [Depts_deleted].[DeptName], [Depts_deleted].[Body], [Depts_deleted].[Comments], [Depts_deleted].[Creator], [Depts_deleted].[Updator], [Depts_deleted].[CreatedTime], [Depts_deleted].[UpdatedTime]) (select [Depts].[TenantId], [Depts].[DeptId], [Depts].[Ver], [Depts].[DeptCode], [Depts].[DeptName], [Depts].[Body], [Depts].[Comments], [Depts].[Creator], [Depts].[Updator], [Depts].[CreatedTime], [Depts].[UpdatedTime] from [Depts] {0}); delete from [Depts] {0}";
+        public const string DeleteGroupsStatement = "update [Groups] set [Groups].[UpdatedTime] = getdate() {0}; insert into [Groups_deleted]([Groups_deleted].[TenantId], [Groups_deleted].[GroupId], [Groups_deleted].[Ver], [Groups_deleted].[GroupName], [Groups_deleted].[Body], [Groups_deleted].[Comments], [Groups_deleted].[Creator], [Groups_deleted].[Updator], [Groups_deleted].[CreatedTime], [Groups_deleted].[UpdatedTime]) (select [Groups].[TenantId], [Groups].[GroupId], [Groups].[Ver], [Groups].[GroupName], [Groups].[Body], [Groups].[Comments], [Groups].[Creator], [Groups].[Updator], [Groups].[CreatedTime], [Groups].[UpdatedTime] from [Groups] {0}); delete from [Groups] {0}";
+        public const string DeleteGroupMembersStatement = "update [GroupMembers] set [GroupMembers].[UpdatedTime] = getdate() {0}; insert into [GroupMembers_deleted]([GroupMembers_deleted].[GroupId], [GroupMembers_deleted].[DeptId], [GroupMembers_deleted].[UserId], [GroupMembers_deleted].[Ver], [GroupMembers_deleted].[Comments], [GroupMembers_deleted].[Creator], [GroupMembers_deleted].[Updator], [GroupMembers_deleted].[CreatedTime], [GroupMembers_deleted].[UpdatedTime]) (select [GroupMembers].[GroupId], [GroupMembers].[DeptId], [GroupMembers].[UserId], [GroupMembers].[Ver], [GroupMembers].[Comments], [GroupMembers].[Creator], [GroupMembers].[Updator], [GroupMembers].[CreatedTime], [GroupMembers].[UpdatedTime] from [GroupMembers] {0}); delete from [GroupMembers] {0}";
         public const string DeleteUsersStatement = "update [Users] set [Users].[UpdatedTime] = getdate() {0}; insert into [Users_deleted]([Users_deleted].[TenantId], [Users_deleted].[UserId], [Users_deleted].[Ver], [Users_deleted].[LoginId], [Users_deleted].[Disabled], [Users_deleted].[UserCode], [Users_deleted].[Password], [Users_deleted].[LastName], [Users_deleted].[FirstName], [Users_deleted].[Birthday], [Users_deleted].[Gender], [Users_deleted].[Language], [Users_deleted].[TimeZone], [Users_deleted].[DeptId], [Users_deleted].[FirstAndLastNameOrder], [Users_deleted].[LastLoginTime], [Users_deleted].[PasswordExpirationTime], [Users_deleted].[PasswordChangeTime], [Users_deleted].[NumberOfLogins], [Users_deleted].[NumberOfDenial], [Users_deleted].[TenantAdmin], [Users_deleted].[ServiceAdmin], [Users_deleted].[Developer], [Users_deleted].[Comments], [Users_deleted].[Creator], [Users_deleted].[Updator], [Users_deleted].[CreatedTime], [Users_deleted].[UpdatedTime]) (select [Users].[TenantId], [Users].[UserId], [Users].[Ver], [Users].[LoginId], [Users].[Disabled], [Users].[UserCode], [Users].[Password], [Users].[LastName], [Users].[FirstName], [Users].[Birthday], [Users].[Gender], [Users].[Language], [Users].[TimeZone], [Users].[DeptId], [Users].[FirstAndLastNameOrder], [Users].[LastLoginTime], [Users].[PasswordExpirationTime], [Users].[PasswordChangeTime], [Users].[NumberOfLogins], [Users].[NumberOfDenial], [Users].[TenantAdmin], [Users].[ServiceAdmin], [Users].[Developer], [Users].[Comments], [Users].[Creator], [Users].[Updator], [Users].[CreatedTime], [Users].[UpdatedTime] from [Users] {0}); delete from [Users] {0}";
         public const string DeleteMailAddressesStatement = "update [MailAddresses] set [MailAddresses].[UpdatedTime] = getdate() {0}; insert into [MailAddresses_deleted]([MailAddresses_deleted].[OwnerId], [MailAddresses_deleted].[OwnerType], [MailAddresses_deleted].[MailAddressId], [MailAddresses_deleted].[Ver], [MailAddresses_deleted].[MailAddress], [MailAddresses_deleted].[Comments], [MailAddresses_deleted].[Creator], [MailAddresses_deleted].[Updator], [MailAddresses_deleted].[CreatedTime], [MailAddresses_deleted].[UpdatedTime]) (select [MailAddresses].[OwnerId], [MailAddresses].[OwnerType], [MailAddresses].[MailAddressId], [MailAddresses].[Ver], [MailAddresses].[MailAddress], [MailAddresses].[Comments], [MailAddresses].[Creator], [MailAddresses].[Updator], [MailAddresses].[CreatedTime], [MailAddresses].[UpdatedTime] from [MailAddresses] {0}); delete from [MailAddresses] {0}";
         public const string DeletePermissionsStatement = "update [Permissions] set [Permissions].[UpdatedTime] = getdate() {0}; insert into [Permissions_deleted]([Permissions_deleted].[ReferenceType], [Permissions_deleted].[ReferenceId], [Permissions_deleted].[DeptId], [Permissions_deleted].[UserId], [Permissions_deleted].[Ver], [Permissions_deleted].[PermissionType], [Permissions_deleted].[Comments], [Permissions_deleted].[Creator], [Permissions_deleted].[Updator], [Permissions_deleted].[CreatedTime], [Permissions_deleted].[UpdatedTime]) (select [Permissions].[ReferenceType], [Permissions].[ReferenceId], [Permissions].[DeptId], [Permissions].[UserId], [Permissions].[Ver], [Permissions].[PermissionType], [Permissions].[Comments], [Permissions].[Creator], [Permissions].[Updator], [Permissions].[CreatedTime], [Permissions].[UpdatedTime] from [Permissions] {0}); delete from [Permissions] {0}";
@@ -5490,6 +6060,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public const string RestoreDemosStatement = "update [Demos_deleted] set [Demos_deleted].[UpdatedTime] = getdate() {0};set identity_insert [Demos] on;  insert into [Demos]([Demos].[DemoId], [Demos].[Ver], [Demos].[TenantId], [Demos].[Title], [Demos].[Passphrase], [Demos].[MailAddress], [Demos].[Initialized], [Demos].[Comments], [Demos].[Creator], [Demos].[Updator], [Demos].[CreatedTime], [Demos].[UpdatedTime]) (select [Demos_deleted].[DemoId], [Demos_deleted].[Ver], [Demos_deleted].[TenantId], [Demos_deleted].[Title], [Demos_deleted].[Passphrase], [Demos_deleted].[MailAddress], [Demos_deleted].[Initialized], [Demos_deleted].[Comments], [Demos_deleted].[Creator], [Demos_deleted].[Updator], [Demos_deleted].[CreatedTime], [Demos_deleted].[UpdatedTime] from [Demos_deleted] {0});set identity_insert [Demos] off;  delete from [Demos_deleted] {0}";
         public const string RestoreSysLogsStatement = "update [SysLogs_deleted] set [SysLogs_deleted].[UpdatedTime] = getdate() {0};set identity_insert [SysLogs] on;  insert into [SysLogs]([SysLogs].[CreatedTime], [SysLogs].[SysLogId], [SysLogs].[Ver], [SysLogs].[SysLogType], [SysLogs].[OnAzure], [SysLogs].[MachineName], [SysLogs].[ServiceName], [SysLogs].[TenantName], [SysLogs].[Application], [SysLogs].[Class], [SysLogs].[Method], [SysLogs].[RequestData], [SysLogs].[HttpMethod], [SysLogs].[RequestSize], [SysLogs].[ResponseSize], [SysLogs].[Elapsed], [SysLogs].[ApplicationAge], [SysLogs].[ApplicationRequestInterval], [SysLogs].[SessionAge], [SysLogs].[SessionRequestInterval], [SysLogs].[WorkingSet64], [SysLogs].[VirtualMemorySize64], [SysLogs].[ProcessId], [SysLogs].[ProcessName], [SysLogs].[BasePriority], [SysLogs].[Url], [SysLogs].[UrlReferer], [SysLogs].[UserHostName], [SysLogs].[UserHostAddress], [SysLogs].[UserLanguage], [SysLogs].[UserAgent], [SysLogs].[SessionGuid], [SysLogs].[ErrMessage], [SysLogs].[ErrStackTrace], [SysLogs].[InDebug], [SysLogs].[AssemblyVersion], [SysLogs].[Comments], [SysLogs].[Creator], [SysLogs].[Updator], [SysLogs].[UpdatedTime]) (select [SysLogs_deleted].[CreatedTime], [SysLogs_deleted].[SysLogId], [SysLogs_deleted].[Ver], [SysLogs_deleted].[SysLogType], [SysLogs_deleted].[OnAzure], [SysLogs_deleted].[MachineName], [SysLogs_deleted].[ServiceName], [SysLogs_deleted].[TenantName], [SysLogs_deleted].[Application], [SysLogs_deleted].[Class], [SysLogs_deleted].[Method], [SysLogs_deleted].[RequestData], [SysLogs_deleted].[HttpMethod], [SysLogs_deleted].[RequestSize], [SysLogs_deleted].[ResponseSize], [SysLogs_deleted].[Elapsed], [SysLogs_deleted].[ApplicationAge], [SysLogs_deleted].[ApplicationRequestInterval], [SysLogs_deleted].[SessionAge], [SysLogs_deleted].[SessionRequestInterval], [SysLogs_deleted].[WorkingSet64], [SysLogs_deleted].[VirtualMemorySize64], [SysLogs_deleted].[ProcessId], [SysLogs_deleted].[ProcessName], [SysLogs_deleted].[BasePriority], [SysLogs_deleted].[Url], [SysLogs_deleted].[UrlReferer], [SysLogs_deleted].[UserHostName], [SysLogs_deleted].[UserHostAddress], [SysLogs_deleted].[UserLanguage], [SysLogs_deleted].[UserAgent], [SysLogs_deleted].[SessionGuid], [SysLogs_deleted].[ErrMessage], [SysLogs_deleted].[ErrStackTrace], [SysLogs_deleted].[InDebug], [SysLogs_deleted].[AssemblyVersion], [SysLogs_deleted].[Comments], [SysLogs_deleted].[Creator], [SysLogs_deleted].[Updator], [SysLogs_deleted].[UpdatedTime] from [SysLogs_deleted] {0});set identity_insert [SysLogs] off;  delete from [SysLogs_deleted] {0}";
         public const string RestoreDeptsStatement = "update [Depts_deleted] set [Depts_deleted].[UpdatedTime] = getdate() {0};set identity_insert [Depts] on;  insert into [Depts]([Depts].[TenantId], [Depts].[DeptId], [Depts].[Ver], [Depts].[DeptCode], [Depts].[DeptName], [Depts].[Body], [Depts].[Comments], [Depts].[Creator], [Depts].[Updator], [Depts].[CreatedTime], [Depts].[UpdatedTime]) (select [Depts_deleted].[TenantId], [Depts_deleted].[DeptId], [Depts_deleted].[Ver], [Depts_deleted].[DeptCode], [Depts_deleted].[DeptName], [Depts_deleted].[Body], [Depts_deleted].[Comments], [Depts_deleted].[Creator], [Depts_deleted].[Updator], [Depts_deleted].[CreatedTime], [Depts_deleted].[UpdatedTime] from [Depts_deleted] {0});set identity_insert [Depts] off;  delete from [Depts_deleted] {0}";
+        public const string RestoreGroupsStatement = "update [Groups_deleted] set [Groups_deleted].[UpdatedTime] = getdate() {0};set identity_insert [Groups] on;  insert into [Groups]([Groups].[TenantId], [Groups].[GroupId], [Groups].[Ver], [Groups].[GroupName], [Groups].[Body], [Groups].[Comments], [Groups].[Creator], [Groups].[Updator], [Groups].[CreatedTime], [Groups].[UpdatedTime]) (select [Groups_deleted].[TenantId], [Groups_deleted].[GroupId], [Groups_deleted].[Ver], [Groups_deleted].[GroupName], [Groups_deleted].[Body], [Groups_deleted].[Comments], [Groups_deleted].[Creator], [Groups_deleted].[Updator], [Groups_deleted].[CreatedTime], [Groups_deleted].[UpdatedTime] from [Groups_deleted] {0});set identity_insert [Groups] off;  delete from [Groups_deleted] {0}";
+        public const string RestoreGroupMembersStatement = "update [GroupMembers_deleted] set [GroupMembers_deleted].[UpdatedTime] = getdate() {0}; insert into [GroupMembers]([GroupMembers].[GroupId], [GroupMembers].[DeptId], [GroupMembers].[UserId], [GroupMembers].[Ver], [GroupMembers].[Comments], [GroupMembers].[Creator], [GroupMembers].[Updator], [GroupMembers].[CreatedTime], [GroupMembers].[UpdatedTime]) (select [GroupMembers_deleted].[GroupId], [GroupMembers_deleted].[DeptId], [GroupMembers_deleted].[UserId], [GroupMembers_deleted].[Ver], [GroupMembers_deleted].[Comments], [GroupMembers_deleted].[Creator], [GroupMembers_deleted].[Updator], [GroupMembers_deleted].[CreatedTime], [GroupMembers_deleted].[UpdatedTime] from [GroupMembers_deleted] {0}); delete from [GroupMembers_deleted] {0}";
         public const string RestoreUsersStatement = "update [Users_deleted] set [Users_deleted].[UpdatedTime] = getdate() {0};set identity_insert [Users] on;  insert into [Users]([Users].[TenantId], [Users].[UserId], [Users].[Ver], [Users].[LoginId], [Users].[Disabled], [Users].[UserCode], [Users].[Password], [Users].[LastName], [Users].[FirstName], [Users].[Birthday], [Users].[Gender], [Users].[Language], [Users].[TimeZone], [Users].[DeptId], [Users].[FirstAndLastNameOrder], [Users].[LastLoginTime], [Users].[PasswordExpirationTime], [Users].[PasswordChangeTime], [Users].[NumberOfLogins], [Users].[NumberOfDenial], [Users].[TenantAdmin], [Users].[ServiceAdmin], [Users].[Developer], [Users].[Comments], [Users].[Creator], [Users].[Updator], [Users].[CreatedTime], [Users].[UpdatedTime]) (select [Users_deleted].[TenantId], [Users_deleted].[UserId], [Users_deleted].[Ver], [Users_deleted].[LoginId], [Users_deleted].[Disabled], [Users_deleted].[UserCode], [Users_deleted].[Password], [Users_deleted].[LastName], [Users_deleted].[FirstName], [Users_deleted].[Birthday], [Users_deleted].[Gender], [Users_deleted].[Language], [Users_deleted].[TimeZone], [Users_deleted].[DeptId], [Users_deleted].[FirstAndLastNameOrder], [Users_deleted].[LastLoginTime], [Users_deleted].[PasswordExpirationTime], [Users_deleted].[PasswordChangeTime], [Users_deleted].[NumberOfLogins], [Users_deleted].[NumberOfDenial], [Users_deleted].[TenantAdmin], [Users_deleted].[ServiceAdmin], [Users_deleted].[Developer], [Users_deleted].[Comments], [Users_deleted].[Creator], [Users_deleted].[Updator], [Users_deleted].[CreatedTime], [Users_deleted].[UpdatedTime] from [Users_deleted] {0});set identity_insert [Users] off;  delete from [Users_deleted] {0}";
         public const string RestoreMailAddressesStatement = "update [MailAddresses_deleted] set [MailAddresses_deleted].[UpdatedTime] = getdate() {0};set identity_insert [MailAddresses] on;  insert into [MailAddresses]([MailAddresses].[OwnerId], [MailAddresses].[OwnerType], [MailAddresses].[MailAddressId], [MailAddresses].[Ver], [MailAddresses].[MailAddress], [MailAddresses].[Comments], [MailAddresses].[Creator], [MailAddresses].[Updator], [MailAddresses].[CreatedTime], [MailAddresses].[UpdatedTime]) (select [MailAddresses_deleted].[OwnerId], [MailAddresses_deleted].[OwnerType], [MailAddresses_deleted].[MailAddressId], [MailAddresses_deleted].[Ver], [MailAddresses_deleted].[MailAddress], [MailAddresses_deleted].[Comments], [MailAddresses_deleted].[Creator], [MailAddresses_deleted].[Updator], [MailAddresses_deleted].[CreatedTime], [MailAddresses_deleted].[UpdatedTime] from [MailAddresses_deleted] {0});set identity_insert [MailAddresses] off;  delete from [MailAddresses_deleted] {0}";
         public const string RestorePermissionsStatement = "update [Permissions_deleted] set [Permissions_deleted].[UpdatedTime] = getdate() {0}; insert into [Permissions]([Permissions].[ReferenceType], [Permissions].[ReferenceId], [Permissions].[DeptId], [Permissions].[UserId], [Permissions].[Ver], [Permissions].[PermissionType], [Permissions].[Comments], [Permissions].[Creator], [Permissions].[Updator], [Permissions].[CreatedTime], [Permissions].[UpdatedTime]) (select [Permissions_deleted].[ReferenceType], [Permissions_deleted].[ReferenceId], [Permissions_deleted].[DeptId], [Permissions_deleted].[UserId], [Permissions_deleted].[Ver], [Permissions_deleted].[PermissionType], [Permissions_deleted].[Comments], [Permissions_deleted].[Creator], [Permissions_deleted].[Updator], [Permissions_deleted].[CreatedTime], [Permissions_deleted].[UpdatedTime] from [Permissions_deleted] {0}); delete from [Permissions_deleted] {0}";
@@ -8243,6 +8815,1110 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SqlParamCollection Depts_CreatedTime(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[CreatedTime]", "CreatedTime", value, sub, raw, _using); }
         public static DeptsParamCollection UpdatedTime(this DeptsParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[UpdatedTime]", "UpdatedTime", value, sub, raw, _using); }
         public static SqlParamCollection Depts_UpdatedTime(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[UpdatedTime]", "UpdatedTime", value, sub, raw, _using); }
+
+        public static GroupsColumnCollection GroupsColumn()
+        {
+            return new GroupsColumnCollection();
+        }
+
+        public class GroupsColumnCollection : SqlColumnCollection
+        {
+            public GroupsColumnCollection Add(params string[] columnBrackets)
+            {
+                base.Add(false, columnBrackets);
+                return this;
+            }
+
+            public new GroupsColumnCollection Add(
+                bool duplicates = false, params string[] columnBrackets)
+            {
+                base.Add(duplicates, columnBrackets);
+                return this;
+            }
+
+            public new GroupsColumnCollection Add(SqlStatement sub, string _as = null)
+            {
+                base.Add(sub, _as);
+                return this;
+            }
+        }
+
+        public static GroupsJoinCollection GroupsJoin()
+        {
+            return new GroupsJoinCollection();
+        }
+
+        public class GroupsJoinCollection : SqlJoinCollection
+        {
+            public new GroupsJoinCollection Add(params string[] columnBrackets)
+            {
+                columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
+                return this;
+            }
+        }
+
+        public static GroupsWhereCollection GroupsWhere()
+        {
+            return new GroupsWhereCollection();
+        }
+
+        public class GroupsWhereCollection : SqlWhereCollection
+        {
+            public new GroupsWhereCollection Add(
+                string[] columnBrackets = null,
+                string name = "",
+                object value = null,
+                string _operator = "=",
+                string multiColumnOperator = " or ",
+                string multiParamOperator = " and ",
+                SqlStatement sub = null,
+                string raw = "",
+                SqlWhereCollection or = null,
+                bool _using = true)
+            {
+                base.Add(new SqlWhere(
+                    columnBrackets: columnBrackets,
+                    name: name,
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    sub: sub,
+                    raw: raw,
+                    or: or,
+                    _using: _using));
+                return this;
+            }
+        }
+
+        public static GroupsGroupByCollection GroupsGroupBy()
+        {
+            return new GroupsGroupByCollection();
+        }
+
+        public class GroupsGroupByCollection : SqlGroupByCollection
+        {
+            public new GroupsGroupByCollection Add(
+                params string[] columnBrackets)
+            {
+                columnBrackets.ForEach(columnBracket =>
+                    base.Add(new SqlGroupBy(columnBracket)));
+                return this;
+            }
+        }
+
+        public static GroupsHavingCollection GroupsHaving()
+        {
+            return new GroupsHavingCollection();
+        }
+
+        public class GroupsHavingCollection : SqlHavingCollection
+        {
+            public GroupsHavingCollection Add(
+                string columnBracket, string name, object value, string _operator)
+            {
+                base.Add(new SqlHaving(
+                    columnBracket: columnBracket,
+                    name: name,
+                    value: value,
+                    _operator: _operator));
+                return this;
+            }
+        }
+
+        public static GroupsOrderByCollection GroupsOrderBy()
+        {
+            return new GroupsOrderByCollection();
+        }
+
+        public class GroupsOrderByCollection : SqlOrderByCollection
+        {
+            public new GroupsOrderByCollection Add(
+                SqlOrderBy.Types type = SqlOrderBy.Types.asc,
+                params string[] columnBrackets)
+            {
+                columnBrackets.ForEach(columnBracket =>
+                    base.Add(new SqlOrderBy(columnBracket, type)));
+                return this;
+            }
+        }
+
+        public static GroupsParamCollection GroupsParam()
+        {
+            return new GroupsParamCollection();
+        }
+
+        public class GroupsParamCollection : SqlParamCollection
+        {
+            public new GroupsParamCollection Add(
+                string columnBracket = "",
+                string name = "",
+                object value = null,
+                SqlStatement sub = null,
+                string raw = null,
+                bool _using = true)
+            {
+                base.Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
+                return this;
+            }
+        }
+
+        public static string Groups_TenantId_WhereLike(string tableName = "t0") { return "([" + tableName + "].[TenantId] like '%' + @SearchText#ParamCount#_#CommandCount# + '%')"; }
+        public static string Groups_GroupId_WhereLike(string tableName = "t0") { return "([" + tableName + "].[GroupId] like '%' + @SearchText#ParamCount#_#CommandCount# + '%')"; }
+        public static string Groups_Body_WhereLike(string tableName = "t0") { return "([" + tableName + "].[Body] like '%' + @SearchText#ParamCount#_#CommandCount# + '%')"; }
+        public const string SqlWhereExists_Groups = "exists(select * from [Groups] where #SqlWhere#)";
+        public const string SqlWhereNotExists_Groups = "not exists(select * from [Groups] where #SqlWhere#)";
+
+        public static GroupsColumnCollection GroupsColumn(
+            this GroupsColumnCollection self,
+            string columnName,
+            string type = "Column",
+            bool duplicate = false,
+            string _as = "")
+        {
+            switch (type)
+            {
+                case "Column":
+                    switch (columnName)
+                    {
+                        case "TenantId": return self.TenantId(duplicate, _as);
+                        case "GroupId": return self.GroupId(duplicate, _as);
+                        case "Ver": return self.Ver(duplicate, _as);
+                        case "GroupName": return self.GroupName(duplicate, _as);
+                        case "Body": return self.Body(duplicate, _as);
+                        case "Comments": return self.Comments(duplicate, _as);
+                        case "Creator": return self.Creator(duplicate, _as);
+                        case "Updator": return self.Updator(duplicate, _as);
+                        case "CreatedTime": return self.CreatedTime(duplicate, _as);
+                        case "UpdatedTime": return self.UpdatedTime(duplicate, _as);
+                        default: return self;
+                    }
+                case "Total":
+                    switch (columnName)
+                    {
+                        default: return self;
+                    }
+                case "Average":
+                    switch (columnName)
+                    {
+                        default: return self;
+                    }
+                case "Max":
+                    switch (columnName)
+                    {
+                        default: return self;
+                    }
+                case "Min":
+                    switch (columnName)
+                    {
+                        default: return self;
+                    }
+                default: return self;
+            }
+        }
+
+        public static GroupsColumnCollection TenantId(this GroupsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[TenantId]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static SqlColumnCollection Groups_TenantId(this SqlColumnCollection self, string tableName = "Groups", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[TenantId]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static GroupsColumnCollection GroupId(this GroupsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[GroupId]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static SqlColumnCollection Groups_GroupId(this SqlColumnCollection self, string tableName = "Groups", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[GroupId]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static GroupsColumnCollection Ver(this GroupsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Ver]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static SqlColumnCollection Groups_Ver(this SqlColumnCollection self, string tableName = "Groups", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Ver]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static GroupsColumnCollection GroupName(this GroupsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[GroupName]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static SqlColumnCollection Groups_GroupName(this SqlColumnCollection self, string tableName = "Groups", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[GroupName]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static GroupsColumnCollection Body(this GroupsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Body]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static SqlColumnCollection Groups_Body(this SqlColumnCollection self, string tableName = "Groups", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Body]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static GroupsColumnCollection Comments(this GroupsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Comments]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static SqlColumnCollection Groups_Comments(this SqlColumnCollection self, string tableName = "Groups", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Comments]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static GroupsColumnCollection Creator(this GroupsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Creator]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static SqlColumnCollection Groups_Creator(this SqlColumnCollection self, string tableName = "Groups", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Creator]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static GroupsColumnCollection Updator(this GroupsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Updator]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static SqlColumnCollection Groups_Updator(this SqlColumnCollection self, string tableName = "Groups", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Updator]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static GroupsColumnCollection CreatedTime(this GroupsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[CreatedTime]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static SqlColumnCollection Groups_CreatedTime(this SqlColumnCollection self, string tableName = "Groups", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[CreatedTime]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static GroupsColumnCollection UpdatedTime(this GroupsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[UpdatedTime]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static SqlColumnCollection Groups_UpdatedTime(this SqlColumnCollection self, string tableName = "Groups", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[UpdatedTime]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static GroupsColumnCollection GroupsCount(this GroupsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "count(*)" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as GroupsCount")); }
+        public static GroupsColumnCollection CreatedTimeMax(this GroupsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "max([t0].[CreatedTime])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [CreatedTimeMax]")); }
+        public static SqlColumnCollection Groups_CreatedTimeMax(this SqlColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "max([t0].[CreatedTime])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [CreatedTimeMax]")); }
+        public static GroupsColumnCollection CreatedTimeMin(this GroupsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "min([t0].[CreatedTime])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [CreatedTimeMin]")); }
+        public static SqlColumnCollection Groups_CreatedTimeMin(this SqlColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "min([t0].[CreatedTime])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [CreatedTimeMin]")); }
+        public static GroupsColumnCollection UpdatedTimeMax(this GroupsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "max([t0].[UpdatedTime])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [UpdatedTimeMax]")); }
+        public static SqlColumnCollection Groups_UpdatedTimeMax(this SqlColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "max([t0].[UpdatedTime])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [UpdatedTimeMax]")); }
+        public static GroupsColumnCollection UpdatedTimeMin(this GroupsColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "min([t0].[UpdatedTime])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [UpdatedTimeMin]")); }
+        public static SqlColumnCollection Groups_UpdatedTimeMin(this SqlColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "min([t0].[UpdatedTime])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [UpdatedTimeMin]")); }
+        public static GroupsWhereCollection TenantId(this GroupsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Groups_TenantId(this SqlWhereCollection self, object value = null, string tableName = "Groups", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[TenantId]" }, "TenantId", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static GroupsWhereCollection GroupId(this GroupsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[GroupId]" }, "GroupId", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Groups_GroupId(this SqlWhereCollection self, object value = null, string tableName = "Groups", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[GroupId]" }, "GroupId", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static GroupsWhereCollection Ver(this GroupsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Groups_Ver(this SqlWhereCollection self, object value = null, string tableName = "Groups", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Ver]" }, "Ver", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static GroupsWhereCollection GroupName(this GroupsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[GroupName]" }, "GroupName", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Groups_GroupName(this SqlWhereCollection self, object value = null, string tableName = "Groups", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[GroupName]" }, "GroupName", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static GroupsWhereCollection Body(this GroupsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Body]" }, "Body", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Groups_Body(this SqlWhereCollection self, object value = null, string tableName = "Groups", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Body]" }, "Body", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static GroupsWhereCollection Comments(this GroupsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Comments]" }, "Comments", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Groups_Comments(this SqlWhereCollection self, object value = null, string tableName = "Groups", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Comments]" }, "Comments", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static GroupsWhereCollection Creator(this GroupsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Groups_Creator(this SqlWhereCollection self, object value = null, string tableName = "Groups", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Creator]" }, "Creator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static GroupsWhereCollection Updator(this GroupsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Groups_Updator(this SqlWhereCollection self, object value = null, string tableName = "Groups", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Updator]" }, "Updator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static GroupsWhereCollection CreatedTime(this GroupsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[CreatedTime]" }, "CreatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Groups_CreatedTime(this SqlWhereCollection self, object value = null, string tableName = "Groups", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[CreatedTime]" }, "CreatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static GroupsWhereCollection UpdatedTime(this GroupsWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection Groups_UpdatedTime(this SqlWhereCollection self, object value = null, string tableName = "Groups", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+
+        public static GroupsWhereCollection TenantId_In(
+            this GroupsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    new string[] { "[t0].[TenantId]" },
+                    "TenantId",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    new string[] { "[t0].[TenantId]" },
+                    "TenantId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static GroupsWhereCollection GroupId_In(
+            this GroupsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    new string[] { "[t0].[GroupId]" },
+                    "GroupId",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    new string[] { "[t0].[GroupId]" },
+                    "GroupId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static GroupsWhereCollection Ver_In(
+            this GroupsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Ver]" },
+                    "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    new string[] { "[t0].[Ver]" },
+                    "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static GroupsWhereCollection Creator_In(
+            this GroupsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Creator]" },
+                    "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    new string[] { "[t0].[Creator]" },
+                    "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static GroupsWhereCollection Updator_In(
+            this GroupsWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Updator]" },
+                    "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    new string[] { "[t0].[Updator]" },
+                    "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static GroupsWhereCollection TenantId_Between(this GroupsWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection Groups_TenantId_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[TenantId]" }, "TenantId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static GroupsWhereCollection GroupId_Between(this GroupsWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[GroupId]" }, "GroupId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection Groups_GroupId_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[GroupId]" }, "GroupId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static GroupsWhereCollection Ver_Between(this GroupsWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection Groups_Ver_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static GroupsWhereCollection Creator_Between(this GroupsWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection Groups_Creator_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static GroupsWhereCollection Updator_Between(this GroupsWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection Groups_Updator_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static GroupsWhereCollection CreatedTime_Between(this GroupsWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[CreatedTime]" }, "CreatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection Groups_CreatedTime_Between(this SqlWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[CreatedTime]" }, "CreatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
+        public static GroupsWhereCollection UpdatedTime_Between(this GroupsWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection Groups_UpdatedTime_Between(this SqlWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
+        public static GroupsWhereCollection Sub(this GroupsWhereCollection self, SqlStatement sub, object value = null, string _operator = "=", bool _using = true) { return self.Add(null, null, value, _operator, sub: sub, _using: _using); }
+        public static GroupsWhereCollection Or(this GroupsWhereCollection self, SqlWhereCollection or, bool _using = true) { return self.Add(null, null, or: or, _using: _using); }
+
+        public static GroupsGroupByCollection GroupsGroupBy(
+            this GroupsGroupByCollection self, string columnName)
+        {
+            switch (columnName)
+            {
+                case "TenantId": return self.TenantId();
+                case "GroupId": return self.GroupId();
+                case "Ver": return self.Ver();
+                case "GroupName": return self.GroupName();
+                case "Body": return self.Body();
+                case "Comments": return self.Comments();
+                case "Creator": return self.Creator();
+                case "Updator": return self.Updator();
+                case "CreatedTime": return self.CreatedTime();
+                case "UpdatedTime": return self.UpdatedTime();
+                default: return null;
+            }
+        }
+
+        public static GroupsGroupByCollection TenantId(this GroupsGroupByCollection self) { return self.Add("[t0].[TenantId]"); }
+        public static SqlGroupByCollection Groups_TenantId(this SqlGroupByCollection self) { return self.Add("[t0].[TenantId]"); }
+        public static GroupsGroupByCollection GroupId(this GroupsGroupByCollection self) { return self.Add("[t0].[GroupId]"); }
+        public static SqlGroupByCollection Groups_GroupId(this SqlGroupByCollection self) { return self.Add("[t0].[GroupId]"); }
+        public static GroupsGroupByCollection Ver(this GroupsGroupByCollection self) { return self.Add("[t0].[Ver]"); }
+        public static SqlGroupByCollection Groups_Ver(this SqlGroupByCollection self) { return self.Add("[t0].[Ver]"); }
+        public static GroupsGroupByCollection GroupName(this GroupsGroupByCollection self) { return self.Add("[t0].[GroupName]"); }
+        public static SqlGroupByCollection Groups_GroupName(this SqlGroupByCollection self) { return self.Add("[t0].[GroupName]"); }
+        public static GroupsGroupByCollection Body(this GroupsGroupByCollection self) { return self.Add("[t0].[Body]"); }
+        public static SqlGroupByCollection Groups_Body(this SqlGroupByCollection self) { return self.Add("[t0].[Body]"); }
+        public static GroupsGroupByCollection Comments(this GroupsGroupByCollection self) { return self.Add("[t0].[Comments]"); }
+        public static SqlGroupByCollection Groups_Comments(this SqlGroupByCollection self) { return self.Add("[t0].[Comments]"); }
+        public static GroupsGroupByCollection Creator(this GroupsGroupByCollection self) { return self.Add("[t0].[Creator]"); }
+        public static SqlGroupByCollection Groups_Creator(this SqlGroupByCollection self) { return self.Add("[t0].[Creator]"); }
+        public static GroupsGroupByCollection Updator(this GroupsGroupByCollection self) { return self.Add("[t0].[Updator]"); }
+        public static SqlGroupByCollection Groups_Updator(this SqlGroupByCollection self) { return self.Add("[t0].[Updator]"); }
+        public static GroupsGroupByCollection CreatedTime(this GroupsGroupByCollection self) { return self.Add("[t0].[CreatedTime]"); }
+        public static SqlGroupByCollection Groups_CreatedTime(this SqlGroupByCollection self) { return self.Add("[t0].[CreatedTime]"); }
+        public static GroupsGroupByCollection UpdatedTime(this GroupsGroupByCollection self) { return self.Add("[t0].[UpdatedTime]"); }
+        public static SqlGroupByCollection Groups_UpdatedTime(this SqlGroupByCollection self) { return self.Add("[t0].[UpdatedTime]"); }
+        public static GroupsHavingCollection GroupsCount(this GroupsHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "count(*)", name: !_as.IsNullOrEmpty() ?_as : "GroupsCount", value: value, _operator: _operator); }
+        public static GroupsHavingCollection CreatedTimeMax(this GroupsHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "max([t0].[CreatedTime])", name: !_as.IsNullOrEmpty() ?_as : "CreatedTimeMax", value: value, _operator: _operator); }
+        public static SqlHavingCollection Groups_CreatedTimeMax(this SqlHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "max([t0].[CreatedTime])", name: !_as.IsNullOrEmpty() ?_as : "CreatedTimeMax", value: value, _operator: _operator); }
+        public static GroupsHavingCollection CreatedTimeMin(this GroupsHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "min([t0].[CreatedTime])", name: !_as.IsNullOrEmpty() ?_as : "CreatedTimeMin", value: value, _operator: _operator); }
+        public static SqlHavingCollection Groups_CreatedTimeMin(this SqlHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "min([t0].[CreatedTime])", name: !_as.IsNullOrEmpty() ?_as : "CreatedTimeMin", value: value, _operator: _operator); }
+        public static GroupsHavingCollection UpdatedTimeMax(this GroupsHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "max([t0].[UpdatedTime])", name: !_as.IsNullOrEmpty() ?_as : "UpdatedTimeMax", value: value, _operator: _operator); }
+        public static SqlHavingCollection Groups_UpdatedTimeMax(this SqlHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "max([t0].[UpdatedTime])", name: !_as.IsNullOrEmpty() ?_as : "UpdatedTimeMax", value: value, _operator: _operator); }
+        public static GroupsHavingCollection UpdatedTimeMin(this GroupsHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "min([t0].[UpdatedTime])", name: !_as.IsNullOrEmpty() ?_as : "UpdatedTimeMin", value: value, _operator: _operator); }
+        public static SqlHavingCollection Groups_UpdatedTimeMin(this SqlHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "min([t0].[UpdatedTime])", name: !_as.IsNullOrEmpty() ?_as : "UpdatedTimeMin", value: value, _operator: _operator); }
+        public static GroupsOrderByCollection TenantId(this GroupsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[TenantId]"); }
+        public static GroupsOrderByCollection GroupId(this GroupsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[GroupId]"); }
+        public static GroupsOrderByCollection Ver(this GroupsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Ver]"); }
+        public static GroupsOrderByCollection GroupName(this GroupsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[GroupName]"); }
+        public static GroupsOrderByCollection Body(this GroupsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Body]"); }
+        public static GroupsOrderByCollection Comments(this GroupsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Comments]"); }
+        public static GroupsOrderByCollection Creator(this GroupsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Creator]"); }
+        public static GroupsOrderByCollection Updator(this GroupsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Updator]"); }
+        public static GroupsOrderByCollection CreatedTime(this GroupsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[CreatedTime]"); }
+        public static GroupsOrderByCollection UpdatedTime(this GroupsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[UpdatedTime]"); }
+        public static SqlOrderByCollection Groups_TenantId(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[TenantId]"); }
+        public static SqlOrderByCollection Groups_GroupId(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[GroupId]"); }
+        public static SqlOrderByCollection Groups_Ver(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Ver]"); }
+        public static SqlOrderByCollection Groups_GroupName(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[GroupName]"); }
+        public static SqlOrderByCollection Groups_Body(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Body]"); }
+        public static SqlOrderByCollection Groups_Comments(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Comments]"); }
+        public static SqlOrderByCollection Groups_Creator(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Creator]"); }
+        public static SqlOrderByCollection Groups_Updator(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Updator]"); }
+        public static SqlOrderByCollection Groups_CreatedTime(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[CreatedTime]"); }
+        public static SqlOrderByCollection Groups_UpdatedTime(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[UpdatedTime]"); }
+        public static GroupsOrderByCollection GroupsCount(this GroupsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "count(*)"); }
+        public static GroupsOrderByCollection CreatedTimeMax(this GroupsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[CreatedTime])"); }
+        public static SqlOrderByCollection Groups_CreatedTimeMax(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[CreatedTime])"); }
+        public static GroupsOrderByCollection CreatedTimeMin(this GroupsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[CreatedTime])"); }
+        public static SqlOrderByCollection Groups_CreatedTimeMin(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[CreatedTime])"); }
+        public static GroupsOrderByCollection UpdatedTimeMax(this GroupsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[UpdatedTime])"); }
+        public static SqlOrderByCollection Groups_UpdatedTimeMax(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[UpdatedTime])"); }
+        public static GroupsOrderByCollection UpdatedTimeMin(this GroupsOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[UpdatedTime])"); }
+        public static SqlOrderByCollection Groups_UpdatedTimeMin(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[UpdatedTime])"); }
+        public static GroupsParamCollection TenantId(this GroupsParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[TenantId]", "TenantId", value, sub, raw, _using); }
+        public static SqlParamCollection Groups_TenantId(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[TenantId]", "TenantId", value, sub, raw, _using); }
+        public static GroupsParamCollection GroupId(this GroupsParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[GroupId]", "GroupId", value, sub, raw, _using); }
+        public static SqlParamCollection Groups_GroupId(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[GroupId]", "GroupId", value, sub, raw, _using); }
+        public static GroupsParamCollection Ver(this GroupsParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Ver]", "Ver", value, sub, raw, _using); }
+        public static SqlParamCollection Groups_Ver(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Ver]", "Ver", value, sub, raw, _using); }
+        public static GroupsParamCollection GroupName(this GroupsParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[GroupName]", "GroupName", value, sub, raw, _using); }
+        public static SqlParamCollection Groups_GroupName(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[GroupName]", "GroupName", value, sub, raw, _using); }
+        public static GroupsParamCollection Body(this GroupsParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Body]", "Body", value, sub, raw, _using); }
+        public static SqlParamCollection Groups_Body(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Body]", "Body", value, sub, raw, _using); }
+        public static GroupsParamCollection Comments(this GroupsParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Comments]", "Comments", value, sub, raw, _using); }
+        public static SqlParamCollection Groups_Comments(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Comments]", "Comments", value, sub, raw, _using); }
+        public static GroupsParamCollection Creator(this GroupsParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Creator]", "Creator", value, sub, raw, _using); }
+        public static SqlParamCollection Groups_Creator(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Creator]", "Creator", value, sub, raw, _using); }
+        public static GroupsParamCollection Updator(this GroupsParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Updator]", "Updator", value, sub, raw, _using); }
+        public static SqlParamCollection Groups_Updator(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Updator]", "Updator", value, sub, raw, _using); }
+        public static GroupsParamCollection CreatedTime(this GroupsParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[CreatedTime]", "CreatedTime", value, sub, raw, _using); }
+        public static SqlParamCollection Groups_CreatedTime(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[CreatedTime]", "CreatedTime", value, sub, raw, _using); }
+        public static GroupsParamCollection UpdatedTime(this GroupsParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[UpdatedTime]", "UpdatedTime", value, sub, raw, _using); }
+        public static SqlParamCollection Groups_UpdatedTime(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[UpdatedTime]", "UpdatedTime", value, sub, raw, _using); }
+
+        public static GroupMembersColumnCollection GroupMembersColumn()
+        {
+            return new GroupMembersColumnCollection();
+        }
+
+        public class GroupMembersColumnCollection : SqlColumnCollection
+        {
+            public GroupMembersColumnCollection Add(params string[] columnBrackets)
+            {
+                base.Add(false, columnBrackets);
+                return this;
+            }
+
+            public new GroupMembersColumnCollection Add(
+                bool duplicates = false, params string[] columnBrackets)
+            {
+                base.Add(duplicates, columnBrackets);
+                return this;
+            }
+
+            public new GroupMembersColumnCollection Add(SqlStatement sub, string _as = null)
+            {
+                base.Add(sub, _as);
+                return this;
+            }
+        }
+
+        public static GroupMembersJoinCollection GroupMembersJoin()
+        {
+            return new GroupMembersJoinCollection();
+        }
+
+        public class GroupMembersJoinCollection : SqlJoinCollection
+        {
+            public new GroupMembersJoinCollection Add(params string[] columnBrackets)
+            {
+                columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
+                return this;
+            }
+        }
+
+        public static GroupMembersWhereCollection GroupMembersWhere()
+        {
+            return new GroupMembersWhereCollection();
+        }
+
+        public class GroupMembersWhereCollection : SqlWhereCollection
+        {
+            public new GroupMembersWhereCollection Add(
+                string[] columnBrackets = null,
+                string name = "",
+                object value = null,
+                string _operator = "=",
+                string multiColumnOperator = " or ",
+                string multiParamOperator = " and ",
+                SqlStatement sub = null,
+                string raw = "",
+                SqlWhereCollection or = null,
+                bool _using = true)
+            {
+                base.Add(new SqlWhere(
+                    columnBrackets: columnBrackets,
+                    name: name,
+                    value: value,
+                    _operator: _operator,
+                    multiColumnOperator: multiColumnOperator,
+                    multiParamOperator: multiParamOperator,
+                    sub: sub,
+                    raw: raw,
+                    or: or,
+                    _using: _using));
+                return this;
+            }
+        }
+
+        public static GroupMembersGroupByCollection GroupMembersGroupBy()
+        {
+            return new GroupMembersGroupByCollection();
+        }
+
+        public class GroupMembersGroupByCollection : SqlGroupByCollection
+        {
+            public new GroupMembersGroupByCollection Add(
+                params string[] columnBrackets)
+            {
+                columnBrackets.ForEach(columnBracket =>
+                    base.Add(new SqlGroupBy(columnBracket)));
+                return this;
+            }
+        }
+
+        public static GroupMembersHavingCollection GroupMembersHaving()
+        {
+            return new GroupMembersHavingCollection();
+        }
+
+        public class GroupMembersHavingCollection : SqlHavingCollection
+        {
+            public GroupMembersHavingCollection Add(
+                string columnBracket, string name, object value, string _operator)
+            {
+                base.Add(new SqlHaving(
+                    columnBracket: columnBracket,
+                    name: name,
+                    value: value,
+                    _operator: _operator));
+                return this;
+            }
+        }
+
+        public static GroupMembersOrderByCollection GroupMembersOrderBy()
+        {
+            return new GroupMembersOrderByCollection();
+        }
+
+        public class GroupMembersOrderByCollection : SqlOrderByCollection
+        {
+            public new GroupMembersOrderByCollection Add(
+                SqlOrderBy.Types type = SqlOrderBy.Types.asc,
+                params string[] columnBrackets)
+            {
+                columnBrackets.ForEach(columnBracket =>
+                    base.Add(new SqlOrderBy(columnBracket, type)));
+                return this;
+            }
+        }
+
+        public static GroupMembersParamCollection GroupMembersParam()
+        {
+            return new GroupMembersParamCollection();
+        }
+
+        public class GroupMembersParamCollection : SqlParamCollection
+        {
+            public new GroupMembersParamCollection Add(
+                string columnBracket = "",
+                string name = "",
+                object value = null,
+                SqlStatement sub = null,
+                string raw = null,
+                bool _using = true)
+            {
+                base.Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
+                return this;
+            }
+        }
+
+        public const string SqlWhereExists_GroupMembers = "exists(select * from [GroupMembers] where #SqlWhere#)";
+        public const string SqlWhereNotExists_GroupMembers = "not exists(select * from [GroupMembers] where #SqlWhere#)";
+
+        public static GroupMembersColumnCollection GroupMembersColumn(
+            this GroupMembersColumnCollection self,
+            string columnName,
+            string type = "Column",
+            bool duplicate = false,
+            string _as = "")
+        {
+            switch (type)
+            {
+                case "Column":
+                    switch (columnName)
+                    {
+                        case "GroupId": return self.GroupId(duplicate, _as);
+                        case "DeptId": return self.DeptId(duplicate, _as);
+                        case "UserId": return self.UserId(duplicate, _as);
+                        case "Ver": return self.Ver(duplicate, _as);
+                        case "Comments": return self.Comments(duplicate, _as);
+                        case "Creator": return self.Creator(duplicate, _as);
+                        case "Updator": return self.Updator(duplicate, _as);
+                        case "CreatedTime": return self.CreatedTime(duplicate, _as);
+                        case "UpdatedTime": return self.UpdatedTime(duplicate, _as);
+                        default: return self;
+                    }
+                case "Total":
+                    switch (columnName)
+                    {
+                        default: return self;
+                    }
+                case "Average":
+                    switch (columnName)
+                    {
+                        default: return self;
+                    }
+                case "Max":
+                    switch (columnName)
+                    {
+                        default: return self;
+                    }
+                case "Min":
+                    switch (columnName)
+                    {
+                        default: return self;
+                    }
+                default: return self;
+            }
+        }
+
+        public static GroupMembersColumnCollection GroupId(this GroupMembersColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[GroupId]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static SqlColumnCollection GroupMembers_GroupId(this SqlColumnCollection self, string tableName = "GroupMembers", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[GroupId]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static GroupMembersColumnCollection DeptId(this GroupMembersColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[DeptId]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static SqlColumnCollection GroupMembers_DeptId(this SqlColumnCollection self, string tableName = "GroupMembers", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[DeptId]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static GroupMembersColumnCollection UserId(this GroupMembersColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[UserId]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static SqlColumnCollection GroupMembers_UserId(this SqlColumnCollection self, string tableName = "GroupMembers", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[UserId]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static GroupMembersColumnCollection Ver(this GroupMembersColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Ver]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static SqlColumnCollection GroupMembers_Ver(this SqlColumnCollection self, string tableName = "GroupMembers", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Ver]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static GroupMembersColumnCollection Comments(this GroupMembersColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Comments]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static SqlColumnCollection GroupMembers_Comments(this SqlColumnCollection self, string tableName = "GroupMembers", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Comments]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static GroupMembersColumnCollection Creator(this GroupMembersColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Creator]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static SqlColumnCollection GroupMembers_Creator(this SqlColumnCollection self, string tableName = "GroupMembers", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Creator]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static GroupMembersColumnCollection Updator(this GroupMembersColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[Updator]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static SqlColumnCollection GroupMembers_Updator(this SqlColumnCollection self, string tableName = "GroupMembers", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[Updator]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static GroupMembersColumnCollection CreatedTime(this GroupMembersColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[CreatedTime]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static SqlColumnCollection GroupMembers_CreatedTime(this SqlColumnCollection self, string tableName = "GroupMembers", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[CreatedTime]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static GroupMembersColumnCollection UpdatedTime(this GroupMembersColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "[t0].[UpdatedTime]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static SqlColumnCollection GroupMembers_UpdatedTime(this SqlColumnCollection self, string tableName = "GroupMembers", bool duplicates = false, string _as = null) { return self.Add(duplicates, "[" + tableName + "].[UpdatedTime]" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : string.Empty)); }
+        public static GroupMembersColumnCollection GroupMembersCount(this GroupMembersColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "count(*)" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as GroupMembersCount")); }
+        public static GroupMembersColumnCollection CreatedTimeMax(this GroupMembersColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "max([t0].[CreatedTime])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [CreatedTimeMax]")); }
+        public static SqlColumnCollection GroupMembers_CreatedTimeMax(this SqlColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "max([t0].[CreatedTime])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [CreatedTimeMax]")); }
+        public static GroupMembersColumnCollection CreatedTimeMin(this GroupMembersColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "min([t0].[CreatedTime])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [CreatedTimeMin]")); }
+        public static SqlColumnCollection GroupMembers_CreatedTimeMin(this SqlColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "min([t0].[CreatedTime])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [CreatedTimeMin]")); }
+        public static GroupMembersColumnCollection UpdatedTimeMax(this GroupMembersColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "max([t0].[UpdatedTime])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [UpdatedTimeMax]")); }
+        public static SqlColumnCollection GroupMembers_UpdatedTimeMax(this SqlColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "max([t0].[UpdatedTime])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [UpdatedTimeMax]")); }
+        public static GroupMembersColumnCollection UpdatedTimeMin(this GroupMembersColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "min([t0].[UpdatedTime])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [UpdatedTimeMin]")); }
+        public static SqlColumnCollection GroupMembers_UpdatedTimeMin(this SqlColumnCollection self, bool duplicates = false, string _as = null) { return self.Add(duplicates, "min([t0].[UpdatedTime])" + (!_as.IsNullOrEmpty() ? " as [" + _as + "]" : " as [UpdatedTimeMin]")); }
+        public static GroupMembersWhereCollection GroupId(this GroupMembersWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[GroupId]" }, "GroupId", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection GroupMembers_GroupId(this SqlWhereCollection self, object value = null, string tableName = "GroupMembers", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[GroupId]" }, "GroupId", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static GroupMembersWhereCollection DeptId(this GroupMembersWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[DeptId]" }, "DeptId", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection GroupMembers_DeptId(this SqlWhereCollection self, object value = null, string tableName = "GroupMembers", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[DeptId]" }, "DeptId", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static GroupMembersWhereCollection UserId(this GroupMembersWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[UserId]" }, "UserId", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection GroupMembers_UserId(this SqlWhereCollection self, object value = null, string tableName = "GroupMembers", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[UserId]" }, "UserId", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static GroupMembersWhereCollection Ver(this GroupMembersWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection GroupMembers_Ver(this SqlWhereCollection self, object value = null, string tableName = "GroupMembers", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Ver]" }, "Ver", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static GroupMembersWhereCollection Comments(this GroupMembersWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Comments]" }, "Comments", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection GroupMembers_Comments(this SqlWhereCollection self, object value = null, string tableName = "GroupMembers", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Comments]" }, "Comments", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static GroupMembersWhereCollection Creator(this GroupMembersWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection GroupMembers_Creator(this SqlWhereCollection self, object value = null, string tableName = "GroupMembers", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Creator]" }, "Creator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static GroupMembersWhereCollection Updator(this GroupMembersWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection GroupMembers_Updator(this SqlWhereCollection self, object value = null, string tableName = "GroupMembers", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[Updator]" }, "Updator", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static GroupMembersWhereCollection CreatedTime(this GroupMembersWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[CreatedTime]" }, "CreatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection GroupMembers_CreatedTime(this SqlWhereCollection self, object value = null, string tableName = "GroupMembers", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[CreatedTime]" }, "CreatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static GroupMembersWhereCollection UpdatedTime(this GroupMembersWhereCollection self, object value = null, string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+        public static SqlWhereCollection GroupMembers_UpdatedTime(this SqlWhereCollection self, object value = null, string tableName = "GroupMembers", string _operator = "=", string multiColumnOperator = " or ", string multiParamOperator = " and ", SqlStatement sub = null, string raw = "", bool _using = true) { return self.Add(new string[] { "[" + tableName + "].[UpdatedTime]" }, "UpdatedTime", value, _operator, multiColumnOperator, multiParamOperator, sub, raw, _using: _using); }
+
+        public static GroupMembersWhereCollection GroupId_In(
+            this GroupMembersWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    new string[] { "[t0].[GroupId]" },
+                    "GroupId",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    new string[] { "[t0].[GroupId]" },
+                    "GroupId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static GroupMembersWhereCollection DeptId_In(
+            this GroupMembersWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    new string[] { "[t0].[DeptId]" },
+                    "DeptId",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    new string[] { "[t0].[DeptId]" },
+                    "DeptId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static GroupMembersWhereCollection UserId_In(
+            this GroupMembersWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    new string[] { "[t0].[UserId]" },
+                    "UserId",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    new string[] { "[t0].[UserId]" },
+                    "UserId",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static GroupMembersWhereCollection Ver_In(
+            this GroupMembersWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Ver]" },
+                    "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    new string[] { "[t0].[Ver]" },
+                    "Ver",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static GroupMembersWhereCollection Creator_In(
+            this GroupMembersWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Creator]" },
+                    "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    new string[] { "[t0].[Creator]" },
+                    "Creator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static GroupMembersWhereCollection Updator_In(
+            this GroupMembersWhereCollection self,
+            IEnumerable<int> value = null,
+            SqlStatement sub = null,
+            bool negative = false,
+            bool _using = true)
+        {
+            if (!_using)
+            {
+                return self;
+            }
+            if (sub != null)
+            {
+                return self.Add(
+                    new string[] { "[t0].[Updator]" },
+                    "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    sub: sub);
+            }
+            else if (value != null && value.Any())
+            {
+                return self.Add(
+                    new string[] { "[t0].[Updator]" },
+                    "Updator",
+                    _operator: !negative ? " in " : " not in ",
+                    raw: "({0})".Params(value.Join()));
+            }
+            else
+            {
+                return !negative
+                    ? self.Add(raw: "1=0")
+                    : self;
+            }
+        }
+
+        public static GroupMembersWhereCollection GroupId_Between(this GroupMembersWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[GroupId]" }, "GroupId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection GroupMembers_GroupId_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[GroupId]" }, "GroupId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static GroupMembersWhereCollection DeptId_Between(this GroupMembersWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[DeptId]" }, "DeptId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection GroupMembers_DeptId_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[DeptId]" }, "DeptId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static GroupMembersWhereCollection UserId_Between(this GroupMembersWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[UserId]" }, "UserId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection GroupMembers_UserId_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[UserId]" }, "UserId", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static GroupMembersWhereCollection Ver_Between(this GroupMembersWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection GroupMembers_Ver_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Ver]" }, "Ver", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static GroupMembersWhereCollection Creator_Between(this GroupMembersWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection GroupMembers_Creator_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Creator]" }, "Creator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static GroupMembersWhereCollection Updator_Between(this GroupMembersWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection GroupMembers_Updator_Between(this SqlWhereCollection self, int begin, int end, bool _using = true) { return self.Add(new string[] { "[t0].[Updator]" }, "Updator", _operator: " between ", raw: "{0} and {1} ".Params(begin, end), _using: _using); }
+        public static GroupMembersWhereCollection CreatedTime_Between(this GroupMembersWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[CreatedTime]" }, "CreatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection GroupMembers_CreatedTime_Between(this SqlWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[CreatedTime]" }, "CreatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
+        public static GroupMembersWhereCollection UpdatedTime_Between(this GroupMembersWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
+        public static SqlWhereCollection GroupMembers_UpdatedTime_Between(this SqlWhereCollection self, DateTime begin, DateTime end, bool _using = true) { return self.Add(new string[] { "[t0].[UpdatedTime]" }, "UpdatedTime", _operator: " between ", raw: "'{0}' and '{1}' ".Params(begin, end), _using: _using); }
+        public static GroupMembersWhereCollection Sub(this GroupMembersWhereCollection self, SqlStatement sub, object value = null, string _operator = "=", bool _using = true) { return self.Add(null, null, value, _operator, sub: sub, _using: _using); }
+        public static GroupMembersWhereCollection Or(this GroupMembersWhereCollection self, SqlWhereCollection or, bool _using = true) { return self.Add(null, null, or: or, _using: _using); }
+
+        public static GroupMembersGroupByCollection GroupMembersGroupBy(
+            this GroupMembersGroupByCollection self, string columnName)
+        {
+            switch (columnName)
+            {
+                case "GroupId": return self.GroupId();
+                case "DeptId": return self.DeptId();
+                case "UserId": return self.UserId();
+                case "Ver": return self.Ver();
+                case "Comments": return self.Comments();
+                case "Creator": return self.Creator();
+                case "Updator": return self.Updator();
+                case "CreatedTime": return self.CreatedTime();
+                case "UpdatedTime": return self.UpdatedTime();
+                default: return null;
+            }
+        }
+
+        public static GroupMembersGroupByCollection GroupId(this GroupMembersGroupByCollection self) { return self.Add("[t0].[GroupId]"); }
+        public static SqlGroupByCollection GroupMembers_GroupId(this SqlGroupByCollection self) { return self.Add("[t0].[GroupId]"); }
+        public static GroupMembersGroupByCollection DeptId(this GroupMembersGroupByCollection self) { return self.Add("[t0].[DeptId]"); }
+        public static SqlGroupByCollection GroupMembers_DeptId(this SqlGroupByCollection self) { return self.Add("[t0].[DeptId]"); }
+        public static GroupMembersGroupByCollection UserId(this GroupMembersGroupByCollection self) { return self.Add("[t0].[UserId]"); }
+        public static SqlGroupByCollection GroupMembers_UserId(this SqlGroupByCollection self) { return self.Add("[t0].[UserId]"); }
+        public static GroupMembersGroupByCollection Ver(this GroupMembersGroupByCollection self) { return self.Add("[t0].[Ver]"); }
+        public static SqlGroupByCollection GroupMembers_Ver(this SqlGroupByCollection self) { return self.Add("[t0].[Ver]"); }
+        public static GroupMembersGroupByCollection Comments(this GroupMembersGroupByCollection self) { return self.Add("[t0].[Comments]"); }
+        public static SqlGroupByCollection GroupMembers_Comments(this SqlGroupByCollection self) { return self.Add("[t0].[Comments]"); }
+        public static GroupMembersGroupByCollection Creator(this GroupMembersGroupByCollection self) { return self.Add("[t0].[Creator]"); }
+        public static SqlGroupByCollection GroupMembers_Creator(this SqlGroupByCollection self) { return self.Add("[t0].[Creator]"); }
+        public static GroupMembersGroupByCollection Updator(this GroupMembersGroupByCollection self) { return self.Add("[t0].[Updator]"); }
+        public static SqlGroupByCollection GroupMembers_Updator(this SqlGroupByCollection self) { return self.Add("[t0].[Updator]"); }
+        public static GroupMembersGroupByCollection CreatedTime(this GroupMembersGroupByCollection self) { return self.Add("[t0].[CreatedTime]"); }
+        public static SqlGroupByCollection GroupMembers_CreatedTime(this SqlGroupByCollection self) { return self.Add("[t0].[CreatedTime]"); }
+        public static GroupMembersGroupByCollection UpdatedTime(this GroupMembersGroupByCollection self) { return self.Add("[t0].[UpdatedTime]"); }
+        public static SqlGroupByCollection GroupMembers_UpdatedTime(this SqlGroupByCollection self) { return self.Add("[t0].[UpdatedTime]"); }
+        public static GroupMembersHavingCollection GroupMembersCount(this GroupMembersHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "count(*)", name: !_as.IsNullOrEmpty() ?_as : "GroupMembersCount", value: value, _operator: _operator); }
+        public static GroupMembersHavingCollection CreatedTimeMax(this GroupMembersHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "max([t0].[CreatedTime])", name: !_as.IsNullOrEmpty() ?_as : "CreatedTimeMax", value: value, _operator: _operator); }
+        public static SqlHavingCollection GroupMembers_CreatedTimeMax(this SqlHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "max([t0].[CreatedTime])", name: !_as.IsNullOrEmpty() ?_as : "CreatedTimeMax", value: value, _operator: _operator); }
+        public static GroupMembersHavingCollection CreatedTimeMin(this GroupMembersHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "min([t0].[CreatedTime])", name: !_as.IsNullOrEmpty() ?_as : "CreatedTimeMin", value: value, _operator: _operator); }
+        public static SqlHavingCollection GroupMembers_CreatedTimeMin(this SqlHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "min([t0].[CreatedTime])", name: !_as.IsNullOrEmpty() ?_as : "CreatedTimeMin", value: value, _operator: _operator); }
+        public static GroupMembersHavingCollection UpdatedTimeMax(this GroupMembersHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "max([t0].[UpdatedTime])", name: !_as.IsNullOrEmpty() ?_as : "UpdatedTimeMax", value: value, _operator: _operator); }
+        public static SqlHavingCollection GroupMembers_UpdatedTimeMax(this SqlHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "max([t0].[UpdatedTime])", name: !_as.IsNullOrEmpty() ?_as : "UpdatedTimeMax", value: value, _operator: _operator); }
+        public static GroupMembersHavingCollection UpdatedTimeMin(this GroupMembersHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "min([t0].[UpdatedTime])", name: !_as.IsNullOrEmpty() ?_as : "UpdatedTimeMin", value: value, _operator: _operator); }
+        public static SqlHavingCollection GroupMembers_UpdatedTimeMin(this SqlHavingCollection self, object value, string _operator, string _as = null) { return self.Add(columnBracket: "min([t0].[UpdatedTime])", name: !_as.IsNullOrEmpty() ?_as : "UpdatedTimeMin", value: value, _operator: _operator); }
+        public static GroupMembersOrderByCollection GroupId(this GroupMembersOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[GroupId]"); }
+        public static GroupMembersOrderByCollection DeptId(this GroupMembersOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[DeptId]"); }
+        public static GroupMembersOrderByCollection UserId(this GroupMembersOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[UserId]"); }
+        public static GroupMembersOrderByCollection Ver(this GroupMembersOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Ver]"); }
+        public static GroupMembersOrderByCollection Comments(this GroupMembersOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Comments]"); }
+        public static GroupMembersOrderByCollection Creator(this GroupMembersOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Creator]"); }
+        public static GroupMembersOrderByCollection Updator(this GroupMembersOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[Updator]"); }
+        public static GroupMembersOrderByCollection CreatedTime(this GroupMembersOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[CreatedTime]"); }
+        public static GroupMembersOrderByCollection UpdatedTime(this GroupMembersOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "[t0].[UpdatedTime]"); }
+        public static SqlOrderByCollection GroupMembers_GroupId(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[GroupId]"); }
+        public static SqlOrderByCollection GroupMembers_DeptId(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[DeptId]"); }
+        public static SqlOrderByCollection GroupMembers_UserId(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[UserId]"); }
+        public static SqlOrderByCollection GroupMembers_Ver(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Ver]"); }
+        public static SqlOrderByCollection GroupMembers_Comments(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Comments]"); }
+        public static SqlOrderByCollection GroupMembers_Creator(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Creator]"); }
+        public static SqlOrderByCollection GroupMembers_Updator(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[Updator]"); }
+        public static SqlOrderByCollection GroupMembers_CreatedTime(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[CreatedTime]"); }
+        public static SqlOrderByCollection GroupMembers_UpdatedTime(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc, string tableName = "t0") { return self.Add(type, "[" + tableName + "].[UpdatedTime]"); }
+        public static GroupMembersOrderByCollection GroupMembersCount(this GroupMembersOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "count(*)"); }
+        public static GroupMembersOrderByCollection CreatedTimeMax(this GroupMembersOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[CreatedTime])"); }
+        public static SqlOrderByCollection GroupMembers_CreatedTimeMax(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[CreatedTime])"); }
+        public static GroupMembersOrderByCollection CreatedTimeMin(this GroupMembersOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[CreatedTime])"); }
+        public static SqlOrderByCollection GroupMembers_CreatedTimeMin(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[CreatedTime])"); }
+        public static GroupMembersOrderByCollection UpdatedTimeMax(this GroupMembersOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[UpdatedTime])"); }
+        public static SqlOrderByCollection GroupMembers_UpdatedTimeMax(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "max([t0].[UpdatedTime])"); }
+        public static GroupMembersOrderByCollection UpdatedTimeMin(this GroupMembersOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[UpdatedTime])"); }
+        public static SqlOrderByCollection GroupMembers_UpdatedTimeMin(this SqlOrderByCollection self, SqlOrderBy.Types type = SqlOrderBy.Types.asc) { return self.Add(type, "min([t0].[UpdatedTime])"); }
+        public static GroupMembersParamCollection GroupId(this GroupMembersParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[GroupId]", "GroupId", value, sub, raw, _using); }
+        public static SqlParamCollection GroupMembers_GroupId(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[GroupId]", "GroupId", value, sub, raw, _using); }
+        public static GroupMembersParamCollection DeptId(this GroupMembersParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[DeptId]", "DeptId", value, sub, raw, _using); }
+        public static SqlParamCollection GroupMembers_DeptId(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[DeptId]", "DeptId", value, sub, raw, _using); }
+        public static GroupMembersParamCollection UserId(this GroupMembersParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[UserId]", "UserId", value, sub, raw, _using); }
+        public static SqlParamCollection GroupMembers_UserId(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[UserId]", "UserId", value, sub, raw, _using); }
+        public static GroupMembersParamCollection Ver(this GroupMembersParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Ver]", "Ver", value, sub, raw, _using); }
+        public static SqlParamCollection GroupMembers_Ver(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Ver]", "Ver", value, sub, raw, _using); }
+        public static GroupMembersParamCollection Comments(this GroupMembersParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Comments]", "Comments", value, sub, raw, _using); }
+        public static SqlParamCollection GroupMembers_Comments(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Comments]", "Comments", value, sub, raw, _using); }
+        public static GroupMembersParamCollection Creator(this GroupMembersParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Creator]", "Creator", value, sub, raw, _using); }
+        public static SqlParamCollection GroupMembers_Creator(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Creator]", "Creator", value, sub, raw, _using); }
+        public static GroupMembersParamCollection Updator(this GroupMembersParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Updator]", "Updator", value, sub, raw, _using); }
+        public static SqlParamCollection GroupMembers_Updator(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[Updator]", "Updator", value, sub, raw, _using); }
+        public static GroupMembersParamCollection CreatedTime(this GroupMembersParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[CreatedTime]", "CreatedTime", value, sub, raw, _using); }
+        public static SqlParamCollection GroupMembers_CreatedTime(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[CreatedTime]", "CreatedTime", value, sub, raw, _using); }
+        public static GroupMembersParamCollection UpdatedTime(this GroupMembersParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[UpdatedTime]", "UpdatedTime", value, sub, raw, _using); }
+        public static SqlParamCollection GroupMembers_UpdatedTime(this SqlParamCollection self, object value = null, SqlStatement sub = null, string raw = null, bool _using = true) { return self.Add("[UpdatedTime]", "UpdatedTime", value, sub, raw, _using); }
 
         public static UsersColumnCollection UsersColumn()
         {
@@ -24471,6 +26147,80 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 .DeptName(deptModel.DeptName.MaxLength(256), _using: deptModel.DeptName_Updated || setDefault || paramAll)
                 .Body(deptModel.Body, _using: deptModel.Body_Updated || paramAll)
                 .Comments(deptModel.Comments.ToJson(), _using: deptModel.Comments_Updated || paramAll);
+        }
+
+        public static GroupsColumnCollection GroupsDefaultColumns()
+        {
+            return Rds.GroupsColumn()
+                .TenantId()
+                .GroupId()
+                .Ver()
+                .GroupName()
+                .Body()
+                .Comments()
+                .Creator()
+                .Updator()
+                .CreatedTime()
+                .UpdatedTime();
+        }
+
+        public static GroupsJoinCollection GroupsJoinDefault()
+        {
+            return Rds.GroupsJoin();
+        }
+
+        public static GroupsWhereCollection GroupsWhereDefault(GroupModel groupModel)
+        {
+            return Rds.GroupsWhere()
+                .TenantId(groupModel.TenantId)
+                .GroupId(groupModel.GroupId);
+        }
+
+        public static GroupsParamCollection GroupsParamDefault(
+            GroupModel groupModel, bool setDefault = false, bool paramAll = false)
+        {
+            return Rds.GroupsParam()
+                .TenantId(groupModel.TenantId, _using: groupModel.TenantId_Updated || setDefault || paramAll)
+                .Ver(groupModel.Ver, _using: groupModel.Ver_Updated || setDefault || paramAll)
+                .GroupName(groupModel.GroupName.MaxLength(256), _using: groupModel.GroupName_Updated || setDefault || paramAll)
+                .Body(groupModel.Body, _using: groupModel.Body_Updated || paramAll)
+                .Comments(groupModel.Comments.ToJson(), _using: groupModel.Comments_Updated || paramAll);
+        }
+
+        public static GroupMembersColumnCollection GroupMembersDefaultColumns()
+        {
+            return Rds.GroupMembersColumn()
+                .GroupId()
+                .DeptId()
+                .UserId()
+                .Ver()
+                .Comments()
+                .Creator()
+                .Updator()
+                .CreatedTime()
+                .UpdatedTime();
+        }
+
+        public static GroupMembersJoinCollection GroupMembersJoinDefault()
+        {
+            return Rds.GroupMembersJoin();
+        }
+
+        public static GroupMembersWhereCollection GroupMembersWhereDefault(GroupMemberModel groupMemberModel)
+        {
+            return Rds.GroupMembersWhere()
+                .GroupId(groupMemberModel.GroupId);
+        }
+
+        public static GroupMembersParamCollection GroupMembersParamDefault(
+            GroupMemberModel groupMemberModel, bool setDefault = false, bool paramAll = false)
+        {
+            return Rds.GroupMembersParam()
+                .GroupId(groupMemberModel.GroupId, _using: groupMemberModel.GroupId_Updated || setDefault || paramAll)
+                .DeptId(groupMemberModel.DeptId, _using: groupMemberModel.DeptId_Updated || setDefault || paramAll)
+                .UserId(groupMemberModel.UserId, _using: groupMemberModel.UserId_Updated || setDefault || paramAll)
+                .Ver(groupMemberModel.Ver, _using: groupMemberModel.Ver_Updated || setDefault || paramAll)
+                .Comments(groupMemberModel.Comments.ToJson(), _using: groupMemberModel.Comments_Updated || paramAll);
         }
 
         public static UsersColumnCollection UsersDefaultColumns()

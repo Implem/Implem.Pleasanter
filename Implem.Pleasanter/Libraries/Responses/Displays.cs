@@ -105,6 +105,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Csv(params string[] data) { return Get("Csv", data); }
         public static string CsvFile(params string[] data) { return Get("CsvFile", data); }
         public static string Currency(params string[] data) { return Get("Currency", data); }
+        public static string CurrentMembers(params string[] data) { return Get("CurrentMembers", data); }
         public static string CurrentPassword(params string[] data) { return Get("CurrentPassword", data); }
         public static string CurrentSettings(params string[] data) { return Get("CurrentSettings", data); }
         public static string Custom(params string[] data) { return Get("Custom", data); }
@@ -240,6 +241,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string MaxColumns(params string[] data) { return Get("MaxColumns", data); }
         public static string Md(params string[] data) { return Get("Md", data); }
         public static string MdFormat(params string[] data) { return Get("MdFormat", data); }
+        public static string Members(params string[] data) { return Get("Members", data); }
         public static string Min(params string[] data) { return Get("Min", data); }
         public static string MinuteAgo(params string[] data) { return Get("MinuteAgo", data); }
         public static string MinutesAgo(params string[] data) { return Get("MinutesAgo", data); }
@@ -319,6 +321,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Search(params string[] data) { return Get("Search", data); }
         public static string SecondsAgo(params string[] data) { return Get("SecondsAgo", data); }
         public static string Select(params string[] data) { return Get("Select", data); }
+        public static string SelectableMembers(params string[] data) { return Get("SelectableMembers", data); }
         public static string SelectOne(params string[] data) { return Get("SelectOne", data); }
         public static string SelectTargets(params string[] data) { return Get("SelectTargets", data); }
         public static string SendMail(params string[] data) { return Get("SendMail", data); }
@@ -452,6 +455,14 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Depts_DeptName(params string[] data) { return Get("Depts_DeptName", data); }
         public static string Depts_Body(params string[] data) { return Get("Depts_Body", data); }
         public static string Depts_Title(params string[] data) { return Get("Depts_Title", data); }
+        public static string Groups_TenantId(params string[] data) { return Get("Groups_TenantId", data); }
+        public static string Groups_GroupId(params string[] data) { return Get("Groups_GroupId", data); }
+        public static string Groups_GroupName(params string[] data) { return Get("Groups_GroupName", data); }
+        public static string Groups_Body(params string[] data) { return Get("Groups_Body", data); }
+        public static string Groups_Title(params string[] data) { return Get("Groups_Title", data); }
+        public static string GroupMembers_GroupId(params string[] data) { return Get("GroupMembers_GroupId", data); }
+        public static string GroupMembers_DeptId(params string[] data) { return Get("GroupMembers_DeptId", data); }
+        public static string GroupMembers_UserId(params string[] data) { return Get("GroupMembers_UserId", data); }
         public static string Users_TenantId(params string[] data) { return Get("Users_TenantId", data); }
         public static string Users_UserId(params string[] data) { return Get("Users_UserId", data); }
         public static string Users_LoginId(params string[] data) { return Get("Users_LoginId", data); }
@@ -879,6 +890,22 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Depts_UpdatedTime(params string[] data) { return Get("Depts_UpdatedTime", data); }
         public static string Depts_VerUp(params string[] data) { return Get("Depts_VerUp", data); }
         public static string Depts_Timestamp(params string[] data) { return Get("Depts_Timestamp", data); }
+        public static string Groups_Ver(params string[] data) { return Get("Groups_Ver", data); }
+        public static string Groups_Comments(params string[] data) { return Get("Groups_Comments", data); }
+        public static string Groups_Creator(params string[] data) { return Get("Groups_Creator", data); }
+        public static string Groups_Updator(params string[] data) { return Get("Groups_Updator", data); }
+        public static string Groups_CreatedTime(params string[] data) { return Get("Groups_CreatedTime", data); }
+        public static string Groups_UpdatedTime(params string[] data) { return Get("Groups_UpdatedTime", data); }
+        public static string Groups_VerUp(params string[] data) { return Get("Groups_VerUp", data); }
+        public static string Groups_Timestamp(params string[] data) { return Get("Groups_Timestamp", data); }
+        public static string GroupMembers_Ver(params string[] data) { return Get("GroupMembers_Ver", data); }
+        public static string GroupMembers_Comments(params string[] data) { return Get("GroupMembers_Comments", data); }
+        public static string GroupMembers_Creator(params string[] data) { return Get("GroupMembers_Creator", data); }
+        public static string GroupMembers_Updator(params string[] data) { return Get("GroupMembers_Updator", data); }
+        public static string GroupMembers_CreatedTime(params string[] data) { return Get("GroupMembers_CreatedTime", data); }
+        public static string GroupMembers_UpdatedTime(params string[] data) { return Get("GroupMembers_UpdatedTime", data); }
+        public static string GroupMembers_VerUp(params string[] data) { return Get("GroupMembers_VerUp", data); }
+        public static string GroupMembers_Timestamp(params string[] data) { return Get("GroupMembers_Timestamp", data); }
         public static string Users_Ver(params string[] data) { return Get("Users_Ver", data); }
         public static string Users_Comments(params string[] data) { return Get("Users_Comments", data); }
         public static string Users_Creator(params string[] data) { return Get("Users_Creator", data); }
@@ -1009,6 +1036,8 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Demos(params string[] data) { return Get("Demos", data); }
         public static string SysLogs(params string[] data) { return Get("SysLogs", data); }
         public static string Depts(params string[] data) { return Get("Depts", data); }
+        public static string Groups(params string[] data) { return Get("Groups", data); }
+        public static string GroupMembers(params string[] data) { return Get("GroupMembers", data); }
         public static string Users(params string[] data) { return Get("Users", data); }
         public static string MailAddresses(params string[] data) { return Get("MailAddresses", data); }
         public static string Permissions(params string[] data) { return Get("Permissions", data); }

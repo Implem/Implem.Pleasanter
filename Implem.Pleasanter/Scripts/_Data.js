@@ -36,6 +36,12 @@ $p.setData = function ($control, data) {
                             data[controlId] = $control.find('li.ui-selected').map(function () {
                                 return unescape($(this).attr('value'));
                             }).get().join(';');
+                            if ($control.hasClass('send-all')) {
+                                data[controlId + 'All'] = JSON.stringify(
+                                    $control.find('li').map(function () {
+                                        return unescape($(this).attr('value'));
+                                    }).toArray());
+                            }
                         } else {
                             data[controlId] = $control.find('li').map(function () {
                                 return unescape($(this).attr('data-value'));

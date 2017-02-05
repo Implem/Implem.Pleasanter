@@ -68,6 +68,50 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
     }
 
+    public class GroupsResponseCollection : ResponseCollection
+    {
+        public GroupModel GroupModel;
+
+        public GroupsResponseCollection(GroupModel groupModel)
+        {
+            GroupModel = groupModel;
+        }
+
+        public GroupsResponseCollection Val(string selector, string value)
+        {
+            base.Val(selector, value);
+            return this;
+        }
+
+        public GroupsResponseCollection ValAndFormData(string selector, string value)
+        {
+            base.ValAndFormData(selector, value);
+            return this;
+        }
+    }
+
+    public class GroupMembersResponseCollection : ResponseCollection
+    {
+        public GroupMemberModel GroupMemberModel;
+
+        public GroupMembersResponseCollection(GroupMemberModel groupMemberModel)
+        {
+            GroupMemberModel = groupMemberModel;
+        }
+
+        public GroupMembersResponseCollection Val(string selector, string value)
+        {
+            base.Val(selector, value);
+            return this;
+        }
+
+        public GroupMembersResponseCollection ValAndFormData(string selector, string value)
+        {
+            base.ValAndFormData(selector, value);
+            return this;
+        }
+    }
+
     public class UsersResponseCollection : ResponseCollection
     {
         public UserModel UserModel;
@@ -396,10 +440,6 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static DemosResponseCollection Timestamp(this DemosResponseCollection res, string value) { return res.Val("#Demos_Timestamp", value); }
         public static DemosResponseCollection Timestamp_FormData(this DemosResponseCollection res) { return res.ValAndFormData("#Demos_Timestamp", res.DemoModel.Timestamp.ToResponse()); }
         public static DemosResponseCollection Timestamp_FormData(this DemosResponseCollection res, string value) { return res.ValAndFormData("#Demos_Timestamp", value); }
-        public static DeptsResponseCollection TenantId(this DeptsResponseCollection res) { return res.Val("#Depts_TenantId", res.DeptModel.TenantId.ToResponse()); }
-        public static DeptsResponseCollection TenantId(this DeptsResponseCollection res, string value) { return res.Val("#Depts_TenantId", value); }
-        public static DeptsResponseCollection TenantId_FormData(this DeptsResponseCollection res) { return res.ValAndFormData("#Depts_TenantId", res.DeptModel.TenantId.ToResponse()); }
-        public static DeptsResponseCollection TenantId_FormData(this DeptsResponseCollection res, string value) { return res.ValAndFormData("#Depts_TenantId", value); }
         public static DeptsResponseCollection DeptId(this DeptsResponseCollection res) { return res.Val("#Depts_DeptId", res.DeptModel.DeptId.ToResponse()); }
         public static DeptsResponseCollection DeptId(this DeptsResponseCollection res, string value) { return res.Val("#Depts_DeptId", value); }
         public static DeptsResponseCollection DeptId_FormData(this DeptsResponseCollection res) { return res.ValAndFormData("#Depts_DeptId", res.DeptModel.DeptId.ToResponse()); }
@@ -432,6 +472,50 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static DeptsResponseCollection Timestamp(this DeptsResponseCollection res, string value) { return res.Val("#Depts_Timestamp", value); }
         public static DeptsResponseCollection Timestamp_FormData(this DeptsResponseCollection res) { return res.ValAndFormData("#Depts_Timestamp", res.DeptModel.Timestamp.ToResponse()); }
         public static DeptsResponseCollection Timestamp_FormData(this DeptsResponseCollection res, string value) { return res.ValAndFormData("#Depts_Timestamp", value); }
+        public static GroupsResponseCollection GroupId(this GroupsResponseCollection res) { return res.Val("#Groups_GroupId", res.GroupModel.GroupId.ToResponse()); }
+        public static GroupsResponseCollection GroupId(this GroupsResponseCollection res, string value) { return res.Val("#Groups_GroupId", value); }
+        public static GroupsResponseCollection GroupId_FormData(this GroupsResponseCollection res) { return res.ValAndFormData("#Groups_GroupId", res.GroupModel.GroupId.ToResponse()); }
+        public static GroupsResponseCollection GroupId_FormData(this GroupsResponseCollection res, string value) { return res.ValAndFormData("#Groups_GroupId", value); }
+        public static GroupsResponseCollection Ver(this GroupsResponseCollection res) { return res.Val("#Groups_Ver", res.GroupModel.Ver.ToResponse()); }
+        public static GroupsResponseCollection Ver(this GroupsResponseCollection res, string value) { return res.Val("#Groups_Ver", value); }
+        public static GroupsResponseCollection Ver_FormData(this GroupsResponseCollection res) { return res.ValAndFormData("#Groups_Ver", res.GroupModel.Ver.ToResponse()); }
+        public static GroupsResponseCollection Ver_FormData(this GroupsResponseCollection res, string value) { return res.ValAndFormData("#Groups_Ver", value); }
+        public static GroupsResponseCollection GroupName(this GroupsResponseCollection res) { return res.Val("#Groups_GroupName", res.GroupModel.GroupName.ToResponse()); }
+        public static GroupsResponseCollection GroupName(this GroupsResponseCollection res, string value) { return res.Val("#Groups_GroupName", value); }
+        public static GroupsResponseCollection GroupName_FormData(this GroupsResponseCollection res) { return res.ValAndFormData("#Groups_GroupName", res.GroupModel.GroupName.ToResponse()); }
+        public static GroupsResponseCollection GroupName_FormData(this GroupsResponseCollection res, string value) { return res.ValAndFormData("#Groups_GroupName", value); }
+        public static GroupsResponseCollection Body(this GroupsResponseCollection res) { return res.Val("#Groups_Body", res.GroupModel.Body.ToResponse()); }
+        public static GroupsResponseCollection Body(this GroupsResponseCollection res, string value) { return res.Val("#Groups_Body", value); }
+        public static GroupsResponseCollection Body_FormData(this GroupsResponseCollection res) { return res.ValAndFormData("#Groups_Body", res.GroupModel.Body.ToResponse()); }
+        public static GroupsResponseCollection Body_FormData(this GroupsResponseCollection res, string value) { return res.ValAndFormData("#Groups_Body", value); }
+        public static GroupsResponseCollection CreatedTime(this GroupsResponseCollection res) { return res.Val("#Groups_CreatedTime", res.GroupModel.CreatedTime.ToResponse()); }
+        public static GroupsResponseCollection CreatedTime(this GroupsResponseCollection res, string value) { return res.Val("#Groups_CreatedTime", value); }
+        public static GroupsResponseCollection CreatedTime_FormData(this GroupsResponseCollection res) { return res.ValAndFormData("#Groups_CreatedTime", res.GroupModel.CreatedTime.ToResponse()); }
+        public static GroupsResponseCollection CreatedTime_FormData(this GroupsResponseCollection res, string value) { return res.ValAndFormData("#Groups_CreatedTime", value); }
+        public static GroupsResponseCollection UpdatedTime(this GroupsResponseCollection res) { return res.Val("#Groups_UpdatedTime", res.GroupModel.UpdatedTime.ToResponse()); }
+        public static GroupsResponseCollection UpdatedTime(this GroupsResponseCollection res, string value) { return res.Val("#Groups_UpdatedTime", value); }
+        public static GroupsResponseCollection UpdatedTime_FormData(this GroupsResponseCollection res) { return res.ValAndFormData("#Groups_UpdatedTime", res.GroupModel.UpdatedTime.ToResponse()); }
+        public static GroupsResponseCollection UpdatedTime_FormData(this GroupsResponseCollection res, string value) { return res.ValAndFormData("#Groups_UpdatedTime", value); }
+        public static GroupsResponseCollection Timestamp(this GroupsResponseCollection res) { return res.Val("#Groups_Timestamp", res.GroupModel.Timestamp.ToResponse()); }
+        public static GroupsResponseCollection Timestamp(this GroupsResponseCollection res, string value) { return res.Val("#Groups_Timestamp", value); }
+        public static GroupsResponseCollection Timestamp_FormData(this GroupsResponseCollection res) { return res.ValAndFormData("#Groups_Timestamp", res.GroupModel.Timestamp.ToResponse()); }
+        public static GroupsResponseCollection Timestamp_FormData(this GroupsResponseCollection res, string value) { return res.ValAndFormData("#Groups_Timestamp", value); }
+        public static GroupMembersResponseCollection Ver(this GroupMembersResponseCollection res) { return res.Val("#GroupMembers_Ver", res.GroupMemberModel.Ver.ToResponse()); }
+        public static GroupMembersResponseCollection Ver(this GroupMembersResponseCollection res, string value) { return res.Val("#GroupMembers_Ver", value); }
+        public static GroupMembersResponseCollection Ver_FormData(this GroupMembersResponseCollection res) { return res.ValAndFormData("#GroupMembers_Ver", res.GroupMemberModel.Ver.ToResponse()); }
+        public static GroupMembersResponseCollection Ver_FormData(this GroupMembersResponseCollection res, string value) { return res.ValAndFormData("#GroupMembers_Ver", value); }
+        public static GroupMembersResponseCollection CreatedTime(this GroupMembersResponseCollection res) { return res.Val("#GroupMembers_CreatedTime", res.GroupMemberModel.CreatedTime.ToResponse()); }
+        public static GroupMembersResponseCollection CreatedTime(this GroupMembersResponseCollection res, string value) { return res.Val("#GroupMembers_CreatedTime", value); }
+        public static GroupMembersResponseCollection CreatedTime_FormData(this GroupMembersResponseCollection res) { return res.ValAndFormData("#GroupMembers_CreatedTime", res.GroupMemberModel.CreatedTime.ToResponse()); }
+        public static GroupMembersResponseCollection CreatedTime_FormData(this GroupMembersResponseCollection res, string value) { return res.ValAndFormData("#GroupMembers_CreatedTime", value); }
+        public static GroupMembersResponseCollection UpdatedTime(this GroupMembersResponseCollection res) { return res.Val("#GroupMembers_UpdatedTime", res.GroupMemberModel.UpdatedTime.ToResponse()); }
+        public static GroupMembersResponseCollection UpdatedTime(this GroupMembersResponseCollection res, string value) { return res.Val("#GroupMembers_UpdatedTime", value); }
+        public static GroupMembersResponseCollection UpdatedTime_FormData(this GroupMembersResponseCollection res) { return res.ValAndFormData("#GroupMembers_UpdatedTime", res.GroupMemberModel.UpdatedTime.ToResponse()); }
+        public static GroupMembersResponseCollection UpdatedTime_FormData(this GroupMembersResponseCollection res, string value) { return res.ValAndFormData("#GroupMembers_UpdatedTime", value); }
+        public static GroupMembersResponseCollection Timestamp(this GroupMembersResponseCollection res) { return res.Val("#GroupMembers_Timestamp", res.GroupMemberModel.Timestamp.ToResponse()); }
+        public static GroupMembersResponseCollection Timestamp(this GroupMembersResponseCollection res, string value) { return res.Val("#GroupMembers_Timestamp", value); }
+        public static GroupMembersResponseCollection Timestamp_FormData(this GroupMembersResponseCollection res) { return res.ValAndFormData("#GroupMembers_Timestamp", res.GroupMemberModel.Timestamp.ToResponse()); }
+        public static GroupMembersResponseCollection Timestamp_FormData(this GroupMembersResponseCollection res, string value) { return res.ValAndFormData("#GroupMembers_Timestamp", value); }
         public static UsersResponseCollection UserId(this UsersResponseCollection res) { return res.Val("#Users_UserId", res.UserModel.UserId.ToResponse()); }
         public static UsersResponseCollection UserId(this UsersResponseCollection res, string value) { return res.Val("#Users_UserId", value); }
         public static UsersResponseCollection UserId_FormData(this UsersResponseCollection res) { return res.ValAndFormData("#Users_UserId", res.UserModel.UserId.ToResponse()); }
