@@ -34,7 +34,7 @@ $p.setData = function ($control, data) {
                     case 'OL':
                         if ($control.hasClass('control-selectable')) {
                             data[controlId] = $control.find('li.ui-selected').map(function () {
-                                return unescape($(this).val());
+                                return unescape($(this).attr('value'));
                             }).get().join(';');
                         } else {
                             data[controlId] = $control.find('li').map(function () {
