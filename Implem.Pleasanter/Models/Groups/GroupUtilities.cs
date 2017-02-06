@@ -844,7 +844,7 @@ namespace Implem.Pleasanter.Models
             var searchText = Forms.Data("SearchMemberText");
             if (!searchText.IsNullOrEmpty())
             {
-                var currentMembers = Forms.Data("CurrentMembersAll").Deserialize<List<string>>();
+                var currentMembers = Forms.List("CurrentMembersAll");
                 Rds.ExecuteTable(statements: new SqlStatement[]
                 {
                     Rds.SelectDepts(

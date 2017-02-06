@@ -39,16 +39,6 @@ namespace Implem.Libraries.Utilities
             }
         }
 
-        public static SortedSet<string> SortedSet(this string self, char delimiter = ',')
-        {
-            var sortedSet = new SortedSet<string>();
-            if (self.Trim() != string.Empty)
-            {
-                self.Split(delimiter).ForEach(data => sortedSet.Add(data));
-            }
-            return sortedSet;
-        }
-
         public static bool AllEqual<T>(this IEnumerable<T> self)
         {
             if (!self.Any()) return true;

@@ -47,13 +47,11 @@ namespace Implem.Pleasanter.Libraries.Requests
             return Data(key).ToDateTime();
         }
 
-        public static IEnumerable<int> IntList(string name, char delimiter = ',')
+        public static List<int> IntList(string name)
         {
             return Data(name)
-                .Split(delimiter)
-                .Where(o => o != string.Empty)
-                .Select(o => o.ToInt())
-                .Distinct();
+                .Deserialize<List<int>>()?
+                .ToList() ?? new List<int>();
         }
 
         public static IEnumerable<long> LongList(string name, char delimiter = ',')
@@ -65,12 +63,12 @@ namespace Implem.Pleasanter.Libraries.Requests
                 .Distinct();
         }
 
-        public static List<string> List(string name, char separator = ';')
+        public static List<string> List(string name)
         {
             return Data(name)
-                .Split(separator)
+                .Deserialize<List<string>>()?
                 .Where(o => o != string.Empty)
-                .ToList();
+                .ToList() ?? new List<string>();
         }
 
         public static IEnumerable<string> Keys()

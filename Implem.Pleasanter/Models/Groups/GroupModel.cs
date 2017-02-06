@@ -160,24 +160,23 @@ namespace Implem.Pleasanter.Models
                     where: Rds.GroupMembersWhere()
                         .GroupId(GroupId))
             };
-            Forms.Data("CurrentMembersAll").Deserialize<List<string>>()?
-                .ForEach(data =>
+            Forms.List("CurrentMembersAll").ForEach(data =>
+            {
+                if (data.StartsWith("Dept,"))
                 {
-                    if (data.StartsWith("Dept,"))
-                    {
-                        statements.Add(Rds.InsertGroupMembers(
-                            param: Rds.GroupMembersParam()
-                                .GroupId(GroupId)
-                                .DeptId(data.Split_2nd().ToInt())));
-                    }
-                    if (data.StartsWith("User,"))
-                    {
-                        statements.Add(Rds.InsertGroupMembers(
-                            param: Rds.GroupMembersParam()
-                                .GroupId(GroupId)
-                                .UserId(data.Split_2nd().ToInt())));
-                    }
-                });
+                    statements.Add(Rds.InsertGroupMembers(
+                        param: Rds.GroupMembersParam()
+                            .GroupId(GroupId)
+                            .DeptId(data.Split_2nd().ToInt())));
+                }
+                if (data.StartsWith("User,"))
+                {
+                    statements.Add(Rds.InsertGroupMembers(
+                        param: Rds.GroupMembersParam()
+                            .GroupId(GroupId)
+                            .UserId(data.Split_2nd().ToInt())));
+                }
+            });
             Rds.ExecuteNonQuery(transactional: true, statements: statements.ToArray());
             return Error.Types.None;
         }

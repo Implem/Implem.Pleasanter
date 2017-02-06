@@ -239,9 +239,9 @@ namespace Implem.Pleasanter.Models
             {
                 switch (controlId)
                 {
-                    case "OutgoingMails_To": To = Forms.Data(controlId).ToString(); break;
-                    case "OutgoingMails_Cc": Cc = Forms.Data(controlId).ToString(); break;
-                    case "OutgoingMails_Bcc": Bcc = Forms.Data(controlId).ToString(); break;
+                    case "OutgoingMails_To": To = Forms.List(controlId).Join(";"); break;
+                    case "OutgoingMails_Cc": Cc = Forms.List(controlId).Join(";"); break;
+                    case "OutgoingMails_Bcc": Bcc = Forms.List(controlId).Join(";"); break;
                     case "OutgoingMails_Title": Title = new Title(OutgoingMailId, Forms.Data(controlId)); break;
                     case "OutgoingMails_Body": Body = Forms.Data(controlId).ToString(); break;
                     case "OutgoingMails_SentTime": SentTime = new Time(Forms.Data(controlId).ToDateTime(), byForm: true); break;

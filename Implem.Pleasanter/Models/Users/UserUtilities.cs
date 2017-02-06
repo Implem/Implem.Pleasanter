@@ -827,7 +827,7 @@ namespace Implem.Pleasanter.Models
         {
             var userModel = new UserModel(SiteSettingsUtilities.UsersSiteSettings(), userId);
             var mailAddress = Forms.Data("MailAddress").Trim();
-            var selected = Forms.Data("MailAddresses").Split(';');
+            var selected = Forms.List("MailAddresses");
             var badMailAddress = string.Empty;
             var invalid = UserValidators.OnAddingMailAddress(
                 pt, userModel, mailAddress, out badMailAddress);
@@ -859,7 +859,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson();
             }
-            var selected = Forms.Data("MailAddresses").Split(';');
+            var selected = Forms.List("MailAddresses");
             var error = userModel.DeleteMailAddresses(selected);
             return error.Has()
                 ? error.MessageJson()

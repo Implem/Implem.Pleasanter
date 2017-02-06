@@ -349,7 +349,7 @@ namespace Implem.Pleasanter.Models
             ss.SetChoiceHash(
                 targetColumn: column,
                 searchIndexes: Forms.Data("DropDownSearchText").SearchIndexes());
-            var selected = Forms.List("DropDownSearchResults", ';');
+            var selected = Forms.List("DropDownSearchResults");
             var multiple = Forms.Bool("DropDownSearchMultiple");
             if (multiple)
             {

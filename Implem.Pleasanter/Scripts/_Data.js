@@ -33,19 +33,12 @@ $p.setData = function ($control, data) {
                         break;
                     case 'OL':
                         if ($control.hasClass('control-selectable')) {
-                            data[controlId] = $control.find('li.ui-selected').map(function () {
-                                return unescape($(this).attr('value'));
-                            }).get().join(';');
+                            data[controlId] = $p.toJson($control.find('li.ui-selected'));
                             if ($control.hasClass('send-all')) {
-                                data[controlId + 'All'] = JSON.stringify(
-                                    $control.find('li').map(function () {
-                                        return unescape($(this).attr('value'));
-                                    }).toArray());
+                                data[controlId + 'All'] = $p.toJson($control.find('li'));
                             }
                         } else {
-                            data[controlId] = $control.find('li').map(function () {
-                                return unescape($(this).attr('data-value'));
-                            }).get().join(';');
+                            data[controlId] = $p.toJson($control.find('li'));
                         }
                         break;
                     case 'TABLE':
@@ -100,4 +93,10 @@ $p.clearData = function (target, data, type) {
             }
         }
     }
+}
+
+$p.toJson = function ($control) {
+    return JSON.stringify($control.map(function () {
+        return unescape($(this).attr('value'));
+    }).toArray());
 }

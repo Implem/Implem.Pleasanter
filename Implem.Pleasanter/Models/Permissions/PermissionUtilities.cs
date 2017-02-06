@@ -466,14 +466,8 @@ namespace Implem.Pleasanter.Models
         {
             var siteModel = new SiteModel(siteId, setByForm: true);
             var res = new ResponseCollection();
-            var permissionDestination = Forms.Data("PermissionDestination")
-                .SortedSet(';')
-                .Where(o => o != string.Empty)
-                .ToList();
-            var permissionSource = Forms.Data("PermissionSource")
-                .SortedSet(';')
-                .Where(o => o != string.Empty)
-                .ToList();
+            var permissionDestination = Forms.List("PermissionDestination");
+            var permissionSource = Forms.List("PermissionSource");
             if (Forms.ControlId() != "Add" &&
                 permissionDestination.Contains("User," + Sessions.UserId()))
             {
@@ -524,7 +518,7 @@ namespace Implem.Pleasanter.Models
                                 siteModel, Types.Destination,
                                 permissionSource))
                             .Html("#PermissionSource", PermissionListItem(siteModel, Types.Source))
-                            .SetFormData("PermissionDestination", permissionSource.Join(";"))
+                            .SetFormData("PermissionDestination", permissionSource.ToJson())
                             .SetFormData("PermissionSource", string.Empty);
                         break;
                     case "Delete":
@@ -542,7 +536,7 @@ namespace Implem.Pleasanter.Models
                                 siteModel, Types.Source,
                                 permissionDestination))
                             .SetFormData("PermissionDestination", string.Empty)
-                            .SetFormData("PermissionSource", permissionDestination.Join(";"));
+                            .SetFormData("PermissionSource", permissionDestination.ToJson());
                         break;
                 }
             }
@@ -557,7 +551,7 @@ namespace Implem.Pleasanter.Models
             var siteModel = new SiteModel(siteId, setByForm: true);
             var res = new ResponseCollection();
             var permissionDestination = Forms.Data("PermissionDestination")
-                .SortedSet(';')
+                .Deserialize<List<string>>()
                 .Where(o => o != string.Empty)
                 .ToList();
             siteModel.Session_PermissionSourceCollection(

@@ -251,7 +251,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         private void SetSorters(SiteSettings ss)
         {
             ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>();
-            Forms.Data("ViewSorters").Split(';').ForEach(data =>
+            Forms.List("ViewSorters").ForEach(data =>
             {
                 var columnName = data.Split_1st();
                 var type = OrderByType(data.Split_2nd());

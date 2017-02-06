@@ -1,6 +1,6 @@
 ﻿$p.addBasket = function ($control, text, value) {
     $control.append($('<li/>')
-        .attr('data-value', value !== undefined
+        .attr('value', value !== undefined
             ? escape(value)
             : escape(text))
         .addClass('ui-widget-content ui-selectee')

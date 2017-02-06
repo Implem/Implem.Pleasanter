@@ -980,7 +980,7 @@ namespace Implem.Pleasanter.Models
                         .SelectableItems(
                             listItemCollection: SiteSettings.AggregationDestination(),
                             selectedValueTextCollection: selectedColumns))
-                    .SetFormData("AggregationDestination", selectedColumns?.Join(";"));
+                    .SetFormData("AggregationDestination", selectedColumns?.ToJson());
             }
         }
 
@@ -1008,7 +1008,7 @@ namespace Implem.Pleasanter.Models
                         .SelectableItems(
                             listItemCollection: SiteSettings.AggregationDestination(),
                             selectedValueTextCollection: selectedColumns))
-                    .SetFormData("AggregationDestination", selectedColumns?.Join(";"));
+                    .SetFormData("AggregationDestination", selectedColumns?.ToJson());
             }
         }
 
@@ -1170,7 +1170,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetSummariesOrder(ResponseCollection res, string controlId)
         {
-            var selected = Forms.Data("EditSummary").Deserialize<IEnumerable<int>>();
+            var selected = Forms.IntList("EditSummary");
             if (selected?.Any() != true)
             {
                 res.Message(Messages.SelectTargets()).ToJson();
@@ -1326,7 +1326,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void DeleteSummaries(ResponseCollection res)
         {
-            var selected = Forms.Data("EditSummary").Deserialize<IEnumerable<int>>();
+            var selected = Forms.IntList("EditSummary");
             if (selected?.Any() != true)
             {
                 res.Message(Messages.SelectTargets()).ToJson();
@@ -1346,7 +1346,7 @@ namespace Implem.Pleasanter.Models
         {
             SetSiteSettingsPropertiesBySession();
             SiteSettings.SetLinkedSiteSettings();
-            var selected = Forms.Data("EditSummary").Deserialize<IEnumerable<int>>();
+            var selected = Forms.IntList("EditSummary");
             if (selected?.Any() != true)
             {
                 return Messages.ResponseSelectTargets().ToJson();
@@ -1364,7 +1364,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetFormulasOrder(ResponseCollection res, string controlId)
         {
-            var selected = Forms.Data("EditFormula").Deserialize<IEnumerable<int>>();
+            var selected = Forms.IntList("EditFormula");
             if (selected?.Any() != true)
             {
                 res.Message(Messages.SelectTargets()).ToJson();
@@ -1471,7 +1471,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void DeleteFormulas(ResponseCollection res)
         {
-            var selected = Forms.Data("EditFormula").Deserialize<IEnumerable<int>>();
+            var selected = Forms.IntList("EditFormula");
             if (selected?.Any() != true)
             {
                 res.Message(Messages.SelectTargets()).ToJson();
@@ -1490,7 +1490,7 @@ namespace Implem.Pleasanter.Models
         public string SynchronizeFormulas()
         {
             SetSiteSettingsPropertiesBySession();
-            var selected = Forms.Data("EditFormula").Deserialize<IEnumerable<int>>();
+            var selected = Forms.IntList("EditFormula");
             if (selected?.Any() != true)
             {
                 return Messages.ResponseSelectTargets().ToJson();
@@ -1509,7 +1509,7 @@ namespace Implem.Pleasanter.Models
         private void SetViewsOrder(ResponseCollection res, string controlId)
         {
             var command = ColumnUtilities.ChangeCommand(controlId);
-            var selectedColumns = Forms.IntList("Views", ';');
+            var selectedColumns = Forms.IntList("Views");
             SiteSettings.SetViewsOrder(command, selectedColumns);
             res
                 .Html(
@@ -1517,7 +1517,7 @@ namespace Implem.Pleasanter.Models
                     new HtmlBuilder().SelectableItems(
                         listItemCollection: SiteSettings.ViewSelectableOptions(),
                         selectedValueTextCollection: selectedColumns.Select(o => o.ToString())))
-                .SetFormData("Views", selectedColumns.Join(";"));
+                .SetFormData("Views", selectedColumns.ToJson());
         }
 
         /// <summary>
@@ -1533,7 +1533,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                var idList = Forms.IntList("Views", ';');
+                var idList = Forms.IntList("Views");
                 if (idList.Count() != 1)
                 {
                     OpenDialogError(res, Messages.SelectOne());
@@ -1618,7 +1618,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void DeleteViews(ResponseCollection res)
         {
-            SiteSettings.Views?.RemoveAll(o => Forms.IntList("Views", ';').Contains(o.Id));
+            SiteSettings.Views?.RemoveAll(o =>
+                Forms.IntList("Views").Contains(o.Id));
             res.ViewResponses(SiteSettings);
         }
 
@@ -1713,7 +1714,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void SetNotificationsOrder(ResponseCollection res, string controlId)
         {
-            var selected = Forms.Data("EditNotification").Deserialize<IEnumerable<int>>();
+            var selected = Forms.IntList("EditNotification");
             if (selected?.Any() != true)
             {
                 res.Message(Messages.SelectTargets()).ToJson();
@@ -1778,7 +1779,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void DeleteNotifications(ResponseCollection res)
         {
-            var selected = Forms.Data("EditNotification").Deserialize<IEnumerable<int>>();
+            var selected = Forms.IntList("EditNotification");
             if (selected?.Any() != true)
             {
                 res.Message(Messages.SelectTargets()).ToJson();
@@ -1825,12 +1826,12 @@ namespace Implem.Pleasanter.Models
                     new HtmlBuilder().SelectableItems(
                         listItemCollection: selectableOptions,
                         selectedValueTextCollection: selectedColumns))
-                .SetFormData(typeName + "Columns", selectedColumns.Join(";"))
+                .SetFormData(typeName + "Columns", selectedColumns.ToJson())
                 .Html("#" + typeName + "SourceColumns",
                     new HtmlBuilder().SelectableItems(
                         listItemCollection: selectableSourceOptions,
                         selectedValueTextCollection: selectedSourceColumns))
-                .SetFormData(typeName + "SourceColumns", selectedSourceColumns.Join(";"));
+                .SetFormData(typeName + "SourceColumns", selectedSourceColumns.ToJson());
         }
 
         /// <summary>

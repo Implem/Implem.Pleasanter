@@ -381,7 +381,7 @@ namespace Implem.Pleasanter.Models
             ExportColumns.SetExport(
                 res,
                 Forms.ControlId(),
-                Forms.Data("ExportSettings_Columns")?.Split(';'),
+                Forms.List("ExportSettings_Columns"),
                 GetSiteSettings());
             ExportSettingUtilities.SetSessions(this);
             return res.ToJson();
