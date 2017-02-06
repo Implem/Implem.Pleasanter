@@ -219,6 +219,10 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData("GridUnCheckedItems", _using: clearCheck)
                 .ClearFormData("GridCheckedItems", _using: clearCheck)
                 .Message(message)
+                .ReplaceAll("#Aggregations", new HtmlBuilder().Aggregations(
+                    ss: ss,
+                    aggregations: deptCollection.Aggregations),
+                    _using: offset == 0)
                 .Append("#Grid", new HtmlBuilder().GridRows(
                     ss: ss,
                     deptCollection: deptCollection,
