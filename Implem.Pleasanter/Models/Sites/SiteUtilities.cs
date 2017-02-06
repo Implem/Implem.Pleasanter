@@ -387,12 +387,12 @@ namespace Implem.Pleasanter.Models
                 default: return SiteMenuError(id, siteModel, invalid);
             }
             MoveSiteMenu(sourceId, destinationId);
-            var res = new ResponseCollection().Remove(".nav-site[data-id=\"" + sourceId + "\"]");
+            var res = new ResponseCollection().Remove(".nav-site[value=\"" + sourceId + "\"]");
             return toParent
                 ? res.ToJson()
                 : res
                     .ReplaceAll(
-                        "[data-id=\"" + destinationId + "\"]",
+                        "[value=\"" + destinationId + "\"]",
                         siteModel.ReplaceSiteMenu(sourceId, destinationId))
                     .ToJson();
         }
@@ -439,7 +439,7 @@ namespace Implem.Pleasanter.Models
                 ReferenceId = siteModel.SiteId,
                 ReferenceType = "Sites",
                 OwnerId = ownerId,
-                Data = Forms.LongList("Data").Where(o => o != 0).ToList()
+                Data = Forms.LongList("Data")
             }.UpdateOrCreate();
         }
 
@@ -716,7 +716,7 @@ namespace Implem.Pleasanter.Models
                          toParent
                             ? " to-parent"
                             : string.Empty))
-                    .DataId(siteId.ToString())
+                    .Value(siteId.ToString())
                     .DataType(referenceType),
                 action: () => hb
                     .A(

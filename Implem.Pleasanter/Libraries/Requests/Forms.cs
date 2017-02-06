@@ -54,13 +54,11 @@ namespace Implem.Pleasanter.Libraries.Requests
                 .ToList() ?? new List<int>();
         }
 
-        public static IEnumerable<long> LongList(string name, char delimiter = ',')
+        public static List<long> LongList(string name)
         {
             return Data(name)
-                .Split(delimiter)
-                .Where(o => o != string.Empty)
-                .Select(o => o.ToLong())
-                .Distinct();
+                .Deserialize<List<long>>()?
+                .ToList() ?? new List<long>();
         }
 
         public static List<string> List(string name)
