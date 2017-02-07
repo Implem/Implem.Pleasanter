@@ -257,7 +257,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var tenantId = Sessions.TenantId();
             var editChoices = new Dictionary<string, ControlData>();
             if (!HasChoices()) return editChoices;
-            if (insertBlank)
+            if (insertBlank && CanEmpty())
             {
                 editChoices.Add(
                     UserColumn
@@ -280,6 +280,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 editChoices.Add("\t", new ControlData(Displays.NotSet()));
             }
             return editChoices;
+        }
+
+        private bool CanEmpty()
+        {
+            return Nullable && ValidateRequired != true;
         }
 
         public Choice Choice(string selectedValue)

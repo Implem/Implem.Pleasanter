@@ -101,14 +101,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long changedItemId = 0)
         {
             var choicesY = CorrectedChoices(
-                groupByY, groupByY?.EditChoices(insertBlank: groupByY.Nullable));
+                groupByY, groupByY?.EditChoices(insertBlank: true));
             return hb.Div(
                 attributes: new HtmlAttributes()
                     .Id("KambanBody")
                     .DataAction("UpdateByKamban")
                     .DataMethod("post"),
                 action: () => groupByX.EditChoices(
-                    insertBlank: groupByX.Nullable)
+                    insertBlank: true)
                         .Chunk(columns.ToInt())
                         .ForEach(choicesX => hb
                             .Table(
