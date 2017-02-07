@@ -32,9 +32,9 @@ $p.initOutgoingMailDialog = function () {
         $('#OutgoingMails_Body').val($('#' + $p.tableName() + '_Body').val() +
             '\n\n' + $('#OutgoingMails_Location').val());
     }
-    $p.addMailAddress($('#OutgoingMails_To'), $('#MailToDefault').val());
-    $p.addMailAddress($('#OutgoingMails_Cc'), $('#MailCcDefault').val());
-    $p.addMailAddress($('#OutgoingMails_Bcc'), $('#MailBccDefault').val());
+    $p.addMailAddress($('#OutgoingMails_To'), $('#To').val());
+    $p.addMailAddress($('#OutgoingMails_Cc'), $('#Cc').val());
+    $p.addMailAddress($('#OutgoingMails_Bcc'), $('#Bcc').val());
 }
 
 $p.addMailAddress = function ($control, defaultMailAddresses) {

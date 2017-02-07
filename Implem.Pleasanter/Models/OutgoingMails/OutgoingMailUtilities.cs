@@ -251,13 +251,13 @@ namespace Implem.Pleasanter.Models
                     ? "1"
                     : "0")
             .Hidden(
-                controlId: "MailToDefault",
+                controlId: "To",
                 value: MailDefault(outgoingMailModel, ss.MailToDefault, "to"))
             .Hidden(
-                controlId: "MailCcDefault",
+                controlId: "Cc",
                 value: MailDefault(outgoingMailModel, ss.MailCcDefault, "cc"))
             .Hidden(
-                controlId: "MailBccDefault",
+                controlId: "Bcc",
                 value: MailDefault(outgoingMailModel, ss.MailBccDefault, "bcc"));
         }
 
