@@ -1203,6 +1203,10 @@ pre{
     padding:3px 10px;
 }
 
+.field-normal .control-text{
+    height:30px;
+}
+
 .field-wide{
     width:100%;
     min-height:45px;
@@ -1332,7 +1336,6 @@ pre{
 
 .control-text{
     width:100%;
-    height:30px;
     min-height:30px;
     display:block;
     padding:6px 4px 2px 4px;
