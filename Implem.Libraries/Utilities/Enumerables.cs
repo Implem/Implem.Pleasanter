@@ -29,13 +29,15 @@ namespace Implem.Libraries.Utilities
             return string.Join(self, list);
         }
 
-        public static IEnumerable<IEnumerable<T>> Chunk<T>(
-            this IEnumerable<T> self, int size)
+        public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> self, int size)
         {
+            var _size = size != 0
+                ? size
+                : self.Count();
             while (self.Any())
             {
-                yield return self.Take(size);
-                self = self.Skip(size);
+                yield return self.Take(_size);
+                self = self.Skip(_size);
             }
         }
 
