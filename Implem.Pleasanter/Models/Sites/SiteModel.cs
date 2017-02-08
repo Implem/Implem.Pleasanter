@@ -276,6 +276,7 @@ namespace Implem.Pleasanter.Models
                         countRecord: true)
                 });
             if (count == 0) return Error.Types.UpdateConflicts;
+            SiteSettingsUtilities.UpdateTitles(SiteSettings);
             Get();
             UpdateRelatedRecords();
             SiteInfo.Reflesh();
