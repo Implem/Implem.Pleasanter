@@ -697,8 +697,12 @@ namespace Implem.Pleasanter.Models
             SetSite();
             switch (Site.ReferenceType)
             {
-                case "Issues": return IssueUtilities.UpdateByKamban(Site);
-                case "Results": return ResultUtilities.UpdateByKamban(Site);
+                case "Issues": return IssueUtilities.UpdateByKamban(
+                	Site.IssuesSiteSettings(setAllChoices: true),
+                	Site.PermissionType);
+                case "Results": return ResultUtilities.UpdateByKamban(
+                	Site.ResultsSiteSettings(setAllChoices: true),
+                	Site.PermissionType);
                 default: return Messages.ResponseNotFound().ToJson();
             }
         }

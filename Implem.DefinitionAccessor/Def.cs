@@ -1923,6 +1923,7 @@ namespace Implem.DefinitionAccessor
                     case "_dot_field_normal_space___space__dot_field_control": Css._dot_field_normal_space___space__dot_field_control = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_normal_space___space__dot_field_control, definitionRow, CssXls); break;
                     case "_dot_field_normal_space__dot_container_normal": Css._dot_field_normal_space__dot_container_normal = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_normal_space__dot_container_normal, definitionRow, CssXls); break;
                     case "_dot_field_normal_space___space__dot_buttons": Css._dot_field_normal_space___space__dot_buttons = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_normal_space___space__dot_buttons, definitionRow, CssXls); break;
+                    case "_dot_field_normal_space__dot_control_text": Css._dot_field_normal_space__dot_control_text = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_normal_space__dot_control_text, definitionRow, CssXls); break;
                     case "_dot_field_wide": Css._dot_field_wide = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_wide, definitionRow, CssXls); break;
                     case "_dot_field_wide_space___space__dot_field_label": Css._dot_field_wide_space___space__dot_field_label = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_wide_space___space__dot_field_label, definitionRow, CssXls); break;
                     case "_dot_field_wide_space___space__dot_field_control": Css._dot_field_wide_space___space__dot_field_control = definitionRow[1].ToString(); SetCssTable(CssTable._dot_field_wide_space___space__dot_field_control, definitionRow, CssXls); break;
@@ -6191,6 +6192,7 @@ namespace Implem.DefinitionAccessor
         public string _dot_field_normal_space___space__dot_field_control;
         public string _dot_field_normal_space__dot_container_normal;
         public string _dot_field_normal_space___space__dot_buttons;
+        public string _dot_field_normal_space__dot_control_text;
         public string _dot_field_wide;
         public string _dot_field_wide_space___space__dot_field_label;
         public string _dot_field_wide_space___space__dot_field_control;
@@ -6578,6 +6580,7 @@ namespace Implem.DefinitionAccessor
         public CssDefinition _dot_field_normal_space___space__dot_field_control = new CssDefinition();
         public CssDefinition _dot_field_normal_space__dot_container_normal = new CssDefinition();
         public CssDefinition _dot_field_normal_space___space__dot_buttons = new CssDefinition();
+        public CssDefinition _dot_field_normal_space__dot_control_text = new CssDefinition();
         public CssDefinition _dot_field_wide = new CssDefinition();
         public CssDefinition _dot_field_wide_space___space__dot_field_label = new CssDefinition();
         public CssDefinition _dot_field_wide_space___space__dot_field_control = new CssDefinition();

@@ -2097,14 +2097,13 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string UpdateByKamban(SiteModel siteModel)
+        public static string UpdateByKamban(SiteSettings ss, Permissions.Types pt)
         {
-            var ss = siteModel.IssuesSiteSettings();
             var issueModel = new IssueModel(
                 ss, Forms.Long("KambanId"), setByForm: true);
             issueModel.VerUp = Versions.MustVerUp(issueModel);
             issueModel.Update(notice: true);
-            return KambanJson(ss, siteModel.PermissionType);
+            return KambanJson(ss, pt);
         }
 
         /// <summary>
