@@ -10,6 +10,7 @@ using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 namespace Implem.Pleasanter.Libraries.Settings
 {
@@ -45,6 +46,17 @@ namespace Implem.Pleasanter.Libraries.Settings
         public View(SiteSettings ss)
         {
             SetByForm(ss);
+        }
+
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext streamingContext)
+        {
+            KambanColumns = KambanColumns ?? Parameters.General.KambanColumns;
+        }
+
+        [OnSerializing]
+        private void OnSerializing(StreamingContext streamingContext)
+        {
         }
 
         public void SetByForm(SiteSettings ss)
