@@ -208,14 +208,9 @@ namespace Implem.DefinitionAccessor
         private static List<SqlStatement> SqlStatementCollection(
             params SqlStatement[] statements)
         {
-            if (statements == null)
-            {
-                return new List<SqlStatement>();
-            }
-            else
-            {
-                return statements.ToList();
-            }
+            return statements == null
+                ? new List<SqlStatement>()
+                : statements.Where(o => o != null).ToList();
         }
 
         public static Func<ColumnDefinition, bool> IsNullCaseToTrue(
@@ -310,6 +305,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_InsertIdentitySet": Code.Model_InsertIdentitySet = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertIdentitySet, definitionRow, CodeXls); break;
                     case "Model_Update": Code.Model_Update = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Update, definitionRow, CodeXls); break;
                     case "Model_UpdateParams": Code.Model_UpdateParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams, definitionRow, CodeXls); break;
+                    case "Model_Update_Sites": Code.Model_Update_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Update_Sites, definitionRow, CodeXls); break;
                     case "Model_UpdateRelatedRecords": Code.Model_UpdateRelatedRecords = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateRelatedRecords, definitionRow, CodeXls); break;
                     case "Model_OnUpdatedNotice": Code.Model_OnUpdatedNotice = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdatedNotice, definitionRow, CodeXls); break;
                     case "Model_OnUpdated_Depts": Code.Model_OnUpdated_Depts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_Depts, definitionRow, CodeXls); break;
@@ -625,6 +621,8 @@ namespace Implem.DefinitionAccessor
                     case "SiteSettings_GetModels_Items": Code.SiteSettings_GetModels_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Items_Choices": Code.SiteSettings_GetModels_Items_Choices = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items_Choices, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Includes": Code.SiteSettings_GetModels_Includes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Includes, definitionRow, CodeXls); break;
+                    case "SiteSettings_UpdateTitles": Code.SiteSettings_UpdateTitles = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_UpdateTitles, definitionRow, CodeXls); break;
+                    case "SiteSettings_UpdateTitles_TableCases": Code.SiteSettings_UpdateTitles_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_UpdateTitles_TableCases, definitionRow, CodeXls); break;
                     case "View": Code.View = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.View, definitionRow, CodeXls); break;
                     case "View_Search_TableCases": Code.View_Search_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.View_Search_TableCases, definitionRow, CodeXls); break;
                     case "View_Sorter_TableCases": Code.View_Sorter_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.View_Sorter_TableCases, definitionRow, CodeXls); break;
@@ -3213,6 +3211,7 @@ namespace Implem.DefinitionAccessor
         public string Model_InsertIdentitySet;
         public string Model_Update;
         public string Model_UpdateParams;
+        public string Model_Update_Sites;
         public string Model_UpdateRelatedRecords;
         public string Model_OnUpdatedNotice;
         public string Model_OnUpdated_Depts;
@@ -3528,6 +3527,8 @@ namespace Implem.DefinitionAccessor
         public string SiteSettings_GetModels_Items;
         public string SiteSettings_GetModels_Items_Choices;
         public string SiteSettings_GetModels_Includes;
+        public string SiteSettings_UpdateTitles;
+        public string SiteSettings_UpdateTitles_TableCases;
         public string View;
         public string View_Search_TableCases;
         public string View_Sorter_TableCases;
@@ -3649,6 +3650,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_InsertIdentitySet = new CodeDefinition();
         public CodeDefinition Model_Update = new CodeDefinition();
         public CodeDefinition Model_UpdateParams = new CodeDefinition();
+        public CodeDefinition Model_Update_Sites = new CodeDefinition();
         public CodeDefinition Model_UpdateRelatedRecords = new CodeDefinition();
         public CodeDefinition Model_OnUpdatedNotice = new CodeDefinition();
         public CodeDefinition Model_OnUpdated_Depts = new CodeDefinition();
@@ -3964,6 +3966,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition SiteSettings_GetModels_Items = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Items_Choices = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Includes = new CodeDefinition();
+        public CodeDefinition SiteSettings_UpdateTitles = new CodeDefinition();
+        public CodeDefinition SiteSettings_UpdateTitles_TableCases = new CodeDefinition();
         public CodeDefinition View = new CodeDefinition();
         public CodeDefinition View_Search_TableCases = new CodeDefinition();
         public CodeDefinition View_Sorter_TableCases = new CodeDefinition();
