@@ -3,11 +3,11 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "Group by y"
+            "Body": "Rows group by"
         },
         {
             "Language": "ja",
-            "Body": "横の分類"
+            "Body": "行の分類"
         }
     ]
 }
