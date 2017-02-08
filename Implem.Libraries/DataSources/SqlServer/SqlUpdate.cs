@@ -73,7 +73,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                                 prefix: "_sub",
                                 commandCount: commandCount) + ")");
                     }
-                    else
+                    else if (!sqlParam.ColumnBracket.IsNullOrEmpty())
                     {
                         columnNameCollection.Add(
                             sqlParam.ColumnBracket + "=@" + sqlParam.VariableName + commandCount);
