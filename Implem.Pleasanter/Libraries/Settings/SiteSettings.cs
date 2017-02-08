@@ -1065,13 +1065,14 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void SetChoiceHash(
             bool withLink = true,
+            bool all = false,
             Column targetColumn = null,
             IEnumerable<string> searchIndexes = null,
             IEnumerable<long> selectedValues = null)
         {
             var linkHash = withLink
                 ? searchIndexes == null && selectedValues == null
-                    ? LinkHash()
+                    ? LinkHash(all)
                     : LinkHash(targetColumn, searchIndexes, selectedValues)
                 : null;
             Columns?
@@ -1081,9 +1082,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     column.SetChoiceHash(InheritPermission, linkHash, searchIndexes));
         }
 
-        private Dictionary<string, Dictionary<string, string>> LinkHash()
+        private Dictionary<string, Dictionary<string, string>> LinkHash(bool all)
         {
-            var links = Links?.Where(o => GetColumn(o.ColumnName)?.UseSearch != true).ToList();
+            var links = Links?.Where(o =>
+                all || GetColumn(o.ColumnName)?.UseSearch != true).ToList();
             var allowSites = Permissions.AllowSites(Links?.Select(o => o.SiteId));
             return links?.Any() == true
                 ? links

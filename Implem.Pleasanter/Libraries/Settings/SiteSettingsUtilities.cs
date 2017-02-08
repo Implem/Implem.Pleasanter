@@ -40,14 +40,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public static SiteSettings Get(SiteModel siteModel)
+        public static SiteSettings Get(SiteModel siteModel, bool setAllChoices = false)
         {
             switch (siteModel.ReferenceType)
             {
-                case "Sites": return SitesSiteSettings(siteModel);
-                case "Issues": return IssuesSiteSettings(siteModel);
-                case "Results": return ResultsSiteSettings(siteModel);
-                case "Wikis": return WikisSiteSettings(siteModel);
+                case "Sites": return SitesSiteSettings(siteModel, setAllChoices);
+                case "Issues": return IssuesSiteSettings(siteModel, setAllChoices);
+                case "Results": return ResultsSiteSettings(siteModel, setAllChoices);
+                case "Wikis": return WikisSiteSettings(siteModel, setAllChoices);
                 default: return new SiteSettings() { SiteId = siteModel.SiteId };
             }
         }
@@ -174,7 +174,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ss;
         }
 
-        public static SiteSettings SitesSiteSettings(this SiteModel siteModel)
+        public static SiteSettings SitesSiteSettings(this SiteModel siteModel, bool setAllChoices = false)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
             ss.SiteId = siteModel.SiteId;
@@ -189,7 +189,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ss;
         }
 
-        public static SiteSettings SitesSiteSettings(long siteId)
+        public static SiteSettings SitesSiteSettings(long siteId, bool setAllChoices = false)
         {
             var ss = new SiteSettings();
             ss.ReferenceType = "Sites";
@@ -198,7 +198,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ss;
         }
 
-        public static SiteSettings IssuesSiteSettings(this SiteModel siteModel)
+        public static SiteSettings IssuesSiteSettings(this SiteModel siteModel, bool setAllChoices = false)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
             ss.SiteId = siteModel.SiteId;
@@ -210,21 +210,21 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init();
             ss.SetLinkedSiteSettings();
-            ss.SetChoiceHash();
+            ss.SetChoiceHash(all: setAllChoices);
             return ss;
         }
 
-        public static SiteSettings IssuesSiteSettings(long siteId)
+        public static SiteSettings IssuesSiteSettings(long siteId, bool setAllChoices = false)
         {
             var ss = new SiteSettings();
             ss.ReferenceType = "Issues";
             ss.SiteId = siteId;
             ss.Init();
-            ss.SetChoiceHash();
+            ss.SetChoiceHash(all: setAllChoices);
             return ss;
         }
 
-        public static SiteSettings ResultsSiteSettings(this SiteModel siteModel)
+        public static SiteSettings ResultsSiteSettings(this SiteModel siteModel, bool setAllChoices = false)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
             ss.SiteId = siteModel.SiteId;
@@ -236,21 +236,21 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init();
             ss.SetLinkedSiteSettings();
-            ss.SetChoiceHash();
+            ss.SetChoiceHash(all: setAllChoices);
             return ss;
         }
 
-        public static SiteSettings ResultsSiteSettings(long siteId)
+        public static SiteSettings ResultsSiteSettings(long siteId, bool setAllChoices = false)
         {
             var ss = new SiteSettings();
             ss.ReferenceType = "Results";
             ss.SiteId = siteId;
             ss.Init();
-            ss.SetChoiceHash();
+            ss.SetChoiceHash(all: setAllChoices);
             return ss;
         }
 
-        public static SiteSettings WikisSiteSettings(this SiteModel siteModel)
+        public static SiteSettings WikisSiteSettings(this SiteModel siteModel, bool setAllChoices = false)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
             ss.SiteId = siteModel.SiteId;
@@ -262,17 +262,17 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.AccessStatus = siteModel.AccessStatus;
             ss.Init();
             ss.SetLinkedSiteSettings();
-            ss.SetChoiceHash();
+            ss.SetChoiceHash(all: setAllChoices);
             return ss;
         }
 
-        public static SiteSettings WikisSiteSettings(long siteId)
+        public static SiteSettings WikisSiteSettings(long siteId, bool setAllChoices = false)
         {
             var ss = new SiteSettings();
             ss.ReferenceType = "Wikis";
             ss.SiteId = siteId;
             ss.Init();
-            ss.SetChoiceHash();
+            ss.SetChoiceHash(all: setAllChoices);
             return ss;
         }
 
