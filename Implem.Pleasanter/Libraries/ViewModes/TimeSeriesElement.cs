@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         public bool Latest;
 
         public TimeSeriesElement(
-            Column column,
+            bool userColumn,
             long id,
             int ver,
             DateTime updatedTime,
@@ -26,7 +26,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             Id = id;
             Ver = ver;
             UpdatedTime = updatedTime;
-            Index = column.UserColumn && SiteInfo.User(index.ToInt()).Anonymous()
+            Index = userColumn && SiteInfo.User(index.ToInt()).Anonymous()
                 ? "\t"
                 : index == string.Empty
                     ? "\t"

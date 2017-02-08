@@ -1,5 +1,4 @@
 ﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
@@ -54,16 +53,14 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             AggregationType = aggregationType;
             ValueColumn = value;
             dataRows.ForEach(dataRow =>
-            {
                 Add(new TimeSeriesElement(
-                    SiteSettings.GetColumn(GroupByColumn),
+                    SiteSettings.GetColumn(GroupByColumn)?.UserColumn == true,
                     dataRow["Id"].ToLong(),
                     dataRow["Ver"].ToInt(),
                     dataRow["UpdatedTime"].ToDateTime().ToLocal().Date,
                     dataRow["Index"].ToString(),
                     dataRow["Value"].ToDecimal(),
-                    dataRow["IsHistory"].ToBool()));
-            });
+                    dataRow["IsHistory"].ToBool())));
             if (this.Any())
             {
                 MinTime = this.Select(o => o.UpdatedTime).Min().AddDays(-1);
@@ -87,19 +84,19 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         public string Json()
         {
             var elements = new List<Element>();
-            var column = SiteSettings.GetColumn(GroupByColumn);
-            var choices = column
+            var groupByColumn = SiteSettings.GetColumn(GroupByColumn);
+            var choices = groupByColumn
                 .EditChoices(addNotSet: true)
                 .Reverse()
                 .Where(o => this.Select(p => p.Index).Contains(o.Key))
                 .ToDictionary(o => o.Key, o => o.Value);
-            var value = SiteSettings.GetColumn(ValueColumn);
+            var valueColumn = SiteSettings.GetColumn(ValueColumn);
             var choiceKeys = choices.Keys.ToList();
             var indexes = choices.Select((o, i) => new Index
             {
                 Id = i,
                 Key = o.Key,
-                Text = IndexText(o, value),
+                Text = IndexText(o, valueColumn),
                 Style = o.Value.Style
             }).ToList();
             if (this.Any())
@@ -132,16 +129,19 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 Indexes = indexes.OrderByDescending(o => o.Id).ToList(),
                 Elements = elements,
                 Unit = AggregationType != "Count"
-                    ? value.Unit
+                    ? valueColumn.Unit
                     : string.Empty
             }.ToJson();
         }
 
-        private string IndexText(KeyValuePair<string, ControlData> index, Column value)
+        private string IndexText(KeyValuePair<string, ControlData> index, Column valueColumn)
         {
-            return "{0}({1})".Params(index.Value.Text, value.Display(
-                GetData(Targets(MaxTime).Where(p => p.Index == index.Key)),
-                unit: AggregationType != "Count"));
+            var data = GetData(Targets(MaxTime).Where(p => p.Index == index.Key));
+            return "{0}({1})".Params(
+                index.Value.Text,
+                AggregationType != "Count"
+                    ? valueColumn.Display(data)
+                    : data.ToString());
         }
 
         private IEnumerable<TimeSeriesElement> Targets(DateTime currentTime)
