@@ -1084,29 +1084,35 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private Dictionary<string, Dictionary<string, string>> LinkHash(bool all)
         {
-            var links = Links?.Where(o =>
-                all || GetColumn(o.ColumnName)?.UseSearch != true).ToList();
-            var allowSites = Permissions.AllowSites(Links?.Select(o => o.SiteId));
-            return links?.Any() == true
-                ? links
-                    .Select(o => o.SiteId)
-                    .Where(o => allowSites.Contains(o))
-                    .Distinct()
-                    .ToDictionary(
-                        siteId => "[[" + siteId + "]]",
-                        siteId => LinkValue(siteId, Rds.ExecuteTable(
-                            statements: Rds.SelectItems(
-                                column: Rds.ItemsColumn()
-                                    .ReferenceId()
-                                    .ReferenceType()
-                                    .SiteId()
-                                    .Title(),
-                                where: Rds.ItemsWhere()
-                                    .ReferenceType("Sites", _operator: "<>")
-                                    .SiteId(siteId),
-                                orderBy: Rds.ItemsOrderBy()
-                                    .Title())).AsEnumerable()))
-                : null;
+            var allowSites = Permissions.AllowSites(Links?.Select(o => o.SiteId).Distinct());
+            var targetSites = Links?
+                .Where(o => all || GetColumn(o.ColumnName)?.UseSearch != true)
+                .Select(o => o.SiteId)
+                .Distinct()
+                .Join();
+            var dataRows = Rds.ExecuteTable(
+                statements: Rds.SelectItems(
+                    column: Rds.ItemsColumn()
+                        .ReferenceId()
+                        .ReferenceType()
+                        .SiteId()
+                        .Title(),
+                    where: Rds.ItemsWhere()
+                        .ReferenceType("Sites", _operator: "<>")
+                        .SiteId_In(allowSites)
+                        .Add(or: new SqlWhereCollection(
+                            new SqlWhere(raw: "[t0].[ReferenceType]='Wikis'"),
+                            new SqlWhere(
+                                raw: "[t0].[SiteId] in ({0})".Params(targetSites),
+                                _using: targetSites != string.Empty))),
+                    orderBy: Rds.ItemsOrderBy()
+                        .Title())).AsEnumerable();
+            return allowSites
+                .Distinct()
+                .ToDictionary(
+                    siteId => "[[" + siteId + "]]",
+                    siteId => LinkValue(
+                        siteId, dataRows.Where(o => o["SiteId"].ToLong() == siteId)));
         }
 
         private Dictionary<string, Dictionary<string, string>> LinkHash(
