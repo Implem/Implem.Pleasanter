@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.Settings;
+using System;
 namespace Implem.Pleasanter.Libraries.ViewModes
 {
     public class TimeSeriesElement
@@ -12,12 +15,22 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         public bool Latest;
 
         public TimeSeriesElement(
-            long id, int ver, DateTime updatedTime, string index, decimal value, bool isHistory)
+            Column column,
+            long id,
+            int ver,
+            DateTime updatedTime,
+            string index,
+            decimal value,
+            bool isHistory)
         {
             Id = id;
             Ver = ver;
             UpdatedTime = updatedTime;
-            Index = index;
+            Index = column.UserColumn && SiteInfo.User(index.ToInt()).Anonymous()
+                ? "\t"
+                : index == string.Empty
+                    ? "\t"
+                    : index;
             Value = value;
             IsHistory = isHistory;
         }

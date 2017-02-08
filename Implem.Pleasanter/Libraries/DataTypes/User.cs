@@ -142,5 +142,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 updated,
                 update);
         }
+
+        public bool Anonymous()
+        {
+            return Id == UserTypes.Anonymous.ToInt();
+        }
     }
 }

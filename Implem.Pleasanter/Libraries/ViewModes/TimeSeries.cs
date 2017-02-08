@@ -56,6 +56,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             dataRows.ForEach(dataRow =>
             {
                 Add(new TimeSeriesElement(
+                    SiteSettings.GetColumn(GroupByColumn),
                     dataRow["Id"].ToLong(),
                     dataRow["Ver"].ToInt(),
                     dataRow["UpdatedTime"].ToDateTime().ToLocal().Date,
@@ -88,21 +89,10 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             var elements = new List<Element>();
             var column = SiteSettings.GetColumn(GroupByColumn);
             var choices = column
-                .EditChoices()
+                .EditChoices(addNotSet: true)
                 .Reverse()
                 .Where(o => this.Select(p => p.Index).Contains(o.Key))
                 .ToDictionary(o => o.Key, o => o.Value);
-            if (column.UserColumn && this.Any(o =>
-                o.Index == User.UserTypes.Anonymous.ToInt().ToString()))
-            {
-                choices.Add(
-                    User.UserTypes.Anonymous.ToInt().ToString(),
-                    new ControlData(Displays.NotSet()));
-            }
-            else
-            {
-                choices.Add(string.Empty, new ControlData(Displays.NotSet()));
-            }
             var value = SiteSettings.GetColumn(ValueColumn);
             var choiceKeys = choices.Keys.ToList();
             var indexes = choices.Select((o, i) => new Index
