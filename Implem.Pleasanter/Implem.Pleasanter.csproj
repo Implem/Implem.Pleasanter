@@ -231,6 +231,7 @@
     <Compile Include="Libraries\DataTypes\User.cs" />
     <Compile Include="Libraries\DataTypes\WorkValue.cs" />
     <Compile Include="Libraries\HtmlParts\HtmlDropDownSearches.cs" />
+    <Compile Include="Libraries\HtmlParts\HtmlSiteMenu.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_009.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_008.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_007.cs" />

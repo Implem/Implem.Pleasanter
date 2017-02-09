@@ -27,8 +27,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     action: () => hb
                                         .Div(action: () => hb
                                             .Text(Displays.Depts()))
-                                        .Div(css: "stacking1")
-                                        .Div(css: "stacking2")))
+                                        .StackStyles()))
                             .Li(css: "nav-site", action: () => hb
                                 .A(
                                     attributes: new HtmlAttributes()
@@ -36,8 +35,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     action: () => hb
                                         .Div(action: () => hb
                                             .Text(Displays.Groups()))
-                                        .Div(css: "stacking1")
-                                        .Div(css: "stacking2")))
+                                        .StackStyles()))
                             .Li(css: "nav-site", action: () => hb
                                 .A(
                                     attributes: new HtmlAttributes()
@@ -45,8 +43,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     action: () => hb
                                         .Div(action: () => hb
                                             .Text(Displays.Users()))
-                                        .Div(css: "stacking1")
-                                        .Div(css: "stacking2")))))
+                                        .StackStyles()))))
                     .MainCommands(
                         siteId: 0,
                         pt: pt,

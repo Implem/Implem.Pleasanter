@@ -861,7 +861,7 @@ namespace Implem.Pleasanter.Models
                 switch (referenceType)
                 {
                     case "Wikis": return hb;
-                    default: return hb.Div(css: "stacking1").Div(css: "stacking2");
+                    default: return hb.StackStyles();
                 }
             }
         }
