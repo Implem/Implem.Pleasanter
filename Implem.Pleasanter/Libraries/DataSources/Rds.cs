@@ -6113,7 +6113,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             public new TenantsJoinCollection Add(params string[] columnBrackets)
             {
-                columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
+                columnBrackets.ForEach(columnBracket => Add(new SqlJoin(columnBracket)));
                 return this;
             }
         }
@@ -6137,7 +6137,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection or = null,
                 bool _using = true)
             {
-                base.Add(new SqlWhere(
+                Add(new SqlWhere(
                     columnBrackets: columnBrackets,
                     name: name,
                     value: value,
@@ -6163,7 +6163,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlGroupBy(columnBracket)));
+                    Add(new SqlGroupBy(columnBracket)));
                 return this;
             }
         }
@@ -6178,7 +6178,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             public TenantsHavingCollection Add(
                 string columnBracket, string name, object value, string _operator)
             {
-                base.Add(new SqlHaving(
+                Add(new SqlHaving(
                     columnBracket: columnBracket,
                     name: name,
                     value: value,
@@ -6199,7 +6199,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlOrderBy(columnBracket, type)));
+                    Add(new SqlOrderBy(columnBracket, type)));
                 return this;
             }
         }
@@ -6219,7 +6219,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 string raw = null,
                 bool _using = true)
             {
-                base.Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
+                Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
                 return this;
             }
         }
@@ -6617,7 +6617,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             public new DemosJoinCollection Add(params string[] columnBrackets)
             {
-                columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
+                columnBrackets.ForEach(columnBracket => Add(new SqlJoin(columnBracket)));
                 return this;
             }
         }
@@ -6641,7 +6641,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection or = null,
                 bool _using = true)
             {
-                base.Add(new SqlWhere(
+                Add(new SqlWhere(
                     columnBrackets: columnBrackets,
                     name: name,
                     value: value,
@@ -6667,7 +6667,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlGroupBy(columnBracket)));
+                    Add(new SqlGroupBy(columnBracket)));
                 return this;
             }
         }
@@ -6682,7 +6682,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             public DemosHavingCollection Add(
                 string columnBracket, string name, object value, string _operator)
             {
-                base.Add(new SqlHaving(
+                Add(new SqlHaving(
                     columnBracket: columnBracket,
                     name: name,
                     value: value,
@@ -6703,7 +6703,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlOrderBy(columnBracket, type)));
+                    Add(new SqlOrderBy(columnBracket, type)));
                 return this;
             }
         }
@@ -6723,7 +6723,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 string raw = null,
                 bool _using = true)
             {
-                base.Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
+                Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
                 return this;
             }
         }
@@ -7180,7 +7180,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             public new SysLogsJoinCollection Add(params string[] columnBrackets)
             {
-                columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
+                columnBrackets.ForEach(columnBracket => Add(new SqlJoin(columnBracket)));
                 return this;
             }
         }
@@ -7204,7 +7204,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection or = null,
                 bool _using = true)
             {
-                base.Add(new SqlWhere(
+                Add(new SqlWhere(
                     columnBrackets: columnBrackets,
                     name: name,
                     value: value,
@@ -7230,7 +7230,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlGroupBy(columnBracket)));
+                    Add(new SqlGroupBy(columnBracket)));
                 return this;
             }
         }
@@ -7245,7 +7245,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             public SysLogsHavingCollection Add(
                 string columnBracket, string name, object value, string _operator)
             {
-                base.Add(new SqlHaving(
+                Add(new SqlHaving(
                     columnBracket: columnBracket,
                     name: name,
                     value: value,
@@ -7266,7 +7266,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlOrderBy(columnBracket, type)));
+                    Add(new SqlOrderBy(columnBracket, type)));
                 return this;
             }
         }
@@ -7286,7 +7286,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 string raw = null,
                 bool _using = true)
             {
-                base.Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
+                Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
                 return this;
             }
         }
@@ -8288,7 +8288,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             public new DeptsJoinCollection Add(params string[] columnBrackets)
             {
-                columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
+                columnBrackets.ForEach(columnBracket => Add(new SqlJoin(columnBracket)));
                 return this;
             }
         }
@@ -8312,7 +8312,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection or = null,
                 bool _using = true)
             {
-                base.Add(new SqlWhere(
+                Add(new SqlWhere(
                     columnBrackets: columnBrackets,
                     name: name,
                     value: value,
@@ -8338,7 +8338,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlGroupBy(columnBracket)));
+                    Add(new SqlGroupBy(columnBracket)));
                 return this;
             }
         }
@@ -8353,7 +8353,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             public DeptsHavingCollection Add(
                 string columnBracket, string name, object value, string _operator)
             {
-                base.Add(new SqlHaving(
+                Add(new SqlHaving(
                     columnBracket: columnBracket,
                     name: name,
                     value: value,
@@ -8374,7 +8374,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlOrderBy(columnBracket, type)));
+                    Add(new SqlOrderBy(columnBracket, type)));
                 return this;
             }
         }
@@ -8394,7 +8394,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 string raw = null,
                 bool _using = true)
             {
-                base.Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
+                Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
                 return this;
             }
         }
@@ -8852,7 +8852,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             public new GroupsJoinCollection Add(params string[] columnBrackets)
             {
-                columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
+                columnBrackets.ForEach(columnBracket => Add(new SqlJoin(columnBracket)));
                 return this;
             }
         }
@@ -8876,7 +8876,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection or = null,
                 bool _using = true)
             {
-                base.Add(new SqlWhere(
+                Add(new SqlWhere(
                     columnBrackets: columnBrackets,
                     name: name,
                     value: value,
@@ -8902,7 +8902,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlGroupBy(columnBracket)));
+                    Add(new SqlGroupBy(columnBracket)));
                 return this;
             }
         }
@@ -8917,7 +8917,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             public GroupsHavingCollection Add(
                 string columnBracket, string name, object value, string _operator)
             {
-                base.Add(new SqlHaving(
+                Add(new SqlHaving(
                     columnBracket: columnBracket,
                     name: name,
                     value: value,
@@ -8938,7 +8938,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlOrderBy(columnBracket, type)));
+                    Add(new SqlOrderBy(columnBracket, type)));
                 return this;
             }
         }
@@ -8958,7 +8958,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 string raw = null,
                 bool _using = true)
             {
-                base.Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
+                Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
                 return this;
             }
         }
@@ -9393,7 +9393,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             public new GroupMembersJoinCollection Add(params string[] columnBrackets)
             {
-                columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
+                columnBrackets.ForEach(columnBracket => Add(new SqlJoin(columnBracket)));
                 return this;
             }
         }
@@ -9417,7 +9417,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection or = null,
                 bool _using = true)
             {
-                base.Add(new SqlWhere(
+                Add(new SqlWhere(
                     columnBrackets: columnBrackets,
                     name: name,
                     value: value,
@@ -9443,7 +9443,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlGroupBy(columnBracket)));
+                    Add(new SqlGroupBy(columnBracket)));
                 return this;
             }
         }
@@ -9458,7 +9458,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             public GroupMembersHavingCollection Add(
                 string columnBracket, string name, object value, string _operator)
             {
-                base.Add(new SqlHaving(
+                Add(new SqlHaving(
                     columnBracket: columnBracket,
                     name: name,
                     value: value,
@@ -9479,7 +9479,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlOrderBy(columnBracket, type)));
+                    Add(new SqlOrderBy(columnBracket, type)));
                 return this;
             }
         }
@@ -9499,7 +9499,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 string raw = null,
                 bool _using = true)
             {
-                base.Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
+                Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
                 return this;
             }
         }
@@ -9956,7 +9956,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             public new UsersJoinCollection Add(params string[] columnBrackets)
             {
-                columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
+                columnBrackets.ForEach(columnBracket => Add(new SqlJoin(columnBracket)));
                 return this;
             }
         }
@@ -9980,7 +9980,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection or = null,
                 bool _using = true)
             {
-                base.Add(new SqlWhere(
+                Add(new SqlWhere(
                     columnBrackets: columnBrackets,
                     name: name,
                     value: value,
@@ -10006,7 +10006,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlGroupBy(columnBracket)));
+                    Add(new SqlGroupBy(columnBracket)));
                 return this;
             }
         }
@@ -10021,7 +10021,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             public UsersHavingCollection Add(
                 string columnBracket, string name, object value, string _operator)
             {
-                base.Add(new SqlHaving(
+                Add(new SqlHaving(
                     columnBracket: columnBracket,
                     name: name,
                     value: value,
@@ -10042,7 +10042,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlOrderBy(columnBracket, type)));
+                    Add(new SqlOrderBy(columnBracket, type)));
                 return this;
             }
         }
@@ -10062,7 +10062,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 string raw = null,
                 bool _using = true)
             {
-                base.Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
+                Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
                 return this;
             }
         }
@@ -10880,7 +10880,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             public new MailAddressesJoinCollection Add(params string[] columnBrackets)
             {
-                columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
+                columnBrackets.ForEach(columnBracket => Add(new SqlJoin(columnBracket)));
                 return this;
             }
         }
@@ -10904,7 +10904,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection or = null,
                 bool _using = true)
             {
-                base.Add(new SqlWhere(
+                Add(new SqlWhere(
                     columnBrackets: columnBrackets,
                     name: name,
                     value: value,
@@ -10930,7 +10930,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlGroupBy(columnBracket)));
+                    Add(new SqlGroupBy(columnBracket)));
                 return this;
             }
         }
@@ -10945,7 +10945,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             public MailAddressesHavingCollection Add(
                 string columnBracket, string name, object value, string _operator)
             {
-                base.Add(new SqlHaving(
+                Add(new SqlHaving(
                     columnBracket: columnBracket,
                     name: name,
                     value: value,
@@ -10966,7 +10966,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlOrderBy(columnBracket, type)));
+                    Add(new SqlOrderBy(columnBracket, type)));
                 return this;
             }
         }
@@ -10986,7 +10986,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 string raw = null,
                 bool _using = true)
             {
-                base.Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
+                Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
                 return this;
             }
         }
@@ -11419,7 +11419,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             public new PermissionsJoinCollection Add(params string[] columnBrackets)
             {
-                columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
+                columnBrackets.ForEach(columnBracket => Add(new SqlJoin(columnBracket)));
                 return this;
             }
         }
@@ -11443,7 +11443,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection or = null,
                 bool _using = true)
             {
-                base.Add(new SqlWhere(
+                Add(new SqlWhere(
                     columnBrackets: columnBrackets,
                     name: name,
                     value: value,
@@ -11469,7 +11469,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlGroupBy(columnBracket)));
+                    Add(new SqlGroupBy(columnBracket)));
                 return this;
             }
         }
@@ -11484,7 +11484,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             public PermissionsHavingCollection Add(
                 string columnBracket, string name, object value, string _operator)
             {
-                base.Add(new SqlHaving(
+                Add(new SqlHaving(
                     columnBracket: columnBracket,
                     name: name,
                     value: value,
@@ -11505,7 +11505,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlOrderBy(columnBracket, type)));
+                    Add(new SqlOrderBy(columnBracket, type)));
                 return this;
             }
         }
@@ -11525,7 +11525,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 string raw = null,
                 bool _using = true)
             {
-                base.Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
+                Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
                 return this;
             }
         }
@@ -12153,7 +12153,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             public new OutgoingMailsJoinCollection Add(params string[] columnBrackets)
             {
-                columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
+                columnBrackets.ForEach(columnBracket => Add(new SqlJoin(columnBracket)));
                 return this;
             }
         }
@@ -12177,7 +12177,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection or = null,
                 bool _using = true)
             {
-                base.Add(new SqlWhere(
+                Add(new SqlWhere(
                     columnBrackets: columnBrackets,
                     name: name,
                     value: value,
@@ -12203,7 +12203,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlGroupBy(columnBracket)));
+                    Add(new SqlGroupBy(columnBracket)));
                 return this;
             }
         }
@@ -12218,7 +12218,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             public OutgoingMailsHavingCollection Add(
                 string columnBracket, string name, object value, string _operator)
             {
-                base.Add(new SqlHaving(
+                Add(new SqlHaving(
                     columnBracket: columnBracket,
                     name: name,
                     value: value,
@@ -12239,7 +12239,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlOrderBy(columnBracket, type)));
+                    Add(new SqlOrderBy(columnBracket, type)));
                 return this;
             }
         }
@@ -12259,7 +12259,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 string raw = null,
                 bool _using = true)
             {
-                base.Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
+                Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
                 return this;
             }
         }
@@ -12875,7 +12875,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             public new SearchIndexesJoinCollection Add(params string[] columnBrackets)
             {
-                columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
+                columnBrackets.ForEach(columnBracket => Add(new SqlJoin(columnBracket)));
                 return this;
             }
         }
@@ -12899,7 +12899,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection or = null,
                 bool _using = true)
             {
-                base.Add(new SqlWhere(
+                Add(new SqlWhere(
                     columnBrackets: columnBrackets,
                     name: name,
                     value: value,
@@ -12925,7 +12925,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlGroupBy(columnBracket)));
+                    Add(new SqlGroupBy(columnBracket)));
                 return this;
             }
         }
@@ -12940,7 +12940,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             public SearchIndexesHavingCollection Add(
                 string columnBracket, string name, object value, string _operator)
             {
-                base.Add(new SqlHaving(
+                Add(new SqlHaving(
                     columnBracket: columnBracket,
                     name: name,
                     value: value,
@@ -12961,7 +12961,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlOrderBy(columnBracket, type)));
+                    Add(new SqlOrderBy(columnBracket, type)));
                 return this;
             }
         }
@@ -12981,7 +12981,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 string raw = null,
                 bool _using = true)
             {
-                base.Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
+                Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
                 return this;
             }
         }
@@ -13506,7 +13506,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             public new ItemsJoinCollection Add(params string[] columnBrackets)
             {
-                columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
+                columnBrackets.ForEach(columnBracket => Add(new SqlJoin(columnBracket)));
                 return this;
             }
         }
@@ -13530,7 +13530,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection or = null,
                 bool _using = true)
             {
-                base.Add(new SqlWhere(
+                Add(new SqlWhere(
                     columnBrackets: columnBrackets,
                     name: name,
                     value: value,
@@ -13556,7 +13556,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlGroupBy(columnBracket)));
+                    Add(new SqlGroupBy(columnBracket)));
                 return this;
             }
         }
@@ -13571,7 +13571,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             public ItemsHavingCollection Add(
                 string columnBracket, string name, object value, string _operator)
             {
-                base.Add(new SqlHaving(
+                Add(new SqlHaving(
                     columnBracket: columnBracket,
                     name: name,
                     value: value,
@@ -13592,7 +13592,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlOrderBy(columnBracket, type)));
+                    Add(new SqlOrderBy(columnBracket, type)));
                 return this;
             }
         }
@@ -13612,7 +13612,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 string raw = null,
                 bool _using = true)
             {
-                base.Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
+                Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
                 return this;
             }
         }
@@ -14044,7 +14044,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             public new SitesJoinCollection Add(params string[] columnBrackets)
             {
-                columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
+                columnBrackets.ForEach(columnBracket => Add(new SqlJoin(columnBracket)));
                 return this;
             }
         }
@@ -14068,7 +14068,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection or = null,
                 bool _using = true)
             {
-                base.Add(new SqlWhere(
+                Add(new SqlWhere(
                     columnBrackets: columnBrackets,
                     name: name,
                     value: value,
@@ -14094,7 +14094,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlGroupBy(columnBracket)));
+                    Add(new SqlGroupBy(columnBracket)));
                 return this;
             }
         }
@@ -14109,7 +14109,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             public SitesHavingCollection Add(
                 string columnBracket, string name, object value, string _operator)
             {
-                base.Add(new SqlHaving(
+                Add(new SqlHaving(
                     columnBracket: columnBracket,
                     name: name,
                     value: value,
@@ -14130,7 +14130,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlOrderBy(columnBracket, type)));
+                    Add(new SqlOrderBy(columnBracket, type)));
                 return this;
             }
         }
@@ -14150,7 +14150,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 string raw = null,
                 bool _using = true)
             {
-                base.Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
+                Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
                 return this;
             }
         }
@@ -14764,7 +14764,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             public new OrdersJoinCollection Add(params string[] columnBrackets)
             {
-                columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
+                columnBrackets.ForEach(columnBracket => Add(new SqlJoin(columnBracket)));
                 return this;
             }
         }
@@ -14788,7 +14788,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection or = null,
                 bool _using = true)
             {
-                base.Add(new SqlWhere(
+                Add(new SqlWhere(
                     columnBrackets: columnBrackets,
                     name: name,
                     value: value,
@@ -14814,7 +14814,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlGroupBy(columnBracket)));
+                    Add(new SqlGroupBy(columnBracket)));
                 return this;
             }
         }
@@ -14829,7 +14829,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             public OrdersHavingCollection Add(
                 string columnBracket, string name, object value, string _operator)
             {
-                base.Add(new SqlHaving(
+                Add(new SqlHaving(
                     columnBracket: columnBracket,
                     name: name,
                     value: value,
@@ -14850,7 +14850,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlOrderBy(columnBracket, type)));
+                    Add(new SqlOrderBy(columnBracket, type)));
                 return this;
             }
         }
@@ -14870,7 +14870,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 string raw = null,
                 bool _using = true)
             {
-                base.Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
+                Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
                 return this;
             }
         }
@@ -15302,7 +15302,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             public new ExportSettingsJoinCollection Add(params string[] columnBrackets)
             {
-                columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
+                columnBrackets.ForEach(columnBracket => Add(new SqlJoin(columnBracket)));
                 return this;
             }
         }
@@ -15326,7 +15326,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection or = null,
                 bool _using = true)
             {
-                base.Add(new SqlWhere(
+                Add(new SqlWhere(
                     columnBrackets: columnBrackets,
                     name: name,
                     value: value,
@@ -15352,7 +15352,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlGroupBy(columnBracket)));
+                    Add(new SqlGroupBy(columnBracket)));
                 return this;
             }
         }
@@ -15367,7 +15367,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             public ExportSettingsHavingCollection Add(
                 string columnBracket, string name, object value, string _operator)
             {
-                base.Add(new SqlHaving(
+                Add(new SqlHaving(
                     columnBracket: columnBracket,
                     name: name,
                     value: value,
@@ -15388,7 +15388,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlOrderBy(columnBracket, type)));
+                    Add(new SqlOrderBy(columnBracket, type)));
                 return this;
             }
         }
@@ -15408,7 +15408,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 string raw = null,
                 bool _using = true)
             {
-                base.Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
+                Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
                 return this;
             }
         }
@@ -15864,7 +15864,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             public new LinksJoinCollection Add(params string[] columnBrackets)
             {
-                columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
+                columnBrackets.ForEach(columnBracket => Add(new SqlJoin(columnBracket)));
                 return this;
             }
         }
@@ -15888,7 +15888,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection or = null,
                 bool _using = true)
             {
-                base.Add(new SqlWhere(
+                Add(new SqlWhere(
                     columnBrackets: columnBrackets,
                     name: name,
                     value: value,
@@ -15914,7 +15914,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlGroupBy(columnBracket)));
+                    Add(new SqlGroupBy(columnBracket)));
                 return this;
             }
         }
@@ -15929,7 +15929,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             public LinksHavingCollection Add(
                 string columnBracket, string name, object value, string _operator)
             {
-                base.Add(new SqlHaving(
+                Add(new SqlHaving(
                     columnBracket: columnBracket,
                     name: name,
                     value: value,
@@ -15950,7 +15950,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlOrderBy(columnBracket, type)));
+                    Add(new SqlOrderBy(columnBracket, type)));
                 return this;
             }
         }
@@ -15970,7 +15970,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 string raw = null,
                 bool _using = true)
             {
-                base.Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
+                Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
                 return this;
             }
         }
@@ -16465,7 +16465,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             public new BinariesJoinCollection Add(params string[] columnBrackets)
             {
-                columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
+                columnBrackets.ForEach(columnBracket => Add(new SqlJoin(columnBracket)));
                 return this;
             }
         }
@@ -16489,7 +16489,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection or = null,
                 bool _using = true)
             {
-                base.Add(new SqlWhere(
+                Add(new SqlWhere(
                     columnBrackets: columnBrackets,
                     name: name,
                     value: value,
@@ -16515,7 +16515,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlGroupBy(columnBracket)));
+                    Add(new SqlGroupBy(columnBracket)));
                 return this;
             }
         }
@@ -16530,7 +16530,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             public BinariesHavingCollection Add(
                 string columnBracket, string name, object value, string _operator)
             {
-                base.Add(new SqlHaving(
+                Add(new SqlHaving(
                     columnBracket: columnBracket,
                     name: name,
                     value: value,
@@ -16551,7 +16551,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlOrderBy(columnBracket, type)));
+                    Add(new SqlOrderBy(columnBracket, type)));
                 return this;
             }
         }
@@ -16571,7 +16571,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 string raw = null,
                 bool _using = true)
             {
-                base.Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
+                Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
                 return this;
             }
         }
@@ -17137,7 +17137,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             public new IssuesJoinCollection Add(params string[] columnBrackets)
             {
-                columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
+                columnBrackets.ForEach(columnBracket => Add(new SqlJoin(columnBracket)));
                 return this;
             }
         }
@@ -17161,7 +17161,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection or = null,
                 bool _using = true)
             {
-                base.Add(new SqlWhere(
+                Add(new SqlWhere(
                     columnBrackets: columnBrackets,
                     name: name,
                     value: value,
@@ -17187,7 +17187,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlGroupBy(columnBracket)));
+                    Add(new SqlGroupBy(columnBracket)));
                 return this;
             }
         }
@@ -17202,7 +17202,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             public IssuesHavingCollection Add(
                 string columnBracket, string name, object value, string _operator)
             {
-                base.Add(new SqlHaving(
+                Add(new SqlHaving(
                     columnBracket: columnBracket,
                     name: name,
                     value: value,
@@ -17223,7 +17223,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlOrderBy(columnBracket, type)));
+                    Add(new SqlOrderBy(columnBracket, type)));
                 return this;
             }
         }
@@ -17243,7 +17243,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 string raw = null,
                 bool _using = true)
             {
-                base.Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
+                Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
                 return this;
             }
         }
@@ -21392,7 +21392,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             public new ResultsJoinCollection Add(params string[] columnBrackets)
             {
-                columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
+                columnBrackets.ForEach(columnBracket => Add(new SqlJoin(columnBracket)));
                 return this;
             }
         }
@@ -21416,7 +21416,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection or = null,
                 bool _using = true)
             {
-                base.Add(new SqlWhere(
+                Add(new SqlWhere(
                     columnBrackets: columnBrackets,
                     name: name,
                     value: value,
@@ -21442,7 +21442,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlGroupBy(columnBracket)));
+                    Add(new SqlGroupBy(columnBracket)));
                 return this;
             }
         }
@@ -21457,7 +21457,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             public ResultsHavingCollection Add(
                 string columnBracket, string name, object value, string _operator)
             {
-                base.Add(new SqlHaving(
+                Add(new SqlHaving(
                     columnBracket: columnBracket,
                     name: name,
                     value: value,
@@ -21478,7 +21478,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlOrderBy(columnBracket, type)));
+                    Add(new SqlOrderBy(columnBracket, type)));
                 return this;
             }
         }
@@ -21498,7 +21498,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 string raw = null,
                 bool _using = true)
             {
-                base.Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
+                Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
                 return this;
             }
         }
@@ -25418,7 +25418,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             public new WikisJoinCollection Add(params string[] columnBrackets)
             {
-                columnBrackets.ForEach(columnBracket => base.Add(new SqlJoin(columnBracket)));
+                columnBrackets.ForEach(columnBracket => Add(new SqlJoin(columnBracket)));
                 return this;
             }
         }
@@ -25442,7 +25442,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 SqlWhereCollection or = null,
                 bool _using = true)
             {
-                base.Add(new SqlWhere(
+                Add(new SqlWhere(
                     columnBrackets: columnBrackets,
                     name: name,
                     value: value,
@@ -25468,7 +25468,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlGroupBy(columnBracket)));
+                    Add(new SqlGroupBy(columnBracket)));
                 return this;
             }
         }
@@ -25483,7 +25483,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             public WikisHavingCollection Add(
                 string columnBracket, string name, object value, string _operator)
             {
-                base.Add(new SqlHaving(
+                Add(new SqlHaving(
                     columnBracket: columnBracket,
                     name: name,
                     value: value,
@@ -25504,7 +25504,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 params string[] columnBrackets)
             {
                 columnBrackets.ForEach(columnBracket =>
-                    base.Add(new SqlOrderBy(columnBracket, type)));
+                    Add(new SqlOrderBy(columnBracket, type)));
                 return this;
             }
         }
@@ -25524,7 +25524,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 string raw = null,
                 bool _using = true)
             {
-                base.Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
+                Add(new SqlParam(columnBracket, name, value, sub, raw, _using));
                 return this;
             }
         }
