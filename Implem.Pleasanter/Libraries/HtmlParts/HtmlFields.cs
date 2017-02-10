@@ -86,7 +86,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     { value, editChoices[value] }
                 };
             }
-            else {
+            else
+            {
                 var referenceId = value.ToLong();
                 if (referenceId > 0 && ss.Links?.Any() == true)
                 {
