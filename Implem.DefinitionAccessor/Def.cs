@@ -216,13 +216,9 @@ namespace Implem.DefinitionAccessor
         public static Func<ColumnDefinition, bool> IsNullCaseToTrue(
             this Func<ColumnDefinition, bool> peredicate)
         {
-            if (peredicate != null)
-            {
-                return peredicate;
-            }
-            else {
-                return (o) => true;
-            }
+            return peredicate != null
+                ? peredicate
+                : (o) => true;
         }
 
         public static XlsIo CodeXls;
