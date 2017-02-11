@@ -21,14 +21,14 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public Comments(Comments source)
         {
-            this.AddRange(new List<Comment>(source));
+            AddRange(new List<Comment>(source));
         }
 
         public Comments Prepend(string body)
         {
             if (body.Trim() != string.Empty)
             {
-                this.Insert(0, new Comment
+                Insert(0, new Comment
                 {
                     CommentId = CommentId(),
                     CreatedTime = DateTime.Now,
@@ -51,7 +51,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         private int CommentId()
         {
-            if (this.Count == 0)
+            if (Count == 0)
             {
                 return 1;
             }
