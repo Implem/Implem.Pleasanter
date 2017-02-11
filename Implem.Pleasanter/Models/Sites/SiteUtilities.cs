@@ -1375,7 +1375,7 @@ namespace Implem.Pleasanter.Models
                 .Div(css: "command-center", action: () => hb
                     .Button(
                         controlId: "SetGridColumn",
-                        text: Displays.Update(),
+                        text: Displays.Change(),
                         controlCss: "button-icon validate",
                         onClick: "$p.setGridColumn($(this));",
                         icon: "ui-icon-gear",
@@ -1586,7 +1586,7 @@ namespace Implem.Pleasanter.Models
                 .Div(css: "command-center", action: () => hb
                     .Button(
                         controlId: "SetFilterColumn",
-                        text: Displays.Update(),
+                        text: Displays.Change(),
                         controlCss: "button-icon validate",
                         onClick: "$p.send($(this));",
                         icon: "ui-icon-gear",
@@ -1706,7 +1706,7 @@ namespace Implem.Pleasanter.Models
                     .Div(css: "command-center", action: () => hb
                         .Button(
                             controlId: "SetAggregationDetails",
-                            text: Displays.Update(),
+                            text: Displays.Change(),
                             controlCss: "button-icon",
                             onClick: "$p.setAggregationDetails($(this));",
                             icon: "ui-icon-gear",
@@ -2000,7 +2000,7 @@ namespace Implem.Pleasanter.Models
                 .Div(css: "command-center", action: () => hb
                     .Button(
                         controlId: "SetEditorColumn",
-                        text: Displays.Update(),
+                        text: Displays.Change(),
                         controlCss: "button-icon validate",
                         onClick: "$p.send($(this));",
                         icon: "ui-icon-gear",
@@ -2535,7 +2535,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "NewSummary")
                         .Button(
                             controlId: "UpdateSummary",
-                            text: Displays.Update(),
+                            text: Displays.Change(),
                             controlCss: "button-icon validate",
                             onClick: "$p.setSummary($(this));",
                             icon: "ui-icon-disk",
@@ -2854,7 +2854,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "NewFormula")
                         .Button(
                             controlId: "UpdateFormula",
-                            text: Displays.Update(),
+                            text: Displays.Change(),
                             controlCss: "button-icon validate",
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-disk",
@@ -2998,7 +2998,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "NewView")
                         .Button(
                             controlId: "UpdateView",
-                            text: Displays.Update(),
+                            text: Displays.Change(),
                             controlCss: "button-icon validate",
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-disk",
@@ -3609,7 +3609,7 @@ namespace Implem.Pleasanter.Models
                             _using: controlId == "NewNotification")
                         .Button(
                             controlId: "UpdateNotification",
-                            text: Displays.Update(),
+                            text: Displays.Change(),
                             controlCss: "button-icon validate",
                             onClick: "$p.setNotification($(this));",
                             icon: "ui-icon-disk",
