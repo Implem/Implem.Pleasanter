@@ -65,13 +65,6 @@ namespace Implem.Libraries.Utilities
                 : self;
         }
 
-        public static string CutLast(this string self, string last)
-        {
-            return self.EndsWith(last)
-                ? self.Substring(0, self.Length - last.Length)
-                : self;
-        }
-
         public static string CoalesceEmpty(params string[] args)
         {
             return args
