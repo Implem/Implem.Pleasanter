@@ -5,7 +5,7 @@ namespace Implem.Libraries.DataSources.SqlServer
     {
         public SqlParamCollection(params SqlParam[] sqlParamCollection)
         {
-            this.AddRange(sqlParamCollection);
+            AddRange(sqlParamCollection);
         }
 
         public SqlParamCollection Add(
@@ -16,7 +16,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             string raw,
             bool _using)
         {
-            base.Add(new SqlParam(columnBracket, name, value, sub, raw, _using: _using));
+            Add(new SqlParam(columnBracket, name, value, sub, raw, _using: _using));
             return this;
         }
 
