@@ -4,30 +4,6 @@ namespace Implem.Libraries.Utilities
 {
     public static class Arrays
     {
-        public static T Next<T>(this List<T> collection, T current)
-        {
-            if (!collection.Contains(current))
-            {
-                return current;
-            }
-            var index = collection.IndexOf(current);
-            return index != collection.Count() - 1
-                ? collection.Skip(index + 1).FirstOrDefault()
-                : current;
-        }
-
-        public static T Previous<T>(this List<T> collection, T current)
-        {
-            if (!collection.Contains(current))
-            {
-                return current;
-            }
-            var index = collection.IndexOf(current);
-            return index != 0
-                ? collection.Skip(index - 1).FirstOrDefault()
-                : current;
-        }
-
         public static string _1st(this IEnumerable<string> self)
         {
             return self.FirstOrDefault() ?? string.Empty;
