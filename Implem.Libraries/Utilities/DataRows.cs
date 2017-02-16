@@ -25,7 +25,7 @@ namespace Implem.Libraries.Utilities
                 : 0;
         }
 
-        public static Decimal Decimal(this DataRow dataRow, string name)
+        public static decimal Decimal(this DataRow dataRow, string name)
         {
             return dataRow.Table.Columns.Contains(name)
                 ? dataRow[name].ToDecimal()
