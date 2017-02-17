@@ -1118,7 +1118,7 @@ namespace Implem.Pleasanter.Models
                             .ToDictionary(
                                 o => o["MailAddress"].ToString(),
                                 o => new ControlData(o["MailAddress"].ToString()));
-            userModel.Session_MailAddresses(listItemCollection.Values.Select(o => o.Text));
+            userModel.Session_MailAddresses(listItemCollection.Keys.ToList());
             return hb.FieldSet(id: "FieldSetMailAddresses", action: () => hb
                 .FieldSelectable(
                     controlId: "MailAddresses",
