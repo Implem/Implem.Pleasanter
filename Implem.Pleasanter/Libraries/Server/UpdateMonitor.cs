@@ -47,7 +47,8 @@ namespace Implem.Pleasanter.Libraries.Server
                         DeptsUpdatedTime,
                         _operator: ">=",
                         _using: DeptsUpdatedTime >= Parameters.General.MinTime),
-                    orderBy: Rds.DeptsOrderBy().UpdatedTime(type: SqlOrderBy.Types.desc)),
+                    orderBy: Rds.DeptsOrderBy()
+                        .UpdatedTime(SqlOrderBy.Types.desc, tableName: null)),
                 Rds.SelectUsers(
                     dataTableName: "Users",
                     tableType: Sqls.TableTypes.NormalAndDeleted,
@@ -56,7 +57,8 @@ namespace Implem.Pleasanter.Libraries.Server
                         UsersUpdatedTime,
                         _operator: ">=",
                         _using: UsersUpdatedTime >= Parameters.General.MinTime),
-                    orderBy: Rds.UsersOrderBy().UpdatedTime(type: SqlOrderBy.Types.desc)),
+                    orderBy: Rds.UsersOrderBy()
+                        .UpdatedTime(SqlOrderBy.Types.desc, tableName: null)),
                 Rds.SelectPermissions(
                     dataTableName: "Permissions",
                     tableType: Sqls.TableTypes.NormalAndDeleted,
@@ -65,7 +67,8 @@ namespace Implem.Pleasanter.Libraries.Server
                         PermissionsUpdatedTime,
                         _operator: ">=",
                         _using: PermissionsUpdatedTime >= Parameters.General.MinTime),
-                    orderBy: Rds.PermissionsOrderBy().UpdatedTime(type: SqlOrderBy.Types.desc)),
+                    orderBy: Rds.PermissionsOrderBy()
+                        .UpdatedTime(SqlOrderBy.Types.desc, tableName: null)),
                 Rds.SelectSites(
                     dataTableName: "Sites",
                     tableType: Sqls.TableTypes.NormalAndDeleted,
@@ -74,7 +77,8 @@ namespace Implem.Pleasanter.Libraries.Server
                         SitesUpdatedTime,
                         _operator: ">=",
                         _using: SitesUpdatedTime >= Parameters.General.MinTime),
-                    orderBy: Rds.SitesOrderBy().UpdatedTime(type: SqlOrderBy.Types.desc))
+                    orderBy: Rds.SitesOrderBy()
+                        .UpdatedTime(SqlOrderBy.Types.desc, tableName: null)),
             });
             NowDeptsUpdatedTime = UpdatedTime(dataSet, "Depts");
             NowUsersUpdatedTime = UpdatedTime(dataSet, "Users");

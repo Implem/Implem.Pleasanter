@@ -33,6 +33,8 @@ namespace Implem.Pleasanter.Models
         public bool RememberMe = false;
         public string LastName = string.Empty;
         public string FirstName = string.Empty;
+        public string FullName1 = string.Empty;
+        public string FullName2 = string.Empty;
         public Time Birthday = null;
         public string Gender = string.Empty;
         public string Language = "ja";
@@ -55,8 +57,6 @@ namespace Implem.Pleasanter.Models
         public List<string> MailAddresses = new List<string>();
         public string DemoMailAddress = string.Empty;
         public string SessionGuid = string.Empty;
-        public string FullName1 { get { return FirstName + " " + LastName; } }
-        public string FullName2 { get { return LastName + " " + FirstName; } }
         public TimeZoneInfo TimeZoneInfo { get { return TimeZoneInfo.GetSystemTimeZones().FirstOrDefault(o => o.Id == TimeZone); } }
         public Dept Dept { get { return SiteInfo.Dept(DeptId); } }
         public Title Title { get { return new Title(UserId, FullName()); } }
@@ -71,6 +71,8 @@ namespace Implem.Pleasanter.Models
         public bool SavedRememberMe = false;
         public string SavedLastName = string.Empty;
         public string SavedFirstName = string.Empty;
+        public string SavedFullName1 = string.Empty;
+        public string SavedFullName2 = string.Empty;
         public DateTime SavedBirthday = 0.ToDateTime();
         public string SavedGender = string.Empty;
         public string SavedLanguage = "ja";
@@ -328,6 +330,8 @@ namespace Implem.Pleasanter.Models
                     case "Users_RememberMe": RememberMe = Forms.Data(controlId).ToBool(); break;
                     case "Users_LastName": LastName = Forms.Data(controlId).ToString(); break;
                     case "Users_FirstName": FirstName = Forms.Data(controlId).ToString(); break;
+                    case "Users_FullName1": FullName1 = Forms.Data(controlId).ToString(); break;
+                    case "Users_FullName2": FullName2 = Forms.Data(controlId).ToString(); break;
                     case "Users_Birthday": Birthday = new Time(Forms.Data(controlId).ToDateTime(), byForm: true); break;
                     case "Users_Gender": Gender = Forms.Data(controlId).ToString(); break;
                     case "Users_Language": Language = Forms.Data(controlId).ToString(); break;
@@ -399,6 +403,8 @@ namespace Implem.Pleasanter.Models
                     case "Password": Password = dataRow[name].ToString(); SavedPassword = Password; break;
                     case "LastName": LastName = dataRow[name].ToString(); SavedLastName = LastName; break;
                     case "FirstName": FirstName = dataRow[name].ToString(); SavedFirstName = FirstName; break;
+                    case "FullName1": FullName1 = dataRow[name].ToString(); SavedFullName1 = FullName1; break;
+                    case "FullName2": FullName2 = dataRow[name].ToString(); SavedFullName2 = FullName2; break;
                     case "Birthday": Birthday = new Time(dataRow, "Birthday"); SavedBirthday = Birthday.Value; break;
                     case "Gender": Gender = dataRow[name].ToString(); SavedGender = Gender; break;
                     case "Language": Language = dataRow[name].ToString(); SavedLanguage = Language; break;

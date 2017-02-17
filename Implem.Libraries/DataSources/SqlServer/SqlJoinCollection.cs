@@ -6,20 +6,58 @@ namespace Implem.Libraries.DataSources.SqlServer
 {
     public class SqlJoinCollection : ListEx<SqlJoin>
     {
-        public SqlJoinCollection(params SqlJoin[] sqlJoinCollection)
+        public SqlJoinCollection(params SqlJoin[] sqlFromCollection)
         {
-            AddRange(sqlJoinCollection);
+            sqlFromCollection.ForEach(sqlFrom => Add(sqlFrom));
         }
 
-        public SqlJoinCollection Add(params string[] columnBrackets)
+        public SqlJoinCollection Add(
+            string tableName,
+            SqlJoin.JoinTypes joinType = SqlJoin.JoinTypes.Inner,
+            string joinExpression = null,
+            string _as = null)
         {
-            columnBrackets.ForEach(columnBracket => Add(new SqlJoin(columnBracket)));
+            Add(new SqlJoin(tableName, joinType, joinExpression, _as));
             return this;
         }
 
         public void BuildCommandText(StringBuilder commandText)
         {
-            commandText.Append(this.Select(o => o.JoinExpression).Join(" "));
+            ForEach(sqlFrom =>
+            {
+                if (sqlFrom.JoinExpression != null)
+                {
+                    switch (sqlFrom.JoinType)
+                    {
+                        case SqlJoin.JoinTypes.Inner:
+                            commandText.Append("inner join ");
+                            break;
+                        case SqlJoin.JoinTypes.LeftOuter:
+                            commandText.Append("left outer join ");
+                            break;
+                        case SqlJoin.JoinTypes.RightOuter:
+                            commandText.Append("right outer join ");
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                commandText.Append(sqlFrom.TableName + " ");
+                if (!sqlFrom.As.IsNullOrEmpty())
+                {
+                    commandText.Append(
+                        "as ",
+                        sqlFrom.As,
+                        " ");
+                }
+                if (sqlFrom.JoinExpression != null)
+                {
+                    commandText.Append(
+                        "on ",
+                        sqlFrom.JoinExpression,
+                        " ");
+                }
+            });
         }
     }
 }

@@ -866,9 +866,9 @@ namespace Implem.Pleasanter.Models
                                 searchText,
                                 Rds.Depts_DeptId_WhereLike(),
                                 Rds.Depts_DeptCode_WhereLike(),
-                                Rds.Depts_DeptName_WhereLike()),
-                        unionType: Sqls.UnionTypes.Union),
+                                Rds.Depts_DeptName_WhereLike())),
                     Rds.SelectUsers(
+                        unionType: Sqls.UnionTypes.Union,
                         column: Rds.UsersColumn()
                             .Add("0 as [DeptId]")
                             .UserId(),

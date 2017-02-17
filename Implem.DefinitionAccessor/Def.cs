@@ -169,14 +169,14 @@ namespace Implem.DefinitionAccessor
         }
 
         public static SqlIo SqlIoByUser(
-            string connectionString = "",
+            string connectionString = null,
             RdsUser rdsUser = null,
             bool transactional = false,
             bool writeSqlToDebugLog = true,
             params SqlStatement[] statements)
         {
             return new SqlIo(CommandContainer(
-                connectionString != ""
+                !connectionString.IsNullOrEmpty()
                     ? connectionString
                     : Parameters.Rds.UserConnectionString,
                 rdsUser,
@@ -559,15 +559,9 @@ namespace Implem.DefinitionAccessor
                     case "Rds_Columns_ConstSqlWhereExists": Code.Rds_Columns_ConstSqlWhereExists = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_ConstSqlWhereExists, definitionRow, CodeXls); break;
                     case "Rds_Columns_ConstSqlWhereNotExists": Code.Rds_Columns_ConstSqlWhereNotExists = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_ConstSqlWhereNotExists, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlColumnCases": Code.Rds_Columns_SqlColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlColumnCases, definitionRow, CodeXls); break;
-                    case "Rds_Columns_SqlTotalCases": Code.Rds_Columns_SqlTotalCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlTotalCases, definitionRow, CodeXls); break;
-                    case "Rds_Columns_SqlAverageCases": Code.Rds_Columns_SqlAverageCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlAverageCases, definitionRow, CodeXls); break;
-                    case "Rds_Columns_SqlMaxCases": Code.Rds_Columns_SqlMaxCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlMaxCases, definitionRow, CodeXls); break;
-                    case "Rds_Columns_SqlMinCases": Code.Rds_Columns_SqlMinCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlMinCases, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlColumn": Code.Rds_Columns_SqlColumn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlColumn, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlColumn_SelectColumns": Code.Rds_Columns_SqlColumn_SelectColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlColumn_SelectColumns, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlColumn_ComputeColumn": Code.Rds_Columns_SqlColumn_ComputeColumn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlColumn_ComputeColumn, definitionRow, CodeXls); break;
-                    case "Rds_Columns_SqlColumnComputes1": Code.Rds_Columns_SqlColumnComputes1 = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlColumnComputes1, definitionRow, CodeXls); break;
-                    case "Rds_Columns_SqlColumnComputes2": Code.Rds_Columns_SqlColumnComputes2 = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlColumnComputes2, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlWhere": Code.Rds_Columns_SqlWhere = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlWhere, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlWhere_SelectColumns": Code.Rds_Columns_SqlWhere_SelectColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlWhere_SelectColumns, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlWhere_ComputeColumn": Code.Rds_Columns_SqlWhere_ComputeColumn = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlWhere_ComputeColumn, definitionRow, CodeXls); break;
@@ -576,12 +570,9 @@ namespace Implem.DefinitionAccessor
                     case "Rds_Columns_SqlWhere_Between_DateTime": Code.Rds_Columns_SqlWhere_Between_DateTime = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlWhere_Between_DateTime, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlGroupByCases": Code.Rds_Columns_SqlGroupByCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlGroupByCases, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlGroupBy": Code.Rds_Columns_SqlGroupBy = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlGroupBy, definitionRow, CodeXls); break;
-                    case "Rds_Columns_SqlHavingComputes1": Code.Rds_Columns_SqlHavingComputes1 = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlHavingComputes1, definitionRow, CodeXls); break;
-                    case "Rds_Columns_SqlHavingComputes2": Code.Rds_Columns_SqlHavingComputes2 = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlHavingComputes2, definitionRow, CodeXls); break;
+                    case "Rds_Columns_SqlHavingComputes": Code.Rds_Columns_SqlHavingComputes = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlHavingComputes, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlOrderBy1": Code.Rds_Columns_SqlOrderBy1 = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlOrderBy1, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlOrderBy2": Code.Rds_Columns_SqlOrderBy2 = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlOrderBy2, definitionRow, CodeXls); break;
-                    case "Rds_Columns_SqlOrderByComputes1": Code.Rds_Columns_SqlOrderByComputes1 = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlOrderByComputes1, definitionRow, CodeXls); break;
-                    case "Rds_Columns_SqlOrderByComputes2": Code.Rds_Columns_SqlOrderByComputes2 = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlOrderByComputes2, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlParam_ItemId": Code.Rds_Columns_SqlParam_ItemId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlParam_ItemId, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlParam": Code.Rds_Columns_SqlParam = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlParam, definitionRow, CodeXls); break;
                     case "Rds_Columns_SqlParam_Enum": Code.Rds_Columns_SqlParam_Enum = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_Columns_SqlParam_Enum, definitionRow, CodeXls); break;
@@ -714,6 +705,7 @@ namespace Implem.DefinitionAccessor
                 if (definitionRow.ContainsKey("Computable")) { newCodeDefinition.Computable = definitionRow["Computable"].ToBool(); newCodeDefinition.SavedComputable = newCodeDefinition.Computable; }
                 if (definitionRow.ContainsKey("Join")) { newCodeDefinition.Join = definitionRow["Join"].ToBool(); newCodeDefinition.SavedJoin = newCodeDefinition.Join; }
                 if (definitionRow.ContainsKey("NotJoin")) { newCodeDefinition.NotJoin = definitionRow["NotJoin"].ToBool(); newCodeDefinition.SavedNotJoin = newCodeDefinition.NotJoin; }
+                if (definitionRow.ContainsKey("JoinExpression")) { newCodeDefinition.JoinExpression = definitionRow["JoinExpression"].ToBool(); newCodeDefinition.SavedJoinExpression = newCodeDefinition.JoinExpression; }
                 if (definitionRow.ContainsKey("NotTypeCs")) { newCodeDefinition.NotTypeCs = definitionRow["NotTypeCs"].ToBool(); newCodeDefinition.SavedNotTypeCs = newCodeDefinition.NotTypeCs; }
                 if (definitionRow.ContainsKey("ItemOnly")) { newCodeDefinition.ItemOnly = definitionRow["ItemOnly"].ToBool(); newCodeDefinition.SavedItemOnly = newCodeDefinition.ItemOnly; }
                 if (definitionRow.ContainsKey("NotItem")) { newCodeDefinition.NotItem = definitionRow["NotItem"].ToBool(); newCodeDefinition.SavedNotItem = newCodeDefinition.NotItem; }
@@ -789,6 +781,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("Computable")) { definition.Computable = definitionRow["Computable"].ToBool(); definition.SavedComputable = definition.Computable; }
             if (definitionRow.ContainsKey("Join")) { definition.Join = definitionRow["Join"].ToBool(); definition.SavedJoin = definition.Join; }
             if (definitionRow.ContainsKey("NotJoin")) { definition.NotJoin = definitionRow["NotJoin"].ToBool(); definition.SavedNotJoin = definition.NotJoin; }
+            if (definitionRow.ContainsKey("JoinExpression")) { definition.JoinExpression = definitionRow["JoinExpression"].ToBool(); definition.SavedJoinExpression = definition.JoinExpression; }
             if (definitionRow.ContainsKey("NotTypeCs")) { definition.NotTypeCs = definitionRow["NotTypeCs"].ToBool(); definition.SavedNotTypeCs = definition.NotTypeCs; }
             if (definitionRow.ContainsKey("ItemOnly")) { definition.ItemOnly = definitionRow["ItemOnly"].ToBool(); definition.SavedItemOnly = definition.ItemOnly; }
             if (definitionRow.ContainsKey("NotItem")) { definition.NotItem = definitionRow["NotItem"].ToBool(); definition.SavedNotItem = definition.NotItem; }
@@ -2548,6 +2541,7 @@ namespace Implem.DefinitionAccessor
                         case "Computable": codeDefinition.Computable = optionValue.ToBool(); break;
                         case "Join": codeDefinition.Join = optionValue.ToBool(); break;
                         case "NotJoin": codeDefinition.NotJoin = optionValue.ToBool(); break;
+                        case "JoinExpression": codeDefinition.JoinExpression = optionValue.ToBool(); break;
                         case "NotTypeCs": codeDefinition.NotTypeCs = optionValue.ToBool(); break;
                         case "ItemOnly": codeDefinition.ItemOnly = optionValue.ToBool(); break;
                         case "NotItem": codeDefinition.NotItem = optionValue.ToBool(); break;
@@ -2877,6 +2871,7 @@ namespace Implem.DefinitionAccessor
         public bool Computable; public bool SavedComputable;
         public bool Join; public bool SavedJoin;
         public bool NotJoin; public bool SavedNotJoin;
+        public bool JoinExpression; public bool SavedJoinExpression;
         public bool NotTypeCs; public bool SavedNotTypeCs;
         public bool ItemOnly; public bool SavedItemOnly;
         public bool NotItem; public bool SavedNotItem;
@@ -2953,6 +2948,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("Computable")) Computable = propertyCollection["Computable"].ToBool(); else Computable = false;
             if (propertyCollection.ContainsKey("Join")) Join = propertyCollection["Join"].ToBool(); else Join = false;
             if (propertyCollection.ContainsKey("NotJoin")) NotJoin = propertyCollection["NotJoin"].ToBool(); else NotJoin = false;
+            if (propertyCollection.ContainsKey("JoinExpression")) JoinExpression = propertyCollection["JoinExpression"].ToBool(); else JoinExpression = false;
             if (propertyCollection.ContainsKey("NotTypeCs")) NotTypeCs = propertyCollection["NotTypeCs"].ToBool(); else NotTypeCs = false;
             if (propertyCollection.ContainsKey("ItemOnly")) ItemOnly = propertyCollection["ItemOnly"].ToBool(); else ItemOnly = false;
             if (propertyCollection.ContainsKey("NotItem")) NotItem = propertyCollection["NotItem"].ToBool(); else NotItem = false;
@@ -3029,6 +3025,7 @@ namespace Implem.DefinitionAccessor
                     case "Computable": return Computable;
                     case "Join": return Join;
                     case "NotJoin": return NotJoin;
+                    case "JoinExpression": return JoinExpression;
                     case "NotTypeCs": return NotTypeCs;
                     case "ItemOnly": return ItemOnly;
                     case "NotItem": return NotItem;
@@ -3105,6 +3102,7 @@ namespace Implem.DefinitionAccessor
             Computable = SavedComputable;
             Join = SavedJoin;
             NotJoin = SavedNotJoin;
+            JoinExpression = SavedJoinExpression;
             NotTypeCs = SavedNotTypeCs;
             ItemOnly = SavedItemOnly;
             NotItem = SavedNotItem;
@@ -3465,15 +3463,9 @@ namespace Implem.DefinitionAccessor
         public string Rds_Columns_ConstSqlWhereExists;
         public string Rds_Columns_ConstSqlWhereNotExists;
         public string Rds_Columns_SqlColumnCases;
-        public string Rds_Columns_SqlTotalCases;
-        public string Rds_Columns_SqlAverageCases;
-        public string Rds_Columns_SqlMaxCases;
-        public string Rds_Columns_SqlMinCases;
         public string Rds_Columns_SqlColumn;
         public string Rds_Columns_SqlColumn_SelectColumns;
         public string Rds_Columns_SqlColumn_ComputeColumn;
-        public string Rds_Columns_SqlColumnComputes1;
-        public string Rds_Columns_SqlColumnComputes2;
         public string Rds_Columns_SqlWhere;
         public string Rds_Columns_SqlWhere_SelectColumns;
         public string Rds_Columns_SqlWhere_ComputeColumn;
@@ -3482,12 +3474,9 @@ namespace Implem.DefinitionAccessor
         public string Rds_Columns_SqlWhere_Between_DateTime;
         public string Rds_Columns_SqlGroupByCases;
         public string Rds_Columns_SqlGroupBy;
-        public string Rds_Columns_SqlHavingComputes1;
-        public string Rds_Columns_SqlHavingComputes2;
+        public string Rds_Columns_SqlHavingComputes;
         public string Rds_Columns_SqlOrderBy1;
         public string Rds_Columns_SqlOrderBy2;
-        public string Rds_Columns_SqlOrderByComputes1;
-        public string Rds_Columns_SqlOrderByComputes2;
         public string Rds_Columns_SqlParam_ItemId;
         public string Rds_Columns_SqlParam;
         public string Rds_Columns_SqlParam_Enum;
@@ -3904,15 +3893,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Rds_Columns_ConstSqlWhereExists = new CodeDefinition();
         public CodeDefinition Rds_Columns_ConstSqlWhereNotExists = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlColumnCases = new CodeDefinition();
-        public CodeDefinition Rds_Columns_SqlTotalCases = new CodeDefinition();
-        public CodeDefinition Rds_Columns_SqlAverageCases = new CodeDefinition();
-        public CodeDefinition Rds_Columns_SqlMaxCases = new CodeDefinition();
-        public CodeDefinition Rds_Columns_SqlMinCases = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlColumn = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlColumn_SelectColumns = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlColumn_ComputeColumn = new CodeDefinition();
-        public CodeDefinition Rds_Columns_SqlColumnComputes1 = new CodeDefinition();
-        public CodeDefinition Rds_Columns_SqlColumnComputes2 = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlWhere = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlWhere_SelectColumns = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlWhere_ComputeColumn = new CodeDefinition();
@@ -3921,12 +3904,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Rds_Columns_SqlWhere_Between_DateTime = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlGroupByCases = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlGroupBy = new CodeDefinition();
-        public CodeDefinition Rds_Columns_SqlHavingComputes1 = new CodeDefinition();
-        public CodeDefinition Rds_Columns_SqlHavingComputes2 = new CodeDefinition();
+        public CodeDefinition Rds_Columns_SqlHavingComputes = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlOrderBy1 = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlOrderBy2 = new CodeDefinition();
-        public CodeDefinition Rds_Columns_SqlOrderByComputes1 = new CodeDefinition();
-        public CodeDefinition Rds_Columns_SqlOrderByComputes2 = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlParam_ItemId = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlParam = new CodeDefinition();
         public CodeDefinition Rds_Columns_SqlParam_Enum = new CodeDefinition();

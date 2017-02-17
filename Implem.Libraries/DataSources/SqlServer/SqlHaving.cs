@@ -7,65 +7,72 @@ namespace Implem.Libraries.DataSources.SqlServer
     public class SqlHaving
     {
         public string ColumnBracket;
-        public string Name;
+        public string TableName;
         public object Value;
         public string Operator;
         public string MultiParamOperator;
         public SqlStatement Sub;
         public string Raw;
         public SqlHavingCollection Or;
+        public Sqls.Functions Function;
         public bool Using = true;
 
         public SqlHaving(
             string columnBracket,
-            string name = "",
+            string tableName = null,
             object value = null,
             string _operator = "=",
             string multiParamOperator = " and ",
             SqlStatement sub = null,
-            string raw = "",
+            string raw = null,
             SqlHavingCollection or = null,
+            Sqls.Functions function = Sqls.Functions.None,
             bool _using = true)
         {
             ColumnBracket = columnBracket;
-            Name = name;
+            TableName = tableName;
             Value = value;
             Operator = _operator;
             MultiParamOperator = multiParamOperator;
             Sub = sub;
             Raw = raw;
             Or = or;
+            Function = function;
             Using = _using;
         }
 
-        public string Sql(SqlContainer sqlContainer, SqlCommand sqlCommand, int? commandCount)
+        public string Sql(
+            SqlContainer sqlContainer,
+            SqlCommand sqlCommand,
+            Sqls.TableTypes tableType,
+            int? commandCount)
         {
             if (Sub != null)
             {
-                return Sql_Sub(sqlContainer, sqlCommand, commandCount);
+                return Sql_Sub(sqlContainer, sqlCommand, tableType, commandCount);
             }
             else if (!Raw.IsNullOrEmpty())
             {
-                return Sql_Raw(sqlContainer, commandCount);
+                return Sql_Raw(sqlContainer, tableType, commandCount);
             }
             else if (Or != null)
             {
-                return Sql_Or(sqlContainer, sqlCommand, commandCount);
+                return Sql_Or(sqlContainer, sqlCommand, tableType, commandCount);
             }
             else
             {
-                return Sql_General(commandCount);
+                return Sql_General(tableType, commandCount);
             }
         }
 
-        private string Sql_General(int? commandCount)
+        private string Sql_General(Sqls.TableTypes tableType, int? commandCount)
         {
             if (Value.IsCollection())
             {
                 var valueCollection = Value.ToStringEnumerable();
                 if (valueCollection.Any())
                 {
-                    return "(" + ColumnBracket + ")";
+                    return "(" + Functions(tableType) + ")";
                 }
                 else
                 {
@@ -74,18 +81,24 @@ namespace Implem.Libraries.DataSources.SqlServer
             }
             else
             {
-                return "(" + ColumnBracket + Operator + Variable(commandCount) +  ")";
+                return "(" + Functions(tableType) +
+                    Operator +
+                    Variable(commandCount) + ")";
             }
         }
 
         private string Variable(int? commandCount, string paramCount = "")
         {
-            return Value != null && !Name.IsNullOrEmpty()
-                ? "@" + Name + paramCount + commandCount.ToString()
+            return Value != null && !TableName.IsNullOrEmpty()
+                ? "@" + TableName + paramCount + commandCount.ToString()
                 : string.Empty;
         }
 
-        private string Sql_Sub(SqlContainer sqlContainer, SqlCommand sqlCommand, int? commandCount)
+        private string Sql_Sub(
+            SqlContainer sqlContainer,
+            SqlCommand sqlCommand,
+            Sqls.TableTypes tableType,
+            int? commandCount)
         {
             var commandText = Sub.GetCommandText(
                 sqlContainer: sqlContainer,
@@ -93,31 +106,33 @@ namespace Implem.Libraries.DataSources.SqlServer
                 prefix: "_sub",
                 commandCount: commandCount);
             return ColumnBracket != null
-                ? ColumnBracket + Operator + "(" + commandText + ")"
+                ? Functions(tableType) + Operator + "(" + commandText + ")"
                 : Value == null
                     ? "(" + commandText + ")"
                     : "(" + commandText + Operator + Value + ")";
         }
 
-        private string Sql_Raw(SqlContainer sqlContainer, int? commandCount)
+        private string Sql_Raw(
+            SqlContainer sqlContainer, Sqls.TableTypes tableType, int? commandCount)
         {
             if (Value.IsCollection())
             {
                 var valueCollection = Value.ToStringEnumerable();
                 return valueCollection
-                    .Select((o, i) => ReplacedSql(commandCount, i.ToString()))
+                    .Select((o, i) => ReplacedSql(tableType, commandCount, i.ToString()))
                     .Join(MultiParamOperator);
             }
             else
             {
-                return ReplacedSql(sqlContainer, commandCount);
+                return ReplacedSql(sqlContainer, tableType, commandCount);
             }
         }
 
-        private string ReplacedSql(SqlContainer sqlContainer, int? commandCount)
+        private string ReplacedSql(
+            SqlContainer sqlContainer, Sqls.TableTypes tableType, int? commandCount)
         {
             return ColumnBracket != null
-                ? ColumnBracket + ReplacedRaw(sqlContainer, commandCount)
+                ? Functions(tableType) + ReplacedRaw(sqlContainer, commandCount)
                 : Raw.Replace("#CommandCount#", commandCount.ToString());
         }
 
@@ -132,10 +147,10 @@ namespace Implem.Libraries.DataSources.SqlServer
             }
         }
 
-        private string ReplacedSql(int? commandCount, string paramCount)
+        private string ReplacedSql(Sqls.TableTypes tableType, int? commandCount, string paramCount)
         {
             return ColumnBracket != null
-                ? ColumnBracket + Operator + Raw
+                ? Functions(tableType) + Operator + Raw
                     .Replace("#CommandCount#", commandCount.ToString())
                     .Replace("#ParamCount#", paramCount.ToString())
                 : Raw
@@ -143,13 +158,26 @@ namespace Implem.Libraries.DataSources.SqlServer
                     .Replace("#ParamCount#", paramCount.ToString());
         }
 
-        private string Sql_Or(SqlContainer sqlContainer, SqlCommand sqlCommand, int? commandCount)
+        private string Sql_Or(
+            SqlContainer sqlContainer,
+            SqlCommand sqlCommand,
+            Sqls.TableTypes tableType,
+            int? commandCount)
         {
             var commandText = new StringBuilder();
             Or.Clause = string.Empty;
             Or.MultiClauseOperator = " or ";
-            Or.BuildCommandText(sqlContainer, sqlCommand, commandText, commandCount);
+            Or.BuildCommandText(sqlContainer, sqlCommand, commandText, tableType, commandCount);
             return "(" + commandText + ")";
+        }
+
+        private string Functions(Sqls.TableTypes tableType)
+        {
+            return Function.ToString().ToLower() +
+                "(" + Sqls.TableAndColumnBracket(
+                    tableName: TableName,
+                    tableType: tableType,
+                    columnBracket: ColumnBracket) + ")";
         }
     }
 }

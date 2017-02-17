@@ -915,8 +915,7 @@ namespace Implem.Pleasanter.Models
                 where: Rds.SitesWhere()
                     .TenantId(Sessions.TenantId())
                     .ParentId(parentId)
-                    .PermissionType(_operator: " & " +
-                        Permissions.Types.Read.ToInt().ToString() + "<>0"));
+                    .HasPermission());
             var orderModel = new OrderModel(parentId, "Sites");
             siteDataRows.ForEach(siteModel =>
             {

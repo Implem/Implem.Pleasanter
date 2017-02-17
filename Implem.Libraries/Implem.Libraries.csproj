@@ -133,11 +133,12 @@
     <Compile Include="Classes\TimePeriod.cs" />
     <Compile Include="Classes\TextData.cs" />
     <Compile Include="Classes\Csv.cs" />
+    <Compile Include="DataSources\SqlServer\SqlJoin.cs" />
+    <Compile Include="DataSources\SqlServer\SqlJoinCollection.cs" />
     <Compile Include="DataSources\SqlServer\SqlColumnCollection.cs" />
     <Compile Include="DataSources\SqlServer\SqlDebugs.cs" />
     <Compile Include="DataSources\SqlServer\SqlGroupByCollection.cs" />
     <Compile Include="DataSources\SqlServer\SqlHavingCollection.cs" />
-    <Compile Include="DataSources\SqlServer\SqlJoinCollection.cs" />
     <Compile Include="DataSources\SqlServer\SqlOrderByCollection.cs" />
     <Compile Include="DataSources\SqlServer\SqlParamCollection.cs" />
     <Compile Include="DataSources\SqlServer\SqlRestore.cs" />
@@ -164,7 +165,6 @@
     <Compile Include="Classes\RdsUser.cs" />
     <Compile Include="Classes\XlsIo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DataSources\SqlServer\SqlJoin.cs" />
     <Compile Include="DataSources\SqlServer\SqlColumn.cs" />
     <Compile Include="Utilities\Arrays.cs" />
     <Compile Include="Utilities\Azures.cs" />

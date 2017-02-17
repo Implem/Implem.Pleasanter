@@ -107,7 +107,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 "update ", tableBracket,
                 " set ", updateColumnNameCollection.Join(), " ");
             SqlWhereCollection.BuildCommandText(
-                sqlContainer, sqlCommand, commandText, commandCount);
+                sqlContainer, sqlCommand, commandText, TableType, commandCount);
             commandText.Append(
                 " if @@rowcount = 0 insert into ",
                 tableBracket,

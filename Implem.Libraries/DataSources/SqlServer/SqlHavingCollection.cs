@@ -12,7 +12,7 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         public SqlHavingCollection(params SqlHaving[] sqlHavingCollection)
         {
-            this.AddRange(sqlHavingCollection);
+            AddRange(sqlHavingCollection);
         }
 
         public SqlHavingCollection Add(
@@ -26,9 +26,9 @@ namespace Implem.Libraries.DataSources.SqlServer
             SqlHavingCollection or = null,
             bool _using = true)
         {
-            base.Add(new SqlHaving(
+            Add(new SqlHaving(
                 columnBracket: columnBracket,
-                name: name,
+                tableName: name,
                 value: value,
                 _operator: _operator,
                 multiParamOperator: multiParamOperator,
@@ -41,28 +41,30 @@ namespace Implem.Libraries.DataSources.SqlServer
         public void BuildCommandText(
             SqlContainer sqlContainer, 
             SqlCommand sqlCommand, 
-            StringBuilder commandText, 
+            StringBuilder commandText,
+            Sqls.TableTypes tableType,
             int? commandCount)
         {
-            commandText.Append(Sql(sqlContainer, sqlCommand, commandCount));
+            commandText.Append(Sql(sqlContainer, sqlCommand, tableType, commandCount));
         }
 
         public string Sql(
             SqlContainer sqlContainer,
             SqlCommand sqlCommand,
+            Sqls.TableTypes tableType,
             int? commandCount)
         {
             return this.Any(o => o.Using)
                 ? Clause + this
                     .Where(o => o.Using)
-                    .Select(o => o.Sql(sqlContainer, sqlCommand, commandCount))
+                    .Select(o => o.Sql(sqlContainer, sqlCommand, tableType, commandCount))
                     .Join(MultiClauseOperator) + " "
                 : string.Empty;
         }
 
         public void Prefix(string prefix)
         {
-            this.ForEach(o => o.Name += prefix);
+            ForEach(o => o.TableName += prefix);
         }
     }
 }

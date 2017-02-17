@@ -34,10 +34,44 @@ namespace Implem.Libraries.DataSources.SqlServer
             UnionAll
         }
 
-        public static SqlJoinCollection SqlJoinCollection(
-            params SqlJoin[] sqlJoinCollection)
+        public enum Functions
         {
-            return new SqlJoinCollection(sqlJoinCollection);
+            None,
+            Count,
+            Sum,
+            Min,
+            Max,
+            Avg
+        }
+
+        public static string TableAndColumnBracket(
+            string tableName, TableTypes tableType, string columnBracket)
+        {
+            var tableBracket = string.Empty;
+            if (!tableName.IsNullOrEmpty() && columnBracket.StartsWith("["))
+            {
+                switch (tableType)
+                {
+                    case TableTypes.Normal:
+                        tableBracket = "[" + tableName + "].";
+                        break;
+                    case TableTypes.History:
+                        tableBracket = "[" + tableName + "_History].";
+                        break;
+                    case TableTypes.Deleted:
+                        tableBracket = "[" + tableName + "_Deleted].";
+                        break;
+                }
+            }
+            return columnBracket.StartsWith("(")
+                ? columnBracket.Replace("$[", tableBracket + "[")
+                : tableBracket + columnBracket;
+        }
+
+        public static SqlJoinCollection SqlJoinCollection(
+            params SqlJoin[] sqlFromCollection)
+        {
+            return new SqlJoinCollection(sqlFromCollection);
         }
 
         public static SqlParamCollection SqlParamCollection(

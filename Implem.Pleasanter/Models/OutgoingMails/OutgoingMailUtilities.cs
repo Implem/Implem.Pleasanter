@@ -436,7 +436,9 @@ namespace Implem.Pleasanter.Models
             string searchText = "")
         {
             var joinMailAddresses = new SqlJoin(
-                "inner join [MailAddresses] on [MailAddresses].[OwnerId]=[t0].[UserId]");
+                "[MailAddresses]",
+                SqlJoin.JoinTypes.Inner,
+                "[Users].[UserId]=[MailAddresses].[OwnerId]");
             switch (searchRange)
             {
                 case "DefaultAddressBook":
@@ -450,9 +452,10 @@ namespace Implem.Pleasanter.Models
                             .ToDictionary(o => o.Key, o => new ControlData(o.Value.Text));
                 case "SiteUser":
                     var joinPermissions = new SqlJoin(
-                        "inner join [Permissions] on " +
-                        "([t0].[UserId]=[Permissions].[UserId] and [Permissions].[UserId] <> 0) or " +
-                        "([t0].[DeptId]=[Permissions].[DeptId] and [Permissions].[DeptId] <> 0)");
+                        "[Permissions]",
+                        SqlJoin.JoinTypes.Inner,
+                        "([Users].[UserId]=[Permissions].[UserId] and [Permissions].[UserId] <> 0) or " +
+                        "([Users].[DeptId]=[Permissions].[DeptId] and [Permissions].[DeptId] <> 0)");
                     return DestinationCollection(
                         Sqls.SqlJoinCollection(joinMailAddresses, joinPermissions),
                         Rds.UsersWhere()
@@ -460,7 +463,7 @@ namespace Implem.Pleasanter.Models
                             .Permissions_ReferenceType("Sites")
                             .Permissions_ReferenceId(referenceId)
                             .SearchText(searchText)
-                            .Users_TenantId(Sessions.TenantId(), "t0"));
+                            .Users_TenantId(Sessions.TenantId()));
                 case "All":
                 default:
                     return !searchText.IsNullOrEmpty()
@@ -469,7 +472,7 @@ namespace Implem.Pleasanter.Models
                             Rds.UsersWhere()
                                 .MailAddresses_OwnerType("Users")
                                 .SearchText(searchText)
-                                .Users_TenantId(Sessions.TenantId(), "t0"))
+                                .Users_TenantId(Sessions.TenantId()))
                         : new Dictionary<string, ControlData>();
             }
         }

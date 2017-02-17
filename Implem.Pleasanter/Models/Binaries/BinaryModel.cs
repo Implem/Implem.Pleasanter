@@ -341,7 +341,8 @@ namespace Implem.Pleasanter.Models
                 default:
                     return Rds.ExecuteScalar_datetime(statements:
                         Rds.SelectBinaries(
-                            column: Rds.BinariesColumn().UpdatedTime(),
+                            column: Rds.BinariesColumn()
+                                .UpdatedTime(function: Sqls.Functions.Max),
                             where: Rds.BinariesWhere().ReferenceId(ReferenceId)))
                                 .ToString("?yyyyMMddHHmmss");
             }

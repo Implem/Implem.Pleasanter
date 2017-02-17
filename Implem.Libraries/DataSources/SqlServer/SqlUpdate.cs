@@ -21,7 +21,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             Build_If(commandText);
             Build_UpdateStatement(sqlContainer, sqlCommand, commandText, commandCount);
             SqlWhereCollection?.BuildCommandText(
-                sqlContainer, sqlCommand, commandText, commandCount);
+                sqlContainer, sqlCommand, commandText, TableType, commandCount);
             AddParams_Where(sqlCommand, commandCount);
             AddParams_Param(sqlCommand, commandCount);
             AddTermination(commandText);

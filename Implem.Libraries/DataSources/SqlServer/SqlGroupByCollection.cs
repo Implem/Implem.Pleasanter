@@ -8,20 +8,25 @@ namespace Implem.Libraries.DataSources.SqlServer
     {
         public SqlGroupByCollection(params SqlGroupBy[] sqlGroupByCollection)
         {
-            this.AddRange(sqlGroupByCollection);
+            AddRange(sqlGroupByCollection);
         }
 
-        public SqlGroupByCollection Add(params string[] columnBrackets)
+        public SqlGroupByCollection Add(string columnBracket, string tableName)
         {
-            columnBrackets.ForEach(columnBracket => base.Add(new SqlGroupBy(columnBracket)));
+            Add(new SqlGroupBy(columnBracket, tableName));
             return this;
         }
 
-        public void BuildCommandText(StringBuilder commandText)
+        public void BuildCommandText(StringBuilder commandText, Sqls.TableTypes tableType)
         {
-            if (this.Count > 0)
+            if (this.Any())
             {
-                commandText.Append("group by ", this.Select(o => o.ColumnBracket).Join(), " ");
+                commandText.Append("group by ", this.Select(o =>
+                    Sqls.TableAndColumnBracket(
+                        tableName: o.TableName,
+                        tableType: tableType,
+                        columnBracket: o.ColumnBracket))
+                            .Join(), " ");
             }
         }
     }

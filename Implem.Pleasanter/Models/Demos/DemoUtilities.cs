@@ -351,7 +351,8 @@ namespace Implem.Pleasanter.Models
                                         .IssueId(issueModel.IssueId)
                                         .Ver(sub: Rds.SelectIssues(
                                             tableType: Sqls.TableTypes.HistoryWithoutFlag,
-                                            column: Rds.IssuesColumn().Add("max(Ver)"),
+                                            column: Rds.IssuesColumn()
+                                                .Ver(function: Sqls.Functions.Max),
                                             where: Rds.IssuesWhere()
                                                 .IssueId(issueModel.IssueId)))));
                         }

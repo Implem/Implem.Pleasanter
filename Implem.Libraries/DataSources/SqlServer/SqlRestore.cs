@@ -32,7 +32,8 @@ namespace Implem.Libraries.DataSources.SqlServer
             int? commandCount)
         {
             commandText.Append(CommandText
-                .Params(SqlWhereCollection.Sql(sqlContainer, sqlCommand, commandCount)));
+                .Params(SqlWhereCollection.Sql(
+                    sqlContainer, sqlCommand, TableType, commandCount)));
         }
     }
 }

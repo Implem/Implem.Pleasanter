@@ -71,6 +71,18 @@ namespace Implem.Pleasanter.Models
                             return Error.Types.InvalidRequest;
                         }
                         break;
+                    case "Users_FullName1":
+                        if (!ss.GetColumn("FullName1").CanCreate(pt))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_FullName2":
+                        if (!ss.GetColumn("FullName2").CanCreate(pt))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
                     case "Users_Birthday":
                         if (!ss.GetColumn("Birthday").CanCreate(pt))
                         {
@@ -261,6 +273,18 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "Users_FirstName":
                         if (!ss.GetColumn("FirstName").CanUpdate(pt))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_FullName1":
+                        if (!ss.GetColumn("FullName1").CanUpdate(pt))
+                        {
+                            return Error.Types.InvalidRequest;
+                        }
+                        break;
+                    case "Users_FullName2":
+                        if (!ss.GetColumn("FullName2").CanUpdate(pt))
                         {
                             return Error.Types.InvalidRequest;
                         }

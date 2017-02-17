@@ -142,7 +142,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.SitesWhere()
                         .TenantId(Sessions.TenantId())
                         .SiteId(siteId, _operator: "<>")
-                        .InheritPermission(raw: "[t0].[SiteId]")
+                        .InheritPermission(raw: "[Sites].[SiteId]")
                         .PermissionType(_operator: " is not null "),
                     orderBy: Rds.SitesOrderBy().Title()))
                         .AsEnumerable()
@@ -315,7 +315,7 @@ namespace Implem.Pleasanter.Models
                                 .SqlWhereExists(Rds.SqlWhereNotExists_Permissions,
                                     "[Permissions].[ReferenceId] = @ReferenceId_Param1",
                                     "[Permissions].[ReferenceType] = @ReferenceType_Param1",
-                                    "[Permissions].[DeptId] = [t0].[DeptId]")
+                                    "[Permissions].[DeptId] = [Depts].[DeptId]")
                                 .SqlWhereLike(
                                     searchText,
                                     Rds.Depts_DeptId_WhereLike(),
@@ -324,17 +324,17 @@ namespace Implem.Pleasanter.Models
                             param: Rds.PermissionsParam()
                                 .ReferenceType(referenceType)
                                 .ReferenceId(referenceId)
-                                .PermissionType(Permissions.Types.ReadWrite),
-                            unionType: Sqls.UnionTypes.Union),
+                                .PermissionType(Permissions.Types.ReadWrite)),
                         Rds.SelectUsers(
+                            unionType: Sqls.UnionTypes.Union,
                             column: Rds.UsersColumn()
                                 .Add("@ReferenceId_Param2 as [ReferenceId]")
                                 .Add("@ReferenceType_Param2 as [ReferenceType]")
                                 .Add("null as [DeptId]")
                                 .Add("null as [DeptName]")
                                 .UserId()
-                                .Add("[t0].[FirstName] + ' ' + [t0].[LastName] as [FullName1]")
-                                .Add("[t0].[LastName] + ' ' + [t0].[FirstName] as [FullName2]")
+                                .FullName1()
+                                .FullName2()
                                 .FirstAndLastNameOrder()
                                 .Add("@PermissionType_Param2 as [PermissionType]"),
                             where: Rds.UsersWhere()
@@ -342,7 +342,7 @@ namespace Implem.Pleasanter.Models
                                 .SqlWhereExists(Rds.SqlWhereNotExists_Permissions,
                                     "[Permissions].[ReferenceId] = @ReferenceId_Param2",
                                     "[Permissions].[ReferenceType] = @ReferenceType_Param2",
-                                    "[Permissions].[UserId] = [t0].[UserId]")
+                                    "[Permissions].[UserId] = [Users].[UserId]")
                                 .SqlWhereLike(
                                     searchText,
                                     Rds.Users_LoginId_WhereLike(),
@@ -551,7 +551,7 @@ namespace Implem.Pleasanter.Models
             var siteModel = new SiteModel(siteId, setByForm: true);
             var res = new ResponseCollection();
             var permissionDestination = Forms.Data("PermissionDestination")
-                .Deserialize<List<string>>()
+                .Deserialize<List<string>>()?
                 .Where(o => o != string.Empty)
                 .ToList();
             siteModel.Session_PermissionSourceCollection(

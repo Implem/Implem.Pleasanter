@@ -3,10 +3,12 @@
     public class SqlGroupBy
     {
         public string ColumnBracket;
+        public string TableName;
 
-        public SqlGroupBy(string columnBracket)
+        public SqlGroupBy(string columnBracket, string tableName)
         {
             ColumnBracket = columnBracket;
+            TableName = tableName;
         }
     }
 }

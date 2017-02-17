@@ -17,23 +17,27 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         public SqlWhereCollection Add(
             string[] columnBrackets = null,
-            string name = "",
+            string tableName = null,
+            string name = null,
             object value = null,
             string _operator = "=",
             string multiColumnOperator = " or ",
             string multiParamOperator = " and ",
+            SqlStatement subLeft = null,
             SqlStatement sub = null,
-            string raw = "",
+            string raw = null,
             SqlWhereCollection or = null,
             bool _using = true)
         {
             Add(new SqlWhere(
                 columnBrackets: columnBrackets,
+                tableName: tableName,
                 name: name,
                 value: value,
                 _operator: _operator,
                 multiColumnOperator: multiColumnOperator,
                 multiParamOperator: multiParamOperator,
+                subLeft: subLeft,
                 sub: sub,
                 raw: raw,
                 or: or,
@@ -45,15 +49,17 @@ namespace Implem.Libraries.DataSources.SqlServer
             SqlContainer sqlContainer,
             SqlCommand sqlCommand,
             StringBuilder commandText,
+            Sqls.TableTypes tableType,
             int? commandCount,
             bool select = false)
         {
-            commandText.Append(Sql(sqlContainer, sqlCommand, commandCount, select));
+            commandText.Append(Sql(sqlContainer, sqlCommand, tableType, commandCount, select));
         }
 
         public string Sql(
             SqlContainer sqlContainer,
             SqlCommand sqlCommand,
+            Sqls.TableTypes tableType,
             int? commandCount,
             bool select = false)
         {
@@ -67,7 +73,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 ? Clause + this
                     .Where(o => o != null)
                     .Where(o => o.Using)
-                    .Select(o => o.Sql(sqlContainer, sqlCommand, commandCount))
+                    .Select(o => o.Sql(sqlContainer, sqlCommand, tableType, commandCount))
                     .Join(MultiClauseOperator) + " "
                 : string.Empty;
         }

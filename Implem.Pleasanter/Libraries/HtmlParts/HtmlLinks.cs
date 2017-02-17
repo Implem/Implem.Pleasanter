@@ -39,9 +39,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     column: Rds.LinksColumn()
                         .SourceId(_as: "Id")
                         .Add("'Source' as [Direction]"),
-                    where: Rds.LinksWhere().DestinationId(linkId),
-                    unionType: Sqls.UnionTypes.UnionAll),
+                    where: Rds.LinksWhere().DestinationId(linkId)),
                 Rds.SelectLinks(
+                    unionType: Sqls.UnionTypes.UnionAll,
                     column: Rds.LinksColumn()
                         .DestinationId(_as: "Id")
                         .Add("'Destination' as [Direction]"),

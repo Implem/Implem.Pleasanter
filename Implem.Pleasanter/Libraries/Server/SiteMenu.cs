@@ -133,9 +133,8 @@ namespace Implem.Pleasanter.Libraries.Server
                     .TenantId(Sessions.TenantId())
                     .SiteId_In(hash.SelectMany(o => o.Value))
                     .ReferenceType("Sites", _operator: "<>")
-                    .PermissionType(_operator: " & " +
-                        Permissions.Types.Read.ToInt().ToString() + "<>0")))
-                            .AsEnumerable();
+                    .HasPermission()))
+                        .AsEnumerable();
             var issues = sites
                 .Where(o => o["ReferenceType"].ToString() == "Issues")
                 .Select(o => o["SiteId"].ToLong());
@@ -146,11 +145,11 @@ namespace Implem.Pleasanter.Libraries.Server
                         column: Rds.ItemsColumn()
                             .SiteId()
                             .ItemsCount()
-                            .UpdatedTimeMax(),
+                            .UpdatedTime(function: Sqls.Functions.Max),
                         where: Rds.ItemsWhere()
                             .SiteId_In(sites.Select(o => o["SiteId"].ToLong()))
                             .ReferenceType("Sites", _operator: "<>"),
-                        groupBy: Rds.SitesGroupBy()
+                        groupBy: Rds.ItemsGroupBy()
                             .SiteId()),
                     Rds.SelectIssues(
                         dataTableName: "OverdueIssues",
@@ -161,7 +160,7 @@ namespace Implem.Pleasanter.Libraries.Server
                             .SiteId_In(issues)
                             .Status(_operator: "<{0}".Params(Parameters.General.CompletionCode))
                             .CompletionTime(_operator: "<getdate()"),
-                        groupBy: Rds.SitesGroupBy()
+                        groupBy: Rds.IssuesGroupBy()
                             .SiteId())
                 });
             return hash.Select(o => SiteCondition(dataSet, o.Key, o.Value));

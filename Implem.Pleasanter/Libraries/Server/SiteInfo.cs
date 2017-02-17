@@ -26,8 +26,12 @@ namespace Implem.Pleasanter.Libraries.Server
             {
                 var tenantId = Sessions.TenantId();
                 var permission = new SqlWhereCollection().Add(or: new SqlWhereCollection(
-                    new SqlWhere(raw: "[t0].[DeptId] <> 0 and [t0].[DeptId]=" + Sessions.DeptId()),
-                    new SqlWhere(raw: "[t0].[UserId] <> 0 and [t0].[UserId]=" + Sessions.UserId())));
+                    new SqlWhere(raw:
+                        "[Permissions].[DeptId] <> 0 and [Permissions].[DeptId]=" +
+                            Sessions.DeptId()),
+                    new SqlWhere(raw:
+                        "[Permissions].[UserId] <> 0 and [Permissions].[UserId]=" +
+                            Sessions.UserId())));
                 var dataSet = Rds.ExecuteDataSet(statements: new SqlStatement[]
                 {
                     Rds.SelectSites(

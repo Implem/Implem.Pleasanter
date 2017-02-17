@@ -2295,9 +2295,9 @@ namespace Implem.Pleasanter.Models
                         .Updator()
                         .CreatedTime()
                         .UpdatedTime(),
-                    where: where,
-                    unionType: Sqls.UnionTypes.Union),
+                    where: where),
                 Rds.SelectIssues(
+                    unionType: Sqls.UnionTypes.Union,
                     tableType: Sqls.TableTypes.HistoryWithoutFlag,
                     column: Rds.IssuesTitleColumn(ss)
                         .IssueId(_as: "Id")

@@ -7,21 +7,25 @@ namespace Implem.Libraries.DataSources.SqlServer
 {
     public class SqlColumnCollection : ListEx<SqlColumn>
     {
-        public SqlColumnCollection Add(bool duplicates = false, params string[] columnBrackets)
+        public SqlColumnCollection Add(
+            bool duplicates = false,
+            string columnBracket = null,
+            string tableName = null,
+            string columnName = null,
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            SqlStatement sub = null)
         {
-            columnBrackets.ForEach(columnBracket =>
+            if (duplicates || !this.Any(o => o.ColumnBracket == columnBracket))
             {
-                if (duplicates || !this.Any(o => o.ColumnBracket == columnBracket))
-                {
-                    Add(new SqlColumn(columnBracket));
-                }
-            });
-            return this;
-        }
-
-        public SqlColumnCollection Add(SqlStatement sub, string _as)
-        {
-            Add(new SqlColumn(sub, _as));
+                Add(new SqlColumn(
+                    columnBracket: columnBracket,
+                    tableName: tableName,
+                    columnName: columnName,
+                    _as: _as,
+                    function: function,
+                    sub: sub));
+            }
             return this;
         }
 
@@ -29,6 +33,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             SqlContainer sqlContainer,
             SqlCommand sqlCommand,
             StringBuilder commandText,
+            Sqls.TableTypes tableType,
             int? commandCount,
             bool distinct,
             int top)
@@ -37,7 +42,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             Build_DistinctClause(commandText, distinct);
             Build_TopClause(commandText, top);
             commandText.Append(this
-                .Select(o => o.CommandText(sqlContainer, sqlCommand, commandCount))
+                .Select(o => o.CommandText(sqlContainer, sqlCommand, tableType, commandCount))
                 .Join(), " ");
             RemoveAll(o => o.AdHoc);
         }

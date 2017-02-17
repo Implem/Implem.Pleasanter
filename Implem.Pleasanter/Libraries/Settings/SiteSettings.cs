@@ -1101,9 +1101,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .ReferenceType("Sites", _operator: "<>")
                         .SiteId_In(allowSites)
                         .Add(or: new SqlWhereCollection(
-                            new SqlWhere(raw: "[t0].[ReferenceType]='Wikis'"),
+                            new SqlWhere(raw: "[Items].[ReferenceType]='Wikis'"),
                             new SqlWhere(
-                                raw: "[t0].[SiteId] in ({0})".Params(targetSites),
+                                raw: "[Items].[SiteId] in ({0})".Params(targetSites),
                                 _using: targetSites != string.Empty))),
                     orderBy: Rds.ItemsOrderBy()
                         .Title())).AsEnumerable();

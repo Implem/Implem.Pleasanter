@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.Libraries.DataSources.SqlServer;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
@@ -79,13 +80,37 @@ namespace Implem.Pleasanter.Libraries.Security
             return pt;
         }
 
+        public static Rds.SitesWhereCollection HasPermission(
+            this Rds.SitesWhereCollection self)
+        {
+            return self.Add(
+                subLeft: SelectPermissionType(),
+                _operator: " & " + Types.Read.ToInt().ToString() + "<>0");
+        }
+
+        public static SqlStatement SelectPermissionType()
+        {
+            return Rds.SelectPermissions(
+                column: Rds.PermissionsColumn()
+                    .PermissionType(function: Sqls.Functions.Max),
+                where: Rds.PermissionsWhere()
+                    .ReferenceType("Sites")
+                    .ReferenceId(raw: "[Sites].[InheritPermission]")
+                    .Or(Rds.PermissionsWhere()
+                        .DeptId(raw: "@_D")
+                        .Add(raw: "@_D<>0"))
+                    .Or(Rds.PermissionsWhere()
+                        .UserId(raw: "@_U")
+                        .Add(raw: "@_U<>0")));
+        }
+
         public static Types GetById(long id)
         {
             var user = Sessions.User();
             return ((Types)Rds.ExecuteScalar_long(statements:
                 Rds.SelectPermissions(
                     column: Rds.PermissionsColumn()
-                        .PermissionTypeMax(),
+                        .PermissionType(function: Sqls.Functions.Max),
                     where: Rds.PermissionsWhere()
                         .ReferenceType("Sites")
                         .ReferenceId(sub: Rds.SelectSites(
@@ -95,8 +120,9 @@ namespace Implem.Pleasanter.Libraries.Security
                                 .SiteId(sub: Rds.SelectItems(
                                     column: Rds.ItemsColumn().SiteId(),
                                     where: Rds.ItemsWhere().ReferenceId(id)))))
-                        .Add(raw: "([t0].[DeptId]={0} or [t0].[UserId]={1})".Params(
-                            user.DeptId, user.Id))))).Admins();
+                        .Add(raw: "([Permissions].[DeptId]={0} or [Permissions].[UserId]={1})"
+                            .Params(user.DeptId, user.Id)))))
+                                .Admins();
         }
 
         public static Types GetBySiteId(long siteId)
@@ -105,7 +131,7 @@ namespace Implem.Pleasanter.Libraries.Security
             return ((Types)Rds.ExecuteScalar_long(statements:
                 Rds.SelectPermissions(
                     column: Rds.PermissionsColumn()
-                        .PermissionTypeMax(),
+                        .PermissionType(function: Sqls.Functions.Max),
                     where: Rds.PermissionsWhere()
                         .ReferenceType("Sites")
                         .ReferenceId(sub: Rds.SelectSites(
@@ -113,8 +139,9 @@ namespace Implem.Pleasanter.Libraries.Security
                             where: Rds.SitesWhere()
                                 .TenantId(Sessions.TenantId())
                                 .SiteId(siteId)))
-                        .Add(raw: "([t0].[DeptId]={0} or [t0].[UserId]={1})".Params(
-                            user.DeptId, user.Id))))).Admins();
+                        .Add(raw: "([Permissions].[DeptId]={0} or [Permissions].[UserId]={1})"
+                            .Params(user.DeptId, user.Id)))))
+                                .Admins();
         }
 
         public static Dictionary<long, Types> GetBySites(IEnumerable<long> sites)
@@ -126,7 +153,7 @@ namespace Implem.Pleasanter.Libraries.Security
                         .SiteId()
                         .Add(sub: Rds.SelectPermissions(
                             column: Rds.PermissionsColumn()
-                                .PermissionTypeMax(),
+                                .PermissionType(function: Sqls.Functions.Max),
                             where: Rds.PermissionsWhere()
                                 .ReferenceType("Sites")
                                 .ReferenceId(_operator: "=[InheritPermission]")

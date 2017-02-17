@@ -932,34 +932,34 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             switch (sourceColumn)
             {
-                case "WorkValue": return Rds.IssuesColumn().WorkValueTotal();
-                case "RemainingWorkValue": return Rds.IssuesColumn().RemainingWorkValueTotal();
-                case "NumA": return Rds.IssuesColumn().NumATotal();
-                case "NumB": return Rds.IssuesColumn().NumBTotal();
-                case "NumC": return Rds.IssuesColumn().NumCTotal();
-                case "NumD": return Rds.IssuesColumn().NumDTotal();
-                case "NumE": return Rds.IssuesColumn().NumETotal();
-                case "NumF": return Rds.IssuesColumn().NumFTotal();
-                case "NumG": return Rds.IssuesColumn().NumGTotal();
-                case "NumH": return Rds.IssuesColumn().NumHTotal();
-                case "NumI": return Rds.IssuesColumn().NumITotal();
-                case "NumJ": return Rds.IssuesColumn().NumJTotal();
-                case "NumK": return Rds.IssuesColumn().NumKTotal();
-                case "NumL": return Rds.IssuesColumn().NumLTotal();
-                case "NumM": return Rds.IssuesColumn().NumMTotal();
-                case "NumN": return Rds.IssuesColumn().NumNTotal();
-                case "NumO": return Rds.IssuesColumn().NumOTotal();
-                case "NumP": return Rds.IssuesColumn().NumPTotal();
-                case "NumQ": return Rds.IssuesColumn().NumQTotal();
-                case "NumR": return Rds.IssuesColumn().NumRTotal();
-                case "NumS": return Rds.IssuesColumn().NumSTotal();
-                case "NumT": return Rds.IssuesColumn().NumTTotal();
-                case "NumU": return Rds.IssuesColumn().NumUTotal();
-                case "NumV": return Rds.IssuesColumn().NumVTotal();
-                case "NumW": return Rds.IssuesColumn().NumWTotal();
-                case "NumX": return Rds.IssuesColumn().NumXTotal();
-                case "NumY": return Rds.IssuesColumn().NumYTotal();
-                case "NumZ": return Rds.IssuesColumn().NumZTotal();
+                case "WorkValue": return Rds.IssuesColumn().WorkValue(function: Sqls.Functions.Sum);
+                case "RemainingWorkValue": return Rds.IssuesColumn().RemainingWorkValue(function: Sqls.Functions.Sum);
+                case "NumA": return Rds.IssuesColumn().NumA(function: Sqls.Functions.Sum);
+                case "NumB": return Rds.IssuesColumn().NumB(function: Sqls.Functions.Sum);
+                case "NumC": return Rds.IssuesColumn().NumC(function: Sqls.Functions.Sum);
+                case "NumD": return Rds.IssuesColumn().NumD(function: Sqls.Functions.Sum);
+                case "NumE": return Rds.IssuesColumn().NumE(function: Sqls.Functions.Sum);
+                case "NumF": return Rds.IssuesColumn().NumF(function: Sqls.Functions.Sum);
+                case "NumG": return Rds.IssuesColumn().NumG(function: Sqls.Functions.Sum);
+                case "NumH": return Rds.IssuesColumn().NumH(function: Sqls.Functions.Sum);
+                case "NumI": return Rds.IssuesColumn().NumI(function: Sqls.Functions.Sum);
+                case "NumJ": return Rds.IssuesColumn().NumJ(function: Sqls.Functions.Sum);
+                case "NumK": return Rds.IssuesColumn().NumK(function: Sqls.Functions.Sum);
+                case "NumL": return Rds.IssuesColumn().NumL(function: Sqls.Functions.Sum);
+                case "NumM": return Rds.IssuesColumn().NumM(function: Sqls.Functions.Sum);
+                case "NumN": return Rds.IssuesColumn().NumN(function: Sqls.Functions.Sum);
+                case "NumO": return Rds.IssuesColumn().NumO(function: Sqls.Functions.Sum);
+                case "NumP": return Rds.IssuesColumn().NumP(function: Sqls.Functions.Sum);
+                case "NumQ": return Rds.IssuesColumn().NumQ(function: Sqls.Functions.Sum);
+                case "NumR": return Rds.IssuesColumn().NumR(function: Sqls.Functions.Sum);
+                case "NumS": return Rds.IssuesColumn().NumS(function: Sqls.Functions.Sum);
+                case "NumT": return Rds.IssuesColumn().NumT(function: Sqls.Functions.Sum);
+                case "NumU": return Rds.IssuesColumn().NumU(function: Sqls.Functions.Sum);
+                case "NumV": return Rds.IssuesColumn().NumV(function: Sqls.Functions.Sum);
+                case "NumW": return Rds.IssuesColumn().NumW(function: Sqls.Functions.Sum);
+                case "NumX": return Rds.IssuesColumn().NumX(function: Sqls.Functions.Sum);
+                case "NumY": return Rds.IssuesColumn().NumY(function: Sqls.Functions.Sum);
+                case "NumZ": return Rds.IssuesColumn().NumZ(function: Sqls.Functions.Sum);
                 default: return null;
             }
         }
@@ -968,32 +968,32 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             switch (sourceColumn)
             {
-                case "NumA": return Rds.ResultsColumn().NumATotal();
-                case "NumB": return Rds.ResultsColumn().NumBTotal();
-                case "NumC": return Rds.ResultsColumn().NumCTotal();
-                case "NumD": return Rds.ResultsColumn().NumDTotal();
-                case "NumE": return Rds.ResultsColumn().NumETotal();
-                case "NumF": return Rds.ResultsColumn().NumFTotal();
-                case "NumG": return Rds.ResultsColumn().NumGTotal();
-                case "NumH": return Rds.ResultsColumn().NumHTotal();
-                case "NumI": return Rds.ResultsColumn().NumITotal();
-                case "NumJ": return Rds.ResultsColumn().NumJTotal();
-                case "NumK": return Rds.ResultsColumn().NumKTotal();
-                case "NumL": return Rds.ResultsColumn().NumLTotal();
-                case "NumM": return Rds.ResultsColumn().NumMTotal();
-                case "NumN": return Rds.ResultsColumn().NumNTotal();
-                case "NumO": return Rds.ResultsColumn().NumOTotal();
-                case "NumP": return Rds.ResultsColumn().NumPTotal();
-                case "NumQ": return Rds.ResultsColumn().NumQTotal();
-                case "NumR": return Rds.ResultsColumn().NumRTotal();
-                case "NumS": return Rds.ResultsColumn().NumSTotal();
-                case "NumT": return Rds.ResultsColumn().NumTTotal();
-                case "NumU": return Rds.ResultsColumn().NumUTotal();
-                case "NumV": return Rds.ResultsColumn().NumVTotal();
-                case "NumW": return Rds.ResultsColumn().NumWTotal();
-                case "NumX": return Rds.ResultsColumn().NumXTotal();
-                case "NumY": return Rds.ResultsColumn().NumYTotal();
-                case "NumZ": return Rds.ResultsColumn().NumZTotal();
+                case "NumA": return Rds.ResultsColumn().NumA(function: Sqls.Functions.Sum);
+                case "NumB": return Rds.ResultsColumn().NumB(function: Sqls.Functions.Sum);
+                case "NumC": return Rds.ResultsColumn().NumC(function: Sqls.Functions.Sum);
+                case "NumD": return Rds.ResultsColumn().NumD(function: Sqls.Functions.Sum);
+                case "NumE": return Rds.ResultsColumn().NumE(function: Sqls.Functions.Sum);
+                case "NumF": return Rds.ResultsColumn().NumF(function: Sqls.Functions.Sum);
+                case "NumG": return Rds.ResultsColumn().NumG(function: Sqls.Functions.Sum);
+                case "NumH": return Rds.ResultsColumn().NumH(function: Sqls.Functions.Sum);
+                case "NumI": return Rds.ResultsColumn().NumI(function: Sqls.Functions.Sum);
+                case "NumJ": return Rds.ResultsColumn().NumJ(function: Sqls.Functions.Sum);
+                case "NumK": return Rds.ResultsColumn().NumK(function: Sqls.Functions.Sum);
+                case "NumL": return Rds.ResultsColumn().NumL(function: Sqls.Functions.Sum);
+                case "NumM": return Rds.ResultsColumn().NumM(function: Sqls.Functions.Sum);
+                case "NumN": return Rds.ResultsColumn().NumN(function: Sqls.Functions.Sum);
+                case "NumO": return Rds.ResultsColumn().NumO(function: Sqls.Functions.Sum);
+                case "NumP": return Rds.ResultsColumn().NumP(function: Sqls.Functions.Sum);
+                case "NumQ": return Rds.ResultsColumn().NumQ(function: Sqls.Functions.Sum);
+                case "NumR": return Rds.ResultsColumn().NumR(function: Sqls.Functions.Sum);
+                case "NumS": return Rds.ResultsColumn().NumS(function: Sqls.Functions.Sum);
+                case "NumT": return Rds.ResultsColumn().NumT(function: Sqls.Functions.Sum);
+                case "NumU": return Rds.ResultsColumn().NumU(function: Sqls.Functions.Sum);
+                case "NumV": return Rds.ResultsColumn().NumV(function: Sqls.Functions.Sum);
+                case "NumW": return Rds.ResultsColumn().NumW(function: Sqls.Functions.Sum);
+                case "NumX": return Rds.ResultsColumn().NumX(function: Sqls.Functions.Sum);
+                case "NumY": return Rds.ResultsColumn().NumY(function: Sqls.Functions.Sum);
+                case "NumZ": return Rds.ResultsColumn().NumZ(function: Sqls.Functions.Sum);
                 default: return null;
             }
         }
@@ -1056,34 +1056,34 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             switch (sourceColumn)
             {
-                case "WorkValue": return Rds.IssuesColumn().WorkValueMin();
-                case "RemainingWorkValue": return Rds.IssuesColumn().RemainingWorkValueMin();
-                case "NumA": return Rds.IssuesColumn().NumAMin();
-                case "NumB": return Rds.IssuesColumn().NumBMin();
-                case "NumC": return Rds.IssuesColumn().NumCMin();
-                case "NumD": return Rds.IssuesColumn().NumDMin();
-                case "NumE": return Rds.IssuesColumn().NumEMin();
-                case "NumF": return Rds.IssuesColumn().NumFMin();
-                case "NumG": return Rds.IssuesColumn().NumGMin();
-                case "NumH": return Rds.IssuesColumn().NumHMin();
-                case "NumI": return Rds.IssuesColumn().NumIMin();
-                case "NumJ": return Rds.IssuesColumn().NumJMin();
-                case "NumK": return Rds.IssuesColumn().NumKMin();
-                case "NumL": return Rds.IssuesColumn().NumLMin();
-                case "NumM": return Rds.IssuesColumn().NumMMin();
-                case "NumN": return Rds.IssuesColumn().NumNMin();
-                case "NumO": return Rds.IssuesColumn().NumOMin();
-                case "NumP": return Rds.IssuesColumn().NumPMin();
-                case "NumQ": return Rds.IssuesColumn().NumQMin();
-                case "NumR": return Rds.IssuesColumn().NumRMin();
-                case "NumS": return Rds.IssuesColumn().NumSMin();
-                case "NumT": return Rds.IssuesColumn().NumTMin();
-                case "NumU": return Rds.IssuesColumn().NumUMin();
-                case "NumV": return Rds.IssuesColumn().NumVMin();
-                case "NumW": return Rds.IssuesColumn().NumWMin();
-                case "NumX": return Rds.IssuesColumn().NumXMin();
-                case "NumY": return Rds.IssuesColumn().NumYMin();
-                case "NumZ": return Rds.IssuesColumn().NumZMin();
+                case "WorkValue": return Rds.IssuesColumn().WorkValue(function: Sqls.Functions.Avg);
+                case "RemainingWorkValue": return Rds.IssuesColumn().RemainingWorkValue(function: Sqls.Functions.Avg);
+                case "NumA": return Rds.IssuesColumn().NumA(function: Sqls.Functions.Avg);
+                case "NumB": return Rds.IssuesColumn().NumB(function: Sqls.Functions.Avg);
+                case "NumC": return Rds.IssuesColumn().NumC(function: Sqls.Functions.Avg);
+                case "NumD": return Rds.IssuesColumn().NumD(function: Sqls.Functions.Avg);
+                case "NumE": return Rds.IssuesColumn().NumE(function: Sqls.Functions.Avg);
+                case "NumF": return Rds.IssuesColumn().NumF(function: Sqls.Functions.Avg);
+                case "NumG": return Rds.IssuesColumn().NumG(function: Sqls.Functions.Avg);
+                case "NumH": return Rds.IssuesColumn().NumH(function: Sqls.Functions.Avg);
+                case "NumI": return Rds.IssuesColumn().NumI(function: Sqls.Functions.Avg);
+                case "NumJ": return Rds.IssuesColumn().NumJ(function: Sqls.Functions.Avg);
+                case "NumK": return Rds.IssuesColumn().NumK(function: Sqls.Functions.Avg);
+                case "NumL": return Rds.IssuesColumn().NumL(function: Sqls.Functions.Avg);
+                case "NumM": return Rds.IssuesColumn().NumM(function: Sqls.Functions.Avg);
+                case "NumN": return Rds.IssuesColumn().NumN(function: Sqls.Functions.Avg);
+                case "NumO": return Rds.IssuesColumn().NumO(function: Sqls.Functions.Avg);
+                case "NumP": return Rds.IssuesColumn().NumP(function: Sqls.Functions.Avg);
+                case "NumQ": return Rds.IssuesColumn().NumQ(function: Sqls.Functions.Avg);
+                case "NumR": return Rds.IssuesColumn().NumR(function: Sqls.Functions.Avg);
+                case "NumS": return Rds.IssuesColumn().NumS(function: Sqls.Functions.Avg);
+                case "NumT": return Rds.IssuesColumn().NumT(function: Sqls.Functions.Avg);
+                case "NumU": return Rds.IssuesColumn().NumU(function: Sqls.Functions.Avg);
+                case "NumV": return Rds.IssuesColumn().NumV(function: Sqls.Functions.Avg);
+                case "NumW": return Rds.IssuesColumn().NumW(function: Sqls.Functions.Avg);
+                case "NumX": return Rds.IssuesColumn().NumX(function: Sqls.Functions.Avg);
+                case "NumY": return Rds.IssuesColumn().NumY(function: Sqls.Functions.Avg);
+                case "NumZ": return Rds.IssuesColumn().NumZ(function: Sqls.Functions.Avg);
                 default: return null;
             }
         }
@@ -1092,32 +1092,32 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             switch (sourceColumn)
             {
-                case "NumA": return Rds.ResultsColumn().NumAMin();
-                case "NumB": return Rds.ResultsColumn().NumBMin();
-                case "NumC": return Rds.ResultsColumn().NumCMin();
-                case "NumD": return Rds.ResultsColumn().NumDMin();
-                case "NumE": return Rds.ResultsColumn().NumEMin();
-                case "NumF": return Rds.ResultsColumn().NumFMin();
-                case "NumG": return Rds.ResultsColumn().NumGMin();
-                case "NumH": return Rds.ResultsColumn().NumHMin();
-                case "NumI": return Rds.ResultsColumn().NumIMin();
-                case "NumJ": return Rds.ResultsColumn().NumJMin();
-                case "NumK": return Rds.ResultsColumn().NumKMin();
-                case "NumL": return Rds.ResultsColumn().NumLMin();
-                case "NumM": return Rds.ResultsColumn().NumMMin();
-                case "NumN": return Rds.ResultsColumn().NumNMin();
-                case "NumO": return Rds.ResultsColumn().NumOMin();
-                case "NumP": return Rds.ResultsColumn().NumPMin();
-                case "NumQ": return Rds.ResultsColumn().NumQMin();
-                case "NumR": return Rds.ResultsColumn().NumRMin();
-                case "NumS": return Rds.ResultsColumn().NumSMin();
-                case "NumT": return Rds.ResultsColumn().NumTMin();
-                case "NumU": return Rds.ResultsColumn().NumUMin();
-                case "NumV": return Rds.ResultsColumn().NumVMin();
-                case "NumW": return Rds.ResultsColumn().NumWMin();
-                case "NumX": return Rds.ResultsColumn().NumXMin();
-                case "NumY": return Rds.ResultsColumn().NumYMin();
-                case "NumZ": return Rds.ResultsColumn().NumZMin();
+                case "NumA": return Rds.ResultsColumn().NumA(function: Sqls.Functions.Avg);
+                case "NumB": return Rds.ResultsColumn().NumB(function: Sqls.Functions.Avg);
+                case "NumC": return Rds.ResultsColumn().NumC(function: Sqls.Functions.Avg);
+                case "NumD": return Rds.ResultsColumn().NumD(function: Sqls.Functions.Avg);
+                case "NumE": return Rds.ResultsColumn().NumE(function: Sqls.Functions.Avg);
+                case "NumF": return Rds.ResultsColumn().NumF(function: Sqls.Functions.Avg);
+                case "NumG": return Rds.ResultsColumn().NumG(function: Sqls.Functions.Avg);
+                case "NumH": return Rds.ResultsColumn().NumH(function: Sqls.Functions.Avg);
+                case "NumI": return Rds.ResultsColumn().NumI(function: Sqls.Functions.Avg);
+                case "NumJ": return Rds.ResultsColumn().NumJ(function: Sqls.Functions.Avg);
+                case "NumK": return Rds.ResultsColumn().NumK(function: Sqls.Functions.Avg);
+                case "NumL": return Rds.ResultsColumn().NumL(function: Sqls.Functions.Avg);
+                case "NumM": return Rds.ResultsColumn().NumM(function: Sqls.Functions.Avg);
+                case "NumN": return Rds.ResultsColumn().NumN(function: Sqls.Functions.Avg);
+                case "NumO": return Rds.ResultsColumn().NumO(function: Sqls.Functions.Avg);
+                case "NumP": return Rds.ResultsColumn().NumP(function: Sqls.Functions.Avg);
+                case "NumQ": return Rds.ResultsColumn().NumQ(function: Sqls.Functions.Avg);
+                case "NumR": return Rds.ResultsColumn().NumR(function: Sqls.Functions.Avg);
+                case "NumS": return Rds.ResultsColumn().NumS(function: Sqls.Functions.Avg);
+                case "NumT": return Rds.ResultsColumn().NumT(function: Sqls.Functions.Avg);
+                case "NumU": return Rds.ResultsColumn().NumU(function: Sqls.Functions.Avg);
+                case "NumV": return Rds.ResultsColumn().NumV(function: Sqls.Functions.Avg);
+                case "NumW": return Rds.ResultsColumn().NumW(function: Sqls.Functions.Avg);
+                case "NumX": return Rds.ResultsColumn().NumX(function: Sqls.Functions.Avg);
+                case "NumY": return Rds.ResultsColumn().NumY(function: Sqls.Functions.Avg);
+                case "NumZ": return Rds.ResultsColumn().NumZ(function: Sqls.Functions.Avg);
                 default: return null;
             }
         }
@@ -1126,34 +1126,34 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             switch (sourceColumn)
             {
-                case "WorkValue": return Rds.IssuesColumn().WorkValueAverage();
-                case "RemainingWorkValue": return Rds.IssuesColumn().RemainingWorkValueAverage();
-                case "NumA": return Rds.IssuesColumn().NumAAverage();
-                case "NumB": return Rds.IssuesColumn().NumBAverage();
-                case "NumC": return Rds.IssuesColumn().NumCAverage();
-                case "NumD": return Rds.IssuesColumn().NumDAverage();
-                case "NumE": return Rds.IssuesColumn().NumEAverage();
-                case "NumF": return Rds.IssuesColumn().NumFAverage();
-                case "NumG": return Rds.IssuesColumn().NumGAverage();
-                case "NumH": return Rds.IssuesColumn().NumHAverage();
-                case "NumI": return Rds.IssuesColumn().NumIAverage();
-                case "NumJ": return Rds.IssuesColumn().NumJAverage();
-                case "NumK": return Rds.IssuesColumn().NumKAverage();
-                case "NumL": return Rds.IssuesColumn().NumLAverage();
-                case "NumM": return Rds.IssuesColumn().NumMAverage();
-                case "NumN": return Rds.IssuesColumn().NumNAverage();
-                case "NumO": return Rds.IssuesColumn().NumOAverage();
-                case "NumP": return Rds.IssuesColumn().NumPAverage();
-                case "NumQ": return Rds.IssuesColumn().NumQAverage();
-                case "NumR": return Rds.IssuesColumn().NumRAverage();
-                case "NumS": return Rds.IssuesColumn().NumSAverage();
-                case "NumT": return Rds.IssuesColumn().NumTAverage();
-                case "NumU": return Rds.IssuesColumn().NumUAverage();
-                case "NumV": return Rds.IssuesColumn().NumVAverage();
-                case "NumW": return Rds.IssuesColumn().NumWAverage();
-                case "NumX": return Rds.IssuesColumn().NumXAverage();
-                case "NumY": return Rds.IssuesColumn().NumYAverage();
-                case "NumZ": return Rds.IssuesColumn().NumZAverage();
+                case "WorkValue": return Rds.IssuesColumn().WorkValue(function: Sqls.Functions.Avg);
+                case "RemainingWorkValue": return Rds.IssuesColumn().RemainingWorkValue(function: Sqls.Functions.Avg);
+                case "NumA": return Rds.IssuesColumn().NumA(function: Sqls.Functions.Avg);
+                case "NumB": return Rds.IssuesColumn().NumB(function: Sqls.Functions.Avg);
+                case "NumC": return Rds.IssuesColumn().NumC(function: Sqls.Functions.Avg);
+                case "NumD": return Rds.IssuesColumn().NumD(function: Sqls.Functions.Avg);
+                case "NumE": return Rds.IssuesColumn().NumE(function: Sqls.Functions.Avg);
+                case "NumF": return Rds.IssuesColumn().NumF(function: Sqls.Functions.Avg);
+                case "NumG": return Rds.IssuesColumn().NumG(function: Sqls.Functions.Avg);
+                case "NumH": return Rds.IssuesColumn().NumH(function: Sqls.Functions.Avg);
+                case "NumI": return Rds.IssuesColumn().NumI(function: Sqls.Functions.Avg);
+                case "NumJ": return Rds.IssuesColumn().NumJ(function: Sqls.Functions.Avg);
+                case "NumK": return Rds.IssuesColumn().NumK(function: Sqls.Functions.Avg);
+                case "NumL": return Rds.IssuesColumn().NumL(function: Sqls.Functions.Avg);
+                case "NumM": return Rds.IssuesColumn().NumM(function: Sqls.Functions.Avg);
+                case "NumN": return Rds.IssuesColumn().NumN(function: Sqls.Functions.Avg);
+                case "NumO": return Rds.IssuesColumn().NumO(function: Sqls.Functions.Avg);
+                case "NumP": return Rds.IssuesColumn().NumP(function: Sqls.Functions.Avg);
+                case "NumQ": return Rds.IssuesColumn().NumQ(function: Sqls.Functions.Avg);
+                case "NumR": return Rds.IssuesColumn().NumR(function: Sqls.Functions.Avg);
+                case "NumS": return Rds.IssuesColumn().NumS(function: Sqls.Functions.Avg);
+                case "NumT": return Rds.IssuesColumn().NumT(function: Sqls.Functions.Avg);
+                case "NumU": return Rds.IssuesColumn().NumU(function: Sqls.Functions.Avg);
+                case "NumV": return Rds.IssuesColumn().NumV(function: Sqls.Functions.Avg);
+                case "NumW": return Rds.IssuesColumn().NumW(function: Sqls.Functions.Avg);
+                case "NumX": return Rds.IssuesColumn().NumX(function: Sqls.Functions.Avg);
+                case "NumY": return Rds.IssuesColumn().NumY(function: Sqls.Functions.Avg);
+                case "NumZ": return Rds.IssuesColumn().NumZ(function: Sqls.Functions.Avg);
                 default: return null;
             }
         }
@@ -1162,32 +1162,32 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             switch (sourceColumn)
             {
-                case "NumA": return Rds.ResultsColumn().NumAAverage();
-                case "NumB": return Rds.ResultsColumn().NumBAverage();
-                case "NumC": return Rds.ResultsColumn().NumCAverage();
-                case "NumD": return Rds.ResultsColumn().NumDAverage();
-                case "NumE": return Rds.ResultsColumn().NumEAverage();
-                case "NumF": return Rds.ResultsColumn().NumFAverage();
-                case "NumG": return Rds.ResultsColumn().NumGAverage();
-                case "NumH": return Rds.ResultsColumn().NumHAverage();
-                case "NumI": return Rds.ResultsColumn().NumIAverage();
-                case "NumJ": return Rds.ResultsColumn().NumJAverage();
-                case "NumK": return Rds.ResultsColumn().NumKAverage();
-                case "NumL": return Rds.ResultsColumn().NumLAverage();
-                case "NumM": return Rds.ResultsColumn().NumMAverage();
-                case "NumN": return Rds.ResultsColumn().NumNAverage();
-                case "NumO": return Rds.ResultsColumn().NumOAverage();
-                case "NumP": return Rds.ResultsColumn().NumPAverage();
-                case "NumQ": return Rds.ResultsColumn().NumQAverage();
-                case "NumR": return Rds.ResultsColumn().NumRAverage();
-                case "NumS": return Rds.ResultsColumn().NumSAverage();
-                case "NumT": return Rds.ResultsColumn().NumTAverage();
-                case "NumU": return Rds.ResultsColumn().NumUAverage();
-                case "NumV": return Rds.ResultsColumn().NumVAverage();
-                case "NumW": return Rds.ResultsColumn().NumWAverage();
-                case "NumX": return Rds.ResultsColumn().NumXAverage();
-                case "NumY": return Rds.ResultsColumn().NumYAverage();
-                case "NumZ": return Rds.ResultsColumn().NumZAverage();
+                case "NumA": return Rds.ResultsColumn().NumA(function: Sqls.Functions.Avg);
+                case "NumB": return Rds.ResultsColumn().NumB(function: Sqls.Functions.Avg);
+                case "NumC": return Rds.ResultsColumn().NumC(function: Sqls.Functions.Avg);
+                case "NumD": return Rds.ResultsColumn().NumD(function: Sqls.Functions.Avg);
+                case "NumE": return Rds.ResultsColumn().NumE(function: Sqls.Functions.Avg);
+                case "NumF": return Rds.ResultsColumn().NumF(function: Sqls.Functions.Avg);
+                case "NumG": return Rds.ResultsColumn().NumG(function: Sqls.Functions.Avg);
+                case "NumH": return Rds.ResultsColumn().NumH(function: Sqls.Functions.Avg);
+                case "NumI": return Rds.ResultsColumn().NumI(function: Sqls.Functions.Avg);
+                case "NumJ": return Rds.ResultsColumn().NumJ(function: Sqls.Functions.Avg);
+                case "NumK": return Rds.ResultsColumn().NumK(function: Sqls.Functions.Avg);
+                case "NumL": return Rds.ResultsColumn().NumL(function: Sqls.Functions.Avg);
+                case "NumM": return Rds.ResultsColumn().NumM(function: Sqls.Functions.Avg);
+                case "NumN": return Rds.ResultsColumn().NumN(function: Sqls.Functions.Avg);
+                case "NumO": return Rds.ResultsColumn().NumO(function: Sqls.Functions.Avg);
+                case "NumP": return Rds.ResultsColumn().NumP(function: Sqls.Functions.Avg);
+                case "NumQ": return Rds.ResultsColumn().NumQ(function: Sqls.Functions.Avg);
+                case "NumR": return Rds.ResultsColumn().NumR(function: Sqls.Functions.Avg);
+                case "NumS": return Rds.ResultsColumn().NumS(function: Sqls.Functions.Avg);
+                case "NumT": return Rds.ResultsColumn().NumT(function: Sqls.Functions.Avg);
+                case "NumU": return Rds.ResultsColumn().NumU(function: Sqls.Functions.Avg);
+                case "NumV": return Rds.ResultsColumn().NumV(function: Sqls.Functions.Avg);
+                case "NumW": return Rds.ResultsColumn().NumW(function: Sqls.Functions.Avg);
+                case "NumX": return Rds.ResultsColumn().NumX(function: Sqls.Functions.Avg);
+                case "NumY": return Rds.ResultsColumn().NumY(function: Sqls.Functions.Avg);
+                case "NumZ": return Rds.ResultsColumn().NumZ(function: Sqls.Functions.Avg);
                 default: return null;
             }
         }
@@ -1223,34 +1223,34 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             switch (sourceColumn)
             {
-                case "WorkValue": return Rds.IssuesColumn().WorkValueMax();
-                case "RemainingWorkValue": return Rds.IssuesColumn().RemainingWorkValueMax();
-                case "NumA": return Rds.IssuesColumn().NumAMax();
-                case "NumB": return Rds.IssuesColumn().NumBMax();
-                case "NumC": return Rds.IssuesColumn().NumCMax();
-                case "NumD": return Rds.IssuesColumn().NumDMax();
-                case "NumE": return Rds.IssuesColumn().NumEMax();
-                case "NumF": return Rds.IssuesColumn().NumFMax();
-                case "NumG": return Rds.IssuesColumn().NumGMax();
-                case "NumH": return Rds.IssuesColumn().NumHMax();
-                case "NumI": return Rds.IssuesColumn().NumIMax();
-                case "NumJ": return Rds.IssuesColumn().NumJMax();
-                case "NumK": return Rds.IssuesColumn().NumKMax();
-                case "NumL": return Rds.IssuesColumn().NumLMax();
-                case "NumM": return Rds.IssuesColumn().NumMMax();
-                case "NumN": return Rds.IssuesColumn().NumNMax();
-                case "NumO": return Rds.IssuesColumn().NumOMax();
-                case "NumP": return Rds.IssuesColumn().NumPMax();
-                case "NumQ": return Rds.IssuesColumn().NumQMax();
-                case "NumR": return Rds.IssuesColumn().NumRMax();
-                case "NumS": return Rds.IssuesColumn().NumSMax();
-                case "NumT": return Rds.IssuesColumn().NumTMax();
-                case "NumU": return Rds.IssuesColumn().NumUMax();
-                case "NumV": return Rds.IssuesColumn().NumVMax();
-                case "NumW": return Rds.IssuesColumn().NumWMax();
-                case "NumX": return Rds.IssuesColumn().NumXMax();
-                case "NumY": return Rds.IssuesColumn().NumYMax();
-                case "NumZ": return Rds.IssuesColumn().NumZMax();
+                case "WorkValue": return Rds.IssuesColumn().WorkValue(function: Sqls.Functions.Max);
+                case "RemainingWorkValue": return Rds.IssuesColumn().RemainingWorkValue(function: Sqls.Functions.Max);
+                case "NumA": return Rds.IssuesColumn().NumA(function: Sqls.Functions.Max);
+                case "NumB": return Rds.IssuesColumn().NumB(function: Sqls.Functions.Max);
+                case "NumC": return Rds.IssuesColumn().NumC(function: Sqls.Functions.Max);
+                case "NumD": return Rds.IssuesColumn().NumD(function: Sqls.Functions.Max);
+                case "NumE": return Rds.IssuesColumn().NumE(function: Sqls.Functions.Max);
+                case "NumF": return Rds.IssuesColumn().NumF(function: Sqls.Functions.Max);
+                case "NumG": return Rds.IssuesColumn().NumG(function: Sqls.Functions.Max);
+                case "NumH": return Rds.IssuesColumn().NumH(function: Sqls.Functions.Max);
+                case "NumI": return Rds.IssuesColumn().NumI(function: Sqls.Functions.Max);
+                case "NumJ": return Rds.IssuesColumn().NumJ(function: Sqls.Functions.Max);
+                case "NumK": return Rds.IssuesColumn().NumK(function: Sqls.Functions.Max);
+                case "NumL": return Rds.IssuesColumn().NumL(function: Sqls.Functions.Max);
+                case "NumM": return Rds.IssuesColumn().NumM(function: Sqls.Functions.Max);
+                case "NumN": return Rds.IssuesColumn().NumN(function: Sqls.Functions.Max);
+                case "NumO": return Rds.IssuesColumn().NumO(function: Sqls.Functions.Max);
+                case "NumP": return Rds.IssuesColumn().NumP(function: Sqls.Functions.Max);
+                case "NumQ": return Rds.IssuesColumn().NumQ(function: Sqls.Functions.Max);
+                case "NumR": return Rds.IssuesColumn().NumR(function: Sqls.Functions.Max);
+                case "NumS": return Rds.IssuesColumn().NumS(function: Sqls.Functions.Max);
+                case "NumT": return Rds.IssuesColumn().NumT(function: Sqls.Functions.Max);
+                case "NumU": return Rds.IssuesColumn().NumU(function: Sqls.Functions.Max);
+                case "NumV": return Rds.IssuesColumn().NumV(function: Sqls.Functions.Max);
+                case "NumW": return Rds.IssuesColumn().NumW(function: Sqls.Functions.Max);
+                case "NumX": return Rds.IssuesColumn().NumX(function: Sqls.Functions.Max);
+                case "NumY": return Rds.IssuesColumn().NumY(function: Sqls.Functions.Max);
+                case "NumZ": return Rds.IssuesColumn().NumZ(function: Sqls.Functions.Max);
                 default: return null;
             }
         }
@@ -1259,32 +1259,32 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             switch (sourceColumn)
             {
-                case "NumA": return Rds.ResultsColumn().NumAMax();
-                case "NumB": return Rds.ResultsColumn().NumBMax();
-                case "NumC": return Rds.ResultsColumn().NumCMax();
-                case "NumD": return Rds.ResultsColumn().NumDMax();
-                case "NumE": return Rds.ResultsColumn().NumEMax();
-                case "NumF": return Rds.ResultsColumn().NumFMax();
-                case "NumG": return Rds.ResultsColumn().NumGMax();
-                case "NumH": return Rds.ResultsColumn().NumHMax();
-                case "NumI": return Rds.ResultsColumn().NumIMax();
-                case "NumJ": return Rds.ResultsColumn().NumJMax();
-                case "NumK": return Rds.ResultsColumn().NumKMax();
-                case "NumL": return Rds.ResultsColumn().NumLMax();
-                case "NumM": return Rds.ResultsColumn().NumMMax();
-                case "NumN": return Rds.ResultsColumn().NumNMax();
-                case "NumO": return Rds.ResultsColumn().NumOMax();
-                case "NumP": return Rds.ResultsColumn().NumPMax();
-                case "NumQ": return Rds.ResultsColumn().NumQMax();
-                case "NumR": return Rds.ResultsColumn().NumRMax();
-                case "NumS": return Rds.ResultsColumn().NumSMax();
-                case "NumT": return Rds.ResultsColumn().NumTMax();
-                case "NumU": return Rds.ResultsColumn().NumUMax();
-                case "NumV": return Rds.ResultsColumn().NumVMax();
-                case "NumW": return Rds.ResultsColumn().NumWMax();
-                case "NumX": return Rds.ResultsColumn().NumXMax();
-                case "NumY": return Rds.ResultsColumn().NumYMax();
-                case "NumZ": return Rds.ResultsColumn().NumZMax();
+                case "NumA": return Rds.ResultsColumn().NumA(function: Sqls.Functions.Max);
+                case "NumB": return Rds.ResultsColumn().NumB(function: Sqls.Functions.Max);
+                case "NumC": return Rds.ResultsColumn().NumC(function: Sqls.Functions.Max);
+                case "NumD": return Rds.ResultsColumn().NumD(function: Sqls.Functions.Max);
+                case "NumE": return Rds.ResultsColumn().NumE(function: Sqls.Functions.Max);
+                case "NumF": return Rds.ResultsColumn().NumF(function: Sqls.Functions.Max);
+                case "NumG": return Rds.ResultsColumn().NumG(function: Sqls.Functions.Max);
+                case "NumH": return Rds.ResultsColumn().NumH(function: Sqls.Functions.Max);
+                case "NumI": return Rds.ResultsColumn().NumI(function: Sqls.Functions.Max);
+                case "NumJ": return Rds.ResultsColumn().NumJ(function: Sqls.Functions.Max);
+                case "NumK": return Rds.ResultsColumn().NumK(function: Sqls.Functions.Max);
+                case "NumL": return Rds.ResultsColumn().NumL(function: Sqls.Functions.Max);
+                case "NumM": return Rds.ResultsColumn().NumM(function: Sqls.Functions.Max);
+                case "NumN": return Rds.ResultsColumn().NumN(function: Sqls.Functions.Max);
+                case "NumO": return Rds.ResultsColumn().NumO(function: Sqls.Functions.Max);
+                case "NumP": return Rds.ResultsColumn().NumP(function: Sqls.Functions.Max);
+                case "NumQ": return Rds.ResultsColumn().NumQ(function: Sqls.Functions.Max);
+                case "NumR": return Rds.ResultsColumn().NumR(function: Sqls.Functions.Max);
+                case "NumS": return Rds.ResultsColumn().NumS(function: Sqls.Functions.Max);
+                case "NumT": return Rds.ResultsColumn().NumT(function: Sqls.Functions.Max);
+                case "NumU": return Rds.ResultsColumn().NumU(function: Sqls.Functions.Max);
+                case "NumV": return Rds.ResultsColumn().NumV(function: Sqls.Functions.Max);
+                case "NumW": return Rds.ResultsColumn().NumW(function: Sqls.Functions.Max);
+                case "NumX": return Rds.ResultsColumn().NumX(function: Sqls.Functions.Max);
+                case "NumY": return Rds.ResultsColumn().NumY(function: Sqls.Functions.Max);
+                case "NumZ": return Rds.ResultsColumn().NumZ(function: Sqls.Functions.Max);
                 default: return null;
             }
         }

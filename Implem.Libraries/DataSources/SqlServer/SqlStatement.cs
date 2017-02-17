@@ -140,7 +140,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                             .ForEach(data =>
                                 AddParam(
                                     sqlCommand,
-                                    sqlHaving.Name + data.Index + "_",
+                                    sqlHaving.TableName + data.Index + "_",
                                     data.Value,
                                     commandCount));
                     }
@@ -148,7 +148,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                     {
                         AddParam(
                             sqlCommand,
-                            sqlHaving.Name,
+                            sqlHaving.TableName,
                             sqlHaving.Value,
                             commandCount);
                     }
@@ -165,9 +165,12 @@ namespace Implem.Libraries.DataSources.SqlServer
                     AddParam(sqlCommand, sqlParam.VariableName, sqlParam.Value, commandCount));
         }
 
-        protected void AddTermination(
-            StringBuilder commandText, Sqls.UnionTypes unionType = Sqls.UnionTypes.None)
+        protected void AddUnion(StringBuilder commandText, Sqls.UnionTypes unionType)
         {
+            if (unionType != Sqls.UnionTypes.None && commandText.ToString().EndsWith(";"))
+            {
+                commandText.Length -= 1;
+            }
             switch (unionType)
             {
                 case Sqls.UnionTypes.Union:
@@ -176,13 +179,14 @@ namespace Implem.Libraries.DataSources.SqlServer
                 case Sqls.UnionTypes.UnionAll:
                     commandText.Append(" union all ");
                     break;
-                case Sqls.UnionTypes.None:
-                default:
-                    if (Terminate && !CommandText.ToString().Trim().EndsWith(";"))
-                    {
-                        commandText.Append(";\n");
-                    }
-                    break;
+            }
+        }
+
+        protected void AddTermination(StringBuilder commandText)
+        {
+            if (Terminate && !commandText.ToString().EndsWith(";"))
+            {
+                commandText.Append(";");
             }
         }
 

@@ -272,7 +272,7 @@ namespace Implem.Pleasanter.Models
                 column: Rds.SearchIndexesColumn()
                     .ReferenceId()
                     .ReferenceType()
-                    .PriorityTotal()
+                    .Priority(function: Sqls.Functions.Sum)
                     .SearchIndexesCount(),
                 offset: offset,
                 pageSize: pageSize,
@@ -301,7 +301,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.SearchIndexesWhere()
                         .Word(searchIndexes, multiParamOperator: " or ")
                         .PermissionType(0, _operator: "<>")
-                        .Items_SiteId(value: siteId, tableName: "t1", _using: siteId != 0),
+                        .Items_SiteId(value: siteId, _using: siteId != 0),
                     groupBy: Rds.SearchIndexesGroupBy()
                         .ReferenceId()
                         .ReferenceType(),
@@ -309,8 +309,8 @@ namespace Implem.Pleasanter.Models
                         .SearchIndexesCount(concordance, _operator: ">="),
                     orderBy: Rds.SearchIndexesOrderBy()
                         .SearchIndexesCount(SqlOrderBy.Types.desc)
-                        .PriorityTotal()
-                        .UpdatedTimeMax(SqlOrderBy.Types.desc),
+                        .Priority(function: Sqls.Functions.Sum)
+                        .UpdatedTime(SqlOrderBy.Types.desc, function: Sqls.Functions.Max),
                     offset: offset,
                     pageSize: pageSize,
                     countRecord: countRecord));

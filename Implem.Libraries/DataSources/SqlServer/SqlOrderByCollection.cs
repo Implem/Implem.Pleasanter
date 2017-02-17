@@ -1,6 +1,5 @@
 ﻿using Implem.Libraries.Classes;
 using Implem.Libraries.Utilities;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 namespace Implem.Libraries.DataSources.SqlServer
@@ -13,29 +12,41 @@ namespace Implem.Libraries.DataSources.SqlServer
                 o.OrderType != SqlOrderBy.Types.release));
         }
 
-        public SqlOrderByCollection Add(SqlOrderBy.Types type, params string[] columnBrackets)
+        public SqlOrderByCollection Add(
+            string columnBracket,
+            SqlOrderBy.Types orderType,
+            string tableName,
+            Sqls.Functions function = Sqls.Functions.None)
         {
-            if (type != SqlOrderBy.Types.release)
+            if (orderType != SqlOrderBy.Types.release)
             {
-                columnBrackets.ForEach(columnBracket =>
-                    Add(new SqlOrderBy(columnBracket, type)));
+                Add(new SqlOrderBy(
+                    columnBracket: columnBracket,
+                    orderType: orderType,
+                    tableName: tableName,
+                    function: function));
             }
             return this;
         }
 
-        public void BuildCommandText(StringBuilder commandText, int pageSize, int? commandCount)
+        public void BuildCommandText(
+            StringBuilder commandText,
+            int pageSize,
+            Sqls.TableTypes tableType,
+            Sqls.UnionTypes unionType,
+            int? commandCount)
         {
             if (Count > 0)
             {
-                var orderBy = new Dictionary<string, string>();
-                ForEach(o =>
-                {
-                    if (!orderBy.ContainsKey(o.ColumnBracket))
-                    {
-                        orderBy.Add(o.ColumnBracket, o.ColumnBracket + " " + o.OrderType);
-                    }
-                });
-                commandText.Append("order by ", orderBy.Values.Join(), " ");
+                commandText.Append(
+                    "order by ",
+                    this
+                        .GroupBy(o => o.ColumnBracket)
+                        .Select(o => o.FirstOrDefault().Sql(
+                            tableType: tableType,
+                            unionType: unionType))
+                        .Join(),
+                    " ");
                 if (pageSize != 0)
                 {
                     commandText.Append(
