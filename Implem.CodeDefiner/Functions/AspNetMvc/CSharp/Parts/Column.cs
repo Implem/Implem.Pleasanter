@@ -67,6 +67,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
         {
             if (codeDefinition.NotJoin && columnDefinition.JoinTableName != string.Empty) return true;
             if (codeDefinition.Join && columnDefinition.JoinTableName == string.Empty) return true;
+            if (codeDefinition.JoinExpression && columnDefinition.JoinExpression == string.Empty) return true;
             if (codeDefinition.Pk && columnDefinition.Pk == 0) return true;
             if (codeDefinition.NotPk && columnDefinition.Pk != 0) return true;
             if (codeDefinition.Session && !columnDefinition.Session) return true;

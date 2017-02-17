@@ -55,10 +55,6 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
                             Join.SetCodeCollection(
                                 codeChildDefinition, codeChildCollection, dataContainer);
                             break;
-                        case "JoinFrom":
-                            JoinFrom.SetCodeCollection(
-                                codeChildDefinition, codeChildCollection, dataContainer);
-                            break;
                         case "Form":
                             Form.SetCodeCollection(
                                 codeChildDefinition, codeChildCollection, dataContainer);

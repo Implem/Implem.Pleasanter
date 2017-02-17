@@ -79,7 +79,6 @@
     <Compile Include="Functions\AspNetMvc\CSharp\Parts\DefinitionFile.cs" />
     <Compile Include="Functions\AspNetMvc\CSharp\Parts\DefinitionRow.cs" />
     <Compile Include="Functions\AspNetMvc\CSharp\Parts\Form.cs" />
-    <Compile Include="Functions\AspNetMvc\CSharp\Parts\JoinFrom.cs" />
     <Compile Include="Functions\AspNetMvc\CSharp\Parts\Join.cs" />
     <Compile Include="Functions\AspNetMvc\CSharp\Parts\Table.cs" />
     <Compile Include="Functions\AspNetMvc\CSharp\Parts\Display.cs" />

@@ -30,10 +30,8 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                                 columnDefinition,
                                 tableNameAlias: TableNameAlias(columnDefinition),
                                 columnNameAlias: ColumnNameAlias(columnDefinition),
-                                joinExpression: Epression(
-                                    columnDefinition,
-                                    tableNameAlias,
-                                    dataContainer.TableName));
+                                joinType: JoinType(columnDefinition),
+                                joinExpression: columnDefinition.JoinExpression);
                         });
                     dataContainer.ColumnName = string.Empty;
                 });
@@ -49,45 +47,19 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
 
         internal static string TableNameAlias(ColumnDefinition columnDefinition)
         {
-            if (columnDefinition.JoinTableName != string.Empty)
-            {
-                return "t" + Def.ColumnDefinitionCollection
-                    .Where(o => o.TableName == columnDefinition.TableName)
-                    .Where(o => o.JoinTableName != string.Empty)
-                    .Select(o => new
-                    {
-                        JoinTableName = o.JoinTableName,
-                        JoinType = o.JoinType,
-                        JoinExpression = o.JoinExpression
-                    })
-                    .Distinct()
-                    .Select((o, i) => new { Index = i + 1, Data = o })
-                    .Where(o => o.Data.JoinTableName == columnDefinition.JoinTableName)
-                    .Where(o => o.Data.JoinType == columnDefinition.JoinType)
-                    .Where(o => o.Data.JoinExpression == columnDefinition.JoinExpression)
-                    .FirstOrDefault().Index;
-            }
-            else
-            {
-                return "t0";
-            }
+            return columnDefinition.JoinTableName != string.Empty
+                ? columnDefinition.JoinTableName
+                : columnDefinition.TableName;
         }
 
-        internal static string Epression(
-            ColumnDefinition columnDefinition, string tableNameAlias, string tableName)
+        internal static string JoinType(ColumnDefinition columnDefinition)
         {
-            if (columnDefinition.JoinTableName != string.Empty)
+            switch (columnDefinition.JoinType)
             {
-                return columnDefinition.JoinExpression
-                    .Replace("#TableName#", columnDefinition.TableName)
-                    .Replace("#Alias#", TableName(columnDefinition, tableNameAlias))
-                    .Replace(
-                        "#BeforeTableNameAlias#",
-                        Strings.CoalesceEmpty(tableNameAlias.ChangePrefixNumber(-1)));
-            }
-            else
-            {
-                return string.Empty;
+                case "inner join": return "SqlJoin.JoinTypes.Inner";
+                case "left outer join": return "SqlJoin.JoinTypes.LeftOuter";
+                case "right outer join": return "SqlJoin.JoinTypes.RightOuter";
+                default: return string.Empty;
             }
         }
 
@@ -105,6 +77,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             ColumnDefinition columnDefinition,
             string tableNameAlias,
             string columnNameAlias,
+            string joinType,
             string joinExpression)
         {
             foreach (var placeholder in code.RegexValues(CodePatterns.ReplacementPlaceholder))
@@ -120,102 +93,17 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                     case "Type":
                         code = code.Replace("#Type#", columnDefinition.TypeName.CsType());
                         break;
-                    case "ColumnNameBracket":
-                        code = code.Replace(
-                            "#ColumnNameBracket#",
-                            "\"[" + columnDefinition.ColumnName + "]\"");
-                        break;
                     case "ColumnBracket":
-                        code = code.Replace(
-                            "#ColumnBracket#",
-                            ColumnBracket(
-                                columnDefinition,
-                                tableNameAlias));
+                        code = code.Replace("#ColumnBracket#", ColumnBracket(columnDefinition));
                         break;
                     case "ColumnBrackets":
                         code = code.Replace(
                             "#ColumnBrackets#",
                             ColumnBrackets(
                                 columnDefinition, 
-                                tableNameAlias,
-                                selectColumnAlias: false));
-                        break;
-                    case "ColumnBracketsWithAlias":
-                        code = code.Replace(
-                            "#ColumnBracketsWithAlias#",
-                            ColumnBrackets(
-                                columnDefinition, 
                                 tableNameAlias, 
                                 columnNameAlias,
                                 selectColumnAlias: true));
-                        break;
-                    case "ColumnTotal":
-                        code = code.Replace(
-                            "#ColumnTotal#",
-                            ComputeColumn(
-                                columnDefinition,
-                                "sum",
-                                tableNameAlias));
-                        break;
-                    case "ColumnTotalWithAlias":
-                        code = code.Replace(
-                            "#ColumnTotalWithAlias#",
-                            ComputeColumn(
-                                columnDefinition,
-                                "sum",
-                                tableNameAlias,
-                                ColumnNameAlias(columnDefinition, "Total")));
-                        break;
-                    case "ColumnAverage":
-                        code = code.Replace(
-                            "#ColumnAverage#",
-                            ComputeColumn(
-                                columnDefinition,
-                                "avg",
-                                tableNameAlias));
-                        break;
-                    case "ColumnAverageWithAlias":
-                        code = code.Replace(
-                            "#ColumnAverageWithAlias#",
-                            ComputeColumn(
-                                columnDefinition,
-                                "avg",
-                                tableNameAlias,
-                                ColumnNameAlias(columnDefinition, "Average")));
-                        break;
-                    case "ColumnMax":
-                        code = code.Replace(
-                            "#ColumnMax#",
-                            ComputeColumn(
-                                columnDefinition,
-                                "max",
-                                tableNameAlias));
-                        break;
-                    case "ColumnMaxWithAlias":
-                        code = code.Replace(
-                            "#ColumnMaxWithAlias#",
-                            ComputeColumn(
-                                columnDefinition,
-                                "max",
-                                tableNameAlias,
-                                ColumnNameAlias(columnDefinition, "Max")));
-                        break;
-                    case "ColumnMin":
-                        code = code.Replace(
-                            "#ColumnMin#",
-                            ComputeColumn(
-                                columnDefinition,
-                                "min",
-                                tableNameAlias));
-                        break;
-                    case "ColumnMinWithAlias":
-                        code = code.Replace(
-                            "#ColumnMinWithAlias#",
-                            ComputeColumn(
-                                columnDefinition,
-                                "min",
-                                tableNameAlias,
-                                ColumnNameAlias(columnDefinition, "Min")));
                         break;
                     case "OrderByColumns":
                         code = code.Replace(
@@ -229,11 +117,22 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
                             .Replace("#Alias#", columnNameAlias)
                             .Replace("#BeforeAlias#", columnNameAlias.ChangePrefixNumber(-1));
                         break;
+                    case "As":
+                        code = code.Replace(
+                            "#As#",
+                            columnDefinition.ComputeColumn != string.Empty
+                                ? "\"" + columnDefinition.ColumnName + "\""
+                                : "null");
+                        break;
                     case "JoinTableName":
-                        code = code.Replace("#JoinTableName#", columnDefinition.JoinTableName);
+                        code = code.Replace(
+                            "#JoinTableName#",
+                            columnDefinition.JoinTableName != string.Empty
+                                ? columnDefinition.JoinTableName
+                                : columnDefinition.TableName);
                         break;
                     case "JoinType":
-                        code = code.Replace("#JoinType#", columnDefinition.JoinType);
+                        code = code.Replace("#JoinType#", joinType);
                         break;
                     case "TableNameAlias":
                         code = code.Replace("#TableNameAlias#", " as [" + tableNameAlias + "]");
@@ -292,10 +191,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             return columnDefinition.SelectColumns
                 .Split(',')
                 .Select(o => o.Trim())
-                .Select(o => "\"" + o.ReplaceTableName(columnDefinition, tableNameAlias) + "\"" +
-                    (selectColumnAlias && o.EndsWith(".[" + columnDefinition.ColumnName + "]")
-                        ? " + (!_as.IsNullOrEmpty() ? \" as \" + _as : string.Empty)"
-                        : string.Empty))
+                .Select(o => "\"" + o.ReplaceTableName(columnDefinition, tableNameAlias) + "\"")
                 .Join(", ");
         }
 
@@ -306,6 +202,13 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
         {
             return "\"" + ColumnName(columnDefinition, tableNameAlias).ReplaceTableName(
                 columnDefinition, tableNameAlias) + "\"" + ColumnNameAliasCode(columnNameAlias);
+        }
+
+        private static string ColumnBracket(ColumnDefinition columnDefinition)
+        {
+            return columnDefinition.ComputeColumn != string.Empty
+                ? columnDefinition.ComputeColumn
+                : "[" + columnDefinition.ColumnName + "]";
         }
 
         private static string ComputeColumn(
