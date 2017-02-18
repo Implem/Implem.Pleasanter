@@ -176,7 +176,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ss;
         }
 
-        public static SiteSettings SitesSiteSettings(this SiteModel siteModel, bool setAllChoices = false)
+        public static SiteSettings SitesSiteSettings(
+            this SiteModel siteModel, bool setAllChoices = false)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
             ss.SiteId = siteModel.SiteId;
@@ -200,7 +201,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ss;
         }
 
-        public static SiteSettings IssuesSiteSettings(this SiteModel siteModel, bool setAllChoices = false)
+        public static SiteSettings IssuesSiteSettings(
+            this SiteModel siteModel, bool setAllChoices = false)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
             ss.SiteId = siteModel.SiteId;
@@ -226,7 +228,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ss;
         }
 
-        public static SiteSettings ResultsSiteSettings(this SiteModel siteModel, bool setAllChoices = false)
+        public static SiteSettings ResultsSiteSettings(
+            this SiteModel siteModel, bool setAllChoices = false)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
             ss.SiteId = siteModel.SiteId;
@@ -252,7 +255,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ss;
         }
 
-        public static SiteSettings WikisSiteSettings(this SiteModel siteModel, bool setAllChoices = false)
+        public static SiteSettings WikisSiteSettings(
+            this SiteModel siteModel, bool setAllChoices = false)
         {
             var ss = siteModel.SiteSettings ?? new SiteSettings();
             ss.SiteId = siteModel.SiteId;
