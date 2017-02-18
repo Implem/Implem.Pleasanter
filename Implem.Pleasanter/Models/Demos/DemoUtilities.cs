@@ -121,6 +121,7 @@ namespace Implem.Pleasanter.Models
             demoModel.InitializeTimeLag();
             InitializeDepts(demoModel, idHash);
             InitializeUsers(demoModel, idHash, password);
+            SiteInfo.Reflesh(force: true);
             InitializeSites(demoModel, idHash);
             InitializeIssues(demoModel, idHash);
             InitializeResults(demoModel, idHash);
@@ -130,7 +131,6 @@ namespace Implem.Pleasanter.Models
                 param: Rds.DemosParam().Initialized(true),
                 where: Rds.DemosWhere().Passphrase(demoModel.Passphrase)));
             Libraries.Migrators.SiteSettingsMigrator.Migrate();
-            SiteInfo.Reflesh();
         }
 
         /// <summary>
