@@ -2240,7 +2240,7 @@ namespace Implem.Pleasanter.Models
                 pt: pt,
                 column: column,
                 where: view.Where(ss, Rds.ResultsWhere().SiteId(ss.SiteId)),
-                orderBy: view.OrderBy(ss, Rds.IssuesOrderBy()
+                orderBy: view.OrderBy(ss, Rds.ResultsOrderBy()
                     .UpdatedTime(SqlOrderBy.Types.desc)))
                         .Select(o => new Libraries.ViewModes.KambanElement()
                         {
