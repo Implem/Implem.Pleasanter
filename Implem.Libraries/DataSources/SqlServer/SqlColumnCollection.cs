@@ -8,7 +8,6 @@ namespace Implem.Libraries.DataSources.SqlServer
     public class SqlColumnCollection : ListEx<SqlColumn>
     {
         public SqlColumnCollection Add(
-            bool duplicates = false,
             string columnBracket = null,
             string tableName = null,
             string columnName = null,
@@ -16,7 +15,13 @@ namespace Implem.Libraries.DataSources.SqlServer
             Sqls.Functions function = Sqls.Functions.None,
             SqlStatement sub = null)
         {
-            if (duplicates || !this.Any(o => o.ColumnBracket == columnBracket))
+            if (!this.Any(o =>
+                o.ColumnBracket == columnBracket &&
+                o.TableName == tableName &&
+                o.ColumnName == columnName &&
+                o.As == _as &&
+                o.Function == function &&
+                o.Sub == sub))
             {
                 Add(new SqlColumn(
                     columnBracket: columnBracket,
