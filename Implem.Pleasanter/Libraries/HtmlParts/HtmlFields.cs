@@ -322,7 +322,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 if (column.UseSearch == true)
                 {
                     ss.SetChoiceHash(
-                        targetColumn: column,
+                        columnName: column?.ColumnName,
                         selectedValues: new List<long>() { id });
                 }
                 return id.ToString();

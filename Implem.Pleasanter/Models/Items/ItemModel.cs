@@ -325,7 +325,7 @@ namespace Implem.Pleasanter.Models
             var column = ss.Columns.FirstOrDefault(o =>
                 controlId.EndsWith(ss.ReferenceType + "_" + o.ColumnName));
             ss.SetChoiceHash(
-                targetColumn: column,
+                columnName: column?.ColumnName,
                 searchIndexes: Forms.Data("DropDownSearchText").SearchIndexes());
             return new ResponseCollection()
                 .ReplaceAll(
@@ -347,7 +347,7 @@ namespace Implem.Pleasanter.Models
             var column = ss.Columns.FirstOrDefault(o =>
                 controlId.EndsWith(ss.ReferenceType + "_" + o.ColumnName));
             ss.SetChoiceHash(
-                targetColumn: column,
+                columnName: column?.ColumnName,
                 searchIndexes: Forms.Data("DropDownSearchText").SearchIndexes());
             var selected = Forms.List("DropDownSearchResults");
             var multiple = Forms.Bool("DropDownSearchMultiple");

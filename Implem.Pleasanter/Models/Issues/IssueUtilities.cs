@@ -213,6 +213,14 @@ namespace Implem.Pleasanter.Models
         {
             var checkAll = clearCheck ? false : Forms.Bool("GridCheckAll");
             var columns = ss.GetGridColumns();
+            ss.Links?
+                .Where(o => ss.GridColumns.Contains(o.ColumnName))
+                .ForEach(link =>
+                    ss.SetChoiceHash(
+                        columnName: link.ColumnName,
+                        selectedValues: issueCollection
+                            .Select(o => o.PropertyValue(link.ColumnName).ToLong())
+                            .Distinct()));
             return hb
                 .THead(
                     _using: addHeader,

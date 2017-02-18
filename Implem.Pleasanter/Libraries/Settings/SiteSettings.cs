@@ -1066,18 +1066,18 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void SetChoiceHash(
             bool withLink = true,
             bool all = false,
-            Column targetColumn = null,
+            string columnName = null,
             IEnumerable<string> searchIndexes = null,
             IEnumerable<long> selectedValues = null)
         {
             var linkHash = withLink
                 ? searchIndexes == null && selectedValues == null
                     ? LinkHash(all)
-                    : LinkHash(targetColumn, searchIndexes, selectedValues)
+                    : LinkHash(columnName, searchIndexes, selectedValues)
                 : null;
             Columns?
                 .Where(o => o.HasChoices())
-                .Where(o => targetColumn == null || o.ColumnName == targetColumn.ColumnName)
+                .Where(o => columnName == null || o.ColumnName == columnName)
                 .ForEach(column =>
                     column.SetChoiceHash(InheritPermission, linkHash, searchIndexes));
         }
@@ -1116,15 +1116,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private Dictionary<string, Dictionary<string, string>> LinkHash(
-            Column column,
-            IEnumerable<string> searchIndexes,
-            IEnumerable<long> selectedValues)
+            string columnName, IEnumerable<string> searchIndexes, IEnumerable<long> selectedValues)
         {
             var hash = new Dictionary<string, Dictionary<string, string>>();
             var allowSites = Permissions.AllowSites(Links?.Select(o => o.SiteId));
             Links?
+                .Where(o => o.ColumnName == columnName)
                 .Where(o => GetColumn(o.ColumnName)?.UseSearch == true)
-                .Where(o => o.ColumnName == column?.ColumnName)
                 .GroupBy(o => o.SiteId)
                 .Select(o => o.FirstOrDefault())
                 .ForEach(link =>

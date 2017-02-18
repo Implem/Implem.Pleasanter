@@ -187,7 +187,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 ss.Links?.Any(o => o.ColumnName == column.ColumnName) == true)
                             {
                                 ss.SetChoiceHash(
-                                    targetColumn: column,
+                                    columnName: column?.ColumnName,
                                     selectedValues: view.ColumnFilter(column.ColumnName)
                                         .Select(o => o.ToLong()));
                             }
