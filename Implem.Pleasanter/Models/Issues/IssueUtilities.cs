@@ -215,6 +215,7 @@ namespace Implem.Pleasanter.Models
             var columns = ss.GetGridColumns();
             ss.Links?
                 .Where(o => ss.GridColumns.Contains(o.ColumnName))
+                .Where(o => ss.GetColumn(o.ColumnName).UseSearch == true)
                 .ForEach(link =>
                     ss.SetChoiceHash(
                         columnName: link.ColumnName,
