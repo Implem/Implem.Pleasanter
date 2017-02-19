@@ -397,7 +397,7 @@ namespace Implem.Pleasanter.Models
                 verType: userModel.VerType,
                 methodType: userModel.MethodType,
                 allowAccess:
-                    pt.CanEditTenant() || userModel.Self() &&
+                    pt.CanRead() &&
                     userModel.AccessStatus != Databases.AccessStatuses.NotFound,
                 referenceType: "Users",
                 title: userModel.MethodType == BaseModel.MethodTypes.New

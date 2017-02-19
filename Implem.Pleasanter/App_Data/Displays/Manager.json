@@ -1,6 +1,7 @@
 ﻿{
     "Id": "Manager",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Manager"

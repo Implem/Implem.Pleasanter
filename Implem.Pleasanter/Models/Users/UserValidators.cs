@@ -9,7 +9,7 @@ namespace Implem.Pleasanter.Models
         public static Error.Types OnCreating(
             SiteSettings ss, Permissions.Types pt, UserModel userModel)
         {
-            if (!pt.CanEditTenant() && !userModel.Self())
+            if (!pt.CanCreate())
             {
                 return Error.Types.HasNotPermission;
             }
@@ -215,7 +215,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.PermissionNotSelfChange;
             }
-            if (!pt.CanEditTenant() && !userModel.Self())
+            if (!pt.CanUpdate())
             {
                 return Error.Types.HasNotPermission;
             }
@@ -417,7 +417,7 @@ namespace Implem.Pleasanter.Models
         public static Error.Types OnDeleting(
             SiteSettings ss, Permissions.Types pt, UserModel userModel)
         {
-            if (!pt.CanEditTenant())
+            if (!pt.CanDelete())
             {
                 return Error.Types.HasNotPermission;
             }

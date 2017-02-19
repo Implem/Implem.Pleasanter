@@ -181,8 +181,9 @@ namespace Implem.Pleasanter.Libraries.Security
             switch (Routes.Controller().ToLower())
             {
                 case "depts":
-                case "groups":
                     return self.CanEditTenant();
+                case "groups":
+                    return CanReadGroup();
                 case "users":
                     return self.CanEditTenant() ||
                         Sessions.UserId() == Routes.Id();
@@ -196,9 +197,10 @@ namespace Implem.Pleasanter.Libraries.Security
             switch (Routes.Controller().ToLower())
             {
                 case "depts":
-                case "groups":
                 case "users":
                     return self.CanEditTenant();
+                case "groups":
+                    return CanEditGroup();
                 default:
                     return (self & Types.Create) != 0;
             }
@@ -209,8 +211,9 @@ namespace Implem.Pleasanter.Libraries.Security
             switch (Routes.Controller().ToLower())
             {
                 case "depts":
-                case "groups":
                     return self.CanEditTenant();
+                case "groups":
+                    return CanEditGroup();
                 case "users":
                     return self.CanEditTenant() ||
                         Sessions.UserId() == Routes.Id();
@@ -229,8 +232,9 @@ namespace Implem.Pleasanter.Libraries.Security
             switch (Routes.Controller().ToLower())
             {
                 case "depts":
-                case "groups":
                     return self.CanEditTenant();
+                case "groups":
+                    return CanEditGroup();
                 case "users":
                     return self.CanEditTenant() &&
                         Sessions.UserId() != Routes.Id();
@@ -325,6 +329,34 @@ namespace Implem.Pleasanter.Libraries.Security
                 (self.UpdatePermission & Admins(pt)) != 0;
         }
 
+        public static bool CanEditTenant()
+        {
+            return Sessions.User().TenantAdmin;
+        }
+
+        public static bool CanReadGroup()
+        {
+            return CanEditTenant() || Groups().Any();
+        }
+
+        public static bool CanEditGroup()
+        {
+            return Routes.Id() == 0 || CanEditTenant() || Groups().Any(o => o["Admin"].ToBool());
+        }
+
+        private static EnumerableRowCollection<DataRow> Groups()
+        {
+            return Rds.ExecuteTable(statements:
+                Rds.SelectGroupMembers(
+                    column: Rds.GroupMembersColumn().Admin(),
+                    where: Rds.GroupMembersWhere()
+                        .GroupId(Routes.Id())
+                        .Or(Rds.GroupMembersWhere()
+                            .DeptId(Sessions.DeptId())
+                            .UserId(Sessions.UserId()))))
+                                .AsEnumerable();
+        }
+
         public static Types Admins()
         {
             return Types.NotSet.Admins();
@@ -332,14 +364,10 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static Types Admins(this Types pt)
         {
-            var userModel = Sessions.User();
-            var tenantAdmin = userModel.TenantAdmin
-                ? Types.TenantAdmin
-                : Types.NotSet;
-            var sysAdmin = userModel.ServiceAdmin
-                ? Types.ServiceAdmin
-                : Types.NotSet;
-            return pt | tenantAdmin | sysAdmin;
+            var user = Sessions.User();
+            if (user.TenantAdmin) pt |= Types.TenantAdmin;
+            if (user.ServiceAdmin) pt |= Types.ServiceAdmin;
+            return pt;
         }
     }
 }

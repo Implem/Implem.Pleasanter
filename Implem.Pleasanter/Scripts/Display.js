@@ -10,6 +10,8 @@
         ConfirmSeparate: '分割してもよろしいですか？',
         ConfirmSynchronize: 'Are you sure you want to synchronize the data ?',
         ConfirmSynchronize: 'データを同期してもよろしいですか？',
+        Manager: 'Manager',
+        Manager: '管理者',
         OrderAsc: 'Asc',
         OrderAsc: '昇順',
         OrderDesc: 'Desc',

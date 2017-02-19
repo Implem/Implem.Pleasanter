@@ -47,6 +47,7 @@ namespace Implem.Pleasanter
                 "~/Scripts/Gantt.js",
                 "~/Scripts/GanttEvents.js",
                 "~/Scripts/GridEvents.js",
+                "~/Scripts/Group.js",
                 "~/Scripts/HistoryEvents.js",
                 "~/Scripts/Import.js",
                 "~/Scripts/Item.js",

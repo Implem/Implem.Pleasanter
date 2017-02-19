@@ -55,7 +55,7 @@ namespace Implem.Pleasanter.Models
         public static Error.Types OnUpdating(
             SiteSettings ss, Permissions.Types pt, SiteModel siteModel)
         {
-            if (!pt.CanEditSite())
+            if (!pt.CanUpdate())
             {
                 return Error.Types.HasNotPermission;
             }
@@ -101,7 +101,7 @@ namespace Implem.Pleasanter.Models
         public static Error.Types OnDeleting(
             SiteSettings ss, Permissions.Types pt, SiteModel siteModel)
         {
-            if (!pt.CanEditSite())
+            if (!pt.CanDelete())
             {
                 return Error.Types.HasNotPermission;
             }

@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Models
                 pt: pt,
                 verType: Versions.VerTypes.Latest,
                 methodType: BaseModel.MethodTypes.Index,
-                allowAccess: Sessions.User().TenantAdmin,
+                allowAccess: true,
                 referenceType: "Groups",
                 title: Displays.Groups() + " - " + Displays.List(),
                 action: () =>
@@ -149,6 +149,9 @@ namespace Implem.Pleasanter.Models
                 .ToJson();
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static GroupCollection GroupCollection(
             SiteSettings ss,
             Permissions.Types pt,
@@ -159,7 +162,17 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 pt: pt,
                 column: GridSqlColumnCollection(ss),
-                where: view.Where(ss, Rds.GroupsWhere().TenantId(Sessions.TenantId())),
+                where: view.Where(ss, Rds.GroupsWhere()
+                    .TenantId(Sessions.TenantId())
+                    .GroupId_In(
+                        sub: Rds.SelectGroupMembers(
+                            distinct: true,
+                            column: Rds.GroupMembersColumn().GroupId(),
+                            where: Rds.GroupMembersWhere()
+                                .Or(Rds.GroupMembersWhere()
+                                    .DeptId(Sessions.DeptId())
+                                    .UserId(Sessions.UserId()))),
+                        _using: !Permissions.CanEditTenant())),
                 orderBy: view.OrderBy(ss, Rds.GroupsOrderBy()
                     .UpdatedTime(SqlOrderBy.Types.desc)),
                 offset: offset,
@@ -372,7 +385,7 @@ namespace Implem.Pleasanter.Models
                 verType: groupModel.VerType,
                 methodType: groupModel.MethodType,
                 allowAccess:
-                    pt.CanEditTenant() &&
+                    pt.CanRead() &&
                     groupModel.AccessStatus != Databases.AccessStatuses.NotFound,
                 referenceType: "Groups",
                 title: groupModel.MethodType == BaseModel.MethodTypes.New
@@ -769,6 +782,18 @@ namespace Implem.Pleasanter.Models
                 commandOptionAction: () => hb
                     .Div(css: "command-left", action: () => hb
                         .Button(
+                            controlId: "GeneralUser",
+                            controlCss: "button-icon post",
+                            text: Displays.GeneralUser(),
+                            onClick: "$p.setGroup($(this));",
+                            icon: "ui-icon-person")
+                        .Button(
+                            controlId: "Manager",
+                            controlCss: "button-icon post",
+                            text: Displays.Manager(),
+                            onClick: "$p.setGroup($(this));",
+                            icon: "ui-icon-person")
+                        .Button(
                             controlCss: "button-icon post",
                             text: Displays.Delete(),
                             onClick: "$p.deleteSelected($(this));",
@@ -787,7 +812,8 @@ namespace Implem.Pleasanter.Models
                 Rds.SelectGroupMembers(
                     column: Rds.GroupMembersColumn()
                         .DeptId()
-                        .UserId(),
+                        .UserId()
+                        .Admin(),
                     where: Rds.GroupMembersWhere()
                         .GroupId(groupModel.GroupId)))
                             .AsEnumerable()
@@ -900,18 +926,32 @@ namespace Implem.Pleasanter.Models
         {
             var deptId = dataRow["DeptId"].ToInt();
             var userId = dataRow["UserId"].ToInt();
+            var admin = dataRow.Table.Columns.Contains("Admin")
+                ? dataRow["Admin"].ToBool()
+                : false;
+            var manager = admin
+                ? "(" + Displays.Manager() + ")"
+                : string.Empty;
             if (deptId > 0)
             {
                 data.Add(
-                    "Dept," + deptId.ToString(),
-                    new ControlData(SiteInfo.Dept(deptId)?.Name));
+                    "Dept," + deptId.ToString() + "," + admin,
+                    new ControlData(SiteInfo.Dept(deptId)?.Name + manager));
             }
             else if (userId > 0)
             {
                 data.Add(
-                    "User," + userId.ToString(),
-                    new ControlData(SiteInfo.UserFullName(userId)));
+                    "User," + userId.ToString() + "," + admin,
+                    new ControlData(SiteInfo.UserFullName(userId) + manager));
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string Set(long groupId)
+        {
+            return "[]";
         }
     }
 }

@@ -371,7 +371,7 @@ namespace Implem.Pleasanter.Models
                 verType: deptModel.VerType,
                 methodType: deptModel.MethodType,
                 allowAccess:
-                    pt.CanEditTenant() &&
+                    pt.CanRead() &&
                     deptModel.AccessStatus != Databases.AccessStatuses.NotFound,
                 referenceType: "Depts",
                 title: deptModel.MethodType == BaseModel.MethodTypes.New

@@ -161,6 +161,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Formulas(params string[] data) { return Get("Formulas", data); }
         public static string Fy(params string[] data) { return Get("Fy", data); }
         public static string Gantt(params string[] data) { return Get("Gantt", data); }
+        public static string GeneralUser(params string[] data) { return Get("GeneralUser", data); }
         public static string GoBack(params string[] data) { return Get("GoBack", data); }
         public static string Grid(params string[] data) { return Get("Grid", data); }
         public static string GridFormat(params string[] data) { return Get("GridFormat", data); }
@@ -463,6 +464,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string GroupMembers_GroupId(params string[] data) { return Get("GroupMembers_GroupId", data); }
         public static string GroupMembers_DeptId(params string[] data) { return Get("GroupMembers_DeptId", data); }
         public static string GroupMembers_UserId(params string[] data) { return Get("GroupMembers_UserId", data); }
+        public static string GroupMembers_Admin(params string[] data) { return Get("GroupMembers_Admin", data); }
         public static string Users_TenantId(params string[] data) { return Get("Users_TenantId", data); }
         public static string Users_UserId(params string[] data) { return Get("Users_UserId", data); }
         public static string Users_LoginId(params string[] data) { return Get("Users_LoginId", data); }

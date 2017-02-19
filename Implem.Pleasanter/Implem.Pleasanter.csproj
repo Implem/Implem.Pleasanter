@@ -453,6 +453,7 @@
     <Content Include="Scripts\BurnDownEvents.js" />
     <Content Include="Scripts\DropDownSearch.js" />
     <Content Include="Scripts\DropDownSearchEvents.js" />
+    <Content Include="Scripts\Group.js" />
     <Content Include="Scripts\Validator.js" />
     <Content Include="Scripts\ViewMode.js" />
     <Content Include="Scripts\Dialog.js" />
@@ -978,6 +979,7 @@
     <Content Include="App_Data\Displays\Members.json" />
     <Content Include="App_Data\Displays\CurrentMembers.json" />
     <Content Include="App_Data\Displays\SelectableMembers.json" />
+    <Content Include="App_Data\Displays\GeneralUser.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

@@ -165,5 +165,14 @@ namespace Implem.Pleasanter.Controllers
             var json = GroupUtilities.SelectableMembersJson();
             return json;
         }
+
+        [HttpPost]
+        public string Set(int id)
+        {
+            var log = new SysLogModel();
+            var json = GroupUtilities.Set(id);
+            log.Finish(json.Length);
+            return json;
+        }
     }
 }

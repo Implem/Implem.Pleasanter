@@ -295,6 +295,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_InsertItems": Code.Model_InsertItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertItems, definitionRow, CodeXls); break;
                     case "Model_InsertItemsAfter": Code.Model_InsertItemsAfter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertItemsAfter, definitionRow, CodeXls); break;
                     case "Model_SelectIdentity": Code.Model_SelectIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SelectIdentity, definitionRow, CodeXls); break;
+                    case "Model_InsertGroupMember": Code.Model_InsertGroupMember = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertGroupMember, definitionRow, CodeXls); break;
                     case "Model_InsertLinksByCreate": Code.Model_InsertLinksByCreate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertLinksByCreate, definitionRow, CodeXls); break;
                     case "Model_Insert": Code.Model_Insert = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Insert, definitionRow, CodeXls); break;
                     case "Model_InsertIdentity": Code.Model_InsertIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_InsertIdentity, definitionRow, CodeXls); break;
@@ -432,7 +433,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Editor": Code.Model_Utilities_Editor = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Editor, definitionRow, CodeXls); break;
                     case "Model_Utilities_SiteSettingsUtilities": Code.Model_Utilities_SiteSettingsUtilities = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SiteSettingsUtilities, definitionRow, CodeXls); break;
                     case "Model_Utilities_PermissionTypesAdmins": Code.Model_Utilities_PermissionTypesAdmins = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_PermissionTypesAdmins, definitionRow, CodeXls); break;
-                    case "Model_Utilities_UserSelf": Code.Model_Utilities_UserSelf = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UserSelf, definitionRow, CodeXls); break;
                     case "Model_Utilities_EditorItem": Code.Model_Utilities_EditorItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorItem, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetSwitchTargets": Code.Model_Utilities_SetSwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetSwitchTargets, definitionRow, CodeXls); break;
                     case "Model_Utilities_FieldCases": Code.Model_Utilities_FieldCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_FieldCases, definitionRow, CodeXls); break;
@@ -913,6 +913,7 @@ namespace Implem.DefinitionAccessor
                     case "GroupMembers_GroupId": Column.GroupMembers_GroupId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.GroupMembers_GroupId, definitionRow, ColumnXls); break;
                     case "GroupMembers_DeptId": Column.GroupMembers_DeptId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.GroupMembers_DeptId, definitionRow, ColumnXls); break;
                     case "GroupMembers_UserId": Column.GroupMembers_UserId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.GroupMembers_UserId, definitionRow, ColumnXls); break;
+                    case "GroupMembers_Admin": Column.GroupMembers_Admin = definitionRow[1].ToString(); SetColumnTable(ColumnTable.GroupMembers_Admin, definitionRow, ColumnXls); break;
                     case "Users_TenantId": Column.Users_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_TenantId, definitionRow, ColumnXls); break;
                     case "Users_UserId": Column.Users_UserId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_UserId, definitionRow, ColumnXls); break;
                     case "Users_LoginId": Column.Users_LoginId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_LoginId, definitionRow, ColumnXls); break;
@@ -3200,6 +3201,7 @@ namespace Implem.DefinitionAccessor
         public string Model_InsertItems;
         public string Model_InsertItemsAfter;
         public string Model_SelectIdentity;
+        public string Model_InsertGroupMember;
         public string Model_InsertLinksByCreate;
         public string Model_Insert;
         public string Model_InsertIdentity;
@@ -3337,7 +3339,6 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Editor;
         public string Model_Utilities_SiteSettingsUtilities;
         public string Model_Utilities_PermissionTypesAdmins;
-        public string Model_Utilities_UserSelf;
         public string Model_Utilities_EditorItem;
         public string Model_Utilities_SetSwitchTargets;
         public string Model_Utilities_FieldCases;
@@ -3631,6 +3632,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_InsertItems = new CodeDefinition();
         public CodeDefinition Model_InsertItemsAfter = new CodeDefinition();
         public CodeDefinition Model_SelectIdentity = new CodeDefinition();
+        public CodeDefinition Model_InsertGroupMember = new CodeDefinition();
         public CodeDefinition Model_InsertLinksByCreate = new CodeDefinition();
         public CodeDefinition Model_Insert = new CodeDefinition();
         public CodeDefinition Model_InsertIdentity = new CodeDefinition();
@@ -3768,7 +3770,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Editor = new CodeDefinition();
         public CodeDefinition Model_Utilities_SiteSettingsUtilities = new CodeDefinition();
         public CodeDefinition Model_Utilities_PermissionTypesAdmins = new CodeDefinition();
-        public CodeDefinition Model_Utilities_UserSelf = new CodeDefinition();
         public CodeDefinition Model_Utilities_EditorItem = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetSwitchTargets = new CodeDefinition();
         public CodeDefinition Model_Utilities_FieldCases = new CodeDefinition();
@@ -4520,6 +4521,7 @@ namespace Implem.DefinitionAccessor
         public string GroupMembers_GroupId;
         public string GroupMembers_DeptId;
         public string GroupMembers_UserId;
+        public string GroupMembers_Admin;
         public string Users_TenantId;
         public string Users_UserId;
         public string Users_LoginId;
@@ -5170,6 +5172,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition GroupMembers_GroupId = new ColumnDefinition();
         public ColumnDefinition GroupMembers_DeptId = new ColumnDefinition();
         public ColumnDefinition GroupMembers_UserId = new ColumnDefinition();
+        public ColumnDefinition GroupMembers_Admin = new ColumnDefinition();
         public ColumnDefinition Users_TenantId = new ColumnDefinition();
         public ColumnDefinition Users_UserId = new ColumnDefinition();
         public ColumnDefinition Users_LoginId = new ColumnDefinition();

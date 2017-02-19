@@ -130,7 +130,13 @@ namespace Implem.Pleasanter.Models
                         tableType: tableType,
                         selectIdentity: true,
                         param: param ?? Rds.GroupsParamDefault(
-                            this, setDefault: true, paramAll: paramAll))
+                            this, setDefault: true, paramAll: paramAll)),
+                    Rds.InsertGroupMembers(
+                        tableType: tableType,
+                        param: param ?? Rds.GroupMembersParam()
+                            .GroupId(raw: Def.Sql.Identity)
+                            .UserId(Sessions.UserId())
+                            .Admin(true))
                 });
             GroupId = newId != 0 ? newId : GroupId;
             Get();
@@ -167,14 +173,16 @@ namespace Implem.Pleasanter.Models
                     statements.Add(Rds.InsertGroupMembers(
                         param: Rds.GroupMembersParam()
                             .GroupId(GroupId)
-                            .DeptId(data.Split_2nd().ToInt())));
+                            .DeptId(data.Split_2nd().ToInt())
+                            .Admin(data.Split_3rd().ToBool())));
                 }
                 if (data.StartsWith("User,"))
                 {
                     statements.Add(Rds.InsertGroupMembers(
                         param: Rds.GroupMembersParam()
                             .GroupId(GroupId)
-                            .UserId(data.Split_2nd().ToInt())));
+                            .UserId(data.Split_2nd().ToInt())
+                            .Admin(data.Split_3rd().ToBool())));
                 }
             });
             Rds.ExecuteNonQuery(transactional: true, statements: statements.ToArray());

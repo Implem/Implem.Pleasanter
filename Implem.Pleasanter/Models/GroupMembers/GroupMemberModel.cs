@@ -25,12 +25,15 @@ namespace Implem.Pleasanter.Models
         public int GroupId = 0;
         public int DeptId = 0;
         public int UserId = 0;
+        public bool Admin = false;
         public int SavedGroupId = 0;
         public int SavedDeptId = 0;
         public int SavedUserId = 0;
+        public bool SavedAdmin = false;
         public bool GroupId_Updated { get { return GroupId != SavedGroupId; } }
         public bool DeptId_Updated { get { return DeptId != SavedDeptId; } }
         public bool UserId_Updated { get { return UserId != SavedUserId; } }
+        public bool Admin_Updated { get { return Admin != SavedAdmin; } }
 
         public GroupMemberModel(
             SiteSettings ss,
@@ -103,6 +106,7 @@ namespace Implem.Pleasanter.Models
                     case "DeptId": if (dataRow[name] != DBNull.Value) { DeptId = dataRow[name].ToInt(); SavedDeptId = DeptId; } break;
                     case "UserId": if (dataRow[name] != DBNull.Value) { UserId = dataRow[name].ToInt(); SavedUserId = UserId; } break;
                     case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
+                    case "Admin": Admin = dataRow[name].ToBool(); SavedAdmin = Admin; break;
                     case "Comments": Comments = dataRow["Comments"].ToString().Deserialize<Comments>() ?? new Comments(); SavedComments = Comments.ToJson(); break;
                     case "Creator": Creator = SiteInfo.User(dataRow.Int(name)); SavedCreator = Creator.Id; break;
                     case "Updator": Updator = SiteInfo.User(dataRow.Int(name)); SavedUpdator = Updator.Id; break;
