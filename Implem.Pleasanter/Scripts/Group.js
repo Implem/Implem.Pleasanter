@@ -5,7 +5,7 @@
         var type = $control.attr('id');
         $this.attr('value', data[0] + ',' + data[1] + ',' + (type === 'Manager'));
         $this.text($this.text().replace(/\(.*\)/, ''));
-        $this.text($this.text() + (type == 'GeneralUser'
+        $this.text($this.text() + (type === 'GeneralUser'
             ? ''
             : '(' + $p.display(type) + ')'));
     });
