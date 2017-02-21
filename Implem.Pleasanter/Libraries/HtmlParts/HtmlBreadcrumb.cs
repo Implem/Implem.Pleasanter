@@ -24,7 +24,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "depts":
                     return Breadcrumb(hb, controller, Displays.Depts());
                 case "groups":
-                    return Breadcrumb(hb, controller, Displays.Groups());
+                    return pt.CanEditTenant()
+                        ? Breadcrumb(hb, controller, Displays.Groups())
+                        : Breadcrumb(hb);
                 case "users":
                     return pt.CanEditTenant()
                         ? Breadcrumb(hb, controller, Displays.Users())

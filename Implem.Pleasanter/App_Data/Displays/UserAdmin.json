@@ -1,0 +1,13 @@
+﻿{
+    "Id": "UserAdmin",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "User administration"
+        },
+        {
+            "Language": "ja",
+            "Body": "ユーザの管理"
+        }
+    ]
+}

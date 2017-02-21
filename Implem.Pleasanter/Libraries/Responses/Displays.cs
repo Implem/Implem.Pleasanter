@@ -129,6 +129,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string DeletePermission(params string[] data) { return Get("DeletePermission", data); }
         public static string DemoMailBody(params string[] data) { return Get("DemoMailBody", data); }
         public static string DemoMailTitle(params string[] data) { return Get("DemoMailTitle", data); }
+        public static string DeptAdmin(params string[] data) { return Get("DeptAdmin", data); }
         public static string Destination(params string[] data) { return Get("Destination", data); }
         public static string Difference(params string[] data) { return Get("Difference", data); }
         public static string Disabled(params string[] data) { return Get("Disabled", data); }
@@ -168,6 +169,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string GridPageSize(params string[] data) { return Get("GridPageSize", data); }
         public static string GridScript(params string[] data) { return Get("GridScript", data); }
         public static string GridStyle(params string[] data) { return Get("GridStyle", data); }
+        public static string GroupAdmin(params string[] data) { return Get("GroupAdmin", data); }
         public static string GroupBy(params string[] data) { return Get("GroupBy", data); }
         public static string GroupByX(params string[] data) { return Get("GroupByX", data); }
         public static string GroupByY(params string[] data) { return Get("GroupByY", data); }
@@ -373,6 +375,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string UseHalf(params string[] data) { return Get("UseHalf", data); }
         public static string UseMonth(params string[] data) { return Get("UseMonth", data); }
         public static string UseQuarter(params string[] data) { return Get("UseQuarter", data); }
+        public static string UserAdmin(params string[] data) { return Get("UserAdmin", data); }
         public static string UseSearch(params string[] data) { return Get("UseSearch", data); }
         public static string ValidateDate(params string[] data) { return Get("ValidateDate", data); }
         public static string ValidateEmail(params string[] data) { return Get("ValidateEmail", data); }
@@ -511,8 +514,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Permissions_ReferenceType(params string[] data) { return Get("Permissions_ReferenceType", data); }
         public static string Permissions_ReferenceId(params string[] data) { return Get("Permissions_ReferenceId", data); }
         public static string Permissions_DeptId(params string[] data) { return Get("Permissions_DeptId", data); }
+        public static string Permissions_GroupId(params string[] data) { return Get("Permissions_GroupId", data); }
         public static string Permissions_UserId(params string[] data) { return Get("Permissions_UserId", data); }
         public static string Permissions_DeptName(params string[] data) { return Get("Permissions_DeptName", data); }
+        public static string Permissions_GroupName(params string[] data) { return Get("Permissions_GroupName", data); }
         public static string Permissions_FullName1(params string[] data) { return Get("Permissions_FullName1", data); }
         public static string Permissions_FullName2(params string[] data) { return Get("Permissions_FullName2", data); }
         public static string Permissions_FirstAndLastNameOrder(params string[] data) { return Get("Permissions_FirstAndLastNameOrder", data); }

@@ -295,66 +295,87 @@ namespace Implem.Pleasanter.Models
             string referenceType, long referenceId, string searchText)
         {
             return !searchText.IsNullOrEmpty()
-                ? new PermissionCollection(Rds.ExecuteTable(
-                    transactional: false,
-                    statements: new SqlStatement[]
-                    {
-                        Rds.SelectDepts(
-                            column: Rds.DeptsColumn()
-                                .Add("@ReferenceId_Param1 as [ReferenceId]")
-                                .Add("@ReferenceType_Param1 as [ReferenceType]")
-                                .DeptId()
-                                .DeptName()
-                                .Add("null as [UserId]")
-                                .Add("null as [FullName1]")
-                                .Add("null as [FullName2]")
-                                .Add("1 as [FirstAndLastNameOrder]")
-                                .Add("@PermissionType_Param1 as [PermissionType]"),
-                            where: Rds.DeptsWhere()
-                                .TenantId(Sessions.TenantId())
-                                .SqlWhereExists(Rds.SqlWhereNotExists_Permissions,
-                                    "[Permissions].[ReferenceId] = @ReferenceId_Param1",
-                                    "[Permissions].[ReferenceType] = @ReferenceType_Param1",
-                                    "[Permissions].[DeptId] = [Depts].[DeptId]")
-                                .SqlWhereLike(
-                                    searchText,
-                                    Rds.Depts_DeptId_WhereLike(),
-                                    Rds.Depts_DeptCode_WhereLike(),
-                                    Rds.Depts_DeptName_WhereLike()),
-                            param: Rds.PermissionsParam()
-                                .ReferenceType(referenceType)
-                                .ReferenceId(referenceId)
-                                .PermissionType(Permissions.Types.ReadWrite)),
-                        Rds.SelectUsers(
-                            unionType: Sqls.UnionTypes.Union,
-                            column: Rds.UsersColumn()
-                                .Add("@ReferenceId_Param2 as [ReferenceId]")
-                                .Add("@ReferenceType_Param2 as [ReferenceType]")
-                                .Add("null as [DeptId]")
-                                .Add("null as [DeptName]")
-                                .UserId()
-                                .FullName1()
-                                .FullName2()
-                                .FirstAndLastNameOrder()
-                                .Add("@PermissionType_Param2 as [PermissionType]"),
-                            where: Rds.UsersWhere()
-                                .TenantId(Sessions.TenantId())
-                                .SqlWhereExists(Rds.SqlWhereNotExists_Permissions,
-                                    "[Permissions].[ReferenceId] = @ReferenceId_Param2",
-                                    "[Permissions].[ReferenceType] = @ReferenceType_Param2",
-                                    "[Permissions].[UserId] = [Users].[UserId]")
-                                .SqlWhereLike(
-                                    searchText,
-                                    Rds.Users_LoginId_WhereLike(),
-                                    Rds.Users_UserId_WhereLike(),
-                                    Rds.Users_FirstName_WhereLike(),
-                                    Rds.Users_LastName_WhereLike()),
-                            param: Rds.PermissionsParam()
-                                .ReferenceType(referenceType)
-                                .ReferenceId(referenceId)
-                                .PermissionType(Permissions.Types.ReadWrite))
-                    }))
+                ? GetSourceCollection(referenceType, referenceId, searchText)
                 : new PermissionCollection(get: false);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static PermissionCollection GetSourceCollection(
+            string referenceType, long referenceId, string searchText)
+        {
+            var sourceCollection = new PermissionCollection(get: false);
+            Rds.ExecuteTable(
+                transactional: false,
+                statements: Rds.SelectDepts(
+                    column: Rds.DeptsColumn()
+                        .DeptId()
+                        .DeptName(),
+                    where: Rds.DeptsWhere()
+                        .TenantId(Sessions.TenantId())
+                        .DeptId(_operator: ">0")
+                        .SqlWhereLike(
+                            searchText,
+                            Rds.Depts_DeptId_WhereLike(),
+                            Rds.Depts_DeptCode_WhereLike(),
+                            Rds.Depts_DeptName_WhereLike(),
+                            Rds.Depts_Body_WhereLike())))
+                                .AsEnumerable()
+                                .ForEach(dataRow =>
+                                    sourceCollection.Add(new PermissionModel(
+                                        referenceType,
+                                        referenceId,
+                                        Permissions.Types.ReadWrite,
+                                        dataRow)));
+            Rds.ExecuteTable(
+                transactional: false,
+                statements: Rds.SelectGroups(
+                    column: Rds.GroupsColumn()
+                        .GroupId()
+                        .GroupName(),
+                    where: Rds.GroupsWhere()
+                        .TenantId(Sessions.TenantId())
+                        .GroupId(_operator: ">0")
+                        .SqlWhereLike(
+                            searchText,
+                            Rds.Groups_GroupId_WhereLike(),
+                            Rds.Groups_GroupName_WhereLike(),
+                            Rds.Groups_Body_WhereLike())))
+                                .AsEnumerable()
+                                .ForEach(dataRow =>
+                                    sourceCollection.Add(new PermissionModel(
+                                        referenceType,
+                                        referenceId,
+                                        Permissions.Types.ReadWrite,
+                                        dataRow)));
+            Rds.ExecuteTable(
+                transactional: false,
+                statements: Rds.SelectUsers(
+                    column: Rds.UsersColumn()
+                        .UserId()
+                        .FullName1()
+                        .FullName2()
+                        .FirstAndLastNameOrder(),
+                    where: Rds.UsersWhere()
+                        .TenantId(Sessions.TenantId())
+                        .UserId(_operator: ">0")
+                        .SqlWhereLike(
+                            searchText,
+                            Rds.Users_UserId_WhereLike(),
+                            Rds.Users_LoginId_WhereLike(),
+                            Rds.Users_UserCode_WhereLike(),
+                            Rds.Users_FirstName_WhereLike(),
+                            Rds.Users_LastName_WhereLike(),
+                            Rds.Users_DeptId_WhereLike())))
+                                .AsEnumerable()
+                                .ForEach(dataRow =>
+                                    sourceCollection.Add(new PermissionModel(
+                                        referenceType,
+                                        referenceId,
+                                        Permissions.Types.ReadWrite,
+                                        dataRow)));
+            return sourceCollection;
         }
 
         /// <summary>
@@ -449,14 +470,9 @@ namespace Implem.Pleasanter.Models
                 .ReferenceType(raw: "'Sites'")
                 .ReferenceId(raw: siteId.ToString())
                 .PermissionType(raw: permissionModel.PermissionType.ToLong().ToString())
-                .DeptId(
-                    raw: permissionModel.DeptId.ToString(),
-                    _using: permissionModel.DeptId != 0)
-                .UserId(raw: "0", _using: permissionModel.DeptId != 0)
-                .DeptId(raw: "0", _using: permissionModel.UserId != 0)
-                .UserId(
-                    raw: permissionModel.UserId.ToString(),
-                    _using: permissionModel.UserId != 0));
+                .DeptId(raw: permissionModel.DeptId.ToString())
+                .GroupId(raw: permissionModel.GroupId.ToString())
+                .UserId(raw: permissionModel.UserId.ToString()));
         }
 
         /// <summary>
@@ -504,15 +520,13 @@ namespace Implem.Pleasanter.Models
                     case "Add":
                         siteModel.Session_PermissionDestinationCollection().AddRange(
                             siteModel.Session_PermissionSourceCollection().Where(o =>
-                                permissionSource
-                                    .Contains(o.PermissionId)));
+                                permissionSource.Contains(o.PermissionId)));
                         siteModel.Session_PermissionDestinationCollection().Where(o =>
                             permissionSource.Contains(o.PermissionId))
-                            .ForEach(o =>
-                                o.PermissionType = Permissions.Types.ReadWrite);
+                                .ForEach(o =>
+                                    o.PermissionType = Permissions.Types.ReadWrite);
                         siteModel.Session_PermissionSourceCollection().RemoveAll(o =>
-                            permissionSource
-                                .Contains(o.PermissionId));
+                            permissionSource.Contains(o.PermissionId));
                         res
                             .Html("#PermissionDestination", PermissionListItem(
                                 siteModel, Types.Destination,
@@ -524,11 +538,9 @@ namespace Implem.Pleasanter.Models
                     case "Delete":
                         siteModel.Session_PermissionSourceCollection().AddRange(
                             siteModel.Session_PermissionDestinationCollection().Where(o =>
-                                permissionDestination
-                                    .Contains(o.PermissionId)));
+                                permissionDestination.Contains(o.PermissionId)));
                         siteModel.Session_PermissionDestinationCollection().RemoveAll(o =>
-                            permissionDestination
-                                .Contains(o.PermissionId));
+                            permissionDestination.Contains(o.PermissionId));
                         res
                             .Html("#PermissionDestination", PermissionListItem(
                                 siteModel, Types.Destination))

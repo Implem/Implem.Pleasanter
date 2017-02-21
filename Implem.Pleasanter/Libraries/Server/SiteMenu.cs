@@ -133,7 +133,7 @@ namespace Implem.Pleasanter.Libraries.Server
                     .TenantId(Sessions.TenantId())
                     .SiteId_In(hash.SelectMany(o => o.Value))
                     .ReferenceType("Sites", _operator: "<>")
-                    .HasPermission()))
+                    .PermissionType(_operator: ">0")))
                         .AsEnumerable();
             var issues = sites
                 .Where(o => o["ReferenceType"].ToString() == "Issues")

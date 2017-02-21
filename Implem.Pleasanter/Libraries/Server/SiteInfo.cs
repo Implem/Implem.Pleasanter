@@ -1,5 +1,4 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.DataSources.SqlServer;
+﻿using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
@@ -25,13 +24,6 @@ namespace Implem.Pleasanter.Libraries.Server
             if (monitor.Updated || force)
             {
                 var tenantId = Sessions.TenantId();
-                var permission = new SqlWhereCollection().Add(or: new SqlWhereCollection(
-                    new SqlWhere(raw:
-                        "[Permissions].[DeptId] <> 0 and [Permissions].[DeptId]=" +
-                            Sessions.DeptId()),
-                    new SqlWhere(raw:
-                        "[Permissions].[UserId] <> 0 and [Permissions].[UserId]=" +
-                            Sessions.UserId())));
                 var dataSet = Rds.ExecuteDataSet(statements: new SqlStatement[]
                 {
                     Rds.SelectSites(
@@ -43,9 +35,7 @@ namespace Implem.Pleasanter.Libraries.Server
                             .Title(),
                         where: Rds.SitesWhere()
                             .TenantId(tenantId, _using: tenantId != 0)
-                            .InheritPermission_In(sub: Rds.SelectPermissions(
-                                column: Rds.PermissionsColumn().ReferenceId(),
-                                where: permission))),
+                            .PermissionType(_operator: ">0")),
                     Rds.SelectDepts(
                         dataTableName: "Depts",
                         column: Rds.DeptsColumn()
@@ -82,7 +72,7 @@ namespace Implem.Pleasanter.Libraries.Server
                             dataRow => dataRow["UserId"].ToInt(),
                             dataRow => new User(dataRow));
                 }
-                if (monitor.PermissionsUpdated || force)
+                if (monitor.PermissionsUpdated || monitor.GroupsUpdated || force)
                 {
                     SiteUserHash = new Dictionary<long, List<int>>();
                 }
@@ -127,11 +117,35 @@ namespace Implem.Pleasanter.Libraries.Server
 
         private static DataTable SiteUserDataTable(long siteId)
         {
-            return Rds.ExecuteTable(statements: new SqlStatement(
-                commandText: Def.Sql.SiteUsers,
-                param: Rds.PermissionsParam()
-                    .ReferenceType("Sites")
-                    .ReferenceId(siteId)));
+            var deptRaw = "[Users].[DeptId] and [Users].[DeptId]>0";
+            var userRaw = "[Users].[UserId] and [Users].[UserId]>0";
+            return Rds.ExecuteTable(statements: Rds.SelectUsers(
+                distinct: true,
+                column: Rds.UsersColumn().UserId(),
+                where: Rds.UsersWhere()
+                    .TenantId(Sessions.TenantId())
+                    .Add(
+                        subLeft: Rds.SelectPermissions(
+                            column: Rds.PermissionsColumn()
+                                .PermissionType(function: Sqls.Functions.Max),
+                            where: Rds.PermissionsWhere()
+                                .ReferenceType("Sites")
+                                .ReferenceId(siteId)
+                                .Or(Rds.PermissionsWhere()
+                                    .DeptId(raw: deptRaw)
+                                    .Add(
+                                        subLeft: Rds.SelectGroupMembers(
+                                            column: Rds.GroupMembersColumn()
+                                                .GroupMembersCount(),
+                                            where: Rds.GroupMembersWhere()
+                                                .GroupId(raw: "[Permissions].[GroupId]")
+                                                .Or(Rds.GroupMembersWhere()
+                                                    .DeptId(raw: deptRaw)
+                                                    .UserId(raw: userRaw))
+                                                .Add(raw: "[Permissions].[GroupId]>0")),
+                                        _operator: ">0")
+                                    .UserId(raw: userRaw))),
+                        _operator: ">0")));
         }
 
         public static Dept Dept(int deptId)

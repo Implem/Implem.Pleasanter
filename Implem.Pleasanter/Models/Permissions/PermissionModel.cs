@@ -25,8 +25,10 @@ namespace Implem.Pleasanter.Models
         public string ReferenceType = "Sites";
         public long ReferenceId = 0;
         public int DeptId = 0;
+        public int GroupId = 0;
         public int UserId = 0;
         public string DeptName = string.Empty;
+        public string GroupName = string.Empty;
         public string FullName1 = string.Empty;
         public string FullName2 = string.Empty;
         public Names.FirstAndLastNameOrders FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)1;
@@ -34,8 +36,10 @@ namespace Implem.Pleasanter.Models
         public string SavedReferenceType = "Sites";
         public long SavedReferenceId = 0;
         public int SavedDeptId = 0;
+        public int SavedGroupId = 0;
         public int SavedUserId = 0;
         public string SavedDeptName = string.Empty;
+        public string SavedGroupName = string.Empty;
         public string SavedFullName1 = string.Empty;
         public string SavedFullName2 = string.Empty;
         public int SavedFirstAndLastNameOrder = 1;
@@ -43,6 +47,7 @@ namespace Implem.Pleasanter.Models
         public bool ReferenceType_Updated { get { return ReferenceType != SavedReferenceType && ReferenceType != null; } }
         public bool ReferenceId_Updated { get { return ReferenceId != SavedReferenceId; } }
         public bool DeptId_Updated { get { return DeptId != SavedDeptId; } }
+        public bool GroupId_Updated { get { return GroupId != SavedGroupId; } }
         public bool UserId_Updated { get { return UserId != SavedUserId; } }
         public bool PermissionType_Updated { get { return PermissionType.ToLong() != SavedPermissionType; } }
 
@@ -113,9 +118,11 @@ namespace Implem.Pleasanter.Models
                     case "ReferenceType": if (dataRow[name] != DBNull.Value) { ReferenceType = dataRow[name].ToString(); SavedReferenceType = ReferenceType; } break;
                     case "ReferenceId": if (dataRow[name] != DBNull.Value) { ReferenceId = dataRow[name].ToLong(); SavedReferenceId = ReferenceId; } break;
                     case "DeptId": if (dataRow[name] != DBNull.Value) { DeptId = dataRow[name].ToInt(); SavedDeptId = DeptId; } break;
+                    case "GroupId": if (dataRow[name] != DBNull.Value) { GroupId = dataRow[name].ToInt(); SavedGroupId = GroupId; } break;
                     case "UserId": if (dataRow[name] != DBNull.Value) { UserId = dataRow[name].ToInt(); SavedUserId = UserId; } break;
                     case "Ver": Ver = dataRow[name].ToInt(); SavedVer = Ver; break;
                     case "DeptName": DeptName = dataRow[name].ToString(); SavedDeptName = DeptName; break;
+                    case "GroupName": GroupName = dataRow[name].ToString(); SavedGroupName = GroupName; break;
                     case "FullName1": FullName1 = dataRow[name].ToString(); SavedFullName1 = FullName1; break;
                     case "FullName2": FullName2 = dataRow[name].ToString(); SavedFullName2 = FullName2; break;
                     case "FirstAndLastNameOrder": FirstAndLastNameOrder = (Names.FirstAndLastNameOrders)dataRow[name].ToInt(); SavedFirstAndLastNameOrder = FirstAndLastNameOrder.ToInt(); break;
@@ -133,6 +140,21 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        /// <param name="dataRow"></param>
+        public PermissionModel(
+            string referenceType, long referenceId, Permissions.Types pt, DataRow dataRow)
+        {
+            OnConstructing();
+            ReferenceType = referenceType;
+            ReferenceId = referenceId;
+            PermissionType = pt;
+            Set(dataRow);
+            OnConstructed();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public string PermissionId
         {
             get
@@ -140,6 +162,10 @@ namespace Implem.Pleasanter.Models
                 if (DeptId != 0)
                 {
                     return "Dept," + DeptId;
+                }
+                else if (GroupId != 0)
+                {
+                    return "Group," + GroupId;
                 }
                 else
                 {
@@ -158,6 +184,10 @@ namespace Implem.Pleasanter.Models
                 if (DeptId != 0)
                 {
                     return "[" + Displays.Depts() + " " + DeptId + "] " + DeptName;
+                }
+                else if (GroupId != 0)
+                {
+                    return "[" + Displays.Groups() + " " + GroupId + "] " + GroupName;
                 }
                 else
                 {

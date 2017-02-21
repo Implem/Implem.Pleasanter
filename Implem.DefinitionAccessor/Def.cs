@@ -960,8 +960,10 @@ namespace Implem.DefinitionAccessor
                     case "Permissions_ReferenceType": Column.Permissions_ReferenceType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Permissions_ReferenceType, definitionRow, ColumnXls); break;
                     case "Permissions_ReferenceId": Column.Permissions_ReferenceId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Permissions_ReferenceId, definitionRow, ColumnXls); break;
                     case "Permissions_DeptId": Column.Permissions_DeptId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Permissions_DeptId, definitionRow, ColumnXls); break;
+                    case "Permissions_GroupId": Column.Permissions_GroupId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Permissions_GroupId, definitionRow, ColumnXls); break;
                     case "Permissions_UserId": Column.Permissions_UserId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Permissions_UserId, definitionRow, ColumnXls); break;
                     case "Permissions_DeptName": Column.Permissions_DeptName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Permissions_DeptName, definitionRow, ColumnXls); break;
+                    case "Permissions_GroupName": Column.Permissions_GroupName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Permissions_GroupName, definitionRow, ColumnXls); break;
                     case "Permissions_FullName1": Column.Permissions_FullName1 = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Permissions_FullName1, definitionRow, ColumnXls); break;
                     case "Permissions_FullName2": Column.Permissions_FullName2 = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Permissions_FullName2, definitionRow, ColumnXls); break;
                     case "Permissions_FirstAndLastNameOrder": Column.Permissions_FirstAndLastNameOrder = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Permissions_FirstAndLastNameOrder, definitionRow, ColumnXls); break;
@@ -2396,7 +2398,6 @@ namespace Implem.DefinitionAccessor
                     case "BeginTransaction": Sql.BeginTransaction = definitionRow[1].ToString(); SetSqlTable(SqlTable.BeginTransaction, definitionRow, SqlXls); break;
                     case "CommitTransaction": Sql.CommitTransaction = definitionRow[1].ToString(); SetSqlTable(SqlTable.CommitTransaction, definitionRow, SqlXls); break;
                     case "SiteDepts": Sql.SiteDepts = definitionRow[1].ToString(); SetSqlTable(SqlTable.SiteDepts, definitionRow, SqlXls); break;
-                    case "SiteUsers": Sql.SiteUsers = definitionRow[1].ToString(); SetSqlTable(SqlTable.SiteUsers, definitionRow, SqlXls); break;
                     case "ProgressRateDelay": Sql.ProgressRateDelay = definitionRow[1].ToString(); SetSqlTable(SqlTable.ProgressRateDelay, definitionRow, SqlXls); break;
                     case "MoveTarget": Sql.MoveTarget = definitionRow[1].ToString(); SetSqlTable(SqlTable.MoveTarget, definitionRow, SqlXls); break;
                     case "CreateDatabase": Sql.CreateDatabase = definitionRow[1].ToString(); SetSqlTable(SqlTable.CreateDatabase, definitionRow, SqlXls); break;
@@ -4568,8 +4569,10 @@ namespace Implem.DefinitionAccessor
         public string Permissions_ReferenceType;
         public string Permissions_ReferenceId;
         public string Permissions_DeptId;
+        public string Permissions_GroupId;
         public string Permissions_UserId;
         public string Permissions_DeptName;
+        public string Permissions_GroupName;
         public string Permissions_FullName1;
         public string Permissions_FullName2;
         public string Permissions_FirstAndLastNameOrder;
@@ -5219,8 +5222,10 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Permissions_ReferenceType = new ColumnDefinition();
         public ColumnDefinition Permissions_ReferenceId = new ColumnDefinition();
         public ColumnDefinition Permissions_DeptId = new ColumnDefinition();
+        public ColumnDefinition Permissions_GroupId = new ColumnDefinition();
         public ColumnDefinition Permissions_UserId = new ColumnDefinition();
         public ColumnDefinition Permissions_DeptName = new ColumnDefinition();
+        public ColumnDefinition Permissions_GroupName = new ColumnDefinition();
         public ColumnDefinition Permissions_FullName1 = new ColumnDefinition();
         public ColumnDefinition Permissions_FullName2 = new ColumnDefinition();
         public ColumnDefinition Permissions_FirstAndLastNameOrder = new ColumnDefinition();
@@ -7045,7 +7050,6 @@ namespace Implem.DefinitionAccessor
         public string BeginTransaction;
         public string CommitTransaction;
         public string SiteDepts;
-        public string SiteUsers;
         public string ProgressRateDelay;
         public string MoveTarget;
         public string CreateDatabase;
@@ -7075,7 +7079,6 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition BeginTransaction = new SqlDefinition();
         public SqlDefinition CommitTransaction = new SqlDefinition();
         public SqlDefinition SiteDepts = new SqlDefinition();
-        public SqlDefinition SiteUsers = new SqlDefinition();
         public SqlDefinition ProgressRateDelay = new SqlDefinition();
         public SqlDefinition MoveTarget = new SqlDefinition();
         public SqlDefinition CreateDatabase = new SqlDefinition();

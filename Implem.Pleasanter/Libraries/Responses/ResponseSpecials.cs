@@ -688,6 +688,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static PermissionsResponseCollection DeptId(this PermissionsResponseCollection res, string value) { return res.Val("#Permissions_DeptId", value); }
         public static PermissionsResponseCollection DeptId_FormData(this PermissionsResponseCollection res) { return res.ValAndFormData("#Permissions_DeptId", res.PermissionModel.DeptId.ToResponse()); }
         public static PermissionsResponseCollection DeptId_FormData(this PermissionsResponseCollection res, string value) { return res.ValAndFormData("#Permissions_DeptId", value); }
+        public static PermissionsResponseCollection GroupId(this PermissionsResponseCollection res) { return res.Val("#Permissions_GroupId", res.PermissionModel.GroupId.ToResponse()); }
+        public static PermissionsResponseCollection GroupId(this PermissionsResponseCollection res, string value) { return res.Val("#Permissions_GroupId", value); }
+        public static PermissionsResponseCollection GroupId_FormData(this PermissionsResponseCollection res) { return res.ValAndFormData("#Permissions_GroupId", res.PermissionModel.GroupId.ToResponse()); }
+        public static PermissionsResponseCollection GroupId_FormData(this PermissionsResponseCollection res, string value) { return res.ValAndFormData("#Permissions_GroupId", value); }
         public static PermissionsResponseCollection UserId(this PermissionsResponseCollection res) { return res.Val("#Permissions_UserId", res.PermissionModel.UserId.ToResponse()); }
         public static PermissionsResponseCollection UserId(this PermissionsResponseCollection res, string value) { return res.Val("#Permissions_UserId", value); }
         public static PermissionsResponseCollection UserId_FormData(this PermissionsResponseCollection res) { return res.ValAndFormData("#Permissions_UserId", res.PermissionModel.UserId.ToResponse()); }
@@ -700,6 +704,10 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static PermissionsResponseCollection DeptName(this PermissionsResponseCollection res, string value) { return res.Val("#Permissions_DeptName", value); }
         public static PermissionsResponseCollection DeptName_FormData(this PermissionsResponseCollection res) { return res.ValAndFormData("#Permissions_DeptName", res.PermissionModel.DeptName.ToResponse()); }
         public static PermissionsResponseCollection DeptName_FormData(this PermissionsResponseCollection res, string value) { return res.ValAndFormData("#Permissions_DeptName", value); }
+        public static PermissionsResponseCollection GroupName(this PermissionsResponseCollection res) { return res.Val("#Permissions_GroupName", res.PermissionModel.GroupName.ToResponse()); }
+        public static PermissionsResponseCollection GroupName(this PermissionsResponseCollection res, string value) { return res.Val("#Permissions_GroupName", value); }
+        public static PermissionsResponseCollection GroupName_FormData(this PermissionsResponseCollection res) { return res.ValAndFormData("#Permissions_GroupName", res.PermissionModel.GroupName.ToResponse()); }
+        public static PermissionsResponseCollection GroupName_FormData(this PermissionsResponseCollection res, string value) { return res.ValAndFormData("#Permissions_GroupName", value); }
         public static PermissionsResponseCollection FullName1(this PermissionsResponseCollection res) { return res.Val("#Permissions_FullName1", res.PermissionModel.FullName1.ToResponse()); }
         public static PermissionsResponseCollection FullName1(this PermissionsResponseCollection res, string value) { return res.Val("#Permissions_FullName1", value); }
         public static PermissionsResponseCollection FullName1_FormData(this PermissionsResponseCollection res) { return res.ValAndFormData("#Permissions_FullName1", res.PermissionModel.FullName1.ToResponse()); }

@@ -72,11 +72,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 action: () => hb
                                     .Span(css: "ui-icon ui-icon-gear")
                                     .Text(text: Displays.Setting()))
-                            .SettingsMenu(siteId: siteId, pt: pt),
-                        _using: (
-                            (siteId != 0 && pt.CanEditSite()) ||
-                            (siteId != 0 && pt.CanEditPermission()) ||
-                            pt.CanEditTenant()))
+                            .SettingsMenu(siteId: siteId, pt: pt))
                     .Li(
                         css: "sub-menu",
                         action: () => hb
@@ -174,10 +170,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Li(
                     action: () => hb
                         .A(
-                            href: Locations.Index("Admins"),
+                            href: Locations.Index("Depts"),
                             action: () => hb
                                 .Span(css: "ui-icon ui-icon-gear")
-                                .Text(text: Displays.Admin())),
+                                .Text(text: Displays.DeptAdmin())),
+                    _using: pt.CanEditTenant())
+                .Li(
+                    action: () => hb
+                        .A(
+                            href: Locations.Index("Groups"),
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-gear")
+                                .Text(text: Displays.GroupAdmin())))
+                .Li(
+                    action: () => hb
+                        .A(
+                            href: Locations.Index("Users"),
+                            action: () => hb
+                                .Span(css: "ui-icon ui-icon-gear")
+                                .Text(text: Displays.UserAdmin())),
                     _using: pt.CanEditTenant()));
         }
 

@@ -1,0 +1,13 @@
+﻿{
+    "Id": "DeptAdmin",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Department administration"
+        },
+        {
+            "Language": "ja",
+            "Body": "組織の管理"
+        }
+    ]
+}

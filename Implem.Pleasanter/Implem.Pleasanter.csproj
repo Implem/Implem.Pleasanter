@@ -980,6 +980,9 @@
     <Content Include="App_Data\Displays\CurrentMembers.json" />
     <Content Include="App_Data\Displays\SelectableMembers.json" />
     <Content Include="App_Data\Displays\GeneralUser.json" />
+    <Content Include="App_Data\Displays\UserAdmin.json" />
+    <Content Include="App_Data\Displays\DeptAdmin.json" />
+    <Content Include="App_Data\Displays\GroupAdmin.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Views\Items\Gantt.cshtml" />
     <Content Include="Views\Items\BurnDown.cshtml" />

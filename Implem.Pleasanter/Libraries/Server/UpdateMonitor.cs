@@ -11,16 +11,19 @@ namespace Implem.Pleasanter.Libraries.Server
     public class UpdateMonitor
     {
         public static DateTime DeptsUpdatedTime;
+        public static DateTime GroupsUpdatedTime;
         public static DateTime UsersUpdatedTime;
         public static DateTime PermissionsUpdatedTime;
         public static DateTime SitesUpdatedTime;
         public DateTime NowDeptsUpdatedTime;
+        public DateTime NowGroupsUpdatedTime;
         public DateTime NowUsersUpdatedTime;
         public DateTime NowPermissionsUpdatedTime;
         public DateTime NowSitesUpdatedTime;
         public Dictionary<string, DateTime> UpdatedTimeHash;
         public bool Updated;
         public bool DeptsUpdated;
+        public bool GroupsUpdated;
         public bool UsersUpdated;
         public bool PermissionsUpdated;
         public bool SitesUpdated;
@@ -29,10 +32,11 @@ namespace Implem.Pleasanter.Libraries.Server
         {
             Set();
             DeptsUpdated = DeptsUpdatedTime < NowDeptsUpdatedTime;
+            GroupsUpdated = GroupsUpdatedTime < NowGroupsUpdatedTime;
             UsersUpdated = UsersUpdatedTime < NowUsersUpdatedTime;
             PermissionsUpdated = PermissionsUpdatedTime < NowPermissionsUpdatedTime;
             SitesUpdated = SitesUpdatedTime < NowSitesUpdatedTime;
-            Updated = DeptsUpdated || UsersUpdated || SitesUpdated || PermissionsUpdated;
+            Updated = DeptsUpdated || GroupsUpdated || UsersUpdated || SitesUpdated || PermissionsUpdated;
         }
 
         private void Set()
@@ -48,6 +52,16 @@ namespace Implem.Pleasanter.Libraries.Server
                         _operator: ">=",
                         _using: DeptsUpdatedTime >= Parameters.General.MinTime),
                     orderBy: Rds.DeptsOrderBy()
+                        .UpdatedTime(SqlOrderBy.Types.desc, tableName: null)),
+                Rds.SelectGroups(
+                    dataTableName: "Groups",
+                    tableType: Sqls.TableTypes.NormalAndDeleted,
+                    column: Rds.GroupsColumn().UpdatedTime(),
+                    where: Rds.GroupsWhere().UpdatedTime(
+                        GroupsUpdatedTime,
+                        _operator: ">=",
+                        _using: GroupsUpdatedTime >= Parameters.General.MinTime),
+                    orderBy: Rds.GroupsOrderBy()
                         .UpdatedTime(SqlOrderBy.Types.desc, tableName: null)),
                 Rds.SelectUsers(
                     dataTableName: "Users",
@@ -81,6 +95,7 @@ namespace Implem.Pleasanter.Libraries.Server
                         .UpdatedTime(SqlOrderBy.Types.desc, tableName: null)),
             });
             NowDeptsUpdatedTime = UpdatedTime(dataSet, "Depts");
+            NowGroupsUpdatedTime = UpdatedTime(dataSet, "Groups");
             NowUsersUpdatedTime = UpdatedTime(dataSet, "Users");
             NowPermissionsUpdatedTime = UpdatedTime(dataSet, "Permissions");
             NowSitesUpdatedTime = UpdatedTime(dataSet, "Sites");
@@ -101,6 +116,7 @@ namespace Implem.Pleasanter.Libraries.Server
         public void Update()
         {
             if (DeptsUpdated) DeptsUpdatedTime = NowDeptsUpdatedTime;
+            if (GroupsUpdated) GroupsUpdatedTime = NowGroupsUpdatedTime;
             if (UsersUpdated) UsersUpdatedTime = NowUsersUpdatedTime;
             if (PermissionsUpdated) PermissionsUpdatedTime = NowPermissionsUpdatedTime;
             if (SitesUpdated) SitesUpdatedTime = NowSitesUpdatedTime;

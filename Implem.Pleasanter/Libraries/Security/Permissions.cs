@@ -80,30 +80,6 @@ namespace Implem.Pleasanter.Libraries.Security
             return pt;
         }
 
-        public static Rds.SitesWhereCollection HasPermission(
-            this Rds.SitesWhereCollection self)
-        {
-            return self.Add(
-                subLeft: SelectPermissionType(),
-                _operator: " & " + Types.Read.ToInt().ToString() + "<>0");
-        }
-
-        public static SqlStatement SelectPermissionType()
-        {
-            return Rds.SelectPermissions(
-                column: Rds.PermissionsColumn()
-                    .PermissionType(function: Sqls.Functions.Max),
-                where: Rds.PermissionsWhere()
-                    .ReferenceType("Sites")
-                    .ReferenceId(raw: "[Sites].[InheritPermission]")
-                    .Or(Rds.PermissionsWhere()
-                        .DeptId(raw: "@_D")
-                        .Add(raw: "@_D<>0"))
-                    .Or(Rds.PermissionsWhere()
-                        .UserId(raw: "@_U")
-                        .Add(raw: "@_U<>0")));
-        }
-
         public static Types GetById(long id)
         {
             var user = Sessions.User();
@@ -336,7 +312,7 @@ namespace Implem.Pleasanter.Libraries.Security
 
         public static bool CanReadGroup()
         {
-            return CanEditTenant() || Groups().Any();
+            return Routes.Id() == 0 || CanEditTenant() || Groups().Any();
         }
 
         public static bool CanEditGroup()
