@@ -5,18 +5,6 @@ namespace Implem.Libraries.Utilities
 {
     public static class Linqs
     {
-        public static void UpdateOrAdd<K, V>(this IDictionary<K, V> self, K key, V value)
-        {
-            if (self.ContainsKey(key))
-            {
-                self[key] = value;
-            }
-            else
-            {
-                self.Add(key, value);
-            }
-        }
-
         public static void RemoveAll<K, V>(
             this IDictionary<K, V> self, Func<K, V, bool> peredicate)
         {
