@@ -22,7 +22,7 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         public void Prefix(string prefix)
         {
-            this.ForEach(o => o.VariableName += prefix);
+            ForEach(o => o.VariableName += prefix);
         }
     }
 }
