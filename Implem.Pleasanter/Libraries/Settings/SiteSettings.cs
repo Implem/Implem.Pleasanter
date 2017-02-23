@@ -1063,18 +1063,32 @@ namespace Implem.Pleasanter.Libraries.Settings
                 });
         }
 
+        public void SetChoiceHash(bool withLink = true, bool all = false)
+        {
+            SetChoiceHash(
+                columnName: null,
+                searchIndexes: null,
+                linkHash: withLink
+                    ? LinkHash(all: all)
+                    : null);
+        }
+
         public void SetChoiceHash(
-            bool withLink = true,
-            bool all = false,
-            string columnName = null,
+            string columnName,
             IEnumerable<string> searchIndexes = null,
             IEnumerable<long> selectedValues = null)
         {
-            var linkHash = withLink
-                ? searchIndexes == null && selectedValues == null
-                    ? LinkHash(all)
-                    : LinkHash(columnName, searchIndexes, selectedValues)
-                : null;
+            SetChoiceHash(
+                columnName: columnName,
+                searchIndexes: searchIndexes,
+                linkHash: LinkHash(columnName, searchIndexes, selectedValues));
+        }
+
+        private void SetChoiceHash(
+            string columnName,
+            IEnumerable<string> searchIndexes,
+            Dictionary<string, IEnumerable<string>> linkHash)
+        {
             Columns?
                 .Where(o => o.HasChoices())
                 .Where(o => columnName == null || o.ColumnName == columnName)
@@ -1088,8 +1102,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var targetSites = Links?
                 .Where(o => all || GetColumn(o.ColumnName)?.UseSearch != true)
                 .Select(o => o.SiteId)
-                .Distinct()
-                .Join();
+                .Distinct();
             var dataRows = Rds.ExecuteTable(
                 statements: Rds.SelectItems(
                     column: Rds.ItemsColumn()
@@ -1100,11 +1113,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     where: Rds.ItemsWhere()
                         .ReferenceType("Sites", _operator: "<>")
                         .SiteId_In(allowSites)
-                        .Add(or: new SqlWhereCollection(
-                            new SqlWhere(raw: "[Items].[ReferenceType]='Wikis'"),
-                            new SqlWhere(
-                                raw: "[Items].[SiteId] in ({0})".Params(targetSites),
-                                _using: targetSites != string.Empty))),
+                        .Or(Rds.ItemsWhere()
+                            .ReferenceType("Wikis")
+                            .SiteId_In(targetSites, _using: targetSites.Any())),
                     orderBy: Rds.ItemsOrderBy()
                         .Title())).AsEnumerable();
             return allowSites
@@ -1148,8 +1159,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 .ReferenceId_In(results, _using:
                                     results?.Any() == true ||
                                     searchIndexes?.Any() == true)
-                                .ReferenceId_In(selectedValues, _using:
-                                    selectedValues?.Any() == true)
+                                .Or(Rds.ItemsWhere()
+                                    .ReferenceType("Wikis")
+                                    .ReferenceId_In(selectedValues, _using:
+                                        selectedValues?.Any() == true))
                                 .ReferenceType("Sites", _operator: "<>")
                                 .SiteId(link.SiteId)))
                                     .AsEnumerable();
