@@ -747,6 +747,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return Columns
                 .Where(o => o.HasChoices())
+                .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
         }
 
@@ -754,6 +755,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return Columns
                 .Where(o => o.HasChoices())
+                .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => o.LabelText);
         }
 
@@ -774,12 +776,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             return Columns
                 .Where(o => o.Computable)
                 .Where(o => o.TypeName != "datetime")
+                .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => o.LabelText);
         }
 
         public Dictionary<string, string> KambanGroupByOptions()
         {
-            return Columns.Where(o => o.HasChoices())
+            return Columns
+                .Where(o => o.HasChoices())
+                .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
         }
 
@@ -799,6 +804,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return Columns
                 .Where(o => o.Computable)
                 .Where(o => o.TypeName != "datetime")
+                .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
         }
 
