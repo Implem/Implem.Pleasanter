@@ -254,8 +254,8 @@ namespace Implem.Pleasanter.Models
                         where: Rds.LinksWhere().SourceId(WikiId)),
                     InsertLinks(SiteSettings),
                     Rds.UpdateSites(
-                        where: Rds.ItemsWhere().SiteId(SiteId),
-                        param: Rds.ItemsParam().Title(Title.Value))
+                        where: Rds.SitesWhere().SiteId(SiteId),
+                        param: Rds.SitesParam().Title(Title.Value))
                 });
             Libraries.Search.Indexes.Create(SiteSettings, WikiId);
         }
