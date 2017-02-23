@@ -1082,7 +1082,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     column.SetChoiceHash(InheritPermission, linkHash, searchIndexes));
         }
 
-        private Dictionary<string, Dictionary<string, string>> LinkHash(bool all)
+        private Dictionary<string, IEnumerable<string>> LinkHash(bool all)
         {
             var allowSites = Permissions.AllowSites(Links?.Select(o => o.SiteId).Distinct());
             var targetSites = Links?
@@ -1115,10 +1115,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                         siteId, dataRows.Where(o => o["SiteId"].ToLong() == siteId)));
         }
 
-        private Dictionary<string, Dictionary<string, string>> LinkHash(
+        private Dictionary<string, IEnumerable<string>> LinkHash(
             string columnName, IEnumerable<string> searchIndexes, IEnumerable<long> selectedValues)
         {
-            var hash = new Dictionary<string, Dictionary<string, string>>();
+            var hash = new Dictionary<string, IEnumerable<string>>();
             var allowSites = Permissions.AllowSites(Links?.Select(o => o.SiteId));
             Links?
                 .Where(o => o.ColumnName == columnName)
@@ -1161,7 +1161,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return hash;
         }
 
-        private static Dictionary<string, string> LinkValue(
+        private static IEnumerable<string> LinkValue(
             long siteId, EnumerableRowCollection<DataRow> dataRows)
         {
             return dataRows.Any(o =>
@@ -1173,14 +1173,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                             where: Rds.WikisWhere().SiteId(siteId)))
                                 .SplitReturn()
                                 .GroupBy(o => o.Split_1st())
-                                .ToDictionary(
-                                    p => p.Key,
-                                    p => p.First().Split_2nd())
+                                .Select(o => o.First())
                     : dataRows
                         .Where(p => p["SiteId"].ToLong() == siteId)
-                        .ToDictionary(
-                            p => p["ReferenceId"].ToString(),
-                            p => p["ReferenceId"].ToString() + ": " + p["Title"].ToString());
+                        .Select(p => p["ReferenceId"].ToString() + "," + p["Title"].ToString());
         }
 
         public Error.Types AddSummary(

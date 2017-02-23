@@ -146,7 +146,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void SetChoiceHash(
             long siteId,
-            Dictionary<string, Dictionary<string, string>> linkHash,
+            Dictionary<string, IEnumerable<string>> linkHash,
             IEnumerable<string> searchIndexes)
         {
             var tenantId = Sessions.TenantId();
@@ -172,7 +172,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         private void SetChoiceHash(
             int tenantId,
             long siteId,
-            Dictionary<string, Dictionary<string, string>> linkHash,
+            Dictionary<string, IEnumerable<string>> linkHash,
             IEnumerable<string> searchIndexes,
             int index,
             string line)
@@ -214,8 +214,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 default:
                     if (linkHash != null && linkHash.ContainsKey(line))
                     {
-                        linkHash[line].ForEach(data =>
-                            AddToChoiceHash(data.Key, data.Value));
+                        linkHash[line].ForEach(value =>
+                            AddToChoiceHash(value));
                     }
                     else if (TypeName != "bit")
                     {
@@ -231,7 +231,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                     }
                     break;
             }
-
         }
 
         private void AddToChoiceHash(string value, string text)
