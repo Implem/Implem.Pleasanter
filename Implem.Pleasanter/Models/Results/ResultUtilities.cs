@@ -2044,13 +2044,13 @@ namespace Implem.Pleasanter.Models
             var formData = Forms.All();
             var groupBy = !view.TimeSeriesGroupBy.IsNullOrEmpty()
                 ? view.TimeSeriesGroupBy
-                : "Owner";
+                : ss.TimeSeriesGroupByOptions().First().Key;
             var aggregateType = !view.TimeSeriesAggregateType.IsNullOrEmpty()
                 ? view.TimeSeriesAggregateType
                 : "Count";
             var value = !view.TimeSeriesValue.IsNullOrEmpty()
                 ? view.TimeSeriesValue
-                : "NumA";
+                : ss.TimeSeriesValueOptions().First().Key;
             var dataRows = TimeSeriesDataRows(
                 ss: ss,
                 view: view,
@@ -2155,13 +2155,13 @@ namespace Implem.Pleasanter.Models
             var formData = Forms.All();
             var groupByX = !view.KambanGroupByX.IsNullOrEmpty()
                 ? view.KambanGroupByX
-                : "Status";
+                : ss.KambanGroupByOptions().First().Key;
             var groupByY = !view.KambanGroupByY.IsNullOrEmpty()
                 ? view.KambanGroupByY
                 : string.Empty;
             var aggregateType = !view.KambanAggregateType.IsNullOrEmpty()
                 ? view.KambanAggregateType
-                : "Total";
+                : ss.KambanAggregationTypeOptions().First().Key;
             var value = !view.KambanValue.IsNullOrEmpty()
                 ? view.KambanValue
                 : KambanValue(ss);
