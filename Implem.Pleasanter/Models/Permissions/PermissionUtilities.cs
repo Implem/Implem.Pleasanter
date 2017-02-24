@@ -612,6 +612,9 @@ namespace Implem.Pleasanter.Models
                             icon: "ui-icon-cancel")));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder PermissionParts(this HtmlBuilder hb, Permissions.Types pt)
         {
             return hb.FieldSet(
